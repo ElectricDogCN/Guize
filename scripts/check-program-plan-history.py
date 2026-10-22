@@ -1377,6 +1377,14 @@ def foundation_post_implementation(root: str, task_id: str, implementation: str,
         if paths is None:
             errors.append(f"Foundation {task_id} cannot read post-implementation node diff at {node}")
             continue
+        imports: set[str] = set()
+        prior_registry = load_ref(root, parent, ACTIVE)
+        if allow_registered_work:
+            incoming = approved_synchronization_parents(root, node, trusted_base)
+            imports = clean_synchronization_paths(root, node, paths, incoming)
+            # A proposed Foundation PR cannot manufacture peer admissions or
+            # releases. Only metadata proven from the admitted target imports.
+            historical_foreign_metadata(root, parent, node, incoming, task_id, errors, imports, admitted_base=trusted_base)
         claims = []
         registered_node = is_ancestor(root, reservation, node)
         task_paths = {find_task_path(root, task_id, snapshot) for snapshot in (parent, node) if snapshot}
@@ -1387,7 +1395,9 @@ def foundation_post_implementation(root: str, task_id: str, implementation: str,
         parents = git(root, "show", "-s", "--format=%P", node).stdout.split()
         authoritative = node in main_nodes or len(parents) > 1
         related = own_delta or bool(own_work) or any(path.startswith(f"evidence/{task_id}/") for path in paths)
-        if registered_node and (authoritative or related):
+        if (registered_node and (authoritative or related)) or (allow_registered_work and related):
+            if allow_registered_work and not registered_node:
+                errors.append(f"Foundation {task_id} preflight related node must descend from original reservation at {node}")
             node_registry = load_ref(root, node, ACTIVE)
             historical_registration_context(root, node, node, task_id, node_registry, reservation, policy, f"Foundation {task_id} post-implementation history at {node}", errors, approved_base=trusted_base)
             node_entries = [item for item in (node_registry or {}).get("tasks", []) if isinstance(item, dict) and item.get("taskId") == task_id]
@@ -1410,12 +1420,14 @@ def foundation_post_implementation(root: str, task_id: str, implementation: str,
         own_work = {path for path in paths if path not in {PLAN, ACTIVE, *task_paths} and not path.startswith(f"evidence/{task_id}/") and any(RECOVERY.matches_path(path, str(claim)) for claim in claims)}
         code_paths = {path for path in paths if path not in {PLAN, ACTIVE, LEDGER, *task_paths} and not path.startswith(f"evidence/{task_id}/")}
         if code_paths:
-            incoming = approved_synchronization_parents(root, node, trusted_base)
-            imports = clean_synchronization_paths(root, node, paths, incoming)
-            prior_registry = load_ref(root, parent, ACTIVE)
+            if not allow_registered_work:
+                incoming = approved_synchronization_parents(root, node, trusted_base)
+                imports = clean_synchronization_paths(root, node, paths, incoming)
             prior = [item for item in (prior_registry or {}).get("tasks", []) if isinstance(item, dict) and item.get("taskId") == task_id]
             prior_claims = (prior[0].get("exclusivePaths") or []) if len(prior) == 1 else []
-            unexpected = {path for path in code_paths - imports if not any(RECOVERY.matches_path(path, str(claim)) for claim in prior_claims) and (own_delta or not (historical_peer_path(root, parent, task_id, path) or historical_peer_metadata_path(root, node, task_id, path)))}
+            peer_snapshot = trusted_base if allow_registered_work else parent
+            peer_metadata_snapshot = trusted_base if allow_registered_work else node
+            unexpected = {path for path in code_paths - imports if not any(RECOVERY.matches_path(path, str(claim)) for claim in prior_claims) and (own_delta or not (historical_peer_path(root, peer_snapshot, task_id, path) or historical_peer_metadata_path(root, peer_metadata_snapshot, task_id, path)))}
             if unexpected:
                 errors.append(f"Foundation {task_id} post-implementation working node changed paths outside its prior registered scope at {node}: {', '.join(sorted(unexpected))}")
         if own_work:

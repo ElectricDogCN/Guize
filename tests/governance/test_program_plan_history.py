@@ -259,7 +259,7 @@ class TestProgramPlanHistory(unittest.TestCase):
         self.commit(root, "GZ-004 completion metadata (#32)")
         return reservation
 
-    def create_foundation_completion(self, root, mode="valid", with_review=True):
+    def create_foundation_completion(self, root, mode="valid", with_review=True, *, extra_claims=()):
         self.foundation_fixture = True
         def build_registry(items):
             document = self.registry(items)
@@ -314,7 +314,7 @@ class TestProgramPlanHistory(unittest.TestCase):
         entry = self.entry(task_id, seed, "reserved", "chore/GZ-014-repair")
         entry["agentRole"] = "coordinator"
         now = datetime.now(timezone.utc)
-        entry["exclusivePaths"] = ["scripts/fixture-repair.py"]
+        entry["exclusivePaths"] = ["scripts/fixture-repair.py", *extra_claims]
         entry["lease"] = {"acquiredAt": (now-timedelta(hours=1)).isoformat(), "expiresAt": (now+timedelta(days=1)).isoformat()}
         if mode.startswith("original_dependency_"):
             entry["dependsOn"] = ["GZ-003"]
@@ -2437,7 +2437,8 @@ class TestProgramPlanHistory(unittest.TestCase):
 
     def foundation_preflight_fixture(self, mode):
         with tempfile.TemporaryDirectory() as root:
-            history = self.create_foundation_completion(root)
+            ledger_path = "specs/coordination/task-completions.yaml"
+            history = self.create_foundation_completion(root, extra_claims=(ledger_path,) if mode == "ledger_only" else ())
             plan_path = "specs/coordination/program-plan.yaml"
             active_path = "specs/coordination/active-work.yaml"
             task_path = "specs/tasks/GZ-014.md"
@@ -2489,6 +2490,61 @@ class TestProgramPlanHistory(unittest.TestCase):
                 invalid = self.commit(root, "GZ-014 unregistered side implementation")
                 checkout(review)
                 subprocess.run(["git", "merge", "--no-ff", "-s", "ours", "-m", "GZ-014 retain Review tree with invalid side ancestry", invalid], cwd=root, check=True, capture_output=True)
+            elif mode == "unregistered_metadata":
+                checkout(history["seed"])
+                for path in (plan_path, active_path, task_path, "evidence/GZ-014/handoff.md"):
+                    self.write_text(root, path, blob(history["reservation"], path))
+                self.commit(root, "GZ-014 unadmitted metadata registration")
+                original = pathlib.Path(root, active_path).read_text(encoding="utf8")
+                registry = yaml.safe_load(original)
+                registry["tasks"][0]["owner"] = "temporary-unadmitted-owner"
+                self.write_yaml(root, active_path, registry)
+                invalid = self.commit(root, "GZ-014 side metadata identity mutation")
+                self.write_text(root, active_path, original)
+                side = self.commit(root, "GZ-014 restore side metadata")
+                checkout(review)
+                subprocess.run(["git", "merge", "--no-ff", "-s", "ours", "-m", "GZ-014 import restored side metadata", side], cwd=root, check=True, capture_output=True)
+            elif mode == "fabricated_peer":
+                checkout(history["seed"])
+                registry = yaml.safe_load(blob(history["seed"], active_path))
+                original = copy.deepcopy(registry)
+                peer = self.entry("OPS-100", history["seed"], "in_progress", "chore/OPS-100-peer")
+                peer.update(riskLevel="medium", exclusivePaths=[code_path])
+                registry["tasks"].append(peer)
+                self.write_yaml(root, active_path, registry)
+                self.commit(root, "OPS-100 fabricate peer claim on unadmitted side")
+                self.write_text(root, code_path, "# code hidden behind fabricated peer claim\n")
+                invalid = self.commit(root, "OPS-100 unadmitted peer work")
+                self.write_yaml(root, active_path, original)
+                side = self.commit(root, "OPS-100 remove fabricated registration")
+                checkout(review)
+                subprocess.run(["git", "merge", "--no-ff", "-s", "ours", "-m", "GZ-014 import fabricated peer ancestry", side], cwd=root, check=True, capture_output=True)
+            elif mode == "ledger_only":
+                base = review
+                self.write_text(root, ledger_path, blob(review, ledger_path) + "# reviewer-only ledger delta\n")
+                invalid = self.commit(root, "GZ-014 reviewer ledger-only delta")
+            elif mode == "admitted_peer_sync":
+                checkout(base)
+                plan = yaml.safe_load(blob(base, plan_path))
+                registry = yaml.safe_load(blob(base, active_path))
+                peer = self.entry("GZ-004", base, "in_progress", "chore/GZ-004-peer")
+                peer.update(riskLevel="medium", exclusivePaths=["scripts/admitted-peer.py"])
+                registry["tasks"].append(peer)
+                next(row for row in plan["tasks"] if row["taskId"] == "GZ-004")["status"] = "in_progress"
+                self.write_yaml(root, plan_path, plan)
+                self.write_yaml(root, active_path, registry)
+                self.write_text(root, "scripts/admitted-peer.py", "# peer code already on admitted target\n")
+                admitted = self.commit(root, "GZ-004 admitted peer baseline")
+                checkout(review)
+                subprocess.run(["git", "merge", "--no-commit", "--no-ff", admitted], cwd=root, capture_output=True)
+                review_entry = yaml.safe_load(blob(review, active_path))["tasks"][0]
+                registry["tasks"][0] = review_entry
+                next(row for row in plan["foundationTasks"] if row["taskId"] == "GZ-014")["status"] = "review"
+                self.write_yaml(root, plan_path, plan)
+                self.write_yaml(root, active_path, registry)
+                self.write_text(root, task_path, blob(review, task_path))
+                self.commit(root, "GZ-014 clean admitted peer synchronization")
+                base = admitted
             elif mode in {"integration_metadata", "integration_code"}:
                 base = review
                 branch = "chore/GZ-014-integration"
@@ -2505,7 +2561,7 @@ class TestProgramPlanHistory(unittest.TestCase):
                 self.commit(root, "GZ-014 legitimate integration")
             else:
                 self.assertEqual(mode, "review")
-            if invalid:
+            if invalid and mode != "ledger_only":
                 self.assertEqual(
                     subprocess.check_output(["git", "rev-parse", "HEAD^{tree}"], cwd=root),
                     subprocess.check_output(["git", "rev-parse", f"{review}^{{tree}}"], cwd=root),
@@ -2542,6 +2598,29 @@ class TestProgramPlanHistory(unittest.TestCase):
         self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertIn("preflight working node must descend from original reservation", result.stdout)
         self.assertIn(invalid, result.stdout)
+
+    def test_foundation_preflight_rejects_unregistered_metadata(self):
+        result, invalid = self.foundation_preflight_fixture("unregistered_metadata")
+        self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertIn("preflight related node must descend from original reservation", result.stdout)
+        self.assertIn(invalid, result.stdout)
+
+    def test_foundation_preflight_rejects_fabricated_peer(self):
+        result, invalid = self.foundation_preflight_fixture("fabricated_peer")
+        self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertIn("outside its prior registered scope", result.stdout)
+        self.assertIn(invalid, result.stdout)
+
+    def test_foundation_preflight_ledger_only_returns_structured_failure(self):
+        result, invalid = self.foundation_preflight_fixture("ledger_only")
+        self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertNotIn("Traceback", result.stderr)
+        self.assertIn("preflight working code requires implementer or integrator", result.stdout)
+        self.assertIn(invalid, result.stdout)
+
+    def test_foundation_preflight_accepts_admitted_peer_sync(self):
+        result, _ = self.foundation_preflight_fixture("admitted_peer_sync")
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
 
 
 if __name__ == "__main__":

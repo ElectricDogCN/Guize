@@ -1,0 +1,211 @@
+{
+  "taskId": "OPS-012",
+  "issue": 115,
+  "pr": 120,
+  "phase": "blocked-rework-registration",
+  "source": "fd229ba58c947a6ce43c7f00b05e1d1285136054",
+  "base": "f18dcca18741f915db44594cd6f9af1d2cb4d1f6",
+  "branch": "chore/OPS-012-history-yaml-rework-blocked",
+  "sourceLocal13": "evidence/OPS-012/registration-source-local13.json",
+  "sourceLocal13Passed": true,
+  "ciRun": 39721628591,
+  "ciNumber": 781,
+  "ciJob": {
+    "id": 119636310025,
+    "name": "Governance Checks",
+    "status": "completed",
+    "conclusion": "success",
+    "run_id": 39721628591,
+    "logs_url": null,
+    "steps": [
+      {
+        "name": "Set up job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 1
+      },
+      {
+        "name": "Checkout repository",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 2
+      },
+      {
+        "name": "Setup Python 3.11",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 3
+      },
+      {
+        "name": "Install governance dependencies",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 4
+      },
+      {
+        "name": "Verify core dependencies importable",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 5
+      },
+      {
+        "name": "Compile scripts and tests",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 6
+      },
+      {
+        "name": "Pytest collect-only",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 7
+      },
+      {
+        "name": "Resolve task context",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 8
+      },
+      {
+        "name": "Task file validation",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 9
+      },
+      {
+        "name": "Project readiness check",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 10
+      },
+      {
+        "name": "Program Plan integrity, history, transitions, finalization, and lifecycle guard",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 11
+      },
+      {
+        "name": "Agent coordination check",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 12
+      },
+      {
+        "name": "Governance tests",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 13
+      },
+      {
+        "name": "Skip audit",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 14
+      },
+      {
+        "name": "Markdown basic check",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 15
+      },
+      {
+        "name": "YAML/JSON schema check",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 16
+      },
+      {
+        "name": "Secret scan",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 17
+      },
+      {
+        "name": "Evidence check",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 18
+      },
+      {
+        "name": "Evidence integrity check",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 19
+      },
+      {
+        "name": "Task-branch linkage check",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 20
+      },
+      {
+        "name": "Scope check",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 21
+      },
+      {
+        "name": "Spec sync check",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 22
+      },
+      {
+        "name": "Parent directory reference check",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 23
+      },
+      {
+        "name": "CI workflow static validation",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 24
+      },
+      {
+        "name": "Generate governance report",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 25
+      },
+      {
+        "name": "Post Setup Python 3.11",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 49
+      },
+      {
+        "name": "Post Checkout repository",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 50
+      },
+      {
+        "name": "Complete job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 51
+      }
+    ]
+  },
+  "ciAccepted": true,
+  "tests": 695,
+  "seconds": 1271.4,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "independentReview": "evidence/OPS-012/registration-independent-review.json",
+  "reviewReceiptComment": 6332637845,
+  "threads": [
+    {
+      "id": "PRRT_kwDOTgCQ3c6vC08t",
+      "resolved": true
+    }
+  ],
+  "scopeChange": "metadata only; retain original2 claims and append tests/governance/test_program_plan_history.py before rework implementation",
+  "sourceAccepted": true,
+  "mergeApproved": true,
+  "actualMainAccepted": false,
+  "mustFix": [],
+  "sourceCiEvidence": "evidence/OPS-012/registration-source-ci781.json"
+}

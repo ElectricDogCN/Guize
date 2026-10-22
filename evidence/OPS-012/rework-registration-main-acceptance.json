@@ -21,11 +21,12 @@
   "mainGovernanceSeconds": 1299.34,
   "mainCiRun": 39723935541,
   "mainCiJob": 119643452362,
-  "sourceAdmission": "ops012-rework-fd229ba-source-admission.json",
-  "mainChecks": "ops012-rework-c5f201a-main-checks/results.json",
-  "mainCiSnapshot": "ops012-rework-c5f201a-ci782.snapshot.json",
+  "sourceAdmission": "evidence/OPS-012/registration-source-admission.json",
+  "mainChecks": "evidence/OPS-012/registration-main-checks.json",
+  "mainCiSnapshot": "evidence/OPS-012/registration-main-ci782.json",
   "mainRaw": {
-    "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops012-rework-c5f201a-ci782.raw.txt",
+    "path": "evidence/OPS-012/registration-main-ci782.json",
+    "jsonField": "rawLog",
     "bytes": 272809,
     "sha256": "e7666d55d5d03ef8b0f8ea698c0fc7226c5c84ca202971ae3f46f30c7ceb29ef"
   }

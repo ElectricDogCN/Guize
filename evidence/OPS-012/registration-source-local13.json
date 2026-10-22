@@ -1,0 +1,177 @@
+{
+  "execution": {
+    "task": "OPS-012",
+    "source": "fd229ba58c947a6ce43c7f00b05e1d1285136054",
+    "commands": [
+      {
+        "command": [
+          "git",
+          "diff",
+          "--check",
+          "f18dcca18741f915db44594cd6f9af1d2cb4d1f6...HEAD"
+        ],
+        "exitCode": 0,
+        "waitCompleted": true
+      },
+      {
+        "command": [
+          "python",
+          "scripts/check-task-file.py",
+          "--task",
+          "OPS-012"
+        ],
+        "exitCode": 0,
+        "waitCompleted": true
+      },
+      {
+        "command": [
+          "python",
+          "scripts/check-schemas.py"
+        ],
+        "exitCode": 0,
+        "waitCompleted": true
+      },
+      {
+        "command": [
+          "python",
+          "scripts/check-program-plan-integrity.py",
+          "--base-ref",
+          "f18dcca18741f915db44594cd6f9af1d2cb4d1f6"
+        ],
+        "exitCode": 0,
+        "waitCompleted": true
+      },
+      {
+        "command": [
+          "python",
+          "scripts/check-program-plan-history.py",
+          "--base-ref",
+          "f18dcca18741f915db44594cd6f9af1d2cb4d1f6",
+          "--head-ref",
+          "HEAD",
+          "--task",
+          "OPS-012",
+          "--branch-name",
+          "chore/OPS-012-history-yaml-rework-blocked"
+        ],
+        "exitCode": 0,
+        "waitCompleted": true
+      },
+      {
+        "command": [
+          "python",
+          "scripts/check-program-plan-transitions.py",
+          "--base-ref",
+          "f18dcca18741f915db44594cd6f9af1d2cb4d1f6",
+          "--head-ref",
+          "HEAD",
+          "--task",
+          "OPS-012",
+          "--branch-name",
+          "chore/OPS-012-history-yaml-rework-blocked"
+        ],
+        "exitCode": 0,
+        "waitCompleted": true
+      },
+      {
+        "command": [
+          "python",
+          "scripts/check-program-lifecycle-guards.py",
+          "--base-ref",
+          "f18dcca18741f915db44594cd6f9af1d2cb4d1f6",
+          "--head-ref",
+          "HEAD",
+          "--task",
+          "OPS-012",
+          "--branch-name",
+          "chore/OPS-012-history-yaml-rework-blocked"
+        ],
+        "exitCode": 0,
+        "waitCompleted": true
+      },
+      {
+        "command": [
+          "python",
+          "scripts/run-agent-coordination-gate.py",
+          "--base-ref",
+          "f18dcca18741f915db44594cd6f9af1d2cb4d1f6",
+          "--head-ref",
+          "HEAD",
+          "--task",
+          "OPS-012",
+          "--branch-name",
+          "chore/OPS-012-history-yaml-rework-blocked"
+        ],
+        "exitCode": 0,
+        "waitCompleted": true
+      },
+      {
+        "command": [
+          "python",
+          "scripts/check-program-plan-finalization.py",
+          "--base-ref",
+          "f18dcca18741f915db44594cd6f9af1d2cb4d1f6",
+          "--head-ref",
+          "HEAD",
+          "--task",
+          "OPS-012"
+        ],
+        "exitCode": 0,
+        "waitCompleted": true
+      },
+      {
+        "command": [
+          "python",
+          "scripts/run-task-scope-gate.py",
+          "--task",
+          "OPS-012",
+          "--base",
+          "f18dcca18741f915db44594cd6f9af1d2cb4d1f6"
+        ],
+        "exitCode": 0,
+        "waitCompleted": true
+      },
+      {
+        "command": [
+          "python",
+          "scripts/check-evidence.py",
+          "--task",
+          "OPS-012"
+        ],
+        "exitCode": 0,
+        "waitCompleted": true
+      },
+      {
+        "command": [
+          "python",
+          "scripts/check-project-readiness.py"
+        ],
+        "exitCode": 0,
+        "waitCompleted": true
+      },
+      {
+        "command": [
+          "python",
+          "scripts/check-markdown.py"
+        ],
+        "exitCode": 0,
+        "waitCompleted": true
+      }
+    ]
+  },
+  "rawLogs": {
+    "00.txt": "Source: fd229ba58c947a6ce43c7f00b05e1d1285136054\nCommand: git diff --check f18dcca18741f915db44594cd6f9af1d2cb4d1f6...HEAD\n\nExit Code: 0\n",
+    "01.txt": "Source: fd229ba58c947a6ce43c7f00b05e1d1285136054\nCommand: python scripts/check-task-file.py --task OPS-012\n{\"status\": \"PASS\", \"message\": \"Task file valid: /home/sur/.cache/guize-takeover/ops012-history-parser/specs/tasks/OPS-012.md\"}\n\nExit Code: 0\n",
+    "02.txt": "Source: fd229ba58c947a6ce43c7f00b05e1d1285136054\nCommand: python scripts/check-schemas.py\nOK YAML: .github/workflows/governance-gate.yml\nOK JSON-SCHEMA: contracts/events/event-envelope.schema.json\nOK CONTRACT DOCUMENT: contracts/openapi/ai/paths.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/asset/paths.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/common/errors.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/common/http-samples.json\nOK CONTRACT DOCUMENT: contracts/openapi/common/openapi.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/common/schemas.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/config/paths.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/iam/paths.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/media/paths.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/playback/paths.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/policy/paths.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/search/paths.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/source/paths.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/storage/paths.yaml\nOK CONTRACT DOCUMENT: contracts/openapi/task/paths.yaml\nOK JSON-SCHEMA: contracts/schemas/deployment-profile.schema.yaml\nOK JSON-SCHEMA: contracts/schemas/plugin-manifest.schema.yaml\nOK JSON-SCHEMA: specs/coordination/active-work.schema.yaml\nOK JSON-SCHEMA: specs/coordination/planning-revision.schema.yaml\nOK JSON-SCHEMA: specs/coordination/program-plan.schema.yaml\nOK JSON-SCHEMA: specs/coordination/task-completions.schema.yaml\nOK SCHEMA INSTANCE: specs/coordination/active-work.yaml <- specs/coordination/active-work.schema.yaml\nOK SCHEMA INSTANCE: specs/coordination/program-plan.yaml <- specs/coordination/program-plan.schema.yaml\nOK TASK REGISTRY LINK: OPS-012\nOK FOUNDATION ACTIVATION: OPS-012\nOK: Schema, Task Spec, Active Work and Program Plan validation completed\n\nExit Code: 0\n",
+    "03.txt": "Source: fd229ba58c947a6ce43c7f00b05e1d1285136054\nCommand: python scripts/check-program-plan-integrity.py --base-ref f18dcca18741f915db44594cd6f9af1d2cb4d1f6\n{\"status\": \"PASS\", \"message\": \"Program Plan execution and completion integrity passed\", \"details\": {\"foundationTasks\": 10, \"programTasks\": 28, \"activeTasks\": 1, \"completionRecords\": 4, \"baseRef\": \"f18dcca18741f915db44594cd6f9af1d2cb4d1f6\"}}\n\nExit Code: 0\n",
+    "04.txt": "Source: fd229ba58c947a6ce43c7f00b05e1d1285136054\nCommand: python scripts/check-program-plan-history.py --base-ref f18dcca18741f915db44594cd6f9af1d2cb4d1f6 --head-ref HEAD --task OPS-012 --branch-name chore/OPS-012-history-yaml-rework-blocked\n{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"f18dcca18741f915db44594cd6f9af1d2cb4d1f6\", \"headRef\": \"HEAD\", \"completionRecords\": 4, \"auditedOwnerCapacityFailures\": []}}\n\nExit Code: 0\n",
+    "05.txt": "Source: fd229ba58c947a6ce43c7f00b05e1d1285136054\nCommand: python scripts/check-program-plan-transitions.py --base-ref f18dcca18741f915db44594cd6f9af1d2cb4d1f6 --head-ref HEAD --task OPS-012 --branch-name chore/OPS-012-history-yaml-rework-blocked\n{\"status\": \"PASS\", \"message\": \"Program reservation scope, wave and lifecycle transitions passed\", \"details\": {\"task\": \"OPS-012\", \"activeTasks\": 1, \"completionRecords\": 4}}\n\nExit Code: 0\n",
+    "06.txt": "Source: fd229ba58c947a6ce43c7f00b05e1d1285136054\nCommand: python scripts/check-program-lifecycle-guards.py --base-ref f18dcca18741f915db44594cd6f9af1d2cb4d1f6 --head-ref HEAD --task OPS-012 --branch-name chore/OPS-012-history-yaml-rework-blocked\n{\"status\": \"PASS\", \"message\": \"Program lifecycle scope, Foundation ownership, rename and Evidence guards passed\", \"details\": {\"affectedTaskIds\": [\"OPS-012\"], \"changedPathCount\": 22, \"baseRef\": \"f18dcca18741f915db44594cd6f9af1d2cb4d1f6\"}}\n\nExit Code: 0\n",
+    "07.txt": "Source: fd229ba58c947a6ce43c7f00b05e1d1285136054\nCommand: python scripts/run-agent-coordination-gate.py --base-ref f18dcca18741f915db44594cd6f9af1d2cb4d1f6 --head-ref HEAD --task OPS-012 --branch-name chore/OPS-012-history-yaml-rework-blocked\n{\"status\": \"PASS\", \"message\": \"Agent coordination valid: 1 active tasks, 1 high/critical\", \"details\": {\"activeTaskIds\": [\"OPS-012\"]}}\nINFO: OPS-012 is a Blocked-state metadata PR; exact target-base lifecycle and file scope are validated by the mandatory Program History/Transitions/Finalization gates.\n\nExit Code: 0\n",
+    "08.txt": "Source: fd229ba58c947a6ce43c7f00b05e1d1285136054\nCommand: python scripts/check-program-plan-finalization.py --base-ref f18dcca18741f915db44594cd6f9af1d2cb4d1f6 --head-ref HEAD --task OPS-012\n{\"status\": \"PASS\", \"message\": \"Program finalization invariants passed\", \"details\": {\"activeTasks\": 1, \"completedFoundations\": 9, \"task\": \"OPS-012\"}}\n\nExit Code: 0\n",
+    "09.txt": "Source: fd229ba58c947a6ce43c7f00b05e1d1285136054\nCommand: python scripts/run-task-scope-gate.py --task OPS-012 --base f18dcca18741f915db44594cd6f9af1d2cb4d1f6\nINFO: OPS-012 is a Blocked-state metadata PR; exact changed-file scope is owned by Program History and Program Transitions against the target branch.\n\nExit Code: 0\n",
+    "10.txt": "Source: fd229ba58c947a6ce43c7f00b05e1d1285136054\nCommand: python scripts/check-evidence.py --task OPS-012\n{\"status\": \"PASS\", \"message\": \"Evidence contract passed for OPS-012.\"}\n\nExit Code: 0\n",
+    "11.txt": "Source: fd229ba58c947a6ce43c7f00b05e1d1285136054\nCommand: python scripts/check-project-readiness.py\n{\"status\": \"WARN\", \"message\": \"GitHub main branch protection/Ruleset remains an external blocker\"}\n{\"status\": \"WARN\", \"message\": \"Machine contracts not frozen for 10 requirements\"}\n{\"status\": \"WARN\", \"message\": \"Implementation not verified for 10 requirements\"}\n{\"status\": \"PASS\", \"message\": \"Project readiness indexes and Program Plan are structurally consistent\", \"details\": {\"requirements\": 10, \"modules\": 21, \"contractNamespaces\": 37, \"plannedTasks\": 28, \"pocs\": 10, \"waves\": 17, \"contractGapCount\": 10, \"implementationGapCount\": 10}}\n\nExit Code: 0\n",
+    "12.txt": "Source: fd229ba58c947a6ce43c7f00b05e1d1285136054\nCommand: python scripts/check-markdown.py\nChecking 350 Markdown files...\n\nOK: No issues found\n\nExit Code: 0\n"
+  }
+}
