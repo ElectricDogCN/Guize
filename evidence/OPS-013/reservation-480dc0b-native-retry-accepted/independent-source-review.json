@@ -1,0 +1,20 @@
+{
+  "reviewer": "independent-review-agent",
+  "reviewerActor": "/root/gz022_planning_independent_review",
+  "reviewedAt": "2026-10-23T00:51:41Z",
+  "source": "480dc0b607453ba26ec3d9d650c79c1b85f1c06e",
+  "tree": "3e74fce293aed5de036a0da478a71df2c34d5435",
+  "base": "f2e0150265e0c1eeca5f69fe85708b2434e5ee79",
+  "decision": "Exact source, unchanged Task15 retry and CI829 facts accepted; latest same-head CI830 pending so actual merge not approved",
+  "mustFix": [],
+  "intentSha256": "4f344a74a47a56ff1c3b0e27c368767e0cb779ebc61e721b263f102b39a83401",
+  "nativeTests": 713,
+  "nativeSeconds": 1152.72,
+  "nativeFailuresErrorsSkips": 0,
+  "ci829Accepted": true,
+  "ci830Accepted": false,
+  "actualMergeApproved": false,
+  "implementationApproved": false,
+  "successorRegistrationApproved": false,
+  "experimentApproved": false
+}
