@@ -2,3 +2,5 @@ unsatisfiable-response.bin binary
 actual-response-observation.json binary
 actual-execution-independent-review.json binary
 proposal.md binary
+reservation-3d78e5c-attempt/*.raw binary
+reservation-3d78e5c-attempt/*.json binary

@@ -12,6 +12,13 @@
 - `evidence/OPS-013/handoff.md`
 - `evidence/OPS-013/proposal-independent-review.json`
 - `evidence/OPS-013/proposal.md`
+- `evidence/OPS-013/reservation-3d78e5c-attempt/candidate.json`
+- `evidence/OPS-013/reservation-3d78e5c-attempt/diff.raw`
+- `evidence/OPS-013/reservation-3d78e5c-attempt/independent-content-review.json`
+- `evidence/OPS-013/reservation-3d78e5c-attempt/index.json`
+- `evidence/OPS-013/reservation-3d78e5c-attempt/preparation.json`
+- `evidence/OPS-013/reservation-3d78e5c-attempt/results.json`
+- `evidence/OPS-013/reservation-3d78e5c-attempt/task.raw`
 - `evidence/OPS-013/risks.md`
 - `evidence/OPS-013/rollback.md`
 - `evidence/OPS-013/scope.md`
