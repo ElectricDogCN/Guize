@@ -1,13 +1,5 @@
-# OPS-013 reservation preparation
+# OPS-013 reservation status
 
-Issue137; branchchore/OPS-013-contract-repair-admission-reservation; basef2e0150265e0c1eeca5f69fe85708b2434e5ee79.
-Only own Program/Foundation row, Registry lease, TaskV2 and Evidence are proposed.
-The six future claims are governance-owned; no POC/ownership/old Task code changed.
-Actual proposal accepted23:55:15Z, not actual registration/source/CI acceptance.
-Current source and tree are the actual Git commit after preparation; all checks PENDING.
-No mechanism implementation, source request, new experiment or qualification.
-The immutable intent binds unique successorOPS-014, original old Git byte hashes,
-completed producerGZ-021 and the retained real33B416 evidence.
-Full localV1 and original13 qualification remain unfinished.
+The actual480 parent passed Task15, native713 and hostedCI829/830. Its original failures, repair, raw logs, JUnit and independent source review are now retained. Two later review threads prevented whole-parent merge. This own Task/Evidence successor fixes persistence and text-diff presentation; it has not yet received its own exact-source checks, latest CI or independent merge approval.
 
-Actual first source 3d78e5ce36cac104423ff2f5ef6c957f480171f5 was NOT accepted: native diff exit0, Task exit1 (flat timestamp quoting and three missing bullets). Remaining13 commands did not run. Original source/results/raw and preparation review retained in reservation-3d78e5c-attempt/. Current formatting successor requires all15 exact-source checks and its own CI; the original intent and real response bytes remain unchanged.
+Immutable intent, real33B416, roles, claims, leases and foreign Program identity remain unchanged. Only five exact immutable diagnostic data paths use scoped blank-at-eol/blank-at-eof formatting attributes; text diffs remain enabled and source checks remain effective. No checker, assertion, global whitespace config, original log or payload is modified. See handoff.md and reservation-480dc0b-source-attestation.json. Registration main, mechanism, OPS-014, experiments and V1 remain unfinished.

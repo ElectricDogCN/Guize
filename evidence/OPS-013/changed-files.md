@@ -1,4 +1,6 @@
-# OPS-013 candidate changed files
+# Actual reservation diff inventory
+
+Base: f2e0150265e0c1eeca5f69fe85708b2434e5ee79; tested parent: 480dc0b607453ba26ec3d9d650c79c1b85f1c06e. This metadata/Evidence successor is not yet committed or validated.
 
 - `evidence/OPS-013/.gitattributes`
 - `evidence/OPS-013/EVIDENCE-STRUCTURE.md`
@@ -19,6 +21,62 @@
 - `evidence/OPS-013/reservation-3d78e5c-attempt/preparation.json`
 - `evidence/OPS-013/reservation-3d78e5c-attempt/results.json`
 - `evidence/OPS-013/reservation-3d78e5c-attempt/task.raw`
+- `evidence/OPS-013/reservation-480dc0b-ci829/.gitattributes`
+- `evidence/OPS-013/reservation-480dc0b-ci829/index.json`
+- `evidence/OPS-013/reservation-480dc0b-ci829/job.raw.txt`
+- `evidence/OPS-013/reservation-480dc0b-ci829/snapshot.json`
+- `evidence/OPS-013/reservation-480dc0b-ci830/.gitattributes`
+- `evidence/OPS-013/reservation-480dc0b-ci830/index.json`
+- `evidence/OPS-013/reservation-480dc0b-ci830/job.raw.txt`
+- `evidence/OPS-013/reservation-480dc0b-ci830/snapshot.json`
+- `evidence/OPS-013/reservation-480dc0b-native-attempt1-failed/.gitattributes`
+- `evidence/OPS-013/reservation-480dc0b-native-attempt1-failed/first/coordination.raw`
+- `evidence/OPS-013/reservation-480dc0b-native-attempt1-failed/first/diff.raw`
+- `evidence/OPS-013/reservation-480dc0b-native-attempt1-failed/first/evidence.raw`
+- `evidence/OPS-013/reservation-480dc0b-native-attempt1-failed/first/finalization.raw`
+- `evidence/OPS-013/reservation-480dc0b-native-attempt1-failed/first/governance.xml`
+- `evidence/OPS-013/reservation-480dc0b-native-attempt1-failed/first/history.raw`
+- `evidence/OPS-013/reservation-480dc0b-native-attempt1-failed/first/integrity.raw`
+- `evidence/OPS-013/reservation-480dc0b-native-attempt1-failed/first/lifecycle.raw`
+- `evidence/OPS-013/reservation-480dc0b-native-attempt1-failed/first/raw-lifecycle.raw`
+- `evidence/OPS-013/reservation-480dc0b-native-attempt1-failed/first/readiness.raw`
+- `evidence/OPS-013/reservation-480dc0b-native-attempt1-failed/first/results.json`
+- `evidence/OPS-013/reservation-480dc0b-native-attempt1-failed/first/schemas.raw`
+- `evidence/OPS-013/reservation-480dc0b-native-attempt1-failed/first/scope.raw`
+- `evidence/OPS-013/reservation-480dc0b-native-attempt1-failed/first/task.raw`
+- `evidence/OPS-013/reservation-480dc0b-native-attempt1-failed/first/transitions.raw`
+- `evidence/OPS-013/reservation-480dc0b-native-attempt1-failed/first/verify.raw`
+- `evidence/OPS-013/reservation-480dc0b-native-attempt1-failed/index.json`
+- `evidence/OPS-013/reservation-480dc0b-native-attempt1-failed/object-store-repair/fsck.raw`
+- `evidence/OPS-013/reservation-480dc0b-native-attempt1-failed/object-store-repair/object-2.raw`
+- `evidence/OPS-013/reservation-480dc0b-native-attempt1-failed/object-store-repair/object-3.raw`
+- `evidence/OPS-013/reservation-480dc0b-native-attempt1-failed/object-store-repair/object-4.raw`
+- `evidence/OPS-013/reservation-480dc0b-native-attempt1-failed/object-store-repair/original-alternates.raw`
+- `evidence/OPS-013/reservation-480dc0b-native-attempt1-failed/object-store-repair/repack.raw`
+- `evidence/OPS-013/reservation-480dc0b-native-attempt1-failed/object-store-repair/results.json`
+- `evidence/OPS-013/reservation-480dc0b-native-retry-accepted/.gitattributes`
+- `evidence/OPS-013/reservation-480dc0b-native-retry-accepted/coordination.raw`
+- `evidence/OPS-013/reservation-480dc0b-native-retry-accepted/diff.raw`
+- `evidence/OPS-013/reservation-480dc0b-native-retry-accepted/docs.raw`
+- `evidence/OPS-013/reservation-480dc0b-native-retry-accepted/evidence.raw`
+- `evidence/OPS-013/reservation-480dc0b-native-retry-accepted/finalization.raw`
+- `evidence/OPS-013/reservation-480dc0b-native-retry-accepted/governance.xml`
+- `evidence/OPS-013/reservation-480dc0b-native-retry-accepted/history.raw`
+- `evidence/OPS-013/reservation-480dc0b-native-retry-accepted/independent-source-review.json`
+- `evidence/OPS-013/reservation-480dc0b-native-retry-accepted/index.json`
+- `evidence/OPS-013/reservation-480dc0b-native-retry-accepted/integrity.raw`
+- `evidence/OPS-013/reservation-480dc0b-native-retry-accepted/lifecycle.raw`
+- `evidence/OPS-013/reservation-480dc0b-native-retry-accepted/raw-lifecycle.raw`
+- `evidence/OPS-013/reservation-480dc0b-native-retry-accepted/readiness.raw`
+- `evidence/OPS-013/reservation-480dc0b-native-retry-accepted/results.json`
+- `evidence/OPS-013/reservation-480dc0b-native-retry-accepted/schemas.raw`
+- `evidence/OPS-013/reservation-480dc0b-native-retry-accepted/scope.raw`
+- `evidence/OPS-013/reservation-480dc0b-native-retry-accepted/task.raw`
+- `evidence/OPS-013/reservation-480dc0b-native-retry-accepted/transitions.raw`
+- `evidence/OPS-013/reservation-480dc0b-native-retry-accepted/verify.raw`
+- `evidence/OPS-013/reservation-480dc0b-source-attestation.json`
+- `evidence/OPS-013/reservation-successor-preparation/diff-check-before-raw-attributes.raw`
+- `evidence/OPS-013/reservation-successor-preparation/index.json`
 - `evidence/OPS-013/risks.md`
 - `evidence/OPS-013/rollback.md`
 - `evidence/OPS-013/scope.md`

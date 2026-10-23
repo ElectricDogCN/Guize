@@ -1,21 +1,17 @@
-# OPS-013 reservation preparation
+# OPS-013 metadata reservation handoff
 
-Issue137; branchchore/OPS-013-contract-repair-admission-reservation; basef2e0150265e0c1eeca5f69fe85708b2434e5ee79.
-Only own Program/Foundation row, Registry lease, TaskV2 and Evidence are proposed.
-The six future claims are governance-owned; no POC/ownership/old Task code changed.
-Actual proposal accepted23:55:15Z, not actual registration/source/CI acceptance.
-Current source and tree are the actual Git commit after preparation; all checks PENDING.
-No mechanism implementation, source request, new experiment or qualification.
-The immutable intent binds unique successorOPS-014, original old Git byte hashes,
-completed producerGZ-021 and the retained real33B416 evidence.
-Full localV1 and original13 qualification remain unfinished.
+Issue137; PR138; reservation branchchore/OPS-013-contract-repair-admission-reservation; basef2e0150265e0c1eeca5f69fe85708b2434e5ee79. The actual tested parent source is480dc0b607453ba26ec3d9d650c79c1b85f1c06e/tree3e74fce293aed5de036a0da478a71df2c34d5435. This successor changes only own Task/Evidence to record those facts and restore textual diffs. Its own exact checks, CI and independent merge review are PENDING; parent success is not inherited.
 
-Roles: Owner ElectricDogCN; Coordinator program-coordinator-agent; Implementer contract-admission-implementation-agent; Reviewer independent-review-agent/actual actor /root/gz022_planning_independent_review; Integrator integration-agent. Lease 2026-10-23T00:03:04Z→2026-10-30T00:03:04Z; high/FOUNDATION/order9; no shared claims.
+Actual480 Task15 all exited0. Native full governance713 passed/1152.72s; JUnit713cases/zero failures, errors or skips. CI829713/1088.06s and CI830713/1399.25s both actually completed success, with original job logs and official snapshots. Independent exact source/local retry/CI829 facts accepted2026-10-23T00:51:41Z. Current480 whole merge was NOT approved: two new threads require committed verification and text-diffable Evidence. See reservation-480dc0b-source-attestation.json, commands.txt and test-results/README.md.
 
-Actual changed paths are changed-files.md. Contracts: TaskV2/ProgramV1/ActiveV1, consumed three existing governance contracts, no produced namespace. Commands and real exit/raw results must be recorded after commit.
+First3d78e5c candidate Task formatting failure remains in reservation-3d78e5c-attempt/. First480 full native run actually produced689passed/1failed/23errors/0skips from deeply nested alternate object stores. Its original logs/JUnit, isolated-store repack/dissociation/fsck and unchanged before/after source/tree/refs are retained in reservation-480dc0b-native-attempt1-failed/. Same-source full retry and its actual independent source review are in reservation-480dc0b-native-retry-accepted/. No source/test assertion was changed to pass.
 
-Next: independent metadata/intent content review, commit candidate, execute all15 exact-source checks and complete713 governanceCI with zero failures/errors/skips, then exact independent source/scope review, ordinary merge and actualmain verification. Only after accepted reservation main may implementer start from that main. Do not grant successor rights or modify this original intent. Rollback withdraws unsent metadata only; all original data/old tasks remain.
+Only own Program/Foundation/Registry/Task/Evidence are part of the reservation. Six future claims remain MOD-GOV subsets. Immutable authorization intent SHA256 remains4f344a74a47a56ff1c3b0e27c368767e0cb779ebc61e721b263f102b39a83401; actual response33B and all raw evidence remain byte-identical. No contract, ownership, old Task, mechanism or ordinary implementation changed.
 
-Reservation branch: chore/OPS-013-contract-repair-admission-reservation. Future implementation branch: chore/OPS-013-contract-repair-admission. Registry and Task declare the future implementation; all current command branch arguments bind the actual reservation candidate.
+Roles: OwnerElectricDogCN; Coordinatorprogram-coordinator-agent; Implementercontract-admission-implementation-agent; Reviewerindependent-review-agent, actual actor/root/gz022_planning_independent_review; Integratorintegration-agent. Lease2026-10-23T00:03:04Z to2026-10-30T00:03:04Z; FOUNDATION/high/order9; future work branchchore/OPS-013-contract-repair-admission; no shared claims. Two foreign medium leases and capacity remain unchanged.
 
-Actual first source 3d78e5ce36cac104423ff2f5ef6c957f480171f5 was NOT accepted: native diff exit0, Task exit1 (flat timestamp quoting and three missing bullets). Remaining13 commands did not run. Original source/results/raw and preparation review retained in reservation-3d78e5c-attempt/. Current formatting successor requires all15 exact-source checks and its own CI; the original intent and real response bytes remain unchanged.
+Consumes TaskV2/ProgramV1/ActiveV1; no produced namespace. Actual changed paths are changed-files.md plus Git diff. Logs retain actual Source Commit/Command/Exit Code bindings; indexes retain lengths/SHA256. The new Evidence commit cannot contain its own future hash/test results: after committing it, bind its actual checks and CI externally and preserve them in the normal subsequent Evidence flow.
+
+Next Implementer: complete this metadata-only forward correction, then execute new exact-source Task15 and latest CI. Next Reviewer: inspect this successor, parent original logs and both fixed threads; do not grant merge from historical success. Next Integrator: verify latest main/head/threads/lease/order, merge only after new checks and independent acceptance, then verify actual main parents/tree and gates. Only accepted reservation main permits implementation of the six registered governance paths.
+
+No implementation, OPS-014 registration, source request, experiment, qualification or V1 acceptance. Unique future OPS-014 must await normal OPS-013 Review/Completion, actual main acceptance and high-slot release, then independently register and establish17.8 recovery before completed GZ-021 contract repair. Rollback may withdraw this unsatisfied reservation; preserve all original Evidence and old tasks.

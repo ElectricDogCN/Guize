@@ -1,0 +1,5 @@
+Source Commit: 480dc0b607453ba26ec3d9d650c79c1b85f1c06e
+Command: python scripts/check-evidence.py --task OPS-013
+{"status": "PASS", "message": "Evidence contract passed for OPS-013."}
+
+Exit Code: 0
