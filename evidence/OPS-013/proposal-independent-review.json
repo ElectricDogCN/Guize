@@ -1,0 +1,11 @@
+{
+  "reviewer": "independent-review-agent",
+  "reviewerActor": "/root/gz022_planning_independent_review",
+  "reviewedAt": "2026-10-22T23:55:15Z",
+  "decision": "proposal accepted; metadata-only registration preparation admitted",
+  "proposalSha256": "6cd8f398af3ae3d5f33fba53d23858df25b8a77c4a856bfebf7f676f9d419271",
+  "mustFix": [],
+  "registrationCommitAccepted": false,
+  "implementationApproved": false,
+  "contractRepairApproved": false
+}

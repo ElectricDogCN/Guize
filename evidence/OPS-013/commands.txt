@@ -1,0 +1,16 @@
+OPS-013 command plan; all current exit codes PENDING until actual committed-source execution.
+git diff --check f2e0150265e0c1eeca5f69fe85708b2434e5ee79...HEAD
+python scripts/check-task-file.py --task OPS-013
+python scripts/check-schemas.py
+python scripts/check-program-plan-integrity.py --base-ref f2e0150265e0c1eeca5f69fe85708b2434e5ee79
+python scripts/check-program-plan-history.py --base-ref f2e0150265e0c1eeca5f69fe85708b2434e5ee79 --head-ref HEAD --task OPS-013 --branch-name chore/OPS-013-contract-repair-admission-reservation
+python scripts/check-program-plan-transitions.py --base-ref f2e0150265e0c1eeca5f69fe85708b2434e5ee79 --head-ref HEAD --task OPS-013 --branch-name chore/OPS-013-contract-repair-admission-reservation
+python scripts/check-program-plan-finalization.py --base-ref f2e0150265e0c1eeca5f69fe85708b2434e5ee79 --head-ref HEAD --task OPS-013
+python scripts/check-program-lifecycle-guards.py --base-ref f2e0150265e0c1eeca5f69fe85708b2434e5ee79 --head-ref HEAD --task OPS-013 --branch-name chore/OPS-013-contract-repair-admission-reservation
+python scripts/run-program-lifecycle-gate.py --base-ref f2e0150265e0c1eeca5f69fe85708b2434e5ee79 --head-ref HEAD --task OPS-013 --branch-name chore/OPS-013-contract-repair-admission-reservation
+python scripts/run-agent-coordination-gate.py --base-ref f2e0150265e0c1eeca5f69fe85708b2434e5ee79 --head-ref HEAD --task OPS-013 --branch-name chore/OPS-013-contract-repair-admission-reservation
+python scripts/run-task-scope-gate.py --task OPS-013 --base f2e0150265e0c1eeca5f69fe85708b2434e5ee79
+python scripts/check-evidence.py --task OPS-013
+python scripts/check-project-readiness.py
+make verify TASK=OPS-013 BASE=f2e0150265e0c1eeca5f69fe85708b2434e5ee79 HEAD_REF=HEAD BRANCH=chore/OPS-013-contract-repair-admission-reservation
+python scripts/check-markdown.py

@@ -1,0 +1,24 @@
+# OPS-013 candidate changed files
+
+- `evidence/OPS-013/.gitattributes`
+- `evidence/OPS-013/EVIDENCE-STRUCTURE.md`
+- `evidence/OPS-013/actual-execution-independent-review.json`
+- `evidence/OPS-013/actual-response-observation.json`
+- `evidence/OPS-013/assumptions.md`
+- `evidence/OPS-013/changed-files.md`
+- `evidence/OPS-013/commands.txt`
+- `evidence/OPS-013/contract-repair-authorization.json`
+- `evidence/OPS-013/follow-ups.md`
+- `evidence/OPS-013/handoff.md`
+- `evidence/OPS-013/proposal-independent-review.json`
+- `evidence/OPS-013/proposal.md`
+- `evidence/OPS-013/risks.md`
+- `evidence/OPS-013/rollback.md`
+- `evidence/OPS-013/scope.md`
+- `evidence/OPS-013/security.md`
+- `evidence/OPS-013/summary.md`
+- `evidence/OPS-013/test-results/README.md`
+- `evidence/OPS-013/unsatisfiable-response.bin`
+- `specs/coordination/active-work.yaml`
+- `specs/coordination/program-plan.yaml`
+- `specs/tasks/OPS-013.md`

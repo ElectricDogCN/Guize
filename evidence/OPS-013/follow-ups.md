@@ -1,0 +1,1 @@
+OPS-013 first needs actual reservation source checks/CI/review/main acceptance, then governed implementation. Only normal completion permits independent OPS-014 registration and GZ-021 frozen repair. POC003/005 andV1 remain incomplete.
