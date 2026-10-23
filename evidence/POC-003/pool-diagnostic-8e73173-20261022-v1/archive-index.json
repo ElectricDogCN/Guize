@@ -1,0 +1,532 @@
+{
+  "kind": "FINITE_REAL_ATS_POOL_DIAGNOSTIC_RAW_ARCHIVE_NOT_QUALIFIED",
+  "source": {
+    "commit": "8e73173bb48106a8b7b41275364ff1aca8a7f760",
+    "tree": "2c4d307dee07cb960500bd14121b703ccb67f742"
+  },
+  "executionSha256": "65f573822ceb2a829e6a081c4721a2c30c883de8c7c50121b04b4424070fd573",
+  "files": [
+    {
+      "area": "runDir",
+      "originalPath": "/home/sur/.cache/guize-takeover/poc003-pool-diagnostic-20261022-v1/allocator-dump-0/diagnostic.json",
+      "bytes": 8691,
+      "sha256": "9d738f764d8b4e90457a688b4ab1d685d29fcab045b008d0dd0c327c76c8a56a",
+      "copied": true,
+      "file": "runDir/allocator-dump-0/diagnostic.json",
+      "qualifiedArtifact": false
+    },
+    {
+      "area": "runDir",
+      "originalPath": "/home/sur/.cache/guize-takeover/poc003-pool-diagnostic-20261022-v1/allocator-dump-0/stderr-interval.raw",
+      "bytes": 5032,
+      "sha256": "fdc0cafe6c04e0735c38dbe5d9ea9c3d0811bcb28edea146e0ca362da67cd2be",
+      "copied": true,
+      "file": "runDir/allocator-dump-0/stderr-interval.raw",
+      "qualifiedArtifact": false
+    },
+    {
+      "area": "runDir",
+      "originalPath": "/home/sur/.cache/guize-takeover/poc003-pool-diagnostic-20261022-v1/allocator-dump-1/diagnostic.json",
+      "bytes": 8771,
+      "sha256": "85aad70750639c0ecbfdc18fd528cf615d1e0df43c50532b30a9e8c75b85f31f",
+      "copied": true,
+      "file": "runDir/allocator-dump-1/diagnostic.json",
+      "qualifiedArtifact": false
+    },
+    {
+      "area": "runDir",
+      "originalPath": "/home/sur/.cache/guize-takeover/poc003-pool-diagnostic-20261022-v1/allocator-dump-1/stderr-interval.raw",
+      "bytes": 5032,
+      "sha256": "28add6c45c99052d627fcf52306defb752ea0a66653eedaf90aae7a885eafa49",
+      "copied": true,
+      "file": "runDir/allocator-dump-1/stderr-interval.raw",
+      "qualifiedArtifact": false
+    },
+    {
+      "area": "runDir",
+      "originalPath": "/home/sur/.cache/guize-takeover/poc003-pool-diagnostic-20261022-v1/allocator-dump-2/diagnostic.json",
+      "bytes": 8789,
+      "sha256": "418d3957573b281841c374793bbf438e3500d989a64c0b0cd9ebf8073c9a061b",
+      "copied": true,
+      "file": "runDir/allocator-dump-2/diagnostic.json",
+      "qualifiedArtifact": false
+    },
+    {
+      "area": "runDir",
+      "originalPath": "/home/sur/.cache/guize-takeover/poc003-pool-diagnostic-20261022-v1/allocator-dump-2/stderr-interval.raw",
+      "bytes": 5032,
+      "sha256": "6cac010f63cd86b93495954f3045c1b614ee9d4bfed677d364412265c9cf6bef",
+      "copied": true,
+      "file": "runDir/allocator-dump-2/stderr-interval.raw",
+      "qualifiedArtifact": false
+    },
+    {
+      "area": "runDir",
+      "originalPath": "/home/sur/.cache/guize-takeover/poc003-pool-diagnostic-20261022-v1/ats-process-memory.jsonl",
+      "bytes": 6489,
+      "sha256": "65c3c43d693eabf825a88bc8bfa77bc80ceb2fff3b102aca0fa4b0143bbb06b1",
+      "copied": true,
+      "file": "runDir/ats-process-memory.jsonl",
+      "qualifiedArtifact": false
+    },
+    {
+      "area": "runDir",
+      "originalPath": "/home/sur/.cache/guize-takeover/poc003-pool-diagnostic-20261022-v1/cache/cache.db",
+      "bytes": 268435456,
+      "sha256": "84ee34f2d558f77df7421bf5851d9a527de224635471d1df4adeb3d64cbd3df2",
+      "copied": false,
+      "qualifiedArtifact": false
+    },
+    {
+      "area": "runDir",
+      "originalPath": "/home/sur/.cache/guize-takeover/poc003-pool-diagnostic-20261022-v1/cache-disk-snapshots.jsonl",
+      "bytes": 559,
+      "sha256": "882a2227bfba52ecdf29cdb3a5936c4cadbc17e00fc99171718a2e32ce5b7063",
+      "copied": false,
+      "qualifiedArtifact": false
+    },
+    {
+      "area": "runDir",
+      "originalPath": "/home/sur/.cache/guize-takeover/poc003-pool-diagnostic-20261022-v1/cache-observer/cache-export-688889/events.jsonl",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "copied": true,
+      "file": "runDir/cache-observer/cache-export-688889/events.jsonl",
+      "qualifiedArtifact": false
+    },
+    {
+      "area": "runDir",
+      "originalPath": "/home/sur/.cache/guize-takeover/poc003-pool-diagnostic-20261022-v1/cache-observer/cache-export-688889/lookup-events.jsonl",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "copied": true,
+      "file": "runDir/cache-observer/cache-export-688889/lookup-events.jsonl",
+      "qualifiedArtifact": false
+    },
+    {
+      "area": "runDir",
+      "originalPath": "/home/sur/.cache/guize-takeover/poc003-pool-diagnostic-20261022-v1/cache-observer/cache-export-688889/lookups.jsonl",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "copied": true,
+      "file": "runDir/cache-observer/cache-export-688889/lookups.jsonl",
+      "qualifiedArtifact": false
+    },
+    {
+      "area": "runDir",
+      "originalPath": "/home/sur/.cache/guize-takeover/poc003-pool-diagnostic-20261022-v1/cache-observer/cache-export-688910/cache-ready.json",
+      "bytes": 142,
+      "sha256": "18c3513ef40c145d0f19ccfb1c895822b754f5d06350ca174d3e3ac2391149a5",
+      "copied": true,
+      "file": "runDir/cache-observer/cache-export-688910/cache-ready.json",
+      "qualifiedArtifact": false
+    },
+    {
+      "area": "runDir",
+      "originalPath": "/home/sur/.cache/guize-takeover/poc003-pool-diagnostic-20261022-v1/cache-observer/cache-export-688910/events.jsonl",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "copied": true,
+      "file": "runDir/cache-observer/cache-export-688910/events.jsonl",
+      "qualifiedArtifact": false
+    },
+    {
+      "area": "runDir",
+      "originalPath": "/home/sur/.cache/guize-takeover/poc003-pool-diagnostic-20261022-v1/cache-observer/cache-export-688910/lookup-events.jsonl",
+      "bytes": 31310,
+      "sha256": "86dc76a73524af1fd871433443086d59add0c7e866194fafd3a345637cff88f0",
+      "copied": true,
+      "file": "runDir/cache-observer/cache-export-688910/lookup-events.jsonl",
+      "qualifiedArtifact": false
+    },
+    {
+      "area": "runDir",
+      "originalPath": "/home/sur/.cache/guize-takeover/poc003-pool-diagnostic-20261022-v1/cache-observer/cache-export-688910/lookups.jsonl",
+      "bytes": 10398,
+      "sha256": "2fd2f96f0ade6298894417d1e2e84183a7661d981b8866915bbdd5bd825a6cee",
+      "copied": true,
+      "file": "runDir/cache-observer/cache-export-688910/lookups.jsonl",
+      "qualifiedArtifact": false
+    },
+    {
+      "area": "runDir",
+      "originalPath": "/home/sur/.cache/guize-takeover/poc003-pool-diagnostic-20261022-v1/commands/verify-config.stderr.raw",
+      "bytes": 277,
+      "sha256": "ef45c8e9e3911c87a27f8e68a1315fe7315ec90ad17291dc91bf10b7a89af483",
+      "copied": true,
+      "file": "runDir/commands/verify-config.stderr.raw",
+      "qualifiedArtifact": false
+    },
+    {
+      "area": "runDir",
+      "originalPath": "/home/sur/.cache/guize-takeover/poc003-pool-diagnostic-20261022-v1/commands/verify-config.stdout.raw",
+      "bytes": 158,
+      "sha256": "ce52a8465fdea3734a111a7f1db4451f029dd3304a494780c0ecb3d39b8a190b",
+      "copied": true,
+      "file": "runDir/commands/verify-config.stdout.raw",
+      "qualifiedArtifact": false
+    },
+    {
+      "area": "runDir",
+      "originalPath": "/home/sur/.cache/guize-takeover/poc003-pool-diagnostic-20261022-v1/controller.jsonl",
+      "bytes": 168636,
+      "sha256": "037f2508baffa8efd97d7e6c84232be3b4e20b10ca28d6965a9ef837ee841b0e",
+      "copied": true,
+      "file": "runDir/controller.jsonl",
+      "qualifiedArtifact": false
+    },
+    {
+      "area": "runDir",
+      "originalPath": "/home/sur/.cache/guize-takeover/poc003-pool-diagnostic-20261022-v1/gateway-access.jsonl",
+      "bytes": 1885,
+      "sha256": "377cbd3648e0836f429b0d0a01dc92fa276bcbf7cee512ed1716008a1bfb4314",
+      "copied": true,
+      "file": "runDir/gateway-access.jsonl",
+      "qualifiedArtifact": false
+    },
+    {
+      "area": "runDir",
+      "originalPath": "/home/sur/.cache/guize-takeover/poc003-pool-diagnostic-20261022-v1/listeners-started.json",
+      "bytes": 199,
+      "sha256": "a0a41b36b0b54793e06405f90ce8ea51d019ac8ebbbad4b0aeb6ddd776606417",
+      "copied": true,
+      "file": "runDir/listeners-started.json",
+      "qualifiedArtifact": false
+    },
+    {
+      "area": "runDir",
+      "originalPath": "/home/sur/.cache/guize-takeover/poc003-pool-diagnostic-20261022-v1/log/.diags.log.meta",
+      "bytes": 27,
+      "sha256": "53d545249570ab9bd3ddbf9a330d40260c38872791742489344ddc4b4960da8b",
+      "copied": true,
+      "file": "runDir/log/.diags.log.meta",
+      "qualifiedArtifact": false
+    },
+    {
+      "area": "runDir",
+      "originalPath": "/home/sur/.cache/guize-takeover/poc003-pool-diagnostic-20261022-v1/log/.squid.blog.meta",
+      "bytes": 67,
+      "sha256": "214af9af233a9a2a4358cfc6ce3f04184d3caca6314f87c8bb457666bbe0a6b1",
+      "copied": true,
+      "file": "runDir/log/.squid.blog.meta",
+      "qualifiedArtifact": false
+    },
+    {
+      "area": "runDir",
+      "originalPath": "/home/sur/.cache/guize-takeover/poc003-pool-diagnostic-20261022-v1/log/ats-0.stderr.raw",
+      "bytes": 15137,
+      "sha256": "f16144011947655ed9ae0d37357b29d7dd99f90a47a41ee3286dc89e0875cb08",
+      "copied": true,
+      "file": "runDir/log/ats-0.stderr.raw",
+      "qualifiedArtifact": false
+    },
+    {
+      "area": "runDir",
+      "originalPath": "/home/sur/.cache/guize-takeover/poc003-pool-diagnostic-20261022-v1/log/ats-0.stdout.raw",
+      "bytes": 158,
+      "sha256": "ce52a8465fdea3734a111a7f1db4451f029dd3304a494780c0ecb3d39b8a190b",
+      "copied": true,
+      "file": "runDir/log/ats-0.stdout.raw",
+      "qualifiedArtifact": false
+    },
+    {
+      "area": "runDir",
+      "originalPath": "/home/sur/.cache/guize-takeover/poc003-pool-diagnostic-20261022-v1/log/diags.log",
+      "bytes": 5618,
+      "sha256": "0edce798cf0a682983b1547791f68758ea45dd5786392e87e8cab512e533302e",
+      "copied": true,
+      "file": "runDir/log/diags.log",
+      "qualifiedArtifact": false
+    },
+    {
+      "area": "runDir",
+      "originalPath": "/home/sur/.cache/guize-takeover/poc003-pool-diagnostic-20261022-v1/log/squid.blog_RuifengSu.20261022.23h59m55s-20261023.00h00m00s.old",
+      "bytes": 27256,
+      "sha256": "dbe22e58c0b7ff82d1aff2e1b3c046bb4c25a2ec9a7ce7f836703a56e98a2f89",
+      "copied": true,
+      "file": "runDir/log/squid.blog_RuifengSu.20261022.23h59m55s-20261023.00h00m00s.old",
+      "qualifiedArtifact": false
+    },
+    {
+      "area": "runDir",
+      "originalPath": "/home/sur/.cache/guize-takeover/poc003-pool-diagnostic-20261022-v1/origin-access.jsonl",
+      "bytes": 34407,
+      "sha256": "5d5d9541b5a7b01cb9ce35e6fad4dc6cd501fd2f09ab9bb65fcc0178962851ad",
+      "copied": true,
+      "file": "runDir/origin-access.jsonl",
+      "qualifiedArtifact": false
+    },
+    {
+      "area": "runDir",
+      "originalPath": "/home/sur/.cache/guize-takeover/poc003-pool-diagnostic-20261022-v1/origin-start.jsonl",
+      "bytes": 28263,
+      "sha256": "d57f89ad524e6b74b60caa1b2b93a52d9b9145dfbbc70f2ce15103e17013ddeb",
+      "copied": false,
+      "qualifiedArtifact": false
+    },
+    {
+      "area": "runDir",
+      "originalPath": "/home/sur/.cache/guize-takeover/poc003-pool-diagnostic-20261022-v1/owner.json",
+      "bytes": 146,
+      "sha256": "618e72420cba4c8056c23f0d9f4613d35c67c3fca323a17e968d9b3cd60d51d8",
+      "copied": true,
+      "file": "runDir/owner.json",
+      "qualifiedArtifact": false
+    },
+    {
+      "area": "runDir",
+      "originalPath": "/home/sur/.cache/guize-takeover/poc003-pool-diagnostic-20261022-v1/run/records.snap",
+      "bytes": 88093,
+      "sha256": "0201b056b3429419d4aa4a08607e6877a3804bbd63d5f2b9d70e8818b7abbebe",
+      "copied": false,
+      "qualifiedArtifact": false
+    },
+    {
+      "area": "runDir",
+      "originalPath": "/home/sur/.cache/guize-takeover/poc003-pool-diagnostic-20261022-v1/run/server.lock",
+      "bytes": 7,
+      "sha256": "68fc31d8a78e9475c00a501f7a89c6574326039f3c0917f407e9f64e3de0e730",
+      "copied": false,
+      "qualifiedArtifact": false
+    },
+    {
+      "area": "runDir",
+      "originalPath": "/home/sur/.cache/guize-takeover/poc003-pool-diagnostic-20261022-v1/runroot.yaml",
+      "bytes": 1138,
+      "sha256": "310e56f822794b9279fc416b083b9cdf11c7ef7576262882cb5cdba34493e4c2",
+      "copied": false,
+      "qualifiedArtifact": false
+    },
+    {
+      "area": "rawOutputDir",
+      "originalPath": "/home/sur/.cache/guize-takeover/poc003-pool-diagnostic-raw-20261022-v1/bodies/if_stale-d4a0e6a613e44463b1dd302dc34783ff.bin",
+      "bytes": 67108864,
+      "sha256": "938a8bc3e0a64184f1551bff0c500dc891366ead8f30f8f83753587e763c1c26",
+      "copied": false,
+      "qualifiedArtifact": false
+    },
+    {
+      "area": "rawOutputDir",
+      "originalPath": "/home/sur/.cache/guize-takeover/poc003-pool-diagnostic-raw-20261022-v1/bodies/stream-407158d7fdf4403498ec232669fd0ad9.bin",
+      "bytes": 67108864,
+      "sha256": "938a8bc3e0a64184f1551bff0c500dc891366ead8f30f8f83753587e763c1c26",
+      "copied": false,
+      "qualifiedArtifact": false
+    },
+    {
+      "area": "rawOutputDir",
+      "originalPath": "/home/sur/.cache/guize-takeover/poc003-pool-diagnostic-raw-20261022-v1/collection.json",
+      "bytes": 283530,
+      "sha256": "008f84e096a6131be442e48376468f3dbdfea85b67b8d9eb0dc2beaf6562e2f3",
+      "copied": true,
+      "file": "rawOutputDir/collection.json",
+      "qualifiedArtifact": false
+    },
+    {
+      "area": "rawOutputDir",
+      "originalPath": "/home/sur/.cache/guize-takeover/poc003-pool-diagnostic-raw-20261022-v1/observations/0001-snapshot.json",
+      "bytes": 641,
+      "sha256": "ca45d9ab0879b34617ddca4d45081e65bc9205d20bad56f324c00a2453a5092e",
+      "copied": true,
+      "file": "rawOutputDir/observations/0001-snapshot.json",
+      "qualifiedArtifact": false
+    },
+    {
+      "area": "rawOutputDir",
+      "originalPath": "/home/sur/.cache/guize-takeover/poc003-pool-diagnostic-raw-20261022-v1/observations/0002-allocator-dump.json",
+      "bytes": 8691,
+      "sha256": "9d738f764d8b4e90457a688b4ab1d685d29fcab045b008d0dd0c327c76c8a56a",
+      "copied": true,
+      "file": "rawOutputDir/observations/0002-allocator-dump.json",
+      "qualifiedArtifact": false
+    },
+    {
+      "area": "rawOutputDir",
+      "originalPath": "/home/sur/.cache/guize-takeover/poc003-pool-diagnostic-raw-20261022-v1/observations/0003-witness.json",
+      "bytes": 42266,
+      "sha256": "ca4bae8c6b504d89a34940389e00d57999260afebc2186235b50ae956476f9de",
+      "copied": true,
+      "file": "rawOutputDir/observations/0003-witness.json",
+      "qualifiedArtifact": false
+    },
+    {
+      "area": "rawOutputDir",
+      "originalPath": "/home/sur/.cache/guize-takeover/poc003-pool-diagnostic-raw-20261022-v1/observations/0004-witness.json",
+      "bytes": 42266,
+      "sha256": "25899f4f358eeb90592aa36600a8a056d851575c061f5a9eb873dafae10269a0",
+      "copied": true,
+      "file": "rawOutputDir/observations/0004-witness.json",
+      "qualifiedArtifact": false
+    },
+    {
+      "area": "rawOutputDir",
+      "originalPath": "/home/sur/.cache/guize-takeover/poc003-pool-diagnostic-raw-20261022-v1/observations/0005-witness.json",
+      "bytes": 42266,
+      "sha256": "731eb20ad2f4e62fa2ec58bb7b344df00cb2d952e021d4270ce3a7a4279467f8",
+      "copied": true,
+      "file": "rawOutputDir/observations/0005-witness.json",
+      "qualifiedArtifact": false
+    },
+    {
+      "area": "rawOutputDir",
+      "originalPath": "/home/sur/.cache/guize-takeover/poc003-pool-diagnostic-raw-20261022-v1/observations/0006-witness.json",
+      "bytes": 42266,
+      "sha256": "9767b94b37c054e012312c35e5f3fa2ec8169e24cceac994ecf7f075fae0f20f",
+      "copied": true,
+      "file": "rawOutputDir/observations/0006-witness.json",
+      "qualifiedArtifact": false
+    },
+    {
+      "area": "rawOutputDir",
+      "originalPath": "/home/sur/.cache/guize-takeover/poc003-pool-diagnostic-raw-20261022-v1/observations/0007-allocator-dump.json",
+      "bytes": 8771,
+      "sha256": "85aad70750639c0ecbfdc18fd528cf615d1e0df43c50532b30a9e8c75b85f31f",
+      "copied": true,
+      "file": "rawOutputDir/observations/0007-allocator-dump.json",
+      "qualifiedArtifact": false
+    },
+    {
+      "area": "rawOutputDir",
+      "originalPath": "/home/sur/.cache/guize-takeover/poc003-pool-diagnostic-raw-20261022-v1/observations/0008-witness.json",
+      "bytes": 1421,
+      "sha256": "64a9807892ac0d59198cabc65d36ed944e5f9c13d19653fc7f173ac87b556438",
+      "copied": true,
+      "file": "rawOutputDir/observations/0008-witness.json",
+      "qualifiedArtifact": false
+    },
+    {
+      "area": "rawOutputDir",
+      "originalPath": "/home/sur/.cache/guize-takeover/poc003-pool-diagnostic-raw-20261022-v1/observations/0009-witness.json",
+      "bytes": 1421,
+      "sha256": "4c83709648e2fa610022d61a5daee46fcfcbbc5074348246ff14050034442719",
+      "copied": true,
+      "file": "rawOutputDir/observations/0009-witness.json",
+      "qualifiedArtifact": false
+    },
+    {
+      "area": "rawOutputDir",
+      "originalPath": "/home/sur/.cache/guize-takeover/poc003-pool-diagnostic-raw-20261022-v1/observations/0010-witness.json",
+      "bytes": 1421,
+      "sha256": "594c7a13b0a3b54e9411ca725a8a7c1283d6e54118ac2e8fa244a4a3533e2496",
+      "copied": true,
+      "file": "rawOutputDir/observations/0010-witness.json",
+      "qualifiedArtifact": false
+    },
+    {
+      "area": "rawOutputDir",
+      "originalPath": "/home/sur/.cache/guize-takeover/poc003-pool-diagnostic-raw-20261022-v1/observations/0011-witness.json",
+      "bytes": 1421,
+      "sha256": "97cf8dfda5cef43f3ff345e33a0cf39ab4f37f67b0e8ef4d608590b4b737bd04",
+      "copied": true,
+      "file": "rawOutputDir/observations/0011-witness.json",
+      "qualifiedArtifact": false
+    },
+    {
+      "area": "rawOutputDir",
+      "originalPath": "/home/sur/.cache/guize-takeover/poc003-pool-diagnostic-raw-20261022-v1/observations/0012-allocator-dump.json",
+      "bytes": 8789,
+      "sha256": "418d3957573b281841c374793bbf438e3500d989a64c0b0cd9ebf8073c9a061b",
+      "copied": true,
+      "file": "rawOutputDir/observations/0012-allocator-dump.json",
+      "qualifiedArtifact": false
+    },
+    {
+      "area": "rawOutputDir",
+      "originalPath": "/home/sur/.cache/guize-takeover/poc003-pool-diagnostic-raw-20261022-v1/observations/request-407158d7fdf4403498ec232669fd0ad9.json",
+      "bytes": 47161,
+      "sha256": "b36fa25aaf9b088ce3926e2aa25ffb3c642d2ad1de662e8c2c542a7fd91158a7",
+      "copied": true,
+      "file": "rawOutputDir/observations/request-407158d7fdf4403498ec232669fd0ad9.json",
+      "qualifiedArtifact": false
+    },
+    {
+      "area": "rawOutputDir",
+      "originalPath": "/home/sur/.cache/guize-takeover/poc003-pool-diagnostic-raw-20261022-v1/observations/request-d4a0e6a613e44463b1dd302dc34783ff.json",
+      "bytes": 4183,
+      "sha256": "1a57988fa9abd6c06f0344204480362605b36e078f40f41092d3c75414f622b5",
+      "copied": true,
+      "file": "rawOutputDir/observations/request-d4a0e6a613e44463b1dd302dc34783ff.json",
+      "qualifiedArtifact": false
+    },
+    {
+      "area": "execution",
+      "originalPath": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-pool-diagnostic-v1-execution/controller.stderr.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "copied": true,
+      "file": "execution/controller.stderr.raw",
+      "qualifiedArtifact": false
+    },
+    {
+      "area": "execution",
+      "originalPath": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-pool-diagnostic-v1-execution/controller.stdout.raw",
+      "bytes": 139,
+      "sha256": "40a5cd8205b6552578be9954d3c484baf09661c2c7689fac73f2f21f819f77e5",
+      "copied": true,
+      "file": "execution/controller.stdout.raw",
+      "qualifiedArtifact": false
+    },
+    {
+      "area": "execution",
+      "originalPath": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-pool-diagnostic-v1-execution/execution.json",
+      "bytes": 2368,
+      "sha256": "65f573822ceb2a829e6a081c4721a2c30c883de8c7c50121b04b4424070fd573",
+      "copied": true,
+      "file": "execution/execution.json",
+      "qualifiedArtifact": false
+    },
+    {
+      "area": "execution",
+      "originalPath": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-pool-diagnostic-v1-execution/experiment.stderr.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "copied": true,
+      "file": "execution/experiment.stderr.raw",
+      "qualifiedArtifact": false
+    },
+    {
+      "area": "execution",
+      "originalPath": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-pool-diagnostic-v1-execution/experiment.stdout.raw",
+      "bytes": 179,
+      "sha256": "f878922ce25105c56b0907568b389f9650367cfd944c364fa2da93921cd889e0",
+      "copied": true,
+      "file": "execution/experiment.stdout.raw",
+      "qualifiedArtifact": false
+    },
+    {
+      "area": "execution",
+      "originalPath": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-pool-diagnostic-v1-execution/prepare.stderr.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "copied": true,
+      "file": "execution/prepare.stderr.raw",
+      "qualifiedArtifact": false
+    },
+    {
+      "area": "execution",
+      "originalPath": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-pool-diagnostic-v1-execution/prepare.stdout.raw",
+      "bytes": 187,
+      "sha256": "97fb83d2dc3e7cc6c425bd4137bc1ed4deff9d1cb60054d4efc814dff9dbe739",
+      "copied": true,
+      "file": "execution/prepare.stdout.raw",
+      "qualifiedArtifact": false
+    }
+  ],
+  "copiedMetadataBytes": 883044,
+  "rawOutputBytes": 134754242,
+  "actualNativeDumps": 3,
+  "actualHttpResponses": 2,
+  "absoluteAllocatedPoolBytes": [
+    2115328,
+    6254336,
+    73363200
+  ],
+  "importantInterpretation": "Last absolute reserved pool subtotal exceeds64MiB source. This conservative method cannot prove the desired below-source buffer bound; it does not prove live media peak exceeded source or that64MiB media were buffered.",
+  "fullMediaBufferBoundProven": false,
+  "original15Accepted": false,
+  "qualifiedProfileAccepted": false,
+  "integrationAccepted": false,
+  "independentResultReview": "pending",
+  "allOwnedAtsGone": true,
+  "portsReleased": true
+}

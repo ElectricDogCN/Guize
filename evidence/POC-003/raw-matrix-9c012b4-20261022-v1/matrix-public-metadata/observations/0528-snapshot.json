@@ -1,0 +1,19 @@
+{
+  "stage": "cleanup-after-export",
+  "observedAt": "2026-10-22T14:57:13.499779Z",
+  "sourceVersion": "changed",
+  "atsPid": 679492,
+  "cacheFiles": [
+    {
+      "name": "cache.db",
+      "logicalBytes": 268435456,
+      "allocatedBytes": 71741440
+    }
+  ],
+  "allocatedDiskBytes": 71741440,
+  "canonicalCacheObjectExported": false,
+  "activeOriginRequests": 0,
+  "activeGatewayRequests": 0,
+  "originRequestCount": 205,
+  "originObjectReadBytes": 212860932
+}

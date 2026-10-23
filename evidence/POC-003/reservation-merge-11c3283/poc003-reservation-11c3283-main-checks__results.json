@@ -1,0 +1,83 @@
+{
+  "actualMain": "11c32830c0d1bb8ccdcc04aa278876065bce1f33",
+  "source": "2fa51e8d0d8d83761dc324ce1bb5e0da4afcad3c",
+  "base": "44e5200ed506d30c0abc83ca38f1d6912cbab1c1",
+  "taskId": "POC-003",
+  "identityAndTreeVerified": true,
+  "checks": [
+    {
+      "argv": [
+        "python",
+        "scripts/check-program-plan-integrity.py",
+        "--base-ref",
+        "44e5200ed506d30c0abc83ca38f1d6912cbab1c1"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/check-program-plan-history.py",
+        "--base-ref",
+        "44e5200ed506d30c0abc83ca38f1d6912cbab1c1",
+        "--head-ref",
+        "11c32830c0d1bb8ccdcc04aa278876065bce1f33",
+        "--task",
+        "POC-003",
+        "--branch-name",
+        "chore/POC-003-ats-range-reservation"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/check-program-plan-transitions.py",
+        "--base-ref",
+        "44e5200ed506d30c0abc83ca38f1d6912cbab1c1",
+        "--head-ref",
+        "11c32830c0d1bb8ccdcc04aa278876065bce1f33",
+        "--task",
+        "POC-003",
+        "--branch-name",
+        "chore/POC-003-ats-range-reservation"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/check-program-lifecycle-guards.py",
+        "--base-ref",
+        "44e5200ed506d30c0abc83ca38f1d6912cbab1c1",
+        "--head-ref",
+        "11c32830c0d1bb8ccdcc04aa278876065bce1f33",
+        "--task",
+        "POC-003",
+        "--branch-name",
+        "chore/POC-003-ats-range-reservation"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/run-agent-coordination-gate.py",
+        "--base-ref",
+        "44e5200ed506d30c0abc83ca38f1d6912cbab1c1",
+        "--head-ref",
+        "11c32830c0d1bb8ccdcc04aa278876065bce1f33",
+        "--task",
+        "POC-003",
+        "--branch-name",
+        "chore/POC-003-ats-range-reservation"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true
+    }
+  ]
+}

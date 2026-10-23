@@ -1,0 +1,40 @@
+{
+  "version": "9.2.3+ds-1+deb12u1ubuntu0.1",
+  "capturedAt": "2026-10-22T15:28:43.940921+00:00",
+  "kind": "EXACT_OFFICIAL_UBUNTU_SOURCE_PACKAGE_READ_ONLY",
+  "observations": [
+    {
+      "url": "https://archive.ubuntu.com/ubuntu/pool/universe/t/trafficserver/trafficserver_9.2.3+ds-1+deb12u1ubuntu0.1.dsc",
+      "base": "https://archive.ubuntu.com/ubuntu/pool/universe/t/trafficserver/"
+    },
+    {
+      "url": "https://security.ubuntu.com/ubuntu/pool/universe/t/trafficserver/trafficserver_9.2.3+ds-1+deb12u1ubuntu0.1.dsc",
+      "base": "https://security.ubuntu.com/ubuntu/pool/universe/t/trafficserver/"
+    }
+  ],
+  "runtimeChanged": false,
+  "sourceExecuted": false,
+  "experimentExecuted": false,
+  "packagePgpSignatureVerified": false,
+  "packagedSourceEquivalenceVerified": false,
+  "dsc": {
+    "file": "trafficserver_9.2.3+ds-1+deb12u1ubuntu0.1.dsc",
+    "url": "https://archive.ubuntu.com/ubuntu/pool/universe/t/trafficserver/trafficserver_9.2.3+ds-1+deb12u1ubuntu0.1.dsc",
+    "bytes": 3009,
+    "sha256": "89de90b15a458d4de3580c5c17fa9179d98645399bc80138e866cd444f159127"
+  },
+  "sourceArchives": [
+    {
+      "file": "trafficserver_9.2.3+ds.orig.tar.xz",
+      "url": "https://archive.ubuntu.com/ubuntu/pool/universe/t/trafficserver/trafficserver_9.2.3+ds.orig.tar.xz",
+      "bytes": 8942124,
+      "sha256": "0e323e1c4c01d1506cfd49d4c6935dbebd125b187d9ba72fe909bd6b10d81110"
+    },
+    {
+      "file": "trafficserver_9.2.3+ds-1+deb12u1ubuntu0.1.debian.tar.xz",
+      "url": "https://archive.ubuntu.com/ubuntu/pool/universe/t/trafficserver/trafficserver_9.2.3+ds-1+deb12u1ubuntu0.1.debian.tar.xz",
+      "bytes": 36988,
+      "sha256": "f6db2b2fc572ac6150ea7ff12380d11871a83946a280a12b586978ac8a9ee173"
+    }
+  ]
+}

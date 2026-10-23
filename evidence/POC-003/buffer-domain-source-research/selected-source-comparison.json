@@ -1,0 +1,674 @@
+{
+  "kind": "EXACT_SOURCE_TEXT_AND_PATCH_COVERAGE_READ_ONLY",
+  "files": [
+    {
+      "path": "include/tscore/Allocator.h",
+      "debian": false,
+      "bytes": 6354,
+      "sha256": "ec2c1579a465fa825ff2381ac4cb13350c9efb768530d4f5b5e3f76dc354b2f7"
+    },
+    {
+      "path": "include/tscore/ink_queue.h",
+      "debian": false,
+      "bytes": 8630,
+      "sha256": "1eb2c403e156174540ce57f03a0c6b7cd28daa309bd79a3a6b979fddb6ad6752"
+    },
+    {
+      "path": "include/tscore/ink_resource.h",
+      "debian": false,
+      "bytes": 1735,
+      "sha256": "0b03d018050c5a187e206f7b2f3a6290d53255f80f7c7e2d5befc4400768ad0f"
+    },
+    {
+      "path": "iocore/cache/Cache.cc",
+      "debian": false,
+      "bytes": 116636,
+      "sha256": "a6f1937b4aa042cd75ad5cb4479ca0f6e45aab09706ff820a035a763653ecf69"
+    },
+    {
+      "path": "iocore/cache/CacheDir.cc",
+      "debian": false,
+      "bytes": 47910,
+      "sha256": "c46e170e73ff1733b7287c21f8eee869ab3d443dd06984a71d2433eaf664873a"
+    },
+    {
+      "path": "iocore/cache/CacheDisk.cc",
+      "debian": false,
+      "bytes": 13824,
+      "sha256": "494c046c2caccd7b72265f61f1fba8c6f01ca59ec1c95739601b42c4f011d501"
+    },
+    {
+      "path": "iocore/cache/CacheHosting.cc",
+      "debian": false,
+      "bytes": 31118,
+      "sha256": "15be0ee802f199c12e00420a3e5af79e10af1638436daf313692cf8982987bc3"
+    },
+    {
+      "path": "iocore/cache/CacheHttp.cc",
+      "debian": false,
+      "bytes": 6572,
+      "sha256": "b7c016876652ea14aeb78151e08db9bb4d46dfddf2a3b1ae846a7fe15f03465f"
+    },
+    {
+      "path": "iocore/cache/CacheLink.cc",
+      "debian": false,
+      "bytes": 5032,
+      "sha256": "90a1d7457d485b5867c5be31a42b0eb44196c78ac0292cf7b196375cc43a1cd8"
+    },
+    {
+      "path": "iocore/cache/CachePages.cc",
+      "debian": false,
+      "bytes": 24170,
+      "sha256": "7d7c7ae47aabd91a234676fee0a1e46dd15b6a55c88173de0af1a1ee4c53c8b5"
+    },
+    {
+      "path": "iocore/cache/CachePagesInternal.cc",
+      "debian": false,
+      "bytes": 11211,
+      "sha256": "9d7bd47690529d3e9f81baad48e2b8cff3d1034b94a769947db8e6dfbfacf867"
+    },
+    {
+      "path": "iocore/cache/CacheRead.cc",
+      "debian": false,
+      "bytes": 46075,
+      "sha256": "05e77d91729c69131c49ce042b9ac23db5e2b76a1cbf5ca6f8008ad277161048"
+    },
+    {
+      "path": "iocore/cache/CacheTest.cc",
+      "debian": false,
+      "bytes": 19460,
+      "sha256": "d1e143e959f5f0e0a982e994f5cb5df3ae738208dbdbf5d66ec19575180d1d05"
+    },
+    {
+      "path": "iocore/cache/CacheVol.cc",
+      "debian": false,
+      "bytes": 17100,
+      "sha256": "c9de588d37584afaa037bde86e662d6050bc1616e86bf1618242878dfabf7d3d"
+    },
+    {
+      "path": "iocore/cache/CacheWrite.cc",
+      "debian": false,
+      "bytes": 65860,
+      "sha256": "79fabc21d94ed8db98c7d33cb39d681da4b66286360412931b320ca02b0b8c12"
+    },
+    {
+      "path": "iocore/cache/I_Cache.h",
+      "debian": false,
+      "bytes": 8067,
+      "sha256": "6399aa1fb26bba1b7d77028b872d8d3505c6326ab2a9ed7c7d2ec7b8f7eadcf0"
+    },
+    {
+      "path": "iocore/cache/I_CacheDefs.h",
+      "debian": false,
+      "bytes": 4558,
+      "sha256": "7e391792e76ef98695d0a4e60c219a9bb367f94fb179655ea3d9c61677b0102e"
+    },
+    {
+      "path": "iocore/cache/I_Store.h",
+      "debian": false,
+      "bytes": 6835,
+      "sha256": "3fbd7591033f83e3cb7d74ee44ef8624bd96b400fc6e7fb04f1d992d721b2694"
+    },
+    {
+      "path": "iocore/cache/Inline.cc",
+      "debian": false,
+      "bytes": 972,
+      "sha256": "23418af4d6c46c9b6e56faca8ed17eb994931bc2b7de016542d6c2b73be43e72"
+    },
+    {
+      "path": "iocore/cache/P_Cache.h",
+      "debian": false,
+      "bytes": 1250,
+      "sha256": "c6410c139832470614e19fe0119eb05d5c2dc25fcb0ee6bfb8892faa56c98bd3"
+    },
+    {
+      "path": "iocore/cache/P_CacheArray.h",
+      "debian": false,
+      "bytes": 3242,
+      "sha256": "ac3d7eca08f6a91d0faad89c7219b529563e5e59f200c3652ab3df2c7b967899"
+    },
+    {
+      "path": "iocore/cache/P_CacheDir.h",
+      "debian": false,
+      "bytes": 13261,
+      "sha256": "362b72e2dd122941472437f1c3ac748cbc16087ffaaf93212ea5ddf78b452379"
+    },
+    {
+      "path": "iocore/cache/P_CacheDisk.h",
+      "debian": false,
+      "bytes": 4206,
+      "sha256": "8ab4aef851a745d4c6fe363038773093e1464ab62930b13e705ac48033f8996b"
+    },
+    {
+      "path": "iocore/cache/P_CacheHosting.h",
+      "debian": false,
+      "bytes": 8194,
+      "sha256": "bda1871d968d3c2fcc12cadfe6f6c1a26a2d1296a595a0f4db57c10426cf31d0"
+    },
+    {
+      "path": "iocore/cache/P_CacheHttp.h",
+      "debian": false,
+      "bytes": 2072,
+      "sha256": "060b980590d4fcf3554901d54b393293afeb8d44498af0540ae33a7d57fd2d48"
+    },
+    {
+      "path": "iocore/cache/P_CacheInternal.h",
+      "debian": false,
+      "bytes": 33492,
+      "sha256": "65a604850ed2b552096721a2620a13411a19c6706c9315b82fedabc9f919c459"
+    },
+    {
+      "path": "iocore/cache/P_CacheTest.h",
+      "debian": false,
+      "bytes": 4925,
+      "sha256": "13bf127e4f9f395cf41a31cbb5c563161f075568ac2a899330366cb030f6887e"
+    },
+    {
+      "path": "iocore/cache/P_CacheVol.h",
+      "debian": false,
+      "bytes": 15026,
+      "sha256": "582da9160e9fa23fb33a8b8f851daf20523b1b8dec357dd51552736639d09ec5"
+    },
+    {
+      "path": "iocore/cache/P_RamCache.h",
+      "debian": false,
+      "bytes": 1645,
+      "sha256": "fcce346cba811a877650392a02bbdf0775e797741b14ea9d9e1855d6198e8576"
+    },
+    {
+      "path": "iocore/cache/RamCacheCLFUS.cc",
+      "debian": false,
+      "bytes": 24612,
+      "sha256": "0f7ebf1a4b2e303614191a4a9383d230842e5e9609d7ce9131cd8e60a522e6f6"
+    },
+    {
+      "path": "iocore/cache/RamCacheLRU.cc",
+      "debian": false,
+      "bytes": 6948,
+      "sha256": "1eed31078fee677b437085f541eab7dbd831d77d045e0b2b344334bbb72fc758"
+    },
+    {
+      "path": "iocore/cache/Store.cc",
+      "debian": false,
+      "bytes": 20189,
+      "sha256": "c70be94e83fd5d395481520be8e3369f1155e3bf0eeab8229dac0fecc71230c7"
+    },
+    {
+      "path": "iocore/cache/test/CacheTestHandler.cc",
+      "debian": false,
+      "bytes": 2075,
+      "sha256": "45802b5832e96f9724d2cd6beff4ea5f94fcccb7f53fde2ab28193071849b5d5"
+    },
+    {
+      "path": "iocore/cache/test/CacheTestHandler.h",
+      "debian": false,
+      "bytes": 2142,
+      "sha256": "e98c940f76f70ac8411a93e631892bf44c6324c2b46486f7dbd19a8700b9e328"
+    },
+    {
+      "path": "iocore/cache/test/main.cc",
+      "debian": false,
+      "bytes": 7620,
+      "sha256": "da19934984de0cbb31c9c7d51add271edf24ef9834638d307dba3caaa247e178"
+    },
+    {
+      "path": "iocore/cache/test/main.h",
+      "debian": false,
+      "bytes": 5463,
+      "sha256": "fcb45c06f136ea5c279a2a5fb1afcdca2c2b1a1fb146e891d528709869a21ea8"
+    },
+    {
+      "path": "iocore/cache/test/stub.cc",
+      "debian": false,
+      "bytes": 5363,
+      "sha256": "bfca2f9b01abe2b52f27fec71f87ae08a073bbdd48a145ad96590f22331d254e"
+    },
+    {
+      "path": "iocore/cache/test/test_Alternate_L_to_S.cc",
+      "debian": false,
+      "bytes": 4873,
+      "sha256": "7f9c1c950ad511f909b57d0118af6277f8dcc75ca00fe17da3b298b77725d55d"
+    },
+    {
+      "path": "iocore/cache/test/test_Alternate_L_to_S_remove_L.cc",
+      "debian": false,
+      "bytes": 6680,
+      "sha256": "f7a245b13f462b9f79d3db91f220ff1b28572cabda910b1ced3d02a88cb7243d"
+    },
+    {
+      "path": "iocore/cache/test/test_Alternate_L_to_S_remove_S.cc",
+      "debian": false,
+      "bytes": 6683,
+      "sha256": "7eb3a442b63b07341c7330470fa9cb84bfc590928106dc96d3d480b978719251"
+    },
+    {
+      "path": "iocore/cache/test/test_Alternate_S_to_L.cc",
+      "debian": false,
+      "bytes": 4873,
+      "sha256": "56b89c6eaaec5ee6ca9e6c232e258a5d6c2e63417cf76925df104e391ef7dfbf"
+    },
+    {
+      "path": "iocore/cache/test/test_Alternate_S_to_L_remove_L.cc",
+      "debian": false,
+      "bytes": 6934,
+      "sha256": "074b5b17aa7455ad62a54f2ecec5f4b8b982fc0a1c2b036c8facf99401f01d4c"
+    },
+    {
+      "path": "iocore/cache/test/test_Alternate_S_to_L_remove_S.cc",
+      "debian": false,
+      "bytes": 6899,
+      "sha256": "bde7f5c11bc322cc533ce422793db8bdef23b20f1d18225b022ab760ef813726"
+    },
+    {
+      "path": "iocore/cache/test/test_Cache.cc",
+      "debian": false,
+      "bytes": 1588,
+      "sha256": "9d679dd5bd43f9d4d49f3ea5046c92a82054d1f675db4408818a5169e55da2c1"
+    },
+    {
+      "path": "iocore/cache/test/test_RWW.cc",
+      "debian": false,
+      "bytes": 10438,
+      "sha256": "5548d5925b780442cb98d2b4d6a931d7844994d9aaf5cf5a2aa380289cb8035d"
+    },
+    {
+      "path": "iocore/cache/test/test_Update_L_to_S.cc",
+      "debian": false,
+      "bytes": 4038,
+      "sha256": "a33f1c466214bf7a863669705e1cac2bf03e7278ec8dda9571da501fbfdc7781"
+    },
+    {
+      "path": "iocore/cache/test/test_Update_S_to_L.cc",
+      "debian": false,
+      "bytes": 4038,
+      "sha256": "be4d59bb38e825b9ec54bd8cf4a11ea009239c9a2ffdfea1171d46d227bf38b7"
+    },
+    {
+      "path": "iocore/cache/test/test_Update_header.cc",
+      "debian": false,
+      "bytes": 4782,
+      "sha256": "53778a0b147885a1e7b141ed712ac62146b24db0c77395590ab9d5408ba8be9b"
+    },
+    {
+      "path": "iocore/eventsystem/IOBuffer.cc",
+      "debian": false,
+      "bytes": 7722,
+      "sha256": "d9e1a686b285208817514be062f484ac0b57670aee00d004b825c6641d5975ec"
+    },
+    {
+      "path": "iocore/eventsystem/I_IOBuffer.h",
+      "debian": false,
+      "bytes": 42964,
+      "sha256": "81819fc587efa0586bd4621318f14bd7ae8342484e872a13f8778862dc7f75a5"
+    },
+    {
+      "path": "iocore/eventsystem/P_IOBuffer.h",
+      "debian": false,
+      "bytes": 23305,
+      "sha256": "be8d0bbe13f9a459fe71b1269eda21a855c8ab1b50ffbef88be4e78569a794e7"
+    },
+    {
+      "path": "plugins/cache_range_requests/cache_range_requests.cc",
+      "debian": false,
+      "bytes": 25113,
+      "sha256": "52bc99d9a2e8a200235627b6363b44027b2ff5f499ee59e2c55af351b570302e"
+    },
+    {
+      "path": "plugins/experimental/slice/Config.cc",
+      "debian": false,
+      "bytes": 8972,
+      "sha256": "ce0719a953d1e90df941c37d9a968425032683e6647ceb9ae7c2a43e2f3a4351"
+    },
+    {
+      "path": "plugins/experimental/slice/Config.h",
+      "debian": false,
+      "bytes": 2825,
+      "sha256": "64580a2f35963df96ff0896ace6373c03afb3765b21d3ada76c4d3eda7d00786"
+    },
+    {
+      "path": "plugins/experimental/slice/ContentRange.cc",
+      "debian": false,
+      "bytes": 1577,
+      "sha256": "b0cba28fa03d2c14e177b4ceaea9e8ba6721eea0d458708e9a4bd874391f029f"
+    },
+    {
+      "path": "plugins/experimental/slice/ContentRange.h",
+      "debian": false,
+      "bytes": 1667,
+      "sha256": "7fd804d2b5920560c0ee0751d17f698cd88b43fbacc8e1c68cd2f479666e82ff"
+    },
+    {
+      "path": "plugins/experimental/slice/Data.h",
+      "debian": false,
+      "bytes": 3421,
+      "sha256": "072cbb05922fafe57444636889d8cc6133752ec660193cab4340b687382d8068"
+    },
+    {
+      "path": "plugins/experimental/slice/HttpHeader.cc",
+      "debian": false,
+      "bytes": 8961,
+      "sha256": "775943e91ccced7fe9131d7435cbbf2d391ec88a8697897456e443d26dfb14b0"
+    },
+    {
+      "path": "plugins/experimental/slice/HttpHeader.h",
+      "debian": false,
+      "bytes": 6348,
+      "sha256": "2a3e3515fd27b6a157a415c3fb90e9c3b933537d6e53881d62cbbd12b54e007d"
+    },
+    {
+      "path": "plugins/experimental/slice/Range.cc",
+      "debian": false,
+      "bytes": 4636,
+      "sha256": "9f7230e8d13b64a2886af3077de71a055ad63cee37af4ae2a06fd25e7467ea5d"
+    },
+    {
+      "path": "plugins/experimental/slice/Range.h",
+      "debian": false,
+      "bytes": 2395,
+      "sha256": "215e366473fd1e9b667186846a3156c49f5ba94d45b0a7336159885b152bfc0e"
+    },
+    {
+      "path": "plugins/experimental/slice/Stage.h",
+      "debian": false,
+      "bytes": 3878,
+      "sha256": "cb59be25611f5680cacbe9190da3957cb14429ee9dcb03d8fe9ebc4999936443"
+    },
+    {
+      "path": "plugins/experimental/slice/client.cc",
+      "debian": false,
+      "bytes": 6601,
+      "sha256": "ed647759181f5cd6bc002fb6a9b0f4aa3bec3d89e8ab4beedfb89811a29cde39"
+    },
+    {
+      "path": "plugins/experimental/slice/client.h",
+      "debian": false,
+      "bytes": 1276,
+      "sha256": "bbd538a444338866566105739ed5135d245abd0b8abfd78242e6f60c88052cdb"
+    },
+    {
+      "path": "plugins/experimental/slice/intercept.cc",
+      "debian": false,
+      "bytes": 2838,
+      "sha256": "f44813415b30b97532abe20bdafa280aaa792d7544b238bafca1a6752a934f86"
+    },
+    {
+      "path": "plugins/experimental/slice/intercept.h",
+      "debian": false,
+      "bytes": 893,
+      "sha256": "20c36cf7351a648e6999982cdd9fa158ed8c52f11e0ba1b200d9d4825ed47c4d"
+    },
+    {
+      "path": "plugins/experimental/slice/prefetch.cc",
+      "debian": false,
+      "bytes": 4678,
+      "sha256": "baffba9957bfd2b6f990ffd9aaf3891c49689b9d319f33f8de3e56b90df75d11"
+    },
+    {
+      "path": "plugins/experimental/slice/prefetch.h",
+      "debian": false,
+      "bytes": 1391,
+      "sha256": "b62f4bc8072adc5e0e1725ba2d3eeb8f96117289de52e42b1b6123aa327fc859"
+    },
+    {
+      "path": "plugins/experimental/slice/response.cc",
+      "debian": false,
+      "bytes": 3862,
+      "sha256": "ca5e2d699a7c5d5e5c29bb9600399c9b994eca31535fb3d9afad0d779757707f"
+    },
+    {
+      "path": "plugins/experimental/slice/response.h",
+      "debian": false,
+      "bytes": 1035,
+      "sha256": "082d8f95327ec1820124497e60b5411b6dbe22d2dfe9e135754a57a76790be84"
+    },
+    {
+      "path": "plugins/experimental/slice/server.cc",
+      "debian": false,
+      "bytes": 24602,
+      "sha256": "e31a3e8982b5aaf4cdca5bd46d9502d100acbfad269c7b914a33630758b53497"
+    },
+    {
+      "path": "plugins/experimental/slice/server.h",
+      "debian": false,
+      "bytes": 1389,
+      "sha256": "defa9012d5a7467ebf4a395dd9939ba13052be26ffe56e47745ec57cf937ffcc"
+    },
+    {
+      "path": "plugins/experimental/slice/slice.cc",
+      "debian": false,
+      "bytes": 8786,
+      "sha256": "c63ac7f6f8872e2eb74d29ffa65d14bab7e52bc0b838cfe1d937b98b68db0ef1"
+    },
+    {
+      "path": "plugins/experimental/slice/slice.h",
+      "debian": false,
+      "bytes": 1631,
+      "sha256": "0c574bf50d0cde07c536f50ada616daaea8eb3b2a544a7ad2b56a4859d8fd06a"
+    },
+    {
+      "path": "plugins/experimental/slice/slice_test.cc",
+      "debian": false,
+      "bytes": 5809,
+      "sha256": "ae380fd57096ca5a2b3913b803ddbf34a707b07c09f9f5afbe7bc5d92546d39d"
+    },
+    {
+      "path": "plugins/experimental/slice/transfer.cc",
+      "debian": false,
+      "bytes": 3621,
+      "sha256": "ee315d75aa151a4e5334382f468bb5016362448a95ad60880b26df66c22cb64d"
+    },
+    {
+      "path": "plugins/experimental/slice/transfer.h",
+      "debian": false,
+      "bytes": 1443,
+      "sha256": "fe3586f3caac901627e1131891f835619060e8bbee5bf6eae6cc140f7cd80161"
+    },
+    {
+      "path": "plugins/experimental/slice/unit-tests/slice_test.cc",
+      "debian": false,
+      "bytes": 5828,
+      "sha256": "0198f307ca2ad2aaaec0626ca70da29a9b9fadbb79fbea4c718500afbb231c40"
+    },
+    {
+      "path": "plugins/experimental/slice/unit-tests/test_config.cc",
+      "debian": false,
+      "bytes": 5204,
+      "sha256": "9ab466464531f15ba22854876668dd29cc19f0960d9d6bb2e4f2f7961a09ace3"
+    },
+    {
+      "path": "plugins/experimental/slice/unit-tests/test_content_range.cc",
+      "debian": false,
+      "bytes": 2650,
+      "sha256": "90bddbb2e15f3ff19b8bf839c87938bd9bb7694788fa8091661a32fcdc26a772"
+    },
+    {
+      "path": "plugins/experimental/slice/unit-tests/test_range.cc",
+      "debian": false,
+      "bytes": 3136,
+      "sha256": "bdebec1e33dc5d16d7f28f2beea445754cc0421105cc41b0d4d72051f9e2d8c1"
+    },
+    {
+      "path": "plugins/experimental/slice/util.cc",
+      "debian": false,
+      "bytes": 6367,
+      "sha256": "f24818907464fce07c676c39fa05662aa02650897bc6fd98ead6f89f4fd5ff5b"
+    },
+    {
+      "path": "plugins/experimental/slice/util.h",
+      "debian": false,
+      "bytes": 1249,
+      "sha256": "38c4feb6cc0cf2cee76db53182244e9fe06aea2924ba0722f12cf26fc09f1bd1"
+    },
+    {
+      "path": "src/traffic_server/traffic_server.cc",
+      "debian": false,
+      "bytes": 76692,
+      "sha256": "3811ef63acc5cc457d6b1208f022253a807e53e59fd2dc6dfd131d6e486675c7"
+    },
+    {
+      "path": "src/tscore/ink_queue.cc",
+      "debian": false,
+      "bytes": 18182,
+      "sha256": "83c38349f8cc56734f74ece47fe515f5b2d80869eaf155adb793b247647fbc8f"
+    },
+    {
+      "path": "src/tscore/ink_queue_utils.cc",
+      "debian": false,
+      "bytes": 3122,
+      "sha256": "57a51974731a3873c7c107a7cef9d05aa50d052bb0cc248e874dcf5936542fb0"
+    },
+    {
+      "path": "src/tscore/ink_resource.cc",
+      "debian": false,
+      "bytes": 5545,
+      "sha256": "64f3899408dc02fed6978179d5def6363d9577ba334d7b9761d777034cdcdcde"
+    },
+    {
+      "path": "src/tscore/signals.cc",
+      "debian": false,
+      "bytes": 5498,
+      "sha256": "04eaaa55267ab93d3d84ef864715aca643867bd4b712223cc4185c8609094dd2"
+    },
+    {
+      "path": "debian/changelog",
+      "debian": true,
+      "bytes": 42891,
+      "sha256": "ed80d4caa888efc661f81378fa5ffe3b66b1ccdbe8eb1d2571dc5cf5f3ed6f12"
+    },
+    {
+      "path": "debian/patches/0003-reproductible-build.patch",
+      "debian": true,
+      "bytes": 729,
+      "sha256": "d44983b746d56dc824e680eb04ab990d9a32138ad450ce39c5314c2ce388583f"
+    },
+    {
+      "path": "debian/patches/0006-fix-doc-build.patch",
+      "debian": true,
+      "bytes": 1903,
+      "sha256": "f23b7cc381803e6dafe16f529e04677ed2c1d371eca7360a62d4e46804c5683d"
+    },
+    {
+      "path": "debian/patches/0008-fix-python-check-unused-dependencies.patch",
+      "debian": true,
+      "bytes": 683,
+      "sha256": "5b3d74a79ba2cb3cebdf0ffd353501dd61477162c8601b83123fe632b0f387b5"
+    },
+    {
+      "path": "debian/patches/0013-fix-perl-interpreter-path.patch",
+      "debian": true,
+      "bytes": 395,
+      "sha256": "67d5c0c2be81d9c364a2b8e950fff018f20aae1be45cae1848693b5f2edb7275"
+    },
+    {
+      "path": "debian/patches/0014-use_system_yaml-cpp.patch",
+      "debian": true,
+      "bytes": 1070,
+      "sha256": "e2477f251fce68c38db3378ef60609ca4c0dbb13c1d56cc0e8cfda5b0af178f5"
+    },
+    {
+      "path": "debian/patches/0021-workaround-obsolete-plantuml.patch",
+      "debian": true,
+      "bytes": 20223,
+      "sha256": "f9b89b9b657b5115746ba4ecf7d58a871e8b954614b2fd96d40ef131884a0e16"
+    },
+    {
+      "path": "debian/patches/0022-workaround-missing-sphinxcontrib.jquery.patch",
+      "debian": true,
+      "bytes": 420,
+      "sha256": "eb442b8dd4eaf1ac73bf7fede581e59d7b560f1bb44f272e80edbc4ee16518b4"
+    },
+    {
+      "path": "debian/patches/0023-CVE-2024-50305.patch",
+      "debian": true,
+      "bytes": 2176,
+      "sha256": "28ae9c5204579f894ff1fdb33a77798250f62d51d4f59c6537bbff1b48d05fc0"
+    },
+    {
+      "path": "debian/patches/series",
+      "debian": true,
+      "bytes": 289,
+      "sha256": "76625fe71458aded38d2d317b53c7e32b9b07105d88fe0d31a6ae7ab472f8310"
+    },
+    {
+      "path": "debian/rules",
+      "debian": true,
+      "bytes": 2407,
+      "sha256": "2aa04cd8bc46b46b1ae6cb02b24de0b3f0054d47a71ca5c95a07b11d01ee427f"
+    }
+  ],
+  "coreComparisons": [
+    {
+      "path": "include/tscore/Allocator.h",
+      "origMatchesOfficialUpstream": true,
+      "patchesTouching": [],
+      "sha256": "ec2c1579a465fa825ff2381ac4cb13350c9efb768530d4f5b5e3f76dc354b2f7"
+    },
+    {
+      "path": "include/tscore/ink_queue.h",
+      "origMatchesOfficialUpstream": true,
+      "patchesTouching": [],
+      "sha256": "1eb2c403e156174540ce57f03a0c6b7cd28daa309bd79a3a6b979fddb6ad6752"
+    },
+    {
+      "path": "include/tscore/ink_resource.h",
+      "origMatchesOfficialUpstream": true,
+      "patchesTouching": [],
+      "sha256": "0b03d018050c5a187e206f7b2f3a6290d53255f80f7c7e2d5befc4400768ad0f"
+    },
+    {
+      "path": "iocore/eventsystem/IOBuffer.cc",
+      "origMatchesOfficialUpstream": true,
+      "patchesTouching": [],
+      "sha256": "d9e1a686b285208817514be062f484ac0b57670aee00d004b825c6641d5975ec"
+    },
+    {
+      "path": "iocore/eventsystem/I_IOBuffer.h",
+      "origMatchesOfficialUpstream": true,
+      "patchesTouching": [],
+      "sha256": "81819fc587efa0586bd4621318f14bd7ae8342484e872a13f8778862dc7f75a5"
+    },
+    {
+      "path": "iocore/eventsystem/P_IOBuffer.h",
+      "origMatchesOfficialUpstream": true,
+      "patchesTouching": [],
+      "sha256": "be8d0bbe13f9a459fe71b1269eda21a855c8ab1b50ffbef88be4e78569a794e7"
+    },
+    {
+      "path": "src/traffic_server/traffic_server.cc",
+      "origMatchesOfficialUpstream": true,
+      "patchesTouching": [],
+      "sha256": "3811ef63acc5cc457d6b1208f022253a807e53e59fd2dc6dfd131d6e486675c7"
+    },
+    {
+      "path": "src/tscore/ink_queue.cc",
+      "origMatchesOfficialUpstream": true,
+      "patchesTouching": [],
+      "sha256": "83c38349f8cc56734f74ece47fe515f5b2d80869eaf155adb793b247647fbc8f"
+    },
+    {
+      "path": "src/tscore/ink_queue_utils.cc",
+      "origMatchesOfficialUpstream": true,
+      "patchesTouching": [],
+      "sha256": "57a51974731a3873c7c107a7cef9d05aa50d052bb0cc248e874dcf5936542fb0"
+    },
+    {
+      "path": "src/tscore/ink_resource.cc",
+      "origMatchesOfficialUpstream": true,
+      "patchesTouching": [],
+      "sha256": "64f3899408dc02fed6978179d5def6363d9577ba334d7b9761d777034cdcdcde"
+    },
+    {
+      "path": "src/tscore/signals.cc",
+      "origMatchesOfficialUpstream": true,
+      "patchesTouching": [],
+      "sha256": "04eaaa55267ab93d3d84ef864715aca643867bd4b712223cc4185c8609094dd2"
+    }
+  ],
+  "relevantPatchedFiles": {},
+  "allComparedCoreFilesMatchUpstream": true,
+  "runtimeChanged": false,
+  "sourceExecuted": false,
+  "experimentExecuted": false,
+  "fullMediaBufferCoverageProven": false,
+  "measurementDomainApproved": false
+}

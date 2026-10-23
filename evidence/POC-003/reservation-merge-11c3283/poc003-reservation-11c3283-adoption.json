@@ -1,0 +1,59 @@
+{
+  "actualMain": "11c32830c0d1bb8ccdcc04aa278876065bce1f33",
+  "source": "2fa51e8d0d8d83761dc324ce1bb5e0da4afcad3c",
+  "base": "44e5200ed506d30c0abc83ca38f1d6912cbab1c1",
+  "tree": "e4f9c0f4957778063cbf306a3f63f9ec6d9e05a0",
+  "before": {
+    "primary": {
+      "head": "44e5200ed506d30c0abc83ca38f1d6912cbab1c1",
+      "main": "44e5200ed506d30c0abc83ca38f1d6912cbab1c1",
+      "branch": "main",
+      "status": ""
+    },
+    "author": {
+      "head": "2fa51e8d0d8d83761dc324ce1bb5e0da4afcad3c",
+      "main": "44e5200ed506d30c0abc83ca38f1d6912cbab1c1",
+      "branch": "chore/POC-003-ats-range-reservation",
+      "status": ""
+    },
+    "legacy": {
+      "head": "44e5200ed506d30c0abc83ca38f1d6912cbab1c1",
+      "main": "44e5200ed506d30c0abc83ca38f1d6912cbab1c1",
+      "branch": "main",
+      "status": ""
+    },
+    "native": {
+      "head": "2fa51e8d0d8d83761dc324ce1bb5e0da4afcad3c",
+      "main": "44e5200ed506d30c0abc83ca38f1d6912cbab1c1",
+      "branch": "chore/POC-003-ats-range-reservation",
+      "status": ""
+    }
+  },
+  "after": {
+    "primary": {
+      "head": "11c32830c0d1bb8ccdcc04aa278876065bce1f33",
+      "main": "11c32830c0d1bb8ccdcc04aa278876065bce1f33",
+      "branch": "main",
+      "status": ""
+    },
+    "author": {
+      "head": "11c32830c0d1bb8ccdcc04aa278876065bce1f33",
+      "main": "11c32830c0d1bb8ccdcc04aa278876065bce1f33",
+      "branch": "main",
+      "status": ""
+    },
+    "legacy": {
+      "head": "11c32830c0d1bb8ccdcc04aa278876065bce1f33",
+      "main": "11c32830c0d1bb8ccdcc04aa278876065bce1f33",
+      "branch": "main",
+      "status": ""
+    },
+    "native": {
+      "head": "11c32830c0d1bb8ccdcc04aa278876065bce1f33",
+      "main": "11c32830c0d1bb8ccdcc04aa278876065bce1f33",
+      "branch": "main",
+      "status": ""
+    }
+  },
+  "ordinaryFastForwards": true
+}

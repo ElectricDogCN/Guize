@@ -1,0 +1,40 @@
+{
+  "kind": "DRAFT_NATIVE_LIVE_ACCOUNTING_PATCH_NOT_EXPERIMENTED",
+  "files": [
+    {
+      "path": "iocore/eventsystem/I_IOBuffer.h",
+      "beforeSha256": "81819fc587efa0586bd4621318f14bd7ae8342484e872a13f8778862dc7f75a5",
+      "afterSha256": "936c0c4db159676a357fc5ace9d16d008c4136652849926d0f0d99e1c5225007"
+    },
+    {
+      "path": "iocore/eventsystem/P_IOBuffer.h",
+      "beforeSha256": "be8d0bbe13f9a459fe71b1269eda21a855c8ab1b50ffbef88be4e78569a794e7",
+      "afterSha256": "445ca92bd3e50d3d73f16bb9821ad96110a6b3d71f665b6871805b2832d2446e"
+    },
+    {
+      "path": "iocore/cache/P_CacheVol.h",
+      "beforeSha256": "582da9160e9fa23fb33a8b8f851daf20523b1b8dec357dd51552736639d09ec5",
+      "afterSha256": "ba06f2298a0f7d38c955d2cd5cb7ed3fb582871a5ca4ecd9bdb487fa1f0a9c7a"
+    },
+    {
+      "path": "src/tscore/ink_resource.cc",
+      "beforeSha256": "64f3899408dc02fed6978179d5def6363d9577ba334d7b9761d777034cdcdcde",
+      "afterSha256": "0aabcfc660f2391f154cd771f1280220067cd1db774d17bce9e89679d4e44c5f"
+    },
+    {
+      "path": "iocore/cache/Cache.cc",
+      "beforeSha256": "a6f1937b4aa042cd75ad5cb4479ca0f6e45aab09706ff820a035a763653ecf69",
+      "afterSha256": "8926035b3c46a9d584cd5fae86094617817df207869e1c8d59ba902c516e76b2"
+    }
+  ],
+  "patchSha256": "0ad76c3878bcbeb088b2a522308bbabe17cdb61c5336580aedb1d550db203cd4",
+  "additionalHeaderSha256": "80a5f767d0b145b70976eb16939d6b5753a5cf8f3a18a0b7ffe1f37434af62b9",
+  "observationWindow": "Only after native HTTP-cache-ready with an atomic reset retaining all currently live baseline payload",
+  "uncoveredExternalEventsInvalidateQualification": true,
+  "externalSetInternalIncluded": true,
+  "directRecoveryIncluded": true,
+  "managementScanUsesTrackedNonFastIOBufferData": true,
+  "fullMediaCoverageProven": false,
+  "experimentApproved": false,
+  "atsStarted": false
+}

@@ -1,0 +1,177 @@
+--- a/iocore/eventsystem/I_IOBuffer.h
++++ b/iocore/eventsystem/I_IOBuffer.h
+@@ -37,6 +37,7 @@
+  */
+ 
+ #pragma once
++#include "tscore/GuizeLiveBufferAccounting.h"
+ #define I_IOBuffer_h
+ 
+ #include "tscore/ink_platform.h"
+@@ -223,6 +224,8 @@
+ 
+   */
+   char *_data = nullptr;
++  uint64_t _guize_live_bytes = 0;
++  unsigned _guize_live_kind = guize_live_buffer::IO_BUFFER;
+ 
+   const char *_location = nullptr;
+ 
+--- a/iocore/eventsystem/P_IOBuffer.h
++++ b/iocore/eventsystem/P_IOBuffer.h
+@@ -204,6 +204,13 @@
+   d->_size_index  = asize_index;
+   ink_assert(BUFFER_SIZE_INDEX_IS_CONSTANT(asize_index) || size <= d->block_size());
+   d->_location = location;
++  // Existing external storage was acquired outside this observer. Retain an
++  // explicit uncovered-path event; a nonzero event invalidates qualification.
++  if (b && d->block_size() > 0) {
++    d->_guize_live_bytes = d->block_size();
++    d->_guize_live_kind = guize_live_buffer::EXTERNAL;
++    GuizeAtsLiveBufferAcquire(d->_guize_live_kind, d->_guize_live_bytes);
++  }
+   d->_data     = (char *)b;
+   return d;
+ }
+@@ -236,6 +243,12 @@
+   _size_index = size_index;
+   _mem_type   = type;
+   iobuffer_mem_inc(_location, size_index);
++  if (BUFFER_SIZE_ALLOCATED(size_index)) {
++    _guize_live_bytes = index_to_buffer_size(size_index);
++    _guize_live_kind = guize_live_buffer::IO_BUFFER;
++    // Count before acquiring actual payload, including non-fast allocations.
++    GuizeAtsLiveBufferAcquire(_guize_live_kind, _guize_live_bytes);
++  }
+   switch (type) {
+   case MEMALIGNED:
+     if (BUFFER_SIZE_INDEX_IS_FAST_ALLOCATED(size_index)) {
+@@ -278,6 +291,11 @@
+       ats_free(_data);
+     }
+     break;
++  }
++  // Actual payload has been released before decrementing the live count.
++  if (_guize_live_bytes) {
++    GuizeAtsLiveBufferRelease(_guize_live_kind, _guize_live_bytes);
++    _guize_live_bytes = 0;
+   }
+   _data       = nullptr;
+   _size_index = BUFFER_SIZE_NOT_ALLOCATED;
+@@ -404,6 +422,13 @@
+ IOBufferBlock::set_internal(void *b, int64_t len, int64_t asize_index)
+ {
+   data        = new_IOBufferData_internal(_location, BUFFER_SIZE_NOT_ALLOCATED);
++  // This attachment bypasses new_IOBufferData_internal. Its allocation
++  // predates the observer, so mark the payload as explicitly uncovered too.
++  if (b && index_to_buffer_size(asize_index) > 0) {
++    data->_guize_live_bytes = index_to_buffer_size(asize_index);
++    data->_guize_live_kind = guize_live_buffer::EXTERNAL;
++    GuizeAtsLiveBufferAcquire(data->_guize_live_kind, data->_guize_live_bytes);
++  }
+   data->_data = (char *)b;
+   iobuffer_mem_inc(_location, asize_index);
+   data->_size_index = asize_index;
+--- a/iocore/cache/P_CacheVol.h
++++ b/iocore/cache/P_CacheVol.h
+@@ -22,6 +22,7 @@
+  */
+ 
+ #pragma once
++#include "tscore/GuizeLiveBufferAccounting.h"
+ 
+ #include <atomic>
+ 
+@@ -145,6 +146,7 @@
+   Queue<CacheVC, Continuation::Link_link> stat_cache_vcs;
+   Queue<CacheVC, Continuation::Link_link> sync;
+   char *agg_buffer  = nullptr;
++  uint64_t _guize_recovery_bytes = 0;
+   int agg_todo_size = 0;
+   int agg_buf_pos   = 0;
+ 
+@@ -270,12 +272,16 @@
+   Vol() : Continuation(new_ProxyMutex())
+   {
+     open_dir.mutex = mutex;
++    GuizeAtsLiveBufferAcquire(guize_live_buffer::AGGREGATION, AGG_SIZE);
+     agg_buffer     = (char *)ats_memalign(ats_pagesize(), AGG_SIZE);
+     memset(agg_buffer, 0, AGG_SIZE);
+     SET_HANDLER(&Vol::aggWrite);
+   }
+ 
+-  ~Vol() override { ats_free(agg_buffer); }
++  ~Vol() override {
++    ats_free(agg_buffer);
++    GuizeAtsLiveBufferRelease(guize_live_buffer::AGGREGATION, AGG_SIZE);
++  }
+ };
+ 
+ struct AIO_Callback_handler : public Continuation {
+--- a/src/tscore/ink_resource.cc
++++ b/src/tscore/ink_resource.cc
+@@ -24,6 +24,7 @@
+ #include "tscore/ink_assert.h"
+ #include "tscore/ink_atomic.h"
+ #include "tscore/ink_resource.h"
++#include "tscore/GuizeLiveBufferAccounting.h"
+ #include <execinfo.h>
+ 
+ int res_track_memory          = 0; // Disabled by default
+@@ -182,3 +183,23 @@
+     fprintf(fd, "---------------------|----------------------|----------------------|----------------------\n");
+   }
+ }
++
++// Guize private diagnostic ABI. One process-wide ledger, no HTTP policy change.
++static guize_live_buffer::Ledger &
++guize_live_ledger()
++{
++  static guize_live_buffer::Ledger ledger;
++  return ledger;
++}
++extern "C" void GuizeAtsLiveBufferAcquire(unsigned kind, uint64_t bytes)
++{
++  guize_live_ledger().acquire(kind, bytes);
++}
++extern "C" void GuizeAtsLiveBufferRelease(unsigned kind, uint64_t bytes)
++{
++  guize_live_ledger().release(kind, bytes);
++}
++extern "C" guize_live_buffer::Snapshot GuizeAtsLiveBufferSnapshot(unsigned resetWindow)
++{
++  return guize_live_ledger().snapshot(resetWindow != 0);
++}
+--- a/iocore/cache/Cache.cc
++++ b/iocore/cache/Cache.cc
+@@ -1453,6 +1453,8 @@
+       recover_wrapped = true;
+       recover_pos     = start;
+     }
++    _guize_recovery_bytes = RECOVERY_SIZE;
++    GuizeAtsLiveBufferAcquire(guize_live_buffer::RECOVERY, _guize_recovery_bytes);
+     io.aiocb.aio_buf    = static_cast<char *>(ats_memalign(ats_pagesize(), RECOVERY_SIZE));
+     io.aiocb.aio_nbytes = RECOVERY_SIZE;
+     if (static_cast<off_t>(recover_pos + io.aiocb.aio_nbytes) > static_cast<off_t>(skip + len)) {
+@@ -1690,6 +1692,10 @@
+ 
+ Lclear:
+   free(static_cast<char *>(io.aiocb.aio_buf));
++  if (_guize_recovery_bytes) {
++    GuizeAtsLiveBufferRelease(guize_live_buffer::RECOVERY, _guize_recovery_bytes);
++    _guize_recovery_bytes = 0;
++  }
+   delete init_info;
+   init_info = nullptr;
+   clear_dir();
+@@ -1701,6 +1707,10 @@
+ {
+   if (io.aiocb.aio_buf) {
+     free(static_cast<char *>(io.aiocb.aio_buf));
++    if (_guize_recovery_bytes) {
++      GuizeAtsLiveBufferRelease(guize_live_buffer::RECOVERY, _guize_recovery_bytes);
++      _guize_recovery_bytes = 0;
++    }
+   }
+   delete init_info;
+   init_info = nullptr;

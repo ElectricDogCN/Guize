@@ -1,0 +1,225 @@
+{
+  "kind": "REAL_CANONICAL_RESERVATION_AND_EXECUTED_MAIN_CHECKS",
+  "actualMerge": "11c32830c0d1bb8ccdcc04aa278876065bce1f33",
+  "parents": [
+    "44e5200ed506d30c0abc83ca38f1d6912cbab1c1",
+    "2fa51e8d0d8d83761dc324ce1bb5e0da4afcad3c"
+  ],
+  "tree": "e4f9c0f4957778063cbf306a3f63f9ec6d9e05a0",
+  "sourceOverallAccepted": true,
+  "sourceLocal15Accepted": true,
+  "sourceCi807Accepted": true,
+  "actualMainFiveAccepted": true,
+  "actualMainPocProtocolAccepted": true,
+  "actualMainFullCi808Accepted": false,
+  "actualMainFullCi808Status": "pending actual terminal result",
+  "implementationStartupBasis": "docs/25 section6.2; actual canonical reservation merge plus real local main checks; only reversible Own implementation, no experiment approval",
+  "sampleApproved": false,
+  "resourceApproved": false,
+  "experimentExecuted": false,
+  "files": [
+    {
+      "original": "poc003-reservation-2fa51e8-source-admission.json",
+      "archive": "evidence/POC-003/reservation-merge-11c3283/poc003-reservation-2fa51e8-source-admission.json",
+      "encoding": "original-bytes",
+      "bytes": 982,
+      "sha256": "f5f65871372d9258671c92c4ff0a29a6a56bbd3765c7eabf6f674b665699bf9e"
+    },
+    {
+      "original": "poc003-reservation-2fa51e8-independent-review.json",
+      "archive": "evidence/POC-003/reservation-merge-11c3283/poc003-reservation-2fa51e8-independent-review.json",
+      "encoding": "original-bytes",
+      "bytes": 904,
+      "sha256": "89ea8864ed6cbee059d351490e7d2676a3e5435a9f5aca6e4fd90f57fd23013e"
+    },
+    {
+      "original": "poc003-reservation-2fa51e8-ci807.snapshot.json",
+      "archive": "evidence/POC-003/reservation-merge-11c3283/poc003-reservation-2fa51e8-ci807.snapshot.json",
+      "encoding": "original-bytes",
+      "bytes": 62476,
+      "sha256": "78342e2fd6e60c9747f29dadc65f8adb24eea06189dcf9957325587d0921cc52"
+    },
+    {
+      "original": "poc003-reservation-2fa51e8-ci807.raw.txt",
+      "archive": "evidence/POC-003/reservation-merge-11c3283/poc003-reservation-2fa51e8-ci807.raw.txt.base64.json",
+      "encoding": "base64-json",
+      "bytes": 286358,
+      "sha256": "1e6f52af98c4bd0072ae5a5e36c7004d466b284618fe5a2a4522207e54d1f7fd"
+    },
+    {
+      "original": "poc003-reservation-11c3283-adoption.json",
+      "archive": "evidence/POC-003/reservation-merge-11c3283/poc003-reservation-11c3283-adoption.json",
+      "encoding": "original-bytes",
+      "bytes": 1814,
+      "sha256": "2bd1180fd8d044444ec6a09416048b9fe656f3f22c9a31899d20a17d8f32d6e8"
+    },
+    {
+      "original": "poc003-reservation-2fa51e8-results/00.txt",
+      "archive": "evidence/POC-003/reservation-merge-11c3283/poc003-reservation-2fa51e8-results__00.txt.base64.json",
+      "encoding": "base64-json",
+      "bytes": 137,
+      "sha256": "b1a040112a79d8588c3179114f8524f42443f7479dd2ab76d458b5698689ad03"
+    },
+    {
+      "original": "poc003-reservation-2fa51e8-results/01.txt",
+      "archive": "evidence/POC-003/reservation-merge-11c3283/poc003-reservation-2fa51e8-results__01.txt.base64.json",
+      "encoding": "base64-json",
+      "bytes": 248,
+      "sha256": "6c8ffa1bbce51b697f4aea618eb7db61d3a3b54497a196a6c3be123367caeca0"
+    },
+    {
+      "original": "poc003-reservation-2fa51e8-results/02.txt",
+      "archive": "evidence/POC-003/reservation-merge-11c3283/poc003-reservation-2fa51e8-results__02.txt.base64.json",
+      "encoding": "base64-json",
+      "bytes": 653,
+      "sha256": "9e2d8abb0d88a19df8aa4fe5cf2712e43b8b13cdda4061d84f7614be701febbc"
+    },
+    {
+      "original": "poc003-reservation-2fa51e8-results/03.txt",
+      "archive": "evidence/POC-003/reservation-merge-11c3283/poc003-reservation-2fa51e8-results__03.txt.base64.json",
+      "encoding": "base64-json",
+      "bytes": 1807,
+      "sha256": "13ed8949b536cbcbc41a0e62533075a35bee561b6339991590f81673e512a74a"
+    },
+    {
+      "original": "poc003-reservation-2fa51e8-results/04.txt",
+      "archive": "evidence/POC-003/reservation-merge-11c3283/poc003-reservation-2fa51e8-results__04.txt.base64.json",
+      "encoding": "base64-json",
+      "bytes": 412,
+      "sha256": "9601a774c9180f895af7f9d661a4026eb05e43a6e9b100bccb628539e48ffcc1"
+    },
+    {
+      "original": "poc003-reservation-2fa51e8-results/05.txt",
+      "archive": "evidence/POC-003/reservation-merge-11c3283/poc003-reservation-2fa51e8-results__05.txt.base64.json",
+      "encoding": "base64-json",
+      "bytes": 473,
+      "sha256": "d83da3190219e58c416ddd630a5e3c580275fe2fe0d3d8fb03185cd224c22049"
+    },
+    {
+      "original": "poc003-reservation-2fa51e8-results/06.txt",
+      "archive": "evidence/POC-003/reservation-merge-11c3283/poc003-reservation-2fa51e8-results__06.txt.base64.json",
+      "encoding": "base64-json",
+      "bytes": 426,
+      "sha256": "24f205343ae4a6ac5cc26ad936190a9986d3a9750eb1e503cd3012802e3623d6"
+    },
+    {
+      "original": "poc003-reservation-2fa51e8-results/07.txt",
+      "archive": "evidence/POC-003/reservation-merge-11c3283/poc003-reservation-2fa51e8-results__07.txt.base64.json",
+      "encoding": "base64-json",
+      "bytes": 355,
+      "sha256": "07bf8d78fe775f15f359cc258175f2dc00de588352dd6f90f3dd6f519c61b077"
+    },
+    {
+      "original": "poc003-reservation-2fa51e8-results/08.txt",
+      "archive": "evidence/POC-003/reservation-merge-11c3283/poc003-reservation-2fa51e8-results__08.txt.base64.json",
+      "encoding": "base64-json",
+      "bytes": 492,
+      "sha256": "ba951a37ae03b768f9a999f65ad0f3c482980d8d281062a175d884bebebb8091"
+    },
+    {
+      "original": "poc003-reservation-2fa51e8-results/09.txt",
+      "archive": "evidence/POC-003/reservation-merge-11c3283/poc003-reservation-2fa51e8-results__09.txt.base64.json",
+      "encoding": "base64-json",
+      "bytes": 583,
+      "sha256": "dff1f6bae8a6569d4b6ea340a4e4c67f0f123f99ec7a6443cd178f216342d7e4"
+    },
+    {
+      "original": "poc003-reservation-2fa51e8-results/10.txt",
+      "archive": "evidence/POC-003/reservation-merge-11c3283/poc003-reservation-2fa51e8-results__10.txt.base64.json",
+      "encoding": "base64-json",
+      "bytes": 542,
+      "sha256": "5e2c460a6f316337333fdd912a294b1fd94ef9e98b05f38cf9a5e2c91f3d8ce6"
+    },
+    {
+      "original": "poc003-reservation-2fa51e8-results/11.txt",
+      "archive": "evidence/POC-003/reservation-merge-11c3283/poc003-reservation-2fa51e8-results__11.txt.base64.json",
+      "encoding": "base64-json",
+      "bytes": 312,
+      "sha256": "d4ce9d6d999be9b46d1797ac0f76b1e1b11ebc40341cd88130ee2e041f613c59"
+    },
+    {
+      "original": "poc003-reservation-2fa51e8-results/12.txt",
+      "archive": "evidence/POC-003/reservation-merge-11c3283/poc003-reservation-2fa51e8-results__12.txt.base64.json",
+      "encoding": "base64-json",
+      "bytes": 191,
+      "sha256": "0d0c926fc1db888a9c7667c7c276b591339dcfdc83b07d3e0b76fcc846d6621d"
+    },
+    {
+      "original": "poc003-reservation-2fa51e8-results/13.txt",
+      "archive": "evidence/POC-003/reservation-merge-11c3283/poc003-reservation-2fa51e8-results__13.txt.base64.json",
+      "encoding": "base64-json",
+      "bytes": 394,
+      "sha256": "ee83efe84fd262cb7bc013e00988a5625ac4eb525362c961a798747526e0d263"
+    },
+    {
+      "original": "poc003-reservation-2fa51e8-results/14.txt",
+      "archive": "evidence/POC-003/reservation-merge-11c3283/poc003-reservation-2fa51e8-results__14.txt.base64.json",
+      "encoding": "base64-json",
+      "bytes": 157,
+      "sha256": "2286a5a5568ea9a438909c77adb86a163c8cec80af76fa8079c5ccf8176546ec"
+    },
+    {
+      "original": "poc003-reservation-2fa51e8-results/results.json",
+      "archive": "evidence/POC-003/reservation-merge-11c3283/poc003-reservation-2fa51e8-results__results.json",
+      "encoding": "original-bytes",
+      "bytes": 4049,
+      "sha256": "b811a8a111b507fbdee2b18b4be26703308be4820930ff02f5418c4bf997c7a1"
+    },
+    {
+      "original": "poc003-reservation-11c3283-main-checks/00.txt",
+      "archive": "evidence/POC-003/reservation-merge-11c3283/poc003-reservation-11c3283-main-checks__00.txt.base64.json",
+      "encoding": "base64-json",
+      "bytes": 425,
+      "sha256": "5d6f205afc90b5164da26d9a70df6d2b6a1313ab27ce6f9bc151c18e1c3fa1bf"
+    },
+    {
+      "original": "poc003-reservation-11c3283-main-checks/01.txt",
+      "archive": "evidence/POC-003/reservation-merge-11c3283/poc003-reservation-11c3283-main-checks__01.txt.base64.json",
+      "encoding": "base64-json",
+      "bytes": 576,
+      "sha256": "186455a6a66f7abdb18e75a4b4df123fdc4bfc9c816cf5c45a217a5adccc3a95"
+    },
+    {
+      "original": "poc003-reservation-11c3283-main-checks/02.txt",
+      "archive": "evidence/POC-003/reservation-merge-11c3283/poc003-reservation-11c3283-main-checks__02.txt.base64.json",
+      "encoding": "base64-json",
+      "bytes": 493,
+      "sha256": "7924e8a40e3034398f0cde87a25822639203327bf3769b676a4a9cf558cc02ac"
+    },
+    {
+      "original": "poc003-reservation-11c3283-main-checks/03.txt",
+      "archive": "evidence/POC-003/reservation-merge-11c3283/poc003-reservation-11c3283-main-checks__03.txt.base64.json",
+      "encoding": "base64-json",
+      "bytes": 559,
+      "sha256": "8f6788694147f3e02e078da3c7fa4ec3a4d91691afb5832c15d58cf002ef2646"
+    },
+    {
+      "original": "poc003-reservation-11c3283-main-checks/04.txt",
+      "archive": "evidence/POC-003/reservation-merge-11c3283/poc003-reservation-11c3283-main-checks__04.txt.base64.json",
+      "encoding": "base64-json",
+      "bytes": 609,
+      "sha256": "3f30e39f7de5967554198d5c01ec0168bde1ca3e1ed12a7e139387142905093f"
+    },
+    {
+      "original": "poc003-reservation-11c3283-main-checks/results.json",
+      "archive": "evidence/POC-003/reservation-merge-11c3283/poc003-reservation-11c3283-main-checks__results.json",
+      "encoding": "original-bytes",
+      "bytes": 2127,
+      "sha256": "55e0c542ea4648ee1da4e469ce733353ffede9422a9b7957c513049c0fecca26"
+    },
+    {
+      "original": "poc003-reservation-11c3283-main-protocol/protocol.txt",
+      "archive": "evidence/POC-003/reservation-merge-11c3283/poc003-reservation-11c3283-main-protocol__protocol.txt.base64.json",
+      "encoding": "base64-json",
+      "bytes": 394,
+      "sha256": "7f187e8dc2ff0231ef5fba138cc46d2a5e0991da095587bfe4eccc95b366002f"
+    },
+    {
+      "original": "poc003-reservation-11c3283-main-protocol/results.json",
+      "archive": "evidence/POC-003/reservation-merge-11c3283/poc003-reservation-11c3283-main-protocol__results.json",
+      "encoding": "original-bytes",
+      "bytes": 409,
+      "sha256": "99835dc99b7ee6cacbacda8ff18aabf72d7026ef4c97f381fdba66121318fa78"
+    }
+  ]
+}

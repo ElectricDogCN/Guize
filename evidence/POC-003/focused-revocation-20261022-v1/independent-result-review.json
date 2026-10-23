@@ -1,0 +1,28 @@
+{
+  "reviewerRole": "independent-review-agent",
+  "actualReviewer": "/root/gz022_planning_independent_review",
+  "reviewedAt": "2026-10-22T14:32:30Z",
+  "source": "18163e180e554773ef82e1eea7ffcafa634b027a",
+  "tree": "422c95a29fb8fe7558091826c1d1464a6d08398f",
+  "focusedResultAccepted": true,
+  "mustFix": [],
+  "rawFiles": 51,
+  "rawBytes": 158777,
+  "resultSha256": "9ab6c9d3975dd3b7a33b7f965c57eed17fdf2a97e0759a6471ec47b7d83a7657",
+  "executionSha256": "620947712c557b10d2589c6d5ed3e863712b92521bf410e2afd2777379519310",
+  "observations": [
+    "Approval before execution; execution and stop inside approved window",
+    "Each51 retained raw file matched Native original and SHA",
+    "warm206/8 actual first8input bytes; native HIT_FRESH; zero origin read",
+    "same original unexpired grant revoked; denial403/zero bytes/revoked/no ATS forward",
+    "lookup/export raw bytes unchanged throughout denial; complete Origin journal contains only earlier initial fill",
+    "Later separate privileged control206/same8bytes/native HIT_FRESH/no origin read",
+    "Real scenario exit0/executed1/no skips; controller/ATS stopped; all3ports unbound",
+    "Actual runtime private keys absent from archive"
+  ],
+  "original15Accepted": false,
+  "qualifiedProfileAccepted": false,
+  "performanceOrBufferDomainAccepted": false,
+  "overallIntegrationAccepted": false,
+  "reviewReranExperiment": false
+}

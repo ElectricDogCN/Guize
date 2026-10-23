@@ -1,15 +1,37 @@
 Task: POC-003
 Issue: 131
-PR: https://github.com/ElectricDogCN/Guize/pull/133
-Base: 44e5200ed506d30c0abc83ca38f1d6912cbab1c1
-Branch: chore/POC-003-ats-range-reservation
-Work Branch: chore/POC-003-ats-range
-Tested parent source: daed2f533a726bef3f519ce7f14109eee6447c25
-Tested parent tree: ee50149e4e3797961ccbcd919230d80252b3f16b
-Current repair source: resolve Git HEAD / PR133 head.sha; tests, CI and independent acceptance PENDING.
+Branch: chore/POC-003-ats-range
+Base: f2e0150265e0c1eeca5f69fe85708b2434e5ee79
+Current phase: in_progress / implementer
 
-Parent local15 PASS and CI805 PASS (713 passed, 1432.31s, zero skipped); parent overall NOT ACCEPTED because three actual P1 findings. These results bind only the tested parent, not this forward repair. No experiment executed, sample/resource approval granted, or POC result accepted.
+SourceE123 actually passed Task15/code57 and was pushed. Its approved one-shot live diagnostic failed during strict component mapping at startup: prepare0/controller1, collector not started, no HTTP samples, two unbound native baseline rows, all owned ATS stopped and ports released within3.497617s. The actual first failing component/inode/hash is unknown because old maps were not retained. Failure archive and distinct actual result review are preserved. Old approval is consumed.
 
-Durable parent records: `validation-source-daed2f5/index.json`, `local-results.json`, `local-00.raw.base64.json` through `local-14.raw.base64.json`, `ci805.raw.base64.json`, `ci805.snapshot.json`, `review-findings.json` and historical independent receipt. Paths are relative to this Evidence directory; all archive files are under validation-source-daed2f5/. Decode each raw JSON data field with base64; verify decoded byte count/SHA-256 against index.json before reading. The historical independent acceptance predates the actual cloud findings and cannot override them.
+Current forward repair preserves raw maps before checks and records per-component expected and actual device/inode/hash/rejection facts. Only the optional fixed live diagnostic profile sets dynamic reload0; stock defaults remain. Two real Linux simulated-child mapping tests passed; distinct content review accepted exact repair bytes at2026-10-22T17:26:36Z. New exact-source checks and new experiment approval remain pending; no repaired-source ATS run occurred. Mainf2e0150 is fully accepted with local5/POC check/CI816713 tests and no skipped tests.
 
-This metadata-only forward repair archives real parent execution, completes handoff provenance, and declares a separate mandatory warm-cache revocation test in the existing implementation scope. Original fifteen measurements, frozen matrix, Schema, thresholds and protocol are unchanged.
+
+
+Current forward candidate: optional instrumented ATS live-media observation. Exact synchronized main f2e0150265e0c1eeca5f69fe85708b2434e5ee79 has passed five main checks plus existing POC protocol; CI816 is pending. Source8e Task15/code30/CI812713 no-skips and its actual finite pool diagnostic are retained without result transfer. Pool capacity73,363,200bytes included unused freelist slots and cannot prove a below64MiB live-media bound; this does not prove whole-object buffering.
+
+The exact Ubuntu source plus task-owned patch/header now built and installed as ordinary UID1000 after preserving three real failed attempts. Five runtime component hashes, resolved dependencies, three core diagnostic exports and version-only execution were checked. Six ledger scenarios passed, including sticky unknown-external risk across wrapper release/repeated reset; distinct intermediate content review accepted that repair only. The new observer built against the same actual SDK;27 parser tests passed. New controller wiring still needs current-source checks, independent content review, concrete experiment approval and real runtime results. At that previous draft checkpoint no instrumentation ATS service/experiment, complete media-domain, prototype8MiB budget, original15, qualified result or integration acceptance is claimed. Generated416/502 text, kernel/socket/page cache, origin/gateway/client and stock performance remain distinct domains.
+
+Evidence: source-8e73173-validation/, pool-diagnostic-8e73173-20261022-v1/, instrumented-build-v4-preparation/; actual source/tree for this forward candidate is Git HEAD after commit. Preserve all older failures, source identities and review limitations.
+
+Historical source-bound checkpoints follow; pending statements below retain their original scope.
+
+Registered implementation now contains isolated gateway/origin/ATS control, real grant validity/revocation state, raw matrix collection, native every-request cache lookup observer and explicit cache API exporter. The separate real warm-cache revocation script hard-fails without actual sandbox/observer and checks same-unexpired-grant denial before protected ATS/cache/origin reads, retaining a distinct later warm-cache control. Collector records one-body-byte timing separately from header/chunk timing.
+
+Source181 actually passed the Task's fifteen commands, eight offline boundaries, exact observer source/build verification and distinct intermediate content review; see source-18163e1-validation/. Its separately approved real same-unexpired-grant warm-cache revocation scenario passed, retained51 raw files/158777bytes, and received distinct independent result acceptance at2026-10-22T14:32:30Z. See focused-revocation-20261022-v1/; this focused result does not transfer approval to changed code or to the original matrix.
+
+Reservation main11c3283 is now fully accepted: actual five main checks plus separate POC checker, official terminal CI808 success,713 tests/1428.34s with no skipped tests. Its ended remote reservation branch was removed with exact expected-source protection; active PR134 implementation branch and all local refs were preserved. Final records are in reservation-main-final-11c3283/; earlier pending captures remain historical.
+
+Source9c012b4e1c90b014fe619253a8f07a738b5c0724 actually passed Task15/offline14 and official fullCI810713/899.22s, no skipped tests; see source-9c012b4-validation/. Its approved raw matrix recorded101 requests/21 cases/6 stages. Three full64-Slice native cache exports reconstructed the exact current input without origin I/O. The interrupted206/4byte prefix and subsequent503/zero-byte response are retained. Limited raw-evidence acceptance does not establish original15 or qualified acceptance.
+
+The actual raw run also retained a416 native error page202bytes and second fresh sandbox EADDRINUSE startup failure. The current-source revocation script did not execute. Historical TIME_WAIT was not directly recorded and is only a possible cause. All owned processes stopped, ports released and execution ended within approval. Actual744228584bytes of bulky bodies remain at native original paths; public metadata/index/hashes and actual distinct result review are under raw-matrix-9c012b4-20261022-v1/, explicitly not qualified artifacts.
+
+The current forward repairs resolve impossible Range intervals after grant authorization and before ATS, permit stopped own ports to rebind without sharing live listeners, observe the first actual HTTP response byte separately from headers/media, and verify actual warm/denial source version and cache context. Actual21 offline/filesystem/loopback regressions passed with distinct independent content acceptance; see development-http-fixes-checks/v2-21/ and http-fixes-independent-review.json. No ATS experiment has run at these changed source bytes; new concrete approval and verification are required.
+
+Original15 typed measurement assembly, combined partial-cache disposal proof, independently justified buffering domain and actual original-matrix results remain incomplete. Full POC/V1 and source integration remain unaccepted.
+
+SourceD1 actually passed Task15/offline21 and CI811:713 tests/1461.80s, no skips; see source-d1c0cf7-validation/. Its independently approved serial raw matrix recorded21cases/101requests/6stages and its separate fresh current-source warm-cache revocation passed. The distinct independent result review accepted that finite evidence; see raw-matrix-d1c0cf7-20261022-v2/. Historical source9c failures remain unchanged.
+
+The next diagnostic draft adds native TSCacheReady/HTTP readiness before accepting startup and a private, idle-controller allocator-dump operation. It signals only the live owned pidfd, waits for a complete native absolute pool table, verifies byte totals, and retains the exact stderr interval. RAM cache is explicitly disabled and freelist override/preload environment is excluded. Absolute allocated capacity includes the baseline; no buffer upper bound is inferred from this pool subtotal. Actual draft30 tests and a fresh strict C++ build passed, with no real ATS run; see development-buffer-observer-checks/ and development-buffer-observer-build/. Relevant exact Ubuntu source comparison received finite independent acceptance, not measurement-domain or experiment approval.

@@ -1,0 +1,3 @@
+*.raw binary
+*.bin binary
+runDir/log/diags.log binary
