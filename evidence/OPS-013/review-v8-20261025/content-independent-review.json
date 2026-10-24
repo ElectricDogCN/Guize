@@ -1,0 +1,83 @@
+{
+  "reviewedAt": "2026-10-24T18:05:57.637837Z",
+  "reviewerActor": "/root/gz022_planning_independent_review",
+  "reviewerRole": "independent-review-agent",
+  "base": "3eb9bb69b4fb1df85a359750b73356b953429540",
+  "parentSource": "17c9f316e4f9912c6c8e04ecbf9f0424509d6d04",
+  "uncommitted": true,
+  "manifestRef": ".takeover-tools/ops013-admission-development-manifest-v8.json",
+  "manifestSha256": "bb5be735d4051f814da0d7924d650e42e48be84b2654e71d4d837fde5750c458",
+  "manifestFilesVerified": 9,
+  "helperSha256": "150a76019c732a22e1408ed01b891b706b48b2682e85779a855411220d4eeb87",
+  "testsSha256": "dfcd12075f54a974f10655110c62cbcd676db98196d9ad0b9d86268072e480b7",
+  "contentAccepted": true,
+  "mustFix": [],
+  "candidateCommitAndExactSourceValidationMayProceed": true,
+  "verificationPushMayProceed": true,
+  "verificationPushConditions": [
+    "Before publication, the next candidate complete inventory and Own archives must be precisely reconciled to actual staged/committed Git paths and bytes. This receipt does not certify an unreviewed future inventory.",
+    "The fixed successor must retain these nine reviewed bytes and original authority/scope/roles/leases, remain on the registered branch and push only ordinarily forward to PR139 for verification.",
+    "Bind the actual new source/tree/parent/base; no17 or development success transfers to the new Task15/full742/CI. Merge remains forbidden pending all actual current-source results and independent final review."
+  ],
+  "findingsAddressed": [
+    "Git second precision tolerance only for historical snapshots; current wall admission unchanged; expiry strictly when<expires",
+    "Immutable intent and all three declared defect artifacts audited through actual current first-parent base, including modifications later restored; original admission base still governs authority Completion, old contract blobs and original capacity"
+  ],
+  "protectedChainGuardObserved": true,
+  "normalFoundationHistoryCertificationRetained": true,
+  "independentBoundaryChecks": {
+    "count": 5,
+    "exitCode": 0,
+    "cases": [
+      "fractional historical acquisition accepted",
+      "same fractional future wall acquisition denied",
+      "whole-second future historical acquisition denied",
+      "exact expiry historical denied",
+      "exact expiry wall denied"
+    ]
+  },
+  "evidenceObserved": {
+    "red": {
+      "tests": 29,
+      "seconds": 110.635,
+      "exitCode": 1,
+      "failures": 2,
+      "errors": 1,
+      "rawBytes": 8744,
+      "rawSha256": "828456227f26f429edd64022b304c963e1ad5b72cff76070e770a59a3ea656a8"
+    },
+    "green": {
+      "tests": 29,
+      "seconds": 111.406,
+      "exitCode": 0,
+      "skipped": 0,
+      "rawBytes": 5894,
+      "rawSha256": "db5ca8dab5caba36a0e3a9bdc9fd7c4b3c457588fe8ed9372e3a0a2a5854ef4f"
+    },
+    "legacyActualCheckers": {
+      "tests": 3,
+      "seconds": 9.29,
+      "exitCode": 0,
+      "rawBytes": 357,
+      "rawSha256": "96af5fdb47b01dd4ec9ba1f5d5decd842f2861aab4d73a7e7b5ac8c460732281"
+    },
+    "archiveIndexedFilesVerified": 25,
+    "actualCollectedTests": 742,
+    "reviewMethod": "Read code diff and all new cases; verify actual logs/results/archive hashes; run five direct lease boundary checks without Git fixtures or workloads."
+  },
+  "preserved": {
+    "immutableIntentAndTwoPocGitBlobsUnchanged": true,
+    "programRegistryTaskIdentityAndRolesClaimsLeaseUnchangedFromParent": true,
+    "originalAdmissionCompletionContractAndCapacityTimingRetained": true,
+    "recoveryAndScopeGatesRetained": true
+  },
+  "windowsFocusedNew3Accepted": false,
+  "exactNewSourceTask15Accepted": false,
+  "full742Accepted": false,
+  "latestSourceCiAccepted": false,
+  "mergeApproved": false,
+  "successorRegistrationApproved": false,
+  "contractRepairApproved": false,
+  "experimentApproved": false,
+  "authorFilesWrittenByReviewer": false
+}

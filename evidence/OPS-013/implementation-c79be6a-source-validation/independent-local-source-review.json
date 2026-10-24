@@ -1,0 +1,20 @@
+{
+  "reviewedAt": "2026-10-24T17:06:47.052012Z",
+  "reviewerActor": "/root/gz022_planning_independent_review",
+  "source": "c79be6ac3b1d6a62e5c88abffbabf619ba20a5ef",
+  "tree": "d5ce4021a0c1c56ecd71b6bc32c36a610ee63b5b",
+  "localExactSourceTask15Accepted": true,
+  "readyForReviewMayProceed": true,
+  "latestCiAccepted": false,
+  "actualMergeApproved": false,
+  "mustFix": [],
+  "successorRegistrationApproved": false,
+  "experimentApproved": false,
+  "localTests": 735,
+  "localSeconds": 1191.63,
+  "localResultsSha256": "6b26416f64d84748035d1d6793036ef22e98af900e4385c9afa191ce73fd5fec",
+  "junitBytes": 117142,
+  "junitSha256": "d1c79d979cc7c89ba3e9be346867ee6352ad32331cce1742c1760c30daa794db",
+  "readyWorkflowReplacementExpected": true,
+  "latestReadyTriggeredCiStillRequired": true
+}

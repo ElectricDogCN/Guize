@@ -68,7 +68,7 @@ foundationTasks:
     mergeCommit: b2f844ba22996416b54155290a4685188dc774c6
   - taskId: OPS-013
     title: 受限POC合同缺陷修复的独立准入
-    status: reserved
+    status: in_progress
     completionRef: ISSUE-137
     mergeCommit: null
 waves:

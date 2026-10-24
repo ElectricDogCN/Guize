@@ -1,17 +1,121 @@
-# OPS-013 metadata reservation handoff
+# OPS-013 current implementation candidate handoff
 
-Issue137; PR138; reservation branchchore/OPS-013-contract-repair-admission-reservation; basef2e0150265e0c1eeca5f69fe85708b2434e5ee79. The actual tested parent source is480dc0b607453ba26ec3d9d650c79c1b85f1c06e/tree3e74fce293aed5de036a0da478a71df2c34d5435. This successor changes only own Task/Evidence to record those facts and restore textual diffs. Its own exact checks, CI and independent merge review are PENDING; parent success is not inherited.
+Issue137; work branchchore/OPS-013-contract-repair-admission; base acceptedmain
+3eb9bb69b4fb1df85a359750b73356b953429540. Separate metadata-only activation
+ab8b2309a2e4a39f01bfae9b1e312eb4a8efb917 precedes this governance implementation. Candidate source identity
+is assigned by Git; actual exact-source validation and official CI must bind
+that new SHA after commit, never inherit these development results.
 
-Actual480 Task15 all exited0. Native full governance713 passed/1152.72s; JUnit713cases/zero failures, errors or skips. CI829713/1088.06s and CI830713/1399.25s both actually completed success, with original job logs and official snapshots. Independent exact source/local retry/CI829 facts accepted2026-10-23T00:51:41Z. Current480 whole merge was NOT approved: two new threads require committed verification and text-diffable Evidence. See reservation-480dc0b-source-attestation.json, commands.txt and test-results/README.md.
+Own Program/Registry/Task remain in_progress/implementer. OwnerElectricDogCN;
+Coordinatorprogram-coordinator-agent; Implementercontract-admission-implementation-agent;
+Reviewerindependent-review-agent (actual/root/gz022_planning_independent_review);
+Integratorintegration-agent. Original six exclusive claims, no shared claims,
+order9 and lease2026-10-23T00:03:04Z→2026-10-30T00:03:04Z are unchanged.
+Foreign POC003/005 leases and sharedorder2→3 remain. TaskV2/ProgramV1/ActiveV1;
+no produced namespace; consume the existing three governance contracts.
 
-First3d78e5c candidate Task formatting failure remains in reservation-3d78e5c-attempt/. First480 full native run actually produced689passed/1failed/23errors/0skips from deeply nested alternate object stores. Its original logs/JUnit, isolated-store repack/dissociation/fsck and unchanged before/after source/tree/refs are retained in reservation-480dc0b-native-attempt1-failed/. Same-source full retry and its actual independent source review are in reservation-480dc0b-native-retry-accepted/. No source/test assertion was changed to pass.
+The six runtime changes are AGENTS, lifecycle/history/transition checkers, shared
+poc-contract-repair-admission.py and test_poc_contract_repair_admission.py.
+The historical C (c79be6a)142-path inventory is changed-files.md.
+The current complete base-to-candidate inventory is changed-files-current.md;
+it includes itself and must match the committed Git diff after commit. Immutable intentSHA4f344a74a47a56ff1c3b0e27c368767e0cb779ebc61e721b263f102b39a83401,
+33-byte original response and both original specs/poc Git blobs are unchanged.
+The new proof grants no permission until normal authority completion, then a
+separate original successor registration; actual contract changes still need
+the existing GZ021 frozen recovery and separate verification/thaw.
 
-Only own Program/Foundation/Registry/Task/Evidence are part of the reservation. Six future claims remain MOD-GOV subsets. Immutable authorization intent SHA256 remains4f344a74a47a56ff1c3b0e27c368767e0cb779ebc61e721b263f102b39a83401; actual response33B and all raw evidence remain byte-identical. No contract, ownership, old Task, mechanism or ordinary implementation changed.
+Accepted evidence: reservationcae Task15/native713/CI831; actualmain3eb five
+gates/POC plus CI832713/1419.98s, no test skips, independent main acceptance.
+Developmentv4 native22/65.598s and unchanged old-fixture checker regression3/9.53s;
+Windows22/1072.393s, all actual exit0/wait complete/no skips. Component
+manifests, source snapshots and raw logs are in admission-development-v4-passed/
+and admission-development-v4-windows/. Independent content accepted16:21:40Z,
+mustFix=[]; see implementation-content-independent-review-v4.json.
 
-Roles: OwnerElectricDogCN; Coordinatorprogram-coordinator-agent; Implementercontract-admission-implementation-agent; Reviewerindependent-review-agent, actual actor/root/gz022_planning_independent_review; Integratorintegration-agent. Lease2026-10-23T00:03:04Z to2026-10-30T00:03:04Z; FOUNDATION/high/order9; future work branchchore/OPS-013-contract-repair-admission; no shared claims. Two foreign medium leases and capacity remain unchanged.
+Original v1/v2 fixture failures and v3 independent immediate-import P2 are kept
+with exact source/log snapshots. Forward lazy proof loading resolves that P2,
+including the real old-script regressions and independent missing-helper probe.
+No assertion, test skip, timeout, timing/resource/quality threshold or original
+diagnostic byte was changed to obtain a pass.
 
-Consumes TaskV2/ProgramV1/ActiveV1; no produced namespace. Actual changed paths are changed-files.md plus Git diff. Logs retain actual Source Commit/Command/Exit Code bindings; indexes retain lengths/SHA256. The new Evidence commit cannot contain its own future hash/test results: after committing it, bind its actual checks and CI externally and preserve them in the normal subsequent Evidence flow.
+Next Implementer: commit candidate, execute its Task15/full735 governance/JUnit/
+make verify and latest same-source CI, preserve all actual terminal raw results.
+Next Reviewer: independently audit that exact commit and full results, not only
+the development manifest. Next Integrator: fresh main/head/lease/capacity/threads
+and exact expected-head ordinary merge, then actual main checks and CI. After
+code acceptance, normal Review/Completion and high-slot release still precede
+the sole OPS014 independent registration and real recovery. No OPS014,
+contract repair, experiment, POC qualification or V1 acceptance is granted.
 
-Next Implementer: complete this metadata-only forward correction, then execute new exact-source Task15 and latest CI. Next Reviewer: inspect this successor, parent original logs and both fixed threads; do not grant merge from historical success. Next Integrator: verify latest main/head/threads/lease/order, merge only after new checks and independent acceptance, then verify actual main parents/tree and gates. Only accepted reservation main permits implementation of the six registered governance paths.
+Rollback is a reviewed forward governance change or legitimate task cancellation;
+retain original history and Evidence. No service, dataset or credential changed.
 
-No implementation, OPS-014 registration, source request, experiment, qualification or V1 acceptance. Unique future OPS-014 must await normal OPS-013 Review/Completion, actual main acceptance and high-slot release, then independently register and establish17.8 recovery before completed GZ-021 contract repair. Rollback may withdraw this unsatisfied reservation; preserve all original Evidence and old tasks.
+## Forward P2 correction after c79be6a
+
+Source c79be6a completed its actual Task15/full735 local checks and independent
+local review. CI834/run40114747741 completed success at2026-10-24T17:23:20Z:
+735 passed/839.27s, no test skips. Its raw job is305088B,
+SHA256 53b60c89033e01d82b1f20f59533ab7d7ff43854d0bc3c0b2e5e2c4584049616.
+CI833 remains cancelled. Those facts do not close two later valid P2 threads.
+
+PR139 P2s require historical reservation checks to reuse the observed Git time,
+and permit an authenticated integration implementation immediately followed by
+normal Completion. The forward helper changes only these two boundaries and
+retains full normal Foundation history validation. Four new real-Git tests
+cover both valid flows, impersonated roles and inconsistent Task/Registry roles;
+current expired leases and missing independent Review remain denied.
+
+Developmentv5 actually failed26 cases/81.775s (2errors/1failure); its original
+helper, tests,9 inputs and raw9488B are retained. Developmentv6 passed26 cases/
+99.268s plus3 unchanged old-planner checks/9.34s, no skips. Exact9-file content
+was independently accepted2026-10-24T17:27:34.337685Z, mustFix=[]. Actual
+collection is739 governance tests. Windows four-case forward regression remains
+in progress and is not accepted here. The next committed source must run its
+own Task15/full739/JUnit/make verify and same-head CI before any merge decision.
+No intent, original contract, identity, claims, lease, capacity, threshold or
+frozen recovery rule changed; no OPS014 or experiment is authorized.
+
+## Current handoff inventory correction
+
+The original142-path changed-files.md is preserved byte-for-byte as C history.
+The current complete candidate inventory is changed-files-current.md. A new
+candidate is needed only for Own evidence/inventory clarification; the v6
+runtime/test bytes remain unchanged and independently accepted.
+
+Source1188509 completed13 exact-source gates. Its make verify was explicitly
+terminated for the newly confirmed inventory finding (actual exit-15, controller
+session61738 exit1); the full739 suite and docs gate did not complete. It was
+not published or accepted. All original logs, results, stop reason and source
+review are retained in implementation-1188509-superseded/.
+
+Windows four new v6 regressions actually passed4/495.290s, zero failures/errors/
+skips; session45743 exit0, raw1627B SHA256
+ab40616e9b80dd37eb533903f04d9292d31d46c353e780e2ef824517391001b5.
+The manifest binds the same9 inputs. These four results are separate from the
+older22 Windows cases. The next fixed source must run its own complete Task15,
+739-test/JUnit/make verify and same-source CI; no source pass is inherited.
+
+## Second formal P2 correction after source17
+
+Source17c9f31 actually passed all15 tasks and739 governance cases/1173.78s,
+zero failures/errors/skips, clean exact source; same-head CI835 actually passed
+739/1118.94s. Those originals and the224-path source17 inventory are retained
+in implementation-17c9f31-source-validation/. Two later valid P2 still prevent
+its merge: fractional-second historical acquisition precision and an immutable
+proof truncated at the successor reservation parent.
+
+Developmentv7 reproduced29 cases/110.635s with2 failures and1 error. In v8,
+only historical Git observations allow acquiredAt < observed+1s, matching the
+existing historical checker; wall admission and expiry remain strict. A
+protected_through span audits immutable intent/three diagnostic blobs through
+current base, requiring the original admission base on that first-parent chain.
+Normal authority Completion, original two-contract authentication and capacity
+still use the original admission base. No policy, original contract or intent,
+identity, role, lease, capacity, threshold or frozen recovery rule changed.
+
+Fixed v8 actual29 native cases/111.406s and the3 unchanged old-checker cases/
+9.29s passed without skips. Actual collection is742 governance cases. Three
+new Windows precision/immutable regressions are still running and not accepted.
+The next fixed source requires its own Task15/full742/JUnit/make verify,
+current-head CI and final independent review. No old739 pass substitutes for
+that, no merge is approved, and OPS014/contract/experiment permission is absent.

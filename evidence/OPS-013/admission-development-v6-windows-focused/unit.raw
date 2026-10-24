@@ -1,0 +1,14 @@
+Base Source: 3eb9bb69b4fb1df85a359750b73356b953429540
+Uncommitted Manifest: ops013-admission-development-manifest-v6.json
+Command: C:\ProgramData\anaconda3\python.exe -X utf8 -B -m unittest -v test_poc_contract_repair_admission.TestBoundPocContractRepair.test_historical_reservation_remains_valid_after_expiry_and_renewal test_poc_contract_repair_admission.TestBoundPocContractRepair.test_reviewed_integration_can_complete_without_extra_review_commit test_poc_contract_repair_admission.TestBoundPocContractRepair.test_implementation_role_cannot_impersonate_integrator_review test_poc_contract_repair_admission.TestBoundPocContractRepair.test_integration_label_does_not_bypass_normal_history_binding
+test_historical_reservation_remains_valid_after_expiry_and_renewal (test_poc_contract_repair_admission.TestBoundPocContractRepair.test_historical_reservation_remains_valid_after_expiry_and_renewal) ... ok
+test_reviewed_integration_can_complete_without_extra_review_commit (test_poc_contract_repair_admission.TestBoundPocContractRepair.test_reviewed_integration_can_complete_without_extra_review_commit) ... ok
+test_implementation_role_cannot_impersonate_integrator_review (test_poc_contract_repair_admission.TestBoundPocContractRepair.test_implementation_role_cannot_impersonate_integrator_review) ... ok
+test_integration_label_does_not_bypass_normal_history_binding (test_poc_contract_repair_admission.TestBoundPocContractRepair.test_integration_label_does_not_bypass_normal_history_binding) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 495.290s
+
+OK
+
+Exit Code: 0

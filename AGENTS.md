@@ -375,6 +375,8 @@ Integrator 必须确认依赖已合并、最新 HEAD 的 Gate 成功、Review Th
 
 新治理 Foundation 必须先通过 metadata-only reserved 登记：仅新增自身 Program/Registry 条目和 Task/Evidence，moduleIds 精确为 MOD-GOV、high 风险、独立 Implementer/Reviewer、有效租约，所有路径为 MOD-GOV 所有范围的子集。不得用路径相交、宽泛 claim、既有完成任务或失败 CI 冒充登记。
 
+唯一有界的 POC 合同修复补充准入以 `scripts/poc-contract-repair-admission.py` 的真实 Git 历史证明为准：OPS-013 原始主线登记中的不可变授权声明、非空实现、独立 Review、正常 Completion 和释放容量全部成立后，仅声明的 OPS-014 可在后续真实主线独立预留两条精确路径。必须核验原始父基线及两文件 Git 字节、独立角色、租约、容量、原始范围和逐提交历史；任务编号、候选本地声明、侧分支或晚补 claims 不授予权限。此补充不改变模块所有权；实际合同代码变更前仍须建立以下针对已完成 GZ-021 的真实冻结事件，修复后按原规则验证并独立解冻。
+
 Program status=frozen 是执行准入阻断状态。恢复任务在 recovery 记录中声明 taskId、具体原因、受影响的 completed Tasks、冻结时主线 sourceCommit、UTC frozenAt 和本任务 verificationPath。冻结转换仅允许自己的 Task/Evidence、Program 恢复元数据与自己的 Lease；不能改变既有任务状态、完成账本、政策或业务实现。
 
 冻结后普通任务不得预留、启动、继续实现、完成或以解冻同一 PR 启动。旧活动快照可保留；普通任务仅可通过严格 metadata-only blocked/cancel 收口。已登记的 MOD-GOV 恢复 Foundation 可在已声明路径内修复。主线无 --task 的检查同样必须执行。

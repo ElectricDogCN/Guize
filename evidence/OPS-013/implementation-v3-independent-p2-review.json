@@ -1,0 +1,32 @@
+{
+  "reviewedAt": "2026-10-24T16:15:34.139811Z",
+  "reviewerActor": "/root/gz022_planning_independent_review",
+  "base": "3eb9bb69b4fb1df85a359750b73356b953429540",
+  "reviewedManifest": "ops013-admission-development-manifest-v3.json",
+  "manifestSha256": "276b4edf7964a636ed3b95595aa2309a46a114b73f536908fbe2a46a806ff8c0",
+  "v3ContentAccepted": false,
+  "mustFix": [
+    {
+      "priority": "P2",
+      "path": "scripts/check-program-lifecycle-guards.py",
+      "v3Lines": "48-53",
+      "finding": "Immediate helper import breaks old fixed-script fixtures before ordinary task evaluation",
+      "forwardFixObserved": true
+    }
+  ],
+  "additionalMustFix": [],
+  "forwardSourceAccepted": false,
+  "integrationAccepted": false,
+  "successorRegistrationApproved": false,
+  "experimentApproved": false,
+  "forwardMissingHelperProbe": {
+    "actualExitCode": 0,
+    "ordinaryGuardImportPassed": true,
+    "ordinaryTaskDoesNotLoadHelper": true,
+    "ops014WithoutHelperGetsEmptyClaims": true,
+    "contractChangesKeepRejection": true,
+    "lifecycleSha256": "355f96ccfbac22662015c7c54484bff1fdb3c74a59b824b66d083daa6964a095",
+    "historySha256": "37a5e4adf46dc07fa470c1f17926096620a24536e79debc84eb66ab2389500bf",
+    "transitionsSha256": "76d4f9d60fd788819a93445ac65be32128dff8e3f4497b80faabed3e13f0f522"
+  }
+}

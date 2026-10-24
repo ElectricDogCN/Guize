@@ -1,0 +1,75 @@
+{
+  "baseSource": "3eb9bb69b4fb1df85a359750b73356b953429540",
+  "uncommitted": true,
+  "exitCode": 0,
+  "waitCompleted": true,
+  "diagnosis": "Actual intermediate development result; source gates and independent content acceptance remain separate",
+  "productAssertionsWeakened": false,
+  "files": [
+    {
+      "ref": "unit.raw",
+      "bytes": 5268,
+      "sha256": "24732b5880fe3c015af93e2805267bde72c83947b58dea2ebf2533f4c79440a5"
+    },
+    {
+      "ref": "results.json",
+      "bytes": 2800,
+      "sha256": "637a5bfd9b1d9be83f2443c41d6d43256b147f2ab1842f087eab33c47e021a8b"
+    },
+    {
+      "ref": "legacy-planner.raw",
+      "bytes": 357,
+      "sha256": "2f1ccfbc1acc9d76a50588a8e30506afd1abc2a5a822bb767c56c8f7590c7132"
+    },
+    {
+      "ref": "manifest.json",
+      "bytes": 2076,
+      "sha256": "0523249b0ac2d75519d0302958d8ace68b6e87dca946c64b8e9128d07fefee26"
+    },
+    {
+      "ref": "source/AGENTS.md",
+      "bytes": 15863,
+      "sha256": "4755991cc2357b758a34c2242cd40d9534b5c2ac7e88bacf0a77c9383971c284"
+    },
+    {
+      "ref": "source/scripts/check-program-lifecycle-guards.py",
+      "bytes": 56519,
+      "sha256": "355f96ccfbac22662015c7c54484bff1fdb3c74a59b824b66d083daa6964a095"
+    },
+    {
+      "ref": "source/scripts/check-program-plan-transitions.py",
+      "bytes": 37115,
+      "sha256": "76d4f9d60fd788819a93445ac65be32128dff8e3f4497b80faabed3e13f0f522"
+    },
+    {
+      "ref": "source/scripts/check-program-plan-history.py",
+      "bytes": 102802,
+      "sha256": "37a5e4adf46dc07fa470c1f17926096620a24536e79debc84eb66ab2389500bf"
+    },
+    {
+      "ref": "source/scripts/poc-contract-repair-admission.py",
+      "bytes": 18806,
+      "sha256": "5151dd01bb2d5ea243f275995072312ea46695acd9152165017654ad98ff7882"
+    },
+    {
+      "ref": "source/tests/governance/test_poc_contract_repair_admission.py",
+      "bytes": 23483,
+      "sha256": "d9df36570ccdf7a877c995b15e7af3d8ac8dfc1567880ad662955a0e34caa9a9"
+    },
+    {
+      "ref": "source/specs/coordination/program-plan.yaml",
+      "bytes": 64529,
+      "sha256": "7861def668a06eafa2b14eef1934b8b8aab2f63e1e48dae7cbdfa3f8677f44fc"
+    },
+    {
+      "ref": "source/specs/coordination/active-work.yaml",
+      "bytes": 3626,
+      "sha256": "34e1eb0a2ed5b8b249e0ed9950792f939dc18960345eb8252cfb3274ccd78ece"
+    },
+    {
+      "ref": "source/specs/tasks/OPS-013.md",
+      "bytes": 8177,
+      "sha256": "d71744aee3c2b8afda487a4c5146e4302f018efe2f611ae584ab3f311db96565"
+    }
+  ]
+}

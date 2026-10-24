@@ -1,0 +1,76 @@
+{
+  "source": "1188509ce37cd852ca3ab5442918d83d747e317d",
+  "execSession": 61738,
+  "leader": 177014,
+  "sourceCwd": "/home/sur/.cache/guize-takeover/ops013-implementation-1188509",
+  "reason": "Independent review confirmed stale current file inventory; forward Own documentation fix needs a new exact source. Not an observation timeout or product test failure.",
+  "observedAt": "2026-10-24T17:33:38.269684Z",
+  "processes": [
+    {
+      "pid": 177014,
+      "depth": 0,
+      "command": "make verify TASK=OPS-013 BASE=3eb9bb69b4fb1df85a359750b73356b953429540 HEAD_REF=HEAD BRANCH=chore/OPS-013-contract-repair-admission "
+    },
+    {
+      "pid": 177122,
+      "depth": 1,
+      "command": "make task-verify TASK=OPS-013 BRANCH=chore/OPS-013-contract-repair-admission BASE=3eb9bb69b4fb1df85a359750b73356b953429540 HEAD_REF=HEAD "
+    },
+    {
+      "pid": 178878,
+      "depth": 2,
+      "command": "make governance-test "
+    },
+    {
+      "pid": 178884,
+      "depth": 3,
+      "command": "/home/sur/.cache/guize-takeover/governance-venv/bin/python3 -m pytest tests/governance/ -v "
+    },
+    {
+      "pid": 182333,
+      "depth": 4,
+      "command": "/home/sur/.cache/guize-takeover/governance-venv/bin/python3 scripts/run-agent-coordination-gate.py --repo-root /tmp/pytest-of-sur/pytest-3/test_metadata_permission_rejec6/repo --task GZ-005 --base-ref 03037403d91f1bbea1a30885782ea09f20f58ec0 --head-ref HEAD --branch-name chore/GZ-005-openapi-baseline "
+    },
+    {
+      "pid": 182334,
+      "depth": 5,
+      "command": "/home/sur/.cache/guize-takeover/governance-venv/bin/python3 /tmp/pytest-of-sur/pytest-3/test_metadata_permission_rejec6/repo/scripts/check-agent-coordination.py --repo-root /tmp/pytest-of-sur/pytest-3/test_metadata_permission_rejec6/repo --task GZ-005 --base-ref 03037403d91f1bbea1a30885782ea09f20f58ec0 --head-ref HEAD --branch-name chore/GZ-005-openapi-baseline "
+    },
+    {
+      "pid": 182345,
+      "depth": 6,
+      "command": "/home/sur/.cache/guize-takeover/governance-venv/bin/python3 /tmp/pytest-of-sur/pytest-3/test_metadata_permission_rejec6/repo/scripts/check-schemas.py --repo-root /tmp/pytest-of-sur/pytest-3/test_metadata_permission_rejec6/repo "
+    }
+  ],
+  "requestedSignal": "SIGTERM",
+  "signals": [
+    {
+      "pid": 182345,
+      "result": "sent"
+    },
+    {
+      "pid": 182334,
+      "result": "sent"
+    },
+    {
+      "pid": 182333,
+      "result": "sent"
+    },
+    {
+      "pid": 178884,
+      "result": "sent"
+    },
+    {
+      "pid": 178878,
+      "result": "sent"
+    },
+    {
+      "pid": 177122,
+      "result": "sent"
+    },
+    {
+      "pid": 177014,
+      "result": "sent"
+    }
+  ]
+}

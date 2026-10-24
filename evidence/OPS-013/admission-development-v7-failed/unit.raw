@@ -1,0 +1,70 @@
+Base Source: 3eb9bb69b4fb1df85a359750b73356b953429540
+Uncommitted Manifest: ops013-admission-development-manifest-v7.json
+Command: /home/sur/.cache/guize-takeover/governance-venv/bin/python -B -m unittest discover -s tests/governance -p test_poc_contract_repair_admission.py -v
+test_active_program_does_not_authorize_contract_change (test_poc_contract_repair_admission.TestBoundPocContractRepair.test_active_program_does_not_authorize_contract_change) ... ok
+test_actual_uncompleted_authority_cannot_grant_scope (test_poc_contract_repair_admission.TestBoundPocContractRepair.test_actual_uncompleted_authority_cannot_grant_scope) ... ok
+test_authority_does_not_change_ordinary_or_legacy_claim_results (test_poc_contract_repair_admission.TestBoundPocContractRepair.test_authority_does_not_change_ordinary_or_legacy_claim_results) ... ok
+test_candidate_or_sibling_completion_is_not_projected_into_base (test_poc_contract_repair_admission.TestBoundPocContractRepair.test_candidate_or_sibling_completion_is_not_projected_into_base) ... ok
+test_changed_original_contract_baseline_is_rejected (test_poc_contract_repair_admission.TestBoundPocContractRepair.test_changed_original_contract_baseline_is_rejected) ... ok
+test_committed_authority_tamper_is_rejected (test_poc_contract_repair_admission.TestBoundPocContractRepair.test_committed_authority_tamper_is_rejected) ... ok
+test_completed_authority_admits_only_declared_prospective_reservation (test_poc_contract_repair_admission.TestBoundPocContractRepair.test_completed_authority_admits_only_declared_prospective_reservation) ... ok
+test_completion_without_independent_review_does_not_grant_authority (test_poc_contract_repair_admission.TestBoundPocContractRepair.test_completion_without_independent_review_does_not_grant_authority) ... ok
+test_declared_frozen_recovery_precedes_actual_contract_edit (test_poc_contract_repair_admission.TestBoundPocContractRepair.test_declared_frozen_recovery_precedes_actual_contract_edit) ... ok
+test_diagnostic_edit_after_successor_registration_is_rejected (test_poc_contract_repair_admission.TestBoundPocContractRepair.test_diagnostic_edit_after_successor_registration_is_rejected) ... FAIL
+test_expired_and_overlong_leases_are_rejected (test_poc_contract_repair_admission.TestBoundPocContractRepair.test_expired_and_overlong_leases_are_rejected) ... ok
+test_false_parent_baseline_cannot_reserve_repair (test_poc_contract_repair_admission.TestBoundPocContractRepair.test_false_parent_baseline_cannot_reserve_repair) ... ok
+test_fractional_acquisition_uses_only_historical_git_second_tolerance (test_poc_contract_repair_admission.TestBoundPocContractRepair.test_fractional_acquisition_uses_only_historical_git_second_tolerance) ... ERROR
+test_high_risk_capacity_is_not_added_by_authorization (test_poc_contract_repair_admission.TestBoundPocContractRepair.test_high_risk_capacity_is_not_added_by_authorization) ... ok
+test_historical_reservation_remains_valid_after_expiry_and_renewal (test_poc_contract_repair_admission.TestBoundPocContractRepair.test_historical_reservation_remains_valid_after_expiry_and_renewal) ... ok
+test_implementation_role_cannot_impersonate_integrator_review (test_poc_contract_repair_admission.TestBoundPocContractRepair.test_implementation_role_cannot_impersonate_integrator_review) ... ok
+test_integration_label_does_not_bypass_normal_history_binding (test_poc_contract_repair_admission.TestBoundPocContractRepair.test_integration_label_does_not_bypass_normal_history_binding) ... ok
+test_intent_edit_and_restoration_after_successor_registration_is_rejected (test_poc_contract_repair_admission.TestBoundPocContractRepair.test_intent_edit_and_restoration_after_successor_registration_is_rejected) ... FAIL
+test_intermediate_claim_expansion_is_rejected_after_restoration (test_poc_contract_repair_admission.TestBoundPocContractRepair.test_intermediate_claim_expansion_is_rejected_after_restoration) ... ok
+test_nonindependent_or_unassigned_roles_are_rejected (test_poc_contract_repair_admission.TestBoundPocContractRepair.test_nonindependent_or_unassigned_roles_are_rejected) ... ok
+test_original_diagnostic_evidence_cannot_change_after_registration (test_poc_contract_repair_admission.TestBoundPocContractRepair.test_original_diagnostic_evidence_cannot_change_after_registration) ... ok
+test_original_registration_cannot_already_edit_contract (test_poc_contract_repair_admission.TestBoundPocContractRepair.test_original_registration_cannot_already_edit_contract) ... ok
+test_real_original_repair_registration_is_required_for_working_claims (test_poc_contract_repair_admission.TestBoundPocContractRepair.test_real_original_repair_registration_is_required_for_working_claims) ... ok
+test_rename_keeps_both_paths_and_cannot_hide_active_contract_change (test_poc_contract_repair_admission.TestBoundPocContractRepair.test_rename_keeps_both_paths_and_cannot_hide_active_contract_change) ... ok
+test_reviewed_integration_can_complete_without_extra_review_commit (test_poc_contract_repair_admission.TestBoundPocContractRepair.test_reviewed_integration_can_complete_without_extra_review_commit) ... ok
+test_task_id_or_missing_repository_context_does_not_grant_scope (test_poc_contract_repair_admission.TestBoundPocContractRepair.test_task_id_or_missing_repository_context_does_not_grant_scope) ... ok
+test_unregistered_working_state_is_rejected (test_poc_contract_repair_admission.TestBoundPocContractRepair.test_unregistered_working_state_is_rejected) ... ok
+test_widened_claims_are_rejected (test_poc_contract_repair_admission.TestBoundPocContractRepair.test_widened_claims_are_rejected) ... ok
+test_worktree_intent_does_not_override_committed_authority (test_poc_contract_repair_admission.TestBoundPocContractRepair.test_worktree_intent_does_not_override_committed_authority) ... ok
+
+======================================================================
+ERROR: test_fractional_acquisition_uses_only_historical_git_second_tolerance (test_poc_contract_repair_admission.TestBoundPocContractRepair.test_fractional_acquisition_uses_only_historical_git_second_tolerance)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sur/.cache/guize-takeover/ops013-admission-reservation/tests/governance/test_poc_contract_repair_admission.py", line 405, in test_fractional_acquisition_uses_only_historical_git_second_tolerance
+    self.assertEqual(PROOF.prove_claims(str(self.repo),'OPS-014',original,
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/sur/.cache/guize-takeover/ops013-admission-reservation/scripts/poc-contract-repair-admission.py", line 238, in prove_claims
+    validate_entry(entry,task_id,REPAIR_PATHS,when)
+  File "/home/sur/.cache/guize-takeover/ops013-admission-reservation/scripts/poc-contract-repair-admission.py", line 136, in validate_entry
+    require(acquired.tzinfo is not None and expires.tzinfo is not None
+  File "/home/sur/.cache/guize-takeover/ops013-admission-reservation/scripts/poc-contract-repair-admission.py", line 39, in require
+    raise AdmissionError(message)
+poc_repair_test.AdmissionError: Repair lease is invalid at the actual observation
+
+======================================================================
+FAIL: test_diagnostic_edit_after_successor_registration_is_rejected (test_poc_contract_repair_admission.TestBoundPocContractRepair.test_diagnostic_edit_after_successor_registration_is_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sur/.cache/guize-takeover/ops013-admission-reservation/tests/governance/test_poc_contract_repair_admission.py", line 437, in test_diagnostic_edit_after_successor_registration_is_rejected
+    with self.assertRaisesRegex(PROOF.AdmissionError,'defect evidence changed'):
+AssertionError: AdmissionError not raised
+
+======================================================================
+FAIL: test_intent_edit_and_restoration_after_successor_registration_is_rejected (test_poc_contract_repair_admission.TestBoundPocContractRepair.test_intent_edit_and_restoration_after_successor_registration_is_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sur/.cache/guize-takeover/ops013-admission-reservation/tests/governance/test_poc_contract_repair_admission.py", line 430, in test_intent_edit_and_restoration_after_successor_registration_is_rejected
+    with self.assertRaisesRegex(PROOF.AdmissionError,'intent changed'):
+AssertionError: AdmissionError not raised
+
+----------------------------------------------------------------------
+Ran 29 tests in 110.635s
+
+FAILED (failures=2, errors=1)
+
+Exit Code: 1

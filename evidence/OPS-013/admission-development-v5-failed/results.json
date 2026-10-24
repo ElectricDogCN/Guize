@@ -1,0 +1,73 @@
+{
+  "baseSource": "3eb9bb69b4fb1df85a359750b73356b953429540",
+  "files": [
+    {
+      "path": "AGENTS.md",
+      "bytes": 15863,
+      "sha256": "4755991cc2357b758a34c2242cd40d9534b5c2ac7e88bacf0a77c9383971c284"
+    },
+    {
+      "path": "scripts/check-program-lifecycle-guards.py",
+      "bytes": 56519,
+      "sha256": "355f96ccfbac22662015c7c54484bff1fdb3c74a59b824b66d083daa6964a095"
+    },
+    {
+      "path": "scripts/check-program-plan-transitions.py",
+      "bytes": 37115,
+      "sha256": "76d4f9d60fd788819a93445ac65be32128dff8e3f4497b80faabed3e13f0f522"
+    },
+    {
+      "path": "scripts/check-program-plan-history.py",
+      "bytes": 102802,
+      "sha256": "37a5e4adf46dc07fa470c1f17926096620a24536e79debc84eb66ab2389500bf"
+    },
+    {
+      "path": "scripts/poc-contract-repair-admission.py",
+      "bytes": 18678,
+      "sha256": "e656654a46b9add93c813d48c3874462b6ca784e4882cbbfa0bdaf16689d1c8e"
+    },
+    {
+      "path": "tests/governance/test_poc_contract_repair_admission.py",
+      "bytes": 23483,
+      "sha256": "d9df36570ccdf7a877c995b15e7af3d8ac8dfc1567880ad662955a0e34caa9a9"
+    },
+    {
+      "path": "specs/coordination/program-plan.yaml",
+      "bytes": 64529,
+      "sha256": "7861def668a06eafa2b14eef1934b8b8aab2f63e1e48dae7cbdfa3f8677f44fc"
+    },
+    {
+      "path": "specs/coordination/active-work.yaml",
+      "bytes": 3626,
+      "sha256": "34e1eb0a2ed5b8b249e0ed9950792f939dc18960345eb8252cfb3274ccd78ece"
+    },
+    {
+      "path": "specs/tasks/OPS-013.md",
+      "bytes": 8177,
+      "sha256": "d71744aee3c2b8afda487a4c5146e4302f018efe2f611ae584ab3f311db96565"
+    }
+  ],
+  "uncommitted": true,
+  "argv": [
+    "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/governance",
+    "-p",
+    "test_poc_contract_repair_admission.py",
+    "-v"
+  ],
+  "startedAt": "2026-10-24T17:22:48.086333Z",
+  "sourceGatesAccepted": false,
+  "implementationAccepted": false,
+  "pid": 148476,
+  "exitCode": 1,
+  "waitCompleted": true,
+  "elapsedMonotonicNs": 81891123321,
+  "endedAt": "2026-10-24T17:24:13.483384Z",
+  "rawBytes": 9488,
+  "rawSha256": "cc53730cd670ad4039a6d97e324f002f9eccf9319cc442f83c034f0bab718b00"
+}

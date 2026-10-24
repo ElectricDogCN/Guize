@@ -1,0 +1,5 @@
+Source Commit: 1188509ce37cd852ca3ab5442918d83d747e317d
+Command: python scripts/check-program-plan-history.py --base-ref 3eb9bb69b4fb1df85a359750b73356b953429540 --head-ref HEAD --task OPS-013 --branch-name chore/OPS-013-contract-repair-admission
+{"status": "PASS", "message": "Program Plan history transitions are valid", "details": {"baseRef": "3eb9bb69b4fb1df85a359750b73356b953429540", "headRef": "HEAD", "completionRecords": 5, "auditedOwnerCapacityFailures": []}}
+
+Exit Code: 0

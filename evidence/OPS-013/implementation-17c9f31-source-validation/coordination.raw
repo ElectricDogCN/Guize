@@ -1,0 +1,5 @@
+Source Commit: 17c9f316e4f9912c6c8e04ecbf9f0424509d6d04
+Command: python scripts/run-agent-coordination-gate.py --base-ref 3eb9bb69b4fb1df85a359750b73356b953429540 --head-ref HEAD --task OPS-013 --branch-name chore/OPS-013-contract-repair-admission
+{"status": "PASS", "message": "Agent coordination valid: 3 active tasks, 1 high/critical", "details": {"activeTaskIds": ["OPS-013", "POC-003", "POC-005"]}}
+
+Exit Code: 0

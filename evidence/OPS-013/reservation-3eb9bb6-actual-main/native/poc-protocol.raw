@@ -1,0 +1,5 @@
+Source Commit: 3eb9bb69b4fb1df85a359750b73356b953429540
+Command: python specs/poc/check_program.py --repo-root /home/sur/.cache/guize-takeover/ops013-admission-reservation
+PASS: POC-PROTOCOL-V1 immutable planning baseline and task-owned Evidence contracts are consistent with Program Plan
+
+Exit Code: 0

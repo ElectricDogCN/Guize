@@ -1,0 +1,390 @@
+# AGENTS.md — 归泽・Guize Agent 工程规则
+
+## 1. 适用范围
+
+本文件适用于在归泽项目中执行需求分析、设计、编码、测试、配置、部署、审查、修复和文档维护的所有 AI Agent，包括但不限于 Codex、Trae Solo、Trae Work 及其子 Agent。
+
+本文件是强制规则，不是建议。任何任务与本文件冲突时，必须停止修改并报告冲突。
+
+## 2. 总体目标
+
+Agent 的目标不是“尽快产出代码”，而是：
+
+1. 在冻结的产品和架构边界内完成任务；
+2. 保证每个修改可验证、可追溯、可回滚；
+3. 不破坏资产、权限、缓存、备份和任务一致性；
+4. 不将未经验证的假设伪装为事实；
+5. 让单人审查者能依据契约、测试和证据作出发布决定。
+
+## 3. 权威信息优先级
+
+发生冲突时，按以下顺序处理：
+
+1. 已批准的需求规格；
+2. 已批准的 API、事件、数据 Schema 契约；
+3. 已批准的 ADR；
+4. 系统和模块设计文档；
+5. `AGENTS.md`；
+6. `rules/never-rules.md`；
+7. 当前任务说明；
+8. 代码现状；
+9. Agent 自行推断。
+
+如果代码与已批准契约冲突，不得默认以代码为准。先记录冲突，再按任务权限修复或提交决策。
+
+## 4. 开始任务前的强制步骤
+
+每个任务必须先建立任务上下文：
+
+```text
+任务 ID
+目标
+业务背景
+输入
+输出
+修改范围
+禁止修改范围
+关联需求
+关联设计
+关联契约
+验收标准
+验证命令
+风险
+回滚方式
+```
+
+开始编码前必须：
+
+- 阅读相关需求、设计、ADR、契约和 Never Rules；
+- 搜索现有实现、测试和配置；
+- 确认模块所有权和数据库表所有权；
+- 确认是否涉及破坏性 API、数据迁移、权限、Secrets、删除或公开；
+- 为不确定项建立显式假设，不得隐式猜测；
+- 先更新规格或契约，再进行实现。
+
+## 5. 分支与提交
+
+### 5.1 分支
+
+每个任务必须使用独立分支：
+
+```text
+feat/<issue>-<short-name>
+fix/<issue>-<short-name>
+docs/<issue>-<short-name>
+refactor/<issue>-<short-name>
+chore/<issue>-<short-name>
+```
+
+禁止直接在主分支修改。
+
+### 5.2 提交
+
+提交必须：
+
+- 单一目的；
+- 可构建或明确说明中间状态；
+- 引用 Issue；
+- 描述行为变化；
+- 不包含 Secrets、临时文件、模型权重和大型测试产物；
+- 相关文档、测试和迁移与代码同提交或按可审查顺序提交。
+
+推荐格式：
+
+```text
+feat(asset): add source-object relocation inference
+
+Issue: GUIZE-123
+Evidence: evidence/GUIZE-123/
+```
+
+## 6. 代码边界
+
+### 6.1 Java 模块化单体
+
+- 模块禁止直接访问其他模块 Repository；
+- 模块禁止直接修改其他模块拥有的表；
+- 模块通信使用公开接口、领域事件、Outbox 或只读查询契约；
+- 禁止创建全局“大而全”Service；
+- 核心业务不得依赖 Controller、ORM 实体或第三方 SDK 类型；
+- 核心领域对象与 API DTO、持久化实体必须分离。
+
+### 6.2 Python 能力服务
+
+- Python 服务不得直连平台核心 PostgreSQL；
+- 任务输入和输出必须符合版本化契约；
+- 大文件通过受限对象引用、临时签名地址或受控挂载传递；
+- 模型、Prompt、参数、运行环境和结果必须可追溯；
+- 长任务必须幂等、可重试、支持取消或安全中断；
+- 不得在日志中输出媒体敏感内容、Token 或凭据。
+
+### 6.3 插件
+
+- 插件不得直连核心数据库；
+- 必须具有 Manifest、版本、能力和权限声明；
+- 重型、不可信或第三方插件必须独立容器；
+- 插件失败不能拖垮控制面；
+- 插件 API 必须有超时、重试、熔断和健康检查；
+- 插件必须通过契约测试。
+
+## 7. 数据库和迁移
+
+- PostgreSQL 是权威数据库；
+- 核心关系使用规范化表，不得仅保存在 JSONB；
+- Flyway 迁移必须只前进、可审查、可在备份后执行；
+- 破坏性迁移必须提供 expand/migrate/contract 方案；
+- 禁止未经审批直接删除列、表、索引或历史数据；
+- 每次迁移必须有集成测试和回滚/恢复说明；
+- 任务、权限、资产、版本、副本、审计不可通过无事务的多步更新维持一致性；
+- Outbox 事件必须与业务事务同事务写入。
+
+## 8. API 和事件
+
+- URL、字段、枚举和错误码使用唯一英文机器标识；
+- OpenAPI 和开发者文档提供中英文说明；
+- 外部和内部 API 均版本化；
+- 破坏性变更必须增加主版本或提供兼容层；
+- 长任务立即返回任务 ID；
+- 支持幂等键、状态查询、取消、暂停、恢复和错误详情；
+- 每个响应包含 `traceId`；
+- 事件使用统一 Envelope；
+- 事件消费者必须幂等；
+- 禁止依赖消息“只会投递一次”。
+
+## 9. 权限和安全
+
+涉及以下内容时必须增加专项测试：
+
+- 用户、角色和 ACL；
+- 匿名访问；
+- 资产发布；
+- 衍生数据访问；
+- 搜索召回过滤；
+- Secrets；
+- 文件下载和签名地址；
+- 管理员登录；
+- 高风险操作；
+- 数据导出；
+- 备份和恢复。
+
+安全规则：
+
+- 权限过滤必须在召回或对象读取前执行；
+- 衍生内容继承原资产权限；
+- 管理员密码登录不得降低高风险操作的二次确认；
+- 任何凭据只保存 Secret 引用；
+- 公开文件必须符合 MIME、内容探测和安全策略；
+- 禁止路径穿越、任意文件读取和开放代理；
+- 所有外部输入必须验证；
+- 默认拒绝未知能力和未知权限。
+
+## 10. 文件、媒体和缓存
+
+- ATS 缓存不等于完整文件副本；
+- 普通完整缓存不等于正式保留；
+- 缓存删除不得影响资产元数据、正式副本和保留状态；
+- 删除源对象不得自动删除逻辑资产；
+- 只有验证完成的副本才能标记 `VERIFIED`；
+- 媒体任务必须记录输入哈希、输出哈希、编码参数和工具版本；
+- FFmpeg 命令必须限制输入、协议、路径和资源；
+- 临时目录必须有配额、生命周期和清理机制；
+- 所有大文件任务必须支持断点、恢复或安全重跑。
+
+## 11. AI 能力
+
+- 不得仅凭模型返回成功判定质量合格；
+- 必须保存模型、版本、Prompt、参数和输入版本；
+- 模型或 Prompt 变更必须运行固定样本回归；
+- AI 结果不得直接修改权威元数据，必须经过校验或发布流程；
+- 低置信度结果必须标记；
+- 商业 API 调用必须受预算、权限和数据策略控制；
+- 不得自动公开、删除或降低安全策略；
+- 生成式缩略图必须与真实媒体缩略图区分。
+
+## 12. 测试门禁
+
+任务完成至少需要：
+
+- 单元测试；
+- 相关集成测试；
+- API/事件契约测试；
+- 权限和越权测试；
+- 数据迁移测试（如适用）；
+- 状态机和失败路径测试；
+- 静态分析和格式检查；
+- Secrets 扫描；
+- 文档链接和示例验证；
+- 任务专项验收脚本。
+
+发布候选还需要：
+
+- 端到端测试；
+- 性能和容量测试；
+- 故障注入；
+- 恢复测试；
+- 安全扫描；
+- 镜像签名和 Digest 验证；
+- SBOM 与许可证检查。
+
+## 13. 证据
+
+每个任务必须在 `evidence/<task-id>/` 保存或引用：
+
+```text
+summary.md
+commands.txt
+test-results/
+screenshots/
+api-samples/
+migration-report/
+performance/
+security/
+rollback-verification/
+```
+
+证据必须能够由审查者复现。不得只写“测试通过”。
+
+## 14. Agent 可执行与不可执行操作
+
+### 可自动执行
+
+- 读取代码与文档；
+- 建立任务计划；
+- 修改独立分支；
+- 运行本地测试、静态分析和模拟；
+- 生成配置草案；
+- 生成数据库迁移草案；
+- 生成部署 Bundle；
+- 生成诊断和修复建议。
+
+### 必须人工批准
+
+- 合并主分支；
+- 生产发布；
+- 数据库正式迁移；
+- Secrets 修改；
+- 权限策略发布；
+- 删除或覆盖正式数据；
+- 调低安全水位；
+- 开放公网管理能力；
+- 高风险插件升级；
+- 灾难恢复；
+- 备份密钥操作。
+
+## 15. Ralph/Wiggum 式可重复验证循环
+
+长任务必须按循环推进：
+
+```text
+读取规格
+→ 观察现状
+→ 提出最小变更
+→ 实施
+→ 运行验证
+→ 分析失败
+→ 修正
+→ 重复验证
+→ 记录证据
+→ 人工审查
+```
+
+禁止在验证失败后通过删除测试、放宽断言、屏蔽异常或跳过门禁宣称完成。
+
+## 16. 结束任务的标准
+
+Agent 只有在以下条件全部满足时才能标记完成：
+
+- 需求和契约一致；
+- 修改范围未越界；
+- 测试门禁通过；
+- 失败路径验证；
+- 文档同步；
+- 证据完整；
+- 回滚方法可执行；
+- 未解决项明确；
+- 无新增 Never Rule 违规；
+- 人工审查所需信息完整。
+
+否则状态必须是 `PARTIAL`、`BLOCKED` 或 `NEEDS_REVIEW`。
+
+## 17. 多 Agent 协作、路径租约与集成
+
+### 17.1 强制登记
+
+GZ-003 之后的新任务必须使用 `schemaVersion: 2` Task Spec，并在开始实现前完成活动任务预留。权威协作文件：
+
+```text
+specs/coordination/active-work.yaml
+specs/coordination/active-work.schema.yaml
+specs/designs/module-ownership.yaml
+docs/25-multi-agent-collaboration-protocol.md
+```
+
+除 `policy.bootstrapTasks` 明确列出的机制引导任务外，`coordinationMode` 必须为 `registry`，并存在唯一、未过期的活动任务记录。
+
+### 17.2 角色分离
+
+每个活动任务明确：
+
+- Coordinator：拆分任务、管理依赖、租约和集成顺序；
+- Implementer：在已登记范围内实现并维护 Evidence；
+- Reviewer：默认只读，独立审查规格、契约、测试和安全；
+- Integrator：确认依赖、基线、Review 和 Gate 后执行集成。
+
+high/critical 风险任务不得由同一 Agent 同时充当唯一 Implementer 和唯一 Reviewer。ElectricDogCN 保留最终人工批准权。
+
+### 17.3 两阶段启动
+
+1. 先创建 Issue、Task Spec、Evidence 和 reservation PR；
+2. reservation PR 只登记依赖、风险、`baseSha`、独占/共享路径、租约、交接和集成顺序；
+3. 登记合并后，从最新 `main` 创建实现分支；
+4. 禁止先开发后补登记；
+5. 实现 PR 合并时完成或释放对应登记。
+
+### 17.4 路径与所有权
+
+- `exclusivePaths` 不得与其他活动任务的独占或共享路径重叠；
+- `sharedPaths` 只有在 `coordinationGroup` 相同且 `integrationOrder` 不同时允许重叠；
+- 机器契约、Migration、模块核心包和全局配置默认独占；
+- 禁止用 `**` 或等价模式预占整个仓库；
+- 任务必须遵守 `module-ownership.yaml` 的路径、Schema 和公开接口所有权；
+- 检查器无法证明两个模式互斥时，按冲突处理，不通过放宽算法解决。
+
+### 17.5 依赖、基线和并行上限
+
+- `dependsOn` 必须存在且不得形成环；
+- 未合并的共同契约不能作为多个实现任务的隐式依赖；
+- Task Spec 和活动登记保存创建分支时的 40 位 `baseSha`；
+- 进入 Review 前必须同步最新 `main` 并重新验证；
+- 同时最多 3 个活动任务；
+- 同时最多 1 个 high/critical 风险任务；
+- 单人审查容量优先于 Agent 数量。
+
+### 17.6 Handoff Contract
+
+`handoffPath` 必须位于任务 Evidence 中并记录：Task/Issue/Branch/Base SHA、角色、提交 SHA、实际文件、契约版本、测试命令与退出码、Evidence、失败和限制、共享路径、集成顺序、回滚以及下一角色的精确动作。
+
+Agent 中断或更换后，只能依据 Git、Task Spec、活动登记、Handoff 和 Evidence 恢复，不依赖聊天记忆或未提交本地状态。
+
+### 17.7 合并与外部强制层
+
+Integrator 必须确认依赖已合并、最新 HEAD 的 Gate 成功、Review Thread 全解决、共享路径顺序正确、活动登记已完成或释放。GitHub CODEOWNERS 只负责路由；`main` 分支保护、Required Check、禁止 force push/delete 和过期批准失效仍必须由管理员在 Ruleset 中实际启用并通过 API 验证。未启用时不得声称平台已强制阻止直接推送。
+
+
+### 17.8 治理恢复与完成后 Evidence 修正
+
+新治理 Foundation 必须先通过 metadata-only reserved 登记：仅新增自身 Program/Registry 条目和 Task/Evidence，moduleIds 精确为 MOD-GOV、high 风险、独立 Implementer/Reviewer、有效租约，所有路径为 MOD-GOV 所有范围的子集。不得用路径相交、宽泛 claim、既有完成任务或失败 CI 冒充登记。
+
+唯一有界的 POC 合同修复补充准入以 `scripts/poc-contract-repair-admission.py` 的真实 Git 历史证明为准：OPS-013 原始主线登记中的不可变授权声明、非空实现、独立 Review、正常 Completion 和释放容量全部成立后，仅声明的 OPS-014 可在后续真实主线独立预留两条精确路径。必须核验原始父基线及两文件 Git 字节、独立角色、租约、容量、原始范围和逐提交历史；任务编号、候选本地声明、侧分支或晚补 claims 不授予权限。此补充不改变模块所有权；实际合同代码变更前仍须建立以下针对已完成 GZ-021 的真实冻结事件，修复后按原规则验证并独立解冻。
+
+Program status=frozen 是执行准入阻断状态。恢复任务在 recovery 记录中声明 taskId、具体原因、受影响的 completed Tasks、冻结时主线 sourceCommit、UTC frozenAt 和本任务 verificationPath。冻结转换仅允许自己的 Task/Evidence、Program 恢复元数据与自己的 Lease；不能改变既有任务状态、完成账本、政策或业务实现。
+
+冻结后普通任务不得预留、启动、继续实现、完成或以解冻同一 PR 启动。旧活动快照可保留；普通任务仅可通过严格 metadata-only blocked/cancel 收口。已登记的 MOD-GOV 恢复 Foundation 可在已声明路径内修复。主线无 --task 的检查同样必须执行。
+
+治理恢复同样必须先登记后实现；冻结期间不豁免登记的范围、独立角色、租约或并发上限。无任务参数的代码 diff 必须推导实际登记的修复任务，纯 Program/Registry policy diff 不能绕开稳定身份检查。
+
+解冻须另提 metadata-only PR，并验证本冻结事件之后已经合入冻结主线的修复提交。verificationPath 必须在解冻基线中存在，记录实际 validatedCommit、taskId、冻结 sourceCommit、programIntegrity/lifecycle/coordination/governance/verify 的真实命令、exitCode=0、日志路径与 SHA-256，以及零失败/错误/跳过的非空 JUnit。validatedCommit 之后只允许本任务 Evidence 归档变化，不能以本地未合入提交、旧事件或一句 PASS 替代执行。正常任务必须在解冻合并后的后续独立 PR 才可启动。
+
+复验命令必须直接运行对应 Python 检查器、完整 tests/governance 与 make verify；生命周期/协调/verify 指定完整 validatedCommit 的 HEAD 和本任务、冻结事件内的完整基线 SHA 及本任务分支。每份原始日志以 Source Commit 和 Command 两行绑定实际测试提交和命令，末尾记录 Exit Code；正文保留实际检查器成功输出，pytest passed 数与 JUnit testcase 数一致，verify 保留全部目标链输出。机器结构校验不能单独证明日志真实性，独立审查和实际 CI 仍然必需。
+
+完成后的 Evidence 修正不是第二次 Completion：base/head 均 completed；Program、Active Work、Completion Ledger 和完整 Task Spec 的 Git 字节必须不变；所有变更（含重命名两侧）仅限 evidence/<同一 TASK-ID>/**；Issue 必须保持 closed/completed。PR 分支仍需携带同一 Task ID，但不复用旧 Completion 分支或 prior Active Lease。冻结期间该修正不准入，先由治理恢复任务记录自己的 Evidence，解除后单独修正。普通 active→completed 的全部规则不变。

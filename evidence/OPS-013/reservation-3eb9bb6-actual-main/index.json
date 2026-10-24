@@ -1,0 +1,87 @@
+{
+  "actualMain": "3eb9bb69b4fb1df85a359750b73356b953429540",
+  "reservationSource": "cae29e6f6cd20c7c612ecd42a179fc7c80caf537",
+  "branch": "chore/OPS-013-contract-repair-admission",
+  "mainFiveAndPocAccepted": true,
+  "fullMainCiAccepted": false,
+  "ownImplementationMetadataStarted": true,
+  "governanceImplementationStarted": false,
+  "successorRegistrationApproved": false,
+  "files": [
+    {
+      "ref": "ops013-reservation-official-merge.json",
+      "bytes": 622,
+      "sha256": "89b7a4e913255945c8dd02e630535ee62a3a59728fd767df2329c2792726e34a"
+    },
+    {
+      "ref": "ops013-reservation-merge-approval.json",
+      "bytes": 1783,
+      "sha256": "ee678179bc25b82618fa73ceca17b398db5c49190093cea3cc13f2d577902c11"
+    },
+    {
+      "ref": "ops013-cae29e6-final-preflight.json",
+      "bytes": 17000,
+      "sha256": "b9b67970b757560286303f82f4af29360497633f7b375bc374730cdafc5f8549"
+    },
+    {
+      "ref": "ops013-reservation-actual-main-independent-review.json",
+      "bytes": 791,
+      "sha256": "cddc94c2bf6d52123edfb340e52d46b919fb6c06d43911b1a10da8f6cb36802d"
+    },
+    {
+      "ref": "native/checkout.raw",
+      "bytes": 123,
+      "sha256": "b97ad6c08691dbda413e5c4ee8b3c9c2bf33cbcbb2f4bffd49c56ecc36270d91"
+    },
+    {
+      "ref": "native/coordination.raw",
+      "bytes": 623,
+      "sha256": "4a959369c67359572a9ebaead454d9e3476c74d3c9dfd724f250078ab34acd26"
+    },
+    {
+      "ref": "native/executions.json",
+      "bytes": 4745,
+      "sha256": "27399949821c187f674ef347d7ac8ff5df7a1a009347e24296d94574772abbe1"
+    },
+    {
+      "ref": "native/fast-forward.raw",
+      "bytes": 12466,
+      "sha256": "f609d66b5c7340480c2084a9349417e3da4dd41b68cfdfaee67dd637c109467c"
+    },
+    {
+      "ref": "native/fetch.raw",
+      "bytes": 433,
+      "sha256": "be67bac760feecbe2e521e3b7838462aee3588c096b0c155202efe4e304da14d"
+    },
+    {
+      "ref": "native/history.raw",
+      "bytes": 568,
+      "sha256": "e5529f661f8d2e9353d94f8f32bc86f86aad47b737f5705a48e5a3c8f8ac7981"
+    },
+    {
+      "ref": "native/integrity.raw",
+      "bytes": 419,
+      "sha256": "8725d8954ceaf7f668133e4311d5a1ffe9ff7665acbbef267191e49d25aa0291"
+    },
+    {
+      "ref": "native/poc-protocol.raw",
+      "bytes": 303,
+      "sha256": "a42bdeea43e4f328d308abcf36a5ca31440563e884c392dd74e2a744ed681038"
+    },
+    {
+      "ref": "native/raw-lifecycle.raw",
+      "bytes": 551,
+      "sha256": "cdd5856cc96ed5e87e574c7e1d8c20e53fd4f140fdbbe59ef5514d779348cf02"
+    },
+    {
+      "ref": "native/results.json",
+      "bytes": 6346,
+      "sha256": "f345670df23116638ca16a5cf6d9f06234e489a1bf4a7e466875ea5523a50110"
+    },
+    {
+      "ref": "native/transitions.raw",
+      "bytes": 485,
+      "sha256": "823326d588ab7a945ab3fb769490eccdc696cc37ca39e044a2e96ce71d8d6baf"
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+Source Commit: cae29e6f6cd20c7c612ecd42a179fc7c80caf537
+Command: python scripts/check-task-file.py --task OPS-013
+{"status": "PASS", "message": "Task file valid: /home/sur/.cache/guize-takeover/ops013-admission-reservation/specs/tasks/OPS-013.md"}
+
+Exit Code: 0

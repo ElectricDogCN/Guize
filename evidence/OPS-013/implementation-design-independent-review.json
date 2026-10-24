@@ -1,0 +1,16 @@
+{
+  "reviewedAt": "2026-10-23T02:00:37.214302Z",
+  "reviewerActor": "/root/gz022_planning_independent_review",
+  "base": "3eb9bb69b4fb1df85a359750b73356b953429540",
+  "branch": "chore/OPS-013-contract-repair-admission",
+  "designSha256": "281680f05aba78c3c8dc4116f41305f2f3145837043f652d153f66bc26ebbe3e",
+  "ownStartupMetadataAccepted": true,
+  "designImplementationMayProceed": true,
+  "mustFix": [],
+  "implementationAccepted": false,
+  "currentSourceIntegrationAccepted": false,
+  "successorRegistrationApproved": false,
+  "experimentApproved": false,
+  "nonBlockingBodyFollowup": "Task body FOUNDATION/high/coordinator should match implementer; corrected after review without role identity or claim changes",
+  "fullMainCiAccepted": false
+}
