@@ -57,3 +57,23 @@ in progress and is not accepted here. The next committed source must run its
 own Task15/full739/JUnit/make verify and same-head CI before any merge decision.
 No intent, original contract, identity, claims, lease, capacity, threshold or
 frozen recovery rule changed; no OPS014 or experiment is authorized.
+
+## Current handoff inventory correction
+
+The original142-path changed-files.md is preserved byte-for-byte as C history.
+The current complete candidate inventory is changed-files-current.md. A new
+candidate is needed only for Own evidence/inventory clarification; the v6
+runtime/test bytes remain unchanged and independently accepted.
+
+Source1188509 completed13 exact-source gates. Its make verify was explicitly
+terminated for the newly confirmed inventory finding (actual exit-15, controller
+session61738 exit1); the full739 suite and docs gate did not complete. It was
+not published or accepted. All original logs, results, stop reason and source
+review are retained in implementation-1188509-superseded/.
+
+Windows four new v6 regressions actually passed4/495.290s, zero failures/errors/
+skips; session45743 exit0, raw1627B SHA256
+ab40616e9b80dd37eb533903f04d9292d31d46c353e780e2ef824517391001b5.
+The manifest binds the same9 inputs. These four results are separate from the
+older22 Windows cases. The next fixed source must run its own complete Task15,
+739-test/JUnit/make verify and same-source CI; no source pass is inherited.

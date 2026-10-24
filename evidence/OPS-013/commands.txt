@@ -20,3 +20,5 @@ Development v4:22 native cases/65.598s and3 unchanged old-planner checker regres
 Windows same91file component verification actually passed22 cases/1072.393s/exit0; no full-source result inherited. Full source/JUnit/CI acceptance remains pending.
 
 Forward correction: v5 actual26 failed/81.775s retained; v6 actual26 passed/99.268s and old-planner3 passed/9.34s. Actual collection739. New fixed source Task15/full739 and same-head CI pending; Windows new4 running, not accepted.
+
+Windows forward4 actually passed/495.290s/no skips. Source118 completed13 gates then controlled verify exit-15 for confirmed stale inventory; no full-suite pass. Next source Task15/full739/CI pending.
