@@ -1,0 +1,5 @@
+Source Commit: 43270da544d9df3da68a45d2eca3e0a2fed2de6e
+Command: /home/sur/.cache/guize-takeover/governance-venv/bin/python -B scripts/check-program-plan-finalization.py --base-ref 16070d0d0d4c1a4952d2fc6f036dda135f058c8d --head-ref 43270da544d9df3da68a45d2eca3e0a2fed2de6e
+{"status": "PASS", "message": "Program finalization invariants passed", "details": {"activeTasks": 3, "completedFoundations": 10, "task": null}}
+
+Exit Code: 0

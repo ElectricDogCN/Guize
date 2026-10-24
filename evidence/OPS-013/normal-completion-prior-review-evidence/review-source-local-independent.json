@@ -1,0 +1,308 @@
+{
+  "reviewedAt": "2026-10-24T19:22:00.828834Z",
+  "actor": "/root/gz022_planning_independent_review",
+  "registeredRole": "independent-review-agent",
+  "task": "OPS-013",
+  "source": "6b8b7999e73a9a5fd7c8cf45bb04a6adee4a7c0d",
+  "tree": "76aa0c7ce617515cf820c5abb1607b924fa04f98",
+  "parent": "596523cbeb2a9c35b81d6a1bc031461d84bbdd22",
+  "base": "16070d0d0d4c1a4952d2fc6f036dda135f058c8d",
+  "branch": "chore/OPS-013-contract-repair-admission-review-corrected",
+  "pullRequest": 140,
+  "pullRequestUrl": "https://github.com/ElectricDogCN/Guize/pull/140",
+  "freshOfficialPrObserved": {
+    "head": "6b8b7999e73a9a5fd7c8cf45bb04a6adee4a7c0d",
+    "base": "16070d0d0d4c1a4952d2fc6f036dda135f058c8d",
+    "state": "open",
+    "draft": false,
+    "merged": false,
+    "mergeable": true,
+    "commits": 2,
+    "changedFiles": 96
+  },
+  "reviewedPayloadMatchesCommittedBlobs": true,
+  "manifestFilesVerified": 96,
+  "inventoryMatchesCommittedDiff": true,
+  "rejected997NotInAncestry": true,
+  "sourceCleanBeforeAfter": true,
+  "currentLocal13Accepted": true,
+  "nativeResultsBytes": 17121,
+  "nativeResultsSha256": "e5137abb7bb4b1d34966635d70459ca76c96db960cbc0b09929b26bfa404fe4e",
+  "rawCommandsVerified": [
+    {
+      "label": "diff",
+      "argv": [
+        "git",
+        "diff",
+        "--check",
+        "16070d0d0d4c1a4952d2fc6f036dda135f058c8d...HEAD"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true,
+      "bytes": 144,
+      "sha256": "f3d4b9a8cbb45a0e7bee93b55dd7e79bd1dee3b116f879a94d503a71a271ce68",
+      "observedLastOutput": [
+        "Command: git diff --check 16070d0d0d4c1a4952d2fc6f036dda135f058c8d...HEAD",
+        ""
+      ]
+    },
+    {
+      "label": "task",
+      "argv": [
+        "python",
+        "scripts/check-task-file.py",
+        "--task",
+        "OPS-013"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true,
+      "bytes": 255,
+      "sha256": "c6ffb757db543143d4c4d0b839daaebb034b9f3b02049f407c53f240e327ba72",
+      "observedLastOutput": [
+        "{\"status\": \"PASS\", \"message\": \"Task file valid: /home/sur/.cache/guize-takeover/ops013-review-6b8b799/specs/tasks/OPS-013.md\"}",
+        ""
+      ]
+    },
+    {
+      "label": "schemas",
+      "argv": [
+        "python",
+        "scripts/check-schemas.py"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true,
+      "bytes": 1947,
+      "sha256": "23cc43ced8418b7f6e3d931406681d14abf0b441246ca90e6fe44a709255adb4",
+      "observedLastOutput": [
+        "OK: Schema, Task Spec, Active Work and Program Plan validation completed",
+        ""
+      ]
+    },
+    {
+      "label": "integrity",
+      "argv": [
+        "python",
+        "scripts/check-program-plan-integrity.py",
+        "--base-ref",
+        "16070d0d0d4c1a4952d2fc6f036dda135f058c8d"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true,
+      "bytes": 419,
+      "sha256": "9f1c240481b8641a06382033e7494a11ad05b1541345b86629ebcb0df31a3297",
+      "observedLastOutput": [
+        "{\"status\": \"PASS\", \"message\": \"Program Plan execution and completion integrity passed\", \"details\": {\"foundationTasks\": 11, \"programTasks\": 36, \"activeTasks\": 3, \"completionRecords\": 5, \"baseRef\": \"16070d0d0d4c1a4952d2fc6f036dda135f058c8d\"}}",
+        ""
+      ]
+    },
+    {
+      "label": "history",
+      "argv": [
+        "python",
+        "scripts/check-program-plan-history.py",
+        "--base-ref",
+        "16070d0d0d4c1a4952d2fc6f036dda135f058c8d",
+        "--head-ref",
+        "HEAD",
+        "--task",
+        "OPS-013",
+        "--branch-name",
+        "chore/OPS-013-contract-repair-admission-review-corrected"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true,
+      "bytes": 501,
+      "sha256": "c7b628823727aae049e00633b5b34acfe128fa9e7e13105d60c505765af639aa",
+      "observedLastOutput": [
+        "{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"16070d0d0d4c1a4952d2fc6f036dda135f058c8d\", \"headRef\": \"HEAD\", \"completionRecords\": 5, \"auditedOwnerCapacityFailures\": []}}",
+        ""
+      ]
+    },
+    {
+      "label": "transitions",
+      "argv": [
+        "python",
+        "scripts/check-program-plan-transitions.py",
+        "--base-ref",
+        "16070d0d0d4c1a4952d2fc6f036dda135f058c8d",
+        "--head-ref",
+        "HEAD",
+        "--task",
+        "OPS-013",
+        "--branch-name",
+        "chore/OPS-013-contract-repair-admission-review-corrected"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true,
+      "bytes": 454,
+      "sha256": "57bc35465a3f906a53f75b1013ed62be8df7c9cb115c7088d403d178e582a763",
+      "observedLastOutput": [
+        "{\"status\": \"PASS\", \"message\": \"Program reservation scope, wave and lifecycle transitions passed\", \"details\": {\"task\": \"OPS-013\", \"activeTasks\": 3, \"completionRecords\": 5}}",
+        ""
+      ]
+    },
+    {
+      "label": "raw-lifecycle",
+      "argv": [
+        "python",
+        "scripts/check-program-lifecycle-guards.py",
+        "--base-ref",
+        "16070d0d0d4c1a4952d2fc6f036dda135f058c8d",
+        "--head-ref",
+        "HEAD",
+        "--task",
+        "OPS-013",
+        "--branch-name",
+        "chore/OPS-013-contract-repair-admission-review-corrected"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true,
+      "bytes": 520,
+      "sha256": "3e005efd2ffc9b8fe11f629b95eabbccf04846c9d5b4d0057b306c4cda3b60cd",
+      "observedLastOutput": [
+        "{\"status\": \"PASS\", \"message\": \"Program lifecycle scope, Foundation ownership, rename and Evidence guards passed\", \"details\": {\"affectedTaskIds\": [\"OPS-013\"], \"changedPathCount\": 96, \"baseRef\": \"16070d0d0d4c1a4952d2fc6f036dda135f058c8d\"}}",
+        ""
+      ]
+    },
+    {
+      "label": "coordination",
+      "argv": [
+        "python",
+        "scripts/run-agent-coordination-gate.py",
+        "--base-ref",
+        "16070d0d0d4c1a4952d2fc6f036dda135f058c8d",
+        "--head-ref",
+        "HEAD",
+        "--task",
+        "OPS-013",
+        "--branch-name",
+        "chore/OPS-013-contract-repair-admission-review-corrected"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true,
+      "bytes": 435,
+      "sha256": "180d387d3522a397f8d1a290b4bcdaee83b861b878f1e2437fc44c8766b579c5",
+      "observedLastOutput": [
+        "{\"status\": \"PASS\", \"message\": \"Agent coordination valid: 3 active tasks, 1 high/critical\", \"details\": {\"activeTaskIds\": [\"OPS-013\", \"POC-003\", \"POC-005\"]}}",
+        ""
+      ]
+    },
+    {
+      "label": "finalization",
+      "argv": [
+        "python",
+        "scripts/check-program-plan-finalization.py",
+        "--base-ref",
+        "16070d0d0d4c1a4952d2fc6f036dda135f058c8d",
+        "--head-ref",
+        "HEAD",
+        "--task",
+        "OPS-013"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true,
+      "bytes": 362,
+      "sha256": "202d322dcdef57c800aa69ed69abb0584c6e6c45ae4f0fa343c742400ca3e2ff",
+      "observedLastOutput": [
+        "{\"status\": \"PASS\", \"message\": \"Program finalization invariants passed\", \"details\": {\"activeTasks\": 3, \"completedFoundations\": 10, \"task\": \"OPS-013\"}}",
+        ""
+      ]
+    },
+    {
+      "label": "scope",
+      "argv": [
+        "python",
+        "scripts/run-task-scope-gate.py",
+        "--task",
+        "OPS-013",
+        "--base",
+        "16070d0d0d4c1a4952d2fc6f036dda135f058c8d"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true,
+      "bytes": 7734,
+      "sha256": "9bf5e3802548cf445db8300f4989c650cab946cff1e6464c1dc9e714e8d20abb",
+      "observedLastOutput": [
+        "{\"status\": \"PASS\", \"message\": \"All changed files are within allowed scope and outside forbidden scope.\"}",
+        ""
+      ]
+    },
+    {
+      "label": "evidence",
+      "argv": [
+        "python",
+        "scripts/check-evidence.py",
+        "--task",
+        "OPS-013"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true,
+      "bytes": 307,
+      "sha256": "a46cf24edebd483afaaf595b108238e5287efef8dfde7d84db52ff36d64b805b",
+      "observedLastOutput": [
+        "{\"status\": \"PASS\", \"message\": \"Evidence contract passed with warnings for OPS-013.\"}",
+        ""
+      ]
+    },
+    {
+      "label": "readiness",
+      "argv": [
+        "python",
+        "scripts/check-project-readiness.py"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true,
+      "bytes": 660,
+      "sha256": "4d7f67389b0786fc3f04589fecab0009f048883e6afff81b0b8aa017b0df2783",
+      "observedLastOutput": [
+        "{\"status\": \"PASS\", \"message\": \"Project readiness indexes and Program Plan are structurally consistent\", \"details\": {\"requirements\": 10, \"modules\": 21, \"contractNamespaces\": 40, \"plannedTasks\": 36, \"pocs\": 10, \"waves\": 17, \"contractGapCount\": 10, \"implementationGapCount\": 10}}",
+        ""
+      ]
+    },
+    {
+      "label": "docs",
+      "argv": [
+        "python",
+        "scripts/check-markdown.py"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true,
+      "bytes": 164,
+      "sha256": "2c657d155086cad5d3b0731c971d46e0e5c48b648a97310a14a38995dd96fb64",
+      "observedLastOutput": [
+        "OK: No issues found",
+        ""
+      ]
+    }
+  ],
+  "publicationResultsSha256": "ba44b8603d938f615591a76ad40ed394f028b2d35c34ed8d3f43de89672eaf71",
+  "ordinaryFirstPushExitCode": 0,
+  "ordinaryFirstPushWaitCompleted": true,
+  "readyPublicationConditionsAccepted": true,
+  "activeCapacity": {
+    "total": 3,
+    "high": 1
+  },
+  "lease": {
+    "acquiredAt": "2026-10-23T00:03:04Z",
+    "expiresAt": "2026-10-30T00:03:04Z"
+  },
+  "currentLocalSourceAccepted": true,
+  "verificationPublicationAccepted": true,
+  "mustFix": [],
+  "currentHostedCiAccepted": false,
+  "currentExpectedHostedTests": 742,
+  "reviewMergeApproved": false,
+  "completionApproved": false,
+  "successorOPS014Approved": false,
+  "experimentApproved": false,
+  "observations": [
+    "Exact committed source matches the independently reviewed96-file scope-fix manifest, including the17-path forward delta. Only own metadata/Evidence; no source/claims/lease/contract changes.",
+    "Actual native13 command logs each bind source, exact argv and exit0, length/SHA and actual wait. All before/after identity fields equal clean source6b8/tree76aa; no full local742 claim.",
+    "Fresh official PR140 confirms Ready/open/unmerged exacthead/base, two normal commits and96 paths. Publication record confirms ordinary first push and unchangedmain16070.",
+    "Program active review retains ISSUE-137/null; lastCode PR139/main16070 remains Evidence only. Rejected997 and scope-failed596 remain historical, not qualified successor results.",
+    "Implementation main16070 complete acceptance is separately established by CI837/local7; it does not qualify current Review hostedCI."
+  ],
+  "nextRequired": "Await current same-head hosted full742/skip audit; independently inspect terminal original evidence, latest review threads and fresh expected-head/base/lease preflight before any integration.",
+  "reviewerExecution": "Read-only Git blob/inventory comparison,13 actual raw logs, publication records and fresh officialPR read. No suite rerun, author edit or external mutation."
+}
