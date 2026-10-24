@@ -5,7 +5,7 @@ Current synchronized base: 43270da544d9df3da68a45d2eca3e0a2fed2de6e
 Original reservation merge: 11c32830c0d1bb8ccdcc04aa278876065bce1f33
 State: in_progress / implementer
 
-Current synchronization: normal main merge 5d7b0abad1da1f88fe4147e03970036e37c71426; Task/Active Own base updated to actual accepted Review main43270. Metadata-only context commit; cache fix not imported yet. No new exact-source validation, CI, ATS or qualification is claimed. Original dirty1cc development workspace and every prototype/evidence file remain untouched.
+Current synchronization: normal main merge 5d7b0abad1da1f88fe4147e03970036e37c71426; Task/Active Own base updated to actual accepted Review main43270. Metadata context was committed separately before importing only the reviewed Slice-bounded cache reader and three offline regressions. Component source hashes equal the accepted originals; current fixed-source Task15 and required offline regressions/CI remain PENDING. No new ATS or qualification is claimed. Original dirty1cc development workspace and every prototype/evidence file remain untouched.
 
 The following paragraphs preserve historical development checkpoints; their current/pending wording belongs to their original source.
 

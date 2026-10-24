@@ -1,0 +1,17 @@
+{
+  "phase": "green",
+  "startedAt": "2026-10-24T19:25:40.046972+00:00",
+  "argv": [
+    "C:\\ProgramData\\anaconda3\\python.exe",
+    "-X",
+    "utf8",
+    "-B",
+    "test_cache_body_bounds.py"
+  ],
+  "exitCode": 0,
+  "waitCompleted": true,
+  "expectedTests": 3,
+  "rawBytes": 597,
+  "rawSha256": "75ac01e8b3830592e019bc71041723e74a07fbced15697f384faef9f8f29a247",
+  "noAtsOrHttpWorkload": true
+}

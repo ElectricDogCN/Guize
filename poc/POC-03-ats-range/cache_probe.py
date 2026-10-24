@@ -73,6 +73,20 @@ def slice_catalogue(rows, cfg, version, user):
     return sorted(found, key=lambda row: row['start'])
 
 
+def read_export_body(body, maximum_bytes):
+    """Bound the read to its actual catalogue Slice; never trim bad exports."""
+    if type(maximum_bytes) is not int or maximum_bytes <= 0:
+        raise ValueError('positive selected Slice length required')
+    size = body.stat().st_size
+    if size > maximum_bytes:
+        raise ValueError('native export body exceeds selected Slice')
+    with body.open('rb') as stream:
+        actual = stream.read(maximum_bytes + 1)
+    if len(actual) > maximum_bytes or len(actual) != size:
+        raise ValueError('native export body changed or exceeds selected Slice')
+    return actual
+
+
 def export_stage(run, out, cfg, snapshot, version, user='lab-user-a'):
     output = Path(out)
     existed = output.exists() or output.is_symlink()
@@ -175,9 +189,9 @@ def _export_stage(run, out, cfg, snapshot, version, user):
                 exported_total += info.st_size
                 if info.st_size > 64 << 20 or exported_total > 128 << 20:
                     raise ValueError('stage exported-byte bound')
-                actual = body.read_bytes()
-                (out / result['file']).write_bytes(actual)
                 count = key['end'] - key['start'] + 1
+                actual = read_export_body(body, count)
+                (out / result['file']).write_bytes(actual)
                 with Path(cfg['inputs'][version]['path']).open('rb') as source:
                     source.seek(key['start'])
                     expected = source.read(count)
