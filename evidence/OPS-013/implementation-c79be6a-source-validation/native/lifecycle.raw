@@ -1,0 +1,6 @@
+Source Commit: c79be6ac3b1d6a62e5c88abffbabf619ba20a5ef
+Command: python scripts/run-program-lifecycle-gate.py --base-ref 3eb9bb69b4fb1df85a359750b73356b953429540 --head-ref HEAD --task OPS-013 --branch-name chore/OPS-013-contract-repair-admission
+{"status": "PASS", "message": "Program lifecycle scope, Foundation ownership, rename and Evidence guards passed", "details": {"affectedTaskIds": ["OPS-013"], "changedPathCount": 142, "baseRef": "3eb9bb69b4fb1df85a359750b73356b953429540"}}
+{"status": "PASS", "message": "Exact lifecycle diff and Completion Issue verification passed"}
+
+Exit Code: 0

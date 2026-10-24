@@ -204,7 +204,9 @@ def authority(root: str, base: str) -> tuple[dict[str, Any], str]:
             'Authority implementation is not integrated after its reservation')
     finish = None
     reviewed = False
-    for node in canonical[canonical.index(implementation)+1:]:
+    # An integrator may introduce reviewed source in this very snapshot.
+    # The normal Foundation history audit below still authenticates its state.
+    for node in canonical[canonical.index(implementation):]:
         state = rows(document(root,node,PLAN).get('foundationTasks')).get(AUTHORITY,{})
         live = entry_at(root,node,AUTHORITY)
         if state.get('status') in {'review','integration'} and live and live.get('agentRole') in {'reviewer','integrator'}:
@@ -281,7 +283,7 @@ def prove_claims(root: str, task_id: str, entry: dict[str, Any], base_ref: str,
         require(len(raw) == record['bytes'] and hashlib.sha256(raw).hexdigest() == record['gitBlobSha256'],
                 'Repair original reservation base changed the approved contract')
     require(reserved.get('dependsOn') == [AUTHORITY], 'Repair must depend on its completed authority')
-    original_time = datetime.fromtimestamp(int(git(root,'show','-s','--format=%ct',original[0])),timezone.utc) if original else datetime.now(timezone.utc)
+    original_time = datetime.fromtimestamp(int(git(root,'show','-s','--format=%ct',original[0])),timezone.utc) if original else when
     validate_entry(reserved,task_id,REPAIR_PATHS,original_time)
     validate_capacity(root,admission_base,reserved)
     validate_capacity(root,base,entry)

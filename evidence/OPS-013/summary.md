@@ -32,3 +32,28 @@ After implementation integration, OPS013 still needs normal Review/Completion,
 actual main acceptance and high-slot release. OPS014 then independently reserves
 and follows actual recovery before any completed GZ021 contract correction.
 No source experiment, POC qualification or V1 completion is claimed.
+
+## Forward P2 correction after c79be6a
+
+Source c79be6a completed its actual Task15/full735 local checks and independent
+local review. CI834/run40114747741 completed success at2026-10-24T17:23:20Z:
+735 passed/839.27s, no test skips. Its raw job is305088B,
+SHA256 53b60c89033e01d82b1f20f59533ab7d7ff43854d0bc3c0b2e5e2c4584049616.
+CI833 remains cancelled. Those facts do not close two later valid P2 threads.
+
+PR139 P2s require historical reservation checks to reuse the observed Git time,
+and permit an authenticated integration implementation immediately followed by
+normal Completion. The forward helper changes only these two boundaries and
+retains full normal Foundation history validation. Four new real-Git tests
+cover both valid flows, impersonated roles and inconsistent Task/Registry roles;
+current expired leases and missing independent Review remain denied.
+
+Developmentv5 actually failed26 cases/81.775s (2errors/1failure); its original
+helper, tests,9 inputs and raw9488B are retained. Developmentv6 passed26 cases/
+99.268s plus3 unchanged old-planner checks/9.34s, no skips. Exact9-file content
+was independently accepted2026-10-24T17:27:34.337685Z, mustFix=[]. Actual
+collection is739 governance tests. Windows four-case forward regression remains
+in progress and is not accepted here. The next committed source must run its
+own Task15/full739/JUnit/make verify and same-head CI before any merge decision.
+No intent, original contract, identity, claims, lease, capacity, threshold or
+frozen recovery rule changed; no OPS014 or experiment is authorized.

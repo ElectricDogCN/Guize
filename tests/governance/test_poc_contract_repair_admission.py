@@ -2,11 +2,13 @@
 import copy
 from datetime import datetime, timedelta, timezone
 import importlib.util
+import os
 from pathlib import Path
 import re
 import subprocess
 import tempfile
 import unittest
+from unittest import mock
 
 import yaml
 
@@ -30,9 +32,13 @@ class TestBoundPocContractRepair(unittest.TestCase):
                           encoding='utf-8',newline='\n')
 
     @classmethod
-    def commit(cls, root, message):
+    def commit(cls, root, message, *, timestamp=None):
         cls.git(root,'add','.')
-        cls.git(root,'commit','--quiet','-m',message)
+        environment = dict(os.environ)
+        if timestamp is not None:
+            environment.update(GIT_AUTHOR_DATE=timestamp,GIT_COMMITTER_DATE=timestamp)
+        subprocess.run(['git','-C',str(root),'commit','--quiet','-m',message],
+                       env=environment,check=True,capture_output=True)
         return cls.git(root,'rev-parse','HEAD')
 
     @staticmethod
@@ -287,3 +293,88 @@ class TestBoundPocContractRepair(unittest.TestCase):
         self.assertFalse(guards.foundation_claims_valid(str(self.repo),'OPS-099',entry,ownership,self.completed))
         legacy = dict(entry,taskId='GZ-014',exclusivePaths=['AGENTS.md'])
         self.assertTrue(guards.foundation_claims_valid(str(self.repo),'GZ-014',legacy,ownership,self.completed))
+
+    def test_historical_reservation_remains_valid_after_expiry_and_renewal(self):
+        now = datetime.now(timezone.utc).replace(microsecond=0)
+        utc = lambda value: value.isoformat().replace('+00:00','Z')
+        self.entry['lease'] = dict(acquiredAt=utc(now-timedelta(minutes=1)),
+                                  expiresAt=utc(now+timedelta(minutes=10)))
+        original = copy.deepcopy(self.entry)
+        registration = self.register()
+        renewed = copy.deepcopy(original)
+        renewed['lease'] = dict(acquiredAt=utc(now+timedelta(minutes=5)),
+                                expiresAt=utc(now+timedelta(days=1)))
+        active = yaml.safe_load(Path(self.repo,PROOF.ACTIVE).read_bytes())
+        next(x for x in active['tasks'] if x['taskId']=='OPS-014')['lease'] = renewed['lease']
+        self.write(self.repo,PROOF.ACTIVE,active)
+        task = Path(self.repo,'specs/tasks/OPS-014.md')
+        front,body = task.read_text(encoding='utf-8')[4:].split('\n---\n',1)
+        front = self.front_fields(front,dict(leaseExpiresAt=renewed['lease']['expiresAt']))
+        self.write(self.repo,'specs/tasks/OPS-014.md','---\n'+front+'\n---\n'+body)
+        renewal = self.commit(self.repo,'OPS-014 fixture metadata-only lease renewal',
+                              timestamp=utc(now+timedelta(minutes=6)))
+
+        class AfterOriginalExpiry(datetime):
+            @classmethod
+            def now(cls, tz=None):
+                return (now+timedelta(minutes=20)).astimezone(tz)
+
+        # Simulate later audit time without changing any machine clock. The
+        # original and renewed snapshots retain their real Git timestamps.
+        with mock.patch.object(PROOF,'datetime',AfterOriginalExpiry):
+            self.assertEqual(PROOF.prove_claims(str(self.repo),'OPS-014',original,
+                             self.completed,observed_ref=registration),PROOF.REPAIR_PATHS)
+            self.assertEqual(self.claims(base=renewal,entry=renewed),PROOF.REPAIR_PATHS)
+            with self.assertRaisesRegex(PROOF.AdmissionError,'lease is invalid'):
+                self.claims(entry=original)
+
+    def integrated_authority(self, *, role='integrator', forge_task_role=False):
+        self.git(self.repo,'checkout','--detach',self.activation)
+        self.lifecycle(self.repo,'OPS-013','review','reviewer',self.activation,
+                       'chore/OPS-013-fixture-review-baseline')
+        baseline = self.commit(self.repo,'OPS-013 fixture review baseline (#2002)')
+        # The source includes separately registered implementation and Review
+        # commits. Retain it under a ref even though the integration is squash.
+        self.git(self.repo,'branch','fixture-reviewed-source',self.review)
+        squash = subprocess.run(['git','-C',str(self.repo),'merge','--squash',self.review],
+                                capture_output=True)
+        if squash.returncode:
+            conflicts = set(self.git(self.repo,'diff','--name-only','--diff-filter=U').splitlines())
+            self.assertTrue(conflicts)
+            self.assertLessEqual(conflicts,{PROOF.PLAN,PROOF.ACTIVE,'specs/tasks/OPS-013.md'})
+        for path in [PROOF.PLAN,PROOF.ACTIVE,'specs/tasks/OPS-013.md']:
+            self.write(self.repo,path,PROOF.blob(str(self.repo),baseline,path).decode())
+        self.lifecycle(self.repo,'OPS-013','integration',role,baseline,
+                       'chore/OPS-013-fixture-integration')
+        if forge_task_role:
+            path = 'specs/tasks/OPS-013.md'
+            text = Path(self.repo,path).read_text(encoding='utf-8')
+            self.write(self.repo,path,text.replace('agentRole: integrator','agentRole: reviewer'))
+        implementation = self.commit(self.repo,'OPS-013 fixture reviewed source integration (#2001)')
+        self.assertEqual(PROOF.blob(str(self.repo),implementation,'AGENTS.md'),
+                         PROOF.blob(str(self.repo),self.review,'AGENTS.md'))
+        self.lifecycle(self.repo,'OPS-013','completed','integrator',implementation,
+                       'chore/OPS-013-fixture-completion')
+        plan = yaml.safe_load(Path(self.repo,PROOF.PLAN).read_bytes())
+        next(x for x in plan['foundationTasks'] if x['taskId']=='OPS-013').update(
+            completionRef='PR-2001',mergeCommit=implementation)
+        active = yaml.safe_load(Path(self.repo,PROOF.ACTIVE).read_bytes())
+        active['tasks'] = [x for x in active['tasks'] if x['taskId']!='OPS-013']
+        self.write(self.repo,PROOF.PLAN,plan)
+        self.write(self.repo,PROOF.ACTIVE,active)
+        return self.commit(self.repo,'OPS-013 fixture immediate normal Completion (#2003)')
+
+    def test_reviewed_integration_can_complete_without_extra_review_commit(self):
+        completed = self.integrated_authority()
+        self.assertEqual(self.claims(base=completed,entry=dict(self.entry,baseSha=completed)),
+                         PROOF.REPAIR_PATHS)
+
+    def test_implementation_role_cannot_impersonate_integrator_review(self):
+        completed = self.integrated_authority(role='implementer')
+        with self.assertRaisesRegex(PROOF.AdmissionError,'independent Review'):
+            self.claims(base=completed,entry=dict(self.entry,baseSha=completed))
+
+    def test_integration_label_does_not_bypass_normal_history_binding(self):
+        completed = self.integrated_authority(forge_task_role=True)
+        with self.assertRaisesRegex(PROOF.AdmissionError,'Normal authority Foundation history rejected'):
+            self.claims(base=completed,entry=dict(self.entry,baseSha=completed))
