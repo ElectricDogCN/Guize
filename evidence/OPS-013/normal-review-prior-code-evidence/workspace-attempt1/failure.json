@@ -1,0 +1,8 @@
+{
+  "failedAction": "checkout-main",
+  "exitCode": 128,
+  "actualError": "fatal: 'main' is already used by worktree at 'C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/Guize'\n",
+  "sourceHeadUnchanged": true,
+  "sourceFilesChanged": false,
+  "reason": "Shared main worktree was already correctly at16070; do not bypass Git worktree protection"
+}

@@ -1,0 +1,22 @@
+{
+  "source": "997f0eccefdb6c18d1a22090a63c0eaa91bb6232",
+  "base": "16070d0d0d4c1a4952d2fc6f036dda135f058c8d",
+  "argv": [
+    "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+    "-B",
+    "scripts/check-program-plan-transitions.py",
+    "--base-ref",
+    "16070d0d0d4c1a4952d2fc6f036dda135f058c8d",
+    "--head-ref",
+    "HEAD",
+    "--task",
+    "OPS-013",
+    "--branch-name",
+    "chore/OPS-013-contract-repair-admission-review"
+  ],
+  "exitCode": 1,
+  "waitCompleted": true,
+  "rawBytes": 497,
+  "rawSha256": "f6c134a8c43f2d9f0614300a96d826d6bdc1a106dea81f80ffebf433ad963e18",
+  "sourceUnchanged": true
+}
