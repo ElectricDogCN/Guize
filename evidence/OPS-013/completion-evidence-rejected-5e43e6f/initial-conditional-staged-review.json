@@ -1,0 +1,349 @@
+{
+  "reviewedAt": "2026-10-24T20:26:57.168002Z",
+  "actor": "/root/gz022_planning_independent_review",
+  "registeredRole": "independent-review-agent",
+  "task": "OPS-013",
+  "stage": "NormalCompletion stagedcontent",
+  "base": "43270da544d9df3da68a45d2eca3e0a2fed2de6e",
+  "headAtReview": "43270da544d9df3da68a45d2eca3e0a2fed2de6e",
+  "branch": "chore/OPS-013-contract-repair-admission-completion",
+  "stagedPathsCount": 58,
+  "stagedFiles": [
+    {
+      "path": "evidence/OPS-013/assumptions.md",
+      "bytes": 930,
+      "sha256": "195df39a7ef9ce60e82ff26d2e0425eb388ed85fd6da35f349aa42bebb23217e"
+    },
+    {
+      "path": "evidence/OPS-013/commands.txt",
+      "bytes": 1659,
+      "sha256": "710f677cff74af2e84ce92807680a3f5bab2ec737563387c1f9981bd214a3f26"
+    },
+    {
+      "path": "evidence/OPS-013/completion-changed-files.md",
+      "bytes": 4653,
+      "sha256": "4158fa97d1cf7580ee2ad44004ff616db4e4104fc9045a3420d45467f0a2eaf3"
+    },
+    {
+      "path": "evidence/OPS-013/completion-prerequisite-acceptance/.gitattributes",
+      "bytes": 65,
+      "sha256": "2ff5cbb35f552a9c3c843311aa7cb18e9d67ebe575e5c94ae5b89271abcf5191"
+    },
+    {
+      "path": "evidence/OPS-013/completion-prerequisite-acceptance/ci839/job.raw.txt",
+      "bytes": 289211,
+      "sha256": "9bba16cabad8bd541160be694ec8f90c91af34ed1ea31aca6aa97db4a16c580b"
+    },
+    {
+      "path": "evidence/OPS-013/completion-prerequisite-acceptance/ci839/official-status.json",
+      "bytes": 32745,
+      "sha256": "56b6fe1e0e99038332e9c19578a7e2e50b7437857ae4ba448fad6e727ea62149"
+    },
+    {
+      "path": "evidence/OPS-013/completion-prerequisite-acceptance/index.json",
+      "bytes": 1502,
+      "sha256": "f325e076896139c99a0d5604dcc77e89f503703e520d9d324054f9157430d21c"
+    },
+    {
+      "path": "evidence/OPS-013/completion-prerequisite-acceptance/initial-preparation.json",
+      "bytes": 4909,
+      "sha256": "edce107295c3ff50fcb66961eb741740a0e2bc916f1097835fffcfe2cbcab9d3"
+    },
+    {
+      "path": "evidence/OPS-013/completion-prerequisite-acceptance/issue137-closure.json",
+      "bytes": 19263,
+      "sha256": "abe176a865caf125de061ca5fba2d1f884054d7a74f2500112818c4a06cf402c"
+    },
+    {
+      "path": "evidence/OPS-013/completion-prerequisite-acceptance/review-main-full-independent.json",
+      "bytes": 3106,
+      "sha256": "63d42afdfda12f33f39593ed82d26259fb1f42869ad34697c84d9a40491f9fc2"
+    },
+    {
+      "path": "evidence/OPS-013/follow-ups.md",
+      "bytes": 930,
+      "sha256": "195df39a7ef9ce60e82ff26d2e0425eb388ed85fd6da35f349aa42bebb23217e"
+    },
+    {
+      "path": "evidence/OPS-013/handoff.md",
+      "bytes": 930,
+      "sha256": "195df39a7ef9ce60e82ff26d2e0425eb388ed85fd6da35f349aa42bebb23217e"
+    },
+    {
+      "path": "evidence/OPS-013/normal-completion-prior-review-evidence/.gitattributes",
+      "bytes": 65,
+      "sha256": "73e150c3777d938e6c8e0676539db8ca4892169770f8c5ecd3c16ca45aed94e9"
+    },
+    {
+      "path": "evidence/OPS-013/normal-completion-prior-review-evidence/ci838/job.raw.txt",
+      "bytes": 304776,
+      "sha256": "35e18ac7172707c7480d432279746ad8c7a5a19ade54472a89834d5ff99cdd2e"
+    },
+    {
+      "path": "evidence/OPS-013/normal-completion-prior-review-evidence/ci838/official-status.json",
+      "bytes": 36600,
+      "sha256": "af9e75c76a168f5ea15eae77f49fcd6f4a856c00fc009697978e88d1acd873d9"
+    },
+    {
+      "path": "evidence/OPS-013/normal-completion-prior-review-evidence/index.json",
+      "bytes": 11679,
+      "sha256": "8354e302a5543b8ce060780e4a96a216bf6561fafcf182da1c764e4ec454129e"
+    },
+    {
+      "path": "evidence/OPS-013/normal-completion-prior-review-evidence/main-native/coordination.raw",
+      "bytes": 336,
+      "sha256": "871dd4c8142cc1f0587c44e39693f2431285354b970848f2ab0033a4ffce05d8"
+    },
+    {
+      "path": "evidence/OPS-013/normal-completion-prior-review-evidence/main-native/finalization.raw",
+      "bytes": 433,
+      "sha256": "a0d0a00b5c31b7a604ab082629732dc0042c3d19ddd995284d06414c3ba21d8c"
+    },
+    {
+      "path": "evidence/OPS-013/normal-completion-prior-review-evidence/main-native/history.raw",
+      "bytes": 542,
+      "sha256": "cc853c3897ce5fa1afd2cd0531e4b0237d00e3231c159495055bfab44e1e8edf"
+    },
+    {
+      "path": "evidence/OPS-013/normal-completion-prior-review-evidence/main-native/integrity.raw",
+      "bytes": 474,
+      "sha256": "b0fcbdb87244c32f7b6b6ee8df19b368cbf2d08dfe2358593189fb44adf6b2b9"
+    },
+    {
+      "path": "evidence/OPS-013/normal-completion-prior-review-evidence/main-native/poc-protocol.raw",
+      "bytes": 356,
+      "sha256": "e4ae9b0fc0fa62b94ee758214b0aa2185dd06bd6e6b3098395d6e7abc1220080"
+    },
+    {
+      "path": "evidence/OPS-013/normal-completion-prior-review-evidence/main-native/raw-lifecycle.raw",
+      "bytes": 525,
+      "sha256": "8288eed9c328f3deb5bf11593f1e2b884ae59a2353f2e3891a1968fe05da2835"
+    },
+    {
+      "path": "evidence/OPS-013/normal-completion-prior-review-evidence/main-native/results.json",
+      "bytes": 5218,
+      "sha256": "9606da023556af0ff9e020e971e31476517120adc48b4493939714c088524ccf"
+    },
+    {
+      "path": "evidence/OPS-013/normal-completion-prior-review-evidence/main-native/transitions.raw",
+      "bytes": 454,
+      "sha256": "436dc172e6e6a83643ba911ad66a96a9708aded92ce43b389d9fe273e31b7c6a"
+    },
+    {
+      "path": "evidence/OPS-013/normal-completion-prior-review-evidence/prior-docs/OPS-013.md",
+      "bytes": 8103,
+      "sha256": "b2e9c651fefa95c00788bb303a502b2294a569acd35f2c0727332068c36faf8e"
+    },
+    {
+      "path": "evidence/OPS-013/normal-completion-prior-review-evidence/prior-docs/assumptions.md",
+      "bytes": 552,
+      "sha256": "2a62748458224f71fe62f202e480c9043a00addef923339a083206fcac62e139"
+    },
+    {
+      "path": "evidence/OPS-013/normal-completion-prior-review-evidence/prior-docs/commands.txt",
+      "bytes": 1793,
+      "sha256": "6029406fcc9a3948f5ffb354b33f982f0774bfafe9d0e4133b6ccc471f76e7cd"
+    },
+    {
+      "path": "evidence/OPS-013/normal-completion-prior-review-evidence/prior-docs/follow-ups.md",
+      "bytes": 625,
+      "sha256": "2f26134b1f94941190914c2e115b7b5d26dd4a81a03000191feef827f2365cb2"
+    },
+    {
+      "path": "evidence/OPS-013/normal-completion-prior-review-evidence/prior-docs/handoff.md",
+      "bytes": 1198,
+      "sha256": "613bf39a6dc44786543b56313ff32d41e6427f40dd869c498b45f4aae265b4b1"
+    },
+    {
+      "path": "evidence/OPS-013/normal-completion-prior-review-evidence/prior-docs/risks.md",
+      "bytes": 468,
+      "sha256": "847ead38e639a5e298f716f22743a54d1a6dbab9a658f5e1da9062eacf64d7cf"
+    },
+    {
+      "path": "evidence/OPS-013/normal-completion-prior-review-evidence/prior-docs/scope.md",
+      "bytes": 692,
+      "sha256": "657040ee8d5e808a8ecb609b4fb0f70b6612328b9213a793300d7a412fefd62d"
+    },
+    {
+      "path": "evidence/OPS-013/normal-completion-prior-review-evidence/prior-docs/summary.md",
+      "bytes": 858,
+      "sha256": "d230bd19da240f83489a9179014ade1f65ecfac0200be470f5b40dfe382859be"
+    },
+    {
+      "path": "evidence/OPS-013/normal-completion-prior-review-evidence/review-actual-main-candidate.json",
+      "bytes": 886,
+      "sha256": "728a99cc02c63e5c68b6933a16e5d647d703fae31688cabeedc945f14277c102"
+    },
+    {
+      "path": "evidence/OPS-013/normal-completion-prior-review-evidence/review-actual-merge.json",
+      "bytes": 3310,
+      "sha256": "da0c4642225cfed967b54fe3a5482079adb26283d7b97963ce2b0fbe00ea4afa"
+    },
+    {
+      "path": "evidence/OPS-013/normal-completion-prior-review-evidence/review-main-local-independent.json",
+      "bytes": 6774,
+      "sha256": "d96fc9dd94aed0a13736294a5efeab6c060c4310fa88d636cdf2d5e24b91fbd0"
+    },
+    {
+      "path": "evidence/OPS-013/normal-completion-prior-review-evidence/review-merge-approval.json",
+      "bytes": 967,
+      "sha256": "53b7e78b2bc2a77e9b0de3172e66335932db1fb51bacfb4d42684d98839c2291"
+    },
+    {
+      "path": "evidence/OPS-013/normal-completion-prior-review-evidence/review-native/coordination.raw",
+      "bytes": 435,
+      "sha256": "180d387d3522a397f8d1a290b4bcdaee83b861b878f1e2437fc44c8766b579c5"
+    },
+    {
+      "path": "evidence/OPS-013/normal-completion-prior-review-evidence/review-native/diff.raw",
+      "bytes": 144,
+      "sha256": "f3d4b9a8cbb45a0e7bee93b55dd7e79bd1dee3b116f879a94d503a71a271ce68"
+    },
+    {
+      "path": "evidence/OPS-013/normal-completion-prior-review-evidence/review-native/docs.raw",
+      "bytes": 164,
+      "sha256": "2c657d155086cad5d3b0731c971d46e0e5c48b648a97310a14a38995dd96fb64"
+    },
+    {
+      "path": "evidence/OPS-013/normal-completion-prior-review-evidence/review-native/evidence.raw",
+      "bytes": 307,
+      "sha256": "a46cf24edebd483afaaf595b108238e5287efef8dfde7d84db52ff36d64b805b"
+    },
+    {
+      "path": "evidence/OPS-013/normal-completion-prior-review-evidence/review-native/finalization.raw",
+      "bytes": 362,
+      "sha256": "202d322dcdef57c800aa69ed69abb0584c6e6c45ae4f0fa343c742400ca3e2ff"
+    },
+    {
+      "path": "evidence/OPS-013/normal-completion-prior-review-evidence/review-native/history.raw",
+      "bytes": 501,
+      "sha256": "c7b628823727aae049e00633b5b34acfe128fa9e7e13105d60c505765af639aa"
+    },
+    {
+      "path": "evidence/OPS-013/normal-completion-prior-review-evidence/review-native/integrity.raw",
+      "bytes": 419,
+      "sha256": "9f1c240481b8641a06382033e7494a11ad05b1541345b86629ebcb0df31a3297"
+    },
+    {
+      "path": "evidence/OPS-013/normal-completion-prior-review-evidence/review-native/raw-lifecycle.raw",
+      "bytes": 520,
+      "sha256": "3e005efd2ffc9b8fe11f629b95eabbccf04846c9d5b4d0057b306c4cda3b60cd"
+    },
+    {
+      "path": "evidence/OPS-013/normal-completion-prior-review-evidence/review-native/readiness.raw",
+      "bytes": 660,
+      "sha256": "4d7f67389b0786fc3f04589fecab0009f048883e6afff81b0b8aa017b0df2783"
+    },
+    {
+      "path": "evidence/OPS-013/normal-completion-prior-review-evidence/review-native/results.json",
+      "bytes": 17121,
+      "sha256": "e5137abb7bb4b1d34966635d70459ca76c96db960cbc0b09929b26bfa404fe4e"
+    },
+    {
+      "path": "evidence/OPS-013/normal-completion-prior-review-evidence/review-native/schemas.raw",
+      "bytes": 1947,
+      "sha256": "23cc43ced8418b7f6e3d931406681d14abf0b441246ca90e6fe44a709255adb4"
+    },
+    {
+      "path": "evidence/OPS-013/normal-completion-prior-review-evidence/review-native/scope.raw",
+      "bytes": 7734,
+      "sha256": "9bf5e3802548cf445db8300f4989c650cab946cff1e6464c1dc9e714e8d20abb"
+    },
+    {
+      "path": "evidence/OPS-013/normal-completion-prior-review-evidence/review-native/task.raw",
+      "bytes": 255,
+      "sha256": "c6ffb757db543143d4c4d0b839daaebb034b9f3b02049f407c53f240e327ba72"
+    },
+    {
+      "path": "evidence/OPS-013/normal-completion-prior-review-evidence/review-native/transitions.raw",
+      "bytes": 454,
+      "sha256": "57bc35465a3f906a53f75b1013ed62be8df7c9cb115c7088d403d178e582a763"
+    },
+    {
+      "path": "evidence/OPS-013/normal-completion-prior-review-evidence/review-source-final-independent.json",
+      "bytes": 5242,
+      "sha256": "b6ad09f15e94879bad68b595b1f67b3ed40abf99e1acd8df5dbf4dffd1d8e209"
+    },
+    {
+      "path": "evidence/OPS-013/normal-completion-prior-review-evidence/review-source-local-independent.json",
+      "bytes": 11170,
+      "sha256": "b1018dd48a78948edb2d702e6d16f81512469b2cf82d8449b268a699fddb75ed"
+    },
+    {
+      "path": "evidence/OPS-013/risks.md",
+      "bytes": 930,
+      "sha256": "195df39a7ef9ce60e82ff26d2e0425eb388ed85fd6da35f349aa42bebb23217e"
+    },
+    {
+      "path": "evidence/OPS-013/scope.md",
+      "bytes": 930,
+      "sha256": "195df39a7ef9ce60e82ff26d2e0425eb388ed85fd6da35f349aa42bebb23217e"
+    },
+    {
+      "path": "evidence/OPS-013/summary.md",
+      "bytes": 930,
+      "sha256": "195df39a7ef9ce60e82ff26d2e0425eb388ed85fd6da35f349aa42bebb23217e"
+    },
+    {
+      "path": "specs/coordination/active-work.yaml",
+      "bytes": 2320,
+      "sha256": "fe3a699f6282c18d4a395cdbac333f192953c029caa4be3b8f15b9b478bcf439"
+    },
+    {
+      "path": "specs/coordination/program-plan.yaml",
+      "bytes": 64560,
+      "sha256": "d8babcb2c23a6cae1395eced13333f8cdc59fdfb0f1b09de0521b153e10dcb70"
+    },
+    {
+      "path": "specs/tasks/OPS-013.md",
+      "bytes": 6993,
+      "sha256": "44dda0ea8707481e9cb21a68ba215be531c06366af256fde4df2b768597cdb64"
+    }
+  ],
+  "preparationResultsSha256": "1c66f7b3bb4b481f3cc6a762c3cb704d81b3c7e586db7f6f8bdf12ded2878eb6",
+  "allStagedBlobsMatchManifest": true,
+  "inventoryMatches58Paths": true,
+  "archivedOriginalsVerified": {
+    "priorReview": 38,
+    "completionPrerequisites": 5
+  },
+  "actualReviewMainAndCi839Accepted": true,
+  "reviewMainFullAcceptanceSha256": "63d42afdfda12f33f39593ed82d26259fb1f42869ad34697c84d9a40491f9fc2",
+  "freshOfficialIssue137": {
+    "state": "closed",
+    "stateReason": "completed",
+    "closedAt": "2026-10-24T20:23:08Z"
+  },
+  "contentAccepted": true,
+  "mustFix": [],
+  "observations": [
+    "StructuralProgram comparison proves onlyOwnstatus review->completed plus completionRefPR139/mergeCommit actualcode16070. ReviewPR140/main43270 is kept asReviewprovenance rather than completedimplementationidentity.",
+    "StructuralActivecomparison proves onlyOwnOPS013 entryremoved; foreign2entries andpolicy unchanged. Originalowner/independentroleidentities/order9/sixclaims/lease retainedinTask andpredecessorproof. Actualmainstillreview/highoccupied untilfutureacceptedCompletionmerge.",
+    "OnlyTask/Program/Active andOwnEvidence changed; noordinaryLedger/source/tests/Schema/ownership/intent/33B/contract/policy alterations. Taskcompleted/integrator actualbranch/base matches declaredCompletionstage. Allowedpaths listed separately.",
+    "All58stagedGitblobs matchmanifest and58inventory. New5prerequisite originals and38priorReview originals matchlength/SHA andactualroot/Git sources. Source-native13/CI838, actualReviewmain7/CI839 andtheirindependentreviews remaincorrectlyattributed.",
+    "Initialpreparation snapshot is retained asinitialstate; itspriorCIpending/Issueopen facts are not rewritten. CurrentTask/handoff clearlyrecord realCI839 acceptance andactualIssueclosed/completedafterthatacceptance, while current13/hosted742 remainunexecuted.",
+    "Scoped-text dataattributes preserve rawCIbytes withnormaldiff/merge andonlyexactraw whitespace exception. Stageddiffcheck0. No newlocalJUnit or currentfullsourcepass asserted."
+  ],
+  "candidateCommitMayProceed": true,
+  "freshExactSourceNative13MayProceed": true,
+  "verificationPrMayProceed": true,
+  "directReadyVerificationPrConditionallyApproved": true,
+  "directReadyConditions": [
+    "Commit onlythisexactstagedFilespayload andverifyactualcommittedblobmatches; anycontentchange needsnecessaryfreshreview.",
+    "All13 currentfixedsourcecommands mustactuallyexit0/wait withsourceboundraw. IncludeIssueclosed/completed-dependentgates usingactualofficialstate, notarchivedplaceholder. Preservefailures anddo notinherit priorReviewresults.",
+    "BeforeReadypublication source/treecleanunchanged andfreshremote actualmain/base43270, intendedhead, Issue137closed/completed, originalregistrationroles/lease andlegalcapacity conditionsmustremaintrue; newmainchange requireslegalsyncandfreshvalidation.",
+    "ReadyPR is aformalverificationentry only. Mustobtaincurrent sameheadcompletehosted742/skip-audit, independentfinalsourceacceptance, latestresolvedthreads andfreshIntegratorpreflight before ordinaryexpectedheadmerge."
+  ],
+  "currentExactSourceAccepted": false,
+  "currentHostedCiAccepted": false,
+  "completionMergeApproved": false,
+  "actualMainHighSlotReleased": false,
+  "taskCompleted": false,
+  "successorOPS014Approved": false,
+  "contractRepairApproved": false,
+  "experimentApproved": false,
+  "conditionsAfterPotentialMerge": [
+    "ActualCompletionmainrealgraph/tree/localchecks andpushmainfullCI needseparateindependentacceptance. Onlythencompleteauthorization/highrelease canserveasasubsequent independentOPS014reservationprerequisite."
+  ],
+  "reviewerExecution": "Read-only stagedmetadata/content/inventory,43newindexedoriginalbytecomparisons, freshofficialIssue137read andstagedwhitespacecheck. No old742suite orarchive-wideaudit repeated; noauthorfileschanged."
+}

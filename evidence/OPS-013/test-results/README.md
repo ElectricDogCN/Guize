@@ -1,21 +1,14 @@
-# OPS-013 implementation verification
+# OPS-013 verification results
 
-- Reservation sourcecae Task15/713 andCI831713 passed; accepted actualmain3eb
-  CI832713/1419.98s with no test skips. Raw main proof and independent acceptance
-  are in reservation-3eb9bb6-ci832/ and reservation-3eb9bb6-actual-main/.
-- Developmentv1:15cases/1failure/3errors, retained in admission-development-v1-failed/.
-- Developmentv2:17cases/3failures/3errors, retained in admission-development-v2-failed/.
-  These failures exposed fixture construction errors; existing assertions stayed.
-- Developmentv3:17cases/56.841s/exit0; original source/log retained in v3-passed/.
-  Independent P2 subsequently rejected its immediate import on old fixtures.
-- Forward developmentv4:22cases/65.598s/exit0/no skips plus actual unchanged
-  old-planner three-checker regression3/9.53s/exit0. Original91-file manifest,
-  six core source snapshots and complete logs are in admission-development-v4-passed/.
-- Missing-helper independent probe: ordinary/legacy import works, new repair
-  gets no permission and contract changes keep a rejection; see P2/content receipts.
-- Windows same-manifest22 cases passed/1072.393s/exit0, zero skips; raw originals are in admission-development-v4-windows/.
-- Exact committed source Task15/full735/JUnit/latestCI/final review are PENDING.
+OPS-013 Completion evidence
+Last code merge: PR139/16070d0d0d4c1a4952d2fc6f036dda135f058c8d
+Accepted Review main: 43270da544d9df3da68a45d2eca3e0a2fed2de6e
 
-The positive Foundation and successor histories are isolated Git test fixtures,
-not actual completed OPS013 or an OPS014 production registration. The candidate
-does not modify specs/poc, quality/timing thresholds or original response bytes.
+Status: PASS (accepted code and Review-main prerequisite executions only)
+Actual accepted prerequisites: code PR139/main16070 and Review PR140/main43270. Review main seven local commands and CI839742/1581.41s/zero test skips were independently accepted; see normal-completion-prior-review-evidence/main-native/results.json and completion-prerequisite-acceptance/review-main-full-independent.json. Issue137 was actually closed/completed at2026-10-24T20:23:08Z.
+
+Prior candidate5e43e6ff4eeb3335fbcc1ea8044f8cee518940a7 executed six successful commands, then raw-lifecycle failed on missing canonical completion evidence; the remaining six were not run. All four original canonical files, original conditional review, candidate and seven actual raw logs/results are retained in completion-evidence-rejected-5e43e6f/index.json. It was not published.
+
+Current forward Completion candidate: source not yet committed; its Task13, same-head hosted742, final independent review, normal merge and actual Completion main acceptance are PENDING. Actual main remains review; high slot is not released and OPS014 is not admitted.
+
+Earlier development failures and accepted component/implementation runs remain in their original indexed evidence; the prior implementation-only README is retained verbatim in completion-evidence-rejected-5e43e6f/prior-docs/test-results/README.md.

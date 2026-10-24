@@ -3,11 +3,27 @@
 Base: 43270da544d9df3da68a45d2eca3e0a2fed2de6e
 Branch: chore/OPS-013-contract-repair-admission-completion
 
-Exact current metadata-only proposal; earlier Review/code inventories remain historical.
+Exact cumulative metadata-only proposal; earlier inventories retain historical attribution.
 
 - `evidence/OPS-013/assumptions.md`
 - `evidence/OPS-013/commands.txt`
 - `evidence/OPS-013/completion-changed-files.md`
+- `evidence/OPS-013/completion-evidence-rejected-5e43e6f/.gitattributes`
+- `evidence/OPS-013/completion-evidence-rejected-5e43e6f/candidate.json`
+- `evidence/OPS-013/completion-evidence-rejected-5e43e6f/index.json`
+- `evidence/OPS-013/completion-evidence-rejected-5e43e6f/initial-conditional-staged-review.json`
+- `evidence/OPS-013/completion-evidence-rejected-5e43e6f/native/diff.raw`
+- `evidence/OPS-013/completion-evidence-rejected-5e43e6f/native/history.raw`
+- `evidence/OPS-013/completion-evidence-rejected-5e43e6f/native/integrity.raw`
+- `evidence/OPS-013/completion-evidence-rejected-5e43e6f/native/raw-lifecycle.raw`
+- `evidence/OPS-013/completion-evidence-rejected-5e43e6f/native/results.json`
+- `evidence/OPS-013/completion-evidence-rejected-5e43e6f/native/schemas.raw`
+- `evidence/OPS-013/completion-evidence-rejected-5e43e6f/native/task.raw`
+- `evidence/OPS-013/completion-evidence-rejected-5e43e6f/native/transitions.raw`
+- `evidence/OPS-013/completion-evidence-rejected-5e43e6f/prior-docs/commands.txt`
+- `evidence/OPS-013/completion-evidence-rejected-5e43e6f/prior-docs/handoff.md`
+- `evidence/OPS-013/completion-evidence-rejected-5e43e6f/prior-docs/summary.md`
+- `evidence/OPS-013/completion-evidence-rejected-5e43e6f/prior-docs/test-results/README.md`
 - `evidence/OPS-013/completion-prerequisite-acceptance/.gitattributes`
 - `evidence/OPS-013/completion-prerequisite-acceptance/ci839/job.raw.txt`
 - `evidence/OPS-013/completion-prerequisite-acceptance/ci839/official-status.json`
@@ -60,6 +76,7 @@ Exact current metadata-only proposal; earlier Review/code inventories remain his
 - `evidence/OPS-013/risks.md`
 - `evidence/OPS-013/scope.md`
 - `evidence/OPS-013/summary.md`
+- `evidence/OPS-013/test-results/README.md`
 - `specs/coordination/active-work.yaml`
 - `specs/coordination/program-plan.yaml`
 - `specs/tasks/OPS-013.md`
