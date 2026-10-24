@@ -1,0 +1,99 @@
+{
+  "task": "OPS-013",
+  "failedSource": "5e43e6ff4eeb3335fbcc1ea8044f8cee518940a7",
+  "capturedAt": "2026-10-24T20:35:30.042316+00:00",
+  "result": "FAIL",
+  "failedGate": "raw-lifecycle",
+  "passedCommands": 6,
+  "executedCommands": 7,
+  "remainingCommandsNotExecuted": 6,
+  "publicationOccurred": false,
+  "failure": "Completion canonical evidence omitted README and required attributed execution/status fields",
+  "initialConditionalReviewSupersededByActualFailure": true,
+  "files": [
+    {
+      "ref": "prior-docs/commands.txt",
+      "source": "5e43e6ff4eeb3335fbcc1ea8044f8cee518940a7:evidence/OPS-013/commands.txt",
+      "bytes": 1659,
+      "sha256": "710f677cff74af2e84ce92807680a3f5bab2ec737563387c1f9981bd214a3f26"
+    },
+    {
+      "ref": "prior-docs/summary.md",
+      "source": "5e43e6ff4eeb3335fbcc1ea8044f8cee518940a7:evidence/OPS-013/summary.md",
+      "bytes": 930,
+      "sha256": "195df39a7ef9ce60e82ff26d2e0425eb388ed85fd6da35f349aa42bebb23217e"
+    },
+    {
+      "ref": "prior-docs/handoff.md",
+      "source": "5e43e6ff4eeb3335fbcc1ea8044f8cee518940a7:evidence/OPS-013/handoff.md",
+      "bytes": 930,
+      "sha256": "195df39a7ef9ce60e82ff26d2e0425eb388ed85fd6da35f349aa42bebb23217e"
+    },
+    {
+      "ref": "prior-docs/test-results/README.md",
+      "source": "5e43e6ff4eeb3335fbcc1ea8044f8cee518940a7:evidence/OPS-013/test-results/README.md",
+      "bytes": 1544,
+      "sha256": "db59506fb1662212e0c4c173860e74bca2cff850ccc0bd8755db6139df49c644"
+    },
+    {
+      "ref": "candidate.json",
+      "source": "ops013-normal-completion-current-candidate.json",
+      "bytes": 5651,
+      "sha256": "68c606d1c69f072b41bf8d1c1c8e08856546756ea7aa276f1bb7bf28a991882b"
+    },
+    {
+      "ref": "initial-conditional-staged-review.json",
+      "source": "ops013-normal-completion-staged-independent-review.json",
+      "bytes": 16250,
+      "sha256": "04ef66bda768cc62ba18339995ed4c5526436ecef99c7e52b5024e71d65d7aa8"
+    },
+    {
+      "ref": "native/results.json",
+      "source": "ops013-normal-completion-5e43e6f-native-checks/results.json",
+      "bytes": 10661,
+      "sha256": "130cef22dfd20af437e0428980f013006384750a87b29dfa6264079ffd31e643"
+    },
+    {
+      "ref": "native/diff.raw",
+      "source": "ops013-normal-completion-5e43e6f-native-checks/diff.raw",
+      "bytes": 144,
+      "sha256": "654b91855388132a3ebe6eec5bc84b9fa8e79bcede04d39eec71da8b19c91ccb"
+    },
+    {
+      "ref": "native/task.raw",
+      "source": "ops013-normal-completion-5e43e6f-native-checks/task.raw",
+      "bytes": 259,
+      "sha256": "b10ab28caea8cb3a5f6ee0bff5bb745c028e2c693dbf8f2f5460f9ce31bf2c99"
+    },
+    {
+      "ref": "native/schemas.raw",
+      "source": "ops013-normal-completion-5e43e6f-native-checks/schemas.raw",
+      "bytes": 1882,
+      "sha256": "88b2cd3fa6f75a165cc549a3630306ceadaed1d549cf93c47b9d3084d1402fc2"
+    },
+    {
+      "ref": "native/integrity.raw",
+      "source": "ops013-normal-completion-5e43e6f-native-checks/integrity.raw",
+      "bytes": 419,
+      "sha256": "7c79ff5397ea7dc8e3224ca80e6de2fca8047111ed05450d56145c5c3496ffb3"
+    },
+    {
+      "ref": "native/history.raw",
+      "source": "ops013-normal-completion-5e43e6f-native-checks/history.raw",
+      "bytes": 495,
+      "sha256": "02bfb54322103001093617988839a12241852e8d345aa827546a3fa7a164f1e3"
+    },
+    {
+      "ref": "native/transitions.raw",
+      "source": "ops013-normal-completion-5e43e6f-native-checks/transitions.raw",
+      "bytes": 448,
+      "sha256": "cf50c21003c0f4f213d07196bfb807805c447016a26afd278d5aed64124fa101"
+    },
+    {
+      "ref": "native/raw-lifecycle.raw",
+      "source": "ops013-normal-completion-5e43e6f-native-checks/raw-lifecycle.raw",
+      "bytes": 417,
+      "sha256": "df60cd1ede9b877467bae918e94bb6dc8744f0ae1f8703582a86516eeeb18a6e"
+    }
+  ]
+}

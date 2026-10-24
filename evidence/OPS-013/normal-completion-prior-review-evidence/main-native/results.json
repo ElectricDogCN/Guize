@@ -1,0 +1,156 @@
+{
+  "actualMain": "43270da544d9df3da68a45d2eca3e0a2fed2de6e",
+  "source": "6b8b7999e73a9a5fd7c8cf45bb04a6adee4a7c0d",
+  "base": "16070d0d0d4c1a4952d2fc6f036dda135f058c8d",
+  "tree": "76aa0c7ce617515cf820c5abb1607b924fa04f98",
+  "before": {
+    "head": "43270da544d9df3da68a45d2eca3e0a2fed2de6e",
+    "tree": "76aa0c7ce617515cf820c5abb1607b924fa04f98",
+    "parents": "16070d0d0d4c1a4952d2fc6f036dda135f058c8d 6b8b7999e73a9a5fd7c8cf45bb04a6adee4a7c0d",
+    "branch": "main",
+    "status": ""
+  },
+  "canonicalMainFastForwarded": true,
+  "parentAndTreeVerified": true,
+  "trackedAndUntrackedClean": true,
+  "bundle": "ops013-review-43270da-actual-main.bundle",
+  "bundleBytes": 13781708,
+  "bundleSha256": "777aa2c92c2af99f5c40fc5593f07315891a80c518be4cf2e7122a447cf81fe4",
+  "branch": "chore/OPS-013-contract-repair-admission-review-corrected",
+  "nativeMainChecksAccepted": true,
+  "fullMainCiAccepted": false,
+  "reviewMetadataOnly": true,
+  "taskCompleted": false,
+  "successorRegistrationApproved": false,
+  "experimentApproved": false,
+  "commands": [
+    {
+      "label": "integrity",
+      "argv": [
+        "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+        "-B",
+        "scripts/check-program-plan-integrity.py",
+        "--base-ref",
+        "16070d0d0d4c1a4952d2fc6f036dda135f058c8d"
+      ],
+      "startedAt": "2026-10-24T19:53:18.176010+00:00",
+      "pid": 469962,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "bytes": 474,
+      "sha256": "b0fcbdb87244c32f7b6b6ee8df19b368cbf2d08dfe2358593189fb44adf6b2b9"
+    },
+    {
+      "label": "history",
+      "argv": [
+        "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+        "-B",
+        "scripts/check-program-plan-history.py",
+        "--base-ref",
+        "16070d0d0d4c1a4952d2fc6f036dda135f058c8d",
+        "--head-ref",
+        "43270da544d9df3da68a45d2eca3e0a2fed2de6e"
+      ],
+      "startedAt": "2026-10-24T19:53:19.524450+00:00",
+      "pid": 470179,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "bytes": 542,
+      "sha256": "cc853c3897ce5fa1afd2cd0531e4b0237d00e3231c159495055bfab44e1e8edf"
+    },
+    {
+      "label": "transitions",
+      "argv": [
+        "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+        "-B",
+        "scripts/check-program-plan-transitions.py",
+        "--base-ref",
+        "16070d0d0d4c1a4952d2fc6f036dda135f058c8d",
+        "--head-ref",
+        "43270da544d9df3da68a45d2eca3e0a2fed2de6e"
+      ],
+      "startedAt": "2026-10-24T19:53:28.937813+00:00",
+      "pid": 470791,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "bytes": 454,
+      "sha256": "436dc172e6e6a83643ba911ad66a96a9708aded92ce43b389d9fe273e31b7c6a"
+    },
+    {
+      "label": "finalization",
+      "argv": [
+        "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+        "-B",
+        "scripts/check-program-plan-finalization.py",
+        "--base-ref",
+        "16070d0d0d4c1a4952d2fc6f036dda135f058c8d",
+        "--head-ref",
+        "43270da544d9df3da68a45d2eca3e0a2fed2de6e"
+      ],
+      "startedAt": "2026-10-24T19:53:31.789419+00:00",
+      "pid": 470907,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "bytes": 433,
+      "sha256": "a0d0a00b5c31b7a604ab082629732dc0042c3d19ddd995284d06414c3ba21d8c"
+    },
+    {
+      "label": "raw-lifecycle",
+      "argv": [
+        "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+        "-B",
+        "scripts/check-program-lifecycle-guards.py",
+        "--base-ref",
+        "16070d0d0d4c1a4952d2fc6f036dda135f058c8d",
+        "--head-ref",
+        "43270da544d9df3da68a45d2eca3e0a2fed2de6e"
+      ],
+      "startedAt": "2026-10-24T19:53:32.028951+00:00",
+      "pid": 470912,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "bytes": 525,
+      "sha256": "8288eed9c328f3deb5bf11593f1e2b884ae59a2353f2e3891a1968fe05da2835"
+    },
+    {
+      "label": "coordination",
+      "argv": [
+        "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+        "-B",
+        "scripts/run-agent-coordination-gate.py"
+      ],
+      "startedAt": "2026-10-24T19:53:34.499814+00:00",
+      "pid": 470991,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "bytes": 336,
+      "sha256": "871dd4c8142cc1f0587c44e39693f2431285354b970848f2ab0033a4ffce05d8"
+    },
+    {
+      "label": "poc-protocol",
+      "argv": [
+        "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+        "-B",
+        "specs/poc/check_program.py",
+        "--repo-root",
+        "/home/sur/.cache/guize-takeover/ops013-review-main-43270da"
+      ],
+      "startedAt": "2026-10-24T19:53:34.794723+00:00",
+      "pid": 470993,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "bytes": 356,
+      "sha256": "e4ae9b0fc0fa62b94ee758214b0aa2185dd06bd6e6b3098395d6e7abc1220080"
+    }
+  ],
+  "after": {
+    "head": "43270da544d9df3da68a45d2eca3e0a2fed2de6e",
+    "tree": "76aa0c7ce617515cf820c5abb1607b924fa04f98",
+    "parents": "16070d0d0d4c1a4952d2fc6f036dda135f058c8d 6b8b7999e73a9a5fd7c8cf45bb04a6adee4a7c0d",
+    "branch": "main",
+    "status": ""
+  },
+  "actualMainSixAndPocAllExit0": true,
+  "fullSuiteRepeated": false,
+  "completedAt": "2026-10-24T19:53:37.375077+00:00"
+}
