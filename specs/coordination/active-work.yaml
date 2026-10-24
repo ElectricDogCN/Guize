@@ -93,3 +93,44 @@ tasks:
   lease:
     acquiredAt: '2026-10-22T16:08:44Z'
     expiresAt: '2026-10-29T16:08:44Z'
+- taskId: OPS-014
+  issue: 142
+  title: 修复metadata profiling的416诊断正文合同
+  status: reserved
+  riskLevel: high
+  owner: ElectricDogCN
+  coordinator: program-coordinator-agent
+  implementer: poc-contract-repair-implementation-agent
+  reviewer: independent-review-agent
+  integrator: integration-agent
+  agentRole: coordinator
+  branch: chore/OPS-014-metadata-416-repair
+  baseBranch: main
+  baseSha: 760f6c5838597d1d66c0a536ecbf440ef5a7dfec
+  workPackage: WP-M0-01
+  programPlan: specs/coordination/program-plan.yaml
+  programTaskId: OPS-014
+  programWave: FOUNDATION
+  requirementIds:
+  - REQ-V1-0010
+  moduleIds:
+  - MOD-GOV
+  producesContracts: []
+  consumesContracts:
+  - CONTRACT-PROGRAM-PLAN
+  - CONTRACT-TASK-SPEC
+  - CONTRACT-ACTIVE-WORK
+  - POC-PROTOCOL-V1
+  coordinationGroup: poc-contract-repair
+  dependsOn:
+  - OPS-013
+  exclusivePaths:
+  - specs/poc/check_program.py
+  - specs/poc/test_program.py
+  sharedPaths: []
+  handoffPath: evidence/OPS-014/handoff.md
+  integrationStrategy: merge
+  integrationOrder: 10
+  lease:
+    acquiredAt: '2026-10-24T21:42:30Z'
+    expiresAt: '2026-10-31T21:42:30Z'
