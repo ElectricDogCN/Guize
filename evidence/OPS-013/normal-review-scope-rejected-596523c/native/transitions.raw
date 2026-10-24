@@ -1,0 +1,5 @@
+Source Commit: 596523cbeb2a9c35b81d6a1bc031461d84bbdd22
+Command: python scripts/check-program-plan-transitions.py --base-ref 16070d0d0d4c1a4952d2fc6f036dda135f058c8d --head-ref HEAD --task OPS-013 --branch-name chore/OPS-013-contract-repair-admission-review-corrected
+{"status": "PASS", "message": "Program reservation scope, wave and lifecycle transitions passed", "details": {"task": "OPS-013", "activeTasks": 3, "completionRecords": 5}}
+
+Exit Code: 0
