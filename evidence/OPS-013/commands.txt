@@ -1,35 +1,20 @@
-OPS-013 command plan. Actual parent source480dc0b607453ba26ec3d9d650c79c1b85f1c06e completed all15 below with exit0; exact successor gates remain separate and pending.
-git diff --check f2e0150265e0c1eeca5f69fe85708b2434e5ee79...HEAD
+OPS-013 implementation exact-source Task15; source results PENDING until the actual committed candidate runs.
+git diff --check 3eb9bb69b4fb1df85a359750b73356b953429540...HEAD
 python scripts/check-task-file.py --task OPS-013
 python scripts/check-schemas.py
-python scripts/check-program-plan-integrity.py --base-ref f2e0150265e0c1eeca5f69fe85708b2434e5ee79
-python scripts/check-program-plan-history.py --base-ref f2e0150265e0c1eeca5f69fe85708b2434e5ee79 --head-ref HEAD --task OPS-013 --branch-name chore/OPS-013-contract-repair-admission-reservation
-python scripts/check-program-plan-transitions.py --base-ref f2e0150265e0c1eeca5f69fe85708b2434e5ee79 --head-ref HEAD --task OPS-013 --branch-name chore/OPS-013-contract-repair-admission-reservation
-python scripts/check-program-plan-finalization.py --base-ref f2e0150265e0c1eeca5f69fe85708b2434e5ee79 --head-ref HEAD --task OPS-013
-python scripts/check-program-lifecycle-guards.py --base-ref f2e0150265e0c1eeca5f69fe85708b2434e5ee79 --head-ref HEAD --task OPS-013 --branch-name chore/OPS-013-contract-repair-admission-reservation
-python scripts/run-program-lifecycle-gate.py --base-ref f2e0150265e0c1eeca5f69fe85708b2434e5ee79 --head-ref HEAD --task OPS-013 --branch-name chore/OPS-013-contract-repair-admission-reservation
-python scripts/run-agent-coordination-gate.py --base-ref f2e0150265e0c1eeca5f69fe85708b2434e5ee79 --head-ref HEAD --task OPS-013 --branch-name chore/OPS-013-contract-repair-admission-reservation
-python scripts/run-task-scope-gate.py --task OPS-013 --base f2e0150265e0c1eeca5f69fe85708b2434e5ee79
+python scripts/check-program-plan-integrity.py --base-ref 3eb9bb69b4fb1df85a359750b73356b953429540
+python scripts/check-program-plan-history.py --base-ref 3eb9bb69b4fb1df85a359750b73356b953429540 --head-ref HEAD --task OPS-013 --branch-name chore/OPS-013-contract-repair-admission
+python scripts/check-program-plan-transitions.py --base-ref 3eb9bb69b4fb1df85a359750b73356b953429540 --head-ref HEAD --task OPS-013 --branch-name chore/OPS-013-contract-repair-admission
+python scripts/check-program-plan-finalization.py --base-ref 3eb9bb69b4fb1df85a359750b73356b953429540 --head-ref HEAD --task OPS-013
+python scripts/check-program-lifecycle-guards.py --base-ref 3eb9bb69b4fb1df85a359750b73356b953429540 --head-ref HEAD --task OPS-013 --branch-name chore/OPS-013-contract-repair-admission
+python scripts/run-program-lifecycle-gate.py --base-ref 3eb9bb69b4fb1df85a359750b73356b953429540 --head-ref HEAD --task OPS-013 --branch-name chore/OPS-013-contract-repair-admission
+python scripts/run-agent-coordination-gate.py --base-ref 3eb9bb69b4fb1df85a359750b73356b953429540 --head-ref HEAD --task OPS-013 --branch-name chore/OPS-013-contract-repair-admission
+python scripts/run-task-scope-gate.py --task OPS-013 --base 3eb9bb69b4fb1df85a359750b73356b953429540
 python scripts/check-evidence.py --task OPS-013
 python scripts/check-project-readiness.py
-make verify TASK=OPS-013 BASE=f2e0150265e0c1eeca5f69fe85708b2434e5ee79 HEAD_REF=HEAD BRANCH=chore/OPS-013-contract-repair-admission-reservation
+make verify TASK=OPS-013 BASE=3eb9bb69b4fb1df85a359750b73356b953429540 HEAD_REF=HEAD BRANCH=chore/OPS-013-contract-repair-admission
 python scripts/check-markdown.py
 
-Actual parent-source command results (source480; no successor inheritance):
-diff: exit0; raw=reservation-480dc0b-native-retry-accepted/diff.raw; sha256=64655af222ab88d8b5815135d5cb26370c52f49bfff318b61bbe1b939c4968e6
-task: exit0; raw=reservation-480dc0b-native-retry-accepted/task.raw; sha256=eca4a1b34bb2b23d9e68a13ef1c85cf90aa2b363e2d29fc02432dfe6fb0799d6
-schemas: exit0; raw=reservation-480dc0b-native-retry-accepted/schemas.raw; sha256=fffa5d8ca95a0cfa875075207ba49196eea1ac6125ce6949a59d27da785e4f25
-integrity: exit0; raw=reservation-480dc0b-native-retry-accepted/integrity.raw; sha256=8a6d10d60d353991f472cc28477cadf3b0a22765d9c10f89e8be2d5390d206cc
-history: exit0; raw=reservation-480dc0b-native-retry-accepted/history.raw; sha256=5575bb2949ee8fc8412bd9014ea51367e3d3eecc2caa4f7667710b2eb5b5a87f
-transitions: exit0; raw=reservation-480dc0b-native-retry-accepted/transitions.raw; sha256=617a9c29d4da09a55b5b62b8f3699943115e5738410519b67dae305789675d60
-finalization: exit0; raw=reservation-480dc0b-native-retry-accepted/finalization.raw; sha256=321f925aaabb1ed92ad9f83518f3e8a8b697cd53dcd254eaf57e3d0cbefc8932
-raw-lifecycle: exit0; raw=reservation-480dc0b-native-retry-accepted/raw-lifecycle.raw; sha256=731035c3b1fd9e86038efe7bd6a52de9a6369ff0ab8c9186c96276bd38603c5a
-lifecycle: exit0; raw=reservation-480dc0b-native-retry-accepted/lifecycle.raw; sha256=38e1b34961affb93ed2bc14dbd9e5a4573266abb7c59e94084c43399aa3267cc
-coordination: exit0; raw=reservation-480dc0b-native-retry-accepted/coordination.raw; sha256=f920b15256db0d2c5d6cacd16b3390d2b612809a3aebc2563be74d4df8276739
-scope: exit0; raw=reservation-480dc0b-native-retry-accepted/scope.raw; sha256=0df414680f2c020b105a0b91a8fd2c37946aa2c618d5948c6f8cf1115770bfde
-evidence: exit0; raw=reservation-480dc0b-native-retry-accepted/evidence.raw; sha256=e78fccdc60ddc6843204da9f815b55dcf37bbf679370230852a5b1ffeb3ba469
-readiness: exit0; raw=reservation-480dc0b-native-retry-accepted/readiness.raw; sha256=21bd087efd9940df6c59c3a87ce9b4cb77e4d26626db26cc97d1ebc2b7a14017
-verify: exit0; raw=reservation-480dc0b-native-retry-accepted/verify.raw; sha256=bdaa4a76fc43181644b7f5693f2b1b61f52e98686ab6ece828e5387b7e13c746
-docs: exit0; raw=reservation-480dc0b-native-retry-accepted/docs.raw; sha256=b536bd003d60a087b704ac2832ef0f5e42f5554c93354cff17f76102822cb2a8
-Full governance713/1152.72s; JUnit713 cases/0 failure/0 error/0 skip. CI829713/1088.06s and CI830713/1399.25s independently retained.
-First local full run689pass/1fail/23errors and isolated-store repair remain original failures. See source-attestation and archive indexes.
+Historical reservation results: sourcecae Task15/713 and CI831 accepted; actualmain3eb CI832713/1419.98s accepted.
+Development v4:22 native cases/65.598s and3 unchanged old-planner checker regressions/9.53s, no skips; independent content accepted.
+Windows same91file component verification actually passed22 cases/1072.393s/exit0; no full-source result inherited. Full source/JUnit/CI acceptance remains pending.

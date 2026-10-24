@@ -1,0 +1,70 @@
+{
+  "baseSource": "3eb9bb69b4fb1df85a359750b73356b953429540",
+  "uncommitted": true,
+  "exitCode": 0,
+  "waitCompleted": true,
+  "diagnosis": "Actual intermediate development result; source gates and independent content acceptance remain separate",
+  "productAssertionsWeakened": false,
+  "files": [
+    {
+      "ref": "unit.raw",
+      "bytes": 3481,
+      "sha256": "1f1b803a7b268bb4bb35710d9eb503ce0896e706333971033e40d9e1f5f2c316"
+    },
+    {
+      "ref": "results.json",
+      "bytes": 16718,
+      "sha256": "d0d7fdb0f386a8f571877d22df842e3f8e6d6e217ab6cce940bb3b18ba1670b7"
+    },
+    {
+      "ref": "manifest.json",
+      "bytes": 16908,
+      "sha256": "276b4edf7964a636ed3b95595aa2309a46a114b73f536908fbe2a46a806ff8c0"
+    },
+    {
+      "ref": "source/AGENTS.md",
+      "bytes": 15863,
+      "sha256": "4755991cc2357b758a34c2242cd40d9534b5c2ac7e88bacf0a77c9383971c284"
+    },
+    {
+      "ref": "source/scripts/check-program-lifecycle-guards.py",
+      "bytes": 55505,
+      "sha256": "827c185de5162da66b5e8fc2aee7d148d5ffb532fbfc1e97437f11c4171f393d"
+    },
+    {
+      "ref": "source/scripts/check-program-plan-history.py",
+      "bytes": 102804,
+      "sha256": "44596b87ec0b13f126e54a96ff04653a2964662b581abe614c698893a37046d9"
+    },
+    {
+      "ref": "source/scripts/check-program-plan-transitions.py",
+      "bytes": 37115,
+      "sha256": "be6040ba281aea00792b72381b47983e87943484b7109a6c6bc56cd1c0fd9d1f"
+    },
+    {
+      "ref": "source/scripts/poc-contract-repair-admission.py",
+      "bytes": 18678,
+      "sha256": "e656654a46b9add93c813d48c3874462b6ca784e4882cbbfa0bdaf16689d1c8e"
+    },
+    {
+      "ref": "source/specs/coordination/active-work.yaml",
+      "bytes": 3626,
+      "sha256": "34e1eb0a2ed5b8b249e0ed9950792f939dc18960345eb8252cfb3274ccd78ece"
+    },
+    {
+      "ref": "source/specs/coordination/program-plan.yaml",
+      "bytes": 64529,
+      "sha256": "7861def668a06eafa2b14eef1934b8b8aab2f63e1e48dae7cbdfa3f8677f44fc"
+    },
+    {
+      "ref": "source/specs/tasks/OPS-013.md",
+      "bytes": 7851,
+      "sha256": "dde1652e44105182b8ef603f97099d197126587234b7d36a1b77fbb6a7365c08"
+    },
+    {
+      "ref": "source/tests/governance/test_poc_contract_repair_admission.py",
+      "bytes": 14898,
+      "sha256": "fa9bf8431381fc6c45c5a652328fa1418ddf576ee0a9368a55e747f23c2d1aab"
+    }
+  ]
+}

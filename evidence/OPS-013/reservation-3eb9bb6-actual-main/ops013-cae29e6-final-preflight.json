@@ -1,0 +1,217 @@
+{
+  "checkedAt": "2026-10-23 01:54:48 UTC",
+  "pr": {
+    "content": [
+      {
+        "type": "text",
+        "text": "Action completed."
+      }
+    ],
+    "structuredContent": {
+      "url": "https://github.com/ElectricDogCN/Guize/pull/138",
+      "number": 138,
+      "state": "open",
+      "merged": false,
+      "mergeable": true,
+      "draft": false,
+      "body": "真实 OpenList 扫描返回416、`Content-Range: bytes */4096`及33字节诊断正文，与已完成GZ-021的空正文要求冲突。本PR只登记OPS-013，建立后续单次精确范围的合同修复准入，尚不修改合同或POC结果。\n\n仅Own Program/Foundation、活动登记、Task和Evidence；六条未来实现路径属于MOD-GOV。不可变授权意图保留实际缺陷、GZ-021来源、两文件原Git字节摘要及唯一后继OPS-014。后继须等待OPS-013正常完成、释放容量、独立登记，并按完成后恢复规则办理冻结与验证。\n\n当前源：`cae29e6f6cd20c7c612ecd42a179fc7c80caf537`\n树：`6c94bdccdd1832374ff93a8093141054ea88b32e`\n基线：`f2e0150265e0c1eeca5f69fe85708b2434e5ee79`\n\n本次修复两条审查意见：提交父源480的真实Task15、713项JUnit、CI829/830与原始失败/对象库修复证据；MD/JSON保留原始字节并恢复文本diff。仅五个精确原始诊断数据文件保留日志固有空白格式，源码空白检查已实际验证仍生效。intent、原始响应、日志、角色、租约及claims均未改变。\n\n父源480实际通过Task15及713项本地测试/1152.72s；CI829713/1088.06s、CI830713/1399.25s均零失败、错误或跳过。但两条后续线程阻止其合并，这些通过不能替代本源验证。\n\n本源实际完成15项本地检查，713 passed/1183.44s，JUnit零失败、错误或跳过；同头CI831/run39884188566/job120188395875已success，713 passed/1051.57s，Skip Audit成功。原始日志/JUnit及官方snapshot已归档Own Evidence的reservation-cae29e6-source-validation（未提交，保留当前验证源，留待正常实现Evidence流）。完整CI日志287191B/SHA256 30a96bb59e7e677a803fb597c630373446372431735969550a95702631b53a20。2026-10-23T01:51:23Z独立固定源审查接受当前门禁、范围和两条意见修复；已逐条回复并resolve，须在最终身份/最新CI/线程/租约预检后使用exact expected_head_sha普通合并。尚未合入main、开始机制实现、修改合同或取得V1接受。\n\nIssue:#137\nEvidence:`evidence/OPS-013/`",
+      "title": "OPS-013: reserve bounded POC contract repair admission",
+      "base": "main",
+      "base_sha": "f2e0150265e0c1eeca5f69fe85708b2434e5ee79",
+      "head": "chore/OPS-013-contract-repair-admission-reservation",
+      "head_sha": "cae29e6f6cd20c7c612ecd42a179fc7c80caf537",
+      "head_repo_id": 1308659933,
+      "head_repo_full_name": "ElectricDogCN/Guize",
+      "merge_commit_sha": "5def7e7cdc2ed04fa3a1f86b00192f5c8b0e7b88",
+      "user": {
+        "login": "ElectricDogCN",
+        "name": "ElectricDogCN",
+        "email": null,
+        "avatar_url": "https://avatars.githubusercontent.com/u/43232390?v=4",
+        "id": 43232390
+      },
+      "requested_reviewers": null,
+      "requested_team_reviewers": null,
+      "diff": null,
+      "comments": null,
+      "created_at": "2026-10-23T00:09:41Z",
+      "updated_at": "2026-10-23T01:54:09Z",
+      "closed_at": null,
+      "merged_at": null,
+      "commits": 3,
+      "changed_files": 85,
+      "additions": 15294,
+      "deletions": 0,
+      "display_url": "https://github.com/ElectricDogCN/Guize/pull/138",
+      "display_title": "OPS-013: reserve bounded POC contract repair admission"
+    },
+    "isError": false
+  },
+  "threads": {
+    "content": [
+      {
+        "type": "text",
+        "text": "Action completed."
+      }
+    ],
+    "structuredContent": {
+      "review_threads": [
+        {
+          "id": "PRRT_kwDOTgCQ3c6vb4-b",
+          "is_resolved": true,
+          "is_outdated": true,
+          "path": "evidence/OPS-013/commands.txt",
+          "line": null,
+          "diff_side": "RIGHT",
+          "start_line": null,
+          "start_diff_side": null,
+          "original_line": 1,
+          "original_start_line": null,
+          "resolved_by": {
+            "login": "ElectricDogCN",
+            "name": "ElectricDogCN",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/u/43232390?u=44ba221e50370c3310b808b04885d87da4db26f2&v=4",
+            "id": null
+          },
+          "comments": [
+            {
+              "id": "PRRC_kwDOTgCQ3c8AAAABA5VqZA",
+              "database_id": 4355091044,
+              "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Capture the current commit's gate results**\n\nThis canonical command record says every result for the current source is still `PENDING`; the handoff and test-results files likewise record only the rejected `3d78e5c` attempt and explicitly say the corrected source remains unvalidated. Consequently, for commit `430a386` there are no committed exit codes, logs, JUnit results, or independent source review with which the integrator can confirm that the latest HEAD passed its gates. Run the declared checks against this exact commit and commit their results before admitting the reservation.\n\nAGENTS.md reference: [AGENTS.md:L369-L371](https://github.com/ElectricDogCN/Guize/blob/480dc0b607453ba26ec3d9d650c79c1b85f1c06e/AGENTS.md#L369-L371)\n\nUseful? React with 👍 / 👎.\n\n<!-- codex-code-review-finding:v1 -->",
+              "created_at": "2026-10-23T00:59:01Z",
+              "updated_at": "2026-10-23T00:59:01Z",
+              "author": {
+                "login": "chatgpt-codex-connector",
+                "name": "chatgpt-codex-connector",
+                "email": null,
+                "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+                "id": null
+              },
+              "viewer_did_author": false
+            },
+            {
+              "id": "PRRC_kwDOTgCQ3c8AAAABA5l9jQ",
+              "database_id": 4355358093,
+              "body": "已在 cae29e6f6cd20c7c612ecd42a179fc7c80caf537 中前向修正：提交父源480的15项真实命令、713项JUnit、CI829/830原始日志、首次失败及对象库修复，并更新canonical commands/handoff/test-results，明确历史结果不能替代后继提交验证。当前cae自身现已实际完成15项本地检查，713 passed/1183.44s，JUnit零failure/error/skipped；同头CI831/run39884188566/job120188395875完成success，713 passed/1051.57s且Skip Audit成功。当前源完整原始证明已归档到Own Evidence的reservation-cae29e6-source-validation（未提交，留待正常实现Evidence流，保持已验证源不移动）；CI日志287191B/SHA256 30a96bb59e7e677a803fb597c630373446372431735969550a95702631b53a20。独立审查2026-10-23T01:51:23Z已核对15项、JUnit、85路径及原件摘要，并确认本意见已解决。登记尚未合并，不表示机制实现或合同修复完成。",
+              "created_at": "2026-10-23T01:54:02Z",
+              "updated_at": "2026-10-23T01:54:02Z",
+              "author": {
+                "login": "ElectricDogCN",
+                "name": "ElectricDogCN",
+                "email": null,
+                "avatar_url": "https://avatars.githubusercontent.com/u/43232390?u=44ba221e50370c3310b808b04885d87da4db26f2&v=4",
+                "id": null
+              },
+              "viewer_did_author": true
+            }
+          ]
+        },
+        {
+          "id": "PRRT_kwDOTgCQ3c6vb4-c",
+          "is_resolved": true,
+          "is_outdated": true,
+          "path": "evidence/OPS-013/.gitattributes",
+          "line": null,
+          "diff_side": "RIGHT",
+          "start_line": null,
+          "start_diff_side": "RIGHT",
+          "original_line": 6,
+          "original_start_line": 2,
+          "resolved_by": {
+            "login": "ElectricDogCN",
+            "name": "ElectricDogCN",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/u/43232390?u=44ba221e50370c3310b808b04885d87da4db26f2&v=4",
+            "id": null
+          },
+          "comments": [
+            {
+              "id": "PRRC_kwDOTgCQ3c8AAAABA5VqZQ",
+              "database_id": 4355091045,
+              "body": "**<sub><sub>![P2 Badge](https://img.shields.io/badge/P2-yellow?style=flat)</sub></sub>  Keep review evidence text-diffable**\n\nThese entries mark textual Markdown and JSON authorization/review records as `binary`, so the current PR and any later modification suppress their inline Git diff and normal line-based merge behavior. That prevents reviewers from directly auditing changes to the proposal, independent reviews, and recorded results even though Git/Evidence are the required recovery and handoff sources; use a byte-preserving text configuration such as `-text`, if needed, without disabling diffs.\n\nAGENTS.md reference: [AGENTS.md:L363-L367](https://github.com/ElectricDogCN/Guize/blob/480dc0b607453ba26ec3d9d650c79c1b85f1c06e/AGENTS.md#L363-L367)\n\nUseful? React with 👍 / 👎.\n\n<!-- codex-code-review-finding:v1 -->",
+              "created_at": "2026-10-23T00:59:01Z",
+              "updated_at": "2026-10-23T00:59:01Z",
+              "author": {
+                "login": "chatgpt-codex-connector",
+                "name": "chatgpt-codex-connector",
+                "email": null,
+                "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+                "id": null
+              },
+              "viewer_did_author": false
+            },
+            {
+              "id": "PRRC_kwDOTgCQ3c8AAAABA5l-Fg",
+              "database_id": 4355358230,
+              "body": "已在 cae29e6 中把文本MD/JSON等证据的binary标记改为-text，保留Git原始字节并恢复默认文本diff与行合并。仅真实响应.bin保留binary。恢复diff后实际暴露的原始日志空白检查失败也已保留；仅五个精确、不可变的诊断数据文件使用局部空白属性，没有通配源码豁免或全局设置。44件原始证据Git字节/长度/SHA与父源一致；实际源码空白反例仍被拒绝，当前diff检查exit0。当前源15项/本地713及同头CI831的713项均通过、无跳过，独立审查已确认本意见解决。",
+              "created_at": "2026-10-23T01:54:04Z",
+              "updated_at": "2026-10-23T01:54:04Z",
+              "author": {
+                "login": "ElectricDogCN",
+                "name": "ElectricDogCN",
+                "email": null,
+                "avatar_url": "https://avatars.githubusercontent.com/u/43232390?u=44ba221e50370c3310b808b04885d87da4db26f2&v=4",
+                "id": null
+              },
+              "viewer_did_author": true
+            }
+          ]
+        }
+      ]
+    },
+    "isError": false
+  },
+  "ci": {
+    "content": [
+      {
+        "type": "text",
+        "text": "Action completed."
+      }
+    ],
+    "structuredContent": {
+      "workflow_runs": [
+        {
+          "id": 39884188566,
+          "name": "Governance Gate",
+          "status": "completed",
+          "conclusion": "success",
+          "run_number": 831,
+          "jobs_url": "https://api.github.com/repos/ElectricDogCN/Guize/actions/runs/39884188566/jobs",
+          "logs_url": "https://api.github.com/repos/ElectricDogCN/Guize/actions/runs/39884188566/logs",
+          "workflow_id": 318794701
+        }
+      ]
+    },
+    "isError": false
+  },
+  "main": {
+    "content": [
+      {
+        "type": "text",
+        "text": "Action completed."
+      }
+    ],
+    "structuredContent": {
+      "content": "{\"ref\":\"refs/heads/main\",\"node_id\":\"REF_kwDOTgCQ3a9yZWZzL2hlYWRzL21haW4\",\"url\":\"https://api.github.com/repos/ElectricDogCN/Guize/git/refs/heads/main\",\"object\":{\"sha\":\"f2e0150265e0c1eeca5f69fe85708b2434e5ee79\",\"type\":\"commit\",\"url\":\"https://api.github.com/repos/ElectricDogCN/Guize/git/commits/f2e0150265e0c1eeca5f69fe85708b2434e5ee79\"}}",
+      "title": "main",
+      "modified_date": null,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/ref/heads/main",
+      "display_url": "https://api.github.com/repos/ElectricDogCN/Guize/git/ref/heads/main",
+      "display_title": "main",
+      "structuredContent": {
+        "title": "main",
+        "content": "{\"ref\":\"refs/heads/main\",\"node_id\":\"REF_kwDOTgCQ3a9yZWZzL2hlYWRzL21haW4\",\"url\":\"https://api.github.com/repos/ElectricDogCN/Guize/git/refs/heads/main\",\"object\":{\"sha\":\"f2e0150265e0c1eeca5f69fe85708b2434e5ee79\",\"type\":\"commit\",\"url\":\"https://api.github.com/repos/ElectricDogCN/Guize/git/commits/f2e0150265e0c1eeca5f69fe85708b2434e5ee79\"}}",
+        "display_url": "https://api.github.com/repos/ElectricDogCN/Guize/git/ref/heads/main"
+      }
+    },
+    "isError": false
+  },
+  "localLeaseCapacityTrackedStatus": {
+    "chunk_id": "78dee9",
+    "wall_time_seconds": 1.0475347,
+    "exit_code": 0,
+    "original_token_count": 984,
+    "output": "['version', 'policy', 'tasks']\r\n{'version': 1, 'policy': {'maxActiveTasks': 3, 'maxHighRiskTasks': 1, 'leaseMaxHours': 168, 'bootstrapTasks': ['GZ-003']}, 'tasks': [{'taskId': 'POC-003', 'issue': 131, 'title': 'ATS Range/Slice、大文件与权限缓存键', 'status': 'reserved', 'riskLevel': 'medium', 'owner': 'ElectricDogCN', 'coordinator': 'program-coordinator-agent', 'implementer': 'task-owner-agent', 'reviewer': 'independent-review-agent', 'integrator': 'integration-agent', 'agentRole': 'coordinator', 'branch': 'chore/POC-003-ats-range', 'baseBranch': 'main', 'baseSha': '44e5200ed506d30c0abc83ca38f1d6912cbab1c1', 'workPackage': 'WP-M0-POC-03', 'programPlan': 'specs/coordination/program-plan.yaml', 'programTaskId': 'POC-003', 'programWave': 'W2', 'requirementIds': ['REQ-V1-0003', 'REQ-V1-0008'], 'moduleIds': ['MOD-EDGE', 'MOD-IAM'], 'producesContracts': ['POC-03-EVIDENCE'], 'consumesContracts': ['POC-PROTOCOL-V1'], 'coordinationGroup': 'poc-results', 'dependsOn': ['GZ-010'], 'exclusivePaths': ['poc/POC-03-ats-range/**', 'evidence/POC-003/**'], 'sharedPaths': ['adr/**', 'specs/poc/results-index.yaml'], 'handoffPath': 'evidence/POC-003/handoff.md', 'integrationStrategy': 'merge', 'integrationOrder': 2, 'lease': {'acquiredAt': '2026-10-22T12:47:06Z', 'expiresAt': '2026-10-29T12:47:06Z'}}, {'taskId': 'POC-005', 'issue': 132, 'title': '700TB 文件数、目录规模、变更率与扫描成本', 'status': 'reserved', 'riskLevel': 'medium', 'owner': 'ElectricDogCN', 'coordinator': 'program-coordinator-agent', 'implementer': 'task-owner-agent', 'reviewer': 'independent-review-agent', 'integrator': 'integration-agent', 'agentRole': 'coordinator', 'branch': 'chore/POC-005-metadata-scale', 'baseBranch': 'main', 'baseSha': '11c32830c0d1bb8ccdcc04aa278876065bce1f33', 'workPackage': 'WP-M0-POC-05', 'programPlan': 'specs/coordination/program-plan.yaml', 'programTaskId': 'POC-005', 'programWave': 'W2', 'requirementIds': ['REQ-V1-0001', 'REQ-V1-0002'], 'moduleIds': ['MOD-SOURCE', 'MOD-ASSET', 'MOD-CONNECTOR'], 'producesContracts': ['POC-05-EVIDENCE'], 'consumesContracts': ['POC-PROTOCOL-V1'], 'coordinationGroup': 'poc-results', 'dependsOn': ['GZ-010'], 'exclusivePaths': ['poc/POC-05-metadata-scale/**', 'evidence/POC-005/**'], 'sharedPaths': ['adr/**', 'specs/poc/results-index.yaml'], 'handoffPath': 'evidence/POC-005/handoff.md', 'integrationStrategy': 'merge', 'integrationOrder': 3, 'lease': {'acquiredAt': '2026-10-22T16:08:44Z', 'expiresAt': '2026-10-29T16:08:44Z'}}, {'taskId': 'OPS-013', 'issue': 137, 'title': '受限POC合同缺陷修复的独立准入', 'status': 'reserved', 'riskLevel': 'high', 'owner': 'ElectricDogCN', 'coordinator': 'program-coordinator-agent', 'implementer': 'contract-admission-implementation-agent', 'reviewer': 'independent-review-agent', 'integrator': 'integration-agent', 'agentRole': 'coordinator', 'branch': 'chore/OPS-013-contract-repair-admission', 'baseBranch': 'main', 'baseSha': 'f2e0150265e0c1eeca5f69fe85708b2434e5ee79', 'workPackage': 'WP-M0-01', 'programPlan': 'specs/coordination/program-plan.yaml', 'programTaskId': 'OPS-013', 'programWave': 'FOUNDATION', 'requirementIds': ['REQ-V1-0010'], 'moduleIds': ['MOD-GOV'], 'producesContracts': [], 'consumesContracts': ['CONTRACT-PROGRAM-PLAN', 'CONTRACT-TASK-SPEC', 'CONTRACT-ACTIVE-WORK'], 'coordinationGroup': 'poc-contract-repair-admission', 'dependsOn': ['OPS-012'], 'exclusivePaths': ['AGENTS.md', 'scripts/check-program-lifecycle-guards.py', 'scripts/check-program-plan-transitions.py', 'scripts/check-program-plan-history.py', 'scripts/poc-contract-repair-admission.py', 'tests/governance/test_poc_contract_repair_admission.py'], 'sharedPaths': [], 'handoffPath': 'evidence/OPS-013/handoff.md', 'integrationStrategy': 'merge', 'integrationOrder': 9, 'lease': {'acquiredAt': '2026-10-23T00:03:04Z', 'expiresAt': '2026-10-30T00:03:04Z'}}]}\r\nProgram status: active\r\ncae29e6f6cd20c7c612ecd42a179fc7c80caf537\n"
+  }
+}

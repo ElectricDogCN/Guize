@@ -1,0 +1,22 @@
+{
+  "baseSource": "3eb9bb69b4fb1df85a359750b73356b953429540",
+  "manifestRef": "ops013-admission-development-manifest-v4.json",
+  "uncommittedDevelopment": true,
+  "tests": 22,
+  "exitCode": 0,
+  "waitCompleted": true,
+  "files": [
+    {
+      "ref": "unit.raw",
+      "bytes": 4487,
+      "sha256": "4b4db337321bb287c6ae01a6f686d0f8801c1ab52cd26dc55c7fac2abc7b1361"
+    },
+    {
+      "ref": "results.json",
+      "bytes": 19639,
+      "sha256": "d6a820b2dcbb526072d7103157de389d1edb283ed9d019fb8ba2d5c381cb62b7"
+    }
+  ],
+  "sourceGatesAccepted": false,
+  "implementationAccepted": false
+}

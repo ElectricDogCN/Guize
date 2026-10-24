@@ -574,7 +574,8 @@ def validate_foundation_registration(
         errors.append(f"Foundation registration {task_id} requires a live lease of at most 168h")
     ownership = load_current(root, "specs/designs/module-ownership.yaml")
     claims = list(entry.get("exclusivePaths") or []) + list(entry.get("sharedPaths") or [])
-    if not claims or any(not RECOVERY.governance_claim_subset(str(p), ownership) for p in claims) or entry.get("sharedPaths"):
+    repair_paths = RECOVERY.authenticated_repair_claims(root, task_id, entry, base_ref)
+    if not claims or any(not RECOVERY.governance_claim_subset(str(p), ownership) and str(p) not in repair_paths for p in claims) or entry.get("sharedPaths"):
         errors.append(f"Foundation registration {task_id} claims must be exclusive governance subsets")
     task_path = find_task_path(root, task_id)
     paths = changed_files(root, base_ref, head_ref)

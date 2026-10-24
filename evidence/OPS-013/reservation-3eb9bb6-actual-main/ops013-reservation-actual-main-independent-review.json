@@ -1,0 +1,16 @@
+{
+  "reviewedAt": "2026-10-23T01:56:56Z",
+  "reviewerActor": "/root/gz022_planning_independent_review",
+  "actualMain": "3eb9bb69b4fb1df85a359750b73356b953429540",
+  "tree": "6c94bdccdd1832374ff93a8093141054ea88b32e",
+  "mergeProvenanceAccepted": true,
+  "mainFiveGatesAccepted": true,
+  "pocProtocolConsistencyAccepted": true,
+  "reservationEffective": true,
+  "fullMainCiAccepted": false,
+  "ownImplementationMetadataStartAccepted": true,
+  "governanceImplementationAccepted": false,
+  "mustFix": [],
+  "mainResultsSha256": "f345670df23116638ca16a5cf6d9f06234e489a1bf4a7e466875ea5523a50110",
+  "scope": "New registered work branch; own metadata in_progress/implementer/base actualMain and Own Evidence only; actual governance implementation still needs independent design/source review"
+}

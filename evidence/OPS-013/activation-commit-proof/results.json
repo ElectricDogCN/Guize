@@ -1,0 +1,15 @@
+{
+  "source": "ab8b2309a2e4a39f01bfae9b1e312eb4a8efb917",
+  "base": "3eb9bb69b4fb1df85a359750b73356b953429540",
+  "branch": "chore/OPS-013-contract-repair-admission",
+  "paths": [
+    "specs/coordination/active-work.yaml",
+    "specs/coordination/program-plan.yaml",
+    "specs/tasks/OPS-013.md"
+  ],
+  "metadataOnly": true,
+  "immutableDevelopmentFilesUnchanged": true,
+  "governanceCodeCommitted": false,
+  "implementationSourceAccepted": false,
+  "remotePushed": false
+}

@@ -1,0 +1,18 @@
+{
+  "rawFailureBytes": 168508,
+  "rawFailureSha256": "f0a69b020cbd6a0c38192771f4f6e5bb44974cc11c8e63142655fe209fb32705",
+  "originalDiffCheckExitCode": 2,
+  "diagnosticFilesOnly": true,
+  "rawBytesUnchanged": true,
+  "textDiffAndMergePreserved": true,
+  "sourceWhitespaceRulesUnchanged": true,
+  "rules": {
+    "admission-development-v2-failed/manifest.json": "cr-at-eol",
+    "admission-development-v3-passed/manifest.json": "cr-at-eol",
+    "admission-development-v4-passed/manifest.json": "cr-at-eol",
+    "admission-development-v4-windows/unit.raw": "cr-at-eol",
+    "reservation-3eb9bb6-ci832/job.raw.txt": "-blank-at-eol,-blank-at-eof",
+    "reservation-cae29e6-source-validation/ci831/job.raw.txt": "-blank-at-eol,-blank-at-eof",
+    "implementation-preparation/staged-diff-before-data-attributes.raw": "-blank-at-eol,-blank-at-eof"
+  }
+}

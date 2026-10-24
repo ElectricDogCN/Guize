@@ -45,6 +45,41 @@ PLANNING = importlib.util.module_from_spec(PLANNING_SPEC)
 assert PLANNING_SPEC and PLANNING_SPEC.loader
 PLANNING_SPEC.loader.exec_module(PLANNING)
 
+_REPAIR_MODULE = None
+
+
+def repair_module():
+    global _REPAIR_MODULE
+    if _REPAIR_MODULE is None:
+        spec = importlib.util.spec_from_file_location(
+            "guize_bound_poc_repair", os.path.join(os.path.dirname(__file__), "poc-contract-repair-admission.py")
+        )
+        assert spec and spec.loader
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        _REPAIR_MODULE = module
+    return _REPAIR_MODULE
+
+
+def authenticated_repair_claims(root, task_id, entry, base_ref, *, observed_ref=None):
+    # Old normal/legacy histories do not need the new repair mechanism. The
+    # identity selects a proof, never permission; absent proof denies all paths.
+    if not root or task_id != "OPS-014":
+        return set()
+    try:
+        return repair_module().authenticated_claims(root, task_id, entry, base_ref, observed_ref=observed_ref)
+    except (OSError, ImportError, ValueError):
+        return set()
+
+
+def validate_bound_repair_changes(root, before, after, task_id, paths, errors):
+    if task_id != "OPS-014":
+        return
+    try:
+        repair_module().validate_repair_changes(root, before, after, task_id, paths, errors)
+    except (OSError, ImportError, ValueError) as exc:
+        errors.append("Bound POC contract proof is unavailable: " + str(exc))
+
 PLAN = "specs/coordination/program-plan.yaml"
 ACTIVE = "specs/coordination/active-work.yaml"
 LEDGER = "specs/coordination/task-completions.yaml"
@@ -443,6 +478,9 @@ def validate_foundation_claims(
     ownership: dict[str, Any],
     resolved_base: str,
     errors: list[str],
+    *,
+    root: str | None = None,
+    observed_ref: str | None = None,
 ) -> None:
     if str(entry.get("baseSha") or "") != resolved_base:
         errors.append(
@@ -452,9 +490,10 @@ def validate_foundation_claims(
         ownership, {str(item) for item in entry.get("moduleIds") or []}
     )
     exception_patterns = list(FOUNDATION_SCOPE_EXCEPTIONS.get(task_id, ()))
+    repair_paths = authenticated_repair_claims(root, task_id, entry, resolved_base, observed_ref=observed_ref)
     for claim in list(entry.get("exclusivePaths") or []) + list(entry.get("sharedPaths") or []):
         if entry.get("moduleIds") == ["MOD-GOV"] and task_id not in FOUNDATION_SCOPE_EXCEPTIONS:
-            if not governance_claim_subset(str(claim), ownership):
+            if not governance_claim_subset(str(claim), ownership) and str(claim) not in repair_paths:
                 errors.append(f"Active Foundation {task_id} path claim {claim} is outside governance ownership subsets")
             continue
         if not any(
@@ -605,6 +644,17 @@ def governance_claim_subset(claim: str, ownership: dict[str, Any]) -> bool:
         claim == path or (path.endswith("/**") and claim.startswith(path[:-2]))
         for path in owned
     )
+
+
+def foundation_claims_valid(root: str, task_id: str, entry: dict[str, Any],
+                            ownership: Any, base_ref: str, *, observed_ref: str | None = None) -> bool:
+    """Keep the historical exact-legacy rule and supplement only proven repair paths."""
+    if not isinstance(ownership, dict) or entry.get('sharedPaths') or not entry.get('exclusivePaths'):
+        return False
+    extra = authenticated_repair_claims(root, task_id, entry, base_ref, observed_ref=observed_ref)
+    legacy = FOUNDATION_SCOPE_EXCEPTIONS.get(task_id, ())
+    return all(governance_claim_subset(str(p), ownership) or str(p) in legacy or str(p) in extra
+               for p in entry['exclusivePaths'])
 
 
 def recovery_owner(plan: dict[str, Any]) -> str:
@@ -902,7 +952,8 @@ def validate_frozen_changes(root: str, base_ref: str, head_ref: str, errors: lis
             continue
         if task_id in foundations and entry.get("moduleIds") == ["MOD-GOV"]:
             ownership = load_current(root, OWNERSHIP)
-            if entry.get("sharedPaths") or any(not governance_claim_subset(str(p), ownership) for p in entry.get("exclusivePaths") or []):
+            repair_paths = authenticated_repair_claims(root, task_id, entry, base_ref)
+            if entry.get("sharedPaths") or any(not governance_claim_subset(str(p), ownership) and str(p) not in repair_paths for p in entry.get("exclusivePaths") or []):
                 errors.append(f"Frozen recovery Foundation {task_id} claims must be governance subsets")
                 continue
             allowed_exact.update({PLAN, ACTIVE, path})
@@ -998,6 +1049,8 @@ def main() -> int:
     if paths is None:
         emit("FAIL", "Lifecycle guard cannot determine changed paths")
         return 1
+    if any(e.get('taskId') == 'OPS-014' for e in current_active.get('tasks', []) + base_active.get('tasks', [])):
+        validate_bound_repair_changes(root, args.base_ref, args.head_ref, 'OPS-014', paths, errors)
     validate_frozen_changes(root, args.base_ref, args.head_ref, errors)
     recovery_task = validate_recovery_transition(root, args.base_ref, args.head_ref, errors)
     planning = PLANNING.classifier(
@@ -1083,7 +1136,7 @@ def main() -> int:
             )
 
         if foundation and entry and after_status in IMPLEMENTATION_STATES | {"reserved", "blocked"}:
-            validate_foundation_claims(task_id, entry, ownership, resolved_base, errors)
+            validate_foundation_claims(task_id, entry, ownership, resolved_base, errors, root=root)
 
         if after_status == "cancelled" and before_status != "cancelled":
             validate_cancellation_evidence(root, task_id, before_status, paths, errors)
