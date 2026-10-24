@@ -1,0 +1,22 @@
+{
+  "kind": "REFERENCE TO ORIGINAL OPS-013 AUTHORITY, NOT A NEW GRANT",
+  "authorityTask": "OPS-013",
+  "authorityOriginalIntent": "evidence/OPS-013/contract-repair-authorization.json",
+  "authorityOriginalIntentSha256": "4f344a74a47a56ff1c3b0e27c368767e0cb779ebc61e721b263f102b39a83401",
+  "acceptedCompletionMain": "760f6c5838597d1d66c0a536ecbf440ef5a7dfec",
+  "exactRequestedPaths": [
+    {
+      "path": "specs/poc/check_program.py",
+      "gitBlobSha256": "10be50577718e844566034a7c26dee5eb408055cb2e01a8d5a62524beca9fb89",
+      "bytes": 771065
+    },
+    {
+      "path": "specs/poc/test_program.py",
+      "gitBlobSha256": "1707bce255253176e0c718ef2574d748dbd8890eb4f50a0c6a5f5a47136b1d49",
+      "bytes": 1118362
+    }
+  ],
+  "registrationAccepted": false,
+  "implementationStarted": false,
+  "originalGZ021FreezeRequiredBeforeCodeChanges": true
+}

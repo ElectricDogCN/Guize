@@ -1,0 +1,57 @@
+{
+  "reviewedAt": "2026-10-24T20:52:38.805984Z",
+  "actor": "/root/gz022_planning_independent_review",
+  "registeredRole": "independent-review-agent",
+  "futureTask": "OPS-014",
+  "mode": "Prospective semantic/scope/verification design assessment only",
+  "observedActualMain": "43270da544d9df3da68a45d2eca3e0a2fed2de6e",
+  "draftRef": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\ops014-416-contract-correction-decision-draft.md",
+  "draftBytes": 4478,
+  "draftSha256": "fe85148b1b5e4b7f1b5b11dd45900b4c0403533c081727aa84d4ae6959c61052",
+  "contractDecisionBasisAccepted": true,
+  "mustFix": [],
+  "actualDefect": {
+    "function": "validate_qualified_metadata_profiles",
+    "file": "specs/poc/check_program.py",
+    "lines": "1765-1779",
+    "existingCondition": "supported+unsatisfiable enforces status416 AND body==empty AND exactContentRange; sharedguardsalreadyenforce<=65536 actualbytes/type/ref/version/UTC/hash/count and exactrequestRange.",
+    "actualDiagnosticBytes": 33,
+    "actualDiagnosticSha256": "b5d780567c43a2b5d8473d84a136e7dc62ee9c494108d282cbff4801d199cf32",
+    "actualBodySource": "Existing immutable OPS013boundunsatisfiable-response.bin; notnewliveHTTPobservation."
+  },
+  "semanticConclusion": "Removing onlyemptybodyequality for supported+unsatisfiable, whilepreserving boundedretainedactualrepresentation andallotherguards, is a legitimate narrowcontractcorrection. Emptyerrorrepresentation remainsvalid; boundednonemptyerrorrepresentation neednotmatch a providerspecificstring/language/encoding/33Blength. This doesnot changeignored/unsupported/bounded206/full200 orstorage/auth outcomes.",
+  "primarySources": [
+    {
+      "url": "https://www.rfc-editor.org/rfc/rfc9110.html#section-15.5",
+      "finding": "ExceptHEAD,4xxresponsesare recommended toincludeerror explanation; emptybodyisnotuniversallyrequired."
+    },
+    {
+      "url": "https://www.rfc-editor.org/rfc/rfc9110.html#section-15.5.17",
+      "finding": "416 describesunsatisfiableranges and recommendsContent-Range identifyingcurrentrepresentationlength; itdoesnotmandateemptyresponsecontent."
+    }
+  ],
+  "guardInterpretation": "Exact416/bytes */size andsize-end request stay projectcontractrequirements; RFCContent-Range isSHOULD, notinventedRFCMUST. Existing65536budgetisprojectbound. Validatorwillverifyretainedbytes/protocolbindings, notinterpretwhether arbitraryopaqueerrorcontent issemanticallyahelpfulexplanation.",
+  "approvedBasisScope": [
+    "Only futurelegalclaims specs/poc/check_program.py andspecs/poc/test_program.py, plusnormalOwnTask/Evidence/lifecyclemetadata underauthenticatedreservation. No ownership/schema/workflow/other task/metricthreshold changes.",
+    "Keep actualsource/object/version/UTC/selectedslot/produced_media/ref/hash/bytecount/budgetguards, unique5cases andvalidatorbehavior; retainrealrawbytes withouttrim/rewrite.",
+    "Originaltest198 andallassertionsremain. Addfocused regressionfirstredonoldcontractusingactual33Bcontent withclearlysyntheticrequest/timecontext; coverlocal-v1andproduction; empty+otherboundeddiagnosticpositives andnonempty invalidRange/status/header/version/UTC/hash/count/overbudget negatives.",
+    "Keep existing206exactpayload,ignored200 andunsupported classificationpositive/negativebehaviorunchanged. Testbudgetedgewithin65536andover65536 explicitlywhenimplementingtoavoidunintentionaloff-by-one; no resultinferredhere.",
+    "Execute realrequiredgovernance/POCchecks/fulltests/makeverify/nonemptyzero-failure-error-skipJUnit/sameheadCI/independentreview onlaterfixedregisteredfrozencodedsource, notthisdraft."
+  ],
+  "permissionSequenceRetained": [
+    "OPS013 actualCompletionmainfullacceptance/highrelease first. CurrentCI840running/proposedCompletion isnotthatacceptance.",
+    "OPS014 separatelyoriginalmetadata-onlyreservation, originalintent/old2Gitblobs/base/roles/lease/capacityverified andactualreservationmainaccepted.",
+    "DistinctactualGZ021recoveryfreezeevent/mainacceptance beforechangingcontractcode; no combinedunfreeze-andordinaryPOCstart.",
+    "Twofileminimalrepair andrealcompletevalidationintegrateintoactualfrozenmain; distinctindependentreviewedmetadata-onlyunfreeze withvalidatedCommitproof.",
+    "Onlyafteractualunfreezemainacceptance mayPOC005 synchronizenewbaseandrequestitsownnewapprovedsample/resource/windowrun. OldWindows10kfailedraw/unqualifiedresultremainunaltered."
+  ],
+  "metadataReservationPreparationBasisAccepted": true,
+  "registrationOrIssueCreationApprovedNow": false,
+  "implementationApproved": false,
+  "frozenContractWriteApproved": false,
+  "freezeApproved": false,
+  "newLeaseApproved": false,
+  "experimentApproved": false,
+  "qualificationAccepted": false,
+  "reviewerExecution": "Read-onlyactualdraft/currentfrozenbranch/test198/33Boriginal andofficialRFC9110text. No sourceedits, tests, Issue/leasecreation, freeze orworkload."
+}
