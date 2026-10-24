@@ -1,0 +1,104 @@
+{
+  "source": "480dc0b607453ba26ec3d9d650c79c1b85f1c06e",
+  "actualExecSession84274Terminal": true,
+  "task15Passed": true,
+  "nativeTests": 713,
+  "nativeSeconds": 1152.72,
+  "failuresErrorsSkips": 0,
+  "sourceAndTestsUnchanged": true,
+  "sourceClean": true,
+  "firstFailureRetained": true,
+  "ci829Accepted": true,
+  "latestCiRun": 39880534816,
+  "latestCiNumber": 830,
+  "latestCiAccepted": false,
+  "mergeApproved": false,
+  "implementationStarted": false,
+  "files": [
+    {
+      "ref": "coordination.raw",
+      "bytes": 587,
+      "sha256": "f920b15256db0d2c5d6cacd16b3390d2b612809a3aebc2563be74d4df8276739"
+    },
+    {
+      "ref": "diff.raw",
+      "bytes": 144,
+      "sha256": "64655af222ab88d8b5815135d5cb26370c52f49bfff318b61bbe1b939c4968e6"
+    },
+    {
+      "ref": "docs.raw",
+      "bytes": 164,
+      "sha256": "b536bd003d60a087b704ac2832ef0f5e42f5554c93354cff17f76102822cb2a8"
+    },
+    {
+      "ref": "evidence.raw",
+      "bytes": 198,
+      "sha256": "e78fccdc60ddc6843204da9f815b55dcf37bbf679370230852a5b1ffeb3ba469"
+    },
+    {
+      "ref": "finalization.raw",
+      "bytes": 362,
+      "sha256": "321f925aaabb1ed92ad9f83518f3e8a8b697cd53dcd254eaf57e3d0cbefc8932"
+    },
+    {
+      "ref": "governance.xml",
+      "bytes": 113180,
+      "sha256": "ffa1a066b390bdd9cfb3722ac58615389ee1c9d1862e7a2cbf27c7ca9900af18"
+    },
+    {
+      "ref": "history.raw",
+      "bytes": 496,
+      "sha256": "5575bb2949ee8fc8412bd9014ea51367e3d3eecc2caa4f7667710b2eb5b5a87f"
+    },
+    {
+      "ref": "integrity.raw",
+      "bytes": 419,
+      "sha256": "8a6d10d60d353991f472cc28477cadf3b0a22765d9c10f89e8be2d5390d206cc"
+    },
+    {
+      "ref": "lifecycle.raw",
+      "bytes": 606,
+      "sha256": "38e1b34961affb93ed2bc14dbd9e5a4573266abb7c59e94084c43399aa3267cc"
+    },
+    {
+      "ref": "raw-lifecycle.raw",
+      "bytes": 515,
+      "sha256": "731035c3b1fd9e86038efe7bd6a52de9a6369ff0ab8c9186c96276bd38603c5a"
+    },
+    {
+      "ref": "readiness.raw",
+      "bytes": 660,
+      "sha256": "21bd087efd9940df6c59c3a87ce9b4cb77e4d26626db26cc97d1ebc2b7a14017"
+    },
+    {
+      "ref": "results.json",
+      "bytes": 13102,
+      "sha256": "4dd3302d328bdfb1e18311c18e86f054f577ebde66c63f14c6591bcc73e1ad15"
+    },
+    {
+      "ref": "schemas.raw",
+      "bytes": 1947,
+      "sha256": "fffa5d8ca95a0cfa875075207ba49196eea1ac6125ce6949a59d27da785e4f25"
+    },
+    {
+      "ref": "scope.raw",
+      "bytes": 319,
+      "sha256": "0df414680f2c020b105a0b91a8fd2c37946aa2c618d5948c6f8cf1115770bfde"
+    },
+    {
+      "ref": "task.raw",
+      "bytes": 262,
+      "sha256": "eca4a1b34bb2b23d9e68a13ef1c85cf90aa2b363e2d29fc02432dfe6fb0799d6"
+    },
+    {
+      "ref": "transitions.raw",
+      "bytes": 449,
+      "sha256": "617a9c29d4da09a55b5b62b8f3699943115e5738410519b67dae305789675d60"
+    },
+    {
+      "ref": "verify.raw",
+      "bytes": 103962,
+      "sha256": "bdaa4a76fc43181644b7f5693f2b1b61f52e98686ab6ece828e5387b7e13c746"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "kind": "actual_same_source_terminal_ci_evidence",
+  "source": "480dc0b607453ba26ec3d9d650c79c1b85f1c06e",
+  "run": 39876417051,
+  "job": 120163007306,
+  "runNumber": 829,
+  "observedAt": "2026-10-23T00:31:50.611260Z",
+  "status": "completed",
+  "conclusion": "success",
+  "governanceTests": 713,
+  "seconds": 1088.06,
+  "failuresErrorsSkips": 0,
+  "sameSourceCIAccepted": true,
+  "files": [
+    {
+      "ref": "snapshot.json",
+      "bytes": 23822,
+      "sha256": "b69975141088d7800dab819a3e7e4f06b6ff34b5706af8ac1217cb14bd9dd901"
+    },
+    {
+      "ref": "job.raw.txt",
+      "bytes": 286974,
+      "sha256": "20b29c15e30fd9e57d9c9b6b3139c2ff53f509a1a75b3a7d6d0e91b55321ead5"
+    }
+  ],
+  "fullLocalAccepted": false,
+  "localRetrySession": 84274,
+  "registrationMainAccepted": false,
+  "implementationStarted": false
+}

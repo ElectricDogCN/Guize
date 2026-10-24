@@ -567,7 +567,7 @@ def historical_registration_context(root: str, snapshot: str, observation: str, 
     ownership = load_ref(root, snapshot, RECOVERY.OWNERSHIP)
     legacy = RECOVERY.FOUNDATION_SCOPE_EXCEPTIONS.get(task_id, ())
     claims = entry.get("exclusivePaths") or []
-    if not isinstance(ownership, dict) or entry.get("sharedPaths") or not claims or any(not RECOVERY.governance_claim_subset(str(claim), ownership) and str(claim) not in legacy for claim in claims):
+    if not RECOVERY.foundation_claims_valid(root, task_id, entry, ownership, snapshot, observed_ref=observation):
         errors.append(f"{label} has invalid historical governance claims")
     historical_lifecycle_binding(root, snapshot, task_id, entry, errors, working=False)
     return entry
@@ -857,9 +857,9 @@ def foundation_reservation(
     if not isinstance(ownership, dict):
         errors.append(f"Foundation {task_id} original reservation ownership snapshot is unreadable")
     else:
-        RECOVERY.validate_foundation_claims(task_id, entry, ownership, parent, errors)
+        RECOVERY.validate_foundation_claims(task_id, entry, ownership, parent, errors, root=root, observed_ref=commit)
         audited_legacy = RECOVERY.FOUNDATION_SCOPE_EXCEPTIONS.get(task_id, ())
-        if any(not RECOVERY.governance_claim_subset(str(path), ownership) and str(path) not in audited_legacy for path in entry.get("exclusivePaths") or []):
+        if not RECOVERY.foundation_claims_valid(root, task_id, entry, ownership, parent, observed_ref=commit):
             errors.append(f"Foundation {task_id} original reservation claims are outside governance ownership subsets")
     if entry.get("sharedPaths") or not entry.get("exclusivePaths"):
         errors.append(f"Foundation {task_id} original reservation requires exclusive governance claims")
@@ -1119,7 +1119,7 @@ def foundation_implementation(root: str, task_id: str, commit: str, reservation:
     ownership = load_ref(root, base, RECOVERY.OWNERSHIP)
     claims = list(entry.get("exclusivePaths") or [])
     legacy = RECOVERY.FOUNDATION_SCOPE_EXCEPTIONS.get(task_id, ())
-    if not isinstance(ownership, dict) or entry.get("sharedPaths") or not claims or any(not RECOVERY.governance_claim_subset(str(claim), ownership) and str(claim) not in legacy for claim in claims):
+    if not RECOVERY.foundation_claims_valid(root, task_id, entry, ownership, base, observed_ref=commit):
         errors.append(f"Foundation {task_id} claimed implementation has invalid historical governance claims")
         return
     historical_claims = set(claims)
@@ -1147,6 +1147,7 @@ def foundation_implementation(root: str, task_id: str, commit: str, reservation:
         if node_paths is None:
             errors.append(f"Foundation {task_id} cannot read implementation node diff")
             continue
+        RECOVERY.validate_bound_repair_changes(root, previous, node, task_id, node_paths, errors)
         incoming = approved_synchronization_parents(root, node, base)
         clean_imports = clean_synchronization_paths(root, node, node_paths, incoming)
         node_paths -= clean_imports
@@ -1184,7 +1185,7 @@ def foundation_implementation(root: str, task_id: str, commit: str, reservation:
             node_claims = list(before_entries[0].get("exclusivePaths") or [])
             node_ownership = load_ref(root, previous, RECOVERY.OWNERSHIP)
             node_implementation = {path for path in node_paths if path not in {PLAN, ACTIVE, task_path} and not path.startswith(f"evidence/{task_id}/")}
-            if not isinstance(node_ownership, dict) or before_entries[0].get("sharedPaths") or not node_claims or any(not RECOVERY.governance_claim_subset(str(claim), node_ownership) and str(claim) not in legacy for claim in node_claims):
+            if not RECOVERY.foundation_claims_valid(root, task_id, before_entries[0], node_ownership, previous, observed_ref=node):
                 errors.append(f"Foundation {task_id} working node has invalid prior governance claims")
             elif any(not any(RECOVERY.matches_path(path, str(claim)) for claim in node_claims) for path in node_implementation):
                 errors.append(f"Foundation {task_id} working node changed paths outside its prior registered scope")
@@ -1380,6 +1381,7 @@ def foundation_post_implementation(root: str, task_id: str, implementation: str,
         if paths is None:
             errors.append(f"Foundation {task_id} cannot read post-implementation node diff at {node}")
             continue
+        RECOVERY.validate_bound_repair_changes(root, parent, node, task_id, paths, errors)
         imports: set[str] = set()
         prior_registry = load_ref(root, parent, ACTIVE)
         if allow_registered_work:

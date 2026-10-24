@@ -1,0 +1,26 @@
+{
+  "source": "480dc0b607453ba26ec3d9d650c79c1b85f1c06e",
+  "run": 39880534816,
+  "job": 120176575583,
+  "runNumber": 830,
+  "status": "completed",
+  "conclusion": "success",
+  "tests": 713,
+  "seconds": 1399.25,
+  "failedErrorsSkipped": 0,
+  "sourceCIAccepted": true,
+  "wholeSourceMergeApproved": false,
+  "unresolvedReviewThreads": 2,
+  "files": [
+    {
+      "ref": "snapshot.json",
+      "bytes": 27091,
+      "sha256": "40e52c681b15b1ba18137d338ac78ce29ce08e603364e86b5d62f94cc9232c85"
+    },
+    {
+      "ref": "job.raw.txt",
+      "bytes": 286975,
+      "sha256": "9ec03d86c98f80f0cfced194667eecbfa6a139c88b9068d6abb1b13783ba5e64"
+    }
+  ]
+}

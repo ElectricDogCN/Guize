@@ -1,0 +1,55 @@
+{
+  "assessedAt": "2026-10-24T19:10:21.048723Z",
+  "actor": "/root/gz022_planning_independent_review",
+  "registeredRole": "independent-review-agent",
+  "task": "OPS-013",
+  "source": "997f0eccefdb6c18d1a22090a63c0eaa91bb6232",
+  "tree": "640da1fd34f5189434148865d7c012d096f132b9",
+  "base": "16070d0d0d4c1a4952d2fc6f036dda135f058c8d",
+  "branch": "chore/OPS-013-contract-repair-admission-review",
+  "resultsSha256": "45c54c7a5a4464aec8bfb1196542a929ffbb1bf7da13d2cc3f7d8e1c306c3711",
+  "historyRawBytes": 469,
+  "historyRawSha256": "981c0197426ef9a7465f76689ae20ce0a1fd284f1ebf19c7121057cf42fc753b",
+  "actualFailureAccepted": true,
+  "currentSourceLocal13Accepted": false,
+  "published": false,
+  "finding": {
+    "priority": 2,
+    "file": "scripts/check-program-plan-history.py",
+    "startLine": 554,
+    "endLine": 556,
+    "message": "historical_registration_context unconditionally requires ISSUE-<issue>/null for every active Foundation snapshot. validate_foundations invokes foundation_post_implementation for prospective Review at1522-1529, which invokes this context at1405-1409. A metadata-only normal Review preserving actual last-code PR139/main16070 therefore fails despite valid current lifecycle/role/base.",
+    "impact": "Blocks legitimate Review and potentially later historical Completion/authority audits. This is a checker defect in the already registered governance scope, not grounds to falsify the Review Program metadata."
+  },
+  "normalReviewSemantics": [
+    "PR139/16070 denotes the actual last integrated implementation, not this pending Review or Completion PR. The actual code has non-empty registered implementation, ordered main parents and independent source acceptance.",
+    "The original reserved registration must still be ISSUE-137/null, as required separately at history882-888 and reservation lifecycle validation. That original snapshot is immutable.",
+    "Subsequent active metadata may retain original registration provenance until code identity is assigned, or truthful authenticated last-code provenance. Review/integration labels alone do not establish authority; any PR/sha claim must remain bound to actual integrated non-empty own code and actual target baseline.",
+    "Current997 is a legitimate metadata proposal but not gate accepted; preserve its exact commit, all five executed command facts and failed history raw. No later result may be attributed to997."
+  ],
+  "minimalFixBoundary": [
+    "Correct the shared historical context to distinguish original registration requirements from subsequent authenticated last-code provenance; preserve strict cardinality, Program/Registry consistency, actual ancestor/base, roles, lease, capacity, stable identity, frozen definitions and per-commit/rename scope.",
+    "Do not simply skip the check for review/integration or accept any PR/non-null mergeCommit. Do not broaden original reservation validation. Validate retained code identity using existing real implementation/first-parent provenance machinery or an equivalently bounded proof without recursive self-authorization.",
+    "Keep an unchanged blocked/integration snapshot after Review truthful; do not make status labels an escape from provenance or reject a retained authenticated code identity solely because status subsequently becomes blocked.",
+    "Add real Git regression for normal active Review with actual PR139-equivalent code main, historical Review followed by normal Completion, and an intermediate Review provenance tamper restored at the tip."
+  ],
+  "requiredNegativeBoundaries": [
+    "Original reserved entry carrying PR/non-null mergeCommit must still fail.",
+    "PR/commit mismatch; metadata-only Review/reservation as alleged implementation; unrelated or side-branch/non-integrated commit; stale alleged implementation after newer own code; future/self candidate commit must fail.",
+    "Wrong Review target base or role, changed owner/claims/lease/capacity, foreign/ledger/code mutations and introduced history violations must remain rejected.",
+    "Missing real code Review or direct Completion, altered original intent/diagnostic/contract blobs, premature OPS014 and missing frozen GZ021 recovery must remain rejected."
+  ],
+  "forwardImplementationPath": [
+    "Start from actual latest main containing16070 and preserve997 on its existing failed Review branch. Do not amend/reset997, edit its historical metadata, or incorporate its failed Review as if accepted.",
+    "OPS013 remains active/in_progress on actual main, with original implementation identity and six exclusive claims. Advance preserved implementation branch normally to actual main or create a clearly identified OPS013 implementation branch from it; synchronize own Task/Active actual branch/base and implementer role in a separate metadata activation commit before governance-code changes.",
+    "Only history checker and the already claimed test_poc_contract_repair_admission.py are needed unless a concrete related defect proves another original claim necessary; Own metadata/Evidence record the failure and new source. No new lease/OPS014/POC schema or contract edits.",
+    "New exact implementation source needs its own required checks/full governance CI/independent review and normal integration. Then prepare a new normal Review from the resulting actual main using latest code PR/main identity; old997/local evidence is historical."
+  ],
+  "mainCi837Treatment": "Belongs solely to unchanged main16070. Its actual terminal result must be independently accepted or rejected as observed; it cannot validate997 or a future checker repair, and no result was inferred here.",
+  "readOnlyAssessmentComplete": true,
+  "implementationContentAccepted": false,
+  "mergeApproved": false,
+  "successorOPS014Approved": false,
+  "experimentApproved": false,
+  "reviewerExecution": "Read-only source/control-flow and actual raw/results inspection; no new tests, source workload, author edits or external mutations."
+}

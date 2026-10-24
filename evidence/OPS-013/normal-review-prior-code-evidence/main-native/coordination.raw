@@ -1,0 +1,5 @@
+Source Commit: 16070d0d0d4c1a4952d2fc6f036dda135f058c8d
+Command: /home/sur/.cache/guize-takeover/governance-venv/bin/python -B scripts/run-agent-coordination-gate.py
+{"status": "PASS", "message": "Agent coordination valid: 3 active tasks, 1 high/critical", "details": {"activeTaskIds": ["OPS-013", "POC-003", "POC-005"]}}
+
+Exit Code: 0

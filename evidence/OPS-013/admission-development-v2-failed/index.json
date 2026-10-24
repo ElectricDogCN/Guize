@@ -1,0 +1,70 @@
+{
+  "baseSource": "3eb9bb69b4fb1df85a359750b73356b953429540",
+  "uncommitted": true,
+  "exitCode": 1,
+  "waitCompleted": true,
+  "diagnosis": "Task scalar-line front matter fixture cannot be rewritten through YAML quoting; original failures retained",
+  "productAssertionsWeakened": false,
+  "files": [
+    {
+      "ref": "unit.raw",
+      "bytes": 38480,
+      "sha256": "2614f24ea39f53f9e5d94848c842cfac92aa3101f64a442fe00a94fc318b81e7"
+    },
+    {
+      "ref": "results.json",
+      "bytes": 13894,
+      "sha256": "0f5db66b62d0ecbb11c66bc22eca822854a719f207948d49db5ca62b93430aa0"
+    },
+    {
+      "ref": "manifest.json",
+      "bytes": 14019,
+      "sha256": "345ab9dd0e60fd6bcda928450fc3b1ae6dfd70672272cc7261dcfbc2c0bd190d"
+    },
+    {
+      "ref": "source/AGENTS.md",
+      "bytes": 15863,
+      "sha256": "4755991cc2357b758a34c2242cd40d9534b5c2ac7e88bacf0a77c9383971c284"
+    },
+    {
+      "ref": "source/scripts/check-program-lifecycle-guards.py",
+      "bytes": 55505,
+      "sha256": "827c185de5162da66b5e8fc2aee7d148d5ffb532fbfc1e97437f11c4171f393d"
+    },
+    {
+      "ref": "source/scripts/check-program-plan-history.py",
+      "bytes": 102804,
+      "sha256": "44596b87ec0b13f126e54a96ff04653a2964662b581abe614c698893a37046d9"
+    },
+    {
+      "ref": "source/scripts/check-program-plan-transitions.py",
+      "bytes": 37115,
+      "sha256": "be6040ba281aea00792b72381b47983e87943484b7109a6c6bc56cd1c0fd9d1f"
+    },
+    {
+      "ref": "source/scripts/poc-contract-repair-admission.py",
+      "bytes": 18678,
+      "sha256": "e656654a46b9add93c813d48c3874462b6ca784e4882cbbfa0bdaf16689d1c8e"
+    },
+    {
+      "ref": "source/specs/coordination/active-work.yaml",
+      "bytes": 3626,
+      "sha256": "34e1eb0a2ed5b8b249e0ed9950792f939dc18960345eb8252cfb3274ccd78ece"
+    },
+    {
+      "ref": "source/specs/coordination/program-plan.yaml",
+      "bytes": 64529,
+      "sha256": "7861def668a06eafa2b14eef1934b8b8aab2f63e1e48dae7cbdfa3f8677f44fc"
+    },
+    {
+      "ref": "source/specs/tasks/OPS-013.md",
+      "bytes": 7851,
+      "sha256": "dde1652e44105182b8ef603f97099d197126587234b7d36a1b77fbb6a7365c08"
+    },
+    {
+      "ref": "source/tests/governance/test_poc_contract_repair_admission.py",
+      "bytes": 14550,
+      "sha256": "997327118fbf6c3682ef34e414be2c7a27d30ed6875c594178d28fef15554927"
+    }
+  ]
+}

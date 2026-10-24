@@ -1,0 +1,50 @@
+{
+  "source": "3d78e5ce36cac104423ff2f5ef6c957f480171f5",
+  "recordedAt": "2026-10-23T00:06:45.693415Z",
+  "sourceAccepted": false,
+  "published": false,
+  "implementationStarted": false,
+  "runnerStartupFailure": "TypeError duplicate implementationStarted keyword while constructing result; occurred after clean checkout but before any Task command; fixed helper construction without changing repository files",
+  "actualGates": {
+    "diff": 0,
+    "task": 1,
+    "remaining": "not run"
+  },
+  "diagnosis": [
+    "Task flat front parser rejects quoted leaseExpiresAt despite valid YAML timestamp string",
+    "Forbidden, dependency/integration and collaboration/handoff sections require at least one bullet"
+  ],
+  "correction": "Only own Task removes timestamp quotes and adds three paragraph bullets; same timestamp, claims and roles",
+  "files": [
+    {
+      "ref": "evidence/OPS-013/reservation-3d78e5c-attempt/candidate.json",
+      "bytes": 2247,
+      "sha256": "aa095f8ee26ff8331d1542ada2f61a82ffe6b6bffac84c36b8aea66fe449c858"
+    },
+    {
+      "ref": "evidence/OPS-013/reservation-3d78e5c-attempt/independent-content-review.json",
+      "bytes": 677,
+      "sha256": "702abc3d8387610c6e139588e942769ee1f65af1e796aada92178bf89a79c562"
+    },
+    {
+      "ref": "evidence/OPS-013/reservation-3d78e5c-attempt/preparation.json",
+      "bytes": 1076,
+      "sha256": "bdee27e0eb79a000e2f3d18c4736cb7bb0a44ed9a3e04c31e0f5db0ea093ad59"
+    },
+    {
+      "ref": "evidence/OPS-013/reservation-3d78e5c-attempt/results.json",
+      "bytes": 4105,
+      "sha256": "76afd29a5b079b1ec1b152f12abe54625ab2ae9ea365d50d6b99040258069765"
+    },
+    {
+      "ref": "evidence/OPS-013/reservation-3d78e5c-attempt/diff.raw",
+      "bytes": 144,
+      "sha256": "a61fde8865ab9032b1f480b4def009cf9bfaa53d7994e841b12aa238b12d1fae"
+    },
+    {
+      "ref": "evidence/OPS-013/reservation-3d78e5c-attempt/task.raw",
+      "bytes": 507,
+      "sha256": "fff2e8b4814d6a7285985429a155f18370c83cb07f9dd058401253e75a6f251b"
+    }
+  ]
+}

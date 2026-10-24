@@ -1,0 +1,17 @@
+{
+  "reviewedAt": "2026-10-24T16:45:11.582814Z",
+  "reviewerActor": "/root/gz022_planning_independent_review",
+  "source": "c79be6ac3b1d6a62e5c88abffbabf619ba20a5ef",
+  "tree": "d5ce4021a0c1c56ecd71b6bc32c36a610ee63b5b",
+  "parent": "ab8b2309a2e4a39f01bfae9b1e312eb4a8efb917",
+  "base": "3eb9bb69b4fb1df85a359750b73356b953429540",
+  "sourceScopeAndContentAccepted": true,
+  "verificationPushMayProceed": true,
+  "draftPrMayProceed": true,
+  "mustFix": [],
+  "fullTask15Accepted": false,
+  "latestSourceCiAccepted": false,
+  "integrationAccepted": false,
+  "successorRegistrationApproved": false,
+  "experimentApproved": false
+}

@@ -1,0 +1,64 @@
+{
+  "reviewedAt": "2026-10-24T17:27:34.337685Z",
+  "reviewerActor": "/root/gz022_planning_independent_review",
+  "reviewerRole": "independent-review-agent",
+  "base": "3eb9bb69b4fb1df85a359750b73356b953429540",
+  "parentSource": "c79be6ac3b1d6a62e5c88abffbabf619ba20a5ef",
+  "uncommitted": true,
+  "manifestRef": ".takeover-tools/ops013-admission-development-manifest-v6.json",
+  "manifestSha256": "0523249b0ac2d75519d0302958d8ace68b6e87dca946c64b8e9128d07fefee26",
+  "manifestFilesVerified": 9,
+  "contentAccepted": true,
+  "candidateCommitAndExactSourceValidationMayProceed": true,
+  "mustFix": [],
+  "findingsAddressed": [
+    "prospective historical registration uses the actual observed when, not later wall-clock now",
+    "authority lifecycle scan includes the implementation snapshot without bypassing normal Foundation history certification"
+  ],
+  "helperSha256": "5151dd01bb2d5ea243f275995072312ea46695acd9152165017654ad98ff7882",
+  "testsSha256": "d9df36570ccdf7a877c995b15e7af3d8ac8dfc1567880ad662955a0e34caa9a9",
+  "evidenceObserved": {
+    "red": {
+      "tests": 26,
+      "seconds": 81.775,
+      "exitCode": 1,
+      "errors": 2,
+      "failures": 1,
+      "rawBytes": 9488,
+      "rawSha256": "cc53730cd670ad4039a6d97e324f002f9eccf9319cc442f83c034f0bab718b00"
+    },
+    "green": {
+      "tests": 26,
+      "seconds": 99.268,
+      "exitCode": 0,
+      "skipped": 0,
+      "rawBytes": 5268,
+      "rawSha256": "24732b5880fe3c015af93e2805267bde72c83947b58dea2ebf2533f4c79440a5"
+    },
+    "legacyActualCheckers": {
+      "tests": 3,
+      "seconds": 9.34,
+      "exitCode": 0,
+      "rawBytes": 357,
+      "rawSha256": "2f1ccfbc1acc9d76a50588a8e30506afd1abc2a5a822bb767c56c8f7590c7132"
+    },
+    "indexedArchiveFilesVerified": 25,
+    "collectedTests": 739,
+    "verificationMethod": "Read actual source diff and tests; verified actual raw logs, results and archive lengths/SHA. No full-suite or source-workload rerun."
+  },
+  "preserved": {
+    "immutableIntentSha256": "4f344a74a47a56ff1c3b0e27c368767e0cb779ebc61e721b263f102b39a83401",
+    "pocContractGitBytesUnchanged": true,
+    "activeAndProgramBytesUnchangedFromParentSource": true,
+    "normalFoundationHistoryCertificationRetained": true,
+    "existingScopeRolesLeaseCapacityAndRecoveryGatesRetained": true
+  },
+  "windowsNewRegressionResultAccepted": false,
+  "exactForwardSourceTask15Accepted": false,
+  "full739Accepted": false,
+  "latestSourceCiAccepted": false,
+  "integrationAccepted": false,
+  "successorRegistrationApproved": false,
+  "contractRepairApproved": false,
+  "experimentApproved": false
+}

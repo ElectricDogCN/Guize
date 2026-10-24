@@ -1,0 +1,31 @@
+{
+  "taskId": "OPS-013",
+  "issue": 137,
+  "base": "f2e0150265e0c1eeca5f69fe85708b2434e5ee79",
+  "branch": "chore/OPS-013-contract-repair-admission-reservation",
+  "acquiredAt": "2026-10-23T00:03:04Z",
+  "expiresAt": "2026-10-30T00:03:04Z",
+  "claims": [
+    "AGENTS.md",
+    "scripts/check-program-lifecycle-guards.py",
+    "scripts/check-program-plan-transitions.py",
+    "scripts/check-program-plan-history.py",
+    "scripts/poc-contract-repair-admission.py",
+    "tests/governance/test_poc_contract_repair_admission.py"
+  ],
+  "intentSha256": "4f344a74a47a56ff1c3b0e27c368767e0cb779ebc61e721b263f102b39a83401",
+  "stagedFiles": 22,
+  "metadataOnly": true,
+  "currentRegistrationAccepted": false,
+  "implementationStarted": false,
+  "preparationFailures": [
+    {
+      "kind": "response-observation-locator",
+      "resolved": "Source probe retains a second byte-identical body under a distinct ref; matched real status/time/range/body bytes"
+    },
+    {
+      "kind": "diff-check",
+      "resolved": "Removed extra EOF blank line from own rollback evidence"
+    }
+  ]
+}

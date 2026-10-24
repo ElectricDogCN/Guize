@@ -1,0 +1,35 @@
+{
+  "reviewedAt": "2026-10-23T01:51:23.007917Z",
+  "reviewerActor": "/root/gz022_planning_independent_review",
+  "source": "cae29e6f6cd20c7c612ecd42a179fc7c80caf537",
+  "tree": "6c94bdccdd1832374ff93a8093141054ea88b32e",
+  "base": "f2e0150265e0c1eeca5f69fe85708b2434e5ee79",
+  "latestCiNumber": 831,
+  "latestCiAccepted": true,
+  "localTask15Accepted": true,
+  "mustFix": [],
+  "reviewFindingsAddressed": {
+    "PRRT_kwDOTgCQ3c6vb4-b": true,
+    "PRRT_kwDOTgCQ3c6vb4-c": true
+  },
+  "threadResolutionAccepted": true,
+  "actualMergeApproved": false,
+  "conditionalMergeApproved": true,
+  "scope": "OPS-013 metadata-only reservation",
+  "conditions": [
+    "Reply and resolve both verified findings",
+    "Fresh official PR head/base and no unresolved/new findings",
+    "Latest exact-source CI831 still successful",
+    "Lease/order/capacity unchanged and valid",
+    "Ordinary merge with exact expected_head_sha"
+  ],
+  "localResultsSha256": "a9507e6b96e6fec05feb7b3f9a8149df3e5d19923aa03e6ad79bc6a60c05281c",
+  "tests": 713,
+  "localSeconds": 1183.44,
+  "ciSeconds": 1051.57,
+  "ciRawBytes": 287191,
+  "ciRawSha256": "30a96bb59e7e677a803fb597c630373446372431735969550a95702631b53a20",
+  "implementationApproved": false,
+  "successorRegistrationApproved": false,
+  "experimentApproved": false
+}

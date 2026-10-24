@@ -1,0 +1,418 @@
+{
+  "baseSource": "3eb9bb69b4fb1df85a359750b73356b953429540",
+  "files": [
+    {
+      "path": "AGENTS.md",
+      "bytes": 15863,
+      "sha256": "4755991cc2357b758a34c2242cd40d9534b5c2ac7e88bacf0a77c9383971c284"
+    },
+    {
+      "path": "evidence/OPS-013/admission-development-v1-failed/index.json",
+      "bytes": 2428,
+      "sha256": "94bcd58e49d09be6cd135168528cd63cec3e62d269d0f5870acfc04648596a8e"
+    },
+    {
+      "path": "evidence/OPS-013/admission-development-v1-failed/manifest.json",
+      "bytes": 10858,
+      "sha256": "e1f9860d8da07d1cf7a55bbc1e2dde0d7ca1dc1ac4250c6a6e946f4092bd0e98"
+    },
+    {
+      "path": "evidence/OPS-013/admission-development-v1-failed/results.json",
+      "bytes": 11070,
+      "sha256": "15a906f91d519388c0504b5151f5d1a0f3889422456d9a79961aa872d8515816"
+    },
+    {
+      "path": "evidence/OPS-013/admission-development-v1-failed/source/AGENTS.md",
+      "bytes": 15863,
+      "sha256": "4755991cc2357b758a34c2242cd40d9534b5c2ac7e88bacf0a77c9383971c284"
+    },
+    {
+      "path": "evidence/OPS-013/admission-development-v1-failed/source/scripts/check-program-lifecycle-guards.py",
+      "bytes": 55505,
+      "sha256": "827c185de5162da66b5e8fc2aee7d148d5ffb532fbfc1e97437f11c4171f393d"
+    },
+    {
+      "path": "evidence/OPS-013/admission-development-v1-failed/source/scripts/check-program-plan-history.py",
+      "bytes": 102804,
+      "sha256": "44596b87ec0b13f126e54a96ff04653a2964662b581abe614c698893a37046d9"
+    },
+    {
+      "path": "evidence/OPS-013/admission-development-v1-failed/source/scripts/check-program-plan-transitions.py",
+      "bytes": 37115,
+      "sha256": "be6040ba281aea00792b72381b47983e87943484b7109a6c6bc56cd1c0fd9d1f"
+    },
+    {
+      "path": "evidence/OPS-013/admission-development-v1-failed/source/scripts/poc-contract-repair-admission.py",
+      "bytes": 17500,
+      "sha256": "5a9bf7326f076b5b0faefa3907b90a73fe56d748ee77c6ffcc98fed37e1a455e"
+    },
+    {
+      "path": "evidence/OPS-013/admission-development-v1-failed/source/specs/coordination/active-work.yaml",
+      "bytes": 3626,
+      "sha256": "34e1eb0a2ed5b8b249e0ed9950792f939dc18960345eb8252cfb3274ccd78ece"
+    },
+    {
+      "path": "evidence/OPS-013/admission-development-v1-failed/source/specs/coordination/program-plan.yaml",
+      "bytes": 64529,
+      "sha256": "7861def668a06eafa2b14eef1934b8b8aab2f63e1e48dae7cbdfa3f8677f44fc"
+    },
+    {
+      "path": "evidence/OPS-013/admission-development-v1-failed/source/specs/tasks/OPS-013.md",
+      "bytes": 7851,
+      "sha256": "dde1652e44105182b8ef603f97099d197126587234b7d36a1b77fbb6a7365c08"
+    },
+    {
+      "path": "evidence/OPS-013/admission-development-v1-failed/source/tests/governance/test_poc_contract_repair_admission.py",
+      "bytes": 12579,
+      "sha256": "dcf5fed2da90fb26725a01660db0a59d1331ba8d8c103bfb89c9517e16169cf7"
+    },
+    {
+      "path": "evidence/OPS-013/admission-development-v1-failed/unit.raw",
+      "bytes": 13074,
+      "sha256": "80c89246b01f02bee2d7dbbb4be824b079b8b84c8a9aa7bfebc005057d1c2287"
+    },
+    {
+      "path": "evidence/OPS-013/admission-development-v2-failed/index.json",
+      "bytes": 2338,
+      "sha256": "9f1c2f74249ac88496acdd0ff6776eb49adafb3ec5b9ea3ae501b5f45c3feda5"
+    },
+    {
+      "path": "evidence/OPS-013/admission-development-v2-failed/manifest.json",
+      "bytes": 14019,
+      "sha256": "345ab9dd0e60fd6bcda928450fc3b1ae6dfd70672272cc7261dcfbc2c0bd190d"
+    },
+    {
+      "path": "evidence/OPS-013/admission-development-v2-failed/results.json",
+      "bytes": 13894,
+      "sha256": "0f5db66b62d0ecbb11c66bc22eca822854a719f207948d49db5ca62b93430aa0"
+    },
+    {
+      "path": "evidence/OPS-013/admission-development-v2-failed/source/AGENTS.md",
+      "bytes": 15863,
+      "sha256": "4755991cc2357b758a34c2242cd40d9534b5c2ac7e88bacf0a77c9383971c284"
+    },
+    {
+      "path": "evidence/OPS-013/admission-development-v2-failed/source/scripts/check-program-lifecycle-guards.py",
+      "bytes": 55505,
+      "sha256": "827c185de5162da66b5e8fc2aee7d148d5ffb532fbfc1e97437f11c4171f393d"
+    },
+    {
+      "path": "evidence/OPS-013/admission-development-v2-failed/source/scripts/check-program-plan-history.py",
+      "bytes": 102804,
+      "sha256": "44596b87ec0b13f126e54a96ff04653a2964662b581abe614c698893a37046d9"
+    },
+    {
+      "path": "evidence/OPS-013/admission-development-v2-failed/source/scripts/check-program-plan-transitions.py",
+      "bytes": 37115,
+      "sha256": "be6040ba281aea00792b72381b47983e87943484b7109a6c6bc56cd1c0fd9d1f"
+    },
+    {
+      "path": "evidence/OPS-013/admission-development-v2-failed/source/scripts/poc-contract-repair-admission.py",
+      "bytes": 18678,
+      "sha256": "e656654a46b9add93c813d48c3874462b6ca784e4882cbbfa0bdaf16689d1c8e"
+    },
+    {
+      "path": "evidence/OPS-013/admission-development-v2-failed/source/specs/coordination/active-work.yaml",
+      "bytes": 3626,
+      "sha256": "34e1eb0a2ed5b8b249e0ed9950792f939dc18960345eb8252cfb3274ccd78ece"
+    },
+    {
+      "path": "evidence/OPS-013/admission-development-v2-failed/source/specs/coordination/program-plan.yaml",
+      "bytes": 64529,
+      "sha256": "7861def668a06eafa2b14eef1934b8b8aab2f63e1e48dae7cbdfa3f8677f44fc"
+    },
+    {
+      "path": "evidence/OPS-013/admission-development-v2-failed/source/specs/tasks/OPS-013.md",
+      "bytes": 7851,
+      "sha256": "dde1652e44105182b8ef603f97099d197126587234b7d36a1b77fbb6a7365c08"
+    },
+    {
+      "path": "evidence/OPS-013/admission-development-v2-failed/source/tests/governance/test_poc_contract_repair_admission.py",
+      "bytes": 14550,
+      "sha256": "997327118fbf6c3682ef34e414be2c7a27d30ed6875c594178d28fef15554927"
+    },
+    {
+      "path": "evidence/OPS-013/admission-development-v2-failed/unit.raw",
+      "bytes": 38480,
+      "sha256": "2614f24ea39f53f9e5d94848c842cfac92aa3101f64a442fe00a94fc318b81e7"
+    },
+    {
+      "path": "evidence/OPS-013/handoff.md",
+      "bytes": 5599,
+      "sha256": "f29be869a68a672397f504b1d91c6b3742a9448f591c9bb17ff5d06bbcc24c7f"
+    },
+    {
+      "path": "evidence/OPS-013/implementation-design-independent-review.json",
+      "bytes": 746,
+      "sha256": "5876870aae04265cacbb9457df98490adac6d1ee0335e2839547aaf948aff465"
+    },
+    {
+      "path": "evidence/OPS-013/implementation-design.md",
+      "bytes": 5111,
+      "sha256": "281680f05aba78c3c8dc4116f41305f2f3145837043f652d153f66bc26ebbe3e"
+    },
+    {
+      "path": "evidence/OPS-013/reservation-3eb9bb6-actual-main/index.json",
+      "bytes": 2793,
+      "sha256": "3a96658f9f101e1d5478c1f2561ca88a479493af198b5074fecc7d928e11f62f"
+    },
+    {
+      "path": "evidence/OPS-013/reservation-3eb9bb6-actual-main/native/checkout.raw",
+      "bytes": 123,
+      "sha256": "b97ad6c08691dbda413e5c4ee8b3c9c2bf33cbcbb2f4bffd49c56ecc36270d91"
+    },
+    {
+      "path": "evidence/OPS-013/reservation-3eb9bb6-actual-main/native/coordination.raw",
+      "bytes": 623,
+      "sha256": "4a959369c67359572a9ebaead454d9e3476c74d3c9dfd724f250078ab34acd26"
+    },
+    {
+      "path": "evidence/OPS-013/reservation-3eb9bb6-actual-main/native/executions.json",
+      "bytes": 4745,
+      "sha256": "27399949821c187f674ef347d7ac8ff5df7a1a009347e24296d94574772abbe1"
+    },
+    {
+      "path": "evidence/OPS-013/reservation-3eb9bb6-actual-main/native/fast-forward.raw",
+      "bytes": 12466,
+      "sha256": "f609d66b5c7340480c2084a9349417e3da4dd41b68cfdfaee67dd637c109467c"
+    },
+    {
+      "path": "evidence/OPS-013/reservation-3eb9bb6-actual-main/native/fetch.raw",
+      "bytes": 433,
+      "sha256": "be67bac760feecbe2e521e3b7838462aee3588c096b0c155202efe4e304da14d"
+    },
+    {
+      "path": "evidence/OPS-013/reservation-3eb9bb6-actual-main/native/history.raw",
+      "bytes": 568,
+      "sha256": "e5529f661f8d2e9353d94f8f32bc86f86aad47b737f5705a48e5a3c8f8ac7981"
+    },
+    {
+      "path": "evidence/OPS-013/reservation-3eb9bb6-actual-main/native/integrity.raw",
+      "bytes": 419,
+      "sha256": "8725d8954ceaf7f668133e4311d5a1ffe9ff7665acbbef267191e49d25aa0291"
+    },
+    {
+      "path": "evidence/OPS-013/reservation-3eb9bb6-actual-main/native/poc-protocol.raw",
+      "bytes": 303,
+      "sha256": "a42bdeea43e4f328d308abcf36a5ca31440563e884c392dd74e2a744ed681038"
+    },
+    {
+      "path": "evidence/OPS-013/reservation-3eb9bb6-actual-main/native/raw-lifecycle.raw",
+      "bytes": 551,
+      "sha256": "cdd5856cc96ed5e87e574c7e1d8c20e53fd4f140fdbbe59ef5514d779348cf02"
+    },
+    {
+      "path": "evidence/OPS-013/reservation-3eb9bb6-actual-main/native/results.json",
+      "bytes": 6346,
+      "sha256": "f345670df23116638ca16a5cf6d9f06234e489a1bf4a7e466875ea5523a50110"
+    },
+    {
+      "path": "evidence/OPS-013/reservation-3eb9bb6-actual-main/native/transitions.raw",
+      "bytes": 485,
+      "sha256": "823326d588ab7a945ab3fb769490eccdc696cc37ca39e044a2e96ce71d8d6baf"
+    },
+    {
+      "path": "evidence/OPS-013/reservation-3eb9bb6-actual-main/ops013-cae29e6-final-preflight.json",
+      "bytes": 17000,
+      "sha256": "b9b67970b757560286303f82f4af29360497633f7b375bc374730cdafc5f8549"
+    },
+    {
+      "path": "evidence/OPS-013/reservation-3eb9bb6-actual-main/ops013-reservation-actual-main-independent-review.json",
+      "bytes": 791,
+      "sha256": "cddc94c2bf6d52123edfb340e52d46b919fb6c06d43911b1a10da8f6cb36802d"
+    },
+    {
+      "path": "evidence/OPS-013/reservation-3eb9bb6-actual-main/ops013-reservation-merge-approval.json",
+      "bytes": 1783,
+      "sha256": "ee678179bc25b82618fa73ceca17b398db5c49190093cea3cc13f2d577902c11"
+    },
+    {
+      "path": "evidence/OPS-013/reservation-3eb9bb6-actual-main/ops013-reservation-official-merge.json",
+      "bytes": 622,
+      "sha256": "89b7a4e913255945c8dd02e630535ee62a3a59728fd767df2329c2792726e34a"
+    },
+    {
+      "path": "evidence/OPS-013/reservation-3eb9bb6-ci832/index.json",
+      "bytes": 713,
+      "sha256": "e9ba6e9c713f6214b4d7d5c19b1d1fb00d6e18b039a9fde6c26655a4177e02eb"
+    },
+    {
+      "path": "evidence/OPS-013/reservation-3eb9bb6-ci832/job.raw.txt",
+      "bytes": 278658,
+      "sha256": "1fcdc098d8531e250f86d63baa918875e1f6d954a9792acd03ccbbca91b2c615"
+    },
+    {
+      "path": "evidence/OPS-013/reservation-3eb9bb6-ci832/official-snapshot.json",
+      "bytes": 33799,
+      "sha256": "b991a65368b8f591f629f97bc8ae93fd43fa94772d51e08891c0baf7ab3e14ed"
+    },
+    {
+      "path": "evidence/OPS-013/reservation-cae29e6-source-validation/ci831/job.raw.txt",
+      "bytes": 287191,
+      "sha256": "30a96bb59e7e677a803fb597c630373446372431735969550a95702631b53a20"
+    },
+    {
+      "path": "evidence/OPS-013/reservation-cae29e6-source-validation/ci831/official-snapshot.json",
+      "bytes": 41244,
+      "sha256": "ab42b27c205a6ba41ec2a3e88e9426549069070f2570a5f3ef08b9e0876060ba"
+    },
+    {
+      "path": "evidence/OPS-013/reservation-cae29e6-source-validation/independent-review.json",
+      "bytes": 1295,
+      "sha256": "1aabe168caaaed848c3e758469a34d2091b0ddcd73a7f129efeac40b51d9a643"
+    },
+    {
+      "path": "evidence/OPS-013/reservation-cae29e6-source-validation/index.json",
+      "bytes": 3745,
+      "sha256": "f2ef92d3cea8b0e5e891d9860a3110e30847710a8598bddbc9da95174f57e2df"
+    },
+    {
+      "path": "evidence/OPS-013/reservation-cae29e6-source-validation/native/coordination.raw",
+      "bytes": 587,
+      "sha256": "edb20e8925548c4a22e7975a50d4b1e7764dce4c4e19d4201f3eb68f87c71059"
+    },
+    {
+      "path": "evidence/OPS-013/reservation-cae29e6-source-validation/native/diff.raw",
+      "bytes": 144,
+      "sha256": "bfb3c61167d59f5af4b66f3117bbee6e691329fbd23cd75670d68518ee9c5564"
+    },
+    {
+      "path": "evidence/OPS-013/reservation-cae29e6-source-validation/native/docs.raw",
+      "bytes": 164,
+      "sha256": "5f21354f91f62189943863bbda43848318fae5b53da8015af241c4be3e22ef89"
+    },
+    {
+      "path": "evidence/OPS-013/reservation-cae29e6-source-validation/native/evidence.raw",
+      "bytes": 307,
+      "sha256": "feda6f9848e44febc39563adeb316e010a6e235dfb1d0c1cabd4f133f74f28b9"
+    },
+    {
+      "path": "evidence/OPS-013/reservation-cae29e6-source-validation/native/finalization.raw",
+      "bytes": 362,
+      "sha256": "328aa6213413b08126e6ad299c1fd8b7823eeb33a1c75cba6e14d53a0b6f7525"
+    },
+    {
+      "path": "evidence/OPS-013/reservation-cae29e6-source-validation/native/governance.xml",
+      "bytes": 113180,
+      "sha256": "533df15f09a5352ee7fec34a3e5e2a3e616fbb2f45f00663857d4b8059c4331e"
+    },
+    {
+      "path": "evidence/OPS-013/reservation-cae29e6-source-validation/native/history.raw",
+      "bytes": 496,
+      "sha256": "80c06398a6124fc3a906cd91bbdf452a14796351098fed23bf034355bbec85f1"
+    },
+    {
+      "path": "evidence/OPS-013/reservation-cae29e6-source-validation/native/integrity.raw",
+      "bytes": 419,
+      "sha256": "b852d964d3b1692fb36e1621b2c39e68333389af6701835dd100e00ccd6f4009"
+    },
+    {
+      "path": "evidence/OPS-013/reservation-cae29e6-source-validation/native/lifecycle.raw",
+      "bytes": 606,
+      "sha256": "021bbb66d2ce1b6500a3884aa141b949327e88eacfbe09a6d1ffea99d2048ea1"
+    },
+    {
+      "path": "evidence/OPS-013/reservation-cae29e6-source-validation/native/raw-lifecycle.raw",
+      "bytes": 515,
+      "sha256": "e39594f4b82f3dfc95ec71cb47485dd669c455e4520c2c8388c9ac37b124ab32"
+    },
+    {
+      "path": "evidence/OPS-013/reservation-cae29e6-source-validation/native/readiness.raw",
+      "bytes": 660,
+      "sha256": "1cb63e5d1c163533cda8968ed74ab10d357db2bac768a4e8bfab8a33926bbdd2"
+    },
+    {
+      "path": "evidence/OPS-013/reservation-cae29e6-source-validation/native/results.json",
+      "bytes": 17259,
+      "sha256": "a9507e6b96e6fec05feb7b3f9a8149df3e5d19923aa03e6ad79bc6a60c05281c"
+    },
+    {
+      "path": "evidence/OPS-013/reservation-cae29e6-source-validation/native/schemas.raw",
+      "bytes": 1947,
+      "sha256": "08ab1ee8fc79f66a9d56d0ec9a09ea2b1613aaf78ca71424f19fc627a5e54ea0"
+    },
+    {
+      "path": "evidence/OPS-013/reservation-cae29e6-source-validation/native/scope.raw",
+      "bytes": 319,
+      "sha256": "38e629e7472e7e47d3437ada3494639ab6307a4b5ce06b74820dfbe39677ee23"
+    },
+    {
+      "path": "evidence/OPS-013/reservation-cae29e6-source-validation/native/task.raw",
+      "bytes": 262,
+      "sha256": "d4f9f32c8635af6c0969e3f8a4c9ef2e8e1dcf83fc19da78e43573c23f89cfe3"
+    },
+    {
+      "path": "evidence/OPS-013/reservation-cae29e6-source-validation/native/transitions.raw",
+      "bytes": 449,
+      "sha256": "e25a94c3ebdf5cb583bc5add2e4b3b06111c0fdfcda9a1aea38d0484c5112b91"
+    },
+    {
+      "path": "evidence/OPS-013/reservation-cae29e6-source-validation/native/verify.raw",
+      "bytes": 104068,
+      "sha256": "6c04be81bbc6d700fbad6aea7e87265cc58712e69edb879cf86b54ce59f47694"
+    },
+    {
+      "path": "scripts/check-program-lifecycle-guards.py",
+      "bytes": 55505,
+      "sha256": "827c185de5162da66b5e8fc2aee7d148d5ffb532fbfc1e97437f11c4171f393d"
+    },
+    {
+      "path": "scripts/check-program-plan-history.py",
+      "bytes": 102804,
+      "sha256": "44596b87ec0b13f126e54a96ff04653a2964662b581abe614c698893a37046d9"
+    },
+    {
+      "path": "scripts/check-program-plan-transitions.py",
+      "bytes": 37115,
+      "sha256": "be6040ba281aea00792b72381b47983e87943484b7109a6c6bc56cd1c0fd9d1f"
+    },
+    {
+      "path": "scripts/poc-contract-repair-admission.py",
+      "bytes": 18678,
+      "sha256": "e656654a46b9add93c813d48c3874462b6ca784e4882cbbfa0bdaf16689d1c8e"
+    },
+    {
+      "path": "specs/coordination/active-work.yaml",
+      "bytes": 3626,
+      "sha256": "34e1eb0a2ed5b8b249e0ed9950792f939dc18960345eb8252cfb3274ccd78ece"
+    },
+    {
+      "path": "specs/coordination/program-plan.yaml",
+      "bytes": 64529,
+      "sha256": "7861def668a06eafa2b14eef1934b8b8aab2f63e1e48dae7cbdfa3f8677f44fc"
+    },
+    {
+      "path": "specs/tasks/OPS-013.md",
+      "bytes": 7851,
+      "sha256": "dde1652e44105182b8ef603f97099d197126587234b7d36a1b77fbb6a7365c08"
+    },
+    {
+      "path": "tests/governance/test_poc_contract_repair_admission.py",
+      "bytes": 14898,
+      "sha256": "fa9bf8431381fc6c45c5a652328fa1418ddf576ee0a9368a55e747f23c2d1aab"
+    }
+  ],
+  "uncommitted": true,
+  "argv": [
+    "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/governance",
+    "-p",
+    "test_poc_contract_repair_admission.py",
+    "-v"
+  ],
+  "startedAt": "2026-10-24T16:11:20.285917Z",
+  "sourceGatesAccepted": false,
+  "implementationAccepted": false,
+  "pid": 13596,
+  "exitCode": 0,
+  "waitCompleted": true,
+  "elapsedMonotonicNs": 56929390727,
+  "endedAt": "2026-10-24T16:12:18.726957Z",
+  "rawBytes": 3481,
+  "rawSha256": "1f1b803a7b268bb4bb35710d9eb503ce0896e706333971033e40d9e1f5f2c316"
+}

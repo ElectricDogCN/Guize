@@ -1,0 +1,6 @@
+Source Commit: be0a0922b7706d23a390f7e57c1b343b66070e36
+Command: python scripts/check-evidence.py --task OPS-013
+{"status": "WARN", "message": "Command evidence may be missing command/exit-code indicators."}
+{"status": "PASS", "message": "Evidence contract passed with warnings for OPS-013."}
+
+Exit Code: 0

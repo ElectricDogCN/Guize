@@ -1,0 +1,26 @@
+OPS-013 implementation exact-source Task15; source results PENDING until the actual committed candidate runs.
+git diff --check 3eb9bb69b4fb1df85a359750b73356b953429540...HEAD
+python scripts/check-task-file.py --task OPS-013
+python scripts/check-schemas.py
+python scripts/check-program-plan-integrity.py --base-ref 3eb9bb69b4fb1df85a359750b73356b953429540
+python scripts/check-program-plan-history.py --base-ref 3eb9bb69b4fb1df85a359750b73356b953429540 --head-ref HEAD --task OPS-013 --branch-name chore/OPS-013-contract-repair-admission
+python scripts/check-program-plan-transitions.py --base-ref 3eb9bb69b4fb1df85a359750b73356b953429540 --head-ref HEAD --task OPS-013 --branch-name chore/OPS-013-contract-repair-admission
+python scripts/check-program-plan-finalization.py --base-ref 3eb9bb69b4fb1df85a359750b73356b953429540 --head-ref HEAD --task OPS-013
+python scripts/check-program-lifecycle-guards.py --base-ref 3eb9bb69b4fb1df85a359750b73356b953429540 --head-ref HEAD --task OPS-013 --branch-name chore/OPS-013-contract-repair-admission
+python scripts/run-program-lifecycle-gate.py --base-ref 3eb9bb69b4fb1df85a359750b73356b953429540 --head-ref HEAD --task OPS-013 --branch-name chore/OPS-013-contract-repair-admission
+python scripts/run-agent-coordination-gate.py --base-ref 3eb9bb69b4fb1df85a359750b73356b953429540 --head-ref HEAD --task OPS-013 --branch-name chore/OPS-013-contract-repair-admission
+python scripts/run-task-scope-gate.py --task OPS-013 --base 3eb9bb69b4fb1df85a359750b73356b953429540
+python scripts/check-evidence.py --task OPS-013
+python scripts/check-project-readiness.py
+make verify TASK=OPS-013 BASE=3eb9bb69b4fb1df85a359750b73356b953429540 HEAD_REF=HEAD BRANCH=chore/OPS-013-contract-repair-admission
+python scripts/check-markdown.py
+
+Historical reservation results: sourcecae Task15/713 and CI831 accepted; actualmain3eb CI832713/1419.98s accepted.
+Development v4:22 native cases/65.598s and3 unchanged old-planner checker regressions/9.53s, no skips; independent content accepted.
+Windows same91file component verification actually passed22 cases/1072.393s/exit0; no full-source result inherited. Full source/JUnit/CI acceptance remains pending.
+
+Forward correction: v5 actual26 failed/81.775s retained; v6 actual26 passed/99.268s and old-planner3 passed/9.34s. Actual collection739. New fixed source Task15/full739 and same-head CI pending; Windows new4 running, not accepted.
+
+Windows forward4 actually passed/495.290s/no skips. Source118 completed13 gates then controlled verify exit-15 for confirmed stale inventory; no full-suite pass. Next source Task15/full739/CI pending.
+
+Source17 actualTask15/full739/CI835 succeeded but2 newP2 prevent merge. v7 red29 retained; v8 native29/111.406s plus legacy3/9.29s passed. Next collection742; Windows new3 pending; next exact-source gates/CI pending.

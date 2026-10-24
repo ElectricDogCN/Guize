@@ -1,0 +1,8 @@
+Source Commit: 3d78e5ce36cac104423ff2f5ef6c957f480171f5
+Command: python scripts/check-task-file.py --task OPS-013
+{"status": "FAIL", "message": "Forbidden scope section has no entries."}
+{"status": "FAIL", "message": "leaseExpiresAt must be an ISO-8601 timestamp with timezone."}
+{"status": "FAIL", "message": "Missing dependencies/integration section must contain at least one bullet."}
+{"status": "FAIL", "message": "Missing collaboration/handoff section must contain at least one bullet."}
+
+Exit Code: 1

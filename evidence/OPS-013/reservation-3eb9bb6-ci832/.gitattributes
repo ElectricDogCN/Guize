@@ -1,0 +1,2 @@
+* -text
+job.raw.txt -text whitespace=-blank-at-eol,-blank-at-eof
