@@ -1,0 +1,43 @@
+{
+  "task": "OPS-013",
+  "capturedAt": "2026-10-24T20:25:25.640599+00:00",
+  "reviewMain": "43270da544d9df3da68a45d2eca3e0a2fed2de6e",
+  "actualReviewMainAccepted": true,
+  "mainCiNumber": 839,
+  "mainCiTests": 742,
+  "issue137ClosedAt": "2026-10-24T20:23:08Z",
+  "issue137StateReason": "completed",
+  "currentCompletionResultsAccepted": false,
+  "files": [
+    {
+      "ref": "ci839/job.raw.txt",
+      "source": "ops013-review-43270da-ci839-success-job.raw.txt",
+      "bytes": 289211,
+      "sha256": "9bba16cabad8bd541160be694ec8f90c91af34ed1ea31aca6aa97db4a16c580b"
+    },
+    {
+      "ref": "ci839/official-status.json",
+      "source": "ops013-review-43270da-ci839-success-official-status.json",
+      "bytes": 32745,
+      "sha256": "56b6fe1e0e99038332e9c19578a7e2e50b7437857ae4ba448fad6e727ea62149"
+    },
+    {
+      "ref": "review-main-full-independent.json",
+      "source": "ops013-review-43270da-full-main-independent-review.json",
+      "bytes": 3106,
+      "sha256": "63d42afdfda12f33f39593ed82d26259fb1f42869ad34697c84d9a40491f9fc2"
+    },
+    {
+      "ref": "issue137-closure.json",
+      "source": "ops013-issue137-closed-completed.json",
+      "bytes": 19263,
+      "sha256": "abe176a865caf125de061ca5fba2d1f884054d7a74f2500112818c4a06cf402c"
+    },
+    {
+      "ref": "initial-preparation.json",
+      "source": "ops013-normal-completion-preparation/results.json",
+      "bytes": 4909,
+      "sha256": "edce107295c3ff50fcb66961eb741740a0e2bc916f1097835fffcfe2cbcab9d3"
+    }
+  ]
+}

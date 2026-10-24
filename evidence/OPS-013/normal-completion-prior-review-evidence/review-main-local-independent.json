@@ -1,0 +1,155 @@
+{
+  "reviewedAt": "2026-10-24T19:54:52.687006Z",
+  "actor": "/root/gz022_planning_independent_review",
+  "registeredRole": "independent-review-agent",
+  "task": "OPS-013",
+  "pullRequest": 140,
+  "actualReviewMain": "43270da544d9df3da68a45d2eca3e0a2fed2de6e",
+  "source": "6b8b7999e73a9a5fd7c8cf45bb04a6adee4a7c0d",
+  "base": "16070d0d0d4c1a4952d2fc6f036dda135f058c8d",
+  "tree": "76aa0c7ce617515cf820c5abb1607b924fa04f98",
+  "orderedParents": [
+    "16070d0d0d4c1a4952d2fc6f036dda135f058c8d",
+    "6b8b7999e73a9a5fd7c8cf45bb04a6adee4a7c0d"
+  ],
+  "canonicalMainClean": true,
+  "freshOfficialMergeAndMainRefConfirmed": true,
+  "officialMergedAt": "2026-10-24T19:52:29Z",
+  "officialMergeArtifactSha256": "da0c4642225cfed967b54fe3a5482079adb26283d7b97963ce2b0fbe00ea4afa",
+  "nativeResultsSha256": "9606da023556af0ff9e020e971e31476517120adc48b4493939714c088524ccf",
+  "nativeActualMainChecks": [
+    {
+      "label": "integrity",
+      "argv": [
+        "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+        "-B",
+        "scripts/check-program-plan-integrity.py",
+        "--base-ref",
+        "16070d0d0d4c1a4952d2fc6f036dda135f058c8d"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true,
+      "bytes": 474,
+      "sha256": "b0fcbdb87244c32f7b6b6ee8df19b368cbf2d08dfe2358593189fb44adf6b2b9"
+    },
+    {
+      "label": "history",
+      "argv": [
+        "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+        "-B",
+        "scripts/check-program-plan-history.py",
+        "--base-ref",
+        "16070d0d0d4c1a4952d2fc6f036dda135f058c8d",
+        "--head-ref",
+        "43270da544d9df3da68a45d2eca3e0a2fed2de6e"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true,
+      "bytes": 542,
+      "sha256": "cc853c3897ce5fa1afd2cd0531e4b0237d00e3231c159495055bfab44e1e8edf"
+    },
+    {
+      "label": "transitions",
+      "argv": [
+        "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+        "-B",
+        "scripts/check-program-plan-transitions.py",
+        "--base-ref",
+        "16070d0d0d4c1a4952d2fc6f036dda135f058c8d",
+        "--head-ref",
+        "43270da544d9df3da68a45d2eca3e0a2fed2de6e"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true,
+      "bytes": 454,
+      "sha256": "436dc172e6e6a83643ba911ad66a96a9708aded92ce43b389d9fe273e31b7c6a"
+    },
+    {
+      "label": "finalization",
+      "argv": [
+        "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+        "-B",
+        "scripts/check-program-plan-finalization.py",
+        "--base-ref",
+        "16070d0d0d4c1a4952d2fc6f036dda135f058c8d",
+        "--head-ref",
+        "43270da544d9df3da68a45d2eca3e0a2fed2de6e"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true,
+      "bytes": 433,
+      "sha256": "a0d0a00b5c31b7a604ab082629732dc0042c3d19ddd995284d06414c3ba21d8c"
+    },
+    {
+      "label": "raw-lifecycle",
+      "argv": [
+        "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+        "-B",
+        "scripts/check-program-lifecycle-guards.py",
+        "--base-ref",
+        "16070d0d0d4c1a4952d2fc6f036dda135f058c8d",
+        "--head-ref",
+        "43270da544d9df3da68a45d2eca3e0a2fed2de6e"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true,
+      "bytes": 525,
+      "sha256": "8288eed9c328f3deb5bf11593f1e2b884ae59a2353f2e3891a1968fe05da2835"
+    },
+    {
+      "label": "coordination",
+      "argv": [
+        "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+        "-B",
+        "scripts/run-agent-coordination-gate.py"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true,
+      "bytes": 336,
+      "sha256": "871dd4c8142cc1f0587c44e39693f2431285354b970848f2ab0033a4ffce05d8"
+    },
+    {
+      "label": "poc-protocol",
+      "argv": [
+        "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+        "-B",
+        "specs/poc/check_program.py",
+        "--repo-root",
+        "/home/sur/.cache/guize-takeover/ops013-review-main-43270da"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true,
+      "bytes": 356,
+      "sha256": "e4ae9b0fc0fa62b94ee758214b0aa2185dd06bd6e6b3098395d6e7abc1220080"
+    }
+  ],
+  "sevenActualMainLocalChecksAccepted": true,
+  "sourceTreeStatusBeforeAfterUnchanged": true,
+  "actualReviewMainLocalAccepted": true,
+  "actualReviewMainAccepted": false,
+  "fullReviewMainCiAccepted": false,
+  "mainCiNumber": 839,
+  "mainCiRunId": 40127268905,
+  "mainCiState": "Pending terminal full742 acceptance; no transfer fromCI838",
+  "mustFix": [],
+  "completionMetadataPreparationMayProceed": true,
+  "preparationOnly": true,
+  "issue137ClosureApprovedAtThisStage": false,
+  "issueClosedDependentGatesMayRunAtThisStage": false,
+  "completionPublicationApprovedAtThisStage": false,
+  "completionMergeApproved": false,
+  "preparationConditions": [
+    "Prepare only new normalCompletion Own metadata/Evidence from latestactualmain containing43270; preserve originalReview and failedcandidatebranches/records. This is reviewableworktree preparation only untilCI839 terminal acceptance.",
+    "Program own completion identity must truthfully name lastnonmetadata implementation PR139/main16070, not ReviewPR140/main43270 or an earliercodecandidate. Only own Active entry may be removed in the futureCompletion proposal; keep originalroles/claims/lease in predecessorproof and unchangedforeign/capacitypolicy. Foundation doesnot add ordinaryLedgerrecord.",
+    "Task futurecompleted/integrator metadata must bind actualCompletionbranch and actuallatestmainbase. Evidence preserves exactReviewmerge/local7 and laterCI839 separately, plus implementationprovenance and independentreviews. Do not claim unexecutedcandidatechecks or acceptance.",
+    "WhileCI839pending do not closeIssue137, runIssueclosed-dependentCompletiongates, publishCompletionPR, mergeCompletion or release actualmainhighslot. Preparing a deletion in a worktree doesnot remove actualmainActivecapacity.",
+    "Only after realCI839 full742/skip-audit success and independent fullReviewmainacceptance may rootcloseIssue137 under existingauthorization and run newlyfixedCompletionexact-sourcechecks/sameheadCI/independentreview. Alllater integrationconditions remain mandatory.",
+    "IfCI839 fails or main/source/leasechanges, retainfacts and resolvewithinlegalownscope; no derivativeCompletionintegration. OPS014 remains unavailable until normalCompletionactualmainfullyaccepted andhighreleased."
+  ],
+  "currentCompletionSourceAccepted": false,
+  "taskCompleted": false,
+  "successorOPS014Approved": false,
+  "contractRepairApproved": false,
+  "experimentApproved": false,
+  "reviewerExecution": "Read-only fresh officialPR140/mainref, actualGitgraph/tree/cleanstate and seven boundraw logs/results. No fullsuite rerun, code edit, Issue action or branch mutation."
+}
