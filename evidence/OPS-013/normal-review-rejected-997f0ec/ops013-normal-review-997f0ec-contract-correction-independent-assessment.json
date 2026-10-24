@@ -1,0 +1,105 @@
+{
+  "assessedAt": "2026-10-24T19:11:41.443792Z",
+  "actor": "/root/gz022_planning_independent_review",
+  "registeredRole": "independent-review-agent",
+  "task": "OPS-013",
+  "source": "997f0eccefdb6c18d1a22090a63c0eaa91bb6232",
+  "tree": "640da1fd34f5189434148865d7c012d096f132b9",
+  "base": "16070d0d0d4c1a4952d2fc6f036dda135f058c8d",
+  "kind": "Superseding correction of prior independent assessment; read-only",
+  "previousAssessmentRef": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\ops013-normal-review-997f0ec-history-failure-independent-assessment.json",
+  "previousAssessmentSha256": "9ccc7205f40511335b57f7c1f1c3f33c14dabec1d0b1a4ef36927b69e81d9694",
+  "previousStagedReviewRef": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\ops013-normal-review-staged-independent-review.json",
+  "previousStagedReviewSha256": "ddd6b9262dd5297d013acb3b97820b793ad2fd6a366b5650331c3bf1d820c47a",
+  "correction": "The prior claim that history555-556 is a checker defect requiring a governance-code fix was incorrect. The997 Review proposal itself violates the effective active Foundation contract by prematurely replacing ISSUE-137/null with PR-139/16070. Prior staged content acceptance missed this constraint and is superseded for publication/integration admission. No checker change is justified or authorized by that failed proposal.",
+  "authoritativeEvidence": [
+    {
+      "file": "scripts/check-program-plan-transitions.py",
+      "lines": "426-475",
+      "fact": "validate_active_transition selects foundationTasks for Foundations and allows only status in Program lifecycle changes via only_lifecycle_target_changed. OPS013 in_progress->review is covered; completionRef/mergeCommit changes are forbidden."
+    },
+    {
+      "file": "scripts/check-program-plan-transitions.py",
+      "lines": "820-867",
+      "fact": "Dispatch includes Foundation task IDs and calls validate_active_transition. No Foundation Review-specific bypass permits changing Program completion identity."
+    },
+    {
+      "file": "scripts/check-program-plan-transitions.py",
+      "lines": "524-526",
+      "fact": "Foundation-specific allowance modifies permissible Active Registry fields only; it does not alter Program status-only restriction."
+    },
+    {
+      "file": "scripts/check-program-plan-history.py",
+      "lines": "554-556",
+      "fact": "Historical active Foundation requires ISSUE-<original issue> and null mergeCommit, consistent with active transition restriction."
+    },
+    {
+      "file": "specs/coordination/program-plan.schema.yaml",
+      "lines": "133-145",
+      "fact": "Review is an allowed status; required completionRef and mergeCommit have general types. No conditional requires PR/non-null merge for Review."
+    },
+    {
+      "file": "specs/coordination/README.md",
+      "lines": "145-149",
+      "fact": "The actual last reviewed integrated implementation is required as Completion identity. This does not require premature Program assignment while active."
+    },
+    {
+      "file": "tests/governance/test_poc_contract_repair_admission.py",
+      "lines": "55-62,80-94",
+      "fact": "Existing lifecycle fixture changes only Program status through review; PR/actual code commit are assigned only on completed after independent Review. This corroborates the effective contract."
+    },
+    {
+      "file": "scripts/check-program-plan-history.py",
+      "lines": "1362-1409",
+      "fact": "Introduced post-implementation historical commits are audited, including997. Restoring fields at a later descendant tip alone cannot erase the invalid intermediate active snapshot."
+    }
+  ],
+  "normalReviewCorrectSemantics": {
+    "programOwnChanges": {
+      "status": "in_progress -> review"
+    },
+    "programFieldsRetained": {
+      "completionRef": "ISSUE-137",
+      "mergeCommit": null
+    },
+    "taskHandoffLastCode": {
+      "pullRequest": 139,
+      "actualImplementationMain": "16070d0d0d4c1a4952d2fc6f036dda135f058c8d",
+      "source": "be0a0922b7706d23a390f7e57c1b343b66070e36"
+    },
+    "activeTaskReviewMetadata": "Own status review, agentRole reviewer, actual Review branch/base; original claims/roles/lease/order/capacity/foreign remain unchanged.",
+    "completionLater": "Normal completed phase will assign the then-latest actual integrated reviewed non-metadata implementation PR/merge, independently proving code identity; current Review never substitutes itself as implementation."
+  },
+  "minimalCorrectPath": [
+    "Do not create a checker repair implementation or modify validators/tests/Schema merely to accept997.",
+    "Preserve997 exact commit, branch/ref and failed native13 records. It has never been published or integrated; do not amend/reset or relabel its result.",
+    "Prepare a new metadata-only Review candidate rooted at actual latestmain containing16070, excluding997 from its ancestry. Keep a separate retained ref for997; use a distinct truthful OPS013 Review branch with matching Task/Active fields rather than reset the failed branch.",
+    "On the new candidate Program changes own status only; retain ISSUE-137/null. Correct Task/Handoff statements that currently claim Program last-code completionRef/mergeCommit changes are allowed; retain truthful lastCode PR139/16070 in Evidence and handoff.",
+    "Archive this correction and997 failure as historical Own Evidence; synchronize new exact inventory/commands. Verify new fixed source with native13, same-head full742 CI and independent review before integration. No new claim/lease/implementation code is required.",
+    "Actual mainCI837 remains independently attributed to16070. Review merge still requires its terminal full acceptance plus new Review own gates/latest threads; no old or proposed result transfers."
+  ],
+  "mustFix": [
+    {
+      "priority": 2,
+      "file": "specs/coordination/program-plan.yaml",
+      "message": "Remove premature active Review completionRef/mergeCommit mutation in a fresh legal candidate from actualmain; current997 fails the effective contract."
+    },
+    {
+      "priority": 2,
+      "file": "specs/tasks/OPS-013.md and evidence/OPS-013",
+      "message": "Correct phase documentation and preserve this prior-review correction and actual997 failure without claiming checker repair is necessary."
+    }
+  ],
+  "checkerChangeAuthorized": false,
+  "newImplementationBranchRequired": false,
+  "newMetadataReviewPreparationMayProceed": true,
+  "current997Accepted": false,
+  "current997PublicationApproved": false,
+  "current997MergeApproved": false,
+  "futureCandidateAccepted": false,
+  "reviewMergeApproved": false,
+  "completionApproved": false,
+  "successorOPS014Approved": false,
+  "experimentApproved": false,
+  "limits": "Source inspection only; no author changes, tests, source HTTP requests, branch operations or CI polling performed. Original assessments preserved byte-for-byte."
+}

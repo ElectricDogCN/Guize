@@ -1,0 +1,23 @@
+{
+  "actualMain": "16070d0d0d4c1a4952d2fc6f036dda135f058c8d",
+  "source": "be0a0922b7706d23a390f7e57c1b343b66070e36",
+  "base": "3eb9bb69b4fb1df85a359750b73356b953429540",
+  "tree": "a14c0431a7edcce8c4df821bdd345220c0330926",
+  "before": {
+    "head": "3eb9bb69b4fb1df85a359750b73356b953429540",
+    "branch": "main",
+    "status": ""
+  },
+  "canonicalMainFastForwarded": true,
+  "parentAndTreeVerified": true,
+  "trackedAndUntrackedClean": true,
+  "bundle": "ops013-implementation-16070d0-actual-main.bundle",
+  "bundleBytes": 13652177,
+  "bundleSha256": "261e0cdcb7358350a13f2a87c9b5bf947367e29dd32793babd09874de10cb495",
+  "branch": "chore/OPS-013-contract-repair-admission",
+  "nativeMainChecksAccepted": false,
+  "fullMainCiAccepted": false,
+  "taskCompleted": false,
+  "successorRegistrationApproved": false,
+  "experimentApproved": false
+}

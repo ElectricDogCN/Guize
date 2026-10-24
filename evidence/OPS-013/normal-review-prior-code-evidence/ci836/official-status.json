@@ -1,0 +1,422 @@
+{
+  "run": {
+    "content": [
+      {
+        "type": "text",
+        "text": "Action completed."
+      }
+    ],
+    "structuredContent": {
+      "content": "{\"id\":40119540426,\"name\":\"Governance Gate\",\"node_id\":\"WFR_kwLOTgCQ3c8AAAAJV0-ayg\",\"head_branch\":\"chore/OPS-013-contract-repair-admission\",\"head_sha\":\"be0a0922b7706d23a390f7e57c1b343b66070e36\",\"path\":\".github/workflows/governance-gate.yml\",\"display_title\":\"OPS-013: authenticate bounded POC contract repair admission\",\"run_number\":836,\"event\":\"pull_request\",\"status\":\"completed\",\"conclusion\":\"success\",\"workflow_id\":318794701,\"check_suite_id\":108744142918,\"check_suite_node_id\":\"CS_kwDOTgCQ3c8AAAAZUafwRg\",\"url\":\"https://api.github.com/repos/ElectricDogCN/Guize/actions/runs/40119540426\",\"html_url\":\"https://github.com/ElectricDogCN/Guize/actions/runs/40119540426\",\"pull_requests\":[{\"url\":\"https://api.github.com/repos/ElectricDogCN/Guize/pulls/139\",\"id\":4997250149,\"number\":139,\"head\":{\"ref\":\"chore/OPS-013-contract-repair-admission\",\"sha\":\"be0a0922b7706d23a390f7e57c1b343b66070e36\",\"repo\":{\"id\":1308659933,\"url\":\"https://api.github.com/repos/ElectricDogCN/Guize\",\"name\":\"Guize\"}},\"base\":{\"ref\":\"main\",\"sha\":\"3eb9bb69b4fb1df85a359750b73356b953429540\",\"repo\":{\"id\":1308659933,\"url\":\"https://api.github.com/repos/ElectricDogCN/Guize\",\"name\":\"Guize\"}}}],\"created_at\":\"2026-10-24T18:11:12Z\",\"updated_at\":\"2026-10-24T18:39:07Z\",\"actor\":{\"login\":\"ElectricDogCN\",\"id\":43232390,\"node_id\":\"MDQ6VXNlcjQzMjMyMzkw\",\"avatar_url\":\"https://avatars.githubusercontent.com/u/43232390?v=4\",\"gravatar_id\":\"\",\"url\":\"https://api.github.com/users/ElectricDogCN\",\"html_url\":\"https://github.com/ElectricDogCN\",\"followers_url\":\"https://api.github.com/users/ElectricDogCN/followers\",\"following_url\":\"https://api.github.com/users/ElectricDogCN/following{/other_user}\",\"gists_url\":\"https://api.github.com/users/ElectricDogCN/gists{/gist_id}\",\"starred_url\":\"https://api.github.com/users/ElectricDogCN/starred{/owner}{/repo}\",\"subscriptions_url\":\"https://api.github.com/users/ElectricDogCN/subscriptions\",\"organizations_url\":\"https://api.github.com/users/ElectricDogCN/orgs\",\"repos_url\":\"https://api.github.com/users/ElectricDogCN/repos\",\"events_url\":\"https://api.github.com/users/ElectricDogCN/events{/privacy}\",\"received_events_url\":\"https://api.github.com/users/ElectricDogCN/received_events\",\"type\":\"User\",\"user_view_type\":\"public\",\"site_admin\":false},\"run_attempt\":1,\"referenced_workflows\":[],\"run_started_at\":\"2026-10-24T18:11:12Z\",\"triggering_actor\":{\"login\":\"ElectricDogCN\",\"id\":43232390,\"node_id\":\"MDQ6VXNlcjQzMjMyMzkw\",\"avatar_url\":\"https://avatars.githubusercontent.com/u/43232390?v=4\",\"gravatar_id\":\"\",\"url\":\"https://api.github.com/users/ElectricDogCN\",\"html_url\":\"https://github.com/ElectricDogCN\",\"followers_url\":\"https://api.github.com/users/ElectricDogCN/followers\",\"following_url\":\"https://api.github.com/users/ElectricDogCN/following{/other_user}\",\"gists_url\":\"https://api.github.com/users/ElectricDogCN/gists{/gist_id}\",\"starred_url\":\"https://api.github.com/users/ElectricDogCN/starred{/owner}{/repo}\",\"subscriptions_url\":\"https://api.github.com/users/ElectricDogCN/subscriptions\",\"organizations_url\":\"https://api.github.com/users/ElectricDogCN/orgs\",\"repos_url\":\"https://api.github.com/users/ElectricDogCN/repos\",\"events_url\":\"https://api.github.com/users/ElectricDogCN/events{/privacy}\",\"received_events_url\":\"https://api.github.com/users/ElectricDogCN/received_events\",\"type\":\"User\",\"user_view_type\":\"public\",\"site_admin\":false},\"jobs_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/actions/runs/40119540426/jobs\",\"logs_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/actions/runs/40119540426/logs\",\"check_suite_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/check-suites/108744142918\",\"artifacts_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/actions/runs/40119540426/artifacts\",\"cancel_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/actions/runs/40119540426/cancel\",\"rerun_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/actions/runs/40119540426/rerun\",\"previous_attempt_url\":null,\"workflow_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/actions/workflows/318794701\",\"head_commit\":{\"id\":\"be0a0922b7706d23a390f7e57c1b343b66070e36\",\"tree_id\":\"a14c0431a7edcce8c4df821bdd345220c0330926\",\"message\":\"fix(OPS-013): retain immutable authority and historical lease precision\\n\\nIssue: #137\\nEvidence: evidence/OPS-013/review-v8-20261025/\\n\\nApply only historical Git-second acquisition tolerance, preserving strict wall/expiry rules. Audit protected blobs through current base without moving original admission, completion, contract or capacity authentication.\\nNative29 and legacy3 passed; three new Windows regressions passed separately. Independent fixed content and complete281-path inventory accepted. New exact-source Task15/full742/CI pending.\",\"timestamp\":\"2026-10-24T18:09:34Z\",\"author\":{\"name\":\"Ruifeng Su\",\"email\":\"suruifeng@epro-vision.com\"},\"committer\":{\"name\":\"Ruifeng Su\",\"email\":\"suruifeng@epro-vision.com\"}},\"repository\":{\"id\":1308659933,\"node_id\":\"R_kgDOTgCQ3Q\",\"name\":\"Guize\",\"full_name\":\"ElectricDogCN/Guize\",\"private\":false,\"owner\":{\"login\":\"ElectricDogCN\",\"id\":43232390,\"node_id\":\"MDQ6VXNlcjQzMjMyMzkw\",\"avatar_url\":\"https://avatars.githubusercontent.com/u/43232390?v=4\",\"gravatar_id\":\"\",\"url\":\"https://api.github.com/users/ElectricDogCN\",\"html_url\":\"https://github.com/ElectricDogCN\",\"followers_url\":\"https://api.github.com/users/ElectricDogCN/followers\",\"following_url\":\"https://api.github.com/users/ElectricDogCN/following{/other_user}\",\"gists_url\":\"https://api.github.com/users/ElectricDogCN/gists{/gist_id}\",\"starred_url\":\"https://api.github.com/users/ElectricDogCN/starred{/owner}{/repo}\",\"subscriptions_url\":\"https://api.github.com/users/ElectricDogCN/subscriptions\",\"organizations_url\":\"https://api.github.com/users/ElectricDogCN/orgs\",\"repos_url\":\"https://api.github.com/users/ElectricDogCN/repos\",\"events_url\":\"https://api.github.com/users/ElectricDogCN/events{/privacy}\",\"received_events_url\":\"https://api.github.com/users/ElectricDogCN/received_events\",\"type\":\"User\",\"user_view_type\":\"public\",\"site_admin\":false},\"html_url\":\"https://github.com/ElectricDogCN/Guize\",\"description\":null,\"fork\":false,\"url\":\"https://api.github.com/repos/ElectricDogCN/Guize\",\"forks_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/forks\",\"keys_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/keys{/key_id}\",\"collaborators_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/collaborators{/collaborator}\",\"teams_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/teams\",\"hooks_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/hooks\",\"issue_events_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/issues/events{/number}\",\"events_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/events\",\"assignees_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/assignees{/user}\",\"branches_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/branches{/branch}\",\"tags_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/tags\",\"blobs_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/git/blobs{/sha}\",\"git_tags_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/git/tags{/sha}\",\"git_refs_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/git/refs{/sha}\",\"trees_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/git/trees{/sha}\",\"statuses_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/statuses/{sha}\",\"languages_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/languages\",\"stargazers_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/stargazers\",\"contributors_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/contributors\",\"subscribers_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/subscribers\",\"subscription_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/subscription\",\"commits_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/commits{/sha}\",\"git_commits_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/git/commits{/sha}\",\"comments_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/comments{/number}\",\"issue_comment_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/issues/comments{/number}\",\"contents_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/contents/{+path}\",\"compare_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/compare/{base}...{head}\",\"merges_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/merges\",\"archive_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/{archive_format}{/ref}\",\"downloads_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/downloads\",\"issues_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/issues{/number}\",\"pulls_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/pulls{/number}\",\"milestones_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/milestones{/number}\",\"notifications_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/notifications{?since,all,participating}\",\"labels_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/labels{/name}\",\"releases_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/releases{/id}\",\"deployments_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/deployments\"},\"head_repository\":{\"id\":1308659933,\"node_id\":\"R_kgDOTgCQ3Q\",\"name\":\"Guize\",\"full_name\":\"ElectricDogCN/Guize\",\"private\":false,\"owner\":{\"login\":\"ElectricDogCN\",\"id\":43232390,\"node_id\":\"MDQ6VXNlcjQzMjMyMzkw\",\"avatar_url\":\"https://avatars.githubusercontent.com/u/43232390?v=4\",\"gravatar_id\":\"\",\"url\":\"https://api.github.com/users/ElectricDogCN\",\"html_url\":\"https://github.com/ElectricDogCN\",\"followers_url\":\"https://api.github.com/users/ElectricDogCN/followers\",\"following_url\":\"https://api.github.com/users/ElectricDogCN/following{/other_user}\",\"gists_url\":\"https://api.github.com/users/ElectricDogCN/gists{/gist_id}\",\"starred_url\":\"https://api.github.com/users/ElectricDogCN/starred{/owner}{/repo}\",\"subscriptions_url\":\"https://api.github.com/users/ElectricDogCN/subscriptions\",\"organizations_url\":\"https://api.github.com/users/ElectricDogCN/orgs\",\"repos_url\":\"https://api.github.com/users/ElectricDogCN/repos\",\"events_url\":\"https://api.github.com/users/ElectricDogCN/events{/privacy}\",\"received_events_url\":\"https://api.github.com/users/ElectricDogCN/received_events\",\"type\":\"User\",\"user_view_type\":\"public\",\"site_admin\":false},\"html_url\":\"https://github.com/ElectricDogCN/Guize\",\"description\":null,\"fork\":false,\"url\":\"https://api.github.com/repos/ElectricDogCN/Guize\",\"forks_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/forks\",\"keys_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/keys{/key_id}\",\"collaborators_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/collaborators{/collaborator}\",\"teams_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/teams\",\"hooks_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/hooks\",\"issue_events_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/issues/events{/number}\",\"events_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/events\",\"assignees_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/assignees{/user}\",\"branches_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/branches{/branch}\",\"tags_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/tags\",\"blobs_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/git/blobs{/sha}\",\"git_tags_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/git/tags{/sha}\",\"git_refs_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/git/refs{/sha}\",\"trees_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/git/trees{/sha}\",\"statuses_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/statuses/{sha}\",\"languages_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/languages\",\"stargazers_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/stargazers\",\"contributors_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/contributors\",\"subscribers_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/subscribers\",\"subscription_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/subscription\",\"commits_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/commits{/sha}\",\"git_commits_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/git/commits{/sha}\",\"comments_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/comments{/number}\",\"issue_comment_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/issues/comments{/number}\",\"contents_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/contents/{+path}\",\"compare_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/compare/{base}...{head}\",\"merges_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/merges\",\"archive_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/{archive_format}{/ref}\",\"downloads_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/downloads\",\"issues_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/issues{/number}\",\"pulls_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/pulls{/number}\",\"milestones_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/milestones{/number}\",\"notifications_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/notifications{?since,all,participating}\",\"labels_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/labels{/name}\",\"releases_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/releases{/id}\",\"deployments_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/deployments\"}}",
+      "title": "40119540426",
+      "modified_date": null,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/actions/runs/40119540426",
+      "display_url": "https://api.github.com/repos/ElectricDogCN/Guize/actions/runs/40119540426",
+      "display_title": "40119540426",
+      "structuredContent": {
+        "title": "40119540426",
+        "content": "{\"id\":40119540426,\"name\":\"Governance Gate\",\"node_id\":\"WFR_kwLOTgCQ3c8AAAAJV0-ayg\",\"head_branch\":\"chore/OPS-013-contract-repair-admission\",\"head_sha\":\"be0a0922b7706d23a390f7e57c1b343b66070e36\",\"path\":\".github/workflows/governance-gate.yml\",\"display_title\":\"OPS-013: authenticate bounded POC contract repair admission\",\"run_number\":836,\"event\":\"pull_request\",\"status\":\"completed\",\"conclusion\":\"success\",\"workflow_id\":318794701,\"check_suite_id\":108744142918,\"check_suite_node_id\":\"CS_kwDOTgCQ3c8AAAAZUafwRg\",\"url\":\"https://api.github.com/repos/ElectricDogCN/Guize/actions/runs/40119540426\",\"html_url\":\"https://github.com/ElectricDogCN/Guize/actions/runs/40119540426\",\"pull_requests\":[{\"url\":\"https://api.github.com/repos/ElectricDogCN/Guize/pulls/139\",\"id\":4997250149,\"number\":139,\"head\":{\"ref\":\"chore/OPS-013-contract-repair-admission\",\"sha\":\"be0a0922b7706d23a390f7e57c1b343b66070e36\",\"repo\":{\"id\":1308659933,\"url\":\"https://api.github.com/repos/ElectricDogCN/Guize\",\"name\":\"Guize\"}},\"base\":{\"ref\":\"main\",\"sha\":\"3eb9bb69b4fb1df85a359750b73356b953429540\",\"repo\":{\"id\":1308659933,\"url\":\"https://api.github.com/repos/ElectricDogCN/Guize\",\"name\":\"Guize\"}}}],\"created_at\":\"2026-10-24T18:11:12Z\",\"updated_at\":\"2026-10-24T18:39:07Z\",\"actor\":{\"login\":\"ElectricDogCN\",\"id\":43232390,\"node_id\":\"MDQ6VXNlcjQzMjMyMzkw\",\"avatar_url\":\"https://avatars.githubusercontent.com/u/43232390?v=4\",\"gravatar_id\":\"\",\"url\":\"https://api.github.com/users/ElectricDogCN\",\"html_url\":\"https://github.com/ElectricDogCN\",\"followers_url\":\"https://api.github.com/users/ElectricDogCN/followers\",\"following_url\":\"https://api.github.com/users/ElectricDogCN/following{/other_user}\",\"gists_url\":\"https://api.github.com/users/ElectricDogCN/gists{/gist_id}\",\"starred_url\":\"https://api.github.com/users/ElectricDogCN/starred{/owner}{/repo}\",\"subscriptions_url\":\"https://api.github.com/users/ElectricDogCN/subscriptions\",\"organizations_url\":\"https://api.github.com/users/ElectricDogCN/orgs\",\"repos_url\":\"https://api.github.com/users/ElectricDogCN/repos\",\"events_url\":\"https://api.github.com/users/ElectricDogCN/events{/privacy}\",\"received_events_url\":\"https://api.github.com/users/ElectricDogCN/received_events\",\"type\":\"User\",\"user_view_type\":\"public\",\"site_admin\":false},\"run_attempt\":1,\"referenced_workflows\":[],\"run_started_at\":\"2026-10-24T18:11:12Z\",\"triggering_actor\":{\"login\":\"ElectricDogCN\",\"id\":43232390,\"node_id\":\"MDQ6VXNlcjQzMjMyMzkw\",\"avatar_url\":\"https://avatars.githubusercontent.com/u/43232390?v=4\",\"gravatar_id\":\"\",\"url\":\"https://api.github.com/users/ElectricDogCN\",\"html_url\":\"https://github.com/ElectricDogCN\",\"followers_url\":\"https://api.github.com/users/ElectricDogCN/followers\",\"following_url\":\"https://api.github.com/users/ElectricDogCN/following{/other_user}\",\"gists_url\":\"https://api.github.com/users/ElectricDogCN/gists{/gist_id}\",\"starred_url\":\"https://api.github.com/users/ElectricDogCN/starred{/owner}{/repo}\",\"subscriptions_url\":\"https://api.github.com/users/ElectricDogCN/subscriptions\",\"organizations_url\":\"https://api.github.com/users/ElectricDogCN/orgs\",\"repos_url\":\"https://api.github.com/users/ElectricDogCN/repos\",\"events_url\":\"https://api.github.com/users/ElectricDogCN/events{/privacy}\",\"received_events_url\":\"https://api.github.com/users/ElectricDogCN/received_events\",\"type\":\"User\",\"user_view_type\":\"public\",\"site_admin\":false},\"jobs_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/actions/runs/40119540426/jobs\",\"logs_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/actions/runs/40119540426/logs\",\"check_suite_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/check-suites/108744142918\",\"artifacts_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/actions/runs/40119540426/artifacts\",\"cancel_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/actions/runs/40119540426/cancel\",\"rerun_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/actions/runs/40119540426/rerun\",\"previous_attempt_url\":null,\"workflow_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/actions/workflows/318794701\",\"head_commit\":{\"id\":\"be0a0922b7706d23a390f7e57c1b343b66070e36\",\"tree_id\":\"a14c0431a7edcce8c4df821bdd345220c0330926\",\"message\":\"fix(OPS-013): retain immutable authority and historical lease precision\\n\\nIssue: #137\\nEvidence: evidence/OPS-013/review-v8-20261025/\\n\\nApply only historical Git-second acquisition tolerance, preserving strict wall/expiry rules. Audit protected blobs through current base without moving original admission, completion, contract or capacity authentication.\\nNative29 and legacy3 passed; three new Windows regressions passed separately. Independent fixed content and complete281-path inventory accepted. New exact-source Task15/full742/CI pending.\",\"timestamp\":\"2026-10-24T18:09:34Z\",\"author\":{\"name\":\"Ruifeng Su\",\"email\":\"suruifeng@epro-vision.com\"},\"committer\":{\"name\":\"Ruifeng Su\",\"email\":\"suruifeng@epro-vision.com\"}},\"repository\":{\"id\":1308659933,\"node_id\":\"R_kgDOTgCQ3Q\",\"name\":\"Guize\",\"full_name\":\"ElectricDogCN/Guize\",\"private\":false,\"owner\":{\"login\":\"ElectricDogCN\",\"id\":43232390,\"node_id\":\"MDQ6VXNlcjQzMjMyMzkw\",\"avatar_url\":\"https://avatars.githubusercontent.com/u/43232390?v=4\",\"gravatar_id\":\"\",\"url\":\"https://api.github.com/users/ElectricDogCN\",\"html_url\":\"https://github.com/ElectricDogCN\",\"followers_url\":\"https://api.github.com/users/ElectricDogCN/followers\",\"following_url\":\"https://api.github.com/users/ElectricDogCN/following{/other_user}\",\"gists_url\":\"https://api.github.com/users/ElectricDogCN/gists{/gist_id}\",\"starred_url\":\"https://api.github.com/users/ElectricDogCN/starred{/owner}{/repo}\",\"subscriptions_url\":\"https://api.github.com/users/ElectricDogCN/subscriptions\",\"organizations_url\":\"https://api.github.com/users/ElectricDogCN/orgs\",\"repos_url\":\"https://api.github.com/users/ElectricDogCN/repos\",\"events_url\":\"https://api.github.com/users/ElectricDogCN/events{/privacy}\",\"received_events_url\":\"https://api.github.com/users/ElectricDogCN/received_events\",\"type\":\"User\",\"user_view_type\":\"public\",\"site_admin\":false},\"html_url\":\"https://github.com/ElectricDogCN/Guize\",\"description\":null,\"fork\":false,\"url\":\"https://api.github.com/repos/ElectricDogCN/Guize\",\"forks_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/forks\",\"keys_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/keys{/key_id}\",\"collaborators_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/collaborators{/collaborator}\",\"teams_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/teams\",\"hooks_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/hooks\",\"issue_events_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/issues/events{/number}\",\"events_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/events\",\"assignees_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/assignees{/user}\",\"branches_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/branches{/branch}\",\"tags_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/tags\",\"blobs_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/git/blobs{/sha}\",\"git_tags_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/git/tags{/sha}\",\"git_refs_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/git/refs{/sha}\",\"trees_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/git/trees{/sha}\",\"statuses_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/statuses/{sha}\",\"languages_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/languages\",\"stargazers_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/stargazers\",\"contributors_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/contributors\",\"subscribers_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/subscribers\",\"subscription_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/subscription\",\"commits_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/commits{/sha}\",\"git_commits_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/git/commits{/sha}\",\"comments_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/comments{/number}\",\"issue_comment_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/issues/comments{/number}\",\"contents_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/contents/{+path}\",\"compare_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/compare/{base}...{head}\",\"merges_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/merges\",\"archive_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/{archive_format}{/ref}\",\"downloads_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/downloads\",\"issues_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/issues{/number}\",\"pulls_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/pulls{/number}\",\"milestones_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/milestones{/number}\",\"notifications_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/notifications{?since,all,participating}\",\"labels_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/labels{/name}\",\"releases_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/releases{/id}\",\"deployments_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/deployments\"},\"head_repository\":{\"id\":1308659933,\"node_id\":\"R_kgDOTgCQ3Q\",\"name\":\"Guize\",\"full_name\":\"ElectricDogCN/Guize\",\"private\":false,\"owner\":{\"login\":\"ElectricDogCN\",\"id\":43232390,\"node_id\":\"MDQ6VXNlcjQzMjMyMzkw\",\"avatar_url\":\"https://avatars.githubusercontent.com/u/43232390?v=4\",\"gravatar_id\":\"\",\"url\":\"https://api.github.com/users/ElectricDogCN\",\"html_url\":\"https://github.com/ElectricDogCN\",\"followers_url\":\"https://api.github.com/users/ElectricDogCN/followers\",\"following_url\":\"https://api.github.com/users/ElectricDogCN/following{/other_user}\",\"gists_url\":\"https://api.github.com/users/ElectricDogCN/gists{/gist_id}\",\"starred_url\":\"https://api.github.com/users/ElectricDogCN/starred{/owner}{/repo}\",\"subscriptions_url\":\"https://api.github.com/users/ElectricDogCN/subscriptions\",\"organizations_url\":\"https://api.github.com/users/ElectricDogCN/orgs\",\"repos_url\":\"https://api.github.com/users/ElectricDogCN/repos\",\"events_url\":\"https://api.github.com/users/ElectricDogCN/events{/privacy}\",\"received_events_url\":\"https://api.github.com/users/ElectricDogCN/received_events\",\"type\":\"User\",\"user_view_type\":\"public\",\"site_admin\":false},\"html_url\":\"https://github.com/ElectricDogCN/Guize\",\"description\":null,\"fork\":false,\"url\":\"https://api.github.com/repos/ElectricDogCN/Guize\",\"forks_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/forks\",\"keys_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/keys{/key_id}\",\"collaborators_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/collaborators{/collaborator}\",\"teams_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/teams\",\"hooks_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/hooks\",\"issue_events_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/issues/events{/number}\",\"events_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/events\",\"assignees_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/assignees{/user}\",\"branches_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/branches{/branch}\",\"tags_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/tags\",\"blobs_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/git/blobs{/sha}\",\"git_tags_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/git/tags{/sha}\",\"git_refs_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/git/refs{/sha}\",\"trees_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/git/trees{/sha}\",\"statuses_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/statuses/{sha}\",\"languages_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/languages\",\"stargazers_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/stargazers\",\"contributors_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/contributors\",\"subscribers_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/subscribers\",\"subscription_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/subscription\",\"commits_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/commits{/sha}\",\"git_commits_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/git/commits{/sha}\",\"comments_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/comments{/number}\",\"issue_comment_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/issues/comments{/number}\",\"contents_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/contents/{+path}\",\"compare_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/compare/{base}...{head}\",\"merges_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/merges\",\"archive_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/{archive_format}{/ref}\",\"downloads_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/downloads\",\"issues_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/issues{/number}\",\"pulls_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/pulls{/number}\",\"milestones_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/milestones{/number}\",\"notifications_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/notifications{?since,all,participating}\",\"labels_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/labels{/name}\",\"releases_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/releases{/id}\",\"deployments_url\":\"https://api.github.com/repos/ElectricDogCN/Guize/deployments\"}}",
+        "display_url": "https://api.github.com/repos/ElectricDogCN/Guize/actions/runs/40119540426"
+      }
+    },
+    "isError": false
+  },
+  "jobs": {
+    "content": [
+      {
+        "type": "text",
+        "text": "Action completed."
+      }
+    ],
+    "structuredContent": {
+      "jobs": [
+        {
+          "id": 120947858861,
+          "name": "Governance Checks",
+          "status": "completed",
+          "conclusion": "success",
+          "run_id": 40119540426,
+          "logs_url": null,
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Checkout repository",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Setup Python 3.11",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Install governance dependencies",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Verify core dependencies importable",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Compile scripts and tests",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6
+            },
+            {
+              "name": "Pytest collect-only",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 7
+            },
+            {
+              "name": "Resolve task context",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8
+            },
+            {
+              "name": "Task file validation",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9
+            },
+            {
+              "name": "Project readiness check",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 10
+            },
+            {
+              "name": "Program Plan integrity, history, transitions, finalization, and lifecycle guard",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 11
+            },
+            {
+              "name": "Agent coordination check",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 12
+            },
+            {
+              "name": "Governance tests",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 13
+            },
+            {
+              "name": "Skip audit",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 14
+            },
+            {
+              "name": "Markdown basic check",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 15
+            },
+            {
+              "name": "YAML/JSON schema check",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 16
+            },
+            {
+              "name": "Secret scan",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 17
+            },
+            {
+              "name": "Evidence check",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 18
+            },
+            {
+              "name": "Evidence integrity check",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 19
+            },
+            {
+              "name": "Task-branch linkage check",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 20
+            },
+            {
+              "name": "Scope check",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 21
+            },
+            {
+              "name": "Spec sync check",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 22
+            },
+            {
+              "name": "Parent directory reference check",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 23
+            },
+            {
+              "name": "CI workflow static validation",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 24
+            },
+            {
+              "name": "Generate governance report",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 25
+            },
+            {
+              "name": "Post Setup Python 3.11",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 49
+            },
+            {
+              "name": "Post Checkout repository",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 50
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 51
+            }
+          ]
+        }
+      ]
+    },
+    "isError": false
+  },
+  "pr": {
+    "content": [
+      {
+        "type": "text",
+        "text": "Action completed."
+      }
+    ],
+    "structuredContent": {
+      "url": "https://github.com/ElectricDogCN/Guize/pull/139",
+      "number": 139,
+      "state": "open",
+      "merged": false,
+      "mergeable": true,
+      "draft": false,
+      "body": "已完成的 GZ-021 POC 合同与真实 OpenList 416 诊断正文存在冲突，现有 Foundation 缺少对两个具体合同文件的合法修复准入。本 PR 建立绑定 Git 历史的受限授权：OPS-013 正常完成并释放容量后，唯一后继才可独立登记原声明中的两个固定路径；实际合同变更仍须先完成 GZ-021 冻结恢复。\n\n共享证明校验原始登记、不可变 intent/缺陷原件、正常实现与独立 Review/Completion、后继原始登记、两份原合同摘要及角色/租约/容量。历史审计兼容 Git 整秒与 lease 亚秒精度，当前准入和到期仍严格。正常 integration 实现可随后直接 Completion，并接受完整 Foundation 历史认证。不可变原件按 first-parent 链审计到当前 base；原始准入、Completion、合同和容量认证时点保持不变。缺少 helper 时拒绝新权限，普通及旧固定脚本夹具保持兼容。\n\n当前源：`be0a0922b7706d23a390f7e57c1b343b66070e36`\n树：`a14c0431a7edcce8c4df821bdd345220c0330926`\n实际基线：`3eb9bb69b4fb1df85a359750b73356b953429540`\n独立 metadata activation：`ab8b2309a2e4a39f01bfae9b1e312eb4a8efb917`\n\n验证与当前限制：\n\n- 最新三项真实 Git 回归先复现两失败一错误；修复后原生29项/111.406s、原有三检查器兼容回归3项/9.29s通过。Windows新增三项/276.699s通过，无测试跳过；前序4项与22项 Windows 结果单独留存。\n- 固定运行内容及63项暂存变更获独立接受；281条完整库存与实际提交差异一致。C142条及17的224条历史库存保留。\n- 本源15项本地检查全部通过，742项/1134.76s，JUnit742项零失败、错误或跳过；源码/树/状态前后不变，完整本地结果获独立接受。六项不指定task的前向main模式检查同样通过且获独立核验。四条已修复P2已在GitHub实际关闭。 同源[CI #836](https://github.com/ElectricDogCN/Guize/actions/runs/40119540426)仍在运行（2026-10-24T18:37Z观察）；尚未接受CI或批准合并，实际main接受仍须合并后另验。\n- 历史源17的本地739/1173.78s及CI835的739/1118.94s成功均保留，其两项新P2已在本源前向修复，旧通过不替代本源验证。C735成功、取消833、118为真实库存缺口而中止的验证及所有原始失败均保留。\n\n范围为六条已登记治理路径及自身元数据/Evidence。原合同、所有权、阈值、身份、租约和33字节响应未改；本 PR 不登记 OPS-014、不修合同或接受 POC/V1。实现接受后仍须正常 Review/Completion。\n\nIssue: #137\nEvidence: `evidence/OPS-013/`\n",
+      "title": "OPS-013: authenticate bounded POC contract repair admission",
+      "base": "main",
+      "base_sha": "3eb9bb69b4fb1df85a359750b73356b953429540",
+      "head": "chore/OPS-013-contract-repair-admission",
+      "head_sha": "be0a0922b7706d23a390f7e57c1b343b66070e36",
+      "head_repo_id": 1308659933,
+      "head_repo_full_name": "ElectricDogCN/Guize",
+      "merge_commit_sha": "330d2b0e69e8a38553b0f2eaa26dcee685ecac7a",
+      "user": {
+        "login": "ElectricDogCN",
+        "name": "ElectricDogCN",
+        "email": null,
+        "avatar_url": "https://avatars.githubusercontent.com/u/43232390?v=4",
+        "id": 43232390
+      },
+      "requested_reviewers": null,
+      "requested_team_reviewers": null,
+      "diff": null,
+      "comments": null,
+      "created_at": "2026-10-24T16:47:31Z",
+      "updated_at": "2026-10-24T18:37:36Z",
+      "closed_at": null,
+      "merged_at": null,
+      "commits": 5,
+      "changed_files": 281,
+      "additions": 86251,
+      "deletions": 154,
+      "display_url": "https://github.com/ElectricDogCN/Guize/pull/139",
+      "display_title": "OPS-013: authenticate bounded POC contract repair admission"
+    },
+    "isError": false
+  },
+  "threads": {
+    "content": [
+      {
+        "type": "text",
+        "text": "Action completed."
+      }
+    ],
+    "structuredContent": {
+      "review_threads": [
+        {
+          "id": "PRRT_kwDOTgCQ3c6v6Gvm",
+          "is_resolved": true,
+          "is_outdated": true,
+          "path": "scripts/poc-contract-repair-admission.py",
+          "line": null,
+          "diff_side": "RIGHT",
+          "start_line": null,
+          "start_diff_side": "RIGHT",
+          "original_line": 285,
+          "original_start_line": 284,
+          "resolved_by": {
+            "login": "ElectricDogCN",
+            "name": "ElectricDogCN",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/u/43232390?u=44ba221e50370c3310b808b04885d87da4db26f2&v=4",
+            "id": null
+          },
+          "comments": [
+            {
+              "id": "PRRC_kwDOTgCQ3c8AAAABBFhA6w",
+              "database_id": 4367859947,
+              "body": "**<sub><sub>![P2 Badge](https://img.shields.io/badge/P2-yellow?style=flat)</sub></sub>  Use the historical observation time for reservation lease checks**\n\nWhen OPS-014's original reservation lease has expired, even after a valid metadata-only renewal, `foundation_reservation()` audits its original claims against the reservation's parent with `observed_ref=registration`. In that call, `original` is absent, so this line rechecks the original lease against the current wall clock instead of the historical observation already computed as `when`. Consequently, a historically valid reservation loses authentication and subsequent Review/Completion audits reject the repair despite its renewed lease. Use the supplied observation time for this prospective-reservation branch.\n\nAGENTS.md reference: [AGENTS.md:L378-L378](https://github.com/ElectricDogCN/Guize/blob/c79be6ac3b1d6a62e5c88abffbabf619ba20a5ef/AGENTS.md#L378-L378)\n\nUseful? React with 👍 / 👎.\n\n<!-- codex-code-review-finding:v1 -->",
+              "created_at": "2026-10-24T17:15:18Z",
+              "updated_at": "2026-10-24T17:15:18Z",
+              "author": {
+                "login": "chatgpt-codex-connector",
+                "name": "chatgpt-codex-connector",
+                "email": null,
+                "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+                "id": null
+              },
+              "viewer_did_author": false
+            }
+          ]
+        },
+        {
+          "id": "PRRT_kwDOTgCQ3c6v6Gvp",
+          "is_resolved": true,
+          "is_outdated": true,
+          "path": "scripts/poc-contract-repair-admission.py",
+          "line": null,
+          "diff_side": "RIGHT",
+          "start_line": null,
+          "start_diff_side": null,
+          "original_line": 207,
+          "original_start_line": null,
+          "resolved_by": {
+            "login": "ElectricDogCN",
+            "name": "ElectricDogCN",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/u/43232390?u=44ba221e50370c3310b808b04885d87da4db26f2&v=4",
+            "id": null
+          },
+          "comments": [
+            {
+              "id": "PRRC_kwDOTgCQ3c8AAAABBFhA7w",
+              "database_id": 4367859951,
+              "body": "**<sub><sub>![P2 Badge](https://img.shields.io/badge/P2-yellow?style=flat)</sub></sub>  Include the implementation's integration state in the Review audit**\n\nIf OPS-013 integrates independently reviewed source with its implementation commit in `integration`/`integrator` state and completes in the next metadata-only PR, this loop skips the integration snapshot and immediately encounters Completion with `reviewed=False`. That normal integrator flow is explicitly accepted by the existing history checker and covered by `test_foundation_context_integrator_reviewed_squash`, but the new authority proof rejects it, preventing OPS-014 admission after an otherwise valid Completion. Include the implementation snapshot and its authenticated Review history rather than requiring another Review/integration commit after the implementation.\n\nAGENTS.md reference: [AGENTS.md:L378-L378](https://github.com/ElectricDogCN/Guize/blob/c79be6ac3b1d6a62e5c88abffbabf619ba20a5ef/AGENTS.md#L378-L378)\n\nUseful? React with 👍 / 👎.\n\n<!-- codex-code-review-finding:v1 -->",
+              "created_at": "2026-10-24T17:15:18Z",
+              "updated_at": "2026-10-24T17:15:18Z",
+              "author": {
+                "login": "chatgpt-codex-connector",
+                "name": "chatgpt-codex-connector",
+                "email": null,
+                "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+                "id": null
+              },
+              "viewer_did_author": false
+            }
+          ]
+        },
+        {
+          "id": "PRRT_kwDOTgCQ3c6v6Thx",
+          "is_resolved": true,
+          "is_outdated": true,
+          "path": "scripts/poc-contract-repair-admission.py",
+          "line": null,
+          "diff_side": "RIGHT",
+          "start_line": null,
+          "start_diff_side": null,
+          "original_line": 138,
+          "original_start_line": null,
+          "resolved_by": {
+            "login": "ElectricDogCN",
+            "name": "ElectricDogCN",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/u/43232390?u=44ba221e50370c3310b808b04885d87da4db26f2&v=4",
+            "id": null
+          },
+          "comments": [
+            {
+              "id": "PRRC_kwDOTgCQ3c8AAAABBFmF8w",
+              "database_id": 4367943155,
+              "body": "**<sub><sub>![P2 Badge](https://img.shields.io/badge/P2-yellow?style=flat)</sub></sub>  Preserve subsecond tolerance for historical lease observations**\n\nWhen an OPS-014 reservation or lease renewal has a fractional-second `acquiredAt` and is committed within that same second, the whole-second historical observation precedes `acquiredAt`, so this comparison rejects an otherwise valid lease. The existing `historical_lease()` checker explicitly accommodates this precision difference, but the new proof does not. Consequently, a reservation that passes prospective admission can subsequently lose its authenticated scope during Review or Completion, even after renewal. Apply the existing subsecond tolerance to historical observations while retaining strict wall-clock validation for prospective admission.\n\nAGENTS.md reference: [AGENTS.md:L378-L378](https://github.com/ElectricDogCN/Guize/blob/17c9f316e4f9912c6c8e04ecbf9f0424509d6d04/AGENTS.md#L378-L378)\n\nUseful? React with 👍 / 👎.\n\n<!-- codex-code-review-finding:v1 -->",
+              "created_at": "2026-10-24T17:45:41Z",
+              "updated_at": "2026-10-24T17:45:41Z",
+              "author": {
+                "login": "chatgpt-codex-connector",
+                "name": "chatgpt-codex-connector",
+                "email": null,
+                "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+                "id": null
+              },
+              "viewer_did_author": false
+            }
+          ]
+        },
+        {
+          "id": "PRRT_kwDOTgCQ3c6v6Thz",
+          "is_resolved": true,
+          "is_outdated": true,
+          "path": "scripts/poc-contract-repair-admission.py",
+          "line": null,
+          "diff_side": "RIGHT",
+          "start_line": null,
+          "start_diff_side": "RIGHT",
+          "original_line": 280,
+          "original_start_line": 279,
+          "resolved_by": {
+            "login": "ElectricDogCN",
+            "name": "ElectricDogCN",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/u/43232390?u=44ba221e50370c3310b808b04885d87da4db26f2&v=4",
+            "id": null
+          },
+          "comments": [
+            {
+              "id": "PRRC_kwDOTgCQ3c8AAAABBFmF9g",
+              "database_id": 4367943158,
+              "body": "**<sub><sub>![P2 Badge](https://img.shields.io/badge/P2-yellow?style=flat)</sub></sub>  Extend the immutable-authority audit through the current base**\n\nOnce OPS-014 is registered, `admission_base` remains its reservation parent, so `authority()` stops auditing protected authorization and diagnostic blobs before the successor's registration. The subsequent comparison checks only the final intent bytes: later diagnostic-blob changes are ignored, and an intermediate intent edit followed by restoration is also accepted. An isolated Git history containing registration, intent tampering, and restoration still returns both repair paths. Audit the protected blobs through the current base as well, while retaining the original reservation base for contract-baseline authentication, so successor registration cannot truncate the required immutable, per-commit authority proof.\n\nAGENTS.md reference: [AGENTS.md:L378-L378](https://github.com/ElectricDogCN/Guize/blob/17c9f316e4f9912c6c8e04ecbf9f0424509d6d04/AGENTS.md#L378-L378)\n\nUseful? React with 👍 / 👎.\n\n<!-- codex-code-review-finding:v1 -->",
+              "created_at": "2026-10-24T17:45:41Z",
+              "updated_at": "2026-10-24T17:45:41Z",
+              "author": {
+                "login": "chatgpt-codex-connector",
+                "name": "chatgpt-codex-connector",
+                "email": null,
+                "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+                "id": null
+              },
+              "viewer_did_author": false
+            }
+          ]
+        }
+      ]
+    },
+    "isError": false
+  },
+  "source": "be0a0922b7706d23a390f7e57c1b343b66070e36",
+  "ciSucceeded": true,
+  "mergeApproved": false
+}
