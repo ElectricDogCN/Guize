@@ -1,0 +1,296 @@
+{
+  "schemaVersion": 1,
+  "reviewedAt": "2026-10-24T23:17:29.400565Z",
+  "actor": "/root/gz022_planning_independent_review",
+  "role": "independent-review-agent",
+  "task": "OPS-014",
+  "decision": "actual-original-reservation-main-fully-accepted",
+  "mustFix": [],
+  "actualReservationMain": "36b986a65e23671d0b08134d1c4163833a59fbd7",
+  "actualReservationMainAccepted": true,
+  "fullMainCiAccepted": true,
+  "mainCiNumber": 845,
+  "actualTestsPassed": 742,
+  "testSkipped": 0,
+  "source": "f80b6a496005e5fb1a1660e3f4f67768dd0fed78",
+  "base": "760f6c5838597d1d66c0a536ecbf440ef5a7dfec",
+  "tree": "f98047babe4acad0a80f9f068f45b25c17ac7f7d",
+  "orderedParents": [
+    "760f6c5838597d1d66c0a536ecbf440ef5a7dfec",
+    "f80b6a496005e5fb1a1660e3f4f67768dd0fed78"
+  ],
+  "canonicalMainClean": true,
+  "actualMergeAndLocal7PreviouslyAccepted": true,
+  "local7ReviewSha256": "6f9f919e32447e831c60f1fafe1803d78a5121ad750c648fd70b284700cbb7d6",
+  "local7ResultsSha256": "869e2b30442455a588e20c690d5501f210d21333efc24832868df79021e1819f",
+  "actualMainCi": {
+    "runId": 40140470230,
+    "jobId": 121010951193,
+    "event": "push",
+    "head": "36b986a65e23671d0b08134d1c4163833a59fbd7",
+    "completedSuccess": true,
+    "pytestPassed": 742,
+    "pytestSeconds": 1106.09,
+    "testSkipped": 0,
+    "skipAuditSuccess": true,
+    "rawBytes": 289026,
+    "rawSha256": "48deb4a80c44ca556c3478b9e1e94e65a6a6ed505df4c9946b497258b610911b",
+    "officialSnapshotBytes": 88346,
+    "officialSnapshotSha256": "7ad6e766142a816fa06e8eb33d687ffe159b4a1b3e5ad46cc05eb1f7e4e514e0",
+    "totalSteps": 28,
+    "successfulSteps": 23,
+    "mainConditionalSkippedSteps": [
+      "Task file validation",
+      "Evidence check",
+      "Evidence integrity check",
+      "Task-branch linkage check",
+      "Scope check"
+    ],
+    "conditionalStepSkipsAreNotPytestSkips": true,
+    "ci844NotTransferred": true
+  },
+  "freshOfficial": {
+    "capturedAt": "2026-10-24T23:17:28.853Z",
+    "run": {
+      "id": 40140470230,
+      "head_sha": "36b986a65e23671d0b08134d1c4163833a59fbd7",
+      "event": "push",
+      "status": "completed",
+      "conclusion": "success",
+      "run_number": 845,
+      "updated_at": "2026-10-24T23:13:01Z"
+    },
+    "jobs": [
+      {
+        "id": 121010951193,
+        "name": "Governance Checks",
+        "status": "completed",
+        "conclusion": "success",
+        "run_id": 40140470230,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Checkout repository",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Setup Python 3.11",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "Install governance dependencies",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Verify core dependencies importable",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5
+          },
+          {
+            "name": "Compile scripts and tests",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6
+          },
+          {
+            "name": "Pytest collect-only",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7
+          },
+          {
+            "name": "Resolve task context",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8
+          },
+          {
+            "name": "Task file validation",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 9
+          },
+          {
+            "name": "Project readiness check",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10
+          },
+          {
+            "name": "Program Plan integrity, history, transitions, finalization, and lifecycle guard",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11
+          },
+          {
+            "name": "Agent coordination check",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 12
+          },
+          {
+            "name": "Governance tests",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 13
+          },
+          {
+            "name": "Skip audit",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 14
+          },
+          {
+            "name": "Markdown basic check",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15
+          },
+          {
+            "name": "YAML/JSON schema check",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 16
+          },
+          {
+            "name": "Secret scan",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 17
+          },
+          {
+            "name": "Evidence check",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 18
+          },
+          {
+            "name": "Evidence integrity check",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 19
+          },
+          {
+            "name": "Task-branch linkage check",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 20
+          },
+          {
+            "name": "Scope check",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 21
+          },
+          {
+            "name": "Spec sync check",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 22
+          },
+          {
+            "name": "Parent directory reference check",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 23
+          },
+          {
+            "name": "CI workflow static validation",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 24
+          },
+          {
+            "name": "Generate governance report",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 25
+          },
+          {
+            "name": "Post Setup Python 3.11",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 49
+          },
+          {
+            "name": "Post Checkout repository",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 50
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 51
+          }
+        ]
+      }
+    ],
+    "main": "36b986a65e23671d0b08134d1c4163833a59fbd7",
+    "pr": {
+      "number": 143,
+      "merged": true,
+      "state": "closed",
+      "merge_commit_sha": "36b986a65e23671d0b08134d1c4163833a59fbd7",
+      "head_sha": "f80b6a496005e5fb1a1660e3f4f67768dd0fed78",
+      "base_sha": "760f6c5838597d1d66c0a536ecbf440ef5a7dfec"
+    },
+    "issue": {
+      "number": 142,
+      "state": "open"
+    }
+  },
+  "all20OriginalMetadataBlobsUnchanged": true,
+  "originalAuthority": {
+    "sha256": "4f344a74a47a56ff1c3b0e27c368767e0cb779ebc61e721b263f102b39a83401",
+    "unchanged": true
+  },
+  "oldContractBlobs": {
+    "specs/poc/check_program.py": "10be50577718e844566034a7c26dee5eb408055cb2e01a8d5a62524beca9fb89",
+    "specs/poc/test_program.py": "1707bce255253176e0c718ef2574d748dbd8890eb4f50a0c6a5f5a47136b1d49"
+  },
+  "foreignPoliciesAndOrdinaryPocClaimsUnchanged": true,
+  "capacity": {
+    "active": 3,
+    "high": 1
+  },
+  "rolesDistinctAndUnchanged": true,
+  "lease": {
+    "acquiredAt": "2026-10-24T21:42:30Z",
+    "expiresAt": "2026-10-31T21:42:30Z",
+    "hours": 168,
+    "validAtReview": true
+  },
+  "issue142RemainsOpen": true,
+  "activeBranchMustBeRetained": true,
+  "freezeMetadataPreparationMayProceed": true,
+  "preparationConditions": [
+    "Only prepare a separately reviewable metadata proposal for the actual completed GZ-021 producer under the unchanged17.8/original OPS-013 authority.",
+    "Keep original producer provenance/old contracts/foreign tasks, ordinary POC scope and leases intact; no contract bytes change during preparation.",
+    "Exact freeze metadata requires its own source/scope checks, latest hosted CI, independent review, Integrator decision and actual-main acceptance before implementation."
+  ],
+  "freezeEventApproved": false,
+  "contractImplementationApproved": false,
+  "experimentApproved": false,
+  "qualificationAccepted": false,
+  "activeBranchCleanupApproved": false,
+  "taskCompleted": false,
+  "pocV5OrNewRunApproved": false,
+  "reviewerTestsExecuted": false,
+  "authorModified": false,
+  "scopeLimit": "Full acceptance of actual OPS-014 original reservation main only, with permission to prepare the next independent freeze metadata proposal; no freeze execution, code or experiment approval."
+}

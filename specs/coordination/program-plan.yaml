@@ -1,7 +1,15 @@
 $schema: program-plan.schema.yaml
 schemaVersion: 1
 planId: GUIZE-V1-PROGRAM
-status: active
+status: frozen
+recovery:
+  taskId: OPS-014
+  reason: 已完成GZ-021的metadata profiling合同错误要求supported/unsatisfiable的416诊断正文为空；真实授权OpenList响应33字节与之冲突，按原OPS-013授权执行精确两文件修复并完整验证后另行解冻。
+  affectedTasks:
+  - GZ-021
+  sourceCommit: 36b986a65e23671d0b08134d1c4163833a59fbd7
+  frozenAt: '2026-10-24T23:24:58Z'
+  verificationPath: evidence/OPS-014/recovery-proof.json
 baseline: GZ-014
 sourceOfTruth: specs/coordination/program-plan.yaml
 authority:
