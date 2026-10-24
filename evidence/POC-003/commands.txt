@@ -1,6 +1,36 @@
 Task: POC-003
 Issue: 131
 Branch: chore/POC-003-ats-range
+Base: 760f6c5838597d1d66c0a536ecbf440ef5a7dfec
+Current phase: in_progress / implementer
+
+已普通合入完整接受的实际主线 760f6c5838597d1d66c0a536ecbf440ef5a7dfec，同步提交 8fabc3137c60e8eed07024cd8101777396bf21dc。该主线七项本地检查与CI841742项/1628.73s/零测试跳过及独立审查已通过，OPS-013正常完成。仅刷新自身Task/Active基线和交接；原角色、claims、order2、租约与缓存修复代码字节保持。先前47090d6在第六项history失败（前五项通过、后九项未执行），另行44项组件测试通过；原始结果分别完整归档，组件通过不替代整体接受。新固定源Task15、44项组件及同头CI仍待验证；原15项实测、当前源热缓存撤权、完整media数域与POC资格仍未完成，没有新的ATS实验批准。
+
+Evidence: cache-47090d6-stopped-validation/ preserves actual failed Task and separate44 component originals.
+Next: commit a fixed candidate, run Task15 and44 declared components on that exact source; obtain independent review and fresh same-source CI before integration. Keep Draft PR134. No changed-source ATS/full-matrix/revocation/qualification result is inherited.
+
+Current exact-source Task15 (planned before the new run):
+git diff --check 760f6c5838597d1d66c0a536ecbf440ef5a7dfec...HEAD
+python scripts/check-task-file.py --task POC-003
+python scripts/check-project-readiness.py
+python scripts/check-schemas.py
+python scripts/check-program-plan-integrity.py --base-ref 760f6c5838597d1d66c0a536ecbf440ef5a7dfec
+python scripts/check-program-plan-history.py --base-ref 760f6c5838597d1d66c0a536ecbf440ef5a7dfec --head-ref HEAD --task POC-003 --branch-name chore/POC-003-ats-range
+python scripts/check-program-plan-transitions.py --base-ref 760f6c5838597d1d66c0a536ecbf440ef5a7dfec --head-ref HEAD --task POC-003 --branch-name chore/POC-003-ats-range
+python scripts/check-program-plan-finalization.py --base-ref 760f6c5838597d1d66c0a536ecbf440ef5a7dfec --head-ref HEAD --task POC-003
+python scripts/check-program-lifecycle-guards.py --base-ref 760f6c5838597d1d66c0a536ecbf440ef5a7dfec --head-ref HEAD --task POC-003 --branch-name chore/POC-003-ats-range
+python scripts/run-program-lifecycle-gate.py --base-ref 760f6c5838597d1d66c0a536ecbf440ef5a7dfec --head-ref HEAD --task POC-003 --branch-name chore/POC-003-ats-range
+python scripts/run-agent-coordination-gate.py --base-ref 760f6c5838597d1d66c0a536ecbf440ef5a7dfec --head-ref HEAD --task POC-003 --branch-name chore/POC-003-ats-range
+python scripts/run-task-scope-gate.py --task POC-003 --base 760f6c5838597d1d66c0a536ecbf440ef5a7dfec
+python scripts/check-evidence.py --task POC-003
+python specs/poc/check_program.py --task POC-003 --base-ref 760f6c5838597d1d66c0a536ecbf440ef5a7dfec
+python scripts/check-markdown.py
+
+Historical source-bound command records follow.
+
+Task: POC-003
+Issue: 131
+Branch: chore/POC-003-ats-range
 Base: f2e0150265e0c1eeca5f69fe85708b2434e5ee79
 Current phase: in_progress / implementer
 

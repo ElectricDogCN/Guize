@@ -1,6 +1,19 @@
 Task: POC-003
 Issue: 131
 Branch: chore/POC-003-ats-range
+Base: 760f6c5838597d1d66c0a536ecbf440ef5a7dfec
+Current phase: in_progress / implementer
+
+已普通合入完整接受的实际主线 760f6c5838597d1d66c0a536ecbf440ef5a7dfec，同步提交 8fabc3137c60e8eed07024cd8101777396bf21dc。该主线七项本地检查与CI841742项/1628.73s/零测试跳过及独立审查已通过，OPS-013正常完成。仅刷新自身Task/Active基线和交接；原角色、claims、order2、租约与缓存修复代码字节保持。先前47090d6在第六项history失败（前五项通过、后九项未执行），另行44项组件测试通过；原始结果分别完整归档，组件通过不替代整体接受。新固定源Task15、44项组件及同头CI仍待验证；原15项实测、当前源热缓存撤权、完整media数域与POC资格仍未完成，没有新的ATS实验批准。
+
+Evidence: cache-47090d6-stopped-validation/ preserves actual failed Task and separate44 component originals.
+Next: commit a fixed candidate, run Task15 and44 declared components on that exact source; obtain independent review and fresh same-source CI before integration. Keep Draft PR134. No changed-source ATS/full-matrix/revocation/qualification result is inherited.
+
+## Historical source-bound checkpoints
+
+Task: POC-003
+Issue: 131
+Branch: chore/POC-003-ats-range
 Current synchronized base: 43270da544d9df3da68a45d2eca3e0a2fed2de6e
 Original reservation merge: 11c32830c0d1bb8ccdcc04aa278876065bce1f33
 State: in_progress / implementer

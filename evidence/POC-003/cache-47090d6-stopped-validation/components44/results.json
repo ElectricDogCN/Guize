@@ -1,0 +1,104 @@
+{
+  "source": "47090d6f4590565932475fb3fc22e9d464eebbb7",
+  "tree": "72a43ab0c4d5e9b2be4711199002bcdb9b2623c1",
+  "checks": [
+    {
+      "label": "lab8",
+      "argv": [
+        "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+        "-B",
+        "poc/POC-03-ats-range/test_lab.py"
+      ],
+      "expectedCases": 8,
+      "raw": "lab8.raw",
+      "startedAt": "2026-10-24T20:46:46.711637+00:00",
+      "pid": 481764,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "bytes": 1342,
+      "sha256": "988cbb1b9ba4c40a6a596f8a1cc1c215a98aff0f008ff68ea39ef0508522d2c5",
+      "endedAt": "2026-10-24T20:46:46.792757+00:00"
+    },
+    {
+      "label": "cache-bounds3",
+      "argv": [
+        "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+        "-B",
+        "poc/POC-03-ats-range/test_cache_body_bounds.py"
+      ],
+      "expectedCases": 3,
+      "raw": "cache-bounds3.raw",
+      "startedAt": "2026-10-24T20:46:46.799637+00:00",
+      "pid": 481765,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "bytes": 777,
+      "sha256": "09bb6526ccd5309f7251ac594c8e31a858fdaa80ffedd4920c9eb978357b1930",
+      "endedAt": "2026-10-24T20:46:46.906607+00:00"
+    },
+    {
+      "label": "catalogue4",
+      "argv": [
+        "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+        "-B",
+        "poc/POC-03-ats-range/test_cache_probe.py"
+      ],
+      "expectedCases": 4,
+      "raw": "catalogue4.raw",
+      "startedAt": "2026-10-24T20:46:46.913611+00:00",
+      "pid": 481766,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "bytes": 928,
+      "sha256": "c0b95ee6f156b15cd13af8098b6d1ed3f446162cf01a47740db6c083d44ce704",
+      "endedAt": "2026-10-24T20:46:47.001692+00:00"
+    },
+    {
+      "label": "live-buffer-parser27",
+      "argv": [
+        "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+        "-B",
+        "-m",
+        "pytest",
+        "-q",
+        "-p",
+        "no:cacheprovider",
+        "poc/POC-03-ats-range/test_live_buffer_probe.py"
+      ],
+      "expectedCases": 27,
+      "raw": "live-buffer-parser27.raw",
+      "startedAt": "2026-10-24T20:46:47.008665+00:00",
+      "pid": 481767,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "bytes": 320,
+      "sha256": "91cbd81ac50adf5020704c87bce03c99afc8b0ef75ba30db143e98f7d943992f",
+      "endedAt": "2026-10-24T20:46:47.261186+00:00"
+    },
+    {
+      "label": "native-component2",
+      "argv": [
+        "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+        "-B",
+        "poc/POC-03-ats-range/test_live_component_native.py"
+      ],
+      "expectedCases": 2,
+      "raw": "native-component2.raw",
+      "startedAt": "2026-10-24T20:46:47.268146+00:00",
+      "pid": 481768,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "bytes": 292,
+      "sha256": "5eca2a2aa367079bfb13604ecec6f02b243bfaccfef4dc1f05b4d8151af02d9a",
+      "endedAt": "2026-10-24T20:46:47.378278+00:00"
+    }
+  ],
+  "actualPassed": 44,
+  "sourceTask15Accepted": false,
+  "separateHistoryFailureRetained": true,
+  "atsExperimentExecuted": false,
+  "fullMediaDomainApproved": false,
+  "qualificationAccepted": false,
+  "sourceUnchanged": true,
+  "completedAt": "2026-10-24T20:46:47.404654+00:00"
+}
