@@ -119,7 +119,7 @@ class TestBoundPocContractRepair(unittest.TestCase):
     def claims(self, *, base=None, entry=None):
         return PROOF.prove_claims(str(self.repo),'OPS-014',entry or self.entry,base or self.completed)
 
-    def register(self, *, contract_edit=False):
+    def register(self, *, contract_edit=False, timestamp=None):
         plan = yaml.safe_load(Path(self.repo,PROOF.PLAN).read_bytes())
         plan['foundationTasks'].append(dict(taskId='OPS-014',title=self.entry['title'],status='reserved',completionRef='ISSUE-2004',mergeCommit=None))
         active = yaml.safe_load(Path(self.repo,PROOF.ACTIVE).read_bytes())
@@ -141,7 +141,7 @@ class TestBoundPocContractRepair(unittest.TestCase):
         if contract_edit:
             with Path(self.repo,'specs/poc/check_program.py').open('a',encoding='utf-8') as stream:
                 stream.write('\n# premature fixture contract edit\n')
-        return self.commit(self.repo,'OPS-014 fixture metadata reservation (#2004)')
+        return self.commit(self.repo,'OPS-014 fixture metadata reservation (#2004)',timestamp=timestamp)
 
     def test_actual_uncompleted_authority_cannot_grant_scope(self):
         with self.assertRaisesRegex(PROOF.AdmissionError,'not normally completed'):
@@ -378,3 +378,61 @@ class TestBoundPocContractRepair(unittest.TestCase):
         completed = self.integrated_authority(forge_task_role=True)
         with self.assertRaisesRegex(PROOF.AdmissionError,'Normal authority Foundation history rejected'):
             self.claims(base=completed,entry=dict(self.entry,baseSha=completed))
+
+    def test_fractional_acquisition_uses_only_historical_git_second_tolerance(self):
+        observed = datetime.now(timezone.utc).replace(microsecond=0)
+        utc = lambda value:value.isoformat().replace('+00:00','Z')
+        self.entry['lease'] = dict(acquiredAt=utc(observed+timedelta(microseconds=500000)),
+                                  expiresAt=utc(observed+timedelta(days=1)))
+        original = copy.deepcopy(self.entry)
+        registration = self.register(timestamp=utc(observed))
+
+        class AtGitSecond(datetime):
+            @classmethod
+            def now(cls, tz=None):
+                return observed.astimezone(tz)
+
+        with mock.patch.object(PROOF,'datetime',AtGitSecond):
+            # A half-second future lease remains invalid for wall-clock admission.
+            with self.assertRaisesRegex(PROOF.AdmissionError,'lease is invalid'):
+                self.claims(entry=original)
+            # Git loses only fractional precision, never a whole second or expiry.
+            for lease in [dict(acquiredAt=utc(observed+timedelta(seconds=1)),expiresAt=utc(observed+timedelta(days=1))),
+                          dict(acquiredAt=utc(observed-timedelta(seconds=1)),expiresAt=utc(observed))]:
+                with self.subTest(lease=lease),self.assertRaisesRegex(PROOF.AdmissionError,'lease is invalid'):
+                    PROOF.prove_claims(str(self.repo),'OPS-014',dict(original,lease=lease),
+                                       self.completed,observed_ref=registration)
+            self.assertEqual(PROOF.prove_claims(str(self.repo),'OPS-014',original,
+                             self.completed,observed_ref=registration),PROOF.REPAIR_PATHS)
+        renewed = copy.deepcopy(original)
+        renewed['lease']['acquiredAt'] = utc(observed+timedelta(seconds=1,microseconds=500000))
+        active = yaml.safe_load(Path(self.repo,PROOF.ACTIVE).read_bytes())
+        next(x for x in active['tasks'] if x['taskId']=='OPS-014')['lease'] = renewed['lease']
+        self.write(self.repo,PROOF.ACTIVE,active)
+        renewal = self.commit(self.repo,'OPS-014 fixture fractional metadata renewal',
+                              timestamp=utc(observed+timedelta(seconds=1)))
+
+        class AfterRenewal(datetime):
+            @classmethod
+            def now(cls, tz=None):
+                return (observed+timedelta(seconds=2)).astimezone(tz)
+
+        with mock.patch.object(PROOF,'datetime',AfterRenewal):
+            self.assertEqual(self.claims(base=renewal,entry=renewed),PROOF.REPAIR_PATHS)
+
+    def test_intent_edit_and_restoration_after_successor_registration_is_rejected(self):
+        registration = self.register()
+        original = PROOF.blob(str(self.repo),registration,PROOF.INTENT)
+        self.write(self.repo,PROOF.INTENT,'{}\n')
+        self.commit(self.repo,'OPS-014 fixture forbidden post-registration intent edit')
+        Path(self.repo,PROOF.INTENT).write_bytes(original)
+        restored = self.commit(self.repo,'OPS-014 fixture restored intent does not erase history')
+        with self.assertRaisesRegex(PROOF.AdmissionError,'intent changed'):
+            self.claims(base=restored)
+
+    def test_diagnostic_edit_after_successor_registration_is_rejected(self):
+        self.register()
+        Path(self.repo,'evidence/OPS-013/unsatisfiable-response.bin').write_bytes(b'altered diagnostic\n')
+        altered = self.commit(self.repo,'OPS-014 fixture forbidden post-registration diagnostic edit')
+        with self.assertRaisesRegex(PROOF.AdmissionError,'defect evidence changed'):
+            self.claims(base=altered)

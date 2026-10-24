@@ -77,3 +77,28 @@ ab40616e9b80dd37eb533903f04d9292d31d46c353e780e2ef824517391001b5.
 The manifest binds the same9 inputs. These four results are separate from the
 older22 Windows cases. The next fixed source must run its own complete Task15,
 739-test/JUnit/make verify and same-source CI; no source pass is inherited.
+
+## Second formal P2 correction after source17
+
+Source17c9f31 actually passed all15 tasks and739 governance cases/1173.78s,
+zero failures/errors/skips, clean exact source; same-head CI835 actually passed
+739/1118.94s. Those originals and the224-path source17 inventory are retained
+in implementation-17c9f31-source-validation/. Two later valid P2 still prevent
+its merge: fractional-second historical acquisition precision and an immutable
+proof truncated at the successor reservation parent.
+
+Developmentv7 reproduced29 cases/110.635s with2 failures and1 error. In v8,
+only historical Git observations allow acquiredAt < observed+1s, matching the
+existing historical checker; wall admission and expiry remain strict. A
+protected_through span audits immutable intent/three diagnostic blobs through
+current base, requiring the original admission base on that first-parent chain.
+Normal authority Completion, original two-contract authentication and capacity
+still use the original admission base. No policy, original contract or intent,
+identity, role, lease, capacity, threshold or frozen recovery rule changed.
+
+Fixed v8 actual29 native cases/111.406s and the3 unchanged old-checker cases/
+9.29s passed without skips. Actual collection is742 governance cases. Three
+new Windows precision/immutable regressions are still running and not accepted.
+The next fixed source requires its own Task15/full742/JUnit/make verify,
+current-head CI and final independent review. No old739 pass substitutes for
+that, no merge is approved, and OPS014/contract/experiment permission is absent.

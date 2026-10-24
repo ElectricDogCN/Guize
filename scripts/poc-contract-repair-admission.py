@@ -2,7 +2,7 @@
 """Authenticate the single declared POC repair; never grant Task-ID-only scope."""
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 import hashlib
 import importlib.util
 import json
@@ -119,7 +119,8 @@ def history_module():
     return _HISTORY
 
 
-def validate_entry(entry: dict[str, Any], task_id: str, paths: set[str], when: datetime) -> None:
+def validate_entry(entry: dict[str, Any], task_id: str, paths: set[str], when: datetime,
+                   *, historical: bool = False) -> None:
     require(entry.get('taskId') == task_id and entry.get('programTaskId') == task_id,
             'Repair Task identity mismatch')
     require(entry.get('moduleIds') == ['MOD-GOV'] and entry.get('riskLevel') == 'high'
@@ -135,7 +136,8 @@ def validate_entry(entry: dict[str, Any], task_id: str, paths: set[str], when: d
     expires = datetime.fromisoformat(entry['lease']['expiresAt'].replace('Z','+00:00'))
     require(acquired.tzinfo is not None and expires.tzinfo is not None
             and acquired.utcoffset().total_seconds() == expires.utcoffset().total_seconds() == 0
-            and acquired <= when < expires and 0 < (expires-acquired).total_seconds() <= 168*3600,
+            and (acquired < when+timedelta(seconds=1) if historical else acquired <= when)
+            and when < expires and 0 < (expires-acquired).total_seconds() <= 168*3600,
             'Repair lease is invalid at the actual observation')
 
 
@@ -152,7 +154,7 @@ def validate_capacity(root: str, base: str, entry: dict[str, Any]) -> None:
     require(not errors, 'Repair overlaps another actual lease: '+'; '.join(errors))
 
 
-def authority(root: str, base: str) -> tuple[dict[str, Any], str]:
+def authority(root: str, base: str, *, protected_through: str | None = None) -> tuple[dict[str, Any], str]:
     """Prove immutable intent and the actual normal completed Foundation chain."""
     canonical = chain(root, base)
     original = introduction(root, canonical, AUTHORITY)
@@ -169,7 +171,7 @@ def authority(root: str, base: str) -> tuple[dict[str, Any], str]:
     require(reserved.get('status') == 'reserved' and reserved.get('agentRole') == 'coordinator'
             and reserved.get('baseSha') == preceding, 'Authority did not start metadata-only reserved')
     observed = datetime.fromtimestamp(int(git(root,'show','-s','--format=%ct',registration)),timezone.utc)
-    validate_entry(reserved, AUTHORITY, AUTHORITY_CLAIMS, observed)
+    validate_entry(reserved, AUTHORITY, AUTHORITY_CLAIMS, observed,historical=True)
     metadata = {PLAN,ACTIVE,'specs/tasks/'+AUTHORITY+'.md'}
     require(metadata <= changed(root,preceding,registration)
             and all(p in metadata or p.startswith('evidence/'+AUTHORITY+'/')
@@ -188,7 +190,12 @@ def authority(root: str, base: str) -> tuple[dict[str, Any], str]:
         value = blob(root,preceding,record['path'])
         require(len(value) == record['bytes'] and hashlib.sha256(value).hexdigest() == record['gitBlobSha256'],
                 'Original approved contract baseline differs')
-    for node in canonical[canonical.index(registration):]:
+    # Completion and contract admission still belong to the original base.
+    # Only the immutable blobs' audit extends across later successor history.
+    protected = chain(root,protected_through) if protected_through is not None else canonical
+    require(canonical[-1] in protected and registration in protected,
+            'Protected authority audit must extend the original first-parent admission chain')
+    for node in protected[protected.index(registration):]:
         require(blob(root,node,INTENT) == raw, 'Authorization intent changed after registration')
         for ref_key,sha_key in [('sourceObservationRef','sourceObservationSha256'),
                                 ('actualExecutionReviewRef','actualExecutionReviewSha256'),
@@ -235,7 +242,7 @@ def prove_claims(root: str, task_id: str, entry: dict[str, Any], base_ref: str,
     """Supplement ownership only; all normal transition/history/recovery gates remain."""
     require(task_id == SUCCESSOR, 'No declared repair for this identity')
     when = datetime.fromtimestamp(int(git(root,'show','-s','--format=%ct',observed_ref)),timezone.utc) if observed_ref else datetime.now(timezone.utc)
-    validate_entry(entry,task_id,REPAIR_PATHS,when)
+    validate_entry(entry,task_id,REPAIR_PATHS,when,historical=observed_ref is not None)
     base = resolve(root,base_ref)
     original = introduction(root,chain(root,base),task_id)
     if original is None:
@@ -261,7 +268,7 @@ def prove_claims(root: str, task_id: str, entry: dict[str, Any], base_ref: str,
             historical = entry_at(root,node,task_id)
             require(historical is not None, 'Repair lease disappeared before its working state')
             moment = datetime.fromtimestamp(int(git(root,'show','-s','--format=%ct',node)),timezone.utc)
-            validate_entry(historical,task_id,REPAIR_PATHS,moment)
+            validate_entry(historical,task_id,REPAIR_PATHS,moment,historical=True)
             require(all(historical.get(k) == reserved.get(k) for k in
                         ('owner','coordinator','implementer','reviewer','integrator','issue','dependsOn')),
                     'Repair stable identity changed in its history')
@@ -276,7 +283,7 @@ def prove_claims(root: str, task_id: str, entry: dict[str, Any], base_ref: str,
                 'Repair original Task does not bind its exact registration: '+'; '.join(errors))
         require(bool(blob(root,registration,'evidence/'+task_id+'/handoff.md').strip()),
                 'Repair original handoff is missing')
-    intent,_ = authority(root,admission_base)
+    intent,_ = authority(root,admission_base,protected_through=base)
     require(blob(root,base,INTENT) == blob(root,admission_base,INTENT), 'Current authority intent changed')
     for record in intent['successor']['paths']:
         raw = blob(root,admission_base,record['path'])
@@ -284,7 +291,8 @@ def prove_claims(root: str, task_id: str, entry: dict[str, Any], base_ref: str,
                 'Repair original reservation base changed the approved contract')
     require(reserved.get('dependsOn') == [AUTHORITY], 'Repair must depend on its completed authority')
     original_time = datetime.fromtimestamp(int(git(root,'show','-s','--format=%ct',original[0])),timezone.utc) if original else when
-    validate_entry(reserved,task_id,REPAIR_PATHS,original_time)
+    validate_entry(reserved,task_id,REPAIR_PATHS,original_time,
+                   historical=original is not None or observed_ref is not None)
     validate_capacity(root,admission_base,reserved)
     validate_capacity(root,base,entry)
     return set(REPAIR_PATHS)

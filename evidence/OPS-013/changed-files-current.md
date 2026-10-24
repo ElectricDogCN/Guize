@@ -1,11 +1,11 @@
-# OPS-013 current forward candidate complete inventory
+# OPS-013 current v8 forward candidate complete inventory
 
-Base 3eb9bb69b4fb1df85a359750b73356b953429540; preparation parent 1188509ce37cd852ca3ab5442918d83d747e317d.
+Base 3eb9bb69b4fb1df85a359750b73356b953429540; preparation parent 17c9f316e4f9912c6c8e04ecbf9f0424509d6d04.
 
-This is the complete base-to-candidate path set, including this inventory.
-After commit the source SHA is assigned by Git; exact-source checks compare this
-list to that committed diff. changed-files.md remains the original C142-path
-historical inventory, not the current list.
+This complete base-to-candidate path set includes itself. The future source is
+assigned by Git; source validation must match this set to its committed diff.
+The C142-path changed-files.md stays historical; source17 previous224-path
+inventory is retained under implementation-17c9f31-source-validation/.
 
 - `AGENTS.md`
 - `evidence/OPS-013/activation-commit-proof/.gitattributes`
@@ -107,6 +107,35 @@ historical inventory, not the current list.
 - `evidence/OPS-013/admission-development-v6-windows-focused/manifest.json`
 - `evidence/OPS-013/admission-development-v6-windows-focused/results.json`
 - `evidence/OPS-013/admission-development-v6-windows-focused/unit.raw`
+- `evidence/OPS-013/admission-development-v7-failed/.gitattributes`
+- `evidence/OPS-013/admission-development-v7-failed/index.json`
+- `evidence/OPS-013/admission-development-v7-failed/manifest.json`
+- `evidence/OPS-013/admission-development-v7-failed/results.json`
+- `evidence/OPS-013/admission-development-v7-failed/source/AGENTS.md`
+- `evidence/OPS-013/admission-development-v7-failed/source/scripts/check-program-lifecycle-guards.py`
+- `evidence/OPS-013/admission-development-v7-failed/source/scripts/check-program-plan-history.py`
+- `evidence/OPS-013/admission-development-v7-failed/source/scripts/check-program-plan-transitions.py`
+- `evidence/OPS-013/admission-development-v7-failed/source/scripts/poc-contract-repair-admission.py`
+- `evidence/OPS-013/admission-development-v7-failed/source/specs/coordination/active-work.yaml`
+- `evidence/OPS-013/admission-development-v7-failed/source/specs/coordination/program-plan.yaml`
+- `evidence/OPS-013/admission-development-v7-failed/source/specs/tasks/OPS-013.md`
+- `evidence/OPS-013/admission-development-v7-failed/source/tests/governance/test_poc_contract_repair_admission.py`
+- `evidence/OPS-013/admission-development-v7-failed/unit.raw`
+- `evidence/OPS-013/admission-development-v8-passed/.gitattributes`
+- `evidence/OPS-013/admission-development-v8-passed/index.json`
+- `evidence/OPS-013/admission-development-v8-passed/legacy-planner.raw`
+- `evidence/OPS-013/admission-development-v8-passed/manifest.json`
+- `evidence/OPS-013/admission-development-v8-passed/results.json`
+- `evidence/OPS-013/admission-development-v8-passed/source/AGENTS.md`
+- `evidence/OPS-013/admission-development-v8-passed/source/scripts/check-program-lifecycle-guards.py`
+- `evidence/OPS-013/admission-development-v8-passed/source/scripts/check-program-plan-history.py`
+- `evidence/OPS-013/admission-development-v8-passed/source/scripts/check-program-plan-transitions.py`
+- `evidence/OPS-013/admission-development-v8-passed/source/scripts/poc-contract-repair-admission.py`
+- `evidence/OPS-013/admission-development-v8-passed/source/specs/coordination/active-work.yaml`
+- `evidence/OPS-013/admission-development-v8-passed/source/specs/coordination/program-plan.yaml`
+- `evidence/OPS-013/admission-development-v8-passed/source/specs/tasks/OPS-013.md`
+- `evidence/OPS-013/admission-development-v8-passed/source/tests/governance/test_poc_contract_repair_admission.py`
+- `evidence/OPS-013/admission-development-v8-passed/unit.raw`
 - `evidence/OPS-013/changed-files-current.md`
 - `evidence/OPS-013/changed-files.md`
 - `evidence/OPS-013/commands.txt`
@@ -130,6 +159,31 @@ historical inventory, not the current list.
 - `evidence/OPS-013/implementation-1188509-superseded/task.raw`
 - `evidence/OPS-013/implementation-1188509-superseded/transitions.raw`
 - `evidence/OPS-013/implementation-1188509-superseded/verify.raw`
+- `evidence/OPS-013/implementation-17c9f31-source-validation/.gitattributes`
+- `evidence/OPS-013/implementation-17c9f31-source-validation/coordination.raw`
+- `evidence/OPS-013/implementation-17c9f31-source-validation/diff.raw`
+- `evidence/OPS-013/implementation-17c9f31-source-validation/docs.raw`
+- `evidence/OPS-013/implementation-17c9f31-source-validation/evidence.raw`
+- `evidence/OPS-013/implementation-17c9f31-source-validation/finalization.raw`
+- `evidence/OPS-013/implementation-17c9f31-source-validation/governance.xml`
+- `evidence/OPS-013/implementation-17c9f31-source-validation/history.raw`
+- `evidence/OPS-013/implementation-17c9f31-source-validation/index.json`
+- `evidence/OPS-013/implementation-17c9f31-source-validation/integrity.raw`
+- `evidence/OPS-013/implementation-17c9f31-source-validation/lifecycle.raw`
+- `evidence/OPS-013/implementation-17c9f31-source-validation/ops013-17c9f31-ci835-success-job.raw.txt`
+- `evidence/OPS-013/implementation-17c9f31-source-validation/ops013-17c9f31-ci835-success-status.json`
+- `evidence/OPS-013/implementation-17c9f31-source-validation/ops013-17c9f31-source-publication-independent-review.json`
+- `evidence/OPS-013/implementation-17c9f31-source-validation/ops013-implementation-17c9f31-candidate.json`
+- `evidence/OPS-013/implementation-17c9f31-source-validation/ops013-pr139-second-two-p2-official-threads.json`
+- `evidence/OPS-013/implementation-17c9f31-source-validation/raw-lifecycle.raw`
+- `evidence/OPS-013/implementation-17c9f31-source-validation/readiness.raw`
+- `evidence/OPS-013/implementation-17c9f31-source-validation/results.json`
+- `evidence/OPS-013/implementation-17c9f31-source-validation/schemas.raw`
+- `evidence/OPS-013/implementation-17c9f31-source-validation/scope.raw`
+- `evidence/OPS-013/implementation-17c9f31-source-validation/source17-current-inventory.md`
+- `evidence/OPS-013/implementation-17c9f31-source-validation/task.raw`
+- `evidence/OPS-013/implementation-17c9f31-source-validation/transitions.raw`
+- `evidence/OPS-013/implementation-17c9f31-source-validation/verify.raw`
 - `evidence/OPS-013/implementation-c79be6a-ci834-success/.gitattributes`
 - `evidence/OPS-013/implementation-c79be6a-ci834-success/job.raw.txt`
 - `evidence/OPS-013/implementation-c79be6a-ci834-success/status.json`
@@ -221,6 +275,9 @@ historical inventory, not the current list.
 - `evidence/OPS-013/review-p2-20261025/commit-preparation-path-failed.raw`
 - `evidence/OPS-013/review-p2-20261025/independent-content-review.json`
 - `evidence/OPS-013/review-p2-20261025/official-threads.json`
+- `evidence/OPS-013/review-v8-20261025/.gitattributes`
+- `evidence/OPS-013/review-v8-20261025/collection.raw`
+- `evidence/OPS-013/review-v8-20261025/content-independent-review.json`
 - `evidence/OPS-013/summary.md`
 - `evidence/OPS-013/test-results/README.md`
 - `scripts/check-program-lifecycle-guards.py`

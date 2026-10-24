@@ -22,3 +22,5 @@ Windows same91file component verification actually passed22 cases/1072.393s/exit
 Forward correction: v5 actual26 failed/81.775s retained; v6 actual26 passed/99.268s and old-planner3 passed/9.34s. Actual collection739. New fixed source Task15/full739 and same-head CI pending; Windows new4 running, not accepted.
 
 Windows forward4 actually passed/495.290s/no skips. Source118 completed13 gates then controlled verify exit-15 for confirmed stale inventory; no full-suite pass. Next source Task15/full739/CI pending.
+
+Source17 actualTask15/full739/CI835 succeeded but2 newP2 prevent merge. v7 red29 retained; v8 native29/111.406s plus legacy3/9.29s passed. Next collection742; Windows new3 pending; next exact-source gates/CI pending.
