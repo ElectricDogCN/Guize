@@ -96,17 +96,17 @@ tasks:
 - taskId: OPS-013
   issue: 137
   title: 受限POC合同缺陷修复的独立准入
-  status: reserved
+  status: in_progress
   riskLevel: high
   owner: ElectricDogCN
   coordinator: program-coordinator-agent
   implementer: contract-admission-implementation-agent
   reviewer: independent-review-agent
   integrator: integration-agent
-  agentRole: coordinator
+  agentRole: implementer
   branch: chore/OPS-013-contract-repair-admission
   baseBranch: main
-  baseSha: f2e0150265e0c1eeca5f69fe85708b2434e5ee79
+  baseSha: 3eb9bb69b4fb1df85a359750b73356b953429540
   workPackage: WP-M0-01
   programPlan: specs/coordination/program-plan.yaml
   programTaskId: OPS-013
