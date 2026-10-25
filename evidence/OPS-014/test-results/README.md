@@ -1,3 +1,3 @@
-# OPS-014 validation state
+# OPS-014 validation stages
 
-Original reservation source f80 and actual main36b have their own accepted logs and independent receipts. This freeze proposal has no executed source/CI/main validation yet. New fixed-source results will be kept separately; earlier successes are not transferred. The future recovery proof must bind a later actual validated repair commit and actual zero-skip JUnit and direct/full commands. No placeholder PASS proof is created.
+F prerequisites have their own accepted main847 proof. This activation candidate has no new code validation. Task declares codeC18 including exact five mandatory proof commands and separate actual POC selftests; after C only EvidenceA15+new-headCI, then actual R own mainCI. Prior local/CI results do not count as execution on a new source. No recovery-proof placeholder is created.

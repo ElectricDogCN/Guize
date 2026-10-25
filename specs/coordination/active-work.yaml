@@ -96,17 +96,17 @@ tasks:
 - taskId: OPS-014
   issue: 142
   title: 修复metadata profiling的416诊断正文合同
-  status: reserved
+  status: in_progress
   riskLevel: high
   owner: ElectricDogCN
   coordinator: program-coordinator-agent
   implementer: poc-contract-repair-implementation-agent
   reviewer: independent-review-agent
   integrator: integration-agent
-  agentRole: coordinator
-  branch: chore/OPS-014-gz021-metadata-freeze
+  agentRole: implementer
+  branch: chore/OPS-014-frozen-416-contract-repair-v2
   baseBranch: main
-  baseSha: 36b986a65e23671d0b08134d1c4163833a59fbd7
+  baseSha: 15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6
   workPackage: WP-M0-01
   programPlan: specs/coordination/program-plan.yaml
   programTaskId: OPS-014
