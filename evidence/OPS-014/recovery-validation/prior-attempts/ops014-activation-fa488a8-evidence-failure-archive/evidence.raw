@@ -1,0 +1,8 @@
+Source Commit: fa488a8d0c37263e0d6a60e7851a7c4728ec2a20
+Command: python scripts/check-evidence.py --task OPS-014
+{"status": "FAIL", "message": "Compatibility target does not contain task ID OPS-014: rollback.md"}
+{"status": "FAIL", "message": "Support evidence does not contain task ID OPS-014: follow-ups.md"}
+{"status": "WARN", "message": "Command evidence may be missing command/exit-code indicators."}
+{"status": "WARN", "message": "Rollback evidence may be missing executable verification/rollback steps."}
+
+Exit Code: 1

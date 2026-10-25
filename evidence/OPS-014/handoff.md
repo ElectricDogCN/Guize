@@ -1,13 +1,20 @@
-# OPS-014 independent GZ-021 freeze proposal
+# OPS-014 validated bounded 416 repair source
 
 Task: OPS-014
 Issue: #142
-Branch: chore/OPS-014-gz021-metadata-freeze
-Base: 36b986a65e23671d0b08134d1c4163833a59fbd7
-Source/tree/execution: UNCOMMITTED/UNEXECUTED freeze candidate
+Branch: chore/OPS-014-frozen-416-contract-repair-v2
+Base: 15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6
+Validated source: 2da13d55432c39f57c458cff906ac198292b2e66
+Tree: a67c1201dc6ed187298f67d3c333f87cf055e59e
 
-Original reservation main36b fully accepted: native7, own push CI845742 tests/zero test skips and independent review. This new candidate only freezes the existing completed producer GZ-021. Own Foundation/Active/Task remain reserved/coordinator, original168h lease/roles/claims/capacity unchanged. No contract code, POC execution, qualification or thaw has occurred. Freeze source checks/CI/review/actual-main acceptance remain PENDING.
+The actual frozen main15f was fully accepted before separate metadata activation45318b1 passed14 checks. Production changes only the supported/unsatisfiable empty-body predicate; existing65536/status/Range/header/source/version/UTC/hash/count/typed-slot constraints and other dispositions/storage/auth remain. Original test198 and its assertions are unchanged. Synthetic fixtures now isolate live reservations; existing identity negatives remain unchanged.
 
-Roles: Owner ElectricDogCN; Coordinator program-coordinator-agent; Implementer poc-contract-repair-implementation-agent (/root); Reviewer independent-review-agent (/root/gz022_planning_independent_review); Integrator integration-agent. Integration order10; no shared paths. Original lease 2026-10-24T21:42:30Z to2026-10-31T21:42:30Z, no renewal.
+Old checker sourcead9feee genuinely rejected8 nonempty diagnostic subcases, including the retained real33 bytes in both profiles. Earlier fixture/activation failures are separately retained. No new provider experiment is claimed.
 
-Actual current files: changed-files.md. Planned commands: commands.txt. Original decision, authority and old contract Git bytes unchanged. Next Reviewer: independently inspect exact metadata-only source, base/event/lease and the prior actual-main receipt. Next Implementer: fix source only within this metadata scope and run its exact15 gates/742/JUnit. Integrator: fresh same-headCI and threads/roles/scope, normal merge, then actual frozen main no-task gates and own push CI. No activation/code until actual frozen main accepted. Rollback: withdraw unmerged proposal or separately reviewed recovery transaction; preserve every historical raw record.
+Fixed source completed all18 declared native commands, separate complete POC selftests (211 methods, no skips), direct full governance and complete make verify (742 actual tests in each governance run; zero failures/errors/skips). Windows original198/new198a-b-c/identity56-58 passed7 tests on the same source. Independent code review accepted content. See recovery-proof.json and recovery-validation/ for exact commands and immutable raw bytes.
+
+This Evidence-only archive follows validated source C. Program remains frozen. Archive-head checks, latest hostedCI, independent final source review, actual normal merge and its own mainCI/acceptance are pending. Only then may a separate metadata-only thaw consume this proof. Issue142 stays open; ordinaryPOC work/qualification remains paused. Full V1 is incomplete.
+
+## Exact next role action
+
+Validate this Evidence-only head with the declared15 commands; obtain same-head hostedCI and independent acceptance. Integrator verifies actual main/roles/lease/threads immediately before a normal merge. Verify the actual merged frozen main independently. Only then prepare the separate thaw; never change Task/Active/Program/code in C..thaw-base.

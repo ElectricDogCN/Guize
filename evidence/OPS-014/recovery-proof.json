@@ -1,0 +1,39 @@
+{
+  "taskId": "OPS-014",
+  "frozenSourceCommit": "36b986a65e23671d0b08134d1c4163833a59fbd7",
+  "validatedCommit": "2da13d55432c39f57c458cff906ac198292b2e66",
+  "commands": {
+    "programIntegrity": {
+      "command": "python scripts/check-program-plan-integrity.py --base-ref 15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6",
+      "exitCode": 0,
+      "logPath": "evidence/OPS-014/recovery-validation/integrity.log",
+      "sha256": "da743dc575b6bddc505dbee974f7d467f2c55379f10bd5d057dd6a3bbbe91748"
+    },
+    "lifecycle": {
+      "command": "python scripts/run-program-lifecycle-gate.py --base-ref 15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6 --head-ref 2da13d55432c39f57c458cff906ac198292b2e66 --task OPS-014 --branch-name chore/OPS-014-frozen-416-contract-repair-v2",
+      "exitCode": 0,
+      "logPath": "evidence/OPS-014/recovery-validation/lifecycle.log",
+      "sha256": "7fa44d634e5c560832fd93bedb54a90964c34f037403a679e27196880aebf417"
+    },
+    "coordination": {
+      "command": "python scripts/run-agent-coordination-gate.py --base-ref 15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6 --head-ref 2da13d55432c39f57c458cff906ac198292b2e66 --task OPS-014 --branch-name chore/OPS-014-frozen-416-contract-repair-v2",
+      "exitCode": 0,
+      "logPath": "evidence/OPS-014/recovery-validation/coordination.log",
+      "sha256": "968b5bdeaf6ff71d1f50912f72328771684e2cc5f94605ff37ee111a1a547517"
+    },
+    "governance": {
+      "command": "python -m pytest tests/governance -q --junitxml=evidence/OPS-014/recovery-validation/governance.xml",
+      "exitCode": 0,
+      "logPath": "evidence/OPS-014/recovery-validation/governance.log",
+      "sha256": "e1340f687979c2b03b67ec2eb8389ff8a80f9bce98370cb16e309e94c0571e5e"
+    },
+    "verify": {
+      "command": "make verify TASK=OPS-014 BASE=15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6 HEAD_REF=2da13d55432c39f57c458cff906ac198292b2e66 BRANCH=chore/OPS-014-frozen-416-contract-repair-v2",
+      "exitCode": 0,
+      "logPath": "evidence/OPS-014/recovery-validation/verify.log",
+      "sha256": "1d83f75be6911f34f5a09a1ebdaf19a75f516416674cd648a8db43971ab490d9"
+    }
+  },
+  "junitPath": "evidence/OPS-014/recovery-validation/governance.xml",
+  "junitSha256": "69777cc583bf651c65d9af21a00ea58df66c21e3b0b84fb3a5a6deda087a7b08"
+}

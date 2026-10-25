@@ -1,3 +1,5 @@
-# OPS-014 validation state
+# OPS-014 actual source verification
 
-Original reservation source f80 and actual main36b have their own accepted logs and independent receipts. This freeze proposal has no executed source/CI/main validation yet. New fixed-source results will be kept separately; earlier successes are not transferred. The future recovery proof must bind a later actual validated repair commit and actual zero-skip JUnit and direct/full commands. No placeholder PASS proof is created.
+See ../recovery-validation/source-results.json for all18 real commands, ../recovery-proof.json for the five mandatory bound checks and JUnit, and ../recovery-validation/windows-focused-results.json.base64 for seven Windows regressions. POC selftests are separate from governance collection. Earlier failures remain in prior-attempts; none are relabelled. Archive head/hostedCI/actual-main/thaw acceptance remain pending.
+
+Supporting Windows JSON originals use reversible base64; decode according to ../recovery-validation/archive-index.json. Mandatory proof logs remain raw and byte-identical. Decode the Windows raw log according to the archive index to recover its exact original bytes.

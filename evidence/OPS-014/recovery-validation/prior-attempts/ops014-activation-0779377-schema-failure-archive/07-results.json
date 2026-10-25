@@ -1,0 +1,77 @@
+{
+  "source": "0779377346260a07b02077894ee8b325a588486e",
+  "base": "15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6",
+  "tree": "3b32f622b6c7bacb7cec752b99d76744869c1a9f",
+  "branch": "chore/OPS-014-frozen-416-contract-repair",
+  "before": {
+    "source": "0779377346260a07b02077894ee8b325a588486e",
+    "tree": "3b32f622b6c7bacb7cec752b99d76744869c1a9f",
+    "parent": "15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6",
+    "branch": "chore/OPS-014-frozen-416-contract-repair",
+    "main": "15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6",
+    "status": ""
+  },
+  "startedAt": "2026-10-25T00:57:38.436506+00:00",
+  "commands": [
+    {
+      "label": "diff",
+      "argv": [
+        "git",
+        "diff",
+        "--check",
+        "15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6...0779377346260a07b02077894ee8b325a588486e"
+      ],
+      "startedAt": "2026-10-25T00:57:38.440944+00:00",
+      "raw": "diff.raw",
+      "pid": 757126,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "endedAt": "2026-10-25T00:57:38.451298+00:00",
+      "bytes": 180,
+      "sha256": "acc5ce11a9389734f39aa07897d9c11b1adbf4eeeb67267b09702d209ed55242"
+    },
+    {
+      "label": "task",
+      "argv": [
+        "python",
+        "scripts/check-task-file.py",
+        "--task",
+        "OPS-014"
+      ],
+      "startedAt": "2026-10-25T00:57:38.456251+00:00",
+      "raw": "task.raw",
+      "pid": 757127,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "endedAt": "2026-10-25T00:57:38.532136+00:00",
+      "bytes": 259,
+      "sha256": "09b0a990340f1dae3194cba6edebbab5541b13800b4c6568bbbb47405c43e517"
+    },
+    {
+      "label": "schemas",
+      "argv": [
+        "python",
+        "scripts/check-schemas.py"
+      ],
+      "startedAt": "2026-10-25T00:57:38.535602+00:00",
+      "raw": "schemas.raw",
+      "pid": 757128,
+      "exitCode": 1,
+      "waitCompleted": true,
+      "endedAt": "2026-10-25T00:57:42.348482+00:00",
+      "bytes": 2007,
+      "sha256": "f9b1ef8d01b8c06ee251e26d9fe642d31a89162114e9a2095c027e1d8b312275"
+    }
+  ],
+  "metadataAdmissionAccepted": false,
+  "codeWritten": false,
+  "failedGate": "schemas",
+  "after": {
+    "source": "0779377346260a07b02077894ee8b325a588486e",
+    "tree": "3b32f622b6c7bacb7cec752b99d76744869c1a9f",
+    "parent": "15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6",
+    "branch": "chore/OPS-014-frozen-416-contract-repair",
+    "main": "15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6",
+    "status": ""
+  }
+}

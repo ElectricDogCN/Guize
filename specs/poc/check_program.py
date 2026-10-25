@@ -1773,7 +1773,7 @@ def validate_qualified_metadata_profiles(root,plan,execution,prefix,window,defs,
             disposition=policy['rangeDisposition']
             expected_status=206 if case=='bounded' else 416
             expected_body=content[:2] if case=='bounded' else b'';expected_header=f'bytes 0-{min(1,len(content)-1)}/{len(content)}' if case=='bounded' else f'bytes */{len(content)}'
-            good=(row['statusCode']==expected_status and body==expected_body and row['contentRange']==expected_header) if disposition=='supported' else (row['statusCode']==200 and body==content and row['contentRange']=='') if disposition=='ignored' else (row['statusCode'] in (400,405,501) and body==b'' and row['contentRange']=='')
+            good=(row['statusCode']==expected_status and (case=='unsatisfiable' or body==expected_body) and row['contentRange']==expected_header) if disposition=='supported' else (row['statusCode']==200 and body==content and row['contentRange']=='') if disposition=='ignored' else (row['statusCode'] in (400,405,501) and body==b'' and row['contentRange']=='')
         else:good=row['statusCode']==200 and body==content and row['contentRange']==''
         if not good:raise ValueError('Range disposition must derive actual status/header/body behavior, including truthful unsupported support')
         if policy['validatorKind']=='etag' and (not recorded_text(row['etag']) or row['versionValidator']) or policy['validatorKind']=='version_token' and (row['etag'] or row['versionValidator']!=version) or policy['validatorKind']=='none' and (row['etag'] or row['versionValidator']):raise ValueError('validator kind must match retained HTTP ETag/equivalent version/absence observations')

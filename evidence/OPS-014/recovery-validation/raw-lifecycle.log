@@ -1,0 +1,5 @@
+Source Commit: 2da13d55432c39f57c458cff906ac198292b2e66
+Command: python scripts/check-program-lifecycle-guards.py --base-ref 15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6 --head-ref 2da13d55432c39f57c458cff906ac198292b2e66 --task OPS-014 --branch-name chore/OPS-014-frozen-416-contract-repair-v2
+{"status": "PASS", "message": "Program lifecycle scope, Foundation ownership, rename and Evidence guards passed", "details": {"affectedTaskIds": ["OPS-014"], "changedPathCount": 15, "baseRef": "15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6"}}
+
+Exit Code: 0

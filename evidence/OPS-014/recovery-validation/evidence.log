@@ -1,0 +1,7 @@
+Source Commit: 2da13d55432c39f57c458cff906ac198292b2e66
+Command: python scripts/check-evidence.py --task OPS-014
+{"status": "WARN", "message": "Command evidence may be missing command/exit-code indicators."}
+{"status": "WARN", "message": "Rollback evidence may be missing executable verification/rollback steps."}
+{"status": "PASS", "message": "Evidence contract passed with warnings for OPS-014."}
+
+Exit Code: 0

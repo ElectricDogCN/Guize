@@ -1,0 +1,24 @@
+{
+  "recordedAt": "2026-10-25T06:08:40.518267+00:00",
+  "validatedSource": "2da13d55432c39f57c458cff906ac198292b2e66",
+  "action": "Evidence archive staged whitespace check",
+  "exitCode": 2,
+  "argv": [
+    "git",
+    "-c",
+    "core.longpaths=true",
+    "-c",
+    "core.autocrlf=false",
+    "-C",
+    "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\ops013-reservation",
+    "diff",
+    "--cached",
+    "--check"
+  ],
+  "stdoutBytes": 81436,
+  "stdoutSha256": "6b608c3339f734d7cd0a8ea7d2fb324d36bb2f474a7ae37cf06faf2d9340bbb0",
+  "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "commitCreated": false,
+  "originalEvidenceBytesRetained": true,
+  "correction": "Use reversible base64 for CRLF supporting originals; keep mandatory recovery proof logs raw"
+}

@@ -1,3 +1,3 @@
-# OPS-014
+# OPS-014 rollback
 
-No runtime/data effect fromregistration. Withdraw unmerged ownproposal or formal owncancellation; retain commits, inputs and all failure evidence.
+未合入可撤回本实现提案并保留全部原始失败和运行材料，实际冻结main继续保留。冻结owner不得在独立解冻前完成/释放。若已合入代码需要修正或回退，按同一合法冻结事件在登记范围内另验证真实新源；不以手工改状态或旧结果冒充恢复，解冻仍须单独metadata-only交易。
