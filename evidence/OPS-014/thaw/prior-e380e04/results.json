@@ -1,0 +1,51 @@
+{
+  "source": "e380e04cfcc53342328609f66211d257fe6c5b87",
+  "base": "09d247f97b318ebe8bdeee1dae539e26a17598ea",
+  "branch": "chore/OPS-014-verified-repair-thaw",
+  "tree": "7d12fdde0139266cccdb0831fcbe089faea0c8c6",
+  "validatedCommit": "2da13d55432c39f57c458cff906ac198292b2e66",
+  "startedAt": "2026-10-25T07:39:04.711010+00:00",
+  "commands": [
+    {
+      "label": "diff",
+      "argv": [
+        "git",
+        "diff",
+        "--check",
+        "09d247f97b318ebe8bdeee1dae539e26a17598ea...HEAD"
+      ],
+      "startedAt": "2026-10-25T07:39:04.714606+00:00",
+      "raw": "diff.raw",
+      "pid": 1133881,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "endedAt": "2026-10-25T07:39:04.725769+00:00",
+      "bytes": 144,
+      "sha256": "caf0da454ec823bec2291b14e8ba9c713b1f9fcb396df3a134944940c446603a"
+    },
+    {
+      "label": "task",
+      "argv": [
+        "python",
+        "scripts/check-task-file.py",
+        "--task",
+        "OPS-014"
+      ],
+      "startedAt": "2026-10-25T07:39:04.729210+00:00",
+      "raw": "task.raw",
+      "pid": 1133882,
+      "exitCode": 1,
+      "waitCompleted": true,
+      "endedAt": "2026-10-25T07:39:04.803807+00:00",
+      "bytes": 628,
+      "sha256": "cedd53a9e8e38ea163c3287ce06abd967e5c3035f595986c7cbda6f198b2a5ca"
+    }
+  ],
+  "local15Accepted": false,
+  "strictThawProofAccepted": false,
+  "proposalOnly": true,
+  "actualThawMainAccepted": false,
+  "newPocExperimentApproved": false,
+  "failedGate": "task",
+  "terminalAt": "2026-10-25T07:39:04.807660+00:00"
+}

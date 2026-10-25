@@ -1,0 +1,310 @@
+{
+  "schemaVersion": 1,
+  "kind": "independent-actual-frozen-repair-main-full-review",
+  "reviewedAt": "2026-10-25T07:19:40.456182Z",
+  "actor": "/root/gz022_planning_independent_review",
+  "role": "independent-review-agent",
+  "taskId": "OPS-014",
+  "actualMain": "09d247f97b318ebe8bdeee1dae539e26a17598ea",
+  "actualRepairMain": "09d247f97b318ebe8bdeee1dae539e26a17598ea",
+  "actualMergedMainAccepted": true,
+  "actualRepairMainAccepted": true,
+  "fullMainCiAccepted": true,
+  "fullRepairMainCiAccepted": true,
+  "mustFix": [],
+  "source": "7135ef0b376c623d939511a13b7fd7be8b1d8956",
+  "base": "15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6",
+  "tree": "3ee3f2b7b5f0df97cf1e5ff454b4e25083e21b82",
+  "orderedParents": [
+    "15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6",
+    "7135ef0b376c623d939511a13b7fd7be8b1d8956"
+  ],
+  "validatedCommit": "2da13d55432c39f57c458cff906ac198292b2e66",
+  "mainCiNumber": 849,
+  "mainCiRun": 40170985265,
+  "mainCiJob": 121101578918,
+  "mainCiEvent": "push",
+  "actualTestsPassed": 742,
+  "testSkipped": 0,
+  "actualTestFailuresErrorsSkipped": 0,
+  "mainCiDurationSeconds": 997.13,
+  "ciRawBytes": 289179,
+  "ciRawSha256": "fee3904cae08b9239e73f3b3b36ccec2d6af55326b4ce745a92976ffc730d712",
+  "officialStatusBytes": 72325,
+  "officialStatusSha256": "27d986eda421a9f0702817b74fd2dd81b2360e6089a9b953b7fba71ac75e2ae6",
+  "workflowSteps": {
+    "total": 28,
+    "success": 23,
+    "legitimateMainConditionalSkipped": [
+      "Task file validation",
+      "Evidence check",
+      "Evidence integrity check",
+      "Task-branch linkage check",
+      "Scope check"
+    ],
+    "testSkips": 0,
+    "notAllStepsExecuted": true
+  },
+  "freshOfficial": {
+    "main": "09d247f97b318ebe8bdeee1dae539e26a17598ea",
+    "pr": {
+      "number": 145,
+      "merged": true,
+      "actualMerge": "09d247f97b318ebe8bdeee1dae539e26a17598ea",
+      "head": "7135ef0b376c623d939511a13b7fd7be8b1d8956",
+      "base": "15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6"
+    },
+    "issue": {
+      "number": 142,
+      "state": "open"
+    },
+    "run": {
+      "id": 40170985265,
+      "number": 849,
+      "head": "09d247f97b318ebe8bdeee1dae539e26a17598ea",
+      "event": "push",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "updatedAt": "2026-10-25T07:15:26Z"
+    },
+    "jobs": [
+      {
+        "id": 121101578918,
+        "name": "Governance Checks",
+        "status": "completed",
+        "conclusion": "success",
+        "run_id": 40170985265,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Checkout repository",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Setup Python 3.11",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "Install governance dependencies",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Verify core dependencies importable",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5
+          },
+          {
+            "name": "Compile scripts and tests",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6
+          },
+          {
+            "name": "Pytest collect-only",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7
+          },
+          {
+            "name": "Resolve task context",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8
+          },
+          {
+            "name": "Task file validation",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 9
+          },
+          {
+            "name": "Project readiness check",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10
+          },
+          {
+            "name": "Program Plan integrity, history, transitions, finalization, and lifecycle guard",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11
+          },
+          {
+            "name": "Agent coordination check",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 12
+          },
+          {
+            "name": "Governance tests",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 13
+          },
+          {
+            "name": "Skip audit",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 14
+          },
+          {
+            "name": "Markdown basic check",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15
+          },
+          {
+            "name": "YAML/JSON schema check",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 16
+          },
+          {
+            "name": "Secret scan",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 17
+          },
+          {
+            "name": "Evidence check",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 18
+          },
+          {
+            "name": "Evidence integrity check",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 19
+          },
+          {
+            "name": "Task-branch linkage check",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 20
+          },
+          {
+            "name": "Scope check",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 21
+          },
+          {
+            "name": "Spec sync check",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 22
+          },
+          {
+            "name": "Parent directory reference check",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 23
+          },
+          {
+            "name": "CI workflow static validation",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 24
+          },
+          {
+            "name": "Generate governance report",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 25
+          },
+          {
+            "name": "Post Setup Python 3.11",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 49
+          },
+          {
+            "name": "Post Checkout repository",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 50
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 51
+          }
+        ]
+      }
+    ],
+    "headRuns": [
+      {
+        "id": 40170985265,
+        "number": 849,
+        "head": "09d247f97b318ebe8bdeee1dae539e26a17598ea",
+        "event": "push",
+        "status": "completed",
+        "conclusion": "success"
+      }
+    ]
+  },
+  "local7AndStrictProofAcceptanceInherited": true,
+  "localIndependentReviewSha256": "d005f3530015eb23c74101599dd6bca2245b8d894d9cbe472296a85fcc1a50ef",
+  "canonicalMainClean": true,
+  "actualGraphTreeMatchesOfficialMergeAndReviewedA3": true,
+  "validatedCTrueAncestorAndAfterCOnlyOwnEvidence": true,
+  "C18RealActual18And211PocSelftestsTwo742GovernanceAndWindows7FactsPreserved": true,
+  "97ArchiveBlobsAnd114FullInventoryInheritedWithoutChangesFromA3": true,
+  "proofAlreadyTrackedInActualR": true,
+  "recoveryProofSha256": "9d2fe3242cd7e7ea1bf1eae2c43a37df6e7cffc08002e62095bba59be31fed4d",
+  "programStatus": "frozen",
+  "exactSixRecoveryFields": {
+    "taskId": "OPS-014",
+    "reason": "已完成GZ-021的metadata profiling合同错误要求supported/unsatisfiable的416诊断正文为空；真实授权OpenList响应33字节与之冲突，按原OPS-013授权执行精确两文件修复并完整验证后另行解冻。",
+    "affectedTasks": [
+      "GZ-021"
+    ],
+    "sourceCommit": "36b986a65e23671d0b08134d1c4163833a59fbd7",
+    "frozenAt": "2026-10-24T23:24:58Z",
+    "verificationPath": "evidence/OPS-014/recovery-proof.json"
+  },
+  "ownTaskStatus": "in_progress",
+  "ownAgentRole": "implementer",
+  "originalLease": {
+    "acquiredAt": "2026-10-24T21:42:30Z",
+    "expiresAt": "2026-10-31T21:42:30Z"
+  },
+  "claimsRolesForeignPolicyUnchanged": true,
+  "activeCount": 3,
+  "highCount": 1,
+  "Issue142Open": true,
+  "sourceCi848NotTransferredToMainCi849": true,
+  "thawMetadataPreparationMayProceed": true,
+  "preparationBoundary": [
+    "Prepare only a new independent metadata-only thaw proposal from accepted actual R.",
+    "Preserve exact freeze event; consume already-tracked real C proof rather than fabricate merged/proof state.",
+    "Actual thaw candidate needs its own direct checks, hosted CI, independent review, normal merge and actual-main acceptance.",
+    "Ordinary POC work remains paused until actual thaw main is independently accepted; future experiments require their own exact source/input/resource/window approval."
+  ],
+  "specificThawSourceApproved": false,
+  "thawCommitApproved": false,
+  "thawPublicationApproved": false,
+  "thawApproved": false,
+  "actualProgramThawed": false,
+  "newPocExperimentApproved": false,
+  "qualificationAccepted": false,
+  "taskCompleted": false,
+  "reviewerTestsExecuted": false,
+  "authorFilesModified": false
+}
