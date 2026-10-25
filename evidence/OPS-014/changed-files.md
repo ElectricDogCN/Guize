@@ -1,7 +1,7 @@
 # OPS-014 current metadata thaw inventory
 
 Base: 09d247f97b318ebe8bdeee1dae539e26a17598ea
-All22 current-stage metadata/Evidence paths are listed; initial e380e04 Task-format failure is retained under thaw/prior-e380e04/. Original code archive114 inventory remains in Git history.
+All34 current-stage metadata/Evidence paths are listed. Task-format and exact-scope failures are retained in thaw/prior-e380e04/ and thaw/prior-301866c/. Prior code inventory remains in Git history.
 
 - `evidence/OPS-014/changed-files.md`
 - `evidence/OPS-014/commands.txt`
@@ -17,6 +17,18 @@ All22 current-stage metadata/Evidence paths are listed; initial e380e04 Task-for
 - `evidence/OPS-014/thaw/baseline-local-results.json`
 - `evidence/OPS-014/thaw/baseline-proof-structure.json`
 - `evidence/OPS-014/thaw/ended-freeze-remote-cleanup.json`
+- `evidence/OPS-014/thaw/prior-301866c/coordination.raw`
+- `evidence/OPS-014/thaw/prior-301866c/diff.raw`
+- `evidence/OPS-014/thaw/prior-301866c/finalization.raw`
+- `evidence/OPS-014/thaw/prior-301866c/history.raw`
+- `evidence/OPS-014/thaw/prior-301866c/independent-review.json`
+- `evidence/OPS-014/thaw/prior-301866c/integrity.raw`
+- `evidence/OPS-014/thaw/prior-301866c/lifecycle.raw`
+- `evidence/OPS-014/thaw/prior-301866c/raw-lifecycle.raw`
+- `evidence/OPS-014/thaw/prior-301866c/results.json`
+- `evidence/OPS-014/thaw/prior-301866c/schemas.raw`
+- `evidence/OPS-014/thaw/prior-301866c/task.raw`
+- `evidence/OPS-014/thaw/prior-301866c/transitions.raw`
 - `evidence/OPS-014/thaw/prior-e380e04/diff.raw`
 - `evidence/OPS-014/thaw/prior-e380e04/results.json`
 - `evidence/OPS-014/thaw/prior-e380e04/task.raw`

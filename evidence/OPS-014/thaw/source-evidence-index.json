@@ -82,9 +82,118 @@
       "storedBytes": 628,
       "storedSha256": "cedd53a9e8e38ea163c3287ce06abd967e5c3035f595986c7cbda6f198b2a5ca",
       "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-416-thaw-301866c-native-checks/coordination.raw",
+      "path": "evidence/OPS-014/thaw/prior-301866c/coordination.raw",
+      "originalBytes": 391,
+      "originalSha256": "0fd3ff2b0b8cc4360f9018be3275460663eb041d154d249e80497529bfe74e46",
+      "storedBytes": 391,
+      "storedSha256": "0fd3ff2b0b8cc4360f9018be3275460663eb041d154d249e80497529bfe74e46",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-416-thaw-301866c-native-checks/diff.raw",
+      "path": "evidence/OPS-014/thaw/prior-301866c/diff.raw",
+      "originalBytes": 144,
+      "originalSha256": "32e5dc4ef515d750096199b73b3905bd0f959017e5284c436b5d6afb9f3ef479",
+      "storedBytes": 144,
+      "storedSha256": "32e5dc4ef515d750096199b73b3905bd0f959017e5284c436b5d6afb9f3ef479",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-416-thaw-301866c-native-checks/finalization.raw",
+      "path": "evidence/OPS-014/thaw/prior-301866c/finalization.raw",
+      "originalBytes": 398,
+      "originalSha256": "fcba5be3ebdc0fb92b40c2474ca0d6a1b708bd6b558a45d7fa6241016a109353",
+      "storedBytes": 398,
+      "storedSha256": "fcba5be3ebdc0fb92b40c2474ca0d6a1b708bd6b558a45d7fa6241016a109353",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-416-thaw-301866c-native-checks/history.raw",
+      "path": "evidence/OPS-014/thaw/prior-301866c/history.raw",
+      "originalBytes": 551,
+      "originalSha256": "85213a8217c2ec2f11171add9f45238a1d1a748c3f73ca7ed1acd05ab02c61ef",
+      "storedBytes": 551,
+      "storedSha256": "85213a8217c2ec2f11171add9f45238a1d1a748c3f73ca7ed1acd05ab02c61ef",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-416-thaw-301866c-native-checks/integrity.raw",
+      "path": "evidence/OPS-014/thaw/prior-301866c/integrity.raw",
+      "originalBytes": 419,
+      "originalSha256": "9f0983e89e06f50a4a913dc9d3b7f40f8f8ccb55e0f56ebc81e2488671375519",
+      "storedBytes": 419,
+      "storedSha256": "9f0983e89e06f50a4a913dc9d3b7f40f8f8ccb55e0f56ebc81e2488671375519",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-416-thaw-301866c-native-checks/lifecycle.raw",
+      "path": "evidence/OPS-014/thaw/prior-301866c/lifecycle.raw",
+      "originalBytes": 625,
+      "originalSha256": "858e01a8a3595883a2920e7ae2201b2b7e2fa6caca8108a51316455653a1419c",
+      "storedBytes": 625,
+      "storedSha256": "858e01a8a3595883a2920e7ae2201b2b7e2fa6caca8108a51316455653a1419c",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-416-thaw-301866c-native-checks/raw-lifecycle.raw",
+      "path": "evidence/OPS-014/thaw/prior-301866c/raw-lifecycle.raw",
+      "originalBytes": 534,
+      "originalSha256": "e8cee0cbdd0800ad7704de968db49f9d3118145043180fee5750103805d122b0",
+      "storedBytes": 534,
+      "storedSha256": "e8cee0cbdd0800ad7704de968db49f9d3118145043180fee5750103805d122b0",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-416-thaw-301866c-native-checks/results.json",
+      "path": "evidence/OPS-014/thaw/prior-301866c/results.json",
+      "originalBytes": 6654,
+      "originalSha256": "e08e51ce9a50043b773837fb4a521463d16be837fa9c87f27de21a1231f2a60b",
+      "storedBytes": 6654,
+      "storedSha256": "e08e51ce9a50043b773837fb4a521463d16be837fa9c87f27de21a1231f2a60b",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-416-thaw-301866c-native-checks/schemas.raw",
+      "path": "evidence/OPS-014/thaw/prior-301866c/schemas.raw",
+      "originalBytes": 1947,
+      "originalSha256": "a0b6162af0f5177651d42823c1c427a510ffea8884fc6527d0f8cdb9552adf36",
+      "storedBytes": 1947,
+      "storedSha256": "a0b6162af0f5177651d42823c1c427a510ffea8884fc6527d0f8cdb9552adf36",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-416-thaw-301866c-native-checks/task.raw",
+      "path": "evidence/OPS-014/thaw/prior-301866c/task.raw",
+      "originalBytes": 257,
+      "originalSha256": "4eb431186db858e4db4550d726f02dde0a8fc3d6becf15da8b9998cbf9191e71",
+      "storedBytes": 257,
+      "storedSha256": "4eb431186db858e4db4550d726f02dde0a8fc3d6becf15da8b9998cbf9191e71",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-416-thaw-301866c-native-checks/transitions.raw",
+      "path": "evidence/OPS-014/thaw/prior-301866c/transitions.raw",
+      "originalBytes": 468,
+      "originalSha256": "525be8346dc66378784c1a4035f4cf46afcd3203f69f37db33c2036c5f19a161",
+      "storedBytes": 468,
+      "storedSha256": "525be8346dc66378784c1a4035f4cf46afcd3203f69f37db33c2036c5f19a161",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-416-thaw-301866c-independent-review.json",
+      "path": "evidence/OPS-014/thaw/prior-301866c/independent-review.json",
+      "originalBytes": 3380,
+      "originalSha256": "57775f1af49915e2ab332a45a19203fb91b6a9e313ac1ffcde5b0c0d584f010e",
+      "storedBytes": 3380,
+      "storedSha256": "57775f1af49915e2ab332a45a19203fb91b6a9e313ac1ffcde5b0c0d584f010e",
+      "storageEncoding": "identity"
     }
   ],
   "allOriginalBytesRecoverable": true,
   "decode": "identity or base64-decode then zlib-decompress as declared",
-  "priorTaskFormatFailurePreserved": true
+  "priorTaskFormatFailurePreserved": true,
+  "priorExclusiveScopeFailurePreserved": true
 }
