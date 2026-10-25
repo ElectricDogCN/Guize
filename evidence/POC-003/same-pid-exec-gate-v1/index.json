@@ -1,0 +1,961 @@
+{
+  "parent": "90938e2d3bb2b46755fc80e3d062fd6ca1ffb452",
+  "workingSourceHashes": {
+    "poc/POC-03-ats-range/instrumentation/exec_gate.py": "289f8b7bdee57220dc13e99915540e6b5be16ffd26c363717e3d86eb54154b47",
+    "poc/POC-03-ats-range/instrumentation/test_exec_gate_target.cc": "f1c0c17d5cf74acc671e41fefb8d3e6fd64c5d0d4d68199b2a6a9eb0401122aa",
+    "poc/POC-03-ats-range/owned_epoch.py": "124b82a3ecbd30d2ad959aa05851df1d3e41dd1e321c6021d3ef1e8503b7938a"
+  },
+  "files": [
+    {
+      "original": "poc003-exec-gate-native-v1/bad-elf/launch/exec-error.raw",
+      "encoded": "000-6de81d9449bd.zlib.b64",
+      "bytes": 14,
+      "sha256": "6de81d9449bdb36b1cbd353188e737c248b28dfc0ba425df0f35eec8477b6528"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/bad-elf/launch/gate-control-fdinfo.raw",
+      "encoded": "001-4b7ad94f95e1.zlib.b64",
+      "bytes": 48,
+      "sha256": "4b7ad94f95e1f39c7bc521d5ff61c6b11afa21a498f49aac3d018b155bfce5bd"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/bad-elf/launch/gate-exec-error-fdinfo.raw",
+      "encoded": "002-daf69135ee49.zlib.b64",
+      "bytes": 48,
+      "sha256": "daf69135ee4960ce9d4d6f9214ffd8e284a61e6aa31c3775a0c9edb66f4b3cb5"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/bad-elf/launch/gate-executable-fdinfo.raw",
+      "encoded": "003-a88596a43d2f.zlib.b64",
+      "bytes": 49,
+      "sha256": "a88596a43d2f0dd8e07b0e65d5c6238682e3eaa0a912ca2b3f3bd42573c9d7f0"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/bad-elf/launch/launch.json",
+      "encoded": "004-300dfe3e074a.zlib.b64",
+      "bytes": 3507,
+      "sha256": "300dfe3e074a5ba23fb705d8af679ffe7f6420762daa9d6c269ef3fa152dc2ba"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/bad-elf/launch/ready.raw",
+      "encoded": "005-3dfa3fb239f5.zlib.b64",
+      "bytes": 6,
+      "sha256": "3dfa3fb239f56c778a1e9b33eb31328349edd155a95806dac4378904e88527e5"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/bad-elf/stderr.raw",
+      "encoded": "006-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/bad-elf/stdout.raw",
+      "encoded": "007-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/build.raw",
+      "encoded": "008-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/component-after/finished/durable-peaks.raw",
+      "encoded": "009-198e94260b58.zlib.b64",
+      "bytes": 1116,
+      "sha256": "198e94260b588b41473bf370bc8dfb8eb988a402a940bc0e289ad7e8aa267437"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/component-after/launch/exec-error.raw",
+      "encoded": "010-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/component-after/launch/gate-control-fdinfo.raw",
+      "encoded": "011-1f3bb77a8d72.zlib.b64",
+      "bytes": 48,
+      "sha256": "1f3bb77a8d72728fece2ead8b464b254f6894a01a9a781fe9441e020f271a73a"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/component-after/launch/gate-exec-error-fdinfo.raw",
+      "encoded": "012-182d8cf54a87.zlib.b64",
+      "bytes": 48,
+      "sha256": "182d8cf54a875bc17d3205d4f1656740da69c69000471ff8f7899e329bba4b6f"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/component-after/launch/gate-executable-fdinfo.raw",
+      "encoded": "013-e5e3f4fcc210.zlib.b64",
+      "bytes": 52,
+      "sha256": "e5e3f4fcc210c4c9cde1dde4b2a39478e497941f53063c9fd4a2c534b7e22693"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/component-after/launch/launch.json",
+      "encoded": "014-d2d473b4973f.zlib.b64",
+      "bytes": 3816,
+      "sha256": "d2d473b4973f9d8c33d3fdfc00babd397704d798788be8867895a4c050837176"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/component-after/launch/ready.raw",
+      "encoded": "015-3dfa3fb239f5.zlib.b64",
+      "bytes": 6,
+      "sha256": "3dfa3fb239f56c778a1e9b33eb31328349edd155a95806dac4378904e88527e5"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/component-after/stderr.raw",
+      "encoded": "016-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/component-after/stdout.raw",
+      "encoded": "017-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/component-before/launch/exec-error.raw",
+      "encoded": "018-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/component-before/launch/gate-control-fdinfo.raw",
+      "encoded": "019-42fc39c0edf6.zlib.b64",
+      "bytes": 48,
+      "sha256": "42fc39c0edf64efec9cdf7129a2c198df6370d97d132adb8f88df17eac0f9865"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/component-before/launch/gate-exec-error-fdinfo.raw",
+      "encoded": "020-c21ad97c492c.zlib.b64",
+      "bytes": 48,
+      "sha256": "c21ad97c492ca36d9e4838b41d29306645cb2b9aac0d38842d99c1f8162ea2ff"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/component-before/launch/gate-executable-fdinfo.raw",
+      "encoded": "021-e5e3f4fcc210.zlib.b64",
+      "bytes": 52,
+      "sha256": "e5e3f4fcc210c4c9cde1dde4b2a39478e497941f53063c9fd4a2c534b7e22693"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/component-before/launch/launch.json",
+      "encoded": "022-4e60cfae8ca4.zlib.b64",
+      "bytes": 3702,
+      "sha256": "4e60cfae8ca4ba55a6069ee0321aa1938c50c0b6fba6d5a4a40d6bd645eab6d3"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/component-before/launch/ready.raw",
+      "encoded": "023-3dfa3fb239f5.zlib.b64",
+      "bytes": 6,
+      "sha256": "3dfa3fb239f56c778a1e9b33eb31328349edd155a95806dac4378904e88527e5"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/component-before/stderr.raw",
+      "encoded": "024-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/component-before/stdout.raw",
+      "encoded": "025-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/core-hash-mismatch/launch/launch.json",
+      "encoded": "026-08ed0b4f074d.zlib.b64",
+      "bytes": 742,
+      "sha256": "08ed0b4f074d92e462d8eef78146e560d5af4260b80e67a529e17ba387db2b50"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/core-hash-mismatch/stderr.raw",
+      "encoded": "027-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/core-hash-mismatch/stdout.raw",
+      "encoded": "028-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/death-eof/finished/durable-peaks.raw",
+      "encoded": "029-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/death-eof/launch/exec-error.raw",
+      "encoded": "030-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/death-eof/launch/gate-control-fdinfo.raw",
+      "encoded": "031-0bdb574d2050.zlib.b64",
+      "bytes": 48,
+      "sha256": "0bdb574d2050104073a8431e8606f4772f6d228fd8b0678481c7b31a63ee4afe"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/death-eof/launch/gate-exec-error-fdinfo.raw",
+      "encoded": "032-13bba131960f.zlib.b64",
+      "bytes": 48,
+      "sha256": "13bba131960fc9c17dcc0d52875501874d6739f602fa302dd64c10510eb8b904"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/death-eof/launch/gate-executable-fdinfo.raw",
+      "encoded": "033-e5e3f4fcc210.zlib.b64",
+      "bytes": 52,
+      "sha256": "e5e3f4fcc210c4c9cde1dde4b2a39478e497941f53063c9fd4a2c534b7e22693"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/death-eof/launch/launch.json",
+      "encoded": "034-3d6c7a0775bc.zlib.b64",
+      "bytes": 3672,
+      "sha256": "3d6c7a0775bcffcaf79f3fa965029c2ccb0fe73336adebb63fbb6e87e38418b0"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/death-eof/launch/ready.raw",
+      "encoded": "035-3dfa3fb239f5.zlib.b64",
+      "bytes": 6,
+      "sha256": "3dfa3fb239f56c778a1e9b33eb31328349edd155a95806dac4378904e88527e5"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/death-eof/stderr.raw",
+      "encoded": "036-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/death-eof/stdout.raw",
+      "encoded": "037-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/duplicate-activation/launch/exec-error.raw",
+      "encoded": "038-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/duplicate-activation/launch/gate-control-fdinfo.raw",
+      "encoded": "039-e15079f8ea47.zlib.b64",
+      "bytes": 48,
+      "sha256": "e15079f8ea474af5dd887459bb0da2577cb07f2b18555ee4d833338b326f11b7"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/duplicate-activation/launch/gate-exec-error-fdinfo.raw",
+      "encoded": "040-d6dad19a2e4c.zlib.b64",
+      "bytes": 48,
+      "sha256": "d6dad19a2e4cd583b4617de2577aa420106ae9214d7542f37cbb7f45bd45b523"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/duplicate-activation/launch/gate-executable-fdinfo.raw",
+      "encoded": "041-e5e3f4fcc210.zlib.b64",
+      "bytes": 52,
+      "sha256": "e5e3f4fcc210c4c9cde1dde4b2a39478e497941f53063c9fd4a2c534b7e22693"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/duplicate-activation/launch/launch.json",
+      "encoded": "042-967a891b69b9.zlib.b64",
+      "bytes": 3587,
+      "sha256": "967a891b69b945aa1f9ffee996edddb2b68e900adee2c485cd159ff9b8a993fd"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/duplicate-activation/launch/ready.raw",
+      "encoded": "043-3dfa3fb239f5.zlib.b64",
+      "bytes": 6,
+      "sha256": "3dfa3fb239f56c778a1e9b33eb31328349edd155a95806dac4378904e88527e5"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/duplicate-activation/stderr.raw",
+      "encoded": "044-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/duplicate-activation/stdout.raw",
+      "encoded": "045-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/fast/finished/durable-peaks.raw",
+      "encoded": "046-23899332d8a4.zlib.b64",
+      "bytes": 1116,
+      "sha256": "23899332d8a4c1a6a3096a92d70a238ed3b640a29cccdaf9f62c0eca882c495e"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/fast/launch/exec-error.raw",
+      "encoded": "047-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/fast/launch/gate-control-fdinfo.raw",
+      "encoded": "048-9420a6f83030.zlib.b64",
+      "bytes": 48,
+      "sha256": "9420a6f830309d8289acba923dfdd59573baadd5f916d2f56a2b06e7cd900e66"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/fast/launch/gate-exec-error-fdinfo.raw",
+      "encoded": "049-c07f9eb1349d.zlib.b64",
+      "bytes": 48,
+      "sha256": "c07f9eb1349d177e92c6af11e81336c717e15aca4235578166a52511059d6529"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/fast/launch/gate-executable-fdinfo.raw",
+      "encoded": "050-e5e3f4fcc210.zlib.b64",
+      "bytes": 52,
+      "sha256": "e5e3f4fcc210c4c9cde1dde4b2a39478e497941f53063c9fd4a2c534b7e22693"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/fast/launch/launch.json",
+      "encoded": "051-299a9d33a457.zlib.b64",
+      "bytes": 3867,
+      "sha256": "299a9d33a457dceaeba60c3b7955eccd5841689b277a14b26fce0fae8532c501"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/fast/launch/ready.raw",
+      "encoded": "052-3dfa3fb239f5.zlib.b64",
+      "bytes": 6,
+      "sha256": "3dfa3fb239f56c778a1e9b33eb31328349edd155a95806dac4378904e88527e5"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/fast/stderr.raw",
+      "encoded": "053-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/fast/stdout.raw",
+      "encoded": "054-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/held/finished/durable-peaks.raw",
+      "encoded": "055-391455809228.zlib.b64",
+      "bytes": 1116,
+      "sha256": "3914558092286050b95f574f4c620c7436077f3ee16b37a2325036d44e5a618f"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/held/launch/exec-error.raw",
+      "encoded": "056-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/held/launch/gate-control-fdinfo.raw",
+      "encoded": "057-95c03fa19f6f.zlib.b64",
+      "bytes": 48,
+      "sha256": "95c03fa19f6fa08e77fb0b4e03b53433c402123f5408ccf2a4bb51501a2fe34d"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/held/launch/gate-exec-error-fdinfo.raw",
+      "encoded": "058-7ea073cdcb10.zlib.b64",
+      "bytes": 48,
+      "sha256": "7ea073cdcb10c6b87a8da6745cceb52b1f60aebf8fc480a1480bc50560d84398"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/held/launch/gate-executable-fdinfo.raw",
+      "encoded": "059-e5e3f4fcc210.zlib.b64",
+      "bytes": 52,
+      "sha256": "e5e3f4fcc210c4c9cde1dde4b2a39478e497941f53063c9fd4a2c534b7e22693"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/held/launch/launch.json",
+      "encoded": "060-3247d65681ca.zlib.b64",
+      "bytes": 4499,
+      "sha256": "3247d65681cac95dfaa2883247dc70e812c60001c049236564f828dc4901d9ce"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/held/launch/ready.raw",
+      "encoded": "061-3dfa3fb239f5.zlib.b64",
+      "bytes": 6,
+      "sha256": "3dfa3fb239f56c778a1e9b33eb31328349edd155a95806dac4378904e88527e5"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/held/stderr.raw",
+      "encoded": "062-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/held/stdout.raw",
+      "encoded": "063-55e1741d84f2.zlib.b64",
+      "bytes": 13,
+      "sha256": "55e1741d84f2d462b0d153d3db13f6eb9aa9324b4a0b240bb0d82e1390802a8f"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/journal-env-mismatch/stderr.raw",
+      "encoded": "064-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/journal-env-mismatch/stdout.raw",
+      "encoded": "065-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/late-failure/finished/durable-peaks.raw",
+      "encoded": "066-8fec20995ca9.zlib.b64",
+      "bytes": 1116,
+      "sha256": "8fec20995ca9590bf864350662032d5edc669751265dfdeff9ad25cf39d702ab"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/late-failure/launch/exec-error.raw",
+      "encoded": "067-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/late-failure/launch/gate-control-fdinfo.raw",
+      "encoded": "068-be8075f3a8d4.zlib.b64",
+      "bytes": 48,
+      "sha256": "be8075f3a8d41da5e40edff04301063fb52df3408fec905231f87ec149574943"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/late-failure/launch/gate-exec-error-fdinfo.raw",
+      "encoded": "069-6a12c7eae69d.zlib.b64",
+      "bytes": 48,
+      "sha256": "6a12c7eae69d2577b8f997311753953ded325a977e3293edd573126738d022a3"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/late-failure/launch/gate-executable-fdinfo.raw",
+      "encoded": "070-e5e3f4fcc210.zlib.b64",
+      "bytes": 52,
+      "sha256": "e5e3f4fcc210c4c9cde1dde4b2a39478e497941f53063c9fd4a2c534b7e22693"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/late-failure/launch/launch.json",
+      "encoded": "071-063ee585a8f2.zlib.b64",
+      "bytes": 3604,
+      "sha256": "063ee585a8f2b74caed3e22b3be46a178b2d8eb738a83c20e4bf588412a36ca3"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/late-failure/launch/ready.raw",
+      "encoded": "072-3dfa3fb239f5.zlib.b64",
+      "bytes": 6,
+      "sha256": "3dfa3fb239f56c778a1e9b33eb31328349edd155a95806dac4378904e88527e5"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/late-failure/stderr.raw",
+      "encoded": "073-7ebfe5484876.zlib.b64",
+      "bytes": 39,
+      "sha256": "7ebfe548487646f0b23d1de7421aa475e868ae8466811c6a2df8a9e061b7a3b8"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/late-failure/stdout.raw",
+      "encoded": "074-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/malformed/launch/exec-error.raw",
+      "encoded": "075-88ed3a3bd8b0.zlib.b64",
+      "bytes": 14,
+      "sha256": "88ed3a3bd8b078ef5844ad9af6ac67ba9ae9ec461b5cf1e1cc1e1b0e83ef07c5"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/malformed/launch/gate-control-fdinfo.raw",
+      "encoded": "076-beb419b46e9c.zlib.b64",
+      "bytes": 48,
+      "sha256": "beb419b46e9c914a232cfde616eb79fca781873289f6a5cd6e7a8e077a1c25ac"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/malformed/launch/gate-exec-error-fdinfo.raw",
+      "encoded": "077-0b9505198b37.zlib.b64",
+      "bytes": 48,
+      "sha256": "0b9505198b37fb800931d776ca8639fd843b14013b3e9c7b269517c7de26f4ba"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/malformed/launch/gate-executable-fdinfo.raw",
+      "encoded": "078-e5e3f4fcc210.zlib.b64",
+      "bytes": 52,
+      "sha256": "e5e3f4fcc210c4c9cde1dde4b2a39478e497941f53063c9fd4a2c534b7e22693"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/malformed/launch/launch.json",
+      "encoded": "079-25dbcd895a6c.zlib.b64",
+      "bytes": 3414,
+      "sha256": "25dbcd895a6c042f4e4df1ff352550c767113d35fc0c46b1c676af0b7ea833e4"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/malformed/launch/ready.raw",
+      "encoded": "080-3dfa3fb239f5.zlib.b64",
+      "bytes": 6,
+      "sha256": "3dfa3fb239f56c778a1e9b33eb31328349edd155a95806dac4378904e88527e5"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/malformed/stderr.raw",
+      "encoded": "081-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/malformed/stdout.raw",
+      "encoded": "082-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/missing-go/launch/exec-error.raw",
+      "encoded": "083-88ed3a3bd8b0.zlib.b64",
+      "bytes": 14,
+      "sha256": "88ed3a3bd8b078ef5844ad9af6ac67ba9ae9ec461b5cf1e1cc1e1b0e83ef07c5"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/missing-go/launch/gate-control-fdinfo.raw",
+      "encoded": "084-b939437edec4.zlib.b64",
+      "bytes": 48,
+      "sha256": "b939437edec4afb319860457c9831cc8f45f9482fdaf68dc7cf05471bb6ed004"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/missing-go/launch/gate-exec-error-fdinfo.raw",
+      "encoded": "085-ad1995d32cc1.zlib.b64",
+      "bytes": 48,
+      "sha256": "ad1995d32cc1b08fa4e23a402547ffe0abd37e6726116425c6678b56cd22f3a9"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/missing-go/launch/gate-executable-fdinfo.raw",
+      "encoded": "086-e5e3f4fcc210.zlib.b64",
+      "bytes": 52,
+      "sha256": "e5e3f4fcc210c4c9cde1dde4b2a39478e497941f53063c9fd4a2c534b7e22693"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/missing-go/launch/launch.json",
+      "encoded": "087-bc03b5a7c52d.zlib.b64",
+      "bytes": 3417,
+      "sha256": "bc03b5a7c52d507c9817431a962388f11ebdb5203fa368b755fbb5437b139590"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/missing-go/launch/ready.raw",
+      "encoded": "088-3dfa3fb239f5.zlib.b64",
+      "bytes": 6,
+      "sha256": "3dfa3fb239f56c778a1e9b33eb31328349edd155a95806dac4378904e88527e5"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/missing-go/stderr.raw",
+      "encoded": "089-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/missing-go/stdout.raw",
+      "encoded": "090-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/missing-target/launch/launch.json",
+      "encoded": "091-64f0d561163a.zlib.b64",
+      "bytes": 1159,
+      "sha256": "64f0d561163a772889e48f74571738e3b466e0ed7bf4a964c4edc17e687af847"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/missing-target/stderr.raw",
+      "encoded": "092-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/missing-target/stdout.raw",
+      "encoded": "093-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/no-journal/finished/durable-peaks.raw",
+      "encoded": "094-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/no-journal/launch/exec-error.raw",
+      "encoded": "095-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/no-journal/launch/gate-control-fdinfo.raw",
+      "encoded": "096-6a07c513d619.zlib.b64",
+      "bytes": 48,
+      "sha256": "6a07c513d619446f7e12a0538a92d8ef5b14e5bed8a0a0cd5d70bb40ea6f139a"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/no-journal/launch/gate-exec-error-fdinfo.raw",
+      "encoded": "097-514ccaee37b6.zlib.b64",
+      "bytes": 48,
+      "sha256": "514ccaee37b6896ce07baa7762c2e4233d7b598ac373309315456276e128f788"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/no-journal/launch/gate-executable-fdinfo.raw",
+      "encoded": "098-e5e3f4fcc210.zlib.b64",
+      "bytes": 52,
+      "sha256": "e5e3f4fcc210c4c9cde1dde4b2a39478e497941f53063c9fd4a2c534b7e22693"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/no-journal/launch/launch.json",
+      "encoded": "099-33b5d39acae9.zlib.b64",
+      "bytes": 3693,
+      "sha256": "33b5d39acae90eb9fff3fdd687f8d89fd5cf8418f75be401b76a0beb0a446ac9"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/no-journal/launch/ready.raw",
+      "encoded": "100-3dfa3fb239f5.zlib.b64",
+      "bytes": 6,
+      "sha256": "3dfa3fb239f56c778a1e9b33eb31328349edd155a95806dac4378904e88527e5"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/no-journal/stderr.raw",
+      "encoded": "101-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/no-journal/stdout.raw",
+      "encoded": "102-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/outcome-timeout/launch/exec-error.raw",
+      "encoded": "103-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/outcome-timeout/launch/gate-control-fdinfo.raw",
+      "encoded": "104-aa8525c8cd93.zlib.b64",
+      "bytes": 48,
+      "sha256": "aa8525c8cd935dd39fb7421d64f07ca5700a8bb6608caac7daffd1c0754dfc05"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/outcome-timeout/launch/gate-exec-error-fdinfo.raw",
+      "encoded": "105-03cb80282f63.zlib.b64",
+      "bytes": 48,
+      "sha256": "03cb80282f6335788b72667445eda83c3c90373be02fd7974ba4ee23499a44ab"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/outcome-timeout/launch/gate-executable-fdinfo.raw",
+      "encoded": "106-e5e3f4fcc210.zlib.b64",
+      "bytes": 52,
+      "sha256": "e5e3f4fcc210c4c9cde1dde4b2a39478e497941f53063c9fd4a2c534b7e22693"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/outcome-timeout/launch/launch.json",
+      "encoded": "107-eaf0c92886bf.zlib.b64",
+      "bytes": 3504,
+      "sha256": "eaf0c92886bfea544414dfac51df458df36e302fe03323faa63daaaf50f305bf"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/outcome-timeout/launch/ready.raw",
+      "encoded": "108-3dfa3fb239f5.zlib.b64",
+      "bytes": 6,
+      "sha256": "3dfa3fb239f56c778a1e9b33eb31328349edd155a95806dac4378904e88527e5"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/outcome-timeout/stderr.raw",
+      "encoded": "109-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/outcome-timeout/stdout.raw",
+      "encoded": "110-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/partial-journal/finished/durable-peaks.raw",
+      "encoded": "111-e220e3e8b01f.zlib.b64",
+      "bytes": 395,
+      "sha256": "e220e3e8b01f79e3ac1d296804df1b89eb21cb09e412af05ccc69bf3efe3389d"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/partial-journal/launch/exec-error.raw",
+      "encoded": "112-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/partial-journal/launch/gate-control-fdinfo.raw",
+      "encoded": "113-e92121d635a3.zlib.b64",
+      "bytes": 48,
+      "sha256": "e92121d635a3cb133d972fe71139028f0be13b65568e8027e9da8991a1badf3c"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/partial-journal/launch/gate-exec-error-fdinfo.raw",
+      "encoded": "114-bc66067b121a.zlib.b64",
+      "bytes": 48,
+      "sha256": "bc66067b121ab7dc4d7b82d9beef5c6fcbececb362e05c70333a12a2175a3d27"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/partial-journal/launch/gate-executable-fdinfo.raw",
+      "encoded": "115-e5e3f4fcc210.zlib.b64",
+      "bytes": 52,
+      "sha256": "e5e3f4fcc210c4c9cde1dde4b2a39478e497941f53063c9fd4a2c534b7e22693"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/partial-journal/launch/launch.json",
+      "encoded": "116-1532f1f84daa.zlib.b64",
+      "bytes": 3622,
+      "sha256": "1532f1f84daa55ef1a5d955f657ca73a04a4551fa45eb5dd35d7732fdd877ab4"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/partial-journal/launch/ready.raw",
+      "encoded": "117-3dfa3fb239f5.zlib.b64",
+      "bytes": 6,
+      "sha256": "3dfa3fb239f56c778a1e9b33eb31328349edd155a95806dac4378904e88527e5"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/partial-journal/stderr.raw",
+      "encoded": "118-7ebfe5484876.zlib.b64",
+      "bytes": 39,
+      "sha256": "7ebfe548487646f0b23d1de7421aa475e868ae8466811c6a2df8a9e061b7a3b8"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/partial-journal/stdout.raw",
+      "encoded": "119-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/permission/launch/exec-error.raw",
+      "encoded": "120-a3a1486e23a0.zlib.b64",
+      "bytes": 15,
+      "sha256": "a3a1486e23a0c5d50d213b35e71dc1e42ea6ebad87e93f884a93801fddbf8b2d"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/permission/launch/gate-control-fdinfo.raw",
+      "encoded": "121-1da8e03cd7be.zlib.b64",
+      "bytes": 48,
+      "sha256": "1da8e03cd7be687a0ec69463126b8a2eb62b0f1b530dd5acf4080564dc49b1c0"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/permission/launch/gate-exec-error-fdinfo.raw",
+      "encoded": "122-fc3c99c7a627.zlib.b64",
+      "bytes": 48,
+      "sha256": "fc3c99c7a6271418de3d415884cb615ab8e989bebabbf04ea73505e8a09895f7"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/permission/launch/gate-executable-fdinfo.raw",
+      "encoded": "123-de46260858f8.zlib.b64",
+      "bytes": 52,
+      "sha256": "de46260858f872626bdd7d96706901390639e5eae41cd3f58e8ca0e6ae6b16bb"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/permission/launch/launch.json",
+      "encoded": "124-73ff87cdab6a.zlib.b64",
+      "bytes": 3529,
+      "sha256": "73ff87cdab6a04d273ebb7d407495510984f5e0bf86dafed518c0dbdc5a0198f"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/permission/launch/ready.raw",
+      "encoded": "125-3dfa3fb239f5.zlib.b64",
+      "bytes": 6,
+      "sha256": "3dfa3fb239f56c778a1e9b33eb31328349edd155a95806dac4378904e88527e5"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/permission/stderr.raw",
+      "encoded": "126-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/permission/stdout.raw",
+      "encoded": "127-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/pipe-setup/launch/launch.json",
+      "encoded": "128-c375db16a6d7.zlib.b64",
+      "bytes": 1246,
+      "sha256": "c375db16a6d79fbd767d9d1f762285d8b98f2eb2b01077f8c4e322812f1a40cf"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/pipe-setup/stderr.raw",
+      "encoded": "129-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/pipe-setup/stdout.raw",
+      "encoded": "130-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/popen-setup/launch/launch.json",
+      "encoded": "131-598b773b4fe6.zlib.b64",
+      "bytes": 1247,
+      "sha256": "598b773b4fe6193757597ee20d031eeccd26b6ea0df7999186e551c167f246aa"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/popen-setup/stderr.raw",
+      "encoded": "132-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/popen-setup/stdout.raw",
+      "encoded": "133-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/results.json",
+      "encoded": "134-ae8e7524f2ef.zlib.b64",
+      "bytes": 16856,
+      "sha256": "ae8e7524f2ef9b10cd9877c2d35be75758ac79ce1499e3de89d9de62394d67f7"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/reused-journal/stderr.raw",
+      "encoded": "135-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/reused-journal/stdout.raw",
+      "encoded": "136-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/split-duplicate-go/launch/exec-error.raw",
+      "encoded": "137-88ed3a3bd8b0.zlib.b64",
+      "bytes": 14,
+      "sha256": "88ed3a3bd8b078ef5844ad9af6ac67ba9ae9ec461b5cf1e1cc1e1b0e83ef07c5"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/split-duplicate-go/launch/gate-control-fdinfo.raw",
+      "encoded": "138-c44246b185d2.zlib.b64",
+      "bytes": 48,
+      "sha256": "c44246b185d2f0e0f516e97726a74debcf55405e6301d258a6870a1156b5aec6"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/split-duplicate-go/launch/gate-exec-error-fdinfo.raw",
+      "encoded": "139-f7cf2a574306.zlib.b64",
+      "bytes": 48,
+      "sha256": "f7cf2a574306dff25b1efd70cb796d6c4cc6999e4318ac958dfba769872bcb02"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/split-duplicate-go/launch/gate-executable-fdinfo.raw",
+      "encoded": "140-e5e3f4fcc210.zlib.b64",
+      "bytes": 52,
+      "sha256": "e5e3f4fcc210c4c9cde1dde4b2a39478e497941f53063c9fd4a2c534b7e22693"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/split-duplicate-go/launch/launch.json",
+      "encoded": "141-753ae2bf469c.zlib.b64",
+      "bytes": 3351,
+      "sha256": "753ae2bf469c88aaa53d0ba77a2c0ad0c26c54effbe5e286900fc7e3fc1c56d1"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/split-duplicate-go/launch/ready.raw",
+      "encoded": "142-3dfa3fb239f5.zlib.b64",
+      "bytes": 6,
+      "sha256": "3dfa3fb239f56c778a1e9b33eb31328349edd155a95806dac4378904e88527e5"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/split-duplicate-go/stderr.raw",
+      "encoded": "143-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/split-duplicate-go/stdout.raw",
+      "encoded": "144-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/target-hash-mismatch/launch/launch.json",
+      "encoded": "145-906eaee2f560.zlib.b64",
+      "bytes": 1075,
+      "sha256": "906eaee2f560ae6f0ca4987a51b1485a039e74a4dfe2647eaa7774a9086ad6d7"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/target-hash-mismatch/stderr.raw",
+      "encoded": "146-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-exec-gate-native-v1/target-hash-mismatch/stdout.raw",
+      "encoded": "147-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-exec-gate-stream-prefix-original/check_poc003_exec_gate_native_once.py",
+      "encoded": "148-db648f8cb397.zlib.b64",
+      "bytes": 14694,
+      "sha256": "db648f8cb397be60bc1147034787e2874105d32644e800e0ee360de59d3ba683"
+    },
+    {
+      "original": "poc003-exec-gate-stream-prefix-original/exec_gate.py",
+      "encoded": "149-0fc53200ac8c.zlib.b64",
+      "bytes": 1779,
+      "sha256": "0fc53200ac8c85aecb54c1d3cef282a408475a8f312b246c7d0d6a7d412b29b6"
+    },
+    {
+      "original": "poc003-same-pid-exec-gate-method-independent-review.json",
+      "encoded": "150-ae118951a765.zlib.b64",
+      "bytes": 7410,
+      "sha256": "ae118951a765a3ca08adc37839a99a4281ab4f0d5b48f415b24f64594dd6251c"
+    },
+    {
+      "original": "poc003-same-pid-exec-gate-implementation-independent-review.json",
+      "encoded": "151-2138f691bdce.zlib.b64",
+      "bytes": 10829,
+      "sha256": "2138f691bdceb56d7ad7b3ed50df7d8aa6f7e7765650fe31686f4f154008ae65"
+    },
+    {
+      "original": "poc003-same-pid-exec-gate-native-independent-review.json",
+      "encoded": "152-99adfdb29688.zlib.b64",
+      "bytes": 36990,
+      "sha256": "99adfdb29688699e64b9aae390b23fee02e45e24532fed99dc0767ed2dbeaf82"
+    },
+    {
+      "original": "check_poc003_exec_gate_native_once.py",
+      "encoded": "153-f7892a091f17.zlib.b64",
+      "bytes": 15839,
+      "sha256": "f7892a091f173a3e2348e518b042119dd93e6d0c6577ebc1663d7be7de80f642"
+    },
+    {
+      "original": "working-source/poc/POC-03-ats-range/instrumentation/exec_gate.py",
+      "encoded": "154-289f8b7bdee5.zlib.b64",
+      "bytes": 2193,
+      "sha256": "289f8b7bdee57220dc13e99915540e6b5be16ffd26c363717e3d86eb54154b47"
+    },
+    {
+      "original": "working-source/poc/POC-03-ats-range/instrumentation/test_exec_gate_target.cc",
+      "encoded": "155-f1c0c17d5cf7.zlib.b64",
+      "bytes": 2126,
+      "sha256": "f1c0c17d5cf74acc671e41fefb8d3e6fd64c5d0d4d68199b2a6a9eb0401122aa"
+    },
+    {
+      "original": "working-source/poc/POC-03-ats-range/owned_epoch.py",
+      "encoded": "156-124b82a3ecbd.zlib.b64",
+      "bytes": 15431,
+      "sha256": "124b82a3ecbd30d2ad959aa05851df1d3e41dd1e321c6021d3ef1e8503b7938a"
+    }
+  ],
+  "scope": "One owned top-process birth across a verified descriptor exec and successful native-journal epoch",
+  "actualNativeCases": 22,
+  "priorGOStreamPrefixDefectStaticallyFoundAndFixed": true,
+  "labIntegrated": false,
+  "allDescendantsCovered": false,
+  "noSubsequentExecProven": false,
+  "fullMediaBufferBoundProven": false,
+  "experimentApproved": false,
+  "qualificationAccepted": false
+}
