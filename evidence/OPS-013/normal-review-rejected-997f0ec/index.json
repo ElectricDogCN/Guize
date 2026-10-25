@@ -1,0 +1,121 @@
+{
+  "capturedAt": "2026-10-24T19:12:35.048392+00:00",
+  "rejectedSource": "997f0eccefdb6c18d1a22090a63c0eaa91bb6232",
+  "rejectedBranchRetained": "chore/OPS-013-contract-repair-admission-review",
+  "base": "16070d0d0d4c1a4952d2fc6f036dda135f058c8d",
+  "local13Accepted": false,
+  "historyExitCode": 1,
+  "transitionDiagnosticExitCode": 1,
+  "failureCause": "Proposal violated current active Program status-only contract; no checker defect or repair",
+  "currentCorrectedResultsAccepted": false,
+  "files": [
+    {
+      "ref": "ops013-normal-review-current-candidate.json",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\ops013-normal-review-current-candidate.json",
+      "bytes": 5660,
+      "sha256": "3a0d3eb62d24c55d2e6da4eea5e3bd050d0f3fbfec5f511c963ee01a69dc46f1"
+    },
+    {
+      "ref": "ops013-normal-review-staged-independent-review.json",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\ops013-normal-review-staged-independent-review.json",
+      "bytes": 16120,
+      "sha256": "ddd6b9262dd5297d013acb3b97820b793ad2fd6a366b5650331c3bf1d820c47a"
+    },
+    {
+      "ref": "ops013-normal-review-997f0ec-history-failure-independent-assessment.json",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\ops013-normal-review-997f0ec-history-failure-independent-assessment.json",
+      "bytes": 5971,
+      "sha256": "9ccc7205f40511335b57f7c1f1c3f33c14dabec1d0b1a4ef36927b69e81d9694"
+    },
+    {
+      "ref": "ops013-normal-review-997f0ec-contract-correction-independent-assessment.json",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\ops013-normal-review-997f0ec-contract-correction-independent-assessment.json",
+      "bytes": 6963,
+      "sha256": "70bba840cd4df64388c000a8869e5280cfd6acbb188f746e4a21e79d0017fcfd"
+    },
+    {
+      "ref": "ops013-normal-review-997f0ec-transition-diagnostic-independent-review.json",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\ops013-normal-review-997f0ec-transition-diagnostic-independent-review.json",
+      "bytes": 987,
+      "sha256": "2d942400aee3246b27d0dd412d3b4c7b00699c5e4b2f2c2562258437feea3d86"
+    },
+    {
+      "ref": "native/diff.raw",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\ops013-normal-review-997f0ec-native-checks\\diff.raw",
+      "bytes": 144,
+      "sha256": "e951bd42b1385b5778716a5a045584241770672386908751a863692e42eeba6e"
+    },
+    {
+      "ref": "native/history.raw",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\ops013-normal-review-997f0ec-native-checks\\history.raw",
+      "bytes": 469,
+      "sha256": "981c0197426ef9a7465f76689ae20ce0a1fd284f1ebf19c7121057cf42fc753b"
+    },
+    {
+      "ref": "native/integrity.raw",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\ops013-normal-review-997f0ec-native-checks\\integrity.raw",
+      "bytes": 419,
+      "sha256": "4fc320a283eda2fe563c98ab3203973e8120783f4da0dc4dc753266f69dfecac"
+    },
+    {
+      "ref": "native/results.json",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\ops013-normal-review-997f0ec-native-checks\\results.json",
+      "bytes": 9211,
+      "sha256": "45c54c7a5a4464aec8bfb1196542a929ffbb1bf7da13d2cc3f7d8e1c306c3711"
+    },
+    {
+      "ref": "native/schemas.raw",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\ops013-normal-review-997f0ec-native-checks\\schemas.raw",
+      "bytes": 1947,
+      "sha256": "888d86ae61f7cde51b174d91837fe9dc755ef190fdc931d90aceef53d668da6f"
+    },
+    {
+      "ref": "native/task.raw",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\ops013-normal-review-997f0ec-native-checks\\task.raw",
+      "bytes": 255,
+      "sha256": "e5702651d5a7f016ee14761a5d291a6cfb62dccd3432b359d61e954fd91abad6"
+    },
+    {
+      "ref": "transition-diagnostic/results.json",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\ops013-normal-review-997f0ec-transition-diagnostic\\results.json",
+      "bytes": 625,
+      "sha256": "8ad9e51fe6565702444a0ffd1aa7c9908536b57115ba0e282dc980dd702b293e"
+    },
+    {
+      "ref": "transition-diagnostic/transitions.raw",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\ops013-normal-review-997f0ec-transition-diagnostic\\transitions.raw",
+      "bytes": 497,
+      "sha256": "f6c134a8c43f2d9f0614300a96d826d6bdc1a106dea81f80ffebf433ad963e18"
+    },
+    {
+      "ref": "rejected-source/specs/coordination/program-plan.yaml",
+      "source": "997f0eccefdb6c18d1a22090a63c0eaa91bb6232:specs/coordination/program-plan.yaml",
+      "bytes": 64557,
+      "sha256": "970c17bf355b33210bb3901a1fcb69ed659d5e60754718956d0f13ea946f8c6d"
+    },
+    {
+      "ref": "rejected-source/specs/coordination/active-work.yaml",
+      "source": "997f0eccefdb6c18d1a22090a63c0eaa91bb6232:specs/coordination/active-work.yaml",
+      "bytes": 3625,
+      "sha256": "e39acaee69ccbf3d751bfcee561f5c1a08373357a07a5ad6b5954f692c437d04"
+    },
+    {
+      "ref": "rejected-source/specs/tasks/OPS-013.md",
+      "source": "997f0eccefdb6c18d1a22090a63c0eaa91bb6232:specs/tasks/OPS-013.md",
+      "bytes": 7188,
+      "sha256": "07403f6197daf6b9ac18727ec66622cdb8eeb522cf7cd9b4bf29eb6cd39d9029"
+    },
+    {
+      "ref": "rejected-source/evidence/OPS-013/summary.md",
+      "source": "997f0eccefdb6c18d1a22090a63c0eaa91bb6232:evidence/OPS-013/summary.md",
+      "bytes": 543,
+      "sha256": "80493a106cda9d63c40fc284367adc0fbdd1f4a83396c5cc8d536b3f71b1a5ac"
+    },
+    {
+      "ref": "rejected-source/evidence/OPS-013/handoff.md",
+      "source": "997f0eccefdb6c18d1a22090a63c0eaa91bb6232:evidence/OPS-013/handoff.md",
+      "bytes": 883,
+      "sha256": "e91c7027654d96767669308a0ddf969c5088d0e6dc4628559089050c078937a4"
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "actualMain": "3eb9bb69b4fb1df85a359750b73356b953429540",
+  "run": 39886682052,
+  "runNumber": 832,
+  "job": 120196367479,
+  "conclusion": "success",
+  "tests": 713,
+  "seconds": 1419.98,
+  "failedErrorsSkipped": 0,
+  "normalPushTaskSpecificStepsConditional": true,
+  "independentMainAcceptancePending": true,
+  "implementationAccepted": false,
+  "successorRegistrationApproved": false,
+  "files": [
+    {
+      "ref": "job.raw.txt",
+      "bytes": 278658,
+      "sha256": "1fcdc098d8531e250f86d63baa918875e1f6d954a9792acd03ccbbca91b2c615"
+    },
+    {
+      "ref": "official-snapshot.json",
+      "bytes": 33799,
+      "sha256": "b991a65368b8f591f629f97bc8ae93fd43fa94772d51e08891c0baf7ab3e14ed"
+    }
+  ]
+}

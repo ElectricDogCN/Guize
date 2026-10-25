@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "kind": "one_poc_contract_repair_authorization_intent",
+  "authorityTaskId": "OPS-013",
+  "authorityIssue": 137,
+  "reservationParent": "f2e0150265e0c1eeca5f69fe85708b2434e5ee79",
+  "preparedAt": "2026-10-23T00:03:04Z",
+  "defect": {
+    "contractId": "POC-PROTOCOL-V1",
+    "completedProducerTaskId": "GZ-021",
+    "producerIssue": 95,
+    "introducingCommit": "fbc7598125c1601892174ed2be8284fef10bb56a",
+    "producerImplementationRef": "PR-103",
+    "producerImplementationMerge": "63cfcb85d3bba12217c79e16d9eb348d929b8c01",
+    "observedSource": "ca1da41eba2c784fa1418feb29dfcf717cad5785",
+    "sourceObservationRef": "evidence/OPS-013/actual-response-observation.json",
+    "sourceObservationSha256": "bb25ad86b7e2140a124a3d6fbc1b297a2846f86dfe3d3f4828776e3079e70717",
+    "responseRef": "evidence/OPS-013/unsatisfiable-response.bin",
+    "responseBytes": 33,
+    "responseSha256": "b5d780567c43a2b5d8473d84a136e7dc62ee9c494108d282cbff4801d199cf32",
+    "statusCode": 416,
+    "contentRange": "bytes */4096",
+    "actualExecutionReviewRef": "evidence/OPS-013/actual-execution-independent-review.json",
+    "actualExecutionReviewSha256": "3e3c7cd05a467773997aa831d28151d6104f134a35a02100610c7c48c5427b8a",
+    "rfcSources": [
+      "https://www.rfc-editor.org/rfc/rfc9110.html#section-15.5",
+      "https://www.rfc-editor.org/rfc/rfc9110.html#section-15.5.17"
+    ]
+  },
+  "successor": {
+    "taskId": "OPS-014",
+    "riskLevel": "high",
+    "moduleIds": [
+      "MOD-GOV"
+    ],
+    "wave": "FOUNDATION",
+    "purpose": "Only metadata profiling supported unsatisfiable Range diagnostic-body contract correction",
+    "paths": [
+      {
+        "path": "specs/poc/check_program.py",
+        "gitBlobSha256": "10be50577718e844566034a7c26dee5eb408055cb2e01a8d5a62524beca9fb89",
+        "bytes": 771065
+      },
+      {
+        "path": "specs/poc/test_program.py",
+        "gitBlobSha256": "1707bce255253176e0c718ef2574d748dbd8890eb4f50a0c6a5f5a47136b1d49",
+        "bytes": 1118362
+      }
+    ],
+    "independentOriginalRegistrationRequired": true,
+    "governanceRecoveryRequired": true
+  },
+  "preconditions": [
+    "OPS-013 original reserved main snapshot and this exact immutable Git blob must be proven",
+    "OPS-013 normal independent Review and Completion must bind its actual implementation on accepted main",
+    "OPS-013 lease/high slot released before OPS-014 reservation; all original capacity/lease/role rules remain",
+    "OPS-014 actual base must descend from completed OPS-013 and retain the exact two approved old Git blobs",
+    "OPS-014 must independently register its exact scope before implementation; check full first-parent history and each commit",
+    "Before completed GZ-021 contract code changes, establish17.8 frozen event, actual owner, verification and independent thaw"
+  ],
+  "prohibited": [
+    "No TaskID-only bypass, side-branch or candidate-local authority, late-added claim or mutable declaration",
+    "No other successor identity or POC path, ownership file, ordinary Task, lease, ledger, policy or workflow changes",
+    "No diagnostic-body trimming/substitution, false ignored/unsupported label, raw evidence rewriting or approval reuse",
+    "Keep original13 measurements, source/version/window/hash/length bindings and timing/resource/quality thresholds",
+    "No current source experiment, qualification, implementation, completed-contract correction or production acceptance"
+  ]
+}

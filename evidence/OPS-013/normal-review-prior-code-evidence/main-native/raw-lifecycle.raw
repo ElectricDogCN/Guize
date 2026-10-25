@@ -1,0 +1,5 @@
+Source Commit: 16070d0d0d4c1a4952d2fc6f036dda135f058c8d
+Command: /home/sur/.cache/guize-takeover/governance-venv/bin/python -B scripts/check-program-lifecycle-guards.py --base-ref 3eb9bb69b4fb1df85a359750b73356b953429540 --head-ref 16070d0d0d4c1a4952d2fc6f036dda135f058c8d
+{"status": "PASS", "message": "Program lifecycle scope, Foundation ownership, rename and Evidence guards passed", "details": {"affectedTaskIds": ["OPS-013"], "changedPathCount": 281, "baseRef": "3eb9bb69b4fb1df85a359750b73356b953429540"}}
+
+Exit Code: 0

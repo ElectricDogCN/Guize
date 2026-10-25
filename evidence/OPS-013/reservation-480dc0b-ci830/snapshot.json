@@ -1,0 +1,542 @@
+{
+  "observedAt": "2026-10-23T01:16:14.563Z",
+  "run": {
+    "id": 39880534816,
+    "name": "Governance Gate",
+    "node_id": "WFR_kwLOTgCQ3c8AAAAJSRCrIA",
+    "head_branch": "chore/OPS-013-contract-repair-admission-reservation",
+    "head_sha": "480dc0b607453ba26ec3d9d650c79c1b85f1c06e",
+    "path": ".github/workflows/governance-gate.yml",
+    "display_title": "OPS-013: reserve bounded POC contract repair admission",
+    "run_number": 830,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "workflow_id": 318794701,
+    "check_suite_id": 108092340392,
+    "check_suite_node_id": "CS_kwDOTgCQ3c8AAAAZKs44qA",
+    "url": "https://api.github.com/repos/ElectricDogCN/Guize/actions/runs/39880534816",
+    "html_url": "https://github.com/ElectricDogCN/Guize/actions/runs/39880534816",
+    "pull_requests": [
+      {
+        "url": "https://api.github.com/repos/ElectricDogCN/Guize/pulls/138",
+        "id": 4975846884,
+        "number": 138,
+        "head": {
+          "ref": "chore/OPS-013-contract-repair-admission-reservation",
+          "sha": "480dc0b607453ba26ec3d9d650c79c1b85f1c06e",
+          "repo": {
+            "id": 1308659933,
+            "url": "https://api.github.com/repos/ElectricDogCN/Guize",
+            "name": "Guize"
+          }
+        },
+        "base": {
+          "ref": "main",
+          "sha": "f2e0150265e0c1eeca5f69fe85708b2434e5ee79",
+          "repo": {
+            "id": 1308659933,
+            "url": "https://api.github.com/repos/ElectricDogCN/Guize",
+            "name": "Guize"
+          }
+        }
+      }
+    ],
+    "created_at": "2026-10-23T00:50:50Z",
+    "updated_at": "2026-10-23T01:15:10Z",
+    "actor": {
+      "login": "ElectricDogCN",
+      "id": 43232390,
+      "node_id": "MDQ6VXNlcjQzMjMyMzkw",
+      "avatar_url": "https://avatars.githubusercontent.com/u/43232390?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/ElectricDogCN",
+      "html_url": "https://github.com/ElectricDogCN",
+      "followers_url": "https://api.github.com/users/ElectricDogCN/followers",
+      "following_url": "https://api.github.com/users/ElectricDogCN/following{/other_user}",
+      "gists_url": "https://api.github.com/users/ElectricDogCN/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/ElectricDogCN/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/ElectricDogCN/subscriptions",
+      "organizations_url": "https://api.github.com/users/ElectricDogCN/orgs",
+      "repos_url": "https://api.github.com/users/ElectricDogCN/repos",
+      "events_url": "https://api.github.com/users/ElectricDogCN/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/ElectricDogCN/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "run_attempt": 1,
+    "referenced_workflows": [],
+    "run_started_at": "2026-10-23T00:50:50Z",
+    "triggering_actor": {
+      "login": "ElectricDogCN",
+      "id": 43232390,
+      "node_id": "MDQ6VXNlcjQzMjMyMzkw",
+      "avatar_url": "https://avatars.githubusercontent.com/u/43232390?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/ElectricDogCN",
+      "html_url": "https://github.com/ElectricDogCN",
+      "followers_url": "https://api.github.com/users/ElectricDogCN/followers",
+      "following_url": "https://api.github.com/users/ElectricDogCN/following{/other_user}",
+      "gists_url": "https://api.github.com/users/ElectricDogCN/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/ElectricDogCN/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/ElectricDogCN/subscriptions",
+      "organizations_url": "https://api.github.com/users/ElectricDogCN/orgs",
+      "repos_url": "https://api.github.com/users/ElectricDogCN/repos",
+      "events_url": "https://api.github.com/users/ElectricDogCN/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/ElectricDogCN/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "jobs_url": "https://api.github.com/repos/ElectricDogCN/Guize/actions/runs/39880534816/jobs",
+    "logs_url": "https://api.github.com/repos/ElectricDogCN/Guize/actions/runs/39880534816/logs",
+    "check_suite_url": "https://api.github.com/repos/ElectricDogCN/Guize/check-suites/108092340392",
+    "artifacts_url": "https://api.github.com/repos/ElectricDogCN/Guize/actions/runs/39880534816/artifacts",
+    "cancel_url": "https://api.github.com/repos/ElectricDogCN/Guize/actions/runs/39880534816/cancel",
+    "rerun_url": "https://api.github.com/repos/ElectricDogCN/Guize/actions/runs/39880534816/rerun",
+    "previous_attempt_url": null,
+    "workflow_url": "https://api.github.com/repos/ElectricDogCN/Guize/actions/workflows/318794701",
+    "head_commit": {
+      "id": "480dc0b607453ba26ec3d9d650c79c1b85f1c06e",
+      "tree_id": "3e74fce293aed5de036a0da478a71df2c34d5435",
+      "message": "fix(gov): format reservation Task and retain failed source checks\n\nIssue: #137\nEvidence: evidence/OPS-013/reservation-3d78e5c-attempt/",
+      "timestamp": "2026-10-23T00:07:16Z",
+      "author": {
+        "name": "Ruifeng Su",
+        "email": "suruifeng@epro-vision.com"
+      },
+      "committer": {
+        "name": "Ruifeng Su",
+        "email": "suruifeng@epro-vision.com"
+      }
+    },
+    "repository": {
+      "id": 1308659933,
+      "node_id": "R_kgDOTgCQ3Q",
+      "name": "Guize",
+      "full_name": "ElectricDogCN/Guize",
+      "private": false,
+      "owner": {
+        "login": "ElectricDogCN",
+        "id": 43232390,
+        "node_id": "MDQ6VXNlcjQzMjMyMzkw",
+        "avatar_url": "https://avatars.githubusercontent.com/u/43232390?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ElectricDogCN",
+        "html_url": "https://github.com/ElectricDogCN",
+        "followers_url": "https://api.github.com/users/ElectricDogCN/followers",
+        "following_url": "https://api.github.com/users/ElectricDogCN/following{/other_user}",
+        "gists_url": "https://api.github.com/users/ElectricDogCN/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/ElectricDogCN/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/ElectricDogCN/subscriptions",
+        "organizations_url": "https://api.github.com/users/ElectricDogCN/orgs",
+        "repos_url": "https://api.github.com/users/ElectricDogCN/repos",
+        "events_url": "https://api.github.com/users/ElectricDogCN/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/ElectricDogCN/received_events",
+        "type": "User",
+        "user_view_type": "public",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/ElectricDogCN/Guize",
+      "description": null,
+      "fork": false,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize",
+      "forks_url": "https://api.github.com/repos/ElectricDogCN/Guize/forks",
+      "keys_url": "https://api.github.com/repos/ElectricDogCN/Guize/keys{/key_id}",
+      "collaborators_url": "https://api.github.com/repos/ElectricDogCN/Guize/collaborators{/collaborator}",
+      "teams_url": "https://api.github.com/repos/ElectricDogCN/Guize/teams",
+      "hooks_url": "https://api.github.com/repos/ElectricDogCN/Guize/hooks",
+      "issue_events_url": "https://api.github.com/repos/ElectricDogCN/Guize/issues/events{/number}",
+      "events_url": "https://api.github.com/repos/ElectricDogCN/Guize/events",
+      "assignees_url": "https://api.github.com/repos/ElectricDogCN/Guize/assignees{/user}",
+      "branches_url": "https://api.github.com/repos/ElectricDogCN/Guize/branches{/branch}",
+      "tags_url": "https://api.github.com/repos/ElectricDogCN/Guize/tags",
+      "blobs_url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs{/sha}",
+      "git_tags_url": "https://api.github.com/repos/ElectricDogCN/Guize/git/tags{/sha}",
+      "git_refs_url": "https://api.github.com/repos/ElectricDogCN/Guize/git/refs{/sha}",
+      "trees_url": "https://api.github.com/repos/ElectricDogCN/Guize/git/trees{/sha}",
+      "statuses_url": "https://api.github.com/repos/ElectricDogCN/Guize/statuses/{sha}",
+      "languages_url": "https://api.github.com/repos/ElectricDogCN/Guize/languages",
+      "stargazers_url": "https://api.github.com/repos/ElectricDogCN/Guize/stargazers",
+      "contributors_url": "https://api.github.com/repos/ElectricDogCN/Guize/contributors",
+      "subscribers_url": "https://api.github.com/repos/ElectricDogCN/Guize/subscribers",
+      "subscription_url": "https://api.github.com/repos/ElectricDogCN/Guize/subscription",
+      "commits_url": "https://api.github.com/repos/ElectricDogCN/Guize/commits{/sha}",
+      "git_commits_url": "https://api.github.com/repos/ElectricDogCN/Guize/git/commits{/sha}",
+      "comments_url": "https://api.github.com/repos/ElectricDogCN/Guize/comments{/number}",
+      "issue_comment_url": "https://api.github.com/repos/ElectricDogCN/Guize/issues/comments{/number}",
+      "contents_url": "https://api.github.com/repos/ElectricDogCN/Guize/contents/{+path}",
+      "compare_url": "https://api.github.com/repos/ElectricDogCN/Guize/compare/{base}...{head}",
+      "merges_url": "https://api.github.com/repos/ElectricDogCN/Guize/merges",
+      "archive_url": "https://api.github.com/repos/ElectricDogCN/Guize/{archive_format}{/ref}",
+      "downloads_url": "https://api.github.com/repos/ElectricDogCN/Guize/downloads",
+      "issues_url": "https://api.github.com/repos/ElectricDogCN/Guize/issues{/number}",
+      "pulls_url": "https://api.github.com/repos/ElectricDogCN/Guize/pulls{/number}",
+      "milestones_url": "https://api.github.com/repos/ElectricDogCN/Guize/milestones{/number}",
+      "notifications_url": "https://api.github.com/repos/ElectricDogCN/Guize/notifications{?since,all,participating}",
+      "labels_url": "https://api.github.com/repos/ElectricDogCN/Guize/labels{/name}",
+      "releases_url": "https://api.github.com/repos/ElectricDogCN/Guize/releases{/id}",
+      "deployments_url": "https://api.github.com/repos/ElectricDogCN/Guize/deployments"
+    },
+    "head_repository": {
+      "id": 1308659933,
+      "node_id": "R_kgDOTgCQ3Q",
+      "name": "Guize",
+      "full_name": "ElectricDogCN/Guize",
+      "private": false,
+      "owner": {
+        "login": "ElectricDogCN",
+        "id": 43232390,
+        "node_id": "MDQ6VXNlcjQzMjMyMzkw",
+        "avatar_url": "https://avatars.githubusercontent.com/u/43232390?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ElectricDogCN",
+        "html_url": "https://github.com/ElectricDogCN",
+        "followers_url": "https://api.github.com/users/ElectricDogCN/followers",
+        "following_url": "https://api.github.com/users/ElectricDogCN/following{/other_user}",
+        "gists_url": "https://api.github.com/users/ElectricDogCN/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/ElectricDogCN/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/ElectricDogCN/subscriptions",
+        "organizations_url": "https://api.github.com/users/ElectricDogCN/orgs",
+        "repos_url": "https://api.github.com/users/ElectricDogCN/repos",
+        "events_url": "https://api.github.com/users/ElectricDogCN/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/ElectricDogCN/received_events",
+        "type": "User",
+        "user_view_type": "public",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/ElectricDogCN/Guize",
+      "description": null,
+      "fork": false,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize",
+      "forks_url": "https://api.github.com/repos/ElectricDogCN/Guize/forks",
+      "keys_url": "https://api.github.com/repos/ElectricDogCN/Guize/keys{/key_id}",
+      "collaborators_url": "https://api.github.com/repos/ElectricDogCN/Guize/collaborators{/collaborator}",
+      "teams_url": "https://api.github.com/repos/ElectricDogCN/Guize/teams",
+      "hooks_url": "https://api.github.com/repos/ElectricDogCN/Guize/hooks",
+      "issue_events_url": "https://api.github.com/repos/ElectricDogCN/Guize/issues/events{/number}",
+      "events_url": "https://api.github.com/repos/ElectricDogCN/Guize/events",
+      "assignees_url": "https://api.github.com/repos/ElectricDogCN/Guize/assignees{/user}",
+      "branches_url": "https://api.github.com/repos/ElectricDogCN/Guize/branches{/branch}",
+      "tags_url": "https://api.github.com/repos/ElectricDogCN/Guize/tags",
+      "blobs_url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs{/sha}",
+      "git_tags_url": "https://api.github.com/repos/ElectricDogCN/Guize/git/tags{/sha}",
+      "git_refs_url": "https://api.github.com/repos/ElectricDogCN/Guize/git/refs{/sha}",
+      "trees_url": "https://api.github.com/repos/ElectricDogCN/Guize/git/trees{/sha}",
+      "statuses_url": "https://api.github.com/repos/ElectricDogCN/Guize/statuses/{sha}",
+      "languages_url": "https://api.github.com/repos/ElectricDogCN/Guize/languages",
+      "stargazers_url": "https://api.github.com/repos/ElectricDogCN/Guize/stargazers",
+      "contributors_url": "https://api.github.com/repos/ElectricDogCN/Guize/contributors",
+      "subscribers_url": "https://api.github.com/repos/ElectricDogCN/Guize/subscribers",
+      "subscription_url": "https://api.github.com/repos/ElectricDogCN/Guize/subscription",
+      "commits_url": "https://api.github.com/repos/ElectricDogCN/Guize/commits{/sha}",
+      "git_commits_url": "https://api.github.com/repos/ElectricDogCN/Guize/git/commits{/sha}",
+      "comments_url": "https://api.github.com/repos/ElectricDogCN/Guize/comments{/number}",
+      "issue_comment_url": "https://api.github.com/repos/ElectricDogCN/Guize/issues/comments{/number}",
+      "contents_url": "https://api.github.com/repos/ElectricDogCN/Guize/contents/{+path}",
+      "compare_url": "https://api.github.com/repos/ElectricDogCN/Guize/compare/{base}...{head}",
+      "merges_url": "https://api.github.com/repos/ElectricDogCN/Guize/merges",
+      "archive_url": "https://api.github.com/repos/ElectricDogCN/Guize/{archive_format}{/ref}",
+      "downloads_url": "https://api.github.com/repos/ElectricDogCN/Guize/downloads",
+      "issues_url": "https://api.github.com/repos/ElectricDogCN/Guize/issues{/number}",
+      "pulls_url": "https://api.github.com/repos/ElectricDogCN/Guize/pulls{/number}",
+      "milestones_url": "https://api.github.com/repos/ElectricDogCN/Guize/milestones{/number}",
+      "notifications_url": "https://api.github.com/repos/ElectricDogCN/Guize/notifications{?since,all,participating}",
+      "labels_url": "https://api.github.com/repos/ElectricDogCN/Guize/labels{/name}",
+      "releases_url": "https://api.github.com/repos/ElectricDogCN/Guize/releases{/id}",
+      "deployments_url": "https://api.github.com/repos/ElectricDogCN/Guize/deployments"
+    }
+  },
+  "jobs": {
+    "jobs": [
+      {
+        "id": 120176575583,
+        "name": "Governance Checks",
+        "status": "completed",
+        "conclusion": "success",
+        "run_id": 39880534816,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Checkout repository",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Setup Python 3.11",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "Install governance dependencies",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Verify core dependencies importable",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5
+          },
+          {
+            "name": "Compile scripts and tests",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6
+          },
+          {
+            "name": "Pytest collect-only",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7
+          },
+          {
+            "name": "Resolve task context",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8
+          },
+          {
+            "name": "Task file validation",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9
+          },
+          {
+            "name": "Project readiness check",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10
+          },
+          {
+            "name": "Program Plan integrity, history, transitions, finalization, and lifecycle guard",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11
+          },
+          {
+            "name": "Agent coordination check",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 12
+          },
+          {
+            "name": "Governance tests",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 13
+          },
+          {
+            "name": "Skip audit",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 14
+          },
+          {
+            "name": "Markdown basic check",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15
+          },
+          {
+            "name": "YAML/JSON schema check",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 16
+          },
+          {
+            "name": "Secret scan",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 17
+          },
+          {
+            "name": "Evidence check",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 18
+          },
+          {
+            "name": "Evidence integrity check",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 19
+          },
+          {
+            "name": "Task-branch linkage check",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 20
+          },
+          {
+            "name": "Scope check",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 21
+          },
+          {
+            "name": "Spec sync check",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 22
+          },
+          {
+            "name": "Parent directory reference check",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 23
+          },
+          {
+            "name": "CI workflow static validation",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 24
+          },
+          {
+            "name": "Generate governance report",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 25
+          },
+          {
+            "name": "Post Setup Python 3.11",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 49
+          },
+          {
+            "name": "Post Checkout repository",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 50
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 51
+          }
+        ]
+      }
+    ]
+  },
+  "pr": {
+    "url": "https://github.com/ElectricDogCN/Guize/pull/138",
+    "number": 138,
+    "state": "open",
+    "merged": false,
+    "mergeable": true,
+    "draft": false,
+    "body": "真实 OpenList 扫描返回 416、`Content-Range: bytes */4096` 和 33 字节诊断正文，而已完成 GZ-021 的 metadata profiling 验收要求空正文。当前 POC-005 没有修改冻结合同的权限，因此本 PR 只登记 OPS-013，用于建立后续单次、精确范围的合同修复准入；不修改验收规则或 POC 结果。\n\n仅新增自身 Program/Foundation、活动登记、Task 和 Evidence。六条未来实现路径均属 MOD-GOV；不可变授权意图固定实际缺陷、GZ-021 来源、原两文件 Git 字节摘要和唯一后继 OPS-014。后继必须等待 OPS-013 正常完成、释放容量、独立登记，并按已完成合同恢复规则办理冻结与验证。\n\nSource: `480dc0b607453ba26ec3d9d650c79c1b85f1c06e`\nBase: `f2e0150265e0c1eeca5f69fe85708b2434e5ee79`\n\n验证：固定源独立范围审查通过；本地前 13 项任务检查通过。首次完整 make verify 实际得到 689 passed、1 failed、23 errors、0 skipped：嵌套的共享 Git 测试副本超过对象引用深度，导致历史夹具 checkout 失败。完整原始日志、JUnit 和失败结果已保存。只对该隔离副本执行对象存储解耦并通过完整 fsck，源码、测试、HEAD/tree/refs 均未改变；同源完整15项已于2026-10-23T00:49:56Z实际全部通过：713 passed / 1152.72s / 零失败、错误或跳过，源码和测试均未改动，精确HEAD/tree和工作区保持；JUnit及各项原始日志已保存。本源 CI #829 已实际完成 SUCCESS：713 passed / 1088.06s / 零跳过，完整原始日志及摘要已保存；它不能代替本地环境修复后的完整复验。首次候选的 Task 格式失败同样保留。当前等待独立合并审查；登记尚未合入，实现、合同资格与V1仍未完成。\n\nIssue: #137\nEvidence: `evidence/OPS-013/`",
+    "title": "OPS-013: reserve bounded POC contract repair admission",
+    "base": "main",
+    "base_sha": "f2e0150265e0c1eeca5f69fe85708b2434e5ee79",
+    "head": "chore/OPS-013-contract-repair-admission-reservation",
+    "head_sha": "480dc0b607453ba26ec3d9d650c79c1b85f1c06e",
+    "head_repo_id": 1308659933,
+    "head_repo_full_name": "ElectricDogCN/Guize",
+    "merge_commit_sha": "8e7b5756ce92fba08f179a1ff8dbd0e578d571d9",
+    "user": {
+      "login": "ElectricDogCN",
+      "name": "ElectricDogCN",
+      "email": null,
+      "avatar_url": "https://avatars.githubusercontent.com/u/43232390?v=4",
+      "id": 43232390
+    },
+    "requested_reviewers": null,
+    "requested_team_reviewers": null,
+    "diff": null,
+    "comments": null,
+    "created_at": "2026-10-23T00:09:41Z",
+    "updated_at": "2026-10-23T00:59:05Z",
+    "closed_at": null,
+    "merged_at": null,
+    "commits": 2,
+    "changed_files": 29,
+    "additions": 761,
+    "deletions": 0,
+    "display_url": "https://github.com/ElectricDogCN/Guize/pull/138",
+    "display_title": "OPS-013: reserve bounded POC contract repair admission"
+  },
+  "threads": {
+    "review_threads": [
+      {
+        "id": "PRRT_kwDOTgCQ3c6vb4-b",
+        "is_resolved": false,
+        "is_outdated": false,
+        "path": "evidence/OPS-013/commands.txt",
+        "line": 1,
+        "diff_side": "RIGHT",
+        "start_line": 1,
+        "start_diff_side": null,
+        "original_line": 1,
+        "original_start_line": null,
+        "resolved_by": null,
+        "comments": [
+          {
+            "id": "PRRC_kwDOTgCQ3c8AAAABA5VqZA",
+            "database_id": 4355091044,
+            "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  Capture the current commit's gate results**\n\nThis canonical command record says every result for the current source is still `PENDING`; the handoff and test-results files likewise record only the rejected `3d78e5c` attempt and explicitly say the corrected source remains unvalidated. Consequently, for commit `430a386` there are no committed exit codes, logs, JUnit results, or independent source review with which the integrator can confirm that the latest HEAD passed its gates. Run the declared checks against this exact commit and commit their results before admitting the reservation.\n\nAGENTS.md reference: [AGENTS.md:L369-L371](https://github.com/ElectricDogCN/Guize/blob/480dc0b607453ba26ec3d9d650c79c1b85f1c06e/AGENTS.md#L369-L371)\n\nUseful? React with 👍 / 👎.\n\n<!-- codex-code-review-finding:v1 -->",
+            "created_at": "2026-10-23T00:59:01Z",
+            "updated_at": "2026-10-23T00:59:01Z",
+            "author": {
+              "login": "chatgpt-codex-connector",
+              "name": "chatgpt-codex-connector",
+              "email": null,
+              "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+              "id": null
+            },
+            "viewer_did_author": false
+          }
+        ]
+      },
+      {
+        "id": "PRRT_kwDOTgCQ3c6vb4-c",
+        "is_resolved": false,
+        "is_outdated": false,
+        "path": "evidence/OPS-013/.gitattributes",
+        "line": 6,
+        "diff_side": "RIGHT",
+        "start_line": 2,
+        "start_diff_side": "RIGHT",
+        "original_line": 6,
+        "original_start_line": 2,
+        "resolved_by": null,
+        "comments": [
+          {
+            "id": "PRRC_kwDOTgCQ3c8AAAABA5VqZQ",
+            "database_id": 4355091045,
+            "body": "**<sub><sub>![P2 Badge](https://img.shields.io/badge/P2-yellow?style=flat)</sub></sub>  Keep review evidence text-diffable**\n\nThese entries mark textual Markdown and JSON authorization/review records as `binary`, so the current PR and any later modification suppress their inline Git diff and normal line-based merge behavior. That prevents reviewers from directly auditing changes to the proposal, independent reviews, and recorded results even though Git/Evidence are the required recovery and handoff sources; use a byte-preserving text configuration such as `-text`, if needed, without disabling diffs.\n\nAGENTS.md reference: [AGENTS.md:L363-L367](https://github.com/ElectricDogCN/Guize/blob/480dc0b607453ba26ec3d9d650c79c1b85f1c06e/AGENTS.md#L363-L367)\n\nUseful? React with 👍 / 👎.\n\n<!-- codex-code-review-finding:v1 -->",
+            "created_at": "2026-10-23T00:59:01Z",
+            "updated_at": "2026-10-23T00:59:01Z",
+            "author": {
+              "login": "chatgpt-codex-connector",
+              "name": "chatgpt-codex-connector",
+              "email": null,
+              "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+              "id": null
+            },
+            "viewer_did_author": false
+          }
+        ]
+      }
+    ]
+  },
+  "remote": {
+    "chunk_id": "0fb492",
+    "wall_time_seconds": 2.4123728,
+    "exit_code": 0,
+    "original_token_count": 41,
+    "output": "480dc0b607453ba26ec3d9d650c79c1b85f1c06e\trefs/heads/chore/OPS-013-contract-repair-admission-reservation\nf2e0150265e0c1eeca5f69fe85708b2434e5ee79\trefs/heads/main\n"
+  }
+}

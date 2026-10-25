@@ -1,0 +1,219 @@
+{
+  "source": "301866cf6d6158852c6674db07794760582488ef",
+  "base": "09d247f97b318ebe8bdeee1dae539e26a17598ea",
+  "branch": "chore/OPS-014-verified-repair-thaw",
+  "tree": "73ac74cabf9b89d3941a2dd623ee6b3e0e9009dd",
+  "validatedCommit": "2da13d55432c39f57c458cff906ac198292b2e66",
+  "startedAt": "2026-10-25T07:41:24.466621+00:00",
+  "commands": [
+    {
+      "label": "diff",
+      "argv": [
+        "git",
+        "diff",
+        "--check",
+        "09d247f97b318ebe8bdeee1dae539e26a17598ea...HEAD"
+      ],
+      "startedAt": "2026-10-25T07:41:24.470537+00:00",
+      "raw": "diff.raw",
+      "pid": 1133929,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "endedAt": "2026-10-25T07:41:24.482615+00:00",
+      "bytes": 144,
+      "sha256": "32e5dc4ef515d750096199b73b3905bd0f959017e5284c436b5d6afb9f3ef479"
+    },
+    {
+      "label": "task",
+      "argv": [
+        "python",
+        "scripts/check-task-file.py",
+        "--task",
+        "OPS-014"
+      ],
+      "startedAt": "2026-10-25T07:41:24.486370+00:00",
+      "raw": "task.raw",
+      "pid": 1133930,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "endedAt": "2026-10-25T07:41:24.573503+00:00",
+      "bytes": 257,
+      "sha256": "4eb431186db858e4db4550d726f02dde0a8fc3d6becf15da8b9998cbf9191e71"
+    },
+    {
+      "label": "schemas",
+      "argv": [
+        "python",
+        "scripts/check-schemas.py"
+      ],
+      "startedAt": "2026-10-25T07:41:24.577277+00:00",
+      "raw": "schemas.raw",
+      "pid": 1133931,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "endedAt": "2026-10-25T07:41:30.234241+00:00",
+      "bytes": 1947,
+      "sha256": "a0b6162af0f5177651d42823c1c427a510ffea8884fc6527d0f8cdb9552adf36"
+    },
+    {
+      "label": "integrity",
+      "argv": [
+        "python",
+        "scripts/check-program-plan-integrity.py",
+        "--base-ref",
+        "09d247f97b318ebe8bdeee1dae539e26a17598ea"
+      ],
+      "startedAt": "2026-10-25T07:41:30.238314+00:00",
+      "raw": "integrity.raw",
+      "pid": 1133932,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "endedAt": "2026-10-25T07:41:31.679502+00:00",
+      "bytes": 419,
+      "sha256": "9f0983e89e06f50a4a913dc9d3b7f40f8f8ccb55e0f56ebc81e2488671375519"
+    },
+    {
+      "label": "history",
+      "argv": [
+        "python",
+        "scripts/check-program-plan-history.py",
+        "--base-ref",
+        "09d247f97b318ebe8bdeee1dae539e26a17598ea",
+        "--head-ref",
+        "301866cf6d6158852c6674db07794760582488ef",
+        "--task",
+        "OPS-014",
+        "--branch-name",
+        "chore/OPS-014-verified-repair-thaw"
+      ],
+      "startedAt": "2026-10-25T07:41:31.682822+00:00",
+      "raw": "history.raw",
+      "pid": 1134158,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "endedAt": "2026-10-25T07:41:34.493762+00:00",
+      "bytes": 551,
+      "sha256": "85213a8217c2ec2f11171add9f45238a1d1a748c3f73ca7ed1acd05ab02c61ef"
+    },
+    {
+      "label": "transitions",
+      "argv": [
+        "python",
+        "scripts/check-program-plan-transitions.py",
+        "--base-ref",
+        "09d247f97b318ebe8bdeee1dae539e26a17598ea",
+        "--head-ref",
+        "301866cf6d6158852c6674db07794760582488ef",
+        "--task",
+        "OPS-014",
+        "--branch-name",
+        "chore/OPS-014-verified-repair-thaw"
+      ],
+      "startedAt": "2026-10-25T07:41:34.498048+00:00",
+      "raw": "transitions.raw",
+      "pid": 1134335,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "endedAt": "2026-10-25T07:41:38.304027+00:00",
+      "bytes": 468,
+      "sha256": "525be8346dc66378784c1a4035f4cf46afcd3203f69f37db33c2036c5f19a161"
+    },
+    {
+      "label": "finalization",
+      "argv": [
+        "python",
+        "scripts/check-program-plan-finalization.py",
+        "--base-ref",
+        "09d247f97b318ebe8bdeee1dae539e26a17598ea",
+        "--head-ref",
+        "301866cf6d6158852c6674db07794760582488ef",
+        "--task",
+        "OPS-014"
+      ],
+      "startedAt": "2026-10-25T07:41:38.308146+00:00",
+      "raw": "finalization.raw",
+      "pid": 1134514,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "endedAt": "2026-10-25T07:41:38.559385+00:00",
+      "bytes": 398,
+      "sha256": "fcba5be3ebdc0fb92b40c2474ca0d6a1b708bd6b558a45d7fa6241016a109353"
+    },
+    {
+      "label": "raw-lifecycle",
+      "argv": [
+        "python",
+        "scripts/check-program-lifecycle-guards.py",
+        "--base-ref",
+        "09d247f97b318ebe8bdeee1dae539e26a17598ea",
+        "--head-ref",
+        "301866cf6d6158852c6674db07794760582488ef",
+        "--task",
+        "OPS-014",
+        "--branch-name",
+        "chore/OPS-014-verified-repair-thaw"
+      ],
+      "startedAt": "2026-10-25T07:41:38.562920+00:00",
+      "raw": "raw-lifecycle.raw",
+      "pid": 1134519,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "endedAt": "2026-10-25T07:41:53.644612+00:00",
+      "bytes": 534,
+      "sha256": "e8cee0cbdd0800ad7704de968db49f9d3118145043180fee5750103805d122b0"
+    },
+    {
+      "label": "lifecycle",
+      "argv": [
+        "python",
+        "scripts/run-program-lifecycle-gate.py",
+        "--base-ref",
+        "09d247f97b318ebe8bdeee1dae539e26a17598ea",
+        "--head-ref",
+        "301866cf6d6158852c6674db07794760582488ef",
+        "--task",
+        "OPS-014",
+        "--branch-name",
+        "chore/OPS-014-verified-repair-thaw"
+      ],
+      "startedAt": "2026-10-25T07:41:53.648560+00:00",
+      "raw": "lifecycle.raw",
+      "pid": 1136000,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "endedAt": "2026-10-25T07:42:10.967350+00:00",
+      "bytes": 625,
+      "sha256": "858e01a8a3595883a2920e7ae2201b2b7e2fa6caca8108a51316455653a1419c"
+    },
+    {
+      "label": "coordination",
+      "argv": [
+        "python",
+        "scripts/run-agent-coordination-gate.py",
+        "--base-ref",
+        "09d247f97b318ebe8bdeee1dae539e26a17598ea",
+        "--head-ref",
+        "301866cf6d6158852c6674db07794760582488ef",
+        "--task",
+        "OPS-014",
+        "--branch-name",
+        "chore/OPS-014-verified-repair-thaw"
+      ],
+      "startedAt": "2026-10-25T07:42:10.971249+00:00",
+      "raw": "coordination.raw",
+      "pid": 1137483,
+      "exitCode": 1,
+      "waitCompleted": true,
+      "endedAt": "2026-10-25T07:42:38.935929+00:00",
+      "bytes": 391,
+      "sha256": "0fd3ff2b0b8cc4360f9018be3275460663eb041d154d249e80497529bfe74e46"
+    }
+  ],
+  "local15Accepted": false,
+  "strictThawProofAccepted": false,
+  "proposalOnly": true,
+  "actualThawMainAccepted": false,
+  "newPocExperimentApproved": false,
+  "failedGate": "coordination",
+  "terminalAt": "2026-10-25T07:42:38.939648+00:00"
+}

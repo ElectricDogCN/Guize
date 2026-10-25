@@ -1,0 +1,17 @@
+OPS-014 planned current-stage metadata thaw commands; actual execution pending
+
+git diff --check 09d247f97b318ebe8bdeee1dae539e26a17598ea...HEAD
+python scripts/check-task-file.py --task OPS-014
+python scripts/check-schemas.py
+python scripts/check-program-plan-integrity.py --base-ref 09d247f97b318ebe8bdeee1dae539e26a17598ea
+python scripts/check-program-plan-history.py --base-ref 09d247f97b318ebe8bdeee1dae539e26a17598ea --head-ref HEAD --task OPS-014 --branch-name chore/OPS-014-verified-repair-thaw
+python scripts/check-program-plan-transitions.py --base-ref 09d247f97b318ebe8bdeee1dae539e26a17598ea --head-ref HEAD --task OPS-014 --branch-name chore/OPS-014-verified-repair-thaw
+python scripts/check-program-plan-finalization.py --base-ref 09d247f97b318ebe8bdeee1dae539e26a17598ea --head-ref HEAD --task OPS-014
+python scripts/check-program-lifecycle-guards.py --base-ref 09d247f97b318ebe8bdeee1dae539e26a17598ea --head-ref HEAD --task OPS-014 --branch-name chore/OPS-014-verified-repair-thaw
+python scripts/run-program-lifecycle-gate.py --base-ref 09d247f97b318ebe8bdeee1dae539e26a17598ea --head-ref HEAD --task OPS-014 --branch-name chore/OPS-014-verified-repair-thaw
+python scripts/run-agent-coordination-gate.py --base-ref 09d247f97b318ebe8bdeee1dae539e26a17598ea --head-ref HEAD --task OPS-014 --branch-name chore/OPS-014-verified-repair-thaw
+python scripts/run-task-scope-gate.py --task OPS-014 --base 09d247f97b318ebe8bdeee1dae539e26a17598ea
+python scripts/check-evidence.py --task OPS-014
+python scripts/check-project-readiness.py
+python specs/poc/check_program.py --repo-root .
+python scripts/check-markdown.py

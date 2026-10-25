@@ -1,0 +1,24 @@
+{
+  "parent": "480dc0b607453ba26ec3d9d650c79c1b85f1c06e",
+  "candidateCommitted": false,
+  "originalDiffCheckExitCode": 2,
+  "originalDiffCheckRawBytes": 71986,
+  "originalDiffCheckRawSha256": "401f811110ca18a56e94ddb71a92fa0291db6b612f01e3b8cdcbbd5294d64c4e",
+  "originalFailureRef": "diff-check-before-raw-attributes.raw",
+  "exactDataPaths": [
+    "reservation-480dc0b-ci829/job.raw.txt",
+    "reservation-480dc0b-ci830/job.raw.txt",
+    "reservation-480dc0b-native-attempt1-failed/first/governance.xml",
+    "reservation-480dc0b-native-attempt1-failed/first/verify.raw",
+    "reservation-successor-preparation/diff-check-before-raw-attributes.raw"
+  ],
+  "actualAttributes": "evidence/OPS-013/reservation-480dc0b-ci829/job.raw.txt: text: unset\nevidence/OPS-013/reservation-480dc0b-ci829/job.raw.txt: diff: unspecified\nevidence/OPS-013/reservation-480dc0b-ci829/job.raw.txt: merge: unspecified\nevidence/OPS-013/reservation-480dc0b-ci829/job.raw.txt: whitespace: -blank-at-eol,-blank-at-eof\nevidence/OPS-013/reservation-480dc0b-ci830/job.raw.txt: text: unset\nevidence/OPS-013/reservation-480dc0b-ci830/job.raw.txt: diff: unspecified\nevidence/OPS-013/reservation-480dc0b-ci830/job.raw.txt: merge: unspecified\nevidence/OPS-013/reservation-480dc0b-ci830/job.raw.txt: whitespace: -blank-at-eol,-blank-at-eof\nevidence/OPS-013/reservation-480dc0b-native-attempt1-failed/first/governance.xml: text: unset\nevidence/OPS-013/reservation-480dc0b-native-attempt1-failed/first/governance.xml: diff: unspecified\nevidence/OPS-013/reservation-480dc0b-native-attempt1-failed/first/governance.xml: merge: unspecified\nevidence/OPS-013/reservation-480dc0b-native-attempt1-failed/first/governance.xml: whitespace: -blank-at-eol,-blank-at-eof\nevidence/OPS-013/reservation-480dc0b-native-attempt1-failed/first/verify.raw: text: unset\nevidence/OPS-013/reservation-480dc0b-native-attempt1-failed/first/verify.raw: diff: unspecified\nevidence/OPS-013/reservation-480dc0b-native-attempt1-failed/first/verify.raw: merge: unspecified\nevidence/OPS-013/reservation-480dc0b-native-attempt1-failed/first/verify.raw: whitespace: -blank-at-eol,-blank-at-eof\nevidence/OPS-013/reservation-successor-preparation/diff-check-before-raw-attributes.raw: text: unset\nevidence/OPS-013/reservation-successor-preparation/diff-check-before-raw-attributes.raw: diff: unspecified\nevidence/OPS-013/reservation-successor-preparation/diff-check-before-raw-attributes.raw: merge: unspecified\nevidence/OPS-013/reservation-successor-preparation/diff-check-before-raw-attributes.raw: whitespace: -blank-at-eol,-blank-at-eof\nevidence/OPS-013/proposal.md: text: unset\nevidence/OPS-013/proposal.md: diff: unspecified\nevidence/OPS-013/proposal.md: merge: unspecified\nevidence/OPS-013/proposal.md: whitespace: unspecified\nevidence/OPS-013/actual-response-observation.json: text: unset\nevidence/OPS-013/actual-response-observation.json: diff: unspecified\nevidence/OPS-013/actual-response-observation.json: merge: unspecified\nevidence/OPS-013/actual-response-observation.json: whitespace: unspecified\nevidence/OPS-013/reservation-480dc0b-source-attestation.json: text: auto\nevidence/OPS-013/reservation-480dc0b-source-attestation.json: diff: unspecified\nevidence/OPS-013/reservation-480dc0b-source-attestation.json: merge: unspecified\nevidence/OPS-013/reservation-480dc0b-source-attestation.json: whitespace: unspecified\nscripts/check-program-lifecycle-guards.py: text: auto\nscripts/check-program-lifecycle-guards.py: diff: unspecified\nscripts/check-program-lifecycle-guards.py: merge: unspecified\nscripts/check-program-lifecycle-guards.py: whitespace: unspecified\n",
+  "defaultTextDiffAndMergePreserved": true,
+  "disposableSourceWhitespaceProbeExitCode": 2,
+  "disposableProbeReportedOnlySource": true,
+  "checkerOrTestChanged": false,
+  "globalWhitespaceConfigChanged": false,
+  "rawLogsEdited": false,
+  "independentDirectionReviewedAt": "2026-10-23T01:21:43Z",
+  "independentFinalContentAccepted": false
+}

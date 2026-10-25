@@ -1,0 +1,1 @@
+OPS-013 risks: self-authorized external writes, mutable declarations, false ancestry, stale baseline, competing high slot and skipped recovery. Preserve original role/capacity/lease/history gates and independent evidence.

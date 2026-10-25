@@ -1,0 +1,6 @@
+Base Source: 3eb9bb69b4fb1df85a359750b73356b953429540
+Command: /home/sur/.cache/guize-takeover/governance-venv/bin/python -B -m pytest -q tests/governance/test_program_planning_revision.py::test_ordinary_document_planner_through_actual_checkers
+...                                                                      [100%]
+3 passed in 9.29s
+
+Exit Code: 0

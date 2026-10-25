@@ -1,0 +1,6 @@
+Source Commit: 480dc0b607453ba26ec3d9d650c79c1b85f1c06e
+Command: python scripts/run-agent-coordination-gate.py --base-ref f2e0150265e0c1eeca5f69fe85708b2434e5ee79 --head-ref HEAD --task OPS-013 --branch-name chore/OPS-013-contract-repair-admission-reservation
+{"status": "PASS", "message": "Agent coordination valid: 3 active tasks, 1 high/critical", "details": {"activeTaskIds": ["OPS-013", "POC-003", "POC-005"]}}
+INFO: OPS-013 is a Reservation PR; exact target-base lifecycle and file scope are validated by the mandatory Program History/Transitions/Finalization gates.
+
+Exit Code: 0

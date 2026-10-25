@@ -1,0 +1,73 @@
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "Action completed."
+    }
+  ],
+  "structuredContent": {
+    "review_threads": [
+      {
+        "id": "PRRT_kwDOTgCQ3c6v6Gvm",
+        "is_resolved": false,
+        "is_outdated": false,
+        "path": "scripts/poc-contract-repair-admission.py",
+        "line": 285,
+        "diff_side": "RIGHT",
+        "start_line": 284,
+        "start_diff_side": "RIGHT",
+        "original_line": 285,
+        "original_start_line": 284,
+        "resolved_by": null,
+        "comments": [
+          {
+            "id": "PRRC_kwDOTgCQ3c8AAAABBFhA6w",
+            "database_id": 4367859947,
+            "body": "**<sub><sub>![P2 Badge](https://img.shields.io/badge/P2-yellow?style=flat)</sub></sub>  Use the historical observation time for reservation lease checks**\n\nWhen OPS-014's original reservation lease has expired, even after a valid metadata-only renewal, `foundation_reservation()` audits its original claims against the reservation's parent with `observed_ref=registration`. In that call, `original` is absent, so this line rechecks the original lease against the current wall clock instead of the historical observation already computed as `when`. Consequently, a historically valid reservation loses authentication and subsequent Review/Completion audits reject the repair despite its renewed lease. Use the supplied observation time for this prospective-reservation branch.\n\nAGENTS.md reference: [AGENTS.md:L378-L378](https://github.com/ElectricDogCN/Guize/blob/c79be6ac3b1d6a62e5c88abffbabf619ba20a5ef/AGENTS.md#L378-L378)\n\nUseful? React with 👍 / 👎.\n\n<!-- codex-code-review-finding:v1 -->",
+            "created_at": "2026-10-24T17:15:18Z",
+            "updated_at": "2026-10-24T17:15:18Z",
+            "author": {
+              "login": "chatgpt-codex-connector",
+              "name": "chatgpt-codex-connector",
+              "email": null,
+              "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+              "id": null
+            },
+            "viewer_did_author": false
+          }
+        ]
+      },
+      {
+        "id": "PRRT_kwDOTgCQ3c6v6Gvp",
+        "is_resolved": false,
+        "is_outdated": false,
+        "path": "scripts/poc-contract-repair-admission.py",
+        "line": 207,
+        "diff_side": "RIGHT",
+        "start_line": 207,
+        "start_diff_side": null,
+        "original_line": 207,
+        "original_start_line": null,
+        "resolved_by": null,
+        "comments": [
+          {
+            "id": "PRRC_kwDOTgCQ3c8AAAABBFhA7w",
+            "database_id": 4367859951,
+            "body": "**<sub><sub>![P2 Badge](https://img.shields.io/badge/P2-yellow?style=flat)</sub></sub>  Include the implementation's integration state in the Review audit**\n\nIf OPS-013 integrates independently reviewed source with its implementation commit in `integration`/`integrator` state and completes in the next metadata-only PR, this loop skips the integration snapshot and immediately encounters Completion with `reviewed=False`. That normal integrator flow is explicitly accepted by the existing history checker and covered by `test_foundation_context_integrator_reviewed_squash`, but the new authority proof rejects it, preventing OPS-014 admission after an otherwise valid Completion. Include the implementation snapshot and its authenticated Review history rather than requiring another Review/integration commit after the implementation.\n\nAGENTS.md reference: [AGENTS.md:L378-L378](https://github.com/ElectricDogCN/Guize/blob/c79be6ac3b1d6a62e5c88abffbabf619ba20a5ef/AGENTS.md#L378-L378)\n\nUseful? React with 👍 / 👎.\n\n<!-- codex-code-review-finding:v1 -->",
+            "created_at": "2026-10-24T17:15:18Z",
+            "updated_at": "2026-10-24T17:15:18Z",
+            "author": {
+              "login": "chatgpt-codex-connector",
+              "name": "chatgpt-codex-connector",
+              "email": null,
+              "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+              "id": null
+            },
+            "viewer_did_author": false
+          }
+        ]
+      }
+    ]
+  },
+  "isError": false
+}

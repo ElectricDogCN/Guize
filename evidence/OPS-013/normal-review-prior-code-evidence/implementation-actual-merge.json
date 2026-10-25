@@ -1,0 +1,60 @@
+{
+  "mergeResult": {
+    "sha": "16070d0d0d4c1a4952d2fc6f036dda135f058c8d",
+    "merged": true,
+    "message": "Pull Request successfully merged"
+  },
+  "mergeResultProvenance": "Actual github_merge_pull_request result observed in this thread; independently corroborated by merged PR and forthcoming Git graph verification",
+  "pr": {
+    "content": [
+      {
+        "type": "text",
+        "text": "Action completed."
+      }
+    ],
+    "structuredContent": {
+      "url": "https://github.com/ElectricDogCN/Guize/pull/139",
+      "number": 139,
+      "state": "closed",
+      "merged": true,
+      "mergeable": false,
+      "draft": false,
+      "body": "已完成的 GZ-021 POC 合同与真实 OpenList 416 诊断正文存在冲突，现有 Foundation 缺少对两个具体合同文件的合法修复准入。本 PR 建立绑定 Git 历史的受限授权：OPS-013 正常完成并释放容量后，唯一后继才可独立登记原声明中的两个固定路径；实际合同变更仍须先完成 GZ-021 冻结恢复。\n\n共享证明校验原始登记、不可变 intent/缺陷原件、正常实现与独立 Review/Completion、后继原始登记、两份原合同摘要及角色/租约/容量。历史审计兼容 Git 整秒与 lease 亚秒精度，当前准入和到期仍严格。正常 integration 实现可随后直接 Completion，并接受完整 Foundation 历史认证。不可变原件按 first-parent 链审计到当前 base；原始准入、Completion、合同和容量认证时点保持不变。缺少 helper 时拒绝新权限，普通及旧固定脚本夹具保持兼容。\n\n当前源：`be0a0922b7706d23a390f7e57c1b343b66070e36`\n树：`a14c0431a7edcce8c4df821bdd345220c0330926`\n实际基线：`3eb9bb69b4fb1df85a359750b73356b953429540`\n独立 metadata activation：`ab8b2309a2e4a39f01bfae9b1e312eb4a8efb917`\n\n验证与当前限制：\n\n- 最新三项真实 Git 回归先复现两失败一错误；修复后原生29项/111.406s、原有三检查器兼容回归3项/9.29s通过。Windows新增三项/276.699s通过，无测试跳过；前序4项与22项 Windows 结果单独留存。\n- 固定运行内容及63项暂存变更获独立接受；281条完整库存与实际提交差异一致。C142条及17的224条历史库存保留。\n- 本源15项本地检查全部通过，742项/1134.76s，JUnit742项零失败、错误或跳过；源码/树/状态前后不变，完整本地结果获独立接受。六项不指定task的前向main模式检查同样通过且获独立核验。四条已修复P2已在GitHub实际关闭。 同源[CI #836](https://github.com/ElectricDogCN/Guize/actions/runs/40119540426)已成功：742项/1596.51s，测试零跳过且所有步骤成功。原始日志318740B、SHA256 3ae241d6c1f76e425746d83656ed79f5067aa2b8af62af71e85cca2a48ce90e8，源码/基线和租约容量已重新核实。最终独立源审查正在收口；尚未合并，实际main仍须合并后验证。\n- 历史源17的本地739/1173.78s及CI835的739/1118.94s成功均保留，其两项新P2已在本源前向修复，旧通过不替代本源验证。C735成功、取消833、118为真实库存缺口而中止的验证及所有原始失败均保留。\n\n范围为六条已登记治理路径及自身元数据/Evidence。原合同、所有权、阈值、身份、租约和33字节响应未改；本 PR 不登记 OPS-014、不修合同或接受 POC/V1。实现接受后仍须正常 Review/Completion。\n\nIssue: #137\nEvidence: `evidence/OPS-013/`\n",
+      "title": "OPS-013: authenticate bounded POC contract repair admission",
+      "base": "main",
+      "base_sha": "3eb9bb69b4fb1df85a359750b73356b953429540",
+      "head": "chore/OPS-013-contract-repair-admission",
+      "head_sha": "be0a0922b7706d23a390f7e57c1b343b66070e36",
+      "head_repo_id": 1308659933,
+      "head_repo_full_name": "ElectricDogCN/Guize",
+      "merge_commit_sha": "16070d0d0d4c1a4952d2fc6f036dda135f058c8d",
+      "user": {
+        "login": "ElectricDogCN",
+        "name": "ElectricDogCN",
+        "email": null,
+        "avatar_url": "https://avatars.githubusercontent.com/u/43232390?v=4",
+        "id": 43232390
+      },
+      "requested_reviewers": null,
+      "requested_team_reviewers": null,
+      "diff": null,
+      "comments": null,
+      "created_at": "2026-10-24T16:47:31Z",
+      "updated_at": "2026-10-24T18:45:04Z",
+      "closed_at": "2026-10-24T18:45:04Z",
+      "merged_at": "2026-10-24T18:45:04Z",
+      "commits": 5,
+      "changed_files": 281,
+      "additions": 86251,
+      "deletions": 154,
+      "display_url": "https://github.com/ElectricDogCN/Guize/pull/139",
+      "display_title": "OPS-013: authenticate bounded POC contract repair admission"
+    },
+    "isError": false
+  },
+  "source": "be0a0922b7706d23a390f7e57c1b343b66070e36",
+  "base": "3eb9bb69b4fb1df85a359750b73356b953429540",
+  "approvalRef": "ops013-implementation-merge-approval.json",
+  "actualMainAccepted": false,
+  "taskCompleted": false
+}

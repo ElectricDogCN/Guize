@@ -1,0 +1,5 @@
+Source Commit: 16070d0d0d4c1a4952d2fc6f036dda135f058c8d
+Command: /home/sur/.cache/guize-takeover/governance-venv/bin/python -B specs/poc/check_program.py --repo-root /home/sur/.cache/guize-takeover/ops013-implementation-main-16070d0
+PASS: POC-PROTOCOL-V1 immutable planning baseline and task-owned Evidence contracts are consistent with Program Plan
+
+Exit Code: 0

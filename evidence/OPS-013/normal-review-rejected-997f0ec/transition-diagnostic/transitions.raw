@@ -1,0 +1,5 @@
+Source Commit: 997f0eccefdb6c18d1a22090a63c0eaa91bb6232
+Command: /home/sur/.cache/guize-takeover/governance-venv/bin/python -B scripts/check-program-plan-transitions.py --base-ref 16070d0d0d4c1a4952d2fc6f036dda135f058c8d --head-ref HEAD --task OPS-013 --branch-name chore/OPS-013-contract-repair-admission-review
+{"status": "FAIL", "message": "Active transition for OPS-013 may only change that Foundation task's status, its required POC mirror, or its owned live-verified blocker"}
+
+Exit Code: 1

@@ -1,0 +1,13 @@
+unsatisfiable-response.bin binary
+actual-response-observation.json -text
+actual-execution-independent-review.json -text
+proposal.md -text
+reservation-3d78e5c-attempt/*.raw -text
+reservation-3d78e5c-attempt/*.json -text
+
+# Exact immutable diagnostic data; retain bytes and normal text diffs.
+reservation-480dc0b-ci829/job.raw.txt -text whitespace=-blank-at-eol,-blank-at-eof
+reservation-480dc0b-ci830/job.raw.txt -text whitespace=-blank-at-eol,-blank-at-eof
+reservation-480dc0b-native-attempt1-failed/first/governance.xml -text whitespace=-blank-at-eol,-blank-at-eof
+reservation-480dc0b-native-attempt1-failed/first/verify.raw -text whitespace=-blank-at-eol,-blank-at-eof
+reservation-successor-preparation/diff-check-before-raw-attributes.raw -text whitespace=-blank-at-eol,-blank-at-eof

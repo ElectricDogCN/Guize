@@ -1,0 +1,386 @@
+{
+  "source": "2da13d55432c39f57c458cff906ac198292b2e66",
+  "base": "15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6",
+  "branch": "chore/OPS-014-frozen-416-contract-repair-v2",
+  "tree": "a67c1201dc6ed187298f67d3c333f87cf055e59e",
+  "startedAt": "2026-10-25T01:31:58.156682+00:00",
+  "commands": [
+    {
+      "label": "diff",
+      "argv": [
+        "git",
+        "diff",
+        "--check",
+        "15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6...HEAD"
+      ],
+      "startedAt": "2026-10-25T01:31:58.160870+00:00",
+      "raw": "diff.raw",
+      "pid": 781171,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "endedAt": "2026-10-25T01:31:58.182752+00:00",
+      "elapsedMonotonicNs": 21880169,
+      "bytes": 144,
+      "sha256": "5b53d1d92a563219b7702438fef22bd4daea4e41a101b1bd6623289991f67881"
+    },
+    {
+      "label": "task",
+      "argv": [
+        "python",
+        "scripts/check-task-file.py",
+        "--task",
+        "OPS-014"
+      ],
+      "startedAt": "2026-10-25T01:31:58.186216+00:00",
+      "raw": "task.raw",
+      "pid": 781172,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "endedAt": "2026-10-25T01:31:58.258816+00:00",
+      "elapsedMonotonicNs": 72605116,
+      "bytes": 259,
+      "sha256": "430cdab41bded2b228a40f5451dda9a3e9e47621f49847f19f8bafc11b43a5bf"
+    },
+    {
+      "label": "schemas",
+      "argv": [
+        "python",
+        "scripts/check-schemas.py"
+      ],
+      "startedAt": "2026-10-25T01:31:58.262081+00:00",
+      "raw": "schemas.raw",
+      "pid": 781173,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "endedAt": "2026-10-25T01:32:02.252510+00:00",
+      "elapsedMonotonicNs": 3990439588,
+      "bytes": 1947,
+      "sha256": "8fe6d7ef455f58cebdd0f574f71705e69e59687535c39f0c43268581a5469432"
+    },
+    {
+      "label": "integrity",
+      "argv": [
+        "python",
+        "scripts/check-program-plan-integrity.py",
+        "--base-ref",
+        "15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6"
+      ],
+      "startedAt": "2026-10-25T01:32:02.255641+00:00",
+      "raw": "integrity.raw",
+      "pid": 781174,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "endedAt": "2026-10-25T01:32:03.731610+00:00",
+      "elapsedMonotonicNs": 1475971351,
+      "bytes": 419,
+      "sha256": "da743dc575b6bddc505dbee974f7d467f2c55379f10bd5d057dd6a3bbbe91748"
+    },
+    {
+      "label": "history",
+      "argv": [
+        "python",
+        "scripts/check-program-plan-history.py",
+        "--base-ref",
+        "15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6",
+        "--head-ref",
+        "2da13d55432c39f57c458cff906ac198292b2e66",
+        "--task",
+        "OPS-014",
+        "--branch-name",
+        "chore/OPS-014-frozen-416-contract-repair-v2"
+      ],
+      "startedAt": "2026-10-25T01:32:03.735071+00:00",
+      "raw": "history.raw",
+      "pid": 781405,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "endedAt": "2026-10-25T01:32:07.217611+00:00",
+      "elapsedMonotonicNs": 3482545371,
+      "bytes": 560,
+      "sha256": "d917de9b1751eef28d94015b75ccf3d145163de1a8e283c13d79f5a8a8b8ba54"
+    },
+    {
+      "label": "transitions",
+      "argv": [
+        "python",
+        "scripts/check-program-plan-transitions.py",
+        "--base-ref",
+        "15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6",
+        "--head-ref",
+        "2da13d55432c39f57c458cff906ac198292b2e66",
+        "--task",
+        "OPS-014",
+        "--branch-name",
+        "chore/OPS-014-frozen-416-contract-repair-v2"
+      ],
+      "startedAt": "2026-10-25T01:32:07.221344+00:00",
+      "raw": "transitions.raw",
+      "pid": 781682,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "endedAt": "2026-10-25T01:32:24.292516+00:00",
+      "elapsedMonotonicNs": 14893166507,
+      "bytes": 477,
+      "sha256": "afee9b504fc338eb2710103d645cb573d31202997336103b7e0ce175f97e435e"
+    },
+    {
+      "label": "finalization",
+      "argv": [
+        "python",
+        "scripts/check-program-plan-finalization.py",
+        "--base-ref",
+        "15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6",
+        "--head-ref",
+        "2da13d55432c39f57c458cff906ac198292b2e66",
+        "--task",
+        "OPS-014"
+      ],
+      "startedAt": "2026-10-25T01:32:24.296148+00:00",
+      "raw": "finalization.raw",
+      "pid": 783135,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "endedAt": "2026-10-25T01:32:24.522698+00:00",
+      "elapsedMonotonicNs": 226552463,
+      "bytes": 398,
+      "sha256": "42cfd5340cfc8f8e4ddba230cba77adcc50c5ae7e53eb162eb7b0982390ddec9"
+    },
+    {
+      "label": "raw-lifecycle",
+      "argv": [
+        "python",
+        "scripts/check-program-lifecycle-guards.py",
+        "--base-ref",
+        "15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6",
+        "--head-ref",
+        "2da13d55432c39f57c458cff906ac198292b2e66",
+        "--task",
+        "OPS-014",
+        "--branch-name",
+        "chore/OPS-014-frozen-416-contract-repair-v2"
+      ],
+      "startedAt": "2026-10-25T01:32:24.526150+00:00",
+      "raw": "raw-lifecycle.raw",
+      "pid": 783140,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "endedAt": "2026-10-25T01:32:52.232117+00:00",
+      "elapsedMonotonicNs": 25600813323,
+      "bytes": 543,
+      "sha256": "2004d86729a9b25cde1ed94b176fbf392d046ca159b9f31be36694bbd79bdcad"
+    },
+    {
+      "label": "lifecycle",
+      "argv": [
+        "python",
+        "scripts/run-program-lifecycle-gate.py",
+        "--base-ref",
+        "15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6",
+        "--head-ref",
+        "2da13d55432c39f57c458cff906ac198292b2e66",
+        "--task",
+        "OPS-014",
+        "--branch-name",
+        "chore/OPS-014-frozen-416-contract-repair-v2"
+      ],
+      "startedAt": "2026-10-25T01:32:52.236037+00:00",
+      "raw": "lifecycle.raw",
+      "pid": 787090,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "endedAt": "2026-10-25T01:33:20.530237+00:00",
+      "elapsedMonotonicNs": 26151078060,
+      "bytes": 634,
+      "sha256": "7fa44d634e5c560832fd93bedb54a90964c34f037403a679e27196880aebf417"
+    },
+    {
+      "label": "coordination",
+      "argv": [
+        "python",
+        "scripts/run-agent-coordination-gate.py",
+        "--base-ref",
+        "15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6",
+        "--head-ref",
+        "2da13d55432c39f57c458cff906ac198292b2e66",
+        "--task",
+        "OPS-014",
+        "--branch-name",
+        "chore/OPS-014-frozen-416-contract-repair-v2"
+      ],
+      "startedAt": "2026-10-25T01:33:20.535858+00:00",
+      "raw": "coordination.raw",
+      "pid": 791043,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "endedAt": "2026-10-25T01:34:10.444738+00:00",
+      "elapsedMonotonicNs": 47820418971,
+      "bytes": 458,
+      "sha256": "968b5bdeaf6ff71d1f50912f72328771684e2cc5f94605ff37ee111a1a547517"
+    },
+    {
+      "label": "scope",
+      "argv": [
+        "python",
+        "scripts/run-task-scope-gate.py",
+        "--task",
+        "OPS-014",
+        "--base",
+        "15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6"
+      ],
+      "startedAt": "2026-10-25T01:34:10.448206+00:00",
+      "raw": "scope.raw",
+      "pid": 796757,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "endedAt": "2026-10-25T01:34:10.522540+00:00",
+      "elapsedMonotonicNs": 74336489,
+      "bytes": 995,
+      "sha256": "a93ef2cd8e1a59610fc6ad365423f0f22f70b64c0f89f883120db79243770f4c"
+    },
+    {
+      "label": "evidence",
+      "argv": [
+        "python",
+        "scripts/check-evidence.py",
+        "--task",
+        "OPS-014"
+      ],
+      "startedAt": "2026-10-25T01:34:10.526506+00:00",
+      "raw": "evidence.raw",
+      "pid": 796762,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "endedAt": "2026-10-25T01:34:10.555612+00:00",
+      "elapsedMonotonicNs": 29103368,
+      "bytes": 413,
+      "sha256": "3e15862617ba1f160754dc1cc290cd594a855541ce5b9dad16c09513c913dcff"
+    },
+    {
+      "label": "readiness",
+      "argv": [
+        "python",
+        "scripts/check-project-readiness.py"
+      ],
+      "startedAt": "2026-10-25T01:34:10.559501+00:00",
+      "raw": "readiness.raw",
+      "pid": 796763,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "endedAt": "2026-10-25T01:34:17.088919+00:00",
+      "elapsedMonotonicNs": 6529424894,
+      "bytes": 660,
+      "sha256": "ec33fc89a70d1900891c81e4ca365f58c91fe79e675bfb18ca373aadce805707"
+    },
+    {
+      "label": "poc-protocol",
+      "argv": [
+        "python",
+        "specs/poc/check_program.py",
+        "--repo-root",
+        "."
+      ],
+      "startedAt": "2026-10-25T01:34:17.093458+00:00",
+      "raw": "poc-protocol.raw",
+      "pid": 797367,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "endedAt": "2026-10-25T01:34:21.994960+00:00",
+      "elapsedMonotonicNs": 2765487279,
+      "bytes": 244,
+      "sha256": "b9bbb0481e76fd0da859fe0552d2742166a2a3f322cef4f43a1c8344ef13bce2"
+    },
+    {
+      "label": "poc-selftests",
+      "argv": [
+        "python",
+        "specs/poc/test_program.py"
+      ],
+      "startedAt": "2026-10-25T01:34:21.998840+00:00",
+      "raw": "poc-selftests.raw",
+      "pid": 797368,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "endedAt": "2026-10-25T05:19:30.975885+00:00",
+      "elapsedMonotonicNs": 12563039449932,
+      "bytes": 30825,
+      "sha256": "7d87b47ae7efcd6fa9dcd8eb191d898fa249cac70144b13c72a840668447a3a7"
+    },
+    {
+      "label": "governance",
+      "argv": [
+        "python",
+        "-m",
+        "pytest",
+        "tests/governance",
+        "-q",
+        "--junitxml=evidence/OPS-014/recovery-validation/governance.xml"
+      ],
+      "startedAt": "2026-10-25T05:19:30.980272+00:00",
+      "raw": "governance.raw",
+      "pid": 829356,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "endedAt": "2026-10-25T05:40:43.248314+00:00",
+      "elapsedMonotonicNs": 1176660730071,
+      "bytes": 1226,
+      "sha256": "e1340f687979c2b03b67ec2eb8389ff8a80f9bce98370cb16e309e94c0571e5e"
+    },
+    {
+      "label": "verify",
+      "argv": [
+        "make",
+        "verify",
+        "TASK=OPS-014",
+        "BASE=15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6",
+        "HEAD_REF=2da13d55432c39f57c458cff906ac198292b2e66",
+        "BRANCH=chore/OPS-014-frozen-416-contract-repair-v2"
+      ],
+      "startedAt": "2026-10-25T05:40:43.266251+00:00",
+      "raw": "verify.raw",
+      "pid": 955763,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "endedAt": "2026-10-25T06:03:41.387505+00:00",
+      "elapsedMonotonicNs": 1271370203647,
+      "bytes": 109237,
+      "sha256": "1d83f75be6911f34f5a09a1ebdaf19a75f516416674cd648a8db43971ab490d9"
+    },
+    {
+      "label": "docs",
+      "argv": [
+        "python",
+        "scripts/check-markdown.py"
+      ],
+      "startedAt": "2026-10-25T06:03:41.393541+00:00",
+      "raw": "docs.raw",
+      "pid": 1094613,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "endedAt": "2026-10-25T06:03:41.455527+00:00",
+      "elapsedMonotonicNs": 61986760,
+      "bytes": 164,
+      "sha256": "243f18c6a44bf5953be12e35268a53121b473400e01c340c758290a54bf3db93"
+    }
+  ],
+  "local18Accepted": true,
+  "proofReady": true,
+  "qualificationAccepted": false,
+  "thawAllowed": false,
+  "trackedSourceUnchanged": true,
+  "directGovernanceJUnit": {
+    "testcases": 742,
+    "bytes": 118472,
+    "sha256": "69777cc583bf651c65d9af21a00ea58df66c21e3b0b84fb3a5a6deda087a7b08",
+    "failuresErrorsSkips": 0
+  },
+  "verifyGovernanceJUnit": {
+    "testcases": 742,
+    "bytes": 118471,
+    "sha256": "a7fc6a7b5e81a0c4e15652c560261f163dbf5783ece19d9c86276596ae14cc68",
+    "failuresErrorsSkips": 0
+  },
+  "untrackedExpectedJUnit": [
+    "evidence/OPS-014/recovery-validation/governance.xml"
+  ],
+  "completedAt": "2026-10-25T06:03:41.549989+00:00"
+}

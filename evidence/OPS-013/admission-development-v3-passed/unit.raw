@@ -1,0 +1,27 @@
+Base Source: 3eb9bb69b4fb1df85a359750b73356b953429540
+Uncommitted Manifest: ops013-admission-development-manifest-v3.json
+Command: /home/sur/.cache/guize-takeover/governance-venv/bin/python -B -m unittest discover -s tests/governance -p test_poc_contract_repair_admission.py -v
+test_active_program_does_not_authorize_contract_change (test_poc_contract_repair_admission.TestBoundPocContractRepair.test_active_program_does_not_authorize_contract_change) ... ok
+test_actual_uncompleted_authority_cannot_grant_scope (test_poc_contract_repair_admission.TestBoundPocContractRepair.test_actual_uncompleted_authority_cannot_grant_scope) ... ok
+test_authority_does_not_change_ordinary_or_legacy_claim_results (test_poc_contract_repair_admission.TestBoundPocContractRepair.test_authority_does_not_change_ordinary_or_legacy_claim_results) ... ok
+test_candidate_or_sibling_completion_is_not_projected_into_base (test_poc_contract_repair_admission.TestBoundPocContractRepair.test_candidate_or_sibling_completion_is_not_projected_into_base) ... ok
+test_changed_original_contract_baseline_is_rejected (test_poc_contract_repair_admission.TestBoundPocContractRepair.test_changed_original_contract_baseline_is_rejected) ... ok
+test_committed_authority_tamper_is_rejected (test_poc_contract_repair_admission.TestBoundPocContractRepair.test_committed_authority_tamper_is_rejected) ... ok
+test_completed_authority_admits_only_declared_prospective_reservation (test_poc_contract_repair_admission.TestBoundPocContractRepair.test_completed_authority_admits_only_declared_prospective_reservation) ... ok
+test_declared_frozen_recovery_precedes_actual_contract_edit (test_poc_contract_repair_admission.TestBoundPocContractRepair.test_declared_frozen_recovery_precedes_actual_contract_edit) ... ok
+test_expired_and_overlong_leases_are_rejected (test_poc_contract_repair_admission.TestBoundPocContractRepair.test_expired_and_overlong_leases_are_rejected) ... ok
+test_high_risk_capacity_is_not_added_by_authorization (test_poc_contract_repair_admission.TestBoundPocContractRepair.test_high_risk_capacity_is_not_added_by_authorization) ... ok
+test_nonindependent_or_unassigned_roles_are_rejected (test_poc_contract_repair_admission.TestBoundPocContractRepair.test_nonindependent_or_unassigned_roles_are_rejected) ... ok
+test_original_registration_cannot_already_edit_contract (test_poc_contract_repair_admission.TestBoundPocContractRepair.test_original_registration_cannot_already_edit_contract) ... ok
+test_real_original_repair_registration_is_required_for_working_claims (test_poc_contract_repair_admission.TestBoundPocContractRepair.test_real_original_repair_registration_is_required_for_working_claims) ... ok
+test_task_id_or_missing_repository_context_does_not_grant_scope (test_poc_contract_repair_admission.TestBoundPocContractRepair.test_task_id_or_missing_repository_context_does_not_grant_scope) ... ok
+test_unregistered_working_state_is_rejected (test_poc_contract_repair_admission.TestBoundPocContractRepair.test_unregistered_working_state_is_rejected) ... ok
+test_widened_claims_are_rejected (test_poc_contract_repair_admission.TestBoundPocContractRepair.test_widened_claims_are_rejected) ... ok
+test_worktree_intent_does_not_override_committed_authority (test_poc_contract_repair_admission.TestBoundPocContractRepair.test_worktree_intent_does_not_override_committed_authority) ... ok
+
+----------------------------------------------------------------------
+Ran 17 tests in 56.841s
+
+OK
+
+Exit Code: 0

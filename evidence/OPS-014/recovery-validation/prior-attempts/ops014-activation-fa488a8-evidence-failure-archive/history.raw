@@ -1,0 +1,5 @@
+Source Commit: fa488a8d0c37263e0d6a60e7851a7c4728ec2a20
+Command: python scripts/check-program-plan-history.py --base-ref 15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6 --head-ref fa488a8d0c37263e0d6a60e7851a7c4728ec2a20 --task OPS-014 --branch-name chore/OPS-014-frozen-416-contract-repair-v2
+{"status": "PASS", "message": "Program Plan history transitions are valid", "details": {"baseRef": "15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6", "headRef": "fa488a8d0c37263e0d6a60e7851a7c4728ec2a20", "completionRecords": 5, "auditedOwnerCapacityFailures": []}}
+
+Exit Code: 0

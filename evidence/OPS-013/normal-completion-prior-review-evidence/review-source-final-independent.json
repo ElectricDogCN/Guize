@@ -1,0 +1,116 @@
+{
+  "reviewedAt": "2026-10-24T19:51:38.181980Z",
+  "actor": "/root/gz022_planning_independent_review",
+  "registeredRole": "independent-review-agent",
+  "task": "OPS-013",
+  "pullRequest": 140,
+  "source": "6b8b7999e73a9a5fd7c8cf45bb04a6adee4a7c0d",
+  "tree": "76aa0c7ce617515cf820c5abb1607b924fa04f98",
+  "base": "16070d0d0d4c1a4952d2fc6f036dda135f058c8d",
+  "parent": "596523cbeb2a9c35b81d6a1bc031461d84bbdd22",
+  "local13ReceiptSha256": "b1018dd48a78948edb2d702e6d16f81512469b2cf82d8449b268a699fddb75ed",
+  "fullLocalMetadataSourceAccepted": true,
+  "exact96FilesPayloadAccepted": true,
+  "latestCiNumber": 838,
+  "latestCiRunId": 40124890882,
+  "latestCiJobId": 120964093992,
+  "latestCiTests": 742,
+  "latestCiSeconds": 1632.95,
+  "latestCiAccepted": true,
+  "latestCiRawBytes": 304776,
+  "latestCiRawSha256": "35e18ac7172707c7480d432279746ad8c7a5a19ade54472a89834d5ff99cdd2e",
+  "officialSavedSnapshotSha256": "af9e75c76a168f5ea15eae77f49fcd6f4a856c00fc009697978e88d1acd873d9",
+  "testSkipped": 0,
+  "skipAuditAccepted": true,
+  "allCiStepsSuccess": true,
+  "freshOfficialApiObserved": {
+    "run": {
+      "id": 40124890882,
+      "head": "6b8b7999e73a9a5fd7c8cf45bb04a6adee4a7c0d",
+      "status": "completed",
+      "conclusion": "success",
+      "updatedAt": "2026-10-24T19:49:43Z"
+    },
+    "latestPrTriggeredRuns": [
+      {
+        "id": 40124890882,
+        "number": 838,
+        "status": "completed",
+        "conclusion": "success"
+      }
+    ],
+    "job": {
+      "id": 120964093992,
+      "status": "completed",
+      "conclusion": "success",
+      "nonSuccessSteps": []
+    },
+    "pullRequest": {
+      "number": 140,
+      "state": "open",
+      "head": "6b8b7999e73a9a5fd7c8cf45bb04a6adee4a7c0d",
+      "base": "16070d0d0d4c1a4952d2fc6f036dda135f058c8d",
+      "draft": false,
+      "merged": false,
+      "mergeable": true
+    },
+    "reviewThreads": [],
+    "actualRemoteMain": "16070d0d0d4c1a4952d2fc6f036dda135f058c8d",
+    "issue137": {
+      "state": "open",
+      "stateReason": null
+    }
+  },
+  "lease": {
+    "acquiredAt": "2026-10-23T00:03:04Z",
+    "expiresAt": "2026-10-30T00:03:04Z"
+  },
+  "registeredRoles": {
+    "owner": "ElectricDogCN",
+    "coordinator": "program-coordinator-agent",
+    "implementer": "contract-admission-implementation-agent",
+    "reviewer": "independent-review-agent",
+    "integrator": "integration-agent",
+    "agentRole": "reviewer"
+  },
+  "activeCapacity": {
+    "total": 3,
+    "high": 1
+  },
+  "originalSixClaimsRetained": [
+    "AGENTS.md",
+    "scripts/check-program-lifecycle-guards.py",
+    "scripts/check-program-plan-transitions.py",
+    "scripts/check-program-plan-history.py",
+    "scripts/poc-contract-repair-admission.py",
+    "tests/governance/test_poc_contract_repair_admission.py"
+  ],
+  "immutableIntentAndContractsUnchanged": true,
+  "programReviewRetainsIssue137Null": true,
+  "actualImplementationMainAndCi837Accepted": true,
+  "mustFix": [],
+  "finalSourceAccepted": true,
+  "independentFinalSourceAccepted": true,
+  "actualMergeMayProceed": true,
+  "actualMergeApproved": true,
+  "actualMergeApprovalScope": "Only ordinary expected-head merge of Ready PR140 exactsource6b8 into unchanged actualmain16070 after Integrator fresh preflight; no force or directmain push. This is independent high-risk review approval; root Integrator performs authorized mutation.",
+  "conditions": [
+    "Immediately before merge verify official actualmain16070/head6b8, latestsuccessful same-headCI838, empty/unresolved-free latestthreads, valid originalroles/lease/capacity and Issue137open. Any changed condition requires reassessment.",
+    "Use expected_head_sha=6b8b7999e73a9a5fd7c8cf45bb04a6adee4a7c0d. Preserve real orderedmerge parents16070+6b8 and tree76aa; retain officialmerge response and verify actualmain, not syntheticPRtestmerge.",
+    "After realmerge, canonical FF and fresh independentnative workflow no-task sixchecks+originalPOC checker establish only actualmain local facts; separately require actualReview pushmain full742CI and independentacceptance.",
+    "CurrentProgram remainsreview/ISSUE137/null, activehigh retained. NormalCompletion must be separately prepared/validated/merged, and only after its actualmainacceptance may a separatelyregistered OPS014 be considered."
+  ],
+  "postmergeHelpersContentAcceptedForLimitedVerification": {
+    "prepare": "prepare_ops013_review_actual_main_once.py",
+    "verify": "verify_ops013_review_actual_main_once.py",
+    "actualExecuted": false,
+    "observedBoundaries": "Prepare requires actualofficialmerge+Integratorapproval, exact source/base/tree, clean canonicalmain, orderedparents andff-only. Verify uses new no-alternates nativeclone, realmain metadata-only96 paths, actualno-task6+POC7 and sourceunchanged; fullmainCI staysseparate."
+  },
+  "actualReviewMainAccepted": false,
+  "actualReviewMainCiAccepted": false,
+  "completionApproved": false,
+  "successorOPS014Approved": false,
+  "contractRepairApproved": false,
+  "experimentApproved": false,
+  "reviewerExecution": "Fresh official run/jobs/latestcommitPRruns/PR/threads/mainref/IssueAPI reads; actualfullraw and savedsourcebinding inspected; priorindependentlyacceptedlocal13/payload reused without rerunningtests. Author unchanged."
+}

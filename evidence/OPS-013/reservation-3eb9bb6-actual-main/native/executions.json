@@ -1,0 +1,169 @@
+[
+  {
+    "argv": [
+      "git",
+      "fetch",
+      "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops013-reservation-3eb9bb6-actual-main.bundle",
+      "main"
+    ],
+    "label": "fetch",
+    "startedAt": "2026-10-23T01:55:28.071407Z",
+    "exitCode": 0,
+    "waitCompleted": true,
+    "elapsedMonotonicNs": 1499832308,
+    "raw": "fetch.raw",
+    "bytes": 433,
+    "sha256": "be67bac760feecbe2e521e3b7838462aee3588c096b0c155202efe4e304da14d"
+  },
+  {
+    "argv": [
+      "git",
+      "checkout",
+      "main"
+    ],
+    "label": "checkout",
+    "startedAt": "2026-10-23T01:55:29.577286Z",
+    "exitCode": 0,
+    "waitCompleted": true,
+    "elapsedMonotonicNs": 35209570,
+    "raw": "checkout.raw",
+    "bytes": 123,
+    "sha256": "b97ad6c08691dbda413e5c4ee8b3c9c2bf33cbcbb2f4bffd49c56ecc36270d91"
+  },
+  {
+    "argv": [
+      "git",
+      "merge",
+      "--ff-only",
+      "3eb9bb69b4fb1df85a359750b73356b953429540"
+    ],
+    "label": "fast-forward",
+    "startedAt": "2026-10-23T01:55:29.616902Z",
+    "exitCode": 0,
+    "waitCompleted": true,
+    "elapsedMonotonicNs": 55370839,
+    "raw": "fast-forward.raw",
+    "bytes": 12466,
+    "sha256": "f609d66b5c7340480c2084a9349417e3da4dd41b68cfdfaee67dd637c109467c"
+  },
+  {
+    "argv": [
+      "python",
+      "scripts/check-program-plan-integrity.py",
+      "--base-ref",
+      "f2e0150265e0c1eeca5f69fe85708b2434e5ee79"
+    ],
+    "label": "integrity",
+    "startedAt": "2026-10-23T01:55:29.755929Z",
+    "exitCode": 0,
+    "waitCompleted": true,
+    "elapsedMonotonicNs": 1626844519,
+    "raw": "integrity.raw",
+    "bytes": 419,
+    "sha256": "8725d8954ceaf7f668133e4311d5a1ffe9ff7665acbbef267191e49d25aa0291"
+  },
+  {
+    "argv": [
+      "python",
+      "scripts/check-program-plan-history.py",
+      "--base-ref",
+      "f2e0150265e0c1eeca5f69fe85708b2434e5ee79",
+      "--head-ref",
+      "3eb9bb69b4fb1df85a359750b73356b953429540",
+      "--task",
+      "OPS-013",
+      "--branch-name",
+      "chore/OPS-013-contract-repair-admission-reservation"
+    ],
+    "label": "history",
+    "startedAt": "2026-10-23T01:55:31.386662Z",
+    "exitCode": 0,
+    "waitCompleted": true,
+    "elapsedMonotonicNs": 3859276405,
+    "raw": "history.raw",
+    "bytes": 568,
+    "sha256": "e5529f661f8d2e9353d94f8f32bc86f86aad47b737f5705a48e5a3c8f8ac7981"
+  },
+  {
+    "argv": [
+      "python",
+      "scripts/check-program-plan-transitions.py",
+      "--base-ref",
+      "f2e0150265e0c1eeca5f69fe85708b2434e5ee79",
+      "--head-ref",
+      "3eb9bb69b4fb1df85a359750b73356b953429540",
+      "--task",
+      "OPS-013",
+      "--branch-name",
+      "chore/OPS-013-contract-repair-admission-reservation"
+    ],
+    "label": "transitions",
+    "startedAt": "2026-10-23T01:55:35.250546Z",
+    "exitCode": 0,
+    "waitCompleted": true,
+    "elapsedMonotonicNs": 4248096905,
+    "raw": "transitions.raw",
+    "bytes": 485,
+    "sha256": "823326d588ab7a945ab3fb769490eccdc696cc37ca39e044a2e96ce71d8d6baf"
+  },
+  {
+    "argv": [
+      "python",
+      "scripts/check-program-lifecycle-guards.py",
+      "--base-ref",
+      "f2e0150265e0c1eeca5f69fe85708b2434e5ee79",
+      "--head-ref",
+      "3eb9bb69b4fb1df85a359750b73356b953429540",
+      "--task",
+      "OPS-013",
+      "--branch-name",
+      "chore/OPS-013-contract-repair-admission-reservation"
+    ],
+    "label": "raw-lifecycle",
+    "startedAt": "2026-10-23T01:55:39.503478Z",
+    "exitCode": 0,
+    "waitCompleted": true,
+    "elapsedMonotonicNs": 3544661261,
+    "raw": "raw-lifecycle.raw",
+    "bytes": 551,
+    "sha256": "cdd5856cc96ed5e87e574c7e1d8c20e53fd4f140fdbbe59ef5514d779348cf02"
+  },
+  {
+    "argv": [
+      "python",
+      "scripts/run-agent-coordination-gate.py",
+      "--base-ref",
+      "f2e0150265e0c1eeca5f69fe85708b2434e5ee79",
+      "--head-ref",
+      "3eb9bb69b4fb1df85a359750b73356b953429540",
+      "--task",
+      "OPS-013",
+      "--branch-name",
+      "chore/OPS-013-contract-repair-admission-reservation"
+    ],
+    "label": "coordination",
+    "startedAt": "2026-10-23T01:55:43.052750Z",
+    "exitCode": 0,
+    "waitCompleted": true,
+    "elapsedMonotonicNs": 386681083,
+    "raw": "coordination.raw",
+    "bytes": 623,
+    "sha256": "4a959369c67359572a9ebaead454d9e3476c74d3c9dfd724f250078ab34acd26"
+  },
+  {
+    "argv": [
+      "python",
+      "specs/poc/check_program.py",
+      "--repo-root",
+      "/home/sur/.cache/guize-takeover/ops013-admission-reservation"
+    ],
+    "label": "poc-protocol",
+    "startedAt": "2026-10-23T01:55:43.443768Z",
+    "exitCode": 0,
+    "waitCompleted": true,
+    "elapsedMonotonicNs": 4287913737,
+    "raw": "poc-protocol.raw",
+    "bytes": 303,
+    "sha256": "a42bdeea43e4f328d308abcf36a5ca31440563e884c392dd74e2a744ed681038"
+  }
+]

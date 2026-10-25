@@ -1,0 +1,31 @@
+OPS-013 Completion evidence
+Last code merge: PR139/16070d0d0d4c1a4952d2fc6f036dda135f058c8d
+Accepted Review main: 43270da544d9df3da68a45d2eca3e0a2fed2de6e
+
+Historical executed command below belongs ONLY to accepted Review main, not to this Completion candidate.
+Source Commit: 43270da544d9df3da68a45d2eca3e0a2fed2de6e
+Command: /home/sur/.cache/guize-takeover/governance-venv/bin/python -B scripts/run-agent-coordination-gate.py
+Exit Code: 0
+Result: PASS
+Raw: normal-completion-prior-review-evidence/main-native/coordination.raw
+
+Actual accepted prerequisites: code PR139/main16070 and Review PR140/main43270. Review main seven local commands and CI839742/1581.41s/zero test skips were independently accepted; see normal-completion-prior-review-evidence/main-native/results.json and completion-prerequisite-acceptance/review-main-full-independent.json. Issue137 was actually closed/completed at2026-10-24T20:23:08Z.
+
+Prior candidate5e43e6ff4eeb3335fbcc1ea8044f8cee518940a7 executed six successful commands, then raw-lifecycle failed on missing canonical completion evidence; the remaining six were not run. All four original canonical files, original conditional review, candidate and seven actual raw logs/results are retained in completion-evidence-rejected-5e43e6f/index.json. It was not published.
+
+Current forward Completion candidate: source not yet committed; its Task13, same-head hosted742, final independent review, normal merge and actual Completion main acceptance are PENDING. Actual main remains review; high slot is not released and OPS014 is not admitted.
+
+Planned current Task13:
+git diff --check 43270da544d9df3da68a45d2eca3e0a2fed2de6e...HEAD
+python scripts/check-task-file.py --task OPS-013
+python scripts/check-schemas.py
+python scripts/check-program-plan-integrity.py --base-ref 43270da544d9df3da68a45d2eca3e0a2fed2de6e
+python scripts/check-program-plan-history.py --base-ref 43270da544d9df3da68a45d2eca3e0a2fed2de6e --head-ref HEAD --task OPS-013 --branch-name chore/OPS-013-contract-repair-admission-completion
+python scripts/check-program-plan-transitions.py --base-ref 43270da544d9df3da68a45d2eca3e0a2fed2de6e --head-ref HEAD --task OPS-013 --branch-name chore/OPS-013-contract-repair-admission-completion
+python scripts/check-program-lifecycle-guards.py --base-ref 43270da544d9df3da68a45d2eca3e0a2fed2de6e --head-ref HEAD --task OPS-013 --branch-name chore/OPS-013-contract-repair-admission-completion
+python scripts/run-agent-coordination-gate.py --base-ref 43270da544d9df3da68a45d2eca3e0a2fed2de6e --head-ref HEAD --task OPS-013 --branch-name chore/OPS-013-contract-repair-admission-completion
+python scripts/check-program-plan-finalization.py --base-ref 43270da544d9df3da68a45d2eca3e0a2fed2de6e --head-ref HEAD --task OPS-013
+python scripts/run-task-scope-gate.py --task OPS-013 --base 43270da544d9df3da68a45d2eca3e0a2fed2de6e
+python scripts/check-evidence.py --task OPS-013
+python scripts/check-project-readiness.py
+python scripts/check-markdown.py

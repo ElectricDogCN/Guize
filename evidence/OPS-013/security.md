@@ -1,0 +1,1 @@
+OPS-013 contains public administrative metadata and non-sensitive synthetic-fixture HTTP diagnostics. It does not read credentials, alter auth or execute provider work. Current claims and independent roles remain necessary.

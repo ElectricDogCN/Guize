@@ -1,0 +1,13 @@
+Base Source: 3eb9bb69b4fb1df85a359750b73356b953429540
+Uncommitted Manifest: ops013-admission-development-manifest-v8.json
+Command: C:\ProgramData\anaconda3\python.exe -X utf8 -B -m unittest -v test_poc_contract_repair_admission.TestBoundPocContractRepair.test_fractional_acquisition_uses_only_historical_git_second_tolerance test_poc_contract_repair_admission.TestBoundPocContractRepair.test_intent_edit_and_restoration_after_successor_registration_is_rejected test_poc_contract_repair_admission.TestBoundPocContractRepair.test_diagnostic_edit_after_successor_registration_is_rejected
+test_fractional_acquisition_uses_only_historical_git_second_tolerance (test_poc_contract_repair_admission.TestBoundPocContractRepair.test_fractional_acquisition_uses_only_historical_git_second_tolerance) ... ok
+test_intent_edit_and_restoration_after_successor_registration_is_rejected (test_poc_contract_repair_admission.TestBoundPocContractRepair.test_intent_edit_and_restoration_after_successor_registration_is_rejected) ... ok
+test_diagnostic_edit_after_successor_registration_is_rejected (test_poc_contract_repair_admission.TestBoundPocContractRepair.test_diagnostic_edit_after_successor_registration_is_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 276.699s
+
+OK
+
+Exit Code: 0

@@ -1,0 +1,137 @@
+{
+  "schemaVersion": 1,
+  "kind": "independent-exact-repair-code-content-review",
+  "reviewedAt": "2026-10-25T01:33:20.009513Z",
+  "actor": "/root/gz022_planning_independent_review",
+  "role": "independent-review-agent",
+  "taskId": "OPS-014",
+  "decision": "code_content_accepted_execution_pending",
+  "source": "2da13d55432c39f57c458cff906ac198292b2e66",
+  "tree": "a67c1201dc6ed187298f67d3c333f87cf055e59e",
+  "parent": "ad9feeedf851916730b8c65af1a914560bbbc96c",
+  "base": "15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6",
+  "branch": "chore/OPS-014-frozen-416-contract-repair-v2",
+  "sourceDescriptorSha256": "3890eaf26d346f0641f29452e18767e4bd7e0b7f9fa8079a3a7620852dedeee1",
+  "authorClean": true,
+  "reviewedCodeFiles": [
+    {
+      "path": "specs/poc/check_program.py",
+      "bytes": 771092,
+      "sha256": "ee53ccf38e80095fd77ded709aa5dba7808d011a6346e864cd1a9f6482be8cc8"
+    },
+    {
+      "path": "specs/poc/test_program.py",
+      "bytes": 1128264,
+      "sha256": "ae2bda2b9ad50578d56dd3b72b08d7054f16172dc1ea88a57447ff1b22bc2c79"
+    }
+  ],
+  "mustFix": [],
+  "codeReviewAccepted": true,
+  "productionChange": {
+    "path": "specs/poc/check_program.py",
+    "line": 1776,
+    "singleChangedLine": true,
+    "allowedDifference": "Only supported/unsatisfiable response-body equality to empty is removed. Actual status 416 and exact Content-Range remain required.",
+    "unchangedChecks": [
+      "actual selected-slot regular response and produced_media type",
+      "65536 response-body maximum",
+      "actual body SHA256 and byte count",
+      "approved source/build/profile/immutable population",
+      "probe object/version and UTC execution window",
+      "exact requestRange",
+      "ETag/version validator consistency",
+      "supported bounded 206 exact bytes",
+      "ignored 200 full object and absent Content-Range",
+      "unsupported 400/405/501 empty body and absent Content-Range"
+    ],
+    "schemaStorageAuthOriginal13AndOtherDispositionsUnchanged": true
+  },
+  "testReview": {
+    "originalTest198MethodExactUnchanged": true,
+    "allPreexistingMethodsUnchangedExceptTempRepo": true,
+    "writeTaskSpecConcreteDefaultsExactUnchanged": true,
+    "identityNegativeTests56_57_58ExactUnchanged": true,
+    "tempRepoChange": "Preserve copied registry policy/other fields; clear only live task rows in synthetic temporary fixtures so synthetic concrete actors do not inherit real reservations. Production identity validation is unchanged.",
+    "newMethods": [
+      "test_198a_supported_unsatisfiable_accepts_bounded_diagnostics",
+      "test_198b_diagnostic_probes_retain_identity_and_response_bounds",
+      "test_198c_other_range_dispositions_keep_their_body_rules"
+    ],
+    "profiles": [
+      "local-v1",
+      "production"
+    ],
+    "positiveBodies": [
+      "empty",
+      "original real 33-byte diagnostic content",
+      "other text",
+      "opaque binary",
+      "65536 bytes"
+    ],
+    "negativeCases": [
+      "65537 bytes",
+      "wrong request Range",
+      "wrong status",
+      "wrong Content-Range",
+      "foreign source",
+      "foreign object",
+      "foreign version",
+      "outside UTC window",
+      "wrong response SHA",
+      "wrong response byte length",
+      "missing selected-slot artifact",
+      "wrong artifact type"
+    ],
+    "otherDispositionPositiveAndNegativeCasesPreserved": true,
+    "supported206WrongBodyRejectedByTest": true,
+    "newPositiveTestsScope": "Direct qualified metadata-profiling validator using synthetic source/request/window identities. They are not actual provider/10k measurements or whole qualified-execution acceptance.",
+    "real33BodySha256": "b5d780567c43a2b5d8473d84a136e7dc62ee9c494108d282cbff4801d199cf32"
+  },
+  "actualOldCheckerRed": {
+    "source": "ad9feeedf851916730b8c65af1a914560bbbc96c",
+    "tree": "2c711d30eb72853c4b78073a8d43f9a290ff8efa",
+    "testMethod": "test_198a_supported_unsatisfiable_accepts_bounded_diagnostics",
+    "exitCode": 1,
+    "waitCompleted": true,
+    "actualFailureSubtests": 8,
+    "actualErrors": 0,
+    "rawBytes": 10801,
+    "rawSha256": "c4f90145b0af34759ee5a02e30cfb354d7308ba4a8c982757a942fa30546321f",
+    "resultsSha256": "d3e42621732a19fbc0f618512214b8e339fb924c38213f2c8fc0e76c8de0d354",
+    "reason": "Four nonempty diagnostic variants per profile fail original Range body rule. This is separate from earlier preserved fixture failures.",
+    "actualRunExecutedByReviewer": false
+  },
+  "historyAndAuthority": {
+    "independentMetadataActivationBeforeTestAndCode": true,
+    "activationSource": "45318b120e9795fe56f4a11da7c5512744ee41cc",
+    "activationAll14ActualZeroAndWaited": true,
+    "activationResultsSha256": "464bdba674024146c2b113896dcdb6eb40a172415c0ec5a8b17d4eba7fd7fa07",
+    "testOnlyCommitsBeforeRepairC": [
+      "db9d45647b031d9a708721c585182029c00845ce",
+      "5669c9ae36c6322f56b70a00fb524d5c10c8e35b",
+      "ad9feeedf851916730b8c65af1a914560bbbc96c"
+    ],
+    "repairCOnlyCheckerPath": true,
+    "immutableAuthoritySha256": "4f344a74a47a56ff1c3b0e27c368767e0cb779ebc61e721b263f102b39a83401",
+    "rootFrozenAndExactRecoveryUnchanged": true,
+    "foreignRolesClaimsAndLeaseUnchanged": true
+  },
+  "pendingExecution": {
+    "native18": "running/not accepted by this review",
+    "fullPocSelftests": "pending actual complete result",
+    "directFullGovernanceAndMakeVerify": "both required, pending actual complete bound records/JUnit",
+    "windowsOriginal198NewABCAndIdentity56_57_58": "running/not accepted by this review"
+  },
+  "fullSourceAccepted": false,
+  "codeExecutionResultsAccepted": false,
+  "latestCiAccepted": false,
+  "prPublicationApproved": false,
+  "mergeApproved": false,
+  "recoveryProofApproved": false,
+  "thawApproved": false,
+  "newPocExperimentApproved": false,
+  "qualificationAccepted": false,
+  "ordinaryPocWorkStillBlockedWhileFrozen": true,
+  "reviewerTestsExecuted": false,
+  "authorFilesModified": false
+}

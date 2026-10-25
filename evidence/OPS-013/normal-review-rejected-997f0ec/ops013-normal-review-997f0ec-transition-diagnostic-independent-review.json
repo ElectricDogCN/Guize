@@ -1,0 +1,14 @@
+{
+  "reviewedAt": "2026-10-24T19:11:52.112481Z",
+  "actor": "/root/gz022_planning_independent_review",
+  "source": "997f0eccefdb6c18d1a22090a63c0eaa91bb6232",
+  "base": "16070d0d0d4c1a4952d2fc6f036dda135f058c8d",
+  "rawBytes": 497,
+  "rawSha256": "f6c134a8c43f2d9f0614300a96d826d6bdc1a106dea81f80ffebf433ad963e18",
+  "resultsSha256": "8ad9e51fe6565702444a0ffd1aa7c9908536b57115ba0e282dc980dd702b293e",
+  "observedExitCode": 1,
+  "diagnosticCorroboratesProposalViolation": true,
+  "checkerChangeAuthorized": false,
+  "acceptedNextPath": "Preserve997 exact failed branch and evidence. Prepare metadata-only new Review branch from actualmain16070, excluding997 ancestry; Program status-only with ISSUE-137/null retained; Task/Handoff truthful lastCode PR139/16070. Fresh source13/hosted742/independent review required. No merge/Completion/OPS014 authorization.",
+  "supersedingCorrectionRef": ".takeover-tools/ops013-normal-review-997f0ec-contract-correction-independent-assessment.json"
+}

@@ -1,0 +1,142 @@
+{
+  "source": "480dc0b607453ba26ec3d9d650c79c1b85f1c06e",
+  "recordedAt": "2026-10-23T00:29:41.794780Z",
+  "actualWaitCompleted": true,
+  "actualExecSession91438Terminal": true,
+  "first13Passed": true,
+  "verifyExitCode": 2,
+  "governanceTests": 713,
+  "passed": 689,
+  "failed": 1,
+  "errors": 23,
+  "skipped": 0,
+  "markdownRun": false,
+  "diagnosis": "Nested --shared fixture clones exceeded inherited Git alternate object-store depth; no source assertion or test changed",
+  "isolatedStoreRepacked": true,
+  "ownAlternatesBackupRetained": true,
+  "fsckFullPassed": true,
+  "sourceAndRefsUnchanged": true,
+  "retryExecSession": 84274,
+  "retryResultsRef": ".takeover-tools/ops013-reservation-480dc0b-native-checks-v2/results.json",
+  "retryPassed": false,
+  "ci829Pending": true,
+  "mergeApproved": false,
+  "implementationStarted": false,
+  "files": [
+    {
+      "ref": "first/coordination.raw",
+      "bytes": 587,
+      "sha256": "f920b15256db0d2c5d6cacd16b3390d2b612809a3aebc2563be74d4df8276739"
+    },
+    {
+      "ref": "first/diff.raw",
+      "bytes": 144,
+      "sha256": "64655af222ab88d8b5815135d5cb26370c52f49bfff318b61bbe1b939c4968e6"
+    },
+    {
+      "ref": "first/evidence.raw",
+      "bytes": 198,
+      "sha256": "e78fccdc60ddc6843204da9f815b55dcf37bbf679370230852a5b1ffeb3ba469"
+    },
+    {
+      "ref": "first/finalization.raw",
+      "bytes": 362,
+      "sha256": "321f925aaabb1ed92ad9f83518f3e8a8b697cd53dcd254eaf57e3d0cbefc8932"
+    },
+    {
+      "ref": "first/governance.xml",
+      "bytes": 246117,
+      "sha256": "6ee2e7bbd2c47881abd85f74c753312d2c9119b578805455203e3a54b64d7c58"
+    },
+    {
+      "ref": "first/history.raw",
+      "bytes": 496,
+      "sha256": "5575bb2949ee8fc8412bd9014ea51367e3d3eecc2caa4f7667710b2eb5b5a87f"
+    },
+    {
+      "ref": "first/integrity.raw",
+      "bytes": 419,
+      "sha256": "8a6d10d60d353991f472cc28477cadf3b0a22765d9c10f89e8be2d5390d206cc"
+    },
+    {
+      "ref": "first/lifecycle.raw",
+      "bytes": 606,
+      "sha256": "38e1b34961affb93ed2bc14dbd9e5a4573266abb7c59e94084c43399aa3267cc"
+    },
+    {
+      "ref": "first/raw-lifecycle.raw",
+      "bytes": 515,
+      "sha256": "731035c3b1fd9e86038efe7bd6a52de9a6369ff0ab8c9186c96276bd38603c5a"
+    },
+    {
+      "ref": "first/readiness.raw",
+      "bytes": 660,
+      "sha256": "21bd087efd9940df6c59c3a87ce9b4cb77e4d26626db26cc97d1ebc2b7a14017"
+    },
+    {
+      "ref": "first/results.json",
+      "bytes": 12433,
+      "sha256": "ff648f473bb1d0b0ab9ea7a1a60cfd1d6221feaeb069c0d598cab282b9ebc0ca"
+    },
+    {
+      "ref": "first/schemas.raw",
+      "bytes": 1947,
+      "sha256": "fffa5d8ca95a0cfa875075207ba49196eea1ac6125ce6949a59d27da785e4f25"
+    },
+    {
+      "ref": "first/scope.raw",
+      "bytes": 319,
+      "sha256": "0df414680f2c020b105a0b91a8fd2c37946aa2c618d5948c6f8cf1115770bfde"
+    },
+    {
+      "ref": "first/task.raw",
+      "bytes": 262,
+      "sha256": "eca4a1b34bb2b23d9e68a13ef1c85cf90aa2b363e2d29fc02432dfe6fb0799d6"
+    },
+    {
+      "ref": "first/transitions.raw",
+      "bytes": 449,
+      "sha256": "617a9c29d4da09a55b5b62b8f3699943115e5738410519b67dae305789675d60"
+    },
+    {
+      "ref": "first/verify.raw",
+      "bytes": 236865,
+      "sha256": "24a30ed8466326092f1eb63facf3fb8beea1e0d12e131a2c4ab0220ef61d7ccd"
+    },
+    {
+      "ref": "object-store-repair/fsck.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "ref": "object-store-repair/object-2.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "ref": "object-store-repair/object-3.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "ref": "object-store-repair/object-4.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "ref": "object-store-repair/original-alternates.raw",
+      "bytes": 67,
+      "sha256": "8cebdfdfc64ca7555273de419dd8707c285083b069f8fbd4158eb5953e2bcbae"
+    },
+    {
+      "ref": "object-store-repair/repack.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "ref": "object-store-repair/results.json",
+      "bytes": 5932,
+      "sha256": "dae0a6aa5427a40b0ae1461b4af956fce883dcb5ed89b226921f53f5de9b1d04"
+    }
+  ]
+}

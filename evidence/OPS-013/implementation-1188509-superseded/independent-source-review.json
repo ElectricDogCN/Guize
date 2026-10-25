@@ -1,0 +1,53 @@
+{
+  "reviewedAt": "2026-10-24T17:33:06.081697Z",
+  "reviewerActor": "/root/gz022_planning_independent_review",
+  "source": "1188509ce37cd852ca3ab5442918d83d747e317d",
+  "tree": "ed72f33b711d0648355487015cd9eca15037766d",
+  "parent": "c79be6ac3b1d6a62e5c88abffbabf619ba20a5ef",
+  "base": "3eb9bb69b4fb1df85a359750b73356b953429540",
+  "metadataActivationSource": "ab8b2309a2e4a39f01bfae9b1e312eb4a8efb917",
+  "sourceScopeAccepted": true,
+  "coreContentMatchesAcceptedV6": true,
+  "forwardDeltaPathsVerified": 63,
+  "completeBaseDeltaPathsObserved": 200,
+  "indexedOriginalFilesVerified": 45,
+  "contentAccepted": false,
+  "verificationPushApproved": false,
+  "publicationHeldAtCoordinatorRequest": true,
+  "mustFix": [
+    {
+      "priority": "P2",
+      "path": "evidence/OPS-013/handoff.md",
+      "line": 19,
+      "finding": "Handoff calls changed-files.md the current exact staged inventory, but it retains C source142 paths while118 has200 paths frombase. Preserve its historical list and clearly bind a separate complete current inventory.",
+      "requiredBefore": "final source/content/integration acceptance",
+      "minimalCorrection": "Keep the existing142-path list as C history; add one Own current candidate inventory covering the full base-to-candidate diff including its own path, and update Handoff to distinguish history/current facts. Do not invent a future self-hash."
+    }
+  ],
+  "otherMustFix": [],
+  "observedEvidence": {
+    "manifestV6Sha256": "0523249b0ac2d75519d0302958d8ace68b6e87dca946c64b8e9128d07fefee26",
+    "allNineManifestFilesMatchCommittedGitBytes": true,
+    "parentCSourceValidationArchived": true,
+    "ci834Source": "c79be6ac3b1d6a62e5c88abffbabf619ba20a5ef",
+    "ci834Tests": 735,
+    "ci834Seconds": 839.27,
+    "ci834RawBytes": 305088,
+    "ci834RawSha256": "53b60c89033e01d82b1f20f59533ab7d7ff43854d0bc3c0b2e5e2c4584049616",
+    "parentResultNotTransferredTo118": true
+  },
+  "preserved": {
+    "immutableIntentAndTwoPocContractGitBlobsUnchanged": true,
+    "activeRegistryProgramTaskIdentityAndClaimsUnchangedFromC": true,
+    "historicalFailuresAndFormalP2AndIndependentReviewRetained": true
+  },
+  "exactSourceTask15Accepted": false,
+  "full739Accepted": false,
+  "latestSourceCiAccepted": false,
+  "windowsFourForwardRegressionsAccepted": false,
+  "mergeApproved": false,
+  "successorRegistrationApproved": false,
+  "contractRepairApproved": false,
+  "experimentApproved": false,
+  "limitations": "118 local gates remain in progress; retain their actual terminal or interrupted result without transferring it to a forward documentation commit. No tests rerun, no author edits, no push."
+}

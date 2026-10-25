@@ -1,0 +1,98 @@
+{
+  "source": "480dc0b607453ba26ec3d9d650c79c1b85f1c06e",
+  "before": {
+    "source": "480dc0b607453ba26ec3d9d650c79c1b85f1c06e",
+    "tree": "3e74fce293aed5de036a0da478a71df2c34d5435",
+    "status": "",
+    "refs": "480dc0b607453ba26ec3d9d650c79c1b85f1c06e refs/heads/chore/OPS-013-contract-repair-admission-reservation\ne1c1ca3d576f552c87bcc016885d733a5b1e9313 refs/heads/chore/POC-005-metadata-scale\nf2e0150265e0c1eeca5f69fe85708b2434e5ee79 refs/heads/main\ne1c1ca3d576f552c87bcc016885d733a5b1e9313 refs/remotes/origin/HEAD\ne1c1ca3d576f552c87bcc016885d733a5b1e9313 refs/remotes/origin/chore/POC-005-metadata-scale\nf42e107374562f35aa6771e4c841ca835fcdc797 refs/remotes/origin/chore/POC-005-metadata-scale-reservation\nf2e0150265e0c1eeca5f69fe85708b2434e5ee79 refs/remotes/origin/main\n346c9b6e7d25e4ea45f33be43c325ee5c0bb2d82 refs/tags/archive/GZ-005-activation-attempt-20261009\nd0d93f43d6048fd33dbdeab97a06609bc7a2f717 refs/tags/archive/GZ-005-openapi-draft-20261009\ne1ce087de4ddc00a84f88c6ab3f6c69c74b75c92 refs/tags/archive/GZ-005-reservation-local-20261009\n91e98b89b0b7fb43e778cfb1ae49949f03e1a424 refs/tags/archive/GZ-010-completion-local-20261009\n57953eda201f35b041a9e3c7da1b37c9893ddd9f refs/tags/archive/GZ-010-reviewed-local-20261009\n7a7d6c01f3720bcbdce70c42a0482bfbf1f7d8ff refs/tags/archive/OPS-003-completion-local-20261009\naa5a17cf1b9191023462d0357d07910205f0d789 refs/tags/archive/OPS-003-registration-local-20261009\n822962eaa87212fa659fa0283f92552a11c5bb83 refs/tags/archive/OPS-003-reviewed-local-20261009\nc085c2c9b69aaafad55561c672fc098dcae78db6 refs/tags/archive/OPS-004-implementation-local-20261009\n174f0addb1714cad4f07e999f24fec1c5a5849cd refs/tags/archive/OPS-004-registration-local-20261009\nb2cb1839598ee445c3cbacf9761340f3800042c7 refs/tags/takeover-OPS-004-review-b2cb-failed"
+  },
+  "startedAt": "2026-10-23T00:27:55.292091Z",
+  "diagnosis": "nested test --shared clones exceed original borrowed-object-store depth",
+  "sourceEdited": false,
+  "testsEdited": false,
+  "otherRepositoriesEdited": false,
+  "originalAlternatesBytes": 67,
+  "originalAlternatesSha256": "8cebdfdfc64ca7555273de419dd8707c285083b069f8fbd4158eb5953e2bcbae",
+  "commands": [
+    {
+      "argv": [
+        "git",
+        "repack",
+        "-a",
+        "-d"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true,
+      "elapsedMonotonicNs": 1559854489,
+      "raw": "repack.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "git",
+        "fsck",
+        "--full",
+        "--no-dangling"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true,
+      "elapsedMonotonicNs": 598023950,
+      "raw": "fsck.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "git",
+        "cat-file",
+        "-e",
+        "413a6a4dd91b5d79a3d2b7d1e5f03f8121848170^{tree}"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true,
+      "elapsedMonotonicNs": 8387496,
+      "raw": "object-2.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "git",
+        "cat-file",
+        "-e",
+        "39afaf007d800bab43d7703ac082df2bbc7e8e87^{tree}"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true,
+      "elapsedMonotonicNs": 8738856,
+      "raw": "object-3.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "git",
+        "cat-file",
+        "-e",
+        "480dc0b607453ba26ec3d9d650c79c1b85f1c06e^{tree}"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true,
+      "elapsedMonotonicNs": 9202121,
+      "raw": "object-4.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "after": {
+    "source": "480dc0b607453ba26ec3d9d650c79c1b85f1c06e",
+    "tree": "3e74fce293aed5de036a0da478a71df2c34d5435",
+    "status": "",
+    "refs": "480dc0b607453ba26ec3d9d650c79c1b85f1c06e refs/heads/chore/OPS-013-contract-repair-admission-reservation\ne1c1ca3d576f552c87bcc016885d733a5b1e9313 refs/heads/chore/POC-005-metadata-scale\nf2e0150265e0c1eeca5f69fe85708b2434e5ee79 refs/heads/main\ne1c1ca3d576f552c87bcc016885d733a5b1e9313 refs/remotes/origin/HEAD\ne1c1ca3d576f552c87bcc016885d733a5b1e9313 refs/remotes/origin/chore/POC-005-metadata-scale\nf42e107374562f35aa6771e4c841ca835fcdc797 refs/remotes/origin/chore/POC-005-metadata-scale-reservation\nf2e0150265e0c1eeca5f69fe85708b2434e5ee79 refs/remotes/origin/main\n346c9b6e7d25e4ea45f33be43c325ee5c0bb2d82 refs/tags/archive/GZ-005-activation-attempt-20261009\nd0d93f43d6048fd33dbdeab97a06609bc7a2f717 refs/tags/archive/GZ-005-openapi-draft-20261009\ne1ce087de4ddc00a84f88c6ab3f6c69c74b75c92 refs/tags/archive/GZ-005-reservation-local-20261009\n91e98b89b0b7fb43e778cfb1ae49949f03e1a424 refs/tags/archive/GZ-010-completion-local-20261009\n57953eda201f35b041a9e3c7da1b37c9893ddd9f refs/tags/archive/GZ-010-reviewed-local-20261009\n7a7d6c01f3720bcbdce70c42a0482bfbf1f7d8ff refs/tags/archive/OPS-003-completion-local-20261009\naa5a17cf1b9191023462d0357d07910205f0d789 refs/tags/archive/OPS-003-registration-local-20261009\n822962eaa87212fa659fa0283f92552a11c5bb83 refs/tags/archive/OPS-003-reviewed-local-20261009\nc085c2c9b69aaafad55561c672fc098dcae78db6 refs/tags/archive/OPS-004-implementation-local-20261009\n174f0addb1714cad4f07e999f24fec1c5a5849cd refs/tags/archive/OPS-004-registration-local-20261009\nb2cb1839598ee445c3cbacf9761340f3800042c7 refs/tags/takeover-OPS-004-review-b2cb-failed"
+  },
+  "alternatesDisabled": true,
+  "backupRetained": "/home/sur/.cache/guize-takeover/ops013-admission-reservation/.git/objects/info/alternates.before-ops013-dissociation",
+  "completedAt": "2026-10-23T00:27:57.518392Z",
+  "fullRetryPassed": false
+}

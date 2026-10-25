@@ -1,0 +1,42 @@
+{
+  "kind": "actual_parent_source_validation_not_successor_gate_inheritance",
+  "source": "480dc0b607453ba26ec3d9d650c79c1b85f1c06e",
+  "tree": "3e74fce293aed5de036a0da478a71df2c34d5435",
+  "base": "f2e0150265e0c1eeca5f69fe85708b2434e5ee79",
+  "nativeTaskChecks": 15,
+  "nativeTests": 713,
+  "nativeSeconds": 1152.72,
+  "failedErrorsSkipped": 0,
+  "junit": {
+    "bytes": 113180,
+    "sha256": "ffa1a066b390bdd9cfb3722ac58615389ee1c9d1862e7a2cbf27c7ca9900af18"
+  },
+  "actualNativeResultsRef": "reservation-480dc0b-native-retry-accepted/results.json",
+  "nativeSourceReviewRef": "reservation-480dc0b-native-retry-accepted/independent-source-review.json",
+  "firstFailureAndRecoveryRef": "reservation-480dc0b-native-attempt1-failed/index.json",
+  "ci829": {
+    "indexRef": "reservation-480dc0b-ci829/index.json",
+    "run": 39876417051,
+    "tests": 713,
+    "seconds": 1088.06
+  },
+  "ci830": {
+    "indexRef": "reservation-480dc0b-ci830/index.json",
+    "run": 39880534816,
+    "tests": 713,
+    "seconds": 1399.25
+  },
+  "parentWholeMergeApproved": false,
+  "parentUnresolvedReviewThreads": 2,
+  "fixes": [
+    "Commit actual parent-source validation and failures in canonical Evidence",
+    "Keep text Evidence byte-preserving and text-diffable"
+  ],
+  "successorExactChecksAccepted": false,
+  "successorCiAccepted": false,
+  "successorIndependentMergeApproved": false,
+  "actualMainAccepted": false,
+  "implementationStarted": false,
+  "successorRepairRegistrationApproved": false,
+  "experimentApproved": false
+}

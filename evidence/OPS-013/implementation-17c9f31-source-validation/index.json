@@ -1,0 +1,126 @@
+{
+  "source": "17c9f316e4f9912c6c8e04ecbf9f0424509d6d04",
+  "actualTask15Passed": true,
+  "actualGovernanceTests": 739,
+  "actualCiTests": 739,
+  "actualCiSeconds": 1118.94,
+  "mergeAccepted": false,
+  "reason": "Two subsequent valid P2 require v8 forward source despite complete old739 success",
+  "files": [
+    {
+      "ref": "coordination.raw",
+      "bytes": 418,
+      "sha256": "2f5ca20945b3449187056961dd70fe298a56955eb767fa245916d6921f07f56b"
+    },
+    {
+      "ref": "diff.raw",
+      "bytes": 144,
+      "sha256": "d1931030902396adc8408b7473684d81fa3913d9183696c2a66462a62780aeef"
+    },
+    {
+      "ref": "docs.raw",
+      "bytes": 164,
+      "sha256": "744d5a05bae872530ce573cf8640a9c02ba717e6efc522f30b52502727aa159c"
+    },
+    {
+      "ref": "evidence.raw",
+      "bytes": 307,
+      "sha256": "5b3cfa700163d39363fda9b31e3d425bea6dc4ed9fc717b5d7437edcd4f3421b"
+    },
+    {
+      "ref": "finalization.raw",
+      "bytes": 362,
+      "sha256": "4c42a21709e389dee844305628e50746a59f7d546e15597ba36f364bca78fcfd"
+    },
+    {
+      "ref": "governance.xml",
+      "bytes": 117893,
+      "sha256": "db22abdb2cd4ac90920f148941b3018d9a737fc0fc7fda7271438240ba5d76a9"
+    },
+    {
+      "ref": "history.raw",
+      "bytes": 484,
+      "sha256": "e347f616d3ccf181c62ead643184a2db70ff0ca17c96cdd4bcab2b509df5fb91"
+    },
+    {
+      "ref": "integrity.raw",
+      "bytes": 419,
+      "sha256": "58ac150efd18843f5271ec79c15b316051286f08a7298b7d366482d1e660b7d7"
+    },
+    {
+      "ref": "lifecycle.raw",
+      "bytes": 595,
+      "sha256": "9dd3c3cd692ba199158248642f18fcafa6e806ae2cdf126d670f8d7e09b8a917"
+    },
+    {
+      "ref": "raw-lifecycle.raw",
+      "bytes": 504,
+      "sha256": "af86c2632b0549b6350cfaeba8632fc2d9f97dbc81cf077eef3fcd547a78159b"
+    },
+    {
+      "ref": "readiness.raw",
+      "bytes": 660,
+      "sha256": "bc9b4240fe42294f1033bee9f1eae9279d81db4efa20db7c30befcf2e0d13dab"
+    },
+    {
+      "ref": "results.json",
+      "bytes": 28956,
+      "sha256": "b9ff088323d3d5fc42a1a210c77c44888453aa558669fd3e663f00583798371a"
+    },
+    {
+      "ref": "schemas.raw",
+      "bytes": 1947,
+      "sha256": "46497379e872f094447f8d265097e7c1467cffc9eae9a1aae7546535e8514de0"
+    },
+    {
+      "ref": "scope.raw",
+      "bytes": 17268,
+      "sha256": "79dad40422e959f42acc85a5071224dd1fd2f5f1e4a5cd7e916be08e09293315"
+    },
+    {
+      "ref": "task.raw",
+      "bytes": 263,
+      "sha256": "c0444112177fefba1a82813f2530cb48f73e4e318bab6e4d6c787d3c6e0a46bf"
+    },
+    {
+      "ref": "transitions.raw",
+      "bytes": 437,
+      "sha256": "545701d0db50284b898627a0584d06f85fdee0e5af27e7382267e4958e86f8cc"
+    },
+    {
+      "ref": "verify.raw",
+      "bytes": 124702,
+      "sha256": "9b236297a146aed7c8a4a0bd9ba8b2380e5a8e1462fb2287f22c907fff372c62"
+    },
+    {
+      "ref": "ops013-implementation-17c9f31-candidate.json",
+      "bytes": 19134,
+      "sha256": "1f454e9508268fdaf7e8ce4ba6ee301b46fa9831adee3f1d1acc005a37d4c1ee"
+    },
+    {
+      "ref": "ops013-17c9f31-source-publication-independent-review.json",
+      "bytes": 1913,
+      "sha256": "8609b110670db4bb3e9d94b6a99831b6946afa124839f1e0bd2540632f955b1b"
+    },
+    {
+      "ref": "ops013-17c9f31-ci835-success-job.raw.txt",
+      "bytes": 312967,
+      "sha256": "a72e11ea0db3d33711686aaab81c3a258b2074a75aefe9cb2d37874e4a464508"
+    },
+    {
+      "ref": "ops013-17c9f31-ci835-success-status.json",
+      "bytes": 28885,
+      "sha256": "7d89f1ac2eaa2f519cbf1e63ba477843faef65122eaf9429b16bbe5905a2262a"
+    },
+    {
+      "ref": "ops013-pr139-second-two-p2-official-threads.json",
+      "bytes": 8259,
+      "sha256": "79287cff9f5f03f2f72f125d535ba031775e7fd449c7118c69e718c2ba998e19"
+    },
+    {
+      "ref": "source17-current-inventory.md",
+      "bytes": 17482,
+      "sha256": "77abd8777865b4ea9843688f74f12c24f588b8841a2070a18c3caf167a0db47d"
+    }
+  ]
+}
