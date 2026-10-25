@@ -81,6 +81,17 @@ class FixtureMapTests(unittest.TestCase):
         return dict(observation=observation, entries=entries, directoryTotal=total,
                     requestCursor=None, nextCursor='{"directory":"dir","page":1}')
 
+    def test_extra_empty_password_field_is_rejected_even_with_matching_raw_hash(self):
+        self.mapping.begin_run("extra-field")
+        page = self.one_page()
+        request = json.loads(page["observation"]["requestBody"])
+        request["password"] = ""
+        raw = canonical(request).encode()
+        page["observation"]["requestBody"] = raw
+        page["observation"]["requestBodySha256"] = hashlib.sha256(raw).hexdigest()
+        with self.assertRaisesRegex(ScanError, "CONTROLLED_REQUEST_MISMATCH"):
+            self.mapping.bind_page("extra-field", page)
+
     def test_actual_repeated_listings_export_full_observed_population_with_explicit_ids(self):
         schema = yaml.safe_load((Path(__file__).resolve().parents[2] / "specs/poc/program.schema.yaml").read_text(encoding="utf8"))["$defs"]["metadataProfiledObjectRecord"]
         for run_id in ("run-one", "run-two"):

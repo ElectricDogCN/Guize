@@ -154,7 +154,10 @@ class SourceTests(unittest.TestCase):
                              ('/dav/fixture/file', 'PUT'), ('/dav/fixture/%2e%2e/other', 'GET'),
                              ('/dav/fixture/file?secret=denied', 'GET')):
             self.assertEqual(self.request(gateway, path, method)[0], 403)
-        for document in (dict(path='/other', refresh=False, password=''), dict(path='/fixture', refresh=True, password='')):
+        allowed = dict(path='/fixture', page=1, per_page=200, refresh=False)
+        for document in ({**allowed, 'path':'/other'}, {**allowed, 'refresh':True},
+                         {**allowed, 'password':''}, {**allowed, 'password':'unit-not-a-real-secret'},
+                         {**allowed, 'unexpected':True}):
             self.assertEqual(self.request(gateway, '/api/fs/list', 'POST', gateway.token, canonical(document).encode())[0], 403)
         expired = OpenListListing(gateway.endpoint, 'fixture', token=gateway.expired_token).observe()
         self.assertEqual(expired['status'], 401)

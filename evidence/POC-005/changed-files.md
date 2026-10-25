@@ -2,6 +2,7 @@
 
 Base: c0d550555dd51a29fd1c5ff1bc5e4713073c0b53
 Branch: chore/POC-005-metadata-scale
+Parent source: 1869091239b51960d53b0840c4965e3f84eb10fd
 
 - `evidence/POC-005/.gitattributes`
 - `evidence/POC-005/EVIDENCE-STRUCTURE.md`
@@ -4393,6 +4394,20 @@ Branch: chore/POC-005-metadata-scale
 - `evidence/POC-005/profiles/local-v1/v1/inputs/windows-adapter-quota-v1.json`
 - `evidence/POC-005/profiles/local-v1/v1/template-independent-decision.json`
 - `evidence/POC-005/profiles/local-v1/v1/unapproved-draft-v2-correction.json`
+- `evidence/POC-005/profiles/local-v1/v1/wire-consumer-alignment-v1/index.json`
+- `evidence/POC-005/profiles/local-v1/v1/wire-consumer-alignment-v1/original-05dc8ff10070.zlib.b64`
+- `evidence/POC-005/profiles/local-v1/v1/wire-consumer-alignment-v1/original-9a5e35d55ebc.zlib.b64`
+- `evidence/POC-005/profiles/local-v1/v1/wire-consumer-alignment-v1/original-fbcc442e7175.zlib.b64`
+- `evidence/POC-005/profiles/local-v1/v1/wire-consumer-alignment-v1/poc005-1869091-history-blocker-summary.json.zlib.b64`
+- `evidence/POC-005/profiles/local-v1/v1/wire-consumer-alignment-v1/poc005-wire-1869091-native-checks--results.json.zlib.b64`
+- `evidence/POC-005/profiles/local-v1/v1/wire-consumer-alignment-v1/poc005-wire-1869091-native-checks--task-05.raw.zlib.b64`
+- `evidence/POC-005/profiles/local-v1/v1/wire-consumer-alignment-v1/poc005-wire-1869091-windows-checks--results.json.zlib.b64`
+- `evidence/POC-005/profiles/local-v1/v1/wire-consumer-alignment-v1/poc005-wire-1869091-windows-checks--windows-all-130.raw.zlib.b64`
+- `evidence/POC-005/profiles/local-v1/v1/wire-consumer-alignment-v1/prior-source186--evidence--POC-005--changed-files.md.zlib.b64`
+- `evidence/POC-005/profiles/local-v1/v1/wire-consumer-alignment-v1/prior-source186--evidence--POC-005--commands.txt.zlib.b64`
+- `evidence/POC-005/profiles/local-v1/v1/wire-consumer-alignment-v1/prior-source186--evidence--POC-005--handoff.md.zlib.b64`
+- `evidence/POC-005/profiles/local-v1/v1/wire-consumer-alignment-v1/prior-source186--evidence--POC-005--summary.md.zlib.b64`
+- `evidence/POC-005/profiles/local-v1/v1/wire-consumer-alignment-v1/prior-source186--specs--tasks--POC-005.md.zlib.b64`
 - `evidence/POC-005/profiles/local-v1/v1/wire-repair-v1/index.json`
 - `evidence/POC-005/profiles/local-v1/v1/wire-repair-v1/ops014-normal-review-c0d5505-full-main-independent-review.json.zlib.b64`
 - `evidence/POC-005/profiles/local-v1/v1/wire-repair-v1/poc005-attempt006-full-execution-validation--full-execution-validation.raw.zlib.b64`

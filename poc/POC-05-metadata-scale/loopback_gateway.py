@@ -155,7 +155,8 @@ class ControlledGateway:
                 locator = document.get('path') if isinstance(document, dict) else None
                 if (not isinstance(locator, str) or not (locator == prefix or locator.startswith(prefix+'/'))
                         or '/'.join(_segments(locator.lstrip('/'))) != locator.lstrip('/')
-                        or document.get('refresh') is not False or document.get('password') != ''):
+                        or set(document) != {'path','page','per_page','refresh'}
+                        or document.get('refresh') is not False):
                     respond(403, b'{"error":"listing_scope_denied"}')
                     return
             with self.lock:

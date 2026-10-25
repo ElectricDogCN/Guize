@@ -1,7 +1,10 @@
-POC-005 forward wire repair
+POC-005 caller alignment after actual failed source checks
 Base: c0d550555dd51a29fd1c5ff1bc5e4713073c0b53
 Branch: chore/POC-005-metadata-scale
-Current fixed-source15/Windows/Linux/CI: UNEXECUTED. Prior commands and actual red/green originals: profiles/local-v1/v1/wire-repair-v1/index.json
+Parent Source: 1869091239b51960d53b0840c4965e3f84eb10fd
+Current Source: UNASSIGNED (uncommitted candidate)
+
+Command/Exit Code: working Windows131 actual0; original source130 actual1 and native history actual1 retained in wire-consumer-alignment-v1/index.json. New fixed-source Windows131 and boundedLinux UNEXECUTED. Task15/full hostedCI remain required after governance repair.
 
 git diff --check c0d550555dd51a29fd1c5ff1bc5e4713073c0b53...HEAD
 python scripts/check-task-file.py --task POC-005

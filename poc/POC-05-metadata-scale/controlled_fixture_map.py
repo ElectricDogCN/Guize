@@ -93,7 +93,7 @@ class ControlledFixtureMap:
                 raise ScanError("CONTROLLED_RAW_HASH_MISMATCH")
         directory = observation["directory"]
         expected_request = {"path": "/" + self.source.scope + ("/" + directory if directory else ""),
-                            "password": "", "refresh": False, "page": observation["page"],
+                            "refresh": False, "page": observation["page"],
                             "per_page": observation["perPage"]}
         actual_request = _decode(observation["requestBody"])
         if canonical(actual_request) != canonical(expected_request):

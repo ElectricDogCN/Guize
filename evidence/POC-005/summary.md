@@ -1,7 +1,11 @@
-# POC-005 forward wire repair
+# POC-005 caller alignment
 
 Status: PARTIAL
 
-Actual source78 observations and all1018 rejected full-validation findings are retained. This Own proposal omits the unused empty password field on the real request path and refreshes only Own base after accepted-main synchronization. Frozen validation/safety/thresholds remain unchanged. Current source15/complete Windows/bounded Linux/CI are unexecuted; the uncommitted listing14 suite passed after a preserved test-interface error. No new source experiment or qualification accepted.
+POC-005 caller alignment after actual failed source checks
+Base: c0d550555dd51a29fd1c5ff1bc5e4713073c0b53
+Branch: chore/POC-005-metadata-scale
+Parent Source: 1869091239b51960d53b0840c4965e3f84eb10fd
+Current Source: UNASSIGNED (uncommitted candidate)
 
-Current inventory: changed-files.md. Original bytes: profiles/local-v1/v1/wire-repair-v1/index.json.
+Four actual callers/tests now match the omitted-empty-password wire shape and strictly reject extra keys. Working Windows131 passed; no new fixed-source or hosted acceptance yet. Parent186 Windows130 and history failures are retained, not recast as success. Frozen checker/schema/13measurements/thresholds and all attempt006 original bytes/method/approvals stay unchanged. No new source request or experiment/qualification approval. Exact inventory: changed-files.md; reversible originals: profiles/local-v1/v1/wire-consumer-alignment-v1/index.json.
