@@ -188,3 +188,36 @@
    }
    delete init_info;
    init_info = nullptr;
+--- a/src/tscore/ink_queue.cc
++++ b/src/tscore/ink_queue.cc
+@@ -37,6 +37,8 @@
+   ****************************************************************************/
+ 
+ #include "tscore/ink_config.h"
++#include "tscore/GuizeLiveBufferAccounting.h"
++#include "tscore/GuizeLivePoolCapacity.h"
+ #include <cassert>
+ #include <memory.h>
+ #include <cstdlib>
+@@ -205,8 +207,19 @@
+       void *newp        = nullptr;
+       size_t alloc_size = f->chunk_size * f->type_size;
+       size_t alignment  = 0;
+-
+-      if (ats_hugepage_enabled()) {
++      const bool guize_huge_enabled = ats_hugepage_enabled();
++      if (guize_live_buffer::is_iobuffer_pool(f->name)) {
++        uint64_t guize_capacity = 0;
++        const bool valid = guize_live_buffer::checked_pool_growth_capacity(
++          f->chunk_size, f->type_size, alloc_size, ats_pagesize(), guize_huge_enabled,
++          guize_huge_enabled ? ats_hugepage_size() : 0, guize_capacity);
++        // Invalid arithmetic terminates this diagnostic epoch before allocation.
++        GuizeAtsLiveBufferAcquire(guize_live_buffer::IO_BUFFER, valid ? guize_capacity : 0);
++        // No matching decrement: return/reuse retains this backing allocation.
++        // Logical IOBufferData capacity is deliberately counted in addition.
++      }
++
++      if (guize_huge_enabled) {
+         alignment = ats_hugepage_size();
+         newp      = ats_alloc_hugepage(alloc_size);
+       }

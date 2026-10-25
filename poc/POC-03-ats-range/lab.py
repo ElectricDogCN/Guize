@@ -112,6 +112,8 @@ def prepare(config_path,run):
                 or core_build['instrumentation']['additionalHeaderSha256']!=runtime['ledgerHeaderSha256']):
             raise ValueError('exact instrumented core/observer build mismatch')
         journal_sha=digest(HERE/'instrumentation/live_peak_journal.h')
+        if core_build['instrumentation']!=unique_json((HERE/'instrumentation/patch-manifest.json').read_text()):
+            raise ValueError('exact current core patch and all installed accounting headers required')
         if (runtime.get('journalHeaderSha256')!=journal_sha or live_build.get('journalHeaderSha256')!=journal_sha
                 or core_build['instrumentation'].get('journalHeaderSha256')!=journal_sha
                 or live_build.get('accountingWindow')!='process-lifetime'):
@@ -142,7 +144,7 @@ def prepare(config_path,run):
     cfg['exportBuildReceiptSha256']=digest(build_path)
     if live is not None:
         cfg['instrumentedRuntime']=receipt['instrumentedLiveBuffer']
-        for name in ('live_buffer_probe.py','durable_peak_probe.py','instrumentation/live_peak_journal.h','instrumentation/live_buffer_accounting.h','instrumentation/live_buffer_observer.cc'):
+        for name in ('live_buffer_probe.py','durable_peak_probe.py','instrumentation/live_peak_journal.h','instrumentation/live_pool_capacity.h','instrumentation/patch-manifest.json','instrumentation/ats-live-buffer-accounting.patch','instrumentation/live_buffer_accounting.h','instrumentation/live_buffer_observer.cc'):
             cfg['implementationSources'][name]=digest(HERE/name)
     now=datetime.now(timezone.utc)
     cfg['grants']={user:dict(grantId='poc003-grant-'+user,principalId=user,

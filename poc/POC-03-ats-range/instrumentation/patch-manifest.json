@@ -25,9 +25,14 @@
       "path": "iocore/cache/Cache.cc",
       "beforeSha256": "a6f1937b4aa042cd75ad5cb4479ca0f6e45aab09706ff820a035a763653ecf69",
       "afterSha256": "8926035b3c46a9d584cd5fae86094617817df207869e1c8d59ba902c516e76b2"
+    },
+    {
+      "path": "src/tscore/ink_queue.cc",
+      "beforeSha256": "83c38349f8cc56734f74ece47fe515f5b2d80869eaf155adb793b247647fbc8f",
+      "afterSha256": "2db32f95c747618a8d370f565d7355d0900c90f6ea092b082a7302eadcf5f621"
     }
   ],
-  "patchSha256": "d613e3b1895b490bc262116da28f479f669da55465ecd1f9c97fd6e52996a94c",
+  "patchSha256": "3d40024fd459c7bd1a0c6fc98a7e8dc049a047dd4865a2a2104e922138d94e9b",
   "additionalHeaderSha256": "f771476d0e5bb5124577329744128d83a4a0bdf43f1d10f91145e006848dc7fb",
   "observationWindow": "Process-lifetime tracked capacities; each increasing peak fully written/fsynced under the ledger lock before payload acquisition. No reset. Per-process fork/exec reuse and accounting/publication faults fail the diagnostic epoch.",
   "uncoveredExternalEventsInvalidateQualification": true,
@@ -51,7 +56,15 @@
       "source": "live_peak_journal.h",
       "installed": "include/tscore/GuizeLivePeakJournal.h",
       "sha256": "b1f45c1b71359e5463e9f043451ad3fc34243426b96aea9d5e0e9180eaf79ea4"
+    },
+    {
+      "source": "live_pool_capacity.h",
+      "installed": "include/tscore/GuizeLivePoolCapacity.h",
+      "sha256": "4f4aee7c70e4e6cb9a32691b87840783abd71b25d43379f97163e232c6b71255"
     }
   ],
-  "durablePeakJournalAbi": "INSTRUMENTED_ATS_DURABLE_PEAK/v1"
+  "durablePeakJournalAbi": "INSTRUMENTED_ATS_DURABLE_PEAK/v1",
+  "poolCapacityHeaderSha256": "4f4aee7c70e4e6cb9a32691b87840783abd71b25d43379f97163e232c6b71255",
+  "retainedIOBufferPoolAccounting": "Each backing grow durably pre-counts maximum checked page/huge round-up capacity; no decrement on logical return/reuse. Existing logical counters intentionally overcount in addition.",
+  "retainedPoolImplementationTested": false
 }

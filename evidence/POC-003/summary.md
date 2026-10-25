@@ -1,4 +1,17 @@
 
+## Retained ioBufAllocator capacity component (full POC still pending)
+
+The exact native ink_queue.cc grow site now durably charges checked page/huge-round-up backing capacity before any allocation. Returning/reusing blocks does not decrement that backing charge. Original logical IOBufferData capacity remains deliberately double-counted. The current lab requires the entire current instrumentation manifest, preventing reuse of the former five-file core merely because its ledger/journal headers match.
+
+The old actual core is a preserved negative: 65536 backing bytes versus a 40960 logical peak, with logical current zero after return/reuse (actual exit2; physical coverage failed). The new six-file/three-header ordinary-user core builds and links successfully. The same actual pool driver passes: backing65536, held/peak106496, return/reuse65536; sixteen concurrent payloads retain their actual pool backing too. Independent implementation, actual build/behaviour and failure/fallback reviews accept their stated scope.
+
+Real private invalid-product and 37-byte partial-journal cases exit70 before the allocation call returns, preserving failed/partial raw and rejecting complete epochs. The actual unavailable-hugepage profile has huge enabled/2097152, direct huge allocation ENOMEM, normal 4096-byte target mapping pages, backing2097152 and retained current2097152. Hugepage success remains unmeasured. Smaps mapping Size is not a media-payload measurement, and journal peak rows do not claim to record final release snapshots; return/current facts come from actual driver snapshots/stdout.
+
+Old/current real runtime receipts were exercised through lab.prepare with synthetic input/exporter setup only: the old core is rejected at the exact manifest guard and the new core reaches the intercepted pre-run-creation boundary. No input media, sandbox, listener or ATS workload was created. Manifest draft/no-qualification flags remain the original build-input snapshot; actual component results are in immutable test/review archives, not retroactively rewritten flags.
+
+Recoverable originals: retained-pool-capacity-v1/index.json; the previously accepted five-file build/link/API evidence is separately archived in durable-core-build-v1/index.json. Remaining: exact all-helper/restart/final epochs and exec chain, other ATS/media owners and alternative allocation paths as applicable, complete media-domain approval, stable-main sync/new fixed-source Task15/CI, original15 cases/current-source hot-cache revocation and full qualification. No new media experiment is approved here.
+
+
 ## Durable tracked-peak component V2 (not full-media qualification)
 
 The process-lifetime logical-allocation ledger now writes/fsyncs each increasing peak under its lock before payload acquisition. No cache-ready reset; accounting, publication, external attachment, inherited fork and reused exec epochs fail closed. A native ordinary child preserves its released 1MiB peak across actual wait0; partial/failed streams cannot be promoted to complete success.
