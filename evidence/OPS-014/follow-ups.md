@@ -1,7 +1,9 @@
-OPS-014 governance history implementation
-Base: 4c7a5a46863504fa93849ad4ae82946e3bfb4bc6
-Branch: chore/OPS-014-clean-main-import-attribution
-Parent activation: 37de66cb7aa049051c7313e21815990a061a0521
-Code Source Commit: UNASSIGNED (dirty snapshot)
+Task: OPS-014
+Issue: 142
+Branch: chore/OPS-014-history-code-normal-review
+Base SHA: 2a77cbf9ad838b7b7abc7fbc5ed7aaa5f2f793d4
+Phase: review/reviewer
+Latest code: PR150/main 2a77cbf9ad838b7b7abc7fbc5ed7aaa5f2f793d4/source 52a47798e704c51db7930e72eb75b910a138ca0f
+Source Commit: UNASSIGNED (uncommitted preparation)
 
-Own Gov2 only: exclude proven clean admitted-main imports from Foundation activity; preserve actual identity, full own projections, incoming-owned recovery, stage0 mode/blob proof, all introduced nodes and rename signals. Actual activation13 accepted; dirty component10 passed; initial core independent review accepted; actual nativeD classifier oldTrue/newFalse/realFoundationHintTrue. Original peer/full gates, source15, complete governance/make verify, hostedCI/finalreview/main and normal Review/Completion remain pending. No experiment or qualification.
+Only Own metadata/Evidence; exact source checks/CI/final review and actual Review main acceptance remain pending. Code is unchanged; all prerequisite code15/CI859/main7/CI860 originals and independent acceptance are retained in history-review-prerequisites. Original contract PR145/freeze/thaw/authority/roles/lease/claims and foreign bytes remain. No new experiment or qualification. After commit bind actual Git HEAD/tree, execute13, then independent source/publication review, full same-head CI752, final independent source review and fresh expected-head merge. Normal Completion follows actual Review main acceptance and uses true PR150 code identity.

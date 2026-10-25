@@ -1,12 +1,9 @@
-OPS-014 governance history implementation
-Base: 4c7a5a46863504fa93849ad4ae82946e3bfb4bc6
-Branch: chore/OPS-014-clean-main-import-attribution
-Parent activation: 37de66cb7aa049051c7313e21815990a061a0521
-Code Source Commit: UNASSIGNED (dirty snapshot)
+Task: OPS-014
+Issue: 142
+Branch: chore/OPS-014-history-code-normal-review
+Base SHA: 2a77cbf9ad838b7b7abc7fbc5ed7aaa5f2f793d4
+Phase: review/reviewer
+Latest code: PR150/main 2a77cbf9ad838b7b7abc7fbc5ed7aaa5f2f793d4/source 52a47798e704c51db7930e72eb75b910a138ca0f
+Source Commit: UNASSIGNED (uncommitted preparation)
 
-Task OPS-014 / Issue142 open. Owner ElectricDogCN; Coordinator program-coordinator-agent; Implementer poc-contract-repair-implementation-agent (/root); Reviewer independent-review-agent (/root/gz022_planning_independent_review); Integrator integration-agent under existing user delegation. Current in_progress/implementer; MOD-GOV/high; lease2026-10-24T21:42:30Z to2026-10-31T21:42:30Z; group poc-contract-repair/order10; three active/one high. Claims exactGov2, shared none.
-Actual files: changed-files.md. Contracts unchanged. Own activation37de66c directly descends from fully accepted4c; all13 actual0 and independent activation acceptance preceded implementation. Originalfailed0f9 fix branch/bundle/raw remain; not a code ancestor. Actual code source/tree UNASSIGNED until reviewed snapshot commit.
-Code: complete clean admitted import classification only. Component10 passed actual dirty hashes; initial core independent acceptance, real nativeD oldTrue/newFalse and trueFoundationHint retained in history-implementation-v1/index.json. Firstred1fail8pass/firstgreen9pass; intermediate red-owned-recovery actually10pass (endpoint-only assertion); added firstbadhead actually1fail, then incoming-owned recovery fix/current10pass. Do not relabel any old outcome. Windows-path actualD probe36413 remains live with a read-only p9 disk wait; separate existing exact native bundle clone provided actual comparison. No source worktree bytes were modified by probes.
-Current commands: Task15/commands.txt; actual exits UNEXECUTED for the uncommitted code snapshot. Full governance, make verify and same-head hostedCI remain required; component checks and classifiers do not accept complete peer Task gates, old Completion or a POC.
-Next Reviewer: inspect complete code-stage snapshot and evidence/protected-byte boundaries; only permit exact commit/current source gates if appropriate. Next Implementer: exact reviewed commit, actual source/tree/bundle, current15 in fresh native context, retain all true results. Next Integrator: independent source publication/fullCI/finalreview/fresh expected-head ordinary merge, ownactualmain checks/CI/independent acceptance, then normal Review/Completion with true latest code identity. Scope/authority/proof/foreign/ledger/contract unchanged; no POC experiment or qualification.
-Rollback: before integration retain/revise candidate; after integration use reviewed forward correction. Keep original local refs/workspaces/raw/DB/inputs and all old failures. No force rewrite or consumed approval reuse.
+Only Own metadata/Evidence; exact source checks/CI/final review and actual Review main acceptance remain pending. Code is unchanged; all prerequisite code15/CI859/main7/CI860 originals and independent acceptance are retained in history-review-prerequisites. Original contract PR145/freeze/thaw/authority/roles/lease/claims and foreign bytes remain. No new experiment or qualification. After commit bind actual Git HEAD/tree, execute13, then independent source/publication review, full same-head CI752, final independent source review and fresh expected-head merge. Normal Completion follows actual Review main acceptance and uses true PR150 code identity.
