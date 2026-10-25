@@ -47,6 +47,17 @@ def rename_noreplace(source, destination):
         raise OSError(code, os.strerror(code), str(destination))
 
 
+def export_bounds(cfg, version):
+    """Keep prototype limits; bound explicit representative exports by the input."""
+    if cfg.get('fixtureProfile', 'prototype-64m-v1') != 'representative-v1':
+        return 128, 128 << 20
+    size = cfg['inputs'][version]['sizeBytes']
+    slices = (size + cfg['sliceBytes'] - 1) // cfg['sliceBytes']
+    if not 1 <= slices <= 512:
+        raise ValueError('representative input exceeds native export key capacity')
+    return slices, size
+
+
 def slice_catalogue(rows, cfg, version, user):
     """Select real Slice keys; never construct unobserved cache keys."""
     prefix = (r'^http://(?:127\.0\.0\.1:18231|ats\.local(?::80)?)/ctx/'
@@ -56,6 +67,7 @@ def slice_catalogue(rows, cfg, version, user):
     found = []
     seen = set()
     size = cfg['inputs'][version]['sizeBytes']
+    maximum_keys, _ = export_bounds(cfg, version)
     for row in rows:
         match = pattern.fullmatch(row['lookupUrl'])
         if not match:
@@ -68,7 +80,7 @@ def slice_catalogue(rows, cfg, version, user):
             raise ValueError('duplicate or invalid actual Slice catalogue entry')
         seen.add(key)
         found.append(dict(row, start=start, end=end))
-    if len(found) > 128 or len({(r['start'], r['end']) for r in found}) != len(found):
+    if len(found) > maximum_keys or len({(r['start'], r['end']) for r in found}) != len(found):
         raise ValueError('duplicate Slice interval or export key bound')
     return sorted(found, key=lambda row: row['start'])
 
@@ -124,6 +136,7 @@ def _export_stage(run, out, cfg, snapshot, version, user):
     else:
         raise TimeoutError('actual observer catalogue did not settle')
     selected = slice_catalogue(catalogue, cfg, version, user)
+    _, maximum_exported_bytes = export_bounds(cfg, version)
     (out / 'catalogue.before.jsonl').write_bytes(catalogue_raw)
     before, events = journal(native / 'events.jsonl')
     (out / 'events.before.jsonl').write_bytes(before)
@@ -143,61 +156,107 @@ def _export_stage(run, out, cfg, snapshot, version, user):
                   partialDiscardProven=False, formalPocAccepted=False)
     write_json(out / 'stage.started.json', report)
     if selected:
-        request_id = 'stage-' + uuid.uuid4().hex[:24]
-        preparing = native / ('preparing-' + request_id)
-        fd = os.open(preparing, os.O_CREAT | os.O_EXCL | os.O_WRONLY | os.O_NOFOLLOW, 0o600)
-        with os.fdopen(fd, 'w') as stream:
-            stream.write(request_id + '\n' + ''.join(str(row['keyId']) + '\n' for row in selected))
-            stream.flush()
-            os.fsync(stream.fileno())
-        # One atomic rename keeps st_nlink==1 even if ATS immediately consumes it.
-        rename_noreplace(preparing, native / 'request.ready')
-        job = native / ('request-' + request_id)
-        deadline = time.monotonic() + 160
-        while time.monotonic() < deadline:
-            after, current_events = journal(native / 'events.jsonl')
-            new_events = current_events[len(events):]
-            accepted = any(row['event'] == 'request_accepted'
-                           and row.get('requestId') == request_id for row in new_events)
-            if accepted and any(row['event'] == 'request_finished' for row in new_events):
-                report['nativeExportFinished'] = True
-                break
-            time.sleep(.1)
-        else:
-            raise TimeoutError('native read-only cache export deadline')
-        private_directory(job)
-        results_raw, results = journal(job / 'results.jsonl')
-        (out / 'results.jsonl').write_bytes(results_raw)
-        (out / 'request.txt').write_bytes((job / 'request.txt').read_bytes())
-        (out / 'events.after.jsonl').write_bytes(after)
-        if len(results) != len(selected) or {r['keyId'] for r in results} != {r['keyId'] for r in selected}:
-            raise ValueError('native terminal results must cover each selected key exactly once')
-        exported_total = 0
-        for result in results:
-            key = next(row for row in selected if row['keyId'] == result['keyId'])
-            if result['lookupUrl'] != key['lookupUrl']:
-                raise ValueError('native result key mismatch')
-            observed = dict(result, start=key['start'], end=key['end'])
-            if result['file']:
-                if result['file'] not in ('key-' + str(key['keyId']) + '.body',
-                                          'key-' + str(key['keyId']) + '.body.part'):
-                    raise ValueError('unexpected native export filename')
-                body = job / result['file']
-                info = body.lstat()
-                if not stat.S_ISREG(info.st_mode) or info.st_uid != os.getuid() or info.st_nlink != 1:
-                    raise ValueError('owned regular export body required')
-                exported_total += info.st_size
-                if info.st_size > 64 << 20 or exported_total > 128 << 20:
-                    raise ValueError('stage exported-byte bound')
-                count = key['end'] - key['start'] + 1
-                actual = read_export_body(body, count)
-                (out / result['file']).write_bytes(actual)
-                with Path(cfg['inputs'][version]['path']).open('rb') as source:
-                    source.seek(key['start'])
-                    expected = source.read(count)
-                observed.update(actualBytes=len(actual), actualSha256=hashlib.sha256(actual).hexdigest(),
-                                exactInputSliceEqual=len(actual) == count and actual == expected)
-            report['exports'].append(observed)
+        batches = [selected[i:i+128] for i in range(0,len(selected),128)]
+        accepted_ids = [row['requestId'] for row in events if row['event']=='request_accepted']
+        controls = sum(row['event'] in {'request_accepted','request_rejected'} for row in events)
+        if len(accepted_ids)!=len(set(accepted_ids)) or len(accepted_ids)+len(batches)>8 or controls+len(batches)>16:
+            raise ValueError('native process request/control budget insufficient')
+        prior_bytes = 0
+        prior_results = []
+        for prior_id in accepted_ids:
+            if not isinstance(prior_id,str) or not re.fullmatch(r'[A-Za-z0-9_-]{1,32}',prior_id):
+                raise ValueError('invalid native prior request identity')
+            prior_job = private_directory(native/('request-'+prior_id))
+            prior_raw, prior_rows = journal(prior_job/'results.jsonl')
+            for row in prior_rows:
+                value=row.get('exportedBytes')
+                if type(value) is not int or not 0<=value<=64<<20:
+                    raise ValueError('invalid native prior byte observation')
+                prior_bytes+=value
+            prior_results.append(dict(requestId=prior_id,bytes=len(prior_raw),sha256=hashlib.sha256(prior_raw).hexdigest()))
+        planned_bytes=sum(row['end']-row['start']+1 for row in selected)
+        if prior_bytes+planned_bytes>512<<20:
+            raise ValueError('native process export byte budget insufficient')
+        report['nativeBudget']=dict(priorAcceptedJobs=len(accepted_ids),priorControls=controls,
+            priorExportedBytes=prior_bytes,plannedJobs=len(batches),plannedExportBytes=planned_bytes,priorResults=prior_results)
+        write_json(out/'native-budget.json',report['nativeBudget'])
+        report['nativeRequests']=[]
+        exported_total=0
+        for batch_index,batch in enumerate(batches):
+            artifact=out if len(batches)==1 else out/('batch-'+str(batch_index+1).zfill(4))
+            if artifact!=out:artifact.mkdir(mode=0o700)
+            request_id = 'stage-' + uuid.uuid4().hex[:24]
+            preparing = native / ('preparing-' + request_id)
+            fd = os.open(preparing, os.O_CREAT | os.O_EXCL | os.O_WRONLY | os.O_NOFOLLOW, 0o600)
+            with os.fdopen(fd, 'w') as stream:
+                stream.write(request_id + '\n' + ''.join(str(row['keyId']) + '\n' for row in batch))
+                stream.flush()
+                os.fsync(stream.fileno())
+            # One atomic rename keeps st_nlink==1 even if ATS immediately consumes it.
+            rename_noreplace(preparing, native / 'request.ready')
+            job = native / ('request-' + request_id)
+            deadline = time.monotonic() + 160
+            batch_finished = False
+            while time.monotonic() < deadline:
+                after, current_events = journal(native / 'events.jsonl')
+                new_events = current_events[len(events):]
+                accepted = any(row['event'] == 'request_accepted'
+                               and row.get('requestId') == request_id for row in new_events)
+                if any(row['event'] == 'request_rejected' for row in new_events):
+                    raise ValueError('native batch request rejected; raw native evidence retained')
+                accepted_rows = [row for row in new_events if row['event'] == 'request_accepted']
+                finished_rows = [row for row in new_events if row['event'] == 'request_finished']
+                if len(accepted_rows)>1 or len(finished_rows)>1:
+                    raise ValueError('interleaved native batch events')
+                if accepted and finished_rows:
+                    if len(accepted_rows)!=1 or accepted_rows[0].get('keys')!=len(batch):
+                        raise ValueError('native accepted batch key count differs')
+                    if new_events.index(finished_rows[0])<new_events.index(accepted_rows[0]):
+                        raise ValueError('native batch finish precedes acceptance')
+                    batch_finished = True
+                    break
+                time.sleep(.1)
+            else:
+                raise TimeoutError('native read-only cache export deadline')
+            if not batch_finished:raise ValueError('native batch did not finish')
+            private_directory(job)
+            expected_request=(request_id+'\n'+''.join(str(row['keyId'])+'\n' for row in batch)).encode()
+            if (job/'request.txt').read_bytes()!=expected_request:
+                raise ValueError('native batch request identity changed')
+            results_raw, results = journal(job / 'results.jsonl')
+            (artifact / 'results.jsonl').write_bytes(results_raw)
+            (artifact / 'request.txt').write_bytes((job / 'request.txt').read_bytes())
+            (artifact / 'events.after.jsonl').write_bytes(after)
+            if len(results) != len(batch) or {r['keyId'] for r in results} != {r['keyId'] for r in batch}:
+                raise ValueError('native terminal results must cover each selected key exactly once')
+            for result in results:
+                key = next(row for row in batch if row['keyId'] == result['keyId'])
+                if result['lookupUrl'] != key['lookupUrl']:
+                    raise ValueError('native result key mismatch')
+                observed = dict(result, start=key['start'], end=key['end'])
+                if result['file']:
+                    if result['file'] not in ('key-' + str(key['keyId']) + '.body',
+                                              'key-' + str(key['keyId']) + '.body.part'):
+                        raise ValueError('unexpected native export filename')
+                    body = job / result['file']
+                    info = body.lstat()
+                    if not stat.S_ISREG(info.st_mode) or info.st_uid != os.getuid() or info.st_nlink != 1:
+                        raise ValueError('owned regular export body required')
+                    exported_total += info.st_size
+                    if info.st_size > 64 << 20 or exported_total > maximum_exported_bytes:
+                        raise ValueError('stage exported-byte bound')
+                    count = key['end'] - key['start'] + 1
+                    actual = read_export_body(body, count)
+                    (out / result['file']).write_bytes(actual)
+                    with Path(cfg['inputs'][version]['path']).open('rb') as source:
+                        source.seek(key['start'])
+                        expected = source.read(count)
+                    observed.update(actualBytes=len(actual), actualSha256=hashlib.sha256(actual).hexdigest(),
+                                    exactInputSliceEqual=len(actual) == count and actual == expected)
+                report['exports'].append(observed)
+            report['nativeRequests'].append(dict(requestId=request_id,keyIds=[row['keyId'] for row in batch],rawDirectory=artifact.relative_to(out).as_posix()))
+            events=current_events
+        report['nativeExportFinished']=True
     origin_after = {name: (run / name).read_bytes() if (run / name).exists() else b''
                     for name in origin_before}
     for name in origin_before:
