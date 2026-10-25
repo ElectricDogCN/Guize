@@ -1,0 +1,188 @@
+{
+  "schemaVersion": 1,
+  "kind": "independent_actual_attempt008_resource_preparation_result_acceptance",
+  "reviewedAt": "2026-10-25T22:56:17.907687Z",
+  "actor": "/root/gz022_planning_independent_review",
+  "reviewer": "independent-review-agent",
+  "mustFix": [],
+  "resourcePreparationAccepted": true,
+  "fixturePreparationFactsAccepted": true,
+  "newIdleServicePreparationFactsAccepted": true,
+  "source": "8f7c9a5ed3f598d40f6e34bb12151a67b3f5d8e1",
+  "base": "746e23e582501fa08380c3f3301bdc1774902f7c",
+  "tree": "ef65e23a18b01bd73f16a128e0991d55817a5a36",
+  "executionClone": "poc005-attempt008-runtime-8f7c9a5",
+  "originalAuthorRetained": "poc005-thaw-integration",
+  "originalAuthorHeadRetained": "7dd5550770682469710d65021439b7249453b704",
+  "preparationReviewSha256": "210aa3365b868cad4bc73889afaceb7edb6df6f042eaa98ce16677383ec7d136",
+  "requestSha256": "1896fdebafd6b69a7b31645990e67c4e4af96240ab3bd416e8be9f71947dcdb5",
+  "startedAt": "2026-10-25T22:53:59.499765+00:00",
+  "completedAt": "2026-10-25T22:54:44.064502+00:00",
+  "actualSeconds": 44.564737,
+  "actualPreparers": [
+    {
+      "argv": [
+        "C:\\ProgramData\\anaconda3\\python.exe",
+        "-X",
+        "utf8",
+        "-B",
+        "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\prepare_poc005_attempt008_windows_fixture_once.py",
+        "--source-review",
+        "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc005-completion-main-sync-8f7c9a5-final-source-independent-review.json"
+      ],
+      "startedAt": "2026-10-25T22:53:59.501765+00:00",
+      "methodSha256": "86bcaab96696027ce1eaabc8d5444fd18f5700f78ea6ae50e3d3f38191e9ad53",
+      "pid": 150472,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "completedAt": "2026-10-25T22:54:35.350442+00:00",
+      "raw": "fixture.raw",
+      "rawBytes": 1689,
+      "rawSha256": "a51c422cdede2c2081a0b11105e188c200e01689aff08582f675c5f9960939b9"
+    },
+    {
+      "argv": [
+        "C:\\ProgramData\\anaconda3\\python.exe",
+        "-X",
+        "utf8",
+        "-B",
+        "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\prepare_poc005_attempt008_windows_openlist_once.py",
+        "--source-review",
+        "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc005-completion-main-sync-8f7c9a5-final-source-independent-review.json"
+      ],
+      "startedAt": "2026-10-25T22:54:35.351794+00:00",
+      "methodSha256": "f3b6d5543ae9539f74aed5503c1ec1e9ff05a42e87e81869f5a9f5711dcf83ee",
+      "pid": 428,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "completedAt": "2026-10-25T22:54:43.863510+00:00",
+      "raw": "openlist.raw",
+      "rawBytes": 2032,
+      "rawSha256": "1918d948da0a40fc630643dfe4144e38a7bf71b54b63d29b9f90c6c84ad32b4a"
+    }
+  ],
+  "fixture": {
+    "files": 10000,
+    "directories": 500,
+    "payloadBytes": 17920000,
+    "payloadMap": {
+      "ref": "C:\\Users\\13997\\.codex\\local-lab\\poc005-native-windows-v5\\payloads.jsonl",
+      "bytes": 3326029,
+      "sha256": "459f5dddf9291f913ce1b696194ec8c70da1dbf8d27f21edc3f69b66e0d1db3d"
+    },
+    "sevenInputHashes": {
+      "baseline.jsonl": "5dc45ba589f8816b0f232e7a37ac54f6f5e6bc5050415ed98cf19671e0afa3f1",
+      "profiled.jsonl": "2fd43a93e15b2854c02f20d78d08986c690726ac3c100513bb9e8560c5846784",
+      "expected-changes.jsonl": "c1eb4e21860fdbb307b28905dffcd9f8a4329e05ef2638ade09690076def56fd",
+      "change-profiles.jsonl": "3324eef3cb42ae32e9e21433f2f60d0070d51291659bf7d5a27b422e5754be74",
+      "updated-probe.bin": "22250e12fcdfd3b338e9fcad5848a7225a8d39646f3d071ab9dac6dfd4fe0b8d",
+      "created-probe.bin": "785b0751fc2c53dc14a4ce3d800e69ef9ce1009eb327ccf458afe09c242c26c9",
+      "baseline-probe.bin": "c8f5d0341d54d951a71b136e6e2afcb14d11ed8489a7ae126a8fee0df6ecf193"
+    },
+    "reviewerIndependentPayloadHashAndMtimeRereadCount": 10000,
+    "reviewerIndependentDirectoryMtimeRereadCount": 500,
+    "reviewerActualExactPathsetCount": 10500
+  },
+  "service": {
+    "identity": {
+      "cmdlineSha256": "5ae1add5155b7b1cb41196eb222c17a2da7504e87ad642aa6d167c385e2e33c5",
+      "creationTime100ns": 134374424829243630,
+      "executable": "C:\\Users\\13997\\.codex\\local-lab\\poc005-windows-openlist-v5\\openlist.exe",
+      "executableSha256": "234ee38f142858ba12d57dd57d181c9ed4a77f952b8420c053e7ab98e3db3172",
+      "nativeCommandLine": "C:\\Users\\13997\\.codex\\local-lab\\poc005-windows-openlist-v5\\openlist.exe server --data C:\\Users\\13997\\.codex\\local-lab\\poc005-windows-openlist-v5\\data",
+      "nativeCommandLineSha256": "3a5851f3a658f8aa74820df5570b9a49fff319f0c75986d0ca392f7678d24942",
+      "nativeProcessId": 59540,
+      "ownerSid": "S-1-5-21-2057438557-2912810365-1850882449-1001"
+    },
+    "freshIndependentIdentityMatches": true,
+    "actualListener": {
+      "address": "127.0.0.1",
+      "port": 15532,
+      "owningProcess": 59540
+    },
+    "actualSingleLocalMount": "/poc005-windows-v5",
+    "actualFilesystemRoot": "C:\\Users\\13997\\.codex\\local-lab\\poc005-native-windows-v5\\fixture",
+    "actualReaderUsername": "guize-poc005-windows-read-v4",
+    "actualReaderScope": "fixture",
+    "actualReaderBasePath": "/poc005-windows-v5",
+    "actualReaderPermission": 256,
+    "actualGuestDisabled": true,
+    "actualReadonlyDatabaseMetaCount": 0,
+    "actualMountSignFalseAndCacheExpirationZero": true,
+    "actualOwnerOnlyReaderCredentialAclVerified": true,
+    "actualExtraS3FtpSftpMcpProtocolsDisabled": true,
+    "credentialValuesReadByReviewer": false
+  },
+  "checks": {
+    "actualPreparationWithinOriginalCanonicalZDecisionWindowAnd600Seconds": true,
+    "actualTwoMethodsBytesHashesRawExit0WaitVerified": true,
+    "new8fCloneStillCleanNoAlternatesAndUnchanged": true,
+    "retained7ddAuthorAndOld4161UntrackedPathsetVerified": true,
+    "retainedIdleV4Service165048StillExactOriginalIdentity": true,
+    "newPublicStartedFinalAndRunnerServiceIdentityAllMatch": true,
+    "all7InputHashesUnchanged": true
+  },
+  "evidence": [
+    {
+      "ref": "poc005-attempt008-resource-preparation-request.json",
+      "bytes": 3053,
+      "sha256": "1896fdebafd6b69a7b31645990e67c4e4af96240ab3bd416e8be9f71947dcdb5"
+    },
+    {
+      "ref": "poc005-attempt008-resource-preparation-independent-review.json",
+      "bytes": 4643,
+      "sha256": "210aa3365b868cad4bc73889afaceb7edb6df6f042eaa98ce16677383ec7d136"
+    },
+    {
+      "ref": "poc005-attempt008-resource-preparation-run/results.json",
+      "bytes": 3498,
+      "sha256": "ab44cf9c3c00d7d105bf3407b09941ee8926d7d27753aec47ced6957106ddeff"
+    },
+    {
+      "ref": "poc005-attempt008-resource-preparation-run/fixture.raw",
+      "bytes": 1689,
+      "sha256": "a51c422cdede2c2081a0b11105e188c200e01689aff08582f675c5f9960939b9"
+    },
+    {
+      "ref": "poc005-attempt008-resource-preparation-run/openlist.raw",
+      "bytes": 2032,
+      "sha256": "1918d948da0a40fc630643dfe4144e38a7bf71b54b63d29b9f90c6c84ad32b4a"
+    },
+    {
+      "ref": "poc005-attempt008-windows-native-fixture-preparation.json",
+      "bytes": 1790,
+      "sha256": "bff5b54db9182ec80e88be1ad21cf763e9b82f2b1c57861dd5fb42951a203cd2"
+    },
+    {
+      "ref": "poc005-attempt008-windows-openlist-preparation.json",
+      "bytes": 1957,
+      "sha256": "b85d9cdcc4a58a6386627761aae273aed4292c07d76d3ae3f2a9af4af8d4aa12"
+    },
+    {
+      "ref": "poc005-attempt008-windows-openlist-started.json",
+      "bytes": 874,
+      "sha256": "8e552dbbbcbde42e1d51cae44e2e501ecfd856334663fe92eff1db8cf1352711"
+    },
+    {
+      "ref": "poc005-attempt008-runtime-clone.json",
+      "bytes": 1036,
+      "sha256": "871d1a333bf37c1a5fa7d7abb947ef82bdc85ddc48bc9dd9db710fafffeef43d"
+    }
+  ],
+  "nextAllowedPreparation": "Prepare a new explicitly UNAPPROVED full attempt008 candidate bound to exact accepted8f source/tree, actual freshv5 resources and reviewed v3 methods. No full-template or execution authority is issued here.",
+  "timestampBoundary": "Raw preparation observations preserve their actual original ISO timestamps. All later formal approvedAt/validFrom/validUntil must be prospectively canonicalZ and pass the existing frozen UTC predicate; no007 normalization or backdating.",
+  "fullTemplateApproved": false,
+  "finalResourceDescriptorsApproved": false,
+  "scannerReservationApproved": false,
+  "scannerStarted": false,
+  "sourceListingOrProbeExecuted": false,
+  "finalExecutionApproved": false,
+  "experimentApproved": false,
+  "qualificationAccepted": false,
+  "taskCompleted": false,
+  "readyApproved": false,
+  "mergeApproved": false,
+  "fullV1Completed": false,
+  "reviewerPerformedPreparation": false,
+  "reviewerModifiedOriginals": false
+}

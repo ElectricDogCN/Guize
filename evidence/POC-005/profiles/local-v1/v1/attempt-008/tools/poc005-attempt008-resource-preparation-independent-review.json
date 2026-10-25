@@ -1,0 +1,95 @@
+{
+  "schemaVersion": 1,
+  "kind": "independent_prospective_attempt008_resource_preparation_only_decision",
+  "decision": "approved_resource_preparation_only",
+  "actor": "/root/gz022_planning_independent_review",
+  "reviewer": "independent-review-agent",
+  "approvedAt": "2026-10-25T22:53:21.022649Z",
+  "validFrom": "2026-10-25T22:53:21.022649Z",
+  "validUntil": "2026-10-25T23:23:21.022649Z",
+  "mustFix": [],
+  "requestRef": "poc005-attempt008-resource-preparation-request.json",
+  "requestBytes": 3053,
+  "requestSha256": "1896fdebafd6b69a7b31645990e67c4e4af96240ab3bd416e8be9f71947dcdb5",
+  "source": "8f7c9a5ed3f598d40f6e34bb12151a67b3f5d8e1",
+  "base": "746e23e582501fa08380c3f3301bdc1774902f7c",
+  "tree": "ef65e23a18b01bd73f16a128e0991d55817a5a36",
+  "sourceReview": "poc005-completion-main-sync-8f7c9a5-final-source-independent-review.json",
+  "sourceReviewSha256": "254afe4d7eea29e337d2a6415b1545dcf39816782f1808884488543777b3f00d",
+  "executionClone": "poc005-attempt008-runtime-8f7c9a5",
+  "runtimeCloneReceipt": "poc005-attempt008-runtime-clone.json",
+  "retainedAuthor": "poc005-thaw-integration",
+  "retainedAuthorHead": "7dd5550770682469710d65021439b7249453b704",
+  "methodReviewRef": "poc005-attempt008-prospective-methods-independent-review.json",
+  "methodReviewSha256": "c05378c34dadf030866de525e46550add49413b0ec2fa2f80d9a01846b8ad497",
+  "methods": [
+    {
+      "file": "prepare_poc005_attempt008_windows_fixture_once.py",
+      "bytes": 6394,
+      "sha256": "86bcaab96696027ce1eaabc8d5444fd18f5700f78ea6ae50e3d3f38191e9ad53"
+    },
+    {
+      "file": "prepare_poc005_attempt008_windows_openlist_once.py",
+      "bytes": 9972,
+      "sha256": "f3b6d5543ae9539f74aed5503c1ec1e9ff05a42e87e81869f5a9f5711dcf83ee"
+    }
+  ],
+  "allowFixtureCreate": true,
+  "allowNewLoopbackServiceStart": true,
+  "preparationApproved": true,
+  "allowedExecution": {
+    "count": 1,
+    "fixtureMethodCount": 1,
+    "openlistMethodCount": 1,
+    "platform": "Windows",
+    "preparationTimeoutSeconds": 600
+  },
+  "storageRoot": "C:\\Users\\13997\\.codex\\local-lab\\poc005-native-windows-v5",
+  "servicePrivateRoot": "C:\\Users\\13997\\.codex\\local-lab\\poc005-windows-openlist-v5",
+  "port": 15532,
+  "archiveSha256": "10d24913f86843e347eefac219c61224628bbd5d3c7443b2ee119c168a8cb3b9",
+  "expectedFilesystemCounts": {
+    "file": 10000,
+    "directory": 500
+  },
+  "expectedPayloadBytes": 17920000,
+  "freshOfficial": {
+    "capturedAt": "2026-10-25 22:52:29 UTC",
+    "main": "746e23e582501fa08380c3f3301bdc1774902f7c",
+    "pr": {
+      "state": "open",
+      "draft": true,
+      "head": "8f7c9a5ed3f598d40f6e34bb12151a67b3f5d8e1",
+      "base": "746e23e582501fa08380c3f3301bdc1774902f7c"
+    },
+    "issue": {
+      "number": 132,
+      "state": "open"
+    }
+  },
+  "conditions": [
+    "Before the first side effect verify exact request/hash, this original decision with canonical-Z times, current time within validity and at least600seconds left, exact method snapshots, source8f/tree/clean formal clone and original valid actors/claims/lease.",
+    "Only run fixture then OpenList method once each on the exact new v5 namespaces. Recheck path absence and loopback port availability. No use or reset of existing partial targets.",
+    "Keep credentials/bootstrap/server logs owner-only and never print credential-bearing content. Only ping/auth/admin configuration reads/writes on the new private service are allowed; reader remains permission256 and fixture-only, guestdisabled, no metadata passwords or external connectors.",
+    "Record actual PID/argv/start/end/wait/exit and raw. Observe the same handle for up to600seconds; preserve partial/new files and any started idle service identity on failure. No blind restart, deletion or old resource modification.",
+    "No fs/list, Range/probe, changes/scanner reservation/run or experimental window. Keep new service idle solely for the later concrete full-template review."
+  ],
+  "mustPreserve": [
+    "all older fixtures/raw/DB/refs/worktrees",
+    "existing Windows/OpenListv2/v3 and Linux services",
+    "failed006/862 originals",
+    "all partial/new preparation files after failure",
+    "all attempt007 failed full qualification and exact original approvals",
+    "new idle OpenListv4 and dirty fixturev4; do not reset either"
+  ],
+  "fullTemplateApproved": false,
+  "finalResourceDescriptorsApproved": false,
+  "scannerReservationApproved": false,
+  "finalExecutionApproved": false,
+  "experimentApproved": false,
+  "qualificationAccepted": false,
+  "readyApproved": false,
+  "mergeApproved": false,
+  "fullV1Completed": false,
+  "reviewerPerformedPreparation": false
+}

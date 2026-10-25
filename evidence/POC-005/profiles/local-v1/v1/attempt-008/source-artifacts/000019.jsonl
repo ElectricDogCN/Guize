@@ -1,0 +1,30 @@
+{"depth":3,"fileSizeBytes":1024,"kind":"file","modifiedAt":"2026-01-01T00:00:00Z","name":".hidden-1557","objectId":"f-000001557","path":"目录-000000001/目录-000000002/.hidden-1557","versionId":"v1"}
+{"depth":3,"fileSizeBytes":1024,"kind":"file","modifiedAt":"2026-01-01T00:00:00Z","name":".hidden-3325","objectId":"f-000003325","path":"目录-000000001/目录-000000002/.hidden-3325","versionId":"v1"}
+{"depth":3,"fileSizeBytes":1024,"kind":"file","modifiedAt":"2026-01-01T00:00:00Z","name":".hidden-5093","objectId":"f-000005093","path":"目录-000000001/目录-000000002/.hidden-5093","versionId":"v1"}
+{"depth":3,"fileSizeBytes":1024,"kind":"file","modifiedAt":"2026-01-01T00:00:00Z","name":".hidden-6861","objectId":"f-000006861","path":"目录-000000001/目录-000000002/.hidden-6861","versionId":"v1"}
+{"depth":3,"fileSizeBytes":1024,"kind":"file","modifiedAt":"2026-01-01T00:00:00Z","name":".hidden-8629","objectId":"f-000008629","path":"目录-000000001/目录-000000002/.hidden-8629","versionId":"v1"}
+{"depth":3,"fileSizeBytes":4096,"kind":"file","modifiedAt":"2026-01-01T00:00:00Z","name":"archive-1999.tar.gz","objectId":"f-000001999","path":"目录-000000001/目录-000000002/archive-1999.tar.gz","versionId":"v1"}
+{"depth":3,"fileSizeBytes":4096,"kind":"file","modifiedAt":"2026-01-01T00:00:00Z","name":"archive-231.tar.gz","objectId":"f-000000231","path":"目录-000000001/目录-000000002/archive-231.tar.gz","versionId":"v1"}
+{"depth":3,"fileSizeBytes":4096,"kind":"file","modifiedAt":"2026-01-01T00:00:00Z","name":"archive-3767.tar.gz","objectId":"f-000003767","path":"目录-000000001/目录-000000002/archive-3767.tar.gz","versionId":"v1"}
+{"depth":3,"fileSizeBytes":4096,"kind":"file","modifiedAt":"2026-01-01T00:00:00Z","name":"archive-5535.tar.gz","objectId":"f-000005535","path":"目录-000000001/目录-000000002/archive-5535.tar.gz","versionId":"v1"}
+{"depth":3,"fileSizeBytes":4096,"kind":"file","modifiedAt":"2026-01-01T00:00:00Z","name":"archive-7303.tar.gz","objectId":"f-000007303","path":"目录-000000001/目录-000000002/archive-7303.tar.gz","versionId":"v1"}
+{"depth":3,"fileSizeBytes":4096,"kind":"file","modifiedAt":"2026-01-01T00:00:00Z","name":"archive-9071.tar.gz","objectId":"f-000009071","path":"目录-000000001/目录-000000002/archive-9071.tar.gz","versionId":"v1"}
+{"depth":3,"fileSizeBytes":4096,"kind":"file","modifiedAt":"2026-01-01T00:00:00Z","name":"with space 1115.mov","objectId":"f-000001115","path":"目录-000000001/目录-000000002/with space 1115.mov","versionId":"v1"}
+{"depth":3,"fileSizeBytes":4096,"kind":"file","modifiedAt":"2026-01-01T00:00:00Z","name":"with space 2883.mov","objectId":"f-000002883","path":"目录-000000001/目录-000000002/with space 2883.mov","versionId":"v1"}
+{"depth":3,"fileSizeBytes":4096,"kind":"file","modifiedAt":"2026-01-01T00:00:00Z","name":"with space 4651.mov","objectId":"f-000004651","path":"目录-000000001/目录-000000002/with space 4651.mov","versionId":"v1"}
+{"depth":3,"fileSizeBytes":4096,"kind":"file","modifiedAt":"2026-01-01T00:00:00Z","name":"with space 6419.mov","objectId":"f-000006419","path":"目录-000000001/目录-000000002/with space 6419.mov","versionId":"v1"}
+{"depth":3,"fileSizeBytes":4096,"kind":"file","modifiedAt":"2026-01-01T00:00:00Z","name":"with space 8187.mov","objectId":"f-000008187","path":"目录-000000001/目录-000000002/with space 8187.mov","versionId":"v1"}
+{"depth":3,"fileSizeBytes":4096,"kind":"file","modifiedAt":"2026-01-01T00:00:00Z","name":"with space 9955.mov","objectId":"f-000009955","path":"目录-000000001/目录-000000002/with space 9955.mov","versionId":"v1"}
+{"depth":3,"fileSizeBytes":0,"kind":"directory","modifiedAt":"2026-01-01T00:00:00Z","name":"目录-000000003","objectId":"d-000000003","path":"目录-000000001/目录-000000002/目录-000000003","versionId":"v1"}
+{"depth":3,"fileSizeBytes":0,"kind":"directory","modifiedAt":"2026-01-01T00:00:00Z","name":"目录-000000108","objectId":"d-000000108","path":"目录-000000001/目录-000000002/目录-000000108","versionId":"v1"}
+{"depth":3,"fileSizeBytes":0,"kind":"directory","modifiedAt":"2026-01-01T00:00:00Z","name":"目录-000000153","objectId":"d-000000153","path":"目录-000000001/目录-000000002/目录-000000153","versionId":"v1"}
+{"depth":3,"fileSizeBytes":0,"kind":"directory","modifiedAt":"2026-01-01T00:00:00Z","name":"目录-000000165","objectId":"d-000000165","path":"目录-000000001/目录-000000002/目录-000000165","versionId":"v1"}
+{"depth":3,"fileSizeBytes":0,"kind":"directory","modifiedAt":"2026-01-01T00:00:00Z","name":"目录-000000169","objectId":"d-000000169","path":"目录-000000001/目录-000000002/目录-000000169","versionId":"v1"}
+{"depth":3,"fileSizeBytes":0,"kind":"directory","modifiedAt":"2026-01-01T00:00:00Z","name":"目录-000000197","objectId":"d-000000197","path":"目录-000000001/目录-000000002/目录-000000197","versionId":"v1"}
+{"depth":3,"fileSizeBytes":0,"kind":"directory","modifiedAt":"2026-01-01T00:00:00Z","name":"目录-000000319","objectId":"d-000000319","path":"目录-000000001/目录-000000002/目录-000000319","versionId":"v1"}
+{"depth":3,"fileSizeBytes":1024,"kind":"file","modifiedAt":"2026-01-01T00:00:00Z","name":"视频-2441.mkv","objectId":"f-000002441","path":"目录-000000001/目录-000000002/视频-2441.mkv","versionId":"v1"}
+{"depth":3,"fileSizeBytes":1024,"kind":"file","modifiedAt":"2026-01-01T00:00:00Z","name":"视频-4209.mkv","objectId":"f-000004209","path":"目录-000000001/目录-000000002/视频-4209.mkv","versionId":"v1"}
+{"depth":3,"fileSizeBytes":1024,"kind":"file","modifiedAt":"2026-01-01T00:00:00Z","name":"视频-5977.mkv","objectId":"f-000005977","path":"目录-000000001/目录-000000002/视频-5977.mkv","versionId":"v1"}
+{"depth":3,"fileSizeBytes":1024,"kind":"file","modifiedAt":"2026-01-01T00:00:00Z","name":"视频-673.mkv","objectId":"f-000000673","path":"目录-000000001/目录-000000002/视频-673.mkv","versionId":"v1"}
+{"depth":3,"fileSizeBytes":1024,"kind":"file","modifiedAt":"2026-01-01T00:00:00Z","name":"视频-7745.mkv","objectId":"f-000007745","path":"目录-000000001/目录-000000002/视频-7745.mkv","versionId":"v1"}
+{"depth":3,"fileSizeBytes":1024,"kind":"file","modifiedAt":"2026-01-01T00:00:00Z","name":"视频-9513.mkv","objectId":"f-000009513","path":"目录-000000001/目录-000000002/视频-9513.mkv","versionId":"v1"}
