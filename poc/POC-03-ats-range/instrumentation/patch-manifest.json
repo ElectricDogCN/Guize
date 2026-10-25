@@ -19,7 +19,7 @@
     {
       "path": "src/tscore/ink_resource.cc",
       "beforeSha256": "64f3899408dc02fed6978179d5def6363d9577ba334d7b9761d777034cdcdcde",
-      "afterSha256": "8d701f8aad9c3da1815d5f92ba80f1ea2ba399b23c1a01bca781f9d67e765c4c"
+      "afterSha256": "ba86d4d51998819234950f166f1552f72fa7fbe23b7039051228d7b6861114d6"
     },
     {
       "path": "iocore/cache/Cache.cc",
@@ -32,7 +32,7 @@
       "afterSha256": "2db32f95c747618a8d370f565d7355d0900c90f6ea092b082a7302eadcf5f621"
     }
   ],
-  "patchSha256": "3d40024fd459c7bd1a0c6fc98a7e8dc049a047dd4865a2a2104e922138d94e9b",
+  "patchSha256": "283986264c5e166aad94ad537cbeeb460993b531a58caca8c9aa116d423e79f4",
   "additionalHeaderSha256": "f771476d0e5bb5124577329744128d83a4a0bdf43f1d10f91145e006848dc7fb",
   "observationWindow": "Process-lifetime tracked capacities; each increasing peak fully written/fsynced under the ledger lock before payload acquisition. No reset. Per-process fork/exec reuse and accounting/publication faults fail the diagnostic epoch.",
   "uncoveredExternalEventsInvalidateQualification": true,
@@ -66,5 +66,9 @@
   "durablePeakJournalAbi": "INSTRUMENTED_ATS_DURABLE_PEAK/v1",
   "poolCapacityHeaderSha256": "4f4aee7c70e4e6cb9a32691b87840783abd71b25d43379f97163e232c6b71255",
   "retainedIOBufferPoolAccounting": "Each backing grow durably pre-counts maximum checked page/huge round-up capacity; no decrement on logical return/reuse. Existing logical counters intentionally overcount in addition.",
-  "retainedPoolImplementationTested": false
+  "retainedPoolImplementationTested": false,
+  "initialJournalAtCoreLoadWithExplicitDirectory": true,
+  "coreLoadWithoutDirectoryRemainsLazy": true,
+  "eagerInitializationUsesSameTranslationUnitOrder": true,
+  "eagerCoreInitializationTested": false
 }

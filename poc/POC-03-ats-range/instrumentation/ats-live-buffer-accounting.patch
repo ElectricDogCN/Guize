@@ -119,7 +119,7 @@
  #include <execinfo.h>
  
  int res_track_memory          = 0; // Disabled by default
-@@ -182,3 +184,35 @@
+@@ -182,3 +184,46 @@
      fprintf(fd, "---------------------|----------------------|----------------------|----------------------\n");
    }
  }
@@ -142,6 +142,17 @@
 +  }();
 +  return *accounting;
 +}
++// Ordinary C++ initialization follows guize_loaded_pid in this translation unit.
++// With an explicit directory, even a zero-allocation helper writes initial zero
++// before main. Do not use a constructor attribute that can precede loaded_pid.
++// Without the opt-in directory, retain the existing lazy/version-probe behavior.
++const bool guize_initial_journal __attribute__((used)) = []() {
++  const char *directory = getenv("GUIZE_POC003_PEAK_JOURNAL_DIR");
++  if (directory && *directory) {
++    (void)guize_live_ledger();
++  }
++  return true;
++}();
 +} // namespace
 +extern "C" void GuizeAtsLiveBufferAcquire(unsigned kind, uint64_t bytes)
 +{
