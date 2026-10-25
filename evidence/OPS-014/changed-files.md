@@ -1,8 +1,9 @@
 # OPS-014 implementation and original Evidence inventory
 
 Base: 15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6
-Validated source: 2da13d55432c39f57c458cff906ac198292b2e66
-After C only own Evidence changes; metadata activation precedes code. Prior failed077 branch remains local and outside accepted history.
+Validated code source: 2da13d55432c39f57c458cff906ac198292b2e66
+
+All 114 paths in the complete base-to-archive diff are listed below, including the explicitly retained raw proof logs and reversibly encoded Windows originals. After the validated code source, changes are confined to OPS-014 Evidence. The earlier incomplete inventory and all archive attempts remain in Git history and retained bundles.
 
 - `evidence/OPS-014/activation-proposal.json`
 - `evidence/OPS-014/changed-files.md`
@@ -14,8 +15,24 @@ After C only own Evidence changes; metadata activation precedes code. Prior fail
 - `evidence/OPS-014/recovery-validation/activation-admission-results.json`
 - `evidence/OPS-014/recovery-validation/archive-index.json`
 - `evidence/OPS-014/recovery-validation/code-independent-review.json`
+- `evidence/OPS-014/recovery-validation/coordination.log`
+- `evidence/OPS-014/recovery-validation/diff.log`
+- `evidence/OPS-014/recovery-validation/docs.log`
 - `evidence/OPS-014/recovery-validation/ended-original-reservation-cleanup.json.base64`
+- `evidence/OPS-014/recovery-validation/evidence.log`
+- `evidence/OPS-014/recovery-validation/finalization.log`
+- `evidence/OPS-014/recovery-validation/governance.log`
 - `evidence/OPS-014/recovery-validation/governance.xml`
+- `evidence/OPS-014/recovery-validation/history.log`
+- `evidence/OPS-014/recovery-validation/integrity.log`
+- `evidence/OPS-014/recovery-validation/lifecycle.log`
+- `evidence/OPS-014/recovery-validation/poc-protocol.log`
+- `evidence/OPS-014/recovery-validation/poc-selftests.log`
+- `evidence/OPS-014/recovery-validation/prior-attempts/archive-first-commit-tracking.json`
+- `evidence/OPS-014/recovery-validation/prior-attempts/ops014-416-archive-first-staged-crlf-failure/archive-index-before-encoding.json`
+- `evidence/OPS-014/recovery-validation/prior-attempts/ops014-416-archive-first-staged-crlf-failure/failure.json`
+- `evidence/OPS-014/recovery-validation/prior-attempts/ops014-416-archive-first-staged-crlf-failure/staged-check.stderr.raw`
+- `evidence/OPS-014/recovery-validation/prior-attempts/ops014-416-archive-first-staged-crlf-failure/staged-check.stdout.raw.base64`
 - `evidence/OPS-014/recovery-validation/prior-attempts/ops014-416-archive-first-windows-longpath-failure/failure.json.base64`
 - `evidence/OPS-014/recovery-validation/prior-attempts/ops014-416-db9d456-original198-harness-check/original198.raw`
 - `evidence/OPS-014/recovery-validation/prior-attempts/ops014-416-db9d456-original198-harness-check/results.json.base64`
@@ -82,9 +99,17 @@ After C only own Evidence changes; metadata activation precedes code. Prior fail
 - `evidence/OPS-014/recovery-validation/prior-attempts/ops014-frozen-activation-first-eof-failure/original-metadata/specs/tasks/OPS-014.md.base64`
 - `evidence/OPS-014/recovery-validation/prior-attempts/ops014-frozen-activation-first-eof-failure/preparation-helper-original.py`
 - `evidence/OPS-014/recovery-validation/prior-attempts/ops014-frozen-activation-first-eof-failure/results.json.base64`
+- `evidence/OPS-014/recovery-validation/raw-lifecycle.log`
+- `evidence/OPS-014/recovery-validation/readiness.log`
+- `evidence/OPS-014/recovery-validation/schemas.log`
+- `evidence/OPS-014/recovery-validation/scope.log`
 - `evidence/OPS-014/recovery-validation/source-results.json`
+- `evidence/OPS-014/recovery-validation/task.log`
+- `evidence/OPS-014/recovery-validation/transitions.log`
 - `evidence/OPS-014/recovery-validation/verify-governance.xml`
+- `evidence/OPS-014/recovery-validation/verify.log`
 - `evidence/OPS-014/recovery-validation/windows-focused-results.json.base64`
+- `evidence/OPS-014/recovery-validation/windows-focused.log.base64`
 - `evidence/OPS-014/rollback.md`
 - `evidence/OPS-014/scope.md`
 - `evidence/OPS-014/summary.md`
@@ -94,10 +119,3 @@ After C only own Evidence changes; metadata activation precedes code. Prior fail
 - `specs/poc/check_program.py`
 - `specs/poc/test_program.py`
 - `specs/tasks/OPS-014.md`
-
-- `evidence/OPS-014/recovery-validation/prior-attempts/ops014-416-archive-first-staged-crlf-failure/archive-index-before-encoding.json`
-- `evidence/OPS-014/recovery-validation/prior-attempts/ops014-416-archive-first-staged-crlf-failure/failure.json`
-- `evidence/OPS-014/recovery-validation/prior-attempts/ops014-416-archive-first-staged-crlf-failure/staged-check.stderr.raw`
-- `evidence/OPS-014/recovery-validation/prior-attempts/ops014-416-archive-first-staged-crlf-failure/staged-check.stdout.raw.base64`
-
-- `evidence/OPS-014/recovery-validation/prior-attempts/archive-first-commit-tracking.json`
