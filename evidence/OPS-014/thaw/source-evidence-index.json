@@ -55,8 +55,36 @@
       "storedBytes": 1109,
       "storedSha256": "acd7ae8720cd9117a0ce23c542cf932f835f5d03fc77489473546af6946ba6cd",
       "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-416-thaw-e380e04-native-checks/results.json",
+      "path": "evidence/OPS-014/thaw/prior-e380e04/results.json",
+      "originalBytes": 1527,
+      "originalSha256": "9871ad94d05d49404ab005a64dedeb7ea49d48c93fdca9d144aa985f43fd55b3",
+      "storedBytes": 1527,
+      "storedSha256": "9871ad94d05d49404ab005a64dedeb7ea49d48c93fdca9d144aa985f43fd55b3",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-416-thaw-e380e04-native-checks/diff.raw",
+      "path": "evidence/OPS-014/thaw/prior-e380e04/diff.raw",
+      "originalBytes": 144,
+      "originalSha256": "caf0da454ec823bec2291b14e8ba9c713b1f9fcb396df3a134944940c446603a",
+      "storedBytes": 144,
+      "storedSha256": "caf0da454ec823bec2291b14e8ba9c713b1f9fcb396df3a134944940c446603a",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-416-thaw-e380e04-native-checks/task.raw",
+      "path": "evidence/OPS-014/thaw/prior-e380e04/task.raw",
+      "originalBytes": 628,
+      "originalSha256": "cedd53a9e8e38ea163c3287ce06abd967e5c3035f595986c7cbda6f198b2a5ca",
+      "storedBytes": 628,
+      "storedSha256": "cedd53a9e8e38ea163c3287ce06abd967e5c3035f595986c7cbda6f198b2a5ca",
+      "storageEncoding": "identity"
     }
   ],
   "allOriginalBytesRecoverable": true,
-  "decode": "identity or base64-decode then zlib-decompress as declared"
+  "decode": "identity or base64-decode then zlib-decompress as declared",
+  "priorTaskFormatFailurePreserved": true
 }
