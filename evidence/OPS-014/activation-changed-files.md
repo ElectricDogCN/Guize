@@ -1,0 +1,41 @@
+# OPS-014 corrected activation metadata inventory
+
+Base: 4c7a5a46863504fa93849ad4ae82946e3bfb4bc6
+Branch: chore/OPS-014-clean-main-import-attribution
+
+- `evidence/OPS-014/activation-changed-files.md`
+- `evidence/OPS-014/commands.txt`
+- `evidence/OPS-014/follow-ups.md`
+- `evidence/OPS-014/handoff.md`
+- `evidence/OPS-014/history-activation/00-382449eb734c.zlib.b64`
+- `evidence/OPS-014/history-activation/01-2cb3212e1977.zlib.b64`
+- `evidence/OPS-014/history-activation/02-46fb1688dab4.zlib.b64`
+- `evidence/OPS-014/history-activation/03-d0ec9ce954a2.zlib.b64`
+- `evidence/OPS-014/history-activation/04-ffdf79aebf0f.zlib.b64`
+- `evidence/OPS-014/history-activation/05-02b5f66e2947.zlib.b64`
+- `evidence/OPS-014/history-activation/06-265da1d39a97.zlib.b64`
+- `evidence/OPS-014/history-activation/07-1b3a0e53fa7c.zlib.b64`
+- `evidence/OPS-014/history-activation/08-815624191785.zlib.b64`
+- `evidence/OPS-014/history-activation/09-437d31a7ab9c.zlib.b64`
+- `evidence/OPS-014/history-activation/10-a23ec7384863.zlib.b64`
+- `evidence/OPS-014/history-activation/11-37c845530e15.zlib.b64`
+- `evidence/OPS-014/history-activation/12-dc3f6c845a45.zlib.b64`
+- `evidence/OPS-014/history-activation/13-830050e28391.zlib.b64`
+- `evidence/OPS-014/history-activation/branch-prefix-failure/00-3930d7a57a0b.zlib.b64`
+- `evidence/OPS-014/history-activation/branch-prefix-failure/01-e721d9291211.zlib.b64`
+- `evidence/OPS-014/history-activation/branch-prefix-failure/02-ef8363b1708c.zlib.b64`
+- `evidence/OPS-014/history-activation/branch-prefix-failure/03-9824ffadd4ae.zlib.b64`
+- `evidence/OPS-014/history-activation/branch-prefix-failure/04-06b6b3198ab7.zlib.b64`
+- `evidence/OPS-014/history-activation/branch-prefix-failure/05-8962302619a7.zlib.b64`
+- `evidence/OPS-014/history-activation/branch-prefix-failure/06-59c4e9d907a1.zlib.b64`
+- `evidence/OPS-014/history-activation/branch-prefix-failure/07-e78440ee0a71.zlib.b64`
+- `evidence/OPS-014/history-activation/branch-prefix-failure/08-221e0768073d.zlib.b64`
+- `evidence/OPS-014/history-activation/branch-prefix-failure/index.json`
+- `evidence/OPS-014/history-activation/index.json`
+- `evidence/OPS-014/history-activation/proposal.json`
+- `evidence/OPS-014/rollback.md`
+- `evidence/OPS-014/scope.md`
+- `evidence/OPS-014/summary.md`
+- `specs/coordination/active-work.yaml`
+- `specs/coordination/program-plan.yaml`
+- `specs/tasks/OPS-014.md`

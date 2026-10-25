@@ -1,0 +1,30 @@
+{
+  "kind": "ordinary_own_blocked_to_in_progress_metadata_activation",
+  "base": "4c7a5a46863504fa93849ad4ae82946e3bfb4bc6",
+  "branch": "chore/OPS-014-clean-main-import-attribution",
+  "proposedAt": "2026-10-25T15:32:59.242737+00:00",
+  "taskId": "OPS-014",
+  "status": "in_progress",
+  "agentRole": "implementer",
+  "claims": [
+    "scripts/check-program-plan-history.py",
+    "tests/governance/test_poc_contract_repair_admission.py"
+  ],
+  "rolesLeaseRiskCapacityUnchanged": true,
+  "metadataOnly": true,
+  "originalRecovery": {
+    "taskId": "OPS-014",
+    "reason": "已完成GZ-021的metadata profiling合同错误要求supported/unsatisfiable的416诊断正文为空；真实授权OpenList响应33字节与之冲突，按原OPS-013授权执行精确两文件修复并完整验证后另行解冻。",
+    "affectedTasks": [
+      "GZ-021"
+    ],
+    "sourceCommit": "36b986a65e23671d0b08134d1c4163833a59fbd7",
+    "frozenAt": "2026-10-24T23:24:58Z",
+    "verificationPath": "evidence/OPS-014/recovery-proof.json"
+  },
+  "codeChangesApproved": false,
+  "activationAccepted": false,
+  "experimentApproved": false,
+  "taskCompleted": false,
+  "next": "Independently inspect and commit only this exact activation metadata, execute Task13 and obtain independent activation acceptance before any claimed-path implementation. The implementation remains subject to full exact-source gates/CI/review/merge/actual-main acceptance; original failures stay failed."
+}

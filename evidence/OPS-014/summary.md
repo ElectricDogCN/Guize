@@ -1,7 +1,7 @@
-OPS-014 Gov-only scope registration, blocked metadata only
-Base: f8b4543afe27b539cab2ac553a4567fd0f8de026
-Branch: chore/OPS-014-bounded-history-scope-blocked
-Preparation HEAD: f8b4543afe27b539cab2ac553a4567fd0f8de026
-Source Commit: UNASSIGNED (uncommitted proposal)
+OPS-014 governance history implementation
+Base: 4c7a5a46863504fa93849ad4ae82946e3bfb4bc6
+Branch: chore/OPS-014-clean-main-import-attribution
+Parent activation: 37de66cb7aa049051c7313e21815990a061a0521
+Code Source Commit: UNASSIGNED (dirty snapshot)
 
-No code changes. Own status review->blocked and exact ordinary Gov-only claims2 proposed; old POC claims removed from current scope, their historical authority/contract delivery retained. Roles/lease/risk/capacity/recovery/foreign/code/ledger unchanged. Current source13/CI/final review/main acceptance pending; separate accepted activation required before code. No experiment or task completion.
+Own Gov2 only: exclude proven clean admitted-main imports from Foundation activity; preserve actual identity, full own projections, incoming-owned recovery, stage0 mode/blob proof, all introduced nodes and rename signals. Actual activation13 accepted; dirty component10 passed; initial core independent review accepted; actual nativeD classifier oldTrue/newFalse/realFoundationHintTrue. Original peer/full gates, source15, complete governance/make verify, hostedCI/finalreview/main and normal Review/Completion remain pending. No experiment or qualification.

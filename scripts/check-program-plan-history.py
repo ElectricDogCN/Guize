@@ -1456,6 +1456,70 @@ def foundation_post_implementation(root: str, task_id: str, implementation: str,
                         errors.append(f"Foundation {task_id} preflight working code requires implementer or integrator at {node}")
 
 
+def foundation_local_metadata_changed(root: str, previous: str, node: str, task_id: str,
+                                      paths: set[str], task_paths: set[str], imports: set[str],
+                                      incoming: list[str]) -> bool:
+    """Exclude only complete, proven clean imports of this Foundation's metadata.
+
+    Whole Task blobs (including mode/line endings) need a clean index entry.
+    A shared YAML file may conflict on the peer's fields; its Foundation rows
+    and owned root recovery must independently be an unchanged three-way import.
+    """
+    if (paths & task_paths) - imports:
+        return True
+    parents = git(root, "show", "-s", "--format=%P", node).stdout.split()
+    common_refs: dict[str, list[str]] = {}
+    for path, collections in ((ACTIVE, ("tasks",)), (PLAN, ("tasks", "foundationTasks"))):
+        left, right = load_ref(root, previous, path), load_ref(root, node, path)
+        recovery_context = [left, right]
+        if path == PLAN:
+            recovery_context += [load_ref(root, parent, PLAN) for parent in incoming]
+        include_recovery = path == PLAN and any(
+            isinstance(document, dict) and RECOVERY.recovery_owner(document) == task_id
+            for document in recovery_context
+        )
+
+        def projection(document: Any) -> Any:
+            if not isinstance(document, dict):
+                return None
+            result = []
+            own_count = 0
+            for collection in collections:
+                rows = document.get(collection)
+                if not isinstance(rows, list) or any(not isinstance(row, dict) for row in rows):
+                    return None
+                own = [row for row in rows if row.get("taskId") == task_id]
+                own_count += len(own)
+                result.append(own)
+            if own_count > 1:
+                return None
+            if include_recovery:
+                result.append((document.get("status"), document.get("recovery")))
+            return result
+
+        prior, actual = projection(left), projection(right)
+        if prior is None or actual is None:
+            return True
+        if prior == actual or path in imports:
+            continue
+        imported = False
+        if len(parents) == 2:
+            for parent in incoming:
+                if parent not in common_refs:
+                    bases = git(root, "merge-base", "--all", previous, parent)
+                    common_refs[parent] = bases.stdout.split() if bases.returncode == 0 else []
+                common = common_refs[parent]
+                candidate = projection(load_ref(root, parent, path))
+                if candidate is not None and actual == candidate and common and all(
+                    projection(load_ref(root, ancestor, path)) == prior for ancestor in common
+                ):
+                    imported = True
+                    break
+        if not imported:
+            return True
+    return False
+
+
 def foundation_preflight_needed(root: str, task_id: str, base_ref: str, head_ref: str, before: dict[str, Any] | None, after: dict[str, Any], base_active: dict[str, Any], task_hint: str, branch_name: str, errors: list[str]) -> bool:
     """Find this actor's Review activity, including restored or blocked tips.
 
@@ -1479,9 +1543,17 @@ def foundation_preflight_needed(root: str, task_id: str, base_ref: str, head_ref
             continue
         task_paths = {find_task_path(root, task_id, snapshot) for snapshot in (parent, node) if snapshot} - {None}
         if not related:
-            related = historical_own_metadata_changed(root, parent, node, task_id) or any(path.startswith(f"evidence/{task_id}/") for path in paths)
-            if not related:
-                related = any(path not in {PLAN, ACTIVE, LEDGER, *task_paths} and not historical_peer_metadata_path(root, base_ref, task_id, path) and any(RECOVERY.matches_path(path, str(claim)) for claim in claims) for path in paths)
+            task_paths |= {path for path in paths if path == f"{TASK_DIR}/{task_id}.md" or
+                           (path.startswith(f"{TASK_DIR}/{task_id}-") and path.endswith(".md"))}
+            own_paths = {path for path in paths if path in task_paths or path.startswith(f"evidence/{task_id}/") or
+                         (path not in {PLAN, ACTIVE, LEDGER} and not historical_peer_metadata_path(root, base_ref, task_id, path)
+                          and any(RECOVERY.matches_path(path, str(claim)) for claim in claims))}
+            incoming = approved_synchronization_parents(root, node, base_ref)
+            candidates = (own_paths | {PLAN, ACTIVE}) & paths
+            imports = clean_synchronization_paths(root, node, candidates, incoming) if incoming and candidates else set()
+            related = bool(own_paths - imports) or foundation_local_metadata_changed(
+                root, parent, node, task_id, paths, task_paths, imports, incoming
+            )
         if not review_seen:
             for document, collection in ((PLAN, "foundationTasks"), (ACTIVE, "tasks")):
                 snapshot = load_ref(root, node, document)

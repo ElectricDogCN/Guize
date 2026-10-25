@@ -436,3 +436,217 @@ class TestBoundPocContractRepair(unittest.TestCase):
         altered = self.commit(self.repo,'OPS-014 fixture forbidden post-registration diagnostic edit')
         with self.assertRaisesRegex(PROOF.AdmissionError,'defect evidence changed'):
             self.claims(base=altered)
+
+
+class TestFoundationCleanImports(unittest.TestCase):
+    """Real, small Git graphs reproduce both POC main-import shapes.
+
+    These are classifier fixtures, not production admission certificates.
+    The actual POC source still has to pass its independent complete gates.
+    """
+
+    own_task = 'specs/tasks/OPS-014.md'
+    peer_task = 'specs/tasks/POC-005.md'
+    claims = sorted(PROOF.REPAIR_PATHS)
+
+    def git(self, *args):
+        return subprocess.check_output(['git', '-C', str(self.repo), *args],
+                                       stderr=subprocess.STDOUT).decode().strip()
+
+    def write(self, path, value):
+        target = self.repo/path
+        target.parent.mkdir(parents=True, exist_ok=True)
+        if isinstance(value, dict):
+            value = yaml.safe_dump(value, allow_unicode=True, sort_keys=False)
+        target.write_text(value, encoding='utf-8', newline='\n')
+
+    def commit(self, message):
+        self.git('add', '.')
+        self.git('commit', '--quiet', '-m', message)
+        return self.git('rev-parse', 'HEAD')
+
+    def document(self, ref, path):
+        return yaml.safe_load(self.git('show', ref+':'+path))
+
+    def own_row(self, status):
+        return dict(taskId='OPS-014', status=status, agentRole='reviewer' if status == 'review' else 'implementer',
+                    exclusivePaths=self.claims, sharedPaths=[], issue=2004,
+                    implementer='fixture-implementer', reviewer='fixture-reviewer',
+                    lease=dict(acquiredAt='2026-10-24T00:00:00Z', expiresAt='2026-10-31T00:00:00Z'))
+
+    def accepted_snapshot(self, status, count):
+        plan = self.document(self.common, PROOF.PLAN)
+        plan['foundationTasks'] = [dict(taskId='OPS-014', title='Fixture Foundation', status=status,
+                                       completionRef='ISSUE-2004', mergeCommit=None)]
+        plan['recovery'] = dict(taskId='OPS-014', sourceCommit=self.common, reason='fixture retained recovery')
+        active = self.document(self.common, PROOF.ACTIVE)
+        active['tasks'].append(self.own_row(status))
+        self.write(PROOF.PLAN, plan)
+        self.write(PROOF.ACTIVE, active)
+        self.write(self.own_task, '---\nid: OPS-014\nstatus: '+status+'\n---\nComplete fixture Task body.\n')
+        for index in range(count):
+            self.write(f'evidence/OPS-014/{status}-{index:03}.txt', f'Admitted {status} evidence {index}\n')
+        for path in self.claims:
+            self.write(path, '# Admitted immutable contract repair.\n')
+        return self.commit('Fixture admitted main '+status)
+
+    def merge_main(self, incoming, *, resolve_own_task=False, drop_recovery=False):
+        previous = self.git('rev-parse', 'HEAD')
+        merged = subprocess.run(['git', '-C', str(self.repo), 'merge', '--no-commit', '--no-ff', incoming],
+                                capture_output=True)
+        self.assertIn(merged.returncode, (0, 1), merged.stderr)
+        conflicts = set(self.git('diff', '--name-only', '--diff-filter=U').splitlines())
+        self.assertLessEqual(conflicts, {PROOF.PLAN, PROOF.ACTIVE, self.own_task})
+        for path, collection in ((PROOF.PLAN, 'tasks'), (PROOF.ACTIVE, 'tasks')):
+            actual = self.document(incoming, path)
+            peer = next(row for row in self.document(previous, path)[collection] if row['taskId'] == 'POC-005')
+            actual[collection] = [peer if row['taskId'] == 'POC-005' else row for row in actual[collection]]
+            if path == PROOF.PLAN and drop_recovery:
+                actual['recovery'] = None
+            self.write(path, actual)
+        if resolve_own_task:
+            self.write(self.own_task, self.git('show', incoming+':'+self.own_task)+'\n')
+        self.git('add', '.')
+        self.git('commit', '--quiet', '-m', 'Fixture peer imports admitted main')
+        return self.git('rev-parse', 'HEAD')
+
+    def setUp(self):
+        self.temporary = tempfile.TemporaryDirectory(prefix='guize-clean-import-')
+        self.addCleanup(self.temporary.cleanup)
+        self.repo = Path(self.temporary.name)
+        self.git('init', '--quiet', '-b', 'main')
+        for key, value in [('user.name', 'Clean import fixture'), ('user.email', 'fixture@example.invalid'),
+                           ('core.autocrlf', 'false')]:
+            self.git('config', key, value)
+        peer = dict(taskId='POC-005', status='reserved', exclusivePaths=['poc/POC-05-metadata-scale/**'])
+        self.write(PROOF.PLAN, dict(status='active', recovery=None, foundationTasks=[], tasks=[peer]))
+        self.write(PROOF.ACTIVE, dict(tasks=[peer]))
+        self.write(PROOF.LEDGER, dict(records=[]))
+        self.write(self.peer_task, '---\nid: POC-005\nstatus: reserved\n---\nPeer fixture.\n')
+        for path in self.claims:
+            self.write(path, '# Original fixture contract.\n')
+        self.common = self.commit('Fixture accepted reservation base')
+        self.git('switch', '-c', 'peer')
+        for path in (PROOF.PLAN, PROOF.ACTIVE):
+            value = self.document(self.common, path)
+            value['tasks'][0]['status'] = 'in_progress'
+            self.write(path, value)
+        self.write(self.peer_task, '---\nid: POC-005\nstatus: in_progress\n---\nPeer implementation.\n')
+        self.write('poc/POC-05-metadata-scale/fixture.py', '# Actual peer work.\n')
+        self.peer_work = self.commit('Fixture independently owned peer work')
+        self.git('switch', 'main')
+        self.incoming_first = self.accepted_snapshot('in_progress', 143)
+        self.incoming_review = self.accepted_snapshot('review', 25)
+        self.base = self.incoming_review
+        self.git('switch', 'peer')
+        self.first_import = self.merge_main(self.incoming_first)
+        self.tip = self.merge_main(self.incoming_review)
+        self.history = PROOF.history_module()
+
+    def selected(self, *, hint='POC-005', branch='chore/POC-005-fixture', base=None, head='HEAD'):
+        base = base or self.base
+        before = next((row for row in self.document(base, PROOF.PLAN)['foundationTasks']
+                       if row['taskId'] == 'OPS-014'), None)
+        after = next(row for row in self.document(head, PROOF.PLAN)['foundationTasks'] if row['taskId'] == 'OPS-014')
+        errors = []
+        result = self.history.foundation_preflight_needed(str(self.repo), 'OPS-014', base, head,
+            before, after, self.document(base, PROOF.ACTIVE), hint, branch, errors)
+        self.assertEqual(errors, [])
+        return result
+
+    def test_two_admitted_imports_with_all_evidence_contracts_and_mixed_yaml_are_peer_work(self):
+        self.assertEqual(self.git('show', '-s', '--format=%P', self.first_import).split()[1], self.incoming_first)
+        for hint, branch in [('POC-005', 'chore/POC-005-fixture'), ('', 'main')]:
+            with self.subTest(hint=hint, branch=branch):
+                self.assertFalse(self.selected(hint=hint, branch=branch))
+
+    def test_actual_foundation_identity_remains_a_positive_signal(self):
+        self.assertTrue(self.selected(hint='OPS-014'))
+        self.assertTrue(self.selected(hint='', branch='chore/OPS-014-fixture'))
+
+    def test_nonimported_task_evidence_claim_and_complete_own_rows_remain_signals(self):
+        cases = [('task', self.own_task), ('evidence', 'evidence/OPS-014/review-000.txt'),
+                 ('claim', self.claims[0]), ('registry', PROOF.ACTIVE), ('plan', PROOF.PLAN), ('recovery', PROOF.PLAN)]
+        for kind, path in cases:
+            with self.subTest(kind=kind):
+                self.git('checkout', '--detach', self.tip)
+                if kind in {'task', 'evidence', 'claim'}:
+                    self.write(path, (self.repo/path).read_text(encoding='utf-8')+'Own local mutation.\n')
+                else:
+                    value = self.document(self.tip, path)
+                    if kind == 'registry':
+                        next(row for row in value['tasks'] if row['taskId'] == 'OPS-014')['lease']['expiresAt'] = '2026-11-01T00:00:00Z'
+                    elif kind == 'plan':
+                        value['foundationTasks'][0]['title'] = 'Hidden own semantic change'
+                    else:
+                        value['recovery']['reason'] = 'Changed recovery under peer hint'
+                    self.write(path, value)
+                self.commit('Fixture own change under a peer hint')
+                self.assertTrue(self.selected())
+
+    def test_temporary_own_change_restored_at_tip_is_not_erased(self):
+        raw = (self.repo/self.own_task).read_bytes()
+        self.write(self.own_task, 'Temporary forbidden own Task.\n')
+        self.commit('Fixture temporary own mutation')
+        (self.repo/self.own_task).write_bytes(raw)
+        self.commit('Fixture restoration does not erase own history')
+        self.assertEqual(self.git('rev-parse', 'HEAD^{tree}'), self.git('rev-parse', self.tip+'^{tree}'))
+        self.assertTrue(self.selected())
+
+    def test_conflicted_own_task_resolved_to_incoming_is_not_a_clean_import(self):
+        self.git('checkout', '--detach', self.peer_work)
+        self.write(self.own_task, 'Own conflicting Task before accepted import.\n')
+        previous = self.commit('Fixture own add/add conflict')
+        node = self.merge_main(self.incoming_first, resolve_own_task=True)
+        self.merge_main(self.incoming_review)
+        imports = self.history.clean_synchronization_paths(str(self.repo), node, {self.own_task}, [self.incoming_first])
+        self.assertNotIn(self.own_task, imports)
+        self.assertTrue(self.selected())
+        self.assertNotEqual(previous, self.peer_work)
+
+    def test_unadmitted_secondary_parent_cannot_authorize_its_own_import(self):
+        self.assertTrue(self.selected(base=self.common))
+
+    def test_import_cannot_drop_owned_incoming_recovery_then_restore_it(self):
+        self.git('checkout', '--detach', self.peer_work)
+        missing = self.merge_main(self.incoming_first, drop_recovery=True)
+        self.assertTrue(self.selected(head=missing))
+        self.merge_main(self.incoming_review)
+        self.assertEqual(self.document('HEAD', PROOF.PLAN)['recovery'],
+                         self.document(self.base, PROOF.PLAN)['recovery'])
+        self.assertTrue(self.selected())
+
+    def test_duplicate_and_unreadable_own_projection_fail_closed(self):
+        for broken in ['duplicate', 'unreadable']:
+            with self.subTest(broken=broken):
+                self.git('checkout', '--detach', self.tip)
+                if broken == 'duplicate':
+                    value = self.document(self.tip, PROOF.ACTIVE)
+                    value['tasks'].append(copy.deepcopy(next(row for row in value['tasks'] if row['taskId'] == 'OPS-014')))
+                    self.write(PROOF.ACTIVE, value)
+                else:
+                    self.write(PROOF.ACTIVE, 'tasks: [broken\n')
+                self.commit('Fixture ambiguous own metadata')
+                self.assertTrue(self.selected())
+
+    def test_renamed_claim_keeps_both_sides_as_local_work(self):
+        renamed = 'poc/POC-05-metadata-scale/renamed-contract.py'
+        self.git('mv', self.claims[0], renamed)
+        self.commit('Fixture claimed-code rename under peer hint')
+        paths = self.history.RECOVERY.changed_paths(str(self.repo), self.tip, 'HEAD')
+        self.assertIn(self.claims[0], paths)
+        self.assertIn(renamed, paths)
+        self.assertTrue(self.selected())
+
+    def test_task_blob_line_endings_and_mode_are_real_own_changes(self):
+        for kind in ['crlf', 'mode']:
+            with self.subTest(kind=kind):
+                self.git('checkout', '--detach', self.tip)
+                if kind == 'crlf':
+                    raw = (self.repo/self.own_task).read_bytes()
+                    (self.repo/self.own_task).write_bytes(raw.replace(b'\n', b'\r\n'))
+                    self.commit('Fixture raw Task line-ending mutation')
+                else:
+                    self.git('update-index', '--chmod=+x', self.own_task)
+                    self.git('commit', '--quiet', '-m', 'Fixture raw Task mode mutation')
+                self.assertTrue(self.selected())
