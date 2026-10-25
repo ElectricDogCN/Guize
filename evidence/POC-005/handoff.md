@@ -1,6 +1,19 @@
 Task: POC-005
 Issue: 132
 Branch: chore/POC-005-metadata-scale
+Base SHA: 746e23e582501fa08380c3f3301bdc1774902f7c
+Preparation parent: 4b17b7e4e2d9f1e48fd5b61be1600f4141aeb160; accepted incoming main: 746e23e582501fa08380c3f3301bdc1774902f7c
+Current status/agentRole: in_progress/implementer. Actual new source/tree is Git HEAD after commit, not a predicted SHA.
+
+Own source code and all frozen POC contracts are unchanged; only accepted-main import plus Own current base/evidence. Roles/lease/claims/shared paths and order3 unchanged; no new fixture/service/template, experimental input/resource/window or qualification approval. All4161 old untracked entries remain excluded from staging and retained.
+Accepted main own7/CI865752/independent proof and originalD component review are recoverable under accepted-completion-main-746e23e-sync/index.json. PriorD Windows131/native57 results retain their source identity; future exact source must execute Task15, same-head CI and full experiment prerequisites. Latest commands are commands.txt; actual exits are UNEXECUTED until the new candidate run. No history failure is relabeled.
+Next implementer: freeze the actual merge source/tree and run Task15 on that source. Next independent reviewer: inspect actual source/main-import provenance, Own base and unchanged code/old raw preservation, checks and CI. Next integrator: accept actual source/CI and only then any independently approved new input/resources/window; no current execution grant. Revoke this unmerged candidate via ordinary reviewed forward work; never reset/delete raw, DB or refs.
+
+Historical source-bound handoff and findings follow; their current/base wording belongs to their earlier source.
+
+Task: POC-005
+Issue: 132
+Branch: chore/POC-005-metadata-scale
 Base SHA: 2a77cbf9ad838b7b7abc7fbc5ed7aaa5f2f793d4
 Preparation parent: dc506b85317cdfa419d9fa6491d87eaa76e88473; accepted incoming main: 2a77cbf9ad838b7b7abc7fbc5ed7aaa5f2f793d4
 Current status/agentRole: in_progress/implementer. Actual new source/tree is Git HEAD after commit, not a predicted SHA.

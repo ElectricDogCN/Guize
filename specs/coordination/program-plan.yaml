@@ -81,9 +81,9 @@ foundationTasks:
     mergeCommit: 16070d0d0d4c1a4952d2fc6f036dda135f058c8d
   - taskId: OPS-014
     title: 修复metadata profiling的416诊断正文合同
-    status: in_progress
-    completionRef: ISSUE-142
-    mergeCommit: null
+    status: completed
+    completionRef: PR-150
+    mergeCommit: 2a77cbf9ad838b7b7abc7fbc5ed7aaa5f2f793d4
 waves:
   - {id: W1, order: 1, name: "需求与 POC 计划", maxConcurrent: 2, maxHighRisk: 1}
   - {id: W2, order: 2, name: "OpenAPI + 独立 POC", maxConcurrent: 3, maxHighRisk: 1}

@@ -1,7 +1,7 @@
-# OPS-014 治理历史修复回滚
+OPS-014 normal Completion proposal
+Base: 02f0186ca3c7ec941bbc922c5ae24546f6d35f21
+Branch: chore/OPS-014-history-code-normal-completion
+Last code: PR150/2a77cbf9ad838b7b7abc7fbc5ed7aaa5f2f793d4
+Current source/tree: UNASSIGNED; after commit use actual Git HEAD/tree carrying this Handoff.
 
-当前代码候选尚未合入；原始激活37de66cb7aa049051c7313e21815990a061a0521、本地失败分支及全部原件保持。撤回候选时保留分支和运行记录，不重置或删除工作目录。
-
-若后续集成的分类器修复出现缺陷，从届时最新main准备独立前向修订，仅纠正已登记的两条Gov代码路径；以激活37de66c的原始Git字节作为对照，恢复真实Foundation信号和旧拒绝行为。不得借回滚改变原授权、合同、恢复证明、容量、账本或其他任务。
-
-修订需重跑Task声明的完整源门禁、真实Git回归、完整governance和make verify，经同头CI及独立审查后普通合并，再验证实际主线。当前未执行回滚；没有将回滚计划冒称实际恢复验证。
+Accepted actual repair/thaw/Review and real Issue142 closure. Only own Foundation completion identity, own Active removal and Task/Evidence proposal. Current commands/CI are UNEXECUTED; no actual completion/capacity release. Code/ledger/proof/recovery/foreign unchanged. Current inventory: history-completion-changed-files.md. Withdraw before merge or forward repair afterward.

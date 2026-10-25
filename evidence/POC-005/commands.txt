@@ -1,23 +1,23 @@
 Task: POC-005
 Issue: 132
 Branch: chore/POC-005-metadata-scale
-Base SHA: 2a77cbf9ad838b7b7abc7fbc5ed7aaa5f2f793d4
-Preparation parent: dc506b85317cdfa419d9fa6491d87eaa76e88473; accepted incoming main: 2a77cbf9ad838b7b7abc7fbc5ed7aaa5f2f793d4
+Base SHA: 746e23e582501fa08380c3f3301bdc1774902f7c
+Preparation parent: 4b17b7e4e2d9f1e48fd5b61be1600f4141aeb160; accepted incoming main: 746e23e582501fa08380c3f3301bdc1774902f7c
 Current status/agentRole: in_progress/implementer. Actual new source/tree is Git HEAD after commit, not a predicted SHA.
 
 Current exact-source commands (unexecuted):
-git diff --check 2a77cbf9ad838b7b7abc7fbc5ed7aaa5f2f793d4...HEAD
+git diff --check 746e23e582501fa08380c3f3301bdc1774902f7c...HEAD
 python scripts/check-task-file.py --task POC-005
 python scripts/check-project-readiness.py
 python scripts/check-schemas.py
-python scripts/check-program-plan-integrity.py --base-ref 2a77cbf9ad838b7b7abc7fbc5ed7aaa5f2f793d4
-python scripts/check-program-plan-history.py --base-ref 2a77cbf9ad838b7b7abc7fbc5ed7aaa5f2f793d4 --head-ref HEAD --task POC-005 --branch-name chore/POC-005-metadata-scale
-python scripts/check-program-plan-transitions.py --base-ref 2a77cbf9ad838b7b7abc7fbc5ed7aaa5f2f793d4 --head-ref HEAD --task POC-005 --branch-name chore/POC-005-metadata-scale
-python scripts/check-program-plan-finalization.py --base-ref 2a77cbf9ad838b7b7abc7fbc5ed7aaa5f2f793d4 --head-ref HEAD --task POC-005
-python scripts/check-program-lifecycle-guards.py --base-ref 2a77cbf9ad838b7b7abc7fbc5ed7aaa5f2f793d4 --head-ref HEAD --task POC-005 --branch-name chore/POC-005-metadata-scale
-python scripts/run-program-lifecycle-gate.py --base-ref 2a77cbf9ad838b7b7abc7fbc5ed7aaa5f2f793d4 --head-ref HEAD --task POC-005 --branch-name chore/POC-005-metadata-scale
-python scripts/run-agent-coordination-gate.py --base-ref 2a77cbf9ad838b7b7abc7fbc5ed7aaa5f2f793d4 --head-ref HEAD --task POC-005 --branch-name chore/POC-005-metadata-scale
-python scripts/run-task-scope-gate.py --task POC-005 --base 2a77cbf9ad838b7b7abc7fbc5ed7aaa5f2f793d4
+python scripts/check-program-plan-integrity.py --base-ref 746e23e582501fa08380c3f3301bdc1774902f7c
+python scripts/check-program-plan-history.py --base-ref 746e23e582501fa08380c3f3301bdc1774902f7c --head-ref HEAD --task POC-005 --branch-name chore/POC-005-metadata-scale
+python scripts/check-program-plan-transitions.py --base-ref 746e23e582501fa08380c3f3301bdc1774902f7c --head-ref HEAD --task POC-005 --branch-name chore/POC-005-metadata-scale
+python scripts/check-program-plan-finalization.py --base-ref 746e23e582501fa08380c3f3301bdc1774902f7c --head-ref HEAD --task POC-005
+python scripts/check-program-lifecycle-guards.py --base-ref 746e23e582501fa08380c3f3301bdc1774902f7c --head-ref HEAD --task POC-005 --branch-name chore/POC-005-metadata-scale
+python scripts/run-program-lifecycle-gate.py --base-ref 746e23e582501fa08380c3f3301bdc1774902f7c --head-ref HEAD --task POC-005 --branch-name chore/POC-005-metadata-scale
+python scripts/run-agent-coordination-gate.py --base-ref 746e23e582501fa08380c3f3301bdc1774902f7c --head-ref HEAD --task POC-005 --branch-name chore/POC-005-metadata-scale
+python scripts/run-task-scope-gate.py --task POC-005 --base 746e23e582501fa08380c3f3301bdc1774902f7c
 python scripts/check-evidence.py --task POC-005
-python specs/poc/check_program.py --task POC-005 --base-ref 2a77cbf9ad838b7b7abc7fbc5ed7aaa5f2f793d4
+python specs/poc/check_program.py --task POC-005 --base-ref 746e23e582501fa08380c3f3301bdc1774902f7c
 python scripts/check-markdown.py

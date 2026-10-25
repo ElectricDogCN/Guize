@@ -1,12 +1,21 @@
 # POC-005 current source inventory
 
-Base: 2a77cbf9ad838b7b7abc7fbc5ed7aaa5f2f793d4
+Base: 746e23e582501fa08380c3f3301bdc1774902f7c
 Branch: chore/POC-005-metadata-scale
 
-Cumulative paths: 4747. Prior raw failures stay retained; no full POC acceptance.
+Cumulative paths: 4756. Prior raw failures stay retained; no full POC acceptance.
 
 - `evidence/POC-005/.gitattributes`
 - `evidence/POC-005/EVIDENCE-STRUCTURE.md`
+- `evidence/POC-005/accepted-completion-main-746e23e-sync/00-4198f7469aba.zlib.b64`
+- `evidence/POC-005/accepted-completion-main-746e23e-sync/01-79e2e46d8b38.zlib.b64`
+- `evidence/POC-005/accepted-completion-main-746e23e-sync/02-e90637116304.zlib.b64`
+- `evidence/POC-005/accepted-completion-main-746e23e-sync/03-bd6482530b5a.zlib.b64`
+- `evidence/POC-005/accepted-completion-main-746e23e-sync/04-0d648a13b1b4.zlib.b64`
+- `evidence/POC-005/accepted-completion-main-746e23e-sync/05-9dfc3fceb6de.zlib.b64`
+- `evidence/POC-005/accepted-completion-main-746e23e-sync/06-18b70a6e444d.zlib.b64`
+- `evidence/POC-005/accepted-completion-main-746e23e-sync/07-f37ad05761a8.zlib.b64`
+- `evidence/POC-005/accepted-completion-main-746e23e-sync/index.json`
 - `evidence/POC-005/accepted-main-2a77cbf-sync/00-e2880bda75dc.zlib.b64`
 - `evidence/POC-005/accepted-main-2a77cbf-sync/01-f555a07499fe.zlib.b64`
 - `evidence/POC-005/accepted-main-2a77cbf-sync/02-cb44bdfcfcf5.zlib.b64`

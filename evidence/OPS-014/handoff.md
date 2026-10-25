@@ -1,12 +1,28 @@
-OPS-014 governance history implementation
-Base: 4c7a5a46863504fa93849ad4ae82946e3bfb4bc6
-Branch: chore/OPS-014-clean-main-import-attribution
-Parent activation: 37de66cb7aa049051c7313e21815990a061a0521
-Code Source Commit: UNASSIGNED (dirty snapshot)
+OPS-014 normal Completion proposal
+Base: 02f0186ca3c7ec941bbc922c5ae24546f6d35f21
+Branch: chore/OPS-014-history-code-normal-completion
+Last code: PR150/2a77cbf9ad838b7b7abc7fbc5ed7aaa5f2f793d4
+Current source/tree: UNASSIGNED; after commit use actual Git HEAD/tree carrying this Handoff.
 
-Task OPS-014 / Issue142 open. Owner ElectricDogCN; Coordinator program-coordinator-agent; Implementer poc-contract-repair-implementation-agent (/root); Reviewer independent-review-agent (/root/gz022_planning_independent_review); Integrator integration-agent under existing user delegation. Current in_progress/implementer; MOD-GOV/high; lease2026-10-24T21:42:30Z to2026-10-31T21:42:30Z; group poc-contract-repair/order10; three active/one high. Claims exactGov2, shared none.
-Actual files: changed-files.md. Contracts unchanged. Own activation37de66c directly descends from fully accepted4c; all13 actual0 and independent activation acceptance preceded implementation. Originalfailed0f9 fix branch/bundle/raw remain; not a code ancestor. Actual code source/tree UNASSIGNED until reviewed snapshot commit.
-Code: complete clean admitted import classification only. Component10 passed actual dirty hashes; initial core independent acceptance, real nativeD oldTrue/newFalse and trueFoundationHint retained in history-implementation-v1/index.json. Firstred1fail8pass/firstgreen9pass; intermediate red-owned-recovery actually10pass (endpoint-only assertion); added firstbadhead actually1fail, then incoming-owned recovery fix/current10pass. Do not relabel any old outcome. Windows-path actualD probe36413 remains live with a read-only p9 disk wait; separate existing exact native bundle clone provided actual comparison. No source worktree bytes were modified by probes.
-Current commands: Task15/commands.txt; actual exits UNEXECUTED for the uncommitted code snapshot. Full governance, make verify and same-head hostedCI remain required; component checks and classifiers do not accept complete peer Task gates, old Completion or a POC.
-Next Reviewer: inspect complete code-stage snapshot and evidence/protected-byte boundaries; only permit exact commit/current source gates if appropriate. Next Implementer: exact reviewed commit, actual source/tree/bundle, current15 in fresh native context, retain all true results. Next Integrator: independent source publication/fullCI/finalreview/fresh expected-head ordinary merge, ownactualmain checks/CI/independent acceptance, then normal Review/Completion with true latest code identity. Scope/authority/proof/foreign/ledger/contract unchanged; no POC experiment or qualification.
-Rollback: before integration retain/revise candidate; after integration use reviewed forward correction. Keep original local refs/workspaces/raw/DB/inputs and all old failures. No force rewrite or consumed approval reuse.
+Task: OPS-014
+Issue: #142 (actual closed/completed; official original in history-completion-prerequisites)
+Roles: Owner ElectricDogCN; Coordinator program-coordinator-agent; Implementer poc-contract-repair-implementation-agent; Reviewer independent-review-agent (/root/gz022_planning_independent_review); Integrator integration-agent.
+Original lease: 2026-10-24T21:42:30Z → 2026-10-31T21:42:30Z; no renewal. Integration order10, no shared paths. Historical claims exactly scripts/check-program-plan-history.py and tests/governance/test_poc_contract_repair_admission.py; no current code writes.
+Actual files: history-completion-changed-files.md is the cumulative proposal against Base; current source/tree comes from real Git HEAD/tree after commit, no fabricated future SHA.
+Contracts consumed unchanged: Program schemaVersion1, Task schemaVersion2, Active Registry version1 and POC-PROTOCOL-V1; no new contracts.
+Current validation: UNEXECUTED, exact13 commands in commands.txt/Task. Accepted prerequisite argv/exits/source/main/raw bytes are retained in history-completion-prerequisites/index.json. Current source/full CI/final independent source/actual Completion main still pending; prior742/211/Windows7 do not substitute.
+Failures and limitations: existing activation/fixture/archive/two-thaw failures and immutable recovery proof remain unchanged. This proposal neither approves new POC windows nor qualifies old experiments; it does not complete V1. Worktree Active removal is only a proposal.
+Next Reviewer: inspect exact uncommitted metadata/lastCode identity/full inventory and decoded original prerequisites; independent content acceptance before commit.
+Next Implementer: commit exact accepted paths, bind real source/tree/bundle, execute13 on that fixed source and preserve exits/raw/failures, obtain independent publication acceptance, run same-head full CI and final independent source review.
+Next Integrator: freshly confirm main/head/Issue142 closed-completed/roles/lease/lastCode150-N/latest CI/threads, normal expected-head merge, actual ordered parents/tree/clean FF, own main checks and push CI/full independent acceptance. Only then mark OPS014 complete and release actual high capacity; clean only ended remote refs while retaining locals/raw.
+Rollback: withdraw before merge or perform an evidence-backed forward repair afterward; never rewrite history, use Review/Completion as lastCode, delete raw Evidence or alter the ordinary ledger.
+
+## Accepted prerequisite W; current Completion remains pending
+
+Source Commit: 02f0186ca3c7ec941bbc922c5ae24546f6d35f21
+Last code identity: PR-150 / 2a77cbf9ad838b7b7abc7fbc5ed7aaa5f2f793d4
+Status: PASS (accepted prerequisite W only)
+Result: SUCCESS (accepted prerequisite W only)
+Evidence: history-completion-prerequisites/review-main-results.json.zlib.b64 and history-completion-prerequisites/ops014-history-review-02f0186-full-main-independent-review.json.zlib.b64
+Actual prerequisite checks: seven commands exited 0; own push CI863 passed 752 tests, zero failed/errors/test-skips; full independent main acceptance received.
+Current Completion13 and hosted CI: UNEXECUTED/PENDING; no current candidate acceptance, actual completion or capacity release is claimed.
