@@ -104,9 +104,9 @@ tasks:
   reviewer: independent-review-agent
   integrator: integration-agent
   agentRole: reviewer
-  branch: chore/OPS-014-metadata-416-normal-review
+  branch: chore/OPS-014-bounded-governance-intent
   baseBranch: main
-  baseSha: e1ef8eda8daa148aaff165712a878c463dfb9fab
+  baseSha: c0d550555dd51a29fd1c5ff1bc5e4713073c0b53
   workPackage: WP-M0-01
   programPlan: specs/coordination/program-plan.yaml
   programTaskId: OPS-014
