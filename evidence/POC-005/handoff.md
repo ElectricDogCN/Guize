@@ -1,3 +1,26 @@
+# POC-005 thaw baseline handoff
+
+Task: POC-005
+Issue: #132 / Draft PR #136
+Branch: chore/POC-005-metadata-scale
+Base SHA: e1ef8eda8daa148aaff165712a878c463dfb9fab
+Prior reviewed source: e1c1ca3d576f552c87bcc016885d733a5b1e9313
+Actual integration merge: ba8d6ec45982df483cdde6b95e9091f568e54d4e
+Current metadata source/tree: UNASSIGNED; after commit use the actual Git HEAD/tree carrying this Handoff.
+Current commands/exits: UNEXECUTED. Task declares the exact15 and commands.txt repeats them; Windows129/Linux28+HTTP1+UTC4 and full same-head CI remain pending.
+Roles: Owner ElectricDogCN; Coordinator program-coordinator-agent; Implementer task-owner-agent; Reviewer independent-review-agent; Integrator integration-agent. Reviewer remains independent of implementation/experiment execution.
+Original lease: 2026-10-22T16:08:44Z → 2026-10-29T16:08:44Z; unchanged. Integration order3, after POC-003/order2 for shared ADR/own result row. No shared result edits in this phase.
+Claims: poc/POC-05-metadata-scale/** and evidence/POC-005/**. Shared: adr/** and only own specs/poc/results-index.yaml row. Task/Active refresh only own base; code, frozen protocol/plan/input units/thresholds remain unchanged.
+Actual files: changed-files.md is the complete delta against Base; source interfaces remain poc/POC-05-metadata-scale/README.md. Contract consumed POC-PROTOCOL-V1/schemaVersion2 plan specs/poc/plans/POC-005.yaml; POC-05-EVIDENCE remains pending, not produced by this integration.
+Evidence: thaw-baseline-e1ef8ed/index.json contains byte-identical accepted repair/thaw main and CI851 originals plus prior e1c independent source review. Existing own failure archives and original workspace4180 untracked records remain untouched; raw33 response failure is not relabelled.
+Limits: no new experiment, qualification, 100k/1m/700TB/provider quota claim; no Linux clock workload retry. New attempts need an immutable accepted source plus independently approved inputs/resources/domain/window. Do not overlap this host's metadata throughput/RSS with POC003 ATS latency/disk window.
+Next Reviewer: inspect this exact metadata proposal, original preservation, full inventory and decoded prerequisite originals; provide independent content findings before commit.
+Next Implementer: commit the accepted exact proposal; capture real source/tree/bundle; run Task15, Windows129 and the explicitly bounded Linux regressions with original raw exits, then same-head full CI and independent source acceptance. Only then prepare a new concrete experiment approval; retain every old result and consumed approval.
+Next Integrator: preserve Draft136 until full original13 and local-v1 qualification complete; synchronize latest accepted main before normal Review and respect POC003 shared order. Component/source acceptance does not complete POC005.
+Rollback: withdraw the candidate before merge, or forward repair after review; isolate cleanup to this POC's owned sandbox. Never delete assets, credentials, historical Evidence or original worktree data.
+
+## Historical source-bound handoffs (preserved)
+
 Task: POC-005
 Issue: 132
 Base: f2e0150265e0c1eeca5f69fe85708b2434e5ee79

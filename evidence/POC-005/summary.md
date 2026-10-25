@@ -1,3 +1,10 @@
+POC-005 current integration context
+Base: e1ef8eda8daa148aaff165712a878c463dfb9fab
+Branch: chore/POC-005-metadata-scale
+Merge: ba8d6ec45982df483cdde6b95e9091f568e54d4e
+Current metadata source/checks: UNASSIGNED/UNEXECUTED.
+No experiment or qualification accepted. Current inventory: changed-files.md; prerequisite originals: thaw-baseline-e1ef8ed/index.json.
+
 Task: POC-005
 Issue: 132
 Base: f2e0150265e0c1eeca5f69fe85708b2434e5ee79

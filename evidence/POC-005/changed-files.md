@@ -1,6 +1,7 @@
-# Current candidate changed files
+# POC-005 current integration inventory
 
-Base: f2e0150265e0c1eeca5f69fe85708b2434e5ee79
+Base: e1ef8eda8daa148aaff165712a878c463dfb9fab
+Branch: chore/POC-005-metadata-scale
 
 - `evidence/POC-005/.gitattributes`
 - `evidence/POC-005/EVIDENCE-STRUCTURE.md`
@@ -374,6 +375,12 @@ Base: f2e0150265e0c1eeca5f69fe85708b2434e5ee79
 - `evidence/POC-005/source-observer-development-all90-nt.raw`
 - `evidence/POC-005/source-observer-independent-content-review.json`
 - `evidence/POC-005/summary.md`
+- `evidence/POC-005/thaw-baseline-e1ef8ed/index.json`
+- `evidence/POC-005/thaw-baseline-e1ef8ed/ops014-416-repair-09d247f-full-main-independent-review.json.zlib.b64`
+- `evidence/POC-005/thaw-baseline-e1ef8ed/ops014-416-thaw-e1ef8ed-ci851-success-job.raw.txt.zlib.b64`
+- `evidence/POC-005/thaw-baseline-e1ef8ed/ops014-416-thaw-e1ef8ed-ci851-success-official-status.json.zlib.b64`
+- `evidence/POC-005/thaw-baseline-e1ef8ed/ops014-416-thaw-e1ef8ed-full-main-independent-review.json.zlib.b64`
+- `evidence/POC-005/thaw-baseline-e1ef8ed/poc005-utc-inputs-e1c1ca3-independent-source-review.json.zlib.b64`
 - `evidence/POC-005/timestamp-38f2a7b-failed-validation/.gitattributes`
 - `evidence/POC-005/timestamp-38f2a7b-failed-validation/code-91.raw`
 - `evidence/POC-005/timestamp-38f2a7b-failed-validation/independent-source-rejection.json`
