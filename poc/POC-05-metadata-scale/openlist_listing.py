@@ -108,7 +108,7 @@ class OpenListListing:
         _positive(per_page, MAX_PAGE, "INVALID_LISTING_PAGE_SIZE")
         _positive(maximum_bytes, MAX_BODY_BYTES, "INVALID_RESPONSE_LIMIT")
         request_body = json.dumps(dict(path="/" + self.scope + ("/" + "/".join(parts) if parts else ""),
-                                       password="", page=page, per_page=per_page, refresh=False),
+                                       page=page, per_page=per_page, refresh=False),
                                   ensure_ascii=True, sort_keys=True, separators=(",", ":")).encode()
         headers = {"Content-Type": "application/json", "Accept": "application/json",
                    "Accept-Encoding": "identity", "User-Agent": "Guize-POC005-listing-v1"}

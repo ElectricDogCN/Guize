@@ -62,7 +62,7 @@ tasks:
   agentRole: implementer
   branch: chore/POC-005-metadata-scale
   baseBranch: main
-  baseSha: e1ef8eda8daa148aaff165712a878c463dfb9fab
+  baseSha: c0d550555dd51a29fd1c5ff1bc5e4713073c0b53
   workPackage: WP-M0-POC-05
   programPlan: specs/coordination/program-plan.yaml
   programTaskId: POC-005

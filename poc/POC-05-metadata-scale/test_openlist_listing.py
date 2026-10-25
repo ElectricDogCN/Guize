@@ -1,6 +1,7 @@
 from contextlib import closing
 import hashlib
 import http.server
+import importlib.util
 import json
 import sqlite3
 import tempfile
@@ -84,6 +85,23 @@ class ListingTests(unittest.TestCase):
         with closing(sqlite3.connect(self.index)) as db:
             return db.execute("SELECT completed,objects,pages FROM state").fetchone()
 
+    def test_actual_wire_omits_unused_metadata_password_and_passes_frozen_raw_scan(self):
+        observation = self.source.observe()
+        _, request, authorization, raw = self.server.requests[-1]
+        self.assertEqual(authorization, TOKEN)
+        self.assertNotIn("password", request)
+        self.assertEqual(set(request), {"path", "page", "per_page", "refresh"})
+        self.assertEqual(raw, observation["requestBody"])
+        self.assertEqual(observation["requestBodySha256"], hashlib.sha256(raw).hexdigest())
+        checker_path = Path(__file__).resolve().parents[2] / "specs/poc/check_program.py"
+        spec = importlib.util.spec_from_file_location("frozen_listing_request_safety", checker_path)
+        checker = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(checker)
+        self.assertFalse(checker.artifact_credential_scanner()(raw, final=True))
+        total, entries = self.source.parse_page(observation)
+        self.assertEqual(total, 3)
+        self.assertEqual(len(entries), 3)
+
     def test_actual_paginated_tree_retains_real_requests_and_disk_frontier(self):
         result = self.walk()
         self.assertEqual((result["objectCount"], result["pageCount"]), (5, 3))
@@ -104,7 +122,7 @@ class ListingTests(unittest.TestCase):
             self.assertEqual(path, "/api/fs/list")
             self.assertEqual(authorization, TOKEN)
             self.assertIs(request["refresh"], False)
-            self.assertEqual(request["password"], "")
+            self.assertNotIn("password", request)
             self.assertTrue(request["path"].startswith("/fixtures"))
             self.assertNotIn(TOKEN.encode(), raw)
         for page in self.pages:
