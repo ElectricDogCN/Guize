@@ -1,8 +1,7 @@
-OPS-014 prospective bounded governance intent
-Base: c0d550555dd51a29fd1c5ff1bc5e4713073c0b53
-Branch: chore/OPS-014-bounded-governance-intent
-Preparation HEAD: c0d550555dd51a29fd1c5ff1bc5e4713073c0b53
-Source Commit: UNASSIGNED (uncommitted preparation)
-Last delivered code: PR145/09d247f97b318ebe8bdeee1dae539e26a17598ea
+OPS-014 Gov-only scope registration, blocked metadata only
+Base: f8b4543afe27b539cab2ac553a4567fd0f8de026
+Branch: chore/OPS-014-bounded-history-scope-blocked
+Preparation HEAD: f8b4543afe27b539cab2ac553a4567fd0f8de026
+Source Commit: UNASSIGNED (uncommitted proposal)
 
-Only own branch/base context and Evidence; review/reviewer, roles, original lease/two claims, all Program/recovery/foreign rows and code remain unchanged. Decision grants no code or scope authority. Task13, hosted CI, independent source review and actual main acceptance pending. Full V1 and both POCs incomplete.
+No code changes. Own status review->blocked and exact ordinary Gov-only claims2 proposed; old POC claims removed from current scope, their historical authority/contract delivery retained. Roles/lease/risk/capacity/recovery/foreign/code/ledger unchanged. Current source13/CI/final review/main acceptance pending; separate accepted activation required before code. No experiment or task completion.

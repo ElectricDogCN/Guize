@@ -1,21 +1,21 @@
-OPS-014 prospective bounded governance intent
-Base: c0d550555dd51a29fd1c5ff1bc5e4713073c0b53
-Branch: chore/OPS-014-bounded-governance-intent
-Preparation HEAD: c0d550555dd51a29fd1c5ff1bc5e4713073c0b53
-Source Commit: UNASSIGNED (uncommitted preparation)
-Last delivered code: PR145/09d247f97b318ebe8bdeee1dae539e26a17598ea
+OPS-014 Gov-only scope registration, blocked metadata only
+Base: f8b4543afe27b539cab2ac553a4567fd0f8de026
+Branch: chore/OPS-014-bounded-history-scope-blocked
+Preparation HEAD: f8b4543afe27b539cab2ac553a4567fd0f8de026
+Source Commit: UNASSIGNED (uncommitted proposal)
 
-Command/Exit Code: all current commands UNEXECUTED; actual prerequisite/failure exits remain bound to their original sources in governance-intent/index.json.
-git diff --check c0d550555dd51a29fd1c5ff1bc5e4713073c0b53...HEAD
+Command/Exit Code: current13 UNEXECUTED; prerequisite actual0 and actual cancellation retained with original source in governance-scope/index.json.
+
+git diff --check f8b4543afe27b539cab2ac553a4567fd0f8de026...HEAD
 python scripts/check-task-file.py --task OPS-014
 python scripts/check-schemas.py
-python scripts/check-program-plan-integrity.py --base-ref c0d550555dd51a29fd1c5ff1bc5e4713073c0b53
-python scripts/check-program-plan-history.py --base-ref c0d550555dd51a29fd1c5ff1bc5e4713073c0b53 --head-ref HEAD --task OPS-014 --branch-name chore/OPS-014-bounded-governance-intent
-python scripts/check-program-plan-transitions.py --base-ref c0d550555dd51a29fd1c5ff1bc5e4713073c0b53 --head-ref HEAD --task OPS-014 --branch-name chore/OPS-014-bounded-governance-intent
-python scripts/check-program-lifecycle-guards.py --base-ref c0d550555dd51a29fd1c5ff1bc5e4713073c0b53 --head-ref HEAD --task OPS-014 --branch-name chore/OPS-014-bounded-governance-intent
-python scripts/run-agent-coordination-gate.py --base-ref c0d550555dd51a29fd1c5ff1bc5e4713073c0b53 --head-ref HEAD --task OPS-014 --branch-name chore/OPS-014-bounded-governance-intent
-python scripts/check-program-plan-finalization.py --base-ref c0d550555dd51a29fd1c5ff1bc5e4713073c0b53 --head-ref HEAD --task OPS-014
-python scripts/run-task-scope-gate.py --task OPS-014 --base c0d550555dd51a29fd1c5ff1bc5e4713073c0b53
+python scripts/check-program-plan-integrity.py --base-ref f8b4543afe27b539cab2ac553a4567fd0f8de026
+python scripts/check-program-plan-history.py --base-ref f8b4543afe27b539cab2ac553a4567fd0f8de026 --head-ref HEAD --task OPS-014 --branch-name chore/OPS-014-bounded-history-scope-blocked
+python scripts/check-program-plan-transitions.py --base-ref f8b4543afe27b539cab2ac553a4567fd0f8de026 --head-ref HEAD --task OPS-014 --branch-name chore/OPS-014-bounded-history-scope-blocked
+python scripts/check-program-lifecycle-guards.py --base-ref f8b4543afe27b539cab2ac553a4567fd0f8de026 --head-ref HEAD --task OPS-014 --branch-name chore/OPS-014-bounded-history-scope-blocked
+python scripts/run-agent-coordination-gate.py --base-ref f8b4543afe27b539cab2ac553a4567fd0f8de026 --head-ref HEAD --task OPS-014 --branch-name chore/OPS-014-bounded-history-scope-blocked
+python scripts/check-program-plan-finalization.py --base-ref f8b4543afe27b539cab2ac553a4567fd0f8de026 --head-ref HEAD --task OPS-014
+python scripts/run-task-scope-gate.py --task OPS-014 --base f8b4543afe27b539cab2ac553a4567fd0f8de026
 python scripts/check-evidence.py --task OPS-014
 python scripts/check-project-readiness.py
 python scripts/check-markdown.py

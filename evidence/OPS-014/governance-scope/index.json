@@ -1,0 +1,201 @@
+{
+  "base": "f8b4543afe27b539cab2ac553a4567fd0f8de026",
+  "files": [
+    {
+      "ref": "00-ops014-governance-intent-f8b4543-full-main-independent-review.json.zlib.b64",
+      "original": "ops014-governance-intent-f8b4543-full-main-independent-review.json",
+      "encoding": "zlib-base64",
+      "bytes": 11163,
+      "sha256": "5952a679c2769ffddf7418e0749bbfc23e943e2270c50a5946516abc99d9caba"
+    },
+    {
+      "ref": "01-ops014-governance-intent-official-merge.json.zlib.b64",
+      "original": "ops014-governance-intent-official-merge.json",
+      "encoding": "zlib-base64",
+      "bytes": 754,
+      "sha256": "b3fadf241e6e59fd1ec69bf1fa226d6782908f90ef9ecd332b75464e3c989f7c"
+    },
+    {
+      "ref": "02-ops014-governance-intent-20d574e-merge-approval.json.zlib.b64",
+      "original": "ops014-governance-intent-20d574e-merge-approval.json",
+      "encoding": "zlib-base64",
+      "bytes": 847,
+      "sha256": "1fb0042e278e21e3213b292f7334d7f0472b68ffc17d824a7c1037496b26526e"
+    },
+    {
+      "ref": "03-ops014-governance-intent-20d574e-final-source-independent-review.json.zlib.b64",
+      "original": "ops014-governance-intent-20d574e-final-source-independent-review.json",
+      "encoding": "zlib-base64",
+      "bytes": 8264,
+      "sha256": "7c4a2617707e5c6a548dfa84cc222e30f2208bfb9d22578a7b986534f7a4074c"
+    },
+    {
+      "ref": "04-ops014-governance-intent-20d574e-ci855-success-job.raw.txt.zlib.b64",
+      "original": "ops014-governance-intent-20d574e-ci855-success-job.raw.txt",
+      "encoding": "zlib-base64",
+      "bytes": 298391,
+      "sha256": "586b68e062d1d15e36fc8c9144487e80d561233ccd74536c54f784703eb006b1"
+    },
+    {
+      "ref": "05-ops014-governance-intent-20d574e-ci855-success-official-status.json.zlib.b64",
+      "original": "ops014-governance-intent-20d574e-ci855-success-official-status.json",
+      "encoding": "zlib-base64",
+      "bytes": 34438,
+      "sha256": "ee46e4be676452261c78732d22fc22341d8178f83b8f0488d08fbe0f64df8a21"
+    },
+    {
+      "ref": "06-ops014-governance-intent-20d574e-ci855-cancelled-job.raw.txt.zlib.b64",
+      "original": "ops014-governance-intent-20d574e-ci855-cancelled-job.raw.txt",
+      "encoding": "zlib-base64",
+      "bytes": 267061,
+      "sha256": "11bab7524c70f69694089ce72e8a2843cc97b9cc5a9489668de8bc4c21283988"
+    },
+    {
+      "ref": "07-ops014-governance-intent-20d574e-ci855-official-annotations.json.zlib.b64",
+      "original": "ops014-governance-intent-20d574e-ci855-official-annotations.json",
+      "encoding": "zlib-base64",
+      "bytes": 1794,
+      "sha256": "878ac7a6388c9b8f9b74a318ee5aab71f991e7a4cc161dfe6576e8e795b550de"
+    },
+    {
+      "ref": "08-ops014-governance-intent-20d574e-ci855-timeout-independent-assessment.json.zlib.b64",
+      "original": "ops014-governance-intent-20d574e-ci855-timeout-independent-assessment.json",
+      "encoding": "zlib-base64",
+      "bytes": 5882,
+      "sha256": "723a5ad23bd4029b0210d227d5bad7fbd5cd878c11413cfa86bde293284154dd"
+    },
+    {
+      "ref": "09-ops014-governance-intent-20d574e-ci855-timeout-source-cost-supplement.json.zlib.b64",
+      "original": "ops014-governance-intent-20d574e-ci855-timeout-source-cost-supplement.json",
+      "encoding": "zlib-base64",
+      "bytes": 2944,
+      "sha256": "465b120da509c140ce6f7068223103dd42e4f5e0fa4ffc7248946045cd820001"
+    },
+    {
+      "ref": "10-ops014-governance-intent-20d574e-ci855-one-retry-dispatch.json.zlib.b64",
+      "original": "ops014-governance-intent-20d574e-ci855-one-retry-dispatch.json",
+      "encoding": "zlib-base64",
+      "bytes": 536,
+      "sha256": "8dd4055c77a9ddc31998adc554682b207b37e50b89d57c3aafef350613fc5048"
+    },
+    {
+      "ref": "11-ops014-governance-intent-f8b4543-ci856-success-job.raw.txt.zlib.b64",
+      "original": "ops014-governance-intent-f8b4543-ci856-success-job.raw.txt",
+      "encoding": "zlib-base64",
+      "bytes": 289186,
+      "sha256": "a1e8ac21979bc6b296a174d742a0b97daeca793434c7f817d4f1780605220150"
+    },
+    {
+      "ref": "12-ops014-governance-intent-f8b4543-ci856-success-official-status.json.zlib.b64",
+      "original": "ops014-governance-intent-f8b4543-ci856-success-official-status.json",
+      "encoding": "zlib-base64",
+      "bytes": 33820,
+      "sha256": "6142b39ac0eda1cffbcd8a15f97b4cf342c4bc009be73c64342ca845af3702e6"
+    },
+    {
+      "ref": "13-ops014-minimal-history-fix-design-independent-assessment.json.zlib.b64",
+      "original": "ops014-minimal-history-fix-design-independent-assessment.json",
+      "encoding": "zlib-base64",
+      "bytes": 10433,
+      "sha256": "3a13f31ec4b578895981660a554ec138def78e13a5557b23f72c0222926ee9a7"
+    },
+    {
+      "ref": "14-ops014-actual-poc186-import-delta-readonly-analysis.json.zlib.b64",
+      "original": "ops014-actual-poc186-import-delta-readonly-analysis.json",
+      "encoding": "zlib-base64",
+      "bytes": 2694,
+      "sha256": "14876861919a9244a1e296e9aead6ef66ffa58aac10c05285c671612a5ed711f"
+    },
+    {
+      "ref": "15-ops014-poc186-existing-clean-import-method-check.json.zlib.b64",
+      "original": "ops014-poc186-existing-clean-import-method-check.json",
+      "encoding": "zlib-base64",
+      "bytes": 3905,
+      "sha256": "54ed29ada7b1d627b01b7cd247d958d6508c88437e08d3a217ee9d5f860a5c84"
+    },
+    {
+      "ref": "16-coordination.raw.zlib.b64",
+      "original": "ops014-governance-intent-f8b4543-native-main-checks/coordination.raw",
+      "encoding": "zlib-base64",
+      "bytes": 336,
+      "sha256": "c24b2fd5df3d17d8acf68bbeda34a15189329198762abeee6fe368dc3ecb8a78"
+    },
+    {
+      "ref": "17-finalization.raw.zlib.b64",
+      "original": "ops014-governance-intent-f8b4543-native-main-checks/finalization.raw",
+      "encoding": "zlib-base64",
+      "bytes": 433,
+      "sha256": "ecfe4c70c94fb38f36ffeb109b6abad4d2bf718bf557064aa1b8ad7aad698b06"
+    },
+    {
+      "ref": "18-history.raw.zlib.b64",
+      "original": "ops014-governance-intent-f8b4543-native-main-checks/history.raw",
+      "encoding": "zlib-base64",
+      "bytes": 542,
+      "sha256": "bde655ebdaac1176cf500ea6fbb08862775f6017c6f827333017ddae11a2058a"
+    },
+    {
+      "ref": "19-integrity.raw.zlib.b64",
+      "original": "ops014-governance-intent-f8b4543-native-main-checks/integrity.raw",
+      "encoding": "zlib-base64",
+      "bytes": 474,
+      "sha256": "0e66e2174225a9067640a283caf5e15a2d2c2cc83c75c77b9f60b6b0744e363c"
+    },
+    {
+      "ref": "20-poc-protocol.raw.zlib.b64",
+      "original": "ops014-governance-intent-f8b4543-native-main-checks/poc-protocol.raw",
+      "encoding": "zlib-base64",
+      "bytes": 367,
+      "sha256": "7ea3f47fc182909bfaa054c323329cd96d290d8532f3ead3146d3cbc3beb575d"
+    },
+    {
+      "ref": "21-raw-lifecycle.raw.zlib.b64",
+      "original": "ops014-governance-intent-f8b4543-native-main-checks/raw-lifecycle.raw",
+      "encoding": "zlib-base64",
+      "bytes": 525,
+      "sha256": "d4bad279325619ad4dff27d2241851023afc6c4ddbafb83316ccacbda6fd476c"
+    },
+    {
+      "ref": "22-transitions.raw.zlib.b64",
+      "original": "ops014-governance-intent-f8b4543-native-main-checks/transitions.raw",
+      "encoding": "zlib-base64",
+      "bytes": 454,
+      "sha256": "1e56a1e55af693a2f82c32bd1896baaeef224f602e7977cd45041f73c046f3e9"
+    },
+    {
+      "ref": "23-results.json.zlib.b64",
+      "original": "ops014-governance-intent-f8b4543-native-main-checks/results.json",
+      "encoding": "zlib-base64",
+      "bytes": 5479,
+      "sha256": "10118348517ed6e5c9f7fbcad5792cd17587ce980233be74b3fecc6e4a0fc496"
+    },
+    {
+      "ref": "24-full-governance.raw.zlib.b64",
+      "original": "ops014-governance-intent-20d574e-native-full-profile/full-governance.raw",
+      "encoding": "zlib-base64",
+      "bytes": 103771,
+      "sha256": "a917e664b4b49c723db4e5454f95fa08a8e5a3c72ac26edaa95cd2ba2acbc9b9"
+    },
+    {
+      "ref": "25-governance-junit.xml.zlib.b64",
+      "original": "ops014-governance-intent-20d574e-native-full-profile/governance-junit.xml",
+      "encoding": "zlib-base64",
+      "bytes": 118486,
+      "sha256": "f3424110200764e64acba457dd120721b2c10ad288ac7c0d0ca4a661f15b0373"
+    },
+    {
+      "ref": "26-results.json.zlib.b64",
+      "original": "ops014-governance-intent-20d574e-native-full-profile/results.json",
+      "encoding": "zlib-base64",
+      "bytes": 2182,
+      "sha256": "3379172197183521b0190591421c039bd642305cb7a58790a79f430aed8424a3"
+    },
+    {
+      "ref": "27-concurrent-regression-context.json.zlib.b64",
+      "original": "ops014-governance-intent-20d574e-native-full-profile/concurrent-regression-context.json",
+      "encoding": "zlib-base64",
+      "bytes": 2702,
+      "sha256": "fde694c70c7b9ba2da84c5a47bd1453f430848f5c1d50dba6856e466e949a97e"
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+# OPS-014 blocked scope inventory
+
+Base: f8b4543afe27b539cab2ac553a4567fd0f8de026
+Branch: chore/OPS-014-bounded-history-scope-blocked
+
+- `evidence/OPS-014/commands.txt`
+- `evidence/OPS-014/follow-ups.md`
+- `evidence/OPS-014/governance-scope/00-ops014-governance-intent-f8b4543-full-main-independent-review.json.zlib.b64`
+- `evidence/OPS-014/governance-scope/01-ops014-governance-intent-official-merge.json.zlib.b64`
+- `evidence/OPS-014/governance-scope/02-ops014-governance-intent-20d574e-merge-approval.json.zlib.b64`
+- `evidence/OPS-014/governance-scope/03-ops014-governance-intent-20d574e-final-source-independent-review.json.zlib.b64`
+- `evidence/OPS-014/governance-scope/04-ops014-governance-intent-20d574e-ci855-success-job.raw.txt.zlib.b64`
+- `evidence/OPS-014/governance-scope/05-ops014-governance-intent-20d574e-ci855-success-official-status.json.zlib.b64`
+- `evidence/OPS-014/governance-scope/06-ops014-governance-intent-20d574e-ci855-cancelled-job.raw.txt.zlib.b64`
+- `evidence/OPS-014/governance-scope/07-ops014-governance-intent-20d574e-ci855-official-annotations.json.zlib.b64`
+- `evidence/OPS-014/governance-scope/08-ops014-governance-intent-20d574e-ci855-timeout-independent-assessment.json.zlib.b64`
+- `evidence/OPS-014/governance-scope/09-ops014-governance-intent-20d574e-ci855-timeout-source-cost-supplement.json.zlib.b64`
+- `evidence/OPS-014/governance-scope/10-ops014-governance-intent-20d574e-ci855-one-retry-dispatch.json.zlib.b64`
+- `evidence/OPS-014/governance-scope/11-ops014-governance-intent-f8b4543-ci856-success-job.raw.txt.zlib.b64`
+- `evidence/OPS-014/governance-scope/12-ops014-governance-intent-f8b4543-ci856-success-official-status.json.zlib.b64`
+- `evidence/OPS-014/governance-scope/13-ops014-minimal-history-fix-design-independent-assessment.json.zlib.b64`
+- `evidence/OPS-014/governance-scope/14-ops014-actual-poc186-import-delta-readonly-analysis.json.zlib.b64`
+- `evidence/OPS-014/governance-scope/15-ops014-poc186-existing-clean-import-method-check.json.zlib.b64`
+- `evidence/OPS-014/governance-scope/16-coordination.raw.zlib.b64`
+- `evidence/OPS-014/governance-scope/17-finalization.raw.zlib.b64`
+- `evidence/OPS-014/governance-scope/18-history.raw.zlib.b64`
+- `evidence/OPS-014/governance-scope/19-integrity.raw.zlib.b64`
+- `evidence/OPS-014/governance-scope/20-poc-protocol.raw.zlib.b64`
+- `evidence/OPS-014/governance-scope/21-raw-lifecycle.raw.zlib.b64`
+- `evidence/OPS-014/governance-scope/22-transitions.raw.zlib.b64`
+- `evidence/OPS-014/governance-scope/23-results.json.zlib.b64`
+- `evidence/OPS-014/governance-scope/24-full-governance.raw.zlib.b64`
+- `evidence/OPS-014/governance-scope/25-governance-junit.xml.zlib.b64`
+- `evidence/OPS-014/governance-scope/26-results.json.zlib.b64`
+- `evidence/OPS-014/governance-scope/27-concurrent-regression-context.json.zlib.b64`
+- `evidence/OPS-014/governance-scope/index.json`
+- `evidence/OPS-014/governance-scope/proposal.json`
+- `evidence/OPS-014/handoff.md`
+- `evidence/OPS-014/rollback.md`
+- `evidence/OPS-014/scope-changed-files.md`
+- `evidence/OPS-014/scope.md`
+- `evidence/OPS-014/summary.md`
+- `specs/coordination/active-work.yaml`
+- `specs/coordination/program-plan.yaml`
+- `specs/tasks/OPS-014.md`
