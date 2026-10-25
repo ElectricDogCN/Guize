@@ -1,0 +1,54 @@
+{
+  "kind": "prospective_ordinary_gov_only_scope_blocked_proposal",
+  "taskId": "OPS-014",
+  "proposedAt": "2026-10-25T14:28:35.525668+00:00",
+  "base": "f8b4543afe27b539cab2ac553a4567fd0f8de026",
+  "actualAcceptedIntentRef": "evidence/OPS-014/governance-intent/decision.json",
+  "intentValidUntil": "2026-10-26T12:31:25.296168+00:00",
+  "authorityActor": "/root acting as integration-agent under existing user delegation; no new human signature",
+  "beforeClaims": [
+    "specs/poc/check_program.py",
+    "specs/poc/test_program.py"
+  ],
+  "proposedClaims": [
+    "scripts/check-program-plan-history.py",
+    "tests/governance/test_poc_contract_repair_admission.py"
+  ],
+  "proposedStatus": "blocked",
+  "agentRole": "reviewer",
+  "riskLevel": "high",
+  "moduleIds": [
+    "MOD-GOV"
+  ],
+  "lease": {
+    "acquiredAt": "2026-10-24T21:42:30Z",
+    "expiresAt": "2026-10-31T21:42:30Z"
+  },
+  "scopeMeaning": "Replace the two non-Gov POC claims entirely with two ordinary MOD-GOV owned paths. The original POC exception/history and delivered contract remain unchanged and grant no current POC access after amendment. Blocked state grants no working code permission.",
+  "boundedPurpose": "Correct false selection of an active Foundation when a legitimate peer imports only proven clean admitted-main Foundation metadata/evidence/claimed-code; retain actual own signals, all prior admission/role/scope/lease/freeze/rename guards and source full gates.",
+  "noNewFormatWaiver": "Preserve e380/301 and e8 failure. Existing normal history rules handle already integrated metadata failures when real later registered Gov code is actually delivered; only its real reviewed implementation can become latest-code identity.",
+  "requiredTests": [
+    "Actual two-import graph: full Task/evidence/contract clean imports, mixed YAML own projection and root recovery from real admitted secondary parents and all merge bases.",
+    "Reject nonclean own conflict, temp change restored at tip, own Task/row/evidence/code mismatch, forged/unadmitted parents, fake peer hints/admissions and bad identity/lease/scope/rename/role/capacity.",
+    "Exercise no-task main plus true Foundation hint and legitimate peer; preserve original authority/freeze/thaw and strict adverse tests.",
+    "Normal later real Gov implementation->Review->Completion uses true code identity; reject fake metadata-only implementation, obsolete identity and new malformed post-code metadata."
+  ],
+  "unchangedRecovery": {
+    "taskId": "OPS-014",
+    "reason": "已完成GZ-021的metadata profiling合同错误要求supported/unsatisfiable的416诊断正文为空；真实授权OpenList响应33字节与之冲突，按原OPS-013授权执行精确两文件修复并完整验证后另行解冻。",
+    "affectedTasks": [
+      "GZ-021"
+    ],
+    "sourceCommit": "36b986a65e23671d0b08134d1c4163833a59fbd7",
+    "frozenAt": "2026-10-24T23:24:58Z",
+    "verificationPath": "evidence/OPS-014/recovery-proof.json"
+  },
+  "originalLastCodePr": 145,
+  "originalLastCodeMain": "09d247f97b318ebe8bdeee1dae539e26a17598ea",
+  "actualSourceChecks": "UNEXECUTED",
+  "scopeAmendmentAcceptedOnMain": false,
+  "codeChangesApproved": false,
+  "experimentApproved": false,
+  "taskCompleted": false,
+  "next": "Independently review this exact metadata proposal, commit, Task13/full CI/final source/fresh merge, then own main checks/CI/independent acceptance. Only afterward separately prepare blocked->in_progress activation. No code before lawful accepted activation."
+}

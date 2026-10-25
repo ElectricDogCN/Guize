@@ -1,0 +1,85 @@
+{
+  "kind": "prospective_bounded_governance_decision_only",
+  "taskId": "OPS-014",
+  "decidedAt": "2026-10-25T12:31:25.296168+00:00",
+  "validUntil": "2026-10-26T12:31:25.296168+00:00",
+  "decisionActor": "/root acting as user-delegated integration-agent",
+  "authorityBasis": [
+    "User delegated highest project development decisions and required local implementation, testing, approval, merge and ended-branch cleanup in this conversation.",
+    "AGENTS.md 17.2/17.4/17.6; existing same-task metadata and ordinary MOD-GOV ownership rules; independent feasibility assessment in index.json."
+  ],
+  "freshHumanSignature": false,
+  "base": "c0d550555dd51a29fd1c5ff1bc5e4713073c0b53",
+  "decision": "Prepare separately reviewed exact MOD-GOV-only scope amendment after this decision has been independently accepted on actual main. No code permission or scope change is granted by this record.",
+  "prospectiveScope": [
+    "AGENTS.md",
+    "scripts/check-program-plan-history.py",
+    "tests/governance/test_poc_contract_repair_admission.py"
+  ],
+  "purposes": [
+    "Correct actual actor/registered-scope attribution when a legitimate peer branch imports accepted main and carries earlier peer implementation history.",
+    "Define exact independently verified forward recovery for historical Task-section formatting defects, retaining original failures and forbidding semantic authority or code changes under a formatting claim."
+  ],
+  "defects": [
+    {
+      "source": "e8dc87ccba9d8a47a1d84e80daa0cbad1dd69235",
+      "failure": "Completion historical parser rejects earlier malformed pure metadata Task sections in e380/301 preserved before the accepted thaw.",
+      "evidence": "index.json"
+    },
+    {
+      "source": "1869091239b51960d53b0840c4965e3f84eb10fd",
+      "failure": "Current history checker misattributes registered POC side history to Foundation OPS-014; actual gate rejects 31 errors.",
+      "evidence": "index.json"
+    }
+  ],
+  "requiredRegressionGroups": [
+    "Reproduce both actual Git graphs and exact old/new Task blobs; demonstrate prospective correction without retrospective PASS.",
+    "Accept only actual prior registered peer scope/lease/roles and clean admitted main synchronization; reject fake task hints, unregistered owners, same-PR manufactured admissions and shared-path violations.",
+    "Reject missing/mismatched/replayed/local-only recovery records; code or rename-side content, semantic claims/roles/leases/policy/capacity changes and scope expansion disguised as formatting.",
+    "Preserve original OPS-013 authority, POC exception, contract bytes, freeze/thaw proof and root recovery; Gov-only future scope must remove current POC claims and grant no renewed POC access.",
+    "Exercise code, Review, Completion and no-task main paths, retain adverse tests and execute exact-source gates plus full CI."
+  ],
+  "unchangedCurrent": {
+    "status": "review",
+    "agentRole": "reviewer",
+    "exclusivePaths": [
+      "specs/poc/check_program.py",
+      "specs/poc/test_program.py"
+    ],
+    "sharedPaths": [],
+    "lease": {
+      "acquiredAt": "2026-10-24T21:42:30Z",
+      "expiresAt": "2026-10-31T21:42:30Z"
+    },
+    "lastCodePr": 145,
+    "lastCodeMain": "09d247f97b318ebe8bdeee1dae539e26a17598ea",
+    "activeCapacity": 3,
+    "highCapacity": 1,
+    "recovery": {
+      "taskId": "OPS-014",
+      "reason": "已完成GZ-021的metadata profiling合同错误要求supported/unsatisfiable的416诊断正文为空；真实授权OpenList响应33字节与之冲突，按原OPS-013授权执行精确两文件修复并完整验证后另行解冻。",
+      "affectedTasks": [
+        "GZ-021"
+      ],
+      "sourceCommit": "36b986a65e23671d0b08134d1c4163833a59fbd7",
+      "frozenAt": "2026-10-24T23:24:58Z",
+      "verificationPath": "evidence/OPS-014/recovery-proof.json"
+    }
+  },
+  "prohibited": [
+    "No code, normative rules, checkers, tests, ownership or current claim changes in this metadata proposal.",
+    "No new task/capacity, cancellation, risk downgrade, false latest-code identity or deletion/rewrite of failed histories.",
+    "No experiment/qualification approval; preserve attempt005/006 methods, approvals, raw artifacts, databases and dirty fixtures."
+  ],
+  "nextTransactions": [
+    "Accept this metadata decision on actual main using existing gates, same-head CI and independent review.",
+    "Prepare a separate Gov-only current-scope amendment under existing rules; independently validate and accept before code.",
+    "Use legitimate review -> blocked -> in_progress transitions as needed; never jump review -> in_progress or use blocked as permission to implement.",
+    "Only then implement the finite fix, validate/independently review/merge and accept actual main; complete actual task lifecycle and resume POC validation."
+  ],
+  "currentSourceChecks": "UNEXECUTED",
+  "approvalIssued": false,
+  "codeChangesApproved": false,
+  "scopeAmendmentApproved": false,
+  "experimentApproved": false
+}

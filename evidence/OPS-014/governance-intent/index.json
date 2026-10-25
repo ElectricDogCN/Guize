@@ -1,0 +1,54 @@
+{
+  "base": "c0d550555dd51a29fd1c5ff1bc5e4713073c0b53",
+  "files": [
+    {
+      "ref": "ops014-normal-review-c0d5505-full-main-independent-review.json.zlib.b64",
+      "original": "ops014-normal-review-c0d5505-full-main-independent-review.json",
+      "encoding": "zlib-base64",
+      "bytes": 4573,
+      "sha256": "de464763914d6ed5217d0e652cff33c5343dd5766e35d0b415df443d24b1244c"
+    },
+    {
+      "ref": "ops014-normal-completion-e8dc87c-history-failure-independent-assessment.json.zlib.b64",
+      "original": "ops014-normal-completion-e8dc87c-history-failure-independent-assessment.json",
+      "encoding": "zlib-base64",
+      "bytes": 7687,
+      "sha256": "afe6fe7d7b06258838f41ba5b0bba4d3a8e03c3ce0e5d7a831d2576cafbc5651"
+    },
+    {
+      "ref": "ops014-bounded-governance-amendment-feasibility-independent-assessment.json.zlib.b64",
+      "original": "ops014-bounded-governance-amendment-feasibility-independent-assessment.json",
+      "encoding": "zlib-base64",
+      "bytes": 10625,
+      "sha256": "44ea369eb01f18a326496abc158e6f182642638ca71362dfb9d9d60c80e34d23"
+    },
+    {
+      "ref": "poc005-1869091-history-blocker-summary.json.zlib.b64",
+      "original": "poc005-1869091-history-blocker-summary.json",
+      "encoding": "zlib-base64",
+      "bytes": 1131,
+      "sha256": "9046934801cd09a37de4989a625dab32cff5d16ba9c09af623a31a1ba5c26ce5"
+    },
+    {
+      "ref": "history.raw.zlib.b64",
+      "original": "ops014-normal-completion-e8dc87c-native-checks/history.raw",
+      "encoding": "zlib-base64",
+      "bytes": 1168,
+      "sha256": "b4389378b24a9c7c27146a4806565cd5120616b7a5899f75edcbc72bccbceb9a"
+    },
+    {
+      "ref": "results.json.zlib.b64",
+      "original": "ops014-normal-completion-e8dc87c-native-checks/results.json",
+      "encoding": "zlib-base64",
+      "bytes": 8830,
+      "sha256": "facac34077a4e564ac8fa58b0c852c747ba8b14a6ccec0292fb5afbe2ab81b95"
+    },
+    {
+      "ref": "task-05.raw.zlib.b64",
+      "original": "poc005-wire-1869091-native-checks/task-05.raw",
+      "encoding": "zlib-base64",
+      "bytes": 380864,
+      "sha256": "1295632935d44ee9fc71b41ee9607585814f475a02696ed3ca43c5223506080b"
+    }
+  ]
+}

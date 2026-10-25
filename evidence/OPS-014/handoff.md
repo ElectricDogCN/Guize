@@ -1,26 +1,12 @@
-# OPS-014 normal Review handoff
+OPS-014 governance history implementation
+Base: 4c7a5a46863504fa93849ad4ae82946e3bfb4bc6
+Branch: chore/OPS-014-clean-main-import-attribution
+Parent activation: 37de66cb7aa049051c7313e21815990a061a0521
+Code Source Commit: UNASSIGNED (dirty snapshot)
 
-Task: OPS-014
-Issue: #142
-Branch: chore/OPS-014-metadata-416-normal-review
-Base SHA: e1ef8eda8daa148aaff165712a878c463dfb9fab
-Source Commit: UNASSIGNED — uncommitted preparation, not a validated source
-Preparation HEAD: e1ef8eda8daa148aaff165712a878c463dfb9fab
-Last code: PR145 / 09d247f97b318ebe8bdeee1dae539e26a17598ea
-Actual accepted thaw main: PR146 / e1ef8eda8daa148aaff165712a878c463dfb9fab
-
-Roles: Owner ElectricDogCN; Coordinator program-coordinator-agent; Implementer poc-contract-repair-implementation-agent; Reviewer independent-review-agent (/root/gz022_planning_independent_review); Integrator integration-agent.
-Proposed status/role: review/reviewer. Original lease: 2026-10-24T21:42:30Z → 2026-10-31T21:42:30Z; no renewal.
-
-Actual files: review-changed-files.md records the exact working proposal against Base; after commit the handoff's source is the real Git HEAD/tree, not a fabricated future SHA.
-Contracts consumed: CONTRACT-PROGRAM-PLAN, CONTRACT-TASK-SPEC, CONTRACT-ACTIVE-WORK, POC-PROTOCOL-V1; no contract version changes or new contracts.
-Precise current commands: commands.txt and Task Spec 必须执行的测试 (13 commands). Current exits: UNEXECUTED; no current-source acceptance or hosted CI. Accepted prerequisite commands, exits and original raw bytes: review-prerequisites/index.json and its reversibly encoded originals; every prerequisite remains bound to its own code/thaw source/main.
-
-Evidence: review-prerequisites/index.json; review-changed-files.md; historical recovery-proof.json and recovery logs; original activation, fixture and archive failures and the two rejected thaw source sets remain unchanged. Existing proof does not substitute for this Review source's tests.
-Failures/limits: no current Review execution has run; this is not Completion, a new POC input/window approval, qualification, or full V1 acceptance. Program completion identity remains ISSUE-142/null; last code PR145/09d247f97b318ebe8bdeee1dae539e26a17598ea is an Evidence reference until normal Completion.
-Exclusive claims retained: specs/poc/check_program.py; specs/poc/test_program.py. This phase changes no code. Shared paths: none. Integration order: 10; foreign task rows/leases and capacity remain unchanged.
-
-Next Reviewer: inspect the exact uncommitted metadata proposal, inventory, prerequisite raw bytes and scope; supply an independent content receipt with must-fix findings before commit.
-Next Implementer: once that content is accepted, commit the exact allowed paths, capture actual Git commit/tree and bundle, execute all 13 declared commands on that committed source, preserve actual exits/raw bytes and failures; do not reuse prerequisite results. Publish ordinary verification PR only after independent exact-source publication acceptance.
-Next Integrator: after latest same-head full CI and independent final source acceptance, freshly verify base/head, original lease, roles, claims, issue and threads; normal expected-head merge only, then verify actual ordered parents/tree, own main checks/push CI and full independent main acceptance. Only afterward prepare separate normal Completion.
-Rollback: withdraw this proposal before merge and retain raw history; after merge use a reviewable forward repair. Never rewrite history, relabel old failures, delete original Evidence or alter the code completion identity.
+Task OPS-014 / Issue142 open. Owner ElectricDogCN; Coordinator program-coordinator-agent; Implementer poc-contract-repair-implementation-agent (/root); Reviewer independent-review-agent (/root/gz022_planning_independent_review); Integrator integration-agent under existing user delegation. Current in_progress/implementer; MOD-GOV/high; lease2026-10-24T21:42:30Z to2026-10-31T21:42:30Z; group poc-contract-repair/order10; three active/one high. Claims exactGov2, shared none.
+Actual files: changed-files.md. Contracts unchanged. Own activation37de66c directly descends from fully accepted4c; all13 actual0 and independent activation acceptance preceded implementation. Originalfailed0f9 fix branch/bundle/raw remain; not a code ancestor. Actual code source/tree UNASSIGNED until reviewed snapshot commit.
+Code: complete clean admitted import classification only. Component10 passed actual dirty hashes; initial core independent acceptance, real nativeD oldTrue/newFalse and trueFoundationHint retained in history-implementation-v1/index.json. Firstred1fail8pass/firstgreen9pass; intermediate red-owned-recovery actually10pass (endpoint-only assertion); added firstbadhead actually1fail, then incoming-owned recovery fix/current10pass. Do not relabel any old outcome. Windows-path actualD probe36413 remains live with a read-only p9 disk wait; separate existing exact native bundle clone provided actual comparison. No source worktree bytes were modified by probes.
+Current commands: Task15/commands.txt; actual exits UNEXECUTED for the uncommitted code snapshot. Full governance, make verify and same-head hostedCI remain required; component checks and classifiers do not accept complete peer Task gates, old Completion or a POC.
+Next Reviewer: inspect complete code-stage snapshot and evidence/protected-byte boundaries; only permit exact commit/current source gates if appropriate. Next Implementer: exact reviewed commit, actual source/tree/bundle, current15 in fresh native context, retain all true results. Next Integrator: independent source publication/fullCI/finalreview/fresh expected-head ordinary merge, ownactualmain checks/CI/independent acceptance, then normal Review/Completion with true latest code identity. Scope/authority/proof/foreign/ledger/contract unchanged; no POC experiment or qualification.
+Rollback: before integration retain/revise candidate; after integration use reviewed forward correction. Keep original local refs/workspaces/raw/DB/inputs and all old failures. No force rewrite or consumed approval reuse.

@@ -1,11 +1,20 @@
-# POC-005 current cumulative inventory
+# POC-005 current source inventory
 
-Base: c0d550555dd51a29fd1c5ff1bc5e4713073c0b53
+Base: 2a77cbf9ad838b7b7abc7fbc5ed7aaa5f2f793d4
 Branch: chore/POC-005-metadata-scale
-Parent source: 1869091239b51960d53b0840c4965e3f84eb10fd
+
+Cumulative paths: 4747. Prior raw failures stay retained; no full POC acceptance.
 
 - `evidence/POC-005/.gitattributes`
 - `evidence/POC-005/EVIDENCE-STRUCTURE.md`
+- `evidence/POC-005/accepted-main-2a77cbf-sync/00-e2880bda75dc.zlib.b64`
+- `evidence/POC-005/accepted-main-2a77cbf-sync/01-f555a07499fe.zlib.b64`
+- `evidence/POC-005/accepted-main-2a77cbf-sync/02-cb44bdfcfcf5.zlib.b64`
+- `evidence/POC-005/accepted-main-2a77cbf-sync/03-57a5e6d303f2.zlib.b64`
+- `evidence/POC-005/accepted-main-2a77cbf-sync/04-0d648a13b1b4.zlib.b64`
+- `evidence/POC-005/accepted-main-2a77cbf-sync/05-5bcfbc3753d3.zlib.b64`
+- `evidence/POC-005/accepted-main-2a77cbf-sync/06-db483f7904a5.zlib.b64`
+- `evidence/POC-005/accepted-main-2a77cbf-sync/index.json`
 - `evidence/POC-005/assumptions.md`
 - `evidence/POC-005/canonical-bridge-independent-content-review.json`
 - `evidence/POC-005/canonical-export-review-first-rejection.json`
