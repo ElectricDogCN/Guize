@@ -1,0 +1,290 @@
+{
+  "base": "02f0186ca3c7ec941bbc922c5ae24546f6d35f21",
+  "lastCodePr": 150,
+  "lastCodeMain": "2a77cbf9ad838b7b7abc7fbc5ed7aaa5f2f793d4",
+  "prerequisitesAccepted": true,
+  "issue142ClosedCompleted": true,
+  "currentSourceAccepted": false,
+  "files": [
+    {
+      "ref": "ops014-history-review-02f0186-full-main-independent-review.json.zlib.b64",
+      "original": "ops014-history-review-02f0186-full-main-independent-review.json",
+      "encoding": "zlib-base64",
+      "bytes": 6457,
+      "sha256": "b8c1eb1268bab2ce21e53b8d6d3a26636d928bca383719fb0a2486379b54e2c6"
+    },
+    {
+      "ref": "ops014-history-review-02f0186-ci863-job.raw.txt.zlib.b64",
+      "original": "ops014-history-review-02f0186-ci863-job.raw.txt",
+      "encoding": "zlib-base64",
+      "bytes": 292909,
+      "sha256": "9c08ae4def7da10d6d74aad3a43492343f3999c8d75501b3d46621232f07d0d3"
+    },
+    {
+      "ref": "ops014-history-review-02f0186-ci863-official.json.zlib.b64",
+      "original": "ops014-history-review-02f0186-ci863-official.json",
+      "encoding": "zlib-base64",
+      "bytes": 19635,
+      "sha256": "94e9c5c32583684b737b14ef12f62a39678650807ab4828f7d27574b76dc8d42"
+    },
+    {
+      "ref": "ops014-history-review-02f0186-ci863-actual-summary.json.zlib.b64",
+      "original": "ops014-history-review-02f0186-ci863-actual-summary.json",
+      "encoding": "zlib-base64",
+      "bytes": 2703,
+      "sha256": "4357689a05c76d84346b3e699d7a3cf7575dc4408ddedc95fd1104914b3cf3e5"
+    },
+    {
+      "ref": "ops014-history-review-683a636-final-source-independent-review.json.zlib.b64",
+      "original": "ops014-history-review-683a636-final-source-independent-review.json",
+      "encoding": "zlib-base64",
+      "bytes": 4534,
+      "sha256": "fe58077e0450bfe1eda41815f517859bd79b61f6f1e48feea83ded00283bd7b7"
+    },
+    {
+      "ref": "ops014-history-review-683a636-ci861-job.raw.txt.zlib.b64",
+      "original": "ops014-history-review-683a636-ci861-job.raw.txt",
+      "encoding": "zlib-base64",
+      "bytes": 304307,
+      "sha256": "d092a050048685f79326b5c3d5188eca5d8907f91bba6013dc9cd81a3e9f8d61"
+    },
+    {
+      "ref": "ops014-history-review-683a636-ci861-official.json.zlib.b64",
+      "original": "ops014-history-review-683a636-ci861-official.json",
+      "encoding": "zlib-base64",
+      "bytes": 20407,
+      "sha256": "49b9e2ec660c34e0688a75194bfb815ea67ed548d03a7c8987eeeea5b36a9d4b"
+    },
+    {
+      "ref": "ops014-history-review-683a636-ci861-actual-summary.json.zlib.b64",
+      "original": "ops014-history-review-683a636-ci861-actual-summary.json",
+      "encoding": "zlib-base64",
+      "bytes": 349,
+      "sha256": "b523c8663c0bb41c2f9aa2c215e819b8cd896476e781e391d25a6a0449ed0b1f"
+    },
+    {
+      "ref": "ops014-history-review-683a636-merge-approval.json.zlib.b64",
+      "original": "ops014-history-review-683a636-merge-approval.json",
+      "encoding": "zlib-base64",
+      "bytes": 761,
+      "sha256": "d1d1e9b7ff812757e4fda690996255a3619ede9bb773326d9c1e76b1472500bf"
+    },
+    {
+      "ref": "ops014-history-review-official-merge.json.zlib.b64",
+      "original": "ops014-history-review-official-merge.json",
+      "encoding": "zlib-base64",
+      "bytes": 588,
+      "sha256": "b599b13ac446f95ddd9a588068120701b28494d622963d5c5280d0cc9d38cbe5"
+    },
+    {
+      "ref": "ops014-history-review-actual-main-candidate.json.zlib.b64",
+      "original": "ops014-history-review-actual-main-candidate.json",
+      "encoding": "zlib-base64",
+      "bytes": 2026,
+      "sha256": "6946d7a44541f3cdbfa755154783bf5d69ba5a68a92c21d73d810525cc272dfe"
+    },
+    {
+      "ref": "ops014-history-issue142-closed-completed-official.json.zlib.b64",
+      "original": "ops014-history-issue142-closed-completed-official.json",
+      "encoding": "zlib-base64",
+      "bytes": 25998,
+      "sha256": "5155f4e6c7945cc8d675d6ccbb6680c7acfc8d9203e591ea3d6baef0ec48bcfb"
+    },
+    {
+      "ref": "ops014-history-code-2a77cbf-full-main-independent-review.json.zlib.b64",
+      "original": "ops014-history-code-2a77cbf-full-main-independent-review.json",
+      "encoding": "zlib-base64",
+      "bytes": 7378,
+      "sha256": "e2880bda75dc833b60f8aa298197b9b8fead43f5a5f7577acf978d10f34b7ee4"
+    },
+    {
+      "ref": "ops014-history-code-52a4779-final-source-independent-review.json.zlib.b64",
+      "original": "ops014-history-code-52a4779-final-source-independent-review.json",
+      "encoding": "zlib-base64",
+      "bytes": 4689,
+      "sha256": "ba58e171191b7ab1204314564348709abd6a7d1e790fc2474e67b3859782f394"
+    },
+    {
+      "ref": "review-source-coordination.raw.zlib.b64",
+      "original": "ops014-history-review-683a636-native-checks/coordination.raw",
+      "encoding": "zlib-base64",
+      "bytes": 455,
+      "sha256": "a5d172f79627bc55d7eff6264b77633e00f4f246b1adf5e7792b47972033197d"
+    },
+    {
+      "ref": "review-source-diff.raw.zlib.b64",
+      "original": "ops014-history-review-683a636-native-checks/diff.raw",
+      "encoding": "zlib-base64",
+      "bytes": 144,
+      "sha256": "1f1d096755fded85109961c1edd06025771d1589ebecaaefcbd304a73c7f8895"
+    },
+    {
+      "ref": "review-source-docs.raw.zlib.b64",
+      "original": "ops014-history-review-683a636-native-checks/docs.raw",
+      "encoding": "zlib-base64",
+      "bytes": 164,
+      "sha256": "9a9845ebb08e13e22fd0fe491e51e2fbc60fd4726600a85b815172c0701d4e84"
+    },
+    {
+      "ref": "review-source-evidence.raw.zlib.b64",
+      "original": "ops014-history-review-683a636-native-checks/evidence.raw",
+      "encoding": "zlib-base64",
+      "bytes": 413,
+      "sha256": "a5996f88844b0085ccd44502638b21cdd5adcab17a4734ed05ebac42131f3c31"
+    },
+    {
+      "ref": "review-source-finalization.raw.zlib.b64",
+      "original": "ops014-history-review-683a636-native-checks/finalization.raw",
+      "encoding": "zlib-base64",
+      "bytes": 398,
+      "sha256": "26951b9d046b6a3e48b766d228d67166bb93ae73e0f73bd038661095c81bbbdf"
+    },
+    {
+      "ref": "review-source-history.raw.zlib.b64",
+      "original": "ops014-history-review-683a636-native-checks/history.raw",
+      "encoding": "zlib-base64",
+      "bytes": 557,
+      "sha256": "57a598302741c80db7d2fd03acab16352eac39deb36c31111824ad6aa29a48db"
+    },
+    {
+      "ref": "review-source-integrity.raw.zlib.b64",
+      "original": "ops014-history-review-683a636-native-checks/integrity.raw",
+      "encoding": "zlib-base64",
+      "bytes": 419,
+      "sha256": "7b4d647ac97d7221d3118db02879a317163caea89f98c0cb8e8ef315799f097a"
+    },
+    {
+      "ref": "review-source-raw-lifecycle.raw.zlib.b64",
+      "original": "ops014-history-review-683a636-native-checks/raw-lifecycle.raw",
+      "encoding": "zlib-base64",
+      "bytes": 540,
+      "sha256": "e7b6b22e7c10c6a8a1883831c640998d6c770962e9bba735b7b14bd350e53fc2"
+    },
+    {
+      "ref": "review-source-readiness.raw.zlib.b64",
+      "original": "ops014-history-review-683a636-native-checks/readiness.raw",
+      "encoding": "zlib-base64",
+      "bytes": 660,
+      "sha256": "3f43e53c76123fb43b5e5028019785e474c17a5a8088ff7e66dddfdd6beebf75"
+    },
+    {
+      "ref": "review-source-results.json.zlib.b64",
+      "original": "ops014-history-review-683a636-native-checks/results.json",
+      "encoding": "zlib-base64",
+      "bytes": 12760,
+      "sha256": "93832071723bae45b824b51b33623140f7b2f36ae1ae05dac0e6fb64eaa22533"
+    },
+    {
+      "ref": "review-source-schemas.raw.zlib.b64",
+      "original": "ops014-history-review-683a636-native-checks/schemas.raw",
+      "encoding": "zlib-base64",
+      "bytes": 1947,
+      "sha256": "dd6a71b47c17983b8d8c80300d75ecfd6e5f5695cbd54825dafbce48db53c17e"
+    },
+    {
+      "ref": "review-source-scope.raw.zlib.b64",
+      "original": "ops014-history-review-683a636-native-checks/scope.raw",
+      "encoding": "zlib-base64",
+      "bytes": 3596,
+      "sha256": "68577a47a5a6a7906e46d41339c7ebb4a7485dc027f350812ea8490fcffe72be"
+    },
+    {
+      "ref": "review-source-task.raw.zlib.b64",
+      "original": "ops014-history-review-683a636-native-checks/task.raw",
+      "encoding": "zlib-base64",
+      "bytes": 263,
+      "sha256": "4b8eaa3a8e5845cb204ebf4509270deedfebd4e3ca677976163bdd3f06023db4"
+    },
+    {
+      "ref": "review-source-transitions.raw.zlib.b64",
+      "original": "ops014-history-review-683a636-native-checks/transitions.raw",
+      "encoding": "zlib-base64",
+      "bytes": 474,
+      "sha256": "ead1a81d591e7d6bfb6cebd8da24e062c4a1d2cce3a86ed24c363e44af1977a0"
+    },
+    {
+      "ref": "review-main-coordination.raw.zlib.b64",
+      "original": "ops014-history-review-02f0186-native-main-checks/coordination.raw",
+      "encoding": "zlib-base64",
+      "bytes": 336,
+      "sha256": "324616dc7a95afbb296c11f32ac6a019d7abc995e6416fc308ecad1552759de1"
+    },
+    {
+      "ref": "review-main-finalization.raw.zlib.b64",
+      "original": "ops014-history-review-02f0186-native-main-checks/finalization.raw",
+      "encoding": "zlib-base64",
+      "bytes": 433,
+      "sha256": "cad8b5b52d9040306058f37e4d970881b4eeb14196e46a1f6f4619be925a1780"
+    },
+    {
+      "ref": "review-main-history.raw.zlib.b64",
+      "original": "ops014-history-review-02f0186-native-main-checks/history.raw",
+      "encoding": "zlib-base64",
+      "bytes": 542,
+      "sha256": "06ab4585ef3b66b9b2e4a30919e914617d6606d3d71059e17abda741d9f19413"
+    },
+    {
+      "ref": "review-main-integrity.raw.zlib.b64",
+      "original": "ops014-history-review-02f0186-native-main-checks/integrity.raw",
+      "encoding": "zlib-base64",
+      "bytes": 474,
+      "sha256": "b710569a7da4f96541e20bb75464e1ccb4161ff65bdc542c50f45ce51dcb9d0d"
+    },
+    {
+      "ref": "review-main-poc-protocol.raw.zlib.b64",
+      "original": "ops014-history-review-02f0186-native-main-checks/poc-protocol.raw",
+      "encoding": "zlib-base64",
+      "bytes": 364,
+      "sha256": "fc9e3d26f19e700507487b2ddec7d4ec40e79b3c5e03476021b5384d488a847e"
+    },
+    {
+      "ref": "review-main-raw-lifecycle.raw.zlib.b64",
+      "original": "ops014-history-review-02f0186-native-main-checks/raw-lifecycle.raw",
+      "encoding": "zlib-base64",
+      "bytes": 525,
+      "sha256": "ca7f06d08bd5f57bbbc105ce0e60d9666ccfa00418f19701617fe17fb2a463a3"
+    },
+    {
+      "ref": "review-main-results.json.zlib.b64",
+      "original": "ops014-history-review-02f0186-native-main-checks/results.json",
+      "encoding": "zlib-base64",
+      "bytes": 5333,
+      "sha256": "0ce0c7ec547c248ba3ee2aad73449bdad7381e54549bf90c0565d372b8da4f2a"
+    },
+    {
+      "ref": "review-main-transitions.raw.zlib.b64",
+      "original": "ops014-history-review-02f0186-native-main-checks/transitions.raw",
+      "encoding": "zlib-base64",
+      "bytes": 454,
+      "sha256": "dbe72da9c8c0dcee91fc56b960d7e82d993e3d708565f693f62caf49d61caf3d"
+    },
+    {
+      "ref": "prior-OPS-014.md.zlib.b64",
+      "original": "02f0186ca3c7ec941bbc922c5ae24546f6d35f21:specs/tasks/OPS-014.md",
+      "encoding": "zlib-base64",
+      "bytes": 5926,
+      "sha256": "7fbd2a5f448137fdf47793b36f2ac0071c4aca07a0511412264af64e89a3d2b4"
+    },
+    {
+      "ref": "prior-handoff.md.zlib.b64",
+      "original": "02f0186ca3c7ec941bbc922c5ae24546f6d35f21:evidence/OPS-014/handoff.md",
+      "encoding": "zlib-base64",
+      "bytes": 5868,
+      "sha256": "64520e7494b7a38645634b1d8c98b1b5346beaf27f7c6926b60f4e1fa7c466d9"
+    },
+    {
+      "ref": "prior-summary.md.zlib.b64",
+      "original": "02f0186ca3c7ec941bbc922c5ae24546f6d35f21:evidence/OPS-014/summary.md",
+      "encoding": "zlib-base64",
+      "bytes": 970,
+      "sha256": "091df7b27bfc477d7bc84ec7777b8c6fe9462bcd43833380756f604106924f11"
+    },
+    {
+      "ref": "prior-commands.txt.zlib.b64",
+      "original": "02f0186ca3c7ec941bbc922c5ae24546f6d35f21:evidence/OPS-014/commands.txt",
+      "encoding": "zlib-base64",
+      "bytes": 1657,
+      "sha256": "6da3e1767496f9388a469c918d209bf70ec82a5f3d9ac12c8738635fbd445954"
+    }
+  ]
+}
