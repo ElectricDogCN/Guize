@@ -1,3 +1,14 @@
+
+## Accepted actual10k execution qualification; full POC remains pending
+
+The unchanged tested runtime8f7c9a5 (nativeTask15/CI866752 accepted) completed a new independently approved attempt008 on the isolated v5 OpenList. All13 actual observations and4116 selected raw artifacts were independently accepted. The genuine4148-path evidence-only context71b7777 is a direct child of8f; the full unchanged frozen validate_execution call ran in its clean/no-alternates clone and returned0/errors[] with checker ee53ccf3. Its raw538 bytes hash f19bacaa2f1d83a0ed026686f9fedb1b843fc6564d85d0fee6f0880a433b7e02 and independent e7bdb4cf acceptance are retained losslessly in qualified-local-10k-attempt008-v1/index.json.
+
+This result is separate from original007: its13 observations were accepted, but the actual complete qualification returned1 with5 UTC-representation errors. Its original +00:00 approvals, five-error raw/assessment,7dd5550 evidence context and all databases remain unchanged. New008 approved canonicalZ before execution and re-ran the actual workload; no past approval or validator was rewritten. Both actual evidence parents were ordinarily merged into dce6ec3 with ordered parents[7dd5550,71b7777], preserving the disjoint8296-path union, unchanged runtime code/Task metadata and old untracked originals.
+
+Measured008 scanner enumeration is2729.1596044246903objects/s, incremental traversal0.04011685s and native process PeakWorkingSet31.25MiB for10000files/500directories. Adapter quota6000requests/min and the controlled three-change burst are not provider production limits/rates; source HTTP throughput and scanner throughput remain distinct. These numbers are only the recorded local configuration, not700TB or100k/1m scale evidence.
+
+This archive accepts local10k execution qualification only. Profile terminal result/index acceptance, original100k/1m sweeps and compressed-input support, actual provider/production obligations, full Task/Ready/main integration and V1 completion remain pending. No new runtime/experiment permission follows. The local evidence merge/archive is not a new code-source acceptance; latest tested code identity remains8f. Keep all raw outputs, failed histories, bundles and local DBs. Next: complete the remaining scale/domain work and honest profile result before normal fixed-source gates, integration order3, Review/Completion and actual-main validation.
+
 Task: POC-005
 Issue: 132
 Branch: chore/POC-005-metadata-scale
