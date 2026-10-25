@@ -1,0 +1,29 @@
+{
+  "branch": "chore/OPS-014-gz021-metadata-freeze",
+  "expectedRemoteHead": "5e0fc4f36a4c0abe44efe084dd88c002a5d7d6da",
+  "acceptedActualMain": "09d247f97b318ebe8bdeee1dae539e26a17598ea",
+  "checkedAt": "2026-10-25T07:26:45.787156+00:00",
+  "preflight": "ops014-ended-freeze-remote-cleanup-preflight.json",
+  "openPrReuse": false,
+  "activeRegistryAndWorktreeUse": false,
+  "localBranchRetained": true,
+  "sourceQualifiedOrTaskCompleted": false,
+  "command": [
+    "git",
+    "-c",
+    "core.longpaths=true",
+    "-C",
+    "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\Guize",
+    "push",
+    "--force-with-lease=refs/heads/chore/OPS-014-gz021-metadata-freeze:5e0fc4f36a4c0abe44efe084dd88c002a5d7d6da",
+    "origin",
+    ":refs/heads/chore/OPS-014-gz021-metadata-freeze"
+  ],
+  "deletionExecuted": true,
+  "exitCode": 0,
+  "stdout": "",
+  "stderr": "To https://github.com/ElectricDogCN/Guize.git\n - [deleted]         chore/OPS-014-gz021-metadata-freeze\n",
+  "remoteAbsent": true,
+  "canonicalMainUnchanged": true,
+  "completedAt": "2026-10-25T07:26:52.059245+00:00"
+}

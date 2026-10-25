@@ -104,9 +104,9 @@ tasks:
   reviewer: independent-review-agent
   integrator: integration-agent
   agentRole: implementer
-  branch: chore/OPS-014-frozen-416-contract-repair-v2
+  branch: chore/OPS-014-verified-repair-thaw
   baseBranch: main
-  baseSha: 15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6
+  baseSha: 09d247f97b318ebe8bdeee1dae539e26a17598ea
   workPackage: WP-M0-01
   programPlan: specs/coordination/program-plan.yaml
   programTaskId: OPS-014

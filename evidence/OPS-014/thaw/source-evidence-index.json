@@ -1,0 +1,62 @@
+{
+  "taskId": "OPS-014",
+  "base": "09d247f97b318ebe8bdeee1dae539e26a17598ea",
+  "files": [
+    {
+      "source": "ops014-416-repair-09d247f-full-main-independent-review.json",
+      "path": "evidence/OPS-014/thaw/baseline-full-main-review.json",
+      "originalBytes": 9896,
+      "originalSha256": "0748a2d19cdeaf1e597c6bb91af40a32ad1279290c47943b09164e62b61b52cf",
+      "storedBytes": 9896,
+      "storedSha256": "0748a2d19cdeaf1e597c6bb91af40a32ad1279290c47943b09164e62b61b52cf",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-416-repair-09d247f-ci849-success-job.raw.txt",
+      "path": "evidence/OPS-014/thaw/baseline-ci849.raw.txt.zlib.b64",
+      "originalBytes": 289179,
+      "originalSha256": "fee3904cae08b9239e73f3b3b36ccec2d6af55326b4ce745a92976ffc730d712",
+      "storedBytes": 57781,
+      "storedSha256": "10ae723ab2ccb1e45a9c30ce04a56a62cd6133c63256ba76235306285c8ec089",
+      "storageEncoding": "zlib-base64"
+    },
+    {
+      "source": "ops014-416-repair-09d247f-ci849-success-official-status.json",
+      "path": "evidence/OPS-014/thaw/baseline-ci849-official.json",
+      "originalBytes": 72325,
+      "originalSha256": "27d986eda421a9f0702817b74fd2dd81b2360e6089a9b953b7fba71ac75e2ae6",
+      "storedBytes": 72325,
+      "storedSha256": "27d986eda421a9f0702817b74fd2dd81b2360e6089a9b953b7fba71ac75e2ae6",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-416-repair-09d247f-native-main-checks/results.json",
+      "path": "evidence/OPS-014/thaw/baseline-local-results.json",
+      "originalBytes": 5397,
+      "originalSha256": "48faa03ec7af9ba7c2d2ce5298044b2bd7c4bdacc9c7bbc01c9cafe76dd28a7c",
+      "storedBytes": 5397,
+      "storedSha256": "48faa03ec7af9ba7c2d2ce5298044b2bd7c4bdacc9c7bbc01c9cafe76dd28a7c",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-416-repair-09d247f-native-main-checks/proof-structure.json",
+      "path": "evidence/OPS-014/thaw/baseline-proof-structure.json",
+      "originalBytes": 200,
+      "originalSha256": "b39ccefc910d393b4cc84dd1616f381ff1342abd397ba8ee168f13eb0746ffdf",
+      "storedBytes": 200,
+      "storedSha256": "b39ccefc910d393b4cc84dd1616f381ff1342abd397ba8ee168f13eb0746ffdf",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-ended-freeze-remote-cleanup-result.json",
+      "path": "evidence/OPS-014/thaw/ended-freeze-remote-cleanup.json",
+      "originalBytes": 1109,
+      "originalSha256": "acd7ae8720cd9117a0ce23c542cf932f835f5d03fc77489473546af6946ba6cd",
+      "storedBytes": 1109,
+      "storedSha256": "acd7ae8720cd9117a0ce23c542cf932f835f5d03fc77489473546af6946ba6cd",
+      "storageEncoding": "identity"
+    }
+  ],
+  "allOriginalBytesRecoverable": true,
+  "decode": "identity or base64-decode then zlib-decompress as declared"
+}
