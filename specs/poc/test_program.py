@@ -100,8 +100,13 @@ class TestPocProgram(unittest.TestCase):
         return root / "specs" / "tasks" / f"{task_id}.md"
 
     def write_task_spec(self, root, task_id, implementer=None, reviewer=None):
-        implementer = implementer or f"{task_id.lower()}-implementer"
-        reviewer = reviewer or f"{task_id.lower()}-reviewer"
+        # Fixtures copied from an active repository must keep its actor bindings.
+        # Explicit overrides remain available for negative identity tests.
+        registry = root / 'specs/coordination/active-work.yaml'
+        entries = load_yaml(registry).get('tasks', []) if registry.is_file() else []
+        entry = next((row for row in entries if row.get('taskId') == task_id), {})
+        implementer = implementer or entry.get('implementer') or f"{task_id.lower()}-implementer"
+        reviewer = reviewer or entry.get('reviewer') or f"{task_id.lower()}-reviewer"
         path = self.task_path(root, task_id)
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(
