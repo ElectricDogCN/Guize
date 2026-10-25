@@ -1,10 +1,3 @@
-# OPS-014 tests
+# OPS-014 validation state
 
-Task: OPS-014
-Issue: #142
-Branch: chore/OPS-014-metadata-416-repair
-Base: 760f6c5838597d1d66c0a536ecbf440ef5a7dfec
-Source/tree/execution: UNCOMMITTED/UNEXECUTED candidate
-
-Status: PENDING
-Current fixed source15, nativefull742/JUnit and hosted742 not executed. Prior authority completion proves a precondition only.
+Original reservation source f80 and actual main36b have their own accepted logs and independent receipts. This freeze proposal has no executed source/CI/main validation yet. New fixed-source results will be kept separately; earlier successes are not transferred. The future recovery proof must bind a later actual validated repair commit and actual zero-skip JUnit and direct/full commands. No placeholder PASS proof is created.

@@ -1,22 +1,22 @@
 Task: OPS-014
 Issue: #142
-Branch: chore/OPS-014-metadata-416-repair
-Base: 760f6c5838597d1d66c0a536ecbf440ef5a7dfec
-Source/tree/execution: UNCOMMITTED/UNEXECUTED candidate
+Branch: chore/OPS-014-gz021-metadata-freeze
+Base: 36b986a65e23671d0b08134d1c4163833a59fbd7
+Source/tree/execution: UNCOMMITTED/UNEXECUTED freeze candidate
 
-Planned, not executed:
-git diff --check 760f6c5838597d1d66c0a536ecbf440ef5a7dfec...HEAD
+Planned, not executed for this freeze source:
+git diff --check 36b986a65e23671d0b08134d1c4163833a59fbd7...HEAD
 python scripts/check-task-file.py --task OPS-014
 python scripts/check-schemas.py
-python scripts/check-program-plan-integrity.py --base-ref 760f6c5838597d1d66c0a536ecbf440ef5a7dfec
-python scripts/check-program-plan-history.py --base-ref 760f6c5838597d1d66c0a536ecbf440ef5a7dfec --head-ref HEAD --task OPS-014 --branch-name chore/OPS-014-metadata-416-repair
-python scripts/check-program-plan-transitions.py --base-ref 760f6c5838597d1d66c0a536ecbf440ef5a7dfec --head-ref HEAD --task OPS-014 --branch-name chore/OPS-014-metadata-416-repair
-python scripts/check-program-plan-finalization.py --base-ref 760f6c5838597d1d66c0a536ecbf440ef5a7dfec --head-ref HEAD --task OPS-014
-python scripts/check-program-lifecycle-guards.py --base-ref 760f6c5838597d1d66c0a536ecbf440ef5a7dfec --head-ref HEAD --task OPS-014 --branch-name chore/OPS-014-metadata-416-repair
-python scripts/run-program-lifecycle-gate.py --base-ref 760f6c5838597d1d66c0a536ecbf440ef5a7dfec --head-ref HEAD --task OPS-014 --branch-name chore/OPS-014-metadata-416-repair
-python scripts/run-agent-coordination-gate.py --base-ref 760f6c5838597d1d66c0a536ecbf440ef5a7dfec --head-ref HEAD --task OPS-014 --branch-name chore/OPS-014-metadata-416-repair
-python scripts/run-task-scope-gate.py --task OPS-014 --base 760f6c5838597d1d66c0a536ecbf440ef5a7dfec
+python scripts/check-program-plan-integrity.py --base-ref 36b986a65e23671d0b08134d1c4163833a59fbd7
+python scripts/check-program-plan-history.py --base-ref 36b986a65e23671d0b08134d1c4163833a59fbd7 --head-ref HEAD --task OPS-014 --branch-name chore/OPS-014-gz021-metadata-freeze
+python scripts/check-program-plan-transitions.py --base-ref 36b986a65e23671d0b08134d1c4163833a59fbd7 --head-ref HEAD --task OPS-014 --branch-name chore/OPS-014-gz021-metadata-freeze
+python scripts/check-program-plan-finalization.py --base-ref 36b986a65e23671d0b08134d1c4163833a59fbd7 --head-ref HEAD --task OPS-014
+python scripts/check-program-lifecycle-guards.py --base-ref 36b986a65e23671d0b08134d1c4163833a59fbd7 --head-ref HEAD --task OPS-014 --branch-name chore/OPS-014-gz021-metadata-freeze
+python scripts/run-program-lifecycle-gate.py --base-ref 36b986a65e23671d0b08134d1c4163833a59fbd7 --head-ref HEAD --task OPS-014 --branch-name chore/OPS-014-gz021-metadata-freeze
+python scripts/run-agent-coordination-gate.py --base-ref 36b986a65e23671d0b08134d1c4163833a59fbd7 --head-ref HEAD --task OPS-014 --branch-name chore/OPS-014-gz021-metadata-freeze
+python scripts/run-task-scope-gate.py --task OPS-014 --base 36b986a65e23671d0b08134d1c4163833a59fbd7
 python scripts/check-evidence.py --task OPS-014
 python scripts/check-project-readiness.py
-make verify TASK=OPS-014 BASE=760f6c5838597d1d66c0a536ecbf440ef5a7dfec HEAD_REF=HEAD BRANCH=chore/OPS-014-metadata-416-repair
+make verify TASK=OPS-014 BASE=36b986a65e23671d0b08134d1c4163833a59fbd7 HEAD_REF=HEAD BRANCH=chore/OPS-014-gz021-metadata-freeze
 python scripts/check-markdown.py

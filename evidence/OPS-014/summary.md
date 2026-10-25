@@ -1,10 +1,9 @@
-# OPS-014 reservation proposal
+# OPS-014 independent GZ-021 freeze proposal
 
 Task: OPS-014
 Issue: #142
-Branch: chore/OPS-014-metadata-416-repair
-Base: 760f6c5838597d1d66c0a536ecbf440ef5a7dfec
-Source/tree/execution: UNCOMMITTED/UNEXECUTED candidate
+Branch: chore/OPS-014-gz021-metadata-freeze
+Base: 36b986a65e23671d0b08134d1c4163833a59fbd7
+Source/tree/execution: UNCOMMITTED/UNEXECUTED freeze candidate
 
-Status: PENDING
-Only Own metadata registration is proposed; no contract code, freeze or experiment executed. Original authority intent and exact two old Git blobs verified. Current15/native742/CI/independent source and actual reservation main remain pending.
+Original reservation main36b fully accepted: native7, own push CI845742 tests/zero test skips and independent review. This new candidate only freezes the existing completed producer GZ-021. Own Foundation/Active/Task remain reserved/coordinator, original168h lease/roles/claims/capacity unchanged. No contract code, POC execution, qualification or thaw has occurred. Freeze source checks/CI/review/actual-main acceptance remain PENDING.

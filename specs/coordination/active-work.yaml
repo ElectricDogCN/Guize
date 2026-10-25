@@ -104,9 +104,9 @@ tasks:
   reviewer: independent-review-agent
   integrator: integration-agent
   agentRole: coordinator
-  branch: chore/OPS-014-metadata-416-repair
+  branch: chore/OPS-014-gz021-metadata-freeze
   baseBranch: main
-  baseSha: 760f6c5838597d1d66c0a536ecbf440ef5a7dfec
+  baseSha: 36b986a65e23671d0b08134d1c4163833a59fbd7
   workPackage: WP-M0-01
   programPlan: specs/coordination/program-plan.yaml
   programTaskId: OPS-014
