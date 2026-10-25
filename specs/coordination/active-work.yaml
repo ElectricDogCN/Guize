@@ -96,17 +96,17 @@ tasks:
 - taskId: OPS-014
   issue: 142
   title: 修复metadata profiling的416诊断正文合同
-  status: blocked
+  status: in_progress
   riskLevel: high
   owner: ElectricDogCN
   coordinator: program-coordinator-agent
   implementer: poc-contract-repair-implementation-agent
   reviewer: independent-review-agent
   integrator: integration-agent
-  agentRole: reviewer
-  branch: chore/OPS-014-bounded-history-scope-blocked
+  agentRole: implementer
+  branch: chore/OPS-014-clean-main-import-attribution
   baseBranch: main
-  baseSha: f8b4543afe27b539cab2ac553a4567fd0f8de026
+  baseSha: 4c7a5a46863504fa93849ad4ae82946e3bfb4bc6
   workPackage: WP-M0-01
   programPlan: specs/coordination/program-plan.yaml
   programTaskId: OPS-014

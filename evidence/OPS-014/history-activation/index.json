@@ -1,0 +1,103 @@
+{
+  "base": "4c7a5a46863504fa93849ad4ae82946e3bfb4bc6",
+  "files": [
+    {
+      "ref": "00-382449eb734c.zlib.b64",
+      "original": "ops014-governance-scope-blocked-4c7a5a4-full-main-independent-review.json",
+      "encoding": "zlib-base64",
+      "bytes": 8569,
+      "sha256": "2944c4d219a8a6e5d74aa57d211fcb4727329746f516de780d0cf1ca7fa0ceba"
+    },
+    {
+      "ref": "01-2cb3212e1977.zlib.b64",
+      "original": "ops014-governance-scope-blocked-official-merge.json",
+      "encoding": "zlib-base64",
+      "bytes": 318,
+      "sha256": "1cdf46909d30c42a85590fa2dd8c67d7e3c3f5ff3b0057683c08b6ac7fcfd66f"
+    },
+    {
+      "ref": "02-46fb1688dab4.zlib.b64",
+      "original": "ops014-governance-scope-blocked-ce7d873-final-source-independent-review.json",
+      "encoding": "zlib-base64",
+      "bytes": 5977,
+      "sha256": "ca93a9c819504049947a27d31c7f61cb45887dafcd8a6cbf37ae7649940cf170"
+    },
+    {
+      "ref": "03-d0ec9ce954a2.zlib.b64",
+      "original": "ops014-governance-scope-blocked-4c7a5a4-ci858-success-job.raw.txt",
+      "encoding": "zlib-base64",
+      "bytes": 289184,
+      "sha256": "ceb4bfe242e8588785f8d808b356ab8cc3c535ad10703ae9a0ae6d1d58ea0eec"
+    },
+    {
+      "ref": "04-ffdf79aebf0f.zlib.b64",
+      "original": "ops014-governance-scope-blocked-4c7a5a4-ci858-success-official-status.json",
+      "encoding": "zlib-base64",
+      "bytes": 32486,
+      "sha256": "bfe464b718c1300afd22a1567657fd8234862af779b2d0ca32e96e46d304c02b"
+    },
+    {
+      "ref": "05-02b5f66e2947.zlib.b64",
+      "original": "ops014-governance-scope-blocked-actual-main-candidate.json",
+      "encoding": "zlib-base64",
+      "bytes": 961,
+      "sha256": "dd1ea1a1af659877342c53799dffec5a1d2ee89a17cb2ac35075c2fab399cce6"
+    },
+    {
+      "ref": "06-265da1d39a97.zlib.b64",
+      "original": "ops014-governance-scope-blocked-4c7a5a4-native-main-checks/results.json",
+      "encoding": "zlib-base64",
+      "bytes": 5365,
+      "sha256": "ca5a4bf7f5b5520dcbc52f6e27af91777631be31cef9acf8e5bd9365569b9d8c"
+    },
+    {
+      "ref": "07-1b3a0e53fa7c.zlib.b64",
+      "original": "ops014-governance-scope-blocked-4c7a5a4-native-main-checks/integrity.raw",
+      "encoding": "zlib-base64",
+      "bytes": 474,
+      "sha256": "cfdbabfbdb4baf7bfbb63410fc6e4d3940837cba070e328e532b64f7fdb95cda"
+    },
+    {
+      "ref": "08-815624191785.zlib.b64",
+      "original": "ops014-governance-scope-blocked-4c7a5a4-native-main-checks/history.raw",
+      "encoding": "zlib-base64",
+      "bytes": 542,
+      "sha256": "2726ce60931cee363f68d9dcae2248f040dd67ec74a80305d48b52dcbd9e3987"
+    },
+    {
+      "ref": "09-437d31a7ab9c.zlib.b64",
+      "original": "ops014-governance-scope-blocked-4c7a5a4-native-main-checks/transitions.raw",
+      "encoding": "zlib-base64",
+      "bytes": 454,
+      "sha256": "26b2b0af41b6f6a6d14f6a63692fef78929bbba492a503af5f336489335b6ce1"
+    },
+    {
+      "ref": "10-a23ec7384863.zlib.b64",
+      "original": "ops014-governance-scope-blocked-4c7a5a4-native-main-checks/finalization.raw",
+      "encoding": "zlib-base64",
+      "bytes": 433,
+      "sha256": "d76ce640ffe777a40578aa5b533d6026792d433d56be5937c250d232611ac7c7"
+    },
+    {
+      "ref": "11-37c845530e15.zlib.b64",
+      "original": "ops014-governance-scope-blocked-4c7a5a4-native-main-checks/raw-lifecycle.raw",
+      "encoding": "zlib-base64",
+      "bytes": 525,
+      "sha256": "ff4324c1cf156944209c932186bb5a630843d7dde381f39ac41d8cf712bada8b"
+    },
+    {
+      "ref": "12-dc3f6c845a45.zlib.b64",
+      "original": "ops014-governance-scope-blocked-4c7a5a4-native-main-checks/coordination.raw",
+      "encoding": "zlib-base64",
+      "bytes": 336,
+      "sha256": "e7488a38cba8af51b0f134d6fb7edc13bd5f38e48609b4fcdf50e44991838c42"
+    },
+    {
+      "ref": "13-830050e28391.zlib.b64",
+      "original": "ops014-governance-scope-blocked-4c7a5a4-native-main-checks/poc-protocol.raw",
+      "encoding": "zlib-base64",
+      "bytes": 366,
+      "sha256": "685bb71d44afacbd79339a8c06cd87598a69c00dab8bff38eb7bb31c77e49d50"
+    }
+  ]
+}
