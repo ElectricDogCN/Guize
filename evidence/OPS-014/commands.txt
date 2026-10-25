@@ -1,9 +1,10 @@
-OPS-014 exact metadata activation only
+OPS-014 governance history implementation
 Base: 4c7a5a46863504fa93849ad4ae82946e3bfb4bc6
 Branch: chore/OPS-014-clean-main-import-attribution
-Source Commit: UNASSIGNED
+Parent activation: 37de66cb7aa049051c7313e21815990a061a0521
+Code Source Commit: UNASSIGNED (dirty snapshot)
 
-Current activation Command/Exit Code: UNEXECUTED
+Current code source15 actual exits UNEXECUTED. Activation/component raw retain their actual source and dirty hash bindings in history-implementation-v1/index.json.
 
 git diff --check 4c7a5a46863504fa93849ad4ae82946e3bfb4bc6...HEAD
 python scripts/check-task-file.py --task OPS-014
@@ -18,3 +19,5 @@ python scripts/run-task-scope-gate.py --task OPS-014 --base 4c7a5a46863504fa9384
 python scripts/check-evidence.py --task OPS-014
 python scripts/check-project-readiness.py
 python scripts/check-markdown.py
+python -m pytest -q -p no:cacheprovider tests/governance/
+make verify TASK=OPS-014 BASE=4c7a5a46863504fa93849ad4ae82946e3bfb4bc6 HEAD_REF=HEAD BRANCH=chore/OPS-014-clean-main-import-attribution

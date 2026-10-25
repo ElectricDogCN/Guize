@@ -1,0 +1,252 @@
+{
+  "base": "4c7a5a46863504fa93849ad4ae82946e3bfb4bc6",
+  "activation": "37de66cb7aa049051c7313e21815990a061a0521",
+  "files": [
+    {
+      "ref": "00-30b6bc6919e0.zlib.b64",
+      "original": "ops014-history-activation-37de66c-fixed-source-independent-review.json",
+      "encoding": "zlib-base64",
+      "bytes": 9728,
+      "sha256": "07d8a345ee1494f300fb9c63c9d05e772d79030d3e5847a5fdffb21bfb56f243"
+    },
+    {
+      "ref": "01-7a97b7f36ef3.zlib.b64",
+      "original": "ops014-history-activation-37de66c-candidate.json",
+      "encoding": "zlib-base64",
+      "bytes": 3551,
+      "sha256": "d45d838d5479d1e61add74218a96d2a6e697ac16f09bce79a161b1f0270b55ee"
+    },
+    {
+      "ref": "02-cd9702c40da4.zlib.b64",
+      "original": "ops014-clean-import-initial-code-independent-review.json",
+      "encoding": "zlib-base64",
+      "bytes": 9347,
+      "sha256": "45e77649cf100e0c1669a783306812b5251191ebdf499ba6cdc480b984490314"
+    },
+    {
+      "ref": "03-e80d38f1eb16.zlib.b64",
+      "original": "ops014-actual-poc-dc506b8-native-classification-comparison.json",
+      "encoding": "zlib-base64",
+      "bytes": 1898,
+      "sha256": "d87ffd9e38704c83c12aab2aa796312ba966f93d1823ef06153b577e62aedc2e"
+    },
+    {
+      "ref": "04-2dc29e94fcd0.zlib.b64",
+      "original": "ops014-history-activation-37de66c-native-checks/results.json",
+      "encoding": "zlib-base64",
+      "bytes": 12130,
+      "sha256": "e06bcbfd5c0389bfa2a307814b517842c7e42599c13461bde1c612a894be79f8"
+    },
+    {
+      "ref": "05-e72ad8b9730b.zlib.b64",
+      "original": "ops014-history-activation-37de66c-native-checks/coordination.raw",
+      "encoding": "zlib-base64",
+      "bytes": 458,
+      "sha256": "28901ef1996499c8c02566faed91aea5584cbd8021fd95cf49f9436e572e6682"
+    },
+    {
+      "ref": "06-08966a370701.zlib.b64",
+      "original": "ops014-history-activation-37de66c-native-checks/diff.raw",
+      "encoding": "zlib-base64",
+      "bytes": 144,
+      "sha256": "53f7d2aaa994dc212d15fec2886ea406f485c3909ccc53510db5015e2a829547"
+    },
+    {
+      "ref": "07-1305efe9977f.zlib.b64",
+      "original": "ops014-history-activation-37de66c-native-checks/docs.raw",
+      "encoding": "zlib-base64",
+      "bytes": 164,
+      "sha256": "8c6c4a68ec1aef74636f642d1f8e6eb66b4ebb77f25ba65646c6afb00b0c0ae9"
+    },
+    {
+      "ref": "08-c4c9aa824a53.zlib.b64",
+      "original": "ops014-history-activation-37de66c-native-checks/evidence.raw",
+      "encoding": "zlib-base64",
+      "bytes": 318,
+      "sha256": "84f12489c89d12ae7d338b8e0834ef0d2bf24e6b69de60548e913148490788a5"
+    },
+    {
+      "ref": "09-13c04a56dd84.zlib.b64",
+      "original": "ops014-history-activation-37de66c-native-checks/finalization.raw",
+      "encoding": "zlib-base64",
+      "bytes": 398,
+      "sha256": "98a93f50355808b514b1d6e1dfdfe708df8e9ae357a564f8095375b99e36ce17"
+    },
+    {
+      "ref": "10-151c34c34ee3.zlib.b64",
+      "original": "ops014-history-activation-37de66c-native-checks/history.raw",
+      "encoding": "zlib-base64",
+      "bytes": 560,
+      "sha256": "c320900879ae99dbe8963911531fb93f4161ebb2309eedc7eeedbe6635d90906"
+    },
+    {
+      "ref": "11-988d2320d00d.zlib.b64",
+      "original": "ops014-history-activation-37de66c-native-checks/integrity.raw",
+      "encoding": "zlib-base64",
+      "bytes": 419,
+      "sha256": "f08ba8575361c59a073de8e078d050d38dbe16190b97829e22609df5745f8a83"
+    },
+    {
+      "ref": "12-ed5769aba9d3.zlib.b64",
+      "original": "ops014-history-activation-37de66c-native-checks/raw-lifecycle.raw",
+      "encoding": "zlib-base64",
+      "bytes": 543,
+      "sha256": "c688abecfdcf6914404762ade31a31234d0e077633ecdcfe7ee6ea3c0a85167a"
+    },
+    {
+      "ref": "13-7665dbdeb1d5.zlib.b64",
+      "original": "ops014-history-activation-37de66c-native-checks/readiness.raw",
+      "encoding": "zlib-base64",
+      "bytes": 660,
+      "sha256": "5ae1427b1857326120eca16de0b4b67cecd0ad46f398a29f09d12cc5058012b2"
+    },
+    {
+      "ref": "14-5077dc81bacb.zlib.b64",
+      "original": "ops014-history-activation-37de66c-native-checks/schemas.raw",
+      "encoding": "zlib-base64",
+      "bytes": 1947,
+      "sha256": "994df13f14c4862d0ba5bc76c68ed403a28e9809c923efe36aed8d8900588ee9"
+    },
+    {
+      "ref": "15-6483f57e3f12.zlib.b64",
+      "original": "ops014-history-activation-37de66c-native-checks/scope.raw",
+      "encoding": "zlib-base64",
+      "bytes": 2639,
+      "sha256": "6e1ea7dcc98f132beaa995afa83a4c906f329766cf705187a84a05db08c2e646"
+    },
+    {
+      "ref": "16-bf544294e0f3.zlib.b64",
+      "original": "ops014-history-activation-37de66c-native-checks/task.raw",
+      "encoding": "zlib-base64",
+      "bytes": 267,
+      "sha256": "6e86535fe95ae3e8b494d3a4d801402bf6d58e9404d032bd9507ea9f389ffcb3"
+    },
+    {
+      "ref": "17-5b7014a93b37.zlib.b64",
+      "original": "ops014-history-activation-37de66c-native-checks/transitions.raw",
+      "encoding": "zlib-base64",
+      "bytes": 477,
+      "sha256": "54d5f8404efb1250ef94c5e0a66e0454a1d7f46b5958fc5fd4f45ca20191894b"
+    },
+    {
+      "ref": "18-9cdb4267d7ab.zlib.b64",
+      "original": "ops014-clean-import-regressions-red/results.json",
+      "encoding": "zlib-base64",
+      "bytes": 1205,
+      "sha256": "827b561a45c5cee282562b4bab57f70328559af335bfaad3cf7504295cd05e1a"
+    },
+    {
+      "ref": "19-a202b2abb033.zlib.b64",
+      "original": "ops014-clean-import-regressions-red/regressions.raw",
+      "encoding": "zlib-base64",
+      "bytes": 1927,
+      "sha256": "70938375c1e83b09b1561e1b591f17e46427c98cb30ca8674f6bdc001cb5c9de"
+    },
+    {
+      "ref": "20-ca02ae0917c4.zlib.b64",
+      "original": "ops014-clean-import-regressions-red/junit.xml",
+      "encoding": "zlib-base64",
+      "bytes": 2736,
+      "sha256": "0446b1e83a09b6b3fff3a1dc608b45492e6137a106420810fd0f5d3715f2e5b8"
+    },
+    {
+      "ref": "21-8b6b7ec98e88.zlib.b64",
+      "original": "ops014-clean-import-regressions-green/results.json",
+      "encoding": "zlib-base64",
+      "bytes": 1206,
+      "sha256": "458a89f2d619e38129379e9d8a2bfcbff1cad26f8f173c237e29a305cb4efb3a"
+    },
+    {
+      "ref": "22-a09001dfdb71.zlib.b64",
+      "original": "ops014-clean-import-regressions-green/regressions.raw",
+      "encoding": "zlib-base64",
+      "bytes": 736,
+      "sha256": "390fd6bbde9d4362332213746dec0e8d206fc6b267fa45dec43b1063102448ef"
+    },
+    {
+      "ref": "23-d6593ca4e7d7.zlib.b64",
+      "original": "ops014-clean-import-regressions-green/junit.xml",
+      "encoding": "zlib-base64",
+      "bytes": 1922,
+      "sha256": "42df89717ab8d16a9671b3ddef878c8ba074f4d547f0124e6df8f7c925858b97"
+    },
+    {
+      "ref": "24-282d8c05222e.zlib.b64",
+      "original": "ops014-clean-import-regressions-red-owned-recovery/results.json",
+      "encoding": "zlib-base64",
+      "bytes": 1219,
+      "sha256": "3ee45b4f72fa7bdd076971d33468561f4e69e31d736b8d0bd5542c1db27993dc"
+    },
+    {
+      "ref": "25-8ef342040ddf.zlib.b64",
+      "original": "ops014-clean-import-regressions-red-owned-recovery/regressions.raw",
+      "encoding": "zlib-base64",
+      "bytes": 763,
+      "sha256": "d0ca890900c11eb021f46e6a9439e0eac17517c2b7c00785879f769a5ed84612"
+    },
+    {
+      "ref": "26-292cbf7e848b.zlib.b64",
+      "original": "ops014-clean-import-regressions-red-owned-recovery/junit.xml",
+      "encoding": "zlib-base64",
+      "bytes": 2110,
+      "sha256": "190ffe6aa133c881f329fd69bbad687d886bdef10bfc1f77706b495dc9a79238"
+    },
+    {
+      "ref": "27-84d24d72096c.zlib.b64",
+      "original": "ops014-clean-import-regressions-red-owned-recovery-head/results.json",
+      "encoding": "zlib-base64",
+      "bytes": 1290,
+      "sha256": "03ef38bcf509798a67c6285568c55de799cfbf873132cc8f85b0d2be9ca55cfb"
+    },
+    {
+      "ref": "28-c9f9f025301b.zlib.b64",
+      "original": "ops014-clean-import-regressions-red-owned-recovery-head/regressions.raw",
+      "encoding": "zlib-base64",
+      "bytes": 1795,
+      "sha256": "cac499445bdc7664dc6a3dfe628a49663b3c9fa319bd9e0d7b4a2795cd8a34b1"
+    },
+    {
+      "ref": "29-16c07ff6f428.zlib.b64",
+      "original": "ops014-clean-import-regressions-red-owned-recovery-head/junit.xml",
+      "encoding": "zlib-base64",
+      "bytes": 1058,
+      "sha256": "decdee0a4a2fb5fce90d6e94d99df3a2bdad9302eb683aff1f648611d20a0a11"
+    },
+    {
+      "ref": "30-9783b009573f.zlib.b64",
+      "original": "ops014-clean-import-regressions-green-owned-recovery/results.json",
+      "encoding": "zlib-base64",
+      "bytes": 1221,
+      "sha256": "8cd3ddef38297f1850a5860da21839850da802dfa661668131aa27981e0caeff"
+    },
+    {
+      "ref": "31-7eb42dad0e2c.zlib.b64",
+      "original": "ops014-clean-import-regressions-green-owned-recovery/regressions.raw",
+      "encoding": "zlib-base64",
+      "bytes": 767,
+      "sha256": "376a36293414284807427dd26ced78e8c1091e7787556aba8d48f667b02fea06"
+    },
+    {
+      "ref": "32-1a39700f8554.zlib.b64",
+      "original": "ops014-clean-import-regressions-green-owned-recovery/junit.xml",
+      "encoding": "zlib-base64",
+      "bytes": 2110,
+      "sha256": "c768b881dd6d84a03a42eece144b489bad50b09662eb09c6796acac352dfe97a"
+    },
+    {
+      "ref": "33-185b051639be.zlib.b64",
+      "original": "working-tree/scripts/check-program-plan-history.py",
+      "encoding": "zlib-base64",
+      "bytes": 106329,
+      "sha256": "5457b1d3e97a79e20d39f306a40c5489aa480c972737b09479954267434e2aa2"
+    },
+    {
+      "ref": "34-35f72f1d4a69.zlib.b64",
+      "original": "working-tree/tests/governance/test_poc_contract_repair_admission.py",
+      "encoding": "zlib-base64",
+      "bytes": 39176,
+      "sha256": "8a7be859b988ce8bb1337bd03a9e32e3ce8c369554131745b12f957c09e30b3e"
+    }
+  ],
+  "note": "Dirty exact-byte component/classifier results only; full source gates and CI remain pending."
+}
