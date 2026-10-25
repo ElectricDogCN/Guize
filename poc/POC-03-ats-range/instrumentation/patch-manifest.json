@@ -19,7 +19,7 @@
     {
       "path": "src/tscore/ink_resource.cc",
       "beforeSha256": "64f3899408dc02fed6978179d5def6363d9577ba334d7b9761d777034cdcdcde",
-      "afterSha256": "0aabcfc660f2391f154cd771f1280220067cd1db774d17bce9e89679d4e44c5f"
+      "afterSha256": "8d701f8aad9c3da1815d5f92ba80f1ea2ba399b23c1a01bca781f9d67e765c4c"
     },
     {
       "path": "iocore/cache/Cache.cc",
@@ -27,9 +27,9 @@
       "afterSha256": "8926035b3c46a9d584cd5fae86094617817df207869e1c8d59ba902c516e76b2"
     }
   ],
-  "patchSha256": "0ad76c3878bcbeb088b2a522308bbabe17cdb61c5336580aedb1d550db203cd4",
-  "additionalHeaderSha256": "e17adfb92fc4093e3a0e4f46d538f37809dfb433c1fa054729d1dec819c3d615",
-  "observationWindow": "Only after native HTTP-cache-ready with an atomic reset retaining all currently live baseline payload",
+  "patchSha256": "d613e3b1895b490bc262116da28f479f669da55465ecd1f9c97fd6e52996a94c",
+  "additionalHeaderSha256": "f771476d0e5bb5124577329744128d83a4a0bdf43f1d10f91145e006848dc7fb",
+  "observationWindow": "Process-lifetime tracked capacities; each increasing peak fully written/fsynced under the ledger lock before payload acquisition. No reset. Per-process fork/exec reuse and accounting/publication faults fail the diagnostic epoch.",
   "uncoveredExternalEventsInvalidateQualification": true,
   "externalSetInternalIncluded": true,
   "directRecoveryIncluded": true,
@@ -39,5 +39,19 @@
   "atsStarted": false,
   "unknownExternalRiskProcessLifetimeSticky": true,
   "protectedSourceMediaOnly": true,
-  "generatedSliceErrorTextOutsideMediaDomain": true
+  "generatedSliceErrorTextOutsideMediaDomain": true,
+  "journalHeaderSha256": "b1f45c1b71359e5463e9f043451ad3fc34243426b96aea9d5e0e9180eaf79ea4",
+  "additionalHeaders": [
+    {
+      "source": "live_buffer_accounting.h",
+      "installed": "include/tscore/GuizeLiveBufferAccounting.h",
+      "sha256": "f771476d0e5bb5124577329744128d83a4a0bdf43f1d10f91145e006848dc7fb"
+    },
+    {
+      "source": "live_peak_journal.h",
+      "installed": "include/tscore/GuizeLivePeakJournal.h",
+      "sha256": "b1f45c1b71359e5463e9f043451ad3fc34243426b96aea9d5e0e9180eaf79ea4"
+    }
+  ],
+  "durablePeakJournalAbi": "INSTRUMENTED_ATS_DURABLE_PEAK/v1"
 }

@@ -16,7 +16,11 @@ struct Snapshot {
 class Ledger {
   std::mutex mutex_;
   Snapshot state_;
+  using PeakWriter=bool (*)(void *,const Snapshot &);
+  PeakWriter writer_;
+  void *writerContext_;
 public:
+  explicit Ledger(PeakWriter writer=nullptr,void *context=nullptr):writer_(writer),writerContext_(context) {}
   // Call before the actual allocation. A failure makes all later snapshots unhealthy.
   bool acquire(unsigned kind,uint64_t bytes) {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -26,7 +30,12 @@ public:
     state_.currentBytes+=bytes;state_.currentByKind[kind]+=bytes;
     ++state_.liveByKind[kind];++state_.acquisitions[kind];
     if(kind==EXTERNAL)++state_.uncoveredExternalEvents;
-    if(state_.currentBytes>state_.peakBytes)state_.peakBytes=state_.currentBytes;
+    if(state_.currentBytes>state_.peakBytes) {
+      state_.peakBytes=state_.currentBytes;
+      // The caller may allocate only after this synchronous publication succeeds.
+      // Keep the same ledger lock across the counter update and publication.
+      if(writer_&&!writer_(writerContext_,state_)) { ++state_.violations;return false; }
+    }
     return true;
   }
   // Call after release is complete. Interleaving can conservatively overcount.
@@ -41,6 +50,8 @@ public:
   Snapshot snapshot(bool resetWindow=false) {
     std::lock_guard<std::mutex> lock(mutex_);
     if(resetWindow) {
+      // A journal-bound ledger is process-lifetime; old peaks cannot be erased.
+      if(writer_) { ++state_.violations;return state_; }
       ++state_.generation;state_.peakBytes=state_.currentBytes;
       // Unknown external storage may outlive its wrapper. Keep this risk
       // process-lifetime sticky; wrapper release cannot prove owner release.

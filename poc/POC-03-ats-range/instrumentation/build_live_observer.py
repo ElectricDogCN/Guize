@@ -26,6 +26,7 @@ def main():
                  argv=argv,compiler=subprocess.check_output([compiler,'--version'],text=True).splitlines()[0],
                  sourceSha256=sha(source),ledgerHeaderSha256=sha(header),sdkHeaderSha256=headers,
                  exitCode=result.returncode,pluginSha256=sha(plugin) if plugin.exists() else None,
+                 journalHeaderSha256=sha(here/'live_peak_journal.h'),accountingWindow='process-lifetime',
                  atsStarted=False,experimentApproved=False,fullMediaCoverageProven=False)
     (out/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n');print(json.dumps(receipt))
     raise SystemExit(result.returncode)

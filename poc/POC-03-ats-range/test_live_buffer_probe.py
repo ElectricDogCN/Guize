@@ -8,8 +8,8 @@ EXPECTED=dict(ledgerHeaderSha256='a'*64,observerSourceSha256='b'*64)
 
 def row(sequence=0):
     return dict(kind='INSTRUMENTED_ATS_LIVE_MEDIA_CAPACITY',atsPid=1234,startTicks=5678,sequence=sequence,
-                abiVersion=1,generation=1,snapshotBeforeMonotonicNs=100+sequence*100,
-                snapshotAfterMonotonicNs=110+sequence*100,reset=sequence==0,cacheReady=True,httpCacheReady=True,
+                abiVersion=1,generation=0,snapshotBeforeMonotonicNs=100+sequence*100,
+                snapshotAfterMonotonicNs=110+sequence*100,reset=False,accountingWindow='process-lifetime',cacheReady=True,httpCacheReady=True,
                 currentBytes=4096,peakBytes=4096 if sequence==0 else 12288,violations=0,uncoveredExternalEvents=0,
                 currentByKind=[0,4096,0,0],liveByKind=[0,1,0,0],acquisitions=[sequence,1,0,0],releases=[sequence,0,0,0],
                 baselineSubtracted=False,experimentApprovedByObserver=False,**EXPECTED)
@@ -21,6 +21,18 @@ def test_exact_window_retains_baseline_and_peak():
     assert result['recordCount']==2 and result['maximumObservedLiveCapacityBytes']==12288
     assert result['first']['currentBytes']==4096 and not result['baselineSubtracted']
     assert not result['fullMediaBufferBoundProven']
+
+def test_first_ready_snapshot_keeps_an_earlier_released_peak():
+    first=row();first['peakBytes']=32768
+    first['acquisitions'][0]=first['releases'][0]=1
+    result=parse_snapshots(encoded(first),IDENTITY,EXPECTED)
+    assert result['maximumObservedLiveCapacityBytes']==32768
+    assert result['first']['currentBytes']==4096
+
+def test_old_ready_reset_record_is_not_reinterpreted_as_lifetime():
+    first=row();first.update(generation=1,reset=True)
+    first.pop('accountingWindow')
+    with pytest.raises(ValueError):parse_snapshots(encoded(first),IDENTITY,EXPECTED)
 
 def test_waits_for_post_request_snapshot():
     assert parse_snapshots(encoded(row()),IDENTITY,EXPECTED,150) is None

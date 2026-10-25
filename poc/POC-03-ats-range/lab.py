@@ -111,6 +111,11 @@ def prepare(config_path,run):
                 or digest(core_build_path)!=runtime['buildReceiptSha256'] or not core_build['buildCompleted']
                 or core_build['instrumentation']['additionalHeaderSha256']!=runtime['ledgerHeaderSha256']):
             raise ValueError('exact instrumented core/observer build mismatch')
+        journal_sha=digest(HERE/'instrumentation/live_peak_journal.h')
+        if (runtime.get('journalHeaderSha256')!=journal_sha or live_build.get('journalHeaderSha256')!=journal_sha
+                or core_build['instrumentation'].get('journalHeaderSha256')!=journal_sha
+                or live_build.get('accountingWindow')!='process-lifetime'):
+            raise ValueError('durable process-lifetime core and observer builds required')
         required={'usr/bin/traffic_server','usr/lib/trafficserver/libtscore.so.9.2.3',
                   'usr/lib/trafficserver/modules/slice.so','usr/lib/trafficserver/modules/cache_range_requests.so',
                   'usr/lib/trafficserver/modules/header_rewrite.so'}
@@ -137,7 +142,7 @@ def prepare(config_path,run):
     cfg['exportBuildReceiptSha256']=digest(build_path)
     if live is not None:
         cfg['instrumentedRuntime']=receipt['instrumentedLiveBuffer']
-        for name in ('live_buffer_probe.py','instrumentation/live_buffer_accounting.h','instrumentation/live_buffer_observer.cc'):
+        for name in ('live_buffer_probe.py','durable_peak_probe.py','instrumentation/live_peak_journal.h','instrumentation/live_buffer_accounting.h','instrumentation/live_buffer_observer.cc'):
             cfg['implementationSources'][name]=digest(HERE/name)
     now=datetime.now(timezone.utc)
     cfg['grants']={user:dict(grantId='poc003-grant-'+user,principalId=user,
@@ -217,6 +222,9 @@ class State:
         env=dict(os.environ,LD_LIBRARY_PATH=self.cfg['ldLibraryPath'],TS_RUNROOT=str(self.run/'runroot.yaml'),
                  PROXY_DPRINTF_LEVEL='0')
         env.pop('LD_PRELOAD',None);env.pop('LD_AUDIT',None)
+        env.pop('GUIZE_POC003_PEAK_JOURNAL_DIR',None)
+        if self.cfg.get('liveBufferObserver') is not None:
+            env['GUIZE_POC003_PEAK_JOURNAL_DIR']=str(self.run/'cache-observer')
         return env
     def start_ats(self):
         if self.ats is not None:raise ValueError('ATS child already exists')

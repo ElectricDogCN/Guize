@@ -1,5 +1,5 @@
 // Private diagnostic observer for the exact instrumented ATS build.
-// No HTTP interface; one post-cache-ready window per fresh owned process.
+// No HTTP interface; snapshots retain the instrumented process-lifetime peak.
 #include <ts/ts.h>
 #include <ts/experimental.h>
 #include "live_buffer_accounting.h"
@@ -63,17 +63,17 @@ int observe(TSCont,TSEvent,void *) {
   if(sequence>=RecordLimit) {
     append("{\"error\":\"record_limit\"}");stopped=true;return 0;
   }
-  const bool reset=!started;
+  const bool reset=false;
   const auto before=monotonic_ns();
   const auto value=snapshot(reset?1:0);
   const auto after=monotonic_ns();
-  if(!before||after<before||value.abiVersion!=1||value.generation!=1) {
+  if(!before||after<before||value.abiVersion!=1||value.generation!=0) {
     append("{\"error\":\"clock_or_abi_or_generation\"}");stopped=true;return 0;
   }
   std::string row="{\"kind\":\"INSTRUMENTED_ATS_LIVE_MEDIA_CAPACITY\",\"atsPid\":"+std::to_string(getpid())+
     ",\"startTicks\":"+std::to_string(startTicks)+",\"sequence\":"+std::to_string(sequence)+
     ",\"snapshotBeforeMonotonicNs\":"+std::to_string(before)+",\"snapshotAfterMonotonicNs\":"+std::to_string(after)+
-    ",\"reset\":"+(reset?"true":"false")+",\"cacheReady\":true,\"httpCacheReady\":true,\"abiVersion\":"+std::to_string(value.abiVersion)+
+    ",\"reset\":false,\"accountingWindow\":\"process-lifetime\",\"cacheReady\":true,\"httpCacheReady\":true,\"abiVersion\":"+std::to_string(value.abiVersion)+
     ",\"generation\":"+std::to_string(value.generation)+",\"currentBytes\":"+std::to_string(value.currentBytes)+
     ",\"peakBytes\":"+std::to_string(value.peakBytes)+",\"violations\":"+std::to_string(value.violations)+
     ",\"uncoveredExternalEvents\":"+std::to_string(value.uncoveredExternalEvents)+

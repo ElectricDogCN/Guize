@@ -1,3 +1,14 @@
+
+## Durable tracked-peak component V2 (not full-media qualification)
+
+The process-lifetime logical-allocation ledger now writes/fsyncs each increasing peak under its lock before payload acquisition. No cache-ready reset; accounting, publication, external attachment, inherited fork and reused exec epochs fail closed. A native ordinary child preserves its released 1MiB peak across actual wait0; partial/failed streams cannot be promoted to complete success.
+
+The original reader had a P2: opening a FIFO could block. Its original bytes and negative independent review remain archived. V2 uses nonblocking open plus path/FD identity checks; real FIFO-without-writer and path replacement after open/before validation and during read are rejected. The corrected reader's Windows55 and Linux55, actual live/final capture, ten retained native success/failure streams and three filesystem regressions passed. Earlier native11 scenarios plus six original ledger cases retain their original source hashes. The observer compiles against the exact SDK. Independent component review accepts this limited scope.
+
+Reversible originals and source snapshots: durable-tracked-peak-v2/index.json. Current core build is still pending and is not accepted here. This ledger measures logical live ownership; retained physical freelist capacity, all short-lived helper/restart/final epochs, exec chain and other media owners remain incomplete. Full media bound, source Task15/current CI, original15 ATS cases, current-source warm-cache revocation and formal POC qualification are not granted. No ATS service or new media experiment was started by these component checks.
+
+Next: finish exact core build; account for retained pools and all process windows/other media owners; ordinary sync a fully accepted stable main, run new fixed-source gates and CI, then obtain explicit representative input/resource/window acceptance and execute the full POC. Old failed/unknown methods remain preserved. Actual Task roles, claims, lease and base remain unchanged by this component commit.
+
 Task: POC-003
 Issue: 131
 Branch: chore/POC-003-ats-range

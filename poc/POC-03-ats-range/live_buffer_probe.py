@@ -70,7 +70,8 @@ def parse_snapshots(raw,identity,expected,after_ns=0):
         scalar=('sequence','abiVersion','generation','snapshotBeforeMonotonicNs','snapshotAfterMonotonicNs',
                 'currentBytes','peakBytes','violations','uncoveredExternalEvents')
         if any(type(row.get(k))!=int or not 0<=row[k]<=2**64-1 for k in scalar):raise ValueError('invalid integer snapshot')
-        if (row['sequence']!=sequence or row['abiVersion']!=1 or row['generation']!=1 or row.get('reset') is not (sequence==0)
+        if (row['sequence']!=sequence or row['abiVersion']!=1 or row['generation']!=0 or row.get('reset') is not False
+                or row.get('accountingWindow')!='process-lifetime'
                 or row.get('cacheReady') is not True or row.get('httpCacheReady') is not True
                 or row.get('baselineSubtracted') is not False or row.get('experimentApprovedByObserver') is not False):
             raise ValueError('invalid readiness/reset/generation')
@@ -92,7 +93,6 @@ def parse_snapshots(raw,identity,expected,after_ns=0):
                 raise ValueError('nonmonotonic window or peak')
             if any(row[key][k]<previous[key][k] for key in ('acquisitions','releases') for k in range(KINDS)):
                 raise ValueError('counter reset within window')
-        elif row['peakBytes']!=row['currentBytes']:raise ValueError('reset must retain current baseline')
         previous=row
     if after_ns and after_ns<rows[0]['snapshotAfterMonotonicNs']:raise ValueError('request boundary predates window readiness')
     if rows[-1]['snapshotBeforeMonotonicNs']<after_ns:return None
@@ -119,6 +119,11 @@ def capture_live(child,directory,output,expected,after_ns=0):
             result=parse_snapshots(raw,before,expected,after_ns)
             if result:
                 if process_identity(child)!=before:raise ValueError('child changed after snapshot')
+                from durable_peak_probe import capture_peak_journal
+                durable=capture_peak_journal(child,directory,output/'durable-peak',before)
+                if durable['maximumObservedTrackedCapacityBytes']<result['maximumObservedLiveCapacityBytes']:
+                    raise ValueError('durable publication does not cover the observed ledger peak')
+                result['durablePeakSnapshot']=durable
                 raw=raw[:result['rawEnd']]
                 result.update(kind='INSTRUMENTED_LIVE_MEDIA_OBSERVATION_NOT_QUALIFIED',process=before,
                               observerFileDevice=info.st_dev,observerFileInode=info.st_ino,rawBytes=len(raw),

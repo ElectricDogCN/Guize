@@ -110,26 +110,39 @@
  struct AIO_Callback_handler : public Continuation {
 --- a/src/tscore/ink_resource.cc
 +++ b/src/tscore/ink_resource.cc
-@@ -24,6 +24,7 @@
+@@ -24,6 +24,8 @@
  #include "tscore/ink_assert.h"
  #include "tscore/ink_atomic.h"
  #include "tscore/ink_resource.h"
 +#include "tscore/GuizeLiveBufferAccounting.h"
++#include "tscore/GuizeLivePeakJournal.h"
  #include <execinfo.h>
  
  int res_track_memory          = 0; // Disabled by default
-@@ -182,3 +183,23 @@
+@@ -182,3 +184,35 @@
      fprintf(fd, "---------------------|----------------------|----------------------|----------------------\n");
    }
  }
 +
-+// Guize private diagnostic ABI. One process-wide ledger, no HTTP policy change.
-+static guize_live_buffer::Ledger &
-+guize_live_ledger()
++// Private diagnostic ABI: durable tracked-allocation peaks before payload.
++namespace {
++const pid_t guize_loaded_pid = getpid();
++static guize_live_buffer::DurableAccounting &guize_live_ledger()
 +{
-+  static guize_live_buffer::Ledger ledger;
-+  return ledger;
++  // Reject an inherited mutex/descriptor before touching a function-static guard.
++  if (getpid() != guize_loaded_pid) _exit(70);
++  // Intentionally retained until process exit. No destructor/atexit ordering
++  // can close the sink while another late allocator still needs it.
++  static auto *accounting = []() {
++    try {
++      return new guize_live_buffer::DurableAccounting(getenv("GUIZE_POC003_PEAK_JOURNAL_DIR"));
++    } catch (...) {
++      _exit(70);
++    }
++  }();
++  return *accounting;
 +}
++} // namespace
 +extern "C" void GuizeAtsLiveBufferAcquire(unsigned kind, uint64_t bytes)
 +{
 +  guize_live_ledger().acquire(kind, bytes);
@@ -140,7 +153,7 @@
 +}
 +extern "C" guize_live_buffer::Snapshot GuizeAtsLiveBufferSnapshot(unsigned resetWindow)
 +{
-+  return guize_live_ledger().snapshot(resetWindow != 0);
++  return guize_live_ledger().snapshot(resetWindow);
 +}
 --- a/iocore/cache/Cache.cc
 +++ b/iocore/cache/Cache.cc
