@@ -1,0 +1,7 @@
+Source Commit: 2da13d55432c39f57c458cff906ac198292b2e66
+Command: python scripts/run-task-scope-gate.py --task OPS-014 --base 15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6
+{"status": "INFO", "message": "Changed files: 15, Allowed: 15, Forbidden: 0, Out-of-scope: 0"}
+{"status": "PASS", "message": "Allowed files", "details": {"files": ["evidence/OPS-014/activation-proposal.json", "evidence/OPS-014/changed-files.md", "evidence/OPS-014/commands.txt", "evidence/OPS-014/follow-ups.md", "evidence/OPS-014/freeze-main-accepted-independent-review.json", "evidence/OPS-014/handoff.md", "evidence/OPS-014/rollback.md", "evidence/OPS-014/scope.md", "evidence/OPS-014/summary.md", "evidence/OPS-014/test-results/README.md", "specs/coordination/active-work.yaml", "specs/coordination/program-plan.yaml", "specs/poc/check_program.py", "specs/poc/test_program.py", "specs/tasks/OPS-014.md"]}}
+{"status": "PASS", "message": "All changed files are within allowed scope and outside forbidden scope."}
+
+Exit Code: 0

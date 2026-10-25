@@ -194,12 +194,12 @@
     },
     {
       "source": "ops014-416-repair-2da13d5-windows-focused/focused.raw",
-      "path": "evidence/OPS-014/recovery-validation/windows-focused.log",
+      "path": "evidence/OPS-014/recovery-validation/windows-focused.log.base64",
       "originalBytes": 1761,
       "originalSha256": "bceff7f25f0e70e2896ab43bd86365f121a888ed255a9ff9bb35b68d0f299843",
-      "storedBytes": 1761,
-      "storedSha256": "bceff7f25f0e70e2896ab43bd86365f121a888ed255a9ff9bb35b68d0f299843",
-      "storageEncoding": "identity"
+      "storedBytes": 2349,
+      "storedSha256": "4882f919b761e4d9f8a69dde5b81dbe7c004bfc09b2774511f70ec0c7c715d19",
+      "storageEncoding": "base64"
     },
     {
       "source": "ops014-416-repair-2da13d5-windows-focused/results.json",
@@ -866,15 +866,28 @@
       "storedBytes": 108585,
       "storedSha256": "0b128dce1ea1aad9a1684f4bb254c81b04543cf6095d0a4843a3e200fdcdf463",
       "storageEncoding": "base64"
+    },
+    {
+      "source": "ops014-416-archive-first-commit-tracking.json",
+      "path": "evidence/OPS-014/recovery-validation/prior-attempts/archive-first-commit-tracking.json",
+      "originalBytes": 1813,
+      "originalSha256": "d3ac2aa6e5ec6acd9597222b77b0d363ab7a1b084500d123eba42837e0550127",
+      "storedBytes": 1813,
+      "storedSha256": "d3ac2aa6e5ec6acd9597222b77b0d363ab7a1b084500d123eba42837e0550127",
+      "storageEncoding": "identity"
     }
   ],
   "originalBytesRecoverableUnchanged": true,
-  "proofAndSuccessfulLogsStoredAsOriginalBytes": true,
+  "proofAndSuccessfulLogsStoredAsOriginalBytes": false,
   "whitespaceSensitivePriorOriginalsStoredAsBase64": true,
   "optionalLiveApiTransportLogRetained": false,
   "actualMergedMainAccepted": false,
   "thawApproved": false,
   "supportingCrlfOriginalsStoredAsBase64": true,
   "encodingCorrectedAt": "2026-10-25T06:09:51.057361+00:00",
-  "mandatoryProofAndAllSuccessfulRawLogsUnchanged": true
+  "mandatoryProofAndAllSuccessfulRawLogsUnchanged": false,
+  "mandatoryProofLogsStoredAsOriginalBytes": true,
+  "windowsRawLogStoredAsBase64": true,
+  "allOriginalRawLogsRecoverableByteIdentical": true,
+  "trackingCorrectionRecordedAt": "2026-10-25T06:11:58.557517+00:00"
 }

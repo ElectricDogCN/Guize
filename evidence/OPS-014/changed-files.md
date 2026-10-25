@@ -99,3 +99,5 @@ After C only own Evidence changes; metadata activation precedes code. Prior fail
 - `evidence/OPS-014/recovery-validation/prior-attempts/ops014-416-archive-first-staged-crlf-failure/failure.json`
 - `evidence/OPS-014/recovery-validation/prior-attempts/ops014-416-archive-first-staged-crlf-failure/staged-check.stderr.raw`
 - `evidence/OPS-014/recovery-validation/prior-attempts/ops014-416-archive-first-staged-crlf-failure/staged-check.stdout.raw.base64`
+
+- `evidence/OPS-014/recovery-validation/prior-attempts/archive-first-commit-tracking.json`
