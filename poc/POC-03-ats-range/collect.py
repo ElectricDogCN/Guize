@@ -88,7 +88,7 @@ class Collector:
                         row['firstBodyByteAt']=utc();row['firstBodyByteLatencyMs']=(time.monotonic()-started)*1000
                     if row['firstBodyChunkAt'] is None:row['firstBodyChunkAt']=utc()
                     row['bodyBytes']+=len(block);row['clientChunkPeak']=max(row['clientChunkPeak'],len(block));hasher.update(block);out.write(block)
-                    if row['bodyBytes']>67108864+65536:raise ValueError('per-response byte bound')
+                    if row['bodyBytes']>self.cfg['inputs'][version]['sizeBytes']+65536:raise ValueError('per-response byte bound')
                     if incomplete:row['transportError']='IncompleteRead';break
             claimed=response.headers.get('Content-Length')
             if claimed is not None and (not claimed.isdigit() or int(claimed)!=row['bodyBytes']):row['transportCompleted']=False
@@ -123,7 +123,7 @@ class Collector:
               actualBytesEqual=row['bodyBytes']==last-first+1 and row['bodySha256']==expected.hexdigest())
         with self.lock:
             self.rows.append(row);self.total_bytes+=row['bodyBytes']
-            if self.total_bytes>1073741824:raise ValueError('collection byte budget')
+            if self.total_bytes>self.cfg.get('maximumCollectionBytes',1073741824):raise ValueError('collection byte budget')
         write_json(self.out/'observations'/('request-'+rid+'.json'),row);return row
     def matrix(self):
         for source in self.cfg['inputs'].values():

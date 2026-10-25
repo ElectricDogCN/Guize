@@ -6,6 +6,7 @@ import subprocess,threading,time,urllib.parse
 from datetime import datetime,timedelta,timezone
 from pathlib import Path
 from grants import Grant
+from input_profile import prepare_input_pair
 
 HERE=Path(__file__).resolve().parent
 PINNED={
@@ -69,23 +70,20 @@ def prepare(config_path,run):
     config_path=Path(config_path).resolve();cfg=unique_json(config_path.read_text())
     manifest_path=(config_path.parent/cfg['fixtureManifest']).resolve()
     receipt_path=(config_path.parent/cfg['runtimeReceipt']).resolve()
-    manifest=unique_json(manifest_path.read_text());receipt=unique_json(receipt_path.read_text())
+    with manifest_path.open('rb') as manifest_stream:
+        manifest_raw=manifest_stream.read(65537)
+    if len(manifest_raw)>65536:raise ValueError('fixture manifest exceeds 64KiB')
+    receipt=unique_json(receipt_path.read_text())
     if receipt['status']!='ready_for_future_poc_environment':raise ValueError('runtime not prepared')
     prefix=Path(receipt['prefix']).resolve();pkg=prefix/'pkgroot'
     if receipt['versions']['traffic_server']['returncode']!=0 or '9.2.3' not in receipt['versions']['traffic_server']['stdout']:raise ValueError('expected prepared ATS9.2.3')
     ports=[cfg[key] for key in ('originPort','atsPort','entryPort')]
     if len(set(ports))!=3 or any(type(p)!=int or not 1024<p<65536 for p in ports):raise ValueError('distinct unprivileged ports')
     if cfg['originPort']!=18231:raise ValueError('exporter protected-origin allowlist requires port18231')
-    if cfg['sliceBytes']!=1048576 or cfg['minimumInputBytes']!=67108864 or not cfg['sliceBytes']<=cfg['maximumBufferedBytes']<cfg['minimumInputBytes']:raise ValueError('fixed local64m profile')
     if cfg['chunkBytes']!=65536 or cfg['cacheMiB']!=256 or cfg['maximumRetries']!=0:raise ValueError('bounded initial profile')
     if not 1<=cfg['maximumRunSeconds']<=1800 or not 2<=cfg['latencySampleCount']<=20 or cfg['latencySampleCount']%2 or cfg['concurrentUsers']!=2:raise ValueError('bounded workload')
-    if cfg['slowOriginDelayMs']!=250 or cfg['slowOriginBandwidthBytesPerSecond']!=1048576 or cfg['faultAfterBytes']!=4 or cfg['maximumOriginRequests']!=2048:raise ValueError('bounded controlled-origin profile')
-    inputs={}
-    for label,(name,sha) in PINNED.items():
-        path=manifest_path.parent/name
-        row=manifest['base' if label=='base' else 'changedVersion']
-        if row['file']!=name or row['sha256']!=sha or path.is_symlink() or path.stat().st_size!=67108864 or digest(path)!=sha:raise ValueError('fixed input pair mismatch')
-        inputs[label]=dict(path=str(path.resolve()),sha256=sha,sizeBytes=67108864,etag='"sha256-'+sha+'"')
+    if cfg['slowOriginDelayMs']!=250 or cfg['slowOriginBandwidthBytesPerSecond']!=1048576 or cfg['faultAfterBytes']!=4:raise ValueError('bounded controlled-origin profile')
+    inputs=prepare_input_pair(cfg,manifest_path,manifest_raw,PINNED)
     plugins={}
     for name in ('slice.so','cache_range_requests.so','header_rewrite.so'):
         path=pkg/'usr/lib/trafficserver/modules'/name
@@ -130,12 +128,12 @@ def prepare(config_path,run):
     # Generated lab secrets are private runtime controls, never sample approvals.
     cfg.update(kind='UNAPPROVED_POC003_STANDALONE_LAB',createdAt=utc(),runDir=str(run),inputs=inputs,
       runtimePrefix=str(prefix),pkgroot=str(pkg),runtimeReceipt=str(receipt_path),runtimeReceiptSha256=digest(receipt_path),
-      inputManifest=str(manifest_path),inputManifestSha256=digest(manifest_path),plugins=plugins,
+      inputManifest=str(manifest_path),inputManifestSha256=hashlib.sha256(manifest_raw).hexdigest(),plugins=plugins,
       ldLibraryPath=receipt['LD_LIBRARY_PATH'],secret=secrets.token_hex(32),controlKey=secrets.token_hex(32),
       users={'lab-user-a':secrets.token_hex(24),'lab-user-b':secrets.token_hex(24),'lab-denied-user':secrets.token_hex(24)},
       formalApproval=False,pocExecuted=False)
     cfg['implementationSources']={name:digest(HERE/name) for name in
-        ('lab.py','grants.py','collect.py','cache_probe.py','http_timing.py','buffer_probe.py','cache_export.cc','test_warm_cache_revocation.py')}
+        ('lab.py','grants.py','input_profile.py','collect.py','cache_probe.py','http_timing.py','buffer_probe.py','cache_export.cc','test_warm_cache_revocation.py')}
     cfg['exportBuildReceiptSha256']=digest(build_path)
     if live is not None:
         cfg['instrumentedRuntime']=receipt['instrumentedLiveBuffer']

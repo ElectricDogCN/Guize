@@ -3,7 +3,7 @@
 Base: 760f6c5838597d1d66c0a536ecbf440ef5a7dfec
 Branch: chore/POC-003-ats-range
 
-Current cumulative paths: 1536. Only Own code, Task/Active context and Evidence differ from the accepted main.
+Current cumulative paths: 1608. Includes earlier accepted source and forward input components; no full POC acceptance.
 
 - `evidence/POC-003/EVIDENCE-STRUCTURE.md`
 - `evidence/POC-003/assumptions.md`
@@ -154,6 +154,76 @@ Current cumulative paths: 1536. Only Own code, Task/Active context and Evidence 
 - `evidence/POC-003/handoff.md`
 - `evidence/POC-003/http-fixes-independent-review.json`
 - `evidence/POC-003/implementation-input-provenance.json`
+- `evidence/POC-003/input-profile-v2/00-4e905fe6820b.zlib.b64`
+- `evidence/POC-003/input-profile-v2/01-91e2d36b1135.zlib.b64`
+- `evidence/POC-003/input-profile-v2/02-b24b1191a016.zlib.b64`
+- `evidence/POC-003/input-profile-v2/03-b4c101e9819b.zlib.b64`
+- `evidence/POC-003/input-profile-v2/04-5de38b05ade4.zlib.b64`
+- `evidence/POC-003/input-profile-v2/05-b2ab5a49ea03.zlib.b64`
+- `evidence/POC-003/input-profile-v2/06-30764c04635e.zlib.b64`
+- `evidence/POC-003/input-profile-v2/07-7d83e6f8c419.zlib.b64`
+- `evidence/POC-003/input-profile-v2/08-138b699e2d22.zlib.b64`
+- `evidence/POC-003/input-profile-v2/09-af43fbbd1eb0.zlib.b64`
+- `evidence/POC-003/input-profile-v2/10-a53e879115a0.zlib.b64`
+- `evidence/POC-003/input-profile-v2/11-6ca7260f9ccc.zlib.b64`
+- `evidence/POC-003/input-profile-v2/12-c2554b31a8df.zlib.b64`
+- `evidence/POC-003/input-profile-v2/13-c1fdbe996962.zlib.b64`
+- `evidence/POC-003/input-profile-v2/14-7b25bdde3185.zlib.b64`
+- `evidence/POC-003/input-profile-v2/15-fa7f4003bbe9.zlib.b64`
+- `evidence/POC-003/input-profile-v2/16-850a8f68b886.zlib.b64`
+- `evidence/POC-003/input-profile-v2/17-17b8feaea10a.zlib.b64`
+- `evidence/POC-003/input-profile-v2/18-7bac6f97b568.zlib.b64`
+- `evidence/POC-003/input-profile-v2/19-6f7d9762c4ce.zlib.b64`
+- `evidence/POC-003/input-profile-v2/20-501ebb6c6c1b.zlib.b64`
+- `evidence/POC-003/input-profile-v2/21-10c3faeee5d3.zlib.b64`
+- `evidence/POC-003/input-profile-v2/22-df68094816f2.zlib.b64`
+- `evidence/POC-003/input-profile-v2/23-2a4e4df0f995.zlib.b64`
+- `evidence/POC-003/input-profile-v2/24-750eb33346d6.zlib.b64`
+- `evidence/POC-003/input-profile-v2/25-e5f6ca3e8576.zlib.b64`
+- `evidence/POC-003/input-profile-v2/26-70e8ef42b60d.zlib.b64`
+- `evidence/POC-003/input-profile-v2/27-8e908288fb73.zlib.b64`
+- `evidence/POC-003/input-profile-v2/28-30b224c68224.zlib.b64`
+- `evidence/POC-003/input-profile-v2/29-e7aa93bacf30.zlib.b64`
+- `evidence/POC-003/input-profile-v2/30-5233e6ed766a.zlib.b64`
+- `evidence/POC-003/input-profile-v2/31-86359d832531.zlib.b64`
+- `evidence/POC-003/input-profile-v2/32-0fe209e3b626.zlib.b64`
+- `evidence/POC-003/input-profile-v2/33-67566a0a386e.zlib.b64`
+- `evidence/POC-003/input-profile-v2/index.json`
+- `evidence/POC-003/input-profile-v3/00-f6beea865982.zlib.b64`
+- `evidence/POC-003/input-profile-v3/01-538df7ecee76.zlib.b64`
+- `evidence/POC-003/input-profile-v3/02-f28b3dbc0e8d.zlib.b64`
+- `evidence/POC-003/input-profile-v3/03-9e05fc5da62f.zlib.b64`
+- `evidence/POC-003/input-profile-v3/04-49631a1681d1.zlib.b64`
+- `evidence/POC-003/input-profile-v3/05-6923972f505b.zlib.b64`
+- `evidence/POC-003/input-profile-v3/06-c44fd52a8177.zlib.b64`
+- `evidence/POC-003/input-profile-v3/07-d1b2abb163cb.zlib.b64`
+- `evidence/POC-003/input-profile-v3/08-f28b3dbc0e8d.zlib.b64`
+- `evidence/POC-003/input-profile-v3/09-9e05fc5da62f.zlib.b64`
+- `evidence/POC-003/input-profile-v3/10-49631a1681d1.zlib.b64`
+- `evidence/POC-003/input-profile-v3/11-8fad15b55e07.zlib.b64`
+- `evidence/POC-003/input-profile-v3/12-65e618bcc101.zlib.b64`
+- `evidence/POC-003/input-profile-v3/13-94b16b521c62.zlib.b64`
+- `evidence/POC-003/input-profile-v3/14-f28b3dbc0e8d.zlib.b64`
+- `evidence/POC-003/input-profile-v3/15-9e05fc5da62f.zlib.b64`
+- `evidence/POC-003/input-profile-v3/16-3ecb45001fe6.zlib.b64`
+- `evidence/POC-003/input-profile-v3/17-8fad15b55e07.zlib.b64`
+- `evidence/POC-003/input-profile-v3/18-0ea9bbd7f71b.zlib.b64`
+- `evidence/POC-003/input-profile-v3/19-b8f559527f92.zlib.b64`
+- `evidence/POC-003/input-profile-v3/20-eb47fe612c86.zlib.b64`
+- `evidence/POC-003/input-profile-v3/21-017996a56597.zlib.b64`
+- `evidence/POC-003/input-profile-v3/22-1f75caac3f89.zlib.b64`
+- `evidence/POC-003/input-profile-v3/23-24c4f4486d77.zlib.b64`
+- `evidence/POC-003/input-profile-v3/24-f28b3dbc0e8d.zlib.b64`
+- `evidence/POC-003/input-profile-v3/25-9e05fc5da62f.zlib.b64`
+- `evidence/POC-003/input-profile-v3/26-3ecb45001fe6.zlib.b64`
+- `evidence/POC-003/input-profile-v3/27-8fad15b55e07.zlib.b64`
+- `evidence/POC-003/input-profile-v3/28-41bddcf325ec.zlib.b64`
+- `evidence/POC-003/input-profile-v3/29-0fce31e259b7.zlib.b64`
+- `evidence/POC-003/input-profile-v3/30-ac3129c0f29c.zlib.b64`
+- `evidence/POC-003/input-profile-v3/31-4a6013fcb41b.zlib.b64`
+- `evidence/POC-003/input-profile-v3/32-7689abb9f8af.zlib.b64`
+- `evidence/POC-003/input-profile-v3/component-review.json`
+- `evidence/POC-003/input-profile-v3/index.json`
 - `evidence/POC-003/instrumented-build-v4-preparation/.gitattributes`
 - `evidence/POC-003/instrumented-build-v4-preparation/README.md`
 - `evidence/POC-003/instrumented-build-v4-preparation/compile-v1/autoreconf.stderr.raw`
@@ -1516,6 +1586,7 @@ Current cumulative paths: 1536. Only Own code, Task/Active context and Evidence 
 - `poc/POC-03-ats-range/config.example.json`
 - `poc/POC-03-ats-range/grants.py`
 - `poc/POC-03-ats-range/http_timing.py`
+- `poc/POC-03-ats-range/input_profile.py`
 - `poc/POC-03-ats-range/instrumentation/.gitattributes`
 - `poc/POC-03-ats-range/instrumentation/README.md`
 - `poc/POC-03-ats-range/instrumentation/ats-live-buffer-accounting.patch`
@@ -1533,6 +1604,7 @@ Current cumulative paths: 1536. Only Own code, Task/Active context and Evidence 
 - `poc/POC-03-ats-range/test_cache_probe_native.py`
 - `poc/POC-03-ats-range/test_gateway_native.py`
 - `poc/POC-03-ats-range/test_http_timing_native.py`
+- `poc/POC-03-ats-range/test_input_profile.py`
 - `poc/POC-03-ats-range/test_lab.py`
 - `poc/POC-03-ats-range/test_live_buffer_probe.py`
 - `poc/POC-03-ats-range/test_live_component_native.py`
@@ -1541,7 +1613,3 @@ Current cumulative paths: 1536. Only Own code, Task/Active context and Evidence 
 - `specs/coordination/active-work.yaml`
 - `specs/coordination/program-plan.yaml`
 - `specs/tasks/POC-003.md`
-
-## Historical inventories
-
-The previous470 inventory is retained byte-for-byte at cache-47090d6-stopped-validation/previous-47090d6-inventory.md.
