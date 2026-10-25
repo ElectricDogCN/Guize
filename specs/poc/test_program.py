@@ -61,7 +61,11 @@ class TestPocProgram(unittest.TestCase):
         )
         active = self.repo / "specs" / "coordination" / "active-work.yaml"
         if active.is_file():
-            shutil.copy2(active, coordination / "active-work.yaml")
+            # Unit fixtures create their own concrete actors. Live reservations
+            # must not leak into synthetic fixtures or duplicate drift-test rows.
+            registry = load_yaml(active)
+            registry["tasks"] = []
+            write_yaml(coordination / "active-work.yaml", registry)
         requirements = root / "specs/requirements/v1"
         requirements.mkdir(parents=True)
         shutil.copy2(self.repo / "specs/requirements/v1/nfr.yaml", requirements / "nfr.yaml")
@@ -100,13 +104,8 @@ class TestPocProgram(unittest.TestCase):
         return root / "specs" / "tasks" / f"{task_id}.md"
 
     def write_task_spec(self, root, task_id, implementer=None, reviewer=None):
-        # Fixtures copied from an active repository must keep its actor bindings.
-        # Explicit overrides remain available for negative identity tests.
-        registry = root / 'specs/coordination/active-work.yaml'
-        entries = load_yaml(registry).get('tasks', []) if registry.is_file() else []
-        entry = next((row for row in entries if row.get('taskId') == task_id), {})
-        implementer = implementer or entry.get('implementer') or f"{task_id.lower()}-implementer"
-        reviewer = reviewer or entry.get('reviewer') or f"{task_id.lower()}-reviewer"
+        implementer = implementer or f"{task_id.lower()}-implementer"
+        reviewer = reviewer or f"{task_id.lower()}-reviewer"
         path = self.task_path(root, task_id)
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(
