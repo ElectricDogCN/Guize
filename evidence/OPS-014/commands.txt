@@ -1,42 +1,22 @@
-Task: OPS-014
-Issue: #142
-Branch: chore/OPS-014-frozen-416-contract-repair-v2
-Base: 15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6
-Source/tree/execution: UNCOMMITTED metadata activation proposal; contract code untouched
+OPS-014 actual validated source 2da13d55432c39f57c458cff906ac198292b2e66
 
-CODE C18 planned, HEAD resolved to actual fixed source at execution:
 git diff --check 15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6...HEAD
 python scripts/check-task-file.py --task OPS-014
 python scripts/check-schemas.py
 python scripts/check-program-plan-integrity.py --base-ref 15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6
-python scripts/check-program-plan-history.py --base-ref 15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6 --head-ref HEAD --task OPS-014 --branch-name chore/OPS-014-frozen-416-contract-repair-v2
-python scripts/check-program-plan-transitions.py --base-ref 15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6 --head-ref HEAD --task OPS-014 --branch-name chore/OPS-014-frozen-416-contract-repair-v2
-python scripts/check-program-plan-finalization.py --base-ref 15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6 --head-ref HEAD --task OPS-014
-python scripts/check-program-lifecycle-guards.py --base-ref 15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6 --head-ref HEAD --task OPS-014 --branch-name chore/OPS-014-frozen-416-contract-repair-v2
-python scripts/run-program-lifecycle-gate.py --base-ref 15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6 --head-ref HEAD --task OPS-014 --branch-name chore/OPS-014-frozen-416-contract-repair-v2
-python scripts/run-agent-coordination-gate.py --base-ref 15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6 --head-ref HEAD --task OPS-014 --branch-name chore/OPS-014-frozen-416-contract-repair-v2
+python scripts/check-program-plan-history.py --base-ref 15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6 --head-ref 2da13d55432c39f57c458cff906ac198292b2e66 --task OPS-014 --branch-name chore/OPS-014-frozen-416-contract-repair-v2
+python scripts/check-program-plan-transitions.py --base-ref 15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6 --head-ref 2da13d55432c39f57c458cff906ac198292b2e66 --task OPS-014 --branch-name chore/OPS-014-frozen-416-contract-repair-v2
+python scripts/check-program-plan-finalization.py --base-ref 15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6 --head-ref 2da13d55432c39f57c458cff906ac198292b2e66 --task OPS-014
+python scripts/check-program-lifecycle-guards.py --base-ref 15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6 --head-ref 2da13d55432c39f57c458cff906ac198292b2e66 --task OPS-014 --branch-name chore/OPS-014-frozen-416-contract-repair-v2
+python scripts/run-program-lifecycle-gate.py --base-ref 15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6 --head-ref 2da13d55432c39f57c458cff906ac198292b2e66 --task OPS-014 --branch-name chore/OPS-014-frozen-416-contract-repair-v2
+python scripts/run-agent-coordination-gate.py --base-ref 15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6 --head-ref 2da13d55432c39f57c458cff906ac198292b2e66 --task OPS-014 --branch-name chore/OPS-014-frozen-416-contract-repair-v2
 python scripts/run-task-scope-gate.py --task OPS-014 --base 15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6
 python scripts/check-evidence.py --task OPS-014
 python scripts/check-project-readiness.py
 python specs/poc/check_program.py --repo-root .
 python specs/poc/test_program.py
 python -m pytest tests/governance -q --junitxml=evidence/OPS-014/recovery-validation/governance.xml
-make verify TASK=OPS-014 BASE=15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6 HEAD_REF=HEAD BRANCH=chore/OPS-014-frozen-416-contract-repair-v2
+make verify TASK=OPS-014 BASE=15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6 HEAD_REF=2da13d55432c39f57c458cff906ac198292b2e66 BRANCH=chore/OPS-014-frozen-416-contract-repair-v2
 python scripts/check-markdown.py
 
-EVIDENCE-ONLY A15 planned, conditional on real prior C acceptance:
-git diff --check 15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6...HEAD
-python scripts/check-task-file.py --task OPS-014
-python scripts/check-schemas.py
-python scripts/check-program-plan-integrity.py --base-ref 15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6
-python scripts/check-program-plan-history.py --base-ref 15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6 --head-ref HEAD --task OPS-014 --branch-name chore/OPS-014-frozen-416-contract-repair-v2
-python scripts/check-program-plan-transitions.py --base-ref 15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6 --head-ref HEAD --task OPS-014 --branch-name chore/OPS-014-frozen-416-contract-repair-v2
-python scripts/check-program-plan-finalization.py --base-ref 15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6 --head-ref HEAD --task OPS-014
-python scripts/check-program-lifecycle-guards.py --base-ref 15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6 --head-ref HEAD --task OPS-014 --branch-name chore/OPS-014-frozen-416-contract-repair-v2
-python scripts/run-program-lifecycle-gate.py --base-ref 15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6 --head-ref HEAD --task OPS-014 --branch-name chore/OPS-014-frozen-416-contract-repair-v2
-python scripts/run-agent-coordination-gate.py --base-ref 15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6 --head-ref HEAD --task OPS-014 --branch-name chore/OPS-014-frozen-416-contract-repair-v2
-python scripts/run-task-scope-gate.py --task OPS-014 --base 15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6
-python scripts/check-evidence.py --task OPS-014
-python scripts/check-project-readiness.py
-python specs/poc/check_program.py --repo-root .
-python scripts/check-markdown.py
+Windows: 'C:\ProgramData\anaconda3\python.exe' -X utf8 -B specs/poc/test_program.py TestPocProgram.test_198_metadata_profiling_requires_complete_names_pages_and_actual_range_validators TestPocProgram.test_198a_supported_unsatisfiable_accepts_bounded_diagnostics TestPocProgram.test_198b_diagnostic_probes_retain_identity_and_response_bounds TestPocProgram.test_198c_other_range_dispositions_keep_their_body_rules TestPocProgram.test_56_generic_role_labels_rejected TestPocProgram.test_57_task_spec_self_review_rejected TestPocProgram.test_58_active_work_role_drift_rejected

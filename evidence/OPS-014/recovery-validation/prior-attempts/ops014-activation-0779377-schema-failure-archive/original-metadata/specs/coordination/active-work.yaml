@@ -1,0 +1,136 @@
+version: 1
+policy:
+  maxActiveTasks: 3
+  maxHighRiskTasks: 1
+  leaseMaxHours: 168
+  bootstrapTasks:
+  - GZ-003
+tasks:
+- taskId: POC-003
+  issue: 131
+  title: ATS Range/Slice、大文件与权限缓存键
+  status: reserved
+  riskLevel: medium
+  owner: ElectricDogCN
+  coordinator: program-coordinator-agent
+  implementer: task-owner-agent
+  reviewer: independent-review-agent
+  integrator: integration-agent
+  agentRole: coordinator
+  branch: chore/POC-003-ats-range
+  baseBranch: main
+  baseSha: 44e5200ed506d30c0abc83ca38f1d6912cbab1c1
+  workPackage: WP-M0-POC-03
+  programPlan: specs/coordination/program-plan.yaml
+  programTaskId: POC-003
+  programWave: W2
+  requirementIds:
+  - REQ-V1-0003
+  - REQ-V1-0008
+  moduleIds:
+  - MOD-EDGE
+  - MOD-IAM
+  producesContracts:
+  - POC-03-EVIDENCE
+  consumesContracts:
+  - POC-PROTOCOL-V1
+  coordinationGroup: poc-results
+  dependsOn:
+  - GZ-010
+  exclusivePaths:
+  - poc/POC-03-ats-range/**
+  - evidence/POC-003/**
+  sharedPaths:
+  - adr/**
+  - specs/poc/results-index.yaml
+  handoffPath: evidence/POC-003/handoff.md
+  integrationStrategy: merge
+  integrationOrder: 2
+  lease:
+    acquiredAt: '2026-10-22T12:47:06Z'
+    expiresAt: '2026-10-29T12:47:06Z'
+- taskId: POC-005
+  issue: 132
+  title: 700TB 文件数、目录规模、变更率与扫描成本
+  status: reserved
+  riskLevel: medium
+  owner: ElectricDogCN
+  coordinator: program-coordinator-agent
+  implementer: task-owner-agent
+  reviewer: independent-review-agent
+  integrator: integration-agent
+  agentRole: coordinator
+  branch: chore/POC-005-metadata-scale
+  baseBranch: main
+  baseSha: 11c32830c0d1bb8ccdcc04aa278876065bce1f33
+  workPackage: WP-M0-POC-05
+  programPlan: specs/coordination/program-plan.yaml
+  programTaskId: POC-005
+  programWave: W2
+  requirementIds:
+  - REQ-V1-0001
+  - REQ-V1-0002
+  moduleIds:
+  - MOD-SOURCE
+  - MOD-ASSET
+  - MOD-CONNECTOR
+  producesContracts:
+  - POC-05-EVIDENCE
+  consumesContracts:
+  - POC-PROTOCOL-V1
+  coordinationGroup: poc-results
+  dependsOn:
+  - GZ-010
+  exclusivePaths:
+  - poc/POC-05-metadata-scale/**
+  - evidence/POC-005/**
+  sharedPaths:
+  - adr/**
+  - specs/poc/results-index.yaml
+  handoffPath: evidence/POC-005/handoff.md
+  integrationStrategy: merge
+  integrationOrder: 3
+  lease:
+    acquiredAt: '2026-10-22T16:08:44Z'
+    expiresAt: '2026-10-29T16:08:44Z'
+- taskId: OPS-014
+  issue: 142
+  title: 修复metadata profiling的416诊断正文合同
+  status: in_progress
+  riskLevel: high
+  owner: ElectricDogCN
+  coordinator: program-coordinator-agent
+  implementer: poc-contract-repair-implementation-agent
+  reviewer: independent-review-agent
+  integrator: integration-agent
+  agentRole: implementer
+  branch: chore/OPS-014-frozen-416-contract-repair
+  baseBranch: main
+  baseSha: 15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6
+  workPackage: WP-M0-01
+  programPlan: specs/coordination/program-plan.yaml
+  programTaskId: OPS-014
+  programWave: FOUNDATION
+  requirementIds:
+  - REQ-V1-0010
+  moduleIds:
+  - MOD-GOV
+  producesContracts: []
+  consumesContracts:
+  - CONTRACT-PROGRAM-PLAN
+  - CONTRACT-TASK-SPEC
+  - CONTRACT-ACTIVE-WORK
+  - POC-PROTOCOL-V1
+  coordinationGroup: poc-contract-repair
+  dependsOn:
+  - OPS-013
+  exclusivePaths:
+  - specs/poc/check_program.py
+  - specs/poc/test_program.py
+  sharedPaths: []
+  handoffPath: evidence/OPS-014/handoff.md
+  integrationStrategy: merge
+  integrationOrder: 10
+  lease:
+    acquiredAt: '2026-10-24T21:42:30Z'
+    expiresAt: '2026-10-31T21:42:30Z'

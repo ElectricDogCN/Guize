@@ -1,0 +1,148 @@
+{
+  "schemaVersion": 1,
+  "kind": "independent-uncommitted-metadata-activation-content-review",
+  "reviewedAt": "2026-10-25T00:55:01.068420Z",
+  "actor": "/root/gz022_planning_independent_review",
+  "role": "independent-review-agent",
+  "taskId": "OPS-014",
+  "decision": "content_accepted",
+  "mustFix": [],
+  "authorHead": "15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6",
+  "base": "15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6",
+  "branch": "chore/OPS-014-frozen-416-contract-repair",
+  "candidateSha256": "0c047bdc81198cf810cd64931f929a962ded45e6fc221c72721d6b5f94523de8",
+  "reviewedFiles": [
+    {
+      "path": "evidence/OPS-014/activation-proposal.json",
+      "bytes": 1753,
+      "sha256": "7ed504d470a14f7f800f01305cd5d633f7eb82e9b2ed83ac8c8165299e552cea"
+    },
+    {
+      "path": "evidence/OPS-014/changed-files.md",
+      "bytes": 587,
+      "sha256": "c9dc2573dc6307c3800c1b7360882d85bbadc612bd1fdeff9ecf395d160c0957"
+    },
+    {
+      "path": "evidence/OPS-014/commands.txt",
+      "bytes": 3763,
+      "sha256": "5dd9642977c0c0742e756ba8d565778efc0320b7241b8e97ab0f0cf6928b4ee6"
+    },
+    {
+      "path": "evidence/OPS-014/follow-ups.md",
+      "bytes": 621,
+      "sha256": "f3452752f41767463bf86a304b038b1ed8a0b8dcffc0a1e42829f041c491b9a1"
+    },
+    {
+      "path": "evidence/OPS-014/freeze-main-accepted-independent-review.json",
+      "bytes": 10550,
+      "sha256": "2065b40fd5f04eaf666bb8b231c76098126d2e7dcae848f273e2a73d9296c9c5"
+    },
+    {
+      "path": "evidence/OPS-014/handoff.md",
+      "bytes": 1390,
+      "sha256": "4710a41f8d7873924711268af3a4cbe8271730f8b57aef676a62fe1c6a80285d"
+    },
+    {
+      "path": "evidence/OPS-014/rollback.md",
+      "bytes": 372,
+      "sha256": "0e87d3a8fc9068a03b11d1ac029a7e1d836592c60b791d7bbc1a89b8095aefc7"
+    },
+    {
+      "path": "evidence/OPS-014/scope.md",
+      "bytes": 507,
+      "sha256": "6498b3bcbef322ebeff113cbd9eaed229ba5c5427b2590f6143311d5025a424a"
+    },
+    {
+      "path": "evidence/OPS-014/summary.md",
+      "bytes": 563,
+      "sha256": "3f43b8c0de2815df6eda0010ee2c4dd61ecd9d93c655f1ee28905d490396e1cd"
+    },
+    {
+      "path": "evidence/OPS-014/test-results/README.md",
+      "bytes": 412,
+      "sha256": "759431083d741421e517e441dc2eff27bebf2591cc34c35dc1afecfd5ddc8950"
+    },
+    {
+      "path": "specs/coordination/active-work.yaml",
+      "bytes": 3454,
+      "sha256": "552dee1e18af8b3ea044338c8e341bd890477e0a592143ed87b275928c321889"
+    },
+    {
+      "path": "specs/coordination/program-plan.yaml",
+      "bytes": 65163,
+      "sha256": "f6c938a601c5c23874548f2106655a036a884861477b140357a01fe6382c59bd"
+    },
+    {
+      "path": "specs/tasks/OPS-014.md",
+      "bytes": 10738,
+      "sha256": "940fa6334a2cc15438c5a499dced905e66f1192fe9cdb73a261b8e287a2e3a62"
+    }
+  ],
+  "pathCount": 13,
+  "actualChangedPathsAndInventoryMatch": true,
+  "programOnlyOwnReservedToInProgress": true,
+  "activeOnlyOwnStatusRoleBranchBaseChanged": true,
+  "rootFrozenAndExactSixRecoveryFieldsUnchanged": true,
+  "foreignPoliciesRolesLeaseClaimsOrderUnchanged": true,
+  "originalLease": {
+    "acquiredAt": "2026-10-24T21:42:30Z",
+    "expiresAt": "2026-10-31T21:42:30Z"
+  },
+  "authoritySha256": "4f344a74a47a56ff1c3b0e27c368767e0cb779ebc61e721b263f102b39a83401",
+  "originalContractBlobsUnchanged": [
+    {
+      "path": "specs/poc/check_program.py",
+      "gitBlobSha256": "10be50577718e844566034a7c26dee5eb408055cb2e01a8d5a62524beca9fb89",
+      "bytes": 771065
+    },
+    {
+      "path": "specs/poc/test_program.py",
+      "gitBlobSha256": "1707bce255253176e0c718ef2574d748dbd8890eb4f50a0c6a5f5a47136b1d49",
+      "bytes": 1118362
+    }
+  ],
+  "acceptedFrozenMainReviewSha256": "2065b40fd5f04eaf666bb8b231c76098126d2e7dcae848f273e2a73d9296c9c5",
+  "firstPreparationFailure": {
+    "exitCodeObserved": 1,
+    "diffCheckExitCode": 2,
+    "originalMetadataFilesVerified": 13,
+    "rawOutput": "specs/tasks/OPS-014.md:161: new blank line at EOF.\n",
+    "onlyTaskFinalExtraNewlineRemoved": true,
+    "other12FilesIdentical": true,
+    "preservationPath": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\ops014-frozen-activation-first-eof-failure",
+    "currentDiffCheckExitCode": 0,
+    "helperOnlyProspectiveRstripFix": true
+  },
+  "phaseBoundary": {
+    "metadataActivationA0SeparateBeforeCodeTOrC": true,
+    "codePhaseCCommands": 18,
+    "evidenceOnlyACommands": 15,
+    "CProofRequiresActualFiveCommandsBoundToFullFAndC": true,
+    "pocContractTestsSeparatelyRequired": true,
+    "proofFrozenSourceCommitMustRemainPreFreeze36b": true,
+    "afterValidatedCOnlyOwnEvidenceUntilActualRepairMainR": true,
+    "headAOwnLatestFullCiAndROwnMainCiRequired": true,
+    "proofNotClaimedMergedAtArchiveA": true,
+    "independentThawAfterAcceptedActualR": true,
+    "normalReviewCompletionAfterThaw": true
+  },
+  "metadataActivationCommitAllowed": true,
+  "metadataAdmissionChecksAllowed": true,
+  "codeOnlyAfterSeparateActivationCommitAndAdmission": true,
+  "admissionConditions": [
+    "Commit exactly the reviewed 13 metadata files independently, before changing either contract/test source.",
+    "Resolve actual activation commit and retain real direct Task/schema/history/transitions/lifecycle/coordination/scope/evidence/readiness/diff checks as applicable; any failed admission blocks code.",
+    "Keep actual frozen F/recovery, original authority, roles, claims, lease, foreign identities and policies unchanged.",
+    "Then establish the separate exact two-path red test T and narrow repair C; future concrete code/proof/source remains independently reviewable."
+  ],
+  "specificContractCodeApproved": false,
+  "codeSourceAccepted": false,
+  "recoveryProofApproved": false,
+  "prPublicationApproved": false,
+  "mergeApproved": false,
+  "thawApproved": false,
+  "newPocExperimentApproved": false,
+  "qualificationAccepted": false,
+  "reviewerTestsExecuted": false,
+  "authorFilesModified": false
+}

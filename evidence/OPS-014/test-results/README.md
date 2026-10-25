@@ -1,3 +1,5 @@
-# OPS-014 validation stages
+# OPS-014 actual source verification
 
-F prerequisites have their own accepted main847 proof. This activation candidate has no new code validation. Task declares codeC18 including exact five mandatory proof commands and separate actual POC selftests; after C only EvidenceA15+new-headCI, then actual R own mainCI. Prior local/CI results do not count as execution on a new source. No recovery-proof placeholder is created.
+See ../recovery-validation/source-results.json for all18 real commands, ../recovery-proof.json for the five mandatory bound checks and JUnit, and ../recovery-validation/windows-focused-results.json.base64 for seven Windows regressions. POC selftests are separate from governance collection. Earlier failures remain in prior-attempts; none are relabelled. Archive head/hostedCI/actual-main/thaw acceptance remain pending.
+
+Supporting Windows JSON originals use reversible base64; decode according to ../recovery-validation/archive-index.json. Mandatory proof logs and every successful raw log remain byte-identical.

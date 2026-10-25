@@ -1,0 +1,880 @@
+{
+  "taskId": "OPS-014",
+  "validatedCommit": "2da13d55432c39f57c458cff906ac198292b2e66",
+  "archivedAt": "2026-10-25T06:07:00.703985+00:00",
+  "files": [
+    {
+      "source": "ops014-416-repair-2da13d5-native-checks/diff.raw",
+      "path": "evidence/OPS-014/recovery-validation/diff.log",
+      "originalBytes": 144,
+      "originalSha256": "5b53d1d92a563219b7702438fef22bd4daea4e41a101b1bd6623289991f67881",
+      "storedBytes": 144,
+      "storedSha256": "5b53d1d92a563219b7702438fef22bd4daea4e41a101b1bd6623289991f67881",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-416-repair-2da13d5-native-checks/task.raw",
+      "path": "evidence/OPS-014/recovery-validation/task.log",
+      "originalBytes": 259,
+      "originalSha256": "430cdab41bded2b228a40f5451dda9a3e9e47621f49847f19f8bafc11b43a5bf",
+      "storedBytes": 259,
+      "storedSha256": "430cdab41bded2b228a40f5451dda9a3e9e47621f49847f19f8bafc11b43a5bf",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-416-repair-2da13d5-native-checks/schemas.raw",
+      "path": "evidence/OPS-014/recovery-validation/schemas.log",
+      "originalBytes": 1947,
+      "originalSha256": "8fe6d7ef455f58cebdd0f574f71705e69e59687535c39f0c43268581a5469432",
+      "storedBytes": 1947,
+      "storedSha256": "8fe6d7ef455f58cebdd0f574f71705e69e59687535c39f0c43268581a5469432",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-416-repair-2da13d5-native-checks/integrity.raw",
+      "path": "evidence/OPS-014/recovery-validation/integrity.log",
+      "originalBytes": 419,
+      "originalSha256": "da743dc575b6bddc505dbee974f7d467f2c55379f10bd5d057dd6a3bbbe91748",
+      "storedBytes": 419,
+      "storedSha256": "da743dc575b6bddc505dbee974f7d467f2c55379f10bd5d057dd6a3bbbe91748",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-416-repair-2da13d5-native-checks/history.raw",
+      "path": "evidence/OPS-014/recovery-validation/history.log",
+      "originalBytes": 560,
+      "originalSha256": "d917de9b1751eef28d94015b75ccf3d145163de1a8e283c13d79f5a8a8b8ba54",
+      "storedBytes": 560,
+      "storedSha256": "d917de9b1751eef28d94015b75ccf3d145163de1a8e283c13d79f5a8a8b8ba54",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-416-repair-2da13d5-native-checks/transitions.raw",
+      "path": "evidence/OPS-014/recovery-validation/transitions.log",
+      "originalBytes": 477,
+      "originalSha256": "afee9b504fc338eb2710103d645cb573d31202997336103b7e0ce175f97e435e",
+      "storedBytes": 477,
+      "storedSha256": "afee9b504fc338eb2710103d645cb573d31202997336103b7e0ce175f97e435e",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-416-repair-2da13d5-native-checks/finalization.raw",
+      "path": "evidence/OPS-014/recovery-validation/finalization.log",
+      "originalBytes": 398,
+      "originalSha256": "42cfd5340cfc8f8e4ddba230cba77adcc50c5ae7e53eb162eb7b0982390ddec9",
+      "storedBytes": 398,
+      "storedSha256": "42cfd5340cfc8f8e4ddba230cba77adcc50c5ae7e53eb162eb7b0982390ddec9",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-416-repair-2da13d5-native-checks/raw-lifecycle.raw",
+      "path": "evidence/OPS-014/recovery-validation/raw-lifecycle.log",
+      "originalBytes": 543,
+      "originalSha256": "2004d86729a9b25cde1ed94b176fbf392d046ca159b9f31be36694bbd79bdcad",
+      "storedBytes": 543,
+      "storedSha256": "2004d86729a9b25cde1ed94b176fbf392d046ca159b9f31be36694bbd79bdcad",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-416-repair-2da13d5-native-checks/lifecycle.raw",
+      "path": "evidence/OPS-014/recovery-validation/lifecycle.log",
+      "originalBytes": 634,
+      "originalSha256": "7fa44d634e5c560832fd93bedb54a90964c34f037403a679e27196880aebf417",
+      "storedBytes": 634,
+      "storedSha256": "7fa44d634e5c560832fd93bedb54a90964c34f037403a679e27196880aebf417",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-416-repair-2da13d5-native-checks/coordination.raw",
+      "path": "evidence/OPS-014/recovery-validation/coordination.log",
+      "originalBytes": 458,
+      "originalSha256": "968b5bdeaf6ff71d1f50912f72328771684e2cc5f94605ff37ee111a1a547517",
+      "storedBytes": 458,
+      "storedSha256": "968b5bdeaf6ff71d1f50912f72328771684e2cc5f94605ff37ee111a1a547517",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-416-repair-2da13d5-native-checks/scope.raw",
+      "path": "evidence/OPS-014/recovery-validation/scope.log",
+      "originalBytes": 995,
+      "originalSha256": "a93ef2cd8e1a59610fc6ad365423f0f22f70b64c0f89f883120db79243770f4c",
+      "storedBytes": 995,
+      "storedSha256": "a93ef2cd8e1a59610fc6ad365423f0f22f70b64c0f89f883120db79243770f4c",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-416-repair-2da13d5-native-checks/evidence.raw",
+      "path": "evidence/OPS-014/recovery-validation/evidence.log",
+      "originalBytes": 413,
+      "originalSha256": "3e15862617ba1f160754dc1cc290cd594a855541ce5b9dad16c09513c913dcff",
+      "storedBytes": 413,
+      "storedSha256": "3e15862617ba1f160754dc1cc290cd594a855541ce5b9dad16c09513c913dcff",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-416-repair-2da13d5-native-checks/readiness.raw",
+      "path": "evidence/OPS-014/recovery-validation/readiness.log",
+      "originalBytes": 660,
+      "originalSha256": "ec33fc89a70d1900891c81e4ca365f58c91fe79e675bfb18ca373aadce805707",
+      "storedBytes": 660,
+      "storedSha256": "ec33fc89a70d1900891c81e4ca365f58c91fe79e675bfb18ca373aadce805707",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-416-repair-2da13d5-native-checks/poc-protocol.raw",
+      "path": "evidence/OPS-014/recovery-validation/poc-protocol.log",
+      "originalBytes": 244,
+      "originalSha256": "b9bbb0481e76fd0da859fe0552d2742166a2a3f322cef4f43a1c8344ef13bce2",
+      "storedBytes": 244,
+      "storedSha256": "b9bbb0481e76fd0da859fe0552d2742166a2a3f322cef4f43a1c8344ef13bce2",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-416-repair-2da13d5-native-checks/poc-selftests.raw",
+      "path": "evidence/OPS-014/recovery-validation/poc-selftests.log",
+      "originalBytes": 30825,
+      "originalSha256": "7d87b47ae7efcd6fa9dcd8eb191d898fa249cac70144b13c72a840668447a3a7",
+      "storedBytes": 30825,
+      "storedSha256": "7d87b47ae7efcd6fa9dcd8eb191d898fa249cac70144b13c72a840668447a3a7",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-416-repair-2da13d5-native-checks/governance.raw",
+      "path": "evidence/OPS-014/recovery-validation/governance.log",
+      "originalBytes": 1226,
+      "originalSha256": "e1340f687979c2b03b67ec2eb8389ff8a80f9bce98370cb16e309e94c0571e5e",
+      "storedBytes": 1226,
+      "storedSha256": "e1340f687979c2b03b67ec2eb8389ff8a80f9bce98370cb16e309e94c0571e5e",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-416-repair-2da13d5-native-checks/verify.raw",
+      "path": "evidence/OPS-014/recovery-validation/verify.log",
+      "originalBytes": 109237,
+      "originalSha256": "1d83f75be6911f34f5a09a1ebdaf19a75f516416674cd648a8db43971ab490d9",
+      "storedBytes": 109237,
+      "storedSha256": "1d83f75be6911f34f5a09a1ebdaf19a75f516416674cd648a8db43971ab490d9",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-416-repair-2da13d5-native-checks/docs.raw",
+      "path": "evidence/OPS-014/recovery-validation/docs.log",
+      "originalBytes": 164,
+      "originalSha256": "243f18c6a44bf5953be12e35268a53121b473400e01c340c758290a54bf3db93",
+      "storedBytes": 164,
+      "storedSha256": "243f18c6a44bf5953be12e35268a53121b473400e01c340c758290a54bf3db93",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-416-repair-2da13d5-native-checks/results.json",
+      "path": "evidence/OPS-014/recovery-validation/source-results.json",
+      "originalBytes": 11717,
+      "originalSha256": "9df3e63e27dd6525eb687d5716f1d34899af62fcb40e484ff7c7ced85e953290",
+      "storedBytes": 11717,
+      "storedSha256": "9df3e63e27dd6525eb687d5716f1d34899af62fcb40e484ff7c7ced85e953290",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-416-repair-2da13d5-native-checks/direct-governance.xml",
+      "path": "evidence/OPS-014/recovery-validation/governance.xml",
+      "originalBytes": 118472,
+      "originalSha256": "69777cc583bf651c65d9af21a00ea58df66c21e3b0b84fb3a5a6deda087a7b08",
+      "storedBytes": 118472,
+      "storedSha256": "69777cc583bf651c65d9af21a00ea58df66c21e3b0b84fb3a5a6deda087a7b08",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-416-repair-2da13d5-native-checks/verify-governance.xml",
+      "path": "evidence/OPS-014/recovery-validation/verify-governance.xml",
+      "originalBytes": 118471,
+      "originalSha256": "a7fc6a7b5e81a0c4e15652c560261f163dbf5783ece19d9c86276596ae14cc68",
+      "storedBytes": 118471,
+      "storedSha256": "a7fc6a7b5e81a0c4e15652c560261f163dbf5783ece19d9c86276596ae14cc68",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-416-repair-2da13d5-windows-focused/focused.raw",
+      "path": "evidence/OPS-014/recovery-validation/windows-focused.log",
+      "originalBytes": 1761,
+      "originalSha256": "bceff7f25f0e70e2896ab43bd86365f121a888ed255a9ff9bb35b68d0f299843",
+      "storedBytes": 1761,
+      "storedSha256": "bceff7f25f0e70e2896ab43bd86365f121a888ed255a9ff9bb35b68d0f299843",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-416-repair-2da13d5-windows-focused/results.json",
+      "path": "evidence/OPS-014/recovery-validation/windows-focused-results.json.base64",
+      "originalBytes": 1114,
+      "originalSha256": "306492bc1d167725a64037bd009ce45e446247dae03cbd4b87db7c90921842fe",
+      "storedBytes": 1489,
+      "storedSha256": "d1a1117c62ee5f48a19c6c0e5ddbb321a743bf8210bd1ac237dc4d4510cc469e",
+      "storageEncoding": "base64"
+    },
+    {
+      "source": "ops014-416-repair-2da13d5-code-independent-review.json",
+      "path": "evidence/OPS-014/recovery-validation/code-independent-review.json",
+      "originalBytes": 5905,
+      "originalSha256": "96b4c1899081b648399c3bf8dec51bb37efbe6a0a8ef1388a05756705d2974db",
+      "storedBytes": 5905,
+      "storedSha256": "96b4c1899081b648399c3bf8dec51bb37efbe6a0a8ef1388a05756705d2974db",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-activation-evidence-fixed-45318b1-native-admission/results.json",
+      "path": "evidence/OPS-014/recovery-validation/activation-admission-results.json",
+      "originalBytes": 9139,
+      "originalSha256": "464bdba674024146c2b113896dcdb6eb40a172415c0ec5a8b17d4eba7fd7fa07",
+      "storedBytes": 9139,
+      "storedSha256": "464bdba674024146c2b113896dcdb6eb40a172415c0ec5a8b17d4eba7fd7fa07",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-ended-original-reservation-remote-cleanup-result.json",
+      "path": "evidence/OPS-014/recovery-validation/ended-original-reservation-cleanup.json.base64",
+      "originalBytes": 798,
+      "originalSha256": "e56ae87f0cebeeb81b2177a9c83e9d1e2272a84fc5d3deacad3e2941a76b2bf3",
+      "storedBytes": 1065,
+      "storedSha256": "6dbacce01e58ab3513bff737d8f6c77cac740924a5427190fd71efc0086d3151",
+      "storageEncoding": "base64"
+    },
+    {
+      "source": "ops014-frozen-activation-first-eof-failure/actual-diff-check-before-correction.raw",
+      "path": "evidence/OPS-014/recovery-validation/prior-attempts/ops014-frozen-activation-first-eof-failure/actual-diff-check-before-correction.raw",
+      "originalBytes": 51,
+      "originalSha256": "792aaf6d0c2b12abbbe880384de64a50457195508c12af62a3d103e61b9a58e6",
+      "storedBytes": 51,
+      "storedSha256": "792aaf6d0c2b12abbbe880384de64a50457195508c12af62a3d103e61b9a58e6",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-frozen-activation-first-eof-failure/original-metadata/evidence/OPS-014/activation-proposal.json",
+      "path": "evidence/OPS-014/recovery-validation/prior-attempts/ops014-frozen-activation-first-eof-failure/original-metadata/evidence/OPS-014/activation-proposal.json",
+      "originalBytes": 1753,
+      "originalSha256": "7ed504d470a14f7f800f01305cd5d633f7eb82e9b2ed83ac8c8165299e552cea",
+      "storedBytes": 1753,
+      "storedSha256": "7ed504d470a14f7f800f01305cd5d633f7eb82e9b2ed83ac8c8165299e552cea",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-frozen-activation-first-eof-failure/original-metadata/evidence/OPS-014/changed-files.md",
+      "path": "evidence/OPS-014/recovery-validation/prior-attempts/ops014-frozen-activation-first-eof-failure/original-metadata/evidence/OPS-014/changed-files.md",
+      "originalBytes": 587,
+      "originalSha256": "c9dc2573dc6307c3800c1b7360882d85bbadc612bd1fdeff9ecf395d160c0957",
+      "storedBytes": 587,
+      "storedSha256": "c9dc2573dc6307c3800c1b7360882d85bbadc612bd1fdeff9ecf395d160c0957",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-frozen-activation-first-eof-failure/original-metadata/evidence/OPS-014/commands.txt",
+      "path": "evidence/OPS-014/recovery-validation/prior-attempts/ops014-frozen-activation-first-eof-failure/original-metadata/evidence/OPS-014/commands.txt",
+      "originalBytes": 3763,
+      "originalSha256": "5dd9642977c0c0742e756ba8d565778efc0320b7241b8e97ab0f0cf6928b4ee6",
+      "storedBytes": 3763,
+      "storedSha256": "5dd9642977c0c0742e756ba8d565778efc0320b7241b8e97ab0f0cf6928b4ee6",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-frozen-activation-first-eof-failure/original-metadata/evidence/OPS-014/follow-ups.md",
+      "path": "evidence/OPS-014/recovery-validation/prior-attempts/ops014-frozen-activation-first-eof-failure/original-metadata/evidence/OPS-014/follow-ups.md",
+      "originalBytes": 621,
+      "originalSha256": "f3452752f41767463bf86a304b038b1ed8a0b8dcffc0a1e42829f041c491b9a1",
+      "storedBytes": 621,
+      "storedSha256": "f3452752f41767463bf86a304b038b1ed8a0b8dcffc0a1e42829f041c491b9a1",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-frozen-activation-first-eof-failure/original-metadata/evidence/OPS-014/freeze-main-accepted-independent-review.json",
+      "path": "evidence/OPS-014/recovery-validation/prior-attempts/ops014-frozen-activation-first-eof-failure/original-metadata/evidence/OPS-014/freeze-main-accepted-independent-review.json",
+      "originalBytes": 10550,
+      "originalSha256": "2065b40fd5f04eaf666bb8b231c76098126d2e7dcae848f273e2a73d9296c9c5",
+      "storedBytes": 10550,
+      "storedSha256": "2065b40fd5f04eaf666bb8b231c76098126d2e7dcae848f273e2a73d9296c9c5",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-frozen-activation-first-eof-failure/original-metadata/evidence/OPS-014/handoff.md",
+      "path": "evidence/OPS-014/recovery-validation/prior-attempts/ops014-frozen-activation-first-eof-failure/original-metadata/evidence/OPS-014/handoff.md",
+      "originalBytes": 1390,
+      "originalSha256": "4710a41f8d7873924711268af3a4cbe8271730f8b57aef676a62fe1c6a80285d",
+      "storedBytes": 1390,
+      "storedSha256": "4710a41f8d7873924711268af3a4cbe8271730f8b57aef676a62fe1c6a80285d",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-frozen-activation-first-eof-failure/original-metadata/evidence/OPS-014/rollback.md",
+      "path": "evidence/OPS-014/recovery-validation/prior-attempts/ops014-frozen-activation-first-eof-failure/original-metadata/evidence/OPS-014/rollback.md",
+      "originalBytes": 372,
+      "originalSha256": "0e87d3a8fc9068a03b11d1ac029a7e1d836592c60b791d7bbc1a89b8095aefc7",
+      "storedBytes": 372,
+      "storedSha256": "0e87d3a8fc9068a03b11d1ac029a7e1d836592c60b791d7bbc1a89b8095aefc7",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-frozen-activation-first-eof-failure/original-metadata/evidence/OPS-014/scope.md",
+      "path": "evidence/OPS-014/recovery-validation/prior-attempts/ops014-frozen-activation-first-eof-failure/original-metadata/evidence/OPS-014/scope.md",
+      "originalBytes": 507,
+      "originalSha256": "6498b3bcbef322ebeff113cbd9eaed229ba5c5427b2590f6143311d5025a424a",
+      "storedBytes": 507,
+      "storedSha256": "6498b3bcbef322ebeff113cbd9eaed229ba5c5427b2590f6143311d5025a424a",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-frozen-activation-first-eof-failure/original-metadata/evidence/OPS-014/summary.md",
+      "path": "evidence/OPS-014/recovery-validation/prior-attempts/ops014-frozen-activation-first-eof-failure/original-metadata/evidence/OPS-014/summary.md",
+      "originalBytes": 563,
+      "originalSha256": "3f43b8c0de2815df6eda0010ee2c4dd61ecd9d93c655f1ee28905d490396e1cd",
+      "storedBytes": 563,
+      "storedSha256": "3f43b8c0de2815df6eda0010ee2c4dd61ecd9d93c655f1ee28905d490396e1cd",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-frozen-activation-first-eof-failure/original-metadata/evidence/OPS-014/test-results/README.md",
+      "path": "evidence/OPS-014/recovery-validation/prior-attempts/ops014-frozen-activation-first-eof-failure/original-metadata/evidence/OPS-014/test-results/README.md",
+      "originalBytes": 412,
+      "originalSha256": "759431083d741421e517e441dc2eff27bebf2591cc34c35dc1afecfd5ddc8950",
+      "storedBytes": 412,
+      "storedSha256": "759431083d741421e517e441dc2eff27bebf2591cc34c35dc1afecfd5ddc8950",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-frozen-activation-first-eof-failure/original-metadata/specs/coordination/active-work.yaml",
+      "path": "evidence/OPS-014/recovery-validation/prior-attempts/ops014-frozen-activation-first-eof-failure/original-metadata/specs/coordination/active-work.yaml",
+      "originalBytes": 3454,
+      "originalSha256": "552dee1e18af8b3ea044338c8e341bd890477e0a592143ed87b275928c321889",
+      "storedBytes": 3454,
+      "storedSha256": "552dee1e18af8b3ea044338c8e341bd890477e0a592143ed87b275928c321889",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-frozen-activation-first-eof-failure/original-metadata/specs/coordination/program-plan.yaml",
+      "path": "evidence/OPS-014/recovery-validation/prior-attempts/ops014-frozen-activation-first-eof-failure/original-metadata/specs/coordination/program-plan.yaml",
+      "originalBytes": 65163,
+      "originalSha256": "f6c938a601c5c23874548f2106655a036a884861477b140357a01fe6382c59bd",
+      "storedBytes": 65163,
+      "storedSha256": "f6c938a601c5c23874548f2106655a036a884861477b140357a01fe6382c59bd",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-frozen-activation-first-eof-failure/original-metadata/specs/tasks/OPS-014.md",
+      "path": "evidence/OPS-014/recovery-validation/prior-attempts/ops014-frozen-activation-first-eof-failure/original-metadata/specs/tasks/OPS-014.md.base64",
+      "originalBytes": 10739,
+      "originalSha256": "578df101fe55f48ce41fb03c18ecd87cddfb8465aa00edb00891bd35fcb4c26a",
+      "storedBytes": 14321,
+      "storedSha256": "52ce84a1009b53ae22a4b00e342c8030c66ac09942377769e887dca499f6c02f",
+      "storageEncoding": "base64"
+    },
+    {
+      "source": "ops014-frozen-activation-first-eof-failure/preparation-helper-original.py",
+      "path": "evidence/OPS-014/recovery-validation/prior-attempts/ops014-frozen-activation-first-eof-failure/preparation-helper-original.py",
+      "originalBytes": 18071,
+      "originalSha256": "1e5c2cb7e4f6863fac616e0e76bbc89ec65681c5fc71986e00a11db700fc505a",
+      "storedBytes": 18071,
+      "storedSha256": "1e5c2cb7e4f6863fac616e0e76bbc89ec65681c5fc71986e00a11db700fc505a",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-frozen-activation-first-eof-failure/results.json",
+      "path": "evidence/OPS-014/recovery-validation/prior-attempts/ops014-frozen-activation-first-eof-failure/results.json.base64",
+      "originalBytes": 2809,
+      "originalSha256": "a42320c5fee634a8a63556e84fde0ce922d0f4af74933452fa6d822f65849dea",
+      "storedBytes": 3749,
+      "storedSha256": "4953085e52943e77792b8f5b300d026f14c779bb737f0262bf535e10513c93b9",
+      "storageEncoding": "base64"
+    },
+    {
+      "source": "ops014-activation-0779377-schema-failure-archive/00-ops014-frozen-416-activation-current-candidate.json",
+      "path": "evidence/OPS-014/recovery-validation/prior-attempts/ops014-activation-0779377-schema-failure-archive/00-ops014-frozen-416-activation-current-candidate.json",
+      "originalBytes": 5330,
+      "originalSha256": "5b53a455a063f9f3b46f363024ca37971ac12466ff446e26ac8e4e1eda99ed83",
+      "storedBytes": 5330,
+      "storedSha256": "5b53a455a063f9f3b46f363024ca37971ac12466ff446e26ac8e4e1eda99ed83",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-activation-0779377-schema-failure-archive/01-ops014-frozen-416-activation-uncommitted-independent-review.json",
+      "path": "evidence/OPS-014/recovery-validation/prior-attempts/ops014-activation-0779377-schema-failure-archive/01-ops014-frozen-416-activation-uncommitted-independent-review.json",
+      "originalBytes": 5941,
+      "originalSha256": "522d6b114eb1defc3bdd396b1e18d36cfee15c8809093501c6554e4592416299",
+      "storedBytes": 5941,
+      "storedSha256": "522d6b114eb1defc3bdd396b1e18d36cfee15c8809093501c6554e4592416299",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-activation-0779377-schema-failure-archive/02-verify_ops014_activation_admission_once.py",
+      "path": "evidence/OPS-014/recovery-validation/prior-attempts/ops014-activation-0779377-schema-failure-archive/02-verify_ops014_activation_admission_once.py",
+      "originalBytes": 4417,
+      "originalSha256": "fea631a2226fc29ce3aedd7ecfa7866db0acccb6ca01d5cbd21421876d84ed82",
+      "storedBytes": 4417,
+      "storedSha256": "fea631a2226fc29ce3aedd7ecfa7866db0acccb6ca01d5cbd21421876d84ed82",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-activation-0779377-schema-failure-archive/03-prepare_ops014_frozen_416_activation_once.py",
+      "path": "evidence/OPS-014/recovery-validation/prior-attempts/ops014-activation-0779377-schema-failure-archive/03-prepare_ops014_frozen_416_activation_once.py",
+      "originalBytes": 18087,
+      "originalSha256": "2e7c8c1a1903955686a096af296cea6cf25eea1874e8d4c52c0fba69bda066d0",
+      "storedBytes": 18087,
+      "storedSha256": "2e7c8c1a1903955686a096af296cea6cf25eea1874e8d4c52c0fba69bda066d0",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-activation-0779377-schema-failure-archive/04-diff.raw",
+      "path": "evidence/OPS-014/recovery-validation/prior-attempts/ops014-activation-0779377-schema-failure-archive/04-diff.raw",
+      "originalBytes": 180,
+      "originalSha256": "acc5ce11a9389734f39aa07897d9c11b1adbf4eeeb67267b09702d209ed55242",
+      "storedBytes": 180,
+      "storedSha256": "acc5ce11a9389734f39aa07897d9c11b1adbf4eeeb67267b09702d209ed55242",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-activation-0779377-schema-failure-archive/05-schemas.raw",
+      "path": "evidence/OPS-014/recovery-validation/prior-attempts/ops014-activation-0779377-schema-failure-archive/05-schemas.raw",
+      "originalBytes": 2007,
+      "originalSha256": "f9b1ef8d01b8c06ee251e26d9fe642d31a89162114e9a2095c027e1d8b312275",
+      "storedBytes": 2007,
+      "storedSha256": "f9b1ef8d01b8c06ee251e26d9fe642d31a89162114e9a2095c027e1d8b312275",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-activation-0779377-schema-failure-archive/06-task.raw",
+      "path": "evidence/OPS-014/recovery-validation/prior-attempts/ops014-activation-0779377-schema-failure-archive/06-task.raw",
+      "originalBytes": 259,
+      "originalSha256": "09b0a990340f1dae3194cba6edebbab5541b13800b4c6568bbbb47405c43e517",
+      "storedBytes": 259,
+      "storedSha256": "09b0a990340f1dae3194cba6edebbab5541b13800b4c6568bbbb47405c43e517",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-activation-0779377-schema-failure-archive/07-results.json",
+      "path": "evidence/OPS-014/recovery-validation/prior-attempts/ops014-activation-0779377-schema-failure-archive/07-results.json",
+      "originalBytes": 2426,
+      "originalSha256": "ec635f116f71b840a19e6039413728e98e0aca38162003aea85389f14e0c0d72",
+      "storedBytes": 2426,
+      "storedSha256": "ec635f116f71b840a19e6039413728e98e0aca38162003aea85389f14e0c0d72",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-activation-0779377-schema-failure-archive/index.json",
+      "path": "evidence/OPS-014/recovery-validation/prior-attempts/ops014-activation-0779377-schema-failure-archive/index.json.base64",
+      "originalBytes": 3277,
+      "originalSha256": "8304ae549ead2bf45d4495a22bf5f19de76e4490c1035de642695789223c532b",
+      "storedBytes": 4373,
+      "storedSha256": "f8156d335c21908638398cb93dcccd32059418ad5c58b3203e938b59b46294fd",
+      "storageEncoding": "base64"
+    },
+    {
+      "source": "ops014-activation-0779377-schema-failure-archive/original-metadata/evidence/OPS-014/activation-proposal.json",
+      "path": "evidence/OPS-014/recovery-validation/prior-attempts/ops014-activation-0779377-schema-failure-archive/original-metadata/evidence/OPS-014/activation-proposal.json",
+      "originalBytes": 1753,
+      "originalSha256": "7ed504d470a14f7f800f01305cd5d633f7eb82e9b2ed83ac8c8165299e552cea",
+      "storedBytes": 1753,
+      "storedSha256": "7ed504d470a14f7f800f01305cd5d633f7eb82e9b2ed83ac8c8165299e552cea",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-activation-0779377-schema-failure-archive/original-metadata/evidence/OPS-014/changed-files.md",
+      "path": "evidence/OPS-014/recovery-validation/prior-attempts/ops014-activation-0779377-schema-failure-archive/original-metadata/evidence/OPS-014/changed-files.md",
+      "originalBytes": 587,
+      "originalSha256": "c9dc2573dc6307c3800c1b7360882d85bbadc612bd1fdeff9ecf395d160c0957",
+      "storedBytes": 587,
+      "storedSha256": "c9dc2573dc6307c3800c1b7360882d85bbadc612bd1fdeff9ecf395d160c0957",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-activation-0779377-schema-failure-archive/original-metadata/evidence/OPS-014/commands.txt",
+      "path": "evidence/OPS-014/recovery-validation/prior-attempts/ops014-activation-0779377-schema-failure-archive/original-metadata/evidence/OPS-014/commands.txt",
+      "originalBytes": 3763,
+      "originalSha256": "5dd9642977c0c0742e756ba8d565778efc0320b7241b8e97ab0f0cf6928b4ee6",
+      "storedBytes": 3763,
+      "storedSha256": "5dd9642977c0c0742e756ba8d565778efc0320b7241b8e97ab0f0cf6928b4ee6",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-activation-0779377-schema-failure-archive/original-metadata/evidence/OPS-014/follow-ups.md",
+      "path": "evidence/OPS-014/recovery-validation/prior-attempts/ops014-activation-0779377-schema-failure-archive/original-metadata/evidence/OPS-014/follow-ups.md",
+      "originalBytes": 621,
+      "originalSha256": "f3452752f41767463bf86a304b038b1ed8a0b8dcffc0a1e42829f041c491b9a1",
+      "storedBytes": 621,
+      "storedSha256": "f3452752f41767463bf86a304b038b1ed8a0b8dcffc0a1e42829f041c491b9a1",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-activation-0779377-schema-failure-archive/original-metadata/evidence/OPS-014/freeze-main-accepted-independent-review.json",
+      "path": "evidence/OPS-014/recovery-validation/prior-attempts/ops014-activation-0779377-schema-failure-archive/original-metadata/evidence/OPS-014/freeze-main-accepted-independent-review.json",
+      "originalBytes": 10550,
+      "originalSha256": "2065b40fd5f04eaf666bb8b231c76098126d2e7dcae848f273e2a73d9296c9c5",
+      "storedBytes": 10550,
+      "storedSha256": "2065b40fd5f04eaf666bb8b231c76098126d2e7dcae848f273e2a73d9296c9c5",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-activation-0779377-schema-failure-archive/original-metadata/evidence/OPS-014/handoff.md",
+      "path": "evidence/OPS-014/recovery-validation/prior-attempts/ops014-activation-0779377-schema-failure-archive/original-metadata/evidence/OPS-014/handoff.md",
+      "originalBytes": 1390,
+      "originalSha256": "4710a41f8d7873924711268af3a4cbe8271730f8b57aef676a62fe1c6a80285d",
+      "storedBytes": 1390,
+      "storedSha256": "4710a41f8d7873924711268af3a4cbe8271730f8b57aef676a62fe1c6a80285d",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-activation-0779377-schema-failure-archive/original-metadata/evidence/OPS-014/rollback.md",
+      "path": "evidence/OPS-014/recovery-validation/prior-attempts/ops014-activation-0779377-schema-failure-archive/original-metadata/evidence/OPS-014/rollback.md",
+      "originalBytes": 372,
+      "originalSha256": "0e87d3a8fc9068a03b11d1ac029a7e1d836592c60b791d7bbc1a89b8095aefc7",
+      "storedBytes": 372,
+      "storedSha256": "0e87d3a8fc9068a03b11d1ac029a7e1d836592c60b791d7bbc1a89b8095aefc7",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-activation-0779377-schema-failure-archive/original-metadata/evidence/OPS-014/scope.md",
+      "path": "evidence/OPS-014/recovery-validation/prior-attempts/ops014-activation-0779377-schema-failure-archive/original-metadata/evidence/OPS-014/scope.md",
+      "originalBytes": 507,
+      "originalSha256": "6498b3bcbef322ebeff113cbd9eaed229ba5c5427b2590f6143311d5025a424a",
+      "storedBytes": 507,
+      "storedSha256": "6498b3bcbef322ebeff113cbd9eaed229ba5c5427b2590f6143311d5025a424a",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-activation-0779377-schema-failure-archive/original-metadata/evidence/OPS-014/summary.md",
+      "path": "evidence/OPS-014/recovery-validation/prior-attempts/ops014-activation-0779377-schema-failure-archive/original-metadata/evidence/OPS-014/summary.md",
+      "originalBytes": 563,
+      "originalSha256": "3f43b8c0de2815df6eda0010ee2c4dd61ecd9d93c655f1ee28905d490396e1cd",
+      "storedBytes": 563,
+      "storedSha256": "3f43b8c0de2815df6eda0010ee2c4dd61ecd9d93c655f1ee28905d490396e1cd",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-activation-0779377-schema-failure-archive/original-metadata/evidence/OPS-014/test-results/README.md",
+      "path": "evidence/OPS-014/recovery-validation/prior-attempts/ops014-activation-0779377-schema-failure-archive/original-metadata/evidence/OPS-014/test-results/README.md",
+      "originalBytes": 412,
+      "originalSha256": "759431083d741421e517e441dc2eff27bebf2591cc34c35dc1afecfd5ddc8950",
+      "storedBytes": 412,
+      "storedSha256": "759431083d741421e517e441dc2eff27bebf2591cc34c35dc1afecfd5ddc8950",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-activation-0779377-schema-failure-archive/original-metadata/specs/coordination/active-work.yaml",
+      "path": "evidence/OPS-014/recovery-validation/prior-attempts/ops014-activation-0779377-schema-failure-archive/original-metadata/specs/coordination/active-work.yaml",
+      "originalBytes": 3454,
+      "originalSha256": "552dee1e18af8b3ea044338c8e341bd890477e0a592143ed87b275928c321889",
+      "storedBytes": 3454,
+      "storedSha256": "552dee1e18af8b3ea044338c8e341bd890477e0a592143ed87b275928c321889",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-activation-0779377-schema-failure-archive/original-metadata/specs/coordination/program-plan.yaml",
+      "path": "evidence/OPS-014/recovery-validation/prior-attempts/ops014-activation-0779377-schema-failure-archive/original-metadata/specs/coordination/program-plan.yaml",
+      "originalBytes": 65163,
+      "originalSha256": "f6c938a601c5c23874548f2106655a036a884861477b140357a01fe6382c59bd",
+      "storedBytes": 65163,
+      "storedSha256": "f6c938a601c5c23874548f2106655a036a884861477b140357a01fe6382c59bd",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-activation-0779377-schema-failure-archive/original-metadata/specs/tasks/OPS-014.md",
+      "path": "evidence/OPS-014/recovery-validation/prior-attempts/ops014-activation-0779377-schema-failure-archive/original-metadata/specs/tasks/OPS-014.md",
+      "originalBytes": 10738,
+      "originalSha256": "940fa6334a2cc15438c5a499dced905e66f1192fe9cdb73a261b8e287a2e3a62",
+      "storedBytes": 10738,
+      "storedSha256": "940fa6334a2cc15438c5a499dced905e66f1192fe9cdb73a261b8e287a2e3a62",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-activation-fa488a8-evidence-failure-archive/coordination.raw",
+      "path": "evidence/OPS-014/recovery-validation/prior-attempts/ops014-activation-fa488a8-evidence-failure-archive/coordination.raw",
+      "originalBytes": 458,
+      "originalSha256": "40d7b3e54b2e0c390c1bd3f783e31ed20a95b79a9e30470904dd63eae86bc22e",
+      "storedBytes": 458,
+      "storedSha256": "40d7b3e54b2e0c390c1bd3f783e31ed20a95b79a9e30470904dd63eae86bc22e",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-activation-fa488a8-evidence-failure-archive/diff.raw",
+      "path": "evidence/OPS-014/recovery-validation/prior-attempts/ops014-activation-fa488a8-evidence-failure-archive/diff.raw",
+      "originalBytes": 180,
+      "originalSha256": "be80989c4e98712e0c5bc40018b1160b6550b859d257d322b8e6374d22015d30",
+      "storedBytes": 180,
+      "storedSha256": "be80989c4e98712e0c5bc40018b1160b6550b859d257d322b8e6374d22015d30",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-activation-fa488a8-evidence-failure-archive/evidence.raw",
+      "path": "evidence/OPS-014/recovery-validation/prior-attempts/ops014-activation-fa488a8-evidence-failure-archive/evidence.raw",
+      "originalBytes": 526,
+      "originalSha256": "6f2b337c593ec6504635c8d2a7badac20078066f2bd0bfee820ad1e73ee5af62",
+      "storedBytes": 526,
+      "storedSha256": "6f2b337c593ec6504635c8d2a7badac20078066f2bd0bfee820ad1e73ee5af62",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-activation-fa488a8-evidence-failure-archive/finalization.raw",
+      "path": "evidence/OPS-014/recovery-validation/prior-attempts/ops014-activation-fa488a8-evidence-failure-archive/finalization.raw",
+      "originalBytes": 398,
+      "originalSha256": "03025b6a6b39a69fcf424264f90cbf9090c83e9b34ce70518b777d70dd202d40",
+      "storedBytes": 398,
+      "storedSha256": "03025b6a6b39a69fcf424264f90cbf9090c83e9b34ce70518b777d70dd202d40",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-activation-fa488a8-evidence-failure-archive/history.raw",
+      "path": "evidence/OPS-014/recovery-validation/prior-attempts/ops014-activation-fa488a8-evidence-failure-archive/history.raw",
+      "originalBytes": 560,
+      "originalSha256": "3c9f7f29b89f2fc8711544a71f5a2cd423b8c533e8c052c5ecbcc1d09886ba43",
+      "storedBytes": 560,
+      "storedSha256": "3c9f7f29b89f2fc8711544a71f5a2cd423b8c533e8c052c5ecbcc1d09886ba43",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-activation-fa488a8-evidence-failure-archive/index.json",
+      "path": "evidence/OPS-014/recovery-validation/prior-attempts/ops014-activation-fa488a8-evidence-failure-archive/index.json.base64",
+      "originalBytes": 2837,
+      "originalSha256": "c3075bddd9ce3d55f3f9739ff6751130b0ddd2851202ad55592de0df72af63e3",
+      "storedBytes": 3785,
+      "storedSha256": "9b0aa78382ba012070f1c2471d26156b7da7ab4fc2b7bff16cc56e8070051e7b",
+      "storageEncoding": "base64"
+    },
+    {
+      "source": "ops014-activation-fa488a8-evidence-failure-archive/integrity.raw",
+      "path": "evidence/OPS-014/recovery-validation/prior-attempts/ops014-activation-fa488a8-evidence-failure-archive/integrity.raw",
+      "originalBytes": 419,
+      "originalSha256": "0797a74c590e0581cc22913eb44932a13a2cfae09c45b8d205634ed460f9a050",
+      "storedBytes": 419,
+      "storedSha256": "0797a74c590e0581cc22913eb44932a13a2cfae09c45b8d205634ed460f9a050",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-activation-fa488a8-evidence-failure-archive/lifecycle.raw",
+      "path": "evidence/OPS-014/recovery-validation/prior-attempts/ops014-activation-fa488a8-evidence-failure-archive/lifecycle.raw",
+      "originalBytes": 634,
+      "originalSha256": "2a00c7cf82e4d2c48a04c01a1084a2b7f74d165f87a6657efa2f403a5f5a0ea0",
+      "storedBytes": 634,
+      "storedSha256": "2a00c7cf82e4d2c48a04c01a1084a2b7f74d165f87a6657efa2f403a5f5a0ea0",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-activation-fa488a8-evidence-failure-archive/ops014-frozen-416-activation-v2-current-candidate.json",
+      "path": "evidence/OPS-014/recovery-validation/prior-attempts/ops014-activation-fa488a8-evidence-failure-archive/ops014-frozen-416-activation-v2-current-candidate.json",
+      "originalBytes": 5569,
+      "originalSha256": "4055a46d742af6ea5989c54c1d359fdd4741cc4f9f8772b1e6336af20835540f",
+      "storedBytes": 5569,
+      "storedSha256": "4055a46d742af6ea5989c54c1d359fdd4741cc4f9f8772b1e6336af20835540f",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-activation-fa488a8-evidence-failure-archive/ops014-frozen-416-activation-v2-uncommitted-independent-review.json",
+      "path": "evidence/OPS-014/recovery-validation/prior-attempts/ops014-activation-fa488a8-evidence-failure-archive/ops014-frozen-416-activation-v2-uncommitted-independent-review.json",
+      "originalBytes": 6833,
+      "originalSha256": "b97d9deccdde41200532b9d8b13ed46b4840f4f165b4244546efb6721f812956",
+      "storedBytes": 6833,
+      "storedSha256": "b97d9deccdde41200532b9d8b13ed46b4840f4f165b4244546efb6721f812956",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-activation-fa488a8-evidence-failure-archive/original-follow-ups.md",
+      "path": "evidence/OPS-014/recovery-validation/prior-attempts/ops014-activation-fa488a8-evidence-failure-archive/original-follow-ups.md",
+      "originalBytes": 621,
+      "originalSha256": "f3452752f41767463bf86a304b038b1ed8a0b8dcffc0a1e42829f041c491b9a1",
+      "storedBytes": 621,
+      "storedSha256": "f3452752f41767463bf86a304b038b1ed8a0b8dcffc0a1e42829f041c491b9a1",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-activation-fa488a8-evidence-failure-archive/original-rollback.md",
+      "path": "evidence/OPS-014/recovery-validation/prior-attempts/ops014-activation-fa488a8-evidence-failure-archive/original-rollback.md",
+      "originalBytes": 372,
+      "originalSha256": "0e87d3a8fc9068a03b11d1ac029a7e1d836592c60b791d7bbc1a89b8095aefc7",
+      "storedBytes": 372,
+      "storedSha256": "0e87d3a8fc9068a03b11d1ac029a7e1d836592c60b791d7bbc1a89b8095aefc7",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-activation-fa488a8-evidence-failure-archive/raw-lifecycle.raw",
+      "path": "evidence/OPS-014/recovery-validation/prior-attempts/ops014-activation-fa488a8-evidence-failure-archive/raw-lifecycle.raw",
+      "originalBytes": 543,
+      "originalSha256": "4bfa460ba3656c3ff970fb6466f37e1f44783fe419faece259c26efb8d2918de",
+      "storedBytes": 543,
+      "storedSha256": "4bfa460ba3656c3ff970fb6466f37e1f44783fe419faece259c26efb8d2918de",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-activation-fa488a8-evidence-failure-archive/results.json",
+      "path": "evidence/OPS-014/recovery-validation/prior-attempts/ops014-activation-fa488a8-evidence-failure-archive/results.json",
+      "originalBytes": 8167,
+      "originalSha256": "a9855a14e9f8ef49c668e7870cb768a59f2756cba2363facf512c6243d18d700",
+      "storedBytes": 8167,
+      "storedSha256": "a9855a14e9f8ef49c668e7870cb768a59f2756cba2363facf512c6243d18d700",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-activation-fa488a8-evidence-failure-archive/schemas.raw",
+      "path": "evidence/OPS-014/recovery-validation/prior-attempts/ops014-activation-fa488a8-evidence-failure-archive/schemas.raw",
+      "originalBytes": 1947,
+      "originalSha256": "f31e4e0bed81fecc2d4a0061ed41e2bbef128e4490453161fffad920f49176a4",
+      "storedBytes": 1947,
+      "storedSha256": "f31e4e0bed81fecc2d4a0061ed41e2bbef128e4490453161fffad920f49176a4",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-activation-fa488a8-evidence-failure-archive/scope.raw",
+      "path": "evidence/OPS-014/recovery-validation/prior-attempts/ops014-activation-fa488a8-evidence-failure-archive/scope.raw",
+      "originalBytes": 936,
+      "originalSha256": "2145932e867d6b74a5468245fdf5065b80032f285ba6b53e23d69c3b199f01c8",
+      "storedBytes": 936,
+      "storedSha256": "2145932e867d6b74a5468245fdf5065b80032f285ba6b53e23d69c3b199f01c8",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-activation-fa488a8-evidence-failure-archive/task.raw",
+      "path": "evidence/OPS-014/recovery-validation/prior-attempts/ops014-activation-fa488a8-evidence-failure-archive/task.raw",
+      "originalBytes": 262,
+      "originalSha256": "db32e05f595346921a52858e45de82d3105a57fbd437a7576eeb91d9e533a96f",
+      "storedBytes": 262,
+      "storedSha256": "db32e05f595346921a52858e45de82d3105a57fbd437a7576eeb91d9e533a96f",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-activation-fa488a8-evidence-failure-archive/transitions.raw",
+      "path": "evidence/OPS-014/recovery-validation/prior-attempts/ops014-activation-fa488a8-evidence-failure-archive/transitions.raw",
+      "originalBytes": 477,
+      "originalSha256": "7716e62cd17a9f06a9cb6640f1126904a790f2ebc824cb41f28362d57d7a7af5",
+      "storedBytes": 477,
+      "storedSha256": "7716e62cd17a9f06a9cb6640f1126904a790f2ebc824cb41f28362d57d7a7af5",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-activation-fa488a8-evidence-failure-archive/verify_ops014_activation_v2_admission_once.py",
+      "path": "evidence/OPS-014/recovery-validation/prior-attempts/ops014-activation-fa488a8-evidence-failure-archive/verify_ops014_activation_v2_admission_once.py",
+      "originalBytes": 4426,
+      "originalSha256": "3f3533cf5fd4d38c76dfea63ad818b891a27fa89403f87784f2ec2be3e1c10c8",
+      "storedBytes": 4426,
+      "storedSha256": "3f3533cf5fd4d38c76dfea63ad818b891a27fa89403f87784f2ec2be3e1c10c8",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-416-red-db9d456-native/regression.raw",
+      "path": "evidence/OPS-014/recovery-validation/prior-attempts/ops014-416-red-db9d456-native/regression.raw",
+      "originalBytes": 1899,
+      "originalSha256": "ad3b1b82982f590387376af6c59d4619672f9c1cdd8181d05d5e4d3bc4b9b674",
+      "storedBytes": 1899,
+      "storedSha256": "ad3b1b82982f590387376af6c59d4619672f9c1cdd8181d05d5e4d3bc4b9b674",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-416-red-db9d456-native/results.json",
+      "path": "evidence/OPS-014/recovery-validation/prior-attempts/ops014-416-red-db9d456-native/results.json",
+      "originalBytes": 748,
+      "originalSha256": "fcf0dc3d692c8cefcf8d4ee5c43ceadb51a82e5d26ee7f1357b88a8b229184e0",
+      "storedBytes": 748,
+      "storedSha256": "fcf0dc3d692c8cefcf8d4ee5c43ceadb51a82e5d26ee7f1357b88a8b229184e0",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-416-red-v2-5669c9a-native/regression.raw",
+      "path": "evidence/OPS-014/recovery-validation/prior-attempts/ops014-416-red-v2-5669c9a-native/regression.raw",
+      "originalBytes": 1871,
+      "originalSha256": "57261d9e3b4bb4dde0cefd4d7afab3b84811e50eaeb5ed84cf1f556be5773a73",
+      "storedBytes": 1871,
+      "storedSha256": "57261d9e3b4bb4dde0cefd4d7afab3b84811e50eaeb5ed84cf1f556be5773a73",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-416-red-v2-5669c9a-native/results.json",
+      "path": "evidence/OPS-014/recovery-validation/prior-attempts/ops014-416-red-v2-5669c9a-native/results.json",
+      "originalBytes": 748,
+      "originalSha256": "4acedf4c7e77b6af88b82e5ef9707707f9ba05611439ecda568ab32b48278744",
+      "storedBytes": 748,
+      "storedSha256": "4acedf4c7e77b6af88b82e5ef9707707f9ba05611439ecda568ab32b48278744",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-416-red-v3-ad9feee-native/regression.raw",
+      "path": "evidence/OPS-014/recovery-validation/prior-attempts/ops014-416-red-v3-ad9feee-native/regression.raw.base64",
+      "originalBytes": 10801,
+      "originalSha256": "c4f90145b0af34759ee5a02e30cfb354d7308ba4a8c982757a942fa30546321f",
+      "storedBytes": 14405,
+      "storedSha256": "b356b31f8947e5c84c3d60756a9b198096e3aedc89508eca4824988f3603e947",
+      "storageEncoding": "base64"
+    },
+    {
+      "source": "ops014-416-red-v3-ad9feee-native/results.json",
+      "path": "evidence/OPS-014/recovery-validation/prior-attempts/ops014-416-red-v3-ad9feee-native/results.json",
+      "originalBytes": 748,
+      "originalSha256": "d3e42621732a19fbc0f618512214b8e339fb924c38213f2c8fc0e76c8de0d354",
+      "storedBytes": 748,
+      "storedSha256": "d3e42621732a19fbc0f618512214b8e339fb924c38213f2c8fc0e76c8de0d354",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-416-db9d456-original198-harness-check/original198.raw",
+      "path": "evidence/OPS-014/recovery-validation/prior-attempts/ops014-416-db9d456-original198-harness-check/original198.raw",
+      "originalBytes": 2049,
+      "originalSha256": "f79ac4e5a9b3468b5c5c22d82a0348c7122f6e00b48465c624032a04150cf272",
+      "storedBytes": 2049,
+      "storedSha256": "f79ac4e5a9b3468b5c5c22d82a0348c7122f6e00b48465c624032a04150cf272",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-416-db9d456-original198-harness-check/results.json",
+      "path": "evidence/OPS-014/recovery-validation/prior-attempts/ops014-416-db9d456-original198-harness-check/results.json.base64",
+      "originalBytes": 769,
+      "originalSha256": "c2bbd3a31c179e761fb1764e3e0c55f165cb99b27ec62dc460476a262c71a47f",
+      "storedBytes": 1029,
+      "storedSha256": "160af50cb731185cc22f1ab0a9491cbd4fa30726978131f8b5d7232cb14ff03d",
+      "storageEncoding": "base64"
+    },
+    {
+      "source": "ops014-416-archive-first-windows-longpath-failure/failure.json",
+      "path": "evidence/OPS-014/recovery-validation/prior-attempts/ops014-416-archive-first-windows-longpath-failure/failure.json.base64",
+      "originalBytes": 5964,
+      "originalSha256": "02c8857dcb2e21402b8709ba80a33e8e72dbdf41a4e5a42b6e927d0173aa993d",
+      "storedBytes": 7953,
+      "storedSha256": "ffff64dda015a7da48431b11104ce089e9d3ea7c141899e1af545f94f2983fda",
+      "storageEncoding": "base64"
+    },
+    {
+      "source": "ops014-416-archive-first-staged-crlf-failure/archive-index-before-encoding.json",
+      "path": "evidence/OPS-014/recovery-validation/prior-attempts/ops014-416-archive-first-staged-crlf-failure/archive-index-before-encoding.json",
+      "originalBytes": 47015,
+      "originalSha256": "66abd2c5f93260495fe3edfa7f877309a3aa66d4218d6f721bf82cd06d4d93b8",
+      "storedBytes": 47015,
+      "storedSha256": "66abd2c5f93260495fe3edfa7f877309a3aa66d4218d6f721bf82cd06d4d93b8",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-416-archive-first-staged-crlf-failure/failure.json",
+      "path": "evidence/OPS-014/recovery-validation/prior-attempts/ops014-416-archive-first-staged-crlf-failure/failure.json",
+      "originalBytes": 847,
+      "originalSha256": "a0336edefbb92cd064fcda84892101777fcbc87109fb9a3b712b9987e99d1a4e",
+      "storedBytes": 847,
+      "storedSha256": "a0336edefbb92cd064fcda84892101777fcbc87109fb9a3b712b9987e99d1a4e",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-416-archive-first-staged-crlf-failure/staged-check.stderr.raw",
+      "path": "evidence/OPS-014/recovery-validation/prior-attempts/ops014-416-archive-first-staged-crlf-failure/staged-check.stderr.raw",
+      "originalBytes": 0,
+      "originalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "storedBytes": 0,
+      "storedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "storageEncoding": "identity"
+    },
+    {
+      "source": "ops014-416-archive-first-staged-crlf-failure/staged-check.stdout.raw",
+      "path": "evidence/OPS-014/recovery-validation/prior-attempts/ops014-416-archive-first-staged-crlf-failure/staged-check.stdout.raw.base64",
+      "originalBytes": 81436,
+      "originalSha256": "6b608c3339f734d7cd0a8ea7d2fb324d36bb2f474a7ae37cf06faf2d9340bbb0",
+      "storedBytes": 108585,
+      "storedSha256": "0b128dce1ea1aad9a1684f4bb254c81b04543cf6095d0a4843a3e200fdcdf463",
+      "storageEncoding": "base64"
+    }
+  ],
+  "originalBytesRecoverableUnchanged": true,
+  "proofAndSuccessfulLogsStoredAsOriginalBytes": true,
+  "whitespaceSensitivePriorOriginalsStoredAsBase64": true,
+  "optionalLiveApiTransportLogRetained": false,
+  "actualMergedMainAccepted": false,
+  "thawApproved": false,
+  "supportingCrlfOriginalsStoredAsBase64": true,
+  "encodingCorrectedAt": "2026-10-25T06:09:51.057361+00:00",
+  "mandatoryProofAndAllSuccessfulRawLogsUnchanged": true
+}

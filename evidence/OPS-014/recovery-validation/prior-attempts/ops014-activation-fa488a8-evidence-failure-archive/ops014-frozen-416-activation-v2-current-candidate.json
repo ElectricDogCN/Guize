@@ -1,0 +1,149 @@
+{
+  "kind": "metadata_activation_proposal_before_contract_code",
+  "preparedAt": "2026-10-25T01:02:52.242550+00:00",
+  "taskId": "OPS-014",
+  "issue": 142,
+  "base": "15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6",
+  "branch": "chore/OPS-014-frozen-416-contract-repair-v2",
+  "frozenRecovery": {
+    "taskId": "OPS-014",
+    "reason": "已完成GZ-021的metadata profiling合同错误要求supported/unsatisfiable的416诊断正文为空；真实授权OpenList响应33字节与之冲突，按原OPS-013授权执行精确两文件修复并完整验证后另行解冻。",
+    "affectedTasks": [
+      "GZ-021"
+    ],
+    "sourceCommit": "36b986a65e23671d0b08134d1c4163833a59fbd7",
+    "frozenAt": "2026-10-24T23:24:58Z",
+    "verificationPath": "evidence/OPS-014/recovery-proof.json"
+  },
+  "originalLease": {
+    "acquiredAt": "2026-10-24T21:42:30Z",
+    "expiresAt": "2026-10-31T21:42:30Z"
+  },
+  "exactClaims": [
+    "specs/poc/check_program.py",
+    "specs/poc/test_program.py"
+  ],
+  "authoritySha256": "4f344a74a47a56ff1c3b0e27c368767e0cb779ebc61e721b263f102b39a83401",
+  "acceptedFrozenMainReviewSha256": "2065b40fd5f04eaf666bb8b231c76098126d2e7dcae848f273e2a73d9296c9c5",
+  "originalContractBlobs": [
+    {
+      "path": "specs/poc/check_program.py",
+      "gitBlobSha256": "10be50577718e844566034a7c26dee5eb408055cb2e01a8d5a62524beca9fb89",
+      "bytes": 771065
+    },
+    {
+      "path": "specs/poc/test_program.py",
+      "gitBlobSha256": "1707bce255253176e0c718ef2574d748dbd8890eb4f50a0c6a5f5a47136b1d49",
+      "bytes": 1118362
+    }
+  ],
+  "codePhaseCommands": 18,
+  "evidenceOnlyArchiveCommands": 15,
+  "metadataOnly": true,
+  "codeWritten": false,
+  "validationExecuted": false,
+  "experimentApproved": false,
+  "qualificationAccepted": false,
+  "priorFailedActivationSource": "0779377346260a07b02077894ee8b325a588486e",
+  "priorFailureArchive": "ops014-activation-0779377-schema-failure-archive/",
+  "leaseTextCorrectionOnly": true,
+  "changedPaths": [
+    "evidence/OPS-014/activation-proposal.json",
+    "evidence/OPS-014/changed-files.md",
+    "evidence/OPS-014/commands.txt",
+    "evidence/OPS-014/follow-ups.md",
+    "evidence/OPS-014/freeze-main-accepted-independent-review.json",
+    "evidence/OPS-014/handoff.md",
+    "evidence/OPS-014/rollback.md",
+    "evidence/OPS-014/scope.md",
+    "evidence/OPS-014/summary.md",
+    "evidence/OPS-014/test-results/README.md",
+    "specs/coordination/active-work.yaml",
+    "specs/coordination/program-plan.yaml",
+    "specs/tasks/OPS-014.md"
+  ],
+  "fileSnapshot": [
+    {
+      "path": "evidence/OPS-014/activation-proposal.json",
+      "bytes": 1946,
+      "sha256": "cbac950033b5228abe9e7bcf0912e8085db3235b70c58d90d2c2310e52f7ace0"
+    },
+    {
+      "path": "evidence/OPS-014/changed-files.md",
+      "bytes": 689,
+      "sha256": "2c807a43260a1d3a93baa16c5184bc7e843c22c597122946d296dfd4cf4f8127"
+    },
+    {
+      "path": "evidence/OPS-014/commands.txt",
+      "bytes": 3799,
+      "sha256": "43720c4827add2d4a26837d3d4323d5b65166d08c6c244e0102a16375397dd17"
+    },
+    {
+      "path": "evidence/OPS-014/follow-ups.md",
+      "bytes": 621,
+      "sha256": "f3452752f41767463bf86a304b038b1ed8a0b8dcffc0a1e42829f041c491b9a1"
+    },
+    {
+      "path": "evidence/OPS-014/freeze-main-accepted-independent-review.json",
+      "bytes": 10550,
+      "sha256": "2065b40fd5f04eaf666bb8b231c76098126d2e7dcae848f273e2a73d9296c9c5"
+    },
+    {
+      "path": "evidence/OPS-014/handoff.md",
+      "bytes": 1393,
+      "sha256": "f01fd9edd36ee0ab374d30b3c3a6766dd140ce31b2ffc951684a81c766d02a60"
+    },
+    {
+      "path": "evidence/OPS-014/rollback.md",
+      "bytes": 372,
+      "sha256": "0e87d3a8fc9068a03b11d1ac029a7e1d836592c60b791d7bbc1a89b8095aefc7"
+    },
+    {
+      "path": "evidence/OPS-014/scope.md",
+      "bytes": 507,
+      "sha256": "6498b3bcbef322ebeff113cbd9eaed229ba5c5427b2590f6143311d5025a424a"
+    },
+    {
+      "path": "evidence/OPS-014/summary.md",
+      "bytes": 566,
+      "sha256": "caa3d22dcb9251c86ed13f885635628d5c87eb85334c1896388bfcb65ab70eab"
+    },
+    {
+      "path": "evidence/OPS-014/test-results/README.md",
+      "bytes": 412,
+      "sha256": "759431083d741421e517e441dc2eff27bebf2591cc34c35dc1afecfd5ddc8950"
+    },
+    {
+      "path": "specs/coordination/active-work.yaml",
+      "bytes": 3457,
+      "sha256": "3cf3b64e5e1029a7fe7786023341f09719d77ab7903fea16f0479573034d3913"
+    },
+    {
+      "path": "specs/coordination/program-plan.yaml",
+      "bytes": 65163,
+      "sha256": "f6c938a601c5c23874548f2106655a036a884861477b140357a01fe6382c59bd"
+    },
+    {
+      "path": "specs/tasks/OPS-014.md",
+      "bytes": 10772,
+      "sha256": "599c3187604194889e7fd00cb27468b3e5a38f3b69af9088620539b1473936be"
+    }
+  ],
+  "authorHead": "15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6",
+  "preparedOnly": false,
+  "cleanRebuiltFromAcceptedF": true,
+  "oldFailedBranchRetained": "chore/OPS-014-frozen-416-contract-repair",
+  "workingSchemaPreflightExitCode": 0,
+  "source": "fa488a8d0c37263e0d6a60e7851a7c4728ec2a20",
+  "parent": "15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6",
+  "tree": "7ed958d1a0a453d73e2e805c6e23eeff6e126f80",
+  "committedAt": "2026-10-25T01:05:35.366783+00:00",
+  "commitExitCode": 0,
+  "commitWaitCompleted": true,
+  "metadataActivationCommitted": true,
+  "metadataAdmissionAccepted": false,
+  "bundle": "ops014-activation-v2-fa488a8.bundle",
+  "bundleBytes": 13932988,
+  "bundleSha256": "3401fe23ead783723f1ecbba83cfcd291d75a03866caa08a3bb3eaf39410fe46",
+  "independentMetadataReviewSha256": "b97d9deccdde41200532b9d8b13ed46b4840f4f165b4244546efb6721f812956"
+}

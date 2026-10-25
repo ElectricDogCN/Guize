@@ -1,0 +1,266 @@
+{
+  "source": "fa488a8d0c37263e0d6a60e7851a7c4728ec2a20",
+  "base": "15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6",
+  "tree": "7ed958d1a0a453d73e2e805c6e23eeff6e126f80",
+  "branch": "chore/OPS-014-frozen-416-contract-repair-v2",
+  "before": {
+    "source": "fa488a8d0c37263e0d6a60e7851a7c4728ec2a20",
+    "tree": "7ed958d1a0a453d73e2e805c6e23eeff6e126f80",
+    "parent": "15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6",
+    "branch": "chore/OPS-014-frozen-416-contract-repair-v2",
+    "main": "15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6",
+    "status": ""
+  },
+  "startedAt": "2026-10-25T01:05:40.224230+00:00",
+  "commands": [
+    {
+      "label": "diff",
+      "argv": [
+        "git",
+        "diff",
+        "--check",
+        "15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6...fa488a8d0c37263e0d6a60e7851a7c4728ec2a20"
+      ],
+      "startedAt": "2026-10-25T01:05:40.228424+00:00",
+      "raw": "diff.raw",
+      "pid": 757190,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "endedAt": "2026-10-25T01:05:40.240647+00:00",
+      "bytes": 180,
+      "sha256": "be80989c4e98712e0c5bc40018b1160b6550b859d257d322b8e6374d22015d30"
+    },
+    {
+      "label": "task",
+      "argv": [
+        "python",
+        "scripts/check-task-file.py",
+        "--task",
+        "OPS-014"
+      ],
+      "startedAt": "2026-10-25T01:05:40.244285+00:00",
+      "raw": "task.raw",
+      "pid": 757191,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "endedAt": "2026-10-25T01:05:40.318406+00:00",
+      "bytes": 262,
+      "sha256": "db32e05f595346921a52858e45de82d3105a57fbd437a7576eeb91d9e533a96f"
+    },
+    {
+      "label": "schemas",
+      "argv": [
+        "python",
+        "scripts/check-schemas.py"
+      ],
+      "startedAt": "2026-10-25T01:05:40.321781+00:00",
+      "raw": "schemas.raw",
+      "pid": 757192,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "endedAt": "2026-10-25T01:05:44.064627+00:00",
+      "bytes": 1947,
+      "sha256": "f31e4e0bed81fecc2d4a0061ed41e2bbef128e4490453161fffad920f49176a4"
+    },
+    {
+      "label": "integrity",
+      "argv": [
+        "python",
+        "scripts/check-program-plan-integrity.py",
+        "--base-ref",
+        "15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6"
+      ],
+      "startedAt": "2026-10-25T01:05:44.067983+00:00",
+      "raw": "integrity.raw",
+      "pid": 757193,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "endedAt": "2026-10-25T01:05:45.442657+00:00",
+      "bytes": 419,
+      "sha256": "0797a74c590e0581cc22913eb44932a13a2cfae09c45b8d205634ed460f9a050"
+    },
+    {
+      "label": "history",
+      "argv": [
+        "python",
+        "scripts/check-program-plan-history.py",
+        "--base-ref",
+        "15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6",
+        "--head-ref",
+        "fa488a8d0c37263e0d6a60e7851a7c4728ec2a20",
+        "--task",
+        "OPS-014",
+        "--branch-name",
+        "chore/OPS-014-frozen-416-contract-repair-v2"
+      ],
+      "startedAt": "2026-10-25T01:05:45.446068+00:00",
+      "raw": "history.raw",
+      "pid": 757419,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "endedAt": "2026-10-25T01:05:47.872448+00:00",
+      "bytes": 560,
+      "sha256": "3c9f7f29b89f2fc8711544a71f5a2cd423b8c533e8c052c5ecbcc1d09886ba43"
+    },
+    {
+      "label": "transitions",
+      "argv": [
+        "python",
+        "scripts/check-program-plan-transitions.py",
+        "--base-ref",
+        "15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6",
+        "--head-ref",
+        "fa488a8d0c37263e0d6a60e7851a7c4728ec2a20",
+        "--task",
+        "OPS-014",
+        "--branch-name",
+        "chore/OPS-014-frozen-416-contract-repair-v2"
+      ],
+      "startedAt": "2026-10-25T01:05:47.876575+00:00",
+      "raw": "transitions.raw",
+      "pid": 757550,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "endedAt": "2026-10-25T01:06:04.844973+00:00",
+      "bytes": 477,
+      "sha256": "7716e62cd17a9f06a9cb6640f1126904a790f2ebc824cb41f28362d57d7a7af5"
+    },
+    {
+      "label": "finalization",
+      "argv": [
+        "python",
+        "scripts/check-program-plan-finalization.py",
+        "--base-ref",
+        "15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6",
+        "--head-ref",
+        "fa488a8d0c37263e0d6a60e7851a7c4728ec2a20",
+        "--task",
+        "OPS-014"
+      ],
+      "startedAt": "2026-10-25T01:06:04.849314+00:00",
+      "raw": "finalization.raw",
+      "pid": 759003,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "endedAt": "2026-10-25T01:06:05.088229+00:00",
+      "bytes": 398,
+      "sha256": "03025b6a6b39a69fcf424264f90cbf9090c83e9b34ce70518b777d70dd202d40"
+    },
+    {
+      "label": "raw-lifecycle",
+      "argv": [
+        "python",
+        "scripts/check-program-lifecycle-guards.py",
+        "--base-ref",
+        "15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6",
+        "--head-ref",
+        "fa488a8d0c37263e0d6a60e7851a7c4728ec2a20",
+        "--task",
+        "OPS-014",
+        "--branch-name",
+        "chore/OPS-014-frozen-416-contract-repair-v2"
+      ],
+      "startedAt": "2026-10-25T01:06:05.092161+00:00",
+      "raw": "raw-lifecycle.raw",
+      "pid": 759008,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "endedAt": "2026-10-25T01:06:24.326984+00:00",
+      "bytes": 543,
+      "sha256": "4bfa460ba3656c3ff970fb6466f37e1f44783fe419faece259c26efb8d2918de"
+    },
+    {
+      "label": "lifecycle",
+      "argv": [
+        "python",
+        "scripts/run-program-lifecycle-gate.py",
+        "--base-ref",
+        "15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6",
+        "--head-ref",
+        "fa488a8d0c37263e0d6a60e7851a7c4728ec2a20",
+        "--task",
+        "OPS-014",
+        "--branch-name",
+        "chore/OPS-014-frozen-416-contract-repair-v2"
+      ],
+      "startedAt": "2026-10-25T01:06:24.330667+00:00",
+      "raw": "lifecycle.raw",
+      "pid": 761687,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "endedAt": "2026-10-25T01:06:45.359030+00:00",
+      "bytes": 634,
+      "sha256": "2a00c7cf82e4d2c48a04c01a1084a2b7f74d165f87a6657efa2f403a5f5a0ea0"
+    },
+    {
+      "label": "coordination",
+      "argv": [
+        "python",
+        "scripts/run-agent-coordination-gate.py",
+        "--base-ref",
+        "15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6",
+        "--head-ref",
+        "fa488a8d0c37263e0d6a60e7851a7c4728ec2a20",
+        "--task",
+        "OPS-014",
+        "--branch-name",
+        "chore/OPS-014-frozen-416-contract-repair-v2"
+      ],
+      "startedAt": "2026-10-25T01:06:45.363125+00:00",
+      "raw": "coordination.raw",
+      "pid": 764369,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "endedAt": "2026-10-25T01:07:26.835724+00:00",
+      "bytes": 458,
+      "sha256": "40d7b3e54b2e0c390c1bd3f783e31ed20a95b79a9e30470904dd63eae86bc22e"
+    },
+    {
+      "label": "scope",
+      "argv": [
+        "python",
+        "scripts/run-task-scope-gate.py",
+        "--task",
+        "OPS-014",
+        "--base",
+        "15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6"
+      ],
+      "startedAt": "2026-10-25T01:07:26.839686+00:00",
+      "raw": "scope.raw",
+      "pid": 768663,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "endedAt": "2026-10-25T01:07:26.939186+00:00",
+      "bytes": 936,
+      "sha256": "2145932e867d6b74a5468245fdf5065b80032f285ba6b53e23d69c3b199f01c8"
+    },
+    {
+      "label": "evidence",
+      "argv": [
+        "python",
+        "scripts/check-evidence.py",
+        "--task",
+        "OPS-014"
+      ],
+      "startedAt": "2026-10-25T01:07:26.943117+00:00",
+      "raw": "evidence.raw",
+      "pid": 768668,
+      "exitCode": 1,
+      "waitCompleted": true,
+      "endedAt": "2026-10-25T01:07:26.973712+00:00",
+      "bytes": 526,
+      "sha256": "6f2b337c593ec6504635c8d2a7badac20078066f2bd0bfee820ad1e73ee5af62"
+    }
+  ],
+  "metadataAdmissionAccepted": false,
+  "codeWritten": false,
+  "failedGate": "evidence",
+  "after": {
+    "source": "fa488a8d0c37263e0d6a60e7851a7c4728ec2a20",
+    "tree": "7ed958d1a0a453d73e2e805c6e23eeff6e126f80",
+    "parent": "15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6",
+    "branch": "chore/OPS-014-frozen-416-contract-repair-v2",
+    "main": "15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6",
+    "status": ""
+  }
+}
