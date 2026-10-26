@@ -1,0 +1,180 @@
+{
+  "testedRuntime": "c98c93f835ea5c6bfcf19eb1256cd66d75efc4b4",
+  "testedTree": "487a8d3b40f59c3939f79e5430cc31ccbf8fbace",
+  "files": [
+    {
+      "original": "poc005-compressed-ingress-c98c93f-final-source-independent-review.json",
+      "encoded": "000-f3c2bfb03dd0.zlib.b64",
+      "byteCount": 9323,
+      "sha256": "f3c2bfb03dd02ad26e5be53fb0ab379def41011393bf5a6754a40dab3d412663"
+    },
+    {
+      "original": "poc005-compressed-ingress-c98c93f-publication-independent-review.json",
+      "encoded": "001-9a3373622cef.zlib.b64",
+      "byteCount": 13218,
+      "sha256": "9a3373622cefa67035fd2e4a51501d17434695050de6e71e6a18b46ffc649d55"
+    },
+    {
+      "original": "poc005-compressed-ingress-c98c93f-publication-preflight.json",
+      "encoded": "002-3a00409f5053.zlib.b64",
+      "byteCount": 696,
+      "sha256": "3a00409f50532ead65e6601d80f8677e41767d5f1207dd05983f897d45d75aa9"
+    },
+    {
+      "original": "poc005-compressed-ingress-c98c93f-publication-push-result.json",
+      "encoded": "003-978219ad30a1.zlib.b64",
+      "byteCount": 999,
+      "sha256": "978219ad30a1e0b1da6f61fe00bfbf08f3e6d557ab5aa8cd375eba099877f838"
+    },
+    {
+      "original": "poc005-compressed-ingress-c98c93f-push.raw",
+      "encoded": "004-e1aed5744c2c.zlib.b64",
+      "byteCount": 106,
+      "sha256": "e1aed5744c2c22662151cc4c1f0a400e54632a5ac2410a31e4db838ff9ad87c3"
+    },
+    {
+      "original": "poc005-compressed-ingress-c98c93f-ci867-official.json",
+      "encoded": "005-a07acbb99c77.zlib.b64",
+      "byteCount": 82533,
+      "sha256": "a07acbb99c770df93e53df51cad372782bc32a8f1ba59ea1028376bf38316592"
+    },
+    {
+      "original": "poc005-compressed-ingress-c98c93f-ci867-merge-commit-official.json",
+      "encoded": "006-e11fbbed93e1.zlib.b64",
+      "byteCount": 6245,
+      "sha256": "e11fbbed93e1dd0908e3aa82deb0f95b8fff0fd589fc0300d95e8176e453274e"
+    },
+    {
+      "original": "poc005-compressed-ingress-c98c93f-ci867-actual-summary.json",
+      "encoded": "007-e77b218e063c.zlib.b64",
+      "byteCount": 1066,
+      "sha256": "e77b218e063cd1d5f2259cbc1b836c6a4c2360c99b39528261439c364bbd936e"
+    },
+    {
+      "original": "poc005-compressed-ingress-c98c93f-ci867-job.raw.txt",
+      "encoded": "008-4b19316b11b0.zlib.b64",
+      "byteCount": 1364260,
+      "sha256": "4b19316b11b0de9dcdf84423a7c1bc3bd73ca8e59183525fc65cfcacde10f3e5"
+    },
+    {
+      "original": "verify_poc005_compressed_ingress_source_once.py",
+      "encoded": "009-6f76c83c1622.zlib.b64",
+      "byteCount": 4696,
+      "sha256": "6f76c83c1622bcf793d071c0f56a04dc8f059dd0506b374bad36e6de209c8a7e"
+    },
+    {
+      "original": "publish_poc005_compressed_ingress_for_ci_once.py",
+      "encoded": "010-01dfefd25dea.zlib.b64",
+      "byteCount": 5995,
+      "sha256": "01dfefd25deac2d62f8558cffa7d5a73e06bfbec9556a15b51ff1db6daadd42a"
+    },
+    {
+      "original": "poc005-compressed-ingress-c98c93f-native-checks/results.json",
+      "encoded": "011-2d818b9e938c.zlib.b64",
+      "byteCount": 1126746,
+      "sha256": "2d818b9e938c86e3bff025e10cb260ef9012b48b6a74658385fdbe1e851dd925"
+    },
+    {
+      "original": "poc005-compressed-ingress-c98c93f-native-checks/diff.raw",
+      "encoded": "012-b9e8c901b039.zlib.b64",
+      "byteCount": 144,
+      "sha256": "b9e8c901b039899331eeb8b782604ac35ac580cb22ca1e8182d993dbac1b8963"
+    },
+    {
+      "original": "poc005-compressed-ingress-c98c93f-native-checks/task.raw",
+      "encoded": "013-4845f81ab117.zlib.b64",
+      "byteCount": 267,
+      "sha256": "4845f81ab117748164499725f792cf1f6b1982410667a2884d95e32e8610e441"
+    },
+    {
+      "original": "poc005-compressed-ingress-c98c93f-native-checks/readiness.raw",
+      "encoded": "014-03cfe9b29802.zlib.b64",
+      "byteCount": 660,
+      "sha256": "03cfe9b2980227b953c0cb2b677bca16dfaf3ebc7f50a8c55fd6d084c407e97b"
+    },
+    {
+      "original": "poc005-compressed-ingress-c98c93f-native-checks/schemas.raw",
+      "encoded": "015-f945908deab6.zlib.b64",
+      "byteCount": 1882,
+      "sha256": "f945908deab69955132c1f7806fbc9f8582cae634d419addb7110c7807c0bab1"
+    },
+    {
+      "original": "poc005-compressed-ingress-c98c93f-native-checks/integrity.raw",
+      "encoded": "016-d851a60397fb.zlib.b64",
+      "byteCount": 419,
+      "sha256": "d851a60397fbb6934aca18c31910b894f5ddaa8f5bc282486d8fd467b98e9143"
+    },
+    {
+      "original": "poc005-compressed-ingress-c98c93f-native-checks/history.raw",
+      "encoded": "017-e1ea58ea63ff.zlib.b64",
+      "byteCount": 545,
+      "sha256": "e1ea58ea63ff9c5235cfe60e531158938c445eb9001bc6b98c938d917a51a0a1"
+    },
+    {
+      "original": "poc005-compressed-ingress-c98c93f-native-checks/transitions.raw",
+      "encoded": "018-ebce815916e4.zlib.b64",
+      "byteCount": 462,
+      "sha256": "ebce815916e42f08e87ba65cad71dbdd485590edbbb19c80928f3fa5045498df"
+    },
+    {
+      "original": "poc005-compressed-ingress-c98c93f-native-checks/finalization.raw",
+      "encoded": "019-445bf8f4359b.zlib.b64",
+      "byteCount": 398,
+      "sha256": "445bf8f4359b513a7dcfff982de13bb494b53113849b49d90531f223a962b999"
+    },
+    {
+      "original": "poc005-compressed-ingress-c98c93f-native-checks/raw-lifecycle.raw",
+      "encoded": "020-e1e1b0bf152b.zlib.b64",
+      "byteCount": 531,
+      "sha256": "e1e1b0bf152bebcf5d818a732326a08a228a2fa70a3db806d251f0acc15cdd35"
+    },
+    {
+      "original": "poc005-compressed-ingress-c98c93f-native-checks/lifecycle-gate.raw",
+      "encoded": "021-e9a646c8de18.zlib.b64",
+      "byteCount": 622,
+      "sha256": "e9a646c8de18449e60e6a81ec8ce8504d5e72191c1e51bca7652583fea26f4e4"
+    },
+    {
+      "original": "poc005-compressed-ingress-c98c93f-native-checks/coordination.raw",
+      "encoded": "022-c0d1ab91d148.zlib.b64",
+      "byteCount": 432,
+      "sha256": "c0d1ab91d148f54dabe519ae453da7cde2c2f546d17d6741147f4785b82ddd57"
+    },
+    {
+      "original": "poc005-compressed-ingress-c98c93f-native-checks/scope.raw",
+      "encoded": "023-234d8786b56d.zlib.b64",
+      "byteCount": 1064060,
+      "sha256": "234d8786b56d8c9f0e100cfcd44bb2d148863ac3c89fc32dbeb361d593dad0c4"
+    },
+    {
+      "original": "poc005-compressed-ingress-c98c93f-native-checks/evidence.raw",
+      "encoded": "024-63576e840644.zlib.b64",
+      "byteCount": 307,
+      "sha256": "63576e84064499b2f15064700e78c14206abef9efa2dce303de570ec8c0c858b"
+    },
+    {
+      "original": "poc005-compressed-ingress-c98c93f-native-checks/poc-protocol.raw",
+      "encoded": "025-02464bde0dd0.zlib.b64",
+      "byteCount": 401,
+      "sha256": "02464bde0dd0906d9ee7ffe05a50a9cc0a2375b5966acc6ded735e32af8772aa"
+    },
+    {
+      "original": "poc005-compressed-ingress-c98c93f-native-checks/docs.raw",
+      "encoded": "026-b1a63c565006.zlib.b64",
+      "byteCount": 164,
+      "sha256": "b1a63c5650063b45dcb8ef161e5e075b79f7a26d4f676438492884c135ae98b8"
+    }
+  ],
+  "acceptedRuntimeTask15": true,
+  "acceptedRuntimeCi867": true,
+  "acceptedRuntimeFullSource": true,
+  "ciTests": 752,
+  "ciSeconds": 1171.47,
+  "junitGeneratedAndSkipAudited": true,
+  "junitDownloaded": false,
+  "newMetadataCommitFullyValidated": false,
+  "newExecutionQualificationAccepted": false,
+  "taskCompleted": false,
+  "mainMergeApproved": false,
+  "fullV1Complete": false
+}

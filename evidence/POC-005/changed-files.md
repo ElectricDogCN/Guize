@@ -3,7 +3,7 @@
 Base: 746e23e582501fa08380c3f3301bdc1774902f7c
 Branch: chore/POC-005-metadata-scale
 
-Cumulative paths: 13090. Compressed-input component accepted; new-source gates and full POC remain pending.
+Cumulative paths: 13118. Exact runtimec98 source/CI867 accepted; larger execution and full POC pending.
 
 - `evidence/POC-005/.gitattributes`
 - `evidence/POC-005/EVIDENCE-STRUCTURE.md`
@@ -80,6 +80,34 @@ Cumulative paths: 13090. Compressed-input component accepted; new-source gates a
 - `evidence/POC-005/clock-48344a9-failed-validation/task-14.raw`
 - `evidence/POC-005/clock-failure-independent-content-review.json`
 - `evidence/POC-005/commands.txt`
+- `evidence/POC-005/compressed-input-c98-source-validation/000-f3c2bfb03dd0.zlib.b64`
+- `evidence/POC-005/compressed-input-c98-source-validation/001-9a3373622cef.zlib.b64`
+- `evidence/POC-005/compressed-input-c98-source-validation/002-3a00409f5053.zlib.b64`
+- `evidence/POC-005/compressed-input-c98-source-validation/003-978219ad30a1.zlib.b64`
+- `evidence/POC-005/compressed-input-c98-source-validation/004-e1aed5744c2c.zlib.b64`
+- `evidence/POC-005/compressed-input-c98-source-validation/005-a07acbb99c77.zlib.b64`
+- `evidence/POC-005/compressed-input-c98-source-validation/006-e11fbbed93e1.zlib.b64`
+- `evidence/POC-005/compressed-input-c98-source-validation/007-e77b218e063c.zlib.b64`
+- `evidence/POC-005/compressed-input-c98-source-validation/008-4b19316b11b0.zlib.b64`
+- `evidence/POC-005/compressed-input-c98-source-validation/009-6f76c83c1622.zlib.b64`
+- `evidence/POC-005/compressed-input-c98-source-validation/010-01dfefd25dea.zlib.b64`
+- `evidence/POC-005/compressed-input-c98-source-validation/011-2d818b9e938c.zlib.b64`
+- `evidence/POC-005/compressed-input-c98-source-validation/012-b9e8c901b039.zlib.b64`
+- `evidence/POC-005/compressed-input-c98-source-validation/013-4845f81ab117.zlib.b64`
+- `evidence/POC-005/compressed-input-c98-source-validation/014-03cfe9b29802.zlib.b64`
+- `evidence/POC-005/compressed-input-c98-source-validation/015-f945908deab6.zlib.b64`
+- `evidence/POC-005/compressed-input-c98-source-validation/016-d851a60397fb.zlib.b64`
+- `evidence/POC-005/compressed-input-c98-source-validation/017-e1ea58ea63ff.zlib.b64`
+- `evidence/POC-005/compressed-input-c98-source-validation/018-ebce815916e4.zlib.b64`
+- `evidence/POC-005/compressed-input-c98-source-validation/019-445bf8f4359b.zlib.b64`
+- `evidence/POC-005/compressed-input-c98-source-validation/020-e1e1b0bf152b.zlib.b64`
+- `evidence/POC-005/compressed-input-c98-source-validation/021-e9a646c8de18.zlib.b64`
+- `evidence/POC-005/compressed-input-c98-source-validation/022-c0d1ab91d148.zlib.b64`
+- `evidence/POC-005/compressed-input-c98-source-validation/023-234d8786b56d.zlib.b64`
+- `evidence/POC-005/compressed-input-c98-source-validation/024-63576e840644.zlib.b64`
+- `evidence/POC-005/compressed-input-c98-source-validation/025-02464bde0dd0.zlib.b64`
+- `evidence/POC-005/compressed-input-c98-source-validation/026-b1a63c565006.zlib.b64`
+- `evidence/POC-005/compressed-input-c98-source-validation/index.json`
 - `evidence/POC-005/compressed-input-v1/000-798bb766171c.zlib.b64`
 - `evidence/POC-005/compressed-input-v1/001-a5836ad798fa.zlib.b64`
 - `evidence/POC-005/compressed-input-v1/002-2968667375e1.zlib.b64`

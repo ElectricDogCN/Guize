@@ -1,4 +1,13 @@
 
+## Accepted exact compressed-input runtime c98 source (not new scale qualification)
+
+The exact c98c93f835ea5c6bfcf19eb1256cd66d75efc4b4 runtime/tree487a8d3b40f59c3939f79e5430cc31ccbf8fbace completed all15 native Task gates in a clean ordinary-user/no-alternates clone with actual waits and before==after. Its actual Windows140/Linuxrelated29 code regressions retain their component source pins. Independent publication review permitted only a normal forward update of existing DraftPR136; the actual push8f→c98 returned0 and the remote head matched.
+
+CI867/run40250192169/job121340185232/attempt1 completed successfully:28steps allsuccess,752 distinct verbose PASSED cases in1171.47s, actual generated JUnit and skip audit output OK: No skipped tests. No JUnit artifact was available/downloaded, so direct XML parsing is not claimed. Original decoded connector log1364260bytes/SHA4b19316b11b0de9dcdf84423a7c1bc3bd73ca8e59183525fc65cfcacde10f3e5 is retained. Actual CI checkoutd446c6239ce0815be104ae7a8a270e06edabf676 has official parents[746e23e582501fa08380c3f3301bdc1774902f7c,c98c93f835ea5c6bfcf19eb1256cd66d75efc4b4] and exactly the runtime tree. Independent final f3c2bfb0 accepts that exact source/local gates/complete CI.
+
+Lossless originals: compressed-input-c98-source-validation/index.json. This forward evidence archive does not transfer validation to a new metadata HEAD. Actual8f/008 local10k execution remains bound to that old runtime; c98 source acceptance enables only preparation of a new independently reviewed scale template, not automatic100k/1m inputs/resources/window or execution qualification. Outputs remain plain; actual larger runs, exact budgets, formal result/full POC, integration order3 and normal Review/Completion remain pending. Draft stays Draft; noReady/mainmerge/Task completion. All4171 old untracked raw/DB originals and every failure remain preserved.
+
+
 ## Canonical compressed-input component (new source qualification still pending)
 
 CanonicalPair now consumes plain JSONL and strict single-member .jsonl.gz, independently for baseline and companion. The initial physical SHA/signature pass validates complete gzip EOF/CRC and rejects extra members or trailing bytes with bounded64KiB decoding. The two original physical hashes still bind the checkpoint; stored offsets and EOF use decoded bytes. Limits remain2GiB decoded bytes,2million records and64KiB per line for each stream. Normal pages retain forward readers and reserve two maximum lines before reading, avoiding a backwards seek/redecode per page. No disk spool or new runtime configuration is introduced. Reopening/retrying an older checkpoint can decode its prefix once; this is not a random-access compression index.
