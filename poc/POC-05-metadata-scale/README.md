@@ -150,3 +150,7 @@ change must resolve the416 conflict; this task does not edit the frozen checker.
 Exact-source acceptance of the forward repair; resolution of the frozen416 conflict; complete execution/profile qualification and independently approved100k/1m scale sweeps and compressed-input support. The first real10k observation chain is retained separately from qualification. Missing stable provider IDs remain reported, rather than replaced with path-derived asset IDs. Production700TB and Baidu remain untested.
 
 Rollback removes only a newly created disposable POC index or test fixture after its evidence is preserved. Existing databases are never automatically migrated or overwritten.
+
+## Compressed metadata outputs (component accepted; fixed-source validation pending)
+
+Canonical exports use gzip only for explicit .jsonl.gz paths; observed provider profile pages use gzip. Physical artifact accounting includes all gzip bytes; failed partials remain outside the successful journal. HTTP bodies and control journals remain exact originals. Reporting validates the complete finite gzip envelope before bounded reading. Actual Windows146/Linuxrelated47 component regressions passed, including native three-export gzip/report chains. Full source gates, CI and independently approved1m measurements remain pending; prior c98/009100k qualification is source-bound. Reversible original source/results, all failed histories and independent review: evidence/POC-005/compressed-output-v1/index.json.

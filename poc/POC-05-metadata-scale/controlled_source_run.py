@@ -2,16 +2,17 @@
 from __future__ import annotations
 
 import hashlib
+import gzip
 import os
 import sqlite3
 import stat
 import sys
 import time
-from contextlib import contextmanager
+from contextlib import ExitStack, contextmanager
 from datetime import datetime, timezone
 from pathlib import Path
 
-from canonical_metadata import validate_profile
+from canonical_metadata import _signature, _stream_facts, validate_profile
 from controlled_fixture_map import ControlledFixtureMap
 from metadata_scan import MAX_LINE_BYTES, ScanError, canonical, file_sha256
 from native_scan_protocol import decode, descriptor, read_json, scoped, utc
@@ -25,6 +26,22 @@ SOURCE_FILES = ('controlled_source_run.py', 'loopback_gateway.py', 'controlled_f
 def source_build():
     return 'sha256:'+hashlib.sha256(canonical({name: file_sha256(Path(__file__).with_name(name))
                                              for name in SOURCE_FILES}).encode()).hexdigest()
+
+
+class _ArtifactWriter:
+    """Charge the actual physical bytes, including compressed headers and footer."""
+    def __init__(self, artifacts, output):
+        self.artifacts, self.output = artifacts, output
+
+    def write(self, raw):
+        self.artifacts.reserve(len(raw))
+        written = self.output.write(raw)
+        if written != len(raw):
+            raise OSError('SHORT_ARTIFACT_WRITE')
+        return written
+
+    def flush(self):
+        self.output.flush()
 
 
 class Artifacts:
@@ -89,15 +106,22 @@ class Artifacts:
         return self.bytes(raw, '.json', kind)
 
     @contextmanager
-    def stream(self):
-        ref, count = self.new('.jsonl'), 0
-        with scoped(self.root, ref).open('xb') as output:
+    def stream(self, *, metadata=False):
+        if type(metadata) is not bool:
+            raise ScanError('EXPLICIT_METADATA_STREAM_REQUIRED')
+        ref, count = self.new('.jsonl.gz' if metadata else '.jsonl'), 0
+        with ExitStack() as stack:
+            physical = stack.enter_context(scoped(self.root, ref).open('xb'))
+            sink = _ArtifactWriter(self, physical)
+            output = stack.enter_context(gzip.GzipFile(filename='', fileobj=sink, mode='wb',
+                                                      compresslevel=6, mtime=0)) if metadata else sink
             def append(row):
                 nonlocal count
                 raw = (canonical(row)+'\n').encode()
                 if len(raw) > MAX_LINE_BYTES:
                     raise ScanError('ARTIFACT_RECORD_LIMIT')
-                self.reserve(len(raw))
+                if any(value in raw for value in self.sensitive_values):
+                    raise ScanError('SENSITIVE_SOURCE_ARTIFACT_REJECTED')
                 output.write(raw)
                 count += 1
             yield append, ref
@@ -158,7 +182,7 @@ class SourceSession:
                     self.check()
                     bound = self.mapper.bind_page(run_id, page)
                     count = 0
-                    with self.artifacts.stream() as (objects, object_ref):
+                    with self.artifacts.stream(metadata=True) as (objects, object_ref):
                         for profile in bound['profiles']:
                             objects(profile)
                             count += 1
@@ -466,14 +490,27 @@ def retain_approved_metadata_inputs(artifacts, configuration):
 
 
 def records(path):
-    with Path(path).open('rb') as source:
+    path = Path(path)
+    with ExitStack() as stack:
+        physical = stack.enter_context(path.open('rb'))
+        compressed = path.name.endswith('.jsonl.gz')
+        before = _signature(os.fstat(physical.fileno()))
+        if compressed:
+            # Reject the whole finite envelope before GzipFile can accept extra members.
+            _stream_facts(physical, True)
+            if before != _signature(os.fstat(physical.fileno())):
+                raise ScanError('CHANGED_METADATA_OUTPUT')
+            physical.seek(0)
+        source = stack.enter_context(gzip.GzipFile(fileobj=physical, mode='rb')) if compressed else physical
         while True:
             raw = source.readline(MAX_LINE_BYTES+1)
             if not raw:
-                return
+                break
             if len(raw) > MAX_LINE_BYTES or not raw.endswith(b'\n'):
                 raise ScanError('BOUNDED_COMPLETE_RECORD_REQUIRED')
             yield decode(raw)
+        if compressed and before != _signature(os.fstat(physical.fileno())):
+            raise ScanError('CHANGED_METADATA_OUTPUT')
 
 
 def original13_reports(run, facts, session, *, quota_ref, quota_sha, extension_categories):

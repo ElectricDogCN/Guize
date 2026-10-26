@@ -75,7 +75,10 @@ class WindowsSourceTests(unittest.TestCase):
         if not self.supported(): return
         native=windows_fixtures.WindowsLifecycleTests('test_actual_windows_lifetime_counters_replay_post_catalogue_and_frozen_captures')
         native.setUp();self.addCleanup(native.doCleanups)
-        run=native.prepare();self.source=native.source
+        def compressed_exports(cfg):
+            for key in ('objects','filenameObjects','enumeratedVersions'):
+                cfg['outputs'][key]+='.gz'
+        run=native.prepare(alter_config=compressed_exports);self.source=native.source
         self.align_times(self.source,native.rows)
         native.release()
         gateway,session=self.session(native)

@@ -1,6 +1,7 @@
 """Actual loopback/fixture tests, not a real OpenList or approved scale experiment."""
 import base64
 import hashlib
+import gzip
 import json
 import os
 import shutil
@@ -11,6 +12,7 @@ import tempfile
 import threading
 import time
 import unittest
+from unittest.mock import patch
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -317,7 +319,10 @@ class SourceTests(unittest.TestCase):
         native = native_fixtures.NativeLifecycleTests('test_actual_linux_lifetime_counters_replay_post_catalogue_and_frozen_captures')
         native.setUp()
         self.addCleanup(native.doCleanups)
-        run = native.prepare()
+        def compressed_exports(cfg):
+            for key in ('objects', 'filenameObjects', 'enumeratedVersions'):
+                cfg['outputs'][key] += '.gz'
+        run = native.prepare(alter_config=compressed_exports)
         self.source = native.source
         self.align_times(self.source, native.rows)
         native.release()
@@ -332,7 +337,11 @@ class SourceTests(unittest.TestCase):
         run.memory()
         session.repeated_listings()
         session.exercise_faults(gateway)
-        run.enumerate()
+        try:
+            run.enumerate()
+        except ScanError as failure:
+            print('Actual native component failure: '+canonical(getattr(failure, 'runtime_failure', {})))
+            raise
         probe = next(row for row in native.rows if row['kind'] == 'file' and row['fileSizeBytes'] == 4096)
         for case in ('unchanged_first', 'unchanged_second', 'bounded', 'unsatisfiable'):
             session.probe(case, probe['objectId'], 'v1', probe['path'], size=4096)
@@ -443,6 +452,81 @@ class SourceTests(unittest.TestCase):
         with self.assertRaisesRegex(ScanError, 'APPROVED_METADATA_INPUT_CHANGED'):
             retain_approved_metadata_inputs(artifacts, configuration)
         self.assertEqual(len(artifacts.records), 6)
+
+
+class CompressedArtifactTests(unittest.TestCase):
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory()
+        self.root = Path(self.temp.name)
+        self.addCleanup(self.temp.cleanup)
+
+    def test_physical_budget_includes_gzip_header_and_footer(self):
+        rows = [{'name': 'x'*3000}, {'name': 'x'*3000}]
+        decoded = b''.join((canonical(row)+'\n').encode() for row in rows)
+        budget = len(gzip.compress(decoded, compresslevel=6, mtime=0))
+        self.assertGreater(len(decoded), budget)
+        artifacts = Artifacts(self.root, self.root/'exact', maximum_bytes=budget)
+        with artifacts.stream(metadata=True) as (append, ref):
+            for row in rows:
+                append(row)
+        path = self.root/ref
+        self.assertTrue(ref.endswith('.jsonl.gz'))
+        self.assertEqual(artifacts.total, path.stat().st_size)
+        self.assertEqual(artifacts.total, budget)
+        self.assertEqual(artifacts.records[0]['sha256'], 'sha256:'+file_sha256(path))
+        self.assertEqual(artifacts.records[0]['byteCount'], budget)
+        self.assertEqual(list(records(path)), rows)
+
+    def test_compressed_quota_failure_retains_partial_file_without_success_record(self):
+        row = {'name': 'x'*3000}
+        decoded = (canonical(row)+'\n').encode()
+        complete_size = len(gzip.compress(decoded, compresslevel=6, mtime=0))
+        for label, budget in (('header', 1), ('footer', complete_size-1)):
+            with self.subTest(label=label):
+                artifacts = Artifacts(self.root, self.root/label, maximum_bytes=budget)
+                with self.assertRaisesRegex(ScanError, 'ARTIFACT_BYTE_BUDGET'):
+                    with artifacts.stream(metadata=True) as (append, _):
+                        append(row)
+                paths = list((self.root/label).iterdir())
+                self.assertEqual(len(paths), 1)
+                self.assertEqual(artifacts.records, [])
+                self.assertEqual(artifacts.total, paths[0].stat().st_size)
+                self.assertLessEqual(artifacts.total, budget)
+                with self.assertRaises(ScanError):
+                    list(records(paths[0]))
+
+    def test_compressed_reader_rejects_damaged_members_and_decoded_limits(self):
+        decoded = b'{"actual":true}\n'
+        good = gzip.compress(decoded, mtime=0)
+        crc_bad = bytearray(good)
+        crc_bad[-8] ^= 1
+        for label, data in [('crc', bytes(crc_bad)), ('truncated', good[:-1]),
+                            ('second-member', good+good), ('trailing', good+b'garbage'),
+                            ('line', gzip.compress(b'x'*65537+b'\n', mtime=0))]:
+            with self.subTest(label=label):
+                path = self.root/(label+'.jsonl.gz')
+                path.write_bytes(data)
+                with self.assertRaises(ScanError):
+                    list(records(path))
+        path = self.root/'good.jsonl.gz'
+        path.write_bytes(good)
+        with patch('canonical_metadata.MAX_DECODED_BYTES', len(decoded)-1):
+            with self.assertRaisesRegex(ScanError, 'DECODED_BYTE_LIMIT'):
+                list(records(path))
+        with patch('canonical_metadata.MAX_RECORDS', 0):
+            with self.assertRaisesRegex(ScanError, 'RECORD_LIMIT'):
+                list(records(path))
+        self.assertEqual(list(records(path)), [{'actual': True}])
+
+    def test_sensitive_decoded_metadata_is_rejected_before_compression(self):
+        artifacts = Artifacts(self.root, self.root/'sensitive')
+        artifacts.set_sensitive_values(('private-test-token',))
+        with self.assertRaisesRegex(ScanError, 'SENSITIVE_SOURCE_ARTIFACT_REJECTED'):
+            with artifacts.stream(metadata=True) as (append, _):
+                append({'echo': 'private-test-token'})
+        self.assertEqual(artifacts.records, [])
+        path = next((self.root/'sensitive').iterdir())
+        self.assertNotIn(b'private-test-token', gzip.decompress(path.read_bytes()))
 
 
 if __name__ == '__main__':

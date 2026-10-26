@@ -448,7 +448,13 @@ class CanonicalScanner:
                                "AND p.object_id IS NULL LIMIT 1", (ANCHOR,)).fetchone():
                 raise ScanError("MISSING_CANONICAL_PROFILE")
             with ExitStack() as stack:
-                outputs = [stack.enter_context(Path(p).open("xb")) for p in (basic_path, profiled_path, versions_path)]
+                outputs = []
+                for path in (basic_path, profiled_path, versions_path):
+                    path = Path(path)
+                    raw = stack.enter_context(path.open("xb"))
+                    outputs.append(stack.enter_context(gzip.GzipFile(
+                        filename="", fileobj=raw, mode="wb", compresslevel=6, mtime=0))
+                        if path.name.endswith(".jsonl.gz") else raw)
                 rows = self.db.execute(
                     "SELECT o.*,p.modified_at FROM objects o JOIN canonical_profiles p "
                     "ON p.object_id=o.object_id WHERE o.deleted=0 AND o.object_id<>? ORDER BY o.depth,o.object_id", (ANCHOR,))

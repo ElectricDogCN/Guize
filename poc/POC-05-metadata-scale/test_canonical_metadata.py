@@ -1,5 +1,6 @@
 import copy
 import gzip
+import importlib.util
 import json
 import sqlite3
 import tempfile
@@ -86,6 +87,50 @@ class CanonicalTests(unittest.TestCase):
                           actual["directory_depth_max"],actual["object_depth_max"]), (17,5,3,3))
         self.assertTrue(actual["complete"])
         self.assertEqual(len(outputs[2].read_bytes().splitlines()),22)
+
+    def test_export_gzip_preserves_all_records_and_frozen_reader_compatibility(self):
+        self.complete()
+        names = ('basic', 'profiled', 'versions')
+        plain = [self.root/('export-'+name+'.jsonl') for name in names]
+        compressed = [self.root/(name+'.jsonl.gz') for name in names]
+        again = [self.root/('other-'+name+'.jsonl.gz') for name in names]
+        for paths in (plain, compressed, again):
+            self.assertEqual(self.scanner.export(*paths), 22)
+        repo = Path(__file__).resolve().parents[2]
+        spec = importlib.util.spec_from_file_location('frozen_output_compatibility', repo/'specs/poc/check_program.py')
+        checker = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(checker)
+        defs = yaml.safe_load((repo/'specs/poc/program.schema.yaml').read_text(encoding='utf8'))['$defs']
+        for a, b, c, schema in zip(plain, compressed, again,
+                ('metadataObjectRecord', 'metadataProfiledObjectRecord', 'metadataObjectVersionRecord')):
+            self.assertEqual(gzip.decompress(b.read_bytes()), a.read_bytes())
+            self.assertEqual(b.read_bytes(), c.read_bytes())
+            with b.open('rb') as stream:
+                physical_sha, decoded_size = module._stream_facts(stream, True)
+            self.assertEqual((physical_sha, decoded_size), (file_sha256(b), a.stat().st_size))
+            self.assertEqual(list(checker.streamed_metadata_records(b, defs[schema], 22)),
+                             [json.loads(line) for line in a.read_bytes().splitlines()])
+        # The exported pair is also an actual input, not just decompressible bytes.
+        with_pair = self.pair(compressed[0], compressed[1])
+        reader = CanonicalScanner(self.root/'roundtrip.sqlite', with_pair)
+        try:
+            while not reader.core.state()['complete']:
+                reader.apply_next()
+            self.assertEqual(reader.profile(), self.scanner.profile())
+        finally:
+            reader.close()
+
+    def test_existing_compressed_export_is_not_overwritten_on_partial_failure(self):
+        self.complete()
+        first, existing, third = [self.root/(name+'.jsonl.gz') for name in ('first', 'existing', 'third')]
+        existing.write_bytes(b'original retained file')
+        with self.assertRaises(FileExistsError):
+            self.scanner.export(first, existing, third)
+        self.assertEqual(existing.read_bytes(), b'original retained file')
+        self.assertFalse(third.exists())
+        self.assertFalse(self.scanner.db.in_transaction)
+        # An already-created earlier output is retained and closed after rollback.
+        self.assertEqual(gzip.decompress(first.read_bytes()), b'')
 
     def test_export_roundtrip_does_not_assume_opaque_id_order_is_topological(self):
         parent = {"objectId":"z-parent", "kind":"directory", "versionId":"v1", "depth":1,

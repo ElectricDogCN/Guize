@@ -3,7 +3,7 @@
 Base: 746e23e582501fa08380c3f3301bdc1774902f7c
 Branch: chore/POC-005-metadata-scale
 
-Cumulative paths: 17302. Exactc98 source/CI867 and009 local100k execution accepted;1m/fullPOC pending.
+Cumulative paths: 17343. Producer gzip component accepted; new source gates/CI and actual1m/fullPOC pending.
 
 - `evidence/POC-005/.gitattributes`
 - `evidence/POC-005/EVIDENCE-STRUCTURE.md`
@@ -122,6 +122,47 @@ Cumulative paths: 17302. Exactc98 source/CI867 and009 local100k execution accept
 - `evidence/POC-005/compressed-input-v1/011-8d43b9eef4a6.zlib.b64`
 - `evidence/POC-005/compressed-input-v1/012-3f497f6fbc76.zlib.b64`
 - `evidence/POC-005/compressed-input-v1/index.json`
+- `evidence/POC-005/compressed-output-v1/000-ead87e6ab165.zlib.b64`
+- `evidence/POC-005/compressed-output-v1/001-f585c37b8c1a.zlib.b64`
+- `evidence/POC-005/compressed-output-v1/002-da353789faa1.zlib.b64`
+- `evidence/POC-005/compressed-output-v1/003-0857b586a59a.zlib.b64`
+- `evidence/POC-005/compressed-output-v1/004-f5c6eb50a4aa.zlib.b64`
+- `evidence/POC-005/compressed-output-v1/005-c4f7b01ed237.zlib.b64`
+- `evidence/POC-005/compressed-output-v1/006-3283cf295b9e.zlib.b64`
+- `evidence/POC-005/compressed-output-v1/007-699c50a63906.zlib.b64`
+- `evidence/POC-005/compressed-output-v1/008-37b56414b457.zlib.b64`
+- `evidence/POC-005/compressed-output-v1/009-e392f1224049.zlib.b64`
+- `evidence/POC-005/compressed-output-v1/010-93691e9b56a0.zlib.b64`
+- `evidence/POC-005/compressed-output-v1/011-488566ff6c57.zlib.b64`
+- `evidence/POC-005/compressed-output-v1/012-3239b76bc371.zlib.b64`
+- `evidence/POC-005/compressed-output-v1/013-59e460c13031.zlib.b64`
+- `evidence/POC-005/compressed-output-v1/014-52b0095970fd.zlib.b64`
+- `evidence/POC-005/compressed-output-v1/015-c2f2c331c9ff.zlib.b64`
+- `evidence/POC-005/compressed-output-v1/016-339f16f10903.zlib.b64`
+- `evidence/POC-005/compressed-output-v1/017-3c3cfd35fc60.zlib.b64`
+- `evidence/POC-005/compressed-output-v1/018-83d8a9d958fe.zlib.b64`
+- `evidence/POC-005/compressed-output-v1/019-fc077cb47cbd.zlib.b64`
+- `evidence/POC-005/compressed-output-v1/020-aee25e140efe.zlib.b64`
+- `evidence/POC-005/compressed-output-v1/021-5aa30388d3ca.zlib.b64`
+- `evidence/POC-005/compressed-output-v1/022-f556f83d629a.zlib.b64`
+- `evidence/POC-005/compressed-output-v1/023-ec6ef3ad2a20.zlib.b64`
+- `evidence/POC-005/compressed-output-v1/024-b51ba3f40861.zlib.b64`
+- `evidence/POC-005/compressed-output-v1/025-11cb428cded3.zlib.b64`
+- `evidence/POC-005/compressed-output-v1/026-a7d2d0a32e98.zlib.b64`
+- `evidence/POC-005/compressed-output-v1/027-96e7da5933f3.zlib.b64`
+- `evidence/POC-005/compressed-output-v1/028-ff68f379455c.zlib.b64`
+- `evidence/POC-005/compressed-output-v1/029-ceab45c13691.zlib.b64`
+- `evidence/POC-005/compressed-output-v1/030-142a98fcec7f.zlib.b64`
+- `evidence/POC-005/compressed-output-v1/031-22080440c852.zlib.b64`
+- `evidence/POC-005/compressed-output-v1/032-252727f90b8b.zlib.b64`
+- `evidence/POC-005/compressed-output-v1/033-59b13f7c5642.zlib.b64`
+- `evidence/POC-005/compressed-output-v1/034-bc418abec2d4.zlib.b64`
+- `evidence/POC-005/compressed-output-v1/035-a34d39576763.zlib.b64`
+- `evidence/POC-005/compressed-output-v1/036-b1a92843e9c5.zlib.b64`
+- `evidence/POC-005/compressed-output-v1/037-59b13f7c5642.zlib.b64`
+- `evidence/POC-005/compressed-output-v1/038-f55cd311ae13.zlib.b64`
+- `evidence/POC-005/compressed-output-v1/039-8e17fabbb4a2.zlib.b64`
+- `evidence/POC-005/compressed-output-v1/index.json`
 - `evidence/POC-005/dav-adapter-independent-content-review.json`
 - `evidence/POC-005/dav-development-first-failure.json`
 - `evidence/POC-005/dav-edbf8da-ci820/.gitattributes`
