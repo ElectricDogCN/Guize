@@ -1,0 +1,259 @@
+{
+  "schemaVersion": 1,
+  "kind": "POC005_ATTEMPT009_RESOURCE_PREPARATION_RESULT_INDEPENDENT_REVIEW",
+  "actor": "/root/gz022_planning_independent_review",
+  "reviewer": "independent-review-agent",
+  "reviewedAt": "2026-10-26T01:31:21.689993Z",
+  "decision": "accepted_resource_preparation_facts_only",
+  "mustFix": [],
+  "resourcePreparationAccepted": true,
+  "source": "c98c93f835ea5c6bfcf19eb1256cd66d75efc4b4",
+  "tree": "487a8d3b40f59c3939f79e5430cc31ccbf8fbace",
+  "base": "746e23e582501fa08380c3f3301bdc1774902f7c",
+  "branch": "chore/POC-005-metadata-scale",
+  "preparationApprovalRef": "poc005-attempt009-resource-preparation-independent-review.json",
+  "preparationApprovalSha256": "911c718f7a2c7fb0a3d985a5819b275d1c32045ff24ba1f3019e970448a04045",
+  "preparationApprovalConsumed": true,
+  "requestSha256": "d7f33d9cc9809271adb29912886e8080cbd49ac6f8dd6fafaf4fec2705b729de",
+  "preparationExecution": {
+    "startedAt": "2026-10-26T01:20:29.145479+00:00",
+    "completedAt": "2026-10-26T01:26:53.269049+00:00",
+    "elapsedSeconds": 384.12357,
+    "approvedWindowSatisfied": true,
+    "within1200SecondBudget": true,
+    "actualRecordedCommandCount": 2,
+    "raws": [
+      {
+        "ref": "fixture.raw",
+        "bytes": 2323,
+        "sha256": "a605f2fed63748e48211e5150197902b21ab0414aecfb226b7b5eeb76ca44de0",
+        "pid": 6516,
+        "exitCode": 0,
+        "actualWaitRecorded": true
+      },
+      {
+        "ref": "openlist.raw",
+        "bytes": 2081,
+        "sha256": "8dbbafe56ca52756e3f2c359cc1a4dfa491ca9cfeab64d02cff9bff40452752d",
+        "pid": 173496,
+        "exitCode": 0,
+        "actualWaitRecorded": true
+      }
+    ],
+    "methods": [
+      "6ebf065b12d1dcb37a1403998d75d99ab9204d761d19fc65d30b09c0ed663e28",
+      "50e7d2a02579aafdaa121d1641bc49890e9ec57514fdf9a05ebf79bb414a1795"
+    ],
+    "rawPublicRecordObjectsEqual": true,
+    "wrapperGuardAssessment": "Exact prior approval/request/source-review/method hashes, one new output directory, fixture then OpenList actual PID/wait0, shared1200second operation budget and exact seven new clone inputs. This result acceptance records the completed run and does not authorize replay."
+  },
+  "actualFixture": {
+    "storageRoot": "C:\\Users\\13997\\.codex\\local-lab\\poc005-native-windows-v6-100k",
+    "filesystemRoot": "C:\\Users\\13997\\.codex\\local-lab\\poc005-native-windows-v6-100k\\fixture",
+    "inputRoot": "evidence/POC-005/profiles/local-v1/v1/inputs-100k-attempt009",
+    "counts": {
+      "file": 100000,
+      "directory": 500
+    },
+    "payloadBytes": 179200000,
+    "maximumDepth": 12,
+    "pathCountExcludingRoot": 100500,
+    "independentFullPathWalkVerified": true,
+    "independentAllPayloadsRereadAndRecipeHashMatched": true,
+    "independentAllFileMtimesReread": true,
+    "independentAllDirectoryMtimesReread": true,
+    "allPayloadNlinkOneAndNoReparsePoints": true,
+    "payloadMap": {
+      "ref": "C:\\Users\\13997\\.codex\\local-lab\\poc005-native-windows-v6-100k\\payloads.jsonl",
+      "bytes": 33359464,
+      "sha256": "13ffd9f4be0460adbc34d62eac61bfef0ba894f3d94122355226df0fb5973fce"
+    },
+    "payloadMapDistinctPathsExactlyAllFiles": true,
+    "probeF3IdentityBound": true,
+    "createdPathAbsent": true,
+    "syntheticNotProductionRepresentative": true
+  },
+  "inputPins": [
+    {
+      "ref": "evidence/POC-005/profiles/local-v1/v1/inputs-100k-attempt009/baseline-probe.bin",
+      "bytes": 4096,
+      "sha256": "c8f5d0341d54d951a71b136e6e2afcb14d11ed8489a7ae126a8fee0df6ecf193"
+    },
+    {
+      "ref": "evidence/POC-005/profiles/local-v1/v1/inputs-100k-attempt009/baseline.jsonl.gz",
+      "bytes": 351140,
+      "sha256": "464a5bdcba9fe53fd4581c36cb0df1b7f630024c1fe5e5721bec98fc7b27a8af"
+    },
+    {
+      "ref": "evidence/POC-005/profiles/local-v1/v1/inputs-100k-attempt009/change-profiles.jsonl",
+      "bytes": 456,
+      "sha256": "3324eef3cb42ae32e9e21433f2f60d0070d51291659bf7d5a27b422e5754be74"
+    },
+    {
+      "ref": "evidence/POC-005/profiles/local-v1/v1/inputs-100k-attempt009/created-probe.bin",
+      "bytes": 1024,
+      "sha256": "785b0751fc2c53dc14a4ce3d800e69ef9ce1009eb327ccf458afe09c242c26c9"
+    },
+    {
+      "ref": "evidence/POC-005/profiles/local-v1/v1/inputs-100k-attempt009/expected-changes.jsonl",
+      "bytes": 424,
+      "sha256": "c1eb4e21860fdbb307b28905dffcd9f8a4329e05ef2638ade09690076def56fd"
+    },
+    {
+      "ref": "evidence/POC-005/profiles/local-v1/v1/inputs-100k-attempt009/profiled.jsonl.gz",
+      "bytes": 1727604,
+      "sha256": "b259a4d670196f88e7decacde01cd43ac1fd80a955dd9a0a8461fc8a9800f1df"
+    },
+    {
+      "ref": "evidence/POC-005/profiles/local-v1/v1/inputs-100k-attempt009/updated-probe.bin",
+      "bytes": 4096,
+      "sha256": "22250e12fcdfd3b338e9fcad5848a7225a8d39646f3d071ab9dac6dfd4fe0b8d"
+    }
+  ],
+  "gzipInputChecks": {
+    "baseline.jsonl.gz": {
+      "rows": 100500,
+      "physicalBytes": 351140,
+      "physicalSha256": "464a5bdcba9fe53fd4581c36cb0df1b7f630024c1fe5e5721bec98fc7b27a8af",
+      "decodedBytes": 8925040,
+      "decodedSha256": "adf4e0e2bb8a69a64e476e178e0caa303154f3f75df2560cec646f4defae5314",
+      "singleMemberCrcEofVerified": true,
+      "exactPlainBytesMatched": true
+    },
+    "profiled.jsonl.gz": {
+      "rows": 100500,
+      "physicalBytes": 1727604,
+      "physicalSha256": "b259a4d670196f88e7decacde01cd43ac1fd80a955dd9a0a8461fc8a9800f1df",
+      "decodedBytes": 36394902,
+      "decodedSha256": "f20f2db5cdaa2fc0f4093636603795c3a84f2f312d2aab0d8a05211928693851",
+      "singleMemberCrcEofVerified": true,
+      "exactPlainBytesMatched": true
+    }
+  },
+  "reusedFiveControlInputHashesUnchanged": true,
+  "actualIdleService": {
+    "identity": {
+      "nativeProcessId": 130456,
+      "creationTime100ns": 134374516120645681,
+      "ownerSid": "S-1-5-21-2057438557-2912810365-1850882449-1001",
+      "executable": "C:\\Users\\13997\\.codex\\local-lab\\poc005-windows-openlist-v6-100k\\openlist.exe",
+      "executableSha256": "234ee38f142858ba12d57dd57d181c9ed4a77f952b8420c053e7ab98e3db3172",
+      "cmdlineSha256": "49300531009ef9156aa4a572701e7d7714606eac90acd09c7e018ad2f157d91a",
+      "nativeCommandLine": "C:\\Users\\13997\\.codex\\local-lab\\poc005-windows-openlist-v6-100k\\openlist.exe server --data C:\\Users\\13997\\.codex\\local-lab\\poc005-windows-openlist-v6-100k\\data",
+      "nativeCommandLineSha256": "d223ff90d8fd3ab92ab252a08fab5761f0c3a79eae9fc6c261f3a05ee1291639"
+    },
+    "listenerActuallyRead": {
+      "address": "127.0.0.1",
+      "port": 15533,
+      "owningProcess": 130456
+    },
+    "privateDataRoot": "C:\\Users\\13997\\.codex\\local-lab\\poc005-windows-openlist-v6-100k",
+    "version": "v4.2.6",
+    "mountPath": "/poc005-windows-v6-100k",
+    "mountId": "openlist-v426-local-v6-100k-id1",
+    "readerUsername": "guize-poc005-windows-read-v6",
+    "futureGatewayRequiredRelativeScope": "fixture",
+    "actualOpenListReaderBasePath": "/poc005-windows-v6-100k",
+    "privateCredentialAclsActuallyVerified": true,
+    "freshReadOnlyDbChecks": {
+      "readerRole": 0,
+      "readerPermission": 256,
+      "readerBasePath": "/poc005-windows-v6-100k",
+      "guestDisabled": true,
+      "signAll": false,
+      "storageCount": 1,
+      "mountId": "openlist-v426-local-v6-100k-id1",
+      "mountEnableSign": false,
+      "cacheExpiration": 0,
+      "metadataRows": 0
+    },
+    "configDisablesOtherProtocolServers": true,
+    "identityBeforeAfterReadOnlyAuditMatched": true,
+    "sourceListingOrProbeByReviewer": false,
+    "pingByReviewer": false
+  },
+  "sourceAndPreservation": {
+    "exactSourceTreeAndTrackedCloneClean": true,
+    "noAlternates": true,
+    "onlySevenNewInputFilesUntrackedInExecutionClone": true,
+    "retainedAuthorTrackedCleanC98": true,
+    "originalUntrackedPathCount": 4171,
+    "originalUntrackedPathsetSha256": "e4504da8e10c05402d7c10d2c6f2a95247bde7730600d7c30f6b210ff39cf53a",
+    "oldUntrackedPathsetRechecked": true,
+    "allOldUntrackedPayloadBytesRehashedByThisReview": false,
+    "preservationEvidence": "Exact old pathset and tracked source stability checked; scoped methods and wrapper do not operate old fixtures/services/raw/DB. This receipt does not claim a fresh full byte reread of every old untracked artifact."
+  },
+  "freshOfficial": {
+    "main": "746e23e582501fa08380c3f3301bdc1774902f7c",
+    "prNumber": 136,
+    "prState": "open",
+    "draft": true,
+    "head": "c98c93f835ea5c6bfcf19eb1256cd66d75efc4b4",
+    "base": "746e23e582501fa08380c3f3301bdc1774902f7c",
+    "issueNumber": 132,
+    "issueState": "open",
+    "method": "Official GitHub connector REST reads during this review"
+  },
+  "originals": [
+    {
+      "ref": "poc005-attempt009-resource-preparation-run/results.json",
+      "bytes": 3561,
+      "sha256": "464431e94796ce00272c29a1765d318471694890b78fb080209fea285691aa01"
+    },
+    {
+      "ref": "poc005-attempt009-windows-native-fixture-preparation.json",
+      "bytes": 2479,
+      "sha256": "c7f4a1088e9be8367037057f0e6ad2e037836a7ed81593dd3ea6f3588dd86385"
+    },
+    {
+      "ref": "poc005-attempt009-windows-openlist-preparation.json",
+      "bytes": 2006,
+      "sha256": "473de044129675fa6ee35878b647d8d5afcbedc4a11470f217e1a6e27c104aaf"
+    },
+    {
+      "ref": "poc005-attempt009-windows-openlist-started.json",
+      "bytes": 895,
+      "sha256": "e1b6f8a139590152087eb4d18764517f9eb697d36d87296d179504986de7ce04"
+    },
+    {
+      "ref": "prepare_poc005_attempt009_resources_once.py",
+      "bytes": 6533,
+      "sha256": "fb843399eec879065292216411f481924a6dafa4e953f9a91d2a8c2d1bd0906c"
+    },
+    {
+      "ref": "poc005-attempt009-resource-preparation-readonly-result-audit.json",
+      "bytes": 4662,
+      "sha256": "63ed3b81e4a1cf9c6c4593ac17667abe2c61edabdfe14b66b057a9b6d321054e"
+    }
+  ],
+  "independentReadOnlyAudit": {
+    "ref": "poc005-attempt009-resource-preparation-readonly-result-audit.json",
+    "bytes": 4662,
+    "sha256": "63ed3b81e4a1cf9c6c4593ac17667abe2c61edabdfe14b66b057a9b6d321054e",
+    "startedAt": "2026-10-26T01:29:30.615504Z",
+    "completedAt": "2026-10-26T01:30:38.090185Z",
+    "actualReviewerReadScope": "Full two gzip physical/decoded contents, exact two plain files and100500 row joins; complete100500 path walk; all100000 payload reads/physical SHA/known recipe/length/nlink/mtime plus500 directory mtimes; full payload map; seven input hashes; actual live process identity twice; actual listener; owner-only credential FD ACL checks without printing values; read-only SQLite selected configuration fields, no source request."
+  },
+  "unapprovedFullTemplatePreparationMayProceed": true,
+  "remainingBoundaries": [
+    "New input bytes and physical hashes are observed preparation facts, not execution sample approval. A concrete100k full template must bind these exact seven inputs, profile/sandbox/resource descriptors and original13 obligations before any process release.",
+    "The OpenList reader is based at its single local storage mount; fixture-only gateway/control scope must be validated in the prospective full template and actual reservation. The preparation record readerRelativeScope is not treated as an independently narrowed OpenList base_path.",
+    "No listing/Range/probe/scanner, mutation workload, measurements or qualified execution occurred in this resource preparation review. No throughput or memory result is inferred from generation or independent reads.",
+    "Concrete retained raw/plain output budgets, source resource/quota bounds, prospective profile/sample/resource canonical-Z approvals, actual stopped process identity and future execution window still require review.",
+    "Accepted old10k execution is not transferred to c98 or these100k inputs. All old failures and raw bytes remain historical evidence;1m/production/POC Task/Ready/merge/fullV1 remain incomplete."
+  ],
+  "fullTemplateApproved": false,
+  "newSamplesApprovedForExecution": false,
+  "profileApproved": false,
+  "finalResourceDescriptorsApproved": false,
+  "scannerReservationApproved": false,
+  "executionWindowApproved": false,
+  "finalExecutionApproved": false,
+  "experimentApproved": false,
+  "qualificationAccepted": false,
+  "readyApproved": false,
+  "mergeApproved": false,
+  "taskCompleted": false,
+  "fullV1Completed": false,
+  "reviewerModifiedAuthorOrResources": false
+}
