@@ -63,6 +63,8 @@ class ControlledFixtureMap:
         except BaseException:
             self.db.close()
             raise
+        finally:
+            pair.close()
 
     def close(self):
         self.db.close()

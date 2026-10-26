@@ -2,9 +2,11 @@
 from __future__ import annotations
 
 import hashlib
+import gzip
 import json
 import os
 import re
+import zlib
 from contextlib import ExitStack
 from datetime import datetime
 from pathlib import Path
@@ -19,6 +21,9 @@ PROFILE = BASIC | {"name", "path", "modifiedAt"}
 EVENT = {"eventId", "sequence", "objectId", "operation", "beforeVersion", "afterVersion"}
 ANCHOR = "__poc005_virtual_anchor__"
 ABSENT = "absent"
+MAX_DECODED_BYTES = 2 * 1024 * 1024 * 1024
+MAX_RECORDS = 2_000_000
+STREAM_CHUNK_BYTES = 65536
 
 
 def validate_profile(row):
@@ -91,6 +96,50 @@ def _signature(stat):
     return stat.st_dev, stat.st_ino, stat.st_size, stat.st_mtime_ns, stat.st_ctime_ns
 
 
+def _stream_facts(handle, compressed):
+    """Hash original bytes and validate a finite, single-member JSONL envelope."""
+    digest = hashlib.sha256()
+    decoder = zlib.decompressobj(31) if compressed else None
+    size, records, line_bytes = 0, 0, 0
+
+    def consume(chunk):
+        nonlocal size, records, line_bytes
+        size += len(chunk)
+        if size > MAX_DECODED_BYTES:
+            raise ScanError("CANONICAL_DECODED_BYTE_LIMIT")
+        parts = chunk.split(b"\n")
+        for index, part in enumerate(parts):
+            line_bytes += len(part)
+            if line_bytes + (index < len(parts) - 1) > MAX_LINE_BYTES:
+                raise ScanError("INVALID_CANONICAL_LINE")
+            if index < len(parts) - 1:
+                records += 1
+                line_bytes = 0
+                if records > MAX_RECORDS:
+                    raise ScanError("CANONICAL_RECORD_LIMIT")
+
+    try:
+        for physical in iter(lambda: handle.read(STREAM_CHUNK_BYTES), b""):
+            digest.update(physical)
+            if decoder is None:
+                consume(physical)
+                continue
+            pending = physical
+            while pending:
+                decoded = decoder.decompress(pending, STREAM_CHUNK_BYTES)
+                pending = decoder.unconsumed_tail
+                if decoder.unused_data:
+                    raise ScanError("CANONICAL_GZIP_TRAILING_DATA")
+                consume(decoded)
+        if decoder is not None and not decoder.eof:
+            raise ScanError("CANONICAL_GZIP_INCOMPLETE")
+    except zlib.error:
+        raise ScanError("CANONICAL_GZIP_INVALID") from None
+    if line_bytes:
+        raise ScanError("INVALID_CANONICAL_LINE")
+    return digest.hexdigest(), size
+
+
 class CanonicalPair:
     def __init__(self, baseline, profiled, *, baseline_sha256, profiled_sha256,
                  source_id, snapshot_version, page_size=200):
@@ -104,29 +153,62 @@ class CanonicalPair:
             raise ScanError("INDEPENDENT_CANONICAL_STREAMS_REQUIRED")
         self.shas = [_sha(baseline_sha256), _sha(profiled_sha256)]
         self.signatures, self.descriptor_signatures = [], []
-        for path, expected in zip(self.paths, self.shas):
+        self.decoded_sizes = []
+        self.compressed = [path.name.endswith(".jsonl.gz") for path in self.paths]
+        self._streams = [None, None]
+        for path, expected, compressed in zip(self.paths, self.shas, self.compressed):
             before = _signature(path.stat())
-            digest = hashlib.sha256()
             with path.open("rb") as handle:
                 descriptor_before = _signature(os.fstat(handle.fileno()))
                 # Windows path.stat/fstat can expose different ctime semantics.
                 # Bind identity/size/mtime across APIs, then retain each full signature.
                 if before[:4] != descriptor_before[:4]:
                     raise ScanError("FIXTURE_HANDLE_IDENTITY_MISMATCH")
-                for chunk in iter(lambda: handle.read(1024*1024), b""):
-                    digest.update(chunk)
-                if (digest.hexdigest() != expected or before != _signature(path.stat())
+                digest, decoded_size = _stream_facts(handle, compressed)
+                if (digest != expected or before != _signature(path.stat())
                         or descriptor_before != _signature(os.fstat(handle.fileno()))):
                     raise ScanError("FIXTURE_DIGEST_MISMATCH")
             self.signatures.append(before)
             self.descriptor_signatures.append(descriptor_before)
+            self.decoded_sizes.append(decoded_size)
         version = "pair-v1:" + hashlib.sha256(canonical({
             "baseline": self.shas[0], "profiled": self.shas[1],
             "snapshotVersion": snapshot_version}).encode()).hexdigest()
         self.binding = dict(source_id=source_id, fixture_sha256=self.shas[0], snapshot_version=version)
         self.page_size = page_size
 
+    def close(self):
+        """Release gzip readers; a subsequent read can reopen at a saved cursor."""
+        for index, stream in enumerate(self._streams):
+            if stream is not None:
+                self._streams[index] = None
+                raw, decoded = stream
+                try:
+                    decoded.close()
+                finally:
+                    raw.close()
+
+    def _reader(self, index, stack):
+        if not self.compressed[index]:
+            return stack.enter_context(self.paths[index].open("rb"))
+        if self._streams[index] is None:
+            raw = self.paths[index].open("rb")
+            try:
+                decoded = gzip.GzipFile(fileobj=raw, mode="rb")
+            except BaseException:
+                raw.close()
+                raise
+            self._streams[index] = raw, decoded
+        return self._streams[index][1]
+
     def read(self, cursor):
+        try:
+            return self._read(cursor)
+        except BaseException:
+            self.close()
+            raise
+
+    def _read(self, cursor):
         if cursor == "0":
             offsets = [0, 0]
         elif isinstance(cursor, str) and re.fullmatch(r"(0|[1-9][0-9]{0,23}):(0|[1-9][0-9]{0,23})", cursor):
@@ -136,29 +218,32 @@ class CanonicalPair:
         rows, consumed = [], 0
         with ExitStack() as stack:
             handles = []
-            for path, expected, descriptor_expected, offset in zip(
-                    self.paths, self.signatures, self.descriptor_signatures, offsets):
-                handle = stack.enter_context(path.open("rb"))
+            for index, (path, expected, descriptor_expected, offset, size) in enumerate(zip(
+                    self.paths, self.signatures, self.descriptor_signatures, offsets, self.decoded_sizes)):
+                handle = self._reader(index, stack)
                 if (_signature(path.stat()) != expected or _signature(os.fstat(handle.fileno())) != descriptor_expected
-                        or offset > expected[2]):
+                        or offset > size):
                     raise ScanError("FIXTURE_CHANGED_OR_CURSOR_OUTSIDE")
-                if offset:
-                    handle.seek(offset - 1)
-                    if handle.read(1) != b"\n":
-                        raise ScanError("CURSOR_NOT_LINE_BOUNDARY")
-                handle.seek(offset)
+                # A retained gzip reader already ends at the previous page's line
+                # boundary. Do not rewind one byte and decompress from zero per page.
+                if handle.tell() != offset:
+                    if offset:
+                        handle.seek(offset - 1)
+                        if handle.read(1) != b"\n":
+                            raise ScanError("CURSOR_NOT_LINE_BOUNDARY")
+                    else:
+                        handle.seek(0)
                 handles.append(handle)
             while len(rows) < self.page_size:
-                positions = [h.tell() for h in handles]
+                # Leave room for two maximum-size lines before reading. Rolling a
+                # gzip reader back after overfilling a page would rescan the prefix.
+                if rows and consumed + 2 * MAX_LINE_BYTES > MAX_PAGE_BYTES // 3:
+                    break
                 basic, basic_raw = _line(handles[0])
                 full, full_raw = _line(handles[1])
                 if bool(basic_raw) != bool(full_raw):
                     raise ScanError("CANONICAL_STREAM_LENGTH_MISMATCH")
                 if not basic_raw:
-                    break
-                if consumed + len(basic_raw) + len(full_raw) > MAX_PAGE_BYTES // 3:
-                    for handle, position in zip(handles, positions):
-                        handle.seek(position)
                     break
                 validate_profile(full)
                 if (not isinstance(basic, dict) or set(basic) != BASIC or basic != basic_record(full)
@@ -167,7 +252,7 @@ class CanonicalPair:
                 rows.append(full)
                 consumed += len(basic_raw) + len(full_raw)
             final_positions = [h.tell() for h in handles]
-            ended = [position == expected[2] for position, expected in zip(final_positions, self.signatures)]
+            ended = [position == size for position, size in zip(final_positions, self.decoded_sizes)]
             if ended[0] != ended[1]:
                 raise ScanError("CANONICAL_STREAM_LENGTH_MISMATCH")
             for path, handle, expected, descriptor_expected in zip(
@@ -179,13 +264,19 @@ class CanonicalPair:
         if not rows and not all(ended):
             raise ScanError("CANONICAL_PAGE_CANNOT_ADVANCE")
         next_cursor = None if all(ended) else ":".join(map(str, final_positions))
+        if all(ended):
+            self.close()
         return rows, next_cursor
 
 
 class CanonicalScanner:
     def __init__(self, database, pair):
         self.pair = pair
-        self.core = Scanner(database, **pair.binding)
+        try:
+            self.core = Scanner(database, **pair.binding)
+        except BaseException:
+            pair.close()
+            raise
         self.db = self.core.db
         try:
             exists = self.db.execute(
@@ -207,10 +298,14 @@ class CanonicalScanner:
             if self.db.in_transaction:
                 self.db.execute("ROLLBACK")
             self.core.close()
+            pair.close()
             raise
 
     def close(self):
-        self.core.close()
+        try:
+            self.core.close()
+        finally:
+            self.pair.close()
 
     def _normalise(self, row, pending):
         validate_profile(row)

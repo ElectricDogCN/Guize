@@ -1,12 +1,15 @@
 import copy
+import gzip
 import json
 import sqlite3
 import tempfile
 import unittest
+from unittest.mock import patch
 from pathlib import Path
 
 import jsonschema
 import yaml
+import canonical_metadata as module
 
 from canonical_metadata import (
     ANCHOR, BASIC, PROFILE, CanonicalPair, CanonicalScanner,
@@ -228,6 +231,194 @@ class CanonicalTests(unittest.TestCase):
             handle.write(b"{}\n")
         with self.assertRaisesRegex(ScanError,"FIXTURE_CHANGED"):
             pair.read("0")
+
+
+class CompressedCanonicalTests(unittest.TestCase):
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.temp.cleanup)
+        self.root = Path(self.temp.name)
+        self.plain = [self.root / "basic.jsonl", self.root / "profiled.jsonl"]
+        generate_canonical(*self.plain, file_count=37, directory_count=5, maximum_depth=3)
+
+    def streams(self, compressed=(True, True), suffix=""):
+        paths = []
+        for index, (source, zipped) in enumerate(zip(self.plain, compressed)):
+            target = self.root / (f"stream-{index}{suffix}.jsonl" + (".gz" if zipped else ""))
+            target.write_bytes(gzip.compress(source.read_bytes(), mtime=0) if zipped else source.read_bytes())
+            paths.append(target)
+        return paths
+
+    def pair(self, paths, **kwargs):
+        pair = CanonicalPair(*paths, baseline_sha256=file_sha256(paths[0]),
+                             profiled_sha256=file_sha256(paths[1]), source_id="compressed-test",
+                             snapshot_version="snapshot-v1", page_size=kwargs.get("page_size", 3))
+        self.addCleanup(pair.close)
+        return pair
+
+    def scanner(self, path, pair):
+        scanner = CanonicalScanner(path, pair)
+        self.addCleanup(scanner.close)
+        return scanner
+
+    def finish(self, scanner):
+        while not scanner.core.state()["complete"]:
+            scanner.apply_next()
+
+    def test_mixed_and_gzip_inputs_export_exact_catalogue_with_physical_binding(self):
+        expected = [json.loads(line) for line in self.plain[1].read_bytes().splitlines()]
+        for index, mode in enumerate(((True, True), (False, True), (True, False))):
+            with self.subTest(compressed=mode):
+                paths = self.streams(mode, str(index))
+                pair = self.pair(paths)
+                self.assertEqual(pair.shas, [file_sha256(path) for path in paths])
+                self.assertEqual(pair.decoded_sizes, [path.stat().st_size for path in self.plain])
+                scanner = self.scanner(self.root / f"mixed-{index}.sqlite", pair)
+                self.finish(scanner)
+                outputs = [self.root / f"export-{index}-{i}" for i in range(3)]
+                self.assertEqual(scanner.export(*outputs), 42)
+                self.assertCountEqual(expected, [json.loads(x) for x in outputs[1].read_bytes().splitlines()])
+                self.assertEqual(pair._streams, [None, None])
+
+    def test_reopen_uses_decoded_offsets_and_binds_both_original_gzip_hashes(self):
+        paths = self.streams()
+        pair = self.pair(paths)
+        database = self.root / "resume.sqlite"
+        scanner = self.scanner(database, pair)
+        scanner.apply_next()
+        scanner.apply_next()
+        cursor = scanner.core.state()["cursor"]
+        offsets = list(map(int, cursor.split(":")))
+        self.assertEqual(offsets, [sum(map(len, path.read_bytes().splitlines(keepends=True)[:6]))
+                                   for path in self.plain])
+        self.assertGreater(offsets[1], paths[1].stat().st_size)
+        readers = list(pair._streams)
+        scanner.close()
+        self.assertTrue(all(raw.closed and decoded.closed for raw, decoded in readers))
+        resumed = self.scanner(database, self.pair(paths))
+        self.assertEqual(resumed.core.state()["cursor"], cursor)
+        self.finish(resumed)
+        self.assertEqual(resumed.profile()["object_count"], 42)
+        other = self.streams(suffix="other-header")
+        other[1].write_bytes(gzip.compress(self.plain[1].read_bytes(), mtime=1))
+        self.assertNotEqual(file_sha256(paths[1]), file_sha256(other[1]))
+        with self.assertRaisesRegex(ScanError, "CHECKPOINT_BINDING_MISMATCH"):
+            CanonicalScanner(database, self.pair(other))
+
+    def test_corrupt_truncated_extra_member_and_trailing_gzip_fail_before_scanner(self):
+        original = gzip.compress(self.plain[1].read_bytes(), mtime=0)
+        wrong_crc = bytearray(original)
+        wrong_crc[-8] ^= 1
+        variants = (original[:-3], bytes(wrong_crc), original + gzip.compress(b"", mtime=0),
+                    original + b"\x00", original + b"trailing", b"not gzip")
+        for index, variant in enumerate(variants):
+            with self.subTest(index=index):
+                paths = self.streams(suffix=f"bad-{index}")
+                paths[1].write_bytes(variant)
+                with self.assertRaisesRegex(ScanError, "CANONICAL_GZIP_"):
+                    self.pair(paths)
+
+    def test_decoded_line_record_and_byte_limits_cannot_be_hidden_by_compression(self):
+        for index, mode in enumerate(((True, True), (False, False))):
+            paths = self.streams(mode, f"limits-{index}")
+            with patch.object(module, "MAX_DECODED_BYTES", 1024):
+                with self.assertRaisesRegex(ScanError, "CANONICAL_DECODED_BYTE_LIMIT"):
+                    self.pair(paths)
+            with patch.object(module, "MAX_RECORDS", 2):
+                with self.assertRaisesRegex(ScanError, "CANONICAL_RECORD_LIMIT"):
+                    self.pair(paths)
+            with patch.object(module, "MAX_LINE_BYTES", 64):
+                with self.assertRaisesRegex(ScanError, "INVALID_CANONICAL_LINE"):
+                    self.pair(paths)
+
+    def test_page_transaction_failure_replays_gzip_cursor_without_partial_commit(self):
+        pair = self.pair(self.streams())
+        scanner = self.scanner(self.root / "rollback.sqlite", pair)
+        scanner.db.execute("CREATE TRIGGER reject_profile BEFORE INSERT ON canonical_profiles "
+                           "WHEN NEW.object_id='d-000000002' BEGIN SELECT RAISE(ABORT,'gzip page failure'); END")
+        with self.assertRaisesRegex(sqlite3.IntegrityError, "gzip page failure"):
+            scanner.apply_next()
+        self.assertEqual(scanner.core.state()["cursor"], "0")
+        self.assertEqual(scanner.db.execute("SELECT count(*) FROM objects").fetchone()[0], 0)
+        self.assertEqual(scanner.db.execute("SELECT count(*) FROM canonical_profiles").fetchone()[0], 0)
+        scanner.db.execute("DROP TRIGGER reject_profile")
+        self.finish(scanner)
+        self.assertEqual(scanner.profile()["object_count"], 42)
+
+    def test_changed_physical_input_rejects_next_page_and_closes_cached_handles(self):
+        paths = self.streams()
+        pair = self.pair(paths)
+        _, cursor = pair.read("0")
+        readers = list(pair._streams)
+        with paths[1].open("ab") as stream:
+            stream.write(b"changed")
+        with self.assertRaisesRegex(ScanError, "FIXTURE_CHANGED"):
+            pair.read(cursor)
+        self.assertEqual(pair._streams, [None, None])
+        self.assertTrue(all(raw.closed and decoded.closed for raw, decoded in readers))
+
+    def test_invalid_decoded_cursor_and_duplicate_json_leave_database_unadvanced(self):
+        paths = self.streams()
+        pair = self.pair(paths)
+        with self.assertRaisesRegex(ScanError, "CURSOR_NOT_LINE_BOUNDARY"):
+            pair.read("1:1")
+        with self.assertRaisesRegex(ScanError, "FIXTURE_CHANGED_OR_CURSOR_OUTSIDE"):
+            pair.read(f"{pair.decoded_sizes[0]+1}:0")
+        raw = self.plain[0].read_bytes().replace(b'{"depth":', b'{"depth":1,"depth":', 1)
+        paths[0].write_bytes(gzip.compress(raw, mtime=0))
+        scanner = self.scanner(self.root / "bad-json.sqlite", self.pair(paths))
+        with self.assertRaisesRegex(ScanError, "DUPLICATE_JSON_FIELD"):
+            scanner.apply_next()
+        self.assertEqual(scanner.core.state()["cursor"], "0")
+        self.assertEqual(scanner.db.execute("SELECT count(*) FROM objects").fetchone()[0], 0)
+
+    def test_many_large_rows_do_not_rewind_gzip_between_normal_pages(self):
+        # Cross the page-byte ceiling as well as the gzip read-buffer boundary.
+        rows = [{"objectId": f"f-{i}", "kind": "file", "versionId": "v1", "depth": 1,
+                 "fileSizeBytes": 1, "name": "x"*800 + str(i), "path": "x"*800 + str(i),
+                 "modifiedAt": "2026-01-01T00:00:00Z"} for i in range(1800)]
+        for path, values in zip(self.plain, (map(basic_record, rows), rows)):
+            path.write_bytes(b"".join((canonical(row)+"\n").encode() for row in values))
+        pair = self.pair(self.streams(), page_size=999)
+        seen, pages, cursor = [], 0, "0"
+        original_seek = gzip.GzipFile.seek
+        def no_rewind(handle, offset, whence=0):
+            # CPython's GzipFile.tell itself calls seek(0, SEEK_CUR).
+            self.assertEqual((offset, whence), (0, 1))
+            return original_seek(handle, offset, whence)
+        with patch.object(gzip.GzipFile, "seek", no_rewind):
+            while cursor is not None:
+                page, cursor = pair.read(cursor)
+                seen.extend(page)
+                pages += 1
+        self.assertGreater(pages, 2)
+        self.assertEqual(seen, rows)
+        self.assertEqual(pair._streams, [None, None])
+
+    def test_fixture_mapping_failure_closes_partially_consumed_gzip_readers(self):
+        from controlled_fixture_map import ControlledFixtureMap
+        from openlist_listing import OpenListListing
+        rows = [json.loads(line) for line in self.plain[1].read_bytes().splitlines()]
+        rows[0].update(kind="file", path="missing/child", name="child", depth=2)
+        for path, values in zip(self.plain, (map(basic_record, rows), rows)):
+            path.write_bytes(b"".join((canonical(row)+"\n").encode() for row in values))
+        pair = self.pair(self.streams())
+        actual_readers = []
+        original_reader = pair._reader
+        def capture_reader(index, stack):
+            result = original_reader(index, stack)
+            actual_readers.append(pair._streams[index])
+            return result
+        identity = dict(adapterId="unit-fixture", adapterBuild="unit-only", sourceId="compressed-test",
+                        sourceVersion="unit-v1")
+        # Construction reads the approved files only; no HTTP request is made.
+        source = OpenListListing("http://127.0.0.1:1", "fixture")
+        with patch.object(pair, "_reader", capture_reader):
+            with self.assertRaisesRegex(ScanError, "CONTROLLED_PARENT_MISSING"):
+                ControlledFixtureMap(self.root / "failed-map.sqlite", pair, source, source_identity=identity)
+        self.assertEqual(len(actual_readers), 2)
+        self.assertTrue(all(raw.closed and decoded.closed for raw, decoded in actual_readers))
+        self.assertEqual(pair._streams, [None, None])
 
 
 if __name__=="__main__":

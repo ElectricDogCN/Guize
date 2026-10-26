@@ -3,7 +3,7 @@
 Base: 746e23e582501fa08380c3f3301bdc1774902f7c
 Branch: chore/POC-005-metadata-scale
 
-Cumulative paths: 13076. Local10k execution qualification accepted; full Task/POC remains pending.
+Cumulative paths: 13090. Compressed-input component accepted; new-source gates and full POC remain pending.
 
 - `evidence/POC-005/.gitattributes`
 - `evidence/POC-005/EVIDENCE-STRUCTURE.md`
@@ -80,6 +80,20 @@ Cumulative paths: 13076. Local10k execution qualification accepted; full Task/PO
 - `evidence/POC-005/clock-48344a9-failed-validation/task-14.raw`
 - `evidence/POC-005/clock-failure-independent-content-review.json`
 - `evidence/POC-005/commands.txt`
+- `evidence/POC-005/compressed-input-v1/000-798bb766171c.zlib.b64`
+- `evidence/POC-005/compressed-input-v1/001-a5836ad798fa.zlib.b64`
+- `evidence/POC-005/compressed-input-v1/002-2968667375e1.zlib.b64`
+- `evidence/POC-005/compressed-input-v1/003-0b8dc1fc15a1.zlib.b64`
+- `evidence/POC-005/compressed-input-v1/004-6e88e6f8a5e4.zlib.b64`
+- `evidence/POC-005/compressed-input-v1/005-19dd30d90d08.zlib.b64`
+- `evidence/POC-005/compressed-input-v1/006-e4e8006759b4.zlib.b64`
+- `evidence/POC-005/compressed-input-v1/007-59320f53160a.zlib.b64`
+- `evidence/POC-005/compressed-input-v1/008-5e1cba3e0567.zlib.b64`
+- `evidence/POC-005/compressed-input-v1/009-d6e6f9b11d23.zlib.b64`
+- `evidence/POC-005/compressed-input-v1/010-99016407509e.zlib.b64`
+- `evidence/POC-005/compressed-input-v1/011-8d43b9eef4a6.zlib.b64`
+- `evidence/POC-005/compressed-input-v1/012-3f497f6fbc76.zlib.b64`
+- `evidence/POC-005/compressed-input-v1/index.json`
 - `evidence/POC-005/dav-adapter-independent-content-review.json`
 - `evidence/POC-005/dav-development-first-failure.json`
 - `evidence/POC-005/dav-edbf8da-ci820/.gitattributes`
