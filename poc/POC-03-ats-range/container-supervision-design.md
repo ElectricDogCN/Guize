@@ -6,6 +6,13 @@
 
 当前只有有限匿名内存 canary V5 的结果获接受：真实 exec 子进程释放并退出后，原生峰值仍保留90,316,800字节。它证明本机 Docker 的计数可用，不证明 ATS、原15项或完整媒体域。本文件明确下一段实现及待验证的条件；不批准新镜像、输入、资源或实验。
 
+## 已验证的有限生命周期前置
+
+两项真实非媒体控制用例已按独立批准执行：一个私有 PID1 正常退出0，另一个由 engine KILL 结束137；两者此前均持有两个 setsid worker，其中一个已成为 PID1 收养的孤儿。34项真实CLI、68份raw及实际proc/namespace/engine wait/state获独立核验，容器均保留并停止。初次logger配置导致的启动前失败保持，不回写为通过。原件与限制见[生命周期档案](../../evidence/POC-003/namespace-lifetime-v2/index.json)。
+
+这一结果只验证既定控制配置的收尾前置。全域终结依据是实际私有PID1退出及[Linux PID namespace语义](https://man7.org/linux/man-pages/man7/pid_namespaces.7.html)，并非逐worker wait137或直接观察到namespace对象销毁；顺序用例可能重用namespace inode。Docker [kill](https://docs.docker.com/reference/cli/docker/container/kill/) 与 [wait](https://docs.docker.com/reference/cli/docker/container/wait/) 分别作用于主进程和报告容器退出。实际接入ATS/collector、丢失tracer后的故障路径、完整媒体所有者及未跟踪延迟仍须解决，memory.peak仍不能提供严格上界。
+
+
 ## 实现边界
 
 完整沙箱放进一个新建私有容器，由一个只处理控制元数据的 PID1 监督进程管理。所有媒体处理者从首次 exec 起就在同一个 cgroup，重启、清缓存和临时工具也不换组。复用原 lab、collect、缓存观察/导出及撤权实现；不另造媒体服务或改变冻结 checker。
