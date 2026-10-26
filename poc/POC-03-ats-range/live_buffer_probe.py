@@ -100,7 +100,7 @@ def parse_snapshots(raw,identity,expected,after_ns=0):
                 rawSha256=hashlib.sha256(raw[:end]).hexdigest(),maximumObservedLiveCapacityBytes=rows[-1]['peakBytes'],
                 requestCompletedMonotonicNs=after_ns,fullMediaBufferBoundProven=False,baselineSubtracted=False)
 
-def capture_live(child,directory,output,expected,after_ns=0):
+def capture_live(child,directory,output,expected,after_ns=0,*,journal_directory=None):
     """Keep the exact complete file prefix even when validation fails."""
     output=Path(output);output.mkdir(mode=0o700)
     before=process_identity(child);path=Path(directory)/('live-buffer-'+str(child.pid)+'.jsonl')
@@ -120,7 +120,8 @@ def capture_live(child,directory,output,expected,after_ns=0):
             if result:
                 if process_identity(child)!=before:raise ValueError('child changed after snapshot')
                 from durable_peak_probe import capture_peak_journal
-                durable=capture_peak_journal(child,directory,output/'durable-peak',before)
+                durable=capture_peak_journal(child,directory if journal_directory is None else journal_directory,
+                                             output/'durable-peak',before)
                 if durable['maximumObservedTrackedCapacityBytes']<result['maximumObservedLiveCapacityBytes']:
                     raise ValueError('durable publication does not cover the observed ledger peak')
                 result['durablePeakSnapshot']=durable

@@ -215,8 +215,13 @@ class OwnedEpoch:
         try:
             if self.process is not None:
                 if self.process.poll() is None:
-                    if self.pidfd is not None:signal.pidfd_send_signal(self.pidfd,signal.SIGKILL)
-                    else:self.process.kill()
+                    try:
+                        if self.pidfd is not None:signal.pidfd_send_signal(self.pidfd,signal.SIGKILL)
+                        else:self.process.kill()
+                    except ProcessLookupError:
+                        # Exit between poll and signal still requires the actual
+                        # owned wait; an absent live task is not a reaped child.
+                        pass
                 code=self.process.wait(timeout=5)
                 self.record.update(exitCode=code,waitCompleted=True)
                 if self.error_fd in self._fds and 'exec-error.raw' not in self.record:
