@@ -106,7 +106,7 @@ tasks:
   agentRole: implementer
   branch: chore/OPS-015-role-amendment-v2
   baseBranch: main
-  baseSha: 36d8ba69581c98ab15559e5a4a7f6281435d327f
+  baseSha: 955d226134e2562d7f509ffb320f352d8bc08c6d
   workPackage: WP-M0-01
   programPlan: specs/coordination/program-plan.yaml
   programTaskId: OPS-015

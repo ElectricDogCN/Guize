@@ -1,36 +1,17 @@
-# OPS-015 implementation Handoff Contract
+# OPS-015 performance rework Handoff
 
-Task: OPS-015 / Issue:153 https://github.com/ElectricDogCN/Guize/issues/153
-Branch: chore/OPS-015-role-amendment-v2
-Base / precommit Git HEAD: 36d8ba69581c98ab15559e5a4a7f6281435d327f
-Record type: precommit integration-control snapshot for in_progress/implementer. Read the actual candidate commit/tree from Git HEAD; this document does not predict its own containing SHA. Postcommit gate results and the PR/CI are authoritative for later status. Publication, full governanceCI and merge remain pending.
+Task OPS-015 / Issue153. Original registered branch chore/OPS-015-role-amendment-v2; current dirty HEAD and actual integration comparison target 955d226134e2562d7f509ffb320f352d8bc08c6d. Initial5c retained base36d and its raw lifecycle gate actually required audited target955. Current Own Task/Active base is consistently955; original registration/intent/other fields stay unchanged. Read actual next source/tree from Git; this is a precommit snapshot.
 
-Owner ElectricDogCN; Coordinator/Implementer/Integrator /root; independent Reviewer /root/gz022_planning_independent_review. Original lease 2026-10-27T05:33:14Z to 2026-11-03T05:33:14Z, unchanged; order11, high/MOD-GOV, no shared paths.
+Owner ElectricDogCN; Coordinator/Implementer/Integrator /root; independentReviewer /root/gz022_planning_independent_review. Current in_progress/implementer, MOD-GOV/high, original five claims, coordinationGroup reservation-role-amendment, integrationOrder11, sharedPaths none. Original168h lease acquired2026-10-27T05:33:14Z/expires2026-11-03T05:33:14Z, no renewal. Consumed contract versions Program1/Task2/Registry1.
 
-## Accepted input and current scope
+Actual files: changed-files.md enumerates this candidate, including itself. Exact current16 commands: commands.txt and Task 必须执行的测试. Current committed-source exits/CI/publication: UNEXECUTED. Development v6 actually ran5 selected regressions, exit0/9.34s,41deselected; Complete isolated actor/history development suite actually finished: 246 passed in 681.37s (0:11:21); 246 nonempty JUnit cases, zero failure/error/skip, actual PID107397 wait0. The development snapshot is base955 plus the two recorded actual code-file pins; it is not a committed-source or CI acceptance. Actual raw commands/exits/pins are archived; none substitutes for this source's actual gates/CI.
 
-PR154/source8b and latestCI871 accepted; actual main36d has all seven no-task checks exit0, pushCI872 752passed/1418.21s/zero failed,error,test-skipped, 23successful workflow steps and5 normal no-task conditional skips. Independent actual-main receipt bc0b9e05c1c4398a3f2aaebb084220953a76b74a18b1dcce63c2f212d84d55c2 permits the original five claims only. Reservation intent and original defect bytes stay unchanged.
+rework-ci875-prerequisites/index.json retains lossless originals: accepted actual codePR155/main955 own7/CI874793; failed metadataReviewbb0 source13actual0 but both CI875 attempts cancelled30m/758+760partial, not complete accepted CI; bounded retry consumed; independent rework route/design; diagnostic profiles and parent report serialization exit1; development pre-test helper guard failure, v5actual2fail/3pass, corrected v6actual5pass. Profile is not gate/POC qualification. Old4b/ef4/20a failures and all originals stay.
 
-Implementation files: the five exact Task claims; own Task/Evidence and own Program/Active lifecycle metadata. Current code proves only prospective actor amendments and authentic accepted-main imports, with a real preceding approval commit. POC checker, contracts, thresholds, old approvals/results/raw, peer roles/claims/lease and V1 boundary are unchanged.
+Code change only reuses successful structural meta-validation by actualSchema text/class with bound64. Each historical document/dialect/FormatChecker/full error iteration still runs, using fresh validator; no cached admission, document outcome or ref resolution. No original scope, Schema, workflow timeout, policy, POC actors/approval/experiment/thresholds or foreign records change.
 
-## Consumed contract versions
+Next: finish meaningful affected tests; exact committed-source14 chain plus required tests/full same-headCI and independent source acceptance; new ordinary codePR, actual code main own7/pushCI/acceptance; fresh normalReview then Completion. Completion uses latest actual rework codePR/main once integrated, never failedbb0 or a metadata main, and never simply transfers oldPR155 identity to this new code. Later POC actor transactions and fresh experiments stay separate.
 
-- CONTRACT-PROGRAM-PLAN: schemaVersion1, specs/coordination/program-plan.yaml and specs/coordination/program-plan.schema.yaml.
-- CONTRACT-TASK-SPEC: schemaVersion2, this Task front matter and the scripts/check-task-file.py / scripts/check-schemas.py validation contract.
-- CONTRACT-ACTIVE-WORK: version1, specs/coordination/active-work.yaml and specs/coordination/active-work.schema.yaml.
+Rollback is ordinary forward reviewable correction; no ref/raw/database deletion, reset/rebase/force or third retry of oldCI875. Failed Reviewbb0 remains outside this rework parent line.
 
-These are the actually consumed local contract versions; this implementation publishes no new contract or POC schema version.
-
-## Validation and next role
-
-Earlier uncommitted development originals are in development-index.json:18/34/38 and a separate3-case selected supplement. Exact committed source20a08c49999f4b5e1432d92bcd5ce0d2f191c0a1 subsequently passed all14 source gates and all41 target tests/165.33s/zero failed,error,skipped; their18 actual originals and index are in fixed-source-20a08c4/. This OwnEvidence-only handoff update preserves all five code pins. Its new containing commit still needs its own14 gates; the complete tests/governance command remains pending for the later same-headCI. No14-to16 or old-source gate inheritance is claimed. Independent review precedes source publication; fixed source CI and actual main acceptance precede normal Review/Completion. No new activation PR is required by the accepted registration.
-
-Rollback: reviewed ordinary forward change; retain reservation/source/failure records and local refs. Next: read the new actual candidate commit from Git, run its14 fixed-source checks, independently accept this metadata snapshot and create the Ready PR for complete same-headCI. Initial3P2 findings and V1-V4 originals are retained. No source publication or integration acceptance is claimed. POC identity transactions and new experiments remain separately required after normal mechanism Completion.
-
-## Rejected first fixed source
-
-Original4b2491bea66c7c0f26e4c99b7e9fd4d2c3d251dc was committed but unpublished; its diff gate exited0 and Task gate exited1 for missing required bullets/section titles;12 remaining gates were not executed. The original branch and bundle remain. This separate candidate starts at accepted36d, reuses identical five code pins and fixes only Task-format/Own metadata. No reset, rebase, history relaxation or qualification inheritance. See rejected-source-4b2491b/.
-
-## Actual successor scope-gate failure
-
-Sourceef4f92c actual first10 gates passed; gate11 scope exit1 due to prose rather than exact Allowed patterns. The final3 gates did not run. Original5Registry claims were unchanged and accepted by coordination. The forward metadata fix enumerates these same5 paths plus OwnEvidence; it does not broaden claims or alter5codepins. See rejected-source-ef4f92c/. The source20a14 subsequently passed; this handoff-only successor still needs its own14 and complete same-headCI.
+Source5c actual fixed-source result: first6 commands exit0, raw-lifecycle exit1 for Own base mismatch, last7 unexecuted. All original8 result/raw files are preserved in rework-rejected-source-5c30e01/index.json. This ordinary forward fix changes only Own Active/Task base and OwnEvidence; code pins/claims/actors/lease remain unchanged. New source full14/CI acceptance remains pending.
