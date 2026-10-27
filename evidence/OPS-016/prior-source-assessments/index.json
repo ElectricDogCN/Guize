@@ -1,0 +1,20 @@
+[
+  {
+    "original": "ops016-implementation-invalid-lineage-readonly-assessment.json",
+    "archive": "000.zlib.b64",
+    "bytes": 5219,
+    "sha256": "7c067a2bd33b7031bcc85af020e064cd9f99e4af25d4e00ce4e9af6f010c0abe",
+    "encoding": "zlib+base64",
+    "lossless": true,
+    "scope": "negative old-source publication and inadmissible historical Task, not new-source acceptance"
+  },
+  {
+    "original": "ops016-implementation-971b9f0-publication-independent-review.json",
+    "archive": "001.zlib.b64",
+    "bytes": 7206,
+    "sha256": "a4e2c7125feed157f1c2c7c0136af2934f013d5d2ce5312fd965386273a04fb1",
+    "encoding": "zlib+base64",
+    "lossless": true,
+    "scope": "negative old-source publication and inadmissible historical Task, not new-source acceptance"
+  }
+]

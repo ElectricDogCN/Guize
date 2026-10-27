@@ -1,0 +1,146 @@
+[
+  {
+    "original": "ops016-reservation-actual-main-independent-review.json",
+    "archive": "000.zlib.b64",
+    "bytes": 12522,
+    "sha256": "2a21d6f3ac8dff762608dc84330970febc169fcc1c9a4d9672efe32106195c1a",
+    "encoding": "zlib+base64",
+    "lossless": true
+  },
+  {
+    "original": "ops016-reservation-final-source-independent-review.json",
+    "archive": "001.zlib.b64",
+    "bytes": 7782,
+    "sha256": "a24429b3a0e60bf34ec0b8ceff0c6085204b01132493d3adabfa6bd7401b5400",
+    "encoding": "zlib+base64",
+    "lossless": true
+  },
+  {
+    "original": "ops016-reservation-actual-main-candidate.json",
+    "archive": "002.zlib.b64",
+    "bytes": 874,
+    "sha256": "af18416e67f2489c0e948489155157aabc1271cec5adfa5631811ba9ee99913e",
+    "encoding": "zlib+base64",
+    "lossless": true
+  },
+  {
+    "original": "ops016-reservation-official-merge.json",
+    "archive": "003.zlib.b64",
+    "bytes": 575,
+    "sha256": "fdb135ac0ff4a98efb9f85ad26e85cff288b5800065090fd9baeedb88bef420a",
+    "encoding": "zlib+base64",
+    "lossless": true
+  },
+  {
+    "original": "ops016-normal-delivery-sequencing-readonly-assessment.json",
+    "archive": "004.zlib.b64",
+    "bytes": 4815,
+    "sha256": "82e96d306e31305f9777288843648a73d7604000182261f817d9816ba6bd607c",
+    "encoding": "zlib+base64",
+    "lossless": true
+  },
+  {
+    "original": "ops016-reservation-main-ci/run.json",
+    "archive": "005.zlib.b64",
+    "bytes": 13673,
+    "sha256": "2704b54f4a3778324f0c570abe156b73ca8ac1bc08516321a27f88e0a15b9123",
+    "encoding": "zlib+base64",
+    "lossless": true
+  },
+  {
+    "original": "ops016-reservation-main-ci/jobs.json",
+    "archive": "006.zlib.b64",
+    "bytes": 4608,
+    "sha256": "a6549d5ed426976a3aba4e9aaef2240f82647f35fa9419a9c85afcdc9ac04d5b",
+    "encoding": "zlib+base64",
+    "lossless": true
+  },
+  {
+    "original": "ops016-reservation-main-ci/checkout.json",
+    "archive": "007.zlib.b64",
+    "bytes": 2707,
+    "sha256": "4acf82869e557e1be99fc48a58a49c2461006bfe6ed3b3f06c628d07b568a43e",
+    "encoding": "zlib+base64",
+    "lossless": true
+  },
+  {
+    "original": "ops016-reservation-main-ci/analysis.json",
+    "archive": "008.zlib.b64",
+    "bytes": 1204,
+    "sha256": "6f6e189667902f6780deb2faaa03b95987580f4ffe11f59c3512b15b66c10cfd",
+    "encoding": "zlib+base64",
+    "lossless": true
+  },
+  {
+    "original": "ops016-reservation-main-ci/job-log.connector-decoded.utf8.txt",
+    "archive": "009.zlib.b64",
+    "bytes": 307419,
+    "sha256": "f8b01d50e444c2651441df2b0b1819ac58726c33087bdbc330e63f1e65f47eed",
+    "encoding": "zlib+base64",
+    "lossless": true
+  },
+  {
+    "original": "ops016-reservation-263ac36-native-main-checks/results.json",
+    "archive": "010.zlib.b64",
+    "bytes": 5221,
+    "sha256": "51d1570a6d836afb99398be9cbb2e5089dbff0d4ef6b973b6a03cfb5e53ac8aa",
+    "encoding": "zlib+base64",
+    "lossless": true
+  },
+  {
+    "original": "ops016-reservation-263ac36-native-main-checks/integrity.raw",
+    "archive": "011.zlib.b64",
+    "bytes": 474,
+    "sha256": "ddd4b4e43f49ca209bf1331fc3fd27d887d917a110f2ba82cd0a7d7a56cabe8f",
+    "encoding": "zlib+base64",
+    "lossless": true
+  },
+  {
+    "original": "ops016-reservation-263ac36-native-main-checks/history.raw",
+    "archive": "012.zlib.b64",
+    "bytes": 542,
+    "sha256": "cc76cc7a80fb63f697d8b1ec526e4f5a89929e111ba3f129e27cd493314c5142",
+    "encoding": "zlib+base64",
+    "lossless": true
+  },
+  {
+    "original": "ops016-reservation-263ac36-native-main-checks/transitions.raw",
+    "archive": "013.zlib.b64",
+    "bytes": 454,
+    "sha256": "c741590a06234de7e2af6776e1e3ca63e4f0a8ddfbddcdb37045657b335f9424",
+    "encoding": "zlib+base64",
+    "lossless": true
+  },
+  {
+    "original": "ops016-reservation-263ac36-native-main-checks/finalization.raw",
+    "archive": "014.zlib.b64",
+    "bytes": 433,
+    "sha256": "6d9ca957b0166844dfea1f6a8a12334700120ed6d3b3bf954caa596056bcba6b",
+    "encoding": "zlib+base64",
+    "lossless": true
+  },
+  {
+    "original": "ops016-reservation-263ac36-native-main-checks/raw-lifecycle.raw",
+    "archive": "015.zlib.b64",
+    "bytes": 525,
+    "sha256": "c4cdffaedcc0b9aba35839e5e8a920078e71b22013371082d557a6719c35c532",
+    "encoding": "zlib+base64",
+    "lossless": true
+  },
+  {
+    "original": "ops016-reservation-263ac36-native-main-checks/coordination.raw",
+    "archive": "016.zlib.b64",
+    "bytes": 336,
+    "sha256": "712f061913bf641346d599dbb1a1aa8c05d0f39c2aa58834d1f43294ab415aa7",
+    "encoding": "zlib+base64",
+    "lossless": true
+  },
+  {
+    "original": "ops016-reservation-263ac36-native-main-checks/poc-protocol.raw",
+    "archive": "017.zlib.b64",
+    "bytes": 361,
+    "sha256": "fd54b416cde50a870242d2e5dced9c57a80c74d1146745c27a911ab705e7ecc2",
+    "encoding": "zlib+base64",
+    "lossless": true
+  }
+]

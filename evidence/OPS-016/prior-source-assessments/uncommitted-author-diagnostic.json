@@ -1,0 +1,23 @@
+{
+  "kind": "Uncommitted Windows author diagnostics, not fixed-source gates",
+  "scopeToolChunk": "faf70a",
+  "taskFormatActualExit": 0,
+  "scopeActualExit": 1,
+  "scopeFindings": [
+    "Windows checkout local Git core.longpaths was not persisted: false missing-path deltas for OPS014 long filenames",
+    "Own metadata worktree was still uncommitted and correctly rejected by checked-head binding"
+  ],
+  "followupOperatorFailure": {
+    "toolChunk": "b81e51",
+    "actualExit": 1,
+    "stage": "local core.longpaths set, then ordinary Windows Python open of long foreign path failed; remaining handoff/archive changes unexecuted"
+  },
+  "resolution": [
+    "Persisted only new local author core.longpaths=true; no files deleted or claims changed",
+    "Read the known absolute foreign file using extended-length Windows path, verified exact accepted-main Git blob",
+    "Actual tracked diffs now all Own; commit complete new source before native fixed-source15"
+  ],
+  "codePinsUnchanged": true,
+  "foreignFileBytesEqualMain": true,
+  "separateProcessRawCaptured": false
+}

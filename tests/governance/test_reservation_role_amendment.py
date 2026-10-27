@@ -17,7 +17,8 @@ SPEC.loader.exec_module(PROOF)
 
 
 class Graph:
-    def __init__(self, temporary):
+    def __init__(self, temporary, *, implementation_variant='single'):
+        assert implementation_variant in {'single', 'incremental', 'metadata', 'restored'}
         self.repo = temporary/'repo'
         subprocess.run(['git', '-c', 'core.longpaths=true', 'clone', '--shared', '--no-checkout', '--quiet', str(ROOT), str(self.repo)], check=True, capture_output=True)
         self.git('config', 'user.name', 'Actor fixture')
@@ -33,16 +34,33 @@ class Graph:
         self.commit('OPS-015 fixture nonempty implementation (#9001)')
         self.git('checkout', 'actor-fixture-main')
         implementation = self.merge('implementation', 'OPS-015 implementation (#9001)')
+        reference = 'PR-9001'
+        if implementation_variant != 'single':
+            self.git('checkout', '-b', 'incremental-rework')
+            for path in ('scripts/check-program-plan-history.py',
+                         'tests/governance/test_reservation_role_amendment.py'):
+                value = (self.repo/path).read_bytes()+b'\n# Incremental fixture rework.\n'
+                if implementation_variant == 'restored' and path.startswith('scripts/'):
+                    value = PROOF.blob(str(self.repo), PROOF.REGISTRATION, path)
+                self.write(path, value)
+            self.commit('OPS-015 fixture incremental rework (#9004)')
+            self.git('checkout', 'actor-fixture-main')
+            implementation = self.merge('incremental-rework', 'OPS-015 incremental rework (#9004)')
+            reference = 'PR-9004'
+        self.latest_code = implementation
         self.git('checkout', '-b', 'review')
         self.lifecycle('review', 'reviewer', implementation)
         self.commit('OPS-015 independent fixture Review (#9002)')
         self.git('checkout', 'actor-fixture-main')
-        self.merge('review', 'OPS-015 normal Review (#9002)')
+        review = self.merge('review', 'OPS-015 normal Review (#9002)')
+        if implementation_variant == 'metadata':
+            implementation, reference = review, 'PR-9002'
+        self.implementation = implementation
         self.git('checkout', '-b', 'completion')
         self.lifecycle('completed', 'integrator', self.git('rev-parse', 'HEAD'))
         plan = self.read(PROOF.PLAN)
         own = next(row for row in plan['foundationTasks'] if row['taskId'] == 'OPS-015')
-        own.update(completionRef='PR-9001', mergeCommit=implementation)
+        own.update(completionRef=reference, mergeCommit=implementation)
         self.dump(PROOF.PLAN, plan)
         active = self.read(PROOF.ACTIVE)
         active['tasks'] = [row for row in active['tasks'] if row['taskId'] != 'OPS-015']
@@ -130,8 +148,7 @@ def graph(tmp_path):
     return Graph(tmp_path)
 
 
-@pytest.mark.parametrize('target', ['POC-003', 'POC-005'])
-def test_original_metadata_transaction_and_real_callers(graph, target):
+def assert_metadata_transaction_and_real_callers(graph, target):
     head = graph.amend(target)
     assert PROOF.validate_range(str(graph.repo), graph.base, head) == {target: PROOF.FIELDS}
     for script in ('check-program-plan-transitions.py', 'check-program-plan-history.py'):
@@ -139,6 +156,53 @@ def test_original_metadata_transaction_and_real_callers(graph, target):
             '--base-ref', graph.base, '--head-ref', head, '--task', target,
             '--branch-name', 'chore/'+target+'-actor-metadata'], capture_output=True, text=True)
         assert result.returncode == 0, result.stdout+result.stderr
+
+
+@pytest.mark.parametrize('target', ['POC-003', 'POC-005'])
+def test_original_metadata_transaction_and_real_callers(graph, target):
+    assert_metadata_transaction_and_real_callers(graph, target)
+
+
+@pytest.mark.parametrize('target', ['POC-003', 'POC-005'])
+def test_incremental_rework_authority_and_real_callers(tmp_path, target):
+    graph = Graph(tmp_path, implementation_variant='incremental')
+    assert PROOF.changed(str(graph.repo), PROOF.parents(str(graph.repo), graph.latest_code)[0],
+                         graph.latest_code) == {'scripts/check-program-plan-history.py',
+                                               'tests/governance/test_reservation_role_amendment.py'}
+    assert PROOF.CLAIMS <= PROOF.changed(str(graph.repo), PROOF.REGISTRATION, graph.implementation)
+    assert_metadata_transaction_and_real_callers(graph, target)
+
+
+def test_metadata_merge_cannot_supply_incremental_implementation_identity(tmp_path):
+    graph = Graph(tmp_path, implementation_variant='metadata')
+    assert PROOF.CLAIMS <= PROOF.changed(str(graph.repo), PROOF.REGISTRATION, graph.implementation)
+    assert not PROOF.CLAIMS & PROOF.changed(str(graph.repo),
+        PROOF.parents(str(graph.repo), graph.implementation)[0], graph.implementation)
+    with pytest.raises(PROOF.AmendmentError, match='nonempty registered implementation'):
+        PROOF.authority(str(graph.repo), graph.base)
+
+
+def test_restored_claim_is_missing_from_incremental_net_coverage(tmp_path):
+    graph = Graph(tmp_path, implementation_variant='restored')
+    assert PROOF.CLAIMS & PROOF.changed(str(graph.repo),
+        PROOF.parents(str(graph.repo), graph.implementation)[0], graph.implementation)
+    assert PROOF.CLAIMS - PROOF.changed(str(graph.repo), PROOF.REGISTRATION,
+                                      graph.implementation) == {'scripts/check-program-plan-history.py'}
+    with pytest.raises(PROOF.AmendmentError, match='complete registered implementation'):
+        PROOF.authority(str(graph.repo), graph.base)
+
+
+def test_actual_completed_incremental_history():
+    # Reproduce the real rejection before actor preparation; no actors are changed.
+    admitted = '0976f4d901a66464f0af5b168234336b3517700a'
+    completed = PROOF.rows(PROOF.document(str(ROOT), admitted, PROOF.PLAN), 'foundationTasks')[PROOF.OWNER]
+    assert completed['completionRef'] == 'PR-157'
+    implementation = completed['mergeCommit']
+    assert implementation == 'ab9cd878bdc58745b1fdd618c6e749cdd9c6d03a'
+    assert len(PROOF.CLAIMS & PROOF.changed(str(ROOT), PROOF.parents(str(ROOT), implementation)[0],
+                                          implementation)) == 2
+    assert PROOF.CLAIMS <= PROOF.changed(str(ROOT), PROOF.REGISTRATION, implementation)
+    assert PROOF.authority(str(ROOT), admitted)['taskId'] == PROOF.OWNER
 
 
 @pytest.mark.parametrize('change', [

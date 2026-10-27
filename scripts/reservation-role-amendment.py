@@ -138,7 +138,11 @@ def authority(root, admitted):
     require(implementation in canonical and canonical.index(implementation) > canonical.index(REGISTRATION),
             'Actor implementation must be integrated after the real reservation')
     implementation_paths = changed(root, parents(root, implementation)[0], implementation)
-    require(CLAIMS <= implementation_paths, 'Actor mechanism has no complete registered implementation')
+    require(CLAIMS & implementation_paths, 'Actor mechanism has no nonempty registered implementation')
+    # A real incremental rework need not rewrite every original path. Net
+    # coverage still excludes paths touched and then restored to registration.
+    cumulative_paths = changed(root, REGISTRATION, implementation)
+    require(CLAIMS <= cumulative_paths, 'Actor mechanism has no complete registered implementation')
     reference = completed.get('completionRef', '')
     require(re.fullmatch(r'PR-[1-9][0-9]*', reference) is not None
             and OWNER in git(root, 'show', '-s', '--format=%B', implementation).decode()
