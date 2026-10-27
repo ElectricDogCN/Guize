@@ -59,3 +59,14 @@ Failure: three P1 findings on tested parent require durable executed evidence, c
 Next Reviewer: resolve exact current source/tree from Git HEAD and PR133, verify parent archive decoded hashes, exact diff against base, fresh fifteen commands/exit codes and same-head full CI, and each actual P1 remedy; independently review current content and all actual threads. Parent receipts are historical only. Next Integrator: verify latest actual main still matches base, dependency/order/lease and independent acceptance, zero unresolved findings and exact-head gates, then ordinary merge; verify actual ordered parents [base, source] and tree equality, actual-main five metadata checks plus standalone POC protocol checker and full push CI. Only after accepted reservation may implementation start from latest main on stable work branch, then obtain required independent sample/resource/domain approvals before experimentation.
 
 Rollback: withdraw unmerged proposal; after accepted reservation use lawful cancellation to release own lease. Later stop/clean only isolated sandbox, preserving input/Evidence/history; forward repair accepted defects. No Docker/WSL restart or unrelated service operation.
+
+
+## Prospective concrete actor assignment (new work only)
+
+Task: POC-003; Issue: #131; metadata branch: chore/POC-003-concrete-actors-v2; admitted main: 09fdb617d00a802e21018c604e6c40cbc36a5455.
+Independent approval was committed first as f28bb1901d049a77441430741ec8a180063ea103; exact original is actor-amendment-v1/approval.json.
+New implementer: /root; new independent reviewer: /root/independent_review. Only those Task/Registry scalars change.
+Status remains reserved; original workBranch/base/agentRole/lease/claims/risk/dependencies/group/order and all other fields stay.
+This is a precommit control snapshot: read the actual actor source/tree from Git after the second commit. Current source gates, full CI, publication and actual actor main acceptance are PENDING.
+No implementation start, experiment, sample/resource/window approval, old source76 control qualification or result transfer is granted. After actual actor main acceptance, the preserved implementation branch must prove a genuine automatic stage-0 import, then obtain its new qualified source/gates/CI/approvals and real new executions.
+Withdraw before merge or use an ordinary forward correction afterward, preserving all local feature refs, 86 untracked originals, prior raw and data.

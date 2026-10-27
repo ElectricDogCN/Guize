@@ -13,8 +13,8 @@ tasks:
   riskLevel: medium
   owner: ElectricDogCN
   coordinator: program-coordinator-agent
-  implementer: task-owner-agent
-  reviewer: independent-review-agent
+  implementer: /root
+  reviewer: /root/independent_review
   integrator: integration-agent
   agentRole: coordinator
   branch: chore/POC-003-ats-range
