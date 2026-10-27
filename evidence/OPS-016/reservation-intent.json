@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "taskId": "OPS-016",
+  "phase": "metadata_only_reservation",
+  "sourceMain": "0976f4d901a66464f0af5b168234336b3517700a",
+  "issue": 160,
+  "implementationPaths": [
+    "scripts/reservation-role-amendment.py",
+    "tests/governance/test_reservation_role_amendment.py"
+  ],
+  "mechanismOwner": "OPS-015",
+  "originalRegistration": "36d8ba69581c98ab15559e5a4a7f6281435d327f",
+  "actualCodeIdentity": {
+    "pr": 157,
+    "mergeCommit": "ab9cd878bdc58745b1fdd618c6e749cdd9c6d03a"
+  },
+  "latestCodeMustContainRegisteredCode": true,
+  "cumulativeCoverageFromOriginalRegistration": true,
+  "originalIntentOrCompletionRewriteAllowed": false,
+  "frozenPocContractChangeAllowed": false,
+  "oldExecutionAliasOrQualificationTransferAllowed": false,
+  "foreignClaimLeaseRiskChangeAllowed": false,
+  "governanceFreezeIntroduced": false,
+  "implementationExecuted": false,
+  "pocActorOrExperimentApproved": false
+}

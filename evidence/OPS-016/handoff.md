@@ -1,0 +1,11 @@
+Task OPS-016 / Issue160 / branch chore/OPS-016-actor-coverage-reservation / base 0976f4d901a66464f0af5b168234336b3517700a. Current proposal reserved/coordinator; source/tree unassigned until actual commit.
+
+Owner ElectricDogCN; Coordinator/Implementer/Integrator /root; Reviewer /root/gz022_planning_independent_review. MOD-GOV/high; original lease2026-10-27T15:35:07Z→2026-11-03T15:35:07Z, group actor-coverage-repair/order12, no shared paths. Contracts Program1/Task2/Registry1 unchanged. Exact two future code claims are scripts/reservation-role-amendment.py and tests/governance/test_reservation_role_amendment.py; neither touched here.
+
+Actual files: changed-files.md; exact current14 commands: commands.txt / Task 必须执行的测试. Current exits/CI UNEXECUTED, no source/publication/main acceptance. Prerequisite index retains actual0976main own7/CI881798 and independent acceptance, actualclone0/authority1 before any actor commit, old855approval (not committed, not reusable as new approval) and independent failure/design. No actualsource/CI/result qualification is inherited.
+
+Only Own Foundation/Active/Task/Evidence reservation. Foreign twoPOCs and roles, base/branch/lease/claims, all previous completed records and OPS015 originalintent/PR157-mainab9 codeidentity, ordinary ledger/policy/recovery/frozenPOC/thresholds unchanged. This active governance correction needs no special POC-contract freeze and grants no experiment.
+
+Next Reviewer: inspect actual dirty metadata/inventory/capacity/lease/two claims/decoded originals before exact commit. Next Implementer: exact commit then fixed-source14 preserving actual argv/PID/wait/raw/hashes, independent publication review and same-head full governance CI. Next Integrator: fresh head/base/lease/latestCI/threads plus independent final source approval, normal expected-head merge and actualmain ownchecks/fullCI/independent acceptance. Only then implement the two-file correction and meaningful Git regressions; complete normalReview/Completion before freshPOC approvals/newidentity/source/runtime. No bypass, retrospective qualification or code identity rollback.
+
+Rollback: withdraw before merge or ordinary forward correction preserving all raw, failedclone, DB, worktrees/localrefs and original approvals; never force/reset/rebase or erase history.
