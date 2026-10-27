@@ -18,3 +18,14 @@ Actual predecessor validation: f80b04438ae0de0d6d08f3b75bfe332723ce0fc3 / tree0b
 PR: https://github.com/ElectricDogCN/Guize/pull/135 (OPEN/DRAFT). Before this repair push, its observed remote head was e7a962f225bb0004fd49b513a633d9dbb82fcfc3; CI813/run39811820453 was still in progress and cannot accept the local f80 or future source. Current candidate identity is actual Git HEAD/tree after this forward commit; no self-referential future SHA is fabricated.
 
 Actual changed files: changed-files.md (exact inventory against base); actual commands/current limitations: commands.txt; predecessor failed logs: reservation-e7a962f-failed-validation/results.json; actual f80 all15 commands/exit codes: reservation-f80b044-validation/results.json. Contract: POC-PROTOCOL-V1, produced POC-05-EVIDENCE, frozen schemaVersion2 plan specs/poc/plans/POC-005.yaml and current policy/resources/samples/Schema remain unchanged. No qualified result/config/input approval exists.
+
+
+## Prospective concrete actor assignment (new work only)
+
+Task: POC-005; Issue: #132; metadata branch: chore/POC-005-concrete-actors-v1; admitted main: 055ccf18e4b125850d59c93f5ec3204e630f101c.
+Independent approval was committed first as a28151ce58438b444fcbb5353cb8e706fb78fd73; exact original is actor-amendment-v1/approval.json.
+New implementer: /root; new independent reviewer: /root/gz022_planning_independent_review. Only those Task/Registry scalars change.
+Status remains reserved; original workBranch/base/agentRole/lease/claims/risk/dependencies/group/order and all other fields stay.
+This is a precommit control snapshot: read the actual actor source/tree from Git after the second commit. Current source gates, full CI, publication and actual actor main acceptance are PENDING.
+No implementation start, experiment, sample/resource/window approval, old sourceed8/attempt010 qualification or result transfer is granted. After actual actor main acceptance, the preserved implementation branch must prove a genuine automatic stage-0 import, then obtain its new qualified source/gates/CI/approvals and real new executions.
+Withdraw before merge or use an ordinary forward correction afterward, preserving all local feature refs, 4171 untracked raw/DB originals, prior raw and data.
