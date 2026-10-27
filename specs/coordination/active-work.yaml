@@ -93,3 +93,46 @@ tasks:
   lease:
     acquiredAt: '2026-10-22T16:08:44Z'
     expiresAt: '2026-10-29T16:08:44Z'
+- taskId: OPS-015
+  issue: 153
+  title: 有界准入活动POC的前瞻具体身份修订
+  status: reserved
+  riskLevel: high
+  owner: ElectricDogCN
+  coordinator: /root
+  implementer: /root
+  reviewer: /root/gz022_planning_independent_review
+  integrator: /root
+  agentRole: coordinator
+  branch: chore/OPS-015-role-amendment-reservation
+  baseBranch: main
+  baseSha: 746e23e582501fa08380c3f3301bdc1774902f7c
+  workPackage: WP-M0-01
+  programPlan: specs/coordination/program-plan.yaml
+  programTaskId: OPS-015
+  programWave: FOUNDATION
+  requirementIds:
+  - REQ-V1-0010
+  moduleIds:
+  - MOD-GOV
+  producesContracts: []
+  consumesContracts:
+  - CONTRACT-PROGRAM-PLAN
+  - CONTRACT-TASK-SPEC
+  - CONTRACT-ACTIVE-WORK
+  coordinationGroup: reservation-role-amendment
+  dependsOn:
+  - OPS-014
+  exclusivePaths:
+  - scripts/check-program-plan-transitions.py
+  - scripts/check-program-plan-history.py
+  - scripts/reservation-role-amendment.py
+  - tests/governance/test_reservation_role_amendment.py
+  - rules/reservation-role-amendment.md
+  sharedPaths: []
+  handoffPath: evidence/OPS-015/handoff.md
+  integrationStrategy: merge
+  integrationOrder: 11
+  lease:
+    acquiredAt: '2026-10-27T05:33:14Z'
+    expiresAt: '2026-11-03T05:33:14Z'

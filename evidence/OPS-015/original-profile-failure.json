@@ -1,0 +1,38 @@
+{
+  "kind": "ACTUAL_COMPLETE_FORMAL_LOCAL_PROFILE_CHECK",
+  "before": {
+    "head": "9ed424c64efd7dcea5ef707e0a303c80810c6651",
+    "tree": "34a4f5d48071f49af4925a82a587034478c11077",
+    "status": ""
+  },
+  "after": {
+    "head": "9ed424c64efd7dcea5ef707e0a303c80810c6651",
+    "tree": "34a4f5d48071f49af4925a82a587034478c11077",
+    "status": ""
+  },
+  "sourceContextUnchanged": true,
+  "command": [
+    "C:\\ProgramData\\anaconda3\\python.exe",
+    "-X",
+    "utf8",
+    "-B",
+    "specs/poc/check_program.py",
+    "--profile",
+    "local-v1",
+    "--require-results",
+    "--poc",
+    "POC-05"
+  ],
+  "nativePid": 49248,
+  "startedAt": "2026-10-27T05:23:51.986600+00:00",
+  "finishedAt": "2026-10-27T05:23:56.128738+00:00",
+  "actualWaitCompleted": true,
+  "exitCode": 1,
+  "checkerSha256": "ee53ccf38e80095fd77ded709aa5dba7808d011a6346e864cd1a9f6482be8cc8",
+  "raw": "formal-profile.raw",
+  "rawBytes": 283,
+  "rawSha256": "26851075cae87c27bd72d3d48a135b4aa1bed37113dbd22a49c5dd1dba3576d7",
+  "independentProfileAccepted": false,
+  "taskCompleted": false,
+  "v1Completed": false
+}
