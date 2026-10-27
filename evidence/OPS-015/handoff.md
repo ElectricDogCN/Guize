@@ -22,3 +22,7 @@ Rollback: reviewed ordinary forward change; retain reservation/source/failure re
 ## Rejected first fixed source
 
 Original4b2491bea66c7c0f26e4c99b7e9fd4d2c3d251dc was committed but unpublished; its diff gate exited0 and Task gate exited1 for missing required bullets/section titles;12 remaining gates were not executed. The original branch and bundle remain. This separate candidate starts at accepted36d, reuses identical five code pins and fixes only Task-format/Own metadata. No reset, rebase, history relaxation or qualification inheritance. See rejected-source-4b2491b/.
+
+## Actual successor scope-gate failure
+
+Sourceef4f92c actual first10 gates passed; gate11 scope exit1 due to prose rather than exact Allowed patterns. The final3 gates did not run. Original5Registry claims were unchanged and accepted by coordination. The forward metadata fix enumerates these same5 paths plus OwnEvidence; it does not broaden claims or alter5codepins. See rejected-source-ef4f92c/. New fixed-source14 and fullCI remain pending.

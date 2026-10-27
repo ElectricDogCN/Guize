@@ -3,3 +3,4 @@ original-profile-failure.raw -text whitespace=cr-at-eol
 development/** -text whitespace=cr-at-eol
 reviews/*.json -text whitespace=cr-at-eol
 rejected-source-4b2491b/** -text whitespace=cr-at-eol
+rejected-source-ef4f92c/** -text whitespace=cr-at-eol

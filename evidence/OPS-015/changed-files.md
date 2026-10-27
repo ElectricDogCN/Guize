@@ -1,4 +1,4 @@
-# Actual successor candidate inventory
+# Actual candidate inventory
 
 - `evidence/OPS-015/.gitattributes`
 - `evidence/OPS-015/changed-files.md`
@@ -21,6 +21,9 @@
 - `evidence/OPS-015/rejected-source-4b2491b/diff.raw`
 - `evidence/OPS-015/rejected-source-4b2491b/results.json`
 - `evidence/OPS-015/rejected-source-4b2491b/task.raw`
+- `evidence/OPS-015/rejected-source-ef4f92c/README.md`
+- `evidence/OPS-015/rejected-source-ef4f92c/results.json`
+- `evidence/OPS-015/rejected-source-ef4f92c/scope.raw`
 - `evidence/OPS-015/reviews/corrected-core-code.json`
 - `evidence/OPS-015/reviews/initial-code-findings.json`
 - `evidence/OPS-015/reviews/minimal-design.json`
@@ -37,4 +40,4 @@
 - `specs/tasks/OPS-015.md`
 - `tests/governance/test_reservation_role_amendment.py`
 
-Rejected4b is retained separately; this candidate starts at accepted36d. Fixed-source gates pending.
+Includes unchanged reviewed5code and retained rejected-source records; new fixed-source checks remain pending.

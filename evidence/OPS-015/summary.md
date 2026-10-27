@@ -7,3 +7,5 @@ Actual development results: V1 18passed/61.44s; V2 34passed/112.28s; V3 38passed
 The two concrete actor transactions require completed main mechanism authority, preceding independent approval, immutable100644 approval bytes, exact Task/Registry pair and every introduced node. Accepted-main hybrid imports retain local fields and require actual clean Task stage0. No role aliases or retrospective qualification.
 
 Originals and code pins: development-index.json; scope and next steps: handoff.md and rules/reservation-role-amendment.md. Source SHA will be read from Git after the ordinary candidate commit; it is never predicted.
+
+The first10 fixed-source gates of ef4f92c passed, followed by scope exit1. Scope patterns are now enumerated from the existing original claims; final3 gates and a new complete fixed-source run remain pending.
