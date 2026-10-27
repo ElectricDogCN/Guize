@@ -96,17 +96,17 @@ tasks:
 - taskId: OPS-016
   issue: 160
   title: 修复真实增量实现的累计五路径准入
-  status: reserved
+  status: in_progress
   riskLevel: high
   owner: ElectricDogCN
   coordinator: /root
   implementer: /root
   reviewer: /root/gz022_planning_independent_review
   integrator: /root
-  agentRole: coordinator
-  branch: chore/OPS-016-actor-coverage-reservation
+  agentRole: implementer
+  branch: chore/OPS-016-cumulative-coverage-v2
   baseBranch: main
-  baseSha: 0976f4d901a66464f0af5b168234336b3517700a
+  baseSha: 263ac36dcc08de09ccb1ffc7c208381a819c0304
   workPackage: WP-M0-01
   programPlan: specs/coordination/program-plan.yaml
   programTaskId: OPS-016

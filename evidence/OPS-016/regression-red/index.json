@@ -1,0 +1,38 @@
+[
+  {
+    "original": "ops016-incremental-regression-red-v1/results.json",
+    "archive": "000.zlib.b64",
+    "bytes": 1360,
+    "sha256": "64d872de4dbcea3aac773fd14801d0f470951e5540bb65da18c753809b415771",
+    "encoding": "zlib+base64",
+    "lossless": true,
+    "scope": "expected old-script development rejection, not final-source acceptance"
+  },
+  {
+    "original": "ops016-incremental-regression-red-v1/pytest.raw",
+    "archive": "001.zlib.b64",
+    "bytes": 8660,
+    "sha256": "553b584db90ade56a52ac8f12f016cad2394aa780909753bc40e9df6b0e49ed1",
+    "encoding": "zlib+base64",
+    "lossless": true,
+    "scope": "expected old-script development rejection, not final-source acceptance"
+  },
+  {
+    "original": "ops016-incremental-regression-red-v1/junit.xml",
+    "archive": "002.zlib.b64",
+    "bytes": 7218,
+    "sha256": "286575bf60e7421b9ba591200e4b75e6744eab671660117b5a9986a861f73af4",
+    "encoding": "zlib+base64",
+    "lossless": true,
+    "scope": "expected old-script development rejection, not final-source acceptance"
+  },
+  {
+    "original": "reproduce_ops016_incremental_authority_regression_once.py",
+    "archive": "003.zlib.b64",
+    "bytes": 3653,
+    "sha256": "98239c1b9dc5c9652300df22ebb2ac4a411b7d5f5618a7eef26dcb748d0fb034",
+    "encoding": "zlib+base64",
+    "lossless": true,
+    "scope": "expected old-script development rejection, not final-source acceptance"
+  }
+]

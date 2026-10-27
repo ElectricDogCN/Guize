@@ -1,5 +1,11 @@
-# OPS-016 reservation only
+# OPS-016 累计覆盖修复
 
-Task OPS-016 / Issue160 / branch chore/OPS-016-actor-coverage-reservation / base 0976f4d901a66464f0af5b168234336b3517700a. Current proposal reserved/coordinator; source/tree unassigned until actual commit.
+接受预留main263后，仅改两登记路径：保留最近真实代码非空，累计覆盖改按不可变registration36至同一真实codeMain的净diff；不把触及后恢复算覆盖。新增两POC/真实调用者增量正例、metadata代码身份拒绝、触及恢复拒绝及真实PR157历史回归。
 
-Two exact Gov repair paths only after real reservation main acceptance. Seven archived actual prerequisites document a real guard failure, not a passed actor transaction. Current14/fullCI/uncommitted review/commit are pending. No source, frozen contract, POC role, runtime, DB, ledger or recovery changed.
+新增三正例在旧脚本下实际失败，childwait1与原件保留；修复后本源15项/完整CI及独立终审尚待。当前in_progress，未批准POC新事务/实验或Task完成。
+
+首候选424c123固定源检查实际diff退出0、Task退出1（缺5项规范章节标题），余13项未执行；原件见source424-doc-failure索引。当前只前向补正Own Task章节与该失败Evidence，两代码文件保持。新候选的15项尚待，不继承失败源的门禁结论。
+
+源971首10项实际退出0，第11scope退出1，后4未执行。原件见source971-scope-failure。独立审查另确认祖先424无效Task会在Completion重审：旧两源/分支/工作目录/恢复包全部保留，新候选从实际accepted263独立起步，未导入坏历史；精确复用两个实现文件，Own允许范围逐行列原两代码路径与OwnEvidence，正常生命周期metadata继续接受原scope子校验，无checker/claim/阈值放宽。新源15项尚待。
+
+新author未提交诊断中Task格式通过，scope因本地longpaths配置及metadata未提交而拒绝；只补持久化本地Git配置，并以Windows extended-length路径核实foreign长路径Git字节未变。普通Python长路径open的诊断失败也保留，未删除文件。该诊断不作固定源门禁。负面旧源审查及说明见prior-source-assessments；新候选需完整15项，代码字节不变。

@@ -1,15 +1,15 @@
-OPS-016 current planned14 (all UNEXECUTED at preparation):
-git diff --check 0976f4d901a66464f0af5b168234336b3517700a...HEAD
+git diff --check 263ac36dcc08de09ccb1ffc7c208381a819c0304...HEAD
 python scripts/check-task-file.py --task OPS-016
 python scripts/check-schemas.py
-python scripts/check-program-plan-integrity.py --base-ref 0976f4d901a66464f0af5b168234336b3517700a
-python scripts/check-program-plan-history.py --base-ref 0976f4d901a66464f0af5b168234336b3517700a --head-ref HEAD --task OPS-016 --branch-name chore/OPS-016-actor-coverage-reservation
-python scripts/check-program-plan-transitions.py --base-ref 0976f4d901a66464f0af5b168234336b3517700a --head-ref HEAD --task OPS-016 --branch-name chore/OPS-016-actor-coverage-reservation
-python scripts/check-program-lifecycle-guards.py --base-ref 0976f4d901a66464f0af5b168234336b3517700a --head-ref HEAD --task OPS-016 --branch-name chore/OPS-016-actor-coverage-reservation
-python scripts/run-program-lifecycle-gate.py --base-ref 0976f4d901a66464f0af5b168234336b3517700a --head-ref HEAD --task OPS-016 --branch-name chore/OPS-016-actor-coverage-reservation
-python scripts/run-agent-coordination-gate.py --base-ref 0976f4d901a66464f0af5b168234336b3517700a --head-ref HEAD --task OPS-016 --branch-name chore/OPS-016-actor-coverage-reservation
-python scripts/check-program-plan-finalization.py --base-ref 0976f4d901a66464f0af5b168234336b3517700a --head-ref HEAD --task OPS-016
-python scripts/run-task-scope-gate.py --task OPS-016 --base 0976f4d901a66464f0af5b168234336b3517700a
+python scripts/check-program-plan-integrity.py --base-ref 263ac36dcc08de09ccb1ffc7c208381a819c0304
+python scripts/check-program-plan-history.py --base-ref 263ac36dcc08de09ccb1ffc7c208381a819c0304 --head-ref HEAD --task OPS-016 --branch-name chore/OPS-016-cumulative-coverage-v2
+python scripts/check-program-plan-transitions.py --base-ref 263ac36dcc08de09ccb1ffc7c208381a819c0304 --head-ref HEAD --task OPS-016 --branch-name chore/OPS-016-cumulative-coverage-v2
+python scripts/check-program-lifecycle-guards.py --base-ref 263ac36dcc08de09ccb1ffc7c208381a819c0304 --head-ref HEAD --task OPS-016 --branch-name chore/OPS-016-cumulative-coverage-v2
+python scripts/run-program-lifecycle-gate.py --base-ref 263ac36dcc08de09ccb1ffc7c208381a819c0304 --head-ref HEAD --task OPS-016 --branch-name chore/OPS-016-cumulative-coverage-v2
+python scripts/run-agent-coordination-gate.py --base-ref 263ac36dcc08de09ccb1ffc7c208381a819c0304 --head-ref HEAD --task OPS-016 --branch-name chore/OPS-016-cumulative-coverage-v2
+python scripts/check-program-plan-finalization.py --base-ref 263ac36dcc08de09ccb1ffc7c208381a819c0304 --head-ref HEAD --task OPS-016
+python scripts/run-task-scope-gate.py --task OPS-016 --base 263ac36dcc08de09ccb1ffc7c208381a819c0304
 python scripts/check-evidence.py --task OPS-016
 python scripts/check-project-readiness.py
 python scripts/check-markdown.py
+python -m pytest -vv tests/governance/test_reservation_role_amendment.py

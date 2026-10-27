@@ -1,0 +1,47 @@
+[
+  {
+    "original": "ops016-implementation-424c123-candidate.json",
+    "archive": "000.zlib.b64",
+    "bytes": 3129,
+    "sha256": "25ab4582bf710375cc6ce9be1b72320ccf1379a6e2c712d9075c4df49966a9f5",
+    "encoding": "zlib+base64",
+    "lossless": true,
+    "scope": "source424 first diff exit0 then Task headings exit1; remaining13 unexecuted"
+  },
+  {
+    "original": "ops016-implementation-source-424c123-native-checks/results.json",
+    "archive": "001.zlib.b64",
+    "bytes": 2030,
+    "sha256": "17f82f26282502765c93fe2d18c919ecb087f6c0d116fce2d5e9fabfb9fc30a2",
+    "encoding": "zlib+base64",
+    "lossless": true,
+    "scope": "source424 first diff exit0 then Task headings exit1; remaining13 unexecuted"
+  },
+  {
+    "original": "ops016-implementation-source-424c123-native-checks/diff.raw",
+    "archive": "002.zlib.b64",
+    "bytes": 144,
+    "sha256": "8ae87b231826eb855cddffe9f25a8b13a3f88a9e4f1046a2fd204becd2d3fac7",
+    "encoding": "zlib+base64",
+    "lossless": true,
+    "scope": "source424 first diff exit0 then Task headings exit1; remaining13 unexecuted"
+  },
+  {
+    "original": "ops016-implementation-source-424c123-native-checks/task.raw",
+    "archive": "003.zlib.b64",
+    "bytes": 493,
+    "sha256": "0454361f42074849fa2cb78452dcc0cfe4da63d241fa6f7628d0693614a67c36",
+    "encoding": "zlib+base64",
+    "lossless": true,
+    "scope": "source424 first diff exit0 then Task headings exit1; remaining13 unexecuted"
+  },
+  {
+    "original": "verify_ops016_implementation_source_once.py",
+    "archive": "004.zlib.b64",
+    "bytes": 5113,
+    "sha256": "1146568fe073647f2d9a8dbe2f1a1ea8d03ea717cd92368b6c115b5c7a3ad7fd",
+    "encoding": "zlib+base64",
+    "lossless": true,
+    "scope": "source424 first diff exit0 then Task headings exit1; remaining13 unexecuted"
+  }
+]
