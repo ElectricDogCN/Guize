@@ -91,7 +91,7 @@ foundationTasks:
     mergeCommit: ab9cd878bdc58745b1fdd618c6e749cdd9c6d03a
   - taskId: OPS-016
     title: 修复真实增量实现的累计五路径准入
-    status: in_progress
+    status: review
     completionRef: ISSUE-160
     mergeCommit: null
 waves:
