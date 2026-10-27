@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "kind": "prospective_poc_actor_amendment",
+  "taskId": "POC-005",
+  "admittedMain": "055ccf18e4b125850d59c93f5ec3204e630f101c",
+  "oldActors": {
+    "implementer": "task-owner-agent",
+    "reviewer": "independent-review-agent"
+  },
+  "newActors": {
+    "implementer": "/root",
+    "reviewer": "/root/gz022_planning_independent_review"
+  },
+  "reviewer": "/root/gz022_planning_independent_review",
+  "approvedAt": "2026-10-27T23:25:36Z",
+  "decision": "approved"
+}
