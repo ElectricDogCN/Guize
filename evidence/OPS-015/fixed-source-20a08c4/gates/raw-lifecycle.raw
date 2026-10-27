@@ -1,0 +1,5 @@
+Source Commit: 20a08c49999f4b5e1432d92bcd5ce0d2f191c0a1
+Command: python scripts/check-program-lifecycle-guards.py --base-ref 36d8ba69581c98ab15559e5a4a7f6281435d327f --head-ref HEAD --task OPS-015 --branch-name chore/OPS-015-role-amendment-v2
+{"status": "PASS", "message": "Program lifecycle scope, Foundation ownership, rename and Evidence guards passed", "details": {"affectedTaskIds": ["OPS-015"], "changedPathCount": 39, "baseRef": "36d8ba69581c98ab15559e5a4a7f6281435d327f"}}
+
+Exit Code: 0

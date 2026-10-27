@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "kind": "initial_read_only_core_source_review_not_fixed_candidate_acceptance",
+  "reviewer": "/root/gz022_planning_independent_review",
+  "reviewedAt": "2026-10-27T07:44:33Z",
+  "task": "OPS-015",
+  "parent": "36d8ba69581c98ab15559e5a4a7f6281435d327f",
+  "branch": "chore/OPS-015-role-amendment",
+  "sourceState": "Uncommitted author implementation. V1 was read first; author subsequently forward-fixed V2 while this focused review continued. This is not a review of a future frozenV3 snapshot.",
+  "decision": "needs_revision",
+  "codeReviewAccepted": false,
+  "candidateCommitAllowed": false,
+  "prPublicationAllowed": false,
+  "initialV1Pins": [
+    {"path": "scripts/check-program-plan-transitions.py", "bytes": 38878, "sha256": "b551985c62645bf863e3cd83f602c99f0cffbe0d84e9222710a636656b30c1da"},
+    {"path": "scripts/check-program-plan-history.py", "bytes": 106897, "sha256": "e57c1b00bcf509ea9a08da737c57d5dd8cdc650b667fbcdadbead1e18aa8fb05"},
+    {"path": "scripts/reservation-role-amendment.py", "bytes": 19540, "sha256": "25d515e624124d8341cc757ce9457ce99784a98831fe55c0aa9ef703dc26cffa"},
+    {"path": "tests/governance/test_reservation_role_amendment.py", "bytes": 10567, "sha256": "c690827745e23f202bcb4060ef6707a98325d07147cda330d2dda41343a5b153"},
+    {"path": "rules/reservation-role-amendment.md", "bytes": 3875, "sha256": "942ca5c305e02a967cebe21b54138e32d1ea511c98739d11ad10fa864f7e8981"}
+  ],
+  "developmentEvidenceRead": [
+    {"ref": ".takeover-tools/ops015-actor-development-v1/results.json", "bytes": 2611, "sha256": "288cbe5919192f308e18d968b42e65ea3c65b4f75732d9b4deeba5d45319c546", "actualWaitCompleted": true, "pid": 14888, "exitCode": 0, "pytest": "18 passed in61.44s", "scope": "Meaningful development graphs/callers, not fixed-source gates or proof that untested paths pass."},
+    {"ref": ".takeover-tools/ops015-actor-development-v2/results.json", "bytes": 2611, "sha256": "107d2c82bd672fde2c170b0ac7b6223745d409308d65d1edec345b393d89f481", "actualWaitCompleted": true, "pid": 25002, "exitCode": 0, "pytest": "34 passed in112.28s", "scope": "Results/raw read after author forward changes. No claim of a source/final acceptance or reviewer rerun."}
+  ],
+  "v1GapsAndV2ForwardFixes": [
+    {"finding": "V1 did not keep approval.json immutable through all introduced nodes, so rewriting after an actor edge or a later noop/restore could evade the node checks. Intent temporary modifications likewise needed history binding.", "v2ObservedFix": "V2 checks introduced intent bytes and rejects existing approval blob rewrite/deletion even when Active does not change; imported approval must equal incoming.", "oldV1HistoryPreserved": true},
+    {"finding": "V1 bound admittedMain to the parsed Active target row but did not also bind the pre-transaction Task bytes to that approved baseline.", "v2ObservedFix": "V2 strict_transaction adds exact admittedMainTask==beforeTask bytes at246-249.", "oldV1HistoryPreserved": true}
+  ],
+  "v2StaticSnapshot": {
+    "helper": {"bytes": 20694, "sha256": "0de4f675fe4da30eb1cd61126b78fdde221fb4358d0af80ccbc42d146955f6df"},
+    "tests": {"bytes": 14669, "sha256": "d66df96f35363a39320b54367b9e9cf6e8e5325eb4a4dd3b20399254c78b55ae"},
+    "transitionsHistoryAndRules": "Unchanged from initialV1 pins at the V2 results snapshot.",
+    "accepted": false
+  },
+  "mustFix": [
+    {
+      "priority": "P2",
+      "path": "scripts/reservation-role-amendment.py",
+      "location": "V2 validate_range:368-373 and edge_fields:339-342",
+      "finding": "The range walker still continues when ACTIVE is unchanged and edge_fields compares only Registry actor values. A targetTask-only implementer/reviewer mismatch followed by restoration is ignored at the bad node; the final endpoint can be clean. This does not satisfy the promised per-edge Task/Active identity audit.",
+      "minimalRepair": "For the two declared targets, examine actual Task actor changes and Task/Active agreement on the relevant historical edges, before the ACTIVE-only continue. Retain baseline/raw checks and reject a temporary mismatch even after restore; do not build a general document validator.",
+      "requiredRegression": "Real Git Task-only actor edit, later restore and otherwise lawful final amendment/import; actual transitions and history must reject the first bad node. Include the existing coherent old feature state as a positive so unrelated lifecycle prose is not over-rejected."
+    },
+    {
+      "priority": "P2",
+      "path": "scripts/reservation-role-amendment.py",
+      "location": "V2 edge_fields:343-346",
+      "finding": "Dispatching every reserved-to-reserved actor edge to strict_transaction misclassifies a proven accepted-main import. After main separately amends bothPOCs, aPOC005 feature has its own in_progress row and a foreignPOC003 reserved row. The real merge changes both actor pairs; the foreign reserved target takes strict_transaction, which demands only that target's Registry replacement, unchangedPLAN and target-only Evidence. It consequently rejects the legitimate multi-target import, even though the own in_progress target takes imported_transaction.",
+      "minimalRepair": "Distinguish original single-target metadata transactions from real two-parent imports using the graph/admitted incoming parent and original accepted-edge proof, not status alone. Preserve strict_transaction for the original reserved amendment. Do not globally allow two-target transactions or broaden stable fields.",
+      "requiredRegression": "Real main with separate accepted003 and005 amendments, old005 feature in_progress/foreign003 reserved, actual merge and standalone transitions/history calls against the accepted incoming base. Keep the one-target original metadata positive and reject unadmitted/conflict-selected imports. The current hybrid test calls only PROOF.validate_range with a single amended target, so18/34 green does not establish this workflow."
+    },
+    {
+      "priority": "P2",
+      "path": "scripts/reservation-role-amendment.py",
+      "location": "V2 strict_transaction approval inheritance; imported_transaction:329-331; validate_range:361-367",
+      "finding": "Approval immutability currently compares only Git blob bytes. The inherited approval is not required to have regular100644 mode, and a mode-only100644→120000/100755 change with the same blob is not rejected. Because the module reads git show, it can parse a symlink target's JSON text as if it were the approval file.",
+      "minimalRepair": "Use existing mode_blob to require regular100644 approval artifacts at introduction, causal parent inheritance and accepted import, and preserve both mode and blob on subsequent nodes. This concerns this exact authorization artifact only.",
+      "requiredRegression": "Real Git mode-only approval edits, including120000 with unchanged JSON blob and executable100755, must be rejected and cannot be cured by later restoration. Preserve ordinary100644 prospective approval/import positives."
+    }
+  ],
+  "usefulCurrentBoundaries": [
+    "Hard-pinned actualOPS015 reservation graph and immutable intent, normal mechanism implementation/Review/Completion ancestry, literal target/old/new pair, independent prospective parent-commit approval and exact original Task/Registry scalar transaction are appropriate narrow foundations.",
+    "Caller integration correctly targets transitions' stable comparison, history range checking outside the planning-only path, and historical_post_metadata's foreign peer comparison. Those call sites must all consume the same proved delta; do not unconditionally add actor fields to mutable sets.",
+    "The actualmain reserved-to-reserved metadata path keeps branch/base/status/lease unchanged and needs no new branch privilege. Future feature imports must preserve the local in_progress/body/base while importing the admitted actors, without relabelling historical executions.",
+    "Whole sharedYAML conflict freedom is not introduced as a general requirement. Targetactor/remaining-row projections, all merge bases, metadata mode and existing foreign caller checks can establish a narrow import even if another row needs separately owned work. Do not replace this with a broad clean-import exemption."
+  ],
+  "remainingReview": "After these forward fixes and the author's original development session ends, review an explicitly fixed current snapshot and meaningful regression results. This initial receipt does not approve the current11-path precommit metadata, implementation source gates, CI, publication, merge, POC role amendment or experiment.",
+  "reviewerActions": "Static source/caller/test/rules inspection and reading existing development results/raw only. No author test, experiment, validator, source edit or child agent."
+}

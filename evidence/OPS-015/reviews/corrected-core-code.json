@@ -1,0 +1,96 @@
+{
+  "schemaVersion": 1,
+  "kind": "focused_forward_fix_review_of_three_initial_p2_findings",
+  "reviewer": "/root/gz022_planning_independent_review",
+  "reviewedAt": "2026-10-27T07:55:26Z",
+  "task": "OPS-015",
+  "parent": "36d8ba69581c98ab15559e5a4a7f6281435d327f",
+  "branch": "chore/OPS-015-role-amendment",
+  "sourceState": "Uncommitted development content; no fixed implementation commit assigned.",
+  "decision": "accepted_corrected_core_content_and_observed_development_regressions_only",
+  "mustFix": [],
+  "initialThreeP2Resolved": true,
+  "codeReviewAccepted": true,
+  "componentAccepted": true,
+  "candidateCommitAllowed": false,
+  "fixedSourceAccepted": false,
+  "sourcePins": [
+    {"path": "scripts/check-program-plan-transitions.py", "bytes": 38878, "sha256": "b551985c62645bf863e3cd83f602c99f0cffbe0d84e9222710a636656b30c1da"},
+    {"path": "scripts/check-program-plan-history.py", "bytes": 106897, "sha256": "e57c1b00bcf509ea9a08da737c57d5dd8cdc650b667fbcdadbead1e18aa8fb05"},
+    {"path": "scripts/reservation-role-amendment.py", "bytes": 23201, "sha256": "e97f1f9e889b9563ec1be48aeea400bca207d81e74b971498e4b2b3913eb6f57"},
+    {"path": "tests/governance/test_reservation_role_amendment.py", "bytes": 19578, "sha256": "f9ab3ab37b8701fceb2e677b02a4339a6f9eac8930ef80ef0a0e618b5c9e8b2e"},
+    {"path": "rules/reservation-role-amendment.md", "bytes": 4032, "sha256": "c1c39b50522c4bc63d8be86f67e88edee36b8d903f32f74984936425ad643699"}
+  ],
+  "priorNegative": {"ref": ".takeover-tools/ops015-role-amendment-initial-code-independent-review.json", "bytes": 8803, "sha256": "2274272c8ff5232fc8ab4d25aefde28d60ec3bf65849714cbe84b664ccd14e95", "preserved": true},
+  "resolvedFindings": [
+    {
+      "finding": "Task-only actor mismatch could be hidden by restoration",
+      "resolution": "validate_range:400-408 now inspects changed targetTask or Active paths, compares real front-matter actors against Registry on both sides of every introduced edge, and rejects the bad node even if finalHEAD restores the original Task. This is restricted toPOC003/005; original baseline bytes and other lifecycle rules remain intact.",
+      "actualRegression": "V3 test_task_only_temporary_actor_mismatch_cannot_be_restored_away constructs the actual Task-only edit and later restore; the expected node rejection passed. Existing coherent metadata and real imported feature cases remained green."
+    },
+    {
+      "finding": "Reserved foreign peers in a multi-target accepted-main import were misclassified as original transactions",
+      "resolution": "edge_fields:355-375 selects strict_transaction only for the complete exact single-target metadata shape, not status alone. A multi-target real merge takes imported_transaction, which still requires the admitted secondary parent, original accepted main transaction, all old actor merge bases and exact automatic hybridTask mode/blob.",
+      "actualRegression": "V3 test_two_accepted_poc_actor_updates_import_into_real_feature_and_callers has separate main003/005 amendments, an in_progress005 feature and reserved003 peer, actual merge preserving feature body/state, then real standalone transitions/history CLI calls. Both actually returned0. Original reserved single-target transactions retain their own positive CLI coverage.",
+      "additionalV4Evidence": "Actual manual merge body/mode and unmerged actor-parent negatives all passed. They preserve the original two-parent graph through commit-tree and check the exact helper/import rejection; no unadmitted parent or handcraftedTask result is accepted as automatic."
+    },
+    {
+      "finding": "Same-blob approval mode changes were outside the immutable chain",
+      "resolution": "strict_transaction:242/269-270 requires100644 for the actual approval and causal parent. imported_transaction:344-347 matches both incoming bytes and regular mode. validate_range:390-399 requires100644 at every changed approval node and refuses rewrite/deletion or a prior nonregular mode. Registry metadata mode is also explicitly kept100644 for imports.",
+      "actualRegression": "V3 test_approval_mode_cannot_change_with_identical_blob uses real Git index modes100755 and120000 with the identical approval blob. Both expected rejections passed. Earlier approval rewrite/restore/noop and intent restoration negatives also remain in the38-case suite."
+    }
+  ],
+  "developmentEvidence": [
+    {
+      "version": "v3",
+      "reportedOriginalOuterSessionTerminalZero": 85076,
+      "pytestPid": 42677,
+      "actualWaitCompleted": true,
+      "exitCode": 0,
+      "tests": 38,
+      "seconds": 162.46,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "helperSha256": "e97f1f9e889b9563ec1be48aeea400bca207d81e74b971498e4b2b3913eb6f57",
+      "testFileSha256": "89dd55528ad7e2768602087b553bb18dd3e4e3f4a36b779e32d21810371c2c9e",
+      "results": {"ref": ".takeover-tools/ops015-actor-development-v3/results.json", "bytes": 2611, "sha256": "e8e61b7eda930ca5cdc8898d623fc8dd87eb4a910f65f5de368ad256a36302ea"},
+      "raw": {"ref": ".takeover-tools/ops015-actor-development-v3/pytest.raw", "bytes": 270, "sha256": "8896e596915174f26c6065d8056393f8af83ae4e87fd614288e521e88ef9889b"},
+      "junit": {"ref": ".takeover-tools/ops015-actor-development-v3/junit.xml", "bytes": 6454, "sha256": "9bbdb6061202009c4c014923dc98e1bc8dab39adf6bf80e235f863d8108ce2c0"}
+    },
+    {
+      "version": "v4_selected_import_negatives",
+      "originalOuterSession": 41047,
+      "outerSessionStatusQueriedByReviewer": false,
+      "pytestPid": 65214,
+      "actualWaitCompletedFromCompletedResult": true,
+      "exitCode": 0,
+      "tests": 3,
+      "seconds": 13.22,
+      "deselected": 38,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "selection": "manual_merge_result or unmerged_actor_parent",
+      "helperUnchangedFromV3": true,
+      "testFileChange": "Existing one-target hybrid graph was extracted into reusable accepted_hybrid; three new rejection cases were added. This result is the selected3 only, not a rerun of all41 under the latest test-file hash.",
+      "results": {"ref": ".takeover-tools/ops015-actor-development-v4/results.json", "bytes": 2673, "sha256": "cceffaf3d43ec33255dd93ee58a8fa1511b758062220b689f9babef649248814"},
+      "raw": {"ref": ".takeover-tools/ops015-actor-development-v4/pytest.raw", "bytes": 273, "sha256": "ade6c2173a1d61ecbb245750bac753236d162b6ead6975dfda9f4848a816071d"},
+      "junit": {"ref": ".takeover-tools/ops015-actor-development-v4/junit.xml", "bytes": 721, "sha256": "5970ee5a81320ec4ae7c78665bdbedcfba6c6dbe19e6f86d8c1582358dd63ae0"}
+    }
+  ],
+  "actualEvidenceVerification": "Current five physical pins matchV4 results; both result/raw byte counts and SHA match; actual JUnit files contain38 and3 cases respectively with zero failure/error/skipped. Test source inspection confirms the real multi-target graph/CLI and mode manipulation, not mocked classifier-only evidence. No tests were rerun by the reviewer.",
+  "scopeLimits": [
+    "Only the three initialP2 fixes and the cited real caller/import development evidence are accepted here. The current complete metadata/archive precommit snapshot has not been reviewed or assigned a source commit.",
+    "No general branch privilege, arbitrary actor alias or unrelated clean-import exemption is introduced by these fixes. Original strict target/value/authority/approval history and Task baseline binding remain in place.",
+    "Normal exact precommit, actual fixed-source checks/full governance, same-head CI, independent source review, normal integration/actual-main acceptance and OPS015 Review/Completion remain future obligations. No new extra verification stage is created by this focused review.",
+    "No currentPOC identity amendment, old execution requalification, new sample/resource/PID/window or experiment is approved."
+  ],
+  "fixedSourceChecksAccepted": false,
+  "ciAccepted": false,
+  "mergeApproved": false,
+  "pocActorAmendmentApproved": false,
+  "newExperimentApproved": false,
+  "taskCompleted": false,
+  "reviewerModifiedAuthorOrRanTestsOrSpawnedAgent": false
+}

@@ -1,0 +1,367 @@
+{
+  "kind": "actual_uncommitted_development_evidence_not_fixed_source_or_ci_acceptance",
+  "base": "36d8ba69581c98ab15559e5a4a7f6281435d327f",
+  "results": [
+    {
+      "version": 1,
+      "passed": 18,
+      "selectedOnly": false,
+      "notFixedSourceAcceptance": true,
+      "sourcePins": [
+        {
+          "path": "scripts/check-program-plan-transitions.py",
+          "bytes": 38878,
+          "sha256": "b551985c62645bf863e3cd83f602c99f0cffbe0d84e9222710a636656b30c1da"
+        },
+        {
+          "path": "scripts/check-program-plan-history.py",
+          "bytes": 106897,
+          "sha256": "e57c1b00bcf509ea9a08da737c57d5dd8cdc650b667fbcdadbead1e18aa8fb05"
+        },
+        {
+          "path": "scripts/reservation-role-amendment.py",
+          "bytes": 19540,
+          "sha256": "25d515e624124d8341cc757ce9457ce99784a98831fe55c0aa9ef703dc26cffa"
+        },
+        {
+          "path": "tests/governance/test_reservation_role_amendment.py",
+          "bytes": 10567,
+          "sha256": "c690827745e23f202bcb4060ef6707a98325d07147cda330d2dda41343a5b153"
+        },
+        {
+          "path": "rules/reservation-role-amendment.md",
+          "bytes": 3875,
+          "sha256": "942ca5c305e02a967cebe21b54138e32d1ea511c98739d11ad10fa864f7e8981"
+        },
+        {
+          "path": "specs/coordination/program-plan.yaml",
+          "bytes": 65349,
+          "sha256": "531989d7e815d278a7fb193980ba9c6f5c85b23d2b12118c7997d03a54cc6ff6"
+        },
+        {
+          "path": "specs/coordination/active-work.yaml",
+          "bytes": 3542,
+          "sha256": "f113b24184d67d7d502f171559eca318c88995cb506d34688fcc62c78fe8c95a"
+        },
+        {
+          "path": "specs/tasks/OPS-015.md",
+          "bytes": 6189,
+          "sha256": "cded618b119e857c752e3befd4c9c5c404997b0befb97751530fae368d7498b6"
+        },
+        {
+          "path": "evidence/OPS-015/summary.md",
+          "bytes": 387,
+          "sha256": "ae71ab1e4db8b447ced888cd4e22de945987b1c5aaed7aa73777dfb4a919f395"
+        },
+        {
+          "path": "evidence/OPS-015/commands.txt",
+          "bytes": 1581,
+          "sha256": "f19d3d712a369ee602fb3fd3e104c80476a35b4b4bb217134bbf9b14620887b1"
+        },
+        {
+          "path": "evidence/OPS-015/handoff.md",
+          "bytes": 2110,
+          "sha256": "35ad0f97aaf0cd8d2a999401fc9b74c72535401f9e47dcefa493218a4778521f"
+        }
+      ]
+    },
+    {
+      "version": 2,
+      "passed": 34,
+      "selectedOnly": false,
+      "notFixedSourceAcceptance": true,
+      "sourcePins": [
+        {
+          "path": "scripts/check-program-plan-transitions.py",
+          "bytes": 38878,
+          "sha256": "b551985c62645bf863e3cd83f602c99f0cffbe0d84e9222710a636656b30c1da"
+        },
+        {
+          "path": "scripts/check-program-plan-history.py",
+          "bytes": 106897,
+          "sha256": "e57c1b00bcf509ea9a08da737c57d5dd8cdc650b667fbcdadbead1e18aa8fb05"
+        },
+        {
+          "path": "scripts/reservation-role-amendment.py",
+          "bytes": 20694,
+          "sha256": "0de4f675fe4da30eb1cd61126b78fdde221fb4358d0af80ccbc42d146955f6df"
+        },
+        {
+          "path": "tests/governance/test_reservation_role_amendment.py",
+          "bytes": 14669,
+          "sha256": "d66df96f35363a39320b54367b9e9cf6e8e5325eb4a4dd3b20399254c78b55ae"
+        },
+        {
+          "path": "rules/reservation-role-amendment.md",
+          "bytes": 3875,
+          "sha256": "942ca5c305e02a967cebe21b54138e32d1ea511c98739d11ad10fa864f7e8981"
+        },
+        {
+          "path": "specs/coordination/program-plan.yaml",
+          "bytes": 65349,
+          "sha256": "531989d7e815d278a7fb193980ba9c6f5c85b23d2b12118c7997d03a54cc6ff6"
+        },
+        {
+          "path": "specs/coordination/active-work.yaml",
+          "bytes": 3542,
+          "sha256": "f113b24184d67d7d502f171559eca318c88995cb506d34688fcc62c78fe8c95a"
+        },
+        {
+          "path": "specs/tasks/OPS-015.md",
+          "bytes": 6189,
+          "sha256": "cded618b119e857c752e3befd4c9c5c404997b0befb97751530fae368d7498b6"
+        },
+        {
+          "path": "evidence/OPS-015/summary.md",
+          "bytes": 387,
+          "sha256": "ae71ab1e4db8b447ced888cd4e22de945987b1c5aaed7aa73777dfb4a919f395"
+        },
+        {
+          "path": "evidence/OPS-015/commands.txt",
+          "bytes": 1581,
+          "sha256": "f19d3d712a369ee602fb3fd3e104c80476a35b4b4bb217134bbf9b14620887b1"
+        },
+        {
+          "path": "evidence/OPS-015/handoff.md",
+          "bytes": 2110,
+          "sha256": "35ad0f97aaf0cd8d2a999401fc9b74c72535401f9e47dcefa493218a4778521f"
+        }
+      ]
+    },
+    {
+      "version": 3,
+      "passed": 38,
+      "selectedOnly": false,
+      "notFixedSourceAcceptance": true,
+      "sourcePins": [
+        {
+          "path": "scripts/check-program-plan-transitions.py",
+          "bytes": 38878,
+          "sha256": "b551985c62645bf863e3cd83f602c99f0cffbe0d84e9222710a636656b30c1da"
+        },
+        {
+          "path": "scripts/check-program-plan-history.py",
+          "bytes": 106897,
+          "sha256": "e57c1b00bcf509ea9a08da737c57d5dd8cdc650b667fbcdadbead1e18aa8fb05"
+        },
+        {
+          "path": "scripts/reservation-role-amendment.py",
+          "bytes": 23201,
+          "sha256": "e97f1f9e889b9563ec1be48aeea400bca207d81e74b971498e4b2b3913eb6f57"
+        },
+        {
+          "path": "tests/governance/test_reservation_role_amendment.py",
+          "bytes": 17795,
+          "sha256": "89dd55528ad7e2768602087b553bb18dd3e4e3f4a36b779e32d21810371c2c9e"
+        },
+        {
+          "path": "rules/reservation-role-amendment.md",
+          "bytes": 4032,
+          "sha256": "c1c39b50522c4bc63d8be86f67e88edee36b8d903f32f74984936425ad643699"
+        },
+        {
+          "path": "specs/coordination/program-plan.yaml",
+          "bytes": 65349,
+          "sha256": "531989d7e815d278a7fb193980ba9c6f5c85b23d2b12118c7997d03a54cc6ff6"
+        },
+        {
+          "path": "specs/coordination/active-work.yaml",
+          "bytes": 3542,
+          "sha256": "f113b24184d67d7d502f171559eca318c88995cb506d34688fcc62c78fe8c95a"
+        },
+        {
+          "path": "specs/tasks/OPS-015.md",
+          "bytes": 6189,
+          "sha256": "cded618b119e857c752e3befd4c9c5c404997b0befb97751530fae368d7498b6"
+        },
+        {
+          "path": "evidence/OPS-015/summary.md",
+          "bytes": 387,
+          "sha256": "ae71ab1e4db8b447ced888cd4e22de945987b1c5aaed7aa73777dfb4a919f395"
+        },
+        {
+          "path": "evidence/OPS-015/commands.txt",
+          "bytes": 1581,
+          "sha256": "f19d3d712a369ee602fb3fd3e104c80476a35b4b4bb217134bbf9b14620887b1"
+        },
+        {
+          "path": "evidence/OPS-015/handoff.md",
+          "bytes": 2110,
+          "sha256": "35ad0f97aaf0cd8d2a999401fc9b74c72535401f9e47dcefa493218a4778521f"
+        }
+      ]
+    },
+    {
+      "version": 4,
+      "passed": 3,
+      "selectedOnly": true,
+      "notFixedSourceAcceptance": true,
+      "sourcePins": [
+        {
+          "path": "scripts/check-program-plan-transitions.py",
+          "bytes": 38878,
+          "sha256": "b551985c62645bf863e3cd83f602c99f0cffbe0d84e9222710a636656b30c1da"
+        },
+        {
+          "path": "scripts/check-program-plan-history.py",
+          "bytes": 106897,
+          "sha256": "e57c1b00bcf509ea9a08da737c57d5dd8cdc650b667fbcdadbead1e18aa8fb05"
+        },
+        {
+          "path": "scripts/reservation-role-amendment.py",
+          "bytes": 23201,
+          "sha256": "e97f1f9e889b9563ec1be48aeea400bca207d81e74b971498e4b2b3913eb6f57"
+        },
+        {
+          "path": "tests/governance/test_reservation_role_amendment.py",
+          "bytes": 19578,
+          "sha256": "f9ab3ab37b8701fceb2e677b02a4339a6f9eac8930ef80ef0a0e618b5c9e8b2e"
+        },
+        {
+          "path": "rules/reservation-role-amendment.md",
+          "bytes": 4032,
+          "sha256": "c1c39b50522c4bc63d8be86f67e88edee36b8d903f32f74984936425ad643699"
+        },
+        {
+          "path": "specs/coordination/program-plan.yaml",
+          "bytes": 65349,
+          "sha256": "531989d7e815d278a7fb193980ba9c6f5c85b23d2b12118c7997d03a54cc6ff6"
+        },
+        {
+          "path": "specs/coordination/active-work.yaml",
+          "bytes": 3542,
+          "sha256": "f113b24184d67d7d502f171559eca318c88995cb506d34688fcc62c78fe8c95a"
+        },
+        {
+          "path": "specs/tasks/OPS-015.md",
+          "bytes": 6189,
+          "sha256": "cded618b119e857c752e3befd4c9c5c404997b0befb97751530fae368d7498b6"
+        },
+        {
+          "path": "evidence/OPS-015/summary.md",
+          "bytes": 387,
+          "sha256": "ae71ab1e4db8b447ced888cd4e22de945987b1c5aaed7aa73777dfb4a919f395"
+        },
+        {
+          "path": "evidence/OPS-015/commands.txt",
+          "bytes": 1581,
+          "sha256": "f19d3d712a369ee602fb3fd3e104c80476a35b4b4bb217134bbf9b14620887b1"
+        },
+        {
+          "path": "evidence/OPS-015/handoff.md",
+          "bytes": 2110,
+          "sha256": "35ad0f97aaf0cd8d2a999401fc9b74c72535401f9e47dcefa493218a4778521f"
+        }
+      ]
+    }
+  ],
+  "records": [
+    {
+      "path": "development/v1/results.json",
+      "bytes": 2611,
+      "sha256": "288cbe5919192f308e18d968b42e65ea3c65b4f75732d9b4deeba5d45319c546"
+    },
+    {
+      "path": "development/v1/pytest.raw",
+      "bytes": 269,
+      "sha256": "45cbfd0048bbb07cb10cca490ca41712594c5505f9c049ac724cdb9fd29df405"
+    },
+    {
+      "path": "development/v1/junit.xml",
+      "bytes": 3189,
+      "sha256": "9f37646fb0e9d63c7d6694b260f7cfd12a7c1cf700123f02800ec857a6221340"
+    },
+    {
+      "path": "development/v2/results.json",
+      "bytes": 2611,
+      "sha256": "107d2c82bd672fde2c170b0ac7b6223745d409308d65d1edec345b393d89f481"
+    },
+    {
+      "path": "development/v2/pytest.raw",
+      "bytes": 270,
+      "sha256": "310043362a5cc75348e0869408c14237dba9d8987b62ce207f3fe2de10d4cf85"
+    },
+    {
+      "path": "development/v2/junit.xml",
+      "bytes": 5821,
+      "sha256": "da584cd8fead849f5bd2109e5b41551ecd0a89bf648f2e30f475ee05c2291c66"
+    },
+    {
+      "path": "development/v3/results.json",
+      "bytes": 2611,
+      "sha256": "e8e61b7eda930ca5cdc8898d623fc8dd87eb4a910f65f5de368ad256a36302ea"
+    },
+    {
+      "path": "development/v3/pytest.raw",
+      "bytes": 270,
+      "sha256": "8896e596915174f26c6065d8056393f8af83ae4e87fd614288e521e88ef9889b"
+    },
+    {
+      "path": "development/v3/junit.xml",
+      "bytes": 6454,
+      "sha256": "9bbdb6061202009c4c014923dc98e1bc8dab39adf6bf80e235f863d8108ce2c0"
+    },
+    {
+      "path": "development/v4/results.json",
+      "bytes": 2673,
+      "sha256": "cceffaf3d43ec33255dd93ee58a8fa1511b758062220b689f9babef649248814"
+    },
+    {
+      "path": "development/v4/pytest.raw",
+      "bytes": 273,
+      "sha256": "ade6c2173a1d61ecbb245750bac753236d162b6ead6975dfda9f4848a816071d"
+    },
+    {
+      "path": "development/v4/junit.xml",
+      "bytes": 721,
+      "sha256": "5970ee5a81320ec4ae7c78665bdbedcfba6c6dbe19e6f86d8c1582358dd63ae0"
+    },
+    {
+      "path": "reviews/reservation-main-accepted.json",
+      "bytes": 7875,
+      "sha256": "bc0b9e05c1c4398a3f2aaebb084220953a76b74a18b1dcce63c2f212d84d55c2"
+    },
+    {
+      "path": "reviews/initial-code-findings.json",
+      "bytes": 8803,
+      "sha256": "2274272c8ff5232fc8ab4d25aefde28d60ec3bf65849714cbe84b664ccd14e95"
+    },
+    {
+      "path": "reviews/minimal-design.json",
+      "bytes": 12101,
+      "sha256": "6a96c703d7d0063c98c0aa8000f3c45e444c615bc6f0a1ff8a6744509754f123"
+    }
+  ],
+  "currentFiveCodePins": [
+    {
+      "path": "scripts/check-program-plan-transitions.py",
+      "bytes": 38878,
+      "sha256": "b551985c62645bf863e3cd83f602c99f0cffbe0d84e9222710a636656b30c1da"
+    },
+    {
+      "path": "scripts/check-program-plan-history.py",
+      "bytes": 106897,
+      "sha256": "e57c1b00bcf509ea9a08da737c57d5dd8cdc650b667fbcdadbead1e18aa8fb05"
+    },
+    {
+      "path": "scripts/reservation-role-amendment.py",
+      "bytes": 23201,
+      "sha256": "e97f1f9e889b9563ec1be48aeea400bca207d81e74b971498e4b2b3913eb6f57"
+    },
+    {
+      "path": "tests/governance/test_reservation_role_amendment.py",
+      "bytes": 19578,
+      "sha256": "f9ab3ab37b8701fceb2e677b02a4339a6f9eac8930ef80ef0a0e618b5c9e8b2e"
+    },
+    {
+      "path": "rules/reservation-role-amendment.md",
+      "bytes": 4032,
+      "sha256": "c1c39b50522c4bc63d8be86f67e88edee36b8d903f32f74984936425ad643699"
+    }
+  ],
+  "earlierContextsRetained": true,
+  "pocActorsChanged": false,
+  "experimentsExecuted": false,
+  "fixedSourceChecksPassed": false,
+  "fullSourceCiPassed": false
+}

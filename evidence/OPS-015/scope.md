@@ -1,3 +1,3 @@
-# OPS-015
+# OPS-015 implementation scope
 
-OnlyOwn reservation metadata; future five exact guard/rule/test paths remain unimplemented.
+Only original five exact code/rules/test claims and Own Task/Evidence plus Own Program/Active lifecycle. Accepted actual main36d is the base. No changed POC identities, frozen contracts, peer lease/claims or V1 closure. See Task and rules/reservation-role-amendment.md.

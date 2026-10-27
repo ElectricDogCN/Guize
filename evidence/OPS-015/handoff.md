@@ -1,55 +1,36 @@
-# OPS-015 reservation Handoff Contract
+# OPS-015 implementation Handoff Contract
 
 Task: OPS-015 / Issue:153 https://github.com/ElectricDogCN/Guize/issues/153
-Branch: chore/OPS-015-role-amendment-reservation
-Base / current precommit Git HEAD: 746e23e582501fa08380c3f3301bdc1774902f7c
-Current stage: uncommitted metadata-only reservation; actual source commit/tree must be read from Git after commit, never predicted. This preparation has no source test/CI/merge acceptance.
+Branch: chore/OPS-015-role-amendment-v2
+Base / precommit Git HEAD: 36d8ba69581c98ab15559e5a4a7f6281435d327f
+Record type: precommit integration-control snapshot for in_progress/implementer. Read the actual candidate commit/tree from Git HEAD; this document does not predict its own containing SHA. Postcommit gate results and the PR/CI are authoritative for later status. Publication, full governanceCI and merge remain pending.
 
-## Actual roles and reservation identity
+Owner ElectricDogCN; Coordinator/Implementer/Integrator /root; independent Reviewer /root/gz022_planning_independent_review. Original lease 2026-10-27T05:33:14Z to 2026-11-03T05:33:14Z, unchanged; order11, high/MOD-GOV, no shared paths.
 
-- Owner: ElectricDogCN.
-- Coordinator: /root, this conversation's active coordinator.
-- Implementer: /root, this conversation's primary implementation instance.
-- Reviewer: /root/gz022_planning_independent_review, separate existing read-only reviewer instance.
-- Integrator: /root, acting only after exact-source checks, CI and independent acceptance.
-- Status/agentRole: reserved/coordinator; MOD-GOV/high; FOUNDATION; workPackage WP-M0-01; dependsOn OPS-014 completed; integrationStrategy merge; integrationOrder11; coordinationGroup reservation-role-amendment.
-- Acquired: 2026-10-27T05:33:14Z ; expires: 2026-11-03T05:33:14Z (original168h window, not renewed).
-- Current actual main still has2mediumPOCs/0high. This candidate proposes third activity/solehigh; its local Registry does not prove the actual slot is already reserved.
+## Accepted input and current scope
 
-## Actual files and contract versions
+PR154/source8b and latestCI871 accepted; actual main36d has all seven no-task checks exit0, pushCI872 752passed/1418.21s/zero failed,error,test-skipped, 23successful workflow steps and5 normal no-task conditional skips. Independent actual-main receipt bc0b9e05c1c4398a3f2aaebb084220953a76b74a18b1dcce63c2f212d84d55c2 permits the original five claims only. Reservation intent and original defect bytes stay unchanged.
 
-23-file candidate inventory is enumerated in changed-files.md: two canonical metadata files, OwnTask and20OwnEvidence files. Prior Program/Foundation values and both existing POC Active rows remain structurally unchanged; no implementation file in any of the five declared claims has been edited.
+Implementation files: the five exact Task claims; own Task/Evidence and own Program/Active lifecycle metadata. Current code proves only prospective actor amendments and authentic accepted-main imports, with a real preceding approval commit. POC checker, contracts, thresholds, old approvals/results/raw, peer roles/claims/lease and V1 boundary are unchanged.
 
-Consumes CONTRACT-PROGRAM-PLAN (schemaVersion1), CONTRACT-TASK-SPEC (Task schemaVersion2), CONTRACT-ACTIVE-WORK (Registry version1). No new machine contract is published by reservation. specs/poc/check_program.py and POC-PROTOCOL-V1 remain byte-exact; the original formalprofile failure and007fffdf independent diagnostic are copied unchanged as inputs, not pass evidence. The original narrow reservation-intent.json binds only POC003/005 prospective implementer/reviewer values and prohibits old execution aliases, qualification transfer and foreign claims/lease/risk edits.
+## Consumed contract versions
 
-Exact future exclusive claims:
-- `scripts/check-program-plan-transitions.py`
-- `scripts/check-program-plan-history.py`
-- `scripts/reservation-role-amendment.py`
-- `tests/governance/test_reservation_role_amendment.py`
-- `rules/reservation-role-amendment.md`
+- CONTRACT-PROGRAM-PLAN: schemaVersion1, specs/coordination/program-plan.yaml and specs/coordination/program-plan.schema.yaml.
+- CONTRACT-TASK-SPEC: schemaVersion2, this Task front matter and the scripts/check-task-file.py / scripts/check-schemas.py validation contract.
+- CONTRACT-ACTIVE-WORK: version1, specs/coordination/active-work.yaml and specs/coordination/active-work.schema.yaml.
 
-Shared paths: none. Two POCs keep their existing sharedADR/result-index claims and integrationOrder2/3; this task cannot consume or alter their business paths.
+These are the actually consumed local contract versions; this implementation publishes no new contract or POC schema version.
 
-## Actual verification, failures and limits
+## Validation and next role
 
-The14 declared commands and exitCode:UNEXECUTED preparation state are in commands.txt and the Task's mandatory test section. Current reservation has not executed them, fullCI or implementation. The original POC005 formalprofile actualwait1 due generic actors is kept in original-profile-failure.raw/json; direct execution qualification remains a different scope. Screenshots/API/migration/performance and runtime checks are not claimed for this metadata reservation; each applicable placeholder explains its stage.
+Earlier uncommitted development originals are in development-index.json:18/34/38 and a separate3-case selected supplement. Exact committed source20a08c49999f4b5e1432d92bcd5ce0d2f191c0a1 subsequently passed all14 source gates and all41 target tests/165.33s/zero failed,error,skipped; their18 actual originals and index are in fixed-source-20a08c4/. This OwnEvidence-only handoff update preserves all five code pins. Its new containing commit still needs its own14 gates; the complete tests/governance command remains pending for the later same-headCI. No14-to16 or old-source gate inheritance is claimed. Independent review precedes source publication; fixed source CI and actual main acceptance precede normal Review/Completion. No new activation PR is required by the accepted registration.
 
-Initial Handoff was rejected for omitting this concrete17.6 information; its original bytes and independent negative snapshot remain outside this candidate as local review history. This correction does not change Task, lease, roles, scope, policy or any original experiment. Actual gates/raw/exit codes will be archived on the exact committed source, without overwriting these preparation facts.
+Rollback: reviewed ordinary forward change; retain reservation/source/failure records and local refs. Next: read the new actual candidate commit from Git, run its14 fixed-source checks, independently accept this metadata snapshot and create the Ready PR for complete same-headCI. Initial3P2 findings and V1-V4 originals are retained. No source publication or integration acceptance is claimed. POC identity transactions and new experiments remain separately required after normal mechanism Completion.
 
-## Next role exact actions
+## Rejected first fixed source
 
-1. Reviewer checks this corrected Handoff and the unchanged23-file metadata proposal: realIssue153, main746, five module-owned claims, exact concrete independent instances, live original lease, unchanged existing peers/policy, no implementation. Local commit eligibility is not Ready/merge approval.
-2. Implementer commits only those23 paths, records actual source/tree/parent and creates a no-alternates clean native clone. Run all14 declared commands on that exact source; preserve each original command/stdout/stderr/exit and unchanged source state. Publish only a normal new branch/Draft after actual local acceptance, then obtain same-head fullCI and independent final-source review.
-3. Integrator verifies current main/dependencies/lease/capacity and exact approved source/CI, ordinary merges, then obtains actual-main required gates/CI and independent acceptance. Reservation only becomes effective after this real process. New implementation must start from that accepted main.
-4. Later mechanism implementation, its normalReview/Completion, each POC's own accepted identity amendment, newsource/CI and new independently approved actual experiments remain separate. No current POC rename or experiment is granted.
+Original4b2491bea66c7c0f26e4c99b7e9fd4d2c3d251dc was committed but unpublished; its diff gate exited0 and Task gate exited1 for missing required bullets/section titles;12 remaining gates were not executed. The original branch and bundle remain. This separate candidate starts at accepted36d, reuses identical five code pins and fixes only Task-format/Own metadata. No reset, rebase, history relaxation or qualification inheritance. See rejected-source-4b2491b/.
 
-## Recovery and rollback
+## Actual successor scope-gate failure
 
-Before merge withdraw the unmerged candidate through the normal PR process; keep branch/checkouts/raw. After merge use reviewed ordinary forward metadata repair/cancellation, never reset/rebase/force, raw or DB deletion, policy/threshold weakening, or retroactive approval substitution. Verify the exact affected paths first:
-
-```bash
-git diff --name-only 746e23e582501fa08380c3f3301bdc1774902f7c...HEAD
-```
-
-No rollback has been executed. No services/containers/POC workloads, database migration, secrets, production deployment or public access change is part of this reservation.
+Sourceef4f92c actual first10 gates passed; gate11 scope exit1 due to prose rather than exact Allowed patterns. The final3 gates did not run. Original5Registry claims were unchanged and accepted by coordination. The forward metadata fix enumerates these same5 paths plus OwnEvidence; it does not broaden claims or alter5codepins. See rejected-source-ef4f92c/. The source20a14 subsequently passed; this handoff-only successor still needs its own14 and complete same-headCI.

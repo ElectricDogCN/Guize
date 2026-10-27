@@ -1,15 +1,16 @@
-OPS-015 planned commands (exitCode: UNEXECUTED at preparation):
-git diff --check 746e23e582501fa08380c3f3301bdc1774902f7c...HEAD
+git diff --check 36d8ba69581c98ab15559e5a4a7f6281435d327f...HEAD
 python scripts/check-task-file.py --task OPS-015
 python scripts/check-schemas.py
-python scripts/check-program-plan-integrity.py --base-ref 746e23e582501fa08380c3f3301bdc1774902f7c
-python scripts/check-program-plan-history.py --base-ref 746e23e582501fa08380c3f3301bdc1774902f7c --head-ref HEAD --task OPS-015 --branch-name chore/OPS-015-role-amendment-reservation
-python scripts/check-program-plan-transitions.py --base-ref 746e23e582501fa08380c3f3301bdc1774902f7c --head-ref HEAD --task OPS-015 --branch-name chore/OPS-015-role-amendment-reservation
-python scripts/check-program-lifecycle-guards.py --base-ref 746e23e582501fa08380c3f3301bdc1774902f7c --head-ref HEAD --task OPS-015 --branch-name chore/OPS-015-role-amendment-reservation
-python scripts/run-program-lifecycle-gate.py --base-ref 746e23e582501fa08380c3f3301bdc1774902f7c --head-ref HEAD --task OPS-015 --branch-name chore/OPS-015-role-amendment-reservation
-python scripts/run-agent-coordination-gate.py --base-ref 746e23e582501fa08380c3f3301bdc1774902f7c --head-ref HEAD --task OPS-015 --branch-name chore/OPS-015-role-amendment-reservation
-python scripts/check-program-plan-finalization.py --base-ref 746e23e582501fa08380c3f3301bdc1774902f7c --head-ref HEAD --task OPS-015
-python scripts/run-task-scope-gate.py --task OPS-015 --base 746e23e582501fa08380c3f3301bdc1774902f7c
+python scripts/check-program-plan-integrity.py --base-ref 36d8ba69581c98ab15559e5a4a7f6281435d327f
+python scripts/check-program-plan-history.py --base-ref 36d8ba69581c98ab15559e5a4a7f6281435d327f --head-ref HEAD --task OPS-015 --branch-name chore/OPS-015-role-amendment-v2
+python scripts/check-program-plan-transitions.py --base-ref 36d8ba69581c98ab15559e5a4a7f6281435d327f --head-ref HEAD --task OPS-015 --branch-name chore/OPS-015-role-amendment-v2
+python scripts/check-program-lifecycle-guards.py --base-ref 36d8ba69581c98ab15559e5a4a7f6281435d327f --head-ref HEAD --task OPS-015 --branch-name chore/OPS-015-role-amendment-v2
+python scripts/run-program-lifecycle-gate.py --base-ref 36d8ba69581c98ab15559e5a4a7f6281435d327f --head-ref HEAD --task OPS-015 --branch-name chore/OPS-015-role-amendment-v2
+python scripts/run-agent-coordination-gate.py --base-ref 36d8ba69581c98ab15559e5a4a7f6281435d327f --head-ref HEAD --task OPS-015 --branch-name chore/OPS-015-role-amendment-v2
+python scripts/check-program-plan-finalization.py --base-ref 36d8ba69581c98ab15559e5a4a7f6281435d327f --head-ref HEAD --task OPS-015
+python scripts/run-task-scope-gate.py --task OPS-015 --base 36d8ba69581c98ab15559e5a4a7f6281435d327f
 python scripts/check-evidence.py --task OPS-015
 python scripts/check-project-readiness.py
 python scripts/check-markdown.py
+python -B -m pytest -q tests/governance/test_reservation_role_amendment.py
+python -B -m pytest -q tests/governance

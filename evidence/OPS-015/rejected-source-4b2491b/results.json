@@ -1,0 +1,64 @@
+{
+  "kind": "ACTUAL_FIXED_SOURCE_IMPLEMENTATION_GATES",
+  "source": "4b2491bea66c7c0f26e4c99b7e9fd4d2c3d251dc",
+  "before": {
+    "source": "4b2491bea66c7c0f26e4c99b7e9fd4d2c3d251dc",
+    "tree": "c635f13180e489ede6fa618c825b6f40d552cb99",
+    "parent": "36d8ba69581c98ab15559e5a4a7f6281435d327f",
+    "main": "36d8ba69581c98ab15559e5a4a7f6281435d327f",
+    "branch": "chore/OPS-015-role-amendment",
+    "status": ""
+  },
+  "startedAt": "2026-10-27T07:58:23.888498+00:00",
+  "commands": [
+    {
+      "label": "diff",
+      "argv": [
+        "git",
+        "diff",
+        "--check",
+        "36d8ba69581c98ab15559e5a4a7f6281435d327f...HEAD"
+      ],
+      "startedAt": "2026-10-27T07:58:23.892799+00:00",
+      "raw": "diff.raw",
+      "pid": 67999,
+      "exitCode": 0,
+      "actualWaitCompleted": true,
+      "finishedAt": "2026-10-27T07:58:23.905748+00:00",
+      "elapsedNs": 12947378,
+      "bytes": 144,
+      "sha256": "d8c20a4d43ae6b28aa8109fc183ff5af274c35f55b626f51fc46f6b5ad5184ed"
+    },
+    {
+      "label": "task",
+      "argv": [
+        "python",
+        "scripts/check-task-file.py",
+        "--task",
+        "OPS-015"
+      ],
+      "startedAt": "2026-10-27T07:58:23.909250+00:00",
+      "raw": "task.raw",
+      "pid": 68000,
+      "exitCode": 1,
+      "actualWaitCompleted": true,
+      "finishedAt": "2026-10-27T07:58:23.991151+00:00",
+      "elapsedNs": 81903648,
+      "bytes": 458,
+      "sha256": "c7b22e4d905b0987e4740642f01ba43f5a8ddd8d83c620e0745c81250b552776"
+    }
+  ],
+  "fixedSourceRequiredGatesPassed": false,
+  "implementationCodePresent": true,
+  "pocExecuted": false,
+  "independentAccepted": false,
+  "failedGate": "task",
+  "after": {
+    "source": "4b2491bea66c7c0f26e4c99b7e9fd4d2c3d251dc",
+    "tree": "c635f13180e489ede6fa618c825b6f40d552cb99",
+    "parent": "36d8ba69581c98ab15559e5a4a7f6281435d327f",
+    "main": "36d8ba69581c98ab15559e5a4a7f6281435d327f",
+    "branch": "chore/OPS-015-role-amendment",
+    "status": ""
+  }
+}
