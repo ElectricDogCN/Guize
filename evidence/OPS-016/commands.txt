@@ -1,16 +1,14 @@
-# OPS-016 fixed-source commands; raw logs record actual exits.
-git diff --check 285fa604607604d517089b3c9eb0761a71d33f47...HEAD
+# OPS-016 normal Review commands; actual exits in source-bound raw logs.
+git diff --check d166b4d39f2dcc40c99b2bbd79db568c7cd72270...HEAD
 python scripts/check-task-file.py --task OPS-016
 python scripts/check-schemas.py
-python scripts/check-program-plan-integrity.py --base-ref 285fa604607604d517089b3c9eb0761a71d33f47
-python scripts/check-program-plan-history.py --base-ref 285fa604607604d517089b3c9eb0761a71d33f47 --head-ref HEAD --task OPS-016 --branch-name chore/OPS-016-cumulative-coverage-v2
-python scripts/check-program-plan-transitions.py --base-ref 285fa604607604d517089b3c9eb0761a71d33f47 --head-ref HEAD --task OPS-016 --branch-name chore/OPS-016-cumulative-coverage-v2
-python scripts/check-program-lifecycle-guards.py --base-ref 285fa604607604d517089b3c9eb0761a71d33f47 --head-ref HEAD --task OPS-016 --branch-name chore/OPS-016-cumulative-coverage-v2
-python scripts/run-program-lifecycle-gate.py --base-ref 285fa604607604d517089b3c9eb0761a71d33f47 --head-ref HEAD --task OPS-016 --branch-name chore/OPS-016-cumulative-coverage-v2
-python scripts/run-agent-coordination-gate.py --base-ref 285fa604607604d517089b3c9eb0761a71d33f47 --head-ref HEAD --task OPS-016 --branch-name chore/OPS-016-cumulative-coverage-v2
-python scripts/check-program-plan-finalization.py --base-ref 285fa604607604d517089b3c9eb0761a71d33f47 --head-ref HEAD --task OPS-016
-python scripts/run-task-scope-gate.py --task OPS-016 --base 285fa604607604d517089b3c9eb0761a71d33f47
+python scripts/check-program-plan-integrity.py --base-ref d166b4d39f2dcc40c99b2bbd79db568c7cd72270
+python scripts/check-program-plan-history.py --base-ref d166b4d39f2dcc40c99b2bbd79db568c7cd72270 --head-ref HEAD --task OPS-016 --branch-name chore/OPS-016-normal-review
+python scripts/check-program-plan-transitions.py --base-ref d166b4d39f2dcc40c99b2bbd79db568c7cd72270 --head-ref HEAD --task OPS-016 --branch-name chore/OPS-016-normal-review
+python scripts/check-program-lifecycle-guards.py --base-ref d166b4d39f2dcc40c99b2bbd79db568c7cd72270 --head-ref HEAD --task OPS-016 --branch-name chore/OPS-016-normal-review
+python scripts/run-agent-coordination-gate.py --base-ref d166b4d39f2dcc40c99b2bbd79db568c7cd72270 --head-ref HEAD --task OPS-016 --branch-name chore/OPS-016-normal-review
+python scripts/check-program-plan-finalization.py --base-ref d166b4d39f2dcc40c99b2bbd79db568c7cd72270 --head-ref HEAD --task OPS-016
+python scripts/run-task-scope-gate.py --task OPS-016 --base d166b4d39f2dcc40c99b2bbd79db568c7cd72270
 python scripts/check-evidence.py --task OPS-016
 python scripts/check-project-readiness.py
 python scripts/check-markdown.py
-python -m pytest -vv tests/governance/test_reservation_role_amendment.py
