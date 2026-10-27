@@ -20,6 +20,7 @@ import subprocess
 import sys
 import tempfile
 from datetime import datetime, timedelta, timezone
+from functools import lru_cache
 from typing import Any
 
 import yaml
@@ -126,6 +127,25 @@ def load_current(root: str, path: str) -> Any:
 
 def load_ref(root: str, ref: str, path: str) -> Any | None:
     return load_yaml_text(read_ref(root, ref, path))
+
+
+@lru_cache(maxsize=64)
+def checked_schema_text(text: str, validator: type) -> None:
+    """Share only successful meta-schema checks of the same text and dialect."""
+    validator.check_schema(load_yaml_text(text))
+
+
+def snapshot_validator(root: str, ref: str, path: str, missing: str) -> Any:
+    # Read once: even a moving ref must bind parsing and the cache key to the
+    # same actual Schema. Documents and reference resolution are never cached.
+    text = read_ref(root, ref, path)
+    schema = load_yaml_text(text)
+    if not isinstance(schema, dict):
+        raise ValueError(missing)
+    validator = jsonschema.validators.validator_for(schema)
+    checked_schema_text(text, validator)
+    # Keep a fresh validator and FormatChecker for every historical document.
+    return validator(schema, format_checker=jsonschema.FormatChecker())
 
 
 def parse_front_matter(text: str | None) -> tuple[dict[str, Any], str]:
@@ -484,13 +504,9 @@ def historical_lease(root: str, commit: str, entry: dict[str, Any], policy: dict
 
 
 def historical_registry_schema(root: str, ref: str, registry: dict[str, Any], label: str, errors: list[str]) -> None:
-    schema = load_ref(root, ref, REGISTRY_SCHEMA)
     try:
-        if not isinstance(schema, dict):
-            raise ValueError("Applicable Registry schema is missing")
-        validator = jsonschema.validators.validator_for(schema)
-        validator.check_schema(schema)
-        failures = list(validator(schema, format_checker=jsonschema.FormatChecker()).iter_errors(registry))
+        validator = snapshot_validator(root, ref, REGISTRY_SCHEMA, "Applicable Registry schema is missing")
+        failures = list(validator.iter_errors(registry))
         for failure in failures:
             errors.append(f"{label} Registry schema violation: {failure.message}")
     except Exception as exc:
@@ -538,13 +554,9 @@ def historical_registration_context(root: str, snapshot: str, observation: str, 
         if transition[0] != transition[1] and transition not in TRANSITIONS.ALLOWED_ACTIVE_TRANSITIONS:
             errors.append(f"{label} has forbidden historical lifecycle transition {transition[0]} -> {transition[1]}")
     program = load_ref(root, snapshot, PLAN)
-    schema = load_ref(root, snapshot, PROGRAM_SCHEMA)
     try:
-        if not isinstance(schema, dict):
-            raise ValueError("Applicable Program schema is missing")
-        validator = jsonschema.validators.validator_for(schema)
-        validator.check_schema(schema)
-        failures = list(validator(schema, format_checker=jsonschema.FormatChecker()).iter_errors(program))
+        validator = snapshot_validator(root, snapshot, PROGRAM_SCHEMA, "Applicable Program schema is missing")
+        failures = list(validator.iter_errors(program))
         for failure in failures:
             errors.append(f"{label} Program schema violation: {failure.message}")
         if not isinstance(program, dict) or failures:

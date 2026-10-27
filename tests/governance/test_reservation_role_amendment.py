@@ -394,3 +394,98 @@ def test_unmerged_actor_parent_is_not_an_accepted_main_import(graph):
     head = graph.merge('chore/POC-003-actor-metadata', 'Unaccepted actor side parent')
     with pytest.raises(PROOF.AmendmentError):
         PROOF.validate_range(str(graph.repo), graph.base, head, graph.base)
+
+
+@pytest.fixture
+def schema_history(tmp_path):
+    """Use the real accepted registration with this checkout's actual checker."""
+    spec = importlib.util.spec_from_file_location('actor_history_schema_tests', ROOT/'scripts/check-program-plan-history.py')
+    history = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(history)
+    repo = tmp_path/'schema-history'
+    subprocess.run(['git','clone','--shared','--no-checkout','--quiet',str(ROOT),str(repo)],check=True,capture_output=True)
+    def git(*args):
+        return subprocess.check_output(['git','-C',str(repo),*args],stderr=subprocess.DEVNULL).decode().strip()
+    git('checkout','--detach',PROOF.REGISTRATION)
+    git('config','user.name','Schema history fixture')
+    git('config','user.email','schema@example.invalid')
+    def commit(path, text):
+        (repo/path).write_text(text,encoding='utf-8')
+        git('add',path)
+        git('commit','--quiet','-m','Actual schema fixture update')
+    return history,repo,git,commit
+
+
+def test_reused_meta_schema_still_checks_each_historical_registry_and_program(schema_history):
+    h,repo,git,commit = schema_history
+    registry = h.load_ref(str(repo),'HEAD',h.ACTIVE)
+    def check(document):
+        errors = []
+        snapshot = git('rev-parse','HEAD')
+        h.historical_registration_context(str(repo),snapshot,snapshot,'OPS-015',document,
+            PROOF.REGISTRATION,registry['policy'],'schema fixture',errors)
+        return errors
+    assert check(registry) == []
+    before = h.checked_schema_text.cache_info()
+    broken = json.loads(json.dumps(registry))
+    next(row for row in broken['tasks'] if row['taskId']=='OPS-015')['riskLevel']='unknown-risk'
+    assert any('Registry schema violation' in error for error in check(broken))
+    assert h.checked_schema_text.cache_info().misses == before.misses
+    plan = h.load_ref(str(repo),'HEAD',h.PLAN)
+    plan['status']='unknown-program-state'
+    commit(h.PLAN,yaml.safe_dump(plan,sort_keys=False))
+    assert any('Program schema violation' in error for error in check(registry))
+    assert h.checked_schema_text.cache_info().misses == before.misses
+
+
+@pytest.mark.parametrize('path',['specs/coordination/active-work.schema.yaml','specs/coordination/program-plan.schema.yaml'])
+def test_schema_change_missing_invalid_and_restore_revalidate_actual_head(schema_history,path):
+    h,repo,git,commit = schema_history
+    original = (repo/path).read_text(encoding='utf-8')
+    instance = h.load_ref(str(repo),'HEAD',h.ACTIVE if path==h.REGISTRY_SCHEMA else h.PLAN)
+    validate = lambda: h.snapshot_validator(str(repo),'HEAD',path,'missing actual Schema')
+    assert not list(validate().iter_errors(instance))
+    checked = h.checked_schema_text.cache_info().misses
+    commit(path,yaml.safe_dump({'$schema':'https://json-schema.org/draft/2020-12/schema','type':'object','required':['new-required-field']}))
+    assert list(validate().iter_errors(instance))
+    assert h.checked_schema_text.cache_info().misses == checked+1
+    commit(path,'type: 42\n')
+    for count in (2,3):
+        with pytest.raises(h.jsonschema.SchemaError):
+            validate()
+        assert h.checked_schema_text.cache_info().misses == checked+count
+    # The same physical file remains; the actual Git snapshot lacks it.
+    git('update-index','--force-remove',path)
+    git('commit','--quiet','-m','Missing schema in actual snapshot')
+    with pytest.raises(ValueError,match='missing actual Schema'):
+        validate()
+    commit(path,original)
+    assert not list(validate().iter_errors(instance))
+    assert h.checked_schema_text.cache_info().misses == checked+3
+
+
+def test_schema_reuse_keeps_selected_draft_formats_and_fresh_validator(schema_history):
+    h,repo,git,commit = schema_history
+    for draft,kind in [('http://json-schema.org/draft-07/schema#',h.jsonschema.Draft7Validator),
+                       ('https://json-schema.org/draft/2020-12/schema',h.jsonschema.Draft202012Validator)]:
+        schema = {'$schema':draft,'type':'object','required':['address'],'properties':{'address':{'type':'string','format':'ipv4'}}}
+        commit(h.REGISTRY_SCHEMA,yaml.safe_dump(schema))
+        first = h.snapshot_validator(str(repo),'HEAD',h.REGISTRY_SCHEMA,'missing')
+        second = h.snapshot_validator(str(repo),'HEAD',h.REGISTRY_SCHEMA,'missing')
+        assert isinstance(first,kind) and first is not second
+        assert not list(first.iter_errors({'address':'127.0.0.1'}))
+        assert list(second.iter_errors({'address':'999.999.999.999'}))
+
+
+def test_one_schema_read_binds_validation_to_a_moving_ref(schema_history,monkeypatch):
+    h,repo,git,commit = schema_history
+    texts = iter(['type: integer\n','type: string\n'])
+    reads = []
+    def moving(root,ref,path):
+        reads.append((root,ref,path))
+        return next(texts)
+    monkeypatch.setattr(h,'read_ref',moving)
+    first = h.snapshot_validator(str(repo),'HEAD',h.REGISTRY_SCHEMA,'missing')
+    assert len(reads)==1 and not list(first.iter_errors(1)) and list(first.iter_errors('value'))
+    second = h.snapshot_validator(str(repo),'HEAD',h.REGISTRY_SCHEMA,'missing')
+    assert len(reads)==2 and list(second.iter_errors(1)) and not list(second.iter_errors('value'))

@@ -1,14 +1,14 @@
-git diff --check 36d8ba69581c98ab15559e5a4a7f6281435d327f...HEAD
+git diff --check 955d226134e2562d7f509ffb320f352d8bc08c6d...HEAD
 python scripts/check-task-file.py --task OPS-015
 python scripts/check-schemas.py
-python scripts/check-program-plan-integrity.py --base-ref 36d8ba69581c98ab15559e5a4a7f6281435d327f
-python scripts/check-program-plan-history.py --base-ref 36d8ba69581c98ab15559e5a4a7f6281435d327f --head-ref HEAD --task OPS-015 --branch-name chore/OPS-015-role-amendment-v2
-python scripts/check-program-plan-transitions.py --base-ref 36d8ba69581c98ab15559e5a4a7f6281435d327f --head-ref HEAD --task OPS-015 --branch-name chore/OPS-015-role-amendment-v2
-python scripts/check-program-lifecycle-guards.py --base-ref 36d8ba69581c98ab15559e5a4a7f6281435d327f --head-ref HEAD --task OPS-015 --branch-name chore/OPS-015-role-amendment-v2
-python scripts/run-program-lifecycle-gate.py --base-ref 36d8ba69581c98ab15559e5a4a7f6281435d327f --head-ref HEAD --task OPS-015 --branch-name chore/OPS-015-role-amendment-v2
-python scripts/run-agent-coordination-gate.py --base-ref 36d8ba69581c98ab15559e5a4a7f6281435d327f --head-ref HEAD --task OPS-015 --branch-name chore/OPS-015-role-amendment-v2
-python scripts/check-program-plan-finalization.py --base-ref 36d8ba69581c98ab15559e5a4a7f6281435d327f --head-ref HEAD --task OPS-015
-python scripts/run-task-scope-gate.py --task OPS-015 --base 36d8ba69581c98ab15559e5a4a7f6281435d327f
+python scripts/check-program-plan-integrity.py --base-ref 955d226134e2562d7f509ffb320f352d8bc08c6d
+python scripts/check-program-plan-history.py --base-ref 955d226134e2562d7f509ffb320f352d8bc08c6d --head-ref HEAD --task OPS-015 --branch-name chore/OPS-015-role-amendment-v2
+python scripts/check-program-plan-transitions.py --base-ref 955d226134e2562d7f509ffb320f352d8bc08c6d --head-ref HEAD --task OPS-015 --branch-name chore/OPS-015-role-amendment-v2
+python scripts/check-program-lifecycle-guards.py --base-ref 955d226134e2562d7f509ffb320f352d8bc08c6d --head-ref HEAD --task OPS-015 --branch-name chore/OPS-015-role-amendment-v2
+python scripts/run-program-lifecycle-gate.py --base-ref 955d226134e2562d7f509ffb320f352d8bc08c6d --head-ref HEAD --task OPS-015 --branch-name chore/OPS-015-role-amendment-v2
+python scripts/run-agent-coordination-gate.py --base-ref 955d226134e2562d7f509ffb320f352d8bc08c6d --head-ref HEAD --task OPS-015 --branch-name chore/OPS-015-role-amendment-v2
+python scripts/check-program-plan-finalization.py --base-ref 955d226134e2562d7f509ffb320f352d8bc08c6d --head-ref HEAD --task OPS-015
+python scripts/run-task-scope-gate.py --task OPS-015 --base 955d226134e2562d7f509ffb320f352d8bc08c6d
 python scripts/check-evidence.py --task OPS-015
 python scripts/check-project-readiness.py
 python scripts/check-markdown.py
