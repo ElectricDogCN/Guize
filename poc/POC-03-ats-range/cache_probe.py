@@ -99,6 +99,21 @@ def read_export_body(body, maximum_bytes):
     return actual
 
 
+def export_body_observation(body, destination, input_path, start, count):
+    """Return metadata only; one key's media cannot survive into the next key."""
+    actual = expected = source = None
+    try:
+        actual = read_export_body(body, count)
+        destination.write_bytes(actual)
+        with Path(input_path).open('rb') as source:
+            source.seek(start)
+            expected = source.read(count)
+        return dict(actualBytes=len(actual), actualSha256=hashlib.sha256(actual).hexdigest(),
+                    exactInputSliceEqual=len(actual) == count and actual == expected)
+    finally:
+        actual = expected = source = None
+
+
 def export_stage(run, out, cfg, snapshot, version, user='lab-user-a'):
     output = Path(out)
     existed = output.exists() or output.is_symlink()
@@ -246,13 +261,8 @@ def _export_stage(run, out, cfg, snapshot, version, user):
                     if info.st_size > 64 << 20 or exported_total > maximum_exported_bytes:
                         raise ValueError('stage exported-byte bound')
                     count = key['end'] - key['start'] + 1
-                    actual = read_export_body(body, count)
-                    (out / result['file']).write_bytes(actual)
-                    with Path(cfg['inputs'][version]['path']).open('rb') as source:
-                        source.seek(key['start'])
-                        expected = source.read(count)
-                    observed.update(actualBytes=len(actual), actualSha256=hashlib.sha256(actual).hexdigest(),
-                                    exactInputSliceEqual=len(actual) == count and actual == expected)
+                    observed.update(export_body_observation(body, out / result['file'],
+                        cfg['inputs'][version]['path'], key['start'], count))
                 report['exports'].append(observed)
             report['nativeRequests'].append(dict(requestId=request_id,keyIds=[row['keyId'] for row in batch],rawDirectory=artifact.relative_to(out).as_posix()))
             events=current_events
@@ -285,9 +295,12 @@ def _export_stage(run, out, cfg, snapshot, version, user):
             for result in parts:
                 with (out / result['file']).open('rb') as body:
                     while block := body.read(65536):
-                        stream.write(block)
-                        hasher.update(block)
-                        count += len(block)
+                        try:
+                            stream.write(block)
+                            hasher.update(block)
+                            count += len(block)
+                        finally:
+                            block = None
         complete = count == size and hasher.hexdigest() == cfg['inputs'][version]['sha256']
         report['derivedLogicalObject'] = dict(file=derived.name, byteCount=count,
             sha256=hasher.hexdigest(), derivation='Ordered concatenation of actual native TSCacheRead bodies',

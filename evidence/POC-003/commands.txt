@@ -70,3 +70,7 @@ Forward bounded representative-cache components (in addition to existing Task15/
 python poc/POC-03-ats-range/test_representative_cache.py
 python poc/POC-03-ats-range/test_representative_cache_native.py
 Native test requires ordinary-user Linux; simulated producer, no ATS/POC approval. Actual interpreter argv/hashes/waits are archived.
+
+Payload-reference lifetime component (local component; not whole-source or experiment qualification):
+python poc/POC-03-ats-range/test_payload_lifetime.py
+Eleven actual tests, no skips. Related unchanged commands and exact actual interpreter argv/PID/wait0/raw are in payload-lifetime-v1/index.json; current Windows40/Linux49. Original six and two failures retained. Full aggregate backing-capacity proof and new full-source/experiment approval still required.

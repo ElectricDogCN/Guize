@@ -67,7 +67,7 @@ class Collector:
         if range_header:headers['Range']=range_header
         if if_range:headers['If-Range']=if_range
         if barrier:barrier.wait(timeout=10)
-        row['startedAt']=utc();started=time.monotonic();response=None;hasher=hashlib.sha256()
+        row['startedAt']=utc();started=time.monotonic();response=None;block=None;hasher=hashlib.sha256()
         try:
             from http_timing import timing_handler
             request_opener=urllib.request.build_opener(urllib.request.ProxyHandler({}),NoRedirect(),timing_handler(row,started))
@@ -77,26 +77,30 @@ class Collector:
                        responseHeaders=list(response.headers.items()))
             with body.open('xb') as out:
                 while True:
-                    incomplete=False
-                    # Read exactly one body byte for the media first-byte clock;
-                    # a completed64KiB read is not a first-byte observation.
-                    try:block=response.read(1 if row['firstBodyByteAt'] is None else 65536)
-                    except http.client.IncompleteRead as error:block=error.partial;incomplete=True
-                    if not block:
-                        row['transportCompleted']=not incomplete;break
-                    if row['firstBodyByteAt'] is None:
-                        row['firstBodyByteAt']=utc();row['firstBodyByteLatencyMs']=(time.monotonic()-started)*1000
-                    if row['firstBodyChunkAt'] is None:row['firstBodyChunkAt']=utc()
-                    row['bodyBytes']+=len(block);row['clientChunkPeak']=max(row['clientChunkPeak'],len(block));hasher.update(block);out.write(block)
-                    if row['bodyBytes']>self.cfg['inputs'][version]['sizeBytes']+65536:raise ValueError('per-response byte bound')
-                    if incomplete:row['transportError']='IncompleteRead';break
+                    try:
+                        incomplete=False
+                        # Read exactly one body byte for the media first-byte clock;
+                        # a completed64KiB read is not a first-byte observation.
+                        try:block=response.read(1 if row['firstBodyByteAt'] is None else 65536)
+                        except http.client.IncompleteRead as error:block=error.partial;incomplete=True
+                        if not block:
+                            row['transportCompleted']=not incomplete;break
+                        if row['firstBodyByteAt'] is None:
+                            row['firstBodyByteAt']=utc();row['firstBodyByteLatencyMs']=(time.monotonic()-started)*1000
+                        if row['firstBodyChunkAt'] is None:row['firstBodyChunkAt']=utc()
+                        row['bodyBytes']+=len(block);row['clientChunkPeak']=max(row['clientChunkPeak'],len(block));hasher.update(block);out.write(block)
+                        if row['bodyBytes']>self.cfg['inputs'][version]['sizeBytes']+65536:raise ValueError('per-response byte bound')
+                        if incomplete:row['transportError']='IncompleteRead';break
+                    finally:block=None
             claimed=response.headers.get('Content-Length')
             if claimed is not None and (not claimed.isdigit() or int(claimed)!=row['bodyBytes']):row['transportCompleted']=False
         except (OSError,http.client.HTTPException,ValueError) as error:
             row['transportError']=type(error).__name__+': '+str(error)
             if not body.exists():body.write_bytes(b'')
         finally:
+            block=None
             if response is not None:response.close()
+            response=None
             row['finishedAt']=utc();row['elapsedMs']=(time.monotonic()-started)*1000;row['bodySha256']=hasher.hexdigest()
         # Preserve all settling observations; do not claim absence of later I/O.
         seen=[];stable=0;previous=None;deadline=time.monotonic()+4
@@ -115,9 +119,11 @@ class Collector:
             with Path(source['path']).open('rb') as stream:
                 stream.seek(first)
                 while remaining:
-                    chunk=stream.read(min(65536,remaining))
-                    if not chunk:raise OSError('comparison input shortened')
-                    expected.update(chunk);remaining-=len(chunk)
+                    try:
+                        chunk=stream.read(min(65536,remaining))
+                        if not chunk:raise OSError('comparison input shortened')
+                        expected.update(chunk);remaining-=len(chunk)
+                    finally:chunk=None
             row['sourceIntervalComparison']=dict(expectedStatus=status,start=first,end=last,
               expectedBytes=last-first+1,expectedSha256=expected.hexdigest(),
               actualBytesEqual=row['bodyBytes']==last-first+1 and row['bodySha256']==expected.hexdigest())

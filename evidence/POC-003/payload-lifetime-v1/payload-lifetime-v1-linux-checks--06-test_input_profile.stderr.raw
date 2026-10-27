@@ -1,0 +1,14 @@
+test_collector_streams_real_file_above_original_response_ceiling (__main__.InputProfileTests.test_collector_streams_real_file_above_original_response_ceiling) ... ok
+test_collector_uses_declared_aggregate_limit_and_retains_failure_body (__main__.InputProfileTests.test_collector_uses_declared_aggregate_limit_and_retains_failure_body) ... ok
+test_manifest_hash_duplicate_shape_and_unknown_profile_fail (__main__.InputProfileTests.test_manifest_hash_duplicate_shape_and_unknown_profile_fail) ... ok
+test_names_declared_size_content_hash_and_version_collision_fail (__main__.InputProfileTests.test_names_declared_size_content_hash_and_version_collision_fail) ... ok
+test_prototype_default_pins_and_limits_are_preserved (__main__.InputProfileTests.test_prototype_default_pins_and_limits_are_preserved) ... ok
+test_real_pair_above_legacy_size_is_verified_without_issuing_approval (__main__.InputProfileTests.test_real_pair_above_legacy_size_is_verified_without_issuing_approval) ... ok
+test_representative_resource_bounds_are_explicit (__main__.InputProfileTests.test_representative_resource_bounds_are_explicit) ... ok
+test_shortening_growth_symlink_and_replacement_identity_fail (__main__.InputProfileTests.test_shortening_growth_symlink_and_replacement_identity_fail) ... ok
+test_prepare_caps_real_manifest_read_before_runtime_or_run_creation (__main__.ManifestIngressTests.test_prepare_caps_real_manifest_read_before_runtime_or_run_creation) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.820s
+
+OK

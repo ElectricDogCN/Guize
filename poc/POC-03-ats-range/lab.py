@@ -415,6 +415,7 @@ class Origin(Handler):
         with state.lock:
             if sum(len(v) for v in state.origin_rows.values())>=cfg['maximumOriginRequests']:self.empty(503);return
             state.origin_rows.setdefault(rid,[]).append(row);state.active_origin[rid]=state.active_origin.get(rid,0)+1
+        block=None;stream=None;prefix_digest=None
         state.log('origin-start',dict(row))
         try:
             # No stat/open/read of protected files before this independent check.
@@ -448,18 +449,24 @@ class Origin(Handler):
             with Path(source['path']).open('rb') as stream:
                 stream.seek(start)
                 while remaining:
-                    block=stream.read(min(cfg['chunkBytes'],remaining));row['objectReadCount']+=1;row['objectReadBytes']+=len(block)
-                    if not block:raise OSError('source shortened')
-                    self.wfile.write(block);self.wfile.flush();remaining-=len(block)
-                    if fault=='slow':time.sleep(len(block)/cfg['slowOriginBandwidthBytesPerSecond'])
+                    try:
+                        block=stream.read(min(cfg['chunkBytes'],remaining));row['objectReadCount']+=1;row['objectReadBytes']+=len(block)
+                        if not block:raise OSError('source shortened')
+                        self.wfile.write(block);self.wfile.flush();remaining-=len(block)
+                        if fault=='truncate':prefix_digest=hashlib.sha256(block).hexdigest()
+                        if fault=='slow':time.sleep(len(block)/cfg['slowOriginBandwidthBytesPerSecond'])
+                    finally:block=None
             if fault=='truncate':
                 row.update(prefixFlushedAt=utc(),prefixFlushedBytes=row['objectReadBytes'],expectedResponseBytes=length,
-                  prefixSha256=hashlib.sha256(block).hexdigest(),holdSeconds=2)
+                  prefixSha256=prefix_digest,holdSeconds=2)
                 state.log('origin-prefix-flushed',dict(row))
                 time.sleep(2)
                 row['truncateCloseAt']=utc();self.close_connection=True;self.connection.shutdown(socket.SHUT_WR)
         except (OSError,TimeoutError) as error:row['transportError']=type(error).__name__;self.close_connection=True
         finally:
+            # End returned media and closed input buffering before the active
+            # interval ends or a terminal log can block this frame.
+            block=None;stream=None
             row['finishedAt']=utc()
             with state.lock:state.active_origin[rid]-=1
             state.log('origin-access',dict(row))
@@ -512,7 +519,7 @@ class Gateway(Handler):
           aclVersion=cfg['aclVersion'],requestRange=self.headers.get('Range',''),ifRange=self.headers.get('If-Range',''),
           atsRequestSent=False,responseByteCount=0,gatewayChunkPeak=0)
         with state.lock:state.gateway_rows.setdefault(rid,[]).append(row)
-        connection=None;response=None
+        connection=None;response=None;block=None
         try:
             # Denied cache HIT requests never contact ATS or open/read a source object.
             if user not in ('lab-user-a','lab-user-b'):
@@ -559,16 +566,18 @@ class Gateway(Handler):
             self.send_header('X-Lab-Cache-Context',context(cfg['aclVersion'],user));self.send_header('Connection','close');self.end_headers()
             if not head:
                 while True:
-                    incomplete=False
-                    try:block=response.read1(cfg['chunkBytes'])
-                    except http.client.IncompleteRead as error:block=error.partial;incomplete=True
-                    if block:
-                        self.wfile.write(block);self.wfile.flush();row['responseByteCount']+=len(block);row['gatewayChunkPeak']=max(row['gatewayChunkPeak'],len(block))
-                        if 'firstBodyChunkAt' not in row:row['firstBodyChunkAt']=utc()
-                    if incomplete or not block:
-                        row['transportCompleted']=not incomplete and response.length in (None,0)
-                        if not row['transportCompleted']:row.update(atsIncompleteRead=True,transportError='IncompleteRead')
-                        break
+                    try:
+                        incomplete=False
+                        try:block=response.read1(cfg['chunkBytes'])
+                        except http.client.IncompleteRead as error:block=error.partial;incomplete=True
+                        if block:
+                            self.wfile.write(block);self.wfile.flush();row['responseByteCount']+=len(block);row['gatewayChunkPeak']=max(row['gatewayChunkPeak'],len(block))
+                            if 'firstBodyChunkAt' not in row:row['firstBodyChunkAt']=utc()
+                        if incomplete or not block:
+                            row['transportCompleted']=not incomplete and response.length in (None,0)
+                            if not row['transportCompleted']:row.update(atsIncompleteRead=True,transportError='IncompleteRead')
+                            break
+                    finally:block=None
             self.close_connection=True
         except (OSError,http.client.HTTPException) as error:
             row['transportError']=type(error).__name__;self.close_connection=True
@@ -578,8 +587,10 @@ class Gateway(Handler):
                 try:self.empty(502)
                 except OSError:pass
         finally:
+            block=None
             if response is not None:response.close()
             if connection:connection.close()
+            response=None;connection=None
             row['finishedAt']=utc()
             with state.lock:state.gateway_active-=1
             state.log('gateway-access',row)
