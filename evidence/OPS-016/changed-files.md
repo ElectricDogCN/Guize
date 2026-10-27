@@ -1,4 +1,4 @@
-# OPS-016 新有效历史候选路径
+# OPS-016 有效历史候选路径
 
 - `evidence/OPS-016/assumptions.md`
 - `evidence/OPS-016/changed-files.md`
@@ -56,6 +56,11 @@
 - `evidence/OPS-016/source971-scope-failure/012.zlib.b64`
 - `evidence/OPS-016/source971-scope-failure/013.zlib.b64`
 - `evidence/OPS-016/source971-scope-failure/index.json`
+- `evidence/OPS-016/sourcef65-evidence-failure/000.zlib.b64`
+- `evidence/OPS-016/sourcef65-evidence-failure/001.zlib.b64`
+- `evidence/OPS-016/sourcef65-evidence-failure/002.zlib.b64`
+- `evidence/OPS-016/sourcef65-evidence-failure/003.zlib.b64`
+- `evidence/OPS-016/sourcef65-evidence-failure/index.json`
 - `evidence/OPS-016/summary.md`
 - `evidence/OPS-016/test-results/README.md`
 - `scripts/reservation-role-amendment.py`
@@ -64,4 +69,4 @@
 - `specs/tasks/OPS-016.md`
 - `tests/governance/test_reservation_role_amendment.py`
 
-从已接受main263独立开始，旧424/971坏Task历史不在新source祖先。两代码字节原样复用；仅正常Own metadata/Evidence。旧源失败、负面审查和本地诊断按原范围保留。固定源15项与完整CI尚待。
+基于已接受263，首个有效Task为f65；424/971坏历史不入祖先。此次仅Own Evidence前向补标识/命令说明和失败档案，两代码和Task字节保持；新源15项及完整CI尚待。

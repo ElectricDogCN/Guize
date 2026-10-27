@@ -1,3 +1,5 @@
+# OPS-016 Commands
+# 每项Command与实际Exit Code由固定源原始日志绑定；未执行项不预填结果。
 git diff --check 263ac36dcc08de09ccb1ffc7c208381a819c0304...HEAD
 python scripts/check-task-file.py --task OPS-016
 python scripts/check-schemas.py
