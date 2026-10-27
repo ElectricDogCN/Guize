@@ -1,16 +1,15 @@
-# OPS-016 Commands
-# 每项Command与实际Exit Code由固定源原始日志绑定；未执行项不预填结果。
-git diff --check 263ac36dcc08de09ccb1ffc7c208381a819c0304...HEAD
+# OPS-016 fixed-source commands; raw logs record actual exits.
+git diff --check 285fa604607604d517089b3c9eb0761a71d33f47...HEAD
 python scripts/check-task-file.py --task OPS-016
 python scripts/check-schemas.py
-python scripts/check-program-plan-integrity.py --base-ref 263ac36dcc08de09ccb1ffc7c208381a819c0304
-python scripts/check-program-plan-history.py --base-ref 263ac36dcc08de09ccb1ffc7c208381a819c0304 --head-ref HEAD --task OPS-016 --branch-name chore/OPS-016-cumulative-coverage-v2
-python scripts/check-program-plan-transitions.py --base-ref 263ac36dcc08de09ccb1ffc7c208381a819c0304 --head-ref HEAD --task OPS-016 --branch-name chore/OPS-016-cumulative-coverage-v2
-python scripts/check-program-lifecycle-guards.py --base-ref 263ac36dcc08de09ccb1ffc7c208381a819c0304 --head-ref HEAD --task OPS-016 --branch-name chore/OPS-016-cumulative-coverage-v2
-python scripts/run-program-lifecycle-gate.py --base-ref 263ac36dcc08de09ccb1ffc7c208381a819c0304 --head-ref HEAD --task OPS-016 --branch-name chore/OPS-016-cumulative-coverage-v2
-python scripts/run-agent-coordination-gate.py --base-ref 263ac36dcc08de09ccb1ffc7c208381a819c0304 --head-ref HEAD --task OPS-016 --branch-name chore/OPS-016-cumulative-coverage-v2
-python scripts/check-program-plan-finalization.py --base-ref 263ac36dcc08de09ccb1ffc7c208381a819c0304 --head-ref HEAD --task OPS-016
-python scripts/run-task-scope-gate.py --task OPS-016 --base 263ac36dcc08de09ccb1ffc7c208381a819c0304
+python scripts/check-program-plan-integrity.py --base-ref 285fa604607604d517089b3c9eb0761a71d33f47
+python scripts/check-program-plan-history.py --base-ref 285fa604607604d517089b3c9eb0761a71d33f47 --head-ref HEAD --task OPS-016 --branch-name chore/OPS-016-cumulative-coverage-v2
+python scripts/check-program-plan-transitions.py --base-ref 285fa604607604d517089b3c9eb0761a71d33f47 --head-ref HEAD --task OPS-016 --branch-name chore/OPS-016-cumulative-coverage-v2
+python scripts/check-program-lifecycle-guards.py --base-ref 285fa604607604d517089b3c9eb0761a71d33f47 --head-ref HEAD --task OPS-016 --branch-name chore/OPS-016-cumulative-coverage-v2
+python scripts/run-program-lifecycle-gate.py --base-ref 285fa604607604d517089b3c9eb0761a71d33f47 --head-ref HEAD --task OPS-016 --branch-name chore/OPS-016-cumulative-coverage-v2
+python scripts/run-agent-coordination-gate.py --base-ref 285fa604607604d517089b3c9eb0761a71d33f47 --head-ref HEAD --task OPS-016 --branch-name chore/OPS-016-cumulative-coverage-v2
+python scripts/check-program-plan-finalization.py --base-ref 285fa604607604d517089b3c9eb0761a71d33f47 --head-ref HEAD --task OPS-016
+python scripts/run-task-scope-gate.py --task OPS-016 --base 285fa604607604d517089b3c9eb0761a71d33f47
 python scripts/check-evidence.py --task OPS-016
 python scripts/check-project-readiness.py
 python scripts/check-markdown.py

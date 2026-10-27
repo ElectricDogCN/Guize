@@ -57,7 +57,7 @@ def blob(root, ref, path, *, missing=False):
 
 
 def document(root, ref, path):
-    value = yaml.safe_load(blob(root, ref, path))
+    value = yaml.load(blob(root, ref, path), Loader=getattr(yaml, 'CSafeLoader', yaml.SafeLoader))
     require(isinstance(value, dict), 'Actor amendment requires a mapping: '+path)
     return value
 
