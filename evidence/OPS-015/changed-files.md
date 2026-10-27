@@ -16,6 +16,25 @@
 - `evidence/OPS-015/development/v4/junit.xml`
 - `evidence/OPS-015/development/v4/pytest.raw`
 - `evidence/OPS-015/development/v4/results.json`
+- `evidence/OPS-015/fixed-source-20a08c4/gates/coordination.raw`
+- `evidence/OPS-015/fixed-source-20a08c4/gates/diff.raw`
+- `evidence/OPS-015/fixed-source-20a08c4/gates/docs.raw`
+- `evidence/OPS-015/fixed-source-20a08c4/gates/evidence.raw`
+- `evidence/OPS-015/fixed-source-20a08c4/gates/finalization.raw`
+- `evidence/OPS-015/fixed-source-20a08c4/gates/history.raw`
+- `evidence/OPS-015/fixed-source-20a08c4/gates/integrity.raw`
+- `evidence/OPS-015/fixed-source-20a08c4/gates/lifecycle.raw`
+- `evidence/OPS-015/fixed-source-20a08c4/gates/raw-lifecycle.raw`
+- `evidence/OPS-015/fixed-source-20a08c4/gates/readiness.raw`
+- `evidence/OPS-015/fixed-source-20a08c4/gates/results.json`
+- `evidence/OPS-015/fixed-source-20a08c4/gates/schemas.raw`
+- `evidence/OPS-015/fixed-source-20a08c4/gates/scope.raw`
+- `evidence/OPS-015/fixed-source-20a08c4/gates/task.raw`
+- `evidence/OPS-015/fixed-source-20a08c4/gates/transitions.raw`
+- `evidence/OPS-015/fixed-source-20a08c4/index.json`
+- `evidence/OPS-015/fixed-source-20a08c4/target-tests/junit.xml`
+- `evidence/OPS-015/fixed-source-20a08c4/target-tests/pytest.raw`
+- `evidence/OPS-015/fixed-source-20a08c4/target-tests/results.json`
 - `evidence/OPS-015/handoff.md`
 - `evidence/OPS-015/rejected-source-4b2491b/README.md`
 - `evidence/OPS-015/rejected-source-4b2491b/diff.raw`
@@ -40,4 +59,4 @@
 - `specs/tasks/OPS-015.md`
 - `tests/governance/test_reservation_role_amendment.py`
 
-Includes unchanged reviewed5code and retained rejected-source records; new fixed-source checks remain pending.
+Original five code pins unchanged;20a source14/41 originals retained. Successor14 and same-head fullCI pending.

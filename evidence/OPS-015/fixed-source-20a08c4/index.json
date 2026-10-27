@@ -1,0 +1,98 @@
+{
+  "source": "20a08c49999f4b5e1432d92bcd5ce0d2f191c0a1",
+  "scope": "actual14gates_and41_target_tests_on20a_only",
+  "records": [
+    {
+      "path": "gates/results.json",
+      "bytes": 9252,
+      "sha256": "894c324eaa4713d86eee308668b565c3b2eb470d878e2ea46d6d5ded035e8b10"
+    },
+    {
+      "path": "gates/diff.raw",
+      "bytes": 144,
+      "sha256": "a709c2ab6b6d389d8c4193327f2ef851858ad2d2786407813461298b530db157"
+    },
+    {
+      "path": "gates/task.raw",
+      "bytes": 270,
+      "sha256": "011cc8aaa0935c58a26f0d8b0dcabd47fa0c53e60ced749548759ccc2af3c066"
+    },
+    {
+      "path": "gates/schemas.raw",
+      "bytes": 1947,
+      "sha256": "f244b6fe9a24802c7ae7a7f96cc80ae284560ad6f37558f85948fe3e70fbb499"
+    },
+    {
+      "path": "gates/integrity.raw",
+      "bytes": 419,
+      "sha256": "66e3d2a9f77f6c9532cd70ccec363ba07d0a9ca6c6cb484f02be4b0a412f3571"
+    },
+    {
+      "path": "gates/history.raw",
+      "bytes": 476,
+      "sha256": "bd97195ff417e82a8f01613fb69abc449de6e012db69143cc0207e208f45d52b"
+    },
+    {
+      "path": "gates/transitions.raw",
+      "bytes": 429,
+      "sha256": "b0a77506d7a01446cf4e8bb8e9498d9b4267fc2b352c17bab0ae30327a6ecbef"
+    },
+    {
+      "path": "gates/raw-lifecycle.raw",
+      "bytes": 495,
+      "sha256": "dfe041b96420400685bd4a35c2afebffa95b874896d47dcd8cfcfb5ac59abc78"
+    },
+    {
+      "path": "gates/lifecycle.raw",
+      "bytes": 586,
+      "sha256": "8e16846ef7b2735e52b2548c9647e60d84f0f242c6a299fcc194b59e4262a522"
+    },
+    {
+      "path": "gates/coordination.raw",
+      "bytes": 410,
+      "sha256": "76bbf47c9461de334da8f0dd8edc17e591762349a7eb82e81c2fcc77c43c02a4"
+    },
+    {
+      "path": "gates/finalization.raw",
+      "bytes": 362,
+      "sha256": "03c06accb367ade422e68ceddb4eb9c520b097629dedfc07409895340709b615"
+    },
+    {
+      "path": "gates/scope.raw",
+      "bytes": 2212,
+      "sha256": "192b7b1b231a5b5df9cd7caabd68b8f328bbe077e61ce63784f223afe44d58b8"
+    },
+    {
+      "path": "gates/evidence.raw",
+      "bytes": 307,
+      "sha256": "5e77819ec2bec92ef0ba158a9635401b5ad958f0692eabb54b321e1141ea508b"
+    },
+    {
+      "path": "gates/readiness.raw",
+      "bytes": 660,
+      "sha256": "b08d4fcc023e0fb0e0dc102c53ad227f04c6ac58eabe9bb7a5c7ab84167cfb12"
+    },
+    {
+      "path": "gates/docs.raw",
+      "bytes": 164,
+      "sha256": "2d530d2d4aa492993234c48f9419fce769eab05cbcf1122251f5b39d5a6395a7"
+    },
+    {
+      "path": "target-tests/results.json",
+      "bytes": 1217,
+      "sha256": "9aa340ea4249d232ae1baafe541ef84a439ee74cd5920def1d86f7699af9e792"
+    },
+    {
+      "path": "target-tests/pytest.raw",
+      "bytes": 676,
+      "sha256": "0a68a9f889bb56206e6af8463e5ed3dbdf730bc8ed4f553051e49258140c3974"
+    },
+    {
+      "path": "target-tests/junit.xml",
+      "bytes": 6928,
+      "sha256": "8c1ac618cc96d94f1b78944d01447caef4ac54cdd0319647fc08c7ee899af87a"
+    }
+  ],
+  "completeGovernanceCiAccepted": false,
+  "successorMetadataGatesInherited": false
+}

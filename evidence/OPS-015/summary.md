@@ -9,3 +9,5 @@ The two concrete actor transactions require completed main mechanism authority, 
 Originals and code pins: development-index.json; scope and next steps: handoff.md and rules/reservation-role-amendment.md. Source SHA will be read from Git after the ordinary candidate commit; it is never predicted.
 
 The first10 fixed-source gates of ef4f92c passed, followed by scope exit1. Scope patterns are now enumerated from the existing original claims; final3 gates and a new complete fixed-source run remain pending.
+
+Committed20a subsequently completed14 source gates and41 target tests/165.33s,0FES; all18 originals are in fixed-source-20a08c4/. This successor changes OwnEvidence only to state consumed Program1/Task2/Registry1 versions and clarify the precommit control snapshot. Code5pins stay unchanged. Its own14 and complete same-head governanceCI remain pending.
