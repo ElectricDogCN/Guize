@@ -1,0 +1,3 @@
+# Preserve executed raw streams and receipts byte for byte in this archive.
+*.raw -text
+*.json -text
