@@ -1,3 +1,11 @@
+## Current local-v1 exit decision; formal profile validation pending
+
+The actual independent local exit decision is pass/approved at2026-10-27T05:18:53Z, retained byte-exact in local-v1-exit-decision-v1/independent-assessment.json. The source-labelled report local-v1-scale-exit-report.md covers the five frozen criteria and all13 observations, two full source traversals, complete population/fanout/depth/name distributions, deterministic changes, fault/quota/Range/ETag facts, limitations and actual cleanup/retention. Only actualed8/010 is the terminal primary execution. Original8f/00810k andc98/009100k remain supporting qualifications on their own sources/contexts.
+
+The exacted8 source was independently accepted after Task15/CI868752. Actual010 supervisor/controller/scanner and complete frozen execution validator48531 ended0; independent2f608b79 accepts1m execution qualification. Actual11277-path context77d was ordinarily FF imported into this author;45 original qualification/source/CI/cleanup/analysis records are recoverable in qualified-local-1m-attempt010-v1/index.json. All4171 previous untracked paths,10 runtimeDBs and three controlled mutations remain; the private provider was actually forced-stopped with wait/exit3221225786 and native listener verification, not naturally exited or restored. Runtime databases logical3169824768B are separate from578041112B selected raw and scanner31.12109375MiB.
+
+The formal index/result candidate transcribes that real independent opinion/time; the full --profile local-v1 --require-results --poc POC-05 command is NOT YET RUN on this new candidate. Source/schema/code/thresholds and prior approvals remain unchanged. This new metadata candidate needs its own final Task checks/CI/review, actual-main integration and normal Review/Completion. PR136 remains Draft/remoteed8 until an actual publication; noReady/merge/task/production/V1 completion is claimed. Next integrator freezes the exact candidate in a clean compatible tracked context and runs the mandatory full profile command, then final source workflow. Historical sections below retain their original source/status attribution.
+
 
 ## Compressed metadata output component accepted; new fixed-source qualification pending
 

@@ -1,3 +1,10 @@
+Current candidate validation plan (not yet executed at this metadata source):
+python specs/poc/check_program.py --profile local-v1 --require-results --poc POC-05
+Freeze exact Git source/tree and run all15 existing required Task checks; obtain same-head CI and independent final-source/result review before ordinary integration and actual-main verification.
+Runtimeed8/CI868 and original010 complete execution qualification retain their exact identities. The formal index/result candidate does not inherit those checks as a new metadata-source result.
+
+Historical command preparation follows with its original source/status attribution:
+
 Task: POC-005
 Issue: 132
 Branch: chore/POC-005-metadata-scale
