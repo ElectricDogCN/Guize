@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "kind": "read_only_bounded_role_amendment_integration_design_advice",
+  "reviewer": "/root/gz022_planning_independent_review",
+  "reviewedAt": "2026-10-27T07:03:05Z",
+  "decision": "five_claim_design_route_feasible_with_edge_bound_authorization_and_reserved_metadata_path",
+  "context": "PR154 reservation merge36d8ba69581c98ab15559e5a4a7f6281435d327f and own7 passed are reported by parent. OwnpushCI872 is still pending; this is not actual-main acceptance or implementation permission. Inspected guard bytes are unchanged in source8b2cfa1/accepted predecessor746.",
+  "implementationApproved": false,
+  "actualReservationMainAccepted": false,
+  "fiveClaims": [
+    "scripts/check-program-plan-transitions.py",
+    "scripts/check-program-plan-history.py",
+    "scripts/reservation-role-amendment.py",
+    "tests/governance/test_reservation_role_amendment.py",
+    "rules/reservation-role-amendment.md"
+  ],
+  "reservedBranchRoute": {
+    "confirmedFromActualMainPredecessor746": true,
+    "mainStates": [
+      {"taskId": "POC-003", "status": "reserved", "agentRole": "coordinator", "branch": "chore/POC-003-ats-range", "baseSha": "44e5200ed506d30c0abc83ca38f1d6912cbab1c1"},
+      {"taskId": "POC-005", "status": "reserved", "agentRole": "coordinator", "branch": "chore/POC-005-metadata-scale", "baseSha": "11c32830c0d1bb8ccdcc04aa278876065bce1f33"}
+    ],
+    "finding": "The future independent metadataPR can operate on the actual main reserved-to-reserved snapshot. Keep Program and all Task/Registry fields except implementer/reviewer unchanged, including registered branch/workBranch, baseSha, status, agentRole and original lease; add only that target's Own authorization Evidence. The actual PR branch must carry the right TaskID but need not replace the reserved implementation branch.",
+    "existingRules": ["scripts/check-agent-coordination.py:625-636 requires exact actual/registered branch only for non-reserved entries", "scripts/check-pr-task-link.py:148-152 records a workBranch mismatch as WARN, not a failure", "scripts/check-program-plan-transitions.py:524-531 continues protecting ordinary Registry branch"],
+    "earlierWarningResolved": "My earlier branch warning applied to in_progress feature snapshots. It does not block this actual reserved-main route. No new branch permission or extra mutable field is necessary; do not add one.",
+    "notApprovedByThisAdvice": "The future concrete actor amendmentPR itself and its actual metadata/gates/main acceptance remain to be reviewed."
+  },
+  "minimalProofCore": {
+    "location": "scripts/reservation-role-amendment.py",
+    "purpose": "One narrow validator reused by transitions and history. Return only the proved target/actor delta; do not globally declare implementer/reviewer mutable or accept a generic alias.",
+    "mustBind": [
+      "Immutable actualOPS015 original reservation/intent and accepted authoritative mechanism history reachable from the caller's real admitted target base; target exactlyPOC003 orPOC005, old/new pairs exactly the declared values and original target registration. A task number, arbitrary ancestor, later candidate or current own file is not authority.",
+      "Distinct real new actor instances, no generic Program role labels, no swapped/reused pairs, and a real independent prospective approval by the authorized reviewer rather than the implementer. Bind exact old and new values, target, approval bytes/hash and actual observed edge/context; reject future or post-change approval and unknown/duplicate fields.",
+      "The original actor-change transaction is reserved-to-reserved and metadata-only: exact targetTask and Active pair plus targetOwnEvidence; Program/rootrecovery/policy/ledger/foreign rows and target's branch/base/status/role/claims/risk/lease/dependencies/order remain unchanged. Task and Registry must agree, both before and after; all existing schema/lease/capacity/ownership checks still run.",
+      "Use the actual original edge's parent/node and historical commit-time observation when auditing it. Approval that preceded a later import but followed the original unauthorized actor edit is still late. Do not read only the finalHEAD proof to absolve earlier nodes."
+    ],
+    "avoidCircularAdmission": "Separate authority from the proposed transaction: mechanism/intent authority must already be on the admitted main before a POC amendment candidate is considered. The target amendment itself is still a proposed metadataPR during its local/CI review; do not require that same candidate already be merged in order to validate it. Conversely an unrelated feature branch cannot treat that unmerged amendment as an accepted-main import.",
+    "failureBehavior": "No actor delta means no exception is needed. An attempted actor delta with missing/invalid proof must remain an explicit error. Do not catch validation failures and turn them into clean imports or mark failed nodes validated."
+  },
+  "integrationPoints": [
+    {
+      "location": "scripts/check-program-plan-transitions.py:524-531",
+      "change": "At the existing ordinary stable-entry comparison, recognize only a completely proved targetactor transaction. Exclude only its authorized two actor fields from that comparison, then keep the original comparison for every other key and every other task. Do not add the actors to the unconditional allowed_entry_fields set or alter Foundation identities."
+    },
+    {
+      "location": "scripts/check-program-plan-history.py:1736-1768",
+      "change": "Audit each introduced actual edge for role edits/imports independently of the planning-manifest path. The current planning-specific continue at1750 must not skip role auditing when no planningBaselines exists. Include side history and restored tips; use node-local Task/Registry/proof and the true admitted base, never HEAD alone."
+    },
+    {
+      "location": "scripts/check-program-plan-history.py:1265-1283 historical_post_metadata",
+      "change": "Reuse the same proof at each changed foreign peer comparison. A validPOC amendment/import may exclude only that peer's proved actor pair; all other stable identity/scope fields remain compared. This is necessary when completedOPS014/other Foundation post-implementation history sees a later legitimate POC role change. Otherwise transitions would pass but future history/Completion would still fail."
+    },
+    {
+      "location": "scripts/check-program-plan-history.py:576-630,635-697,1349-1456 and1459-1520",
+      "change": "Preserve existing admitted-parent and complete clean-import semantics. A future feature import may need the narrow role-proof validator to establish the actor projection; it must not weaken clean_synchronization_paths or foundation_local_metadata_changed globally, skip foreign metadata checks, or suppress actual Foundation work/hints/recovery changes."
+    }
+  ],
+  "oldFeatureImport": {
+    "required": [
+      "The incoming secondary parent must be an ancestor of the real admitted target base. Locate and revalidate the original role amendment under its own accepted-main parent/authority/approval; merely finding the same new names somewhere on main is insufficient.",
+      "The importing feature may legitimately retain its local in_progress status/base/body while importing new actor values from a reserved main. Therefore the full resulting Task/Registry row can differ from the incoming whole blob. Test this real hybrid case rather than equating the whole row to incoming or treating any role equality as authority.",
+      "For that hybrid, prove the actual merge's automatic stage0 Task result (including mode/line endings) and exact target actor/remaining-row projections. Local oldactor values must match all relevant merge bases; imported actor values must match the admitted incoming main. Preserve each side's legitimate nonactor lifecycle fields through the existing rules. Reject ambiguous/all-merge-base disagreement, actor conflicts or manual incoming selection after conflict.",
+      "Use a target-scoped proof result for this role-only projection if needed; do not make the general clean-import function accept arbitrary hybrid files. A localTask/Evidence/claimedcode/rootrecovery change still remains actual work and must pass its own owner gates.",
+      "Audit an earlier unauthorized side-branch actor edit even when the merge tip later restores old names or adopts a subsequently approved main pair. A later lawful import is not retroactive permission for the bad node."
+    ],
+    "sourceAndExperimentBoundary": "Importing accepted actor metadata changes the real future runtime/Task identity context. Old010/other execution/sample/resource/window records stay unchanged and cannot become a formalPASS under the new pair. New fixed source/methods/approvals and actual execution remain separately required."
+  },
+  "necessaryMeaningfulTests": [
+    "Real small Gitgraph positive for eachPOC: original admitted reserved registration plus immutableOPS015 authority, independent approval before the exact role-only reserved transaction; branch/workBranch/base/lease/status untouched. Use a different actual Task-ID PR branch to demonstrate the existing reserved exception, without changing the registered branch.",
+    "Direct actual transitions and full history acceptance for the lawful transaction, followed by main/no-task and completed-Foundation historical_post_metadata coverage. Do not test only a helperpredicate while claiming all callers work.",
+    "Reject missing, altered, later or self-issued approval, wrong target/old pair/new pair, generic/same/swapped actors, non-main or same-PR invented authority and frozen Program. Reject targetTask/Active mismatch and duplicate/unknown structured fields.",
+    "Reject accompanying branch/base/status/agentRole/claim/risk/lease/dependency/order/policy/recovery/ledger/foreign or business-code edits in the original amendment. Preserve ordinary unrelated lifecycle rules; actors are the only new stable-field exception.",
+    "Real introduced-side-history negative: unauthorized actor change, later revert/restore and eventually lawful current pair must still fail at the first bad node. Reusing a later proof or only checking endpoints must not pass.",
+    "Real accepted-main clean synchronization positive with feature in_progress Task/body/base and main reserved actor edits, including automatic hybridTask and sharedYAML result. Current Foundation own metadata remains unchanged and real peer code retains normal owner checks.",
+    "Import negatives: unadmitted secondary parent, copied current names without original valid edge, manual conflict resolution selecting incoming, local actor edits before merge, ambiguous merge bases, Task mode/CRLF mismatch, hidden recovery/foreign changes and malformed metadata. Retain the existing clean-import/foundation-hint/firstbadnode regressions.",
+    "Future closure positive/negative: accepted amendment permits current concrete_roles Task/Active agreement, while unchanged old executor/profile/resource approvals still fail under the new identities. Do not edit the frozen checker or old artifacts to make this test green."
+  ],
+  "scopeAssessment": "The five original claims can host this narrowly shared validator, two caller integrations, real-graph regressions and rules description. The reserved-main path removes the need for a new branch exception or new coordination/schema edits. If implementation discovers another caller that cannot consume the proof within these claims, report that concrete gap before altering any unclaimed file; this advice grants no broadened scope.",
+  "remainingPrerequisites": "Wait forCI872 and independent complete actual36d reservation-main acceptance before implementation. This design advice does not acceptCI872, implement a mechanism, approve a POC identity candidate or authorize any experiment.",
+  "reviewerActions": "Read the current five-claim relevant guard functions and original-main POC Task/Registry snapshots; no tests, experiment, validator, source edit, registration mutation or child agent."
+}

@@ -1,0 +1,37 @@
+{
+  "source": "20a08c49999f4b5e1432d92bcd5ce0d2f191c0a1",
+  "before": {
+    "source": "20a08c49999f4b5e1432d92bcd5ce0d2f191c0a1",
+    "tree": "7eec4fb4a4683ae2c46f93d212d1d21f6d4baf53",
+    "branch": "chore/OPS-015-role-amendment-v2",
+    "status": ""
+  },
+  "argv": [
+    "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+    "-B",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/governance/test_reservation_role_amendment.py",
+    "--junitxml=/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops015-implementation-20a08c4-fixed-source-actor-tests/junit.xml"
+  ],
+  "startedAt": "2026-10-27T08:09:48.802337+00:00",
+  "actualWaitCompleted": true,
+  "pid": 72086,
+  "exitCode": 0,
+  "finishedAt": "2026-10-27T08:12:43.859265+00:00",
+  "after": {
+    "source": "20a08c49999f4b5e1432d92bcd5ce0d2f191c0a1",
+    "tree": "7eec4fb4a4683ae2c46f93d212d1d21f6d4baf53",
+    "branch": "chore/OPS-015-role-amendment-v2",
+    "status": ""
+  },
+  "tests": 41,
+  "failed": 0,
+  "errors": 0,
+  "skipped": 0,
+  "allCurrentTargetTestsPassed": true,
+  "sourceUnchanged": true,
+  "logBytes": 676,
+  "logSha256": "0a68a9f889bb56206e6af8463e5ed3dbdf730bc8ed4f553051e49258140c3974"
+}

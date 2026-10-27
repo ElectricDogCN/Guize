@@ -1,0 +1,128 @@
+[
+  {
+    "original": "ops016-implementation-971b9f0-candidate.json",
+    "archive": "000.zlib.b64",
+    "bytes": 3694,
+    "sha256": "ef8129eb396c34ce6dfccedc848899de87f003d707535658a4759f4ab7a7bfac",
+    "encoding": "zlib+base64",
+    "lossless": true,
+    "scope": "source971 first10 actualexit0 then scope1; remaining4 unexecuted; invalid424 ancestor not admissible for later completion"
+  },
+  {
+    "original": "ops016-implementation-source-971b9f0-native-checks/results.json",
+    "archive": "001.zlib.b64",
+    "bytes": 7820,
+    "sha256": "6c8a4087be420670a2bcf3ac01cfc8dcb132a03e2b16d6897170608df45ff0e0",
+    "encoding": "zlib+base64",
+    "lossless": true,
+    "scope": "source971 first10 actualexit0 then scope1; remaining4 unexecuted; invalid424 ancestor not admissible for later completion"
+  },
+  {
+    "original": "ops016-implementation-source-971b9f0-native-checks/diff.raw",
+    "archive": "002.zlib.b64",
+    "bytes": 144,
+    "sha256": "cb1e72724e87cf2fbafd859979e611bcf959c854c911a1a3b7dfaa3879de0a66",
+    "encoding": "zlib+base64",
+    "lossless": true,
+    "scope": "source971 first10 actualexit0 then scope1; remaining4 unexecuted; invalid424 ancestor not admissible for later completion"
+  },
+  {
+    "original": "ops016-implementation-source-971b9f0-native-checks/task.raw",
+    "archive": "003.zlib.b64",
+    "bytes": 270,
+    "sha256": "90646f328486112f5404bdf6b5daa4560613f72be4d565705115676ed36a6706",
+    "encoding": "zlib+base64",
+    "lossless": true,
+    "scope": "source971 first10 actualexit0 then scope1; remaining4 unexecuted; invalid424 ancestor not admissible for later completion"
+  },
+  {
+    "original": "ops016-implementation-source-971b9f0-native-checks/schemas.raw",
+    "archive": "004.zlib.b64",
+    "bytes": 1947,
+    "sha256": "0ca9882ba273dd8c99ee131614dc5376c5686b25bcc5f6534eb3a888935c36a3",
+    "encoding": "zlib+base64",
+    "lossless": true,
+    "scope": "source971 first10 actualexit0 then scope1; remaining4 unexecuted; invalid424 ancestor not admissible for later completion"
+  },
+  {
+    "original": "ops016-implementation-source-971b9f0-native-checks/integrity.raw",
+    "archive": "005.zlib.b64",
+    "bytes": 419,
+    "sha256": "5250c8065a2d9208065fb1c454ef9c2898ddccd97ab46012d96cab334082006c",
+    "encoding": "zlib+base64",
+    "lossless": true,
+    "scope": "source971 first10 actualexit0 then scope1; remaining4 unexecuted; invalid424 ancestor not admissible for later completion"
+  },
+  {
+    "original": "ops016-implementation-source-971b9f0-native-checks/history.raw",
+    "archive": "006.zlib.b64",
+    "bytes": 478,
+    "sha256": "ba0fc12e89c449039006028fe2112abbf34d01cb957c6818d634ccdd371d9f71",
+    "encoding": "zlib+base64",
+    "lossless": true,
+    "scope": "source971 first10 actualexit0 then scope1; remaining4 unexecuted; invalid424 ancestor not admissible for later completion"
+  },
+  {
+    "original": "ops016-implementation-source-971b9f0-native-checks/transitions.raw",
+    "archive": "007.zlib.b64",
+    "bytes": 431,
+    "sha256": "c961a48c6c5e1d6f35f438f4703d0fa40fd5c2c9af795f96941067f7aa7c70cc",
+    "encoding": "zlib+base64",
+    "lossless": true,
+    "scope": "source971 first10 actualexit0 then scope1; remaining4 unexecuted; invalid424 ancestor not admissible for later completion"
+  },
+  {
+    "original": "ops016-implementation-source-971b9f0-native-checks/raw-lifecycle.raw",
+    "archive": "008.zlib.b64",
+    "bytes": 497,
+    "sha256": "02411597429b0df047e2da0978eade1d060a959dd623ba2ba5f725bcf79cc013",
+    "encoding": "zlib+base64",
+    "lossless": true,
+    "scope": "source971 first10 actualexit0 then scope1; remaining4 unexecuted; invalid424 ancestor not admissible for later completion"
+  },
+  {
+    "original": "ops016-implementation-source-971b9f0-native-checks/lifecycle.raw",
+    "archive": "009.zlib.b64",
+    "bytes": 588,
+    "sha256": "86dc132280e60e13b8db7dc5c6588519a43d68da39aca562c85ac3d3db3248df",
+    "encoding": "zlib+base64",
+    "lossless": true,
+    "scope": "source971 first10 actualexit0 then scope1; remaining4 unexecuted; invalid424 ancestor not admissible for later completion"
+  },
+  {
+    "original": "ops016-implementation-source-971b9f0-native-checks/coordination.raw",
+    "archive": "010.zlib.b64",
+    "bytes": 412,
+    "sha256": "7f4fe07262801f2dc5a06eaa9515ff53e9c7951a12de34cdd4880ca465eb6e00",
+    "encoding": "zlib+base64",
+    "lossless": true,
+    "scope": "source971 first10 actualexit0 then scope1; remaining4 unexecuted; invalid424 ancestor not admissible for later completion"
+  },
+  {
+    "original": "ops016-implementation-source-971b9f0-native-checks/finalization.raw",
+    "archive": "011.zlib.b64",
+    "bytes": 362,
+    "sha256": "82c67d20cdc708b0d614ee1704a4a4014c071733a7f9f0971ad1b8575e694d3e",
+    "encoding": "zlib+base64",
+    "lossless": true,
+    "scope": "source971 first10 actualexit0 then scope1; remaining4 unexecuted; invalid424 ancestor not admissible for later completion"
+  },
+  {
+    "original": "ops016-implementation-source-971b9f0-native-checks/scope.raw",
+    "archive": "012.zlib.b64",
+    "bytes": 2479,
+    "sha256": "177ec96f1f212f7e8d1f7cdf53495eb410a59cdee0b6418a6ce7637f21cfc0d0",
+    "encoding": "zlib+base64",
+    "lossless": true,
+    "scope": "source971 first10 actualexit0 then scope1; remaining4 unexecuted; invalid424 ancestor not admissible for later completion"
+  },
+  {
+    "original": "verify_ops016_implementation_source_v2_once.py",
+    "archive": "013.zlib.b64",
+    "bytes": 5121,
+    "sha256": "24ecbc42fe8c3a28c5aa5d0a1810ccf20aea697b1bd2eb06572803aa7d4210f0",
+    "encoding": "zlib+base64",
+    "lossless": true,
+    "scope": "source971 first10 actualexit0 then scope1; remaining4 unexecuted; invalid424 ancestor not admissible for later completion"
+  }
+]

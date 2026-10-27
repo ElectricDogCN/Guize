@@ -1,0 +1,311 @@
+{
+  "kind": "ACTUAL_FIXED_SOURCE_IMPLEMENTATION_GATES",
+  "source": "20a08c49999f4b5e1432d92bcd5ce0d2f191c0a1",
+  "before": {
+    "source": "20a08c49999f4b5e1432d92bcd5ce0d2f191c0a1",
+    "tree": "7eec4fb4a4683ae2c46f93d212d1d21f6d4baf53",
+    "parent": "ef4f92c8ac788e15c7b91e35e118fb4449d1d1d8",
+    "main": "36d8ba69581c98ab15559e5a4a7f6281435d327f",
+    "branch": "chore/OPS-015-role-amendment-v2",
+    "status": ""
+  },
+  "startedAt": "2026-10-27T08:06:53.968782+00:00",
+  "commands": [
+    {
+      "label": "diff",
+      "argv": [
+        "git",
+        "diff",
+        "--check",
+        "36d8ba69581c98ab15559e5a4a7f6281435d327f...HEAD"
+      ],
+      "startedAt": "2026-10-27T08:06:53.972887+00:00",
+      "raw": "diff.raw",
+      "pid": 69710,
+      "exitCode": 0,
+      "actualWaitCompleted": true,
+      "finishedAt": "2026-10-27T08:06:53.985127+00:00",
+      "elapsedNs": 12243423,
+      "bytes": 144,
+      "sha256": "a709c2ab6b6d389d8c4193327f2ef851858ad2d2786407813461298b530db157"
+    },
+    {
+      "label": "task",
+      "argv": [
+        "python",
+        "scripts/check-task-file.py",
+        "--task",
+        "OPS-015"
+      ],
+      "startedAt": "2026-10-27T08:06:53.988616+00:00",
+      "raw": "task.raw",
+      "pid": 69711,
+      "exitCode": 0,
+      "actualWaitCompleted": true,
+      "finishedAt": "2026-10-27T08:06:54.061453+00:00",
+      "elapsedNs": 72851854,
+      "bytes": 270,
+      "sha256": "011cc8aaa0935c58a26f0d8b0dcabd47fa0c53e60ced749548759ccc2af3c066"
+    },
+    {
+      "label": "schemas",
+      "argv": [
+        "python",
+        "scripts/check-schemas.py"
+      ],
+      "startedAt": "2026-10-27T08:06:54.065117+00:00",
+      "raw": "schemas.raw",
+      "pid": 69712,
+      "exitCode": 0,
+      "actualWaitCompleted": true,
+      "finishedAt": "2026-10-27T08:06:58.051623+00:00",
+      "elapsedNs": 3986514227,
+      "bytes": 1947,
+      "sha256": "f244b6fe9a24802c7ae7a7f96cc80ae284560ad6f37558f85948fe3e70fbb499"
+    },
+    {
+      "label": "integrity",
+      "argv": [
+        "python",
+        "scripts/check-program-plan-integrity.py",
+        "--base-ref",
+        "36d8ba69581c98ab15559e5a4a7f6281435d327f"
+      ],
+      "startedAt": "2026-10-27T08:06:58.055758+00:00",
+      "raw": "integrity.raw",
+      "pid": 69713,
+      "exitCode": 0,
+      "actualWaitCompleted": true,
+      "finishedAt": "2026-10-27T08:06:59.561323+00:00",
+      "elapsedNs": 1505571374,
+      "bytes": 419,
+      "sha256": "66e3d2a9f77f6c9532cd70ccec363ba07d0a9ca6c6cb484f02be4b0a412f3571"
+    },
+    {
+      "label": "history",
+      "argv": [
+        "python",
+        "scripts/check-program-plan-history.py",
+        "--base-ref",
+        "36d8ba69581c98ab15559e5a4a7f6281435d327f",
+        "--head-ref",
+        "HEAD",
+        "--task",
+        "OPS-015",
+        "--branch-name",
+        "chore/OPS-015-role-amendment-v2"
+      ],
+      "startedAt": "2026-10-27T08:06:59.564833+00:00",
+      "raw": "history.raw",
+      "pid": 69950,
+      "exitCode": 0,
+      "actualWaitCompleted": true,
+      "finishedAt": "2026-10-27T08:07:02.358312+00:00",
+      "elapsedNs": 2793491500,
+      "bytes": 476,
+      "sha256": "bd97195ff417e82a8f01613fb69abc449de6e012db69143cc0207e208f45d52b"
+    },
+    {
+      "label": "transitions",
+      "argv": [
+        "python",
+        "scripts/check-program-plan-transitions.py",
+        "--base-ref",
+        "36d8ba69581c98ab15559e5a4a7f6281435d327f",
+        "--head-ref",
+        "HEAD",
+        "--task",
+        "OPS-015",
+        "--branch-name",
+        "chore/OPS-015-role-amendment-v2"
+      ],
+      "startedAt": "2026-10-27T08:07:02.362043+00:00",
+      "raw": "transitions.raw",
+      "pid": 70150,
+      "exitCode": 0,
+      "actualWaitCompleted": true,
+      "finishedAt": "2026-10-27T08:07:06.062608+00:00",
+      "elapsedNs": 3076705430,
+      "bytes": 429,
+      "sha256": "b0a77506d7a01446cf4e8bb8e9498d9b4267fc2b352c17bab0ae30327a6ecbef"
+    },
+    {
+      "label": "raw-lifecycle",
+      "argv": [
+        "python",
+        "scripts/check-program-lifecycle-guards.py",
+        "--base-ref",
+        "36d8ba69581c98ab15559e5a4a7f6281435d327f",
+        "--head-ref",
+        "HEAD",
+        "--task",
+        "OPS-015",
+        "--branch-name",
+        "chore/OPS-015-role-amendment-v2"
+      ],
+      "startedAt": "2026-10-27T08:07:06.066514+00:00",
+      "raw": "raw-lifecycle.raw",
+      "pid": 70289,
+      "exitCode": 0,
+      "actualWaitCompleted": true,
+      "finishedAt": "2026-10-27T08:07:08.678282+00:00",
+      "elapsedNs": 2611769612,
+      "bytes": 495,
+      "sha256": "dfe041b96420400685bd4a35c2afebffa95b874896d47dcd8cfcfb5ac59abc78"
+    },
+    {
+      "label": "lifecycle",
+      "argv": [
+        "python",
+        "scripts/run-program-lifecycle-gate.py",
+        "--base-ref",
+        "36d8ba69581c98ab15559e5a4a7f6281435d327f",
+        "--head-ref",
+        "HEAD",
+        "--task",
+        "OPS-015",
+        "--branch-name",
+        "chore/OPS-015-role-amendment-v2"
+      ],
+      "startedAt": "2026-10-27T08:07:08.682484+00:00",
+      "raw": "lifecycle.raw",
+      "pid": 70375,
+      "exitCode": 0,
+      "actualWaitCompleted": true,
+      "finishedAt": "2026-10-27T08:07:11.517138+00:00",
+      "elapsedNs": 2834664424,
+      "bytes": 586,
+      "sha256": "8e16846ef7b2735e52b2548c9647e60d84f0f242c6a299fcc194b59e4262a522"
+    },
+    {
+      "label": "coordination",
+      "argv": [
+        "python",
+        "scripts/run-agent-coordination-gate.py",
+        "--base-ref",
+        "36d8ba69581c98ab15559e5a4a7f6281435d327f",
+        "--head-ref",
+        "HEAD",
+        "--task",
+        "OPS-015",
+        "--branch-name",
+        "chore/OPS-015-role-amendment-v2"
+      ],
+      "startedAt": "2026-10-27T08:07:11.521364+00:00",
+      "raw": "coordination.raw",
+      "pid": 70463,
+      "exitCode": 0,
+      "actualWaitCompleted": true,
+      "finishedAt": "2026-10-27T08:07:24.922608+00:00",
+      "elapsedNs": 13401244783,
+      "bytes": 410,
+      "sha256": "76bbf47c9461de334da8f0dd8edc17e591762349a7eb82e81c2fcc77c43c02a4"
+    },
+    {
+      "label": "finalization",
+      "argv": [
+        "python",
+        "scripts/check-program-plan-finalization.py",
+        "--base-ref",
+        "36d8ba69581c98ab15559e5a4a7f6281435d327f",
+        "--head-ref",
+        "HEAD",
+        "--task",
+        "OPS-015"
+      ],
+      "startedAt": "2026-10-27T08:07:24.926097+00:00",
+      "raw": "finalization.raw",
+      "pid": 70920,
+      "exitCode": 0,
+      "actualWaitCompleted": true,
+      "finishedAt": "2026-10-27T08:07:25.165147+00:00",
+      "elapsedNs": 239056998,
+      "bytes": 362,
+      "sha256": "03c06accb367ade422e68ceddb4eb9c520b097629dedfc07409895340709b615"
+    },
+    {
+      "label": "scope",
+      "argv": [
+        "python",
+        "scripts/run-task-scope-gate.py",
+        "--task",
+        "OPS-015",
+        "--base",
+        "36d8ba69581c98ab15559e5a4a7f6281435d327f"
+      ],
+      "startedAt": "2026-10-27T08:07:25.168665+00:00",
+      "raw": "scope.raw",
+      "pid": 70925,
+      "exitCode": 0,
+      "actualWaitCompleted": true,
+      "finishedAt": "2026-10-27T08:07:38.961122+00:00",
+      "elapsedNs": 13132747618,
+      "bytes": 2212,
+      "sha256": "192b7b1b231a5b5df9cd7caabd68b8f328bbe077e61ce63784f223afe44d58b8"
+    },
+    {
+      "label": "evidence",
+      "argv": [
+        "python",
+        "scripts/check-evidence.py",
+        "--task",
+        "OPS-015"
+      ],
+      "startedAt": "2026-10-27T08:07:38.964869+00:00",
+      "raw": "evidence.raw",
+      "pid": 71385,
+      "exitCode": 0,
+      "actualWaitCompleted": true,
+      "finishedAt": "2026-10-27T08:07:38.997291+00:00",
+      "elapsedNs": 32437032,
+      "bytes": 307,
+      "sha256": "5e77819ec2bec92ef0ba158a9635401b5ad958f0692eabb54b321e1141ea508b"
+    },
+    {
+      "label": "readiness",
+      "argv": [
+        "python",
+        "scripts/check-project-readiness.py"
+      ],
+      "startedAt": "2026-10-27T08:07:39.001295+00:00",
+      "raw": "readiness.raw",
+      "pid": 71386,
+      "exitCode": 0,
+      "actualWaitCompleted": true,
+      "finishedAt": "2026-10-27T08:07:47.199475+00:00",
+      "elapsedNs": 8198218655,
+      "bytes": 660,
+      "sha256": "b08d4fcc023e0fb0e0dc102c53ad227f04c6ac58eabe9bb7a5c7ab84167cfb12"
+    },
+    {
+      "label": "docs",
+      "argv": [
+        "python",
+        "scripts/check-markdown.py"
+      ],
+      "startedAt": "2026-10-27T08:07:47.204166+00:00",
+      "raw": "docs.raw",
+      "pid": 72041,
+      "exitCode": 0,
+      "actualWaitCompleted": true,
+      "finishedAt": "2026-10-27T08:07:47.261133+00:00",
+      "elapsedNs": 56964038,
+      "bytes": 164,
+      "sha256": "2d530d2d4aa492993234c48f9419fce769eab05cbcf1122251f5b39d5a6395a7"
+    }
+  ],
+  "fixedSourceRequiredGatesPassed": true,
+  "implementationCodePresent": true,
+  "pocExecuted": false,
+  "independentAccepted": false,
+  "after": {
+    "source": "20a08c49999f4b5e1432d92bcd5ce0d2f191c0a1",
+    "tree": "7eec4fb4a4683ae2c46f93d212d1d21f6d4baf53",
+    "parent": "ef4f92c8ac788e15c7b91e35e118fb4449d1d1d8",
+    "main": "36d8ba69581c98ab15559e5a4a7f6281435d327f",
+    "branch": "chore/OPS-015-role-amendment-v2",
+    "status": ""
+  },
+  "sourceContextUnchanged": true,
+  "finishedAt": "2026-10-27T08:07:47.294220+00:00"
+}

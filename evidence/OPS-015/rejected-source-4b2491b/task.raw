@@ -1,0 +1,8 @@
+Source Commit: 4b2491bea66c7c0f26e4c99b7e9fd4d2c3d251dc
+Command: python scripts/check-task-file.py --task OPS-015
+{"status": "FAIL", "message": "Allowed scope section has no scope entries."}
+{"status": "FAIL", "message": "Forbidden scope section has no entries."}
+{"status": "FAIL", "message": "Missing dependencies/integration section."}
+{"status": "FAIL", "message": "Missing collaboration/handoff section must contain at least one bullet."}
+
+Exit Code: 1

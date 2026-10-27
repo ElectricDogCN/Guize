@@ -1,0 +1,5 @@
+Source Commit: 20a08c49999f4b5e1432d92bcd5ce0d2f191c0a1
+Command: python scripts/check-task-file.py --task OPS-015
+{"status": "PASS", "message": "Task file valid: /home/sur/.cache/guize-takeover/ops015-implementation-source-20a08c4/specs/tasks/OPS-015.md"}
+
+Exit Code: 0

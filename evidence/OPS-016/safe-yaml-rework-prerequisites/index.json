@@ -1,0 +1,284 @@
+{
+  "task": "OPS-016",
+  "priorSource": "6904e2afdfee47e669217deee378dc80f1a322d7",
+  "actualCodeMain": "285fa604607604d517089b3c9eb0761a71d33f47",
+  "mainFullCiAccepted": false,
+  "bothAttemptsCancelled": true,
+  "sameJobRetryBudgetConsumed": true,
+  "profileIsQualification": false,
+  "records": [
+    {
+      "ref": "000.zlib.b64",
+      "original": "ops016-implementation-ci885-two-cancellations-and-yaml-rework-design-independent-review.json",
+      "encoding": "zlib-base64",
+      "bytes": 10755,
+      "sha256": "4f5bdab583557d4b31390374e3e36c590316fbbf4b2154a3387f8957e562edc0"
+    },
+    {
+      "ref": "001.zlib.b64",
+      "original": "profile_ops016_authority_yaml_once.py",
+      "encoding": "zlib-base64",
+      "bytes": 4818,
+      "sha256": "78b6368549ef3adc4ced668d3e8e4ed24dbcd4a221f1a825d5094b128ca10bd4"
+    },
+    {
+      "ref": "002.zlib.b64",
+      "original": "ops016-authority-yaml-profile-v1/result.json",
+      "encoding": "zlib-base64",
+      "bytes": 49234,
+      "sha256": "39b0512cadc371f4cadc6387f3394148b5c21069a3bd74c350ff79e85794a769"
+    },
+    {
+      "ref": "003.zlib.b64",
+      "original": "ops016-authority-yaml-profile-v1/baseline.pstats",
+      "encoding": "zlib-base64",
+      "bytes": 43993,
+      "sha256": "407e9cd23b2ada95b5be5c23a56a058cb8d3cfe177a0d581d480babeb443e733"
+    },
+    {
+      "ref": "004.zlib.b64",
+      "original": "ops016-authority-yaml-profile-v1/in-memory-csafe-candidate.pstats",
+      "encoding": "zlib-base64",
+      "bytes": 20818,
+      "sha256": "1ea9e07f9f2761499c18a6754d4454f64436211c10fec6e94babba975261b949"
+    },
+    {
+      "ref": "005.zlib.b64",
+      "original": "ops016-safe-yaml-rework-preparation-v1/result.json",
+      "encoding": "zlib-base64",
+      "bytes": 2279,
+      "sha256": "40cd4387e388f0e48ccc7a21f0a132e82dec72058fdf38f9fbba5d8732101538"
+    },
+    {
+      "ref": "006.zlib.b64",
+      "original": "ops016-safe-yaml-rework-preparation-v1/switch.raw",
+      "encoding": "zlib-base64",
+      "bytes": 58,
+      "sha256": "9ab1d5d2349758f30d521a9516b08697f66eef9e26573d7bf37fc11a06952345"
+    },
+    {
+      "ref": "007.zlib.b64",
+      "original": "ops016-safe-yaml-rework-preparation-v1/fast-forward.raw",
+      "encoding": "zlib-base64",
+      "bytes": 39,
+      "sha256": "a2e2481acdde3eee18450572da57c9a161d3da9d2478228d8ecb102dad4269d9"
+    },
+    {
+      "ref": "008.zlib.b64",
+      "original": "ops016-implementation-main-ci885-attempt1-cancellation-independent-assessment.json",
+      "encoding": "zlib-base64",
+      "bytes": 8297,
+      "sha256": "f6b671cf0e4e5f7e442b56815337bca04b4ffc8d58a3a4fb2fb4efb50fa0c5ea"
+    },
+    {
+      "ref": "009.zlib.b64",
+      "original": "ops016-main-ci885-single-retry-dispatch-request.json",
+      "encoding": "zlib-base64",
+      "bytes": 1012,
+      "sha256": "b80c888d4d41a24c6a8e2ddf9b11e9f45e49a03ef24187b3694cffb86e17cfd6"
+    },
+    {
+      "ref": "010.zlib.b64",
+      "original": "ops016-main-ci885-single-retry-dispatch-response.json",
+      "encoding": "zlib-base64",
+      "bytes": 299,
+      "sha256": "bfbd8188268c1f657a2512e05e31e2f986d815e7470dab30f94274311508fff8"
+    },
+    {
+      "ref": "011.zlib.b64",
+      "original": "ops016-implementation-main-ci-attempt1/run.json",
+      "encoding": "zlib-base64",
+      "bytes": 13681,
+      "sha256": "84cd4b5e9d776b32928c6c77e31f1ba8da24facecd2c8c752d1c7bb35ddb3cfb"
+    },
+    {
+      "ref": "012.zlib.b64",
+      "original": "ops016-implementation-main-ci-attempt1/jobs.json",
+      "encoding": "zlib-base64",
+      "bytes": 4612,
+      "sha256": "dc6f005cb0c8b31b56ed6070fd641871f1c4042824b67dc7e91c68d9c4204fcb"
+    },
+    {
+      "ref": "013.zlib.b64",
+      "original": "ops016-implementation-main-ci-attempt1/jobs.full.json",
+      "encoding": "zlib-base64",
+      "bytes": 8280,
+      "sha256": "fef4612b2b25b59574ba9ab3fc6d3036ba6a60b42c4a004dead3e4001bf53212"
+    },
+    {
+      "ref": "014.zlib.b64",
+      "original": "ops016-implementation-main-ci-attempt1/checkout.json",
+      "encoding": "zlib-base64",
+      "bytes": 2719,
+      "sha256": "e50b8047525c6456d20544b8eabd632c8eb55b7cdc20f9b782dbfddddde384a2"
+    },
+    {
+      "ref": "015.zlib.b64",
+      "original": "ops016-implementation-main-ci-attempt1/job-log.connector-decoded.utf8.txt",
+      "encoding": "zlib-base64",
+      "bytes": 304293,
+      "sha256": "c580eb6e3fdb27eb00015c1d56a4690330485b9d426a3d65063eb607df1d4b1c"
+    },
+    {
+      "ref": "016.zlib.b64",
+      "original": "ops016-implementation-main-ci-attempt1/annotations.http.json",
+      "encoding": "zlib-base64",
+      "bytes": 1641,
+      "sha256": "1c6234dbff2e397ed238ebd1dcfd09e23e80753d947f2ef43bf235ca5155da16"
+    },
+    {
+      "ref": "017.zlib.b64",
+      "original": "ops016-implementation-main-ci-attempt1/annotations.http.provenance.json",
+      "encoding": "zlib-base64",
+      "bytes": 404,
+      "sha256": "21697b9acfc56f0dc25dff23ff7579345435865c815634b9d80bd89e26784d5b"
+    },
+    {
+      "ref": "018.zlib.b64",
+      "original": "ops016-implementation-main-ci-attempt2/run.json",
+      "encoding": "zlib-base64",
+      "bytes": 13763,
+      "sha256": "5f8e93a4a2786978393a87ce94ed33d7e6844e98d6519119d02c8f5d45f977fe"
+    },
+    {
+      "ref": "019.zlib.b64",
+      "original": "ops016-implementation-main-ci-attempt2/jobs.json",
+      "encoding": "zlib-base64",
+      "bytes": 4610,
+      "sha256": "aaab278f9fdf87087d50ed8982001f78f7182445e56613be84d3de65ad0822d9"
+    },
+    {
+      "ref": "020.zlib.b64",
+      "original": "ops016-implementation-main-ci-attempt2/jobs.full.json",
+      "encoding": "zlib-base64",
+      "bytes": 8278,
+      "sha256": "2585712abcf676cd67f345a6ed88c14770bbc2d49e72aa7ac0f02fb33c3d26b0"
+    },
+    {
+      "ref": "021.zlib.b64",
+      "original": "ops016-implementation-main-ci-attempt2/checkout.json",
+      "encoding": "zlib-base64",
+      "bytes": 2719,
+      "sha256": "e50b8047525c6456d20544b8eabd632c8eb55b7cdc20f9b782dbfddddde384a2"
+    },
+    {
+      "ref": "022.zlib.b64",
+      "original": "ops016-implementation-main-ci-attempt2/job-log.connector-decoded.utf8.txt",
+      "encoding": "zlib-base64",
+      "bytes": 308250,
+      "sha256": "7146883901d61073348f0edc15784af298eafe951ed2c35e4285d07fe11ae9b5"
+    },
+    {
+      "ref": "023.zlib.b64",
+      "original": "ops016-implementation-main-ci-attempt2/annotations.http.json",
+      "encoding": "zlib-base64",
+      "bytes": 1350,
+      "sha256": "91db17e67a4f245f873c2269dcf4f5dcf34e5d8edf3bf2217c18c128ff7dae04"
+    },
+    {
+      "ref": "024.zlib.b64",
+      "original": "ops016-implementation-main-ci-attempt2/annotations.http.provenance.json",
+      "encoding": "zlib-base64",
+      "bytes": 404,
+      "sha256": "951c57d5e8114102e7b875cfd29dadd49c7465d012f56db16cd11bda87e08ff3"
+    },
+    {
+      "ref": "025.zlib.b64",
+      "original": "ops016-implementation-main-ci-attempt1/partial-analysis.json",
+      "encoding": "zlib-base64",
+      "bytes": 1843,
+      "sha256": "9f28f05141adadc4da95fdf08b87b33576be0b3b42c655a708ade8d381b87e83"
+    },
+    {
+      "ref": "026.zlib.b64",
+      "original": "ops016-implementation-285fa60-native-main-checks/coordination.raw",
+      "encoding": "zlib-base64",
+      "bytes": 336,
+      "sha256": "1d205e16514a10f60d23b706aebb6001209cabe1d4a1bf649662c787ea73360f"
+    },
+    {
+      "ref": "027.zlib.b64",
+      "original": "ops016-implementation-285fa60-native-main-checks/finalization.raw",
+      "encoding": "zlib-base64",
+      "bytes": 433,
+      "sha256": "b89b5c642f26eea8428a61c7153f3d367c471188c784afa64bb4cf363608d4ef"
+    },
+    {
+      "ref": "028.zlib.b64",
+      "original": "ops016-implementation-285fa60-native-main-checks/history.raw",
+      "encoding": "zlib-base64",
+      "bytes": 542,
+      "sha256": "6b0a52ae6043a1408c5cf6b9a385341bedd73a6a3f485a76280911f1ae7844aa"
+    },
+    {
+      "ref": "029.zlib.b64",
+      "original": "ops016-implementation-285fa60-native-main-checks/integrity.raw",
+      "encoding": "zlib-base64",
+      "bytes": 474,
+      "sha256": "3b4a755557087cdd91ecba18e29c226e27e3c65f0cf17813ca6971bd4863b032"
+    },
+    {
+      "ref": "030.zlib.b64",
+      "original": "ops016-implementation-285fa60-native-main-checks/poc-protocol.raw",
+      "encoding": "zlib-base64",
+      "bytes": 364,
+      "sha256": "1adf0e2f1cc66d3863f8603481572bc11a19fb2fb5a95ebe051b6c8198c9e7e9"
+    },
+    {
+      "ref": "031.zlib.b64",
+      "original": "ops016-implementation-285fa60-native-main-checks/raw-lifecycle.raw",
+      "encoding": "zlib-base64",
+      "bytes": 525,
+      "sha256": "16da51eda4dab787da0f7f5aeee6c93b36001352496142652b6f743317338875"
+    },
+    {
+      "ref": "032.zlib.b64",
+      "original": "ops016-implementation-285fa60-native-main-checks/results.json",
+      "encoding": "zlib-base64",
+      "bytes": 5235,
+      "sha256": "1ffb0f1644c6e4d146391f9236e8dcde31c1e09829fa7b1cf53efc9cb6782b56"
+    },
+    {
+      "ref": "033.zlib.b64",
+      "original": "ops016-implementation-285fa60-native-main-checks/transitions.raw",
+      "encoding": "zlib-base64",
+      "bytes": 454,
+      "sha256": "6534728161447376f78a95bec5ef4d2a61950eb0e9f00acf086b759585403c98"
+    },
+    {
+      "ref": "034.zlib.b64",
+      "original": "ops016-implementation-author-main-reconciliation-v1/fast-forward.raw",
+      "encoding": "zlib-base64",
+      "bytes": 8196,
+      "sha256": "b0b30654a867458562da3c2947aa3bba5335cfd2dc0de644d209cfc98dbe2b36"
+    },
+    {
+      "ref": "035.zlib.b64",
+      "original": "ops016-implementation-author-main-reconciliation-v1/fetch.raw",
+      "encoding": "zlib-base64",
+      "bytes": 91,
+      "sha256": "5089939f09bd7e94a62efe11f20edb6cf784e17e64a956dd3d242cc1d6040a4c"
+    },
+    {
+      "ref": "036.zlib.b64",
+      "original": "ops016-implementation-author-main-reconciliation-v1/postcheck-followup.json",
+      "encoding": "zlib-base64",
+      "bytes": 872,
+      "sha256": "23d0e15ab590312b90acd7912d8163fa53f965792fd943a3158f359dbc280530"
+    },
+    {
+      "ref": "037.zlib.b64",
+      "original": "ops016-implementation-author-main-reconciliation-v1/results.json",
+      "encoding": "zlib-base64",
+      "bytes": 2453,
+      "sha256": "c7077e24023ec2812adc419458613780e09429d7774c172016d222f0f2d92756"
+    },
+    {
+      "ref": "038.zlib.b64",
+      "original": "ops016-implementation-author-main-reconciliation-v1/switch.raw",
+      "encoding": "zlib-base64",
+      "bytes": 150,
+      "sha256": "3c20a9c95fd0f79f94b27b5fb233deac4f0dc7269c6a6b6046513d420b469d43"
+    }
+  ]
+}

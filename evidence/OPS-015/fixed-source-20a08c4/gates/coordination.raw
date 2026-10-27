@@ -1,0 +1,5 @@
+Source Commit: 20a08c49999f4b5e1432d92bcd5ce0d2f191c0a1
+Command: python scripts/run-agent-coordination-gate.py --base-ref 36d8ba69581c98ab15559e5a4a7f6281435d327f --head-ref HEAD --task OPS-015 --branch-name chore/OPS-015-role-amendment-v2
+{"status": "PASS", "message": "Agent coordination valid: 3 active tasks, 1 high/critical", "details": {"activeTaskIds": ["OPS-015", "POC-003", "POC-005"]}}
+
+Exit Code: 0

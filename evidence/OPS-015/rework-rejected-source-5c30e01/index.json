@@ -1,0 +1,64 @@
+{
+  "source": "5c30e01d4bffe7faceafe662208c7dd06b10dfe2",
+  "passedFirstGates": 6,
+  "failedGate": "raw-lifecycle",
+  "laterGatesNotExecuted": 7,
+  "records": [
+    {
+      "ref": "000.zlib.b64",
+      "original": "ops015-rework-source-5c30e01-native-checks/results.json",
+      "encoding": "zlib-base64",
+      "bytes": 5144,
+      "sha256": "5528fd073e41b3a73c5306f2fa7263c8f1f616fcbc1be1abc6b004725999a044"
+    },
+    {
+      "ref": "001.zlib.b64",
+      "original": "ops015-rework-source-5c30e01-native-checks/diff.raw",
+      "encoding": "zlib-base64",
+      "bytes": 144,
+      "sha256": "d2d140ce074bfea4a02dbfa0d68ca6ba91ecf5e82dd5dab8b3ac782dba028c68"
+    },
+    {
+      "ref": "002.zlib.b64",
+      "original": "ops015-rework-source-5c30e01-native-checks/task.raw",
+      "encoding": "zlib-base64",
+      "bytes": 262,
+      "sha256": "702bc7427d4d4093f0d70a592a20ae0a05a92f9387d86817540939cfcffa0f3f"
+    },
+    {
+      "ref": "003.zlib.b64",
+      "original": "ops015-rework-source-5c30e01-native-checks/schemas.raw",
+      "encoding": "zlib-base64",
+      "bytes": 1947,
+      "sha256": "8c4c896e861845dd2ee804fb6e8bfa1b57417099d4feb3d653433582a9a97e15"
+    },
+    {
+      "ref": "004.zlib.b64",
+      "original": "ops015-rework-source-5c30e01-native-checks/integrity.raw",
+      "encoding": "zlib-base64",
+      "bytes": 419,
+      "sha256": "f919929dcfc5d3a74e3beb2beab76f31fa74ab9660e0ef92d8b6051d7020fcba"
+    },
+    {
+      "ref": "005.zlib.b64",
+      "original": "ops015-rework-source-5c30e01-native-checks/history.raw",
+      "encoding": "zlib-base64",
+      "bytes": 476,
+      "sha256": "26f4b7e352c6953f81905e266521cf47924805749abe09bec40182e35731cd41"
+    },
+    {
+      "ref": "006.zlib.b64",
+      "original": "ops015-rework-source-5c30e01-native-checks/transitions.raw",
+      "encoding": "zlib-base64",
+      "bytes": 429,
+      "sha256": "69adac00b8dd3a9e7f5fe6d8cb91c80faa1b17abb6dcf6153224e7358a9d2b8d"
+    },
+    {
+      "ref": "007.zlib.b64",
+      "original": "ops015-rework-source-5c30e01-native-checks/raw-lifecycle.raw",
+      "encoding": "zlib-base64",
+      "bytes": 396,
+      "sha256": "69169e5ad0408e9a864d930dd1bbbda1bb34a881933d79b25875aca159d0045d"
+    }
+  ]
+}

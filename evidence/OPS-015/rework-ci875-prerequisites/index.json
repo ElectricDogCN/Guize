@@ -1,0 +1,442 @@
+{
+  "base": "955d226134e2562d7f509ffb320f352d8bc08c6d",
+  "failedReviewSource": "bb0b9d77b29ba4e02a1cf20a9c3ad6972f51fb0b",
+  "records": [
+    {
+      "ref": "000-ops015-implementation-actual-main-independent-review.json.zlib.b64",
+      "original": "ops015-implementation-actual-main-independent-review.json",
+      "encoding": "zlib-base64",
+      "bytes": 10527,
+      "sha256": "f7b15e011f7ff0ac7a8f47e9880fe1cbf649a06ea0059ab755dd7577da6148e6"
+    },
+    {
+      "ref": "001-ops015-implementation-actual-main-candidate.json.zlib.b64",
+      "original": "ops015-implementation-actual-main-candidate.json",
+      "encoding": "zlib-base64",
+      "bytes": 870,
+      "sha256": "9f5d759010a43795c76b02fc98f8b1a2c2e7ffd3a23f4e8c1299df761c7b8fa3"
+    },
+    {
+      "ref": "002-ops015-normal-review-current-candidate.json.zlib.b64",
+      "original": "ops015-normal-review-current-candidate.json",
+      "encoding": "zlib-base64",
+      "bytes": 4787,
+      "sha256": "6d3c6e59fc597349b6116fa7c2df23166d5952aa398f7b156b5355dfcb53b1de"
+    },
+    {
+      "ref": "003-ops015-normal-review-bb0b9d7-publication-independent-review.json.zlib.b64",
+      "original": "ops015-normal-review-bb0b9d7-publication-independent-review.json",
+      "encoding": "zlib-base64",
+      "bytes": 12071,
+      "sha256": "12681ceaa76cc4f38b220146c3abebbe93d752ae48b59d775455c207c0f3cbd9"
+    },
+    {
+      "ref": "004-ops015-normal-review-uncommitted-independent-review.json.zlib.b64",
+      "original": "ops015-normal-review-uncommitted-independent-review.json",
+      "encoding": "zlib-base64",
+      "bytes": 13229,
+      "sha256": "5ff916701e5e4c612bb0950835c32c65c527d00ab6e8e7014235294e49a7a4b6"
+    },
+    {
+      "ref": "005-ops015-normal-review-corrected-uncommitted-independent-review.json.zlib.b64",
+      "original": "ops015-normal-review-corrected-uncommitted-independent-review.json",
+      "encoding": "zlib-base64",
+      "bytes": 12196,
+      "sha256": "6ae5f362bcd3b02461f4c472171ec1dbda42c8d79ae86277569a1f2666a2f577"
+    },
+    {
+      "ref": "006-ops015-normal-review-ci875-cancelled-attempt1-independent-assessment.json.zlib.b64",
+      "original": "ops015-normal-review-ci875-cancelled-attempt1-independent-assessment.json",
+      "encoding": "zlib-base64",
+      "bytes": 4655,
+      "sha256": "59f788ff5343cd6a037aef45589ccdea04e6b979eaaa7ba7548e24fab691c090"
+    },
+    {
+      "ref": "007.zlib.b64",
+      "original": "ops015-normal-review-ci875-attempt2-failure-and-rework-independent-assessment.json",
+      "encoding": "zlib-base64",
+      "bytes": 7319,
+      "sha256": "e0c882a1d100d5e2b36ae82847697a0f86eada9d0290a23d6600292e6dd705bc"
+    },
+    {
+      "ref": "008.zlib.b64",
+      "original": "ops015-history-metaschema-reuse-design-independent-review.json",
+      "encoding": "zlib-base64",
+      "bytes": 5381,
+      "sha256": "a630b3d893b5c9231abbe0afba0cbf3a6377d7deb6f526f18ae766004b777363"
+    },
+    {
+      "ref": "009.zlib.b64",
+      "original": "ops015-normal-review-ci875-existing-log-progress-comparison.json",
+      "encoding": "zlib-base64",
+      "bytes": 9145,
+      "sha256": "162b17770805944cdd914ab758fd0d63351d100568bd15b7cab3daf306c71a93"
+    },
+    {
+      "ref": "010.zlib.b64",
+      "original": "ops015-rework-from-955-branch-transition.json",
+      "encoding": "zlib-base64",
+      "bytes": 687,
+      "sha256": "ed2c8bc7bcfef1d864aa7c01e4ce7b58eece18293ffb096bf31d584aab085a84"
+    },
+    {
+      "ref": "011.zlib.b64",
+      "original": "ops015-actor-development-v5-preparation-failure.json",
+      "encoding": "zlib-base64",
+      "bytes": 3371,
+      "sha256": "7957eaf7d0669e94ed4c76ed5f37623cb6378960632a04efa12940a84be687be"
+    },
+    {
+      "ref": "012.zlib.b64",
+      "original": "ops015-normal-review-ci875/attempt2-retry-dispatch.json",
+      "encoding": "zlib-base64",
+      "bytes": 37384,
+      "sha256": "e83baca37c3643d951d2116eb0b9533dfdb7004df01fc2bdcf61ed1a1d984f79"
+    },
+    {
+      "ref": "013.zlib.b64",
+      "original": "ops015-normal-review-ci875/attempt1-cancelled/run.json",
+      "encoding": "zlib-base64",
+      "bytes": 14348,
+      "sha256": "d0991051af676e2499b2809b8c86648d74b30796cb1dbe270de8f3d5fd467580"
+    },
+    {
+      "ref": "014.zlib.b64",
+      "original": "ops015-normal-review-ci875/attempt1-cancelled/jobs.json",
+      "encoding": "zlib-base64",
+      "bytes": 4612,
+      "sha256": "4388a1e3bbe1f68ebfa0138a8f16c1a39c47570058ef2104d1711d388ca453c7"
+    },
+    {
+      "ref": "015.zlib.b64",
+      "original": "ops015-normal-review-ci875/attempt1-cancelled/analysis.json",
+      "encoding": "zlib-base64",
+      "bytes": 1526,
+      "sha256": "600721dee4496bddee981fc5926576cca9f730753037ac88124ed921ff1bb4a8"
+    },
+    {
+      "ref": "016.zlib.b64",
+      "original": "ops015-normal-review-ci875/attempt1-cancelled/checkout.json",
+      "encoding": "zlib-base64",
+      "bytes": 2805,
+      "sha256": "e4d59ec8ed8cd441ff6fa265a06b58eecd0fd6661c56aaa7c052a346bce7cc51"
+    },
+    {
+      "ref": "017.zlib.b64",
+      "original": "ops015-normal-review-ci875/attempt1-cancelled/check-annotations.connector.json",
+      "encoding": "zlib-base64",
+      "bytes": 1969,
+      "sha256": "bfe4cdaf14a7342e54caaa5ad7af26e8f5e1d2d48616b427bb0531a83019fad0"
+    },
+    {
+      "ref": "018.zlib.b64",
+      "original": "ops015-normal-review-ci875/attempt1-cancelled/job-log.connector-decoded.utf8.txt",
+      "encoding": "zlib-base64",
+      "bytes": 291208,
+      "sha256": "7fe96478f0c39fbc880c7d67a42f6d67fca2c04bc16c14345ca0b90d2aadc316"
+    },
+    {
+      "ref": "019.zlib.b64",
+      "original": "ops015-normal-review-ci875/attempt2/run.json",
+      "encoding": "zlib-base64",
+      "bytes": 14430,
+      "sha256": "99dd3af03ed7ff9b32dc108ef08f72796f6cf20b7c5da46b6f53dab1ca98c156"
+    },
+    {
+      "ref": "020.zlib.b64",
+      "original": "ops015-normal-review-ci875/attempt2/jobs.json",
+      "encoding": "zlib-base64",
+      "bytes": 4612,
+      "sha256": "86f0555634154acd3c506e6e1223407d80ce68746dfd2bf74208070cbfee2b20"
+    },
+    {
+      "ref": "021.zlib.b64",
+      "original": "ops015-normal-review-ci875/attempt2/analysis.json",
+      "encoding": "zlib-base64",
+      "bytes": 813,
+      "sha256": "7426c802746d655668799e1f716a6d2f8c0106bec474fc256fa9dc6c0edebc17"
+    },
+    {
+      "ref": "022.zlib.b64",
+      "original": "ops015-normal-review-ci875/attempt2/check-annotations.connector.json",
+      "encoding": "zlib-base64",
+      "bytes": 1969,
+      "sha256": "636e869f4ee6b26665352e84f7b4dd25df09b9c8f346186ef45750c759a03226"
+    },
+    {
+      "ref": "023.zlib.b64",
+      "original": "ops015-normal-review-ci875/attempt2/job-log.connector-decoded.utf8.txt",
+      "encoding": "zlib-base64",
+      "bytes": 291490,
+      "sha256": "e0643c7738b669f5ec8bdb577a5685a2d753c6b06895b233ba941bf347be80b6"
+    },
+    {
+      "ref": "024.zlib.b64",
+      "original": "ops015-implementation-ci874/run.json",
+      "encoding": "zlib-base64",
+      "bytes": 13665,
+      "sha256": "3296d06379904d6706b9eedf79e070cd4d78cf427982663842d7ae02e58c988e"
+    },
+    {
+      "ref": "025.zlib.b64",
+      "original": "ops015-implementation-ci874/jobs.json",
+      "encoding": "zlib-base64",
+      "bytes": 4608,
+      "sha256": "8681824f3943bfd7a56339449a0c9fa0d9b1ea84dc106c17c5e5b9315fb11381"
+    },
+    {
+      "ref": "026.zlib.b64",
+      "original": "ops015-implementation-ci874/analysis.json",
+      "encoding": "zlib-base64",
+      "bytes": 1489,
+      "sha256": "27e14ac834da776ab3f376c85d374321d86d3dba02b9eab0c0e817e4ce95bef2"
+    },
+    {
+      "ref": "027.zlib.b64",
+      "original": "ops015-implementation-ci874/checkout.json",
+      "encoding": "zlib-base64",
+      "bytes": 2893,
+      "sha256": "2a39b7ef0ddfb77bc955649a6e914bcea9aa516c2a3dca820b57ab577e54f28d"
+    },
+    {
+      "ref": "028.zlib.b64",
+      "original": "ops015-implementation-ci874/job-log.connector-decoded.utf8.txt",
+      "encoding": "zlib-base64",
+      "bytes": 305816,
+      "sha256": "6061bdc183e4030ea8398e91a50d6cfe9ea45702389f33497c6ebe13b6df4d6d"
+    },
+    {
+      "ref": "029.zlib.b64",
+      "original": "ops015-actor-development-v5/results.json",
+      "encoding": "zlib-base64",
+      "bytes": 1209,
+      "sha256": "01ad61dd3c9ce0644a6c7fb8741bd42a38c5083ae3d50eb9c1e7a289bfbbe9e3"
+    },
+    {
+      "ref": "030.zlib.b64",
+      "original": "ops015-actor-development-v5/pytest.raw",
+      "encoding": "zlib-base64",
+      "bytes": 3748,
+      "sha256": "542867593ebd8456b7512a702b13f75e2f59c63a1ea5350b9f03b6a0e5521f43"
+    },
+    {
+      "ref": "031.zlib.b64",
+      "original": "ops015-actor-development-v5/junit.xml",
+      "encoding": "zlib-base64",
+      "bytes": 4957,
+      "sha256": "91f777736c9b9f364ae05f7d30d6b4b97111b8ff53ab5a6e204288f0e056c1f8"
+    },
+    {
+      "ref": "032.zlib.b64",
+      "original": "ops015-actor-development-v6/results.json",
+      "encoding": "zlib-base64",
+      "bytes": 1208,
+      "sha256": "4d837ccef23ce030c445336fe04be76f95c3ed16b433d51f03bfea77f6f82fcb"
+    },
+    {
+      "ref": "033.zlib.b64",
+      "original": "ops015-actor-development-v6/pytest.raw",
+      "encoding": "zlib-base64",
+      "bytes": 272,
+      "sha256": "361bf4a214d666ed4fdb9103239278892502dd41e567d647b4450ce819e45dd1"
+    },
+    {
+      "ref": "034.zlib.b64",
+      "original": "ops015-actor-development-v6/junit.xml",
+      "encoding": "zlib-base64",
+      "bytes": 1134,
+      "sha256": "a427be26d4f81cdc818e1db77bc6d27289c81f07749e10734ff2104d0cd5e5ce"
+    },
+    {
+      "ref": "035.zlib.b64",
+      "original": "ops015-review-bb0b9d7-history-profile-v1/results.json",
+      "encoding": "zlib-base64",
+      "bytes": 1761,
+      "sha256": "6e0580e53b4f024198fa7422b41ea17485279746f92a90f6d86593c6b8bbbb12"
+    },
+    {
+      "ref": "036.zlib.b64",
+      "original": "ops015-review-bb0b9d7-history-profile-v1/profile.raw",
+      "encoding": "zlib-base64",
+      "bytes": 778,
+      "sha256": "2f8062726290590bca4298c675d655c1768eeeb10db7f2d201f2bf07e40b5562"
+    },
+    {
+      "ref": "037.zlib.b64",
+      "original": "ops015-review-bb0b9d7-history-profile-v1/profile-cumulative.txt",
+      "encoding": "zlib-base64",
+      "bytes": 3442,
+      "sha256": "32fc6d200455eda29693a58e82d0242bf2f33cc392fd19fdfb4b61bf93d450a6"
+    },
+    {
+      "ref": "038.zlib.b64",
+      "original": "ops015-review-bb0b9d7-history-child-cost-v1/results.json",
+      "encoding": "zlib-base64",
+      "bytes": 1228,
+      "sha256": "46a68692ba3c6110b2bbe1c0ee6b63734927f31812fd75be92c43aed90fab2e2"
+    },
+    {
+      "ref": "039.zlib.b64",
+      "original": "ops015-review-bb0b9d7-history-child-cost-v1/probe.raw",
+      "encoding": "zlib-base64",
+      "bytes": 259,
+      "sha256": "7eb69d41a294d01d594a42bfb2bc4c75486d8b6f1e964da9a958bb66b550c341"
+    },
+    {
+      "ref": "040.zlib.b64",
+      "original": "ops015-review-bb0b9d7-existing-history-test-profile-v1/diagnostic-parent-outcome.json",
+      "encoding": "zlib-base64",
+      "bytes": 351,
+      "sha256": "3b121e817fa4af6487741241f0fb8b73f128e1c888cc8ba0e772874e7a636fd6"
+    },
+    {
+      "ref": "041.zlib.b64",
+      "original": "ops015-review-bb0b9d7-existing-history-test-profile-v1/diagnostic-test.raw",
+      "encoding": "zlib-base64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "ref": "042.zlib.b64",
+      "original": "ops015-review-bb0b9d7-existing-history-test-profile-v1/child-0.txt",
+      "encoding": "zlib-base64",
+      "bytes": 2595,
+      "sha256": "a92b2fa35adf962dc946833049f72dcee8f719afea1d788f873ada8edd574e4d"
+    },
+    {
+      "ref": "043.zlib.b64",
+      "original": "ops015-normal-review-bb0b9d7-native-checks/coordination.raw",
+      "encoding": "zlib-base64",
+      "bytes": 442,
+      "sha256": "5b1a5ea3e0290acd1b9fd2bdec0f6ab06a318eb0a1d017886fab5944e9526828"
+    },
+    {
+      "ref": "044.zlib.b64",
+      "original": "ops015-normal-review-bb0b9d7-native-checks/diff.raw",
+      "encoding": "zlib-base64",
+      "bytes": 144,
+      "sha256": "6d3e42acaa21c956417465aa0f8db82ff535acca6d472d9de41b197cf4ad52a1"
+    },
+    {
+      "ref": "045.zlib.b64",
+      "original": "ops015-normal-review-bb0b9d7-native-checks/docs.raw",
+      "encoding": "zlib-base64",
+      "bytes": 164,
+      "sha256": "75754952320a6b4aa46b08af524824c9e4fd84162485d59f16227acf712ff592"
+    },
+    {
+      "ref": "046.zlib.b64",
+      "original": "ops015-normal-review-bb0b9d7-native-checks/evidence.raw",
+      "encoding": "zlib-base64",
+      "bytes": 307,
+      "sha256": "a765fb593f94c0059b68512a7883126b7d039e61cb8f18db51b1ef81764eb64a"
+    },
+    {
+      "ref": "047.zlib.b64",
+      "original": "ops015-normal-review-bb0b9d7-native-checks/finalization.raw",
+      "encoding": "zlib-base64",
+      "bytes": 398,
+      "sha256": "86eac8d23f20afdf818b421e35c7f4832a1b13b72978251e6149506d676b9c50"
+    },
+    {
+      "ref": "048.zlib.b64",
+      "original": "ops015-normal-review-bb0b9d7-native-checks/history.raw",
+      "encoding": "zlib-base64",
+      "bytes": 544,
+      "sha256": "7bb446acd45e7338d24ab7e4ba0d382d6009dbaa068f1393688b80219a49ff1c"
+    },
+    {
+      "ref": "049.zlib.b64",
+      "original": "ops015-normal-review-bb0b9d7-native-checks/integrity.raw",
+      "encoding": "zlib-base64",
+      "bytes": 419,
+      "sha256": "084a2f2c67e0cea0020794f83918a01306dd888491a4c9a4295a80927e52f7de"
+    },
+    {
+      "ref": "050.zlib.b64",
+      "original": "ops015-normal-review-bb0b9d7-native-checks/raw-lifecycle.raw",
+      "encoding": "zlib-base64",
+      "bytes": 527,
+      "sha256": "ec9332783ec997b5c4875d0ec3a4ec26f3722dee12eed0f13dd9d69b89405060"
+    },
+    {
+      "ref": "051.zlib.b64",
+      "original": "ops015-normal-review-bb0b9d7-native-checks/readiness.raw",
+      "encoding": "zlib-base64",
+      "bytes": 660,
+      "sha256": "cf4c87ff0f8977aac3d26bde138b0c1b5a7e5615adc786b204fe9a203dbdf8b2"
+    },
+    {
+      "ref": "052.zlib.b64",
+      "original": "ops015-normal-review-bb0b9d7-native-checks/results.json",
+      "encoding": "zlib-base64",
+      "bytes": 13226,
+      "sha256": "3b1dd497a28d18327fbb943b5bde44f319497c07afb0da561afce5cc3b80735a"
+    },
+    {
+      "ref": "053.zlib.b64",
+      "original": "ops015-normal-review-bb0b9d7-native-checks/schemas.raw",
+      "encoding": "zlib-base64",
+      "bytes": 1947,
+      "sha256": "134063bb4e430ee0da34cb999ea71145760cbe1612e222b70f7edfe34ce94585"
+    },
+    {
+      "ref": "054.zlib.b64",
+      "original": "ops015-normal-review-bb0b9d7-native-checks/scope.raw",
+      "encoding": "zlib-base64",
+      "bytes": 3994,
+      "sha256": "5f73b03abe70b7ba15ab470d10049c332f431c6765e9027a60ea2e038b664fbd"
+    },
+    {
+      "ref": "055.zlib.b64",
+      "original": "ops015-normal-review-bb0b9d7-native-checks/task.raw",
+      "encoding": "zlib-base64",
+      "bytes": 255,
+      "sha256": "f9dfab34a6390cb5719c5b0bbb6b2b08b7f2958cdd359caf03caac41bbd85f4d"
+    },
+    {
+      "ref": "056.zlib.b64",
+      "original": "ops015-normal-review-bb0b9d7-native-checks/transitions.raw",
+      "encoding": "zlib-base64",
+      "bytes": 461,
+      "sha256": "4ab489dbeab448bc2c3caf99bb27acf551d391912ce6f5478f0bbf3809a59a97"
+    },
+    {
+      "ref": "057.zlib.b64",
+      "original": "ops015-rework-preparation-partial-archive-failure.json",
+      "encoding": "zlib-base64",
+      "bytes": 14749,
+      "sha256": "d4bf6d670ce4a95e8e87323dc450c050285405362672cc61cfab2215d89659bb"
+    },
+    {
+      "ref": "058.zlib.b64",
+      "original": "ops015-history-metaschema-reuse-code-independent-review.json",
+      "encoding": "zlib-base64",
+      "bytes": 5243,
+      "sha256": "ea7137878b9d8e954383cbafdfe8bea8ef36f986fd373ad890de1bb2344b0111"
+    },
+    {
+      "ref": "059.zlib.b64",
+      "original": "ops015-actor-development-v7/results.json",
+      "encoding": "zlib-base64",
+      "bytes": 1182,
+      "sha256": "2c4ec39ccbe74d3edc934b071ce49f32c64d4f09bf383499eec8dd0b018dea2c"
+    },
+    {
+      "ref": "060.zlib.b64",
+      "original": "ops015-actor-development-v7/pytest.raw",
+      "encoding": "zlib-base64",
+      "bytes": 2247,
+      "sha256": "bf9683840e41a22d11d855a8361494152ad06eaf6f90f0dbab176d01a116ce80"
+    },
+    {
+      "ref": "061.zlib.b64",
+      "original": "ops015-actor-development-v7/junit.xml",
+      "encoding": "zlib-base64",
+      "bytes": 40484,
+      "sha256": "b2f51a19d27ba56e61eede2be612f99efbac9bc85e9991c8fb9f8c6e99f3f08a"
+    }
+  ],
+  "rawProfilesAreDiagnosticOnly": true,
+  "privateCredentialsIncluded": false
+}

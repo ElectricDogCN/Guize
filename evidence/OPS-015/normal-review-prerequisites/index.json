@@ -1,0 +1,378 @@
+{
+  "base": "ab9cd878bdc58745b1fdd618c6e749cdd9c6d03a",
+  "lastCodePr": 157,
+  "lastCodeMain": "ab9cd878bdc58745b1fdd618c6e749cdd9c6d03a",
+  "records": [
+    {
+      "path": "000-ops015-rework-actual-main-independent-review.json.zlib.b64",
+      "original": "ops015-rework-actual-main-independent-review.json",
+      "encoding": "zlib-base64",
+      "bytes": 10726,
+      "sha256": "5e4362fb25d373e8086ac8ba329bfbb7e978d3bef9120b20fae1520a0bfc524c"
+    },
+    {
+      "path": "001-ops015-rework-final-source-independent-review.json.zlib.b64",
+      "original": "ops015-rework-final-source-independent-review.json",
+      "encoding": "zlib-base64",
+      "bytes": 6997,
+      "sha256": "325aad8821dfca5d1a44bcfb1c7503b4fe9bcb6767389bcc231691cc2a659af4"
+    },
+    {
+      "path": "002-ops015-rework-official-merge.json.zlib.b64",
+      "original": "ops015-rework-official-merge.json",
+      "encoding": "zlib-base64",
+      "bytes": 465,
+      "sha256": "403dfa4e76dcf71411c8b4e49edb04a4fd156bc970a07998ae9c1e30f2a1d285"
+    },
+    {
+      "path": "003-ops015-rework-actual-main-candidate.json.zlib.b64",
+      "original": "ops015-rework-actual-main-candidate.json",
+      "encoding": "zlib-base64",
+      "bytes": 862,
+      "sha256": "f7bef6906d0bff4ec940e87dfdc3ac0179c7d515b4f3748e13b121b123bebe63"
+    },
+    {
+      "path": "004-coordination.raw.zlib.b64",
+      "original": "ops015-rework-source-3a33547-native-checks\\coordination.raw",
+      "encoding": "zlib-base64",
+      "bytes": 410,
+      "sha256": "55c338121c32ed6425624242ef21718d3e660b5485282ec503fe5ba36c6c412b"
+    },
+    {
+      "path": "005-diff.raw.zlib.b64",
+      "original": "ops015-rework-source-3a33547-native-checks\\diff.raw",
+      "encoding": "zlib-base64",
+      "bytes": 144,
+      "sha256": "45e1abc0f19cad0d5194bca73565d2353a61d4faf01a87c7016c7c82eefca38a"
+    },
+    {
+      "path": "006-docs.raw.zlib.b64",
+      "original": "ops015-rework-source-3a33547-native-checks\\docs.raw",
+      "encoding": "zlib-base64",
+      "bytes": 164,
+      "sha256": "538cd372c9ffdd911e55e047d0533d400bdebb1585c1eebfa4608edd7c7b1e4e"
+    },
+    {
+      "path": "007-evidence.raw.zlib.b64",
+      "original": "ops015-rework-source-3a33547-native-checks\\evidence.raw",
+      "encoding": "zlib-base64",
+      "bytes": 307,
+      "sha256": "ee91ec8f8d0afb15b7a92befaa3af3a0f9e30632c8d3bafead13db08f89fcb0c"
+    },
+    {
+      "path": "008-finalization.raw.zlib.b64",
+      "original": "ops015-rework-source-3a33547-native-checks\\finalization.raw",
+      "encoding": "zlib-base64",
+      "bytes": 362,
+      "sha256": "fe9cb7cb59c39e5d65b7e7636d52de78ca094f31b791a31b9f5fb808b27f8f84"
+    },
+    {
+      "path": "009-history.raw.zlib.b64",
+      "original": "ops015-rework-source-3a33547-native-checks\\history.raw",
+      "encoding": "zlib-base64",
+      "bytes": 476,
+      "sha256": "2be257b43d03bb99376184b9d391ad931ff109fe3eae3efe0809d86820951216"
+    },
+    {
+      "path": "010-integrity.raw.zlib.b64",
+      "original": "ops015-rework-source-3a33547-native-checks\\integrity.raw",
+      "encoding": "zlib-base64",
+      "bytes": 419,
+      "sha256": "d0c4ea243f593346f9178696c27acc273ddfd77a5f2a2ca9230cdba0a4a2c816"
+    },
+    {
+      "path": "011-lifecycle.raw.zlib.b64",
+      "original": "ops015-rework-source-3a33547-native-checks\\lifecycle.raw",
+      "encoding": "zlib-base64",
+      "bytes": 586,
+      "sha256": "7a8e46b000f00a20ebdbc89e0e389da235f848359c8e45cd1ac1e2101e2d6fcf"
+    },
+    {
+      "path": "012-raw-lifecycle.raw.zlib.b64",
+      "original": "ops015-rework-source-3a33547-native-checks\\raw-lifecycle.raw",
+      "encoding": "zlib-base64",
+      "bytes": 495,
+      "sha256": "63052c392bfd8b5c7a19b421efb327c5b989c3aa7fbae21bbc846cf96861eb19"
+    },
+    {
+      "path": "013-readiness.raw.zlib.b64",
+      "original": "ops015-rework-source-3a33547-native-checks\\readiness.raw",
+      "encoding": "zlib-base64",
+      "bytes": 660,
+      "sha256": "253d66d72738f9886e0bf9fdd7aa6f2389a0f875c873ce9258a9291f58bc3adb"
+    },
+    {
+      "path": "014-results.json.zlib.b64",
+      "original": "ops015-rework-source-3a33547-native-checks\\results.json",
+      "encoding": "zlib-base64",
+      "bytes": 9271,
+      "sha256": "78f950562ed3fe5f9aa96151c9c080c1764f86aabf35d41aa0d626efb4bcfd90"
+    },
+    {
+      "path": "015-schemas.raw.zlib.b64",
+      "original": "ops015-rework-source-3a33547-native-checks\\schemas.raw",
+      "encoding": "zlib-base64",
+      "bytes": 1947,
+      "sha256": "e668781f729aabd52cc2566dfe35f6d8359047e15d847731dc17fb8a3d695bd5"
+    },
+    {
+      "path": "016-scope.raw.zlib.b64",
+      "original": "ops015-rework-source-3a33547-native-checks\\scope.raw",
+      "encoding": "zlib-base64",
+      "bytes": 5510,
+      "sha256": "dc0145755c0a33d61166d63d869134a98b74fc3e6426c86b8369c01aff8d336e"
+    },
+    {
+      "path": "017-task.raw.zlib.b64",
+      "original": "ops015-rework-source-3a33547-native-checks\\task.raw",
+      "encoding": "zlib-base64",
+      "bytes": 262,
+      "sha256": "f548b099ccfc5e08b5554a4fd3dc3410a8272320b7bbbe8a47be69cf824c12a7"
+    },
+    {
+      "path": "018-transitions.raw.zlib.b64",
+      "original": "ops015-rework-source-3a33547-native-checks\\transitions.raw",
+      "encoding": "zlib-base64",
+      "bytes": 429,
+      "sha256": "ca8842d52508d8a327217addd3ebcf38d1ea4c9a69ba63a177473a89a2b9001f"
+    },
+    {
+      "path": "019-coordination.raw.zlib.b64",
+      "original": "ops015-rework-ab9cd87-native-main-checks\\coordination.raw",
+      "encoding": "zlib-base64",
+      "bytes": 336,
+      "sha256": "cf22700d3e26244e08e5f5f3a816e7fb9e7e974dff85b8dafdd34f537263be25"
+    },
+    {
+      "path": "020-finalization.raw.zlib.b64",
+      "original": "ops015-rework-ab9cd87-native-main-checks\\finalization.raw",
+      "encoding": "zlib-base64",
+      "bytes": 433,
+      "sha256": "132713b4182a93d75df94af03c7c22ffd2660b37657d135bc10c8a5ffa5e0986"
+    },
+    {
+      "path": "021-history.raw.zlib.b64",
+      "original": "ops015-rework-ab9cd87-native-main-checks\\history.raw",
+      "encoding": "zlib-base64",
+      "bytes": 542,
+      "sha256": "0b50f3497c28972e9faa9bbe85532a033481b846cb8c5321b992238009d9d17c"
+    },
+    {
+      "path": "022-integrity.raw.zlib.b64",
+      "original": "ops015-rework-ab9cd87-native-main-checks\\integrity.raw",
+      "encoding": "zlib-base64",
+      "bytes": 474,
+      "sha256": "7497d2dcde2b33b061203f1810fb061939abe28be9e5f4bbaf3ed0b40a1cc0e0"
+    },
+    {
+      "path": "023-poc-protocol.raw.zlib.b64",
+      "original": "ops015-rework-ab9cd87-native-main-checks\\poc-protocol.raw",
+      "encoding": "zlib-base64",
+      "bytes": 356,
+      "sha256": "fad5e58056d3f3fb9c3fd1569706dcb342adedbe46680c82774a2d56c9cb2426"
+    },
+    {
+      "path": "024-raw-lifecycle.raw.zlib.b64",
+      "original": "ops015-rework-ab9cd87-native-main-checks\\raw-lifecycle.raw",
+      "encoding": "zlib-base64",
+      "bytes": 525,
+      "sha256": "3a9f4a7e6be6f94ca14d7fdb61edf61aebea2f167b2781da8ac584e8598217cb"
+    },
+    {
+      "path": "025-results.json.zlib.b64",
+      "original": "ops015-rework-ab9cd87-native-main-checks\\results.json",
+      "encoding": "zlib-base64",
+      "bytes": 5204,
+      "sha256": "fcccdab88e8aa204ecbe50fd17db207a6282e9f3cc68b7547022ffd4c061353e"
+    },
+    {
+      "path": "026-transitions.raw.zlib.b64",
+      "original": "ops015-rework-ab9cd87-native-main-checks\\transitions.raw",
+      "encoding": "zlib-base64",
+      "bytes": 454,
+      "sha256": "0515cf5b752ff077cf5fbc7edc3b0cde2a2a74081e298d4eef16ab10ee8468e9"
+    },
+    {
+      "path": "027-analysis.json.zlib.b64",
+      "original": "ops015-rework-ci876\\analysis.json",
+      "encoding": "zlib-base64",
+      "bytes": 1078,
+      "sha256": "9042845a3b5c492641ac53dafac9f15f550154a99db0ac5acd25ac32be4b835e"
+    },
+    {
+      "path": "028-checkout.json.zlib.b64",
+      "original": "ops015-rework-ci876\\checkout.json",
+      "encoding": "zlib-base64",
+      "bytes": 2805,
+      "sha256": "5d2830d207c84486004bcba8b198b92ec0960e53c66733edc5d0a5eae8874942"
+    },
+    {
+      "path": "029-created-pr.json.zlib.b64",
+      "original": "ops015-rework-ci876\\created-pr.json",
+      "encoding": "zlib-base64",
+      "bytes": 3373,
+      "sha256": "d4590fd10ae1f0c64243546f20f5ecd1b15a2651164516c70bbf8aadba21609f"
+    },
+    {
+      "path": "030-first-jobs.json.zlib.b64",
+      "original": "ops015-rework-ci876\\first-jobs.json",
+      "encoding": "zlib-base64",
+      "bytes": 4337,
+      "sha256": "a1aca4b6c2896f44e3a5d6793adf355592c283055e527f6d0191f0069c7c6b1f"
+    },
+    {
+      "path": "031-first-run.json.zlib.b64",
+      "original": "ops015-rework-ci876\\first-run.json",
+      "encoding": "zlib-base64",
+      "bytes": 14356,
+      "sha256": "2339aed6d60d3c4aebf9183d340af86c3e4eeb2e0023db9ff672da2751cefa35"
+    },
+    {
+      "path": "032-job-log.connector-decoded.utf8.txt.zlib.b64",
+      "original": "ops015-rework-ci876\\job-log.connector-decoded.utf8.txt",
+      "encoding": "zlib-base64",
+      "bytes": 320708,
+      "sha256": "d6483de6ff350a6e9c4113f63f9742a5a50a3e8f235bfc48ef220a2b7eb8fb50"
+    },
+    {
+      "path": "033-jobs.json.zlib.b64",
+      "original": "ops015-rework-ci876\\jobs.json",
+      "encoding": "zlib-base64",
+      "bytes": 4608,
+      "sha256": "7e99fa82827216dde1c945fb5d0489613c787811136a160f01553969706978f1"
+    },
+    {
+      "path": "034-pr.json.zlib.b64",
+      "original": "ops015-rework-ci876\\pr.json",
+      "encoding": "zlib-base64",
+      "bytes": 20538,
+      "sha256": "757e3b1e587fa0520688f7778f0649b41e5467cfe48e5d1dada1691f273c5bb0"
+    },
+    {
+      "path": "035-run.json.zlib.b64",
+      "original": "ops015-rework-ci876\\run.json",
+      "encoding": "zlib-base64",
+      "bytes": 14359,
+      "sha256": "b6bba6b790115023ea2224d36380a4961c13970c79af2912e5fd0ddf27b4ffa1"
+    },
+    {
+      "path": "036-analysis.json.zlib.b64",
+      "original": "ops015-rework-ci877\\attempt1-cancelled\\analysis.json",
+      "encoding": "zlib-base64",
+      "bytes": 4757,
+      "sha256": "66801464a75e6171e6c4d570d7da7918380012b73f6d53436f266c2a765eb737"
+    },
+    {
+      "path": "037-check-annotations.connector.json.zlib.b64",
+      "original": "ops015-rework-ci877\\attempt1-cancelled\\check-annotations.connector.json",
+      "encoding": "zlib-base64",
+      "bytes": 1969,
+      "sha256": "bb74189c78e867c5293c411d8893eef7764a9988117f6fcc34252a420d4aa396"
+    },
+    {
+      "path": "038-checkout.json.zlib.b64",
+      "original": "ops015-rework-ci877\\attempt1-cancelled\\checkout.json",
+      "encoding": "zlib-base64",
+      "bytes": 2915,
+      "sha256": "7f36bf401d50909a793a68e69259d2ccb1b951f50a1f2cf6d3e67d0bdb546770"
+    },
+    {
+      "path": "039-job-log.connector-decoded.utf8.txt.zlib.b64",
+      "original": "ops015-rework-ci877\\attempt1-cancelled\\job-log.connector-decoded.utf8.txt",
+      "encoding": "zlib-base64",
+      "bytes": 296550,
+      "sha256": "bfcf7c28025fc905799bb6ec3447f53e6a53193f3bc8f3792c1820b8c417ca38"
+    },
+    {
+      "path": "040-jobs.json.zlib.b64",
+      "original": "ops015-rework-ci877\\attempt1-cancelled\\jobs.json",
+      "encoding": "zlib-base64",
+      "bytes": 4612,
+      "sha256": "6ebde3fce2dfd4b7c7852a2bafac6b835ac86dc467d721dc7807ea7c78e7ce9d"
+    },
+    {
+      "path": "041-run.json.zlib.b64",
+      "original": "ops015-rework-ci877\\attempt1-cancelled\\run.json",
+      "encoding": "zlib-base64",
+      "bytes": 13678,
+      "sha256": "b73f1c963440b41f85f2cc3f917a2f23248f563c923fb9147416812a210a22a7"
+    },
+    {
+      "path": "042-analysis.json.zlib.b64",
+      "original": "ops015-rework-ci877\\attempt2\\analysis.json",
+      "encoding": "zlib-base64",
+      "bytes": 1204,
+      "sha256": "1cc20c03e8a24b4e33616da0eb0151f32fe6b1b1f17c9cebbb4ac884c992b300"
+    },
+    {
+      "path": "043-checkout.json.zlib.b64",
+      "original": "ops015-rework-ci877\\attempt2\\checkout.json",
+      "encoding": "zlib-base64",
+      "bytes": 2915,
+      "sha256": "7f36bf401d50909a793a68e69259d2ccb1b951f50a1f2cf6d3e67d0bdb546770"
+    },
+    {
+      "path": "044-first-jobs.json.zlib.b64",
+      "original": "ops015-rework-ci877\\attempt2\\first-jobs.json",
+      "encoding": "zlib-base64",
+      "bytes": 4358,
+      "sha256": "6893f4104e4324f8f2629a934b9ed32cdfa4c5b4da5827a15423d813c4bf51ed"
+    },
+    {
+      "path": "045-first-run.json.zlib.b64",
+      "original": "ops015-rework-ci877\\attempt2\\first-run.json",
+      "encoding": "zlib-base64",
+      "bytes": 13755,
+      "sha256": "5a568bf702e6327450760ece3ba3619097b96742846bc9f83893b51c7a92a659"
+    },
+    {
+      "path": "046-job-log.connector-decoded.utf8.txt.zlib.b64",
+      "original": "ops015-rework-ci877\\attempt2\\job-log.connector-decoded.utf8.txt",
+      "encoding": "zlib-base64",
+      "bytes": 307520,
+      "sha256": "7a92477bee302ce2240b35b341d804d11e0c1e3a2dfc46a26c3b2cd197c2d5b3"
+    },
+    {
+      "path": "047-jobs.json.zlib.b64",
+      "original": "ops015-rework-ci877\\attempt2\\jobs.json",
+      "encoding": "zlib-base64",
+      "bytes": 4608,
+      "sha256": "89fa5371a43c3a99f350f9251df7742292c6e6c1a244ba0fc768057d5730f55e"
+    },
+    {
+      "path": "048-run.json.zlib.b64",
+      "original": "ops015-rework-ci877\\attempt2\\run.json",
+      "encoding": "zlib-base64",
+      "bytes": 13758,
+      "sha256": "f378af8fbda89f35bb3db6fabb1da5ea5323b6b2b69e29bae8ef4420a7a5bafb"
+    },
+    {
+      "path": "049-attempt2-retry-dispatch.json.zlib.b64",
+      "original": "ops015-rework-ci877\\attempt2-retry-dispatch.json",
+      "encoding": "zlib-base64",
+      "bytes": 39528,
+      "sha256": "41c96ded923289b990de5f8a7d07104988f23c457064ef02c062d5d34caf4348"
+    },
+    {
+      "path": "050-first-jobs.json.zlib.b64",
+      "original": "ops015-rework-ci877\\first-jobs.json",
+      "encoding": "zlib-base64",
+      "bytes": 4358,
+      "sha256": "3afc9f9f6428759358368f09aee8f185b80d7e534ad125e765f1d42ef90ac814"
+    },
+    {
+      "path": "051-first-run.json.zlib.b64",
+      "original": "ops015-rework-ci877\\first-run.json",
+      "encoding": "zlib-base64",
+      "bytes": 13673,
+      "sha256": "1b4da97377fdeecfa414449a21be2f0cf4e4ef0d2aff07dff9fda2cb74a871a9"
+    },
+    {
+      "path": "052-main-retry-assessment.json.zlib.b64",
+      "original": "ops015-rework-main-ci877-cancelled-attempt1-independent-assessment.json",
+      "encoding": "zlib-base64",
+      "bytes": 6248,
+      "sha256": "18884bfa29cd440745c5fc993c5e8b66903737b6a626f5a1f02ebbb3e3faf3e9"
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "base": "0976f4d901a66464f0af5b168234336b3517700a",
+  "records": [
+    {
+      "path": "000.zlib.b64",
+      "original": "ops015-normal-completion-actual-main-independent-review.json",
+      "encoding": "zlib-base64",
+      "bytes": 12258,
+      "sha256": "b71e334b87f7d0d468866ddc0c14a913d104f5725cef66a29feb4f20cfee5e6e"
+    },
+    {
+      "path": "001.zlib.b64",
+      "original": "poc003-actor-amendment-v1-preparation/results.json",
+      "encoding": "zlib-base64",
+      "bytes": 1730,
+      "sha256": "94cf952ea4de12d507cc984d69022b1448b8ae47fd7bb602f7000f3e5155b807"
+    },
+    {
+      "path": "002.zlib.b64",
+      "original": "poc003-actor-amendment-first-preparation-failure-independent-assessment.json",
+      "encoding": "zlib-base64",
+      "bytes": 4952,
+      "sha256": "455ca9c1995d19649dd1622087055fec72ed6d261010d48888b760beba83546e"
+    },
+    {
+      "path": "003.zlib.b64",
+      "original": "poc-actor-admission-incremental-rework-failure-design-independent-review.json",
+      "encoding": "zlib-base64",
+      "bytes": 9527,
+      "sha256": "5028e1e8fc9489d6c23d13c92a491d443db5583dd02912eac0aaacb6654e9083"
+    },
+    {
+      "path": "004.zlib.b64",
+      "original": "poc003-actor-amendment-prospective-approval-v1.json",
+      "encoding": "zlib-base64",
+      "bytes": 460,
+      "sha256": "85583af5a7a7dd089e24034b1aa089e30ea7da50a99bbd21f17549debbd2db42"
+    },
+    {
+      "path": "005.zlib.b64",
+      "original": "poc003-actor-amendment-preparation-method-independent-review.json",
+      "encoding": "zlib-base64",
+      "bytes": 5635,
+      "sha256": "49823926fd2f9e8114913da9c98d0efce96ee1daee565f50fc46431354ffa2bc"
+    },
+    {
+      "path": "006.zlib.b64",
+      "original": "poc003-actor-amendment-source15-method-independent-review.json",
+      "encoding": "zlib-base64",
+      "bytes": 4757,
+      "sha256": "6a5551bd91f5e9a8f763609640307b6c395283cb39b1e17358eebd1677530b81"
+    }
+  ],
+  "currentSourceAccepted": false
+}

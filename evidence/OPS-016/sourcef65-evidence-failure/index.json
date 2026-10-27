@@ -1,0 +1,38 @@
+[
+  {
+    "original": "ops016-implementation-f65d10e-candidate.json",
+    "archive": "000.zlib.b64",
+    "bytes": 4749,
+    "sha256": "ccc2aa95e535dadbe5790bc0348c8f1d829ed49eaf3c7f301332a113e82a0765",
+    "encoding": "zlib+base64",
+    "lossless": true,
+    "scope": "valid new lineage f65: first11 actual0, evidence1 due followups Task ID; remaining3 unexecuted. All first11 raw retained in referenced native-checks directory, not copied or relabeled."
+  },
+  {
+    "original": "ops016-implementation-source-f65d10e-native-checks/results.json",
+    "archive": "001.zlib.b64",
+    "bytes": 8349,
+    "sha256": "3cf917925990023675944d5795e6a6308ba46c2e6da11c29f9b5fd7b72a32c3f",
+    "encoding": "zlib+base64",
+    "lossless": true,
+    "scope": "valid new lineage f65: first11 actual0, evidence1 due followups Task ID; remaining3 unexecuted. All first11 raw retained in referenced native-checks directory, not copied or relabeled."
+  },
+  {
+    "original": "ops016-implementation-source-f65d10e-native-checks/evidence.raw",
+    "archive": "002.zlib.b64",
+    "bytes": 320,
+    "sha256": "7ae423e5a78184dd9161d7c04637fcba62522a56f9fa918d7206d2c03cc97510",
+    "encoding": "zlib+base64",
+    "lossless": true,
+    "scope": "valid new lineage f65: first11 actual0, evidence1 due followups Task ID; remaining3 unexecuted. All first11 raw retained in referenced native-checks directory, not copied or relabeled."
+  },
+  {
+    "original": "verify_ops016_implementation_v2_source_once.py",
+    "archive": "003.zlib.b64",
+    "bytes": 5133,
+    "sha256": "138abd3bd794cc3ad4f11cc1806100f7f29b78534aa61e1dd708d7db25707ce2",
+    "encoding": "zlib+base64",
+    "lossless": true,
+    "scope": "valid new lineage f65: first11 actual0, evidence1 due followups Task ID; remaining3 unexecuted. All first11 raw retained in referenced native-checks directory, not copied or relabeled."
+  }
+]

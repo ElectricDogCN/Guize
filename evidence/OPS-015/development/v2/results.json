@@ -1,0 +1,76 @@
+{
+  "kind": "UNCOMMITTED_DEVELOPMENT_TEST_NOT_FIXED_SOURCE_ACCEPTANCE",
+  "base": "36d8ba69581c98ab15559e5a4a7f6281435d327f",
+  "nativeRepository": "/home/sur/.cache/guize-takeover/ops015-role-amendment-development-v2",
+  "pins": [
+    {
+      "path": "scripts/check-program-plan-transitions.py",
+      "bytes": 38878,
+      "sha256": "b551985c62645bf863e3cd83f602c99f0cffbe0d84e9222710a636656b30c1da"
+    },
+    {
+      "path": "scripts/check-program-plan-history.py",
+      "bytes": 106897,
+      "sha256": "e57c1b00bcf509ea9a08da737c57d5dd8cdc650b667fbcdadbead1e18aa8fb05"
+    },
+    {
+      "path": "scripts/reservation-role-amendment.py",
+      "bytes": 20694,
+      "sha256": "0de4f675fe4da30eb1cd61126b78fdde221fb4358d0af80ccbc42d146955f6df"
+    },
+    {
+      "path": "tests/governance/test_reservation_role_amendment.py",
+      "bytes": 14669,
+      "sha256": "d66df96f35363a39320b54367b9e9cf6e8e5325eb4a4dd3b20399254c78b55ae"
+    },
+    {
+      "path": "rules/reservation-role-amendment.md",
+      "bytes": 3875,
+      "sha256": "942ca5c305e02a967cebe21b54138e32d1ea511c98739d11ad10fa864f7e8981"
+    },
+    {
+      "path": "specs/coordination/program-plan.yaml",
+      "bytes": 65349,
+      "sha256": "531989d7e815d278a7fb193980ba9c6f5c85b23d2b12118c7997d03a54cc6ff6"
+    },
+    {
+      "path": "specs/coordination/active-work.yaml",
+      "bytes": 3542,
+      "sha256": "f113b24184d67d7d502f171559eca318c88995cb506d34688fcc62c78fe8c95a"
+    },
+    {
+      "path": "specs/tasks/OPS-015.md",
+      "bytes": 6189,
+      "sha256": "cded618b119e857c752e3befd4c9c5c404997b0befb97751530fae368d7498b6"
+    },
+    {
+      "path": "evidence/OPS-015/summary.md",
+      "bytes": 387,
+      "sha256": "ae71ab1e4db8b447ced888cd4e22de945987b1c5aaed7aa73777dfb4a919f395"
+    },
+    {
+      "path": "evidence/OPS-015/commands.txt",
+      "bytes": 1581,
+      "sha256": "f19d3d712a369ee602fb3fd3e104c80476a35b4b4bb217134bbf9b14620887b1"
+    },
+    {
+      "path": "evidence/OPS-015/handoff.md",
+      "bytes": 2110,
+      "sha256": "35ad0f97aaf0cd8d2a999401fc9b74c72535401f9e47dcefa493218a4778521f"
+    }
+  ],
+  "command": [
+    "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+    "-B",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/governance/test_reservation_role_amendment.py",
+    "--junitxml=/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops015-actor-development-v2/junit.xml"
+  ],
+  "actualWaitCompleted": true,
+  "pid": 25002,
+  "exitCode": 0,
+  "logBytes": 270,
+  "logSha256": "310043362a5cc75348e0869408c14237dba9d8987b62ce207f3fe2de10d4cf85"
+}

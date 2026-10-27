@@ -1,0 +1,384 @@
+{
+  "task": "OPS-016",
+  "actualCodePr": 163,
+  "actualCodeSource": "38f840a8326c91d4e01827f7f60f4e1aec7b898d",
+  "actualCodeMain": "d166b4d39f2dcc40c99b2bbd79db568c7cd72270",
+  "codeMainIndependentlyAccepted": true,
+  "sourceCi886Tests": 805,
+  "actualMainCi887Tests": 805,
+  "oldCi885BothCancelledRetained": true,
+  "recordKind": "accepted-code-prerequisites-not-new-review-gates",
+  "records": [
+    {
+      "ref": "000.zlib.b64",
+      "original": "ops016-safe-yaml-rework-current-candidate.json",
+      "encoding": "zlib-base64",
+      "bytes": 7147,
+      "sha256": "4a3119006ed05e263a35a9287d699adecdd2ca5fe1165a6e96988e0f22679b91"
+    },
+    {
+      "ref": "001.zlib.b64",
+      "original": "ops016-safe-yaml-rework-38f840a-publication-independent-review.json",
+      "encoding": "zlib-base64",
+      "bytes": 16752,
+      "sha256": "9bf3a156127530d8fec20cb038aa68fdcd89fe0c2825bf4f4782eaca1b2f4400"
+    },
+    {
+      "ref": "002.zlib.b64",
+      "original": "ops016-safe-yaml-rework-final-source-independent-review.json",
+      "encoding": "zlib-base64",
+      "bytes": 10794,
+      "sha256": "9e8e1fad454037c0c5442abd00bc4f97261589c21031e04024aa0df51e0137ee"
+    },
+    {
+      "ref": "003.zlib.b64",
+      "original": "ops016-safe-yaml-rework-merge-approval.json",
+      "encoding": "zlib-base64",
+      "bytes": 786,
+      "sha256": "51ca82a84a887397a88eb746cb0398af6863acd2db17249a364a6cd4118cb5cb"
+    },
+    {
+      "ref": "004.zlib.b64",
+      "original": "ops016-safe-yaml-rework-official-merge.json",
+      "encoding": "zlib-base64",
+      "bytes": 253,
+      "sha256": "663bf72fff64ed647dec596f2f89a21bbcb7f90f74d5e7307c0b6e209dcb1360"
+    },
+    {
+      "ref": "005.zlib.b64",
+      "original": "ops016-safe-yaml-rework-actual-main-candidate.json",
+      "encoding": "zlib-base64",
+      "bytes": 887,
+      "sha256": "1efbb674baf162ed8af50d7aaca4f9f126b668d7aaa9abdd8c0990624aaa754a"
+    },
+    {
+      "ref": "006.zlib.b64",
+      "original": "ops016-safe-yaml-rework-actual-main-independent-review.json",
+      "encoding": "zlib-base64",
+      "bytes": 14359,
+      "sha256": "738ee1c42db71088d3afa97bba1fe05e03b948994c955a234342f910d84b8d99"
+    },
+    {
+      "ref": "007.zlib.b64",
+      "original": "ops016-safe-yaml-rework-source-38f840a-native-checks/results.json",
+      "encoding": "zlib-base64",
+      "bytes": 9968,
+      "sha256": "0e1e9e1850a03f9bc691b8dcaa1896cf08d624fd0ee1b41bd48eec61be6e3926"
+    },
+    {
+      "ref": "008.zlib.b64",
+      "original": "ops016-safe-yaml-rework-source-38f840a-native-checks/diff.raw",
+      "encoding": "zlib-base64",
+      "bytes": 144,
+      "sha256": "b249b480a47c3a6ce6964a2ea03b3f6a7f02f93c99fa4e9d7a9df640a7b1bfd0"
+    },
+    {
+      "ref": "009.zlib.b64",
+      "original": "ops016-safe-yaml-rework-source-38f840a-native-checks/task.raw",
+      "encoding": "zlib-base64",
+      "bytes": 272,
+      "sha256": "7e6587902baa7fe79b91fc9c97d01f8b8cb625faeb89d8f391f73688aa7129ec"
+    },
+    {
+      "ref": "010.zlib.b64",
+      "original": "ops016-safe-yaml-rework-source-38f840a-native-checks/schemas.raw",
+      "encoding": "zlib-base64",
+      "bytes": 1947,
+      "sha256": "6ca11538b6012037ca547568624770dc268723a0379227e5dd4f18e2337f4aad"
+    },
+    {
+      "ref": "011.zlib.b64",
+      "original": "ops016-safe-yaml-rework-source-38f840a-native-checks/integrity.raw",
+      "encoding": "zlib-base64",
+      "bytes": 419,
+      "sha256": "85d523018e5f0c4ee53eca5216e54e3a992462e5a700f610333316701acd6fc1"
+    },
+    {
+      "ref": "012.zlib.b64",
+      "original": "ops016-safe-yaml-rework-source-38f840a-native-checks/history.raw",
+      "encoding": "zlib-base64",
+      "bytes": 481,
+      "sha256": "6bb74c6810aa23d328a4ed5653ddaff9d8da5bcc198e05553d4af78b09017dee"
+    },
+    {
+      "ref": "013.zlib.b64",
+      "original": "ops016-safe-yaml-rework-source-38f840a-native-checks/transitions.raw",
+      "encoding": "zlib-base64",
+      "bytes": 434,
+      "sha256": "d5d67c157f71a4bbd4b2f9ee64f38da7fcb24ea84c430de52b39741419925a0e"
+    },
+    {
+      "ref": "014.zlib.b64",
+      "original": "ops016-safe-yaml-rework-source-38f840a-native-checks/raw-lifecycle.raw",
+      "encoding": "zlib-base64",
+      "bytes": 500,
+      "sha256": "ea96fc79f97f45d1bccbcafc7312f3bfbffac979b94109bfa5526f498605d0c5"
+    },
+    {
+      "ref": "015.zlib.b64",
+      "original": "ops016-safe-yaml-rework-source-38f840a-native-checks/lifecycle.raw",
+      "encoding": "zlib-base64",
+      "bytes": 591,
+      "sha256": "1e81e1e78f37d6cdfe90ede105d233efc7b831fbc495bb96b0c363f179e1bf3e"
+    },
+    {
+      "ref": "016.zlib.b64",
+      "original": "ops016-safe-yaml-rework-source-38f840a-native-checks/coordination.raw",
+      "encoding": "zlib-base64",
+      "bytes": 415,
+      "sha256": "bd8e1bc2afb8d87a4c996d6e03e2c09b9de461a1cba96e06b06d3afd3245432c"
+    },
+    {
+      "ref": "017.zlib.b64",
+      "original": "ops016-safe-yaml-rework-source-38f840a-native-checks/finalization.raw",
+      "encoding": "zlib-base64",
+      "bytes": 362,
+      "sha256": "15957bf9d5377136ab19d1c1d7421c8bee724b790a835ec903930cb004c7ad1d"
+    },
+    {
+      "ref": "018.zlib.b64",
+      "original": "ops016-safe-yaml-rework-source-38f840a-native-checks/scope.raw",
+      "encoding": "zlib-base64",
+      "bytes": 3406,
+      "sha256": "4391b46b8c3436ca9eabce66894777df99bc20ba192578d61258507e1862b6dd"
+    },
+    {
+      "ref": "019.zlib.b64",
+      "original": "ops016-safe-yaml-rework-source-38f840a-native-checks/evidence.raw",
+      "encoding": "zlib-base64",
+      "bytes": 307,
+      "sha256": "64b62a345f222aa2468f91201fa3efb48f154642e9a53254b9b1671936c4ccb4"
+    },
+    {
+      "ref": "020.zlib.b64",
+      "original": "ops016-safe-yaml-rework-source-38f840a-native-checks/readiness.raw",
+      "encoding": "zlib-base64",
+      "bytes": 660,
+      "sha256": "abf4f0f8f0f04515a243604e036721b5a4a3ac82dc889ede8f82a58a76551f04"
+    },
+    {
+      "ref": "021.zlib.b64",
+      "original": "ops016-safe-yaml-rework-source-38f840a-native-checks/docs.raw",
+      "encoding": "zlib-base64",
+      "bytes": 164,
+      "sha256": "c561c411d746e2cce687d63d02ded6791483ecf6c6f35def0454b97f73a4bba7"
+    },
+    {
+      "ref": "022.zlib.b64",
+      "original": "ops016-safe-yaml-rework-source-38f840a-native-checks/actor-regressions.raw",
+      "encoding": "zlib-base64",
+      "bytes": 7803,
+      "sha256": "99cebb525770138e980f12b47bb648bad8937c5dc179766cddb70c40cffe94c7"
+    },
+    {
+      "ref": "023.zlib.b64",
+      "original": "ops016-safe-yaml-rework-d166b4d-native-main-checks/results.json",
+      "encoding": "zlib-base64",
+      "bytes": 5239,
+      "sha256": "9f8c49869e4011e869930b1c9be2ca5fdcc97e381f8ea4cf623f29a3c5ab55b1"
+    },
+    {
+      "ref": "024.zlib.b64",
+      "original": "ops016-safe-yaml-rework-d166b4d-native-main-checks/integrity.raw",
+      "encoding": "zlib-base64",
+      "bytes": 474,
+      "sha256": "9e3cc32a5a2c73214ad50859be36f91a58502bd44c2f11dd172f9bd191e4f72c"
+    },
+    {
+      "ref": "025.zlib.b64",
+      "original": "ops016-safe-yaml-rework-d166b4d-native-main-checks/history.raw",
+      "encoding": "zlib-base64",
+      "bytes": 542,
+      "sha256": "a814aef6f9e3d8fdc131260d303ac2b76c0561112879b4570942f811d9d8b197"
+    },
+    {
+      "ref": "026.zlib.b64",
+      "original": "ops016-safe-yaml-rework-d166b4d-native-main-checks/transitions.raw",
+      "encoding": "zlib-base64",
+      "bytes": 454,
+      "sha256": "031b17f6e0a649ab97f3c46634d6bbfd07f5dceb219bd42b845fdb9b31eec7fa"
+    },
+    {
+      "ref": "027.zlib.b64",
+      "original": "ops016-safe-yaml-rework-d166b4d-native-main-checks/finalization.raw",
+      "encoding": "zlib-base64",
+      "bytes": 433,
+      "sha256": "c67a6d303fbf6407162baff7d646b2aba4ee8cd2f6f80efbb51606e00cb3dc26"
+    },
+    {
+      "ref": "028.zlib.b64",
+      "original": "ops016-safe-yaml-rework-d166b4d-native-main-checks/raw-lifecycle.raw",
+      "encoding": "zlib-base64",
+      "bytes": 525,
+      "sha256": "e3fdc727b608a627922d79ff8d91593a9ff870ebde82eae11e839d9d0be75172"
+    },
+    {
+      "ref": "029.zlib.b64",
+      "original": "ops016-safe-yaml-rework-d166b4d-native-main-checks/coordination.raw",
+      "encoding": "zlib-base64",
+      "bytes": 336,
+      "sha256": "b7e76135e979d8c82f70f31d4e490d3e1dbef9fbf64e125c54dce6d1cf00c48a"
+    },
+    {
+      "ref": "030.zlib.b64",
+      "original": "ops016-safe-yaml-rework-d166b4d-native-main-checks/poc-protocol.raw",
+      "encoding": "zlib-base64",
+      "bytes": 366,
+      "sha256": "9b607d2aaa7c0b3489b9ca0d0c71c339d4f6a6a713738f6989ec8ea689f5f736"
+    },
+    {
+      "ref": "031.zlib.b64",
+      "original": "ops016-safe-yaml-ci886/run.json",
+      "encoding": "zlib-base64",
+      "bytes": 14431,
+      "sha256": "4a6b56edb492635b7011566a7756bfa66b20b3a5e426887caf82da40b3e37c21"
+    },
+    {
+      "ref": "032.zlib.b64",
+      "original": "ops016-safe-yaml-ci886/jobs.json",
+      "encoding": "zlib-base64",
+      "bytes": 8308,
+      "sha256": "d823e40e39222393b9fc37b0c2638d4e0501ec6087e55073012a6f250f2a952c"
+    },
+    {
+      "ref": "033.zlib.b64",
+      "original": "ops016-safe-yaml-ci886/checkout.json",
+      "encoding": "zlib-base64",
+      "bytes": 2805,
+      "sha256": "1621be0f441c9974c6b5d525d06cdbde795e73f12263109bbb6c68ba18e277b2"
+    },
+    {
+      "ref": "034.zlib.b64",
+      "original": "ops016-safe-yaml-ci886/main.json",
+      "encoding": "zlib-base64",
+      "bytes": 6073,
+      "sha256": "1f5ea09a70edf633a9982e902e6117674d0ddbf9ae8c8107df60e04e5185631e"
+    },
+    {
+      "ref": "035.zlib.b64",
+      "original": "ops016-safe-yaml-ci886/pr.json",
+      "encoding": "zlib-base64",
+      "bytes": 19916,
+      "sha256": "ee73fee56b18a10693b205c425943cff4cbe0d7c6f8e393c50c02079cc325aa1"
+    },
+    {
+      "ref": "036.zlib.b64",
+      "original": "ops016-safe-yaml-ci886/analysis.json",
+      "encoding": "zlib-base64",
+      "bytes": 1078,
+      "sha256": "bbd0ec8e73df4aa290b68842cb46efc5e3f97ad228086b799b4e72558289685b"
+    },
+    {
+      "ref": "037.zlib.b64",
+      "original": "ops016-safe-yaml-ci886/job-log.connector-decoded.utf8.txt",
+      "encoding": "zlib-base64",
+      "bytes": 320787,
+      "sha256": "b9256c537c799ba282d0e9c2e61d6fa74e0347c09eb0f67b45524b939bad3cc0"
+    },
+    {
+      "ref": "038.zlib.b64",
+      "original": "ops016-safe-yaml-main-ci887/run.json",
+      "encoding": "zlib-base64",
+      "bytes": 13769,
+      "sha256": "89259eed7669d055e4eacde125e6dfad3f1ed75f835647239bf8bfeeb8074d10"
+    },
+    {
+      "ref": "039.zlib.b64",
+      "original": "ops016-safe-yaml-main-ci887/jobs.json",
+      "encoding": "zlib-base64",
+      "bytes": 8276,
+      "sha256": "23e2c585cd5031fd335e3675d3d89dc990a4421ba27de70c6d5573fb8725bb40"
+    },
+    {
+      "ref": "040.zlib.b64",
+      "original": "ops016-safe-yaml-main-ci887/checkout.json",
+      "encoding": "zlib-base64",
+      "bytes": 3171,
+      "sha256": "096b3e96012a642a4230b545debc87503814edf4cef540a25115dc52d82cb1af"
+    },
+    {
+      "ref": "041.zlib.b64",
+      "original": "ops016-safe-yaml-main-ci887/main.json",
+      "encoding": "zlib-base64",
+      "bytes": 6323,
+      "sha256": "0ea0d9f2844a2f31afad0794f0d58c5b0b810646f12bb31f43eebc289f73b66b"
+    },
+    {
+      "ref": "042.zlib.b64",
+      "original": "ops016-safe-yaml-main-ci887/pr.json",
+      "encoding": "zlib-base64",
+      "bytes": 21897,
+      "sha256": "834658ba677347343ace1285780afdb58a74382255cc61c516be3f64e39f7bec"
+    },
+    {
+      "ref": "043.zlib.b64",
+      "original": "ops016-safe-yaml-main-ci887/analysis.json",
+      "encoding": "zlib-base64",
+      "bytes": 1204,
+      "sha256": "c7ff6674bf414aee545004c53351a37b01385b272f713997a66f85229ac50455"
+    },
+    {
+      "ref": "044.zlib.b64",
+      "original": "ops016-safe-yaml-main-ci887/job-log.connector-decoded.utf8.txt",
+      "encoding": "zlib-base64",
+      "bytes": 309686,
+      "sha256": "5e6deff0c5dac36f146474777e84b6a513c40871ba206ce37ff423e68b12a7f8"
+    },
+    {
+      "ref": "045.zlib.b64",
+      "original": "ops016-safe-yaml-rework-author-main-reconciliation-v1/results.json",
+      "encoding": "zlib-base64",
+      "bytes": 3187,
+      "sha256": "f4a45fa9b0908f176542d6ebf28e676d932470d027d5bb3f29941dbc1490d069"
+    },
+    {
+      "ref": "046.zlib.b64",
+      "original": "ops016-safe-yaml-rework-author-main-reconciliation-v1/fetch.raw",
+      "encoding": "zlib-base64",
+      "bytes": 91,
+      "sha256": "bbd4c231e0cc55fda1fb37a3f7c700e79940a24eb0beeb711ae6fde9829f2d60"
+    },
+    {
+      "ref": "047.zlib.b64",
+      "original": "ops016-safe-yaml-rework-author-main-reconciliation-v1/switch.raw",
+      "encoding": "zlib-base64",
+      "bytes": 150,
+      "sha256": "894a87367f812609a19ce959a60fb6e4f4cc46b9791c1b393c17b793b6aa3353"
+    },
+    {
+      "ref": "048.zlib.b64",
+      "original": "ops016-safe-yaml-rework-author-main-reconciliation-v1/fast-forward.raw",
+      "encoding": "zlib-base64",
+      "bytes": 6462,
+      "sha256": "2926cc8a4212997f65cb8fbae24471cd5f420bff65f5356cb73c7238c1f7bbbb"
+    },
+    {
+      "ref": "049.zlib.b64",
+      "original": "verify_ops016_safe_yaml_rework_source_once.py",
+      "encoding": "zlib-base64",
+      "bytes": 4832,
+      "sha256": "04b3f3ebe29226440669e42198ae2647f559d5953ad288a29688b5bdb4cdfcfe"
+    },
+    {
+      "ref": "050.zlib.b64",
+      "original": "prepare_ops016_safe_yaml_rework_actual_main_once.py",
+      "encoding": "zlib-base64",
+      "bytes": 2968,
+      "sha256": "16156acd88c5e978e7d0d845d024b8ec7af75327fe334b63cef15056b02e005e"
+    },
+    {
+      "ref": "051.zlib.b64",
+      "original": "verify_ops016_safe_yaml_rework_actual_main_once.py",
+      "encoding": "zlib-base64",
+      "bytes": 3883,
+      "sha256": "5385a1aedea2cdea72138a443ef5002f93bf22baa3e6515d369449932f5cb728"
+    },
+    {
+      "ref": "052.zlib.b64",
+      "original": "reconcile_ops016_safe_yaml_rework_author_main_once.py",
+      "encoding": "zlib-base64",
+      "bytes": 3584,
+      "sha256": "44190009bd4ba448a921399065770f919efe435aaeb3751925e7b47c825e6f50"
+    }
+  ]
+}

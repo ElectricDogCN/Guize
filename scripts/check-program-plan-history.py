@@ -20,6 +20,7 @@ import subprocess
 import sys
 import tempfile
 from datetime import datetime, timedelta, timezone
+from functools import lru_cache
 from typing import Any
 
 import yaml
@@ -52,6 +53,8 @@ PLANNING_SPEC = importlib.util.spec_from_file_location(
 PLANNING = importlib.util.module_from_spec(PLANNING_SPEC)
 assert PLANNING_SPEC and PLANNING_SPEC.loader
 PLANNING_SPEC.loader.exec_module(PLANNING)
+
+ACTORS = TRANSITIONS.ACTORS
 
 PLAN = "specs/coordination/program-plan.yaml"
 ACTIVE = "specs/coordination/active-work.yaml"
@@ -124,6 +127,25 @@ def load_current(root: str, path: str) -> Any:
 
 def load_ref(root: str, ref: str, path: str) -> Any | None:
     return load_yaml_text(read_ref(root, ref, path))
+
+
+@lru_cache(maxsize=64)
+def checked_schema_text(text: str, validator: type) -> None:
+    """Share only successful meta-schema checks of the same text and dialect."""
+    validator.check_schema(load_yaml_text(text))
+
+
+def snapshot_validator(root: str, ref: str, path: str, missing: str) -> Any:
+    # Read once: even a moving ref must bind parsing and the cache key to the
+    # same actual Schema. Documents and reference resolution are never cached.
+    text = read_ref(root, ref, path)
+    schema = load_yaml_text(text)
+    if not isinstance(schema, dict):
+        raise ValueError(missing)
+    validator = jsonschema.validators.validator_for(schema)
+    checked_schema_text(text, validator)
+    # Keep a fresh validator and FormatChecker for every historical document.
+    return validator(schema, format_checker=jsonschema.FormatChecker())
 
 
 def parse_front_matter(text: str | None) -> tuple[dict[str, Any], str]:
@@ -482,13 +504,9 @@ def historical_lease(root: str, commit: str, entry: dict[str, Any], policy: dict
 
 
 def historical_registry_schema(root: str, ref: str, registry: dict[str, Any], label: str, errors: list[str]) -> None:
-    schema = load_ref(root, ref, REGISTRY_SCHEMA)
     try:
-        if not isinstance(schema, dict):
-            raise ValueError("Applicable Registry schema is missing")
-        validator = jsonschema.validators.validator_for(schema)
-        validator.check_schema(schema)
-        failures = list(validator(schema, format_checker=jsonschema.FormatChecker()).iter_errors(registry))
+        validator = snapshot_validator(root, ref, REGISTRY_SCHEMA, "Applicable Registry schema is missing")
+        failures = list(validator.iter_errors(registry))
         for failure in failures:
             errors.append(f"{label} Registry schema violation: {failure.message}")
     except Exception as exc:
@@ -536,13 +554,9 @@ def historical_registration_context(root: str, snapshot: str, observation: str, 
         if transition[0] != transition[1] and transition not in TRANSITIONS.ALLOWED_ACTIVE_TRANSITIONS:
             errors.append(f"{label} has forbidden historical lifecycle transition {transition[0]} -> {transition[1]}")
     program = load_ref(root, snapshot, PLAN)
-    schema = load_ref(root, snapshot, PROGRAM_SCHEMA)
     try:
-        if not isinstance(schema, dict):
-            raise ValueError("Applicable Program schema is missing")
-        validator = jsonschema.validators.validator_for(schema)
-        validator.check_schema(schema)
-        failures = list(validator(schema, format_checker=jsonschema.FormatChecker()).iter_errors(program))
+        validator = snapshot_validator(root, snapshot, PROGRAM_SCHEMA, "Applicable Program schema is missing")
+        failures = list(validator.iter_errors(program))
         for failure in failures:
             errors.append(f"{label} Program schema violation: {failure.message}")
         if not isinstance(program, dict) or failures:
@@ -1262,7 +1276,7 @@ def historical_frozen_definitions(root: str, previous: str, node: str, paths: se
                     errors.append(f"Post-implementation history at {node} changed immutable Ledger record {prior.get('taskId')}")
 
 
-def historical_post_metadata(root: str, previous: str, node: str, task_id: str, paths: set[str], errors: list[str], implementation: str, validated_nodes: set[str]) -> None:
+def historical_post_metadata(root: str, previous: str, node: str, task_id: str, paths: set[str], errors: list[str], implementation: str, validated_nodes: set[str], *, admitted_base: str = "") -> None:
     historical_frozen_definitions(root, previous, node, paths, errors)
     before, after = load_ref(root, previous, PLAN), load_ref(root, node, PLAN)
     if ACTIVE in paths:
@@ -1277,6 +1291,11 @@ def historical_post_metadata(root: str, previous: str, node: str, task_id: str, 
                 # Reuse existing active-transition identity fields. Peer
                 # admissions, releases and legal lifecycle updates remain free.
                 mutable = {"status", "agentRole", "baseSha", "lease"}
+                if any(entry.get(key) != current[peer].get(key) for key in ("implementer", "reviewer")):
+                    if ACTORS is None:
+                        errors.append("Foreign actor edit has no prospective amendment proof module")
+                    else:
+                        mutable.update(ACTORS.checked_edge(root, previous, node, peer, errors, admitted=admitted_base or previous))
                 if peer in foundations:
                     mutable.update({"branch", "exclusivePaths", "sharedPaths"})
                 if {key: value for key, value in entry.items() if key not in mutable} != {key: value for key, value in current[peer].items() if key not in mutable}:
@@ -1411,7 +1430,7 @@ def foundation_post_implementation(root: str, task_id: str, implementation: str,
             if len(node_entries) == 1 and {key: value for key, value in node_entries[0].items() if key not in mutable} != stable:
                 errors.append(f"Foundation {task_id} changed stable identity in post-implementation history at {node}")
         before_metadata_errors = len(errors)
-        historical_post_metadata(root, parent, node, task_id, paths, errors, implementation, validated_nodes)
+        historical_post_metadata(root, parent, node, task_id, paths, errors, implementation, validated_nodes, admitted_base=trusted_base)
         if len(errors) == before_metadata_errors:
             validated_nodes.add(node)
         for snapshot in (parent, node):
@@ -1712,6 +1731,8 @@ def main() -> int:
     if not all(isinstance(item, dict) for item in documents):
         emit("FAIL", "Program history documents are missing or invalid")
         return 1
+
+    TRANSITIONS.check_actor_range(root, args.base_ref, args.head_ref, errors)
 
     planning = PLANNING.classifier(
         root, args.base_ref, args.head_ref, base_plan, current_plan, errors,

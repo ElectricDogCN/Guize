@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 1,
+  "kind": "read_only_formal_profile_identity_failure_and_prospective_route_assessment",
+  "reviewer": "independent-review-agent",
+  "reviewedAt": "2026-10-27T05:27:33Z",
+  "decision": "formal_profile_rejected_identity_migration_requires_prior_governance_admission",
+  "formalProfileAccepted": false,
+  "directTaskRegistryRenameAllowedByCurrentGates": false,
+  "newExecutionApproved": false,
+  "mustFix": [
+    {"priority": "P2", "finding": "CurrentPOC-005 Task implementer/reviewer equal the generic Program ownerRole/reviewerRole. Formal terminal validation rejects those labels before calling validate_execution.", "locations": ["specs/poc/check_program.py:6784-6808", "specs/poc/check_program.py:7193-7196"]},
+    {"priority": "P2", "finding": "Changing only Task/Active names is neither a valid historical approval projection nor an allowed ordinary active Registry mutation. A prior governed reservation-identity amendment mechanism is required; it cannot be self-authorized in the new POC execution candidate.", "locations": ["scripts/check-program-plan-transitions.py:524-531", "scripts/check-program-plan-transitions.py:820-824", "scripts/check-program-lifecycle-guards.py:328-332"]}
+  ],
+  "actualFailure": {
+    "context": "9ed424c64efd7dcea5ef707e0a303c80810c6651",
+    "tree": "34a4f5d48071f49af4925a82a587034478c11077",
+    "command": "python specs/poc/check_program.py --profile local-v1 --require-results --poc POC-05",
+    "nativePid": 49248,
+    "startedAt": "2026-10-27T05:23:51.986600+00:00",
+    "finishedAt": "2026-10-27T05:23:56.128738+00:00",
+    "actualWaitCompleted": true,
+    "exitCode": 1,
+    "sourceContextUnchanged": true,
+    "error": "POC-005: Task Spec identities must not reuse generic Program role labels",
+    "results": {"ref": ".takeover-tools/poc005-formal-local-profile-validation-v1/results.json", "bytes": 1124, "sha256": "90a9d452a7b1df6ddabe08c076892b69384dc18031df03ee5e97f19253de7640"},
+    "raw": {"ref": ".takeover-tools/poc005-formal-local-profile-validation-v1/formal-profile.raw", "bytes": 283, "sha256": "26851075cae87c27bd72d3d48a135b4aa1bed37113dbd22a49c5dd1dba3576d7"},
+    "frozenCheckerSha256": "ee53ccf38e80095fd77ded709aa5dba7808d011a6346e864cd1a9f6482be8cc8",
+    "notAnExperimentOrLongRunningValidatorFailure": true
+  },
+  "identityBindingFindings": [
+    {"location": "specs/poc/check_program.py:6793-6808", "finding": "concrete_roles compares literal Task implementer/reviewer strings against Program ownerRole/reviewerRole. Both must be recorded, distinct and outside that generic set. There is no consulted alias/delegation/identity-history mapping."},
+    {"location": "specs/poc/check_program.py:6824-6829", "finding": "While the Task is active, current Active Work implementer/reviewer must exactly match Task. Changing one document alone fails."},
+    {"location": "specs/poc/check_program.py:6975-6982", "finding": "execution.executor must equal the current concrete implementer. Old010 executor cannot simply be relabelled."},
+    {"location": "specs/poc/check_program.py:495-503", "finding": "Profile approvedBy must equal the current independent reviewer, and actual approval must precede execution. A new current reviewer cannot retrospectively own the old profile approval."},
+    {"location": "specs/poc/check_program.py:1380-1400", "finding": "Resource approvedBy also matches current reviewer exactly and validity must cover the real execution. Existing010 resource bytes and times must stay unchanged."},
+    {"location": "specs/poc/check_program.py:7215-7239", "finding": "The formal result reviewer/decision/time must match the actual Task and entry. Changing only the result label, or presenting the previous exit-report opinion as a new reviewer's past approval, cannot fix the source/executor/resource chain."}
+  ],
+  "rulesAndMachineBoundary": {
+    "normativeRule": "docs/25-multi-agent-collaboration-protocol.md:178-186 says implementation keeps reviewed roles and a necessary change first revises the reservation; AGENTS17.1-17.3/17.6 requires prior registration, distinct actual roles and persistent handoff.",
+    "existingMachineGap": "The current ordinary active-transition implementation permits only status/agentRole/baseSha/lease changes in its Registry entry. implementer/reviewer are excluded at524-531 even for a same-status metadata PR. Every Registry row difference enters task_ids_from_diff and the active-transition check. A new in_progress/blocked/reserved label does not bypass this restriction.",
+    "notAvailableAlternatives": [
+      "Changing Program ownerRole/reviewerRole to make old literal strings stop looking generic would alter the authority model to evade the check, not establish actual concrete actors.",
+      "The future-planning manifest mechanism is not an identity-migration route for this started task: program-planning-revision.py:636-642 requires unstarted planned targets without Task/lease/completion.",
+      "Cancellation is not a re-reservation shortcut: transitions46-56 has no cancelled-to-reserved/in_progress transition, and cancellation642-691 preserves the prior identity while removing the lease.",
+      "Renaming the task, old approvals, actual execution/source or a reviewer artifact cannot manufacture approval provenance. No original credential, sample, resource, PID/window or old qualification record may be rewritten."
+    ],
+    "underAllCurrentGovernanceCodeUnchanged": "There is no direct currently gate-admissible POC005 identity-metadata migration followed by011. If changes to all governance guard code are also forbidden, remain blocked and escalate the documented rule/implementation gap; do not execute011 or claim a metadata-only exception."
+  },
+  "minimalLegitimateProspectiveRoute": [
+    "Preserve9ed source/bundle, failed formal CLI raw/results, previous report approval and all010 artifacts unchanged. Record the exact formal failure and distinguish direct validate_execution success from formal concrete_roles eligibility. No fresh experiment is authorized now.",
+    "Coordinator/owner specifies the real distinct implementation and reviewer instances with stable concrete identities and prospective handoff/delegation provenance. These are new future bindings, not aliases retroactively substituted into010. Do not choose an arbitrary new string merely to satisfy inequality.",
+    "First register a separate bounded MOD-GOV/high Foundation from current actually accepted main, with a genuine reservation, precise module-owned guard/docs/test paths and independent roles. The examined snapshot has only two medium activePOCs and no high task, so its3-task/1-high capacity permits a third high reservation if fresh official/current lease/claims checks still agree; no POC cancellation or scope expansion is needed merely to free a slot.",
+    "That separately authorized governance work must make the normative reservation-role revision actually verifiable: exact original and new actor values, task-bound scope, independent real approval before effectiveness, immutable accepted-main provenance, allowed fields only, preserved original history, current Task/Registry agreement, unchanged claims/risk/lease/capacity/foreign rows. It must not add alias acceptance or weaken specs/poc/check_program.py, policy, frozen schemas/plans or experiment safety. Normal local/CI/independent review/actual-main acceptance is required before POC consumption.",
+    "The known code blocker is check-program-plan-transitions.py:524-531. Its existing lifecycle dispatcher and coordination caller must consume any narrowly proved amendment consistently; inspect check-program-plan-history.py stable_spec_matches and reservation/completion consumers when designing that change. Appropriate meaningful tests include unchanged/mismatched Task or Registry, swapped/equal/generic actors, late/self-issued or non-main amendment, altered lease/claims/foreign fields and true independent prospective amendment. This is a future scope-design starting point, not permission to edit these files underPOC005 or a claim that one-file relaxation is sufficient.",
+    "After accepted governance admission, submit a separate POC-owned metadata reservation-identity amendment with exact Task/Active actor updates and truthful handoff/Evidence. It must pass the admitted gates and normal independent/source-CI/main acceptance before the new identities are consumed; no POC business code or experiment belongs in that amendment PR.",
+    "Then establish a new actual tested source from that accepted main and actual Own implementation bytes, with matching Task/Active concrete roles. Preserve the failed provisional formal index/result in a prior-failure archive/Git history; do not leave an active index pointing to old010 under newly assigned roles. The new fixed source must complete its declared source gates and same-head CI before new011 template/resources/PID/window approval. Do not inherit source acceptance merely because scanner bytes equaled8.",
+    "Prepare new011 namespace and fresh non-mutated fixture/source/resource identity, canonicalZ approvals and future finite window with the new actual actors. Forward-fix only necessary Own control methods: the current assembler_010_v1.py:150 hardcodes old generic implementer/reviewer, and supervisor010:18-20 hardcodes the old reviewer. New methods must bind the new registered Task values; retain old methods byte-for-byte. run_source_experiment.py:101 already takes executor from configuration. Source/readiness, exact method pins and real process reservation still require ordinary prospective review.",
+    "Perform only an independently approved new011 complete original13 execution, real waits and immutable delivery; complete frozen validate_execution and the actual formal profile CLI against that new concrete-role source/context. Obtain a new real post-execution independent exit decision/result. Old008/009/010 remain source-bound supporting observations/direct-validation history; no old qualification or report approval is migrated to011. Any required future scope is separately reviewed, not authorized by this advice."
+  ],
+  "priorIndependentOpinionBoundary": "Earlier2f608b79 accurately accepted the real complete direct validate_execution call and exact010 evidence, while leaving formalProfile/index false. Earlier7f39fc6a approved the local report with formal validation expressly pending. I did not catch the concrete_roles prerequisite in that closure advice; that was an omission. The current formal rejection prevents consuming those opinions as a formal profilePASS. Keep those original receipts unchanged and cite this assessment as the later discovered blocking fact.",
+  "currentPermissions": {"governanceCodeEditApproved": false, "identityAmendmentApproved": false, "newSourceAccepted": false, "attempt011ResourcesOrExecutionApproved": false, "formalProfileAccepted": false, "readyApproved": false, "mainMergeApproved": false, "taskCompleted": false},
+  "reviewerActions": "Read the actual terminal failure, frozen identity call chain, normative reservation rule, transition/coordination/history/planning constraints and current snapshot capacity. No CLI, validator, experiment, governance edit, author mutation or approval rewrite performed."
+}
