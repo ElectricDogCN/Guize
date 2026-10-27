@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "taskId": "OPS-014",
+  "issue": 142,
+  "preparedAt": "2026-10-25T07:35:10.613877+00:00",
+  "base": "09d247f97b318ebe8bdeee1dae539e26a17598ea",
+  "branch": "chore/OPS-014-verified-repair-thaw",
+  "baselineFullyAccepted": true,
+  "baselineFullReviewSha256": "0748a2d19cdeaf1e597c6bb91af40a32ad1279290c47943b09164e62b61b52cf",
+  "validatedCommit": "2da13d55432c39f57c458cff906ac198292b2e66",
+  "codePr": 145,
+  "codeActualMain": "09d247f97b318ebe8bdeee1dae539e26a17598ea",
+  "proposedProgramStatus": "active",
+  "actualMainProgramStatus": "frozen",
+  "recovery": {
+    "taskId": "OPS-014",
+    "reason": "已完成GZ-021的metadata profiling合同错误要求supported/unsatisfiable的416诊断正文为空；真实授权OpenList响应33字节与之冲突，按原OPS-013授权执行精确两文件修复并完整验证后另行解冻。",
+    "affectedTasks": [
+      "GZ-021"
+    ],
+    "sourceCommit": "36b986a65e23671d0b08134d1c4163833a59fbd7",
+    "frozenAt": "2026-10-24T23:24:58Z",
+    "verificationPath": "evidence/OPS-014/recovery-proof.json"
+  },
+  "exactRecoveryPreserved": true,
+  "proofPath": "evidence/OPS-014/recovery-proof.json",
+  "proofSha256": "9d2fe3242cd7e7ea1bf1eae2c43a37df6e7cffc08002e62095bba59be31fed4d",
+  "leaseUnchanged": {
+    "acquiredAt": "2026-10-24T21:42:30Z",
+    "expiresAt": "2026-10-31T21:42:30Z"
+  },
+  "plannedCommands": [
+    "git diff --check 09d247f97b318ebe8bdeee1dae539e26a17598ea...HEAD",
+    "python scripts/check-task-file.py --task OPS-014",
+    "python scripts/check-schemas.py",
+    "python scripts/check-program-plan-integrity.py --base-ref 09d247f97b318ebe8bdeee1dae539e26a17598ea",
+    "python scripts/check-program-plan-history.py --base-ref 09d247f97b318ebe8bdeee1dae539e26a17598ea --head-ref HEAD --task OPS-014 --branch-name chore/OPS-014-verified-repair-thaw",
+    "python scripts/check-program-plan-transitions.py --base-ref 09d247f97b318ebe8bdeee1dae539e26a17598ea --head-ref HEAD --task OPS-014 --branch-name chore/OPS-014-verified-repair-thaw",
+    "python scripts/check-program-plan-finalization.py --base-ref 09d247f97b318ebe8bdeee1dae539e26a17598ea --head-ref HEAD --task OPS-014",
+    "python scripts/check-program-lifecycle-guards.py --base-ref 09d247f97b318ebe8bdeee1dae539e26a17598ea --head-ref HEAD --task OPS-014 --branch-name chore/OPS-014-verified-repair-thaw",
+    "python scripts/run-program-lifecycle-gate.py --base-ref 09d247f97b318ebe8bdeee1dae539e26a17598ea --head-ref HEAD --task OPS-014 --branch-name chore/OPS-014-verified-repair-thaw",
+    "python scripts/run-agent-coordination-gate.py --base-ref 09d247f97b318ebe8bdeee1dae539e26a17598ea --head-ref HEAD --task OPS-014 --branch-name chore/OPS-014-verified-repair-thaw",
+    "python scripts/run-task-scope-gate.py --task OPS-014 --base 09d247f97b318ebe8bdeee1dae539e26a17598ea",
+    "python scripts/check-evidence.py --task OPS-014",
+    "python scripts/check-project-readiness.py",
+    "python specs/poc/check_program.py --repo-root .",
+    "python scripts/check-markdown.py"
+  ],
+  "proposalValidated": false,
+  "latestCiAccepted": false,
+  "actualThawMainAccepted": false,
+  "newPocExperimentApproved": false,
+  "taskCompleted": false
+}

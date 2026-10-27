@@ -1,0 +1,50 @@
+{
+  "kind": "metadata_activation_proposal_before_contract_code",
+  "preparedAt": "2026-10-25T01:02:52.242550+00:00",
+  "taskId": "OPS-014",
+  "issue": 142,
+  "base": "15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6",
+  "branch": "chore/OPS-014-frozen-416-contract-repair-v2",
+  "frozenRecovery": {
+    "taskId": "OPS-014",
+    "reason": "已完成GZ-021的metadata profiling合同错误要求supported/unsatisfiable的416诊断正文为空；真实授权OpenList响应33字节与之冲突，按原OPS-013授权执行精确两文件修复并完整验证后另行解冻。",
+    "affectedTasks": [
+      "GZ-021"
+    ],
+    "sourceCommit": "36b986a65e23671d0b08134d1c4163833a59fbd7",
+    "frozenAt": "2026-10-24T23:24:58Z",
+    "verificationPath": "evidence/OPS-014/recovery-proof.json"
+  },
+  "originalLease": {
+    "acquiredAt": "2026-10-24T21:42:30Z",
+    "expiresAt": "2026-10-31T21:42:30Z"
+  },
+  "exactClaims": [
+    "specs/poc/check_program.py",
+    "specs/poc/test_program.py"
+  ],
+  "authoritySha256": "4f344a74a47a56ff1c3b0e27c368767e0cb779ebc61e721b263f102b39a83401",
+  "acceptedFrozenMainReviewSha256": "2065b40fd5f04eaf666bb8b231c76098126d2e7dcae848f273e2a73d9296c9c5",
+  "originalContractBlobs": [
+    {
+      "path": "specs/poc/check_program.py",
+      "gitBlobSha256": "10be50577718e844566034a7c26dee5eb408055cb2e01a8d5a62524beca9fb89",
+      "bytes": 771065
+    },
+    {
+      "path": "specs/poc/test_program.py",
+      "gitBlobSha256": "1707bce255253176e0c718ef2574d748dbd8890eb4f50a0c6a5f5a47136b1d49",
+      "bytes": 1118362
+    }
+  ],
+  "codePhaseCommands": 18,
+  "evidenceOnlyArchiveCommands": 15,
+  "metadataOnly": true,
+  "codeWritten": false,
+  "validationExecuted": false,
+  "experimentApproved": false,
+  "qualificationAccepted": false,
+  "priorFailedActivationSource": "0779377346260a07b02077894ee8b325a588486e",
+  "priorFailureArchive": "ops014-activation-0779377-schema-failure-archive/",
+  "leaseTextCorrectionOnly": true
+}

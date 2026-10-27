@@ -1,0 +1,9 @@
+Source Commit: e380e04cfcc53342328609f66211d257fe6c5b87
+Command: python scripts/check-task-file.py --task OPS-014
+{"status": "FAIL", "message": "Forbidden scope section has no entries."}
+{"status": "FAIL", "message": "Missing dependencies/integration section must contain at least one bullet."}
+{"status": "FAIL", "message": "Missing exclusive write scope section must contain at least one bullet."}
+{"status": "FAIL", "message": "Missing shared modification scope section must contain at least one bullet."}
+{"status": "FAIL", "message": "Missing collaboration/handoff section must contain at least one bullet."}
+
+Exit Code: 1

@@ -1,0 +1,307 @@
+{
+  "schemaVersion": 1,
+  "reviewedAt": "2026-10-25T00:48:39.259370Z",
+  "actor": "/root/gz022_planning_independent_review",
+  "role": "independent-review-agent",
+  "task": "OPS-014",
+  "decision": "actual-independent-freeze-main-fully-accepted",
+  "mustFix": [],
+  "actualFrozenMain": "15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6",
+  "actualFrozenMainAccepted": true,
+  "fullMainCiAccepted": true,
+  "mainCiNumber": 847,
+  "actualTestsPassed": 742,
+  "testSkipped": 0,
+  "source": "5e0fc4f36a4c0abe44efe084dd88c002a5d7d6da",
+  "base": "36b986a65e23671d0b08134d1c4163833a59fbd7",
+  "tree": "f76e18484d82d2c56a5e0cc19689dfce2696e114",
+  "orderedParents": [
+    "36b986a65e23671d0b08134d1c4163833a59fbd7",
+    "5e0fc4f36a4c0abe44efe084dd88c002a5d7d6da"
+  ],
+  "canonicalMainClean": true,
+  "local7Accepted": true,
+  "local7IndependentReviewSha256": "a88df15a78944de3807b2a746a143816e9408911d78cdcaa49ca7703e2df65ee",
+  "local7ResultsSha256": "530b7b5bdd01381078738e9c51b6579821045d3a0b2c1984c6cd7d0301223357",
+  "actualMainCi": {
+    "runId": 40145979158,
+    "jobId": 121027282971,
+    "event": "push",
+    "head": "15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6",
+    "completedSuccess": true,
+    "testsPassed": 742,
+    "pytestSeconds": 1352.09,
+    "testSkipped": 0,
+    "skipAuditSuccess": true,
+    "rawBytes": 289158,
+    "rawSha256": "383941b4427ba2dbf527ce55a0366b269a2912d81335f4d7e5227a0cda330d27",
+    "officialSnapshotBytes": 52529,
+    "officialSnapshotSha256": "0ecf55587927a5f2a67008d1fe1df8e69261f436259daf4422417501487549b7",
+    "workflowSteps": 28,
+    "successfulSteps": 23,
+    "mainConditionalSkippedSteps": [
+      "Task file validation",
+      "Evidence check",
+      "Evidence integrity check",
+      "Task-branch linkage check",
+      "Scope check"
+    ],
+    "conditionalStepSkipsAreNotPytestSkips": true,
+    "sourceCi846NotTransferred": true
+  },
+  "freshOfficial": {
+    "capturedAt": "2026-10-25T00:48:38.586Z",
+    "run": {
+      "id": 40145979158,
+      "head_sha": "15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6",
+      "run_number": 847,
+      "event": "push",
+      "status": "completed",
+      "conclusion": "success",
+      "updated_at": "2026-10-25T00:38:52Z"
+    },
+    "jobs": [
+      {
+        "id": 121027282971,
+        "name": "Governance Checks",
+        "status": "completed",
+        "conclusion": "success",
+        "run_id": 40145979158,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Checkout repository",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Setup Python 3.11",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "Install governance dependencies",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Verify core dependencies importable",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5
+          },
+          {
+            "name": "Compile scripts and tests",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6
+          },
+          {
+            "name": "Pytest collect-only",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7
+          },
+          {
+            "name": "Resolve task context",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8
+          },
+          {
+            "name": "Task file validation",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 9
+          },
+          {
+            "name": "Project readiness check",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10
+          },
+          {
+            "name": "Program Plan integrity, history, transitions, finalization, and lifecycle guard",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11
+          },
+          {
+            "name": "Agent coordination check",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 12
+          },
+          {
+            "name": "Governance tests",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 13
+          },
+          {
+            "name": "Skip audit",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 14
+          },
+          {
+            "name": "Markdown basic check",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15
+          },
+          {
+            "name": "YAML/JSON schema check",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 16
+          },
+          {
+            "name": "Secret scan",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 17
+          },
+          {
+            "name": "Evidence check",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 18
+          },
+          {
+            "name": "Evidence integrity check",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 19
+          },
+          {
+            "name": "Task-branch linkage check",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 20
+          },
+          {
+            "name": "Scope check",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 21
+          },
+          {
+            "name": "Spec sync check",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 22
+          },
+          {
+            "name": "Parent directory reference check",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 23
+          },
+          {
+            "name": "CI workflow static validation",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 24
+          },
+          {
+            "name": "Generate governance report",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 25
+          },
+          {
+            "name": "Post Setup Python 3.11",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 49
+          },
+          {
+            "name": "Post Checkout repository",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 50
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 51
+          }
+        ]
+      }
+    ],
+    "main": "15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6",
+    "pr": {
+      "number": 144,
+      "state": "closed",
+      "merged": true,
+      "merge_commit_sha": "15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6",
+      "head_sha": "5e0fc4f36a4c0abe44efe084dd88c002a5d7d6da",
+      "base_sha": "36b986a65e23671d0b08134d1c4163833a59fbd7"
+    },
+    "issue": {
+      "number": 142,
+      "state": "open"
+    }
+  },
+  "programStatus": "frozen",
+  "exactSixFieldEventUnchanged": true,
+  "ownerStatus": "reserved/coordinator; ISSUE142/null retained",
+  "originalAuthoritySha256": "4f344a74a47a56ff1c3b0e27c368767e0cb779ebc61e721b263f102b39a83401",
+  "oldContractBlobsUnchanged": {
+    "specs/poc/check_program.py": "10be50577718e844566034a7c26dee5eb408055cb2e01a8d5a62524beca9fb89",
+    "specs/poc/test_program.py": "1707bce255253176e0c718ef2574d748dbd8890eb4f50a0c6a5f5a47136b1d49"
+  },
+  "rolesClaimsOrderForeignPolicyAndOrdinaryPocLeasesUnchanged": true,
+  "originalLease": {
+    "acquiredAt": "2026-10-24T21:42:30Z",
+    "expiresAt": "2026-10-31T21:42:30Z",
+    "hours": 168,
+    "validAtReview": true
+  },
+  "capacity": {
+    "active": 3,
+    "high": 1
+  },
+  "issue142Open": true,
+  "activationMetadataPreparationMayProceed": true,
+  "prospectiveActivationHelper": {
+    "path": "prepare_ops014_frozen_416_activation_once.py",
+    "bytes": 18071,
+    "sha256": "1e5c2cb7e4f6863fac616e0e76bbc89ec65681c5fc71986e00a11db700fc505a",
+    "readOnlyReviewed": true,
+    "executedByReviewer": false,
+    "prospectiveBoundaryFindings": [],
+    "scope": "May prepare only own metadata branch/base/status/role and evidence from accepted15f, preserving frozen root/event, original two code bytes, roles/claims/lease/foreign. Exact resulting candidate still requires independent review before commit/code.",
+    "phaseDeclaration": "C18 includes complete source-bound proof commands, full governance/make verify and separate actual POC test_program coverage; A15 applies only after real C validation to OwnEvidence-only archive with latest headA hostedCI. It does not relabel C logs as A/R or weaken the current fixed freeze15."
+  },
+  "preparationConditions": [
+    "Prepare a separately reviewable own metadata activation candidate; do not treat this full-main receipt as acceptance of that not-yet-existing source.",
+    "Keep the exact frozen recovery event and original claims/roles/lease/capacity; no ordinary POC implementation while frozen.",
+    "Actual strict C proof and separate POC contract tests must precede OwnEvidence-only A, with Task phase declarations fixed before C; no control/code changes after C through thaw base.",
+    "HeadA and actual frozen R require their own gates/CI/review; only R acceptance permits separate metadata-only thaw consumption of already tracked proof."
+  ],
+  "specificActivationSourceApproved": false,
+  "activationCommitApproved": false,
+  "contractImplementationApproved": false,
+  "newPocExperimentApproved": false,
+  "specificProofApproved": false,
+  "thawApproved": false,
+  "qualificationAccepted": false,
+  "ordinaryPocWorkAllowedWhileFrozen": false,
+  "activeFreezeBranchCleanupApproved": false,
+  "taskCompleted": false,
+  "reviewerTestsExecuted": false,
+  "authorModified": false,
+  "scopeLimit": "Full actual frozen-main acceptance and own activation metadata preparation only. No new source, code, execution, proof/thaw or branch-cleanup acceptance."
+}

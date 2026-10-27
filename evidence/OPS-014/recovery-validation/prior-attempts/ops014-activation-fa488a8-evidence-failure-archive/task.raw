@@ -1,0 +1,5 @@
+Source Commit: fa488a8d0c37263e0d6a60e7851a7c4728ec2a20
+Command: python scripts/check-task-file.py --task OPS-014
+{"status": "PASS", "message": "Task file valid: /home/sur/.cache/guize-takeover/ops014-activation-v2-fa488a8/specs/tasks/OPS-014.md"}
+
+Exit Code: 0

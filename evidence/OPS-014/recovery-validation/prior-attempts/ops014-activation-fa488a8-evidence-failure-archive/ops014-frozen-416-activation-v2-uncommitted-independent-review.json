@@ -1,0 +1,166 @@
+{
+  "schemaVersion": 1,
+  "kind": "independent-v2-uncommitted-metadata-activation-content-review",
+  "reviewedAt": "2026-10-25T01:04:42.241156Z",
+  "actor": "/root/gz022_planning_independent_review",
+  "role": "independent-review-agent",
+  "taskId": "OPS-014",
+  "decision": "content_accepted",
+  "mustFix": [],
+  "authorHead": "15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6",
+  "base": "15feb3d74aa8b0465b2c7a02d25c03d5dcade7a6",
+  "branch": "chore/OPS-014-frozen-416-contract-repair-v2",
+  "candidateSha256": "911fdba6ace18e12d3ed509587d7d2249181ddc9671fc7819eb650bff31e08d1",
+  "reviewedFiles": [
+    {
+      "path": "evidence/OPS-014/activation-proposal.json",
+      "bytes": 1946,
+      "sha256": "cbac950033b5228abe9e7bcf0912e8085db3235b70c58d90d2c2310e52f7ace0"
+    },
+    {
+      "path": "evidence/OPS-014/changed-files.md",
+      "bytes": 689,
+      "sha256": "2c807a43260a1d3a93baa16c5184bc7e843c22c597122946d296dfd4cf4f8127"
+    },
+    {
+      "path": "evidence/OPS-014/commands.txt",
+      "bytes": 3799,
+      "sha256": "43720c4827add2d4a26837d3d4323d5b65166d08c6c244e0102a16375397dd17"
+    },
+    {
+      "path": "evidence/OPS-014/follow-ups.md",
+      "bytes": 621,
+      "sha256": "f3452752f41767463bf86a304b038b1ed8a0b8dcffc0a1e42829f041c491b9a1"
+    },
+    {
+      "path": "evidence/OPS-014/freeze-main-accepted-independent-review.json",
+      "bytes": 10550,
+      "sha256": "2065b40fd5f04eaf666bb8b231c76098126d2e7dcae848f273e2a73d9296c9c5"
+    },
+    {
+      "path": "evidence/OPS-014/handoff.md",
+      "bytes": 1393,
+      "sha256": "f01fd9edd36ee0ab374d30b3c3a6766dd140ce31b2ffc951684a81c766d02a60"
+    },
+    {
+      "path": "evidence/OPS-014/rollback.md",
+      "bytes": 372,
+      "sha256": "0e87d3a8fc9068a03b11d1ac029a7e1d836592c60b791d7bbc1a89b8095aefc7"
+    },
+    {
+      "path": "evidence/OPS-014/scope.md",
+      "bytes": 507,
+      "sha256": "6498b3bcbef322ebeff113cbd9eaed229ba5c5427b2590f6143311d5025a424a"
+    },
+    {
+      "path": "evidence/OPS-014/summary.md",
+      "bytes": 566,
+      "sha256": "caa3d22dcb9251c86ed13f885635628d5c87eb85334c1896388bfcb65ab70eab"
+    },
+    {
+      "path": "evidence/OPS-014/test-results/README.md",
+      "bytes": 412,
+      "sha256": "759431083d741421e517e441dc2eff27bebf2591cc34c35dc1afecfd5ddc8950"
+    },
+    {
+      "path": "specs/coordination/active-work.yaml",
+      "bytes": 3457,
+      "sha256": "3cf3b64e5e1029a7fe7786023341f09719d77ab7903fea16f0479573034d3913"
+    },
+    {
+      "path": "specs/coordination/program-plan.yaml",
+      "bytes": 65163,
+      "sha256": "f6c938a601c5c23874548f2106655a036a884861477b140357a01fe6382c59bd"
+    },
+    {
+      "path": "specs/tasks/OPS-014.md",
+      "bytes": 10772,
+      "sha256": "599c3187604194889e7fd00cb27468b3e5a38f3b69af9088620539b1473936be"
+    }
+  ],
+  "pathCount": 13,
+  "actualChangedPathsAndInventoryMatch": true,
+  "priorReviewCorrection": {
+    "priorReceiptSha256": "522d6b114eb1defc3bdd396b1e18d36cfee15c8809093501c6554e4592416299",
+    "missedConstraint": "Task Registry linkage requires leaseExpiresAt literal equality, not only equal parsed instants. Prior metadata acceptance did not establish schema/admission success.",
+    "priorActualSource": "0779377346260a07b02077894ee8b325a588486e",
+    "priorActualAdmissionAccepted": false,
+    "priorActualCommands": {
+      "diff": 0,
+      "task": 0,
+      "schemas": 1,
+      "remainingEleven": "not_run"
+    },
+    "oldBranchRetained": true,
+    "oldSourceNotAncestorOfCurrentHead": true,
+    "rebuiltFromAcceptedFWithoutHistoryRewrite": true,
+    "archiveIndexedFilesVerified": 8,
+    "originalMetadataFilesVerified": 13,
+    "archiveIndexSha256": "8304ae549ead2bf45d4495a22bf5f19de76e4490c1035de642695789223c532b",
+    "oldBundleBytes": 13926551,
+    "oldBundleSha256": "119e6cc7b5afe1904123387e32c46c95e71dd84c5dbf272243c402702f13b032",
+    "oldArtifactsUnchanged": true
+  },
+  "taskLeaseLiteral": "2026-10-31T21:42:30Z",
+  "taskLeaseLiteralMatchesActive": true,
+  "leaseDurationOrExpiryChanged": false,
+  "programOnlyOwnReservedToInProgress": true,
+  "activeOnlyOwnStatusRoleBranchBaseChanged": true,
+  "rootFrozenAndExactSixRecoveryFieldsUnchanged": true,
+  "foreignPoliciesRolesClaimsOrderUnchanged": true,
+  "originalLease": {
+    "acquiredAt": "2026-10-24T21:42:30Z",
+    "expiresAt": "2026-10-31T21:42:30Z"
+  },
+  "originalAuthoritySha256": "4f344a74a47a56ff1c3b0e27c368767e0cb779ebc61e721b263f102b39a83401",
+  "originalContractBlobsUnchanged": [
+    {
+      "path": "specs/poc/check_program.py",
+      "gitBlobSha256": "10be50577718e844566034a7c26dee5eb408055cb2e01a8d5a62524beca9fb89",
+      "bytes": 771065
+    },
+    {
+      "path": "specs/poc/test_program.py",
+      "gitBlobSha256": "1707bce255253176e0c718ef2574d748dbd8890eb4f50a0c6a5f5a47136b1d49",
+      "bytes": 1118362
+    }
+  ],
+  "acceptedFrozenMainReviewSha256": "2065b40fd5f04eaf666bb8b231c76098126d2e7dcae848f273e2a73d9296c9c5",
+  "workingSchemaPreflight": {
+    "executedByReviewer": false,
+    "exitCode": 0,
+    "waitCompleted": true,
+    "rawBytes": 1868,
+    "rawSha256": "2a20aee268201e82fef9e3bb0d6b01c687b575b1f4cde00eddfa22b136104670",
+    "scope": "uncommitted working metadata preflight, not committed source admission or code proof"
+  },
+  "phaseBoundary": {
+    "metadataActivationA0v2SeparateBeforeCodeTOrC": true,
+    "codeC18Planned": true,
+    "evidenceOnlyA15Planned": true,
+    "fiveStrictProofCommandsNeedFullActualFAndC": true,
+    "pocContractTestsSeparatelyRequired": true,
+    "afterValidatedCOnlyOwnEvidenceUntilRepairMainR": true,
+    "headAActualLatestFullCiAndROwnMainCiRequired": true,
+    "independentThawOnlyAfterAcceptedR": true
+  },
+  "metadataActivationCommitAllowed": true,
+  "metadataAdmissionChecksAllowed": true,
+  "codeOnlyAfterSeparateActivationCommitAndAdmission": true,
+  "admissionConditions": [
+    "Commit exactly this reviewed 13-path metadata snapshot as a new independent child of accepted F; do not import failed 077 into its ancestry.",
+    "Run the complete declared 14 metadata admission checks on the new exact commit with its own logs/results, actual waits and unchanged source; any failure blocks code.",
+    "Retain original frozen recovery, authority, lease/roles/claims/capacity/foreign and two source blobs until the independent activation commit and admission are actually accepted.",
+    "Only then prepare exact two-path real red T and narrow repair C; future code, proof, publication and thaw need their actual source/evidence review."
+  ],
+  "currentCommittedActivationAdmissionAccepted": false,
+  "specificContractCodeApproved": false,
+  "specificRecoveryProofApproved": false,
+  "prPublicationApproved": false,
+  "mergeApproved": false,
+  "thawApproved": false,
+  "newPocExperimentApproved": false,
+  "qualificationAccepted": false,
+  "reviewerTestsExecuted": false,
+  "authorFilesModified": false
+}

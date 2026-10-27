@@ -1,0 +1,27 @@
+Source Commit: 5669c9ae36c6322f56b70a00fb524d5c10c8e35b
+Command: /home/sur/.cache/guize-takeover/governance-venv/bin/python -B specs/poc/test_program.py TestPocProgram.test_198a_supported_unsatisfiable_accepts_bounded_diagnostics
+test_198a_supported_unsatisfiable_accepts_bounded_diagnostics (__main__.TestPocProgram.test_198a_supported_unsatisfiable_accepts_bounded_diagnostics) ... FAIL
+
+======================================================================
+FAIL: test_198a_supported_unsatisfiable_accepts_bounded_diagnostics (__main__.TestPocProgram.test_198a_supported_unsatisfiable_accepts_bounded_diagnostics)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sur/.cache/guize-takeover/ops014-416-red-v2-5669c9a/specs/poc/test_program.py", line 6647, in test_198a_supported_unsatisfiable_accepts_bounded_diagnostics
+    fixture = self._metadata_diagnostic_fixture(profile)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/sur/.cache/guize-takeover/ops014-416-red-v2-5669c9a/specs/poc/test_program.py", line 6570, in _metadata_diagnostic_fixture
+    index = self.make_profile_slot(root, 'POC-005', profile)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/sur/.cache/guize-takeover/ops014-416-red-v2-5669c9a/specs/poc/test_program.py", line 357, in make_profile_slot
+    self.make_terminal(source_root,task_id,status=status,profile=profile)
+  File "/home/sur/.cache/guize-takeover/ops014-416-red-v2-5669c9a/specs/poc/test_program.py", line 336, in make_terminal
+    raise AssertionError(
+AssertionError: terminal fixture invalid before mutation:
+POC-005: Task Spec identities must not reuse generic Program role labels
+
+----------------------------------------------------------------------
+Ran 1 test in 2.405s
+
+FAILED (failures=1)
+
+Exit Code: 1

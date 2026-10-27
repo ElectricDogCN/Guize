@@ -1,0 +1,64 @@
+{
+  "kind": "separate_metadata_freeze_proposal",
+  "proposalCreatedAt": "2026-10-24T23:24:58Z",
+  "taskId": "OPS-014",
+  "issue": 142,
+  "base": "36b986a65e23671d0b08134d1c4163833a59fbd7",
+  "branch": "chore/OPS-014-gz021-metadata-freeze",
+  "recovery": {
+    "taskId": "OPS-014",
+    "reason": "已完成GZ-021的metadata profiling合同错误要求supported/unsatisfiable的416诊断正文为空；真实授权OpenList响应33字节与之冲突，按原OPS-013授权执行精确两文件修复并完整验证后另行解冻。",
+    "affectedTasks": [
+      "GZ-021"
+    ],
+    "sourceCommit": "36b986a65e23671d0b08134d1c4163833a59fbd7",
+    "frozenAt": "2026-10-24T23:24:58Z",
+    "verificationPath": "evidence/OPS-014/recovery-proof.json"
+  },
+  "stageStatus": "reserved",
+  "agentRole": "coordinator",
+  "lease": {
+    "acquiredAt": "2026-10-24T21:42:30Z",
+    "expiresAt": "2026-10-31T21:42:30Z"
+  },
+  "acceptedOriginalReservation": {
+    "pr": 143,
+    "source": "f80b6a496005e5fb1a1660e3f4f67768dd0fed78",
+    "actualMain": "36b986a65e23671d0b08134d1c4163833a59fbd7",
+    "localChecks": 7,
+    "mainCiNumber": 845,
+    "testsPassed": 742,
+    "testSkipped": 0,
+    "reviewPath": "evidence/OPS-014/reservation-main-accepted-independent-review.json",
+    "reviewSha256": "26c94eaa3022ab5334e2e7cfd92dbf869298e31a47a14b38a6f5506bdf0ae723"
+  },
+  "authority": {
+    "path": "evidence/OPS-013/contract-repair-authorization.json",
+    "sha256": "4f344a74a47a56ff1c3b0e27c368767e0cb779ebc61e721b263f102b39a83401"
+  },
+  "unchangedContractBlobs": [
+    {
+      "path": "specs/poc/check_program.py",
+      "gitBlobSha256": "10be50577718e844566034a7c26dee5eb408055cb2e01a8d5a62524beca9fb89",
+      "bytes": 771065
+    },
+    {
+      "path": "specs/poc/test_program.py",
+      "gitBlobSha256": "1707bce255253176e0c718ef2574d748dbd8890eb4f50a0c6a5f5a47136b1d49",
+      "bytes": 1118362
+    }
+  ],
+  "producerTask": "GZ-021",
+  "producerStatus": "completed",
+  "metadataOnly": true,
+  "foreignTasksChanged": false,
+  "policiesChanged": false,
+  "leaseRenewed": false,
+  "sourceValidationExecuted": false,
+  "hostedCiAccepted": false,
+  "actualFrozenMainAccepted": false,
+  "implementationStarted": false,
+  "experimentApproved": false,
+  "qualificationAccepted": false,
+  "next": "Independent exact-source/scope review, fixed-source Task15/complete742+JUnit, latest same-head hostedCI, Integrator and actual freeze-main acceptance; only then a separate metadata activation."
+}

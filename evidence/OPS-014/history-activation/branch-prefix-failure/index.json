@@ -1,0 +1,76 @@
+{
+  "failedSource": "0f9e4dee1da201953cf93491f49d7f6fee231c88",
+  "base": "4c7a5a46863504fa93849ad4ae82946e3bfb4bc6",
+  "originalBranch": "fix/OPS-014-clean-main-import-attribution",
+  "originalBranchRetained": true,
+  "diffExitCode": 0,
+  "taskExitCode": 1,
+  "later11Unexecuted": true,
+  "activationAccepted": false,
+  "codeChangesApproved": false,
+  "files": [
+    {
+      "ref": "00-3930d7a57a0b.zlib.b64",
+      "original": "ops014-history-activation-0f9e4de-native-checks/results.json",
+      "encoding": "zlib-base64",
+      "bytes": 4555,
+      "sha256": "ddf062bc204a265d536f51400b9f0c3ccf16f4468f9cd0add5ce79b40829b18e"
+    },
+    {
+      "ref": "01-e721d9291211.zlib.b64",
+      "original": "ops014-history-activation-0f9e4de-native-checks/diff.raw",
+      "encoding": "zlib-base64",
+      "bytes": 144,
+      "sha256": "1502c08ce9694147a00090a6547e3bf39fe3ff8ebb18ad0ffdf10717b5bac880"
+    },
+    {
+      "ref": "02-ef8363b1708c.zlib.b64",
+      "original": "ops014-history-activation-0f9e4de-native-checks/task.raw",
+      "encoding": "zlib-base64",
+      "bytes": 268,
+      "sha256": "625b02ae31bcfa732fb7ab7550234715669a93251b086550f083e5e1e8849b62"
+    },
+    {
+      "ref": "03-9824ffadd4ae.zlib.b64",
+      "original": "ops014-history-activation-0f9e4de-candidate.json",
+      "encoding": "zlib-base64",
+      "bytes": 2653,
+      "sha256": "1669ca3eebf9d544f580925cef5dee2ddd6adb0662853676b3a5780967d10d3c"
+    },
+    {
+      "ref": "04-06b6b3198ab7.zlib.b64",
+      "original": "ops014-history-activation-uncommitted-independent-review.json",
+      "encoding": "zlib-base64",
+      "bytes": 8978,
+      "sha256": "9568f0bc69927c56a51ce69ce51778250b5dc49bdb7813d573b781ea5ef2e4dd"
+    },
+    {
+      "ref": "05-8962302619a7.zlib.b64",
+      "original": "prepare_ops014_history_activation_once.py",
+      "encoding": "zlib-base64",
+      "bytes": 15986,
+      "sha256": "5412c181819c70e5d88945bdd52cab124e11277bdbe1ed7d92529fceb62d4b74"
+    },
+    {
+      "ref": "06-59c4e9d907a1.zlib.b64",
+      "original": "failed-source/specs/coordination/active-work.yaml",
+      "encoding": "zlib-base64",
+      "bytes": 3495,
+      "sha256": "ee7a30e1c30f0ecce2b9dc39110b192b60a46a68ce060edfd15c1e5758661860"
+    },
+    {
+      "ref": "07-e78440ee0a71.zlib.b64",
+      "original": "failed-source/specs/coordination/program-plan.yaml",
+      "encoding": "zlib-base64",
+      "bytes": 65163,
+      "sha256": "601ed555d300649fb8f25c4240b4ffc0058fc387f77d63ba3501fc3e0ffa6233"
+    },
+    {
+      "ref": "08-221e0768073d.zlib.b64",
+      "original": "failed-source/specs/tasks/OPS-014.md",
+      "encoding": "zlib-base64",
+      "bytes": 7139,
+      "sha256": "381dd9e5afe789f38b2e1804ae8bf28c9518efa7cec5973966ffb46483343004"
+    }
+  ]
+}

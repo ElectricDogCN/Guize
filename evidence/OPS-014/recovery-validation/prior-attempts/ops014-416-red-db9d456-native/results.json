@@ -1,0 +1,22 @@
+{
+  "source": "db9d45647b031d9a708721c585182029c00845ce",
+  "tree": "6b79fd7489e4f1aff6cb3b2bf4d07b646fe4193e",
+  "argv": [
+    "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+    "-B",
+    "specs/poc/test_program.py",
+    "TestPocProgram.test_198a_supported_unsatisfiable_accepts_bounded_diagnostics"
+  ],
+  "startedAt": "2026-10-25T01:21:48.788144+00:00",
+  "expectedExitCode": 1,
+  "expectedFailureSubtests": 8,
+  "actualExpectedRegressionConfirmed": false,
+  "qualificationAccepted": false,
+  "pid": 780991,
+  "exitCode": 1,
+  "waitCompleted": true,
+  "endedAt": "2026-10-25T01:21:51.663444+00:00",
+  "rawBytes": 1899,
+  "rawSha256": "ad3b1b82982f590387376af6c59d4619672f9c1cdd8181d05d5e4d3bc4b9b674",
+  "sourceUnchanged": true
+}

@@ -61,7 +61,11 @@ class TestPocProgram(unittest.TestCase):
         )
         active = self.repo / "specs" / "coordination" / "active-work.yaml"
         if active.is_file():
-            shutil.copy2(active, coordination / "active-work.yaml")
+            # Unit fixtures create their own concrete actors. Live reservations
+            # must not leak into synthetic fixtures or duplicate drift-test rows.
+            registry = load_yaml(active)
+            registry["tasks"] = []
+            write_yaml(coordination / "active-work.yaml", registry)
         requirements = root / "specs/requirements/v1"
         requirements.mkdir(parents=True)
         shutil.copy2(self.repo / "specs/requirements/v1/nfr.yaml", requirements / "nfr.yaml")
@@ -6556,6 +6560,165 @@ class TestPocProgram(unittest.TestCase):
                 write_yaml(config_path,original_config);write_yaml(report_path,original_report);data=copy.deepcopy(original);data['environmentCaptured'].pop('metadataProfilingRef');write_yaml(path,data);self.assertTrue(CHECK.validate_repository(root,profile,True,selected_pocs={'POC-05'}))
             finally:temp.cleanup()
 
+
+    def _metadata_diagnostic_fixture(self, profile):
+        """Synthetic request identities/windows; never a new provider execution."""
+        import sqlite3
+        temp, root = self.temp_repo()
+        self.addCleanup(temp.cleanup)
+        index = self.make_profile_slot(root, 'POC-005', profile)
+        execution_path = root / load_yaml(root / load_yaml(index)['resultRef'])['executionRef']
+        original = load_yaml(execution_path)
+        env = original['environmentCaptured']
+        report_path = root / env['metadataProfilingRef']
+        original_report = load_yaml(report_path)
+        config_path = root / original_report['configurationRef']
+        original_config = load_yaml(config_path)
+        files = {root / row['ref']: (root / row['ref']).read_bytes()
+                 for row in env['rawExecutionArtifacts']}
+        prefix = index.parent.relative_to(root).as_posix()
+        plan = load_yaml(self.plan_path(root, 'POC-005'))
+        definitions = load_yaml(root / 'specs/poc/program.schema.yaml')['$defs']
+        window = tuple(CHECK.utc(env['executionWindow'][key])
+                       for key in ('startedAt', 'finishedAt'))
+        resource = next(row for row in original['resources']
+                        if row['id'] == 'RES-METADATA-SCALE')
+
+        def set_body(probe, body):
+            (root / probe['responseRef']).write_bytes(body)
+            probe.update(responseSha256='sha256:' + hashlib.sha256(body).hexdigest(),
+                         responseByteCount=len(body))
+
+        def reset(body):
+            for path, raw in files.items():
+                path.write_bytes(raw)
+            execution = copy.deepcopy(original)
+            report = copy.deepcopy(original_report)
+            config = copy.deepcopy(original_config)
+            probe = next(row for row in report['probes'] if row['case'] == 'unsatisfiable')
+            set_body(probe, body)
+            return execution, report, config, probe
+
+        def validate(execution, report, config):
+            write_yaml(config_path, config)
+            write_yaml(report_path, report)
+            self.refresh_qualified_observation_fixture(root, execution)
+            errors = []
+            scan = config['configuration']['metadataScanPolicy']
+            connection = sqlite3.connect(':memory:')
+            try:
+                connection.executescript(
+                    'CREATE TABLE baseline(objectId TEXT PRIMARY KEY,kind TEXT,versionId TEXT,depth INTEGER,fileSizeBytes INTEGER);'
+                    'CREATE TABLE expected(eventId TEXT PRIMARY KEY,sequence INTEGER,objectId TEXT,operation TEXT,beforeVersion TEXT,afterVersion TEXT);')
+                for line in (root / scan['baseline']['ref']).read_bytes().splitlines():
+                    row = json.loads(line)
+                    connection.execute('INSERT INTO baseline VALUES (?,?,?,?,?)',
+                                       tuple(row[key] for key in ('objectId', 'kind', 'versionId', 'depth', 'fileSizeBytes')))
+                for line in (root / scan['expectedChanges']['ref']).read_bytes().splitlines():
+                    row = json.loads(line)
+                    connection.execute('INSERT INTO expected VALUES (?,?,?,?,?,?)',
+                                       tuple(row[key] for key in ('eventId', 'sequence', 'objectId', 'operation', 'beforeVersion', 'afterVersion')))
+                CHECK.validate_qualified_metadata_profiles(
+                    root, plan, execution, prefix, window, definitions, errors, {}, resource, scan, connection)
+            except (ValueError, sqlite3.Error) as error:
+                errors.append('qualified metadata profiling: ' + str(error))
+            finally:
+                connection.close()
+            return errors
+
+        return dict(root=root, reset=reset, validate=validate, set_body=set_body)
+
+    def _original_metadata_416_diagnostic(self):
+        # Only these real bytes are reused. All request/source/time metadata is synthetic.
+        body = (self.repo / 'evidence/OPS-013/unsatisfiable-response.bin').read_bytes()
+        self.assertEqual(len(body), 33)
+        self.assertEqual(hashlib.sha256(body).hexdigest(),
+                         'b5d780567c43a2b5d8473d84a136e7dc62ee9c494108d282cbff4801d199cf32')
+        return body
+
+    def test_198a_supported_unsatisfiable_accepts_bounded_diagnostics(self):
+        diagnostic = self._original_metadata_416_diagnostic()
+        cases = [('empty', b''), ('original33', diagnostic),
+                 ('other_text', b'{"error":"past the end"}'),
+                 ('opaque_bytes', b'\xff\x00range unavailable\xfe'),
+                 ('existing_limit', b'x' * 65536)]
+        for profile in ('local-v1', 'production'):
+            fixture = self._metadata_diagnostic_fixture(profile)
+            for name, body in cases:
+                with self.subTest(profile=profile, diagnostic=name):
+                    execution, report, config, _ = fixture['reset'](body)
+                    self.assertEqual(fixture['validate'](execution, report, config), [])
+
+    def test_198b_diagnostic_probes_retain_identity_and_response_bounds(self):
+        diagnostic = self._original_metadata_416_diagnostic()
+        for profile in ('local-v1', 'production'):
+            fixture = self._metadata_diagnostic_fixture(profile)
+            for case in ('range', 'status', 'header', 'source', 'object', 'version',
+                         'clock', 'hash', 'length', 'missing_slot', 'wrong_type', 'over_limit'):
+                with self.subTest(profile=profile, invalid=case):
+                    body = b'x' * 65537 if case == 'over_limit' else diagnostic
+                    execution, report, config, probe = fixture['reset'](body)
+                    if case == 'range':
+                        probe['requestRange'] = 'bytes=0-1'
+                    elif case == 'status':
+                        probe['statusCode'] = 200
+                    elif case == 'header':
+                        probe['contentRange'] = 'bytes */999999'
+                    elif case == 'source':
+                        report['sourceIdentity']['sourceId'] = 'foreign-source'
+                    elif case == 'object':
+                        probe['objectId'] = 'foreign-object'
+                    elif case == 'version':
+                        probe['objectVersion'] = 'foreign-version'
+                    elif case == 'clock':
+                        probe['observedAt'] = '2026-09-02T00:00:00Z'
+                    elif case == 'hash':
+                        probe['responseSha256'] = 'sha256:' + '0' * 64
+                    elif case == 'length':
+                        probe['responseByteCount'] += 1
+                    elif case == 'missing_slot':
+                        execution['environmentCaptured']['rawExecutionArtifacts'] = [
+                            row for row in execution['environmentCaptured']['rawExecutionArtifacts']
+                            if row['ref'] != probe['responseRef']]
+                    elif case == 'wrong_type':
+                        next(row for row in execution['environmentCaptured']['rawExecutionArtifacts']
+                             if row['ref'] == probe['responseRef'])['artifactType'] = 'command_output'
+                    self.assertTrue(fixture['validate'](execution, report, config))
+
+    def test_198c_other_range_dispositions_keep_their_body_rules(self):
+        diagnostic = self._original_metadata_416_diagnostic()
+        for profile in ('local-v1', 'production'):
+            fixture = self._metadata_diagnostic_fixture(profile)
+
+            def disposition_case(disposition):
+                execution, report, config, probe = fixture['reset'](b'')
+                policy = config['configuration']['metadataProfilingPolicy']
+                report['rangeDisposition'] = policy['rangeDisposition'] = disposition
+                content = (fixture['root'] / policy['baselinePayload']['ref']).read_bytes()
+                self.assertNotEqual(content, diagnostic)
+                for row in report['probes']:
+                    if row['case'] in ('bounded', 'unsatisfiable'):
+                        row.update(statusCode=200 if disposition == 'ignored' else 405,
+                                   contentRange='')
+                        fixture['set_body'](row, content if disposition == 'ignored' else b'')
+                return execution, report, config, probe, content
+
+            for disposition in ('ignored', 'unsupported'):
+                with self.subTest(profile=profile, disposition=disposition, valid=True):
+                    execution, report, config, _, _ = disposition_case(disposition)
+                    self.assertEqual(fixture['validate'](execution, report, config), [])
+                for invalid in ('diagnostic416', 'wrong_body'):
+                    with self.subTest(profile=profile, disposition=disposition, invalid=invalid):
+                        execution, report, config, probe, content = disposition_case(disposition)
+                        fixture['set_body'](probe, diagnostic)
+                        if invalid == 'diagnostic416':
+                            probe.update(statusCode=416, contentRange=f'bytes */{len(content)}')
+                        self.assertTrue(fixture['validate'](execution, report, config))
+            with self.subTest(profile=profile, supported206='wrong_body'):
+                execution, report, config, _ = fixture['reset'](b'')
+                bounded = next(row for row in report['probes'] if row['case'] == 'bounded')
+                fixture['set_body'](bounded, diagnostic)
+                self.assertTrue(fixture['validate'](execution, report, config))
 
     def test_183_streamed_metadata_representation_reads_one_million_records_bounded(self):
         # Actual million-record parser coverage; no scanner throughput/POC claim.
