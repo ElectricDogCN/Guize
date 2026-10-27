@@ -1,3 +1,3 @@
-# OPS-015 reservation
+# Actual development results
 
-No test-results execution is claimed by this metadata reservation. Preserve old failure/diagnosis; actual checks and any applicable results follow after exact source commit.
+See ../development-index.json for exact V1-V4 commands, source pins, raw logs and JUnit originals. V3 has38passed and V4 separately3passed/38deselected; fixed-source full checks and CI remain pending.

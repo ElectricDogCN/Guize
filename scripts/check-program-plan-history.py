@@ -53,6 +53,8 @@ PLANNING = importlib.util.module_from_spec(PLANNING_SPEC)
 assert PLANNING_SPEC and PLANNING_SPEC.loader
 PLANNING_SPEC.loader.exec_module(PLANNING)
 
+ACTORS = TRANSITIONS.ACTORS
+
 PLAN = "specs/coordination/program-plan.yaml"
 ACTIVE = "specs/coordination/active-work.yaml"
 LEDGER = "specs/coordination/task-completions.yaml"
@@ -1262,7 +1264,7 @@ def historical_frozen_definitions(root: str, previous: str, node: str, paths: se
                     errors.append(f"Post-implementation history at {node} changed immutable Ledger record {prior.get('taskId')}")
 
 
-def historical_post_metadata(root: str, previous: str, node: str, task_id: str, paths: set[str], errors: list[str], implementation: str, validated_nodes: set[str]) -> None:
+def historical_post_metadata(root: str, previous: str, node: str, task_id: str, paths: set[str], errors: list[str], implementation: str, validated_nodes: set[str], *, admitted_base: str = "") -> None:
     historical_frozen_definitions(root, previous, node, paths, errors)
     before, after = load_ref(root, previous, PLAN), load_ref(root, node, PLAN)
     if ACTIVE in paths:
@@ -1277,6 +1279,11 @@ def historical_post_metadata(root: str, previous: str, node: str, task_id: str, 
                 # Reuse existing active-transition identity fields. Peer
                 # admissions, releases and legal lifecycle updates remain free.
                 mutable = {"status", "agentRole", "baseSha", "lease"}
+                if any(entry.get(key) != current[peer].get(key) for key in ("implementer", "reviewer")):
+                    if ACTORS is None:
+                        errors.append("Foreign actor edit has no prospective amendment proof module")
+                    else:
+                        mutable.update(ACTORS.checked_edge(root, previous, node, peer, errors, admitted=admitted_base or previous))
                 if peer in foundations:
                     mutable.update({"branch", "exclusivePaths", "sharedPaths"})
                 if {key: value for key, value in entry.items() if key not in mutable} != {key: value for key, value in current[peer].items() if key not in mutable}:
@@ -1411,7 +1418,7 @@ def foundation_post_implementation(root: str, task_id: str, implementation: str,
             if len(node_entries) == 1 and {key: value for key, value in node_entries[0].items() if key not in mutable} != stable:
                 errors.append(f"Foundation {task_id} changed stable identity in post-implementation history at {node}")
         before_metadata_errors = len(errors)
-        historical_post_metadata(root, parent, node, task_id, paths, errors, implementation, validated_nodes)
+        historical_post_metadata(root, parent, node, task_id, paths, errors, implementation, validated_nodes, admitted_base=trusted_base)
         if len(errors) == before_metadata_errors:
             validated_nodes.add(node)
         for snapshot in (parent, node):
@@ -1712,6 +1719,8 @@ def main() -> int:
     if not all(isinstance(item, dict) for item in documents):
         emit("FAIL", "Program history documents are missing or invalid")
         return 1
+
+    TRANSITIONS.check_actor_range(root, args.base_ref, args.head_ref, errors)
 
     planning = PLANNING.classifier(
         root, args.base_ref, args.head_ref, base_plan, current_plan, errors,

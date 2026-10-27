@@ -1,25 +1,40 @@
-# OPS-015 reservation paths
+# Actual successor candidate inventory
 
 - `evidence/OPS-015/.gitattributes`
-- `evidence/OPS-015/api-samples/README.md`
-- `evidence/OPS-015/assumptions.md`
 - `evidence/OPS-015/changed-files.md`
 - `evidence/OPS-015/commands.txt`
-- `evidence/OPS-015/follow-ups.md`
+- `evidence/OPS-015/development-index.json`
+- `evidence/OPS-015/development/v1/junit.xml`
+- `evidence/OPS-015/development/v1/pytest.raw`
+- `evidence/OPS-015/development/v1/results.json`
+- `evidence/OPS-015/development/v2/junit.xml`
+- `evidence/OPS-015/development/v2/pytest.raw`
+- `evidence/OPS-015/development/v2/results.json`
+- `evidence/OPS-015/development/v3/junit.xml`
+- `evidence/OPS-015/development/v3/pytest.raw`
+- `evidence/OPS-015/development/v3/results.json`
+- `evidence/OPS-015/development/v4/junit.xml`
+- `evidence/OPS-015/development/v4/pytest.raw`
+- `evidence/OPS-015/development/v4/results.json`
 - `evidence/OPS-015/handoff.md`
-- `evidence/OPS-015/independent-identity-diagnosis.json`
-- `evidence/OPS-015/migration-report/README.md`
-- `evidence/OPS-015/original-profile-failure.json`
-- `evidence/OPS-015/original-profile-failure.raw`
-- `evidence/OPS-015/performance/README.md`
-- `evidence/OPS-015/reservation-intent.json`
-- `evidence/OPS-015/risks.md`
-- `evidence/OPS-015/rollback-verification/README.md`
+- `evidence/OPS-015/rejected-source-4b2491b/README.md`
+- `evidence/OPS-015/rejected-source-4b2491b/diff.raw`
+- `evidence/OPS-015/rejected-source-4b2491b/results.json`
+- `evidence/OPS-015/rejected-source-4b2491b/task.raw`
+- `evidence/OPS-015/reviews/corrected-core-code.json`
+- `evidence/OPS-015/reviews/initial-code-findings.json`
+- `evidence/OPS-015/reviews/minimal-design.json`
+- `evidence/OPS-015/reviews/reservation-main-accepted.json`
 - `evidence/OPS-015/scope.md`
-- `evidence/OPS-015/screenshots/README.md`
-- `evidence/OPS-015/security/README.md`
 - `evidence/OPS-015/summary.md`
 - `evidence/OPS-015/test-results/README.md`
+- `rules/reservation-role-amendment.md`
+- `scripts/check-program-plan-history.py`
+- `scripts/check-program-plan-transitions.py`
+- `scripts/reservation-role-amendment.py`
 - `specs/coordination/active-work.yaml`
 - `specs/coordination/program-plan.yaml`
 - `specs/tasks/OPS-015.md`
+- `tests/governance/test_reservation_role_amendment.py`
+
+Rejected4b is retained separately; this candidate starts at accepted36d. Fixed-source gates pending.

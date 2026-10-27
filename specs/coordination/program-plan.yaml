@@ -86,7 +86,7 @@ foundationTasks:
     mergeCommit: 2a77cbf9ad838b7b7abc7fbc5ed7aaa5f2f793d4
   - taskId: OPS-015
     title: 有界准入活动POC的前瞻具体身份修订
-    status: reserved
+    status: in_progress
     completionRef: ISSUE-153
     mergeCommit: null
 waves:

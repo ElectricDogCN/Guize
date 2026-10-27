@@ -96,17 +96,17 @@ tasks:
 - taskId: OPS-015
   issue: 153
   title: 有界准入活动POC的前瞻具体身份修订
-  status: reserved
+  status: in_progress
   riskLevel: high
   owner: ElectricDogCN
   coordinator: /root
   implementer: /root
   reviewer: /root/gz022_planning_independent_review
   integrator: /root
-  agentRole: coordinator
-  branch: chore/OPS-015-role-amendment-reservation
+  agentRole: implementer
+  branch: chore/OPS-015-role-amendment-v2
   baseBranch: main
-  baseSha: 746e23e582501fa08380c3f3301bdc1774902f7c
+  baseSha: 36d8ba69581c98ab15559e5a4a7f6281435d327f
   workPackage: WP-M0-01
   programPlan: specs/coordination/program-plan.yaml
   programTaskId: OPS-015

@@ -1,0 +1,184 @@
+{
+  "schemaVersion": 1,
+  "kind": "independent_complete_actual_metadata_reservation_main_review",
+  "reviewer": "/root/gz022_planning_independent_review",
+  "reviewedAt": "2026-10-27T07:20:44Z",
+  "task": "OPS-015",
+  "pr": 154,
+  "actualMain": "36d8ba69581c98ab15559e5a4a7f6281435d327f",
+  "source": "8b2cfa1aebdcd301d5f8ced698c0014e250d1074",
+  "base": "746e23e582501fa08380c3f3301bdc1774902f7c",
+  "tree": "597852ef18b6ddce56cea27abe68cbb9f3c8e618",
+  "mustFix": [],
+  "decision": "accepted_actual_metadata_reservation_main_with_own_local7_and_full_push_ci",
+  "actualMergedMainAccepted": true,
+  "actualReservationMainAccepted": true,
+  "actualMainSevenAccepted": true,
+  "nativeMain7Accepted": true,
+  "fullMainCiAccepted": true,
+  "registeredImplementationMayStart": true,
+  "actualGraph": {
+    "orderedParents": [
+      "746e23e582501fa08380c3f3301bdc1774902f7c",
+      "8b2cfa1aebdcd301d5f8ced698c0014e250d1074"
+    ],
+    "treeEqualsSource": true,
+    "officialMergeResult": {
+      "ref": ".takeover-tools/ops015-reservation-official-merge.json",
+      "bytes": 339,
+      "sha256": "56eeadc08930f0c1be0e325f339dbeb7e64faf42fc1429ed8c00d2f05566bcda",
+      "method": "merge",
+      "actualSha": "36d8ba69581c98ab15559e5a4a7f6281435d327f"
+    },
+    "officialPrMergedAtExactActualSha": true,
+    "canonicalMainBranch": "main",
+    "canonicalHeadTreeParentsMatched": true,
+    "canonicalTrackedAndUntrackedClean": true,
+    "bundle": {
+      "ref": ".takeover-tools/ops015-reservation-36d8ba6-actual-main.bundle",
+      "bytes": 15026598,
+      "sha256": "51b3f1e5504c293ea6b3e200a47abcd2f753af016e4e4027598d5761723f6d60",
+      "actualFileBytesAndDigestMatched": true
+    }
+  },
+  "sourcePrerequisite": {
+    "finalSourceReview": ".takeover-tools/ops015-reservation-final-source-independent-review.json",
+    "sha256": "2ee4cc0947b13d6252724ca39da8488d93c961f4e8e580282a6de6e7e44bbc31",
+    "sourceLocal14Accepted": true,
+    "sourceCi871Accepted": true,
+    "sourcePrerequisitesNotReusedAsActualMainCi": true
+  },
+  "actualLocal7": {
+    "resultRef": ".takeover-tools/ops015-reservation-36d8ba6-native-main-checks/results.json",
+    "bytes": 5169,
+    "sha256": "8e1fc5d57162a5489b437d0a6d663632a555a213dd35185fa1d00502f1cb7c22",
+    "nativeRoot": "/home/sur/.cache/guize-takeover/ops015-reservation-main-36d8ba6",
+    "ordinaryUid1000AndNoAlternatesEnforcedByActualRunner": true,
+    "beforeEqualsAfterClean": true,
+    "all7ActualWaitCompletedExitZero": true,
+    "allRawActualMainHeadersArgvBytesAndShaVerified": true,
+    "labels": [
+      "integrity",
+      "history",
+      "transitions",
+      "finalization",
+      "raw-lifecycle",
+      "coordination",
+      "poc-protocol"
+    ],
+    "noTaskHint": true,
+    "finishedAt": "2026-10-27T06:54:16.898646+00:00",
+    "historicalFullMainCiFalseFlagPreserved": "The local result was written before CI872 completed. Its historical false flag is not rewritten; this later independent receipt accepts the actual own push CI."
+  },
+  "mainCiNumber": 872,
+  "mainCiRun": 40463821528,
+  "mainCiJob": 122054371908,
+  "mainCiAttempt": 1,
+  "mainCiTests": 752,
+  "mainCiLogBytes": 292764,
+  "mainCiLogSha256": "f78b6f276568b0af45a90392daf6cf1068fecaccac5f4cde2d666c8a82f58969",
+  "actualMainCi": {
+    "event": "push",
+    "head": "36d8ba69581c98ab15559e5a4a7f6281435d327f",
+    "actualCheckout": "36d8ba69581c98ab15559e5a4a7f6281435d327f",
+    "status": "completed",
+    "conclusion": "success",
+    "uniqueVerbosePassed": 752,
+    "pytestSeconds": 1418.21,
+    "testFailures": 0,
+    "testErrors": 0,
+    "testSkipped": 0,
+    "workflowSteps": 28,
+    "workflowSuccess": 23,
+    "workflowConditionalSkipped": 5,
+    "conditionalSkippedNames": [
+      "Task file validation",
+      "Evidence check",
+      "Evidence integrity check",
+      "Task-branch linkage check",
+      "Scope check"
+    ],
+    "skipAuditSuccess": true,
+    "junitGenerationObserved": true,
+    "directJunitXmlDownloaded": false,
+    "log": {
+      "ref": ".takeover-tools/ops015-reservation-ci872/job-log.connector-decoded.utf8.txt",
+      "bytes": 292764,
+      "characters": 292522,
+      "sha256": "f78b6f276568b0af45a90392daf6cf1068fecaccac5f4cde2d666c8a82f58969",
+      "initialBomPreserved": true,
+      "finalLfPreserved": true,
+      "crCount": 0,
+      "originalHttpBytesSeparatelyCaptured": false
+    },
+    "officialFiles": [
+      {
+        "ref": ".takeover-tools/ops015-reservation-ci872/run.json",
+        "bytes": 13680,
+        "sha256": "9623a7f9bd732c082c8176b6e0a711e45fe73cfb5fc6e18631504fe31915abcb"
+      },
+      {
+        "ref": ".takeover-tools/ops015-reservation-ci872/jobs.json",
+        "bytes": 4608,
+        "sha256": "98fabca4704672dfb480061efb1e2c6ed3d7134375c4a226fd8d7ad30be90687"
+      },
+      {
+        "ref": ".takeover-tools/ops015-reservation-ci872/analysis.json",
+        "bytes": 4330,
+        "sha256": "3d974e3736458f76f8d79d431ecdd4e0e503c68db989afee97dedc554765fce8"
+      }
+    ]
+  },
+  "freshOfficial": {
+    "snapshotRef": ".takeover-tools/ops015-reservation-actual-main-review-official-snapshot.json",
+    "main": "36d8ba69581c98ab15559e5a4a7f6281435d327f",
+    "pr154Merged": true,
+    "pr154ActualMergeSha": "36d8ba69581c98ab15559e5a4a7f6281435d327f",
+    "pr154Head": "8b2cfa1aebdcd301d5f8ced698c0014e250d1074",
+    "issue153State": "open",
+    "latestOwnPushRun": 40463821528,
+    "latestOwnPushNumber": 872
+  },
+  "registeredScope": {
+    "status": "reserved",
+    "agentRole": "coordinator",
+    "riskLevel": "high",
+    "moduleIds": [
+      "MOD-GOV"
+    ],
+    "implementer": "/root",
+    "reviewer": "/root/gz022_planning_independent_review",
+    "distinctActualTaskTreeActors": true,
+    "activeTasks": 3,
+    "highCriticalTasks": 1,
+    "integrationOrder": 11,
+    "coordinationGroup": "reservation-role-amendment",
+    "leaseAcquiredAt": "2026-10-27T05:33:14Z",
+    "leaseExpiresAt": "2026-11-03T05:33:14Z",
+    "leaseHours": 168,
+    "leaseUnexpiredAtReview": true,
+    "exclusivePaths": [
+      "scripts/check-program-plan-transitions.py",
+      "scripts/check-program-plan-history.py",
+      "scripts/reservation-role-amendment.py",
+      "tests/governance/test_reservation_role_amendment.py",
+      "rules/reservation-role-amendment.md"
+    ],
+    "sharedPaths": [],
+    "intent": {
+      "ref": "evidence/OPS-015/reservation-intent.json",
+      "bytes": 1100,
+      "sha256": "eb497929a78969a996c5ea4bc3d132eab032ba5c71d1baac038c1c0e99239eb7",
+      "unchanged": true
+    },
+    "bothPriorPocRowsAndProgramPoliciesLedgerRecoveryForeignUnchanged": true
+  },
+  "allowedNext": "From this accepted actualmain36d, begin only the normally registered OPS015 implementation phase under AGENTS17.3 and its Task: create the proper implementation branch, maintain truthful Own Task/Registry lifecycle/role/base/Handoff and work within the five exact claims plus permitted Own metadata/Evidence. Preserve the accepted immutable intent and original lease. Meaningful proof/graph regressions, declared full source/governance checks, own same-head CI, independent final review, normal integration and actual implementation-main acceptance/normal Review/Completion remain required. This receipt adds no separate activationPR requirement.",
+  "pocActorAmendmentApproved": false,
+  "pocFrozenContractChangeApproved": false,
+  "oldExecutionAliasApproved": false,
+  "newExperimentApproved": false,
+  "taskCompleted": false,
+  "v1Completed": false,
+  "reviewerActions": "Verified official actualmerge/current main/PR/commit graph/Issue and latest own pushCI, canonical mainclean/parents/tree, all seven native raw source/command/byte/hash/wait facts, CI872 complete decoded752-case log/audit and23success+5 conditional steps, actual bundle and immutable intent/claims/capacity/lease/protected metadata. No accepted tests/CI rerun, source edit, child agent, merge, POC actor change or experiment."
+}

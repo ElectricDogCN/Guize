@@ -37,6 +37,15 @@ PLANNING = importlib.util.module_from_spec(PLANNING_SPEC)
 assert PLANNING_SPEC and PLANNING_SPEC.loader
 PLANNING_SPEC.loader.exec_module(PLANNING)
 
+ACTORS_SPEC = importlib.util.spec_from_file_location(
+    "guize_transition_actors", os.path.join(os.path.dirname(__file__), "reservation-role-amendment.py")
+)
+ACTORS = None
+if os.path.isfile(os.path.join(os.path.dirname(__file__), "reservation-role-amendment.py")):
+    assert ACTORS_SPEC and ACTORS_SPEC.loader
+    ACTORS = importlib.util.module_from_spec(ACTORS_SPEC)
+    ACTORS_SPEC.loader.exec_module(ACTORS)
+
 PLAN = "specs/coordination/program-plan.yaml"
 ACTIVE = "specs/coordination/active-work.yaml"
 LEDGER = "specs/coordination/task-completions.yaml"
@@ -433,6 +442,7 @@ def validate_active_transition(
     base_active: dict[str, Any],
     current_active: dict[str, Any],
     errors: list[str],
+    actor_fields: frozenset[str] = frozenset(),
 ) -> None:
     base_tasks = mapping(base_plan.get("tasks"))
     current_tasks = mapping(current_plan.get("tasks"))
@@ -522,6 +532,7 @@ def validate_active_transition(
             )
             return
         allowed_entry_fields = {"status", "agentRole", "baseSha", "lease"}
+        allowed_entry_fields.update(actor_fields)
         if section == "foundationTasks":
             allowed_entry_fields.update({"branch", "exclusivePaths", "sharedPaths"})
         if entry_without_fields(base_entries[0], allowed_entry_fields) != entry_without_fields(
@@ -773,6 +784,28 @@ def validate_recorded_reservation_commit(
         )
 
 
+
+def check_actor_range(root: str, before: str, after: str, errors: list[str]) -> dict:
+    if ACTORS is not None:
+        return ACTORS.checked_range(root, before, after, errors)
+    # Older fixture/adoption snapshots can omit the new proof module. They
+    # gain no exception, and restored tips cannot conceal an actor edit.
+    introduced = git(root, "rev-list", "--reverse", f"{before}..{after}")
+    if introduced.returncode:
+        errors.append("Cannot inspect actor amendment history")
+        return {}
+    for node in introduced.stdout.split():
+        parent = resolve_ref(root, node+"^1")
+        left = load_ref(root, parent, ACTIVE) if parent else None
+        right = load_ref(root, node, ACTIVE)
+        if not isinstance(left, dict) or not isinstance(right, dict):
+            continue
+        a, b = mapping(left.get("tasks")), mapping(right.get("tasks"))
+        if any(any(a[t].get(k) != b[t].get(k) for k in ("implementer", "reviewer")) for t in a.keys() & b.keys()):
+            errors.append("Actor edit has no prospective amendment proof module at "+node)
+    return {}
+
+
 def main() -> int:
     args = parse_args()
     root = os.path.abspath(args.repo_root)
@@ -806,6 +839,7 @@ def main() -> int:
         emit("FAIL", "Program transition documents are missing or invalid")
         return 1
 
+    actor_amendments = check_actor_range(root, args.base_ref, args.head_ref, errors)
     validate_active_program_scope(current_plan, current_active, errors)
     validate_wave_activation(current_plan, errors)
     RECOVERY.validate_frozen_changes(root, args.base_ref, args.head_ref, errors)
@@ -864,6 +898,7 @@ def main() -> int:
                 base_active,
                 current_active,
                 errors,
+                actor_amendments.get(transition_task, frozenset()),
             )
 
     if errors:
