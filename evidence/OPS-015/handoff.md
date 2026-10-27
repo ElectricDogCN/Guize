@@ -1,6 +1,6 @@
 # OPS-015 performance rework Handoff
 
-Task OPS-015 / Issue153. Original registered branch chore/OPS-015-role-amendment-v2; current dirty HEAD and actual integration comparison target 955d226134e2562d7f509ffb320f352d8bc08c6d. Task/Active registered base36d unchanged. Read actual next source/tree from Git; this is a precommit snapshot.
+Task OPS-015 / Issue153. Original registered branch chore/OPS-015-role-amendment-v2; current dirty HEAD and actual integration comparison target 955d226134e2562d7f509ffb320f352d8bc08c6d. Initial5c retained base36d and its raw lifecycle gate actually required audited target955. Current Own Task/Active base is consistently955; original registration/intent/other fields stay unchanged. Read actual next source/tree from Git; this is a precommit snapshot.
 
 Owner ElectricDogCN; Coordinator/Implementer/Integrator /root; independentReviewer /root/gz022_planning_independent_review. Current in_progress/implementer, MOD-GOV/high, original five claims, coordinationGroup reservation-role-amendment, integrationOrder11, sharedPaths none. Original168h lease acquired2026-10-27T05:33:14Z/expires2026-11-03T05:33:14Z, no renewal. Consumed contract versions Program1/Task2/Registry1.
 
@@ -13,3 +13,5 @@ Code change only reuses successful structural meta-validation by actualSchema te
 Next: finish meaningful affected tests; exact committed-source14 chain plus required tests/full same-headCI and independent source acceptance; new ordinary codePR, actual code main own7/pushCI/acceptance; fresh normalReview then Completion. Completion uses latest actual rework codePR/main once integrated, never failedbb0 or a metadata main, and never simply transfers oldPR155 identity to this new code. Later POC actor transactions and fresh experiments stay separate.
 
 Rollback is ordinary forward reviewable correction; no ref/raw/database deletion, reset/rebase/force or third retry of oldCI875. Failed Reviewbb0 remains outside this rework parent line.
+
+Source5c actual fixed-source result: first6 commands exit0, raw-lifecycle exit1 for Own base mismatch, last7 unexecuted. All original8 result/raw files are preserved in rework-rejected-source-5c30e01/index.json. This ordinary forward fix changes only Own Active/Task base and OwnEvidence; code pins/claims/actors/lease remain unchanged. New source full14/CI acceptance remains pending.

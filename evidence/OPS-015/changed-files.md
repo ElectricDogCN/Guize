@@ -1,4 +1,4 @@
-# Exact rework source paths
+# Exact forward-corrected rework source paths
 
 - `evidence/OPS-015/changed-files.md`
 - `evidence/OPS-015/commands.txt`
@@ -66,7 +66,17 @@
 - `evidence/OPS-015/rework-ci875-prerequisites/060.zlib.b64`
 - `evidence/OPS-015/rework-ci875-prerequisites/061.zlib.b64`
 - `evidence/OPS-015/rework-ci875-prerequisites/index.json`
+- `evidence/OPS-015/rework-rejected-source-5c30e01/000.zlib.b64`
+- `evidence/OPS-015/rework-rejected-source-5c30e01/001.zlib.b64`
+- `evidence/OPS-015/rework-rejected-source-5c30e01/002.zlib.b64`
+- `evidence/OPS-015/rework-rejected-source-5c30e01/003.zlib.b64`
+- `evidence/OPS-015/rework-rejected-source-5c30e01/004.zlib.b64`
+- `evidence/OPS-015/rework-rejected-source-5c30e01/005.zlib.b64`
+- `evidence/OPS-015/rework-rejected-source-5c30e01/006.zlib.b64`
+- `evidence/OPS-015/rework-rejected-source-5c30e01/007.zlib.b64`
+- `evidence/OPS-015/rework-rejected-source-5c30e01/index.json`
 - `evidence/OPS-015/summary.md`
 - `scripts/check-program-plan-history.py`
+- `specs/coordination/active-work.yaml`
 - `specs/tasks/OPS-015.md`
 - `tests/governance/test_reservation_role_amendment.py`
