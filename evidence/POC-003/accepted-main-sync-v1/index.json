@@ -1,0 +1,93 @@
+{
+  "kind": "ACTUAL_LOCAL_MAIN_SYNC_AND_PROSPECTIVE_GATE_CONTEXT",
+  "componentCommit": "c6a3ed76abf70b02947b9ffaa09869c848250f42",
+  "localMerge": "43634485a674167c4c198bc406126f2127021a25",
+  "integrationBase": "746e23e582501fa08380c3f3301bdc1774902f7c",
+  "registrationBase": "760f6c5838597d1d66c0a536ecbf440ef5a7dfec",
+  "items": [
+    {
+      "sourceRef": "poc003-single-owner-precommit-independent-review-v1.json",
+      "bytes": 22504,
+      "sha256": "354ea283b34b67d62e23493387894b36af59afc94f1e7b7b9ef0ebf33fbf98c7",
+      "encoding": "zlib+base64",
+      "retainedRef": "evidence/POC-003/accepted-main-sync-v1/retained-001.json"
+    },
+    {
+      "sourceRef": "poc003-single-owner-component-commit-v1/results.json",
+      "bytes": 3622,
+      "sha256": "c4dd9732b6b60b64e28701bb1ae42256b9bad7d1a56be83ce9b5a0ed8dfdce04",
+      "encoding": "zlib+base64",
+      "retainedRef": "evidence/POC-003/accepted-main-sync-v1/retained-002.json"
+    },
+    {
+      "sourceRef": "poc003-single-owner-component-commit-v1/message.txt",
+      "bytes": 553,
+      "sha256": "362e19f30eddc936231f2ce38ceec6d9d44cd17c889b82b36f50dbd307390b24",
+      "encoding": "zlib+base64",
+      "retainedRef": "evidence/POC-003/accepted-main-sync-v1/retained-003.json"
+    },
+    {
+      "sourceRef": "poc003-single-owner-component-commit-v1/add.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "zlib+base64",
+      "retainedRef": "evidence/POC-003/accepted-main-sync-v1/retained-004.json"
+    },
+    {
+      "sourceRef": "poc003-single-owner-component-commit-v1/add.stderr.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "zlib+base64",
+      "retainedRef": "evidence/POC-003/accepted-main-sync-v1/retained-005.json"
+    },
+    {
+      "sourceRef": "poc003-single-owner-component-commit-v1/commit.stdout.raw",
+      "bytes": 1923,
+      "sha256": "1955f0f01790daaa794e5a54042d7e539a8f29c55b753d88bbeb7d4b05451e3d",
+      "encoding": "zlib+base64",
+      "retainedRef": "evidence/POC-003/accepted-main-sync-v1/retained-006.json"
+    },
+    {
+      "sourceRef": "poc003-single-owner-component-commit-v1/commit.stderr.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "zlib+base64",
+      "retainedRef": "evidence/POC-003/accepted-main-sync-v1/retained-007.json"
+    },
+    {
+      "sourceRef": "poc003-accepted-main-sync-v1/results.json",
+      "bytes": 1004,
+      "sha256": "c18c1e6fe471d08189457a3d4321bcaae4567b7ab6fe667329e98a74a6c56045",
+      "encoding": "zlib+base64",
+      "retainedRef": "evidence/POC-003/accepted-main-sync-v1/retained-008.json"
+    },
+    {
+      "sourceRef": "poc003-accepted-main-sync-v1/merge.stdout.raw",
+      "bytes": 57391,
+      "sha256": "53d02bc6e2ce92572d0321fc15f3b717809fa1be7c87451a3d83be0159569203",
+      "encoding": "zlib+base64",
+      "retainedRef": "evidence/POC-003/accepted-main-sync-v1/retained-009.json"
+    },
+    {
+      "sourceRef": "poc003-accepted-main-sync-v1/merge.stderr.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "encoding": "zlib+base64",
+      "retainedRef": "evidence/POC-003/accepted-main-sync-v1/retained-010.json"
+    },
+    {
+      "sourceRef": "archive_poc003_accepted_main_sync_v1.py",
+      "bytes": 5039,
+      "sha256": "c87248c53650969e45194d6e59810fb0d938a0aaca114f0770ac7b3aaf4bdf2d",
+      "encoding": "zlib+base64",
+      "retainedRef": "evidence/POC-003/accepted-main-sync-v1/retained-011.json"
+    }
+  ],
+  "retainedItems": 11,
+  "decodedBytes": 92036,
+  "codeTreeUnchangedFromComponent": true,
+  "sourceGatesExecuted": false,
+  "ciAccepted": false,
+  "published": false,
+  "nativeOwnerOrAtsAccepted": false
+}

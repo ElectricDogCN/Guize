@@ -1,11 +1,25 @@
 # POC-003 current integration candidate inventory
 
-Base: 760f6c5838597d1d66c0a536ecbf440ef5a7dfec
+Integration Base: 746e23e582501fa08380c3f3301bdc1774902f7c
+Registration Base: 760f6c5838597d1d66c0a536ecbf440ef5a7dfec
 Branch: chore/POC-003-ats-range
 
-Current cumulative paths: 2641. Single-thread execution-owner source and30 pure tests accepted; native owner/ATS/media/POC remain pending.
+Current cumulative paths: 2654. Accepted main synchronized locally; current-source15/CI and native owner/ATS/media/POC remain pending.
 
 - `evidence/POC-003/EVIDENCE-STRUCTURE.md`
+- `evidence/POC-003/accepted-main-sync-v1/.gitattributes`
+- `evidence/POC-003/accepted-main-sync-v1/index.json`
+- `evidence/POC-003/accepted-main-sync-v1/retained-001.json`
+- `evidence/POC-003/accepted-main-sync-v1/retained-002.json`
+- `evidence/POC-003/accepted-main-sync-v1/retained-003.json`
+- `evidence/POC-003/accepted-main-sync-v1/retained-004.json`
+- `evidence/POC-003/accepted-main-sync-v1/retained-005.json`
+- `evidence/POC-003/accepted-main-sync-v1/retained-006.json`
+- `evidence/POC-003/accepted-main-sync-v1/retained-007.json`
+- `evidence/POC-003/accepted-main-sync-v1/retained-008.json`
+- `evidence/POC-003/accepted-main-sync-v1/retained-009.json`
+- `evidence/POC-003/accepted-main-sync-v1/retained-010.json`
+- `evidence/POC-003/accepted-main-sync-v1/retained-011.json`
 - `evidence/POC-003/assumptions.md`
 - `evidence/POC-003/buffer-domain-source-research/.gitattributes`
 - `evidence/POC-003/buffer-domain-source-research/allocator-independent-design-review.json`

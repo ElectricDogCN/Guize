@@ -1,3 +1,7 @@
+## Accepted-main synchronization (local only; new fixed-source gates pending)
+
+The actual ordinary author merge43634485a674167c4c198bc406126f2127021a25 has parents[c6a3ed76abf70b02947b9ffaa09869c848250f42,746e23e582501fa08380c3f3301bdc1774902f7c] and treefd013f7498fa58ce0e5ae03c1cfad35bf5d2f7da. Merge actualwait0/clean, with no conflict resolution or discarded history. The entire Ownpoc tree remains byte-identical to the tested componentc6. Registrationbase760/Taskfront/roles/lease/claims remain; current integrationbase is accepted main746. Task prospective15 commands now use746, without rewriting historical logs. Exact commit/precommit/merge raw records are retained in accepted-main-sync-v1/index.json. This local sync is not publication, source15/CI acceptance, native owner/ATS validation or POC completion. Freeze the next metadata source before running its actual15 and same-head CI.
+
 
 ## Single-thread execution owner (source and30 pure cases; native integration pending)
 
