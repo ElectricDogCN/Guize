@@ -1,0 +1,29 @@
+# OPS-016 reservation inventory
+
+- `evidence/OPS-016/api-samples/README.md`
+- `evidence/OPS-016/assumptions.md`
+- `evidence/OPS-016/changed-files.md`
+- `evidence/OPS-016/commands.txt`
+- `evidence/OPS-016/follow-ups.md`
+- `evidence/OPS-016/handoff.md`
+- `evidence/OPS-016/migration-report/README.md`
+- `evidence/OPS-016/performance/README.md`
+- `evidence/OPS-016/prerequisites/000.zlib.b64`
+- `evidence/OPS-016/prerequisites/001.zlib.b64`
+- `evidence/OPS-016/prerequisites/002.zlib.b64`
+- `evidence/OPS-016/prerequisites/003.zlib.b64`
+- `evidence/OPS-016/prerequisites/004.zlib.b64`
+- `evidence/OPS-016/prerequisites/005.zlib.b64`
+- `evidence/OPS-016/prerequisites/006.zlib.b64`
+- `evidence/OPS-016/prerequisites/index.json`
+- `evidence/OPS-016/reservation-intent.json`
+- `evidence/OPS-016/risks.md`
+- `evidence/OPS-016/rollback-verification/README.md`
+- `evidence/OPS-016/scope.md`
+- `evidence/OPS-016/screenshots/README.md`
+- `evidence/OPS-016/security/README.md`
+- `evidence/OPS-016/summary.md`
+- `evidence/OPS-016/test-results/README.md`
+- `specs/coordination/active-work.yaml`
+- `specs/coordination/program-plan.yaml`
+- `specs/tasks/OPS-016.md`
