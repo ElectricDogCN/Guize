@@ -106,7 +106,7 @@ tasks:
   agentRole: implementer
   branch: chore/OPS-016-cumulative-coverage-v2
   baseBranch: main
-  baseSha: 263ac36dcc08de09ccb1ffc7c208381a819c0304
+  baseSha: 285fa604607604d517089b3c9eb0761a71d33f47
   workPackage: WP-M0-01
   programPlan: specs/coordination/program-plan.yaml
   programTaskId: OPS-016

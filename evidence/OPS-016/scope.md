@@ -1,3 +1,3 @@
-# OPS-016 实现范围
+# OPS-016 返工范围
 
-已接受reservation main263后，正常in_progress仅改机制脚本及原真实Git测试两路径，加Own Task/Evidence/Program/Active生命周期元数据。脚本仅分离最近代码非空与累计净五路径覆盖。原OPS015 intent/PR157-mainab9、foreign、POC/阈值/lease、ledger/recovery不变。
+当前审计基线285fa604607604d517089b3c9eb0761a71d33f47，原有效预留263及同两claims仍授权本次in_progress返工。仅机制脚本、安全解析与必要真实Git测试、Own Task/Active base和OwnEvidence；Program不改。保留所有actors/claims/lease/风险/顺序、foreign、POC阈值与原件、OPS015intent/PR157-mainab9身份。两次mainCI取消不是通过；不发起第三次相同重试。当前新源15/53/fullCI尚待。

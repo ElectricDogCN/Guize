@@ -553,3 +553,55 @@ def test_one_schema_read_binds_validation_to_a_moving_ref(schema_history,monkeyp
     assert len(reads)==1 and not list(first.iter_errors(1)) and list(first.iter_errors('value'))
     second = h.snapshot_validator(str(repo),'HEAD',h.REGISTRY_SCHEMA,'missing')
     assert len(reads)==2 and list(second.iter_errors(1)) and not list(second.iter_errors('value'))
+
+
+def assert_same_metadata_values_and_types(expected, actual):
+    assert type(actual) is type(expected)
+    if isinstance(expected, dict):
+        assert list(actual) == list(expected)
+        for (expected_key, expected_value), (actual_key, actual_value) in zip(expected.items(), actual.items()):
+            assert_same_metadata_values_and_types(expected_key, actual_key)
+            assert_same_metadata_values_and_types(expected_value, actual_value)
+    elif isinstance(expected, (list, tuple)):
+        assert len(actual) == len(expected)
+        for expected_value, actual_value in zip(expected, actual):
+            assert_same_metadata_values_and_types(expected_value, actual_value)
+    else:
+        assert actual == expected
+
+
+@pytest.mark.parametrize('python_fallback', [False, True])
+def test_safe_metadata_parser_preserves_actual_git_types_and_fresh_head(tmp_path, monkeypatch, python_fallback):
+    if python_fallback:
+        monkeypatch.delattr(yaml, 'CSafeLoader', raising=False)
+    for ref in (PROOF.REGISTRATION, 'HEAD'):
+        for path in (PROOF.PLAN, PROOF.ACTIVE):
+            raw = PROOF.blob(str(ROOT), ref, path)
+            assert_same_metadata_values_and_types(
+                yaml.safe_load(raw), PROOF.document(str(ROOT), ref, path))
+
+    repo = tmp_path/'moving-metadata'
+    repo.mkdir()
+    PROOF.git(repo, 'init', '--quiet')
+    PROOF.git(repo, 'config', 'user.name', 'Safe metadata fixture')
+    PROOF.git(repo, 'config', 'user.email', 'safe-metadata@example.invalid')
+    PROOF.git(repo, 'config', 'core.autocrlf', 'false')
+    path = 'metadata.yaml'
+
+    def commit(raw):
+        (repo/path).write_bytes(raw)
+        PROOF.git(repo, 'add', path)
+        PROOF.git(repo, 'commit', '--quiet', '-m', 'Actual metadata snapshot')
+
+    first = b'enabled: true\ncount: 1\nratio: 1.5\nempty: null\ncode: "001"\nwhen: 2026-10-27T18:00:00Z\nitems: &items [yes, 3, null]\ncopy: *items\n'
+    commit(first)
+    assert_same_metadata_values_and_types(yaml.safe_load(first), PROOF.document(repo, 'HEAD', path))
+    second = b'enabled: false\ncount: 2\nwhen: "2026-10-27T18:00:00Z"\n'
+    commit(second)
+    assert_same_metadata_values_and_types(yaml.safe_load(second), PROOF.document(repo, 'HEAD', path))
+    commit(b'[]\n')
+    with pytest.raises(PROOF.AmendmentError, match='requires a mapping'):
+        PROOF.document(repo, 'HEAD', path)
+    commit(b'!!python/object:builtins.object {}\n')
+    with pytest.raises(yaml.constructor.ConstructorError):
+        PROOF.document(repo, 'HEAD', path)

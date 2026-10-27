@@ -1,0 +1,22 @@
+{
+  "task": "OPS-016",
+  "provenance": "Actual exec tool chunk e6c0c2, native command completed exit0; no separately captured raw file.",
+  "command": "C:/ProgramData/anaconda3/python.exe -X utf8 -B -m pytest -vv -p no:cacheprovider tests/governance/test_reservation_role_amendment.py -k safe_metadata_parser_preserves_actual_git_types_and_fresh_head",
+  "passed": 2,
+  "deselected": 51,
+  "seconds": 3.07,
+  "exitCode": 0,
+  "sourceState": "uncommitted rework from actualmain285",
+  "codePins": {
+    "scripts/reservation-role-amendment.py": {
+      "bytes": 23570,
+      "sha256": "471f9b7335308fe2d9f2dc1bd47ded73fdc11d06f2fcfb2305e35bc024f91930"
+    },
+    "tests/governance/test_reservation_role_amendment.py": {
+      "bytes": 31224,
+      "sha256": "c1caeb18d66060c4d7d7f38cd49fd3e2800969a674bd0cc1b234edf808ad5f01"
+    }
+  },
+  "committedSourceQualification": false,
+  "hostedQualification": false
+}
