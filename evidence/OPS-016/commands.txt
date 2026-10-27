@@ -1,14 +1,30 @@
-# OPS-016 normal Review commands; actual exits in source-bound raw logs.
-git diff --check d166b4d39f2dcc40c99b2bbd79db568c7cd72270...HEAD
+git diff --check f2dae2e3069c16982bb9573229fe1e419f8559f9...HEAD
 python scripts/check-task-file.py --task OPS-016
 python scripts/check-schemas.py
-python scripts/check-program-plan-integrity.py --base-ref d166b4d39f2dcc40c99b2bbd79db568c7cd72270
-python scripts/check-program-plan-history.py --base-ref d166b4d39f2dcc40c99b2bbd79db568c7cd72270 --head-ref HEAD --task OPS-016 --branch-name chore/OPS-016-normal-review
-python scripts/check-program-plan-transitions.py --base-ref d166b4d39f2dcc40c99b2bbd79db568c7cd72270 --head-ref HEAD --task OPS-016 --branch-name chore/OPS-016-normal-review
-python scripts/check-program-lifecycle-guards.py --base-ref d166b4d39f2dcc40c99b2bbd79db568c7cd72270 --head-ref HEAD --task OPS-016 --branch-name chore/OPS-016-normal-review
-python scripts/run-agent-coordination-gate.py --base-ref d166b4d39f2dcc40c99b2bbd79db568c7cd72270 --head-ref HEAD --task OPS-016 --branch-name chore/OPS-016-normal-review
-python scripts/check-program-plan-finalization.py --base-ref d166b4d39f2dcc40c99b2bbd79db568c7cd72270 --head-ref HEAD --task OPS-016
-python scripts/run-task-scope-gate.py --task OPS-016 --base d166b4d39f2dcc40c99b2bbd79db568c7cd72270
+python scripts/check-program-plan-integrity.py --base-ref f2dae2e3069c16982bb9573229fe1e419f8559f9
+python scripts/check-program-plan-history.py --base-ref f2dae2e3069c16982bb9573229fe1e419f8559f9 --head-ref HEAD --task OPS-016 --branch-name chore/OPS-016-normal-completion
+python scripts/check-program-plan-transitions.py --base-ref f2dae2e3069c16982bb9573229fe1e419f8559f9 --head-ref HEAD --task OPS-016 --branch-name chore/OPS-016-normal-completion
+python scripts/check-program-lifecycle-guards.py --base-ref f2dae2e3069c16982bb9573229fe1e419f8559f9 --head-ref HEAD --task OPS-016 --branch-name chore/OPS-016-normal-completion
+python scripts/run-agent-coordination-gate.py --base-ref f2dae2e3069c16982bb9573229fe1e419f8559f9 --head-ref HEAD --task OPS-016 --branch-name chore/OPS-016-normal-completion
+python scripts/check-program-plan-finalization.py --base-ref f2dae2e3069c16982bb9573229fe1e419f8559f9 --head-ref HEAD --task OPS-016
+python scripts/run-task-scope-gate.py --task OPS-016 --base f2dae2e3069c16982bb9573229fe1e419f8559f9
 python scripts/check-evidence.py --task OPS-016
 python scripts/check-project-readiness.py
 python scripts/check-markdown.py
+
+## Accepted prerequisite Review main; current Completion remains pending
+
+Task: OPS-016
+Source Commit: f2dae2e3069c16982bb9573229fe1e419f8559f9
+Last code identity: PR-163 / d166b4d39f2dcc40c99b2bbd79db568c7cd72270
+Status: PASS (accepted prerequisite Review main only)
+Result: SUCCESS (accepted prerequisite Review main only)
+Evidence: normal-completion-prerequisites/027.zlib.b64; normal-completion-prerequisites/000.zlib.b64
+Actual prerequisite checks: own seven commands actual-wait exited0; own full push CI and complete independent main acceptance received. Their exact originals retain actual versions, commands, results and hashes.
+Current Completion13/full CI/source review/actual Completion main: UNEXECUTED/PENDING. No current candidate acceptance, actual Completion or capacity release is claimed.
+
+Executed prerequisite command (accepted Review main only, not current Completion):
+Command: /home/sur/.cache/guize-takeover/governance-venv/bin/python -B scripts/check-program-plan-integrity.py --base-ref d166b4d39f2dcc40c99b2bbd79db568c7cd72270
+Exit Code: 0
+Result: PASS (accepted prerequisite Review main only)
+Evidence: normal-completion-prerequisites/024.zlib.b64
