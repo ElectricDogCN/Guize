@@ -3,7 +3,7 @@
 Base: 760f6c5838597d1d66c0a536ecbf440ef5a7dfec
 Branch: chore/POC-003-ats-range
 
-Current cumulative paths: 2619. Fixed initial-exec control component accepted; lab/ATS/media/POC remain pending.
+Current cumulative paths: 2641. Single-thread execution-owner source and30 pure tests accepted; native owner/ATS/media/POC remain pending.
 
 - `evidence/POC-003/EVIDENCE-STRUCTURE.md`
 - `evidence/POC-003/assumptions.md`
@@ -2403,6 +2403,26 @@ Current cumulative paths: 2619. Fixed initial-exec control component accepted; l
 - `evidence/POC-003/single-exec-control-v1/129-f689800cfcd3.zlib.b64`
 - `evidence/POC-003/single-exec-control-v1/130-459a380386c5.zlib.b64`
 - `evidence/POC-003/single-exec-control-v1/index.json`
+- `evidence/POC-003/single-owner-integration-v1/.gitattributes`
+- `evidence/POC-003/single-owner-integration-v1/index.json`
+- `evidence/POC-003/single-owner-integration-v1/retained-001.json`
+- `evidence/POC-003/single-owner-integration-v1/retained-002.json`
+- `evidence/POC-003/single-owner-integration-v1/retained-003.json`
+- `evidence/POC-003/single-owner-integration-v1/retained-004.json`
+- `evidence/POC-003/single-owner-integration-v1/retained-005.json`
+- `evidence/POC-003/single-owner-integration-v1/retained-006.json`
+- `evidence/POC-003/single-owner-integration-v1/retained-007.json`
+- `evidence/POC-003/single-owner-integration-v1/retained-008.json`
+- `evidence/POC-003/single-owner-integration-v1/retained-009.json`
+- `evidence/POC-003/single-owner-integration-v1/retained-010.json`
+- `evidence/POC-003/single-owner-integration-v1/retained-011.json`
+- `evidence/POC-003/single-owner-integration-v1/retained-012.json`
+- `evidence/POC-003/single-owner-integration-v1/retained-013.json`
+- `evidence/POC-003/single-owner-integration-v1/retained-014.json`
+- `evidence/POC-003/single-owner-integration-v1/retained-015.json`
+- `evidence/POC-003/single-owner-integration-v1/retained-016.json`
+- `evidence/POC-003/single-owner-integration-v1/retained-017.json`
+- `evidence/POC-003/single-owner-integration-v1/retained-018.json`
 - `evidence/POC-003/source-18163e1-validation/ci809.raw.txt.base64.json`
 - `evidence/POC-003/source-18163e1-validation/ci809.snapshot.json`
 - `evidence/POC-003/source-18163e1-validation/index.json`
@@ -2574,6 +2594,7 @@ Current cumulative paths: 2619. Fixed initial-exec control component accepted; l
 - `poc/POC-03-ats-range/config.example.json`
 - `poc/POC-03-ats-range/container-supervision-design.md`
 - `poc/POC-03-ats-range/durable_peak_probe.py`
+- `poc/POC-03-ats-range/epoch_owner.py`
 - `poc/POC-03-ats-range/grants.py`
 - `poc/POC-03-ats-range/http_timing.py`
 - `poc/POC-03-ats-range/input_profile.py`
@@ -2609,6 +2630,7 @@ Current cumulative paths: 2619. Fixed initial-exec control component accepted; l
 - `poc/POC-03-ats-range/test_cache_probe.py`
 - `poc/POC-03-ats-range/test_cache_probe_native.py`
 - `poc/POC-03-ats-range/test_durable_peak_probe.py`
+- `poc/POC-03-ats-range/test_epoch_owner.py`
 - `poc/POC-03-ats-range/test_gateway_native.py`
 - `poc/POC-03-ats-range/test_http_timing_native.py`
 - `poc/POC-03-ats-range/test_input_profile.py`

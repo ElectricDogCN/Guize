@@ -2,7 +2,7 @@
 """Isolated POC sandbox. Execute only after independent input/resource approval."""
 from __future__ import annotations
 import argparse,copy,hashlib,hmac,http.client,http.server,json,os,re,secrets,shutil,socket
-import signal,subprocess,threading,time,urllib.parse
+import signal,subprocess,sys,threading,time,urllib.parse
 from datetime import datetime,timedelta,timezone
 from pathlib import Path
 from grants import Grant
@@ -27,6 +27,9 @@ def write_json(path,value):
     data=(json.dumps(value,ensure_ascii=False,indent=2)+'\n').encode()
     fd=os.open(path,os.O_WRONLY|os.O_CREAT|os.O_EXCL,0o600)
     with os.fdopen(fd,'wb') as out:out.write(data)
+
+def raw_writer(path):
+    return open(path,'xb',opener=lambda name,flags:os.open(name,flags|os.O_CLOEXEC,0o600))
 def unique_json(raw):
     def pairs(rows):
         result={}
@@ -147,8 +150,10 @@ def prepare(config_path,run):
     cfg['exportBuildReceiptSha256']=digest(build_path)
     if live is not None:
         cfg['instrumentedRuntime']=receipt['instrumentedLiveBuffer']
-        for name in ('owned_epoch.py','instrumentation/exec_gate.py','live_buffer_probe.py','durable_peak_probe.py','instrumentation/live_peak_journal.h','instrumentation/live_pool_capacity.h','instrumentation/patch-manifest.json','instrumentation/ats-live-buffer-accounting.patch','instrumentation/live_buffer_accounting.h','instrumentation/live_buffer_observer.cc'):
+        for name in ('owned_epoch.py','epoch_owner.py','instrumentation/exec_gate.py','instrumentation/single_exec_gate.py','instrumentation/single_exec_filter.py','live_buffer_probe.py','durable_peak_probe.py','instrumentation/live_peak_journal.h','instrumentation/live_pool_capacity.h','instrumentation/patch-manifest.json','instrumentation/ats-live-buffer-accounting.patch','instrumentation/live_buffer_accounting.h','instrumentation/live_buffer_observer.cc'):
             cfg['implementationSources'][name]=digest(HERE/name)
+        interpreter=Path(sys.executable).resolve(strict=True)
+        cfg['executionInterpreter']={'path':str(interpreter),'sha256':digest(interpreter)}
     now=datetime.now(timezone.utc)
     cfg['grants']={user:dict(grantId='poc003-grant-'+user,principalId=user,
         validFrom=(now-timedelta(seconds=5)).isoformat().replace('+00:00','Z'),
@@ -208,6 +213,7 @@ class State:
         self.origin_rows={};self.active_origin={};self.gateway_rows={};self.gateway_active=0;self.ats=None;self.ats_logs=[]
         self.allocator_dumps=0;self.live_snapshots=0;self.cache_ready=None
         self.ats_epoch=None;self.owned_epochs=[];self.epoch_closures=[]
+        self.epoch_owner=None
         self.grants={user:Grant(row['grantId'],row['principalId'],row['validFrom'],row['validUntil'])
                      for user,row in self.cfg['grants'].items()}
         if set(self.grants)!=set(self.cfg['users']) or any(g.principal!=u for u,g in self.grants.items()):
@@ -239,51 +245,25 @@ class State:
                 self.log('controller',dict(action=label,startedAt=started,finishedAt=utc(),argv=command,exitCode=result.returncode))
                 if result.returncode:raise RuntimeError(label+' failed; raw retained')
                 return
-            epoch=None;closure=None
-            with (self.run/'commands'/(label+'.stdout.raw')).open('xb') as out,(self.run/'commands'/(label+'.stderr.raw')).open('xb') as err:
-                try:
-                    epoch=self._launch_epoch(command,label,out,err)
-                    code=epoch.process.wait(timeout=30)
-                finally:
-                    if epoch is not None:closure=self._finish_epoch(epoch,label)
+            if self.epoch_owner is None or args not in (['-C','verify_config'],['-C','clear_cache']):
+                raise ValueError('single-thread owner and fixed ATS helper required')
+            with raw_writer(self.run/'commands'/(label+'.stdout.raw')) as out,raw_writer(self.run/'commands'/(label+'.stderr.raw')) as err:
+                result=self.epoch_owner.call('launch',operation=args[1],label=label,descriptors=(out.fileno(),err.fileno()))
+            self.owned_epochs.append(result['description']);closure=result['closure'];code=result['exitCode']
+            self.epoch_closures.append(closure);self.log('controller',closure)
             self.log('controller',dict(action=label,startedAt=started,finishedAt=utc(),argv=command,exitCode=code))
             if code or not closure['accepted']:raise RuntimeError(label+' epoch failed; raw retained')
-    def _epoch_components(self):
-        required={str(Path(self.cfg['pkgroot'])/name):sha for name,sha in self.cfg['instrumentedRuntime']['components'].items()}
-        required.update({row['path']:row['sha256'] for row in self.cfg['plugins'].values()})
-        required.update({str(self.run/name):sha for name,sha in self.cfg['epochConfiguration'].items()})
-        return required
     def _launch_epoch(self,command,label,out,err):
-        from owned_epoch import OwnedEpoch
-        required=self._epoch_components();number=len(self.owned_epochs)
-        root=self.run/'process-epochs'/('epoch-'+str(number));root.mkdir(mode=0o700)
-        directory=root/'journal'
-        epoch=OwnedEpoch(command,required[command[0]],directory,root/'launch',
-            env=self.ats_environment(directory),cwd=self.run,stdout=out,stderr=err,components=required)
+        expected=[str(Path(self.cfg['pkgroot'])/'usr/bin/traffic_server'),'--run-root='+str(self.run),'-n','2']
+        if self.epoch_owner is None or command!=expected:raise ValueError('fixed ATS service through owner required')
+        epoch=self.epoch_owner.call('launch',operation='start',label=label,descriptors=(out.fileno(),err.fileno()))
         self.owned_epochs.append(epoch)
-        try:
-            epoch.prepare();epoch.activate()
-            self.log('controller',dict(action='owned-epoch-released',label=label,pid=epoch.process.pid,
-                birth=epoch.birth_identity,epochRef=str(root.relative_to(self.run))))
-            return epoch
-        except BaseException:
-            self._finish_epoch(epoch,label+'-launch-failed');raise
-    def _finish_epoch(self,epoch,label):
-        root=epoch.output.parent;result=None;failure=None
-        try:
-            if epoch.process is not None and epoch.process.poll() is None:epoch.abort()
-            result=epoch.finish_journal(root/'finished')
-        except Exception as error:failure=type(error).__name__+': '+str(error)
-        finally:
-            if epoch.process is not None and epoch.process.poll() is None:epoch.abort()
-            else:epoch.close_channels()
-        row=dict(action='owned-epoch-closed',label=label,at=utc(),
-            pid=epoch.process.pid if epoch.process is not None else None,
-            epochRef=str(root.relative_to(self.run)),accepted=result is not None,
-            trackedEpoch=result,error=failure,exitCode=epoch.process.returncode if epoch.process is not None else None,
-            actualWaitCompleted=bool(epoch.record.get('waitCompleted')),
-            allDescendantsCovered=False,noSubsequentExecProven=False,fullMediaBufferBoundProven=False)
-        write_json(root/'closure.json',row);self.epoch_closures.append(row);self.log('controller',row)
+        self.log('controller',dict(action='owned-epoch-released',label=label,pid=epoch['birth']['pid'],
+            birth=epoch['birth'],epochRef=str(Path(epoch['output']).parent.relative_to(self.run))))
+        return epoch
+    def _finish_epoch(self,epoch,label,*,stop=False):
+        row=self.epoch_owner.call('finish',token=epoch['token'],label=label,stop=stop)
+        self.epoch_closures.append(row);self.log('controller',row)
         return row
     def ats_environment(self,journal_directory=None):
         env=dict(os.environ,LD_LIBRARY_PATH=self.cfg['ldLibraryPath'],TS_RUNROOT=str(self.run/'runroot.yaml'),
@@ -298,13 +278,14 @@ class State:
         with self.lock:return self._start_ats()
     def _start_ats(self):
         if self.ats is not None:raise ValueError('ATS child already exists')
-        number=len(self.ats_logs);out=(self.run/'log'/f'ats-{number}.stdout.raw').open('xb');err=(self.run/'log'/f'ats-{number}.stderr.raw').open('xb')
+        number=len(self.ats_logs);out=raw_writer(self.run/'log'/f'ats-{number}.stdout.raw');err=raw_writer(self.run/'log'/f'ats-{number}.stderr.raw')
         self.cache_ready=None;self.ats_logs.append((out,err))
         try:
             command=[str(Path(self.cfg['pkgroot'])/'usr/bin/traffic_server'),'--run-root='+str(self.run),'-n','2']
             if self.cfg.get('liveBufferObserver') is not None:
                 self.ats_epoch=self._launch_epoch(command,'ats-start-'+str(number),out,err)
-                self.ats=self.ats_epoch.view
+                from epoch_owner import OwnerTarget
+                self.ats=OwnerTarget(self.epoch_owner,self.ats_epoch)
             else:self.ats=subprocess.Popen(command,env=self.ats_environment(),cwd=self.run,stdout=out,stderr=err)
             self.log('controller',dict(action='ats-start',at=utc(),pid=self.ats.pid))
             return self._await_ats_ready(number)
@@ -328,15 +309,13 @@ class State:
                     with socket.create_connection(('127.0.0.1',self.cfg['atsPort']),timeout=.2):
                         self.cache_ready=observation
                         self.log('controller',dict(action='native-http-cache-ready',**observation))
-                    if self.ats_epoch is not None:self.ats_epoch.target_identity()
+                    if self.ats_epoch is not None:self.epoch_owner.call('identity',token=self.ats_epoch['token'])
                     if self.cfg.get('liveBufferObserver') is not None:self.live_buffer_snapshot('live-window-ready-'+str(number))
                     return
             except OSError:time.sleep(.1)
             time.sleep(.05)
         raise TimeoutError('ATS native HTTP cache and TCP readiness deadline')
     def live_buffer_snapshot(self,label,after_ns=0):
-        from live_buffer_probe import capture_live,capture_components
-        from buffer_probe import process_identity
         live=self.cfg.get('liveBufferObserver')
         if (live is None or self.ats is None or self.ats_epoch is None or self.cache_ready is None or self.cache_ready['atsPid']!=self.ats.pid
                 or self.gateway_active or any(self.active_origin.values()) or self.live_snapshots>=16
@@ -344,26 +323,23 @@ class State:
                 or not re.fullmatch('[A-Za-z0-9_-]{1,80}',label)):
             raise ValueError('owned ready instrumented ATS and explicit output label required')
         self.live_snapshots+=1
-        identity=process_identity(self.ats)
-        required={str(Path(self.cfg['pkgroot'])/name):sha for name,sha in self.cfg['instrumentedRuntime']['components'].items()}
-        required.update({row['path']:row['sha256'] for row in self.cfg['plugins'].values()})
-        components=capture_components(self.ats,required,self.run/(label+'-components'))
-        expected={key:live[key] for key in ('ledgerHeaderSha256','observerSourceSha256')}
         output=self.run/label
-        row=capture_live(self.ats,self.run/'cache-observer',output,expected,after_ns,
-                         journal_directory=self.ats_epoch.directory)
-        if process_identity(self.ats)!=identity:raise ValueError('ATS identity changed during observation')
-        row.update(action='live-buffer-snapshot',actualMappedComponents=required,componentMapping=components,nativeCacheReady=self.cache_ready,observedAt=utc())
+        row=self.epoch_owner.call('live_snapshot',token=self.ats_epoch['token'],label=label,after_ns=after_ns)
+        row.update(action='live-buffer-snapshot',observedAt=utc())
         write_json(output/'observation.json',row);return row
     def allocator_dump(self):
         with self.lock:
             if (self.ats is None or self.cache_ready is None or self.cache_ready['atsPid']!=self.ats.pid
                     or self.gateway_active or any(self.active_origin.values()) or self.allocator_dumps>=16):
                 raise ValueError('owned ready ATS, idle gateway/origin and diagnostic quota required')
-            from buffer_probe import capture_dump
             number=self.allocator_dumps;self.allocator_dumps+=1
             output=self.run/('allocator-dump-'+str(number))
-            row=capture_dump(self.ats,self.ats_logs[-1][1],output)
+            if self.cfg.get('liveBufferObserver') is None:
+                from buffer_probe import capture_dump
+                row=capture_dump(self.ats,self.ats_logs[-1][1],output)
+            else:
+                if self.ats_epoch is None or self.epoch_owner is None:raise ValueError('owned instrumented ATS required')
+                row=self.epoch_owner.call('allocator_dump',token=self.ats_epoch['token'])
             row.update(action='allocator-dump',observedAt=utc(),outputDir=str(output),
                        nativeCacheReady=self.cache_ready,activeOriginRequests=0,activeGatewayRequests=0)
             write_json(output/'diagnostic.json',row);return row
@@ -373,20 +349,14 @@ class State:
             child=self.ats;epoch=self.ats_epoch;closure=None
             try:
                 if epoch is not None:
-                    child=epoch.process
-                    if child.poll() is None:
-                        try:signal.pidfd_send_signal(epoch.pidfd,signal.SIGTERM)
-                        except ProcessLookupError:pass
-                        try:child.wait(timeout=10)
-                        except subprocess.TimeoutExpired:epoch.abort()
-                    closure=self._finish_epoch(epoch,'ats-stop')
+                    closure=self._finish_epoch(epoch,'ats-stop',stop=True)
                 elif child.poll() is None:
                     child.terminate()
                     try:child.wait(timeout=10)
                     except subprocess.TimeoutExpired:child.kill();child.wait(timeout=5)
-                self.log('controller',dict(action='ats-stop-owned-child',at=utc(),pid=child.pid,exitCode=child.returncode))
+                self.log('controller',dict(action='ats-stop-owned-child',at=utc(),pid=child.pid,
+                    exitCode=closure['exitCode'] if closure is not None else child.returncode))
             finally:
-                if epoch is not None and epoch.process.poll() is None:epoch.abort()
                 self.ats=None;self.ats_epoch=None;self.cache_ready=None
                 for streams in self.ats_logs:
                     for stream in streams:
@@ -618,6 +588,9 @@ def serve(run):
     state=State(run);cfg=state.cfg;servers=[];threads=[]
     # Bind explicitly only after this subcommand; port conflicts fail rather than reuse.
     try:
+        if cfg.get('liveBufferObserver') is not None:
+            from epoch_owner import EpochOwner
+            state.epoch_owner=EpochOwner(state.run,cfg)
         state.ats_command(['-C','verify_config'],'verify-config')
         origin=Server(('127.0.0.1',cfg['originPort']),Origin,state);servers.append(origin)
         thread=threading.Thread(target=origin.serve_forever,daemon=True);thread.start();threads.append(thread)
@@ -628,11 +601,15 @@ def serve(run):
             bind='127.0.0.1',ports=[cfg[k] for k in ('originPort','atsPort','entryPort')],formalPocAccepted=False))
         print(json.dumps(dict(status='LAB_RUNNING_NOT_ACCEPTED',entryPort=cfg['entryPort'],runDir=str(state.run))),flush=True)
         while time.monotonic()-state.started<cfg['maximumRunSeconds']:
+            if state.epoch_owner is not None:state.epoch_owner.check_alive()
             # clear_cache holds this lock across the owned stop/clear/start interval.
-            with state.lock:
+            # Never let an HTTP request holding the lock stop PID1's owner watch.
+            if not state.lock.acquire(timeout=.05):continue
+            try:
                 child=state.ats
                 if child is None or child.poll() is not None:raise RuntimeError('ATS child exited; raw retained')
                 child_pid=child.pid
+            finally:state.lock.release()
             try:
                 status=Path('/proc')/str(child_pid)/'status'
                 values={line.split(':',1)[0]:line.split(':',1)[1].strip() for line in status.read_text().splitlines() if line.startswith(('VmRSS:','VmHWM:'))}
@@ -642,7 +619,10 @@ def serve(run):
     except KeyboardInterrupt:pass
     finally:
         for server in reversed(servers):server.shutdown();server.server_close()
-        state.stop_ats();state.log('controller',dict(action='lab-stop',at=utc()))
+        try:state.stop_ats()
+        finally:
+            if state.epoch_owner is not None:state.epoch_owner.shutdown()
+        state.log('controller',dict(action='lab-stop',at=utc()))
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__);commands=parser.add_subparsers(dest='command',required=True)

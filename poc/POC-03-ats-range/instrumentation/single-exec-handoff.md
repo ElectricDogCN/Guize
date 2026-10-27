@@ -1,4 +1,4 @@
-> 当前组件已实际通过14项纯测试、62项读取回归及4项隔离原生控制用例；OwnedEpoch提供默认关闭的fixed_single_exec，lab尚未启用，完整媒体与POC仍待。原件见[控制用例档案](../../../evidence/POC-003/single-exec-control-v1/index.json)。
+> 既有9a428c6组件通过14项纯测试、62项读取回归及4项隔离原生控制用例。后续源码已把instrumented lab接入专用单线程owner，通过源码级审查及30项纯测试独立接受；新owner/ATS实际执行尚未运行，完整媒体与POC仍待。旧结果不转移到新字节；状态和失败修复见[当前交接](../../../evidence/POC-003/handoff.md)。原件见[控制用例档案](../../../evidence/POC-003/single-exec-control-v1/index.json)及[owner集成档案](../../../evidence/POC-003/single-owner-integration-v1/index.json)。
 
 # 固定首次执行交接：实现边界与待接入事项
 

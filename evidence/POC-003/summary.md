@@ -1,4 +1,10 @@
 
+## Single-thread execution owner (source and30 pure cases; native integration pending)
+
+The instrumented lab now delegates its fixed ATS helper/start/restart/stop, pidfd signals, native diagnostics and actual target waits/journals to a POC-specific singleton owner created before HTTP threads. The namespace PID1 watches it without waiting for State.lock; lost/ambiguous control exits70 directly and requires external actual namespace termination evidence. OwnerTarget is a bound metadata/liveness view without target wait/signal methods. The local PID1/UID/caps/NoNewPrivs guard is not external profile approval.
+
+Source-only review c169f392... accepted owner30b9cfc4... and lab493ff3a3... after four P2 fixes. Actual pure wrapper wait0 and30 unique JUnit cases (14 prior+16 new)/0FES/pytest0.65s were independently accepted by e7c0a3ea...;11 source pins stayed identical. New tests use mocked process/RPC/fatal paths and real regular-file/probe-open checks stopped before a mocked pidfd. No new native owner, target, filter, signal, ATS, media or container runs. The18 retained items/161090 decoded bytes include negative reviews, actual v2 source preimages, the explicitly labelled hash-verified23011-byte v1 reconstruction, exact test outputs and the metadata inventory guard failure/correction. See single-owner-integration-v1/index.json and handoff.md. Actual owner/ATS compatibility, all media owners/accounting, same-run untraced latency, stable-main sync/source gates/CI, original15/hot-cache revocation and full frozen POC remain pending; this is not Ready or Task completion.
+
 ## Fixed first-exec control component (actual four cases; lab integration pending)
 
 The default-off OwnedEpoch.fixed_single_exec caller pins the interpreter, bootstrap and literal29-instruction native-x86_64 policy, transfers one private CLOEXEC listener, binds the real birth/ELF/argv/environment and sends at most one CONTINUE. The final listener closes on every path. Fork/vfork/non-thread clone and filter replacement are rejected; clone3 returns ENOSYS and later exec is not serviced. This is a fixed trusted bootstrap, not a general hostile-code sandbox.
