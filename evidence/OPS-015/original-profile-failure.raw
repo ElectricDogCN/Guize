@@ -1,0 +1,5 @@
+Source Commit: 9ed424c64efd7dcea5ef707e0a303c80810c6651
+Command: C:\ProgramData\anaconda3\python.exe -X utf8 -B specs/poc/check_program.py --profile local-v1 --require-results --poc POC-05
+FAIL: POC-005: Task Spec identities must not reuse generic Program role labels
+
+Exit Code: 1

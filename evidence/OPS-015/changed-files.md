@@ -1,0 +1,25 @@
+# OPS-015 reservation paths
+
+- `evidence/OPS-015/.gitattributes`
+- `evidence/OPS-015/api-samples/README.md`
+- `evidence/OPS-015/assumptions.md`
+- `evidence/OPS-015/changed-files.md`
+- `evidence/OPS-015/commands.txt`
+- `evidence/OPS-015/follow-ups.md`
+- `evidence/OPS-015/handoff.md`
+- `evidence/OPS-015/independent-identity-diagnosis.json`
+- `evidence/OPS-015/migration-report/README.md`
+- `evidence/OPS-015/original-profile-failure.json`
+- `evidence/OPS-015/original-profile-failure.raw`
+- `evidence/OPS-015/performance/README.md`
+- `evidence/OPS-015/reservation-intent.json`
+- `evidence/OPS-015/risks.md`
+- `evidence/OPS-015/rollback-verification/README.md`
+- `evidence/OPS-015/scope.md`
+- `evidence/OPS-015/screenshots/README.md`
+- `evidence/OPS-015/security/README.md`
+- `evidence/OPS-015/summary.md`
+- `evidence/OPS-015/test-results/README.md`
+- `specs/coordination/active-work.yaml`
+- `specs/coordination/program-plan.yaml`
+- `specs/tasks/OPS-015.md`

@@ -1,0 +1,2 @@
+original-profile-failure.json -text whitespace=cr-at-eol
+original-profile-failure.raw -text whitespace=cr-at-eol
