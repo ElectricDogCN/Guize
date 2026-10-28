@@ -1,3 +1,7 @@
+## Current actor-import source context (new checks pending)
+
+Accepted actor-main22 and genuine automatic import72 preserve local in_progress/creationbase746/lease and concrete actors. Own verification declarations now use actual integrationbase22, preserving exact old Task/command bytes in actor-import-source-context-v1/. Production code remains byte-identical to9ed. New fixed-source15/component checks/CI are pending; old010 qualification is not transferred. Fresh011 input/resource/window approval and real execution remain required before formal acceptance.
+
 ## Current local-v1 exit decision; formal profile validation pending
 
 The actual independent local exit decision is pass/approved at2026-10-27T05:18:53Z, retained byte-exact in local-v1-exit-decision-v1/independent-assessment.json. The source-labelled report local-v1-scale-exit-report.md covers the five frozen criteria and all13 observations, two full source traversals, complete population/fanout/depth/name distributions, deterministic changes, fault/quota/Range/ETag facts, limitations and actual cleanup/retention. Only actualed8/010 is the terminal primary execution. Original8f/00810k andc98/009100k remain supporting qualifications on their own sources/contexts.
