@@ -52,7 +52,7 @@ class PayloadLifetimeTests(unittest.TestCase):
         cfg = dict(maximumOriginRequests=8, aclVersion='synthetic-acl', secret='synthetic-only',
             inputs={'base': dict(sizeBytes=8, etag='"synthetic"', sha256='synthetic', path='synthetic-input')},
             faultAfterBytes=8, chunkBytes=8)
-        state = SimpleNamespace(cfg=cfg, lock=threading.RLock(), origin_rows={}, active_origin={}, fault=fault)
+        state = SimpleNamespace(cfg=cfg, lock=threading.RLock(), origin_rows={}, active_origin={}, origin_active_peak=0, fault=fault)
         rid = 'a' * 32
         path = '/ctx/' + context(cfg['aclVersion'], 'lab-user-a') + '/base/object.bin'
         headers = {'X-Lab-Request-ID': rid, 'X-Lab-Origin-Expiry': '1000',
@@ -82,7 +82,7 @@ class PayloadLifetimeTests(unittest.TestCase):
     def gateway(self, mode):
         cfg = dict(users={'lab-user-a': 'synthetic-only'}, aclVersion='synthetic-acl', atsPort=1, secret='synthetic-only',
             inputs={'base': dict(sizeBytes=16, etag='"synthetic"')}, chunkBytes=8)
-        state = SimpleNamespace(cfg=cfg, version='base', lock=threading.RLock(), gateway_active=0, gateway_rows={},
+        state = SimpleNamespace(cfg=cfg, version='base', lock=threading.RLock(), gateway_active=0, gateway_active_peak=0, gateway_rows={},
             grants={'lab-user-a': Grant('synthetic-grant', 'lab-user-a', '2000-01-01T00:00:00Z', '2100-01-01T00:00:00Z')})
         calls = 0
         def read(size):
@@ -245,6 +245,8 @@ class CollectorLifetimeTests(unittest.TestCase):
             collector.control = control
             collector.rows = []
             collector.total_bytes = 0
+            collector.request_active = 0
+            collector.request_peak = 0
             with patch('collect.urllib.request.build_opener', return_value=SimpleNamespace(open=lambda *args, **kwargs: response)), patch.object(Path, 'open', new=opened), patch('collect.write_json', new=metadata):
                 row = collector.request('stream')
             self.assertEqual(live(), 0)

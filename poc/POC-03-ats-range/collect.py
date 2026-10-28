@@ -16,6 +16,7 @@ class Collector:
         self.entry=f"http://127.0.0.1:{self.cfg['entryPort']}";self.rows=[];self.controls=[];self.lock=threading.Lock()
         self.opener=urllib.request.build_opener(urllib.request.ProxyHandler({}),NoRedirect())
         self.started=utc();self.monotonic=time.monotonic();self.total_bytes=0
+        self.request_active=0;self.request_peak=0
         self.stages=[]
         self.receipt=dict(kind='RAW_POC003_LAB_COLLECTION_NOT_CANONICAL_EVIDENCE',startedAt=self.started,
           status='COLLECTING',approvalsIssuedByCollector=False,formalPocAccepted=False,canonicalRecordsGenerated=False,
@@ -23,8 +24,13 @@ class Collector:
           cacheObjectExportImplemented=True)
     def save(self):
         # This is the collector's own current receipt, not an immutable formal record.
-        data=json.dumps(self.receipt,ensure_ascii=False,indent=2)+'\n'
-        with self.lock:(self.out/'collection.json').write_text(data)
+        with self.lock:
+            self.receipt['requestConcurrency']=dict(
+                kind='SYNCHRONOUS_REQUEST_INTERVAL_HIGH_WATER_NOT_MEMORY_SAMPLING',
+                scope='Collector initialization through this lock-held save; not a closed full-run claim',
+                active=self.request_active,peak=self.request_peak)
+            data=json.dumps(self.receipt,ensure_ascii=False,indent=2)+'\n'
+            (self.out/'collection.json').write_text(data)
     def control(self,action,**values):
         request=urllib.request.Request(self.entry+'/control',data=json.dumps(dict(action=action,**values)).encode(),
             headers={'X-Lab-Control':self.cfg['controlKey'],'Content-Type':'application/json'},method='POST')
@@ -51,6 +57,12 @@ class Collector:
         if not result['originCountersUnchanged']:result['completeLogicalObjectVerified']=False
         write_json(output/'stage.json',result);self.stages.append(result);self.save();return result
     def request(self,case,user='lab-user-a',range_header='bytes=0-7',if_range='',version='base',barrier=None):
+        with self.lock:
+            self.request_active+=1;self.request_peak=max(self.request_peak,self.request_active)
+        try:return self._request(case,user,range_header,if_range,version,barrier)
+        finally:
+            with self.lock:self.request_active-=1
+    def _request(self,case,user,range_header,if_range,version,barrier):
         if case not in CASES|{'prime','slice','bypass','revocation'}:raise ValueError('case')
         if time.monotonic()-self.monotonic>800:raise TimeoutError('collection deadline')
         rid=uuid.uuid4().hex;body=self.out/'bodies'/(case+'-'+rid+'.bin');row=dict(requestId=rid,case=case,userId=user,

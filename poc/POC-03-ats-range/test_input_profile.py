@@ -198,6 +198,7 @@ class InputProfileTests(unittest.TestCase):
         value.rows = []
         value.lock = threading.Lock()
         value.total_bytes = total
+        value.request_active = value.request_peak = 0
         value.monotonic = time.monotonic()
         value.control = mock.Mock(return_value=dict(originRequestCount=0, objectReadCount=0,
                                                     objectReadBytes=0, activeOriginRequests=0))

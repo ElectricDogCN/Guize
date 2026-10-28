@@ -1,3 +1,11 @@
+## Current synchronous request-overlap component (local; full capacity proof pending)
+
+On parent de202, Origin/Gateway update cumulative admitted-request high-water under their existing lock before protected media I/O. Collector wraps the complete request/comparison/metadata lifetime and updates its active/peak under its lock; save now serializes the concurrency snapshot under that same lock. Returned scope explicitly ends at the snapshot/save, with no closed entire-run or byte-capacity claim. The preceding media-release component remains in place.
+
+Four new actual thread-overlap tests exercise synthetic Origin/Gateway handlers and Collector success/failure intervals; completed transient overlaps remain in the peak. Windows44/Linux53 related tests passed, all19 actual child waits0, no skips. First-pass Windows/Linux each executed41 tests but the old input-profile constructor-bypassing fixture missed the new counters (three errors each); originals remain. Only fixture initialization fields were added; old assertions were not relaxed. Exact seven source snapshots, six prior Git sources, stages and raw are in request-concurrency-v1/index.json. Independent reviewdb8195cb97a63736a29cd1be1f928d8fb7fa216c4511aec1260da438464f2fb1 accepts this local component and its results only.
+
+Initialization hashing, HTTP/IO intermediate backing, cache export/reassembly, native epochs and closed full-window aggregation remain separate proof obligations. No ATS/media run, new resource/concurrency cap, input, threshold or frozen contract change. Full-source qualification and experiment approval remain pending; rollback is an ordinary reviewed forward change preserving this archive.
+
 ## Current payload-reference lifetime component (local; full capacity proof pending)
 
 Actor main055 was independently accepted and genuinely imported by de2 (parents76+055). Task automatic stage0 retained its original creation base, in_progress state and lease. The original import-edge check and actual integration range055→de2 pass unchanged; the earlier helper's incorrect whole-role-PR range failure remains preserved outside Git.

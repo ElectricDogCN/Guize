@@ -1,0 +1,3 @@
+# Preserve exact captured bytes in this component archive.
+*.raw -text
+*.json -text

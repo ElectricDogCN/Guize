@@ -1,0 +1,9 @@
+test_129_real_slice_files_are_verified_and_assembled_without_trimming (__main__.LargeNativeExportTests.test_129_real_slice_files_are_verified_and_assembled_without_trimming) ... ok
+test_exhausted_native_control_budget_refuses_before_publication (__main__.LargeNativeExportTests.test_exhausted_native_control_budget_refuses_before_publication) ... ok
+test_exhausted_native_job_budget_refuses_before_publication (__main__.LargeNativeExportTests.test_exhausted_native_job_budget_refuses_before_publication) ... ok
+test_insufficient_native_byte_budget_refuses_before_publication (__main__.LargeNativeExportTests.test_insufficient_native_byte_budget_refuses_before_publication) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.678s
+
+OK

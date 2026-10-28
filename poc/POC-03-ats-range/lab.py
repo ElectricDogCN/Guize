@@ -211,6 +211,7 @@ class State:
             raise ValueError('implementation changed after sandbox preparation')
         self.lock=threading.RLock();self.loglock=threading.Lock();self.version='base';self.fault='none'
         self.origin_rows={};self.active_origin={};self.gateway_rows={};self.gateway_active=0;self.ats=None;self.ats_logs=[]
+        self.origin_active_peak=0;self.gateway_active_peak=0
         self.allocator_dumps=0;self.live_snapshots=0;self.cache_ready=None
         self.ats_epoch=None;self.owned_epochs=[];self.epoch_closures=[]
         self.epoch_owner=None
@@ -387,7 +388,15 @@ class State:
                  activeOriginRequests=sum(self.active_origin.values()),activeGatewayRequests=self.gateway_active,
                  originRequestCount=sum(len(rows) for rows in self.origin_rows.values()),
                  originObjectReadBytes=sum(row['objectReadBytes'] for rows in self.origin_rows.values() for row in rows))
+        row['requestConcurrency']=self.media_concurrency()
         self.log('cache-disk-snapshots',row);return row
+
+    def media_concurrency(self):
+        with self.lock:
+            return dict(kind='SYNCHRONOUS_REQUEST_INTERVAL_HIGH_WATER_NOT_MEMORY_SAMPLING',
+                scope='Controller initialization through this lock-held snapshot; not a closed full-run claim',
+                activeOrigin=sum(self.active_origin.values()),peakOrigin=self.origin_active_peak,
+                activeGateway=self.gateway_active,peakGateway=self.gateway_active_peak)
 
 class Server(http.server.ThreadingHTTPServer):
     # Rebind an owned stopped sandbox after TCP TIME_WAIT, while normal bind
@@ -415,6 +424,7 @@ class Origin(Handler):
         with state.lock:
             if sum(len(v) for v in state.origin_rows.values())>=cfg['maximumOriginRequests']:self.empty(503);return
             state.origin_rows.setdefault(rid,[]).append(row);state.active_origin[rid]=state.active_origin.get(rid,0)+1
+            state.origin_active_peak=max(state.origin_active_peak,sum(state.active_origin.values()))
         block=None;stream=None;prefix_digest=None
         state.log('origin-start',dict(row))
         try:
@@ -514,7 +524,9 @@ class Gateway(Handler):
         case=self.headers.get('X-Lab-Case','')
         if self.path!='/media/object.bin' or case not in CASES|{'slice','prime','bypass','revocation'}:self.empty(404);return
         token=self.headers.get('Authorization','');user=next((u for u,key in cfg['users'].items() if hmac.compare_digest(token,'Bearer '+key)),None)
-        with state.lock:version=state.version;state.gateway_active+=1
+        with state.lock:
+            version=state.version;state.gateway_active+=1
+            state.gateway_active_peak=max(state.gateway_active_peak,state.gateway_active)
         row=dict(requestId=rid,case=case,startedAt=started,userId=user or 'unknown',sourceVersion=version,
           aclVersion=cfg['aclVersion'],requestRange=self.headers.get('Range',''),ifRange=self.headers.get('If-Range',''),
           atsRequestSent=False,responseByteCount=0,gatewayChunkPeak=0)

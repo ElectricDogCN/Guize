@@ -1,0 +1,73 @@
+{
+  "kind": "POC003_SYNCHRONOUS_REQUEST_INTERVAL_CONCURRENCY_COMPONENT_REVIEW",
+  "reviewer": "/root/independent_review",
+  "reviewedAt": "2026-10-28T00:05:18Z",
+  "taskId": "POC-003",
+  "repository": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-feature-actor-import-v1",
+  "parent": "de202dabff3435d75853d7a3af3effeedbfa1d28",
+  "parentTree": "aa2fa504d45e4d84f0b9e5b23a3245305876dfec",
+  "candidateSha256": "193d598ff8688e2326e673a69b08b0e8134e0c4932aa89915c09ca49f045e633",
+  "mustFix": [],
+  "componentAccepted": true,
+  "relevantResultsAccepted": true,
+  "commitComponentAllowed": true,
+  "commitScope": "Ordinary local commit of this exact concurrency component, its truthful Own Task context and retained task-owned evidence only. No publication, source gate, Ready, main or experiment qualification is supplied.",
+  "sourcePins": {
+    "poc/POC-03-ats-range/lab.py": {"byteCount": 48543, "sha256": "3ea0384d14c3507f8cfdab70a9355b61c5709035b3e3d3fb6730cdf14bd134d7"},
+    "poc/POC-03-ats-range/cache_probe.py": {"byteCount": 16894, "sha256": "a2b083dc907a8ece5a20c35ca15838f190a9d8577cdb2514369f4724dbd55b23"},
+    "poc/POC-03-ats-range/collect.py": {"byteCount": 14804, "sha256": "f43b80321b1760266745c860a4f534e596384b7044d57750779175e82c5dffe1"},
+    "poc/POC-03-ats-range/test_payload_lifetime.py": {"byteCount": 13873, "sha256": "2f5cc9a4ee25ff2087d402c0956e9cff40225623aac319d5d8f12773000b4dc2"},
+    "poc/POC-03-ats-range/test_gateway_native.py": {"byteCount": 4608, "sha256": "5c3a73a1177a73d93756e410ffd75ce10fe89403586d6ccfbeaaf1db63ad7eec"},
+    "poc/POC-03-ats-range/test_request_concurrency.py": {"byteCount": 6438, "sha256": "4201206322be396eddfeb8c9dc311dae17308b7b526cbc929e742688df4656cb"},
+    "poc/POC-03-ats-range/test_input_profile.py": {"byteCount": 13011, "sha256": "8ec5c0c2369ead6454b92668c6e22a062a3a47bafb85679325ebb64af4ef025b"}
+  },
+  "sourceReview": [
+    {"path": "poc/POC-03-ats-range/lab.py", "lines": "211-215,391-400,424-427,527-530", "finding": "Origin registers its active interval and updates sum(active_origin) high-water under the existing State RLock before protected reads. Gateway increments and updates its high-water under the same lock before its processing. Neither peak resets when an interval ends or ATS restarts. media_concurrency reads active/peak pairs while holding that lock. Snapshot exposes this as a separately scoped requestConcurrency object rather than a memory sample or a closed full-run assertion."},
+    {"path": "poc/POC-03-ats-range/collect.py", "lines": "19,25-33,59-65", "finding": "Public request keeps the same arguments/defaults and delegates the original request body to _request. Its interval starts under the existing lock before delegation and ends in finally on every return or propagated error. The original request body's first-byte clock, reads, settling controls, comparisons and failures remain. save now acquires the same lock before inserting the active/peak snapshot, serializing and writing it, so no increment can occur between reading that peak and persisting that snapshot. Call sites do not hold this non-reentrant lock while calling save."},
+    {"finding": "Counters include complete handler/request intervals, including work before or after media transfer and some denied/error paths. Such inclusion can overestimate payload overlap; it does not establish per-owner byte capacity. Separate origin/gateway maxima may be conservatively summed with justified capacities later, but must not be presented as proof they peaked simultaneously."},
+    {"path": "poc/POC-03-ats-range/test_request_concurrency.py", "finding": "Four tests use actual Python threads and barriers: two real Origin handlers with synthetic input overlap, two real Gateway handlers with synthetic HTTPConnection I/O overlap, and four Collector wrapper calls on success and propagated LookupError. Observations after completion require active0 with persistent peaks2/2/4. Collector serialization reads the actual saved JSON and requires the non-closed-run scope label."},
+    {"finding": "The three existing fixture files add only fields normally set by constructors they deliberately bypass. Their prior assertion ASTs remain exact. The eleven lifetime tests and production per-block/reference release boundaries remain, with no threshold, input profile, native code, frozen checker or schema alteration."}
+  ],
+  "evidence": {
+    "indexPath": "evidence/POC-003/request-concurrency-v1/index.json",
+    "indexByteCount": 31773,
+    "indexSha256": "2ab2dcf39066ac884ab968c12b60561ccdca87599823d183d8bb09d0d954ba03",
+    "indexedFiles": 83,
+    "indexedBytes": 304333,
+    "allIndexedPhysicalSizesAndShaVerified": true,
+    "externalOriginalsByteCompared": 70,
+    "sevenCurrentSourceCopiesComparedToWorkingFiles": true,
+    "sixOriginalSourceCopiesComparedToParentGitBlobs": true,
+    "ownScopedRawJsonMinusTextAttributesPresent": true,
+    "oldPayloadEvidenceUnmodifiedByThisComponent": true,
+    "gitTransportBoundary": "Current archive is uncommitted. The scoped attributes preserve raw/JSON bytes on future add; the committer must still compare actual staged/committed blobs to this unchanged index. This receipt does not claim that a future Git snapshot has already passed that comparison."
+  },
+  "actualResults": {
+    "windows": {"path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-request-concurrency-v2-windows-checks/results.json", "sha256": "1b217d38b25be006b807db8e7b00d73ea7bfcc089492cf75ad8f80e8b1fcaf40", "commands": 8, "tests": 44, "perCommandCounts": [4,11,8,2,3,4,9,3]},
+    "linux": {"path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-request-concurrency-v2-linux-checks/results.json", "sha256": "71b82f2fda9e5dc509888d104ad695a10a8f1f5cb5b918bacd096240915d35ec", "commands": 11, "tests": 53, "perCommandCounts": [4,11,8,2,3,4,9,3,3,2,4]},
+    "all19ActualPidWaitsCompletedExitZero": true,
+    "allRawStdoutStderrBytesAndHashesCompared": true,
+    "allRawUnittestSummariesRead": true,
+    "testFailures": 0,
+    "testErrors": 0,
+    "testSkipped": 0,
+    "allSevenSourcePinsBeforeAfterAndWorkingEqual": true,
+    "retainedEarlierFailures": {"windowsTestsActuallyRun": 41, "linuxTestsActuallyRun": 41, "inputProfileErrorsEach": 3, "lastCommandExitCodeEach": 1, "windowsResultsSha256": "b65f9e8ea9a0d057b59c74be8e7fe443e6ea38576781f377f9bf1a58844300a0", "linuxResultsSha256": "77b2e5cba2d7994dba449a436d21aff48ffc7700a6d0f50071938058cbb61186", "failure": "Fixtures bypassed initialization and omitted the new counters; actual failures and original raw remain retained, not rewritten as passes."},
+    "scope": "Synthetic handler I/O and wrapper work, existing actual loopback regressions and simulated native-producer filesystem assembly. No ATS or original media matrix was run. These are unittest raw/child-wait results, not a claimed downloaded JUnit report."
+  },
+  "metadataBoundary": "Observed HEAD remains de202. Tracked delta is only lab/collect, the three fixture files and an Own Task body addition; new concurrency test and Own evidence are untracked. Program and Active physical bytes equal HEAD. Task frontmatter, concrete actors, original lease and claims are unchanged. No new concurrent request limit or resource/sample/threshold is introduced.",
+  "remainingProof": [
+    "Cumulative maxima cover initialization through the particular lock-held snapshot/save only. They do not prove a closed final whole-run window or absence of later requests.",
+    "Startup hash/input reads, HTTP/IO intermediate payload backing, per-request byte capacities and concurrently live owner aggregation still need explicit mapping and evidence.",
+    "Cache export/comparison/reassembly and native ATS epochs require their own capacity/window terms. These counters do not measure RSS or establish complete maximumBufferedBytes.",
+    "A new fixed source still requires its real gates and same-head CI plus separately approved resources/window, original full matrix, independent fresh hot-cache revocation and formal acceptance."
+  ],
+  "reviewerRanTestsValidatorsOrExperiments": false,
+  "reviewerModifiedRepositoryOrGit": false,
+  "entireSourceQualified": false,
+  "aggregateCapacityProofComplete": false,
+  "experimentApproved": false,
+  "formalPocAccepted": false,
+  "readyAccepted": false,
+  "mainIntegrationApproved": false
+}

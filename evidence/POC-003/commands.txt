@@ -74,3 +74,7 @@ Native test requires ordinary-user Linux; simulated producer, no ATS/POC approva
 Payload-reference lifetime component (local component; not whole-source or experiment qualification):
 python poc/POC-03-ats-range/test_payload_lifetime.py
 Eleven actual tests, no skips. Related unchanged commands and exact actual interpreter argv/PID/wait0/raw are in payload-lifetime-v1/index.json; current Windows40/Linux49. Original six and two failures retained. Full aggregate backing-capacity proof and new full-source/experiment approval still required.
+
+Synchronous cumulative request-interval peak component:
+python poc/POC-03-ats-range/test_request_concurrency.py
+Four actual synthetic overlap tests, zero skips; Windows44/Linux53 related regressions/all19 actual child waits0. First-pass fixture errors and current raw/source snapshots remain in request-concurrency-v1/index.json. This records request concurrency through each snapshot/save, not memory sampling, byte capacity, a closed entire window or POC qualification.

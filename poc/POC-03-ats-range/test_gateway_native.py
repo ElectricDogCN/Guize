@@ -15,7 +15,7 @@ class GatewayNativeTests(unittest.TestCase):
     def state(self):
         cfg = dict(users={'lab-user-a': 'offline-test-credential'}, aclVersion='offline-acl',
                    inputs={'base': dict(sizeBytes=67108864, etag='"offline-etag"')})
-        return SimpleNamespace(cfg=cfg, version='base', lock=threading.RLock(), gateway_active=0,
+        return SimpleNamespace(cfg=cfg, version='base', lock=threading.RLock(), gateway_active=0, gateway_active_peak=0,
             gateway_rows={}, grants={'lab-user-a': Grant('offline-grant', 'lab-user-a',
                 '2000-01-01T00:00:00Z', '2100-01-01T00:00:00Z')}, log=lambda *args: None)
 
