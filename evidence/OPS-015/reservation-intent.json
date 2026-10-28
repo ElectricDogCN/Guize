@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "taskId": "OPS-015",
+  "phase": "metadata_only_reservation",
+  "sourceMain": "746e23e582501fa08380c3f3301bdc1774902f7c",
+  "issue": 153,
+  "implementationPaths": [
+    "scripts/check-program-plan-transitions.py",
+    "scripts/check-program-plan-history.py",
+    "scripts/reservation-role-amendment.py",
+    "tests/governance/test_reservation_role_amendment.py",
+    "rules/reservation-role-amendment.md"
+  ],
+  "targetTasks": [
+    "POC-003",
+    "POC-005"
+  ],
+  "mutableActorFields": [
+    "implementer",
+    "reviewer"
+  ],
+  "oldProgramRoleValues": [
+    "task-owner-agent",
+    "independent-review-agent"
+  ],
+  "futureActualActors": {
+    "POC-003": {
+      "implementer": "/root",
+      "reviewer": "/root/independent_review"
+    },
+    "POC-005": {
+      "implementer": "/root",
+      "reviewer": "/root/gz022_planning_independent_review"
+    }
+  },
+  "oldExecutionAliasOrQualificationTransferAllowed": false,
+  "frozenPocContractChangeAllowed": false,
+  "foreignClaimLeaseRiskChangeAllowed": false,
+  "implementationExecuted": false,
+  "approvalEffective": false
+}

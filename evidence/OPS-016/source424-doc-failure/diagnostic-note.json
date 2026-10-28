@@ -1,0 +1,25 @@
+{
+  "kind": "Own Task formatting forward correction diagnostic provenance",
+  "failedFixedSource": "424c123fc48a4179b0ce77aa2054996470965417",
+  "sourceGate": {
+    "diffExit": 0,
+    "taskExit": 1,
+    "remaining13": "unexecuted",
+    "originals": "index.json"
+  },
+  "additionalUncommittedTaskFormatCheck": {
+    "toolChunk": "0ebf7a",
+    "actualExitCode": 1,
+    "findings": [
+      "Acceptance criteria requires checklist item",
+      "Collaboration/handoff requires bullet"
+    ],
+    "separateProcessRawCaptured": false
+  },
+  "afterChecklistAndBulletCorrection": {
+    "toolChunk": "66a564",
+    "actualExitCode": 0,
+    "scope": "local uncommitted Task diagnostic only, not fixed-source15 acceptance"
+  },
+  "codeBytesUnchanged": true
+}

@@ -84,6 +84,16 @@ foundationTasks:
     status: completed
     completionRef: PR-150
     mergeCommit: 2a77cbf9ad838b7b7abc7fbc5ed7aaa5f2f793d4
+  - taskId: OPS-015
+    title: 有界准入活动POC的前瞻具体身份修订
+    status: completed
+    completionRef: PR-157
+    mergeCommit: ab9cd878bdc58745b1fdd618c6e749cdd9c6d03a
+  - taskId: OPS-016
+    title: 修复真实增量实现的累计五路径准入
+    status: completed
+    completionRef: PR-163
+    mergeCommit: d166b4d39f2dcc40c99b2bbd79db568c7cd72270
 waves:
   - {id: W1, order: 1, name: "需求与 POC 计划", maxConcurrent: 2, maxHighRisk: 1}
   - {id: W2, order: 2, name: "OpenAPI + 独立 POC", maxConcurrent: 3, maxHighRisk: 1}

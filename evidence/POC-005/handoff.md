@@ -104,3 +104,23 @@ Next Implementer: after content acceptance commit exact reviewed files and bind 
 Next qualification work: prospectively correct capture tool_versions to actual scanner build string, keep toolchain versions separately, represent real missing WMI properties explicitly while retaining rawCIM, and omit password-named wrapper diagnostic from new resource. Preserve old006/a77 methods/approvals/raw/DB/dirtyfixtures. Only a new fixed source, methods, exact input/resource/pausedPID/hash/futurewindow approval permits another real execution.
 Next Integrator: keep PR136 Draft; actual normal Review/main acceptance/Completion and100k/1m obligations remain. No release or new profile qualified by this commit.
 Rollback: withdraw before merge; forward repair afterward. Never delete originals, branches/workspaces, old failed sources, consumed approvals or production data; no Docker/WSL restart or phone changes.
+
+
+## Prospective concrete actor assignment (new work only)
+
+Task: POC-005; Issue: #132; metadata branch: chore/POC-005-concrete-actors-v1; admitted main: 055ccf18e4b125850d59c93f5ec3204e630f101c.
+Independent approval was committed first as a28151ce58438b444fcbb5353cb8e706fb78fd73; exact original is actor-amendment-v1/approval.json.
+New implementer: /root; new independent reviewer: /root/gz022_planning_independent_review. Only those Task/Registry scalars change.
+Status remains reserved; original workBranch/base/agentRole/lease/claims/risk/dependencies/group/order and all other fields stay.
+This is a precommit control snapshot: read the actual actor source/tree from Git after the second commit. Current source gates, full CI, publication and actual actor main acceptance are PENDING.
+No implementation start, experiment, sample/resource/window approval, old sourceed8/attempt010 qualification or result transfer is granted. After actual actor main acceptance, the preserved implementation branch must prove a genuine automatic stage-0 import, then obtain its new qualified source/gates/CI/approvals and real new executions.
+Withdraw before merge or use an ordinary forward correction afterward, preserving all local feature refs, 4171 untracked raw/DB originals, prior raw and data.
+
+
+## Actual admitted actor-main import into this feature lineage
+
+Original feature: 9ed424c64efd7dcea5ef707e0a303c80810c6651; accepted actor main: 22ab6a0668da2d64a016fccef2c3b5a634638a24 (PR167, complete CI895805 and independent actual-main acceptance).
+The preceding actor-assignment suffix is preserved verbatim from the accepted main metadata transaction; its reserved declaration describes that transaction. This feature retains its local in_progress status, base746e23e582501fa08380c3f3301bdc1774902f7c and original lease/claims/branch.
+The Task had a genuine clean stage-0 merge before Evidence conflict resolution: mode100644/blob586650aa031e5e5d8a95b160ebe13ecf86eec387. Only this Handoff conflict is resolved; the Task is never hand-edited. Original feature Handoff bytes remain the exact prefix, followed by the exact accepted actor suffix and this scope note.
+Current actors: implementer /root, independent reviewer /root/gz022_planning_independent_review. Read actual new merge source/tree from Git after commit; do not predict a self SHA.
+This import grants no feature-source qualification, sample/resource/window approval or experiment. New source checks/fullCI/independent acceptance and fresh prospective execution approval remain required; old sourceed8/attempt010 and its formal identity failure retain their original identity.
