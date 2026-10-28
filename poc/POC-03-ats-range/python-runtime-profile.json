@@ -1,6 +1,78 @@
 {
   "baseImage": "sha256:df18428df8a0f9189c84e7424d214b4c50092af1f9dca5842a00c41c39bda316",
+  "crypto": {
+    "algorithm": {
+      "defaultDigestEnginePresent": false,
+      "fipsDefaultEnabled": 0,
+      "functions": {
+        "1": {
+          "libraryPath": "/usr/lib/x86_64-linux-gnu/libcrypto.so.3",
+          "offsetHex": "0x41cd80"
+        },
+        "11": {
+          "libraryPath": "/usr/lib/x86_64-linux-gnu/libcrypto.so.3",
+          "offsetHex": "0x47a690"
+        },
+        "15": {
+          "libraryPath": "/usr/lib/x86_64-linux-gnu/libcrypto.so.3",
+          "offsetHex": "0x41d2f0"
+        },
+        "2": {
+          "libraryPath": "/usr/lib/x86_64-linux-gnu/libcrypto.so.3",
+          "offsetHex": "0x41cf90"
+        },
+        "3": {
+          "libraryPath": "/usr/lib/x86_64-linux-gnu/libcrypto.so.3",
+          "offsetHex": "0x3a48c0"
+        },
+        "4": {
+          "libraryPath": "/usr/lib/x86_64-linux-gnu/libcrypto.so.3",
+          "offsetHex": "0x41cfc0"
+        },
+        "6": {
+          "libraryPath": "/usr/lib/x86_64-linux-gnu/libcrypto.so.3",
+          "offsetHex": "0x41cbe0"
+        },
+        "7": {
+          "libraryPath": "/usr/lib/x86_64-linux-gnu/libcrypto.so.3",
+          "offsetHex": "0x41c720"
+        },
+        "8": {
+          "libraryPath": "/usr/lib/x86_64-linux-gnu/libcrypto.so.3",
+          "offsetHex": "0x41c570"
+        }
+      },
+      "name": "SHA256",
+      "names": "SHA2-256:SHA-256:SHA256:2.16.840.1.101.3.4.2.1",
+      "nid": 672,
+      "noCache": 0,
+      "properties": "provider=default",
+      "provider": "default"
+    },
+    "configuration": {
+      "activeIncludeCount": 0,
+      "bytes": 12411,
+      "path": "/etc/ssl/openssl.cnf",
+      "sha256": "a65a2cb9f4ee8ffdc7ef4f0ac600c0bdafb95b7b1ab457188ac610a62f5ad6b3"
+    },
+    "opensslInfo": {
+      "configDir": "/usr/lib/ssl",
+      "engineDir": "/usr/lib/x86_64-linux-gnu/engines-3",
+      "moduleDir": "/usr/lib/x86_64-linux-gnu/ossl-modules"
+    },
+    "resolvedMemcpy": {
+      "libcVersion": "2.41",
+      "libraryPath": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+      "offsetHex": "0x17b800"
+    },
+    "semantics": "Public global-context metadata plus fixed initialization/source binding; no existing HASH object introspection"
+  },
   "files": {
+    "_ctypes": {
+      "bytes": 129536,
+      "path": "/usr/local/lib/python3.12/lib-dynload/_ctypes.cpython-312-x86_64-linux-gnu.so",
+      "sha256": "c4e932d98dd779c09aee18533e04b5c6e5b6214878f3bc0ba867e5559fa5d5d1"
+    },
     "_hashlib": {
       "bytes": 64184,
       "path": "/usr/local/lib/python3.12/lib-dynload/_hashlib.cpython-312-x86_64-linux-gnu.so",
@@ -15,6 +87,11 @@
       "bytes": 212992,
       "path": "/usr/local/lib/python3.12/lib-dynload/_ssl.cpython-312-x86_64-linux-gnu.so",
       "sha256": "6891800dbb9144863d3e1fbcf812694035533c6872a29575f857d5163a8b5c7e"
+    },
+    "ctypes": {
+      "bytes": 18210,
+      "path": "/usr/local/lib/python3.12/ctypes/__init__.py",
+      "sha256": "e0db1242e78267cba0124ee9fe5963b72d1c8a1832bb51a88abcf012a9cbce76"
     },
     "http.client": {
       "bytes": 59574,
@@ -36,10 +113,20 @@
       "path": "/usr/lib/x86_64-linux-gnu/libcrypto.so.3",
       "sha256": "8ae56f0a9481280a68c19f59809cd242a07a91ad7142944d21a878221992244b"
     },
+    "libffi.so.8": {
+      "bytes": 47576,
+      "path": "/usr/lib/x86_64-linux-gnu/libffi.so.8.1.4",
+      "sha256": "922024ec5a23f7de1095b1cff2f6cbfb377b5d58cd51fd0ec2e8fe35427653e2"
+    },
     "libpython3.12.so.1.0": {
       "bytes": 6630672,
       "path": "/usr/local/lib/libpython3.12.so.1.0",
       "sha256": "eb1599eecbe4002798fdcec98d0f4d85dab01afaaa8db89b39c5d30abdb9f5aa"
+    },
+    "openssl.cnf": {
+      "bytes": 12411,
+      "path": "/etc/ssl/openssl.cnf",
+      "sha256": "a65a2cb9f4ee8ffdc7ef4f0ac600c0bdafb95b7b1ab457188ac610a62f5ad6b3"
     },
     "socket": {
       "bytes": 37815,
@@ -66,6 +153,6 @@
     "pointerBytes": 8,
     "version": "3.12.15 (main, Oct  6 2026, 02:02:22) [GCC 14.2.0]"
   },
-  "profileId": "cpython31215-linux-x86_64-plain-http-fixed-image-v1",
-  "schemaVersion": 1
+  "profileId": "cpython31215-linux-x86_64-plain-http-fixed-image-v2",
+  "schemaVersion": 2
 }

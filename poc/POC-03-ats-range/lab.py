@@ -163,7 +163,7 @@ def prepare(config_path,run):
     cfg['exportBuildReceiptSha256']=digest(build_path)
     if live is not None:
         cfg['instrumentedRuntime']=receipt['instrumentedLiveBuffer']
-        for name in ('python_runtime.py','python-runtime-profile.json'):cfg['implementationSources'][name]=digest(HERE/name)
+        for name in ('python_runtime.py','crypto_runtime.py','python-runtime-profile.json'):cfg['implementationSources'][name]=digest(HERE/name)
         for name in ('owned_epoch.py','epoch_owner.py','instrumentation/exec_gate.py','instrumentation/single_exec_gate.py','instrumentation/single_exec_filter.py','live_buffer_probe.py','durable_peak_probe.py','instrumentation/live_peak_journal.h','instrumentation/live_pool_capacity.h','instrumentation/patch-manifest.json','instrumentation/ats-live-buffer-accounting.patch','instrumentation/live_buffer_accounting.h','instrumentation/live_buffer_observer.cc'):
             cfg['implementationSources'][name]=digest(HERE/name)
         interpreter=Path(sys.executable).resolve(strict=True)

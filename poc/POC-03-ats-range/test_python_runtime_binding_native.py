@@ -21,13 +21,33 @@ class RuntimeBindingTests(unittest.TestCase):
         row=runtime.verify_runtime_file(HERE/'python-runtime-profile.json')
         self.assertTrue(row['componentBytesBound']);self.assertEqual(row['pid'],os.getpid())
         self.assertGreater(row['processStartTicks'],0);self.assertNotEqual(row['uid'],0)
-        self.assertEqual(len(row['actualMappedNativeComponents']),7)
+        self.assertEqual(len(row['actualMappedNativeComponents']),9)
         self.assertEqual(set(row['files']),set(PROFILE['files']))
         self.assertEqual(row['profileSha256'],hashlib.sha256((HERE/'python-runtime-profile.json').read_bytes()).hexdigest())
         self.assertFalse(row['aggregateCapacityProofComplete'])
 
     def test_wrong_native_component_hash_is_rejected(self):
         changed=copy.deepcopy(PROFILE);changed['files']['_socket']['sha256']='0'*64
+        with self.assertRaisesRegex(ValueError,'runtime bytes differ'):runtime.verify_runtime(changed)
+
+    def test_actual_crypto_configuration_provider_engine_and_memcpy_match_fixed_route(self):
+        row=runtime.verify_runtime(PROFILE);crypto=row['crypto']
+        self.assertEqual(crypto['configuration']['activeIncludeCount'],0)
+        self.assertEqual(crypto['configuration']['sha256'],'a65a2cb9f4ee8ffdc7ef4f0ac600c0bdafb95b7b1ab457188ac610a62f5ad6b3')
+        self.assertEqual(crypto['algorithm']['provider'],'default')
+        self.assertFalse(crypto['algorithm']['defaultDigestEnginePresent'])
+        self.assertEqual(crypto['algorithm']['fipsDefaultEnabled'],0)
+        self.assertEqual(crypto['algorithm']['functions']['3']['offsetHex'],'0x3a48c0')
+        self.assertEqual(crypto['resolvedMemcpy']['offsetHex'],'0x17b800')
+        self.assertIn('_ctypes',row['actualMappedNativeComponents'])
+        self.assertIn('libffi.so.8',row['actualMappedNativeComponents'])
+
+    def test_wrong_crypto_configuration_binding_is_rejected(self):
+        changed=copy.deepcopy(PROFILE);changed['crypto']['configuration']['sha256']='0'*64
+        with self.assertRaisesRegex(ValueError,'runtime bytes differ'):runtime.verify_runtime(changed)
+
+    def test_another_resolved_memcpy_binding_is_rejected(self):
+        changed=copy.deepcopy(PROFILE);changed['crypto']['resolvedMemcpy']['offsetHex']='0x0'
         with self.assertRaisesRegex(ValueError,'runtime bytes differ'):runtime.verify_runtime(changed)
 
     def test_wrong_profile_abi_identity_is_rejected(self):
@@ -78,5 +98,5 @@ class RuntimeBindingTests(unittest.TestCase):
 
 if __name__=='__main__':
     result=unittest.TextTestRunner(verbosity=2).run(unittest.defaultTestLoader.loadTestsFromTestCase(RuntimeBindingTests))
-    if result.testsRun!=8 or result.skipped:raise SystemExit('Expected eight fixed-image tests with no skips')
+    if result.testsRun!=11 or result.skipped:raise SystemExit('Expected eleven fixed-image tests with no skips')
     raise SystemExit(0 if result.wasSuccessful() else 1)

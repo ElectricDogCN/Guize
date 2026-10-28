@@ -1,9 +1,11 @@
 """Bind the approved plain-HTTP runtime bytes; this is not a memory-capacity proof."""
 from __future__ import annotations
 import _hashlib
+import _ctypes
 import _socket
 import _ssl
 import hashlib
+import ctypes
 import http.client
 import io
 import json
@@ -17,8 +19,9 @@ import stat
 import struct
 import sys
 from datetime import datetime,timezone
+from crypto_runtime import capture as capture_crypto,validate_environment
 
-PROFILE_ID='cpython31215-linux-x86_64-plain-http-fixed-image-v1'
+PROFILE_ID='cpython31215-linux-x86_64-plain-http-fixed-image-v2'
 BASE_IMAGE='sha256:df18428df8a0f9189c84e7424d214b4c50092af1f9dca5842a00c41c39bda316'
 
 def file_identity(path):
@@ -42,8 +45,7 @@ def capture_runtime():
     if sys.platform!='linux' or platform.python_implementation()!='CPython' or os.geteuid()==0:
         raise ValueError('ordinary Linux CPython runtime required')
     if sys.gettrace() is not None or sys.getprofile() is not None:raise ValueError('Python tracing/profiling override')
-    for name in ('LD_PRELOAD','LD_AUDIT','OPENSSL_CONF','OPENSSL_MODULES'):
-        if os.environ.get(name):raise ValueError('unsupported runtime override: '+name)
+    validate_environment()
     if hashlib.sha256 is not _hashlib.openssl_sha256:raise ValueError('unqualified SHA256 implementation')
     hasher=hashlib.sha256()
     identity=dict(version=sys.version,implementation=platform.python_implementation(),cacheTag=sys.implementation.cache_tag,
@@ -68,7 +70,7 @@ def capture_runtime():
         mappings.append(dict(path=parts[5],permissions=parts[1],device=os.makedev(int(major,16),int(minor,16)),inode=int(parts[4])))
     files={};native=set()
     for label,module in [('http.client',http.client),('socket',socket),('socketserver',socketserver),
-                         ('_socket',_socket),('_hashlib',_hashlib),('_ssl',_ssl)]:
+                         ('_socket',_socket),('_hashlib',_hashlib),('_ssl',_ssl),('ctypes',ctypes),('_ctypes',_ctypes)]:
         files[label]=file_identity(module.__file__)
         if label.startswith('_'):native.add(label)
         cached=getattr(module,'__cached__',None)
@@ -78,28 +80,35 @@ def capture_runtime():
         candidates={row['path'] for row in mappings if Path(row['path']).name==name and 'x' in row['permissions']}
         if len(candidates)!=1:raise ValueError('one mapped runtime dependency required: '+name)
         files[name]=file_identity(candidates.pop());native.add(name)
+    ffi={row['path'] for row in mappings if Path(row['path']).name.startswith('libffi.so.8') and 'x' in row['permissions']}
+    if len(ffi)!=1:raise ValueError('one mapped public-call dependency required')
+    files['libffi.so.8']=file_identity(ffi.pop());native.add('libffi.so.8')
     for label in native:
         file=files[label]
         exact=[row for row in mappings if row['path']==file['path'] and 'x' in row['permissions']
                and (row['device'],row['inode'])==(file['device'],file['inode'])]
         if not exact:raise ValueError('runtime file is not the actual mapped executable inode: '+label)
         if any(row['path']==file['path']+' (deleted)' for row in mappings):raise ValueError('deleted runtime mapping: '+label)
-    return dict(identity=identity,files=files,mapsRaw=raw.decode(),mapsSha256=hashlib.sha256(raw).hexdigest(),
+    crypto=capture_crypto(files)
+    files['openssl.cnf']=file_identity(crypto['configuration']['path'])
+    if any(files['openssl.cnf'][key]!=crypto['configuration'][key] for key in ('path','bytes','sha256')):
+        raise ValueError('crypto configuration changed during binding')
+    return dict(identity=identity,files=files,crypto=crypto,mapsRaw=raw.decode(),mapsSha256=hashlib.sha256(raw).hexdigest(),
                 actualMappedNativeComponents=sorted(native),uid=os.getuid(),pid=os.getpid(),
                 processStartTicks=int(Path('/proc/self/stat').read_text().rsplit(')',1)[1].split()[19]))
 
 def pinned_profile(observed):
-    return dict(schemaVersion=1,profileId=PROFILE_ID,baseImage=BASE_IMAGE,identity=observed['identity'],
+    return dict(schemaVersion=2,profileId=PROFILE_ID,baseImage=BASE_IMAGE,identity=observed['identity'],crypto=observed['crypto'],
         files={name:{key:row[key] for key in ('path','bytes','sha256')} for name,row in observed['files'].items()})
 
 def verify_runtime(profile):
-    if (set(profile)!={'schemaVersion','profileId','baseImage','identity','files'}
-            or profile['schemaVersion']!=1 or profile['profileId']!=PROFILE_ID or profile['baseImage']!=BASE_IMAGE):
+    if (set(profile)!={'schemaVersion','profileId','baseImage','identity','files','crypto'}
+            or profile['schemaVersion']!=2 or profile['profileId']!=PROFILE_ID or profile['baseImage']!=BASE_IMAGE):
         raise ValueError('unknown runtime binding profile')
     actual=capture_runtime()
     if pinned_profile(actual)!=profile:raise ValueError('actual runtime bytes differ from the fixed profile')
     return dict(kind='ACTUAL_COMPONENT_BYTE_BINDING_NOT_AGGREGATE_MEMORY',profileId=PROFILE_ID,
-        baseImageReference=BASE_IMAGE,identity=actual['identity'],files=actual['files'],
+        baseImageReference=BASE_IMAGE,identity=actual['identity'],files=actual['files'],crypto=actual['crypto'],
         actualMappedNativeComponents=actual['actualMappedNativeComponents'],mapsSha256=actual['mapsSha256'],
         mapsRaw=actual['mapsRaw'],uid=actual['uid'],pid=actual['pid'],componentBytesBound=True,
         processStartTicks=actual['processStartTicks'],observedAt=datetime.now(timezone.utc).isoformat(timespec='microseconds').replace('+00:00','Z'),
