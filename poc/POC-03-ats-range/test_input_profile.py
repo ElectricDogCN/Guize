@@ -160,19 +160,26 @@ class InputProfileTests(unittest.TestCase):
     def test_shortening_growth_symlink_and_replacement_identity_fail(self):
         with tempfile.TemporaryDirectory(prefix='poc003-input-race-') as directory:
             path = Path(directory)/'sample.bin'
-            original_read = __import__('os').read
+            original_fdopen = __import__('os').fdopen
             for kind in ['shorten', 'grow']:
                 path.write_bytes(b'abcdefgh')
                 changed = False
 
-                def read(fd, count):
-                    nonlocal changed
-                    if not changed:
-                        changed = True
-                        path.write_bytes(b'abc' if kind == 'shorten' else b'abcdefghi')
-                    return original_read(fd, count)
+                class MutatingReader:
+                    def __init__(self, stream):self.stream = stream
+                    def __enter__(self):return self
+                    def __exit__(self, *args):self.stream.close()
+                    def readinto(self, target):
+                        nonlocal changed
+                        if not changed:
+                            changed = True
+                            path.write_bytes(b'abc' if kind == 'shorten' else b'abcdefghi')
+                        return self.stream.readinto(target)
 
-                with self.subTest(kind=kind), mock.patch('input_profile.os.read', side_effect=read):
+                def opened(fd, *args, **kwargs):
+                    return MutatingReader(original_fdopen(fd, *args, **kwargs))
+
+                with self.subTest(kind=kind), mock.patch('input_profile.os.fdopen', side_effect=opened):
                     with self.assertRaises((ValueError, OSError)):
                         _actual_digest(path, 8)
             path.write_bytes(b'abcdefgh')

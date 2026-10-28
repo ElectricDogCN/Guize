@@ -56,14 +56,27 @@ def _actual_digest(path, size):
             raise ValueError('actual input size/type differs from fixed manifest')
         value = hashlib.sha256()
         remaining = size
-        while remaining:
-            block = os.read(fd, min(1048576, remaining))
-            if not block:
-                raise ValueError('input shortened during validation')
-            remaining -= len(block)
-            value.update(block)
-        if os.read(fd, 1):
-            raise ValueError('input grew during validation')
+        # Keep the already validated descriptor and one fixed raw-file slot.
+        # No previous returned bytes survive into the next native read.
+        with os.fdopen(fd, 'rb', buffering=0, closefd=False) as stream, memoryview(bytearray(1048576)) as backing:
+            while remaining:
+                if backing.obj.__alloc__() != 1048577:
+                    raise OSError('unqualified fixed input backing capacity')
+                with backing[:min(len(backing), remaining)] as target:
+                    count = stream.readinto(target)
+                    if type(count) is not int or not 0 <= count <= len(target):
+                        raise OSError('invalid raw input read count')
+                    if not count:
+                        raise ValueError('input shortened during validation')
+                    remaining -= count
+                    with target[:count] as block:value.update(block)
+            if backing.obj.__alloc__() != 1048577:
+                raise OSError('unqualified fixed input backing capacity')
+            with backing[:1] as target:count = stream.readinto(target)
+            if type(count) is not int or not 0 <= count <= 1:
+                raise OSError('invalid raw input read count')
+            if count:
+                raise ValueError('input grew during validation')
         if _signature(os.fstat(fd)) != _signature(before) or _path_signature(path.lstat()) != _path_signature(before):
             raise ValueError('input identity/content metadata changed during validation')
         return value.hexdigest()
