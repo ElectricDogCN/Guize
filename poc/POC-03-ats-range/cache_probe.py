@@ -85,33 +85,90 @@ def slice_catalogue(rows, cfg, version, user):
     return sorted(found, key=lambda row: row['start'])
 
 
-def read_export_body(body, maximum_bytes):
-    """Bound the read to its actual catalogue Slice; never trim bad exports."""
-    if type(maximum_bytes) is not int or maximum_bytes <= 0:
-        raise ValueError('positive selected Slice length required')
-    size = body.stat().st_size
-    if size > maximum_bytes:
-        raise ValueError('native export body exceeds selected Slice')
-    with body.open('rb') as stream:
-        actual = stream.read(maximum_bytes + 1)
-    if len(actual) > maximum_bytes or len(actual) != size:
-        raise ValueError('native export body changed or exceeds selected Slice')
-    return actual
+def raw_write_all(stream, block):
+    """Consume an existing media view without allocating a returned bytes body."""
+    offset = 0
+    while offset < len(block):
+        with block[offset:] as remaining:
+            written = stream.write(remaining)
+        if type(written) is not int or not 0 < written <= len(block) - offset:
+            raise OSError('raw media write made no valid progress')
+        offset += written
 
 
 def export_body_observation(body, destination, input_path, start, count):
-    """Return metadata only; one key's media cannot survive into the next key."""
-    actual = expected = source = None
-    try:
-        actual = read_export_body(body, count)
-        destination.write_bytes(actual)
-        with Path(input_path).open('rb') as source:
-            source.seek(start)
-            expected = source.read(count)
-        return dict(actualBytes=len(actual), actualSha256=hashlib.sha256(actual).hexdigest(),
-                    exactInputSliceEqual=len(actual) == count and actual == expected)
-    finally:
-        actual = expected = source = None
+    """Copy and compare with two fixed raw-I/O slots; return metadata only."""
+    if type(count) is not int or count <= 0:
+        raise ValueError('positive selected Slice length required')
+    size = body.stat().st_size
+    if size > count:
+        raise ValueError('native export body exceeds selected Slice')
+    hasher = hashlib.sha256()
+    actual_count = 0
+    equal = True
+    with body.open('rb', buffering=0) as stream, Path(destination).open('wb', buffering=0) as output:
+        with memoryview(bytearray(65536)) as actual, memoryview(bytearray(65536)) as expected:
+            if any(slot.obj.__alloc__() != len(slot) + 1 for slot in (actual, expected)):
+                raise OSError('unqualified fixed export backing capacity')
+            source = None
+            try:
+                while True:
+                    with actual[:min(len(actual), count - actual_count + 1)] as target:
+                        received = stream.readinto(target)
+                        if type(received) is not int or not 0 <= received <= len(target):
+                            raise OSError('invalid raw export read count')
+                    if not received:
+                        break
+                    actual_count += received
+                    if actual_count > count or actual_count > size:
+                        raise ValueError('native export body changed or exceeds selected Slice')
+                    with actual[:received] as block:
+                        raw_write_all(output, block)
+                        hasher.update(block)
+                        if source is None:
+                            source = Path(input_path).open('rb', buffering=0)
+                            source.seek(start)
+                        filled = 0
+                        while filled < received:
+                            with expected[filled:received] as target:
+                                read = source.readinto(target)
+                                if type(read) is not int or not 0 <= read <= len(target):
+                                    raise OSError('invalid raw comparison read count')
+                            if not read:
+                                break
+                            filled += read
+                        with expected[:filled] as reference:
+                            equal = equal and filled == received and block == reference
+                if actual_count != size:
+                    raise ValueError('native export body changed or exceeds selected Slice')
+                return dict(actualBytes=actual_count, actualSha256=hasher.hexdigest(),
+                            exactInputSliceEqual=actual_count == count and equal)
+            finally:
+                if source is not None:
+                    source.close()
+                source = None
+
+
+def assemble_export_bodies(paths, destination):
+    """Assemble actual native exports with one fixed raw read/write slot."""
+    hasher = hashlib.sha256()
+    count = 0
+    with Path(destination).open('xb', buffering=0) as output, memoryview(bytearray(65536)) as backing:
+        if backing.obj.__alloc__() != len(backing) + 1:
+            raise OSError('unqualified fixed assembly backing capacity')
+        for path in paths:
+            with Path(path).open('rb', buffering=0) as body:
+                while True:
+                    received = body.readinto(backing)
+                    if type(received) is not int or not 0 <= received <= len(backing):
+                        raise OSError('invalid raw assembly read count')
+                    if not received:
+                        break
+                    with backing[:received] as block:
+                        raw_write_all(output, block)
+                        hasher.update(block)
+                        count += received
+    return count, hasher.hexdigest()
 
 
 def export_stage(run, out, cfg, snapshot, version, user='lab-user-a'):
@@ -289,21 +346,10 @@ def _export_stage(run, out, cfg, snapshot, version, user):
     complete = complete and cursor == size
     if complete:
         derived = out / 'assembled-from-native-cache.bin'
-        hasher = hashlib.sha256()
-        count = 0
-        with derived.open('xb') as stream:
-            for result in parts:
-                with (out / result['file']).open('rb') as body:
-                    while block := body.read(65536):
-                        try:
-                            stream.write(block)
-                            hasher.update(block)
-                            count += len(block)
-                        finally:
-                            block = None
-        complete = count == size and hasher.hexdigest() == cfg['inputs'][version]['sha256']
+        count, assembled_sha256 = assemble_export_bodies((out / result['file'] for result in parts), derived)
+        complete = count == size and assembled_sha256 == cfg['inputs'][version]['sha256']
         report['derivedLogicalObject'] = dict(file=derived.name, byteCount=count,
-            sha256=hasher.hexdigest(), derivation='Ordered concatenation of actual native TSCacheRead bodies',
+            sha256=assembled_sha256, derivation='Ordered concatenation of actual native TSCacheRead bodies',
             derivedFrom=[dict(keyId=row['keyId'], file=row['file'], sha256=row['actualSha256'],
                               start=row['start'], end=row['end']) for row in parts],
             nativeSingleEntryClaimed=False)

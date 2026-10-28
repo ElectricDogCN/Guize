@@ -152,8 +152,8 @@ class ExportBodyLifetimeTests(unittest.TestCase):
     def setUp(self):
         self.references = []
 
-    def payload(self, raw):
-        body = Payload(raw)
+    def payload(self, size):
+        body = Payload(size)
         self.references.append(weakref.ref(body))
         return body
 
@@ -162,44 +162,59 @@ class ExportBodyLifetimeTests(unittest.TestCase):
 
     def test_adjacent_exports_keep_metadata_and_release_both_bodies(self):
         written = []
-        def write(data):
-            written.append(bytes(data))
-        def read(size):
-            self.assertEqual(self.live(), 1)
-            return self.payload(b'abcdefgh')
-        source = SimpleNamespace(seek=lambda offset: self.assertEqual(offset, 16), read=read)
-        class Input:
-            def __enter__(self): return source
-            def __exit__(self, *args): pass
         results = []
-        for raw in (b'abcdefgh', b'abc'):
-            with patch('cache_probe.read_export_body', new=lambda *args: self.payload(raw)), patch.object(Path, 'open', return_value=Input()):
-                results.append(export_body_observation(Path('synthetic-export'), SimpleNamespace(write_bytes=write),
-                                                      'synthetic-input', 16, 8))
-            self.assertEqual(self.live(), 0, 'a key body survived into the next key/reassembly')
+        with tempfile.TemporaryDirectory() as directory:
+            body, source, destination = (Path(directory)/name for name in ('body', 'input', 'output'))
+            source.write_bytes(b'0' * 16 + b'abcdefgh')
+            for raw in (b'abcdefgh', b'abc'):
+                body.write_bytes(raw)
+                with patch('cache_probe.bytearray', new=self.payload, create=True):
+                    results.append(export_body_observation(body, destination, source, 16, 8))
+                written.append(destination.read_bytes())
+                self.assertEqual(self.live(), 0, 'a key body survived into the next key/reassembly')
+        self.assertEqual(len(self.references), 4)
         self.assertEqual(written, [b'abcdefgh', b'abc'])
         self.assertEqual(results[0], dict(actualBytes=8, actualSha256=hashlib.sha256(b'abcdefgh').hexdigest(), exactInputSliceEqual=True))
         self.assertEqual(results[1], dict(actualBytes=3, actualSha256=hashlib.sha256(b'abc').hexdigest(), exactInputSliceEqual=False))
 
     def test_input_read_failure_releases_actual_and_preserves_failure(self):
-        def fail(*args): raise OSError('synthetic input failure')
-        source = SimpleNamespace(seek=lambda *args: None, read=fail)
-        class Input:
-            def __enter__(self): return source
-            def __exit__(self, *args): pass
-        with patch('cache_probe.read_export_body', new=lambda *args: self.payload(b'abcdefgh')), patch.object(Path, 'open', return_value=Input()):
-            with self.assertRaisesRegex(OSError, 'synthetic input failure'):
-                export_body_observation(Path('synthetic-export'), SimpleNamespace(write_bytes=lambda data: None),
-                                        'synthetic-input', 0, 8)
+        closed = []
+        def fail(*args):
+            self.assertEqual(self.live(), 2)
+            raise OSError('synthetic input failure')
+        original_open = Path.open
+        with tempfile.TemporaryDirectory() as directory:
+            body, source, destination = (Path(directory)/name for name in ('body', 'input', 'output'))
+            body.write_bytes(b'abcdefgh')
+            def open_input(path, *args, **kwargs):
+                if path == source:
+                    return SimpleNamespace(seek=lambda offset: None, readinto=fail, close=lambda: closed.append(True))
+                return original_open(path, *args, **kwargs)
+            with patch('cache_probe.bytearray', new=self.payload, create=True), patch.object(Path, 'open', new=open_input):
+                with self.assertRaisesRegex(OSError, 'synthetic input failure'):
+                    export_body_observation(body, destination, source, 0, 8)
         self.assertEqual(self.live(), 0)
+        self.assertEqual(closed, [True])
 
     def test_export_write_failure_releases_actual_without_reading_input(self):
-        def fail(*args): raise OSError('synthetic output failure')
-        def forbidden_open(*args): raise AssertionError('input opened after failed export write')
-        with patch('cache_probe.read_export_body', new=lambda *args: self.payload(b'abcdefgh')), patch.object(Path, 'open', new=forbidden_open):
-            with self.assertRaisesRegex(OSError, 'synthetic output failure'):
-                export_body_observation(Path('synthetic-export'), SimpleNamespace(write_bytes=fail), 'synthetic-input', 0, 8)
+        closed = []
+        class Output:
+            def __enter__(self): return self
+            def __exit__(self, *args): closed.append(True)
+            def write(self, data): raise OSError('synthetic output failure')
+        original_open = Path.open
+        with tempfile.TemporaryDirectory() as directory:
+            body, source, destination = (Path(directory)/name for name in ('body', 'input', 'output'))
+            body.write_bytes(b'abcdefgh')
+            def output_failure(path, *args, **kwargs):
+                if path == source: raise AssertionError('input opened after failed export write')
+                if path == destination: return Output()
+                return original_open(path, *args, **kwargs)
+            with patch('cache_probe.bytearray', new=self.payload, create=True), patch.object(Path, 'open', new=output_failure):
+                with self.assertRaisesRegex(OSError, 'synthetic output failure'):
+                    export_body_observation(body, destination, source, 0, 8)
         self.assertEqual(self.live(), 0)
+        self.assertEqual(closed, [True])
 
 
 class CollectorLifetimeTests(unittest.TestCase):
