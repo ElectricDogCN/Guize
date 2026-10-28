@@ -215,6 +215,9 @@ class InputProfileTests(unittest.TestCase):
             def read(self, count):
                 return self.stream.read(count)
 
+            def readinto(self, target):
+                return self.stream.readinto(target)
+
             def close(self):
                 self.stream.close()
 

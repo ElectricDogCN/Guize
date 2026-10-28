@@ -87,23 +87,41 @@ class Collector:
             except urllib.error.HTTPError as error:response=error
             row.update(statusCode=response.code,responseHeadersAt=utc(),responseHeaderLatencyMs=(time.monotonic()-started)*1000,
                        responseHeaders=list(response.headers.items()))
-            with body.open('xb') as out:
+            with body.open('xb',buffering=0) as out,memoryview(bytearray(65536)) as backing:
+                row.update(clientReadMode='bounded-readinto',clientBackingCapacityBytes=backing.obj.__alloc__())
+                if row['clientBackingCapacityBytes']!=len(backing)+1:raise OSError('unqualified fixed client backing capacity')
                 while True:
-                    try:
-                        incomplete=False
-                        # Read exactly one body byte for the media first-byte clock;
-                        # a completed64KiB read is not a first-byte observation.
-                        try:block=response.read(1 if row['firstBodyByteAt'] is None else 65536)
-                        except http.client.IncompleteRead as error:block=error.partial;incomplete=True
-                        if not block:
-                            row['transportCompleted']=not incomplete;break
-                        if row['firstBodyByteAt'] is None:
-                            row['firstBodyByteAt']=utc();row['firstBodyByteLatencyMs']=(time.monotonic()-started)*1000
-                        if row['firstBodyChunkAt'] is None:row['firstBodyChunkAt']=utc()
-                        row['bodyBytes']+=len(block);row['clientChunkPeak']=max(row['clientChunkPeak'],len(block));hasher.update(block);out.write(block)
-                        if row['bodyBytes']>self.cfg['inputs'][version]['sizeBytes']+65536:raise ValueError('per-response byte bound')
-                        if incomplete:row['transportError']='IncompleteRead';break
-                    finally:block=None
+                    with backing[:1 if row['firstBodyByteAt'] is None else 65536] as target:
+                        try:
+                            incomplete=False
+                            # The first media read is still exactly one byte.
+                            try:
+                                count=response.readinto(target)
+                                if type(count) is not int or not 0<=count<=len(target):raise OSError('invalid HTTP readinto count')
+                                block=target[:count]
+                            except http.client.IncompleteRead as error:
+                                block=error.partial;incomplete=True;row['transportError']='IncompleteRead'
+                                if len(block)>len(target):raise OSError('unbounded HTTP partial read')
+                            if not block:
+                                row['transportCompleted']=not incomplete;break
+                            if row['firstBodyByteAt'] is None:
+                                row['firstBodyByteAt']=utc();row['firstBodyByteLatencyMs']=(time.monotonic()-started)*1000
+                            if row['firstBodyChunkAt'] is None:row['firstBodyChunkAt']=utc()
+                            row['bodyBytes']+=len(block);row['clientChunkPeak']=max(row['clientChunkPeak'],len(block));hasher.update(block)
+                            try:
+                                with memoryview(block) as data:
+                                    offset=0
+                                    while offset<len(data):
+                                        with data[offset:] as pending:written=out.write(pending)
+                                        if type(written) is not int or not 0<written<=len(data)-offset:raise OSError('raw response write made no progress')
+                                        offset+=written
+                            except OSError as error:
+                                row['bodyPersistenceError']=type(error).__name__+': '+str(error);raise
+                            if row['bodyBytes']>self.cfg['inputs'][version]['sizeBytes']+65536:raise ValueError('per-response byte bound')
+                            if incomplete:break
+                        finally:
+                            if isinstance(block,memoryview):block.release()
+                            block=None
             claimed=response.headers.get('Content-Length')
             if claimed is not None and (not claimed.isdigit() or int(claimed)!=row['bodyBytes']):row['transportCompleted']=False
         except (OSError,http.client.HTTPException,ValueError) as error:
@@ -128,14 +146,17 @@ class Collector:
         status,first,last=interval(range_header,source['sizeBytes'],if_range,source['etag'])
         if row['statusCode'] in (200,206) and row['transportCompleted']:
             expected=hashlib.sha256();remaining=last-first+1
-            with Path(source['path']).open('rb') as stream:
+            with Path(source['path']).open('rb',buffering=0) as stream,memoryview(bytearray(65536)) as reference:
+                row.update(comparisonReadMode='raw-readinto',comparisonBackingCapacityBytes=reference.obj.__alloc__())
+                if row['comparisonBackingCapacityBytes']!=len(reference)+1:raise OSError('unqualified fixed comparison backing capacity')
                 stream.seek(first)
                 while remaining:
-                    try:
-                        chunk=stream.read(min(65536,remaining))
-                        if not chunk:raise OSError('comparison input shortened')
-                        expected.update(chunk);remaining-=len(chunk)
-                    finally:chunk=None
+                    with reference[:min(65536,remaining)] as target:
+                        count=stream.readinto(target)
+                        if type(count) is not int or not 0<=count<=len(target):raise OSError('invalid raw comparison read count')
+                        if not count:raise OSError('comparison input shortened')
+                        with target[:count] as chunk:expected.update(chunk)
+                        remaining-=count
             row['sourceIntervalComparison']=dict(expectedStatus=status,start=first,end=last,
               expectedBytes=last-first+1,expectedSha256=expected.hexdigest(),
               actualBytesEqual=row['bodyBytes']==last-first+1 and row['bodySha256']==expected.hexdigest())

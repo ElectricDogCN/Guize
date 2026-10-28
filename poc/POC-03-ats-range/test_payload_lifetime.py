@@ -211,23 +211,27 @@ class CollectorLifetimeTests(unittest.TestCase):
             references.append(weakref.ref(block))
             return block
         calls = 0
-        def read(size):
+        def readinto(target):
             nonlocal calls
-            self.assertEqual(live(), 0, 'collector next read overlaps the previous block')
+            self.assertEqual(live(), 1, 'collector read must use only its single owned backing')
             calls += 1
             if incomplete:
-                raise http.client.IncompleteRead(payload(b'abcd'), 4)
-            if calls == 1: return payload(b'a')
-            if calls == 2: return payload(b'bcdefgh')
-            return b''
-        response = SimpleNamespace(code=200, headers={'Content-Length': '8'}, read=read, close=lambda: None)
+                if calls == 1:
+                    target[:1] = b'a'
+                    return 1
+                raise http.client.IncompleteRead(payload(b'bcd'), 4)
+            data = b'a' if calls == 1 else b'bcdefgh' if calls == 2 else b''
+            target[:len(data)] = data
+            return len(data)
+        response = SimpleNamespace(code=200, headers={'Content-Length': '8'}, readinto=readinto, close=lambda: None)
         class Input:
             def __enter__(self): return self
             def __exit__(self, *args): pass
             def seek(self, offset): pass
-            def read(self, size):
-                self_test.assertEqual(live(), 0, 'comparison read retains a response or prior comparison block')
-                return payload(b'abcdefgh')
+            def readinto(self, target):
+                self_test.assertEqual(live(), 1, 'comparison must have only its single owned backing')
+                target[:8] = b'abcdefgh'
+                return 8
         self_test = self
         original_open = Path.open
         def opened(path, *args, **kwargs):
@@ -254,7 +258,9 @@ class CollectorLifetimeTests(unittest.TestCase):
             collector.total_bytes = 0
             collector.request_active = 0
             collector.request_peak = 0
-            with patch('collect.urllib.request.build_opener', return_value=SimpleNamespace(open=lambda *args, **kwargs: response)), patch.object(Path, 'open', new=opened), patch('collect.write_json', new=metadata):
+            def owned(size):
+                return payload(size)
+            with patch('collect.urllib.request.build_opener', return_value=SimpleNamespace(open=lambda *args, **kwargs: response)), patch('collect.bytearray', new=owned, create=True), patch.object(Path, 'open', new=opened), patch('collect.write_json', new=metadata):
                 row = collector.request('stream')
             self.assertEqual(live(), 0)
             return row

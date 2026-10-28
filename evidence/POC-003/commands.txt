@@ -82,3 +82,7 @@ Four actual synthetic overlap tests, zero skips; Windows44/Linux53 related regre
 Fixed raw Origin/hash buffer component:
 python poc/POC-03-ats-range/test_fixed_origin_io.py
 Five actual tests, zero skips; Windows49/Linux58 related regressions/all21 child waits0. Exact commands/source/raw are entries of fixed-origin-io-v1/artifacts.zip; index.json supplies archive/per-entry size and SHA256. Read entries using standard zipfile.ZipFile.read; no extraction or external dependency required. Pinned source facts and local tests do not bind a future runtime or approve the full media capacity/window/experiment.
+
+Fixed Collector raw I/O component:
+python poc/POC-03-ats-range/test_collector_raw_io.py
+Five actual loopback/synthetic-source tests, zero skips; Windows54/Linux63 related regressions/all23 child waits0. Exact source/raw and initial fixture failure provenance in collector-raw-io-v1/artifacts.zip and index.json. Runtime/HTTP native intermediates/export/reassembly/closed-window/native aggregation and new source/experiment qualifications remain pending.
