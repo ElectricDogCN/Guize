@@ -1,0 +1,187 @@
+{
+  "schemaVersion": 1,
+  "kind": "POC005_ATTEMPT011_PREPARATION_ONLY_INDEPENDENT_DECISION",
+  "decision": "approved_resource_preparation_only",
+  "reviewer": "/root/gz022_planning_independent_review",
+  "actor": "/root/gz022_planning_independent_review",
+  "approvedBy": "/root/gz022_planning_independent_review",
+  "approvedAt": "2026-10-28T03:05:11Z",
+  "validFrom": "2026-10-28T03:05:11Z",
+  "validUntil": "2026-10-28T05:35:11Z",
+  "mustFix": [],
+  "allowFixtureCreate": true,
+  "allowNewLoopbackServiceStart": true,
+  "allowedExecution": {
+    "count": 1,
+    "fixtureMethodCount": 1,
+    "openlistMethodCount": 1,
+    "platform": "Windows",
+    "preparationTimeoutSeconds": 7200
+  },
+  "source": "15dcd6cd22a576821cdbe0f936002ad9a1be69e3",
+  "base": "22ab6a0668da2d64a016fccef2c3b5a634638a24",
+  "tree": "2bdaef78f224f3548da822b8da8f667e2c587d81",
+  "sourceReview": "poc005-profile-retirement-final-source-independent-review.json",
+  "sourceReviewSha256": "4bda4cbbdd3a611cc4f40c79b1da2b8fd85e5159eb81fabb6fb85193d1abb0b1",
+  "requestRef": "poc005-attempt011-resource-preparation-request-v2.json",
+  "requestBytes": 4481,
+  "requestSha256": "b3f4feb0ba81561d01e6a9c0545be993fdd3244cf91d109b2244879a71aa4ffc",
+  "methods": [
+    {
+      "file": "prepare_poc005_attempt011_windows_fixture_once.py",
+      "bytes": 9584,
+      "sha256": "b3e1b1f60c1d857c3bf484b53e1cc236faf1e9069d295b3209afb1265035f87b"
+    },
+    {
+      "file": "prepare_poc005_attempt011_windows_openlist_once.py",
+      "bytes": 10286,
+      "sha256": "e3ff0e61e966454c41ad7c28aaa7c32bbdbf9fc5a3598a14d30dbc6a4d3b9150"
+    }
+  ],
+  "wrapperMethod": {
+    "file": "prepare_poc005_attempt011_resources_once.py",
+    "bytes": 11628,
+    "sha256": "a17e5231093387af3e4fe74ea5d466e3d584e3fbc8ace1a1848fdcad86b5fa41"
+  },
+  "storageRoot": "C:\\Users\\13997\\.codex\\local-lab\\poc005-native-windows-v8-1m-attempt011",
+  "servicePrivateRoot": "C:\\Users\\13997\\.codex\\local-lab\\poc005-windows-openlist-v8-1m-attempt011",
+  "inputRoot": "evidence/POC-005/profiles/local-v1/v1/inputs-1m-attempt011",
+  "port": 15535,
+  "executionClone": "poc005-attempt011-runtime-15dcd6c",
+  "expectedFilesystemCounts": {
+    "file": 1000000,
+    "directory": 500
+  },
+  "expectedPayloadBytes": 1792000000,
+  "minimumFreeDiskBeforeBytes": 21474836480,
+  "minimumFreeMemoryBeforeBytes": 4294967296,
+  "parallelFileOperations": 4,
+  "maximumQueuedFileRows": 32,
+  "preparationTimeoutSeconds": 7200,
+  "requestedValidityMinutes": 150,
+  "methodReview": {
+    "ref": ".takeover-tools/poc005-attempt011-resource-methods-v2-independent-review.json",
+    "bytes": 6714,
+    "sha256": "78b7997cca1a4f259faacd579f46ab0838d4c24d4f4b87f353efb204ad4ff01a"
+  },
+  "sourceAcceptance": {
+    "ref": ".takeover-tools/poc005-profile-retirement-final-source-independent-review.json",
+    "bytes": 10341,
+    "sha256": "4bda4cbbdd3a611cc4f40c79b1da2b8fd85e5159eb81fabb6fb85193d1abb0b1"
+  },
+  "executionCloneReceipt": "poc005-attempt011-execution-source-preparation.json",
+  "preflightEvidence": {
+    "parentPreflight": {
+      "ref": ".takeover-tools/poc005-attempt011-execution-preflight-v1.json",
+      "bytes": 1501,
+      "sha256": "d7f19407458502655ae27fb239aa257077b29bafb92f15fa2361f7ad76a1ee72"
+    },
+    "independentObservedAt": "2026-10-28T03:04:24.185500Z",
+    "freePhysicalMemoryBytes": 4957753344,
+    "freeDiskBytes": 133773524992,
+    "port15535Bindable": true,
+    "newResourceInputReceiptRunPathsAbsent": true,
+    "sourceCloneCleanAndNoAlternates": true,
+    "publicRemote": {
+      "refs/heads/chore/POC-005-metadata-scale": "15dcd6cd22a576821cdbe0f936002ad9a1be69e3",
+      "refs/heads/main": "22ab6a0668da2d64a016fccef2c3b5a634638a24"
+    },
+    "registration": {
+      "taskId": "POC-005",
+      "issue": 132,
+      "title": "700TB 文件数、目录规模、变更率与扫描成本",
+      "status": "in_progress",
+      "riskLevel": "medium",
+      "owner": "ElectricDogCN",
+      "coordinator": "program-coordinator-agent",
+      "implementer": "/root",
+      "reviewer": "/root/gz022_planning_independent_review",
+      "integrator": "integration-agent",
+      "agentRole": "implementer",
+      "branch": "chore/POC-005-metadata-scale",
+      "baseBranch": "main",
+      "baseSha": "746e23e582501fa08380c3f3301bdc1774902f7c",
+      "workPackage": "WP-M0-POC-05",
+      "programPlan": "specs/coordination/program-plan.yaml",
+      "programTaskId": "POC-005",
+      "programWave": "W2",
+      "requirementIds": [
+        "REQ-V1-0001",
+        "REQ-V1-0002"
+      ],
+      "moduleIds": [
+        "MOD-SOURCE",
+        "MOD-ASSET",
+        "MOD-CONNECTOR"
+      ],
+      "producesContracts": [
+        "POC-05-EVIDENCE"
+      ],
+      "consumesContracts": [
+        "POC-PROTOCOL-V1"
+      ],
+      "coordinationGroup": "poc-results",
+      "dependsOn": [
+        "GZ-010"
+      ],
+      "exclusivePaths": [
+        "poc/POC-05-metadata-scale/**",
+        "evidence/POC-005/**"
+      ],
+      "sharedPaths": [
+        "adr/**",
+        "specs/poc/results-index.yaml"
+      ],
+      "handoffPath": "evidence/POC-005/handoff.md",
+      "integrationStrategy": "merge",
+      "integrationOrder": 3,
+      "lease": {
+        "acquiredAt": "2026-10-22T16:08:44Z",
+        "expiresAt": "2026-10-29T16:08:44Z"
+      }
+    },
+    "earlierInsufficientMemoryObservationsRetained": true,
+    "capacityNotOverridden": true
+  },
+  "approvedScope": [
+    "Use only this exact V2 request4481B/b3f4feb0, wrapper11628B/a17e5231 and two fixed child methods once through the reviewed wrapper with --review-sha256 bound to this actual decision's bytes.",
+    "Create only the fresh synthetic1m-files/500-directories v8-attempt011 fixture and its exact7new inputs, with1792000000payload bytes, four workers/32 queued rows and actual per-file reread/mtime/identity/link checks, original payload map and full path-set comparison.",
+    "After successful fixture preparation, start and configure only the new private idle OpenList4.2.6 on127.0.0.1:15535. Ping/auth/admin configuration only; private credentials ACL, guestdisabled, readOnly256, unsigned, no thumbnail/cache and x_meta0 as the exact method requires."
+  ],
+  "executionConditions": [
+    "Before any child resource work and before each child, actual free physicalRAM must remain>=4294967296B and free disk>=21474836480B. If either falls below threshold, stop without dispatching that child; this decision does not override capacity.",
+    "At first Popen at least7200s actualUTC remain in this150min decision. Every Popen must satisfy fresh actualUTC<validUntil, positive original shared monotonic budget and UTCremaining>=sharedRemaining. Do not extend budget/approval window or start a child after expiry.",
+    "Preserve exact15d/sourceReview4bda/main22, concrete actor pair, immutable creationbase746, original branch/claims/lease and all old fixtures/raw/DB/refs/workspaces. The original lease is not renewed.",
+    "One wrapper invocation only, each child at most once; no automatic retry/restart/resume. Preserve every partial, actual PID/wait/exit/raw and any started-service identity. Failed or interrupted preparation requires a new specifically reviewed disposition.",
+    "Actual preparation results must receive their own independent fact review before a full template can be considered. Method output approved/qualification flags are not execution or profile approvals."
+  ],
+  "allowSourceListing": false,
+  "allowWebDav": false,
+  "allowRange": false,
+  "allowProbe": false,
+  "allowControlledMutations": false,
+  "allowScanner": false,
+  "allowBenchmark": false,
+  "allowServiceOrHostRestart": false,
+  "allowMemoryTuning": false,
+  "allowOldDataResetOrDeletion": false,
+  "newInputsFormallyApproved": false,
+  "resourcePreparationAccepted": false,
+  "sampleApproved": false,
+  "profileConfigurationApproved": false,
+  "fullTemplateApproved": false,
+  "scannerReservationApproved": false,
+  "scannerReleaseApproved": false,
+  "benchmarkWindowApproved": false,
+  "newExecutionApproved": false,
+  "experimentApproved": false,
+  "qualificationAccepted": false,
+  "old010QualificationTransferred": false,
+  "formalPocAccepted": false,
+  "readyApproved": false,
+  "mainMergeApproved": false,
+  "taskCompleted": false,
+  "fullV1Accepted": false,
+  "scope": "Prospective preparation-only permission for this exact synthetic fixture and fresh idle service. The150min interval is a resource-preparation permission, not a benchmark/scanner window. No listing/WebDAV/Range/probe, experiment or qualification is permitted.",
+  "actionsPerformedByReviewer": "Read-only fresh capacity/source/path/port/method/request/lease verification; issued only this actual independent decision. Did not execute any resource method, create fixture/input/service, stop a service, tune memory or run an experiment."
+}

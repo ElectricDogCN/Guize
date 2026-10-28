@@ -1,0 +1,79 @@
+{
+  "kind": "POC005_ATTEMPT011_FRESH_1M_RESOURCE_PREPARATION_ONLY_REQUEST",
+  "source": "15dcd6cd22a576821cdbe0f936002ad9a1be69e3",
+  "base": "22ab6a0668da2d64a016fccef2c3b5a634638a24",
+  "tree": "2bdaef78f224f3548da822b8da8f667e2c587d81",
+  "sourceReview": "poc005-profile-retirement-final-source-independent-review.json",
+  "sourceReviewSha256": "4bda4cbbdd3a611cc4f40c79b1da2b8fd85e5159eb81fabb6fb85193d1abb0b1",
+  "executionClone": "poc005-attempt011-runtime-15dcd6c",
+  "executionCloneReceipt": "poc005-attempt011-execution-source-preparation.json",
+  "storageRoot": "C:\\Users\\13997\\.codex\\local-lab\\poc005-native-windows-v8-1m-attempt011",
+  "servicePrivateRoot": "C:\\Users\\13997\\.codex\\local-lab\\poc005-windows-openlist-v8-1m-attempt011",
+  "port": 15535,
+  "inputRoot": "evidence/POC-005/profiles/local-v1/v1/inputs-1m-attempt011",
+  "expectedFilesystemCounts": {
+    "file": 1000000,
+    "directory": 500
+  },
+  "expectedPayloadBytes": 1792000000,
+  "generation": {
+    "algorithm": "deterministic-tree-v1",
+    "seed": 20261015,
+    "maximumDepth": 12,
+    "metadataInputEncoding": "single-member gzip mtime0"
+  },
+  "methods": [
+    {
+      "file": "prepare_poc005_attempt011_windows_fixture_once.py",
+      "bytes": 9584,
+      "sha256": "b3e1b1f60c1d857c3bf484b53e1cc236faf1e9069d295b3209afb1265035f87b"
+    },
+    {
+      "file": "prepare_poc005_attempt011_windows_openlist_once.py",
+      "bytes": 10286,
+      "sha256": "e3ff0e61e966454c41ad7c28aaa7c32bbdbf9fc5a3598a14d30dbc6a4d3b9150"
+    }
+  ],
+  "wrapperMethod": {
+    "file": "prepare_poc005_attempt011_resources_once.py",
+    "bytes": 11628,
+    "sha256": "a17e5231093387af3e4fe74ea5d466e3d584e3fbc8ace1a1848fdcad86b5fa41"
+  },
+  "parallelFileOperations": 4,
+  "maximumQueuedFileRows": 32,
+  "preparationTimeoutSeconds": 7200,
+  "requestedValidityMinutes": 150,
+  "minimumFreeDiskBeforeBytes": 21474836480,
+  "minimumFreeMemoryBeforeBytes": 4294967296,
+  "actions": [
+    "Generate two new deterministic1m/500 canonical metadata inputs in the clean15d checkout; copy only five pinned synthetic control/probe inputs, not old results or approvals.",
+    "Create exclusive new physical files with4workers/32queued rows; actually reread every payload/mtime and retain deterministic gzip payload map. Restore500 canonical directory mtimes only after creation, then compare full1000500-path inventory/1792000000payloadB.",
+    "Require fresh20GiB disk and4GiB free physicalRAM before fixture side effects and before each method. One7200s total preparation budget; all partials remain if any method fails.",
+    "Only after complete fixture create a new owner-only OpenList4.2.6 root and hidden127.0.0.1:15535 process. Fresh credentials remain private. Guest disabled/readOnly256/signfalse/x_meta0; reader base_path mount with gateway separately enforcing fixture scope.",
+    "Only ping/auth/admin configuration APIs. No listing/WebDAV/Range/probe, scanner, controlled mutations, execution template approval or benchmark window."
+  ],
+  "mustPreserve": [
+    "all old fixtures/DB/raw/refs/worktrees and original010 failures/identity attribution",
+    "accepted15d code/Task/roles/creationbase746 and original lease",
+    "all existing Windows/Linux services; no Docker/WSL/host restart or memory tuning",
+    "original frozen checker/1GiB20k artifact cap/quality and timing thresholds/30minCI"
+  ],
+  "retainedAuthor": "poc005-feature-actor-import-v1",
+  "retainedAuthorHead": "15dcd6cd22a576821cdbe0f936002ad9a1be69e3",
+  "availabilityObservedAt": "2026-10-28T02:13:03.131425Z",
+  "availability": {
+    "freeDiskBytes": 134246658048,
+    "freePhysicalMemoryBytes": 1296551936,
+    "diskMeetsMinimum": true,
+    "memoryMeetsMinimum": false,
+    "portCurrentlyBindable": true
+  },
+  "preparationApproved": false,
+  "newInputsApproved": false,
+  "fullTemplateApproved": false,
+  "experimentApproved": false,
+  "qualificationAccepted": false,
+  "readiness": "Method review may proceed; execution must reobserve actual capacity and a valid independent preparation-only approval. Current insufficient RAM cannot be overridden.",
+  "budgetPlanning": "Same real1m/500 topology/seed/payload scope; four-thread resource creation is preparation only, not scanner throughput. Actual generated artifact budget still needs review; no old010 qualification transfer.",
+  "methodRevision": "Forward launch-boundary UTC/monotonic guard; preserve initial wrapper/request and pending negative review. No method executed."
+}

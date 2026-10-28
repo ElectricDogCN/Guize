@@ -1,0 +1,133 @@
+{
+  "schemaVersion": 1,
+  "kind": "independent_attempt011_resource_methods_v2_delta_review",
+  "taskId": "POC-005",
+  "reviewer": "/root/gz022_planning_independent_review",
+  "reviewedAt": "2026-10-28T02:14:04Z",
+  "source": "15dcd6cd22a576821cdbe0f936002ad9a1be69e3",
+  "base": "22ab6a0668da2d64a016fccef2c3b5a634638a24",
+  "tree": "2bdaef78f224f3548da822b8da8f667e2c587d81",
+  "mustFix": [],
+  "methodPreparationAccepted": true,
+  "conditionalCapacityGuardAccepted": true,
+  "fixtureMethodPreparedAccepted": true,
+  "openlistMethodPreparedAccepted": true,
+  "wrapperPreparedAccepted": true,
+  "decision": "accept_v2_prospective_methods_only_capacity_not_satisfied_no_execution_window",
+  "priorNegativeReview": {
+    "ref": ".takeover-tools/poc005-attempt011-resource-methods-independent-review.json",
+    "bytes": 10916,
+    "sha256": "94ea32c734205ff7c35848a16c2befba6f8ac9fbf9a14c22e280a9af967f3b38"
+  },
+  "priorWrapper": {
+    "ref": ".takeover-tools/prepare_poc005_attempt011_resources.pre-review.py",
+    "bytes": 11152,
+    "sha256": "280a3e559554bde06e0d5cc1f65aa9ca3b3668fa72f754cb4241df2e7c9ebd9e"
+  },
+  "priorRequest": {
+    "ref": ".takeover-tools/poc005-attempt011-resource-preparation-request.json",
+    "bytes": 4331,
+    "sha256": "92f77f8375efd39336613fb94768b76f8f9b868b18cde57c5403f9e2df259c5c"
+  },
+  "currentWrapper": {
+    "ref": ".takeover-tools/prepare_poc005_attempt011_resources_once.py",
+    "bytes": 11628,
+    "sha256": "a17e5231093387af3e4fe74ea5d466e3d584e3fbc8ace1a1848fdcad86b5fa41"
+  },
+  "currentRequest": {
+    "ref": ".takeover-tools/poc005-attempt011-resource-preparation-request-v2.json",
+    "bytes": 4481,
+    "sha256": "b3f4feb0ba81561d01e6a9c0545be993fdd3244cf91d109b2244879a71aa4ffc"
+  },
+  "childMethods": [
+    {
+      "ref": ".takeover-tools/prepare_poc005_attempt011_windows_fixture_once.py",
+      "bytes": 9584,
+      "sha256": "b3e1b1f60c1d857c3bf484b53e1cc236faf1e9069d295b3209afb1265035f87b"
+    },
+    {
+      "ref": ".takeover-tools/prepare_poc005_attempt011_windows_openlist_once.py",
+      "bytes": 10286,
+      "sha256": "e3ff0e61e966454c41ad7c28aaa7c32bbdbf9fc5a3598a14d30dbc6a4d3b9150"
+    }
+  ],
+  "p2Disposition": {
+    "finding": "V1 could reach Popen after slow preflights had exhausted the shared budget or approval time.",
+    "closed": true,
+    "onlyWrapperDelta": "Eight added lines inside the already-open raw-log context immediately before each Popen. Read fresh actual UTC and monotonic remaining; require UTC<validUntil and positive shared remaining. First method additionally needs full7200s UTC remaining; every launch requires UTC remaining to cover shared remaining.",
+    "existingSharedDeadlineUnchanged": true,
+    "approvalWindowNotExtended": true,
+    "syntheticPositiveWaitCannotAuthorizeExpiredLaunch": true,
+    "originalV1BytesAndNegativeReviewUnchanged": true,
+    "astParsedOnly": true,
+    "noMethodsExecuted": true
+  },
+  "requestDelta": {
+    "changedKeys": [
+      "wrapperMethod",
+      "availabilityObservedAt",
+      "availability",
+      "methodRevision"
+    ],
+    "resourceSourceCountBudgetPathSemanticsUnchanged": true,
+    "twoChildMethodBytesUnchanged": true,
+    "wrapperBindingMatchesExactNewPhysicalBytes": true
+  },
+  "capacity": {
+    "actualAvailableCapacityConditionIsNotWaived": true,
+    "minimumFreePhysicalMemoryBytes": 4294967296,
+    "minimumFreeDiskBytes": 21474836480,
+    "latestRequestObservedAt": "2026-10-28T02:13:03.131425Z",
+    "latestRequestObservation": {
+      "freeDiskBytes": 134246658048,
+      "freePhysicalMemoryBytes": 1296551936,
+      "diskMeetsMinimum": true,
+      "memoryMeetsMinimum": false,
+      "portCurrentlyBindable": true
+    },
+    "currentCapacitySatisfied": false,
+    "latestObservationIsNotFutureExecutionPreflight": true
+  },
+  "preExecutionState": {
+    "newFixtureServiceInputsAndRunMarkerAbsent": true,
+    "resourceExecutionApprovalAbsent": true,
+    "sourceAcceptance4bdaAndClonePreconditionsReusedFromV1": true
+  },
+  "requiredNextFreshPreflight": [
+    "Observe actual FreePhysicalMemory in bytes >=4294967296 and free disk bytes>=21474836480, with actual UTC timestamp; do not infer satisfaction from method acceptance or free memory forecasts.",
+    "Recheck exact new roots/input/preparation record/run-marker absence and port15535 availability, preserving existing services/data.",
+    "Recheck source15d/tree2bda/clean no-alternates clone, exact full-source acceptance4bda, accepted actual integrationmain22 and current canonical remote main.",
+    "Keep concrete actor pair, in_progress/implementer, creationbase746, original lease2026-10-22T16:08:44Z to2026-10-29T16:08:44Z, counts1m/500, payload1792000000B, four workers and32 queued rows unchanged.",
+    "For a separate later preparation-only decision bind exact V2 request4481B/b3f4feb0, wrapper11628B/a17e5231 and both unchanged child methods, with reviewer identity and exact wrapper-consumed fields.",
+    "Use real canonicalZ approvedAt==validFrom/validUntil within the requested150-minute window and before original lease expiry. Before first actual Popen >=7200s UTC must remain; before each Popen UTC and shared monotonic checks must pass. Memory/disk are reobserved before each child."
+  ],
+  "futureApprovalInterfacePreserved": {
+    "separateDecisionFile": ".takeover-tools/poc005-attempt011-resource-preparation-independent-review.json",
+    "decisionRequired": "approved_resource_preparation_only",
+    "allowedExecution": {
+      "count": 1,
+      "fixtureMethodCount": 1,
+      "openlistMethodCount": 1,
+      "platform": "Windows",
+      "preparationTimeoutSeconds": 7200
+    },
+    "description": "This is an interface description, not an execution decision. The later original approval must bind the current V2 request/wrapper and actual sufficient preflight facts."
+  },
+  "resourcePreparationApproved": false,
+  "allowFixtureCreate": false,
+  "allowNewLoopbackServiceStart": false,
+  "actualResourcePreparationMayProceed": false,
+  "executionWindowApproved": false,
+  "fullTemplateApproved": false,
+  "sampleApproved": false,
+  "scannerReservationApproved": false,
+  "scannerReleaseApproved": false,
+  "experimentApproved": false,
+  "qualificationAccepted": false,
+  "old010QualificationTransferred": false,
+  "pocTaskCompleted": false,
+  "readyApproved": false,
+  "mainMergeApproved": false,
+  "fullV1Accepted": false,
+  "actionsPerformed": "Only read and diff the original/new wrapper and request, verify exact hashes/AST and unchanged child pins, preserve V1 receipt, and check absence of new resources/inputs/run/approval. No child/wrapper execution, test, service or host-memory operation, source request or experiment; only this independent delta receipt written."
+}

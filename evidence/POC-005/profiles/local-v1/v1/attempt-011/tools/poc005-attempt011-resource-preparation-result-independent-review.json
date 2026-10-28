@@ -1,0 +1,361 @@
+{
+  "schemaVersion": 1,
+  "kind": "independent_actual_attempt011_resource_preparation_result",
+  "taskId": "POC-005",
+  "reviewer": "/root/gz022_planning_independent_review",
+  "reviewedAt": "2026-10-28T03:43:52Z",
+  "source": "15dcd6cd22a576821cdbe0f936002ad9a1be69e3",
+  "base": "22ab6a0668da2d64a016fccef2c3b5a634638a24",
+  "tree": "2bdaef78f224f3548da822b8da8f667e2c587d81",
+  "mustFix": [],
+  "resourcePreparationAccepted": true,
+  "fixturePreparationAccepted": true,
+  "newIdleServicePreparationAccepted": true,
+  "unapprovedFullTemplatePreparationMayProceed": true,
+  "decision": "accept_exact_fresh011_synthetic_fixture_and_idle_service_preparation_only",
+  "consumedPreparationDecision": {
+    "ref": ".takeover-tools/poc005-attempt011-resource-preparation-independent-review.json",
+    "bytes": 8806,
+    "sha256": "63f8ac218b75896f2f5c21024689a03ba7143ffa5e87b1bdff4f409bec324af2"
+  },
+  "request": {
+    "ref": ".takeover-tools/poc005-attempt011-resource-preparation-request-v2.json",
+    "bytes": 4481,
+    "sha256": "b3f4feb0ba81561d01e6a9c0545be993fdd3244cf91d109b2244879a71aa4ffc"
+  },
+  "wrapper": {
+    "ref": ".takeover-tools/prepare_poc005_attempt011_resources_once.py",
+    "bytes": 11628,
+    "sha256": "a17e5231093387af3e4fe74ea5d466e3d584e3fbc8ace1a1848fdcad86b5fa41"
+  },
+  "actualRun": {
+    "wrapperPid": 61668,
+    "startedAt": "2026-10-28T03:05:47.299408Z",
+    "completedAt": "2026-10-28T03:38:05.646555Z",
+    "durationSeconds": 1938.347147,
+    "approvedFrom": "2026-10-28T03:05:11Z",
+    "approvedUntil": "2026-10-28T05:35:11Z",
+    "sharedChildWorkBudgetSeconds": 7200,
+    "entireRunAndBothMethodsWithinApprovalAndBudget": true,
+    "oneWrapperInvocationAndEachMethodOnce": true,
+    "commands": [
+      {
+        "argv": [
+          "C:\\ProgramData\\anaconda3\\python.exe",
+          "-X",
+          "utf8",
+          "-B",
+          "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\prepare_poc005_attempt011_windows_fixture_once.py",
+          "--source-review",
+          "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc005-profile-retirement-final-source-independent-review.json"
+        ],
+        "startedAt": "2026-10-28T03:05:48.561325Z",
+        "methodSha256": "b3e1b1f60c1d857c3bf484b53e1cc236faf1e9069d295b3209afb1265035f87b",
+        "pid": 32924,
+        "exitCode": 0,
+        "waitCompleted": true,
+        "actualWaitCompleted": true,
+        "completedAt": "2026-10-28T03:37:54.018014Z",
+        "raw": "fixture.raw",
+        "rawBytes": 5187,
+        "rawSha256": "8fba64d89b128dd00eba09bcea420dab76f4493ae54ee5fb97036bc79a6a3241"
+      },
+      {
+        "argv": [
+          "C:\\ProgramData\\anaconda3\\python.exe",
+          "-X",
+          "utf8",
+          "-B",
+          "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\prepare_poc005_attempt011_windows_openlist_once.py",
+          "--source-review",
+          "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc005-profile-retirement-final-source-independent-review.json"
+        ],
+        "startedAt": "2026-10-28T03:37:56.635685Z",
+        "methodSha256": "e3ff0e61e966454c41ad7c28aaa7c32bbdbf9fc5a3598a14d30dbc6a4d3b9150",
+        "pid": 47624,
+        "exitCode": 0,
+        "waitCompleted": true,
+        "actualWaitCompleted": true,
+        "completedAt": "2026-10-28T03:38:05.337852Z",
+        "raw": "openlist.raw",
+        "rawBytes": 2265,
+        "rawSha256": "330b2e0d4db2ec147c2b32a2a060ca7bf1cd06f77cc40d9550807bd9f9bb04ae"
+      }
+    ],
+    "allActualWaitCompleted": true,
+    "allExitZero": true,
+    "budgetExpiryFlagAbsent": true,
+    "fixtureProgressRows": 20,
+    "lastActualCreatedAndRereadProgress": 1000000,
+    "fixtureFinalStdoutEqualsPublicPreparationReceipt": true,
+    "openlistStdoutEqualsPublicPreparationReceiptIncludingExactIntegerIdentity": true,
+    "fixtureObservedFreeMemoryBeforeBytes": 5882904576,
+    "bothPreChildCapacityGuardPathsPassed": true,
+    "secondPreChildNumericCapacityNotSeparatelyRecorded": true
+  },
+  "actualFixture": {
+    "files": 1000000,
+    "directories": 500,
+    "fullPathCount": 1000500,
+    "payloadBytes": 1792000000,
+    "maximumParallelFileOperations": 4,
+    "maximumQueuedFileRows": 32,
+    "filesystemRoot": "C:\\Users\\13997\\.codex\\local-lab\\poc005-native-windows-v8-1m-attempt011\\fixture",
+    "allPayloadsAndMtimesActuallyRereadByExactApprovedMethod": true,
+    "fullExpectedAndActualPathSetsComparedByExactApprovedMethod": true,
+    "methodCompletedSuccessfullyAndEvidencePinsVerified": true,
+    "allMillionPhysicalFilesNotIndependentlyRereadAgainByReviewer": true,
+    "reviewerPhysicalRereadSamples": [
+      {
+        "objectId": "f-000000000",
+        "bytes": 0,
+        "payloadAndMtimeAndStableFdAndLink1Match": true
+      },
+      {
+        "objectId": "f-000000003",
+        "bytes": 4096,
+        "payloadAndMtimeAndStableFdAndLink1Match": true
+      },
+      {
+        "objectId": "f-000999999",
+        "bytes": 4096,
+        "payloadAndMtimeAndStableFdAndLink1Match": true
+      }
+    ],
+    "reviewerIndependentlyComparedEveryPayloadJournalRowToProfile": true,
+    "averagePayloadBytes": 1792,
+    "payloadSizeIsNotConstant": true,
+    "payloadMap": {
+      "physicalBytes": 12377550,
+      "physicalSha256": "882a093e58869125c7587e865f96caf5f24586b5db7162efd709d0dd5f3cedba",
+      "decodedBytes": 334591179,
+      "decodedRows": 1000000,
+      "decodedSha256": "4661e47a530cad60e7d1ee9853aeb639a6747a848d591db9758fa9fa2eb338d9",
+      "strictSingleMemberCrcAndEof": true
+    }
+  },
+  "actualInputs": {
+    "inputRoot": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc005-attempt011-runtime-15dcd6c\\evidence\\POC-005\\profiles\\local-v1\\v1\\inputs-1m-attempt011",
+    "exactlySevenNewUntrackedFiles": true,
+    "pins": [
+      {
+        "ref": ".takeover-tools/poc005-attempt011-runtime-15dcd6c/evidence/POC-005/profiles/local-v1/v1/inputs-1m-attempt011/baseline-probe.bin",
+        "bytes": 4096,
+        "sha256": "c8f5d0341d54d951a71b136e6e2afcb14d11ed8489a7ae126a8fee0df6ecf193"
+      },
+      {
+        "ref": ".takeover-tools/poc005-attempt011-runtime-15dcd6c/evidence/POC-005/profiles/local-v1/v1/inputs-1m-attempt011/baseline.jsonl.gz",
+        "bytes": 3493791,
+        "sha256": "ad0e9fc6739de60a4b773437a7a1e7be11ca6f7b8c9cc80388ac6613dd30d388"
+      },
+      {
+        "ref": ".takeover-tools/poc005-attempt011-runtime-15dcd6c/evidence/POC-005/profiles/local-v1/v1/inputs-1m-attempt011/change-profiles.jsonl",
+        "bytes": 456,
+        "sha256": "3324eef3cb42ae32e9e21433f2f60d0070d51291659bf7d5a27b422e5754be74"
+      },
+      {
+        "ref": ".takeover-tools/poc005-attempt011-runtime-15dcd6c/evidence/POC-005/profiles/local-v1/v1/inputs-1m-attempt011/created-probe.bin",
+        "bytes": 1024,
+        "sha256": "785b0751fc2c53dc14a4ce3d800e69ef9ce1009eb327ccf458afe09c242c26c9"
+      },
+      {
+        "ref": ".takeover-tools/poc005-attempt011-runtime-15dcd6c/evidence/POC-005/profiles/local-v1/v1/inputs-1m-attempt011/expected-changes.jsonl",
+        "bytes": 424,
+        "sha256": "c1eb4e21860fdbb307b28905dffcd9f8a4329e05ef2638ade09690076def56fd"
+      },
+      {
+        "ref": ".takeover-tools/poc005-attempt011-runtime-15dcd6c/evidence/POC-005/profiles/local-v1/v1/inputs-1m-attempt011/profiled.jsonl.gz",
+        "bytes": 17226010,
+        "sha256": "c3dcb34521809b954b0f7862707658ce6d4f60c2c13769db47e75b832c638cd8"
+      },
+      {
+        "ref": ".takeover-tools/poc005-attempt011-runtime-15dcd6c/evidence/POC-005/profiles/local-v1/v1/inputs-1m-attempt011/updated-probe.bin",
+        "bytes": 4096,
+        "sha256": "22250e12fcdfd3b338e9fcad5848a7225a8d39646f3d071ab9dac6dfd4fe0b8d"
+      }
+    ],
+    "newCompressedMetadata": {
+      "baseline": {
+        "decodedBytes": 88838725,
+        "decodedRows": 1000500,
+        "decodedSha256": "87a719141d2bad80ab40758c960e02bad4d4f851ef24ed5c4570601790fbbb37",
+        "strictSingleMemberCrcAndEof": true,
+        "physicalBytes": 3493791,
+        "physicalSha256": "ad0e9fc6739de60a4b773437a7a1e7be11ca6f7b8c9cc80388ac6613dd30d388"
+      },
+      "profiled": {
+        "decodedBytes": 364552802,
+        "decodedRows": 1000500,
+        "decodedSha256": "27be938a18745943406cee8215c2cd5fb047c93da9f6fac15df5b8024dc80bcb",
+        "strictSingleMemberCrcAndEof": true,
+        "physicalBytes": 17226010,
+        "physicalSha256": "c3dcb34521809b954b0f7862707658ce6d4f60c2c13769db47e75b832c638cd8"
+      }
+    },
+    "bothCompressedDecodedContentsEqualNewPlainMetadata": true,
+    "bothStrictSingleMemberCrcEofAnd1000500RowsVerified": true,
+    "onlyFiveFixedImmutableControlProbeInputsReused": true,
+    "oldFiveControlInputBytesStillEqual": true,
+    "newInputFactsAreNotSampleApproval": true
+  },
+  "actualService": {
+    "identity": {
+      "nativeProcessId": 60532,
+      "creationTime100ns": 134376322844061664,
+      "ownerSid": "S-1-5-21-2057438557-2912810365-1850882449-1001",
+      "executable": "C:\\Users\\13997\\.codex\\local-lab\\poc005-windows-openlist-v8-1m-attempt011\\openlist.exe",
+      "executableSha256": "234ee38f142858ba12d57dd57d181c9ed4a77f952b8420c053e7ab98e3db3172",
+      "cmdlineSha256": "59c31f317b9d579e59518bd67f755096ee372febc4d24744ae3434be3a8023a5",
+      "nativeCommandLine": "C:\\Users\\13997\\.codex\\local-lab\\poc005-windows-openlist-v8-1m-attempt011\\openlist.exe server --data C:\\Users\\13997\\.codex\\local-lab\\poc005-windows-openlist-v8-1m-attempt011\\data",
+      "nativeCommandLineSha256": "9edb848ac7fbd89d9095c58b79de54c085438680799ae9fa9465534b9c17ee77"
+    },
+    "nativeBirthIntegerPreservedWithoutJsNumber": true,
+    "identityFreshlyRecheckedWithExactPidBirthOwnerImageCommandHashes": true,
+    "version": "v4.2.6",
+    "archiveSha256": "10d24913f86843e347eefac219c61224628bbd5d3c7443b2ee119c168a8cb3b9",
+    "serviceUrl": "http://127.0.0.1:15535",
+    "actualListeners": [
+      {
+        "LocalAddress": "127.0.0.1",
+        "OwningProcess": 60532
+      }
+    ],
+    "loopbackOnly": true,
+    "privateCredentialAclFreshlyCheckedWithoutReadingCredentialBytes": true,
+    "readonlyDbSafeAttributesFreshlyChecked": true,
+    "singleLocalStorage": true,
+    "guestDisabled": true,
+    "readerPermission": 256,
+    "readerRole": 0,
+    "readerBasePath": "/poc005-windows-v8-1m-attempt011",
+    "mountId": "openlist-v426-local-v8-1m-attempt011-id1",
+    "readerRelativeScope": "fixture",
+    "gatewayMustEnforceFixtureScope": true,
+    "signAll": false,
+    "mountEnableSign": false,
+    "thumbnail": false,
+    "cacheExpiration": 0,
+    "xMetaCount": 0,
+    "reviewerIssuedNoHttpRequests": true,
+    "existingServicesNotStoppedRestartedOrReconfigured": true
+  },
+  "sourceAndPreservation": {
+    "exactSource15dTree2bdaTrackedContentUnchanged": true,
+    "onlySevenApprovedNewUntrackedInputsInExecutionClone": true,
+    "registration": {
+      "taskId": "POC-005",
+      "issue": 132,
+      "title": "700TB 文件数、目录规模、变更率与扫描成本",
+      "status": "in_progress",
+      "riskLevel": "medium",
+      "owner": "ElectricDogCN",
+      "coordinator": "program-coordinator-agent",
+      "implementer": "/root",
+      "reviewer": "/root/gz022_planning_independent_review",
+      "integrator": "integration-agent",
+      "agentRole": "implementer",
+      "branch": "chore/POC-005-metadata-scale",
+      "baseBranch": "main",
+      "baseSha": "746e23e582501fa08380c3f3301bdc1774902f7c",
+      "workPackage": "WP-M0-POC-05",
+      "programPlan": "specs/coordination/program-plan.yaml",
+      "programTaskId": "POC-005",
+      "programWave": "W2",
+      "requirementIds": [
+        "REQ-V1-0001",
+        "REQ-V1-0002"
+      ],
+      "moduleIds": [
+        "MOD-SOURCE",
+        "MOD-ASSET",
+        "MOD-CONNECTOR"
+      ],
+      "producesContracts": [
+        "POC-05-EVIDENCE"
+      ],
+      "consumesContracts": [
+        "POC-PROTOCOL-V1"
+      ],
+      "coordinationGroup": "poc-results",
+      "dependsOn": [
+        "GZ-010"
+      ],
+      "exclusivePaths": [
+        "poc/POC-05-metadata-scale/**",
+        "evidence/POC-005/**"
+      ],
+      "sharedPaths": [
+        "adr/**",
+        "specs/poc/results-index.yaml"
+      ],
+      "handoffPath": "evidence/POC-005/handoff.md",
+      "integrationStrategy": "merge",
+      "integrationOrder": 3,
+      "lease": {
+        "acquiredAt": "2026-10-22T16:08:44Z",
+        "expiresAt": "2026-10-29T16:08:44Z"
+      }
+    },
+    "sourceReviewSha256": "4bda4cbbdd3a611cc4f40c79b1da2b8fd85e5159eb81fabb6fb85193d1abb0b1",
+    "oldFixtureDbRawInputApprovalsAndFailuresNotRewrittenByApprovedMethods": true,
+    "oldResourcePayloadContentsNotRescannedByReviewer": true,
+    "old010AndSource78FailureAttributionPreserved": true,
+    "originalLeaseNotRenewed": true
+  },
+  "evidencePins": [
+    {
+      "ref": ".takeover-tools/poc005-attempt011-resource-preparation-run/results.json",
+      "bytes": 3604,
+      "sha256": "49daee826f7819c679aff165aa3ecddb66e8a756fa39d51a12f3212f76c1eef6"
+    },
+    {
+      "ref": ".takeover-tools/poc005-attempt011-resource-preparation-run/fixture.raw",
+      "bytes": 5187,
+      "sha256": "8fba64d89b128dd00eba09bcea420dab76f4493ae54ee5fb97036bc79a6a3241"
+    },
+    {
+      "ref": ".takeover-tools/poc005-attempt011-resource-preparation-run/openlist.raw",
+      "bytes": 2265,
+      "sha256": "330b2e0d4db2ec147c2b32a2a060ca7bf1cd06f77cc40d9550807bd9f9bb04ae"
+    },
+    {
+      "ref": ".takeover-tools/poc005-attempt011-windows-native-fixture-preparation.json",
+      "bytes": 2734,
+      "sha256": "33f62d72e3a99dbedaa1c3d88d82e598f4d512208d2c45d98b8b4f6e0a8fdc00"
+    },
+    {
+      "ref": ".takeover-tools/poc005-attempt011-windows-openlist-preparation.json",
+      "bytes": 2186,
+      "sha256": "6ec80e6e5aa66fa909e2d2ca16c528f4e00c1168528bec06389ddf142e5e9fc6"
+    },
+    {
+      "ref": ".takeover-tools/poc005-attempt011-windows-openlist-started.json",
+      "bytes": 930,
+      "sha256": "0156f49603713adbaacd5bb95c22a9922871e529aaead219b2c1e07c3d7621c8"
+    }
+  ],
+  "remainingBeforeAnyExecution": [
+    "Prepare only an UNAPPROVED full template bound to exact15d/tree2bda, all7 actual new input physical hashes, this fixture/v8 storage and current service60532/exact native birth identity. Do not reuse old010 approvals or source/resource identities.",
+    "Review the concrete complete profile/resource/sample/method/control bindings and artifact/per-file budgets, including actual new gzip input sizes and decoded limits. Fixture-only gateway scope remains necessary because the reader base mounts storageRoot.",
+    "Obtain separate prospective full-template/sample/profile/resource approvals, real suspended scanner identity and fresh before-environment facts, then a separate future execution-window approval. All formal approval UTC fields must satisfy the unchanged frozen canonicalZ rule.",
+    "Actual fresh011 original13 observations and full frozen qualification/formal current profile acceptance remain unperformed. Resource preparation counts and file validation are not scanner performance or experiment results."
+  ],
+  "fullTemplateApproved": false,
+  "sampleApproved": false,
+  "profileConfigurationApproved": false,
+  "scannerReservationApproved": false,
+  "scannerReleaseApproved": false,
+  "benchmarkWindowApproved": false,
+  "executionWindowApproved": false,
+  "newExecutionApproved": false,
+  "experimentApproved": false,
+  "qualificationAccepted": false,
+  "old010QualificationTransferred": false,
+  "formalProfileAccepted": false,
+  "formalPocAccepted": false,
+  "readyApproved": false,
+  "mainMergeApproved": false,
+  "taskCompleted": false,
+  "fullV1Accepted": false,
+  "actionsPerformed": "Read-only actual run/raw/hash/time checks; source/status and exact7inputs; complete gzip/decoded/plain and million-row payload journal comparison; three physical payload/mtime/FD/link samples; exact live native identity and listener, credential ACL metadata without credential reads, and narrowly selected readonly DB safety attributes. No listing/WebDAV/Range/probe/scanner/mutation, resource restart, private configuration/log/credential output or experiment. Wrote only this independent receipt."
+}
