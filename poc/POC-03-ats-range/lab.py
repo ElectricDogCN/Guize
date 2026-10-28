@@ -217,6 +217,7 @@ class State:
         self.lock=threading.RLock();self.loglock=threading.Lock();self.version='base';self.fault='none'
         self.origin_rows={};self.active_origin={};self.gateway_rows={};self.gateway_active=0;self.ats=None;self.ats_logs=[]
         self.origin_active_peak=0;self.gateway_active_peak=0
+        self.media_window_started_at=utc()
         self.allocator_dumps=0;self.live_snapshots=0;self.cache_ready=None
         self.ats_epoch=None;self.owned_epochs=[];self.epoch_closures=[]
         self.epoch_owner=None
@@ -403,11 +404,81 @@ class State:
                 activeOrigin=sum(self.active_origin.values()),peakOrigin=self.origin_active_peak,
                 activeGateway=self.gateway_active,peakGateway=self.gateway_active_peak)
 
+    def close_media_window(self,http_windows):
+        """Seal request counters only after owned HTTP workers and ATS teardown."""
+        with self.lock:
+            if (not http_windows or any(not row['closed'] or row['active']!=0
+                    or row['admitted']!=row['finished'] for row in http_windows)
+                    or self.ats is not None or self.ats_epoch is not None
+                    or self.gateway_active or any(self.active_origin.values())):
+                raise ValueError('controller media request window is not closed')
+            row=dict(kind='CLOSED_CONTROLLER_REQUEST_WINDOW_NOT_AGGREGATE_MEMORY',
+                startedAt=self.media_window_started_at,closedAt=utc(),closed=True,
+                httpRequestWindows=http_windows,requestConcurrency=self.media_concurrency(),
+                sourceQualified=False,aggregateCapacityProofComplete=False,formalPocAccepted=False)
+            row['requestConcurrency']['scope']='Controller initialization through closed owned HTTP workers and ATS teardown'
+            with (self.run/'media-request-window-closed.json').open('x',encoding='utf-8') as stream:
+                stream.write(json.dumps(row,ensure_ascii=False,indent=2)+'\n')
+            return row
+
 class Server(http.server.ThreadingHTTPServer):
     # Rebind an owned stopped sandbox after TCP TIME_WAIT, while normal bind
     # still refuses another live listener. SO_REUSEPORT is never enabled.
     daemon_threads=True;allow_reuse_address=True
-    def __init__(self,address,handler,state):self.state=state;super().__init__(address,handler)
+    def __init__(self,address,handler,state):
+        self.state=state
+        self.request_condition=threading.Condition()
+        self.owned_requests={};self.requests_admitted=0;self.requests_finished=0
+        self.request_peak=0;self.request_admission_closed=False;self.request_window_started_at=utc()
+        super().__init__(address,handler)
+    def process_request(self,request,client_address):
+        # Reserve synchronously before ThreadingMixIn starts a worker. A worker
+        # delayed before its first instruction must still prevent false closure.
+        with self.request_condition:
+            if self.request_admission_closed:
+                self.shutdown_request(request);return
+            self.owned_requests[id(request)]=request;self.requests_admitted+=1
+            self.request_peak=max(self.request_peak,len(self.owned_requests))
+        try:super().process_request(request,client_address)
+        except BaseException:
+            self._finish_owned_request(request);raise
+    def _finish_owned_request(self,request):
+        with self.request_condition:
+            del self.owned_requests[id(request)];self.requests_finished+=1
+            self.request_condition.notify_all()
+    def process_request_thread(self,request,client_address):
+        try:super().process_request_thread(request,client_address)
+        finally:self._finish_owned_request(request)
+    def shutdown_request(self,request):
+        # Serialize normal worker teardown with the controller's descriptor
+        # transfer. shutdown/close release the GIL and must have one owner.
+        with self.request_condition:super().shutdown_request(request)
+    def close_request_window(self,timeout=10):
+        # Caller has stopped acceptance with shutdown()/server_close(). Close
+        # only these owned sockets, then observe every admitted worker finish.
+        with self.request_condition:
+            self.request_admission_closed=True
+            owned=list(self.owned_requests.values())
+        for request in owned:
+            with self.request_condition:
+                if self.owned_requests.get(id(request)) is not request:continue
+                try:request.shutdown(socket.SHUT_RDWR)
+                except OSError:pass
+                # HTTP rfile keeps a makefile reference. On Windows close()
+                # alone may defer native close and leave recv blocked. Hold
+                # the worker teardown lock across the entire native sequence.
+                descriptor=request.detach()
+                if descriptor>=0:socket.close(descriptor)
+        deadline=time.monotonic()+timeout
+        with self.request_condition:
+            while self.owned_requests:
+                remaining=deadline-time.monotonic()
+                if remaining<=0:raise TimeoutError('owned HTTP request workers are not closed')
+                self.request_condition.wait(remaining)
+            if self.requests_admitted!=self.requests_finished:raise RuntimeError('HTTP request lifetime imbalance')
+            return dict(kind='ACTUAL_OWNED_HTTP_REQUEST_THREAD_WINDOW',startedAt=self.request_window_started_at,
+                closedAt=utc(),closed=True,admitted=self.requests_admitted,finished=self.requests_finished,
+                active=0,peak=self.request_peak,listenerPort=self.server_address[1])
 class Handler(http.server.BaseHTTPRequestHandler):
     protocol_version='HTTP/1.1'
     def log_message(self,*args):pass
@@ -650,11 +721,25 @@ def serve(run):
             time.sleep(.05)
     except KeyboardInterrupt:pass
     finally:
-        for server in reversed(servers):server.shutdown();server.server_close()
+        windows=[];closure_errors=[]
+        for server in reversed(servers):
+            try:
+                server.shutdown();server.server_close();windows.append(server.close_request_window())
+            except BaseException as error:
+                closure_errors.append(dict(component='HTTP',errorType=type(error).__name__,error=str(error)))
         try:state.stop_ats()
-        finally:
-            if state.epoch_owner is not None:state.epoch_owner.shutdown()
-        state.log('controller',dict(action='lab-stop',at=utc()))
+        except BaseException as error:
+            closure_errors.append(dict(component='ATS',errorType=type(error).__name__,error=str(error)))
+        if state.epoch_owner is not None:
+            try:state.epoch_owner.shutdown()
+            except BaseException as error:
+                closure_errors.append(dict(component='epoch-owner',errorType=type(error).__name__,error=str(error)))
+        if closure_errors:
+            write_json(state.run/'media-request-window-closure.failed.json',dict(closed=False,errors=closure_errors,httpWindows=windows))
+            state.log('controller',dict(action='lab-stop',at=utc(),requestWindowClosed=False))
+            raise RuntimeError('lab request window closure failed; actual records retained')
+        state.close_media_window(windows)
+        state.log('controller',dict(action='lab-stop',at=utc(),requestWindowClosed=True))
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__);commands=parser.add_subparsers(dest='command',required=True)

@@ -90,3 +90,11 @@ Five actual loopback/synthetic-source tests, zero skips; Windows54/Linux63 relat
 Fixed cache raw-I/O component:
 python poc/POC-03-ats-range/test_cache_stream_io.py
 Six actual offline tests; related Windows60/Linux69,25 child waits0/no skips. Exact draft source and original streams/preimages in cache-stream-io-v1/artifacts.zip/index.json; no full-source/runtime/experiment qualification.
+
+Owned request-window closure component:
+python poc/POC-03-ats-range/test_request_window.py
+Five actual offline loopback/lifetime tests; Windows65/Linux74 related checks,27 actual waits0/no skips. Standard ZIP/index in request-window-v2 preserves v1 failure, original code and runtime inspection; no aggregate/source/experiment qualification.
+
+V3 owned request-close correction:
+python poc/POC-03-ats-range/test_request_window.py
+Six actual offline tests, Windows66/Linux75 related checks/all27wait0/no skips; old v2 race red/negative review and original Windows failure retained. Standard ZIP/index request-window-v3; no full-source/runtime/aggregate/experiment qualification.

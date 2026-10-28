@@ -157,13 +157,18 @@ def main():
         probe_events=records(retained_bytes(lookup))
         require(any(row['requestId']==probe_id and row['statusAvailable'] and row['nativeLookupStatus']==2
                     for row in probe_events),'post-denial native warm-cache HIT witness missing')
+        probe_body=None
+        collector.close_request_window()
         report.update(status='PASS',executedScenarios=1,finishedAt=utc(),
                       grantBefore=state,grantRevoked=revoked,warm=warm,denied=denied,
                       denialWitness=witness,atsIdentity=identity,postDenialControl=probe,
                       postDenialOriginWitness=probe_origin,
                       scope='One actual same-unexpired-grant warm-cache revocation scenario; original15 and independent result review still required')
     except BaseException as error:
+        probe_body=None
         report.update(status='FAIL',finishedAt=utc(),errorType=type(error).__name__,error=str(error))
+        try:collector.close_request_window()
+        except Exception as closure_error:report['requestWindowClosureError']=str(closure_error)
         write_json(out/'revocation-result.json',report);collector.save();raise
     write_json(out/'revocation-result.json',report);collector.save()
     require(report['executedScenarios']==1 and report['skippedAssertions']==0,'nonempty real scenario required')

@@ -17,6 +17,7 @@ class Collector:
         self.opener=urllib.request.build_opener(urllib.request.ProxyHandler({}),NoRedirect())
         self.started=utc();self.monotonic=time.monotonic();self.total_bytes=0
         self.request_active=0;self.request_peak=0
+        self.request_admission_closed=False;self.request_window_closed_at=None
         self.stages=[]
         self.receipt=dict(kind='RAW_POC003_LAB_COLLECTION_NOT_CANONICAL_EVIDENCE',startedAt=self.started,
           status='COLLECTING',approvalsIssuedByCollector=False,formalPocAccepted=False,canonicalRecordsGenerated=False,
@@ -27,8 +28,12 @@ class Collector:
         with self.lock:
             self.receipt['requestConcurrency']=dict(
                 kind='SYNCHRONOUS_REQUEST_INTERVAL_HIGH_WATER_NOT_MEMORY_SAMPLING',
-                scope='Collector initialization through this lock-held save; not a closed full-run claim',
-                active=self.request_active,peak=self.request_peak)
+                scope=('Collector initialization through closed request admission and all completed request intervals'
+                       if getattr(self,'request_window_closed_at',None) else
+                       'Collector initialization through this lock-held save; not a closed full-run claim'),
+                active=self.request_active,peak=self.request_peak,
+                admissionClosed=getattr(self,'request_admission_closed',False),
+                closedAt=getattr(self,'request_window_closed_at',None))
             data=json.dumps(self.receipt,ensure_ascii=False,indent=2)+'\n'
             (self.out/'collection.json').write_text(data)
     def control(self,action,**values):
@@ -58,10 +63,17 @@ class Collector:
         write_json(output/'stage.json',result);self.stages.append(result);self.save();return result
     def request(self,case,user='lab-user-a',range_header='bytes=0-7',if_range='',version='base',barrier=None):
         with self.lock:
+            if getattr(self,'request_admission_closed',False):raise ValueError('Collector request admission is closed')
             self.request_active+=1;self.request_peak=max(self.request_peak,self.request_active)
         try:return self._request(case,user,range_header,if_range,version,barrier)
         finally:
             with self.lock:self.request_active-=1
+    def close_request_window(self):
+        with self.lock:
+            self.request_admission_closed=True
+            if self.request_active:raise ValueError('Collector request intervals remain active')
+            if not getattr(self,'request_window_closed_at',None):self.request_window_closed_at=utc()
+            return dict(closed=True,closedAt=self.request_window_closed_at,active=0,peak=self.request_peak)
     def _request(self,case,user,range_header,if_range,version,barrier):
         if case not in CASES|{'prime','slice','bypass','revocation'}:raise ValueError('case')
         if time.monotonic()-self.monotonic>800:raise TimeoutError('collection deadline')
@@ -210,7 +222,7 @@ class Collector:
                        'Chunk high-water marks cover client/gateway only; ATS memory samples need actual interpretation.',
                        'Actual fault status/partial bytes/cache markers may differ from required outcomes; no PASS normalization.',
                        'Formal configuration/subject/sample approvals and canonical evidence assembly are not implemented.'])
-        self.save()
+        self.close_request_window();self.save()
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
@@ -219,6 +231,9 @@ def main():
     args=parser.parse_args();collector=Collector(args.run_dir,args.output_dir);collector.save()
     try:collector.matrix()
     except BaseException as error:
-        collector.receipt.update(status='COLLECTION_STOPPED_RAW_PRESERVED',finishedAt=utc(),errorType=type(error).__name__,error=str(error));collector.save();raise
+        collector.receipt.update(status='COLLECTION_STOPPED_RAW_PRESERVED',finishedAt=utc(),errorType=type(error).__name__,error=str(error))
+        try:collector.close_request_window()
+        except Exception as closure_error:collector.receipt['requestWindowClosureError']=str(closure_error)
+        collector.save();raise
     print(json.dumps({k:collector.receipt[k] for k in ('status','collectedCases','missingCases','totalResponseBodyBytes')}))
 if __name__=='__main__':main()
