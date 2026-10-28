@@ -1,3 +1,7 @@
+## Current profile lifecycle correction (new checks pending)
+
+Unaccepted old010 current locator is preserved byte-for-byte under profile-history/unaccepted-local-v1-9ed-attempt010/. Current local-v1 qualification is absent/pending fresh011; original result/execution/input/raw/approvals/13 records and prior formal failure remain. No old status/reviewer/time is rewritten, no pass index is installed and no checker/schema/threshold/progress-row/Taskfront is changed. This new metadata source supersedes78 for further source qualification; any original78 validator outcome remains its actual separate outcome, never inferred or inherited.
+
 ## Current actor-import source context (new checks pending)
 
 Accepted actor-main22 and genuine automatic import72 preserve local in_progress/creationbase746/lease and concrete actors. Own verification declarations now use actual integrationbase22, preserving exact old Task/command bytes in actor-import-source-context-v1/. Production code remains byte-identical to9ed. New fixed-source15/component checks/CI are pending; old010 qualification is not transferred. Fresh011 input/resource/window approval and real execution remain required before formal acceptance.
