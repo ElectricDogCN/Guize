@@ -98,3 +98,7 @@ Five actual offline loopback/lifetime tests; Windows65/Linux74 related checks,27
 V3 owned request-close correction:
 python poc/POC-03-ats-range/test_request_window.py
 Six actual offline tests, Windows66/Linux75 related checks/all27wait0/no skips; old v2 race red/negative review and original Windows failure retained. Standard ZIP/index request-window-v3; no full-source/runtime/aggregate/experiment qualification.
+
+Python runtime component binding:
+python poc/POC-03-ats-range/test_python_runtime_binding_native.py
+Eight actual tests only in fixed nonroot/read-only/offline image (see exact Docker argv in ZIP); Windows66/Linux75 related checks/all28 current commands wait0. Not a generic host target or media/capacity/POC acceptance. Standard ZIP/index python-runtime-binding-v1.

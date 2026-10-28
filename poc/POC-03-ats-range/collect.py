@@ -10,6 +10,12 @@ class NoRedirect(urllib.request.HTTPRedirectHandler):
 class Collector:
     def __init__(self,run,out):
         self.run=Path(run).resolve();self.cfg=unique_json((self.run/'settings.private.json').read_text())
+        python_binding=None
+        if self.cfg.get('liveBufferObserver') is not None:
+            from python_runtime import verify_runtime_file
+            profile_path=Path(__file__).resolve().parent/'python-runtime-profile.json'
+            if self.cfg.get('pythonRuntimeProfileSha256')!=digest(profile_path):raise ValueError('prepared Python runtime profile changed or missing')
+            python_binding=verify_runtime_file(profile_path)
         self.out=Path(out).absolute()
         if self.out.exists() or self.out.is_symlink():raise ValueError('new output directory required')
         self.out.mkdir(mode=0o700);(self.out/'bodies').mkdir(mode=0o700);(self.out/'observations').mkdir(mode=0o700)
@@ -23,6 +29,12 @@ class Collector:
           status='COLLECTING',approvalsIssuedByCollector=False,formalPocAccepted=False,canonicalRecordsGenerated=False,
           inputIdentities=self.cfg['inputs'],rows=self.rows,controls=self.controls,cacheStages=self.stages,
           cacheObjectExportImplemented=True)
+        if python_binding is not None:
+            from python_runtime import write_binding
+            write_binding(self.out/'python-runtime-binding.collector.json',python_binding)
+            self.receipt['pythonRuntimeBinding']=dict(ref='python-runtime-binding.collector.json',
+                sha256=digest(self.out/'python-runtime-binding.collector.json'),
+                pid=python_binding['pid'],processStartTicks=python_binding['processStartTicks'])
     def save(self):
         # This is the collector's own current receipt, not an immutable formal record.
         with self.lock:

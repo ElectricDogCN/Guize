@@ -1,0 +1,71 @@
+{
+  "baseImage": "sha256:df18428df8a0f9189c84e7424d214b4c50092af1f9dca5842a00c41c39bda316",
+  "files": {
+    "_hashlib": {
+      "bytes": 64184,
+      "path": "/usr/local/lib/python3.12/lib-dynload/_hashlib.cpython-312-x86_64-linux-gnu.so",
+      "sha256": "fb0751d9c1d28f82f27bff1901df75dc598b5d456316fe4f491e89d65d464d87"
+    },
+    "_socket": {
+      "bytes": 104152,
+      "path": "/usr/local/lib/python3.12/lib-dynload/_socket.cpython-312-x86_64-linux-gnu.so",
+      "sha256": "3eac65ca6bd75987f0aea2ad7fe43b6354a544f57117f1c2f716cf862f7d26ea"
+    },
+    "_ssl": {
+      "bytes": 212992,
+      "path": "/usr/local/lib/python3.12/lib-dynload/_ssl.cpython-312-x86_64-linux-gnu.so",
+      "sha256": "6891800dbb9144863d3e1fbcf812694035533c6872a29575f857d5163a8b5c7e"
+    },
+    "http.client": {
+      "bytes": 59574,
+      "path": "/usr/local/lib/python3.12/http/client.py",
+      "sha256": "c2c0694155837d72fc710a4138e5d1e53ae1a652b117a2e23a5b1b0db527a0f9"
+    },
+    "interpreter": {
+      "bytes": 14472,
+      "path": "/usr/local/bin/python3.12",
+      "sha256": "0e6475dfda68a9b2d93501449fc47593ca169010e8f4881577b97463fd0c1263"
+    },
+    "libc.so.6": {
+      "bytes": 1995216,
+      "path": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+      "sha256": "9792e3cbb541c8f44c7acf5f14f4022ea62998ecc787d326bed4d8b6547dfd92"
+    },
+    "libcrypto.so.3": {
+      "bytes": 6521408,
+      "path": "/usr/lib/x86_64-linux-gnu/libcrypto.so.3",
+      "sha256": "8ae56f0a9481280a68c19f59809cd242a07a91ad7142944d21a878221992244b"
+    },
+    "libpython3.12.so.1.0": {
+      "bytes": 6630672,
+      "path": "/usr/local/lib/libpython3.12.so.1.0",
+      "sha256": "eb1599eecbe4002798fdcec98d0f4d85dab01afaaa8db89b39c5d30abdb9f5aa"
+    },
+    "socket": {
+      "bytes": 37815,
+      "path": "/usr/local/lib/python3.12/socket.py",
+      "sha256": "7d4d4c66e6f4bcc961ab462c4f08002ca97def8713a4be1c7373bdbd970a5274"
+    },
+    "socketserver": {
+      "bytes": 28065,
+      "path": "/usr/local/lib/python3.12/socketserver.py",
+      "sha256": "ecbbe1a633801460399a8f10b39007aa0e13cdbdad507e39414000f097b769b5"
+    }
+  },
+  "identity": {
+    "byteOrder": "little",
+    "cacheTag": "cpython-312",
+    "hashBackend": "_hashlib.HASH",
+    "hashBlockBytes": 64,
+    "hashDigestBytes": 32,
+    "hashName": "sha256",
+    "implementation": "CPython",
+    "ioDefaultBufferBytes": 8192,
+    "machine": "x86_64",
+    "openssl": "OpenSSL 3.5.7 9 Jun 2026",
+    "pointerBytes": 8,
+    "version": "3.12.15 (main, Oct  6 2026, 02:02:22) [GCC 14.2.0]"
+  },
+  "profileId": "cpython31215-linux-x86_64-plain-http-fixed-image-v1",
+  "schemaVersion": 1
+}

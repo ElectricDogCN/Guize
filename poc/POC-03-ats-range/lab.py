@@ -93,6 +93,11 @@ def prepare(config_path,run):
     if cfg['chunkBytes']!=65536 or cfg['cacheMiB']!=256 or cfg['maximumRetries']!=0:raise ValueError('bounded initial profile')
     if not 1<=cfg['maximumRunSeconds']<=1800 or not 2<=cfg['latencySampleCount']<=20 or cfg['latencySampleCount']%2 or cfg['concurrentUsers']!=2:raise ValueError('bounded workload')
     if cfg['slowOriginDelayMs']!=250 or cfg['slowOriginBandwidthBytesPerSecond']!=1048576 or cfg['faultAfterBytes']!=4:raise ValueError('bounded controlled-origin profile')
+    python_binding=None
+    if cfg.get('liveBufferObserver') is not None:
+        from python_runtime import verify_runtime_file
+        python_binding=verify_runtime_file(HERE/'python-runtime-profile.json')
+        cfg['pythonRuntimeProfileSha256']=python_binding['profileSha256']
     inputs=prepare_input_pair(cfg,manifest_path,manifest_raw,PINNED)
     plugins={}
     for name in ('slice.so','cache_range_requests.so','header_rewrite.so'):
@@ -142,6 +147,9 @@ def prepare(config_path,run):
     run.mkdir(mode=0o700)
     for name in ('cache','log','run','commands','cache-observer'): (run/name).mkdir(mode=0o700)
     if live is not None:(run/'process-epochs').mkdir(mode=0o700)
+    if python_binding is not None:
+        from python_runtime import write_binding
+        write_binding(run/'python-runtime-binding.prepare.json',python_binding)
     shutil.copytree(pkg/'etc/trafficserver',run/'etc')
     # Generated lab secrets are private runtime controls, never sample approvals.
     cfg.update(kind='UNAPPROVED_POC003_STANDALONE_LAB',createdAt=utc(),runDir=str(run),inputs=inputs,
@@ -155,6 +163,7 @@ def prepare(config_path,run):
     cfg['exportBuildReceiptSha256']=digest(build_path)
     if live is not None:
         cfg['instrumentedRuntime']=receipt['instrumentedLiveBuffer']
+        for name in ('python_runtime.py','python-runtime-profile.json'):cfg['implementationSources'][name]=digest(HERE/name)
         for name in ('owned_epoch.py','epoch_owner.py','instrumentation/exec_gate.py','instrumentation/single_exec_gate.py','instrumentation/single_exec_filter.py','live_buffer_probe.py','durable_peak_probe.py','instrumentation/live_peak_journal.h','instrumentation/live_pool_capacity.h','instrumentation/patch-manifest.json','instrumentation/ats-live-buffer-accounting.patch','instrumentation/live_buffer_accounting.h','instrumentation/live_buffer_observer.cc'):
             cfg['implementationSources'][name]=digest(HERE/name)
         interpreter=Path(sys.executable).resolve(strict=True)
@@ -212,6 +221,13 @@ class State:
         self.run=Path(run).resolve();self.cfg=unique_json((self.run/'settings.private.json').read_text())
         owner=unique_json((self.run/'owner.json').read_text())
         if os.geteuid()==0 or owner['uid']!=os.getuid() or owner['runDir']!=str(self.run):raise ValueError('wrong sandbox owner')
+        self.python_runtime_binding=None
+        if self.cfg.get('liveBufferObserver') is not None:
+            from python_runtime import verify_runtime_file,write_binding
+            if self.cfg.get('pythonRuntimeProfileSha256')!=digest(HERE/'python-runtime-profile.json'):
+                raise ValueError('prepared Python runtime profile changed or missing')
+            self.python_runtime_binding=verify_runtime_file(HERE/'python-runtime-profile.json')
+            write_binding(self.run/'python-runtime-binding.controller.json',self.python_runtime_binding)
         if any(digest(HERE/name)!=sha for name,sha in self.cfg['implementationSources'].items()):
             raise ValueError('implementation changed after sandbox preparation')
         self.lock=threading.RLock();self.loglock=threading.Lock();self.version='base';self.fault='none'
@@ -417,6 +433,10 @@ class State:
                 httpRequestWindows=http_windows,requestConcurrency=self.media_concurrency(),
                 sourceQualified=False,aggregateCapacityProofComplete=False,formalPocAccepted=False)
             row['requestConcurrency']['scope']='Controller initialization through closed owned HTTP workers and ATS teardown'
+            if getattr(self,'python_runtime_binding',None) is not None:
+                row['pythonRuntimeBinding']=dict(ref='python-runtime-binding.controller.json',
+                    sha256=digest(self.run/'python-runtime-binding.controller.json'),
+                    pid=self.python_runtime_binding['pid'],processStartTicks=self.python_runtime_binding['processStartTicks'])
             with (self.run/'media-request-window-closed.json').open('x',encoding='utf-8') as stream:
                 stream.write(json.dumps(row,ensure_ascii=False,indent=2)+'\n')
             return row
