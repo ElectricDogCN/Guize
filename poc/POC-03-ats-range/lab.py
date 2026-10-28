@@ -707,7 +707,12 @@ class Gateway(Handler):
             with state.lock:state.gateway_active-=1
             state.log('gateway-access',row)
 
-def serve(run):
+def serve(run,*,ready_callback=None):
+    # A reviewed in-process supervisor can start its client after singleton
+    # owner setup without installing a Python tracing/profiling hook. The CLI
+    # supplies no callback; this is not a configuration-selected capability.
+    if ready_callback is not None and not callable(ready_callback):
+        raise TypeError('readiness callback must be callable')
     state=State(run);cfg=state.cfg;servers=[];threads=[]
     # Bind explicitly only after this subcommand; port conflicts fail rather than reuse.
     try:
@@ -723,6 +728,7 @@ def serve(run):
         write_json(state.run/'listeners-started.json',dict(startedAt=utc(),controllerPid=os.getpid(),atsPid=state.ats.pid,
             bind='127.0.0.1',ports=[cfg[k] for k in ('originPort','atsPort','entryPort')],formalPocAccepted=False))
         print(json.dumps(dict(status='LAB_RUNNING_NOT_ACCEPTED',entryPort=cfg['entryPort'],runDir=str(state.run))),flush=True)
+        if ready_callback is not None:ready_callback(state)
         while time.monotonic()-state.started<cfg['maximumRunSeconds']:
             if state.epoch_owner is not None:state.epoch_owner.check_alive()
             # clear_cache holds this lock across the owned stop/clear/start interval.
