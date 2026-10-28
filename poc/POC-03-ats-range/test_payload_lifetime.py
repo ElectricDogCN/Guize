@@ -57,7 +57,14 @@ class PayloadLifetimeTests(unittest.TestCase):
         path = '/ctx/' + context(cfg['aclVersion'], 'lab-user-a') + '/base/object.bin'
         headers = {'X-Lab-Request-ID': rid, 'X-Lab-Origin-Expiry': '1000',
                    'X-Lab-Origin-Signature': sign(cfg['secret'], path, rid, 1000)}
-        stream = SimpleNamespace(seek=lambda *args: None, read=lambda *args: self.payload(), closed=False)
+        def readinto(target):
+            target[:8] = b'abcdefgh'
+            return 8
+        stream = SimpleNamespace(seek=lambda *args: None, readinto=readinto, closed=False)
+        def backing(size):
+            block = Payload(size)
+            self.references.append(weakref.ref(block))
+            return block
         def exit_stream(*args):
             stream.closed = True
         class Input:
@@ -75,7 +82,7 @@ class PayloadLifetimeTests(unittest.TestCase):
                 self.assertEqual(state.active_origin[rid], 1)
                 self.assertEqual(self.live(), 0, 'truncation hold retained the final block')
         handler = self.handler(Origin, state, headers, path, fail_write)
-        with patch.object(Path, 'open', return_value=Input()), patch('lab.time.time', return_value=999), patch('lab.time.sleep', side_effect=sleep):
+        with patch.object(Path, 'open', return_value=Input()), patch('lab.bytearray', new=backing, create=True), patch('lab.time.time', return_value=999), patch('lab.time.sleep', side_effect=sleep):
             handler.handle_media(False)
         return state.origin_rows[rid][0]
 

@@ -78,3 +78,7 @@ Eleven actual tests, no skips. Related unchanged commands and exact actual inter
 Synchronous cumulative request-interval peak component:
 python poc/POC-03-ats-range/test_request_concurrency.py
 Four actual synthetic overlap tests, zero skips; Windows44/Linux53 related regressions/all19 actual child waits0. First-pass fixture errors and current raw/source snapshots remain in request-concurrency-v1/index.json. This records request concurrency through each snapshot/save, not memory sampling, byte capacity, a closed entire window or POC qualification.
+
+Fixed raw Origin/hash buffer component:
+python poc/POC-03-ats-range/test_fixed_origin_io.py
+Five actual tests, zero skips; Windows49/Linux58 related regressions/all21 child waits0. Exact commands/source/raw are entries of fixed-origin-io-v1/artifacts.zip; index.json supplies archive/per-entry size and SHA256. Read entries using standard zipfile.ZipFile.read; no extraction or external dependency required. Pinned source facts and local tests do not bind a future runtime or approve the full media capacity/window/experiment.

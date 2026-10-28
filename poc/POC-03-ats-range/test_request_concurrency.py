@@ -42,7 +42,9 @@ class RequestConcurrencyTests(unittest.TestCase):
                 return self
             def __exit__(self, *args): pass
             def seek(self, offset): pass
-            def read(self, count): return b'abcdefgh'
+            def readinto(self, target):
+                target[:8] = b'abcdefgh'
+                return 8
         path = '/ctx/'+context('synthetic-acl', 'lab-user-a')+'/base/object.bin'
         handlers = []
         for rid in ('a'*32, 'b'*32):

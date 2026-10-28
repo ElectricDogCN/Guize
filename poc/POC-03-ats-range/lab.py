@@ -20,8 +20,13 @@ CASES={'range_start','range_middle','range_end','suffix','unsatisfiable','if_mat
 def utc():return datetime.now(timezone.utc).isoformat(timespec='microseconds').replace('+00:00','Z')
 def digest(path):
     h=hashlib.sha256()
-    with Path(path).open('rb') as stream:
-        for block in iter(lambda:stream.read(1048576),b''):h.update(block)
+    with Path(path).open('rb',buffering=0) as stream,memoryview(bytearray(1048576)) as backing:
+        if backing.obj.__alloc__()!=len(backing)+1:raise OSError('unqualified fixed hash backing capacity')
+        while True:
+            count=stream.readinto(backing)
+            if type(count) is not int or not 0<=count<=len(backing):raise OSError('invalid raw input read count')
+            if not count:break
+            with backing[:count] as block:h.update(block)
     return h.hexdigest()
 def write_json(path,value):
     data=(json.dumps(value,ensure_ascii=False,indent=2)+'\n').encode()
@@ -456,16 +461,20 @@ class Origin(Handler):
             self.end_headers()
             if head:return
             remaining=min(length,cfg['faultAfterBytes']) if fault=='truncate' else length
-            with Path(source['path']).open('rb') as stream:
+            with Path(source['path']).open('rb',buffering=0) as stream,memoryview(bytearray(cfg['chunkBytes'])) as backing:
+                row.update(sourceReadMode='raw-readinto',sourceBackingCapacityBytes=backing.obj.__alloc__())
+                if row['sourceBackingCapacityBytes']!=len(backing)+1:raise OSError('unqualified fixed source backing capacity')
                 stream.seek(start)
                 while remaining:
-                    try:
-                        block=stream.read(min(cfg['chunkBytes'],remaining));row['objectReadCount']+=1;row['objectReadBytes']+=len(block)
-                        if not block:raise OSError('source shortened')
-                        self.wfile.write(block);self.wfile.flush();remaining-=len(block)
-                        if fault=='truncate':prefix_digest=hashlib.sha256(block).hexdigest()
-                        if fault=='slow':time.sleep(len(block)/cfg['slowOriginBandwidthBytesPerSecond'])
-                    finally:block=None
+                    with backing[:min(cfg['chunkBytes'],remaining)] as target:
+                        count=stream.readinto(target)
+                        if type(count) is not int or not 0<=count<=len(target):raise OSError('invalid raw source read count')
+                        row['objectReadCount']+=1;row['objectReadBytes']+=count
+                        if not count:raise OSError('source shortened')
+                        with target[:count] as block:
+                            self.wfile.write(block);self.wfile.flush();remaining-=count
+                            if fault=='truncate':prefix_digest=hashlib.sha256(block).hexdigest()
+                            if fault=='slow':time.sleep(count/cfg['slowOriginBandwidthBytesPerSecond'])
             if fault=='truncate':
                 row.update(prefixFlushedAt=utc(),prefixFlushedBytes=row['objectReadBytes'],expectedResponseBytes=length,
                   prefixSha256=prefix_digest,holdSeconds=2)
