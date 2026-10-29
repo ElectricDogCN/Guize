@@ -26,12 +26,13 @@ class ReadinessTests(unittest.TestCase):
         state.close_media_window=close;state.log=lambda *args:None
         return state
 
-    def run_with_state(self,state,callback=None,server=lab.Server):
+    def run_with_state(self,state,callback=None,server=lab.Server,stop_event=None):
         servers=[]
         def create(*args):
             actual=server(*args);servers.append(actual);return actual
         with patch.object(lab,'State',return_value=state),patch.object(lab,'Server',side_effect=create):
-            lab.serve(state.run,ready_callback=callback)
+            options={} if stop_event is None else {'stop_event':stop_event}
+            lab.serve(state.run,ready_callback=callback,**options)
         return servers
 
     def test_callback_runs_once_after_live_owned_listeners_and_marker_without_hooks(self):
@@ -81,6 +82,57 @@ class ReadinessTests(unittest.TestCase):
             self.assertTrue((state.run/'listeners-started.json').exists())
             self.assertEqual(state.events,['verify-config','ats-start','ats-stop','closed'])
 
+    def test_cooperative_stop_consumes_inflight_response_before_teardown(self):
+        # A bounded real socket exchange models a main-thread owner RPC. This
+        # exercises stop ordering, not ATS execution or native owner acceptance.
+        with tempfile.TemporaryDirectory() as directory:
+            client,peer=socket.socketpair()
+            with client,peer:
+                client.settimeout(3);peer.settimeout(3)
+                state=self.state(directory);state.cfg['maximumRunSeconds']=10
+                state.lock=threading.Lock();stop=threading.Event()
+                errors=[];requests=[];responses=[];worker=None
+                def respond():
+                    try:
+                        request=b''
+                        while len(request)<4:
+                            chunk=peer.recv(4-len(request))
+                            if not chunk:raise AssertionError('request channel closed early')
+                            request+=chunk
+                        requests.append(request)
+                        stop.set()
+                        self.assertNotIn('ats-stop',state.events)
+                        peer.sendall(b'1')
+                    except BaseException as error:errors.append(error)
+                def poll():
+                    client.sendall(b'poll')
+                    response=client.recv(1);self.assertEqual(response,b'1')
+                    responses.append(response);state.events.append('rpc-response-consumed')
+                    return None
+                def ready(actual):
+                    nonlocal worker
+                    actual.ats.poll=poll
+                    worker=threading.Thread(target=respond);worker.start()
+                try:self.run_with_state(state,ready,stop_event=stop)
+                finally:
+                    if worker is not None:worker.join(timeout=4)
+                self.assertIsNotNone(worker);self.assertFalse(worker.is_alive())
+                self.assertEqual(errors,[]);self.assertEqual(requests,[b'poll'])
+                self.assertEqual(responses,[b'1'])
+                self.assertLess(state.events.index('rpc-response-consumed'),state.events.index('ats-stop'))
+                self.assertTrue(all(row['closed'] for row in state.windows))
+
+    def test_stop_requested_before_poll_still_closes_owned_resources(self):
+        with tempfile.TemporaryDirectory() as directory:
+            state=self.state(directory);state.cfg['maximumRunSeconds']=10
+            stop=threading.Event()
+            def ready(actual):
+                def unexpected_poll():raise AssertionError('stop must be checked before the next RPC')
+                actual.ats.poll=unexpected_poll;stop.set()
+            self.run_with_state(state,ready,stop_event=stop)
+            self.assertEqual(state.events[-2:],['ats-stop','closed'])
+            self.assertTrue(all(row['closed'] for row in state.windows))
+
     def test_bad_callback_is_rejected_before_state_or_resource_creation(self):
         with patch.object(lab,'State') as constructor:
             with self.assertRaisesRegex(TypeError,'must be callable'):lab.serve('/unused',ready_callback=object())
@@ -89,5 +141,5 @@ class ReadinessTests(unittest.TestCase):
 
 if __name__=='__main__':
     result=unittest.TextTestRunner(verbosity=2).run(unittest.defaultTestLoader.loadTestsFromTestCase(ReadinessTests))
-    if result.testsRun!=5 or result.skipped:raise SystemExit('Expected five actual readiness tests with no skips')
+    if result.testsRun!=7 or result.skipped:raise SystemExit('Expected seven actual readiness tests with no skips')
     raise SystemExit(0 if result.wasSuccessful() else 1)

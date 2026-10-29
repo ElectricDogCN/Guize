@@ -711,12 +711,14 @@ class Gateway(Handler):
             with state.lock:state.gateway_active-=1
             state.log('gateway-access',row)
 
-def serve(run,*,ready_callback=None):
+def serve(run,*,ready_callback=None,stop_event=None):
     # A reviewed in-process supervisor can start its client after singleton
     # owner setup without installing a Python tracing/profiling hook. The CLI
     # supplies no callback; this is not a configuration-selected capability.
     if ready_callback is not None and not callable(ready_callback):
         raise TypeError('readiness callback must be callable')
+    if stop_event is not None and not isinstance(stop_event,threading.Event):
+        raise TypeError('stop request must be a threading.Event')
     state=State(run);cfg=state.cfg;servers=[];threads=[]
     # Bind explicitly only after this subcommand; port conflicts fail rather than reuse.
     try:
@@ -733,7 +735,10 @@ def serve(run,*,ready_callback=None):
             bind='127.0.0.1',ports=[cfg[k] for k in ('originPort','atsPort','entryPort')],formalPocAccepted=False))
         print(json.dumps(dict(status='LAB_RUNNING_NOT_ACCEPTED',entryPort=cfg['entryPort'],runDir=str(state.run))),flush=True)
         if ready_callback is not None:ready_callback(state)
-        while time.monotonic()-state.started<cfg['maximumRunSeconds']:
+        # A supervisor requests normal shutdown between complete owner RPCs.
+        # It must not inject KeyboardInterrupt into an in-flight transaction.
+        # Owner loss/EOF/mismatch/timeout retain their existing fail-fast path.
+        while (stop_event is None or not stop_event.is_set()) and time.monotonic()-state.started<cfg['maximumRunSeconds']:
             if state.epoch_owner is not None:state.epoch_owner.check_alive()
             # clear_cache holds this lock across the owned stop/clear/start interval.
             # Never let an HTTP request holding the lock stop PID1's owner watch.

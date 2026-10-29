@@ -1841,3 +1841,8 @@ Exact67f9cf3 completed87 Windows+96 Linux+11 fixed-image regressions,36 actual w
 ## Normal peer-lease main7996 import
 
 The independently fully accepted main7996dedc0b01c5208824eff4d70c95724ba1b26d is imported by an ordinary two-parent merge. Incoming POC005 lease metadata is preserved; POC003 Task all bytes, creation base760f, actual roles/lease, Own Program and73 source files remain unchanged. See peer-lease-main7996-import-v1/provenance.json. Earlier194 checks and af996 compile retain their exact recorded sources. This import grants no whole-source/CI qualification, new runtime or experiment,8MiB bound, revocation result or full POC acceptance.
+
+
+## Cooperative stop development candidate
+
+Source07 matrix control exit70 prevented final owner/epoch25/media closure despite21/101 raw collection; negative7353 and consumed3e797 remain. Optional Event stop keeps complete owner RPC/fail-fast semantics and is statically acceptede4fb with two old TypeError failures and seven Windows development passes only. Exact component originals are at cooperative-stop-v1/component/. This is not full fixed-source/native qualification or a new experiment; current accepted source07 remains historical to its exact context. FullPOC/V1 incomplete.
