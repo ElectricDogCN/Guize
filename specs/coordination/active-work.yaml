@@ -47,8 +47,8 @@ tasks:
   integrationStrategy: merge
   integrationOrder: 2
   lease:
-    acquiredAt: '2026-10-22T12:47:06Z'
-    expiresAt: '2026-10-29T12:47:06Z'
+    acquiredAt: '2026-10-29T11:01:07Z'
+    expiresAt: '2026-11-05T11:01:07Z'
 - taskId: POC-005
   issue: 132
   title: 700TB 文件数、目录规模、变更率与扫描成本
@@ -91,8 +91,8 @@ tasks:
   integrationStrategy: merge
   integrationOrder: 3
   lease:
-    acquiredAt: '2026-10-22T16:08:44Z'
-    expiresAt: '2026-10-29T16:08:44Z'
+    acquiredAt: '2026-10-29T12:12:19Z'
+    expiresAt: '2026-11-05T12:12:19Z'
 - taskId: OPS-017
   issue: 168
   title: 为版本化POC源兼容性修复建立受限准入
@@ -106,7 +106,7 @@ tasks:
   agentRole: implementer
   branch: chore/OPS-017-source-compatibility-admission
   baseBranch: main
-  baseSha: dcfefbeca496b43d40c4145c751191bdd386375d
+  baseSha: 7996dedc0b01c5208824eff4d70c95724ba1b26d
   workPackage: WP-M0-01
   programPlan: specs/coordination/program-plan.yaml
   programTaskId: OPS-017
