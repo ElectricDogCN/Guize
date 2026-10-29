@@ -34,3 +34,12 @@ Independenta4de confirmed three P1 defects on71d despite originalCI904822 succes
 ## History selection performance forward fix
 
 Source300 CI906 was cancelled at the original30-minute limit; no full827 acceptance or unchanged retry. A two-path selector/test component keeps all merge/side history and original real-parent/import checks while reducing unrelated audits. Original300/new overlay both reject the hidden side edit/restore; full62 and independent component acceptance are archived at implementation-v1/history-selection-performance-v1/. Call counts cover PROOF.git only, not every subprocess. New-source14/full828CI, final source/main and normalReview/Completion remain required. Five frozen contracts, original authority and all prior POC source/experiment boundaries remain unchanged.
+
+
+
+## Current normal Review execution handoff
+Task OPS-017 / Issue168 / branch chore/OPS-017-normal-review / full base 877d1b0fbd717f71fa9ad1e2ea4db4723ded3bcc.
+Code PR172/source 813f9566233c0d60a5c8bbefbf1d43c9c89ee8ce/actual main 877d1b0fbd717f71fa9ad1e2ea4db4723ded3bcc already passed its own14/sourceCI907828 and7/mainCI908 attempt2 828 with independent actual-main acceptance. Cancelled attempt1 remains preserved; this main acceptance requires the complete successful attempt2. The prerequisite index contains 46 original records at normal-review-v1/index.json, recoverable from normal-review-v1/prerequisites.zip.
+This prospective new Review source changes only Own Program status, Registry/Task status/role/branch/base and the exact12 paths in changed-files.md's current appendix. Original Task body and14-command block are unchanged; actual Review14 argv are at normal-review-v1/commands.txt and context.json, including direct lifecycle and wrapper.
+Next: freeze this new source, execute all14 actual commands, preserve raw/PID/wait and full828 current CI, obtain independent final Review source/main acceptance, then start normal Completion separately. Current Review checks/CI UNEXECUTED; code source/main successes above do not replace them.
+Original four claims/lease/intent/frozen/foreign/ledger are unchanged; high-risk slot remains occupied. No OPS018 or POC experiment grant. Preserve all prior failures and local refs/checkouts.

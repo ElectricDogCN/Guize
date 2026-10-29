@@ -13,3 +13,20 @@ python scripts/run-task-scope-gate.py --task OPS-017 --base 22ab6a0668da2d64a016
 python scripts/check-evidence.py --task OPS-017
 python scripts/check-project-readiness.py
 python scripts/check-markdown.py
+
+
+# Current normal Review / chore/OPS-017-normal-review / actual base 877d1b0fbd717f71fa9ad1e2ea4db4723ded3bcc / checks UNEXECUTED
+git diff --check 877d1b0fbd717f71fa9ad1e2ea4db4723ded3bcc...HEAD
+python scripts/check-task-file.py --task OPS-017
+python scripts/check-schemas.py
+python scripts/check-program-plan-integrity.py --base-ref 877d1b0fbd717f71fa9ad1e2ea4db4723ded3bcc
+python scripts/check-program-plan-history.py --base-ref 877d1b0fbd717f71fa9ad1e2ea4db4723ded3bcc --head-ref HEAD --task OPS-017 --branch-name chore/OPS-017-normal-review
+python scripts/check-program-plan-transitions.py --base-ref 877d1b0fbd717f71fa9ad1e2ea4db4723ded3bcc --head-ref HEAD --task OPS-017 --branch-name chore/OPS-017-normal-review
+python scripts/check-program-lifecycle-guards.py --base-ref 877d1b0fbd717f71fa9ad1e2ea4db4723ded3bcc --head-ref HEAD --task OPS-017 --branch-name chore/OPS-017-normal-review
+python scripts/run-program-lifecycle-gate.py --base-ref 877d1b0fbd717f71fa9ad1e2ea4db4723ded3bcc --head-ref HEAD --task OPS-017 --branch-name chore/OPS-017-normal-review
+python scripts/run-agent-coordination-gate.py --base-ref 877d1b0fbd717f71fa9ad1e2ea4db4723ded3bcc --head-ref HEAD --task OPS-017 --branch-name chore/OPS-017-normal-review
+python scripts/check-program-plan-finalization.py --base-ref 877d1b0fbd717f71fa9ad1e2ea4db4723ded3bcc --head-ref HEAD --task OPS-017
+python scripts/run-task-scope-gate.py --task OPS-017 --base 877d1b0fbd717f71fa9ad1e2ea4db4723ded3bcc
+python scripts/check-evidence.py --task OPS-017
+python scripts/check-project-readiness.py
+python scripts/check-markdown.py

@@ -21,3 +21,23 @@
 - `specs/coordination/active-work.yaml`
 - `specs/coordination/program-plan.yaml`
 - `specs/tasks/OPS-017.md`
+
+
+## Current normal Review prospective inventory
+
+Full base: 877d1b0fbd717f71fa9ad1e2ea4db4723ded3bcc
+Branch: chore/OPS-017-normal-review
+Earlier inventory above is historical reserved-phase evidence. This appendix lists this entire new delta, including itself.
+
+- evidence/OPS-017/changed-files.md
+- evidence/OPS-017/commands.txt
+- evidence/OPS-017/handoff.md
+- evidence/OPS-017/normal-review-v1/README.md
+- evidence/OPS-017/normal-review-v1/commands.txt
+- evidence/OPS-017/normal-review-v1/context.json
+- evidence/OPS-017/normal-review-v1/index.json
+- evidence/OPS-017/normal-review-v1/prerequisites.zip
+- evidence/OPS-017/summary.md
+- specs/coordination/active-work.yaml
+- specs/coordination/program-plan.yaml
+- specs/tasks/OPS-017.md
