@@ -1831,3 +1831,8 @@ New smaller-fragment plugin3b4d1797 was actually compiled on sourceaf996 with st
 ## Small-fragment compile originals (component only)
 
 The actual approved af996ac compile and static ELF result accepted by independent review8515471c are archived in ats-small-fragment-v1/build-originals/originals.zip with24 exact inputs in index.json, including original native receipt and separate five synthetic owner controls. This evidence-only commit preserves all73 current POC source files byte-for-byte. No runtime compatibility, current whole-source qualification, new media execution, buffer-budget pass or full POC acceptance is granted. Old partial/rejected results, approval windows and sources remain unchanged.
+
+
+## Accepted offline194 component originals
+
+Exact67f9cf3 completed87 Windows+96 Linux+11 fixed-image regressions,36 actual waits0 and no skips, independently accepted0d6e4fce.76 original results/raw/review files are recoverable from ats-small-fragment-v1/offline194/originals.zip and index.json. This archive preserves the POC source tree. Whole-source gates/CI, actual new-plugin runtime compatibility,8MiB capacity, new approved full matrix, independent hot-cache revocation and normal POC completion remain pending. Original partial and failed records retain their own source/window.
