@@ -91,8 +91,8 @@ tasks:
   integrationStrategy: merge
   integrationOrder: 3
   lease:
-    acquiredAt: '2026-10-22T16:08:44Z'
-    expiresAt: '2026-10-29T16:08:44Z'
+    acquiredAt: '2026-10-29T12:12:19Z'
+    expiresAt: '2026-11-05T12:12:19Z'
 - taskId: OPS-017
   issue: 168
   title: 为版本化POC源兼容性修复建立受限准入
