@@ -47,8 +47,8 @@ tasks:
   integrationStrategy: merge
   integrationOrder: 2
   lease:
-    acquiredAt: '2026-10-22T12:47:06Z'
-    expiresAt: '2026-10-29T12:47:06Z'
+    acquiredAt: '2026-10-29T11:01:07Z'
+    expiresAt: '2026-11-05T11:01:07Z'
 - taskId: POC-005
   issue: 132
   title: 700TB 文件数、目录规模、变更率与扫描成本
