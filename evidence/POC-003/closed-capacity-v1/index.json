@@ -1,0 +1,884 @@
+{
+  "kind": "SYNTHETIC_CLOSED_RECORD_CAPACITY_COMPONENT_NOT_ACTUAL_AGGREGATE",
+  "parent": "cd804502f09ea2f8dca2fbdc988fbb3667e32360",
+  "preparedAt": "2026-10-29T07:47:58.868305+00:00",
+  "sourcePins": {
+    "buffer_probe.py": {
+      "bytes": 6732,
+      "sha256": "56933170456c3414f5fc3dfc28bec8c98c1a27273868d5d545c447663a385025"
+    },
+    "build_observer.py": {
+      "bytes": 2076,
+      "sha256": "7c5ec2475d26e56394922ebba8f14a387d8ba0b318c37b8ef8ec2ade24c56ca9"
+    },
+    "cache_probe.py": {
+      "bytes": 19578,
+      "sha256": "870234005d98fa829b5da8d151d6ae1a4d20c34c7bc375da6a680574a3ddf16f"
+    },
+    "collect.py": {
+      "bytes": 18767,
+      "sha256": "356302081bbfbfd0ea6dda0cb2fb1a97acc18f9d5c6a91ecdaeacae72bc99977"
+    },
+    "config.example.json": {
+      "bytes": 859,
+      "sha256": "62cb38feb17e17e30166b43ec2db17593f26e78964b1bc01e66d73603761191d"
+    },
+    "crypto_runtime.py": {
+      "bytes": 6541,
+      "sha256": "5c885263a070f600a8a17b87e641ef668aa37a6ae973e564287f03adc4e37521"
+    },
+    "durable_peak_probe.py": {
+      "bytes": 6265,
+      "sha256": "b7bfd6e767a4cba4bf2ee1de2e7c0f9f82e2afff3037015e317b8a8e860fa599"
+    },
+    "epoch_owner.py": {
+      "bytes": 26029,
+      "sha256": "30b9cfc4b22f297e8dc822c8a15e2f84a4f7f5fbe69cc7ad708abed74e7c8a8e"
+    },
+    "grants.py": {
+      "bytes": 2003,
+      "sha256": "4d48a477541545a296d31ea00a97445e15f6b6eae92e79f39629c074923403bf"
+    },
+    "http_timing.py": {
+      "bytes": 1477,
+      "sha256": "fde2afed2b9fcc3e607930eb72b9cecf5386761965d8881a095b98f041e663cb"
+    },
+    "input_profile.py": {
+      "bytes": 7958,
+      "sha256": "25a090c67d75c7cd7e67ca06163e4684fdbaf47854fa6d7db46db44b041dd242"
+    },
+    "lab.py": {
+      "bytes": 56853,
+      "sha256": "e9efd5b9f2501e05a972764187b60897fa92aadcbde90e4ddc18a96917b333ff"
+    },
+    "live_buffer_probe.py": {
+      "bytes": 9883,
+      "sha256": "d3154af91abcab988632201acbf13cc1e1466b1b73cd296554b014fe30fb0f12"
+    },
+    "media_capacity.py": {
+      "bytes": 11560,
+      "sha256": "29d88f1d98bc54ae53540b41b6cdb890e9a333800f2a45cd5a6231cccc3aa691"
+    },
+    "owned_epoch.py": {
+      "bytes": 21233,
+      "sha256": "cf170056c5a7f2201e863145522b0433e5911e128ba585d79cef0cb6c5125ccb"
+    },
+    "python-runtime-profile.json": {
+      "bytes": 5561,
+      "sha256": "0830b95ad06d0a108cb474afb4888526f8c2d785644a219efaa194b3a886324e"
+    },
+    "python_runtime.py": {
+      "bytes": 8020,
+      "sha256": "49740b806b9dc5a5c94b301932f56df779e6e5d46694eae2cc4db7f6044b4ec5"
+    },
+    "test_buffer_probe.py": {
+      "bytes": 2485,
+      "sha256": "f8c55495e94eed9ea19e77b1018319bf8e0f3931b56cf5832bd4f5f3f40edfcb"
+    },
+    "test_buffer_probe_native.py": {
+      "bytes": 3216,
+      "sha256": "0cd0820a982111207337bf6a37595a3f74686f403299d7cf78b5dea545309ec2"
+    },
+    "test_cache_body_bounds.py": {
+      "bytes": 2906,
+      "sha256": "bfa3ebe632117836a5afd48d415288326e2b3eedaac470923be72a26a8e1deac"
+    },
+    "test_cache_probe.py": {
+      "bytes": 2359,
+      "sha256": "880b226f4d0a54524a95599954237d27bf2bf157da3b363f6e3aeab1acb430a0"
+    },
+    "test_cache_probe_native.py": {
+      "bytes": 3359,
+      "sha256": "e835fd96229fe843fc1505718494ba2c6b34acc415703f40da6b3815fbdac2fc"
+    },
+    "test_cache_stream_io.py": {
+      "bytes": 7886,
+      "sha256": "2c4fa7726451515795cf0846c6ab742a674b8271e2f2c3a5a9c79dfec03b388a"
+    },
+    "test_collector_raw_io.py": {
+      "bytes": 7378,
+      "sha256": "6ff520f4dcaeb65fb9c271a61a88745a4e35285c8bae90addffa67768181bc42"
+    },
+    "test_crypto_configuration.py": {
+      "bytes": 2053,
+      "sha256": "15f6a8117d9f3290ea1f1a4b2b7899dd71fe18d94c5c7109eca316b5f670a2ff"
+    },
+    "test_durable_peak_probe.py": {
+      "bytes": 2913,
+      "sha256": "7228f7d01cbade1f4e27e227478538bd81ca9af50c2dfcff586749454c2a39bd"
+    },
+    "test_epoch_owner.py": {
+      "bytes": 8868,
+      "sha256": "fb72cb61c5b4cc71f70a9582451c7e7c4e1ad1bcdc9b3cdc9e6ccb3f12f7a3d8"
+    },
+    "test_fixed_origin_io.py": {
+      "bytes": 7624,
+      "sha256": "12a9b22a8c7d1ed9b5abda421ef04f5115a113bf4e57b5b106309b868ed931f7"
+    },
+    "test_gateway_native.py": {
+      "bytes": 4608,
+      "sha256": "5c3a73a1177a73d93756e410ffd75ce10fe89403586d6ccfbeaaf1db63ad7eec"
+    },
+    "test_http_timing_native.py": {
+      "bytes": 3181,
+      "sha256": "3e27f76d65167a196bac70e38e8d7c4df03f0e079bf60f99a64006edfdf90d86"
+    },
+    "test_input_fixed_io.py": {
+      "bytes": 4307,
+      "sha256": "715c2d1a8b066947ef37e3afc1f8d548f5d8607786449a2544859160a4d87658"
+    },
+    "test_input_profile.py": {
+      "bytes": 13501,
+      "sha256": "3a943e5fa3db67fee6dfc0c944c33a0ee7734f6500c2d3c898cead7e80ac0ba0"
+    },
+    "test_lab.py": {
+      "bytes": 3547,
+      "sha256": "20373fbe76e7dc18c59da922c9b24c0793153c7181e6d22b101f28bdfe1a0513"
+    },
+    "test_live_buffer_probe.py": {
+      "bytes": 3991,
+      "sha256": "d3b9c69a2c2dc749b3f97f23c4222dd5d1162b37e42c9968d5fd8bb88eaf1a2c"
+    },
+    "test_live_component_native.py": {
+      "bytes": 2197,
+      "sha256": "492d6b2c89d07929103a882cfd9b41f9ff2a82bc9332b6fa980daeddbd738270"
+    },
+    "test_media_capacity.py": {
+      "bytes": 8861,
+      "sha256": "4b8ca5c4142a7b778adf4fcefd879af3103e1edc328e6814d74dfece23184899"
+    },
+    "test_owned_epoch_fixed.py": {
+      "bytes": 4938,
+      "sha256": "5f819400247a4351b503f15390c38103297072d88f8878720f45d78a3ee26e56"
+    },
+    "test_payload_lifetime.py": {
+      "bytes": 15090,
+      "sha256": "b907b1603a6d0379fd9996d497e77160bdbbc7e68767c4026303f106bf4d181d"
+    },
+    "test_python_runtime_binding_native.py": {
+      "bytes": 6477,
+      "sha256": "b12e7e481aa91c98a8d3ad17cafe960b5a173d7863749dbc03d7571fc4b1b1a1"
+    },
+    "test_representative_cache.py": {
+      "bytes": 1785,
+      "sha256": "a1d94f6e09312e79d5dba03a124013bfc7f3919f758c9464660d8ba20e189216"
+    },
+    "test_representative_cache_native.py": {
+      "bytes": 7099,
+      "sha256": "29c373aa84cfb6afbe41738050cca95da6d12c93ec7fb938a9e72738cea2b1fa"
+    },
+    "test_request_concurrency.py": {
+      "bytes": 6490,
+      "sha256": "01a5afc0cb63e4a3840e81b019b2adbf9e7f4361b5faf839d812dfa4d27604fa"
+    },
+    "test_request_window.py": {
+      "bytes": 9209,
+      "sha256": "485bc74b0d37a4057c5ac66f95ab313e7c9580f408c647a44146918ce3841c9c"
+    },
+    "test_revocation_binding.py": {
+      "bytes": 1870,
+      "sha256": "6dec7dfd850bac65f110a6a4462a77c24323dec4527c686266daf10793884d39"
+    },
+    "test_serve_readiness.py": {
+      "bytes": 5205,
+      "sha256": "ef30890956e856012d19301a87350519421687f30c0c687f4f7041fec729523f"
+    },
+    "test_single_exec_filter.py": {
+      "bytes": 6214,
+      "sha256": "970c12080b11b0a5a3f6c827dfc12d1918355dd23ed8936d6934ed6c25af0eb3"
+    },
+    "test_warm_cache_revocation.py": {
+      "bytes": 12004,
+      "sha256": "987608f169b25327231f0dc64bf41c571f1ab0f1b924bbe66b567cc7fa701457"
+    }
+  },
+  "windowsTests": 7,
+  "fixedImageTests": 7,
+  "successfulActualWaits": 2,
+  "firstFixedImageActualExitCode": 1,
+  "firstFailurePreserved": true,
+  "archive": "artifacts.zip",
+  "archivePin": {
+    "bytes": 344166,
+    "sha256": "7c53b275819699ca02068054d7e85c59e3637fc76cab6f45e1cddb2f31acbeca"
+  },
+  "entries": [
+    {
+      "ref": "preimages/specs/tasks/POC-003.md",
+      "bytes": 59081,
+      "sha256": "ceb06ba49c30b46a5665c5529aca0eb94deed1b67e5d858ad50a55af8c4f6d68",
+      "origin": "Exact committed parentcd804502f09ea2f8dca2fbdc988fbb3667e32360"
+    },
+    {
+      "ref": "preimages/evidence/POC-003/handoff.md",
+      "bytes": 212094,
+      "sha256": "39f388bb6a8a49ca750e6cdc86771261a14d4efe2d2f8d76daa30c4278afeb11",
+      "origin": "Exact committed parentcd804502f09ea2f8dca2fbdc988fbb3667e32360"
+    },
+    {
+      "ref": "poc003-closed-capacity-v1/fixed-image.stderr.raw",
+      "bytes": 224,
+      "sha256": "e9133cf10b02b0b91c8b119848513db0ac541e7c3c19681266939e4b9952f7cc",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v1\\fixed-image.stderr.raw"
+    },
+    {
+      "ref": "poc003-closed-capacity-v1/fixed-image.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v1\\fixed-image.stdout.raw"
+    },
+    {
+      "ref": "poc003-closed-capacity-v1/results.json",
+      "bytes": 15347,
+      "sha256": "9ae5afc38dfb4e0cc99bb1899e4a24595d9408cfd904acb092237a0580a78a57",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v1\\results.json"
+    },
+    {
+      "ref": "poc003-closed-capacity-v1/source/buffer_probe.py",
+      "bytes": 6732,
+      "sha256": "56933170456c3414f5fc3dfc28bec8c98c1a27273868d5d545c447663a385025",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v1\\source\\buffer_probe.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v1/source/build_observer.py",
+      "bytes": 2076,
+      "sha256": "7c5ec2475d26e56394922ebba8f14a387d8ba0b318c37b8ef8ec2ade24c56ca9",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v1\\source\\build_observer.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v1/source/cache_probe.py",
+      "bytes": 19578,
+      "sha256": "870234005d98fa829b5da8d151d6ae1a4d20c34c7bc375da6a680574a3ddf16f",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v1\\source\\cache_probe.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v1/source/collect.py",
+      "bytes": 18767,
+      "sha256": "356302081bbfbfd0ea6dda0cb2fb1a97acc18f9d5c6a91ecdaeacae72bc99977",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v1\\source\\collect.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v1/source/config.example.json",
+      "bytes": 859,
+      "sha256": "62cb38feb17e17e30166b43ec2db17593f26e78964b1bc01e66d73603761191d",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v1\\source\\config.example.json"
+    },
+    {
+      "ref": "poc003-closed-capacity-v1/source/crypto_runtime.py",
+      "bytes": 6541,
+      "sha256": "5c885263a070f600a8a17b87e641ef668aa37a6ae973e564287f03adc4e37521",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v1\\source\\crypto_runtime.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v1/source/durable_peak_probe.py",
+      "bytes": 6265,
+      "sha256": "b7bfd6e767a4cba4bf2ee1de2e7c0f9f82e2afff3037015e317b8a8e860fa599",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v1\\source\\durable_peak_probe.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v1/source/epoch_owner.py",
+      "bytes": 26029,
+      "sha256": "30b9cfc4b22f297e8dc822c8a15e2f84a4f7f5fbe69cc7ad708abed74e7c8a8e",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v1\\source\\epoch_owner.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v1/source/grants.py",
+      "bytes": 2003,
+      "sha256": "4d48a477541545a296d31ea00a97445e15f6b6eae92e79f39629c074923403bf",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v1\\source\\grants.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v1/source/http_timing.py",
+      "bytes": 1477,
+      "sha256": "fde2afed2b9fcc3e607930eb72b9cecf5386761965d8881a095b98f041e663cb",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v1\\source\\http_timing.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v1/source/input_profile.py",
+      "bytes": 7958,
+      "sha256": "25a090c67d75c7cd7e67ca06163e4684fdbaf47854fa6d7db46db44b041dd242",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v1\\source\\input_profile.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v1/source/lab.py",
+      "bytes": 56853,
+      "sha256": "e9efd5b9f2501e05a972764187b60897fa92aadcbde90e4ddc18a96917b333ff",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v1\\source\\lab.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v1/source/live_buffer_probe.py",
+      "bytes": 9883,
+      "sha256": "d3154af91abcab988632201acbf13cc1e1466b1b73cd296554b014fe30fb0f12",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v1\\source\\live_buffer_probe.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v1/source/media_capacity.py",
+      "bytes": 11560,
+      "sha256": "29d88f1d98bc54ae53540b41b6cdb890e9a333800f2a45cd5a6231cccc3aa691",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v1\\source\\media_capacity.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v1/source/owned_epoch.py",
+      "bytes": 21233,
+      "sha256": "cf170056c5a7f2201e863145522b0433e5911e128ba585d79cef0cb6c5125ccb",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v1\\source\\owned_epoch.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v1/source/python-runtime-profile.json",
+      "bytes": 5561,
+      "sha256": "0830b95ad06d0a108cb474afb4888526f8c2d785644a219efaa194b3a886324e",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v1\\source\\python-runtime-profile.json"
+    },
+    {
+      "ref": "poc003-closed-capacity-v1/source/python_runtime.py",
+      "bytes": 8020,
+      "sha256": "49740b806b9dc5a5c94b301932f56df779e6e5d46694eae2cc4db7f6044b4ec5",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v1\\source\\python_runtime.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v1/source/test_buffer_probe.py",
+      "bytes": 2485,
+      "sha256": "f8c55495e94eed9ea19e77b1018319bf8e0f3931b56cf5832bd4f5f3f40edfcb",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v1\\source\\test_buffer_probe.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v1/source/test_buffer_probe_native.py",
+      "bytes": 3216,
+      "sha256": "0cd0820a982111207337bf6a37595a3f74686f403299d7cf78b5dea545309ec2",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v1\\source\\test_buffer_probe_native.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v1/source/test_cache_body_bounds.py",
+      "bytes": 2906,
+      "sha256": "bfa3ebe632117836a5afd48d415288326e2b3eedaac470923be72a26a8e1deac",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v1\\source\\test_cache_body_bounds.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v1/source/test_cache_probe.py",
+      "bytes": 2359,
+      "sha256": "880b226f4d0a54524a95599954237d27bf2bf157da3b363f6e3aeab1acb430a0",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v1\\source\\test_cache_probe.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v1/source/test_cache_probe_native.py",
+      "bytes": 3359,
+      "sha256": "e835fd96229fe843fc1505718494ba2c6b34acc415703f40da6b3815fbdac2fc",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v1\\source\\test_cache_probe_native.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v1/source/test_cache_stream_io.py",
+      "bytes": 7886,
+      "sha256": "2c4fa7726451515795cf0846c6ab742a674b8271e2f2c3a5a9c79dfec03b388a",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v1\\source\\test_cache_stream_io.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v1/source/test_collector_raw_io.py",
+      "bytes": 7378,
+      "sha256": "6ff520f4dcaeb65fb9c271a61a88745a4e35285c8bae90addffa67768181bc42",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v1\\source\\test_collector_raw_io.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v1/source/test_crypto_configuration.py",
+      "bytes": 2053,
+      "sha256": "15f6a8117d9f3290ea1f1a4b2b7899dd71fe18d94c5c7109eca316b5f670a2ff",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v1\\source\\test_crypto_configuration.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v1/source/test_durable_peak_probe.py",
+      "bytes": 2913,
+      "sha256": "7228f7d01cbade1f4e27e227478538bd81ca9af50c2dfcff586749454c2a39bd",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v1\\source\\test_durable_peak_probe.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v1/source/test_epoch_owner.py",
+      "bytes": 8868,
+      "sha256": "fb72cb61c5b4cc71f70a9582451c7e7c4e1ad1bcdc9b3cdc9e6ccb3f12f7a3d8",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v1\\source\\test_epoch_owner.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v1/source/test_fixed_origin_io.py",
+      "bytes": 7624,
+      "sha256": "12a9b22a8c7d1ed9b5abda421ef04f5115a113bf4e57b5b106309b868ed931f7",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v1\\source\\test_fixed_origin_io.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v1/source/test_gateway_native.py",
+      "bytes": 4608,
+      "sha256": "5c3a73a1177a73d93756e410ffd75ce10fe89403586d6ccfbeaaf1db63ad7eec",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v1\\source\\test_gateway_native.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v1/source/test_http_timing_native.py",
+      "bytes": 3181,
+      "sha256": "3e27f76d65167a196bac70e38e8d7c4df03f0e079bf60f99a64006edfdf90d86",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v1\\source\\test_http_timing_native.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v1/source/test_input_fixed_io.py",
+      "bytes": 4307,
+      "sha256": "715c2d1a8b066947ef37e3afc1f8d548f5d8607786449a2544859160a4d87658",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v1\\source\\test_input_fixed_io.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v1/source/test_input_profile.py",
+      "bytes": 13501,
+      "sha256": "3a943e5fa3db67fee6dfc0c944c33a0ee7734f6500c2d3c898cead7e80ac0ba0",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v1\\source\\test_input_profile.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v1/source/test_lab.py",
+      "bytes": 3547,
+      "sha256": "20373fbe76e7dc18c59da922c9b24c0793153c7181e6d22b101f28bdfe1a0513",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v1\\source\\test_lab.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v1/source/test_live_buffer_probe.py",
+      "bytes": 3991,
+      "sha256": "d3b9c69a2c2dc749b3f97f23c4222dd5d1162b37e42c9968d5fd8bb88eaf1a2c",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v1\\source\\test_live_buffer_probe.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v1/source/test_live_component_native.py",
+      "bytes": 2197,
+      "sha256": "492d6b2c89d07929103a882cfd9b41f9ff2a82bc9332b6fa980daeddbd738270",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v1\\source\\test_live_component_native.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v1/source/test_media_capacity.py",
+      "bytes": 8861,
+      "sha256": "4b8ca5c4142a7b778adf4fcefd879af3103e1edc328e6814d74dfece23184899",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v1\\source\\test_media_capacity.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v1/source/test_owned_epoch_fixed.py",
+      "bytes": 4938,
+      "sha256": "5f819400247a4351b503f15390c38103297072d88f8878720f45d78a3ee26e56",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v1\\source\\test_owned_epoch_fixed.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v1/source/test_payload_lifetime.py",
+      "bytes": 15090,
+      "sha256": "b907b1603a6d0379fd9996d497e77160bdbbc7e68767c4026303f106bf4d181d",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v1\\source\\test_payload_lifetime.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v1/source/test_python_runtime_binding_native.py",
+      "bytes": 6477,
+      "sha256": "b12e7e481aa91c98a8d3ad17cafe960b5a173d7863749dbc03d7571fc4b1b1a1",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v1\\source\\test_python_runtime_binding_native.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v1/source/test_representative_cache.py",
+      "bytes": 1785,
+      "sha256": "a1d94f6e09312e79d5dba03a124013bfc7f3919f758c9464660d8ba20e189216",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v1\\source\\test_representative_cache.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v1/source/test_representative_cache_native.py",
+      "bytes": 7099,
+      "sha256": "29c373aa84cfb6afbe41738050cca95da6d12c93ec7fb938a9e72738cea2b1fa",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v1\\source\\test_representative_cache_native.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v1/source/test_request_concurrency.py",
+      "bytes": 6490,
+      "sha256": "01a5afc0cb63e4a3840e81b019b2adbf9e7f4361b5faf839d812dfa4d27604fa",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v1\\source\\test_request_concurrency.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v1/source/test_request_window.py",
+      "bytes": 9209,
+      "sha256": "485bc74b0d37a4057c5ac66f95ab313e7c9580f408c647a44146918ce3841c9c",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v1\\source\\test_request_window.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v1/source/test_revocation_binding.py",
+      "bytes": 1870,
+      "sha256": "6dec7dfd850bac65f110a6a4462a77c24323dec4527c686266daf10793884d39",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v1\\source\\test_revocation_binding.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v1/source/test_serve_readiness.py",
+      "bytes": 5205,
+      "sha256": "ef30890956e856012d19301a87350519421687f30c0c687f4f7041fec729523f",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v1\\source\\test_serve_readiness.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v1/source/test_single_exec_filter.py",
+      "bytes": 6214,
+      "sha256": "970c12080b11b0a5a3f6c827dfc12d1918355dd23ed8936d6934ed6c25af0eb3",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v1\\source\\test_single_exec_filter.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v1/source/test_warm_cache_revocation.py",
+      "bytes": 12004,
+      "sha256": "987608f169b25327231f0dc64bf41c571f1ab0f1b924bbe66b567cc7fa701457",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v1\\source\\test_warm_cache_revocation.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v1/windows.stderr.raw",
+      "bytes": 1219,
+      "sha256": "8069a7be86ccf61db385caa375fe99ffbb9b9f3e9848cd0640720733783d842e",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v1\\windows.stderr.raw"
+    },
+    {
+      "ref": "poc003-closed-capacity-v1/windows.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v1\\windows.stdout.raw"
+    },
+    {
+      "ref": "poc003-closed-capacity-v2/fixed-image.stderr.raw",
+      "bytes": 1207,
+      "sha256": "87c7e7e88779c823ecbf643df0590eca8772b177b29073e0ef92f8e291d610ec",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v2\\fixed-image.stderr.raw"
+    },
+    {
+      "ref": "poc003-closed-capacity-v2/fixed-image.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v2\\fixed-image.stdout.raw"
+    },
+    {
+      "ref": "poc003-closed-capacity-v2/results.json",
+      "bytes": 14769,
+      "sha256": "dc9fa762260df8db011096fa12750a79db917ec4df5e9f3543f1d079f10249ce",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v2\\results.json"
+    },
+    {
+      "ref": "poc003-closed-capacity-v2/source/buffer_probe.py",
+      "bytes": 6732,
+      "sha256": "56933170456c3414f5fc3dfc28bec8c98c1a27273868d5d545c447663a385025",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v2\\source\\buffer_probe.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v2/source/build_observer.py",
+      "bytes": 2076,
+      "sha256": "7c5ec2475d26e56394922ebba8f14a387d8ba0b318c37b8ef8ec2ade24c56ca9",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v2\\source\\build_observer.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v2/source/cache_probe.py",
+      "bytes": 19578,
+      "sha256": "870234005d98fa829b5da8d151d6ae1a4d20c34c7bc375da6a680574a3ddf16f",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v2\\source\\cache_probe.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v2/source/collect.py",
+      "bytes": 18767,
+      "sha256": "356302081bbfbfd0ea6dda0cb2fb1a97acc18f9d5c6a91ecdaeacae72bc99977",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v2\\source\\collect.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v2/source/config.example.json",
+      "bytes": 859,
+      "sha256": "62cb38feb17e17e30166b43ec2db17593f26e78964b1bc01e66d73603761191d",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v2\\source\\config.example.json"
+    },
+    {
+      "ref": "poc003-closed-capacity-v2/source/crypto_runtime.py",
+      "bytes": 6541,
+      "sha256": "5c885263a070f600a8a17b87e641ef668aa37a6ae973e564287f03adc4e37521",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v2\\source\\crypto_runtime.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v2/source/durable_peak_probe.py",
+      "bytes": 6265,
+      "sha256": "b7bfd6e767a4cba4bf2ee1de2e7c0f9f82e2afff3037015e317b8a8e860fa599",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v2\\source\\durable_peak_probe.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v2/source/epoch_owner.py",
+      "bytes": 26029,
+      "sha256": "30b9cfc4b22f297e8dc822c8a15e2f84a4f7f5fbe69cc7ad708abed74e7c8a8e",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v2\\source\\epoch_owner.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v2/source/grants.py",
+      "bytes": 2003,
+      "sha256": "4d48a477541545a296d31ea00a97445e15f6b6eae92e79f39629c074923403bf",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v2\\source\\grants.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v2/source/http_timing.py",
+      "bytes": 1477,
+      "sha256": "fde2afed2b9fcc3e607930eb72b9cecf5386761965d8881a095b98f041e663cb",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v2\\source\\http_timing.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v2/source/input_profile.py",
+      "bytes": 7958,
+      "sha256": "25a090c67d75c7cd7e67ca06163e4684fdbaf47854fa6d7db46db44b041dd242",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v2\\source\\input_profile.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v2/source/lab.py",
+      "bytes": 56853,
+      "sha256": "e9efd5b9f2501e05a972764187b60897fa92aadcbde90e4ddc18a96917b333ff",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v2\\source\\lab.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v2/source/live_buffer_probe.py",
+      "bytes": 9883,
+      "sha256": "d3154af91abcab988632201acbf13cc1e1466b1b73cd296554b014fe30fb0f12",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v2\\source\\live_buffer_probe.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v2/source/media_capacity.py",
+      "bytes": 11560,
+      "sha256": "29d88f1d98bc54ae53540b41b6cdb890e9a333800f2a45cd5a6231cccc3aa691",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v2\\source\\media_capacity.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v2/source/owned_epoch.py",
+      "bytes": 21233,
+      "sha256": "cf170056c5a7f2201e863145522b0433e5911e128ba585d79cef0cb6c5125ccb",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v2\\source\\owned_epoch.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v2/source/python-runtime-profile.json",
+      "bytes": 5561,
+      "sha256": "0830b95ad06d0a108cb474afb4888526f8c2d785644a219efaa194b3a886324e",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v2\\source\\python-runtime-profile.json"
+    },
+    {
+      "ref": "poc003-closed-capacity-v2/source/python_runtime.py",
+      "bytes": 8020,
+      "sha256": "49740b806b9dc5a5c94b301932f56df779e6e5d46694eae2cc4db7f6044b4ec5",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v2\\source\\python_runtime.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v2/source/test_buffer_probe.py",
+      "bytes": 2485,
+      "sha256": "f8c55495e94eed9ea19e77b1018319bf8e0f3931b56cf5832bd4f5f3f40edfcb",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v2\\source\\test_buffer_probe.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v2/source/test_buffer_probe_native.py",
+      "bytes": 3216,
+      "sha256": "0cd0820a982111207337bf6a37595a3f74686f403299d7cf78b5dea545309ec2",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v2\\source\\test_buffer_probe_native.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v2/source/test_cache_body_bounds.py",
+      "bytes": 2906,
+      "sha256": "bfa3ebe632117836a5afd48d415288326e2b3eedaac470923be72a26a8e1deac",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v2\\source\\test_cache_body_bounds.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v2/source/test_cache_probe.py",
+      "bytes": 2359,
+      "sha256": "880b226f4d0a54524a95599954237d27bf2bf157da3b363f6e3aeab1acb430a0",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v2\\source\\test_cache_probe.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v2/source/test_cache_probe_native.py",
+      "bytes": 3359,
+      "sha256": "e835fd96229fe843fc1505718494ba2c6b34acc415703f40da6b3815fbdac2fc",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v2\\source\\test_cache_probe_native.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v2/source/test_cache_stream_io.py",
+      "bytes": 7886,
+      "sha256": "2c4fa7726451515795cf0846c6ab742a674b8271e2f2c3a5a9c79dfec03b388a",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v2\\source\\test_cache_stream_io.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v2/source/test_collector_raw_io.py",
+      "bytes": 7378,
+      "sha256": "6ff520f4dcaeb65fb9c271a61a88745a4e35285c8bae90addffa67768181bc42",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v2\\source\\test_collector_raw_io.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v2/source/test_crypto_configuration.py",
+      "bytes": 2053,
+      "sha256": "15f6a8117d9f3290ea1f1a4b2b7899dd71fe18d94c5c7109eca316b5f670a2ff",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v2\\source\\test_crypto_configuration.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v2/source/test_durable_peak_probe.py",
+      "bytes": 2913,
+      "sha256": "7228f7d01cbade1f4e27e227478538bd81ca9af50c2dfcff586749454c2a39bd",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v2\\source\\test_durable_peak_probe.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v2/source/test_epoch_owner.py",
+      "bytes": 8868,
+      "sha256": "fb72cb61c5b4cc71f70a9582451c7e7c4e1ad1bcdc9b3cdc9e6ccb3f12f7a3d8",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v2\\source\\test_epoch_owner.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v2/source/test_fixed_origin_io.py",
+      "bytes": 7624,
+      "sha256": "12a9b22a8c7d1ed9b5abda421ef04f5115a113bf4e57b5b106309b868ed931f7",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v2\\source\\test_fixed_origin_io.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v2/source/test_gateway_native.py",
+      "bytes": 4608,
+      "sha256": "5c3a73a1177a73d93756e410ffd75ce10fe89403586d6ccfbeaaf1db63ad7eec",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v2\\source\\test_gateway_native.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v2/source/test_http_timing_native.py",
+      "bytes": 3181,
+      "sha256": "3e27f76d65167a196bac70e38e8d7c4df03f0e079bf60f99a64006edfdf90d86",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v2\\source\\test_http_timing_native.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v2/source/test_input_fixed_io.py",
+      "bytes": 4307,
+      "sha256": "715c2d1a8b066947ef37e3afc1f8d548f5d8607786449a2544859160a4d87658",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v2\\source\\test_input_fixed_io.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v2/source/test_input_profile.py",
+      "bytes": 13501,
+      "sha256": "3a943e5fa3db67fee6dfc0c944c33a0ee7734f6500c2d3c898cead7e80ac0ba0",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v2\\source\\test_input_profile.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v2/source/test_lab.py",
+      "bytes": 3547,
+      "sha256": "20373fbe76e7dc18c59da922c9b24c0793153c7181e6d22b101f28bdfe1a0513",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v2\\source\\test_lab.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v2/source/test_live_buffer_probe.py",
+      "bytes": 3991,
+      "sha256": "d3b9c69a2c2dc749b3f97f23c4222dd5d1162b37e42c9968d5fd8bb88eaf1a2c",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v2\\source\\test_live_buffer_probe.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v2/source/test_live_component_native.py",
+      "bytes": 2197,
+      "sha256": "492d6b2c89d07929103a882cfd9b41f9ff2a82bc9332b6fa980daeddbd738270",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v2\\source\\test_live_component_native.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v2/source/test_media_capacity.py",
+      "bytes": 8861,
+      "sha256": "4b8ca5c4142a7b778adf4fcefd879af3103e1edc328e6814d74dfece23184899",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v2\\source\\test_media_capacity.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v2/source/test_owned_epoch_fixed.py",
+      "bytes": 4938,
+      "sha256": "5f819400247a4351b503f15390c38103297072d88f8878720f45d78a3ee26e56",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v2\\source\\test_owned_epoch_fixed.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v2/source/test_payload_lifetime.py",
+      "bytes": 15090,
+      "sha256": "b907b1603a6d0379fd9996d497e77160bdbbc7e68767c4026303f106bf4d181d",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v2\\source\\test_payload_lifetime.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v2/source/test_python_runtime_binding_native.py",
+      "bytes": 6477,
+      "sha256": "b12e7e481aa91c98a8d3ad17cafe960b5a173d7863749dbc03d7571fc4b1b1a1",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v2\\source\\test_python_runtime_binding_native.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v2/source/test_representative_cache.py",
+      "bytes": 1785,
+      "sha256": "a1d94f6e09312e79d5dba03a124013bfc7f3919f758c9464660d8ba20e189216",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v2\\source\\test_representative_cache.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v2/source/test_representative_cache_native.py",
+      "bytes": 7099,
+      "sha256": "29c373aa84cfb6afbe41738050cca95da6d12c93ec7fb938a9e72738cea2b1fa",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v2\\source\\test_representative_cache_native.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v2/source/test_request_concurrency.py",
+      "bytes": 6490,
+      "sha256": "01a5afc0cb63e4a3840e81b019b2adbf9e7f4361b5faf839d812dfa4d27604fa",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v2\\source\\test_request_concurrency.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v2/source/test_request_window.py",
+      "bytes": 9209,
+      "sha256": "485bc74b0d37a4057c5ac66f95ab313e7c9580f408c647a44146918ce3841c9c",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v2\\source\\test_request_window.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v2/source/test_revocation_binding.py",
+      "bytes": 1870,
+      "sha256": "6dec7dfd850bac65f110a6a4462a77c24323dec4527c686266daf10793884d39",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v2\\source\\test_revocation_binding.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v2/source/test_serve_readiness.py",
+      "bytes": 5205,
+      "sha256": "ef30890956e856012d19301a87350519421687f30c0c687f4f7041fec729523f",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v2\\source\\test_serve_readiness.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v2/source/test_single_exec_filter.py",
+      "bytes": 6214,
+      "sha256": "970c12080b11b0a5a3f6c827dfc12d1918355dd23ed8936d6934ed6c25af0eb3",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v2\\source\\test_single_exec_filter.py"
+    },
+    {
+      "ref": "poc003-closed-capacity-v2/source/test_warm_cache_revocation.py",
+      "bytes": 12004,
+      "sha256": "987608f169b25327231f0dc64bf41c571f1ab0f1b924bbe66b567cc7fa701457",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-closed-capacity-v2\\source\\test_warm_cache_revocation.py"
+    },
+    {
+      "ref": "references/poc003-hash-native-bound-v3-independent-review.json",
+      "bytes": 11385,
+      "sha256": "2f0dcabc1a913870571262d2d06850d31dbc45ce4d4506d1357aa59a1a9bc2e2",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-hash-native-bound-v3-independent-review.json"
+    },
+    {
+      "ref": "references/poc003-phase-callgraph-v2-independent-review.json",
+      "bytes": 12037,
+      "sha256": "e9dece93d9bbf11b7415bde4f7581687dc145c5a71e81f291d0bbbd23385205c",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-phase-callgraph-v2-independent-review.json"
+    },
+    {
+      "ref": "references/poc003-original-matrix-entry-v3-preparation.json",
+      "bytes": 710,
+      "sha256": "9f0df37c4bb1f494a63f846fafe00bab889d9471828d537ebc6fef3f66c40cab",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-original-matrix-entry-v3-preparation.json"
+    },
+    {
+      "ref": "references/poc003_original_matrix_entry_v3.py",
+      "bytes": 8504,
+      "sha256": "323dc7a340c0a68cbe1fb98f3000237f449df6a66a2ce15d452b6512e4615f93",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003_original_matrix_entry_v3.py"
+    },
+    {
+      "ref": "references/check_poc003_closed_capacity_component_once.py",
+      "bytes": 2586,
+      "sha256": "be9ebc1c0ccd3d0190619296f60e53b28420cd90935d83fc403a1987b37583d0",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\check_poc003_closed_capacity_component_once.py"
+    },
+    {
+      "ref": "references/check_poc003_closed_capacity_fixed_image_v2_once.py",
+      "bytes": 2608,
+      "sha256": "85d51c423442a9260103fdcdab6a4a29c63c71b21985f0ad6c45f3108b98d81a",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\check_poc003_closed_capacity_fixed_image_v2_once.py"
+    },
+    {
+      "ref": "helpers/package_poc003_closed_capacity_component_once.py",
+      "bytes": 7772,
+      "sha256": "340947b551123ca162f73491c42ee9af0944b9384533cb7dec5464eb01bf3ef3",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\package_poc003_closed_capacity_component_once.py"
+    }
+  ],
+  "conditionalModelTerms": {
+    "origin": 73729,
+    "gateway": 409610,
+    "collector": 532492,
+    "phase": 1048577,
+    "hashPerPayloadOwner": 4096
+  },
+  "componentAccepted": false,
+  "actualAggregateAccepted": false,
+  "experimentExecuted": false,
+  "formalPocAccepted": false
+}
