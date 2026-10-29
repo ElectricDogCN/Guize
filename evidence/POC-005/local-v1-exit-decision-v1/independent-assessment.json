@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "kind": "independent_local_v1_scale_exit_decision",
+  "reviewer": "independent-review-agent",
+  "decision": "pass",
+  "approval": "approved",
+  "approvedAt": "2026-10-27T05:18:53Z",
+  "mustFix": [],
+  "localExitDecisionApproved": true,
+  "reportAccepted": true,
+  "report": {"ref": "evidence/POC-005/local-v1-scale-exit-report.md", "bytes": 10811, "sha256": "1596353fd7f20fc9f9ce9e37dd1f2e727eebea7406c22385fae010119fba7f1e"},
+  "databaseSnapshot": {"ref": "evidence/POC-005/local-v1-retained-database-snapshot.json", "bytes": 2419, "sha256": "793e732b09f9495604455fdb720fa9c2c77658a585d6ec91a66a05380aaa4d8c"},
+  "archive": {"ref": "evidence/POC-005/qualified-local-1m-attempt010-v1/index.json", "bytes": 14366, "sha256": "347309ff42625c1794b6f980af0468572f23cd93ac6c1f347c53274a3408db94", "originals": 45, "decodedOriginalBytes": 7631619, "allDecodedBytesEqualActualRootOriginals": true},
+  "primaryExecution": {
+    "ref": "evidence/POC-005/profiles/local-v1/v1/attempt-010/execution-candidate.json",
+    "sha256": "b2dd8792fa6fd13b14ac97ac10d8f674566be1980d126e5be33e86a53cead83b",
+    "source": "ed8fbf32783c2600f75de7a69ef56c6f33b4824b",
+    "tree": "a74434e6a062f03207244b0a3a8cbd037a0dfe47",
+    "qualifiedContext": "77d99effc1a0e1524dcf1795d1c0aff359ab219c",
+    "qualifiedContextTree": "7666fdcb7cdd2c6e84520e49bc028f412377c2d0",
+    "qualificationAssessmentSha256": "2f608b798ea4c5c72f7fcd8e73e4dec0446fa866f9615a24243ac3d0d18b590a"
+  },
+  "supportingExecutions": [
+    {"attempt": "008", "files": 10000, "source": "8f7c9a5ed3f598d40f6e34bb12151a67b3f5d8e1", "qualifiedContext": "71b77776a9080091ee3b10042e66f5c9dcff41a4", "executionSha256": "a69f345f07e7bf2dce774dfb32777ff6f1f0ed8b8078d0b0536ac0d6bf75393b", "qualificationAssessmentSha256": "e7bdb4cf281f03aacb704515372460e87576cd31fe0583601946253ba8e065a6"},
+    {"attempt": "009", "files": 100000, "source": "c98c93f835ea5c6bfcf19eb1256cd66d75efc4b4", "qualifiedContext": "da1e85ab152e6d1f7e101254c4119375c8412557", "executionSha256": "074b6ae00988c13857671aec30759f00aa2479298b9c63b0dd8e6d9e5a1a9bc9", "qualificationAssessmentSha256": "fa38ac26c825256dc3c588c92f413d99eaf24d92c1abf2002b1e0ba290383b0a"}
+  ],
+  "frozenExitCriteriaAssessment": [
+    {"criterion": "Immutable representative hierarchy/source population, directories/depth, average size and API quota facts", "reference": "specs/poc/plans/POC-005.yaml:263-265", "satisfiedInTestedLocalDomain": true, "finding": "Three source-labelled qualified scales retain actual scanner and source counts. The primary1m/500-directory/depth12 run has complete typed/raw population validation;1792B is the population mean, not constant file size.6000/min is explicitly the enforced controlled adapter quota; native provider/production quota remains unknown."},
+    {"criterion": "Measured deterministic create/update/delete change frequency", "reference": "specs/poc/plans/POC-005.yaml:266-267", "satisfiedInTestedLocalDomain": true, "finding": "All three runs retain real three-change receipts, observations, replay/post-catalogue evidence and their actual windows. Normalized changes/hour is not called natural production change rate; primary incremental timing excludes upstream provision/re-enumeration."},
+    {"criterion": "Scale model covers population, fanout/depth and change rate with raw provenance", "reference": "specs/poc/plans/POC-005.yaml:268", "satisfiedInTestedLocalDomain": true, "finding": "10k/100k/1m each preserve their own source and representation. Actual represented-directory maximum fanout34/237/2273, root25/228/2264 and59 empty directories per scale were independently recalculated from the complete retained filename streams. Full length/character/extension/depth/fanout distributions are retained. Fixed500-directory/depth12 synthetic coverage is expressly bounded; no arbitrary hierarchy or source-independent scaling claim is made."},
+    {"criterion": "Enumeration, incremental scan and memory measured without assuming700TB transfer", "reference": "specs/poc/plans/POC-005.yaml:269", "satisfiedInTestedLocalDomain": true, "finding": "Report keeps scanner rate/PeakWorkingSet separate from complete two-pass source traversal, control phases and host/provider memory. Source page costs501/501/1385 per pass, actual spans and request elapsed sums were independently recomputed. The1m source traversals773.124022s/775.063138s and scanner535.5617581s show meaningful end-to-end limits rather than hiding upstream work. Database3169824768B logical retention is separately reported; no whole-host peak disk or physical-allocation measurement is claimed."},
+    {"criterion": "Filename/provider characteristics, Range and ETag/version behavior", "reference": "specs/poc/plans/POC-005.yaml:270-271", "satisfiedInTestedLocalDomain": true, "finding": "Full retained distributions, two actual listings and five original response probes support the actual source configuration;33B416 body, bounded206 bytes and changed/stable ETags remain intact. Four injected adapter faults and bounded2/2/2/1 attempts are distinguished from natural provider incidents. Unknown stable native object IDs, production consistency and strong content-hash guarantees are not invented."}
+  ],
+  "fallbackAndCleanupAssessment": {
+    "references": ["specs/poc/plans/POC-005.yaml:272-280", "specs/tasks/POC-005.md:21", "specs/tasks/POC-005.md:180-184"],
+    "finding": "The report makes an actionable bounded local construction decision: preserve source/version/pagination/checkpoints, bounded state and compressed physical delivery; measure production population/distribution/changes/latency/quota before choosing native change tokens, journals/backoff or staged indexing. These alternatives are explicitly not claimed implemented/qualified. Dedicated010 provider forced stop and actual native wait were independently accepted;10035 weakness and supplemental native zero-listener observation are disclosed. Mutated leaves, files, configurations, databases, old failures and validation copies are retained as audit material, with restoration and whole-host resource limits expressly unestablished. No historical result is rewritten or deleted.",
+    "cleanupAssessmentSha256": "87132430d02618ffd409ce0489619b709240800d3360b448cd649d7c11f863fb"
+  },
+  "independentReadOnlyChecks": {
+    "decoded45OriginalsComparedByteForByte": true,
+    "newDerivedStatisticsRecomputedFromExistingEvidence": {"filenameRowsByScale": [10500,100500,1000500], "totalRows": 1111500, "completeFanoutHistogramsMatched": true, "sourceTraversalSpanAndVisibleRequestSumsMatched": true, "executionSourceAnd13MeasurementsMatched": true},
+    "analysisSource": {"ref": ".takeover-tools/poc005-source-bound-scale-analysis-v1/analysis.json", "bytes": 27435, "sha256": "4d1b77024419baf1fbfa08f6c8b0702d23b5bbfb669458bc7106543666e35283"},
+    "databaseSnapshotMatchedCurrentStat": {"files": 10, "logicalBytes": 3169824768, "sizesAndMtimesMatched": true, "databaseOpened": false},
+    "reportRelativeLinks": 14,
+    "missingReportLinkedFiles": [],
+    "experimentsOrValidatorRerun": false,
+    "authorOrHistoricalEvidenceModified": false
+  },
+  "approvedResultRecordFields": {
+    "schemaVersion": 1,
+    "pocId": "POC-05",
+    "taskId": "POC-005",
+    "status": "pass",
+    "evidencePath": "evidence/POC-005",
+    "executionRef": "evidence/POC-005/profiles/local-v1/v1/attempt-010/execution-candidate.json",
+    "decision": "pass",
+    "rationale": "PASS only for the tested local-v1 controlled OpenList/synthetic metadata domain. The exacted8/attempt-0101m execution passed complete frozen qualification and supplies the sole primary execution; source-bound8f/00810k andc98/009100k support the scale analysis without transferring their runtime identities. The10811B report evidence/POC-005/local-v1-scale-exit-report.md SHA2561596353fd7f20fc9f9ce9e37dd1f2e727eebea7406c22385fae010119fba7f1e covers all five frozen local exit criteria,13 observations, complete source traversal cost, actual fanout/depth/change windows, source/representation confounders, faults/quotas/Range/ETag and explicit retention/cleanup drift. It establishes no production700TB/Baidu population, quota/cost or arbitrary-hierarchy result. Formal profile-index validation and normal source/CI/integration/task lifecycle remain separate.",
+    "reviewer": "independent-review-agent",
+    "approvedAt": "2026-10-27T05:18:53Z",
+    "approval": "approved"
+  },
+  "resultFieldsUse": "These are this reviewer's actual present-time approved local exit opinion and whole-secondZ time, for exact transcription into the subsequent formal result record. They are not execution-time approval and do not change any earlier experiment/sample/resource/window approval bytes. The candidate index/result must still pass the existing formal profile validation in a compatible tracked context.",
+  "profileTerminalIndexAccepted": false,
+  "formalProfileCheckerPassed": false,
+  "formalPocAccepted": false,
+  "productionAccepted": false,
+  "readyApproved": false,
+  "mainMergeApproved": false,
+  "taskCompleted": false,
+  "v1Completed": false,
+  "newExperimentApproved": false
+}

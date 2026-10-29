@@ -1,0 +1,30 @@
+{
+  "source": "ed8fbf32783c2600f75de7a69ef56c6f33b4824b",
+  "base": "746e23e582501fa08380c3f3301bdc1774902f7c",
+  "sourceReview": "poc005-compressed-output-ed8fbf3-final-source-independent-review.json",
+  "preparationReviewSha256": "083f343738907581d99a98f7577293c4363667c9f9be85adf463cb90895d05bf",
+  "requestSha256": "3ce5d54944f31aae6f02635f966727cc6e58262c759ba4633633a97b64d5f756",
+  "startedAt": "2026-10-26T08:10:09.354687Z",
+  "wrapperPid": 147956,
+  "commands": [
+    {
+      "argv": [
+        "C:\\ProgramData\\anaconda3\\python.exe",
+        "-X",
+        "utf8",
+        "-B",
+        "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\prepare_poc005_attempt010_windows_fixture_once.py",
+        "--source-review",
+        "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc005-compressed-output-ed8fbf3-final-source-independent-review.json"
+      ],
+      "startedAt": "2026-10-26T08:10:09.529584Z",
+      "methodSha256": "d4ea4b0b33c24ff16a83f602f280d626ffbe06a967c44d428e2ccd159560fdf5",
+      "pid": 97876
+    }
+  ],
+  "resourcePreparationAccepted": false,
+  "scannerStarted": false,
+  "listingOrProbeExecuted": false,
+  "experimentApproved": false,
+  "qualificationAccepted": false
+}

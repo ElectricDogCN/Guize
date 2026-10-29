@@ -1,0 +1,126 @@
+{
+  "source": "ca1da41eba2c784fa1418feb29dfcf717cad5785",
+  "scope": "Actual exact-source local verification and normal publish. CI827 in_progress as of22:58:20Z; not CI acceptance or experiment approval.",
+  "files": [
+    {
+      "path": "native/linux-binary-get-1.raw",
+      "bytes": 574,
+      "sha256": "1680cf75a1eb199b7b48dd17843f2bf942be562d0f00938000f7bb3de6247093"
+    },
+    {
+      "path": "native/linux-platform-28.raw",
+      "bytes": 5658,
+      "sha256": "6953410127403ef6b09cc9faf1447b5141b3ded838e953fdd5c2cffc721eb592"
+    },
+    {
+      "path": "native/results.json",
+      "bytes": 10737,
+      "sha256": "e7c966601052b6115038ea8126e3f4166bec4e9f47bfa0f0c43338ae8dfde1c5"
+    },
+    {
+      "path": "native/task-00.raw",
+      "bytes": 161,
+      "sha256": "8bf95d8330e15169ae01449ed2e0c209fe8b9a1b31c74bd6bd2e22dd615de9ff"
+    },
+    {
+      "path": "native/task-01.raw",
+      "bytes": 277,
+      "sha256": "5b026dff5f101fee23b851a479610ab9cdafaa5137e9ab7134e630181b55ff84"
+    },
+    {
+      "path": "native/task-02.raw",
+      "bytes": 677,
+      "sha256": "9cd287f01b7ce7d614f42139d237e66f7fb08b502bc3e1cee9858202f4ad1e6f"
+    },
+    {
+      "path": "native/task-03.raw",
+      "bytes": 1899,
+      "sha256": "b955a48af8fe3566d077f8fe5d4bcb6e59147001bde955007d5573d7444dc94d"
+    },
+    {
+      "path": "native/task-04.raw",
+      "bytes": 436,
+      "sha256": "24e17f97b2132c4b3a0ae4bae0951394d47bd40f59bd6b0f1784d83d0217b02b"
+    },
+    {
+      "path": "native/task-05.raw",
+      "bytes": 490,
+      "sha256": "2d878d20381cbe64b5a4d1041cda668f4a293b461f88352438339b58e4d9bce2"
+    },
+    {
+      "path": "native/task-06.raw",
+      "bytes": 443,
+      "sha256": "aab1b8f25fc743a38ba54202e5607c7edd9e8c5245237315903a7b8e16baf400"
+    },
+    {
+      "path": "native/task-07.raw",
+      "bytes": 379,
+      "sha256": "b7c5f1dd90e2a1a5412ad19542da964a4f948b329202091f5b24cf9392c955eb"
+    },
+    {
+      "path": "native/task-08.raw",
+      "bytes": 510,
+      "sha256": "f61f9abe46f32852441e2a3a4d7723945dfc51b400ad8473713396a6ea84437a"
+    },
+    {
+      "path": "native/task-09.raw",
+      "bytes": 601,
+      "sha256": "ea20e9b11adcbf4fb09a4ea7f8e64e56d084774a48ddfb8a890701586bab72ce"
+    },
+    {
+      "path": "native/task-10.raw",
+      "bytes": 413,
+      "sha256": "b546f1e7e32537d7e15bc1319c17a2367c531b5ab0bee9c9bbbddb36f51014aa"
+    },
+    {
+      "path": "native/task-11.raw",
+      "bytes": 36242,
+      "sha256": "dc949da6e4a4c78c5afa1d5d860a1fe17c06c7c791ecbeab6fd8c64f3fbcae1e"
+    },
+    {
+      "path": "native/task-12.raw",
+      "bytes": 215,
+      "sha256": "0fd7e4e82ef5266900eb6f2185dba78642b619c9e0bc691e8a7acb0ecb690359"
+    },
+    {
+      "path": "native/task-13.raw",
+      "bytes": 418,
+      "sha256": "782e50c6a877c30a73e64f29b9621b8055554ff2006932cdad56576f6b81d422"
+    },
+    {
+      "path": "native/task-14.raw",
+      "bytes": 181,
+      "sha256": "9b24a349aaff5925995dd8732bcd470a89af0145290aeca8d8f2599e4729f0b7"
+    },
+    {
+      "path": "windows/source-ca1da41-all125.json",
+      "bytes": 3915,
+      "sha256": "55bcf09c7d16069c23952b4113d873ae5c0d5cf36659720a44c2794376424e72"
+    },
+    {
+      "path": "windows/source-ca1da41-all125.raw",
+      "bytes": 22681,
+      "sha256": "22e4f8280d5568c51f0f7639265fc51f7f5ee4a1181870a01c17707d7d14640d"
+    },
+    {
+      "path": "independent-source-review.json",
+      "bytes": 1270,
+      "sha256": "f27a5e988a6686cd912045ec72b55aa4a598bcefb64bbe5165106560c39c8fb3"
+    },
+    {
+      "path": "push.json",
+      "bytes": 932,
+      "sha256": "5d78db8f1d783349fe9cceb661e5f082b28749e5d5dd58dc9d735ed704aad5e4"
+    },
+    {
+      "path": "push.raw",
+      "bytes": 140,
+      "sha256": "0b57cc1adaaec84543d342c102f20ee93cc1f2e71433143318f4c7b7e0f9e926"
+    },
+    {
+      "path": "ci827-pending-225820.json",
+      "bytes": 22815,
+      "sha256": "b3b0ac65f01364d37695d644a59b2dc369ba41e81b4e7aee71f418d15b26ad31"
+    }
+  ]
+}

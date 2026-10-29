@@ -1,0 +1,70 @@
+{
+    "observedAt":  "2026-10-26T02:09:35.4900303Z",
+    "cpu":  [
+                {
+                    "Name":  "AMD Ryzen 7 8845H w/ Radeon 780M Graphics",
+                    "NumberOfCores":  8,
+                    "NumberOfLogicalProcessors":  16,
+                    "MaxClockSpeed":  3801
+                }
+            ],
+    "os":  {
+               "Caption":  "Microsoft Windows 11 家庭版 中文版",
+               "Version":  "10.0.26200",
+               "BuildNumber":  "26200",
+               "TotalVisibleMemorySize":  32811832,
+               "FreePhysicalMemory":  3453008
+           },
+    "gpu":  [
+                {
+                    "Name":  "OrayIddDriver Device",
+                    "DriverVersion":  "17.1.58.818",
+                    "DriverDate":  "\/Date(1668470400000)\/",
+                    "AdapterRAM":  null,
+                    "Status":  "OK"
+                },
+                {
+                    "Name":  "Sharing Monitor",
+                    "DriverVersion":  "12.35.25.181",
+                    "DriverDate":  "\/Date(1716508800000)\/",
+                    "AdapterRAM":  null,
+                    "Status":  "OK"
+                },
+                {
+                    "Name":  "Parsec Virtual Display Adapter",
+                    "DriverVersion":  "0.45.0.0",
+                    "DriverDate":  "\/Date(1706140800000)\/",
+                    "AdapterRAM":  null,
+                    "Status":  "OK"
+                },
+                {
+                    "Name":  "GameViewer Virtual Display Adapter",
+                    "DriverVersion":  "15.6.5.199",
+                    "DriverDate":  "\/Date(1772236800000)\/",
+                    "AdapterRAM":  null,
+                    "Status":  "OK"
+                },
+                {
+                    "Name":  "AMD Radeon 780M Graphics",
+                    "DriverVersion":  "31.0.22032.1",
+                    "DriverDate":  "\/Date(1700524800000)\/",
+                    "AdapterRAM":  536870912,
+                    "Status":  "OK"
+                },
+                {
+                    "Name":  "NVIDIA GeForce RTX 4060 Laptop GPU",
+                    "DriverVersion":  "32.0.16.1074",
+                    "DriverDate":  "\/Date(1782950400000)\/",
+                    "AdapterRAM":  4293918720,
+                    "Status":  "OK"
+                }
+            ],
+    "cpuLoad":  [
+                    {
+                        "DeviceID":  "CPU0",
+                        "LoadPercentage":  30
+                    }
+                ],
+    "physicalHostId":  "windows-hardware-sha256:bec45caf58d1ec4808ed969814e2dcd139d4cefbf751e451814d33a5446fa18e",
+    "physicalHostIdCollector":  "Win32_ComputerSystemProduct.UUID.Trim().ToLowerInvariant(); SHA256 UTF8"
+}

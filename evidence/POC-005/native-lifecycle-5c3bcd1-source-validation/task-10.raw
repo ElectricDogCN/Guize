@@ -1,0 +1,5 @@
+Source Commit: 5c3bcd11818c862b27876919925547808a062bc5
+Command: python scripts/run-agent-coordination-gate.py --base-ref f2e0150265e0c1eeca5f69fe85708b2434e5ee79 --head-ref HEAD --task POC-005 --branch-name chore/POC-005-metadata-scale
+{"status": "PASS", "message": "Agent coordination valid: 2 active tasks, 0 high/critical", "details": {"activeTaskIds": ["POC-003", "POC-005"]}}
+
+Exit Code: 0

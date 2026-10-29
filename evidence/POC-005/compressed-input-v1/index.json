@@ -1,0 +1,100 @@
+{
+  "parent": "4c54be95bc846e849f59a5fea15a9db836376de2",
+  "workingSourceHashes": {
+    "poc/POC-05-metadata-scale/canonical_metadata.py": "99016407509e8c6bda8ef2436cbe92875eb32ed4b7549588bf7597b1cc6eeff4",
+    "poc/POC-05-metadata-scale/controlled_fixture_map.py": "8d43b9eef4a60764eb22d5499b2ed0de9404ff8cc1ad2f3b80173a58de6a3c20",
+    "poc/POC-05-metadata-scale/test_canonical_metadata.py": "3f497f6fbc76458b9760054d254eece86f670d1c53b4a07603e0224937e3f0b7"
+  },
+  "files": [
+    {
+      "original": "poc005-compressed-ingress-windows-v1/pytest.raw",
+      "encoded": "000-798bb766171c.zlib.b64",
+      "byteCount": 4317,
+      "sha256": "798bb766171ce61086b17d31d002435eb8784191a5843269f88907ef72751cb1"
+    },
+    {
+      "original": "poc005-compressed-ingress-windows-v1/results.json",
+      "encoded": "001-a5836ad798fa.zlib.b64",
+      "byteCount": 8629,
+      "sha256": "a5836ad798fae8fed6040c28b062958bd9f26fbf470e0ac4501d93fb57b7909b"
+    },
+    {
+      "original": "poc005-compressed-ingress-windows-v1/results.xml",
+      "encoded": "002-2968667375e1.zlib.b64",
+      "byteCount": 24709,
+      "sha256": "2968667375e1de0e1510a36c93d8e3694721009b3979a2047abe6a2e975b90aa"
+    },
+    {
+      "original": "poc005-compressed-ingress-linux-v1/pytest.raw",
+      "encoded": "003-0b8dc1fc15a1.zlib.b64",
+      "byteCount": 4342,
+      "sha256": "0b8dc1fc15a16ac83c9e2eba0ccd33dad4cb74f88f44958569ccfa9e64e020e4"
+    },
+    {
+      "original": "poc005-compressed-ingress-linux-v1/results.json",
+      "encoded": "004-6e88e6f8a5e4.zlib.b64",
+      "byteCount": 8733,
+      "sha256": "6e88e6f8a5e45bbfd4534f476853a6c3248b772418fb4d81c76dde7565f9a546"
+    },
+    {
+      "original": "poc005-compressed-ingress-linux-v1/results.xml",
+      "encoded": "005-19dd30d90d08.zlib.b64",
+      "byteCount": 5576,
+      "sha256": "19dd30d90d08523d6d9d3199dd1096a15197b4421f5a3943825c118cfde870e9"
+    },
+    {
+      "original": "check_poc005_compressed_ingress_components_once.py",
+      "encoded": "006-e4e8006759b4.zlib.b64",
+      "byteCount": 2608,
+      "sha256": "e4e8006759b4d35e749ee2d70b6532a1ae84e20bd58be8d001efd4bd81978dcc"
+    },
+    {
+      "original": "check_poc005_compressed_ingress_linux_components_once.py",
+      "encoded": "007-59320f53160a.zlib.b64",
+      "byteCount": 2700,
+      "sha256": "59320f53160a6d7a805addf6367996b583f113ef1777f3bb94dd16a8de0ab8d0"
+    },
+    {
+      "original": "poc005-compressed-ingress-implementation-independent-review.json",
+      "encoded": "008-5e1cba3e0567.zlib.b64",
+      "byteCount": 10907,
+      "sha256": "5e1cba3e05671ce9c88e342be8e32ff77f5b72be2bc08476fc9e24716e188148"
+    },
+    {
+      "original": "poc005-scale-compressed-input-next-independent-review.json",
+      "encoded": "009-d6e6f9b11d23.zlib.b64",
+      "byteCount": 19638,
+      "sha256": "d6e6f9b11d23178a327d5eb540632160aaa6c87d64bf2c44c3f5e975065925c0"
+    },
+    {
+      "original": "working-source/poc/POC-05-metadata-scale/canonical_metadata.py",
+      "encoded": "010-99016407509e.zlib.b64",
+      "byteCount": 25461,
+      "sha256": "99016407509e8c6bda8ef2436cbe92875eb32ed4b7549588bf7597b1cc6eeff4"
+    },
+    {
+      "original": "working-source/poc/POC-05-metadata-scale/controlled_fixture_map.py",
+      "encoded": "011-8d43b9eef4a6.zlib.b64",
+      "byteCount": 10458,
+      "sha256": "8d43b9eef4a60764eb22d5499b2ed0de9404ff8cc1ad2f3b80173a58de6a3c20"
+    },
+    {
+      "original": "working-source/poc/POC-05-metadata-scale/test_canonical_metadata.py",
+      "encoded": "012-3f497f6fbc76.zlib.b64",
+      "byteCount": 23698,
+      "sha256": "3f497f6fbc76458b9760054d254eece86f670d1c53b4a07603e0224937e3f0b7"
+    }
+  ],
+  "componentAccepted": true,
+  "windowsActualTests": 140,
+  "linuxRelatedActualTests": 29,
+  "compressedInputSupported": true,
+  "compressedOutputImplemented": false,
+  "newSourceAccepted": false,
+  "currentSourceTask15Accepted": false,
+  "currentSourceCiAccepted": false,
+  "newScaleExperimentApproved": false,
+  "newExecutionQualificationAccepted": false,
+  "taskCompleted": false,
+  "fullV1Completed": false
+}

@@ -1,0 +1,27 @@
+{
+  "argv": [
+    "C:/ProgramData/anaconda3/python.exe",
+    "-X",
+    "utf8",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-v",
+    "-p",
+    "test_*.py"
+  ],
+  "exitCode": 0,
+  "seconds": 53.217862000048626,
+  "observedAt": "2026-10-22T21:46:05.860046+00:00",
+  "rawBytes": 17123,
+  "rawSha256": "592bec13870994fcdcdc089a138fdee10332943162af95e03fbdf7238e3bf35f",
+  "sourceHashes": {
+    "native_scan_protocol.py": "bb0f497132f33a78c1467e832e80934bf72b160d0728615e17855fd34737cdfe",
+    "native_scan_runtime.py": "03d304f35a8f57729a482a0c8c6a696257574c5de5a5aceec9fc74f251f1f22e",
+    "native_scan_control.py": "4ce0cd31c278fbc71bdc71cd58e918977b88d4b7fabfc9aaf1998583fd425609",
+    "run_source_experiment.py": "a7c0e68fe4d5066e13f2b4caf70ec95cbbf85cd281002436be91d29d2c0648bc",
+    "test_native_clock.py": "bf1e019e663b1fe43008342da8b1a0430505e5df5ba15bc9f387ed751decefec"
+  },
+  "qualificationAccepted": false
+}

@@ -1,0 +1,6 @@
+Source Commit: edbf8daf5d7e2403f6b7b009b67a5bd1e60531f3
+Command: python scripts/run-program-lifecycle-gate.py --base-ref f2e0150265e0c1eeca5f69fe85708b2434e5ee79 --head-ref HEAD --task POC-005 --branch-name chore/POC-005-metadata-scale
+{"status": "PASS", "message": "Program lifecycle scope, Foundation ownership, rename and Evidence guards passed", "details": {"affectedTaskIds": ["POC-005"], "changedPathCount": 88, "baseRef": "f2e0150265e0c1eeca5f69fe85708b2434e5ee79"}}
+{"status": "PASS", "message": "Exact lifecycle diff and Completion Issue verification passed"}
+
+Exit Code: 0

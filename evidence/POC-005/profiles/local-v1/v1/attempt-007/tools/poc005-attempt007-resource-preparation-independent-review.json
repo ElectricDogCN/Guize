@@ -1,0 +1,96 @@
+{
+  "schemaVersion": 1,
+  "kind": "independent_prospective_poc005_resource_preparation_only_decision",
+  "decision": "approved_resource_preparation_only",
+  "actor": "/root/gz022_planning_independent_review",
+  "reviewer": "independent-review-agent",
+  "approvedAt": "2026-10-25T22:04:08.553184+00:00",
+  "validFrom": "2026-10-25T22:04:08.553184+00:00",
+  "validUntil": "2026-10-25T22:34:08.553184+00:00",
+  "mustFix": [],
+  "requestRef": "poc005-attempt007-resource-preparation-request.json",
+  "requestBytes": 2600,
+  "requestSha256": "475402d5a2c70c1471d048ed6fb61a41d76ffb7dbe2169215196d8dc7856f185",
+  "source": "8f7c9a5ed3f598d40f6e34bb12151a67b3f5d8e1",
+  "base": "746e23e582501fa08380c3f3301bdc1774902f7c",
+  "tree": "ef65e23a18b01bd73f16a128e0991d55817a5a36",
+  "sourceReview": "poc005-completion-main-sync-8f7c9a5-final-source-independent-review.json",
+  "sourceReviewSha256": "254afe4d7eea29e337d2a6415b1545dcf39816782f1808884488543777b3f00d",
+  "methods": [
+    {
+      "file": "prepare_poc005_attempt007_windows_fixture_once.py",
+      "bytes": 6384,
+      "sha256": "f9d3c40988970239527a276f9e1a1566d8bc0fcdcb1825ce46ae7abfc2ff8ff1"
+    },
+    {
+      "file": "prepare_poc005_attempt007_windows_openlist_once.py",
+      "bytes": 9962,
+      "sha256": "423fcd0f6d4961fa8ec207f5f7e18d1a4b1823d47dc365f677de82bb942277a3"
+    }
+  ],
+  "allowFixtureCreate": true,
+  "allowNewLoopbackServiceStart": true,
+  "preparationApproved": true,
+  "allowedExecution": {
+    "count": 1,
+    "fixtureMethodCount": 1,
+    "openlistMethodCount": 1,
+    "platform": "Windows",
+    "preparationTimeoutSeconds": 600
+  },
+  "storageRoot": "C:\\Users\\13997\\.codex\\local-lab\\poc005-native-windows-v4",
+  "servicePrivateRoot": "C:\\Users\\13997\\.codex\\local-lab\\poc005-windows-openlist-v4",
+  "port": 15531,
+  "archiveSha256": "10d24913f86843e347eefac219c61224628bbd5d3c7443b2ee119c168a8cb3b9",
+  "executableSha256": "234ee38f142858ba12d57dd57d181c9ed4a77f952b8420c053e7ab98e3db3172",
+  "resourcePreparationScopes": [
+    {
+      "resourceId": "RES-METADATA-SCALE",
+      "scope": "Create only the new fixed v4 synthetic tree:10000files/500directories/17920000 payload bytes, reread every payload and mtime, verify complete10500-path inventory."
+    },
+    {
+      "resourceId": "RES-OPENLIST-LOCAL",
+      "scope": "Create only the new private owner-only v4 OpenList4.2.6 instance on127.0.0.1:15531 with the pinned local executable, hidden process, fresh private credentials/DB, disabled guest and permission256 reader over only the new fixture; use only ping/auth/admin configuration checks and leave idle for later review."
+    }
+  ],
+  "observedBeforeDecision": {
+    "actualSourceHeadAndTreeExactlyAccepted8f": true,
+    "actualCodeAndTaskScopedClean": true,
+    "canonicalAcceptedMain746Verified": true,
+    "newFixturePrivateAndPublic007PathsAbsent": true,
+    "newServicePrivateAndPublicStartedPathsAbsent": true,
+    "port15531ActualListenerCount": 0,
+    "pinnedArchiveActualBytes": 50246230,
+    "pinnedArchiveAndExtractedExecutableHashesVerified": true,
+    "reviewedMethodBytesUnchanged": true,
+    "methodContentReviews": [
+      "poc005-next-openlist-preparation-method-independent-review.json",
+      "poc005-next-fixture-preparation-method-independent-review.json"
+    ]
+  },
+  "conditions": [
+    "Before any first side effect, the root wrapper must verify this complete decision, exact request bytes/hash, current time within validFrom/validUntil with at least600seconds remaining, exact method snapshots and accepted sourceReview hash/flags, source/tree and clean code/Task. Preserve these files as the actual preparation authority; no substituted method, namespace, source or old approval.",
+    "Run only the fixture method then the OpenList method, each at most once with --source-review pointing to the exact accepted8f review. Recheck the fixed target absence and port availability at the method call; do not reuse or reset an existing partial target.",
+    "Keep all credentials, bootstrap and server logs in the owner-only private service root; output only public identity/configuration summaries. Make no credential-bearing API/body/process-argv output public.",
+    "Record actual preparer PID/argv/start/end/wait/exit and raw prefixes. A600second timeout or setup failure is a failure, not prepared status. Observe the same handle; preserve all partial files and any started new service identity. No blind restart, deletion or manipulation of existing services/fixtures/DB.",
+    "No source fs/list, Range/raw probe, controlled changes, scanner reservation/run, performance measurement or experiment window may run. New service may remain idle solely for the subsequent full-template review; this decision is not that review or final resource descriptor approval."
+  ],
+  "oldResourcesMustPreserve": [
+    "all older fixtures/raw/DB/refs/worktrees",
+    "existing Windows/OpenListv2/v3 and Linux services",
+    "failed006/862 originals",
+    "all partial/new preparation files after failure"
+  ],
+  "fullTemplateApproved": false,
+  "finalResourceDescriptorsApproved": false,
+  "scannerReservationApproved": false,
+  "executionApproved": false,
+  "finalExecutionApproved": false,
+  "sourceListingOrProbeApproved": false,
+  "readyApproved": false,
+  "mergeApproved": false,
+  "qualificationAccepted": false,
+  "fullV1Completed": false,
+  "reviewerPerformedPreparation": false,
+  "reviewerModifiedAuthor": false
+}

@@ -1,0 +1,53 @@
+{
+  "kind": "candidate_native_windows_100k_filesystem_preparation_only",
+  "source": "c98c93f835ea5c6bfcf19eb1256cd66d75efc4b4",
+  "sourceReviewSha256": "f3c2bfb03dd02ad26e5be53fb0ab379def41011393bf5a6754a40dab3d412663",
+  "startedAt": "2026-10-26T01:20:29.580445Z",
+  "completedAt": "2026-10-26T01:26:44.419732Z",
+  "preparationProcessId": 6516,
+  "filesystemRoot": "C:\\Users\\13997\\.codex\\local-lab\\poc005-native-windows-v6-100k\\fixture",
+  "storageRoot": "C:\\Users\\13997\\.codex\\local-lab\\poc005-native-windows-v6-100k",
+  "inputRoot": "evidence/POC-005/profiles/local-v1/v1/inputs-100k-attempt009",
+  "inputs": {
+    "baseline-probe.bin": "c8f5d0341d54d951a71b136e6e2afcb14d11ed8489a7ae126a8fee0df6ecf193",
+    "baseline.jsonl.gz": "464a5bdcba9fe53fd4581c36cb0df1b7f630024c1fe5e5721bec98fc7b27a8af",
+    "change-profiles.jsonl": "3324eef3cb42ae32e9e21433f2f60d0070d51291659bf7d5a27b422e5754be74",
+    "created-probe.bin": "785b0751fc2c53dc14a4ce3d800e69ef9ce1009eb327ccf458afe09c242c26c9",
+    "expected-changes.jsonl": "c1eb4e21860fdbb307b28905dffcd9f8a4329e05ef2638ade09690076def56fd",
+    "profiled.jsonl.gz": "b259a4d670196f88e7decacde01cd43ac1fd80a955dd9a0a8461fc8a9800f1df",
+    "updated-probe.bin": "22250e12fcdfd3b338e9fcad5848a7225a8d39646f3d071ab9dac6dfd4fe0b8d"
+  },
+  "actualFilesystemCounts": {
+    "file": 100000,
+    "directory": 500
+  },
+  "actualPayloadBytes": 179200000,
+  "plainGeneratorRecipe": {
+    "baselineSha256": "adf4e0e2bb8a69a64e476e178e0caa303154f3f75df2560cec646f4defae5314",
+    "profiledSha256": "f20f2db5cdaa2fc0f4093636603795c3a84f2f312d2aab0d8a05211928693851",
+    "fileCount": 100000,
+    "directoryCount": 500,
+    "maximumDepth": 12,
+    "anchorExcluded": true,
+    "declaredSizesOnly": true,
+    "productionRepresentative": false
+  },
+  "compressedInputBytes": {
+    "baseline.jsonl.gz": 351140,
+    "profiled.jsonl.gz": 1727604
+  },
+  "plainMetadataRoot": "C:\\Users\\13997\\.codex\\local-lab\\poc005-native-windows-v6-100k\\metadata-plain",
+  "payloadMap": {
+    "ref": "C:\\Users\\13997\\.codex\\local-lab\\poc005-native-windows-v6-100k\\payloads.jsonl",
+    "bytes": 33359464,
+    "sha256": "13ffd9f4be0460adbc34d62eac61bfef0ba894f3d94122355226df0fb5973fce"
+  },
+  "allPayloadsReread": true,
+  "allMtimesReread": true,
+  "exactFullPathInventoryRevalidated": true,
+  "olderFixturesPreserved": true,
+  "sourceApiContacted": false,
+  "scannerExperimentExecuted": false,
+  "approved": false,
+  "qualificationAccepted": false
+}

@@ -1,0 +1,75 @@
+{
+  "source": "ed8fbf32783c2600f75de7a69ef56c6f33b4824b",
+  "base": "746e23e582501fa08380c3f3301bdc1774902f7c",
+  "sourceReview": "poc005-compressed-output-ed8fbf3-final-source-independent-review.json",
+  "preparationReviewSha256": "f3efad66e54872daa6c1c9589b25406099b00687c5b1253588f0ac17ead89752",
+  "requestSha256": "2d4945240e943af31e3e0cfd8d2381754d819f9dd5ca65633235c0649295cbc2",
+  "startedAt": "2026-10-27T02:05:47.898051Z",
+  "wrapperPid": 27976,
+  "commands": [
+    {
+      "argv": [
+        "C:\\ProgramData\\anaconda3\\python.exe",
+        "-X",
+        "utf8",
+        "-B",
+        "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\complete_poc005_attempt010_interrupted_fixture_v1_once.py",
+        "--source-review",
+        "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc005-compressed-output-ed8fbf3-final-source-independent-review.json"
+      ],
+      "startedAt": "2026-10-27T02:05:47.998235Z",
+      "methodSha256": "6f2cca70a6781a927d6439e2481507be230dc81c6eb02c729f308fe637c37efe",
+      "pid": 41092,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "completedAt": "2026-10-27T02:15:33.192538Z",
+      "raw": "fixture.raw",
+      "rawBytes": 5120,
+      "rawSha256": "63a686bacd0300d3ccff08167dd7be387656f6426f7978828492b5eab7f947a5"
+    },
+    {
+      "argv": [
+        "C:\\ProgramData\\anaconda3\\python.exe",
+        "-X",
+        "utf8",
+        "-B",
+        "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\prepare_poc005_attempt010_windows_openlist_once.py",
+        "--source-review",
+        "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc005-compressed-output-ed8fbf3-final-source-independent-review.json"
+      ],
+      "startedAt": "2026-10-27T02:15:33.420611Z",
+      "methodSha256": "1c7a6c3c06753b092a0dbead24bfb0d8e00803bdd6dc53144fb0ae76e931c98c",
+      "pid": 41608,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "completedAt": "2026-10-27T02:15:37.210979Z",
+      "raw": "openlist.raw",
+      "rawBytes": 2144,
+      "rawSha256": "fc2e81bed94af67f058d724e01a697ea4d9c7cbc30365326a7931962338950b8"
+    }
+  ],
+  "resourcePreparationAccepted": false,
+  "scannerStarted": false,
+  "listingOrProbeExecuted": false,
+  "experimentApproved": false,
+  "qualificationAccepted": false,
+  "preparationMethodsCompleted": true,
+  "actualFixtureFiles": 1000000,
+  "actualFixtureDirectories": 500,
+  "actualPayloadBytes": 1792000000,
+  "newIdleServiceIdentity": {
+    "cmdlineSha256": "4c4b6221e96f75f22002339b9ce96a5a5aed32d06139beb05ede9e401dbd485b",
+    "creationTime100ns": 134375409362835088,
+    "executable": "C:\\Users\\13997\\.codex\\local-lab\\poc005-windows-openlist-v7-1m\\openlist.exe",
+    "executableSha256": "234ee38f142858ba12d57dd57d181c9ed4a77f952b8420c053e7ab98e3db3172",
+    "nativeCommandLine": "C:\\Users\\13997\\.codex\\local-lab\\poc005-windows-openlist-v7-1m\\openlist.exe server --data C:\\Users\\13997\\.codex\\local-lab\\poc005-windows-openlist-v7-1m\\data",
+    "nativeCommandLineSha256": "bb2f3262e6a59166a7052ec4ed8bea5d9342e2c02beb866c63a0999727dd266a",
+    "nativeProcessId": 35132,
+    "ownerSid": "S-1-5-21-2057438557-2912810365-1850882449-1001"
+  },
+  "originalUntrackedRetained": true,
+  "originalSevenInputsUnchanged": true,
+  "originalInterruptedRunNotRewritten": true,
+  "specificPreparationReviewStillRequired": true,
+  "completedAt": "2026-10-27T02:15:37.646319Z"
+}

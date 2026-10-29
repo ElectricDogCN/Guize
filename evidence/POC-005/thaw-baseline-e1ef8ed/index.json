@@ -1,0 +1,45 @@
+{
+  "base": "e1ef8eda8daa148aaff165712a878c463dfb9fab",
+  "priorSource": "e1c1ca3d576f552c87bcc016885d733a5b1e9313",
+  "mergeSource": "ba8d6ec45982df483cdde6b95e9091f568e54d4e",
+  "baselineFullyAccepted": true,
+  "currentSourceAccepted": false,
+  "experimentApproved": false,
+  "files": [
+    {
+      "ref": "ops014-416-thaw-e1ef8ed-full-main-independent-review.json.zlib.b64",
+      "original": "ops014-416-thaw-e1ef8ed-full-main-independent-review.json",
+      "encoding": "zlib-base64",
+      "bytes": 10224,
+      "sha256": "fd27f5ba99ef514708240efa9ecf3d40c841e8303f79589157dd6c71c95b579e"
+    },
+    {
+      "ref": "ops014-416-thaw-e1ef8ed-ci851-success-job.raw.txt.zlib.b64",
+      "original": "ops014-416-thaw-e1ef8ed-ci851-success-job.raw.txt",
+      "encoding": "zlib-base64",
+      "bytes": 289174,
+      "sha256": "b1c5a0e359057751662c762e0faea00f5afcc7b79518c864e1a04e4a40b05a46"
+    },
+    {
+      "ref": "ops014-416-thaw-e1ef8ed-ci851-success-official-status.json.zlib.b64",
+      "original": "ops014-416-thaw-e1ef8ed-ci851-success-official-status.json",
+      "encoding": "zlib-base64",
+      "bytes": 128329,
+      "sha256": "59c7ce6f30a345bffbd528c1aa564a5ae4ceaf4273d0d011a86b5d5fabcf3aa2"
+    },
+    {
+      "ref": "ops014-416-repair-09d247f-full-main-independent-review.json.zlib.b64",
+      "original": "ops014-416-repair-09d247f-full-main-independent-review.json",
+      "encoding": "zlib-base64",
+      "bytes": 9896,
+      "sha256": "0748a2d19cdeaf1e597c6bb91af40a32ad1279290c47943b09164e62b61b52cf"
+    },
+    {
+      "ref": "poc005-utc-inputs-e1c1ca3-independent-source-review.json.zlib.b64",
+      "original": "poc005-utc-inputs-e1c1ca3-independent-source-review.json",
+      "encoding": "zlib-base64",
+      "bytes": 1163,
+      "sha256": "4e2d127bb76505cda32ca19b5e3c1857fa19fd527296797b567dacf8677ad8fa"
+    }
+  ]
+}

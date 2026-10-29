@@ -1,0 +1,19 @@
+{
+  "reviewer": "/root/gz022_planning_independent_review",
+  "reviewedAt": "2026-10-22T18:56:16Z",
+  "decision": "accepted listing code content after both sensitive-body fixes",
+  "sourceBase": "f8ed3e8d740c1a90e1432df6a6e2ec6617daabf8",
+  "files": {
+    "poc/POC-05-metadata-scale/openlist_listing.py": "77c7ec07bbba4ec5aaeae0e6acb2de18731bb850bdddbc7804b110b4dae7f6c3",
+    "poc/POC-05-metadata-scale/test_openlist_listing.py": "4d1c4a8cecacc9f3a4dc51b7ea7280cff27e4812a0c9444913ffbf88dcff2dd0",
+    "poc/POC-05-metadata-scale/README.md": "f5e3776472e5d29de479ad1d351b379f0320ae99bc305ce9384a2c8a630c6b00",
+    "specs/tasks/POC-005.md": "60b4cf22e2f030b3b9552252aad521031b604744b57aa2a3591f66801a399478"
+  },
+  "independentHTTPTestsPassed": 5,
+  "seconds": 3.001,
+  "mustFix": [],
+  "officialSourcesVerified": true,
+  "experimentApproved": false,
+  "qualifiedAccepted": false,
+  "integrationAccepted": false
+}

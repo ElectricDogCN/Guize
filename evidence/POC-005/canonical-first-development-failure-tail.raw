@@ -1,0 +1,148 @@
+ok
+test_raw_href_controls_are_rejected_before_urlsplit_can_rewrite_identity (test_openlist_source.DavTests.test_raw_href_controls_are_rejected_before_urlsplit_can_rewrite_identity) ... ok
+test_read_only_scope_validation_happens_before_network (test_openlist_source.DavTests.test_read_only_scope_validation_happens_before_network) ... ok
+test_real_http_propfind_preserves_metadata_without_inventing_identity (test_openlist_source.DavTests.test_real_http_propfind_preserves_metadata_without_inventing_identity) ... ok
+test_redirect_is_not_followed_even_to_same_origin (test_openlist_source.DavTests.test_redirect_is_not_followed_even_to_same_origin) ... ok
+
+======================================================================
+ERROR: test_actual_missing_index_metadata_cannot_silently_disappear_from_export (test_canonical_metadata.CanonicalTests.test_actual_missing_index_metadata_cannot_silently_disappear_from_export)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc005-metadata-scale-reservation-worktree\poc\POC-05-metadata-scale\test_canonical_metadata.py", line 190, in test_actual_missing_index_metadata_cannot_silently_disappear_from_export
+    self.complete()
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc005-metadata-scale-reservation-worktree\poc\POC-05-metadata-scale\test_canonical_metadata.py", line 37, in complete
+    self.scanner.apply_next()
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc005-metadata-scale-reservation-worktree\poc\POC-05-metadata-scale\canonical_metadata.py", line 227, in apply_next
+    rows, next_cursor = self.pair.read(cursor)
+                        ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc005-metadata-scale-reservation-worktree\poc\POC-05-metadata-scale\canonical_metadata.py", line 132, in read
+    raise ScanError("FIXTURE_CHANGED_OR_CURSOR_OUTSIDE")
+metadata_scan.ScanError: FIXTURE_CHANGED_OR_CURSOR_OUTSIDE
+
+======================================================================
+ERROR: test_canonical_create_rename_delete_replay_and_complete_post_catalogue (test_canonical_metadata.CanonicalTests.test_canonical_create_rename_delete_replay_and_complete_post_catalogue)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc005-metadata-scale-reservation-worktree\poc\POC-05-metadata-scale\test_canonical_metadata.py", line 127, in test_canonical_create_rename_delete_replay_and_complete_post_catalogue
+    self.complete()
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc005-metadata-scale-reservation-worktree\poc\POC-05-metadata-scale\test_canonical_metadata.py", line 37, in complete
+    self.scanner.apply_next()
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc005-metadata-scale-reservation-worktree\poc\POC-05-metadata-scale\canonical_metadata.py", line 227, in apply_next
+    rows, next_cursor = self.pair.read(cursor)
+                        ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc005-metadata-scale-reservation-worktree\poc\POC-05-metadata-scale\canonical_metadata.py", line 132, in read
+    raise ScanError("FIXTURE_CHANGED_OR_CURSOR_OUTSIDE")
+metadata_scan.ScanError: FIXTURE_CHANGED_OR_CURSOR_OUTSIDE
+
+======================================================================
+ERROR: test_conflicting_event_id_and_metadata_replay_cannot_alias_accepted_event (test_canonical_metadata.CanonicalTests.test_conflicting_event_id_and_metadata_replay_cannot_alias_accepted_event)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc005-metadata-scale-reservation-worktree\poc\POC-05-metadata-scale\test_canonical_metadata.py", line 156, in test_conflicting_event_id_and_metadata_replay_cannot_alias_accepted_event
+    self.complete()
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc005-metadata-scale-reservation-worktree\poc\POC-05-metadata-scale\test_canonical_metadata.py", line 37, in complete
+    self.scanner.apply_next()
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc005-metadata-scale-reservation-worktree\poc\POC-05-metadata-scale\canonical_metadata.py", line 227, in apply_next
+    rows, next_cursor = self.pair.read(cursor)
+                        ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc005-metadata-scale-reservation-worktree\poc\POC-05-metadata-scale\canonical_metadata.py", line 132, in read
+    raise ScanError("FIXTURE_CHANGED_OR_CURSOR_OUTSIDE")
+metadata_scan.ScanError: FIXTURE_CHANGED_OR_CURSOR_OUTSIDE
+
+======================================================================
+ERROR: test_generated_and_observed_streams_match_actual_frozen_schemas (test_canonical_metadata.CanonicalTests.test_generated_and_observed_streams_match_actual_frozen_schemas)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc005-metadata-scale-reservation-worktree\poc\POC-05-metadata-scale\test_canonical_metadata.py", line 67, in test_generated_and_observed_streams_match_actual_frozen_schemas
+    self.complete()
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc005-metadata-scale-reservation-worktree\poc\POC-05-metadata-scale\test_canonical_metadata.py", line 37, in complete
+    self.scanner.apply_next()
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc005-metadata-scale-reservation-worktree\poc\POC-05-metadata-scale\canonical_metadata.py", line 227, in apply_next
+    rows, next_cursor = self.pair.read(cursor)
+                        ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc005-metadata-scale-reservation-worktree\poc\POC-05-metadata-scale\canonical_metadata.py", line 132, in read
+    raise ScanError("FIXTURE_CHANGED_OR_CURSOR_OUTSIDE")
+metadata_scan.ScanError: FIXTURE_CHANGED_OR_CURSOR_OUTSIDE
+
+======================================================================
+ERROR: test_profile_insertion_failure_rolls_back_core_page_cursor_and_metadata (test_canonical_metadata.CanonicalTests.test_profile_insertion_failure_rolls_back_core_page_cursor_and_metadata)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc005-metadata-scale-reservation-worktree\poc\POC-05-metadata-scale\test_canonical_metadata.py", line 107, in test_profile_insertion_failure_rolls_back_core_page_cursor_and_metadata
+    self.scanner.apply_next()
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc005-metadata-scale-reservation-worktree\poc\POC-05-metadata-scale\canonical_metadata.py", line 227, in apply_next
+    rows, next_cursor = self.pair.read(cursor)
+                        ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc005-metadata-scale-reservation-worktree\poc\POC-05-metadata-scale\canonical_metadata.py", line 132, in read
+    raise ScanError("FIXTURE_CHANGED_OR_CURSOR_OUTSIDE")
+metadata_scan.ScanError: FIXTURE_CHANGED_OR_CURSOR_OUTSIDE
+
+======================================================================
+ERROR: test_reopen_resumes_both_stream_offsets_and_binds_companion_digest (test_canonical_metadata.CanonicalTests.test_reopen_resumes_both_stream_offsets_and_binds_companion_digest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc005-metadata-scale-reservation-worktree\poc\POC-05-metadata-scale\test_canonical_metadata.py", line 88, in test_reopen_resumes_both_stream_offsets_and_binds_companion_digest
+    self.scanner.apply_next()
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc005-metadata-scale-reservation-worktree\poc\POC-05-metadata-scale\canonical_metadata.py", line 227, in apply_next
+    rows, next_cursor = self.pair.read(cursor)
+                        ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc005-metadata-scale-reservation-worktree\poc\POC-05-metadata-scale\canonical_metadata.py", line 132, in read
+    raise ScanError("FIXTURE_CHANGED_OR_CURSOR_OUTSIDE")
+metadata_scan.ScanError: FIXTURE_CHANGED_OR_CURSOR_OUTSIDE
+
+======================================================================
+ERROR: test_sqlite_implicit_rollback_preserves_failure_and_can_restart (test_canonical_metadata.CanonicalTests.test_sqlite_implicit_rollback_preserves_failure_and_can_restart)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc005-metadata-scale-reservation-worktree\poc\POC-05-metadata-scale\test_canonical_metadata.py", line 120, in test_sqlite_implicit_rollback_preserves_failure_and_can_restart
+    self.scanner.apply_next()
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc005-metadata-scale-reservation-worktree\poc\POC-05-metadata-scale\canonical_metadata.py", line 227, in apply_next
+    rows, next_cursor = self.pair.read(cursor)
+                        ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc005-metadata-scale-reservation-worktree\poc\POC-05-metadata-scale\canonical_metadata.py", line 132, in read
+    raise ScanError("FIXTURE_CHANGED_OR_CURSOR_OUTSIDE")
+metadata_scan.ScanError: FIXTURE_CHANGED_OR_CURSOR_OUTSIDE
+
+======================================================================
+ERROR: test_wrong_before_version_late_in_batch_rolls_back_every_record_and_ledger (test_canonical_metadata.CanonicalTests.test_wrong_before_version_late_in_batch_rolls_back_every_record_and_ledger)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc005-metadata-scale-reservation-worktree\poc\POC-05-metadata-scale\test_canonical_metadata.py", line 145, in test_wrong_before_version_late_in_batch_rolls_back_every_record_and_ledger
+    self.complete()
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc005-metadata-scale-reservation-worktree\poc\POC-05-metadata-scale\test_canonical_metadata.py", line 37, in complete
+    self.scanner.apply_next()
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc005-metadata-scale-reservation-worktree\poc\POC-05-metadata-scale\canonical_metadata.py", line 227, in apply_next
+    rows, next_cursor = self.pair.read(cursor)
+                        ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc005-metadata-scale-reservation-worktree\poc\POC-05-metadata-scale\canonical_metadata.py", line 132, in read
+    raise ScanError("FIXTURE_CHANGED_OR_CURSOR_OUTSIDE")
+metadata_scan.ScanError: FIXTURE_CHANGED_OR_CURSOR_OUTSIDE
+
+======================================================================
+FAIL: test_pair_content_types_lengths_and_duplicate_json_fields_fail_closed (test_canonical_metadata.CanonicalTests.test_pair_content_types_lengths_and_duplicate_json_fields_fail_closed)
+----------------------------------------------------------------------
+metadata_scan.ScanError: FIXTURE_CHANGED_OR_CURSOR_OUTSIDE
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc005-metadata-scale-reservation-worktree\poc\POC-05-metadata-scale\test_canonical_metadata.py", line 171, in test_pair_content_types_lengths_and_duplicate_json_fields_fail_closed
+    with self.assertRaisesRegex(ScanError,"CANONICAL_STREAM_CONTENT_MISMATCH"):
+AssertionError: "CANONICAL_STREAM_CONTENT_MISMATCH" does not match "FIXTURE_CHANGED_OR_CURSOR_OUTSIDE"
+
+======================================================================
+FAIL: test_relative_path_depth_timestamps_reserved_anchor_and_cursor_constraints (test_canonical_metadata.CanonicalTests.test_relative_path_depth_timestamps_reserved_anchor_and_cursor_constraints)
+----------------------------------------------------------------------
+metadata_scan.ScanError: FIXTURE_CHANGED_OR_CURSOR_OUTSIDE
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc005-metadata-scale-reservation-worktree\poc\POC-05-metadata-scale\test_canonical_metadata.py", line 203, in test_relative_path_depth_timestamps_reserved_anchor_and_cursor_constraints
+    with self.assertRaisesRegex(ScanError,"CURSOR_NOT_LINE_BOUNDARY"):
+AssertionError: "CURSOR_NOT_LINE_BOUNDARY" does not match "FIXTURE_CHANGED_OR_CURSOR_OUTSIDE"
+
+----------------------------------------------------------------------
+Ran 42 tests in 11.187s
+
+FAILED (failures=2, errors=8)

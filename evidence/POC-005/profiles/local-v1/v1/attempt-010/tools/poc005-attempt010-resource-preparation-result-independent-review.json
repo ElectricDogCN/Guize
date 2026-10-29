@@ -1,0 +1,262 @@
+{
+  "schemaVersion": 1,
+  "kind": "POC005_ATTEMPT010_ACTUAL_RESOURCE_PREPARATION_RESULT_INDEPENDENT_REVIEW",
+  "actor": "/root/gz022_planning_independent_review",
+  "reviewer": "independent-review-agent",
+  "reviewedAt": "2026-10-27T02:25:09.014173Z",
+  "source": "ed8fbf32783c2600f75de7a69ef56c6f33b4824b",
+  "base": "746e23e582501fa08380c3f3301bdc1774902f7c",
+  "tree": "a74434e6a062f03207244b0a3a8cbd037a0dfe47",
+  "mustFix": [],
+  "resourcePreparationAccepted": true,
+  "unapprovedFullTemplatePreparationMayProceed": true,
+  "acceptanceScope": "Actual completion of this exact interrupted1m resource preparation and one new idle local OpenList only. No full template, sample, scanner or experiment execution approval.",
+  "continuationDecision": {
+    "ref": "poc005-attempt010-continuation-v1-independent-review.json",
+    "bytes": 8562,
+    "sha256": "f3efad66e54872daa6c1c9589b25406099b00687c5b1253588f0ac17ead89752"
+  },
+  "continuationRequest": {
+    "ref": "poc005-attempt010-continuation-v1-request.json",
+    "bytes": 4584,
+    "sha256": "2d4945240e943af31e3e0cfd8d2381754d819f9dd5ca65633235c0649295cbc2"
+  },
+  "actualRun": {
+    "ref": "poc005-attempt010-resource-completion-v1-run/results.json",
+    "bytes": 3571,
+    "sha256": "9f64619b875fdefcd30b5d145db13723e327202707cea6570e88d96604a28c85"
+  },
+  "fixturePreparation": {
+    "ref": "poc005-attempt010-windows-native-fixture-preparation.json",
+    "bytes": 3213,
+    "sha256": "14a23d0de9b5bea5fa565b0934649bd13d0758fb0093e15d942da4603926cda3"
+  },
+  "openlistPreparation": {
+    "ref": "poc005-attempt010-windows-openlist-preparation.json",
+    "bytes": 2065,
+    "sha256": "ffe0e3b07812ef02f0e899461711ef1003581f0cec9814c0164e7ae04f060357"
+  },
+  "actualExecution": {
+    "parentOriginalSessionReportedTerminal": 81676,
+    "wrapperPid": 27976,
+    "startedAt": "2026-10-27T02:05:47.898051Z",
+    "completedAt": "2026-10-27T02:15:37.646319Z",
+    "elapsedSeconds": 589.748268,
+    "insideFreshContinuationWindow": true,
+    "withinShared7200Seconds": true,
+    "commands": [
+      {
+        "argv": [
+          "C:\\ProgramData\\anaconda3\\python.exe",
+          "-X",
+          "utf8",
+          "-B",
+          "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\complete_poc005_attempt010_interrupted_fixture_v1_once.py",
+          "--source-review",
+          "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc005-compressed-output-ed8fbf3-final-source-independent-review.json"
+        ],
+        "startedAt": "2026-10-27T02:05:47.998235Z",
+        "methodSha256": "6f2cca70a6781a927d6439e2481507be230dc81c6eb02c729f308fe637c37efe",
+        "pid": 41092,
+        "exitCode": 0,
+        "waitCompleted": true,
+        "completedAt": "2026-10-27T02:15:33.192538Z",
+        "raw": "fixture.raw",
+        "rawBytes": 5120,
+        "rawSha256": "63a686bacd0300d3ccff08167dd7be387656f6426f7978828492b5eab7f947a5",
+        "verifiedRawPin": {
+          "ref": "poc005-attempt010-resource-completion-v1-run/fixture.raw",
+          "bytes": 5120,
+          "sha256": "63a686bacd0300d3ccff08167dd7be387656f6426f7978828492b5eab7f947a5"
+        }
+      },
+      {
+        "argv": [
+          "C:\\ProgramData\\anaconda3\\python.exe",
+          "-X",
+          "utf8",
+          "-B",
+          "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\prepare_poc005_attempt010_windows_openlist_once.py",
+          "--source-review",
+          "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc005-compressed-output-ed8fbf3-final-source-independent-review.json"
+        ],
+        "startedAt": "2026-10-27T02:15:33.420611Z",
+        "methodSha256": "1c7a6c3c06753b092a0dbead24bfb0d8e00803bdd6dc53144fb0ae76e931c98c",
+        "pid": 41608,
+        "exitCode": 0,
+        "waitCompleted": true,
+        "completedAt": "2026-10-27T02:15:37.210979Z",
+        "raw": "openlist.raw",
+        "rawBytes": 2144,
+        "rawSha256": "fc2e81bed94af67f058d724e01a697ea4d9c7cbc30365326a7931962338950b8",
+        "verifiedRawPin": {
+          "ref": "poc005-attempt010-resource-completion-v1-run/openlist.raw",
+          "bytes": 2144,
+          "sha256": "fc2e81bed94af67f058d724e01a697ea4d9c7cbc30365326a7931962338950b8"
+        }
+      }
+    ],
+    "bothActualExitZeroAndWaitCompleted": true,
+    "methodHashesMatchIssuedDecision": true
+  },
+  "actualFixture": {
+    "storageRoot": "C:\\Users\\13997\\.codex\\local-lab\\poc005-native-windows-v7-1m",
+    "filesystemRoot": "C:\\Users\\13997\\.codex\\local-lab\\poc005-native-windows-v7-1m\\fixture",
+    "fileCount": 1000000,
+    "directoryCount": 500,
+    "pathCount": 1000500,
+    "payloadBytes": 1792000000,
+    "existingFilesRereadBeforeAnyMissingFileCreation": 667845,
+    "exclusiveMissingFilesCreatedAndReread": 332155,
+    "parallelFileOperations": 4,
+    "queuedFileRows": 32,
+    "allPayloadsAndMtimesRereadByActualBoundMethod": true,
+    "existingFileContentsAndMtimesNotRewritten": true,
+    "directoryMtimesBefore": {
+      "ref": "C:\\Users\\13997\\.codex\\local-lab\\poc005-native-windows-v7-1m\\continuation-v1-directory-mtimes-before.json",
+      "bytes": 128955,
+      "sha256": "b4a1f21aa39df26531329b2b35dd3c54a15c2f38ff92a834b45a183e284fe7df"
+    },
+    "all500CanonicalDirectoryMtimesCompletedAndIndependentlyRead": true,
+    "payloadMap": {
+      "ref": "C:\\Users\\13997\\.codex\\local-lab\\poc005-native-windows-v7-1m\\payloads-continuation-v1.jsonl.gz",
+      "bytes": 12546539,
+      "sha256": "2e7b7bca834f6bf947a2d063bcfd439dcf40006849bc5bfdb72c32baf3b5eba9"
+    },
+    "inputRoot": "evidence/POC-005/profiles/local-v1/v1/inputs-1m-attempt010",
+    "sevenInputHashes": {
+      "baseline.jsonl.gz": "ad0e9fc6739de60a4b773437a7a1e7be11ca6f7b8c9cc80388ac6613dd30d388",
+      "profiled.jsonl.gz": "c3dcb34521809b954b0f7862707658ce6d4f60c2c13769db47e75b832c638cd8",
+      "expected-changes.jsonl": "c1eb4e21860fdbb307b28905dffcd9f8a4329e05ef2638ade09690076def56fd",
+      "change-profiles.jsonl": "3324eef3cb42ae32e9e21433f2f60d0070d51291659bf7d5a27b422e5754be74",
+      "updated-probe.bin": "22250e12fcdfd3b338e9fcad5848a7225a8d39646f3d071ab9dac6dfd4fe0b8d",
+      "created-probe.bin": "785b0751fc2c53dc14a4ce3d800e69ef9ce1009eb327ccf458afe09c242c26c9",
+      "baseline-probe.bin": "c8f5d0341d54d951a71b136e6e2afcb14d11ed8489a7ae126a8fee0df6ecf193"
+    }
+  },
+  "independentReadOnlyChecks": {
+    "all1000000NewJournalRowsMatchPinnedCanonicalProfileObjectIdPathSizeMtimeExpectedPayloadHash": true,
+    "journalOriginCounts": {
+      "retained-interrupted-file": 667845,
+      "new-missing-file": 332155
+    },
+    "all1000500ActualFilesystemNamesExactlyEqualCanonicalProfilePaths": true,
+    "independentPayloadSampleCount": 14,
+    "samplePayloadBytesMtimesAndSingleLinksMatched": true,
+    "reviewerRereadAllMillionPayloadFiles": false,
+    "completeAllPayloadRereadEvidenceIsActualReviewedMethodExitZeroAndJournal": true,
+    "directoryBeforeSnapshot500RowsRetainedAndHashed": true,
+    "newAndOldJournalAndBeforeSnapshotActualHashesMatched": true,
+    "allSevenPhysicalInputHashesIndependentlyMatched": true
+  },
+  "compressedInputs": [
+    {
+      "file": "baseline.jsonl.gz",
+      "physicalBytes": 3493791,
+      "physicalSha256": "ad0e9fc6739de60a4b773437a7a1e7be11ca6f7b8c9cc80388ac6613dd30d388",
+      "decodedBytes": 88838725,
+      "decodedRows": 1000500,
+      "maximumLineBytes": 92,
+      "decodedSha256": "87a719141d2bad80ab40758c960e02bad4d4f851ef24ed5c4570601790fbbb37",
+      "strictSingleMemberCrcEofNoTrailing": true,
+      "retainedPlainBytesAndHashExactlyEqual": true
+    },
+    {
+      "file": "profiled.jsonl.gz",
+      "physicalBytes": 17226010,
+      "physicalSha256": "c3dcb34521809b954b0f7862707658ce6d4f60c2c13769db47e75b832c638cd8",
+      "decodedBytes": 364552802,
+      "decodedRows": 1000500,
+      "maximumLineBytes": 722,
+      "decodedSha256": "27be938a18745943406cee8215c2cd5fb047c93da9f6fac15df5b8024dc80bcb",
+      "strictSingleMemberCrcEofNoTrailing": true,
+      "retainedPlainBytesAndHashExactlyEqual": true
+    }
+  ],
+  "actualService": {
+    "identity": {
+      "cmdlineSha256": "4c4b6221e96f75f22002339b9ce96a5a5aed32d06139beb05ede9e401dbd485b",
+      "creationTime100ns": 134375409362835088,
+      "executable": "C:\\Users\\13997\\.codex\\local-lab\\poc005-windows-openlist-v7-1m\\openlist.exe",
+      "executableSha256": "234ee38f142858ba12d57dd57d181c9ed4a77f952b8420c053e7ab98e3db3172",
+      "nativeCommandLine": "C:\\Users\\13997\\.codex\\local-lab\\poc005-windows-openlist-v7-1m\\openlist.exe server --data C:\\Users\\13997\\.codex\\local-lab\\poc005-windows-openlist-v7-1m\\data",
+      "nativeCommandLineSha256": "bb2f3262e6a59166a7052ec4ed8bea5d9342e2c02beb866c63a0999727dd266a",
+      "nativeProcessId": 35132,
+      "ownerSid": "S-1-5-21-2057438557-2912810365-1850882449-1001"
+    },
+    "independentlyReadLiveIdentityExactlyMatched": true,
+    "soleListener": {
+      "address": "127.0.0.1",
+      "port": 15534,
+      "pid": 35132
+    },
+    "privateDataRoot": "C:\\Users\\13997\\.codex\\local-lab\\poc005-windows-openlist-v7-1m",
+    "credentialAndReaderOwnerOnlyAclActuallyCheckedWithoutPrintingSecrets": true,
+    "mountId": "openlist-v426-local-v7-1m-id1",
+    "mountPath": "/poc005-windows-v7-1m",
+    "localStorageRootMatchesFixtureResource": true,
+    "singleLocalStorage": true,
+    "guestDisabled": true,
+    "readerRole": 0,
+    "readOnlyPermission": 256,
+    "readerBasePath": "/poc005-windows-v7-1m",
+    "gatewayMustEnforceFixtureScope": true,
+    "signAll": false,
+    "mountEnableSign": false,
+    "cacheExpiration": 0,
+    "thumbnail": false,
+    "showHidden": true,
+    "readonlyDatabaseMetaCount": 0,
+    "readonlyDatabaseSearchNodeCount": 0,
+    "extraS3FtpSftpMcpProtocolsDisabled": true,
+    "noReviewerFsListRangeProbeOrAuthRequest": true
+  },
+  "sourceAndPreservation": {
+    "sourceEd8AndCloneTrackedClean": true,
+    "cloneOnlyExactOriginalSevenInputPathsUntracked": true,
+    "taskRoleImplementerReviewerIdentityLeaseAndClaimsUnchanged": true,
+    "originalLeaseExpiresAt": "2026-10-29T16:08:44Z",
+    "freshOfficialMain": "746e23e582501fa08380c3f3301bdc1774902f7c",
+    "freshOfficialPr136OpenDraftHead": "ed8fbf32783c2600f75de7a69ef56c6f33b4824b",
+    "freshOfficialPr136Base": "746e23e582501fa08380c3f3301bdc1774902f7c",
+    "freshOfficialIssue132Open": true,
+    "originalPayloadJournal": {
+      "ref": "C:\\Users\\13997\\.codex\\local-lab\\poc005-native-windows-v7-1m\\payloads.jsonl",
+      "bytes": 223414723,
+      "sha256": "62cd9f78d0d1b1da1be52dabfec833adc990645b7518ee87575cc3d3dfb2d558"
+    },
+    "originalInterruptedRun": {
+      "ref": "poc005-attempt010-resource-preparation-run/results.json",
+      "bytes": 1304,
+      "sha256": "a82195529a59b77f741e22cf626df0450d1ac9bd3034c2105b5d4507488e2146"
+    },
+    "originalRunStillLacksTerminalReceipt": true,
+    "originalExitCodeStillUnknown": true,
+    "originalExpiredApprovalNotExtendedOrReplayed": true,
+    "oldAuthor4171UntrackedPreserved": true,
+    "oldAuthorUntrackedNulSha256": "e4504da8e10c05402d7c10d2c6f2a95247bde7730600d7c30f6b210ff39cf53a",
+    "olderResourcesRawDbAndQualifiedExecutionHistoryUnchanged": true
+  },
+  "remainingBoundaries": [
+    "This accepts resource preparation facts only. Actual1m scanner/source measurements and qualifications have not occurred.",
+    "Only preparation of an UNAPPROVED concrete full template may follow. Its exact method hashes, actual inputs/resources, prospective profile/sample, real PID and future execution window require separate independent review.",
+    "Current900MiB proposed artifact budget and64MiB transport cap are not proof that a future1m run fits. Frozen1GiB/20k and every existing protocol limit remain unchanged.",
+    "The original interrupted attempt remains without a known terminal exit; only the newly approved continuation has real successful waits.",
+    "Source ed8 does not inherit old8f/008 orc98/009 execution qualification. No Ready, merge, Task completion, terminal profile index or fullV1 acceptance."
+  ],
+  "fullTemplateApproved": false,
+  "sampleApproved": false,
+  "pidReservationApproved": false,
+  "executionWindowApproved": false,
+  "finalExecutionApproved": false,
+  "scannerStarted": false,
+  "experimentApproved": false,
+  "qualificationAccepted": false,
+  "scale1mAccepted": false,
+  "profileTerminalIndexAccepted": false,
+  "readyApproved": false,
+  "mergeApproved": false,
+  "taskCompleted": false,
+  "fullV1Completed": false,
+  "reviewerRanPreparationOrModifiedAuthor": false
+}

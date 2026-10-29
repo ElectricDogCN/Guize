@@ -1,0 +1,397 @@
+{
+  "kind": "independent_poc005_attempt006_full_template_decision",
+  "decision": "approved_full_template_only",
+  "taskId": "POC-005",
+  "pocId": "POC-05",
+  "actor": "/root/gz022_planning_independent_review",
+  "role": "independent-review-agent",
+  "reviewer": "independent-review-agent",
+  "approvedAt": "2026-10-25T11:23:20.424338Z",
+  "validFrom": "2026-10-25T11:23:20.424338Z",
+  "validUntil": "2026-10-25T12:30:00Z",
+  "source": "78a54f4653671ed6ed73190a8b44142067bc8f61",
+  "tree": "0f9ec786e7d0d551e544d0918e4aaa769ac0d298",
+  "base": "e1ef8eda8daa148aaff165712a878c463dfb9fab",
+  "currentAcceptedMain": "c0d550555dd51a29fd1c5ff1bc5e4713073c0b53",
+  "candidateRef": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc005-attempt006-full-ready-candidate.json",
+  "candidateBytes": 23985,
+  "candidateSha256": "sha256:b1022910a21888987fcc663a3c43f0ab8149efbbeafd4f74ef081e8bb8b92b84",
+  "fullPreparationAccepted": true,
+  "mustFix": [],
+  "profileConfiguration": {
+    "schemaVersion": 2,
+    "pocId": "POC-05",
+    "taskId": "POC-005",
+    "acceptanceProfile": {
+      "bindingRevision": 1,
+      "id": "local-v1",
+      "scope": "LOCAL_FULL_V1",
+      "version": 1
+    },
+    "resourceIds": [
+      "RES-METADATA-SCALE",
+      "RES-OPENLIST-LOCAL"
+    ],
+    "measurementIds": [
+      "average_file_size",
+      "directory_count",
+      "directory_depth_max",
+      "enumeration_rate",
+      "etag_behavior_profiled",
+      "file_count",
+      "filename_characteristics_profiled",
+      "incremental_scan_cost",
+      "memory_peak",
+      "provider_characteristics_profiled",
+      "range_support_profiled",
+      "source_api_quota",
+      "source_change_frequency"
+    ],
+    "testedSource": {
+      "commit": "78a54f4653671ed6ed73190a8b44142067bc8f61",
+      "tree": "0f9ec786e7d0d551e544d0918e4aaa769ac0d298"
+    },
+    "numericDomainReviewRefs": {},
+    "capturedSettings": {
+      "synthetic_hierarchy_manifest": {
+        "schemaVersion": 1,
+        "scope": "LOCAL_FULL_V1",
+        "generator": {
+          "algorithm": "deterministic-tree-v1",
+          "seed": 20261015,
+          "rootPath": "fixture",
+          "fileCount": 10000,
+          "directoryCount": 500,
+          "maximumDepth": 12
+        }
+      }
+    },
+    "decision": "approved",
+    "approvedBy": "independent-review-agent",
+    "approvedAt": "2026-10-25T11:23:20.424338Z"
+  },
+  "profileConfigurationRef": "evidence/POC-005/profiles/local-v1/v1/attempt-006/profile-configuration.json",
+  "sampleApproval": {
+    "schemaVersion": 1,
+    "pocId": "POC-05",
+    "taskId": "POC-005",
+    "sampleId": "SAMPLE-METADATA-SYNTHETIC",
+    "immutableId": "guize-poc005-canonical-10k-20261015-v1",
+    "checksum": "sha256:5dc45ba589f8816b0f232e7a37ac54f6f5e6bc5050415ed98cf19671e0afa3f1",
+    "decision": "approved",
+    "approver": "independent-review-agent",
+    "approvedAt": "2026-10-25T11:23:20.424338Z"
+  },
+  "assemblyMethod": {
+    "ref": "evidence/POC-005/profiles/local-v1/v1/attempt-006/tools/poc005_full_execution_assembler.py",
+    "byteCount": 18460,
+    "sha256": "sha256:a77aa71cda3d6d00c6cdc499099af922a6c4fec0e87eff319bf1336dac46b576"
+  },
+  "qualificationMethods": {
+    "assembler": {
+      "sourceFile": "poc005_full_execution_assembler.py",
+      "ref": "evidence/POC-005/profiles/local-v1/v1/attempt-006/tools/poc005_full_execution_assembler.py",
+      "byteCount": 18460,
+      "sha256": "sha256:a77aa71cda3d6d00c6cdc499099af922a6c4fec0e87eff319bf1336dac46b576"
+    },
+    "preflight": {
+      "sourceFile": "capture_poc005_attempt006_full_preflight.py",
+      "ref": "evidence/POC-005/profiles/local-v1/v1/attempt-006/tools/capture_poc005_attempt006_full_preflight.py",
+      "byteCount": 7879,
+      "sha256": "sha256:95627d2575d4c4da4f78b2f9cb954f3596c9f38c0ee6b3f0c2add33eddf0157f"
+    }
+  },
+  "adjacentPublicPreparationRecords": [
+    {
+      "sourceFile": "poc005-attempt006-windows-native-fixture-preparation.json",
+      "ref": "evidence/POC-005/profiles/local-v1/v1/attempt-006/tools/poc005-attempt006-windows-native-fixture-preparation.json",
+      "byteCount": 1790,
+      "sha256": "sha256:18c6b77c7f91b770ef9bb14fc14002350a997a6111cb0dd903b666693a58d449"
+    },
+    {
+      "sourceFile": "poc005-attempt006-windows-openlist-preparation.json",
+      "ref": "evidence/POC-005/profiles/local-v1/v1/attempt-006/tools/poc005-attempt006-windows-openlist-preparation.json",
+      "byteCount": 1986,
+      "sha256": "sha256:91fb634fc7fce87ca6de65f196035bca259229d3ae810acaa9d8360f95618243"
+    }
+  ],
+  "supervisorMethod": {
+    "sourceFile": "run_poc005_windows_attempt006_supervised_once.py",
+    "ref": "run_poc005_windows_attempt006_supervised_once.py",
+    "byteCount": 4492,
+    "sha256": "sha256:f6508e0c03e74357047d71db2db2c896a19c6f58c8f29f436b79152856518e83"
+  },
+  "materializer": {
+    "sourceFile": "materialize_poc005_attempt006_full_template.py",
+    "sha256": "sha256:3703cee28eb92b6d9d748019002ae85914b33530c9d8977cb9b550c0e1344533"
+  },
+  "fullPreflightInvocation": [
+    "C:\\ProgramData\\anaconda3\\python.exe",
+    "-X",
+    "utf8",
+    "-B",
+    "{ROOT}/evidence/POC-005/profiles/local-v1/v1/attempt-006/tools/capture_poc005_attempt006_full_preflight.py",
+    "--root",
+    "{ROOT}"
+  ],
+  "fullAssemblyInvocation": [
+    "C:\\ProgramData\\anaconda3\\python.exe",
+    "-X",
+    "utf8",
+    "-B",
+    "{ROOT}/evidence/POC-005/profiles/local-v1/v1/attempt-006/tools/poc005_full_execution_assembler.py",
+    "--root",
+    "{ROOT}",
+    "--attempt",
+    "attempt-006",
+    "--method-ref",
+    "evidence/POC-005/profiles/local-v1/v1/attempt-006/tools/poc005_full_execution_assembler.py"
+  ],
+  "syntheticHierarchySandbox": {
+    "schemaVersion": 1,
+    "scope": "LOCAL_FULL_V1",
+    "resourceId": "RES-METADATA-SCALE",
+    "sandboxId": "poc005-native-windows-v3",
+    "mountId": "openlist-v426-local-v3-id1",
+    "physicalHostId": "windows-hardware-sha256:bec45caf58d1ec4808ed969814e2dcd139d4cefbf751e451814d33a5446fa18e",
+    "controlled": true,
+    "disposable": true,
+    "rootPath": "fixture"
+  },
+  "resourceApprovals": [
+    {
+      "resourceId": "RES-METADATA-SCALE",
+      "decision": "approved_template",
+      "configuration": {
+        "metadataProfilingPolicy": {
+          "baselinePayload": {
+            "ref": "evidence/POC-005/profiles/local-v1/v1/inputs/baseline-probe.bin",
+            "sha256": "sha256:c8f5d0341d54d951a71b136e6e2afcb14d11ed8489a7ae126a8fee0df6ecf193"
+          },
+          "baselineVersion": "v1",
+          "extensionCategories": [
+            "mp4",
+            "mkv",
+            "mov",
+            "txt",
+            "jpg"
+          ],
+          "filenameInput": {
+            "count": 10500,
+            "ref": "evidence/POC-005/profiles/local-v1/v1/inputs/profiled.jsonl",
+            "sha256": "sha256:2fd43a93e15b2854c02f20d78d08986c690726ac3c100513bb9e8560c5846784"
+          },
+          "minimumListingRuns": 2,
+          "probeObjectId": "f-000000003",
+          "rangeDisposition": "supported",
+          "updatedPayload": {
+            "ref": "evidence/POC-005/profiles/local-v1/v1/inputs/updated-probe.bin",
+            "sha256": "sha256:22250e12fcdfd3b338e9fcad5848a7225a8d39646f3d071ab9dac6dfd4fe0b8d"
+          },
+          "updatedVersion": "v2",
+          "validatorKind": "etag"
+        },
+        "metadataResourcePolicy": {},
+        "metadataScanPolicy": {
+          "baseline": {
+            "count": 10500,
+            "ref": "evidence/POC-005/profiles/local-v1/v1/inputs/baseline.jsonl",
+            "sha256": "sha256:5dc45ba589f8816b0f232e7a37ac54f6f5e6bc5050415ed98cf19671e0afa3f1"
+          },
+          "baselineInputSampleId": "SAMPLE-METADATA-SYNTHETIC",
+          "expectedChanges": {
+            "count": 3,
+            "ref": "evidence/POC-005/profiles/local-v1/v1/inputs/expected-changes.jsonl",
+            "sha256": "sha256:c1eb4e21860fdbb307b28905dffcd9f8a4329e05ef2638ade09690076def56fd"
+          },
+          "hierarchyGenerator": {
+            "algorithm": "deterministic-tree-v1",
+            "directoryCount": 500,
+            "fileCount": 10000,
+            "maximumDepth": 12,
+            "rootPath": "fixture",
+            "seed": 20261015
+          }
+        },
+        "syntheticHierarchySandbox": {
+          "schemaVersion": 1,
+          "scope": "LOCAL_FULL_V1",
+          "resourceId": "RES-METADATA-SCALE",
+          "sandboxId": "poc005-native-windows-v3",
+          "mountId": "openlist-v426-local-v3-id1",
+          "physicalHostId": "windows-hardware-sha256:bec45caf58d1ec4808ed969814e2dcd139d4cefbf751e451814d33a5446fa18e",
+          "controlled": true,
+          "disposable": true,
+          "rootPath": "fixture"
+        }
+      },
+      "actualPidBindingsPending": true
+    },
+    {
+      "resourceId": "RES-OPENLIST-LOCAL",
+      "decision": "approved_template",
+      "configuration": {
+        "identity": {
+          "adapterBuild": "sha256:e6187f00cb4396d6453294b5e58724ad1b8eb1253917e5617b3188c6209fe626",
+          "adapterId": "guize-controlled-openlist-windows-v1",
+          "sourceId": "poc005-openlist-windows-controlled-v1",
+          "sourceVersion": "OpenList-v4.2.6-Windows-Local-isolated-v3-unsigned-no-password-meta"
+        },
+        "upstreamIdentity": {
+          "cmdlineSha256": "72e8becaee5f9ad3d9100d37402b32acc80f87de7d10daa42d305f9c10ad5769",
+          "creationTime100ns": 134373994857163651,
+          "executable": "C:\\Users\\13997\\.codex\\local-lab\\poc005-windows-openlist-v3\\openlist.exe",
+          "executableSha256": "234ee38f142858ba12d57dd57d181c9ed4a77f952b8420c053e7ab98e3db3172",
+          "nativeCommandLine": "C:\\Users\\13997\\.codex\\local-lab\\poc005-windows-openlist-v3\\openlist.exe server --data C:\\Users\\13997\\.codex\\local-lab\\poc005-windows-openlist-v3\\data",
+          "nativeCommandLineSha256": "830910060b66ab8cc5fb166340b4d6fcd929de7f76da55a7e01bef0b2387ac18",
+          "nativeProcessId": 128984,
+          "ownerSid": "S-1-5-21-2057438557-2912810365-1850882449-1001"
+        },
+        "origin": "http://127.0.0.1:15530",
+        "scope": "fixture",
+        "gatewayPort": 15630,
+        "readerUsername": "guize-poc005-windows-read-v3",
+        "localRoot": "C:\\Users\\13997\\.codex\\local-lab\\poc005-native-windows-v3\\fixture",
+        "quotaRef": "evidence/POC-005/profiles/local-v1/v1/attempt-006/windows-adapter-quota.json",
+        "quotaSha256": "sha256:36ed2867d2378d0b8065528a39f62ee26e765938804e3ad4da0536e4c2f63fb4",
+        "requestLimit": 6000,
+        "periodSeconds": 60,
+        "timeout": 5,
+        "signAll": false,
+        "mountEnableSign": false,
+        "passwordMetadataCount": 0,
+        "guestDisabled": true,
+        "thumbnail": false,
+        "readOnlyPermission": 256
+      }
+    }
+  ],
+  "sampleScope": {
+    "sampleId": "SAMPLE-METADATA-SYNTHETIC",
+    "immutableId": "guize-poc005-canonical-10k-20261015-v1",
+    "checksum": "sha256:5dc45ba589f8816b0f232e7a37ac54f6f5e6bc5050415ed98cf19671e0afa3f1",
+    "sevenInputs": {
+      "baseline.jsonl": "5dc45ba589f8816b0f232e7a37ac54f6f5e6bc5050415ed98cf19671e0afa3f1",
+      "profiled.jsonl": "2fd43a93e15b2854c02f20d78d08986c690726ac3c100513bb9e8560c5846784",
+      "expected-changes.jsonl": "c1eb4e21860fdbb307b28905dffcd9f8a4329e05ef2638ade09690076def56fd",
+      "change-profiles.jsonl": "3324eef3cb42ae32e9e21433f2f60d0070d51291659bf7d5a27b422e5754be74",
+      "updated-probe.bin": "22250e12fcdfd3b338e9fcad5848a7225a8d39646f3d071ab9dac6dfd4fe0b8d",
+      "created-probe.bin": "785b0751fc2c53dc14a4ce3d800e69ef9ce1009eb327ccf458afe09c242c26c9",
+      "baseline-probe.bin": "c8f5d0341d54d951a71b136e6e2afcb14d11ed8489a7ae126a8fee0df6ecf193"
+    },
+    "population": {
+      "files": 10000,
+      "directories": 500,
+      "payloadBytes": 17920000,
+      "maximumDepth": 12
+    },
+    "scope": "Only the freshly verified controlled non-sensitive v3 hierarchy and exact seven fixed inputs for one local attempt006 original13 observation; no100k/1m/compression/production quota or700TB acceptance.",
+    "physicalRoot": "C:\\Users\\13997\\.codex\\local-lab\\poc005-native-windows-v3\\fixture",
+    "oldDirtyFixturesAndRawNeverRewritten": true
+  },
+  "allowedMechanicalFields": [
+    "Create exclusively new attempt006 records; copy this real decision and exact ready bytes without alteration.",
+    "Copy the2 bound methods and2 adjacent public preparation JSON files byte-for-byte to their candidate refs in006/tools; keep the exact approved invocations and do not copy private credentials.",
+    "Materialize exact profileConfiguration and sampleApproval from this decision with this actual identity/time. No added invented retrospective approval.",
+    "Materialize two distinct schema2 resource_configuration wrappers with actual approvedBy=independent-review-agent/approvedAt/validFrom/validUntil from this decision. Preserve all fixed policies and identical concrete syntheticHierarchySandbox boundary.",
+    "Write exact canonical candidate quota and all seven input bindings. Shorten reservationDeadline to this validUntil, never extend it.",
+    "Using accepted committed sourceP, reserve one real final-image CREATE_SUSPENDED scanner with atomic private Job. Record actual PID/creationTime/SID/exe/hash/native argv and immutable manifest/source closure/reservation time; do not resume.",
+    "Only audited reserve_windows_config may add memoryCollectorCommandArgs and metadataScanPolicy manifestId/scannerBuild/scanId/changeSetId/nativeProcessId/scannerCommandArgs/timingCollectorBuild/timingCollectorCommandArgs; metadataResourcePolicy manifestId/scannerBuild/scanId/processId/collectorBuild/nativeProcessId/counterFormat/collectorCommandArgs/sourceIdentity/quotaDocumentRef/quotaDocumentSha256; metadataProfilingPolicy manifestId/scannerBuild/sourceIdentity/endpointURL. All values derive from this fixed candidate and actual stopped reservation.",
+    "Run only the bound host/full preflight capture at the declared006/tools location after the actual stopped reservation and before finalapproval. Retain actual CIM bytes, host identity/mount/boundary/runtime/profile/resource/request hashes and complete environment; no listing/probe/mutation.",
+    "Compute exact immutable runtime/manifest/resource/profile/sample/method/environment/controller-launch/request bindings and submit new independent final review. The actual independent-approval.json must remain absent until that separate review."
+  ],
+  "fullQualificationPreparationConditions": [
+    "The final review must independently observe the initial thread Suspended and exact scanner/controller/supervisor/upstream identities, not infer suspension from identity equality alone.",
+    "The new final decision must include all required bindingFiles/control refs/SHA and exact2 resourceRefs plus assemblyMethod, complete profile/sample approvals and actual future bounded window. No previous approval applies.",
+    "The assembler may project the original journal but must exclude baseline from both selected raw lists and preserve its full typed input descriptor. All other frozen metadata retention and GET binary typing remain.",
+    "Use the approved tracked-own-profile delivery plan: actual OwnEvidence-only commit/bundle/clean clone, referenced evidence tracked and not ignored, exactP testedSource ancestor/tree and unchanged runtime source. Full unchanged validate_execution is required after real results.",
+    "Any new actual result/profile index/qualification/Task completion requires its own later actual evidence and independent decision. Templates and schema/unit examples never prefill PASS.",
+    "No actual POC003 ATS performance workload may overlap this attempt. Host remains shared and no idle or production isolation is inferred."
+  ],
+  "measurementDomainDecision": {
+    "original13": true,
+    "knownUnitsOnly": true,
+    "numericDomainReviewRefs": {},
+    "quota": "6000per60s controlled adapter policy; upstream provider quota unknown.",
+    "enumeration": "Actual scanner phase rate from complete observed catalogue; keep sourceHTTP listing throughput separate.",
+    "changeFrequency": "Three actual controlled source mutations and retained observation interval.",
+    "memory": "Bound scanner cumulative native PeakWorkingSetSize from independent first/last collectors; not full-host/source-server memory.",
+    "filenameAndProvider": "Actual8field population and repeated complete listings, no provider-native stable ID or snapshot guarantee invented.",
+    "rangeAndEtag": "Five actual raw probes determine facts; candidate supported/etag remain hypotheses until observed. Keep real416 body and validator absence.",
+    "fullScaleOrProductionAccepted": false
+  },
+  "fixedBounds": {
+    "listingRuns": 2,
+    "mutations": 3,
+    "probes": 5,
+    "adapterFaults": 4,
+    "artifactBytes": 268435456,
+    "artifactFiles": 20000,
+    "requestLimit": 6000,
+    "periodSeconds": 60,
+    "timeoutSeconds": 5,
+    "maximumRetries": 1,
+    "maximumBackoffSeconds": 0.25,
+    "pageSize": 200,
+    "maximumFutureExecutionWindowSeconds": 1200
+  },
+  "verificationFacts": {
+    "exactPAndTreeClean": true,
+    "allBoundMethodsHelpersAndAdjacentRecordsHashesMatched": true,
+    "originalDraftQuotaAndPoliciesUnchanged": true,
+    "profileAndSampleFullSchemasValidated": true,
+    "formalReviewerEqualsActualTaskReviewer": true,
+    "actualService128984IdentityMatched": true,
+    "onlyLoopback15530ListenerMatched": true,
+    "gateway15630Free": true,
+    "no18231to18233ListenersObserved": true,
+    "actualV3Full10000HashesMtimesPathsAnd500DirectoriesAnd17920000BytesMatched": true,
+    "sevenInputsRehashed": true,
+    "attempt006OutputDirectoryAbsent": true,
+    "hostHashPreviouslyIndependentlyMatchedWithExplicitNormalization": true,
+    "assemblerOriginal2P2Resolved": true,
+    "new11TestsToolOutputAttributionPreservedNotRawFile": true
+  },
+  "priorIndependentReviews": [
+    {
+      "ref": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc005-thaw-78a54f4-final-source-independent-review.json",
+      "bytes": 4367,
+      "sha256": "sha256:d8d10cf9ffa6917918ac87fd595b7171474f989b38939532dc5220be376c49f9"
+    },
+    {
+      "ref": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc005-attempt006-full-qualification-preparation-independent-review.json",
+      "bytes": 12593,
+      "sha256": "sha256:dd9c84ac3e63d560e9947ce6a801a8c8cf9b827a2e2c0b1ca70793373e7ec0ee"
+    },
+    {
+      "ref": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc005-full-execution-assembler-corrected-independent-review.json",
+      "bytes": 7631,
+      "sha256": "sha256:f950a4e3949ae21ae918225cd25f59323e43e1cb4829a47dd0f3ca44957ab2a5"
+    }
+  ],
+  "qualifiedEvidenceDeliveryContextPlan": {
+    "testedSource": {
+      "commit": "78a54f4653671ed6ed73190a8b44142067bc8f61",
+      "tree": "0f9ec786e7d0d551e544d0918e4aaa769ac0d298"
+    },
+    "sourceCodeChanges": false,
+    "allowedDeliveryPaths": [
+      "evidence/POC-005/profiles/local-v1/v1/attempt-006/**"
+    ],
+    "bytePreservation": "attempt006/.gitattributes contains * -text; use per-call core.autocrlf=false and core.longpaths=true; compare staged blobs to actual source bytes before commit",
+    "records": "Track complete selected raw refs, baseline already tracked in inputs, profile/resources/sample approvals, actual control records, method and original journals; raw lists exclude baseline and structured aliases. Exclude databases from Git but retain original local DB files. Inventory exact staged paths.",
+    "validation": "Create a real metadata-only evidence delivery commit descending from tested source P and export a bundle to a clean clone. Run frozen validate_execution on actual full record with actualTask reviewer and execution schema/approval schema/defs/catalog plus selected execution ref; referenced inputs/raw/records tracked and not ignored. Do not edit source Task/Active/Program or claim full source equality from an untracked workspace.",
+    "terminal": "Execution qualification is separate from independent result/profile index/Task completion; 100k/1m and original production/provider scope remain."
+  },
+  "finalExecutionApproved": false,
+  "scannerStarted": false,
+  "scannerPidReservedAtDecision": false,
+  "sourceRequestsSent": false,
+  "newWindowApproved": false,
+  "qualificationAccepted": false,
+  "original13QualifiedAccepted": false,
+  "taskCompleted": false,
+  "v1Completed": false,
+  "reviewerTestsOrSourceWorkloadsExecuted": false,
+  "authorFilesModified": false
+}

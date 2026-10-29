@@ -1,0 +1,15 @@
+{
+  "reviewer": "/root/gz022_planning_independent_review",
+  "observedAt": "2026-10-22T18:12:11.327Z",
+  "phase": "uncommitted DAV adapter independent review",
+  "sourceBase": "21e5224ae8ce144bf7730114a8de922f920ab2a7",
+  "observedCodeSha256": "53f62925868aabf92c0479f028bbb3124382e4ae5d736dfac328d27650fdb057",
+  "finding": "urlsplit removes embedded TAB/LF/CR before locator validation; raw DAV hrefs a+control+b silently became ab",
+  "actualReproductions": [
+    "/dav/lab/a\\tb -> ab",
+    "/dav/lab/a\\nb -> ab",
+    "/dav/lab/a\\rb -> ab"
+  ],
+  "mustFix": "Reject C0/DEL controls on raw href before URL parsing and preserve filename identity",
+  "resolved": false
+}

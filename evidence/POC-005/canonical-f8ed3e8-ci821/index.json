@@ -1,0 +1,23 @@
+{
+  "source": "f8ed3e8d740c1a90e1432df6a6e2ec6617daabf8",
+  "run": 39834155313,
+  "runNumber": 821,
+  "job": 120017906782,
+  "status": "success",
+  "tests": 713,
+  "seconds": 1096.24,
+  "noSkippedTests": true,
+  "experimentAccepted": false,
+  "files": [
+    {
+      "path": "poc005-canonical-f8ed3e8-ci821.raw.txt",
+      "bytes": 293785,
+      "sha256": "c1293018d5eb155c23f631d10dbf887e9292f4d07dcdb28fd134ab237400f4f3"
+    },
+    {
+      "path": "poc005-canonical-f8ed3e8-ci821.snapshot.json",
+      "bytes": 19840,
+      "sha256": "ddec4cf06f71e0ae1636cc125c4ce610610546b9ddd932714f3cfa5f3ec330cc"
+    }
+  ]
+}

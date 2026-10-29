@@ -1,0 +1,298 @@
+{
+  "kind": "ACTUAL_SOURCE_BOUND_LOCAL1M_QUALIFICATION_AND_CLEANUP_NOT_PROFILE_TERMINAL_RESULT",
+  "testedRuntime": "ed8fbf32783c2600f75de7a69ef56c6f33b4824b",
+  "testedTree": "a74434e6a062f03207244b0a3a8cbd037a0dfe47",
+  "qualificationContext": "77d99effc1a0e1524dcf1795d1c0aff359ab219c",
+  "qualificationContextTree": "7666fdcb7cdd2c6e84520e49bc028f412377c2d0",
+  "acceptedLocal1mExecution": true,
+  "original13Observed": true,
+  "fullFrozenValidateExecutionAccepted": true,
+  "files": [
+    {
+      "sourceRef": "poc005-compressed-output-ed8fbf3-final-source-independent-review.json",
+      "retainedRef": "evidence/POC-005/qualified-local-1m-attempt010-v1/retained-001.json",
+      "bytes": 21424,
+      "sha256": "d0949b495b92d3e9715553ce1ac2154a34203eb7780273827d695407bac99648"
+    },
+    {
+      "sourceRef": "poc005-compressed-output-ed8fbf3-native-checks/results.json",
+      "retainedRef": "evidence/POC-005/qualified-local-1m-attempt010-v1/retained-002.json",
+      "bytes": 1490916,
+      "sha256": "8b1711eb1d07503a5ff8134027ce1cb6ef887cbd9b5493c44c88460287badaf9"
+    },
+    {
+      "sourceRef": "poc005-compressed-output-ed8fbf3-native-checks/diff.raw",
+      "retainedRef": "evidence/POC-005/qualified-local-1m-attempt010-v1/retained-003.json",
+      "bytes": 144,
+      "sha256": "95f44d4f84cfd14010d59b332bf6b6ebe5aa05df50d08af540db1853e26d2ca6"
+    },
+    {
+      "sourceRef": "poc005-compressed-output-ed8fbf3-native-checks/task.raw",
+      "retainedRef": "evidence/POC-005/qualified-local-1m-attempt010-v1/retained-004.json",
+      "bytes": 266,
+      "sha256": "91987cb2e23a25345d5c029b1192769e4e3b95165f0f349ab5878fd770126cb0"
+    },
+    {
+      "sourceRef": "poc005-compressed-output-ed8fbf3-native-checks/readiness.raw",
+      "retainedRef": "evidence/POC-005/qualified-local-1m-attempt010-v1/retained-005.json",
+      "bytes": 660,
+      "sha256": "7ac8beae54814314fb00cef3d37f3fdc4e6e1f3a10974e700acbb35428aac73c"
+    },
+    {
+      "sourceRef": "poc005-compressed-output-ed8fbf3-native-checks/schemas.raw",
+      "retainedRef": "evidence/POC-005/qualified-local-1m-attempt010-v1/retained-006.json",
+      "bytes": 1882,
+      "sha256": "72ad3d360c4e27f9407ec4c364c5667b0ccb9d18589251b9c7d7eedbc0da0455"
+    },
+    {
+      "sourceRef": "poc005-compressed-output-ed8fbf3-native-checks/integrity.raw",
+      "retainedRef": "evidence/POC-005/qualified-local-1m-attempt010-v1/retained-007.json",
+      "bytes": 419,
+      "sha256": "fe57ac9d74058298ea11f8e28cd145924d085f526c39a52d764032eb8906b002"
+    },
+    {
+      "sourceRef": "poc005-compressed-output-ed8fbf3-native-checks/history.raw",
+      "retainedRef": "evidence/POC-005/qualified-local-1m-attempt010-v1/retained-008.json",
+      "bytes": 545,
+      "sha256": "6f5e29725930050f3b66ed696fa8ab0e62b73fe46cc71ef6505cb055953cef2d"
+    },
+    {
+      "sourceRef": "poc005-compressed-output-ed8fbf3-native-checks/transitions.raw",
+      "retainedRef": "evidence/POC-005/qualified-local-1m-attempt010-v1/retained-009.json",
+      "bytes": 462,
+      "sha256": "d51c7eea66be4151b5bfe3ebeb9824860afe2240caaab5c5304603355d86b680"
+    },
+    {
+      "sourceRef": "poc005-compressed-output-ed8fbf3-native-checks/finalization.raw",
+      "retainedRef": "evidence/POC-005/qualified-local-1m-attempt010-v1/retained-010.json",
+      "bytes": 398,
+      "sha256": "dac481708c3fdd68a9291c32ac090d63744916246aba9e341a1f7b9890e2435d"
+    },
+    {
+      "sourceRef": "poc005-compressed-output-ed8fbf3-native-checks/raw-lifecycle.raw",
+      "retainedRef": "evidence/POC-005/qualified-local-1m-attempt010-v1/retained-011.json",
+      "bytes": 531,
+      "sha256": "0a64464940f68211dd0ecd89937bd70e08d7413701ea8e43fe6555b1b16f6950"
+    },
+    {
+      "sourceRef": "poc005-compressed-output-ed8fbf3-native-checks/lifecycle-gate.raw",
+      "retainedRef": "evidence/POC-005/qualified-local-1m-attempt010-v1/retained-012.json",
+      "bytes": 622,
+      "sha256": "937204f45b6c98361afec30c46c327ed9f6d2a48a071327e706e2b2e017b7db0"
+    },
+    {
+      "sourceRef": "poc005-compressed-output-ed8fbf3-native-checks/coordination.raw",
+      "retainedRef": "evidence/POC-005/qualified-local-1m-attempt010-v1/retained-013.json",
+      "bytes": 432,
+      "sha256": "4eb444608625b9d123c8cbcc44afb0f5e29b04050c96c8cd91bba013d2aa221e"
+    },
+    {
+      "sourceRef": "poc005-compressed-output-ed8fbf3-native-checks/scope.raw",
+      "retainedRef": "evidence/POC-005/qualified-local-1m-attempt010-v1/retained-014.json",
+      "bytes": 1410961,
+      "sha256": "8f308320e6e17d10b5ffdc4df64b385cca67b9ebfa20bd176284336e96f701a6"
+    },
+    {
+      "sourceRef": "poc005-compressed-output-ed8fbf3-native-checks/evidence.raw",
+      "retainedRef": "evidence/POC-005/qualified-local-1m-attempt010-v1/retained-015.json",
+      "bytes": 307,
+      "sha256": "989f56b1db5acd95b568aa89ca9d4f7c3fbeac8256ca412fc5e1ae8022f25c7a"
+    },
+    {
+      "sourceRef": "poc005-compressed-output-ed8fbf3-native-checks/poc-protocol.raw",
+      "retainedRef": "evidence/POC-005/qualified-local-1m-attempt010-v1/retained-016.json",
+      "bytes": 401,
+      "sha256": "93c630db370c3f28b6dce3ccc7d809256433cabc2ebd71974e7199cb6d74051e"
+    },
+    {
+      "sourceRef": "poc005-compressed-output-ed8fbf3-native-checks/docs.raw",
+      "retainedRef": "evidence/POC-005/qualified-local-1m-attempt010-v1/retained-017.json",
+      "bytes": 164,
+      "sha256": "074d13fcd3fc13ff489db42138b1b58eff30242826abefb4d9023f36f6b5e912"
+    },
+    {
+      "sourceRef": "poc005-compressed-output-ed8fbf3-ci868-direct-observation-v1/run.json",
+      "retainedRef": "evidence/POC-005/qualified-local-1m-attempt010-v1/retained-018.json",
+      "bytes": 12903,
+      "sha256": "847f2e0981d0beb3040878c2e1206b23b18ee7f566a7139956d8cbb73e807839"
+    },
+    {
+      "sourceRef": "poc005-compressed-output-ed8fbf3-ci868-direct-observation-v1/jobs.json",
+      "retainedRef": "evidence/POC-005/qualified-local-1m-attempt010-v1/retained-019.json",
+      "bytes": 5550,
+      "sha256": "8739c85139e91f8f44b1f4cd0af8b6b4356d0fe83dbc2b62342b473eff5cdfa5"
+    },
+    {
+      "sourceRef": "poc005-compressed-output-ed8fbf3-ci868-direct-observation-v1/receipt.json",
+      "retainedRef": "evidence/POC-005/qualified-local-1m-attempt010-v1/retained-020.json",
+      "bytes": 664,
+      "sha256": "48588148a3a02a68854bb3a7b64aaa5bdd75811e6c10df85c1c090bd4b2cfc5f"
+    },
+    {
+      "sourceRef": "poc005-compressed-output-ed8fbf3-ci868-job.raw.txt",
+      "retainedRef": "evidence/POC-005/qualified-local-1m-attempt010-v1/retained-021.json",
+      "bytes": 1713027,
+      "sha256": "98921a41d0ae05033e6c9dceae7b3556b85201622ba18f9927c6b9389cf790ef"
+    },
+    {
+      "sourceRef": "poc005-attempt010-observations-independent-review.json",
+      "retainedRef": "evidence/POC-005/qualified-local-1m-attempt010-v1/retained-022.json",
+      "bytes": 14289,
+      "sha256": "7312425448bb9caaf8d542ed53a7169b65866c25adaecf348eac5c85f415778c"
+    },
+    {
+      "sourceRef": "poc005-attempt010-tracked-context-independent-review.json",
+      "retainedRef": "evidence/POC-005/qualified-local-1m-attempt010-v1/retained-023.json",
+      "bytes": 2479,
+      "sha256": "76cf3d5079d4fbf2ce060f62e854bcf90cea767acba99fac342789b757ee20f8"
+    },
+    {
+      "sourceRef": "poc005-attempt010-full-validation-independent-assessment.json",
+      "retainedRef": "evidence/POC-005/qualified-local-1m-attempt010-v1/retained-024.json",
+      "bytes": 7175,
+      "sha256": "2f608b798ea4c5c72f7fcd8e73e4dec0446fa866f9615a24243ac3d0d18b590a"
+    },
+    {
+      "sourceRef": "validate_poc005_attempt010_full_execution.py",
+      "retainedRef": "evidence/POC-005/qualified-local-1m-attempt010-v1/retained-025.json",
+      "bytes": 4315,
+      "sha256": "aca448768ceaed500efc7d6686a8a745065f58c56ccd67304df4915fad8cf923"
+    },
+    {
+      "sourceRef": "poc005-attempt010-full-execution-validation-v1/results.json",
+      "retainedRef": "evidence/POC-005/qualified-local-1m-attempt010-v1/retained-026.json",
+      "bytes": 1130,
+      "sha256": "8cae001067d0220d23a2830858636df07fe1f71e503a1b89bb65d60b4826fa9a"
+    },
+    {
+      "sourceRef": "poc005-attempt010-full-execution-validation-v1/full-execution-validation.raw",
+      "retainedRef": "evidence/POC-005/qualified-local-1m-attempt010-v1/retained-027.json",
+      "bytes": 387,
+      "sha256": "cd490694d8ef62900fd675251bcfb36e424b4fd8efc317eed74374e57b15b4c2"
+    },
+    {
+      "sourceRef": "poc005-attempt010-tracked-validation-context.json",
+      "retainedRef": "evidence/POC-005/qualified-local-1m-attempt010-v1/retained-028.json",
+      "bytes": 976252,
+      "sha256": "a0f460cf87386628908eb181f4147c5749e28381be180b28c00efbd2bd93dfcb"
+    },
+    {
+      "sourceRef": "prepare_poc005_attempt010_tracked_validation.py",
+      "retainedRef": "evidence/POC-005/qualified-local-1m-attempt010-v1/retained-029.json",
+      "bytes": 6573,
+      "sha256": "2851db0cbd28f0dcda5b761398f45e9918f6175b8b66fb29024584b79ce456c7"
+    },
+    {
+      "sourceRef": "import_poc005_qualified_attempt010_evidence_once.py",
+      "retainedRef": "evidence/POC-005/qualified-local-1m-attempt010-v1/retained-030.json",
+      "bytes": 3560,
+      "sha256": "8c234e9e3239685d5aad5875a4618bb82fffe78faded1b6ac6a7b94a9e05fb3a"
+    },
+    {
+      "sourceRef": "poc005-attempt010-author-evidence-integration-v1/results.json",
+      "retainedRef": "evidence/POC-005/qualified-local-1m-attempt010-v1/retained-031.json",
+      "bytes": 1857,
+      "sha256": "e644c526ea7e940839de71384559f6e09b97092cdf8795fa496fc8f1af9fe9a5"
+    },
+    {
+      "sourceRef": "poc005-attempt010-author-evidence-integration-v1/fetch-qualified-bundle.stdout.raw",
+      "retainedRef": "evidence/POC-005/qualified-local-1m-attempt010-v1/retained-032.json",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "sourceRef": "poc005-attempt010-author-evidence-integration-v1/fetch-qualified-bundle.stderr.raw",
+      "retainedRef": "evidence/POC-005/qualified-local-1m-attempt010-v1/retained-033.json",
+      "bytes": 206,
+      "sha256": "8d122629aef8adc3bd3710b50736d688d17e40d13107594d1495481fb4c53b99"
+    },
+    {
+      "sourceRef": "poc005-attempt010-author-evidence-integration-v1/fast-forward-evidence.stdout.raw",
+      "retainedRef": "evidence/POC-005/qualified-local-1m-attempt010-v1/retained-034.json",
+      "bytes": 1884283,
+      "sha256": "a9a7541b581127cd0b1e8ddbd92888319659e55771f09d77ea0559717b579684"
+    },
+    {
+      "sourceRef": "poc005-attempt010-author-evidence-integration-v1/fast-forward-evidence.stderr.raw",
+      "retainedRef": "evidence/POC-005/qualified-local-1m-attempt010-v1/retained-035.json",
+      "bytes": 3421,
+      "sha256": "89badeac8420c95cd286a4f0f5fe5f58c14fb2ef72b9a61baa9562fc13157006"
+    },
+    {
+      "sourceRef": "poc005-attempt010-private-provider-cleanup-independent-review.json",
+      "retainedRef": "evidence/POC-005/qualified-local-1m-attempt010-v1/retained-036.json",
+      "bytes": 3840,
+      "sha256": "5d973167ccd0148e3842976f8fb4929aae8f9ec5b27924d5bc689b560e14847c"
+    },
+    {
+      "sourceRef": "stop_poc005_attempt010_private_provider_once.py",
+      "retainedRef": "evidence/POC-005/qualified-local-1m-attempt010-v1/retained-037.json",
+      "bytes": 3831,
+      "sha256": "3aee196f165bc1b13e925779652807b8a59997a0a195f2c1a7da6b13468b36a3"
+    },
+    {
+      "sourceRef": "poc005-attempt010-private-provider-stop-v1/progress.json",
+      "retainedRef": "evidence/POC-005/qualified-local-1m-attempt010-v1/retained-038.json",
+      "bytes": 980,
+      "sha256": "fc77f58733d1baeb093df215e9bfdf2fb825f8e93ccddfbe6304e4dcb43cd949"
+    },
+    {
+      "sourceRef": "poc005-attempt010-private-provider-stop-v1/results.json",
+      "retainedRef": "evidence/POC-005/qualified-local-1m-attempt010-v1/retained-039.json",
+      "bytes": 1480,
+      "sha256": "ca2122c634adf199c8673b3d6683a3488a2bdf9aeb0ee2f550cee717657f5302"
+    },
+    {
+      "sourceRef": "poc005-attempt010-private-provider-stop-v1/native-listener-check.json",
+      "retainedRef": "evidence/POC-005/qualified-local-1m-attempt010-v1/retained-040.json",
+      "bytes": 357,
+      "sha256": "9675410021e37e2345f9ede4c031c414b1c0c7f0c2e10fd66033edb846164f29"
+    },
+    {
+      "sourceRef": "poc005-attempt010-cleanup-and-evidence-integration-result-independent-review.json",
+      "retainedRef": "evidence/POC-005/qualified-local-1m-attempt010-v1/retained-041.json",
+      "bytes": 4722,
+      "sha256": "87132430d02618ffd409ce0489619b709240800d3360b448cd649d7c11f863fb"
+    },
+    {
+      "sourceRef": "analyze_poc005_qualified_scale_fanout_cost_v1.py",
+      "retainedRef": "evidence/POC-005/qualified-local-1m-attempt010-v1/retained-042.json",
+      "bytes": 6756,
+      "sha256": "e11bd8496ab68ae4092ae89d80b50c52f4c3963c31b447bcfeba021f00b95531"
+    },
+    {
+      "sourceRef": "poc005-source-bound-scale-analysis-v1/analysis.json",
+      "retainedRef": "evidence/POC-005/qualified-local-1m-attempt010-v1/retained-043.json",
+      "bytes": 27435,
+      "sha256": "4d1b77024419baf1fbfa08f6c8b0702d23b5bbfb669458bc7106543666e35283"
+    },
+    {
+      "sourceRef": "poc005-local-v1-terminal-closure-independent-advice.json",
+      "retainedRef": "evidence/POC-005/qualified-local-1m-attempt010-v1/retained-044.json",
+      "bytes": 8408,
+      "sha256": "ef33e1366dfe82235fce892bcd3ec1bcc978df0e2241a7f22c917968eb9f4301"
+    },
+    {
+      "sourceRef": "archive_poc005_qualified_attempt010_v1.py",
+      "retainedRef": "evidence/POC-005/qualified-local-1m-attempt010-v1/retained-045.json",
+      "bytes": 5205,
+      "sha256": "4ebf1a06145bef99addb6fafe12a4687e4941c3b338118810b94da10fad2ca2b"
+    }
+  ],
+  "retainedItems": 45,
+  "decodedBytes": 7631619,
+  "metadataParent": "77d99effc1a0e1524dcf1795d1c0aff359ab219c",
+  "earlier10k100kKeepOriginalSourceIdentity": true,
+  "historicalPendingFlagsPreserved": true,
+  "privateProviderForcedStopAccepted": true,
+  "privateProviderGracefulExitClaimed": false,
+  "configurationRestored": false,
+  "legacyUntrackedFilesDeleted": false,
+  "runtimeDatabasesDeleted": false,
+  "bundleBinaryPolicy": "Existing local transport bundle retained by bytes/hash in original receipt; not duplicated into Git.",
+  "profileTerminalIndexAccepted": false,
+  "taskCompleted": false,
+  "readyApproved": false,
+  "mainMergeApproved": false,
+  "productionAccepted": false
+}

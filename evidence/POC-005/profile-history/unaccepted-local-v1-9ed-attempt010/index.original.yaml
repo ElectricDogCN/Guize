@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 2,
+  "pocId": "POC-05",
+  "pocTaskId": "POC-005",
+  "ownerTask": "POC-005",
+  "acceptanceProfile": {
+    "id": "local-v1",
+    "version": 1,
+    "bindingRevision": 1,
+    "scope": "LOCAL_FULL_V1"
+  },
+  "resultRef": "evidence/POC-005/profiles/local-v1/v1/result.json"
+}

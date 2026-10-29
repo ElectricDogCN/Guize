@@ -1,0 +1,53 @@
+{
+  "acceptedMain": "2a77cbf9ad838b7b7abc7fbc5ed7aaa5f2f793d4",
+  "previousSource": "dc506b85317cdfa419d9fa6491d87eaa76e88473",
+  "previousComponentOnly": true,
+  "oldUntrackedCount": 4161,
+  "oldUntrackedPathsSha256": "ace44d05f8a2eaa4e8ca447f0958414444091e881d188f820322a7fc1f905576",
+  "fullSourceAccepted": false,
+  "experimentApproved": false,
+  "files": [
+    {
+      "original": "ops014-history-code-2a77cbf-full-main-independent-review.json",
+      "encoded": "00-e2880bda75dc.zlib.b64",
+      "bytes": 7378,
+      "sha256": "e2880bda75dc833b60f8aa298197b9b8fead43f5a5f7577acf978d10f34b7ee4"
+    },
+    {
+      "original": "ops014-history-code-2a77cbf-ci860-job.raw.txt",
+      "encoded": "01-f555a07499fe.zlib.b64",
+      "bytes": 292861,
+      "sha256": "f555a07499fe2c380f3b82f210d0e3bc76e9c9483422867de68ace795a8fb4e0"
+    },
+    {
+      "original": "ops014-history-code-2a77cbf-ci860-official.json",
+      "encoded": "02-cb44bdfcfcf5.zlib.b64",
+      "bytes": 32511,
+      "sha256": "cb44bdfcfcf5c1bac1f1d4e4c472d787b84d4e7420beefe2a749925af0389aab"
+    },
+    {
+      "original": "ops014-history-code-2a77cbf-ci860-actual-summary.json",
+      "encoded": "03-57a5e6d303f2.zlib.b64",
+      "bytes": 823,
+      "sha256": "57a5e6d303f262a1f7458651020a9d6f70723462231aeb3d742391ca776b2896"
+    },
+    {
+      "original": "poc005-wire-consumer-dc506b8-component-checks-independent-review.json",
+      "encoded": "04-0d648a13b1b4.zlib.b64",
+      "bytes": 9322,
+      "sha256": "0d648a13b1b40902855be6de1eac565c2c140290cd69ce9231124500bb1b1ab5"
+    },
+    {
+      "original": "poc005-accepted-history-main-2a77cbf-sync/results.json",
+      "encoded": "05-5bcfbc3753d3.zlib.b64",
+      "bytes": 1585,
+      "sha256": "5bcfbc3753d31afaa8b226a97010f7ae3cdc68fa0c8f7d3f5fc1ada313eddd31"
+    },
+    {
+      "original": "prior-source/evidence/POC-005/commands.txt",
+      "encoded": "06-db483f7904a5.zlib.b64",
+      "bytes": 2090,
+      "sha256": "db483f7904a553fd5df47c824bc800604942ecdbc8d9862b71130fd44cefc9f8"
+    }
+  ]
+}

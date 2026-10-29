@@ -1,0 +1,31 @@
+{
+  "reviewer": "independent-review-agent",
+  "reviewerActor": "/root/gz022_planning_independent_review",
+  "reviewedAt": "2026-10-22T23:40:01Z",
+  "headBeforeCommit": "ca1da41eba2c784fa1418feb29dfcf717cad5785",
+  "decision": "code content accepted",
+  "mustFix": [],
+  "files": {
+    "controlled_source_run.py": "b7c777b7a048f22001f5a0529976711c0de16f5d38008801d85679ae356c5993",
+    "loopback_gateway.py": "b970560c16df05ee0fe8323bebb6d01871afeeacb71b4ad9555b8240c38bf737",
+    "native_memory.py": "c93d3dc666b905ea3353d3584175bf579d07207bda2d9b8fa9cdf688a17bc82b",
+    "native_scan_protocol.py": "464c900fc65d3c66b6da1200a4d95331a39f038793a70cce05f62acf856c71ac",
+    "native_scan_runtime.py": "eab103e36246c2fbd440a5d81c3deb349a98b44935591ebad5c02ac11e80e381",
+    "openlist_listing.py": "dd4f958bb6da34c7db644822e43ca6b58d15e39e2c62e1348ee9a9ea428d1971",
+    "openlist_source.py": "f0b7d017d4013fc90be56a9b435c4ba76afdd027cc6cc25e4ede552d39b7f1ad",
+    "run_source_experiment.py": "93480de9c305817b757831856a4f67021ea0104f0dcbcd8841ba9844e66581c7",
+    "test_controlled_source_run.py": "15f1f2da71a8ad50434beba330213789ceeb1fd1fe72804acbf564bb46a76e7a",
+    "test_utc_evidence.py": "93ce20b079f0225eca7f08191f883b44fe08831625af02dc1f93781ec39cc2de",
+    "windows_native.py": "3456d9371ed453a5eaabc4bc6eaf01d7ec7d46cde10ce4b24d46da3f9cd1ab21",
+    "windows_scan_control.py": "bb900955657eee42a1723178d7ba013a700bf27c28390a863e647e7c71e3a378"
+  },
+  "independentTests": 4,
+  "independentSeconds": 2.464,
+  "independentExitCode": 0,
+  "independentTestsRawFileNotClaimed": true,
+  "completeDevelopmentTests": 129,
+  "completeDevelopmentRawSha256": "ecc17a2dc1a6ac463527a3fe378f937acc351cbe7c002dfdd7b5e9aee8090f15",
+  "committedSourceAccepted": false,
+  "qualificationAccepted": false,
+  "newExperimentApproved": false
+}

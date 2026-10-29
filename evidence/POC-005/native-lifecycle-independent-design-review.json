@@ -1,0 +1,18 @@
+{
+  "reviewer": "/root/gz022_planning_independent_review",
+  "reviewedAt": "2026-10-22T19:10:16Z",
+  "decision": "conditionally feasible within frozen schemas, design only",
+  "schemaOrCheckerChangeRequired": false,
+  "constraints": [
+    "process_start denotes real scanner program entry after exec, not OS birth; retain actual preflight OS identity/birth and exec handoff separately",
+    "preflight waiting launcher performs no scan; approve exact PID/startTicks/builds/final argv before future window; recheck identity after exec and never exec/reset during workload",
+    "scanner waits for independent first native counter before enumeration and stays alive for final native counter after all work/output",
+    "collector waits for actual process exit and real status before phase assembly; all three typed phase captures reuse identical process entry/exit events",
+    "one declared calibrated UTC/monotonic mapping with raw ticks and calibration, not independently sampled wall clocks stitched to fit1us"
+  ],
+  "specificInputsApproved": false,
+  "specificResourceApproved": false,
+  "executionWindowApproved": false,
+  "experimentApproved": false,
+  "implementationAccepted": false
+}

@@ -1,0 +1,37 @@
+{
+  "kind": "READONLY_INTERRUPTED_PREPARATION_NAME_AND_JOURNAL_AUDIT",
+  "observedAt": "2026-10-27T01:50:21.642147Z",
+  "source": "ed8fbf32783c2600f75de7a69ef56c6f33b4824b",
+  "originalWrapperSessionMissing": true,
+  "originalWrapperPid": 147956,
+  "originalFixturePid": 97876,
+  "originalPidsAbsent": true,
+  "actualHostBootTime": "2026-10-26T09:52:03.642147Z",
+  "originalTerminalExitCode": null,
+  "originalCompletedReceiptMissing": true,
+  "actualExistingFileNames": 667845,
+  "actualExistingDirectoryNames": 500,
+  "expectedFullFiles": 1000000,
+  "missingFileNameCountAtLeast": 332155,
+  "namesWithOldCompletedPayloadJournal": 667836,
+  "existingNamesWithoutCompleteOldJournal": 9,
+  "incompleteLastJournalFragment": null,
+  "oldPayloadJournal": {
+    "ref": "C:\\Users\\13997\\.codex\\local-lab\\poc005-native-windows-v7-1m\\payloads.jsonl",
+    "bytes": 223414723,
+    "sha256": "62cd9f78d0d1b1da1be52dabfec833adc990645b7518ee87575cc3d3dfb2d558"
+  },
+  "pathInventory": {
+    "ref": "path-inventory.jsonl.gz",
+    "bytes": 3116381,
+    "sha256": "e600d1b7cdbcb8864d9044f60f7268979beac02a54e200b1f1130759208cce91"
+  },
+  "payloadBytesAndMtimesRevalidated": false,
+  "fullExpectedPathsetCompared": false,
+  "servicePrivateRootAbsent": true,
+  "port15534BindSucceeded": true,
+  "fixtureModified": false,
+  "sourceApiContacted": false,
+  "continuationApproved": false,
+  "qualificationAccepted": false
+}

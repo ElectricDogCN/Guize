@@ -1,0 +1,156 @@
+# POC-05 bounded metadata scanner
+
+This isolated POC does not modify Guize assets or its production database. No scale, provider quota or production acceptance follows from unit tests.
+
+Listing timestamps are canonical UTC/Z values derived only from the actual RFC3339 response. Offset conversion preserves all observed fractional digits, removes insignificant trailing zeros and rejects invalid offset components or UTC overflow. Raw HTTP bytes, original timestamp text, status and digest remain unchanged. The first two approved source attempts failed before mutations (signed capabilities, then equivalent offset text); their evidence is retained and does not qualify the complete POC.
+
+The third actual approved attempt completed two501-page/10500-object listings and four adapter fault cases, then rejected enumeration on clock inconsistency before any mutation. Its complete raw files and later bounded host diagnostics remain retained in evidence/POC-005/source-attempt003-clock-failure/. The diagnostics do not identify the exact missing failure-marker deviation or establish its cause. The current Own repair retains rejected raw clock pairs/calibration/deviation and propagates the child failure to the controller. Marker sampling now retains bounded brackets; the existing1ms drift rejection and frozen1us interval agreement are unchanged. Absolute UTC accuracy is not inferred from interval agreement. A new reliable environment and independent future-window approval are still necessary.
+
+## Local interface (version 1)
+
+The immutable UTF-8 JSONL fixture contains one object per line, directories before children. Records have objectId, parentId, name, path, isDirectory, sizeBytes and versionId. Source identity is the pair sourceId/objectId; path is a locator. Root depth is zero. Declared file sizes have no corresponding media payload.
+
+A page contains sourceId, snapshotVersion, fixtureSha256, cursor, nextCursor and records. Cursor is the decimal byte offset in this exact fixture. A maximum line size and page size bound each read. The source verifies the approved file SHA before opening and rejects changed files while open. Every page is bound to that digest and version.
+
+SQLite holds one scan pass bound to this source, fixture and version. It atomically applies an entire page and saves the next cursor. A restart uses that checkpoint; duplicates within a pass, reused cursors, identity/version drift, invalid hierarchy and oversized pages fail without advancing it. The fixture must include exactly one root; children reference an already accepted directory. Completion is marked only after the last page validates. This is a POC index, not the platform authority.
+
+An incremental batch binds sourceId and fixtureSha256 and contains events. Incremental events have sequence, operation (create/update/delete), fromVersion and toVersion; create/update also carry record, delete carries objectId. Events require a completed scan, consecutive sequence and versions. Identical replay is accepted; different bytes at the same sequence are rejected. All events in a call commit with the checkpoint or roll back together. Renaming a file preserves objectId. Moving or deleting a nonempty directory is rejected until a subtree-safe provider adapter exists. Delete creates a POC source tombstone; it never deletes a logical asset.
+
+Retry is limited by attempts, maximum individual delay and an overall monotonic deadline. Only explicitly classified transient failures are retried. A future HTTP adapter must enforce its own per-request transport timeout; this wrapper rejects a response arriving after its deadline but cannot interrupt a blocking caller. Observations record attempts and actual requested delays; injected errors are not provider quota measurements.
+
+The generator's fileCount counts files only; directoryCount includes root. maximumDepth is the achieved directory depth. Generated fixture counts are preparation metadata; reported counts, sizes, depths and name distributions must be derived from the actual scanner index, with clocks and memory observations retained separately.
+
+## Local OpenList observation interface (version 1)
+
+The read-only WebDAV adapter supports PROPFIND Depth1, HEAD and GET against an explicit HTTP loopback /dav/ prefix only. Proxy use and redirects are disabled. Successful response bodies stay within the explicit byte ceiling; detecting an oversized stream may read and retain one additional probe byte. Each request has a socket-operation timeout; the experiment controller must separately enforce its overall deadline, including slow-drip peers. Credentials are passed in memory from an external private configuration and never appear in observation records. Retained response headers are an explicit metadata allowlist.
+
+Observations contain method, relative locator, UTC and monotonic perf_counter_ns boundaries (including actual implementation/resolution), status, selected headers, raw body bytes and their SHA. Error responses are retained too; transport, redirect and oversized-body failures are explicit. Range and validator values are observations, not implicit success assertions.
+
+A successful DAV directory response must be a bounded DAV multistatus with a successful self collection and immediate child entries confined to that directory. Duplicate hrefs, out-of-prefix paths, dot segments, encoded slashes, required-property or permission errors and XML declarations of entities/DTDs are rejected. Directory results contain locators, optional sizes/validators, explicit optional-property404 facts and stableObjectId=null: ordinary DAV href/ETag is not a stable provider ID, snapshot token or change journal. Optional DAV:resource-id and DAV:sync-token are explicitly requested and reported as raw provider metadata, including404 or omitted properties. Their stability and synchronization semantics remain unvalidated; this adapter does not test all provider capabilities or implement a change journal/pagination. These records cannot be supplied as synthetic Scanner identities. PROPFIND Depth1 is directory listing, not source pagination.
+
+Unit HTTP servers exercise actual request/response parsing and failures, but do not count as real OpenList provider measurements. Actual OpenList version, permissions, input bytes, provider behavior and experiment window must still be independently fixed and observed. Protocol references: https://www.rfc-editor.org/rfc/rfc4918.html (sections9.1 and13), https://www.rfc-editor.org/rfc/rfc5842.html (section3.1), https://www.rfc-editor.org/rfc/rfc6578.html (section4).
+
+## Canonical metadata record bridge (version 1)
+
+The protocol baseline uses exactly objectId/kind/versionId/depth/fileSizeBytes. Its companion filename stream adds name/path/modifiedAt. The new paired reader verifies both immutable SHA values, equal ordering and every shared field, and binds both digests into its checkpoint version. It does not change the frozen schemas. Paths in these streams are relative; their component count equals depth. A virtual scan anchor is outside the enumerated population and is never exported as a directory object. DirectoryCount excludes that anchor. maximumDepth is achieved, and files are placed no deeper than that achieved directory depth.
+
+The bridge retains full filename timestamps alongside the persisted index in the same transaction as each page or incremental batch. An internal savepoint lets the existing scanner and bridge metadata commit or roll back together. Frozen create/update/delete records retain eventId/sequence/beforeVersion/afterVersion and are checked against actual current object versions; full metadata for create/update is separately bound. Identical replay is idempotent and conflicting event aliases are rejected. Export orders by depth then stable ID so opaque child IDs cannot precede their parents; record order is not identity. It derives complete basic/profiled/version catalogues from the actual accepted index, excluding tombstones and the virtual anchor; it does not copy generator statistics.
+
+This supplies canonical records for the eventual native phase/resource/provider observations. It does not claim actual OpenList pagination, quota, a complete benchmark or thirteen-measurement qualification. Earlier internal-format fixture preparation remains unapproved and is not substituted for the canonical baseline.
+
+## Pinned OpenList listing interface (version 1)
+
+The listing adapter targets OpenList v4.2.6 POST /api/fs/list on an explicit HTTP 127.0.0.1 origin and an explicit reader-relative fixture scope. Requests always use refresh=false, an empty folder password and bounded positive page/per_page; no other endpoint, proxy or redirect is allowed. A reader token is supplied only in memory by the external controller. This adapter does not log in, mutate files or persist tokens. Actual HTTP status and JSON application code are separate; HTTP200 with code401 is an authentication failure, not a successful listing. The per-request socket timeout does not replace the experiment controller's total wall deadline.
+
+Observations retain the exact safe request body, actual response status/selected headers/body hash, UTC and monotonic boundaries. Raw response bodies containing the supplied token or nonempty signing/thumbnail capability fields are not retained. Bodies that cannot be completely and unambiguously decoded for that inspection are also omitted. Actual hash/length and an explicit omission reason remain, alongside any original transport failure; omitted bodies cannot become accepted pages. Authentication request bodies/tokens are never observation artifacts. This controlled-fixture adapter requires unsigned metadata, rather than silently editing raw provider bytes.
+
+Pagination checks exact page cardinality, a stable total within each directory, distinct immediate child names and bounded types/sizes/timestamps. A new isolated SQLite listing index stores the traversal frontier and observed locators, so neither a complete directory nor the whole hierarchy must be held in RAM. Root is a traversal anchor outside the population. Page callbacks expose a driver traversal cursor plus actual provider page parameters; the cursor is not a provider snapshot or change-journal token. Duplicate paths, inconsistent totals, excessive depth/population or any failed page terminate the run. Partial indexes and raw failed observations remain diagnostic, never a completed listing.
+
+The pinned response has no stable object/version ID. Observed locators and modified/size fields are retained independently, with stableObjectId=null. A later approved controlled-fixture map must bind source observations to the frozen opaque IDs and versions; path does not become logical asset identity. Repeated complete baseline comparisons remain necessary because numeric pagination is not an atomic snapshot. No unit HTTP server result claims real OpenList or original13 qualification.
+
+Primary protocol sources: [routing](https://github.com/OpenListTeam/OpenList/blob/v4.2.6/server/router.go), [list request/response and pagination](https://github.com/OpenListTeam/OpenList/blob/v4.2.6/server/handles/fsread.go), [page parameters](https://github.com/OpenListTeam/OpenList/blob/v4.2.6/internal/model/req.go), [authentication](https://github.com/OpenListTeam/OpenList/blob/v4.2.6/server/middlewares/auth.go).
+
+## Development verification
+
+The controlled-fixture binding interface consumes an immutable canonical pair and actual listing observations in an isolated SQLite database. It assigns only the approved opaque fixture object/version IDs by lookup. Names, relative paths, depth, kinds, sizes and modified timestamps come from the actual parsed provider response and must match the full approved population; it does not fill missing observed metadata with expected values. Directory source sizes remain separate from canonical zero fileSizeBytes. This explicit fixture mapping does not verify provider-native identity or snapshot semantics.
+
+Each bound page checks its actual request/response byte hashes, fixed endpoint/scope/page parameters, real Date header and traversal-cursor continuity. Partial, duplicate, unknown, mismatched or incomplete populations cannot complete. Repeated runs have separate persisted observations and completion state. Complete observed filename streams are exported from observed rows, not the approved-map table. No source access or experiment approval follows from preparing the map.
+
+Run python -B -m unittest discover -s poc/POC-05-metadata-scale -p 'test_*.py' -v from the repository root. Tests use disposable small fixtures; they do not run a POC scale experiment. Core runtime code uses the Python standard library. Canonical schema tests use the repository governance dependencies PyYAML and jsonschema.
+
+## Native memory collector interface (version 1)
+
+The Linux collector reads actual /proc/PID/status from a separate process. Approval supplies the exact target PID, boot ID, kernel start ticks, executable path/hash and command-line hash. All identity fields and same-user ownership are checked before and after the bounded read. Pid, VmHWM and VmRSS must be unique, well formed and internally consistent. The raw OS bytes are written with exclusive creation; a JSON stdout receipt binds their actual hash/length, read time, collector PID, code hash and actual argv. A dead/reused/replaced target, self-sampling, unsupported platform or existing output fails; no aggregate or expected memory value is substituted. The future experiment controller must gate the workload between independent before/after samples and keep the scanner alive for the final sample.
+
+The resource/PID design uses a waiting preflight launcher followed by approved exec into the scanner with the same PID. The scanner program-entry marker is distinct from OS birth; preflight birth/identity and exec handoff must be retained separately. Approval must precede the future window, preflight performs no scan, the scanner waits for the first counter before work and stays alive for the last counter. Real exit status determines phase success, with one declared clock mapping for actual monotonic markers. Independent design review accepted these constraints at2026-10-22T19:10:16Z; implementation and concrete experiment approval remain separate.
+
+Kernel counter semantics and their asynchronous RSS precision limits follow the [Linux proc documentation](https://docs.kernel.org/filesystems/proc.html). These are process counters, not a proof of physical storage capacity or provider production throughput.
+
+## Native scan lifecycle interface (version 1)
+
+The Linux runtime reserves a waiting launcher PID from an immutable manifest containing exact code hashes and final scanner argv. It retains raw OS birth/identity separately. An independently reviewed approval binds that reservation, manifest, configuration bytes and a future window. Release rechecks those bytes and actual time, then execs the scanner with the same PID. The exec handoff and scanner program-entry event are distinct; no preflight scan or source access is allowed.
+
+The controller invokes the independent memory CLI before releasing enumeration. The scanner then runs actual canonical enumeration, receives bounded references to independently observed controlled source changes, and replays them incrementally. It never creates observed events by copying the expected-change manifest. Source-observation records must bind source ID, actual observation time, event/profile and retained evidence hashes. A separate read-only process rereads the complete post-index catalogue after incremental phase exit. The scanner stays alive for final OS sampling and exits only afterward. The controller waits for actual exit status before generating any successful typed phase captures. It verifies the actual program-entry and externally observed exit are both inside the approved window; an exit observed after expiry retains rejected facts and produces no successful capture. Each phase collector independently rechecks this window.
+
+All phase markers retain raw monotonic ticks and direct wall observations with one measured clock calibration. Their declared UTC values derive from that single mapping; they are not separately fitted per phase. All three captures reuse one actual program-entry event and one externally observed real-exit event. Exact approved argv, real raw OS counters, physical output files, ordered observations and failures are retained. Unit IPC/file fixtures do not constitute real OpenList or approved scale execution. The source controller and original13 qualification still require their complete actual run and independent approval.
+
+## Controlled source experiment interface (version 1)
+
+A new external source session will bind the fixed canonical pair, actual repeated OpenList pages, read-only loopback origin/scope, source adapter build and approved execution window. A bounded artifact journal preserves raw safe request/response bytes and actual hashes/status/times. Only explicitly mapped fixture identities/versions are assigned; all filename/size/type/time attributes remain observed. Local leaf mutations require confined nonsensitive fixture paths and immutable before/after payload hashes; each event is emitted only after actual local mutation and complete remote parent-directory observation, with retained evidence. Expected change rows never serve as observations. A failed mutation/confirmation retains its receipt and dirty fixture state without automatic rollback or reuse.
+
+An owned loopback gateway will forward only approved read-only listing/DAV routes to the fixed OpenList origin, preserve upstream bytes/status/selected headers and enforce a documented finite request quota. Credentials remain in memory and are never in artifacts. Controlled HTTP429/5xx/disconnect and expired gateway-authorization cases are explicit injected adapter faults, not provider production failures/quotas or a claim about OpenList token expiry. Requests outside the fixed source scope or execution window fail before forwarding. No administrative or filesystem-write HTTP routes exist.
+
+The external controller will assemble frozen scan/resource/profiling reports and all original thirteen metric values from actual complete streams, raw process facts, counters, quota documentation and five original Range/validator response bodies. Real negative-response bodies and missing validators remain unchanged even if qualification fails. No successful qualification is inferred from report generation. The source session, bounded gateway and run_source_experiment.py entry point are implemented. The entry point reserves the actual scanner, fixes runtime/resource bytes and publishes an approval request without creating an approval. Formal execution requires committed clean code with its exact subject version. An independent reviewer must atomically publish the approval file before its future window; the controller then releases the same PID and runs the complete observation chain. Known source/gateway credential values are blocked from artifacts, retaining only omitted-body hashes/lengths. Unit-fixture mode is explicit in its requests/results and never grants qualification. Source-specific tests/review, concrete independent experiment approval and an actual original13 run remain required.
+
+Raw GET response bodies are retained as binary produced_media artifacts, with
+their actual bytes/hash/status also bound by the textual HTTP observation.
+Request bodies, listing JSON and observation metadata remain command_output.
+No binary body is rewritten or discarded to satisfy UTF-8 text validation;
+credential checks and explicit omitted-body handling still apply.
+
+## Windows native lifecycle and controlled source interface (version 1)
+
+The Windows backend uses the actual final OS image with its initial thread
+suspended. Before creation it configures a kill-on-close Job; CreateProcessW
+receives JOB_LIST and the explicit standard-handle list in STARTUPINFOEX, so
+parent exit at creation return cannot strand an unassigned suspended child.
+Actual creation time, owner SID, executable hash and OS command line bind the
+reservation. Independent approval still fixes immutable code/configuration,
+the exact PID and a future window before ResumeThread. The approval hash is
+delivered through the inherited private pipe; no worker work runs before
+release. Expiry and rejection terminate and actually wait for that exact image.
+
+Timing uses actual QueryPerformanceCounter and GetSystemTimePreciseAsFileTime
+brackets, retaining raw QPC, frequency and FILETIME. ResumeThread has separate
+before/after samples; the child may enter before the parent's post-call sample.
+Neither sample is called the exact resume instant. The same frozen drift,
+uncertainty, window and interval checks apply. A separate process reads actual
+GetProcessMemoryInfo counters and retains the native structure and typed raw
+counter bytes. Linux /proc/exec entry points keep their explicit platform gates.
+
+Controlled Windows leaf changes hold real parent handles against rename/delete,
+reject reparse points, ambiguous aliases and hard links, verify approved before
+bytes/source metadata, and mutate through the bound leaf handle. Writes retain
+actual file identity, hash and integer FILETIME. Only complete provider
+confirmation permits an event; failed confirmation preserves dirty state and
+evidence without accepting a change. Private credential reads check the actual
+owner SID and DACL and reject other principals before reading bytes.
+
+run_source_experiment.py selects the actual host backend. Its explicit Windows
+reservation binds the same immutable approval request, actual process identity,
+Windows counter command and resource policies without accessing the source.
+Unit HTTP/handle tests exercise all three changes, five real response probes,
+four bounded adapter faults, actual wait and original13 report assembly. They
+remain unit-only, qualificationAccepted=false, and do not establish OpenList or
+scale acceptance. API details follow the [Windows creation attributes](https://learn.microsoft.com/en-us/windows/desktop/api/processthreadsapi/nf-processthreadsapi-updateprocthreadattribute)
+and [extended startup structure](https://learn.microsoft.com/en-us/windows/win32/api/winbase/ns-winbase-startupinfoexw).
+
+## Evidence timestamp and immutable input boundary
+
+New observations serialize UTC instants with the frozen acceptor's `Z` suffix.
+This changes representation only: raw QPC/FILETIME samples, the single clock
+mapping, measured instants, uncertainty and drift/interval thresholds stay the
+same. Native counter receipts and actual HTTP/gateway timestamps use that form.
+The complete approved baseline, expected changes, filename stream, before/after
+probe payloads and quota document are retained with their exact hashes and
+artifact types; an input changed after approval is rejected.
+
+The real source-ca1da41 Windows attempt004 completed the original13 observation
+chain for10000 files/500 directories and actually exited0. Its immutable archive
+and independent result review are in
+`evidence/POC-005/windows-attempt004-observed-unqualified/`. Qualification was
+rejected: its original UTC strings use `+00:00`, and the actual33-byte416
+diagnostic body conflicts with the frozen empty-body rule. The original bytes,
+consumed approval, databases and changed fixture remain preserved. This forward
+repair does not retroactively qualify them. A separately authorized contract
+change must resolve the416 conflict; this task does not edit the frozen checker.
+
+## Remaining work
+
+Exact-source acceptance of the forward repair; resolution of the frozen416 conflict; complete execution/profile qualification and independently approved100k/1m scale sweeps and compressed-input support. The first real10k observation chain is retained separately from qualification. Missing stable provider IDs remain reported, rather than replaced with path-derived asset IDs. Production700TB and Baidu remain untested.
+
+Rollback removes only a newly created disposable POC index or test fixture after its evidence is preserved. Existing databases are never automatically migrated or overwritten.
+
+## Compressed metadata outputs (component accepted; fixed-source validation pending)
+
+Canonical exports use gzip only for explicit .jsonl.gz paths; observed provider profile pages use gzip. Physical artifact accounting includes all gzip bytes; failed partials remain outside the successful journal. HTTP bodies and control journals remain exact originals. Reporting validates the complete finite gzip envelope before bounded reading. Actual Windows146/Linuxrelated47 component regressions passed, including native three-export gzip/report chains. Full source gates, CI and independently approved1m measurements remain pending; prior c98/009100k qualification is source-bound. Reversible original source/results, all failed histories and independent review: evidence/POC-005/compressed-output-v1/index.json.

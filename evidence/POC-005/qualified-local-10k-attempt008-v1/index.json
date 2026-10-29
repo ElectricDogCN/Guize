@@ -1,0 +1,161 @@
+{
+  "kind": "LOSSLESS_ACTUAL_LOCAL10K_VALIDATION_FACTS_NOT_TASK_COMPLETION",
+  "parent": "dce6ec373d92450f50d994b2607975889445723a",
+  "testedRuntime": "8f7c9a5ed3f598d40f6e34bb12151a67b3f5d8e1",
+  "failed007Context": "7dd5550770682469710d65021439b7249453b704",
+  "failed007ErrorCount": 5,
+  "passed008Context": "71b77776a9080091ee3b10042e66f5c9dcff41a4",
+  "passed008ErrorCount": 0,
+  "original13FactsAccepted": true,
+  "localExecutionQualificationAccepted": true,
+  "files": [
+    {
+      "original": "poc005-attempt007-full-execution-validation/results.json",
+      "encoded": "000-729bc8f355ba.zlib.b64",
+      "byteCount": 1707,
+      "sha256": "729bc8f355ba4940c969911cc783c5bbe551d46c0b18c33577d6b0c50a39685d"
+    },
+    {
+      "original": "poc005-attempt007-full-execution-validation/full-execution-validation.raw",
+      "encoded": "001-1209b7d7e58b.zlib.b64",
+      "byteCount": 1094,
+      "sha256": "1209b7d7e58b46b13199993d55af004eb3725c24b3722cdb282d78528fa45766"
+    },
+    {
+      "original": "poc005-attempt007-tracked-validation-context.json",
+      "encoded": "002-feeb39046a4f.zlib.b64",
+      "byteCount": 356398,
+      "sha256": "feeb39046a4fb832b722f6e61865065500617128a18a106dd6ba9892d23e5254"
+    },
+    {
+      "original": "poc005-attempt007-full-validation-independent-assessment.json",
+      "encoded": "003-a92f88648ed1.zlib.b64",
+      "byteCount": 10349,
+      "sha256": "a92f88648ed153d869c45ed41e26ef70a52b1ff9276963dc4c98c209dcbd7cdf"
+    },
+    {
+      "original": "poc005-attempt007-observations-independent-review.json",
+      "encoded": "004-5b9f549b2044.zlib.b64",
+      "byteCount": 8718,
+      "sha256": "5b9f549b20448fa08a4dcf4ae325206adafe376dcae3119e9d65f44c57d6ceb7"
+    },
+    {
+      "original": "poc005-attempt008-full-execution-validation/results.json",
+      "encoded": "005-524d2faf178a.zlib.b64",
+      "byteCount": 1137,
+      "sha256": "524d2faf178a557ad3a87278fb9604bcf3f37c080d378eab098e2cd8e6d522ac"
+    },
+    {
+      "original": "poc005-attempt008-full-execution-validation/full-execution-validation.raw",
+      "encoded": "006-f19bacaa2f1d.zlib.b64",
+      "byteCount": 538,
+      "sha256": "f19bacaa2f1d83a0ed026686f9fedb1b843fc6564d85d0fee6f0880a433b7e02"
+    },
+    {
+      "original": "poc005-attempt008-tracked-validation-context.json",
+      "encoded": "007-d60771357843.zlib.b64",
+      "byteCount": 356398,
+      "sha256": "d60771357843204d6ed45c8a5157c1ccedbc4000a136d19d63d3977b27219c13"
+    },
+    {
+      "original": "poc005-attempt008-full-validation-independent-assessment.json",
+      "encoded": "008-e7bdb4cf281f.zlib.b64",
+      "byteCount": 8818,
+      "sha256": "e7bdb4cf281f03aacb704515372460e87576cd31fe0583601946253ba8e065a6"
+    },
+    {
+      "original": "poc005-attempt008-observations-independent-review.json",
+      "encoded": "009-be6042b7265e.zlib.b64",
+      "byteCount": 12998,
+      "sha256": "be6042b7265e8c8b34bed614a5f8ed0d3c8c308adcf888da6df14d20f73ae1af"
+    },
+    {
+      "original": "poc005-attempt008-final-reservation-independent-review.json",
+      "encoded": "010-90a9f0f41e18.zlib.b64",
+      "byteCount": 7056,
+      "sha256": "90a9f0f41e18c33103ae75f3327e2827b0fe6ec6efd4c7294a56095486e40e88"
+    },
+    {
+      "original": "poc005-attempt008-evidence-parent-integration/results.json",
+      "encoded": "011-b71918d02b2f.zlib.b64",
+      "byteCount": 1471,
+      "sha256": "b71918d02b2f7431d1bae1d596a115c8ccae6b8b447f6a49a5f18a91cc9ae99b"
+    },
+    {
+      "original": "poc005-attempt008-evidence-parent-integration/fetch.raw",
+      "encoded": "012-d6693c667517.zlib.b64",
+      "byteCount": 220,
+      "sha256": "d6693c667517261d08cd060ff9e4e4c4b4726044853ea6099f4d4f3e238192d9"
+    },
+    {
+      "original": "poc005-attempt008-evidence-parent-integration/merge.raw",
+      "encoded": "013-a10574344d9b.zlib.b64",
+      "byteCount": 666572,
+      "sha256": "a10574344d9bc13aed3d14ae7edb7f07df1798321319d218ba1c873a433ae06f"
+    },
+    {
+      "original": "poc005-completion-main-sync-8f7c9a5-final-source-independent-review.json",
+      "encoded": "014-254afe4d7eea.zlib.b64",
+      "byteCount": 11747,
+      "sha256": "254afe4d7eea29e337d2a6415b1545dcf39816782f1808884488543777b3f00d"
+    },
+    {
+      "original": "poc005-completion-main-sync-8f7c9a5-ci866-job.raw.txt",
+      "encoded": "015-389b35b6bb44.zlib.b64",
+      "byteCount": 683929,
+      "sha256": "389b35b6bb44d98e2ac998b997634cc74a287e8d0f4b329b835d4a673a91e1e5"
+    },
+    {
+      "original": "poc005-completion-main-sync-8f7c9a5-ci866-official.json",
+      "encoded": "016-e51ba6f6a921.zlib.b64",
+      "byteCount": 23202,
+      "sha256": "e51ba6f6a92131a1df97957de7342e516a1199ab0e86c9008b5b72f8d90fde20"
+    },
+    {
+      "original": "poc005-completion-main-sync-8f7c9a5-ci866-actual-summary.json",
+      "encoded": "017-473c490a59aa.zlib.b64",
+      "byteCount": 350,
+      "sha256": "473c490a59aa4b63133dd8a570a324c59d53cd096dc2bfa474f9af87f348dbd4"
+    },
+    {
+      "original": "validate_poc005_attempt007_full_execution.py",
+      "encoded": "018-80d39b928cc7.zlib.b64",
+      "byteCount": 4322,
+      "sha256": "80d39b928cc71c2d63e3b64b7a3d294d915bae6792e2f1d7b946a58da2571bc9"
+    },
+    {
+      "original": "prepare_poc005_attempt007_tracked_validation.py",
+      "encoded": "019-36633d353309.zlib.b64",
+      "byteCount": 6258,
+      "sha256": "36633d353309d42a9613606313bae1d9d1b8145055ea07f622889f995252fa85"
+    },
+    {
+      "original": "validate_poc005_attempt008_full_execution.py",
+      "encoded": "020-13a633537cb1.zlib.b64",
+      "byteCount": 4322,
+      "sha256": "13a633537cb13c1a60e1c520f7862eee27cd55a049500759be92acc6a91ffdee"
+    },
+    {
+      "original": "prepare_poc005_attempt008_tracked_validation.py",
+      "encoded": "021-cd4e32780c5b.zlib.b64",
+      "byteCount": 6268,
+      "sha256": "cd4e32780c5bfdc55c24ddca60e7c65d3495caad71220021d60e0eff46a635be"
+    },
+    {
+      "original": "merge_poc005_attempt008_evidence_into_author_once.py",
+      "encoded": "022-9659f00bc079.zlib.b64",
+      "byteCount": 5114,
+      "sha256": "9659f00bc0794e6cee80352027d326dd7e977992a19210fbc4573b522d8574f0"
+    }
+  ],
+  "bothExecutionParentHistoriesRetained": true,
+  "originalApprovalsUnmodified": true,
+  "bundleBinaryPolicy": "Actual bundle names/bytes/hashes retained in original context records; binaries remain locally retained, not duplicated into Git",
+  "profileTerminalIndexAccepted": false,
+  "scale100kAnd1mAccepted": false,
+  "productionAccepted": false,
+  "taskCompleted": false,
+  "readyApproved": false,
+  "mainMergeApproved": false,
+  "fullV1Completed": false
+}

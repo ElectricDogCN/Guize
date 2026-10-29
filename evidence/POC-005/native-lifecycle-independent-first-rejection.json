@@ -1,0 +1,33 @@
+{
+  "reviewer": "/root/gz022_planning_independent_review",
+  "reviewedAt": "2026-10-22T19:57:20Z",
+  "decision": "rejected uncommitted content",
+  "sourceBase": "8bf5d1fff8a5a07057bec68de8a7e7bb505c646f",
+  "mustFix": [
+    {
+      "priority": "P2",
+      "file": "poc/POC-05-metadata-scale/native_scan_control.py",
+      "reason": "finish/phase_capture could emit successful captures when actual external exit observation occurs after the approved window; preserve actual rejected facts and reject before successful captures without changing timestamps or extending window",
+      "staticallyFound": true,
+      "actualCounterexampleExecutedAtReview": false
+    }
+  ],
+  "independentUnitTests": {
+    "tests": 13,
+    "seconds": 18.2,
+    "exitCode": 0,
+    "noSkipped": true,
+    "environment": "actual Linux WSL disposable fixtures",
+    "invocation": "unittest.defaultTestLoader.loadTestsFromModule(test_native_scan)"
+  },
+  "files": {
+    "poc/POC-05-metadata-scale/native_scan_protocol.py": "7cf45ab1b404d2b5434e2e23f32fe9e91d4c95d36e9edc4f8fe9239d6107157e",
+    "poc/POC-05-metadata-scale/native_scan_runtime.py": "fa13210d8488cbd8f40e9713e34fb74649354a17367b15b99c550014468808ad",
+    "poc/POC-05-metadata-scale/native_scan_control.py": "5f67557c559836db9bf72912949511d3c8d0baef27b06025b6f3b0af103209e5",
+    "poc/POC-05-metadata-scale/test_native_scan.py": "76f7509e64ae605514a10eacba4c1eafb161d050678705b937e841f9dee4d463",
+    "poc/POC-05-metadata-scale/README.md": "d8188ef9e2d4fd98ce5b302b52d1aad1dd3996c85964d9f49335b2e4320efd50",
+    "specs/tasks/POC-005.md": "222c88b94f2997c749b2f4356f26c8b888c4429fea56c1495adde4e4176a5117"
+  },
+  "experimentApproved": false,
+  "qualifiedAccepted": false
+}

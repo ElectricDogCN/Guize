@@ -1,0 +1,32 @@
+{
+  "taskId": "POC-005",
+  "issue": 132,
+  "pr": 135,
+  "phase": "reservation",
+  "actualMain": "f2e0150265e0c1eeca5f69fe85708b2434e5ee79",
+  "source": "f42e107374562f35aa6771e4c841ca835fcdc797",
+  "base": "11c32830c0d1bb8ccdcc04aa278876065bce1f33",
+  "tree": "28cb63b228eafdb4d970313e7b23230bc4ece8a4",
+  "sourceLocal15Accepted": true,
+  "sourceCi814Accepted": true,
+  "actualIndependentMetadataContentAccepted": true,
+  "actualThreadsEmptyAtAdmission": true,
+  "actualMainFiveChecksAccepted": true,
+  "actualMainPocProtocolAccepted": true,
+  "actualMainCi816Accepted": true,
+  "governanceTests": 713,
+  "seconds": 1445.86,
+  "noSkippedTests": true,
+  "expectedNonPullRequestStepSkip": "Task-branch linkage check",
+  "mainRaw": {
+    "file": "poc005-reservation-f2e0150-ci816.raw.txt",
+    "bytes": 284004,
+    "sha256": "ebdd50b78ca101dd34b49c67bd1a96e3b7f071eee01ace40b5ec823b2e97e777"
+  },
+  "mustFix": [],
+  "actualMainAccepted": true,
+  "acceptedAt": "2026-10-22T17:21:54.800Z",
+  "implementationStarted": false,
+  "experimentExecuted": false,
+  "fullV1Complete": false
+}
