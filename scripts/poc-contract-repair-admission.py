@@ -203,7 +203,13 @@ def audit_source_authority_intent(root: str, base: str, observation: str) -> Non
         for node in nodes:
             require(hashlib.sha256(blob(root,node,selected.intent)).hexdigest() == selected.digest,
                     'Authorization intent changed after registration')
-    for node in git(root,'rev-list','--reverse',base+'..'+observation).decode().split():
+    # Follow every side branch and retain merges, including TREESAME imports.
+    # The displayed parents are rewritten by Git: only select commit identities
+    # here and keep auditing each commit against its real first parent below.
+    candidates = git(root,'rev-list','--full-history','--parents','--reverse',
+                     base+'..'+observation,'--',selected.intent).decode().splitlines()
+    for record in candidates:
+        node = record.split()[0]
         previous = parent(root,node)
         if selected.intent not in changed(root,previous,node):
             continue

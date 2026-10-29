@@ -29,3 +29,8 @@ Incoming actual main7996dedc0b01c5208824eff4d70c95724ba1b26d has independent com
 ## Review boundary forward fix
 
 Independenta4de confirmed three P1 defects on71d despite originalCI904822 success. Five real-Git regressions first red3/2 then green5/full61 actual0 establish this forward component, accepted4d54bd0 for three registered code/test pins.29 exact findings/reproduction/red/green/JUnit/oldCI originals are recoverable from implementation-v1/review-boundary-fix-v1/originals.zip and index.json. Current new-source14/full827CI, final source/main and normalReview/Completion remain pending. Old71 is not merge-approved. Five frozen paths, original intent/foreign metadata and old POC grants remain unchanged. An initial archive list check failed before any staging/commit; explicit file selection now preserves all working directories and original failures.
+
+
+## History selection performance forward fix
+
+Source300 CI906 was cancelled at the original30-minute limit; no full827 acceptance or unchanged retry. A two-path selector/test component keeps all merge/side history and original real-parent/import checks while reducing unrelated audits. Original300/new overlay both reject the hidden side edit/restore; full62 and independent component acceptance are archived at implementation-v1/history-selection-performance-v1/. Call counts cover PROOF.git only, not every subprocess. New-source14/full828CI, final source/main and normalReview/Completion remain required. Five frozen contracts, original authority and all prior POC source/experiment boundaries remain unchanged.

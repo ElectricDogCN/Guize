@@ -932,6 +932,22 @@ class TestSourceCompatibilityRepairAdmission(unittest.TestCase):
         self.assertTrue(errors)
         self.assertEqual(PROOF.authenticated_claims(str(self.repo),'OPS-018',self.entry,registration,observed_ref=imported),set())
 
+    def test_treesame_merge_cannot_hide_side_branch_intent_edit_and_restore(self):
+        self.git(self.repo,'checkout','-b','fixture-hidden-intent-side',self.completed)
+        path=Path(self.repo,PROOF.SOURCE_COMPATIBILITY.intent);raw=path.read_bytes()
+        path.write_bytes(raw+b'\n');self.commit(self.repo,'Fixture side branch alters immutable intent')
+        path.write_bytes(raw);restored=self.commit(self.repo,'Fixture side branch restores immutable intent')
+        self.git(self.repo,'checkout','--detach',self.completed)
+        self.write(self.repo,'evidence/POC-003/treesame-peer-fixture.txt','Unrelated first-parent progress.\n')
+        first=self.commit(self.repo,'Fixture independent mainline progress')
+        self.git(self.repo,'merge','--no-ff','--no-edit',restored)
+        merged=self.git(self.repo,'rev-parse','HEAD')
+        self.assertEqual(PROOF.blob(str(self.repo),merged,PROOF.SOURCE_COMPATIBILITY.intent),raw)
+        self.assertNotIn(PROOF.SOURCE_COMPATIBILITY.intent,PROOF.changed(str(self.repo),first,merged))
+        self.assertNotIn(PROOF.SOURCE_COMPATIBILITY.intent,PROOF.changed(str(self.repo),self.completed,merged))
+        with self.assertRaisesRegex(PROOF.AdmissionError,'Authorization intent changed after registration'):
+            PROOF.audit_source_authority_intent(str(self.repo),self.completed,merged)
+
     def test_peer_cannot_admit_a_successor_from_an_unadmitted_side_parent(self):
         registration=self.register()
         self.git(self.repo,'checkout','--detach',self.activation)
