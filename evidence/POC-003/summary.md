@@ -1,3 +1,11 @@
+## Current source freeze after accepted closed-record capacity component
+
+Current implementation code is ordinarily committed throughfc3cd23 after normal accepted-main22 importcd804502. Runtime initialization/crypto bindingdbacbae and closed-record capacityfc3cd23 have independent component acceptance. Conditional finite H4096/carrier2608 and the synchronous phase max1048577 are reviewed method terms; actual whole-window/model application, original full matrix, fresh revocation and formal POC results remain outstanding. The prospective hook-free entryv3 retains the exact currentlab/Collector pins and has not executed a media experiment.
+
+The current fifteen declared source commands now compare with accepted main22ab6a0668da2d64a016fccef2c3b5a634638a24. This updates their integration comparison only: original creationbase760f6c5838597d1d66c0a536ecbf440ef5a7dfec, original Task front/roles/lease, frozen schemas/checkers/thresholds, Program/Active and previous records remain unchanged. Whole-source checks, current related regressions, same-head CI and independent final-source acceptance are pending on this new metadata HEAD. Windows/fixed-image7 component results do not substitute for those gates. Preserve all environment failures and raw; use ordinary reviewed forward rollback.
+
+Historical source-bound records below keep their original attribution:
+
 ## Current fixed Collector raw-I/O component (local; aggregate proof pending)
 
 Collector now uses one fixed64KiB backing for HTTPResponse.readinto, preserving the one-byte first body target and the original media clock. Its actual __alloc__ is checked before reading. Raw response files complete partial writes; no-progress writes become explicit bodyPersistenceError/failed transport. Actual bounded IncompleteRead partials remain failures, including an empty partial. Source comparison uses a separate fixed raw buffer after the response backing has been released before witness polling. Comparison releases before final metadata/request end. Original byte budgets stay unchanged.

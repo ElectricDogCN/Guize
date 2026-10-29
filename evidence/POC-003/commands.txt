@@ -1,3 +1,33 @@
+## Current source freeze after accepted closed-record capacity component
+
+Current implementation code is ordinarily committed throughfc3cd23 after normal accepted-main22 importcd804502. Runtime initialization/crypto bindingdbacbae and closed-record capacityfc3cd23 have independent component acceptance. Conditional finite H4096/carrier2608 and the synchronous phase max1048577 are reviewed method terms; actual whole-window/model application, original full matrix, fresh revocation and formal POC results remain outstanding. The prospective hook-free entryv3 retains the exact currentlab/Collector pins and has not executed a media experiment.
+
+The current fifteen declared source commands now compare with accepted main22ab6a0668da2d64a016fccef2c3b5a634638a24. This updates their integration comparison only: original creationbase760f6c5838597d1d66c0a536ecbf440ef5a7dfec, original Task front/roles/lease, frozen schemas/checkers/thresholds, Program/Active and previous records remain unchanged. Whole-source checks, current related regressions, same-head CI and independent final-source acceptance are pending on this new metadata HEAD. Windows/fixed-image7 component results do not substitute for those gates. Preserve all environment failures and raw; use ordinary reviewed forward rollback.
+
+Historical source-bound records below keep their original attribution:
+
+Current exact-source Task15; NOT YET RUN on this metadata source:
+
+```bash
+git diff --check 22ab6a0668da2d64a016fccef2c3b5a634638a24...HEAD
+python scripts/check-task-file.py --task POC-003
+python scripts/check-project-readiness.py
+python scripts/check-schemas.py
+python scripts/check-program-plan-integrity.py --base-ref 22ab6a0668da2d64a016fccef2c3b5a634638a24
+python scripts/check-program-plan-history.py --base-ref 22ab6a0668da2d64a016fccef2c3b5a634638a24 --head-ref HEAD --task POC-003 --branch-name chore/POC-003-ats-range
+python scripts/check-program-plan-transitions.py --base-ref 22ab6a0668da2d64a016fccef2c3b5a634638a24 --head-ref HEAD --task POC-003 --branch-name chore/POC-003-ats-range
+python scripts/check-program-plan-finalization.py --base-ref 22ab6a0668da2d64a016fccef2c3b5a634638a24 --head-ref HEAD --task POC-003
+python scripts/check-program-lifecycle-guards.py --base-ref 22ab6a0668da2d64a016fccef2c3b5a634638a24 --head-ref HEAD --task POC-003 --branch-name chore/POC-003-ats-range
+python scripts/run-program-lifecycle-gate.py --base-ref 22ab6a0668da2d64a016fccef2c3b5a634638a24 --head-ref HEAD --task POC-003 --branch-name chore/POC-003-ats-range
+python scripts/run-agent-coordination-gate.py --base-ref 22ab6a0668da2d64a016fccef2c3b5a634638a24 --head-ref HEAD --task POC-003 --branch-name chore/POC-003-ats-range
+python scripts/run-task-scope-gate.py --task POC-003 --base 22ab6a0668da2d64a016fccef2c3b5a634638a24
+python scripts/check-evidence.py --task POC-003
+python specs/poc/check_program.py --task POC-003 --base-ref 22ab6a0668da2d64a016fccef2c3b5a634638a24
+python scripts/check-markdown.py
+```
+
+Historical commands follow unchanged:
+
 Task: POC-003
 Issue: 131
 Branch: chore/POC-003-ats-range

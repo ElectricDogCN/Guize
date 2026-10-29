@@ -1,3 +1,11 @@
+## Current source freeze after accepted closed-record capacity component
+
+Current implementation code is ordinarily committed throughfc3cd23 after normal accepted-main22 importcd804502. Runtime initialization/crypto bindingdbacbae and closed-record capacityfc3cd23 have independent component acceptance. Conditional finite H4096/carrier2608 and the synchronous phase max1048577 are reviewed method terms; actual whole-window/model application, original full matrix, fresh revocation and formal POC results remain outstanding. The prospective hook-free entryv3 retains the exact currentlab/Collector pins and has not executed a media experiment.
+
+The current fifteen declared source commands now compare with accepted main22ab6a0668da2d64a016fccef2c3b5a634638a24. This updates their integration comparison only: original creationbase760f6c5838597d1d66c0a536ecbf440ef5a7dfec, original Task front/roles/lease, frozen schemas/checkers/thresholds, Program/Active and previous records remain unchanged. Whole-source checks, current related regressions, same-head CI and independent final-source acceptance are pending on this new metadata HEAD. Windows/fixed-image7 component results do not substitute for those gates. Preserve all environment failures and raw; use ordinary reviewed forward rollback.
+
+Historical source-bound records below keep their original attribution:
+
 ## Accepted-main synchronization (local only; new fixed-source gates pending)
 
 The actual ordinary author merge43634485a674167c4c198bc406126f2127021a25 has parents[c6a3ed76abf70b02947b9ffaa09869c848250f42,746e23e582501fa08380c3f3301bdc1774902f7c] and treefd013f7498fa58ce0e5ae03c1cfad35bf5d2f7da. Merge actualwait0/clean, with no conflict resolution or discarded history. The entire Ownpoc tree remains byte-identical to the tested componentc6. Registrationbase760/Taskfront/roles/lease/claims remain; current integrationbase is accepted main746. Task prospective15 commands now use746, without rewriting historical logs. Exact commit/precommit/merge raw records are retained in accepted-main-sync-v1/index.json. This local sync is not publication, source15/CI acceptance, native owner/ATS validation or POC completion. Freeze the next metadata source before running its actual15 and same-head CI.
