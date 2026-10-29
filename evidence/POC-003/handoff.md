@@ -1846,3 +1846,8 @@ The independently fully accepted main7996dedc0b01c5208824eff4d70c95724ba1b26d is
 ## Cooperative stop development candidate
 
 Source07 matrix control exit70 prevented final owner/epoch25/media closure despite21/101 raw collection; negative7353 and consumed3e797 remain. Optional Event stop keeps complete owner RPC/fail-fast semantics and is statically acceptede4fb with two old TypeError failures and seven Windows development passes only. Exact component originals are at cooperative-stop-v1/component/. This is not full fixed-source/native qualification or a new experiment; current accepted source07 remains historical to its exact context. FullPOC/V1 incomplete.
+
+
+## Fixed021c3f3 offline198 originals
+
+Exact021c3f3 completed89 Windows+98 Linux+11 fixed-image synthetic regressions,36 actual waits0, no failures/errors/skips; independently accepted373884.78 original results/raw/review/method files are indexed and archived at cooperative-stop-v1/offline198/. POC code tree remains unchanged. This is not whole-source/current-main or new experimental qualification. Source07 exit70,7353 negative and consumed3e797 remain; original8MiB/15 observations/fresh revocation/fullPOC/V1 remain incomplete.
