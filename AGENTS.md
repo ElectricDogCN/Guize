@@ -377,6 +377,8 @@ Integrator 必须确认依赖已合并、最新 HEAD 的 Gate 成功、Review Th
 
 唯一有界的 POC 合同修复补充准入以 `scripts/poc-contract-repair-admission.py` 的真实 Git 历史证明为准：OPS-013 原始主线登记中的不可变授权声明、非空实现、独立 Review、正常 Completion 和释放容量全部成立后，仅声明的 OPS-014 可在后续真实主线独立预留两条精确路径。必须核验原始父基线及两文件 Git 字节、独立角色、租约、容量、原始范围和逐提交历史；任务编号、候选本地声明、侧分支或晚补 claims 不授予权限。此补充不改变模块所有权；实际合同代码变更前仍须建立以下针对已完成 GZ-021 的真实冻结事件，修复后按原规则验证并独立解冻。
 
+另一个独立且仅向前生效的准入绑定 OPS-017 原始主线登记中的 `source-compatibility-admission-intent.json` 原件：原始父基线、四条治理路径的真实实现、独立 Review、正常 Completion 和高风险容量释放全部经真实 Git 历史核验后，仅允许 OPS-018 独立预留声明的五条精确合同路径。原 OPS-013/014 授权、默认严格行为与完成身份保持；新声明不得改写原实验、结果、批准时间、样本、阈值、完整 CI、平台或独立生产复测义务。五条目标必须保持原注册父基线的真实 Git 字节直至依法进入修复。包括当前验证提交在内的逐提交历史均须保护不可变授权、稳定身份、范围、租约与正常生命周期；任务编号、侧分支、晚补或修改后恢复均不授予准入。OPS-018 的真实代码修改仍须遵守以下 GZ-021 冻结、验证和独立解冻规则；本准入不自动认可任何历史 POC 对当前代码的适用性。
+
 Program status=frozen 是执行准入阻断状态。恢复任务在 recovery 记录中声明 taskId、具体原因、受影响的 completed Tasks、冻结时主线 sourceCommit、UTC frozenAt 和本任务 verificationPath。冻结转换仅允许自己的 Task/Evidence、Program 恢复元数据与自己的 Lease；不能改变既有任务状态、完成账本、政策或业务实现。
 
 冻结后普通任务不得预留、启动、继续实现、完成或以解冻同一 PR 启动。旧活动快照可保留；普通任务仅可通过严格 metadata-only blocked/cancel 收口。已登记的 MOD-GOV 恢复 Foundation 可在已声明路径内修复。主线无 --task 的检查同样必须执行。

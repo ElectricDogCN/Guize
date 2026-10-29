@@ -1,0 +1,78 @@
+{
+  "kind": "OPS017_REAL_HISTORY_SELECTION_COMPONENT_AND_CANCELLED_CI_ORIGINALS",
+  "originalSource": "300df8cb643c39871cb189898521a2b216763fa9",
+  "uncommittedOverlayPins": {
+    "scripts/poc-contract-repair-admission.py": {
+      "bytes": 33219,
+      "sha256": "af3380172d5d8858972615b83a6e7458480c4d99a789055202d3e836e306f0a3"
+    },
+    "tests/governance/test_poc_contract_repair_admission.py": {
+      "bytes": 64387,
+      "sha256": "d00bb7e190806be69395ec1da358ff0f0720aaf7689acdb0eaa8c3084c13e446"
+    }
+  },
+  "independentComponentReviewSha256": "cce24f02127ec1d90721a18f3dd5022b16fa42ce7eb26bff9920b64c8df24f6e",
+  "originalFiles": [
+    {
+      "path": "ops017-history-selection-perf300-v1/results.json",
+      "bytes": 4345,
+      "sha256": "cd0662dcefd38f1f4466ff4586ee4de064155a5529e18adb5e9eb3b96cb317d5"
+    },
+    {
+      "path": "ops017-history-selection-perf300-v1/original300-side-history.raw",
+      "bytes": 902,
+      "sha256": "cdb56412dd90ecc5477a41c61d2403e1daf782221c256a4bf74935b60e1e8cab"
+    },
+    {
+      "path": "ops017-history-selection-perf300-v1/original300-side-history.xml",
+      "bytes": 448,
+      "sha256": "a2231814c8f3c0fc48da3fb5307a3268336fcf94e600f2b18d0484ab3fff31ba"
+    },
+    {
+      "path": "ops017-history-selection-perf300-v1/complete62.raw",
+      "bytes": 2525,
+      "sha256": "7f6323f3c8c54697d7c599d61e33ab052c1dbeb82287e9bbb1a205bd1b438bba"
+    },
+    {
+      "path": "ops017-history-selection-perf300-v1/complete62.xml",
+      "bytes": 12082,
+      "sha256": "dceff6a1ffb94f822b899f7284cea3767012e9e7e2c1e5e4d4ba991eae4ef15e"
+    },
+    {
+      "path": "run_ops017_history_selection_performance_v1_once.py",
+      "bytes": 5510,
+      "sha256": "e83f5e2a2a8efb916733c80ed39e34fb96560772908f8f1f39a5514961954853"
+    },
+    {
+      "path": "ops017-history-selection-component-independent-review.json",
+      "bytes": 6827,
+      "sha256": "cce24f02127ec1d90721a18f3dd5022b16fa42ce7eb26bff9920b64c8df24f6e"
+    },
+    {
+      "path": "ops017-ci906-terminal-envelope.json",
+      "bytes": 281585,
+      "sha256": "e685004b49404b2c6ade3c3698324c16c32d010b9e14a80592be30fcc9164dbd"
+    },
+    {
+      "path": "ops017-ci906-terminal-decoded.raw",
+      "bytes": 277438,
+      "sha256": "23af8e08334132e38098759ab9fea68ab80d629d2007116989c77d3d0cc57583"
+    },
+    {
+      "path": "ops017-ci906-progress-interval-comparison.json",
+      "bytes": 6809,
+      "sha256": "4b532bc6c6593b642232753cf9e398c62d6483ff722061435bef11ca123aaaad"
+    },
+    {
+      "path": "agent-edge-plan-ci906-terminal-observation-20261029.json",
+      "bytes": 15048,
+      "sha256": "aa9e4d6494fc4369e93209db7a3f62de08e0df7141fda3d59a71a5417cba17dd"
+    },
+    {
+      "path": "agent-edge-plan-ci906-official-diagnostics-20261029.json",
+      "bytes": 1794,
+      "sha256": "509cd66e64a995dcc232eccddd253ec0cff9f4ea92e22483429fcd213bc2c987"
+    }
+  ],
+  "fullCiAccepted": false
+}
