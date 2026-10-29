@@ -24,3 +24,8 @@ Exact code11c186d passed56 actual admission cases and independent component revi
 ## Normal import of accepted main7996 before current-source checks
 
 Incoming actual main7996dedc0b01c5208824eff4d70c95724ba1b26d has independent complete main acceptance. Its POC lease metadata is imported by an ordinary two-parent merge. Only Own mutable current target base is advanced in Task/Registry; original registration, intent, original Task body, four code bytes and five frozen files remain unchanged. The current integration context is recorded in implementation-v1/accepted-main7996-import.json. Earlier56 and14 results retain their exact11c source; current source gates/full822 CI and independent final source/main plus normal Review/Completion remain required. OPS018 remains unregistered and no experiment is authorized.
+
+
+## Review boundary forward fix
+
+Independenta4de confirmed three P1 defects on71d despite originalCI904822 success. Five real-Git regressions first red3/2 then green5/full61 actual0 establish this forward component, accepted4d54bd0 for three registered code/test pins.29 exact findings/reproduction/red/green/JUnit/oldCI originals are recoverable from implementation-v1/review-boundary-fix-v1/originals.zip and index.json. Current new-source14/full827CI, final source/main and normalReview/Completion remain pending. Old71 is not merge-approved. Five frozen paths, original intent/foreign metadata and old POC grants remain unchanged. An initial archive list check failed before any staging/commit; explicit file selection now preserves all working directories and original failures.

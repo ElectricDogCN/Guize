@@ -906,3 +906,66 @@ class TestSourceCompatibilityRepairAdmission(unittest.TestCase):
         self.assertEqual(PROOF.changed(str(self.repo),registration,restored),set())
         errors=[];PROOF.validate_repair_changes(str(self.repo),registration,restored,'OPS-018',set(),errors)
         self.assertTrue(any('Authorization intent changed after registration' in error for error in errors),errors)
+
+    def test_clean_peer_import_authenticates_the_admitted_successor_history(self):
+        registration=self.register()
+        self.git(self.repo,'checkout','--detach',self.activation)
+        self.write(self.repo,'evidence/POC-003/peer-import-fixture.txt','Independent peer work before authority Completion.\n')
+        self.commit(self.repo,'POC-003 fixture work before completed authority')
+        self.git(self.repo,'merge','--no-ff','--no-edit',registration)
+        imported=self.git(self.repo,'rev-parse','HEAD')
+        self.assertEqual(self.git(self.repo,'show','-s','--format=%P',imported).split()[1],registration)
+        paths=PROOF.changed(str(self.repo),registration,imported)
+        errors=[];PROOF.validate_repair_changes(str(self.repo),registration,imported,'OPS-018',paths,errors)
+        self.assertEqual(errors,[])
+        self.assertEqual(self.claims(base=registration,observed=imported),PROOF.SOURCE_COMPATIBILITY.paths)
+
+    def test_peer_import_cannot_erase_a_local_authority_intent_attack(self):
+        registration=self.register()
+        self.git(self.repo,'checkout','--detach',self.activation)
+        path=Path(self.repo,PROOF.SOURCE_COMPATIBILITY.intent);raw=path.read_bytes()
+        path.write_bytes(raw+b'\n');self.commit(self.repo,'Fixture peer temporarily changes immutable authority')
+        path.write_bytes(raw);self.commit(self.repo,'Fixture peer restores authority before importing main')
+        self.git(self.repo,'merge','--no-ff','--no-edit',registration)
+        imported=self.git(self.repo,'rev-parse','HEAD')
+        errors=[];PROOF.validate_repair_changes(str(self.repo),registration,imported,'OPS-018',PROOF.changed(str(self.repo),registration,imported),errors)
+        self.assertTrue(errors)
+        self.assertEqual(PROOF.authenticated_claims(str(self.repo),'OPS-018',self.entry,registration,observed_ref=imported),set())
+
+    def test_peer_cannot_admit_a_successor_from_an_unadmitted_side_parent(self):
+        registration=self.register()
+        self.git(self.repo,'checkout','--detach',self.activation)
+        self.write(self.repo,'evidence/POC-003/unadmitted-peer-fixture.txt','No admitted successor on comparison base.\n')
+        self.commit(self.repo,'Fixture peer work before importing unadmitted side reservation')
+        self.git(self.repo,'merge','--no-ff','--no-edit',registration)
+        imported=self.git(self.repo,'rev-parse','HEAD')
+        errors=[];PROOF.validate_repair_changes(str(self.repo),self.reservation,imported,'OPS-018',PROOF.changed(str(self.repo),self.reservation,imported),errors)
+        self.assertTrue(errors)
+
+    def test_target_edit_restore_between_completion_and_successor_reservation_is_denied(self):
+        path=Path(self.repo,'docs/18-testing-and-acceptance.md');raw=path.read_bytes()
+        path.write_bytes(raw+b'\nPremature post-Completion target change.\n')
+        self.commit(self.repo,'Fixture target changed after authority Completion')
+        path.write_bytes(raw)
+        restored=self.commit(self.repo,'Fixture target restored before successor admission')
+        self.entry['baseSha']=restored
+        registration=self.register()
+        with self.assertRaisesRegex(PROOF.AdmissionError,'frozen repair target before admission'):
+            self.claims(base=registration)
+
+    def test_actual_pre_successor_intent_attack_is_rejected_when_submitted(self):
+        path=Path(self.repo,PROOF.SOURCE_COMPATIBILITY.intent);raw=path.read_bytes()
+        path.write_bytes(raw+b'\n')
+        altered=self.commit(self.repo,'OPS-017 fixture intent attack before successor registration')
+        result=subprocess.run([sys.executable,'-X','utf8','-B',str(ROOT/'scripts/check-program-lifecycle-guards.py'),
+            '--repo-root',str(self.repo),'--base-ref',self.completed,'--head-ref',altered,
+            '--branch-name','chore/OPS-017-fixture-evidence-correction'],capture_output=True,text=True,encoding='utf-8')
+        self.assertNotEqual(result.returncode,0,result.stdout+result.stderr)
+        self.assertIn('Authorization intent changed after registration',result.stdout+result.stderr)
+        path.write_bytes(raw)
+        restored=self.commit(self.repo,'OPS-017 fixture restoration before successor registration')
+        result=subprocess.run([sys.executable,'-X','utf8','-B',str(ROOT/'scripts/check-program-lifecycle-guards.py'),
+            '--repo-root',str(self.repo),'--base-ref',self.completed,'--head-ref',restored,
+            '--branch-name','chore/OPS-017-fixture-evidence-correction'],capture_output=True,text=True,encoding='utf-8')
+        self.assertNotEqual(result.returncode,0,result.stdout+result.stderr)
+        self.assertIn('Authorization intent changed after registration',result.stdout+result.stderr)
