@@ -1,0 +1,5 @@
+# Actual development source failure (retained)
+
+Exact source22be621a14952a8f623c5a0382406603364d0239, original process actual wait exit1, 44passed/1failed and six later cases unexecuted. The second metadata-only code-reference fixture expected the new cumulative-claim diagnostic, while the existing normal Foundation checker correctly rejected it earlier as lifecycle/Evidence-only; its fixture commit also omitted the intended #2011 token. This is a failed test expectation and fixture identity, not authority acceptance. Forward repair supplies the token and requires the actual existing nonempty-implementation rejection. No validator rule is relaxed.
+
+Four additional meaningful regressions exercise actual no-task frozen success, wrong owner/producer/post-thaw denial, code in first successor reservation, and restored intermediate claims. Original legacy tests remain unchanged. New full candidate native suite, source gates, CI and independent acceptance remain pending. originals.zip preserves all actual raw/result/JUnit bytes, authenticated by index.json.

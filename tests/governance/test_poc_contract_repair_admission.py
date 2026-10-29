@@ -769,9 +769,9 @@ class TestSourceCompatibilityRepairAdmission(unittest.TestCase):
             self.claims(base=completed,entry=dict(self.entry,baseSha=completed))
         self.git(self.repo,'checkout','--detach',self.code)
         self.write(self.repo,'evidence/OPS-017/metadata-only-code-reference.txt','Not an implementation.\n')
-        metadata = self.commit(self.repo,'OPS-017 fixture metadata-only claimed code reference')
+        metadata = self.commit(self.repo,'OPS-017 fixture metadata-only claimed code reference (#2011)')
         completed = self.complete_authority(self.repo,metadata)
-        with self.assertRaisesRegex(PROOF.AdmissionError,'complete registered implementation'):
+        with self.assertRaisesRegex(PROOF.AdmissionError,'claimed implementation contains only lifecycle metadata or Evidence'):
             self.claims(base=completed,entry=dict(self.entry,baseSha=completed))
 
     def test_later_real_subset_rework_retains_cumulative_four_claim_coverage(self):
@@ -846,3 +846,47 @@ class TestSourceCompatibilityRepairAdmission(unittest.TestCase):
             '--base-ref',registration,'--head-ref',code,'--branch-name',self.entry['branch']],capture_output=True,text=True,encoding='utf-8')
         self.assertNotEqual(result.returncode,0)
         self.assertIn('preceding unchanged frozen recovery event',result.stdout+result.stderr)
+
+    def test_actual_no_task_lifecycle_accepts_real_registered_frozen_repair(self):
+        _,frozen,_ = self.frozen_repair()
+        with Path(self.repo,'docs/18-testing-and-acceptance.md').open('a',encoding='utf-8') as stream:stream.write('\nFixture real bounded contract repair.\n')
+        code=self.commit(self.repo,'OPS-018 fixture valid repair after real freeze')
+        result=subprocess.run([sys.executable,'-X','utf8','-B',str(ROOT/'scripts/check-program-lifecycle-guards.py'),
+            '--repo-root',str(self.repo),'--base-ref',frozen,'--head-ref',code,'--branch-name',self.entry['branch']],
+            capture_output=True,text=True,encoding='utf-8')
+        self.assertEqual(result.returncode,0,result.stdout+result.stderr)
+
+    def test_wrong_owner_producer_and_post_thaw_edits_remain_denied_for_new_scope(self):
+        _,_,activation = self.frozen_repair()
+        for mutation in ['owner','producer','thawed']:
+            with self.subTest(mutation=mutation):
+                self.git(self.repo,'checkout','--detach',activation)
+                plan=yaml.safe_load(Path(self.repo,PROOF.PLAN).read_bytes())
+                if mutation=='owner':plan['recovery']['taskId']='OPS-014'
+                elif mutation=='producer':plan['recovery']['affectedTasks']=['GZ-022']
+                else:plan['status']='active'
+                self.write(self.repo,PROOF.PLAN,plan)
+                bad_base=self.commit(self.repo,'OPS-018 fixture wrong preceding recovery '+mutation)
+                with Path(self.repo,'docs/18-testing-and-acceptance.md').open('a',encoding='utf-8') as stream:stream.write('\nFixture impermissible recovery.\n')
+                code=self.commit(self.repo,'OPS-018 fixture forbidden edit '+mutation)
+                errors=[];PROOF.validate_repair_changes(str(self.repo),bad_base,code,'OPS-018',{'docs/18-testing-and-acceptance.md'},errors)
+                self.assertTrue(errors,mutation)
+
+    def test_original_new_successor_reservation_cannot_already_edit_frozen_contract(self):
+        # Put the target change in the very first registered successor snapshot.
+        with Path(self.repo,'docs/18-testing-and-acceptance.md').open('a',encoding='utf-8') as stream:stream.write('\nFixture premature same-reservation code.\n')
+        registration=self.register()
+        with self.assertRaisesRegex(PROOF.AdmissionError,'metadata-only'):
+            self.claims(base=registration)
+
+    def test_intermediate_new_successor_claim_expansion_cannot_be_erased(self):
+        self.register()
+        active=yaml.safe_load(Path(self.repo,PROOF.ACTIVE).read_bytes())
+        own=next(x for x in active['tasks'] if x['taskId']=='OPS-018')
+        original=copy.deepcopy(own)
+        own['exclusivePaths'].append('specs/poc/policy.yaml')
+        self.write(self.repo,PROOF.ACTIVE,active);self.commit(self.repo,'OPS-018 fixture forbidden intermediate expansion')
+        own['exclusivePaths']=original['exclusivePaths']
+        self.write(self.repo,PROOF.ACTIVE,active);restored=self.commit(self.repo,'OPS-018 fixture restored final claims')
+        with self.assertRaisesRegex(PROOF.AdmissionError,'exact declared paths'):
+            self.claims(base=restored)

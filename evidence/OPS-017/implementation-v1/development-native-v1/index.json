@@ -1,0 +1,17 @@
+[
+  {
+    "path": "results.json",
+    "bytes": 940,
+    "sha256": "425f2f9c817cc801cd0f20560c26626674c04b24b4711712976716a684f4c1a4"
+  },
+  {
+    "path": "suite.raw",
+    "bytes": 9921,
+    "sha256": "7724e46329f2c4da81a877e35d3ed14e511c37c194b5e09f71647bb872ccf55a"
+  },
+  {
+    "path": "junit.xml",
+    "bytes": 9837,
+    "sha256": "5b5d39bed1908d38e221412770200d1e6d017ca388b6bd50768801602737eef6"
+  }
+]
