@@ -1,3 +1,9 @@
+## Current source-gate correction: immutable raw archives
+
+Source8eae8a7 reached only its first declared gate, unchanged git diff --check against accepted main22. It actually exited2 on captured raw stderr/CRLF receipts in payload-lifetime-v1 and request-concurrency-v1; the other fourteen commands were not executed. Original output and context are preserved at source-8eae8a7-stopped-validation/index.json.
+
+Only these two archive directories now classify captured.raw streams as binary byte archives; their.json receipts retain original bytes and permit CR at end of line. No captured byte, source implementation, frozen checker/schema/threshold or declared gate command was changed. The complete original pin inventory is in that index. This is archive representation, not a skipped source check. The new exact source still needs all fifteen checks, related validation, same-head CI and independent final source acceptance before any new approved media experiment.
+
 ## Current source freeze after accepted closed-record capacity component
 
 Current implementation code is ordinarily committed throughfc3cd23 after normal accepted-main22 importcd804502. Runtime initialization/crypto bindingdbacbae and closed-record capacityfc3cd23 have independent component acceptance. Conditional finite H4096/carrier2608 and the synchronous phase max1048577 are reviewed method terms; actual whole-window/model application, original full matrix, fresh revocation and formal POC results remain outstanding. The prospective hook-free entryv3 retains the exact currentlab/Collector pins and has not executed a media experiment.

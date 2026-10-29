@@ -1,3 +1,4 @@
-# Preserve executed raw streams and receipts byte for byte in this archive.
-*.raw -text
-*.json -text
+# Immutable captured stdout/stderr are opaque byte archives, not source text.
+*.raw binary
+# Keep structured receipts readable without changing their original Windows CRLF bytes.
+*.json -text whitespace=cr-at-eol
