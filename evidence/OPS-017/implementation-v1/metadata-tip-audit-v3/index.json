@@ -1,0 +1,22 @@
+[
+  {
+    "path": "native-v2/results.json",
+    "bytes": 944,
+    "sha256": "6782ad9f75a1860a51b1613ca392eef9c065448024140d5b55bff62932e6aa4c"
+  },
+  {
+    "path": "native-v2/suite.raw",
+    "bytes": 10011,
+    "sha256": "febb5b73bb1b62454d673f746e34ce47e825a0058dac362f32ebff4eee423b0f"
+  },
+  {
+    "path": "native-v2/junit.xml",
+    "bytes": 10648,
+    "sha256": "6baa92649651e279c80ac431dac86dcb4ed422339c69c27910dd5c0719b869fe"
+  },
+  {
+    "path": "ops017-implementation-v2-component-independent-review.json",
+    "bytes": 6785,
+    "sha256": "7934bb519dad73276c7bee39452546b629ddec0efb26a7784833c04325c75f05"
+  }
+]

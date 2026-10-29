@@ -425,6 +425,18 @@ def validate_repair_changes(root: str, before: str, after: str, task_id: str,
     if task_id not in {SUCCESSOR, SOURCE_COMPATIBILITY.successor}:
         return
     selected = contract(task_id)
+    if task_id == SOURCE_COMPATIBILITY.successor:
+        # Authority Evidence is also protected on metadata-only changes, on a
+        # net-empty edit/restore range and when Completion removes the entry.
+        # The original successor admission base must never move to this tip.
+        try:
+            observation = resolve(root, after)
+            original = introduction(root, chain(root, observation), task_id)
+            require(original is not None, 'Source compatibility repair has no original canonical reservation')
+            authority(root, parent(root, original[0]), protected_through=observation, successor=task_id)
+        except (AdmissionError,KeyError,TypeError,ValueError,OSError,yaml.YAMLError) as exc:
+            errors.append('Bound POC contract authority audit rejected: '+str(exc))
+            return
     if not paths.intersection(selected.paths):
         return
     try:

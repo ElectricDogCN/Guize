@@ -890,3 +890,19 @@ class TestSourceCompatibilityRepairAdmission(unittest.TestCase):
         self.write(self.repo,PROOF.ACTIVE,active);restored=self.commit(self.repo,'OPS-018 fixture restored final claims')
         with self.assertRaisesRegex(PROOF.AdmissionError,'exact declared paths'):
             self.claims(base=restored)
+
+    def test_actual_metadata_only_tip_and_net_empty_restore_audit_authority_intent(self):
+        registration=self.register()
+        p=Path(self.repo,PROOF.SOURCE_COMPATIBILITY.intent);original=p.read_bytes()
+        p.write_bytes(original+b'\n')
+        altered=self.commit(self.repo,'OPS-017 fixture forbidden metadata-only authorization correction')
+        result=subprocess.run([sys.executable,'-X','utf8','-B',str(ROOT/'scripts/check-program-lifecycle-guards.py'),
+            '--repo-root',str(self.repo),'--base-ref',registration,'--head-ref',altered,'--branch-name','chore/OPS-017-fixture-evidence-correction'],
+            capture_output=True,text=True,encoding='utf-8')
+        self.assertNotEqual(result.returncode,0)
+        self.assertIn('Authorization intent changed after registration',result.stdout+result.stderr)
+        p.write_bytes(original)
+        restored=self.commit(self.repo,'OPS-017 fixture restored bytes cannot erase metadata history')
+        self.assertEqual(PROOF.changed(str(self.repo),registration,restored),set())
+        errors=[];PROOF.validate_repair_changes(str(self.repo),registration,restored,'OPS-018',set(),errors)
+        self.assertTrue(any('Authorization intent changed after registration' in error for error in errors),errors)
