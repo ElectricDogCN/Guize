@@ -1,0 +1,32 @@
+{
+  "kind": "FORWARD_REPORT_CORRECTION_AND_QUALIFIED_CATALOGUE_FANOUT",
+  "preparedAt": "2026-10-29T07:30:29.013293+00:00",
+  "originalReport": "evidence/POC-005/local-v1-scale-exit-report-attempt011-v1.md",
+  "originalReportPin": {
+    "bytes": 6125,
+    "sha256": "c453151a6d475c9e171e33a608271dc2768e52d2a763cc7ddc79fc399e88279a"
+  },
+  "currentReport": "evidence/POC-005/local-v1-scale-exit-report-attempt011-v2.md",
+  "currentReportPin": {
+    "bytes": 7239,
+    "sha256": "d4cba29a9c48cb0ef316e88ce4486334d99a77423cac6538bf8c93a0a6bb1942"
+  },
+  "correction": "Original unapproved report incorrectly said128; actual scanner pageSize200 and source HTTP perPage1000 are distinct.",
+  "priorQualificationIndex": "index.json",
+  "priorQualificationIndexPin": {
+    "bytes": 10676,
+    "sha256": "1e681268f095257201518666ee14db0241bc286447780e74c4196a1b3b5c5041"
+  },
+  "supplementaryFiles": {
+    "observed-directory-fanout.json": {
+      "bytes": 81373,
+      "sha256": "fcffdacfdb00758b330d0dfcc75ddc81de2d88f59573345024933780dc785bc2"
+    },
+    "observed-directory-fanout-derivation.py": {
+      "bytes": 3573,
+      "sha256": "41ed04a2bdad2cf7e3c3356691b1f69dfb9ea56f3e09d417c006b3f1a6a08b47"
+    }
+  },
+  "profileExitApproved": false,
+  "newExperimentExecuted": false
+}
