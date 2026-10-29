@@ -219,7 +219,9 @@ int work(TSCont,TSEvent,void *) {
       if(r->expected<0||uint64_t(r->expected)>ObjectLimit||uint64_t(r->expected)>TotalLimit-s.total) { finish(r,"read_error","size_limit_or_unknown_size");continue; }
       r->fd=create(s.job,"key-"+std::to_string(r->item.id)+".body.part");
       if(r->fd<0) { finish(r,"read_error","exclusive_file_create_failed");continue; }
-      r->buffer=TSIOBufferSizedCreate(TS_IOBUFFER_SIZE_INDEX_32K);TSIOBufferWaterMarkSet(r->buffer,65536);
+      // Reduce the observer's real allocation granularity. CacheVC may append
+      // a whole Doc before testing this watermark; neither value is a hard cap.
+      r->buffer=TSIOBufferSizedCreate(TS_IOBUFFER_SIZE_INDEX_8K);TSIOBufferWaterMarkSet(r->buffer,16384);
       r->reader=TSIOBufferReaderAlloc(r->buffer);r->vio=TSVConnRead(r->vc,r->cont,r->buffer,r->expected+1);
       if(!r->vio)finish(r,"read_error","cache_read_vio_unavailable");
     } else if(e.event==TS_EVENT_CACHE_OPEN_READ_FAILED) {

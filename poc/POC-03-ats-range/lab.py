@@ -180,6 +180,10 @@ def prepare(config_path,run):
       'proxy.config.admin.user_id':('STRING',user),'proxy.config.reverse_proxy.enabled':('INT','1'),
       'proxy.config.url_remap.remap_required':('INT','1'),'proxy.config.http.cache.http':('INT','1'),
       'proxy.config.cache.ram_cache.size':('INT','0'),
+      # Keep ordinary cache fragments small rather than relying on the Slice
+      # body length to bound native Doc allocation. ATS adds headers/metadata;
+      # this target is a policy hint, not a hard buffer-capacity assertion.
+      'proxy.config.cache.target_fragment_size':('INT','8192'),
       'proxy.config.http.insert_response_via_str':('INT','3'),
       'proxy.config.http.connect_attempts_max_retries':('INT','0'),
       'proxy.config.http.connect_attempts_max_retries_dead_server':('INT','0')}
