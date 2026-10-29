@@ -1,0 +1,26 @@
+{
+  "base": "22ab6a0668da2d64a016fccef2c3b5a634638a24",
+  "records": [
+    {
+      "path": "poc005-qualified-source-integration-lifecycle-readonly-assessment.json",
+      "bytes": 10549,
+      "sha256": "d76b81833c8a50ed6889e7c8dfec8f44acd4db6a0c721daf7a358600a11b8b35"
+    },
+    {
+      "path": "poc005-qualified-source-semantic-repair-design-independent-review.json",
+      "bytes": 16994,
+      "sha256": "aafe807c32f6c3767930ec5d43b2b0704a9dbad2d4d78fb0a6cf2b6b821a8ce0"
+    },
+    {
+      "path": "poc005-attempt011-formal-profile-v3-independent-review.json",
+      "bytes": 4856,
+      "sha256": "ee6b1b11c44044c27b77f021a1499d4dd0d9e7427c4748d1c6ec4e641e175f5f"
+    },
+    {
+      "path": "poc005-actor-amendment-v1-actual-main-independent-review.json",
+      "bytes": 11961,
+      "sha256": "d640ff0fefff71dcf21faea3e87a4345f781d67eafdcf5fbb3201346b59206ab"
+    }
+  ],
+  "archive": "artifacts.zip"
+}

@@ -1,0 +1,398 @@
+{
+  "kind": "ORDINARY_ACCEPTED_MAIN_IMPORT_PENDING_COMMIT",
+  "oldFeature": "af996acf20889d456b968b7c86d6fe91f0ae974b",
+  "acceptedMain": "fdf93444a72aa5cc52dd49a79d2f4e435cd1ce1d",
+  "expectedOrderedParents": [
+    "af996acf20889d456b968b7c86d6fe91f0ae974b",
+    "fdf93444a72aa5cc52dd49a79d2f4e435cd1ce1d"
+  ],
+  "acceptedMainReview": "170c69c52c1d785ff330331b62829530f276eccb279688580131cab7bfe11cf5",
+  "automaticTaskOnlyExpiryChanged": true,
+  "originalTaskBodyAndCreationBasePreserved": true,
+  "automaticActiveEqualsIncomingExceptRetainedOwnImplementation": true,
+  "automaticProgramEqualsIncomingExceptRetainedOwnStatus": true,
+  "originalLocalHandoffBytes": 217552,
+  "originalLocalHandoffSha256": "deebb29c8af2f0b294d4b2dafcc3f4f9c0ac059f7facd9051bdf6c568ca2c5c9",
+  "commonHandoffBytes": 6614,
+  "commonHandoffSha256": "a3630db80e86b9858d8578f26041ea5a28b00c5a7b84f372dad56cb6f509e9c7",
+  "incomingAppendBytes": 1495,
+  "incomingAppendSha256": "3f73adfe6602e095f73306a8cdf9052d5f3c31e1acdd8d5e2833ef4c894ab05d",
+  "localHandoffPrefixPreserved": true,
+  "incomingAppendPreservedVerbatim": true,
+  "sourcePinsUnchanged": true,
+  "sourcePins": [
+    {
+      "path": "poc/POC-03-ats-range/README.md",
+      "bytes": 16868,
+      "sha256": "7cdb8d20199b839c93e2cd8ebcbc2e3bef380924e9f6c26c920f1d7583e40f7e"
+    },
+    {
+      "path": "poc/POC-03-ats-range/buffer_probe.py",
+      "bytes": 6732,
+      "sha256": "56933170456c3414f5fc3dfc28bec8c98c1a27273868d5d545c447663a385025"
+    },
+    {
+      "path": "poc/POC-03-ats-range/build_observer.py",
+      "bytes": 2076,
+      "sha256": "7c5ec2475d26e56394922ebba8f14a387d8ba0b318c37b8ef8ec2ade24c56ca9"
+    },
+    {
+      "path": "poc/POC-03-ats-range/cache_export.cc",
+      "bytes": 15444,
+      "sha256": "c0b1b0b08b8e967af1d63c1de6ce5504df81795516b8878e5c008608cfa3ae8d"
+    },
+    {
+      "path": "poc/POC-03-ats-range/cache_probe.py",
+      "bytes": 19578,
+      "sha256": "870234005d98fa829b5da8d151d6ae1a4d20c34c7bc375da6a680574a3ddf16f"
+    },
+    {
+      "path": "poc/POC-03-ats-range/collect.py",
+      "bytes": 18767,
+      "sha256": "356302081bbfbfd0ea6dda0cb2fb1a97acc18f9d5c6a91ecdaeacae72bc99977"
+    },
+    {
+      "path": "poc/POC-03-ats-range/config.example.json",
+      "bytes": 859,
+      "sha256": "62cb38feb17e17e30166b43ec2db17593f26e78964b1bc01e66d73603761191d"
+    },
+    {
+      "path": "poc/POC-03-ats-range/container-supervision-design.md",
+      "bytes": 10333,
+      "sha256": "f0ae4f838fa93129a1b60558dd584855cf199c9f21221c66d8d7840eb3f37cee"
+    },
+    {
+      "path": "poc/POC-03-ats-range/crypto_runtime.py",
+      "bytes": 6541,
+      "sha256": "5c885263a070f600a8a17b87e641ef668aa37a6ae973e564287f03adc4e37521"
+    },
+    {
+      "path": "poc/POC-03-ats-range/durable_peak_probe.py",
+      "bytes": 6265,
+      "sha256": "b7bfd6e767a4cba4bf2ee1de2e7c0f9f82e2afff3037015e317b8a8e860fa599"
+    },
+    {
+      "path": "poc/POC-03-ats-range/epoch_owner.py",
+      "bytes": 26029,
+      "sha256": "30b9cfc4b22f297e8dc822c8a15e2f84a4f7f5fbe69cc7ad708abed74e7c8a8e"
+    },
+    {
+      "path": "poc/POC-03-ats-range/grants.py",
+      "bytes": 2003,
+      "sha256": "4d48a477541545a296d31ea00a97445e15f6b6eae92e79f39629c074923403bf"
+    },
+    {
+      "path": "poc/POC-03-ats-range/http_timing.py",
+      "bytes": 1477,
+      "sha256": "fde2afed2b9fcc3e607930eb72b9cecf5386761965d8881a095b98f041e663cb"
+    },
+    {
+      "path": "poc/POC-03-ats-range/input_profile.py",
+      "bytes": 7958,
+      "sha256": "25a090c67d75c7cd7e67ca06163e4684fdbaf47854fa6d7db46db44b041dd242"
+    },
+    {
+      "path": "poc/POC-03-ats-range/instrumentation/.gitattributes",
+      "bytes": 40,
+      "sha256": "723c0078c8cbc0a6b13bf82bd1a94efb59c473c7e720eec7aace4c6ffddbaa5a"
+    },
+    {
+      "path": "poc/POC-03-ats-range/instrumentation/README.md",
+      "bytes": 5183,
+      "sha256": "2645b20f8f7269394af3c22268f307eb9198267ac48002806d479bbc12af474b"
+    },
+    {
+      "path": "poc/POC-03-ats-range/instrumentation/ats-live-buffer-accounting.patch",
+      "bytes": 8330,
+      "sha256": "283986264c5e166aad94ad537cbeeb460993b531a58caca8c9aa116d423e79f4"
+    },
+    {
+      "path": "poc/POC-03-ats-range/instrumentation/build_live_observer.py",
+      "bytes": 2295,
+      "sha256": "ab7ae817e23f92ea57a2c343f28806233ea6263ef2257fa238c6409d7068e771"
+    },
+    {
+      "path": "poc/POC-03-ats-range/instrumentation/check_durable_capture_filesystem.py",
+      "bytes": 3592,
+      "sha256": "148932286532339c898d4eaa05e78e4e9f98aace5334a2b5188459eaf5aa37b9"
+    },
+    {
+      "path": "poc/POC-03-ats-range/instrumentation/check_exact_core_build_guard.py",
+      "bytes": 3637,
+      "sha256": "187fcf8a460c79bfa9dc2652cae08e055cc3f8c73f950689376c89dd8fffde3f"
+    },
+    {
+      "path": "poc/POC-03-ats-range/instrumentation/exec_gate.py",
+      "bytes": 2193,
+      "sha256": "289f8b7bdee57220dc13e99915540e6b5be16ffd26c363717e3d86eb54154b47"
+    },
+    {
+      "path": "poc/POC-03-ats-range/instrumentation/live_buffer_accounting.h",
+      "bytes": 2959,
+      "sha256": "f771476d0e5bb5124577329744128d83a4a0bdf43f1d10f91145e006848dc7fb"
+    },
+    {
+      "path": "poc/POC-03-ats-range/instrumentation/live_buffer_observer.cc",
+      "bytes": 5554,
+      "sha256": "394cb69f4626d883816dec6d8ad2ff0d520139793c02f6aa5e273da8c9313e4f"
+    },
+    {
+      "path": "poc/POC-03-ats-range/instrumentation/live_peak_journal.h",
+      "bytes": 6078,
+      "sha256": "b1f45c1b71359e5463e9f043451ad3fc34243426b96aea9d5e0e9180eaf79ea4"
+    },
+    {
+      "path": "poc/POC-03-ats-range/instrumentation/live_pool_capacity.h",
+      "bytes": 1323,
+      "sha256": "4f4aee7c70e4e6cb9a32691b87840783abd71b25d43379f97163e232c6b71255"
+    },
+    {
+      "path": "poc/POC-03-ats-range/instrumentation/patch-manifest.json",
+      "bytes": 3702,
+      "sha256": "13b1adddd4733ca1e2dde9282af24a4cf05652f31ccb7bfcaaaffb104454765f"
+    },
+    {
+      "path": "poc/POC-03-ats-range/instrumentation/single-exec-handoff.md",
+      "bytes": 5690,
+      "sha256": "c3a424bc1f839951f857bc18967bc0d80d5d8ec0e7a4457b226212102c17dd26"
+    },
+    {
+      "path": "poc/POC-03-ats-range/instrumentation/single_exec_filter.py",
+      "bytes": 16268,
+      "sha256": "26ccbac40fd8d26d893e067576f2849a4b7b1524141bf0d24229257d2fffd0ce"
+    },
+    {
+      "path": "poc/POC-03-ats-range/instrumentation/single_exec_gate.py",
+      "bytes": 4948,
+      "sha256": "01576f6ba76630a5f96174d6ccc5203c532c054b175b656f6a383701c1304b62"
+    },
+    {
+      "path": "poc/POC-03-ats-range/instrumentation/test_durable_peak.cc",
+      "bytes": 4749,
+      "sha256": "f00df8b8c5ce500f95be7d6c926451e6f7111f39cc40e63feeaccf53db4d04f3"
+    },
+    {
+      "path": "poc/POC-03-ats-range/instrumentation/test_eager_core_start.cc",
+      "bytes": 1536,
+      "sha256": "51a9c39316beb11cdbd620e4cef01ebc706638ac8981c3ba7010a31c2518b6b0"
+    },
+    {
+      "path": "poc/POC-03-ats-range/instrumentation/test_exec_gate_target.cc",
+      "bytes": 2126,
+      "sha256": "f1c0c17d5cf74acc671e41fefb8d3e6fd64c5d0d4d68199b2a6a9eb0401122aa"
+    },
+    {
+      "path": "poc/POC-03-ats-range/instrumentation/test_live_buffer_accounting.cc",
+      "bytes": 3666,
+      "sha256": "dd6456d2c86256fa6d218a9cc5065a8761312ad803cebb1aaf3c909a64ad7950"
+    },
+    {
+      "path": "poc/POC-03-ats-range/instrumentation/test_live_pool_capacity.cc",
+      "bytes": 1653,
+      "sha256": "49ce8a0fd40238bbaa77800939d377c9ffb6187928f5be4ac1b1bf13c0c81bee"
+    },
+    {
+      "path": "poc/POC-03-ats-range/instrumentation/test_live_pool_concurrent_core.cc",
+      "bytes": 2781,
+      "sha256": "91230dd2025bbb2f298d042d16c8a0bd3555ec78f069317a2ad017d52bf5495f"
+    },
+    {
+      "path": "poc/POC-03-ats-range/instrumentation/test_live_pool_core.cc",
+      "bytes": 2818,
+      "sha256": "774a039114dd503b254caafe5ed4c946f501fef97961e81dbea36ca17088e534"
+    },
+    {
+      "path": "poc/POC-03-ats-range/instrumentation/test_live_pool_failure_core.cc",
+      "bytes": 4593,
+      "sha256": "0fbd63629555546f3c59b8539b874f568949df9b99adb6009376a713da2de143"
+    },
+    {
+      "path": "poc/POC-03-ats-range/lab.py",
+      "bytes": 57149,
+      "sha256": "cc302d0c255f3950f51df990f4762acc7aa863a5661449daf980efb475b968c5"
+    },
+    {
+      "path": "poc/POC-03-ats-range/live_buffer_probe.py",
+      "bytes": 9883,
+      "sha256": "d3154af91abcab988632201acbf13cc1e1466b1b73cd296554b014fe30fb0f12"
+    },
+    {
+      "path": "poc/POC-03-ats-range/media_capacity.py",
+      "bytes": 11560,
+      "sha256": "29d88f1d98bc54ae53540b41b6cdb890e9a333800f2a45cd5a6231cccc3aa691"
+    },
+    {
+      "path": "poc/POC-03-ats-range/owned_epoch.py",
+      "bytes": 21233,
+      "sha256": "cf170056c5a7f2201e863145522b0433e5911e128ba585d79cef0cb6c5125ccb"
+    },
+    {
+      "path": "poc/POC-03-ats-range/python-runtime-profile.json",
+      "bytes": 5561,
+      "sha256": "0830b95ad06d0a108cb474afb4888526f8c2d785644a219efaa194b3a886324e"
+    },
+    {
+      "path": "poc/POC-03-ats-range/python_runtime.py",
+      "bytes": 8020,
+      "sha256": "49740b806b9dc5a5c94b301932f56df779e6e5d46694eae2cc4db7f6044b4ec5"
+    },
+    {
+      "path": "poc/POC-03-ats-range/test_buffer_probe.py",
+      "bytes": 2485,
+      "sha256": "f8c55495e94eed9ea19e77b1018319bf8e0f3931b56cf5832bd4f5f3f40edfcb"
+    },
+    {
+      "path": "poc/POC-03-ats-range/test_buffer_probe_native.py",
+      "bytes": 3216,
+      "sha256": "0cd0820a982111207337bf6a37595a3f74686f403299d7cf78b5dea545309ec2"
+    },
+    {
+      "path": "poc/POC-03-ats-range/test_cache_body_bounds.py",
+      "bytes": 2906,
+      "sha256": "bfa3ebe632117836a5afd48d415288326e2b3eedaac470923be72a26a8e1deac"
+    },
+    {
+      "path": "poc/POC-03-ats-range/test_cache_probe.py",
+      "bytes": 2359,
+      "sha256": "880b226f4d0a54524a95599954237d27bf2bf157da3b363f6e3aeab1acb430a0"
+    },
+    {
+      "path": "poc/POC-03-ats-range/test_cache_probe_native.py",
+      "bytes": 3359,
+      "sha256": "e835fd96229fe843fc1505718494ba2c6b34acc415703f40da6b3815fbdac2fc"
+    },
+    {
+      "path": "poc/POC-03-ats-range/test_cache_stream_io.py",
+      "bytes": 7886,
+      "sha256": "2c4fa7726451515795cf0846c6ab742a674b8271e2f2c3a5a9c79dfec03b388a"
+    },
+    {
+      "path": "poc/POC-03-ats-range/test_collector_raw_io.py",
+      "bytes": 7378,
+      "sha256": "6ff520f4dcaeb65fb9c271a61a88745a4e35285c8bae90addffa67768181bc42"
+    },
+    {
+      "path": "poc/POC-03-ats-range/test_crypto_configuration.py",
+      "bytes": 2053,
+      "sha256": "15f6a8117d9f3290ea1f1a4b2b7899dd71fe18d94c5c7109eca316b5f670a2ff"
+    },
+    {
+      "path": "poc/POC-03-ats-range/test_durable_peak_probe.py",
+      "bytes": 2913,
+      "sha256": "7228f7d01cbade1f4e27e227478538bd81ca9af50c2dfcff586749454c2a39bd"
+    },
+    {
+      "path": "poc/POC-03-ats-range/test_epoch_owner.py",
+      "bytes": 8868,
+      "sha256": "fb72cb61c5b4cc71f70a9582451c7e7c4e1ad1bcdc9b3cdc9e6ccb3f12f7a3d8"
+    },
+    {
+      "path": "poc/POC-03-ats-range/test_fixed_origin_io.py",
+      "bytes": 7624,
+      "sha256": "12a9b22a8c7d1ed9b5abda421ef04f5115a113bf4e57b5b106309b868ed931f7"
+    },
+    {
+      "path": "poc/POC-03-ats-range/test_gateway_native.py",
+      "bytes": 4608,
+      "sha256": "5c3a73a1177a73d93756e410ffd75ce10fe89403586d6ccfbeaaf1db63ad7eec"
+    },
+    {
+      "path": "poc/POC-03-ats-range/test_http_timing_native.py",
+      "bytes": 3181,
+      "sha256": "3e27f76d65167a196bac70e38e8d7c4df03f0e079bf60f99a64006edfdf90d86"
+    },
+    {
+      "path": "poc/POC-03-ats-range/test_input_fixed_io.py",
+      "bytes": 4307,
+      "sha256": "715c2d1a8b066947ef37e3afc1f8d548f5d8607786449a2544859160a4d87658"
+    },
+    {
+      "path": "poc/POC-03-ats-range/test_input_profile.py",
+      "bytes": 13501,
+      "sha256": "3a943e5fa3db67fee6dfc0c944c33a0ee7734f6500c2d3c898cead7e80ac0ba0"
+    },
+    {
+      "path": "poc/POC-03-ats-range/test_lab.py",
+      "bytes": 3547,
+      "sha256": "20373fbe76e7dc18c59da922c9b24c0793153c7181e6d22b101f28bdfe1a0513"
+    },
+    {
+      "path": "poc/POC-03-ats-range/test_live_buffer_probe.py",
+      "bytes": 3991,
+      "sha256": "d3b9c69a2c2dc749b3f97f23c4222dd5d1162b37e42c9968d5fd8bb88eaf1a2c"
+    },
+    {
+      "path": "poc/POC-03-ats-range/test_live_component_native.py",
+      "bytes": 2197,
+      "sha256": "492d6b2c89d07929103a882cfd9b41f9ff2a82bc9332b6fa980daeddbd738270"
+    },
+    {
+      "path": "poc/POC-03-ats-range/test_media_capacity.py",
+      "bytes": 8861,
+      "sha256": "4b8ca5c4142a7b778adf4fcefd879af3103e1edc328e6814d74dfece23184899"
+    },
+    {
+      "path": "poc/POC-03-ats-range/test_owned_epoch_fixed.py",
+      "bytes": 4938,
+      "sha256": "5f819400247a4351b503f15390c38103297072d88f8878720f45d78a3ee26e56"
+    },
+    {
+      "path": "poc/POC-03-ats-range/test_payload_lifetime.py",
+      "bytes": 15090,
+      "sha256": "b907b1603a6d0379fd9996d497e77160bdbbc7e68767c4026303f106bf4d181d"
+    },
+    {
+      "path": "poc/POC-03-ats-range/test_python_runtime_binding_native.py",
+      "bytes": 6477,
+      "sha256": "b12e7e481aa91c98a8d3ad17cafe960b5a173d7863749dbc03d7571fc4b1b1a1"
+    },
+    {
+      "path": "poc/POC-03-ats-range/test_representative_cache.py",
+      "bytes": 1785,
+      "sha256": "a1d94f6e09312e79d5dba03a124013bfc7f3919f758c9464660d8ba20e189216"
+    },
+    {
+      "path": "poc/POC-03-ats-range/test_representative_cache_native.py",
+      "bytes": 7099,
+      "sha256": "29c373aa84cfb6afbe41738050cca95da6d12c93ec7fb938a9e72738cea2b1fa"
+    },
+    {
+      "path": "poc/POC-03-ats-range/test_request_concurrency.py",
+      "bytes": 6490,
+      "sha256": "01a5afc0cb63e4a3840e81b019b2adbf9e7f4361b5faf839d812dfa4d27604fa"
+    },
+    {
+      "path": "poc/POC-03-ats-range/test_request_window.py",
+      "bytes": 9209,
+      "sha256": "485bc74b0d37a4057c5ac66f95ab313e7c9580f408c647a44146918ce3841c9c"
+    },
+    {
+      "path": "poc/POC-03-ats-range/test_revocation_binding.py",
+      "bytes": 1870,
+      "sha256": "6dec7dfd850bac65f110a6a4462a77c24323dec4527c686266daf10793884d39"
+    },
+    {
+      "path": "poc/POC-03-ats-range/test_serve_readiness.py",
+      "bytes": 5205,
+      "sha256": "ef30890956e856012d19301a87350519421687f30c0c687f4f7041fec729523f"
+    },
+    {
+      "path": "poc/POC-03-ats-range/test_single_exec_filter.py",
+      "bytes": 6214,
+      "sha256": "970c12080b11b0a5a3f6c827dfc12d1918355dd23ed8936d6934ed6c25af0eb3"
+    },
+    {
+      "path": "poc/POC-03-ats-range/test_warm_cache_revocation.py",
+      "bytes": 12004,
+      "sha256": "987608f169b25327231f0dc64bf41c571f1ab0f1b924bbe66b567cc7fa701457"
+    }
+  ],
+  "newLease": {
+    "acquiredAt": "2026-10-29T11:01:07Z",
+    "expiresAt": "2026-11-05T11:01:07Z"
+  },
+  "mergeCommitted": false,
+  "wholeSourceQualified": false,
+  "experimentApproved": false,
+  "recordedAt": "2026-10-29T12:25:31.607001+00:00"
+}

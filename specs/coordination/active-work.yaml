@@ -47,8 +47,8 @@ tasks:
   integrationStrategy: merge
   integrationOrder: 2
   lease:
-    acquiredAt: '2026-10-22T12:47:06Z'
-    expiresAt: '2026-10-29T12:47:06Z'
+    acquiredAt: '2026-10-29T11:01:07Z'
+    expiresAt: '2026-11-05T11:01:07Z'
 - taskId: POC-005
   issue: 132
   title: 700TB 文件数、目录规模、变更率与扫描成本
@@ -93,3 +93,45 @@ tasks:
   lease:
     acquiredAt: '2026-10-22T16:08:44Z'
     expiresAt: '2026-10-29T16:08:44Z'
+- taskId: OPS-017
+  issue: 168
+  title: 为版本化POC源兼容性修复建立受限准入
+  status: reserved
+  riskLevel: high
+  owner: ElectricDogCN
+  coordinator: /root
+  implementer: /root
+  reviewer: /root/gz022_planning_independent_review
+  integrator: /root
+  agentRole: coordinator
+  branch: chore/OPS-017-source-compatibility-admission-reservation
+  baseBranch: main
+  baseSha: 22ab6a0668da2d64a016fccef2c3b5a634638a24
+  workPackage: WP-M0-01
+  programPlan: specs/coordination/program-plan.yaml
+  programTaskId: OPS-017
+  programWave: FOUNDATION
+  requirementIds:
+  - REQ-V1-0010
+  moduleIds:
+  - MOD-GOV
+  producesContracts: []
+  consumesContracts:
+  - CONTRACT-PROGRAM-PLAN
+  - CONTRACT-TASK-SPEC
+  - CONTRACT-ACTIVE-WORK
+  coordinationGroup: poc-source-compatibility-admission
+  dependsOn:
+  - OPS-016
+  exclusivePaths:
+  - AGENTS.md
+  - scripts/poc-contract-repair-admission.py
+  - scripts/check-program-lifecycle-guards.py
+  - tests/governance/test_poc_contract_repair_admission.py
+  sharedPaths: []
+  handoffPath: evidence/OPS-017/handoff.md
+  integrationStrategy: merge
+  integrationOrder: 13
+  lease:
+    acquiredAt: '2026-10-29T09:16:44Z'
+    expiresAt: '2026-11-05T09:16:44Z'
