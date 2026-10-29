@@ -64,7 +64,7 @@ def repair_module():
 def authenticated_repair_claims(root, task_id, entry, base_ref, *, observed_ref=None):
     # Old normal/legacy histories do not need the new repair mechanism. The
     # identity selects a proof, never permission; absent proof denies all paths.
-    if not root or task_id != "OPS-014":
+    if not root or task_id not in {"OPS-014", "OPS-018"}:
         return set()
     try:
         return repair_module().authenticated_claims(root, task_id, entry, base_ref, observed_ref=observed_ref)
@@ -73,7 +73,7 @@ def authenticated_repair_claims(root, task_id, entry, base_ref, *, observed_ref=
 
 
 def validate_bound_repair_changes(root, before, after, task_id, paths, errors):
-    if task_id != "OPS-014":
+    if task_id not in {"OPS-014", "OPS-018"}:
         return
     try:
         repair_module().validate_repair_changes(root, before, after, task_id, paths, errors)
@@ -1049,8 +1049,9 @@ def main() -> int:
     if paths is None:
         emit("FAIL", "Lifecycle guard cannot determine changed paths")
         return 1
-    if any(e.get('taskId') == 'OPS-014' for e in current_active.get('tasks', []) + base_active.get('tasks', [])):
-        validate_bound_repair_changes(root, args.base_ref, args.head_ref, 'OPS-014', paths, errors)
+    for repair_id in ('OPS-014', 'OPS-018'):
+        if any(e.get('taskId') == repair_id for e in current_active.get('tasks', []) + base_active.get('tasks', [])):
+            validate_bound_repair_changes(root, args.base_ref, args.head_ref, repair_id, paths, errors)
     validate_frozen_changes(root, args.base_ref, args.head_ref, errors)
     recovery_task = validate_recovery_transition(root, args.base_ref, args.head_ref, errors)
     planning = PLANNING.classifier(
