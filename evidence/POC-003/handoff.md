@@ -1836,3 +1836,8 @@ The actual approved af996ac compile and static ELF result accepted by independen
 ## Accepted offline194 component originals
 
 Exact67f9cf3 completed87 Windows+96 Linux+11 fixed-image regressions,36 actual waits0 and no skips, independently accepted0d6e4fce.76 original results/raw/review files are recoverable from ats-small-fragment-v1/offline194/originals.zip and index.json. This archive preserves the POC source tree. Whole-source gates/CI, actual new-plugin runtime compatibility,8MiB capacity, new approved full matrix, independent hot-cache revocation and normal POC completion remain pending. Original partial and failed records retain their own source/window.
+
+
+## Normal peer-lease main7996 import
+
+The independently fully accepted main7996dedc0b01c5208824eff4d70c95724ba1b26d is imported by an ordinary two-parent merge. Incoming POC005 lease metadata is preserved; POC003 Task all bytes, creation base760f, actual roles/lease, Own Program and73 source files remain unchanged. See peer-lease-main7996-import-v1/provenance.json. Earlier194 checks and af996 compile retain their exact recorded sources. This import grants no whole-source/CI qualification, new runtime or experiment,8MiB bound, revocation result or full POC acceptance.
