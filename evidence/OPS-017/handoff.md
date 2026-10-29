@@ -9,3 +9,8 @@ Next Implementer: commit only actual metadata, then all14 fixed-source commands 
 Defect, semantic design and exact3592-only accepted formal result are archived separately. None grants latermain qualification or changes original testedSource/approvals. Actual GZ021 freeze and independent repair verification/thaw remain mandatory for the future successor, not this metadata proposal. Existing POC leases remain exact; renew prospectively under normal rules if needed, never retime old approvals.
 
 Rollback: withdraw before merge or ordinary forward correction/release preserving all local refs/workspaces/DB/raw/failed attempts. FullV1 incomplete.
+
+
+## Registered implementation activation (prospective)
+
+Task OPS-017 / Issue #168. Exact accepted base dcfefbeca496b43d40c4145c751191bdd386375d; actual implementation branch chore/OPS-017-source-compatibility-admission. Implementer /root; independent Reviewer /root/gz022_planning_independent_review. This separate metadata activation precedes implementation; the immutable original intent remains unchanged. Only four registered governance paths may change. OPS-018 remains unregistered and no frozen contract or POC execution is authorized. Candidate source/tree, exact changed paths, real checks/CI and normal Review/Completion remain pending and must be recorded before acceptance. All old Evidence describes its historical phase. Rollback is withdrawal or normal forward repair; preserve all local refs and raw data. See implementation-v1/activation.json.

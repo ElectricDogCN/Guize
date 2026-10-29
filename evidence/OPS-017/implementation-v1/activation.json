@@ -1,0 +1,25 @@
+{
+  "task": "OPS-017",
+  "issue": 168,
+  "phase": "metadata_activation_before_implementation",
+  "base": "dcfefbeca496b43d40c4145c751191bdd386375d",
+  "branch": "chore/OPS-017-source-compatibility-admission",
+  "acceptedReservationMain": "dcfefbeca496b43d40c4145c751191bdd386375d",
+  "acceptedMainReviewSha256": "779257928e3b618b7f494f188213a43fe3eb8313bb87e1f863ac8b554c6350f2",
+  "recordedAt": "2026-10-29T11:10:46.339859+00:00",
+  "implementer": "/root",
+  "reviewer": "/root/gz022_planning_independent_review",
+  "allowedCodePaths": [
+    "AGENTS.md",
+    "scripts/poc-contract-repair-admission.py",
+    "scripts/check-program-lifecycle-guards.py",
+    "tests/governance/test_poc_contract_repair_admission.py"
+  ],
+  "oldIntentSha256": "985942645f493d1e25f1034842aa588594d83a8a0e5587526c830251ee23fdb5",
+  "successorTask": "OPS-018",
+  "successorRegistered": false,
+  "frozenContractEditsApproved": false,
+  "implementationWritten": false,
+  "currentSourceGatesPassed": false,
+  "fullCiAccepted": false
+}
