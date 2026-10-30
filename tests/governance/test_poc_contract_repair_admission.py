@@ -68,6 +68,15 @@ class TestBoundPocContractRepair(unittest.TestCase):
         cls.write(root,'specs/tasks/'+task_id+'.md','---\n'+front+'\n---\n'+body)
 
     @classmethod
+    def authority_timestamp(cls, seconds):
+        # These isolated commits model the original authority's history. Their
+        # integration times must remain inside its real historical lease even
+        # when this test runs after that lease has expired.
+        observed = cls.authority_registered_at+timedelta(seconds=seconds)
+        assert cls.authority_acquired_at <= observed < cls.authority_expires_at
+        return observed.isoformat()
+
+    @classmethod
     def setUpClass(cls):
         # Start from the actual immutable intent and canonical reservation.
         # Subsequent commits are isolated test history, never production proof.
@@ -78,13 +87,18 @@ class TestBoundPocContractRepair(unittest.TestCase):
         cls.git(cls.fixture,'config','user.email','test@example.com')
         cls.git(cls.fixture,'config','user.name','Bound repair test')
         cls.git(cls.fixture,'config','core.autocrlf','false')
+        authority = PROOF.entry_at(str(cls.fixture),RESERVATION_MAIN,'OPS-013')
+        cls.authority_registered_at = datetime.fromtimestamp(
+            int(cls.git(cls.fixture,'show','-s','--format=%ct',RESERVATION_MAIN)),timezone.utc)
+        cls.authority_acquired_at = datetime.fromisoformat(authority['lease']['acquiredAt'].replace('Z','+00:00'))
+        cls.authority_expires_at = datetime.fromisoformat(authority['lease']['expiresAt'].replace('Z','+00:00'))
         cls.lifecycle(cls.fixture,'OPS-013','in_progress','implementer',RESERVATION_MAIN,'chore/OPS-013-contract-repair-admission')
-        cls.activation = cls.commit(cls.fixture,'OPS-013 fixture metadata activation')
+        cls.activation = cls.commit(cls.fixture,'OPS-013 fixture metadata activation',timestamp=cls.authority_timestamp(1))
         with Path(cls.fixture,'AGENTS.md').open('a',encoding='utf-8') as stream:
             stream.write('\nTest fixture nonempty registered implementation.\n')
-        cls.code = cls.commit(cls.fixture,'OPS-013 fixture implementation (#2001)')
+        cls.code = cls.commit(cls.fixture,'OPS-013 fixture implementation (#2001)',timestamp=cls.authority_timestamp(2))
         cls.lifecycle(cls.fixture,'OPS-013','review','reviewer',cls.code,'chore/OPS-013-fixture-review')
-        cls.review = cls.commit(cls.fixture,'OPS-013 independent fixture Review (#2002)')
+        cls.review = cls.commit(cls.fixture,'OPS-013 independent fixture Review (#2002)',timestamp=cls.authority_timestamp(3))
         cls.lifecycle(cls.fixture,'OPS-013','completed','integrator',cls.review,'chore/OPS-013-fixture-completion')
         plan = yaml.safe_load(Path(cls.fixture,PROOF.PLAN).read_bytes())
         next(x for x in plan['foundationTasks'] if x['taskId']=='OPS-013').update(completionRef='PR-2001',mergeCommit=cls.code)
@@ -92,7 +106,7 @@ class TestBoundPocContractRepair(unittest.TestCase):
         active['tasks'] = [x for x in active['tasks'] if x['taskId'] != 'OPS-013']
         cls.write(cls.fixture,PROOF.PLAN,plan)
         cls.write(cls.fixture,PROOF.ACTIVE,active)
-        cls.completed = cls.commit(cls.fixture,'OPS-013 fixture normal Completion (#2003)')
+        cls.completed = cls.commit(cls.fixture,'OPS-013 fixture normal Completion (#2003)',timestamp=cls.authority_timestamp(4))
 
     @classmethod
     def tearDownClass(cls):
@@ -283,7 +297,7 @@ class TestBoundPocContractRepair(unittest.TestCase):
         self.git(self.repo,'checkout','--detach',self.code)
         for name in [PROOF.PLAN,PROOF.ACTIVE,'specs/tasks/OPS-013.md']:
             self.write(self.repo,name,PROOF.blob(str(self.repo),self.completed,name).decode())
-        premature = self.commit(self.repo,'OPS-013 fixture direct Completion without Review')
+        premature = self.commit(self.repo,'OPS-013 fixture direct Completion without Review',timestamp=self.authority_timestamp(3))
         with self.assertRaisesRegex(PROOF.AdmissionError,'independent Review'):
             self.claims(base=premature,entry=dict(self.entry,baseSha=premature))
 
@@ -333,7 +347,7 @@ class TestBoundPocContractRepair(unittest.TestCase):
         self.git(self.repo,'checkout','--detach',self.activation)
         self.lifecycle(self.repo,'OPS-013','review','reviewer',self.activation,
                        'chore/OPS-013-fixture-review-baseline')
-        baseline = self.commit(self.repo,'OPS-013 fixture review baseline (#2002)')
+        baseline = self.commit(self.repo,'OPS-013 fixture review baseline (#2002)',timestamp=self.authority_timestamp(2))
         # The source includes separately registered implementation and Review
         # commits. Retain it under a ref even though the integration is squash.
         self.git(self.repo,'branch','fixture-reviewed-source',self.review)
@@ -351,7 +365,7 @@ class TestBoundPocContractRepair(unittest.TestCase):
             path = 'specs/tasks/OPS-013.md'
             text = Path(self.repo,path).read_text(encoding='utf-8')
             self.write(self.repo,path,text.replace('agentRole: integrator','agentRole: reviewer'))
-        implementation = self.commit(self.repo,'OPS-013 fixture reviewed source integration (#2001)')
+        implementation = self.commit(self.repo,'OPS-013 fixture reviewed source integration (#2001)',timestamp=self.authority_timestamp(4))
         self.assertEqual(PROOF.blob(str(self.repo),implementation,'AGENTS.md'),
                          PROOF.blob(str(self.repo),self.review,'AGENTS.md'))
         self.lifecycle(self.repo,'OPS-013','completed','integrator',implementation,
@@ -363,7 +377,7 @@ class TestBoundPocContractRepair(unittest.TestCase):
         active['tasks'] = [x for x in active['tasks'] if x['taskId']!='OPS-013']
         self.write(self.repo,PROOF.PLAN,plan)
         self.write(self.repo,PROOF.ACTIVE,active)
-        return self.commit(self.repo,'OPS-013 fixture immediate normal Completion (#2003)')
+        return self.commit(self.repo,'OPS-013 fixture immediate normal Completion (#2003)',timestamp=self.authority_timestamp(5))
 
     def test_reviewed_integration_can_complete_without_extra_review_commit(self):
         completed = self.integrated_authority()
@@ -660,21 +674,23 @@ class TestSourceCompatibilityRepairAdmission(unittest.TestCase):
     commit = classmethod(TestBoundPocContractRepair.commit.__func__)
     front_fields = staticmethod(TestBoundPocContractRepair.front_fields)
     lifecycle = classmethod(TestBoundPocContractRepair.lifecycle.__func__)
+    authority_timestamp = classmethod(TestBoundPocContractRepair.authority_timestamp.__func__)
     reservation = 'dcfefbeca496b43d40c4145c751191bdd386375d'
 
     @classmethod
     def complete_authority(cls, root, code, *, review=True):
         previous = code
+        code_seconds = int(cls.git(root,'show','-s','--format=%ct',code))-int(cls.authority_registered_at.timestamp())
         if review:
             cls.lifecycle(root,'OPS-017','review','reviewer',code,'chore/OPS-017-fixture-review')
-            previous = cls.commit(root,'OPS-017 fixture independent Review (#2012)')
+            previous = cls.commit(root,'OPS-017 fixture independent Review (#2012)',timestamp=cls.authority_timestamp(code_seconds+1))
         cls.lifecycle(root,'OPS-017','completed','integrator',previous,'chore/OPS-017-fixture-completion')
         plan = yaml.safe_load(Path(root,PROOF.PLAN).read_bytes())
         next(x for x in plan['foundationTasks'] if x['taskId']=='OPS-017').update(completionRef='PR-2011',mergeCommit=code)
         active = yaml.safe_load(Path(root,PROOF.ACTIVE).read_bytes())
         active['tasks'] = [x for x in active['tasks'] if x['taskId'] != 'OPS-017']
         cls.write(root,PROOF.PLAN,plan);cls.write(root,PROOF.ACTIVE,active)
-        return cls.commit(root,'OPS-017 fixture normal Completion (#2013)')
+        return cls.commit(root,'OPS-017 fixture normal Completion (#2013)',timestamp=cls.authority_timestamp(code_seconds+(2 if review else 1)))
 
     @classmethod
     def setUpClass(cls):
@@ -684,12 +700,17 @@ class TestSourceCompatibilityRepairAdmission(unittest.TestCase):
         cls.git(cls.fixture,'checkout','--detach',cls.reservation)
         for key,value in [('user.email','test@example.com'),('user.name','Source admission fixture'),('core.autocrlf','false')]:
             cls.git(cls.fixture,'config',key,value)
+        authority = PROOF.entry_at(str(cls.fixture),cls.reservation,'OPS-017')
+        cls.authority_registered_at = datetime.fromtimestamp(
+            int(cls.git(cls.fixture,'show','-s','--format=%ct',cls.reservation)),timezone.utc)
+        cls.authority_acquired_at = datetime.fromisoformat(authority['lease']['acquiredAt'].replace('Z','+00:00'))
+        cls.authority_expires_at = datetime.fromisoformat(authority['lease']['expiresAt'].replace('Z','+00:00'))
         cls.lifecycle(cls.fixture,'OPS-017','in_progress','implementer',cls.reservation,'chore/OPS-017-fixture-implementation')
-        cls.activation = cls.commit(cls.fixture,'OPS-017 fixture separate activation')
+        cls.activation = cls.commit(cls.fixture,'OPS-017 fixture separate activation',timestamp=cls.authority_timestamp(1))
         for path in sorted(PROOF.SOURCE_COMPATIBILITY.claims):
             with Path(cls.fixture,path).open('a',encoding='utf-8') as stream:
                 stream.write('\n# Fixture nonempty registered implementation coverage.\n')
-        cls.code = cls.commit(cls.fixture,'OPS-017 fixture four-claim implementation (#2011)')
+        cls.code = cls.commit(cls.fixture,'OPS-017 fixture four-claim implementation (#2011)',timestamp=cls.authority_timestamp(2))
         cls.completed = cls.complete_authority(cls.fixture,cls.code)
 
     @classmethod
@@ -763,13 +784,13 @@ class TestSourceCompatibilityRepairAdmission(unittest.TestCase):
     def test_missing_cumulative_claim_or_metadata_only_code_reference_is_denied(self):
         self.git(self.repo,'checkout','--detach',self.activation)
         with Path(self.repo,'AGENTS.md').open('a',encoding='utf-8') as stream:stream.write('\nFixture only one claim.\n')
-        one = self.commit(self.repo,'OPS-017 fixture incomplete implementation (#2011)')
+        one = self.commit(self.repo,'OPS-017 fixture incomplete implementation (#2011)',timestamp=self.authority_timestamp(2))
         completed = self.complete_authority(self.repo,one)
         with self.assertRaisesRegex(PROOF.AdmissionError,'complete registered implementation'):
             self.claims(base=completed,entry=dict(self.entry,baseSha=completed))
         self.git(self.repo,'checkout','--detach',self.code)
         self.write(self.repo,'evidence/OPS-017/metadata-only-code-reference.txt','Not an implementation.\n')
-        metadata = self.commit(self.repo,'OPS-017 fixture metadata-only claimed code reference (#2011)')
+        metadata = self.commit(self.repo,'OPS-017 fixture metadata-only claimed code reference (#2011)',timestamp=self.authority_timestamp(3))
         completed = self.complete_authority(self.repo,metadata)
         with self.assertRaisesRegex(PROOF.AdmissionError,'claimed implementation contains only lifecycle metadata or Evidence'):
             self.claims(base=completed,entry=dict(self.entry,baseSha=completed))
@@ -777,7 +798,7 @@ class TestSourceCompatibilityRepairAdmission(unittest.TestCase):
     def test_later_real_subset_rework_retains_cumulative_four_claim_coverage(self):
         self.git(self.repo,'checkout','--detach',self.code)
         with Path(self.repo,'AGENTS.md').open('a',encoding='utf-8') as stream:stream.write('\nFixture later nonempty subset rework.\n')
-        rework = self.commit(self.repo,'OPS-017 fixture real incremental implementation (#2011)')
+        rework = self.commit(self.repo,'OPS-017 fixture real incremental implementation (#2011)',timestamp=self.authority_timestamp(3))
         completed = self.complete_authority(self.repo,rework)
         self.assertEqual(self.claims(base=completed,entry=dict(self.entry,baseSha=completed)),PROOF.SOURCE_COMPATIBILITY.paths)
 
@@ -911,7 +932,7 @@ class TestSourceCompatibilityRepairAdmission(unittest.TestCase):
         registration=self.register()
         self.git(self.repo,'checkout','--detach',self.activation)
         self.write(self.repo,'evidence/POC-003/peer-import-fixture.txt','Independent peer work before authority Completion.\n')
-        self.commit(self.repo,'POC-003 fixture work before completed authority')
+        self.commit(self.repo,'POC-003 fixture work before completed authority',timestamp=self.authority_timestamp(2))
         self.git(self.repo,'merge','--no-ff','--no-edit',registration)
         imported=self.git(self.repo,'rev-parse','HEAD')
         self.assertEqual(self.git(self.repo,'show','-s','--format=%P',imported).split()[1],registration)
@@ -924,8 +945,8 @@ class TestSourceCompatibilityRepairAdmission(unittest.TestCase):
         registration=self.register()
         self.git(self.repo,'checkout','--detach',self.activation)
         path=Path(self.repo,PROOF.SOURCE_COMPATIBILITY.intent);raw=path.read_bytes()
-        path.write_bytes(raw+b'\n');self.commit(self.repo,'Fixture peer temporarily changes immutable authority')
-        path.write_bytes(raw);self.commit(self.repo,'Fixture peer restores authority before importing main')
+        path.write_bytes(raw+b'\n');self.commit(self.repo,'Fixture peer temporarily changes immutable authority',timestamp=self.authority_timestamp(2))
+        path.write_bytes(raw);self.commit(self.repo,'Fixture peer restores authority before importing main',timestamp=self.authority_timestamp(3))
         self.git(self.repo,'merge','--no-ff','--no-edit',registration)
         imported=self.git(self.repo,'rev-parse','HEAD')
         errors=[];PROOF.validate_repair_changes(str(self.repo),registration,imported,'OPS-018',PROOF.changed(str(self.repo),registration,imported),errors)
@@ -952,7 +973,7 @@ class TestSourceCompatibilityRepairAdmission(unittest.TestCase):
         registration=self.register()
         self.git(self.repo,'checkout','--detach',self.activation)
         self.write(self.repo,'evidence/POC-003/unadmitted-peer-fixture.txt','No admitted successor on comparison base.\n')
-        self.commit(self.repo,'Fixture peer work before importing unadmitted side reservation')
+        self.commit(self.repo,'Fixture peer work before importing unadmitted side reservation',timestamp=self.authority_timestamp(2))
         self.git(self.repo,'merge','--no-ff','--no-edit',registration)
         imported=self.git(self.repo,'rev-parse','HEAD')
         errors=[];PROOF.validate_repair_changes(str(self.repo),self.reservation,imported,'OPS-018',PROOF.changed(str(self.repo),self.reservation,imported),errors)
