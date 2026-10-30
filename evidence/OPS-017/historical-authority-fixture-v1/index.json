@@ -1,0 +1,217 @@
+[
+  {
+    "path": "ops017-ci909-fixture-time-failure-and-rework-independent-assessment.json",
+    "bytes": 7245,
+    "sha256": "09779ea1575068a0ec5d76bd28e2ff0259bbad99ee00777a458bf50d9660ad4a"
+  },
+  {
+    "path": "ops017-historical-authority-fixture-completeness-readonly-assessment.json",
+    "bytes": 5393,
+    "sha256": "f3a2f6170abdfe0906e3bc388f3ac7937e823d20a489af8f0348752059636995"
+  },
+  {
+    "path": "poc003-cooperative-stop-current-source-9ab4613-ci910-negative-independent-review.json",
+    "bytes": 10527,
+    "sha256": "91b38df94d7f0f36b19f2be38aa77f6864a7eb4832bb4711910de24da57a6d64"
+  },
+  {
+    "path": "ops017-implementation-actual-main-independent-review.json",
+    "bytes": 7615,
+    "sha256": "4524554f7462c19cd74c67d9bf2791e42cf5c77efd9879629f39a1c0c86beef2"
+  },
+  {
+    "path": "ops017-implementation-actual-main-candidate.json",
+    "bytes": 880,
+    "sha256": "ba799985da6840b75a3c5007001b242fb0fdd6b14bc8c06030cbe54c6971e6c3"
+  },
+  {
+    "path": "ops017-implementation-main-ci908-attempt2/analysis.json",
+    "bytes": 974,
+    "sha256": "fa216349070dac182dee5b25c57c199c86bfa861689c7070b46217439bbd9db4"
+  },
+  {
+    "path": "ops017-normal-review-ci909/run.json",
+    "bytes": 14405,
+    "sha256": "5bc24fb612ffdf7ef90d9f1ab5150a331261f64b7c96a41f6413d811ab483946"
+  },
+  {
+    "path": "ops017-normal-review-ci909/jobs.json",
+    "bytes": 8303,
+    "sha256": "e19337a6344865378310ef9638328caea2b6d33b600633796d917fef790557f3"
+  },
+  {
+    "path": "ops017-normal-review-ci909/checkout.json",
+    "bytes": 2805,
+    "sha256": "b54723262e11ef472038c6c1edc3579d6947a012e843e2172113e1ae46dc1209"
+  },
+  {
+    "path": "ops017-normal-review-ci909/analysis.json",
+    "bytes": 4298,
+    "sha256": "4fbfff729243c9edeee0e36b3418cc1b98f7e1f444caa6b83392a8b9e2e7c6d7"
+  },
+  {
+    "path": "ops017-normal-review-ci909/job-log.connector-decoded.utf8.txt",
+    "bytes": 280269,
+    "sha256": "87414643ae575bd817843c2563e3a301587364022536597f1e79cc452f2254d4"
+  },
+  {
+    "path": "poc003-cooperative-stop-current-source-9ab4613-ci910/run.json",
+    "bytes": 14509,
+    "sha256": "82bb2246a8970e17e4ffc8d7df6d4b6d8f50bef1dfb38942d14fb538d4665d34"
+  },
+  {
+    "path": "poc003-cooperative-stop-current-source-9ab4613-ci910/jobs.json",
+    "bytes": 8295,
+    "sha256": "3fa0e59ba8c0d2e4f24d305200d50932efb161098b58e68987317f335f4fa15a"
+  },
+  {
+    "path": "poc003-cooperative-stop-current-source-9ab4613-ci910/checkout.json",
+    "bytes": 2805,
+    "sha256": "2f3bb3caad166c7df3afb107d1b4da4ca959638d42d851473d07e3d0bf509b90"
+  },
+  {
+    "path": "poc003-cooperative-stop-current-source-9ab4613-ci910/analysis.json",
+    "bytes": 4372,
+    "sha256": "20d3ac865ab8d505f12fc82246481f78e07155192eec2712a87f0f09e7d158d4"
+  },
+  {
+    "path": "poc003-cooperative-stop-current-source-9ab4613-ci910/job-log.connector-decoded.utf8.txt",
+    "bytes": 625978,
+    "sha256": "0854d4b19de41d72540dda296fa91ba73fc425ec2e798f7cf2c5c068f3cd6681"
+  },
+  {
+    "path": "ops017-normal-review-ci909/annotations.json",
+    "bytes": 1295,
+    "sha256": "cb8522b709806e51d07ba522db9d5176f923e595c4cc5724210dec111a00fa03"
+  },
+  {
+    "path": "ops017-normal-review-ci909/official-check-diagnostics-envelope.json",
+    "bytes": 1794,
+    "sha256": "3ec1ba042d95780d6ec97415f8ced54d004fbc6210f20321fb4c35f8714a7960"
+  },
+  {
+    "path": "ops017-normal-review-ci909/cancellation-annotations-assessment.json",
+    "bytes": 363,
+    "sha256": "e1d59716ccedb9098638b086ec88a254c972dace864a210ecf7e656719708bef"
+  },
+  {
+    "path": "ops017-ci909-failure-reproduction-v1/results.json",
+    "bytes": 1214,
+    "sha256": "67fffcde73762d595ad898fa2df0bd18e3b539b162909b0e4f135ed7af457f22"
+  },
+  {
+    "path": "ops017-ci909-failure-reproduction-v1/original.raw",
+    "bytes": 6047,
+    "sha256": "6527dac0f71b7a7f15b8cb25079912007d8ce3fb18934c5cb9b8ce2ec2816bf5"
+  },
+  {
+    "path": "ops017-ci909-failure-reproduction-v1/junit.xml",
+    "bytes": 4651,
+    "sha256": "fdba08041eb66027ef692ea9e75de9c5610b43a0b33503f6e70da3b85e777784"
+  },
+  {
+    "path": "ops017-ci909-nine-failures-reproduction-v1/results.json",
+    "bytes": 2473,
+    "sha256": "4391f675d2de1675bf501ddbac6181d191aa2b5f3e4f77a122fbdffd980af2ce"
+  },
+  {
+    "path": "ops017-ci909-nine-failures-reproduction-v1/original.raw",
+    "bytes": 110461,
+    "sha256": "b72593dc54f961e528e1aa4ad924a16df39db46ac591514fb8c85025f082f893"
+  },
+  {
+    "path": "ops017-ci909-nine-failures-reproduction-v1/junit.xml",
+    "bytes": 106629,
+    "sha256": "2a3cf077fc7a144561d60b9c271027ad17cdfc90074584c9faf5383838acd195"
+  },
+  {
+    "path": "poc003-ci910-shared-fixture-failure-reproduction-v1/results.json",
+    "bytes": 1244,
+    "sha256": "8dcb1a324c28f155469e79c79f24bacd91ebbb875d0cd6bc674fab50deb5f279"
+  },
+  {
+    "path": "poc003-ci910-shared-fixture-failure-reproduction-v1/original.raw",
+    "bytes": 6112,
+    "sha256": "79c2c7fe6e7a126e14de078489b6f485fce5d2e6bf072c7acd5db0cf83836efa"
+  },
+  {
+    "path": "poc003-ci910-shared-fixture-failure-reproduction-v1/junit.xml",
+    "bytes": 4651,
+    "sha256": "1795e0e1b592f276780baf150a26c4b4850f9e41af8657145d22028fd4f7e0ce"
+  },
+  {
+    "path": "ops017-source-authority-future-commit-reproduction-v1/results.json",
+    "bytes": 1409,
+    "sha256": "99aa5225beefc2ea56ba717a9f91682698bab6f845f43d1e1c1f929be0bf01f8"
+  },
+  {
+    "path": "ops017-source-authority-future-commit-reproduction-v1/original.raw",
+    "bytes": 17081,
+    "sha256": "26d65aefabc9f9f0eaaaee19d808a476e8c17ed7e912a31b359a7b0094adbfa5"
+  },
+  {
+    "path": "ops017-source-authority-future-commit-reproduction-v1/junit.xml",
+    "bytes": 15521,
+    "sha256": "3bd436d842f14a9edff38c3a592c3cc59d654480b7e528a80d2478eabbff5a74"
+  },
+  {
+    "path": "ops017-ci909-fixture-rework-accepted-main-import-v1/results.json",
+    "bytes": 2454,
+    "sha256": "48c590408e28bcc8cf43b8c4d73fb7440fac64687b734e0e370a20e2755ebe41"
+  },
+  {
+    "path": "ops017-historical-authority-fixture-development-v2/results.json",
+    "bytes": 3304,
+    "sha256": "a31e2a39ac4b0d9022181d7e2caec0b75ea310a43a321dd02dc2a60f878dfb01"
+  },
+  {
+    "path": "ops017-historical-authority-fixture-development-v2/futureAuthority.raw",
+    "bytes": 1734,
+    "sha256": "2dea3826702bb887354f529e03b2914877c406a4c4bb5144db6ace409d8fc4e0"
+  },
+  {
+    "path": "ops017-historical-authority-fixture-development-v2/futureAuthority.xml",
+    "bytes": 459,
+    "sha256": "0caeb0b59379fcee7fcfb7137e259587ce13363e94dd2c2a6dc178d923fbaa3c"
+  },
+  {
+    "path": "ops017-historical-authority-fixture-development-v2/component62.raw",
+    "bytes": 11696,
+    "sha256": "de56f8937aa9a1515fccf66bd25487a9e0c54918b0d38ef56f2f7fc62657ad0b"
+  },
+  {
+    "path": "ops017-historical-authority-fixture-development-v2/component62.xml",
+    "bytes": 12083,
+    "sha256": "8aee946bbe3de0c90403a5a247359dbfc3f3ec218ad5d882b9697cc400d817dc"
+  },
+  {
+    "path": "ops017-historical-authority-fixture-development-v1/results.json",
+    "bytes": 4320,
+    "sha256": "2b14dc476a41ef9210c7504db25fb898685f30454d75029d67a95fc0ec1bed8c"
+  },
+  {
+    "path": "ops017-historical-authority-fixture-development-v1/regression9.raw",
+    "bytes": 4143,
+    "sha256": "d4e9831a989d07b65ef658aaba02fcb2fe90d5f40f9154d1fbb5692795224612"
+  },
+  {
+    "path": "ops017-historical-authority-fixture-development-v1/regression9.xml",
+    "bytes": 1922,
+    "sha256": "a417e1f00a1d7802ecafa1c7e037c19ea70f42c09b43cadb2d5ce046ea58ecbd"
+  },
+  {
+    "path": "ops017-historical-authority-fixture-development-v1/component62.raw",
+    "bytes": 11696,
+    "sha256": "d94e8be2729591fe5503eb78b932e522c96d3e65d76376a315efee9046d09542"
+  },
+  {
+    "path": "ops017-historical-authority-fixture-development-v1/component62.xml",
+    "bytes": 12082,
+    "sha256": "431cb195825c06b93d4250f70b316d7a45a8b09e04be3e62cbbf69d26f1c27f7"
+  },
+  {
+    "path": "ops017-historical-authority-fixture-v1-tested-overlay.py",
+    "bytes": 65621,
+    "sha256": "8ff0ba0a0419e59bdd18913188db6d2e47bae4b2ba11c28f68cfad539e130bb7"
+  }
+]
