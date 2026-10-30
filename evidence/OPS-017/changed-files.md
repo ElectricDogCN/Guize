@@ -86,3 +86,36 @@ Entire current PR delta (earlier inventory is historical):
 - tests/governance/test_poc_contract_repair_admission.py
 
 This commit parent delta: 13 Own paths.
+
+
+## Current Registry batch target-delta inventory
+Target: 877d1b0fbd717f71fa9ad1e2ea4db4723ded3bcc
+Parent: 30794b65dd81b256d88c4ad616c0130712f2168b
+Entire current PR delta:
+- evidence/OPS-017/authority-audit-reuse-v1/README.md
+- evidence/OPS-017/authority-audit-reuse-v1/commands.txt
+- evidence/OPS-017/authority-audit-reuse-v1/context.json
+- evidence/OPS-017/authority-audit-reuse-v1/index.json
+- evidence/OPS-017/authority-audit-reuse-v1/originals.zip
+- evidence/OPS-017/changed-files.md
+- evidence/OPS-017/commands.txt
+- evidence/OPS-017/handoff.md
+- evidence/OPS-017/historical-authority-fixture-v1/README.md
+- evidence/OPS-017/historical-authority-fixture-v1/commands.txt
+- evidence/OPS-017/historical-authority-fixture-v1/context.json
+- evidence/OPS-017/historical-authority-fixture-v1/index.json
+- evidence/OPS-017/historical-authority-fixture-v1/originals.zip
+- evidence/OPS-017/registry-batch-v1/README.md
+- evidence/OPS-017/registry-batch-v1/commands.txt
+- evidence/OPS-017/registry-batch-v1/context.json
+- evidence/OPS-017/registry-batch-v1/index.json
+- evidence/OPS-017/registry-batch-v1/originals.zip
+- evidence/OPS-017/summary.md
+- evidence/OPS-017/test-results/README.md
+- scripts/check-program-lifecycle-guards.py
+- scripts/poc-contract-repair-admission.py
+- specs/coordination/active-work.yaml
+- specs/tasks/OPS-017.md
+- tests/governance/test_poc_contract_repair_admission.py
+
+Current parent delta:12 Own paths.

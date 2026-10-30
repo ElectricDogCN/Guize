@@ -786,6 +786,57 @@ class TestSourceCompatibilityRepairAdmission(unittest.TestCase):
             with self.assertRaisesRegex(PROOF.AdmissionError,'Cannot read committed repair authority'):
                 PROOF.authority(str(borrowed),self.completed,protected_through=self.completed,successor='OPS-018')
 
+        history = PROOF.chain(str(self.repo),self.completed)
+        expected = PROOF._introduction_sequential(str(self.repo),history,'OPS-017')
+        run = subprocess.run
+        for fault in ['transport','metadata-frame','content-frame']:
+            with self.subTest(batchFault=fault):
+                def faulty_batch(argv,*args,**kwargs):
+                    if '--batch-check' in argv:
+                        if fault == 'transport':
+                            return subprocess.CompletedProcess(argv,1,b'',b'fixture batch unavailable')
+                        if fault == 'metadata-frame':
+                            return subprocess.CompletedProcess(argv,0,b'incomplete\n',b'')
+                    if '--batch' in argv and fault == 'content-frame':
+                        return subprocess.CompletedProcess(argv,0,b'incomplete\n',b'')
+                    return run(argv,*args,**kwargs)
+                with mock.patch.object(PROOF.subprocess,'run',side_effect=faulty_batch):
+                    self.assertEqual(PROOF.introduction(str(self.repo),history,'OPS-017'),expected)
+
+        with tempfile.TemporaryDirectory(prefix='guize-registry-order-') as temporary:
+            root = Path(temporary)
+            self.git(root,'init','--quiet')
+            self.git(root,'config','user.email','test@example.com')
+            self.git(root,'config','user.name','Registry reader test')
+            self.write(root,PROOF.ACTIVE,'tasks: [\n')
+            malformed = self.commit(root,'Fixture earlier malformed Registry')
+            Path(root,PROOF.ACTIVE).unlink()
+            self.write(root,PROOF.ACTIVE+'/nested.txt','Fixture later tree object\n')
+            tree = self.commit(root,'Fixture later Registry path becomes a tree')
+            for reader in [PROOF._introduction_sequential,PROOF.introduction]:
+                with self.assertRaises(yaml.YAMLError):
+                    reader(str(root),[malformed,tree],'OPS-099')
+
+        for middle,message in [(None,'Registry disappeared'),({'tasks':[]},'Repair identity was reintroduced')]:
+            with self.subTest(registryMiddle=middle),tempfile.TemporaryDirectory(prefix='guize-registry-return-') as temporary:
+                root = Path(temporary)
+                self.git(root,'init','--quiet')
+                self.git(root,'config','user.email','test@example.com')
+                self.git(root,'config','user.name','Registry reader test')
+                value = {'tasks':[{'taskId':'OPS-099'}]}
+                self.write(root,PROOF.ACTIVE,value)
+                present = self.commit(root,'Fixture Registry identity appears')
+                if middle is None:
+                    Path(root,PROOF.ACTIVE).unlink()
+                else:
+                    self.write(root,PROOF.ACTIVE,middle)
+                absent = self.commit(root,'Fixture Registry identity absent')
+                self.write(root,PROOF.ACTIVE,value)
+                restored = self.commit(root,'Fixture Registry identity returns with same blob')
+                for reader in [PROOF._introduction_sequential,PROOF.introduction]:
+                    with self.assertRaisesRegex(PROOF.AdmissionError,message):
+                        reader(str(root),[present,absent,restored],'OPS-099')
+
     def test_original_uncompleted_or_side_completion_cannot_grant_new_scope(self):
         with self.assertRaisesRegex(PROOF.AdmissionError,'not normally completed'):
             self.claims(base=self.reservation,entry=dict(self.entry,baseSha=self.reservation))

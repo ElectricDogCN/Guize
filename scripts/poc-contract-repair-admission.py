@@ -163,7 +163,7 @@ def entry_at(root: str, ref: str, task_id: str) -> dict[str, Any] | None:
     return rows(document(root, ref, ACTIVE).get('tasks')).get(task_id)
 
 
-def introduction(root: str, history: list[str], task_id: str) -> tuple[str, dict[str, Any]] | None:
+def _introduction_sequential(root: str, history: list[str], task_id: str) -> tuple[str, dict[str, Any]] | None:
     found = None
     was_present = False
     for node in history:
@@ -178,6 +178,88 @@ def introduction(root: str, history: list[str], task_id: str) -> tuple[str, dict
             require(found is None, 'Repair identity was reintroduced')
             found = (node, entry)
         was_present = entry is not None
+    return found
+
+
+def _batched_registry_bytes(root: str, history: list[str]):
+    """Fresh object IO only; None asks the original sequential reader to run."""
+    # An optimization budget, not an admission limit: larger inputs retain the
+    # original bounded-memory path and every original history check.
+    if not history or len(history) > 4096:
+        return None
+    def batch(mode, expressions):
+        result = subprocess.run(['git','-C',str(root),'cat-file',mode],
+            input=b'\n'.join(expressions)+b'\n',capture_output=True)
+        return result.stdout if result.returncode == 0 else None
+    try:
+        metadata = batch('--batch-check',[(node+':'+ACTIVE).encode() for node in history])
+        if metadata is None:
+            return None
+        headers = metadata.splitlines()
+        if len(headers) != len(history):
+            return None
+        ordered=[];unique={}
+        for header in headers:
+            if header.endswith(b' missing'):
+                ordered.append(None)
+                continue
+            fields=header.split()
+            if len(fields) != 3:
+                return None
+            oid,kind,length=fields;size=int(length)
+            if size < 0:
+                return None
+            ordered.append((oid,kind))
+            if kind == b'blob':
+                if oid in unique and unique[oid] != size:
+                    return None
+                unique[oid]=size
+        if sum(unique.values()) > 4*1024*1024:
+            return None
+        raw=batch('--batch',list(unique)) if unique else b''
+        if raw is None:
+            return None
+        cursor=0;blobs={}
+        for oid,size in unique.items():
+            end=raw.find(b'\n',cursor)
+            if end < 0:
+                return None
+            fields=raw[cursor:end].split()
+            if len(fields) != 3 or fields[:2] != [oid,b'blob'] or int(fields[2]) != size:
+                return None
+            cursor=end+1;value=raw[cursor:cursor+size];cursor+=size
+            if len(value) != size or raw[cursor:cursor+1] != b'\n':
+                return None
+            blobs[oid]=value;cursor+=1
+        return (ordered,blobs) if cursor == len(raw) else None
+    except (OSError,ValueError,TypeError,OverflowError):
+        return None
+
+
+def introduction(root: str, history: list[str], task_id: str) -> tuple[str, dict[str, Any]] | None:
+    snapshots = _batched_registry_bytes(root,history)
+    if snapshots is None:
+        return _introduction_sequential(root,history,task_id)
+    ordered,blobs=snapshots
+    decoded={};found=None;was_present=False
+    for node,record in zip(history,ordered):
+        if record is None:
+            require(found is None,'Registry disappeared after repair registration')
+            continue
+        oid,kind=record
+        if kind != b'blob':
+            # Keep git-show's existing representation/error and historical
+            # error ordering for trees or any other non-file object.
+            return _introduction_sequential(root,history,task_id)
+        if oid not in decoded:
+            value=yaml.load(blobs[oid],Loader=SAFE_DOCUMENT_LOADER)
+            require(isinstance(value,dict),'Repair authority document must be a mapping')
+            decoded[oid]=rows(value.get('tasks'))
+        entry=decoded[oid].get(task_id)
+        if entry and not was_present:
+            require(found is None,'Repair identity was reintroduced')
+            found=(node,entry)
+        was_present=entry is not None
     return found
 
 
