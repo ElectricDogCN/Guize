@@ -1064,6 +1064,10 @@ def _main() -> int:
             validate_bound_repair_changes(root, args.base_ref, args.head_ref, repair_id, paths, errors)
     validate_frozen_changes(root, args.base_ref, args.head_ref, errors)
     recovery_task = validate_recovery_transition(root, args.base_ref, args.head_ref, errors)
+    if errors:
+        for error in errors:
+            emit("FAIL", error)
+        return 1
     planning = PLANNING.classifier(
         root, args.base_ref, args.head_ref, base_plan, current_plan, errors,
         owner_hint=args.task,

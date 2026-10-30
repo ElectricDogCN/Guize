@@ -106,7 +106,7 @@ tasks:
   agentRole: implementer
   branch: chore/OPS-017-source-compatibility-admission
   baseBranch: main
-  baseSha: a55680b9d06901729fcae7f35cb167b8b59d33f4
+  baseSha: 76be38c26dea26669819f142c572e69aac84c32b
   workPackage: WP-M0-01
   programPlan: specs/coordination/program-plan.yaml
   programTaskId: OPS-017

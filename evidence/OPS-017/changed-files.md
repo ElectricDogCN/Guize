@@ -155,3 +155,20 @@ Parent delta:
 - evidence/OPS-017/test-results/README.md
 - scripts/check-program-lifecycle-guards.py
 - tests/governance/test_poc_contract_repair_admission.py
+
+
+## Definite-failure frontier forward correction
+Target and parent: 76be38c26dea26669819f142c572e69aac84c32b
+- evidence/OPS-017/changed-files.md
+- evidence/OPS-017/commands.txt
+- evidence/OPS-017/fatal-frontier-v1/README.md
+- evidence/OPS-017/fatal-frontier-v1/commands.txt
+- evidence/OPS-017/fatal-frontier-v1/context.json
+- evidence/OPS-017/fatal-frontier-v1/index.json
+- evidence/OPS-017/fatal-frontier-v1/originals.zip
+- evidence/OPS-017/handoff.md
+- evidence/OPS-017/summary.md
+- evidence/OPS-017/test-results/README.md
+- scripts/check-program-lifecycle-guards.py
+- specs/coordination/active-work.yaml
+- specs/tasks/OPS-017.md
