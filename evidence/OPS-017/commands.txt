@@ -83,3 +83,20 @@ python scripts/run-task-scope-gate.py --task OPS-017 --base a55680b9d06901729fca
 python scripts/check-evidence.py --task OPS-017
 python scripts/check-project-readiness.py
 python scripts/check-markdown.py
+
+
+# New loader source14 UNEXECUTED / target a55680b9d06901729fcae7f35cb167b8b59d33f4
+git diff --check a55680b9d06901729fcae7f35cb167b8b59d33f4...HEAD
+python scripts/check-task-file.py --task OPS-017
+python scripts/check-schemas.py
+python scripts/check-program-plan-integrity.py --base-ref a55680b9d06901729fcae7f35cb167b8b59d33f4
+python scripts/check-program-plan-history.py --base-ref a55680b9d06901729fcae7f35cb167b8b59d33f4 --head-ref HEAD --task OPS-017 --branch-name chore/OPS-017-source-compatibility-admission
+python scripts/check-program-plan-transitions.py --base-ref a55680b9d06901729fcae7f35cb167b8b59d33f4 --head-ref HEAD --task OPS-017 --branch-name chore/OPS-017-source-compatibility-admission
+python scripts/check-program-lifecycle-guards.py --base-ref a55680b9d06901729fcae7f35cb167b8b59d33f4 --head-ref HEAD --task OPS-017 --branch-name chore/OPS-017-source-compatibility-admission
+python scripts/run-program-lifecycle-gate.py --base-ref a55680b9d06901729fcae7f35cb167b8b59d33f4 --head-ref HEAD --task OPS-017 --branch-name chore/OPS-017-source-compatibility-admission
+python scripts/run-agent-coordination-gate.py --base-ref a55680b9d06901729fcae7f35cb167b8b59d33f4 --head-ref HEAD --task OPS-017 --branch-name chore/OPS-017-source-compatibility-admission
+python scripts/check-program-plan-finalization.py --base-ref a55680b9d06901729fcae7f35cb167b8b59d33f4 --head-ref HEAD --task OPS-017
+python scripts/run-task-scope-gate.py --task OPS-017 --base a55680b9d06901729fcae7f35cb167b8b59d33f4
+python scripts/check-evidence.py --task OPS-017
+python scripts/check-project-readiness.py
+python scripts/check-markdown.py

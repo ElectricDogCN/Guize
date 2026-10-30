@@ -38,6 +38,8 @@ from typing import Any
 
 import yaml
 
+SAFE_DOCUMENT_LOADER = getattr(yaml, 'CSafeLoader', yaml.SafeLoader)
+
 PLANNING_SPEC = importlib.util.spec_from_file_location(
     "guize_lifecycle_planning", os.path.join(os.path.dirname(__file__), "program-planning-revision.py")
 )
@@ -157,7 +159,7 @@ def load_yaml_text(text: str | None) -> Any | None:
     if text is None:
         return None
     try:
-        return yaml.safe_load(text)
+        return yaml.load(text, Loader=SAFE_DOCUMENT_LOADER)
     except yaml.YAMLError:
         return None
 
@@ -168,7 +170,7 @@ def load_ref(root: str, ref: str, path: str) -> Any | None:
 
 def load_current(root: str, path: str) -> Any:
     with open(os.path.join(root, path), "r", encoding="utf-8") as handle:
-        return yaml.safe_load(handle)
+        return yaml.load(handle, Loader=SAFE_DOCUMENT_LOADER)
 
 
 def mapping(items: list[dict[str, Any]] | None) -> dict[str, dict[str, Any]]:
@@ -213,7 +215,7 @@ def parse_front(text: str | None) -> dict[str, Any]:
     if len(parts) < 3:
         return {}
     try:
-        value = yaml.safe_load(parts[1])
+        value = yaml.load(parts[1], Loader=SAFE_DOCUMENT_LOADER)
     except yaml.YAMLError:
         return {}
     return value if isinstance(value, dict) else {}

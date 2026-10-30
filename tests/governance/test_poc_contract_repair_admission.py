@@ -982,6 +982,40 @@ class TestSourceCompatibilityRepairAdmission(unittest.TestCase):
         self.assertIn('preceding unchanged frozen recovery event',result.stdout+result.stderr)
 
     def test_actual_no_task_lifecycle_accepts_real_registered_frozen_repair(self):
+        # The fast optional backend must preserve the legacy safe parser's
+        # accepted values and rejection, including a pure-Python fallback.
+        parser_spec = importlib.util.spec_from_file_location(
+            'bound_repair_lifecycle_parser',ROOT/'scripts/check-program-lifecycle-guards.py')
+        lifecycle = importlib.util.module_from_spec(parser_spec)
+        parser_spec.loader.exec_module(lifecycle)
+        metadata = [Path(ROOT,path).read_text(encoding='utf-8') for path in
+                    (PROOF.PLAN,PROOF.ACTIVE,PROOF.LEDGER,'specs/designs/module-ownership.yaml')]
+        fragments = ['', 'null\n', 'true\n', '[1, two, null]\n',
+                     'a: 1\na: 2\n', 'a: &x [1, 2]\nb: *x\n',
+                     'name: 归泽\nquoted: "with space"\n',
+                     'date: 2026-10-30\n', 'tasks: [\n', 'x: !unknown value\n']
+        with tempfile.TemporaryDirectory(prefix='guize-lifecycle-parser-') as parser_root:
+            for backend in (lifecycle.SAFE_DOCUMENT_LOADER,yaml.SafeLoader):
+                with mock.patch.object(lifecycle,'SAFE_DOCUMENT_LOADER',backend):
+                    for index,text in enumerate(metadata+fragments):
+                        filename=str(index)+'.yaml'
+                        Path(parser_root,filename).write_text(text,encoding='utf-8')
+                        try:
+                            expected=yaml.safe_load(text)
+                        except yaml.YAMLError:
+                            self.assertIsNone(lifecycle.load_yaml_text(text))
+                            with self.assertRaises(yaml.YAMLError):
+                                lifecycle.load_current(parser_root,filename)
+                            if index>=len(metadata):
+                                self.assertEqual(lifecycle.parse_front('---\n'+text+'\n---\nBody'),{})
+                        else:
+                            self.assertEqual(lifecycle.load_yaml_text(text),expected)
+                            self.assertEqual(lifecycle.load_current(parser_root,filename),expected)
+                            if index>=len(metadata):
+                                self.assertEqual(lifecycle.parse_front('---\n'+text+'\n---\nBody'),
+                                                 expected if isinstance(expected,dict) else {})
+                    for text in (None,'','no front matter','---\nunterminated'):
+                        self.assertEqual(lifecycle.parse_front(text),{})
         _,frozen,_ = self.frozen_repair()
         with Path(self.repo,'docs/18-testing-and-acceptance.md').open('a',encoding='utf-8') as stream:stream.write('\nFixture real bounded contract repair.\n')
         code=self.commit(self.repo,'OPS-018 fixture valid repair after real freeze')

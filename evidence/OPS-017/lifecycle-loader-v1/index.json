@@ -1,0 +1,272 @@
+[
+  {
+    "path": "ops017-lifecycle-safe-loader-component-independent-review.json",
+    "bytes": 11457,
+    "sha256": "b240385151d75137b2c33449399edf7d83a30af4ea4636e78b02ebc04615515f"
+  },
+  {
+    "path": "ops017-exact-edge-forward-current-candidate.json",
+    "bytes": 6073,
+    "sha256": "d57acef49565f50f3435a79d313f05f50f3322bde1932f4bd764aa46b1a1e623"
+  },
+  {
+    "path": "ops017-ci917-attempt2-negative-and-forward-repair-route-independent-review.json",
+    "bytes": 8818,
+    "sha256": "87d3f54adcdde19cc977fdb8b56b9a7c975ea84a60c7ac0758bcd3c37a363d1b"
+  },
+  {
+    "path": "ops017-ci917-attempt1-negative-and-bounded-retry-independent-review.json",
+    "bytes": 8681,
+    "sha256": "e9b25f22a279091ff8debff37d0133a63d2fd30f1f5418d7dc6dda507c54e974"
+  },
+  {
+    "path": "ops017-ci917-attempt2-dispatch-independent-review.json",
+    "bytes": 4249,
+    "sha256": "b89a01a917b45ff30ec3c729bb550d04fbcd7d20d2d59c9b716c058fe85a7c9b"
+  },
+  {
+    "path": "ops017-ci917-attempt2-single-dispatch-intent.json",
+    "bytes": 706,
+    "sha256": "1ad7215637ae82e919e3cb476494a9587601fbc6904cfe8f239d51bdb95ad053"
+  },
+  {
+    "path": "ops017-ci917-attempt2-actual-dispatch-envelope.json",
+    "bytes": 161,
+    "sha256": "0aad31566ba642e38c47f18ab55ad16470654eade0b74575427dd592d966998e"
+  },
+  {
+    "path": "ops017-ci917-attempt2-initial-official-state.json",
+    "bytes": 22928,
+    "sha256": "624dea0bbc58af524de458aa0520537684c2d31bf0728e2f9f7615a4558819d3"
+  },
+  {
+    "path": "ops017-ci917-actual-checkout-diagnostic-candidate.json",
+    "bytes": 2614,
+    "sha256": "db848a6d2484cc50db54a1576c8c4794adf95a712f1706f92ff7a00f7a239972"
+  },
+  {
+    "path": "ops017-lifecycle-safe-loader-profile-comparison-v1.json",
+    "bytes": 4062,
+    "sha256": "d04c94ed8080919be32b772fdaa49fa340cc4a6c949aa00a3690e7771ccd21ed"
+  },
+  {
+    "path": "profile_ops017_ci917_common_checker_child_costs_v1_once.py",
+    "bytes": 6335,
+    "sha256": "cc9b3767c97fcb68ba5090bb66efef73a135a44fb1be9a44c74ee42698424dfa"
+  },
+  {
+    "path": "profile_ops017_ci917_safe_loader_overlay_once.py",
+    "bytes": 6884,
+    "sha256": "2b533b030ee7257a4debaf304138f145785a6aa240ec42d14277d2c4343e79cf"
+  },
+  {
+    "path": "check_ops017_safe_loader_semantic_parity_once.py",
+    "bytes": 5024,
+    "sha256": "e68985ca7cb34a56d4acbf9959fb96bcb791168af891239031e10038c6a996da"
+  },
+  {
+    "path": "run_ops017_safe_loader_overlay_components_once.py",
+    "bytes": 5867,
+    "sha256": "11dc4af54f7d7aaae9743c4cba03f3ae4732cdf9b2dcda28ba8f1ff0db02b765"
+  },
+  {
+    "path": "ops017-lifecycle-safe-loader-regression-overlay-v1/overlay.json",
+    "bytes": 863,
+    "sha256": "800c5ac062de18cbba1539c3ab410c3c733181a69f3f7a8adc80506c48e83296"
+  },
+  {
+    "path": "ops017-exact-edge-forward-ci-attempt1-negative/analysis.json",
+    "bytes": 1775,
+    "sha256": "fddbdf7417c1172ab1463a61d9e98df76bb80fdc5a24d80d25b393bef6d2fc68"
+  },
+  {
+    "path": "ops017-exact-edge-forward-ci-attempt1-negative/checkout.json",
+    "bytes": 2805,
+    "sha256": "865b61111084a35cdfa4114a39f67e6763ff70edaabc150b3448926be8d09937"
+  },
+  {
+    "path": "ops017-exact-edge-forward-ci-attempt1-negative/job-log-connector-envelope.json",
+    "bytes": 304519,
+    "sha256": "426bc59873fde447948d31c41468ee03aa85efb6d731c264ca659d2d23b168ad"
+  },
+  {
+    "path": "ops017-exact-edge-forward-ci-attempt1-negative/job-log.connector-decoded.utf8.txt",
+    "bytes": 300181,
+    "sha256": "dfb7d760ab9055b86364a0ac0e69bb61b1316431578388db47e6823e5d0d6b8a"
+  },
+  {
+    "path": "ops017-exact-edge-forward-ci-attempt1-negative/jobs.json",
+    "bytes": 8320,
+    "sha256": "2535ecbd4028b0cf5eda7c58c6beec983d8e39992832429ec3c0f5e89f7314c6"
+  },
+  {
+    "path": "ops017-exact-edge-forward-ci-attempt1-negative/official-check-diagnostics-envelope.json",
+    "bytes": 1794,
+    "sha256": "d4ea1906f89d232f715c983b4a9f7743fa367a9f88fa8028fe7da7455c29170f"
+  },
+  {
+    "path": "ops017-exact-edge-forward-ci-attempt1-negative/run.json",
+    "bytes": 14538,
+    "sha256": "2885f5989f8b09ef00f636b5b9fafda1bca804e595c070db3b6a12580dd3fb08"
+  },
+  {
+    "path": "ops017-exact-edge-forward-ci-attempt2-negative/analysis.json",
+    "bytes": 1822,
+    "sha256": "7ca4e543195909da41a5e46ea3e4d036482cd118f043b453641e2f450679cd54"
+  },
+  {
+    "path": "ops017-exact-edge-forward-ci-attempt2-negative/checkout.json",
+    "bytes": 2805,
+    "sha256": "865b61111084a35cdfa4114a39f67e6763ff70edaabc150b3448926be8d09937"
+  },
+  {
+    "path": "ops017-exact-edge-forward-ci-attempt2-negative/job-log-connector-envelope.json",
+    "bytes": 302747,
+    "sha256": "b45ac6e3f696d442d691ffbf83c7d1703ad8b21b5299e17024d7227199d389e8"
+  },
+  {
+    "path": "ops017-exact-edge-forward-ci-attempt2-negative/job-log.connector-decoded.utf8.txt",
+    "bytes": 298419,
+    "sha256": "3f21c010470f98fb609999b90f068c1069cf9d5e8dd12e06add750303199dc3a"
+  },
+  {
+    "path": "ops017-exact-edge-forward-ci-attempt2-negative/jobs.json",
+    "bytes": 8320,
+    "sha256": "9bbdde65240e9064007db32fc58828c620f40a5639441c1778e3cecc33ade6f1"
+  },
+  {
+    "path": "ops017-exact-edge-forward-ci-attempt2-negative/official-check-diagnostics-envelope.json",
+    "bytes": 1794,
+    "sha256": "a067677e62b528d430c5ab64950f195329e311c672b489ae24f49cf5e960b2c3"
+  },
+  {
+    "path": "ops017-exact-edge-forward-ci-attempt2-negative/run.json",
+    "bytes": 14620,
+    "sha256": "521103f04073ccc695cf9b53677284f0dc18cd62133d60e9d1181c1086f0a5ed"
+  },
+  {
+    "path": "ops017-ci917-bounded-common-checker-profile-v1/child-00.pstats",
+    "bytes": 343239,
+    "sha256": "27ba55270cb62891a07fafe27a2f426c6a59cb9ca3d045bf1c7ee8e79fbd97df"
+  },
+  {
+    "path": "ops017-ci917-bounded-common-checker-profile-v1/child-01.pstats",
+    "bytes": 300263,
+    "sha256": "deb6c0fe239e4671271a9bb72fe236441f35bf7c2fa49cad7a85e651ef3754e3"
+  },
+  {
+    "path": "ops017-ci917-bounded-common-checker-profile-v1/child-costs.json",
+    "bytes": 17136,
+    "sha256": "b874bb8935b2a4c731055d71f01c48eebd296818efa362cde2addeda64c2304f"
+  },
+  {
+    "path": "ops017-ci917-bounded-common-checker-profile-v1/diagnostic-junit.xml",
+    "bytes": 604,
+    "sha256": "72d60f68b13b399858f570ba100a57d251a21d550f1421cc9e0b5a6859602941"
+  },
+  {
+    "path": "ops017-ci917-bounded-common-checker-profile-v1/results.json",
+    "bytes": 19773,
+    "sha256": "a94f5bc35abb62a941f9a325fb63e1eb91ed900fc11845749f7fe19da9a513c0"
+  },
+  {
+    "path": "ops017-ci917-bounded-common-checker-profile-v1/stderr.raw",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "ops017-ci917-bounded-common-checker-profile-v1/stdout.raw",
+    "bytes": 288,
+    "sha256": "312f3bc0a168b4d89e7d0ec82633975cc260ccbec8b8f7ff6c166e310a8a51a8"
+  },
+  {
+    "path": "ops017-ci917-safe-loader-overlay-profile-v1/child-00.pstats",
+    "bytes": 342820,
+    "sha256": "e3389377308ed4ea93177e7807491d862b8f19aa7f53af4f9442dbcd8a335716"
+  },
+  {
+    "path": "ops017-ci917-safe-loader-overlay-profile-v1/child-01.pstats",
+    "bytes": 300291,
+    "sha256": "85dbb584e22f4a00266465cdefe7538761eb60a06233698ef5f60ad3abd755e7"
+  },
+  {
+    "path": "ops017-ci917-safe-loader-overlay-profile-v1/child-costs.json",
+    "bytes": 17099,
+    "sha256": "7e524335a035dee5d42405d633bd721e72a4739c86bf3af3dcd61a6b8408fee7"
+  },
+  {
+    "path": "ops017-ci917-safe-loader-overlay-profile-v1/diagnostic-junit.xml",
+    "bytes": 604,
+    "sha256": "d790411285a167af11676b084b41bc7c1974f27b38a823ab0d08991ce0049214"
+  },
+  {
+    "path": "ops017-ci917-safe-loader-overlay-profile-v1/results.json",
+    "bytes": 20405,
+    "sha256": "326aedd7e596d68376cf7da21b6dc6f741509e46e25fc35defc12b8c5e98a62e"
+  },
+  {
+    "path": "ops017-ci917-safe-loader-overlay-profile-v1/stderr.raw",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "ops017-ci917-safe-loader-overlay-profile-v1/stdout.raw",
+    "bytes": 285,
+    "sha256": "39af55b0f54efcf42e2a98ebc633fcad9fe0ec5efd71b79f008e7acd7e0071be"
+  },
+  {
+    "path": "ops017-safe-loader-regression-components-v1/components.stderr.raw",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "ops017-safe-loader-regression-components-v1/components.stdout.raw",
+    "bytes": 1922,
+    "sha256": "58a70c271baabdccd608bf69f36a80556e8bfd5c14fe96ea2ae7058b90630ab4"
+  },
+  {
+    "path": "ops017-safe-loader-regression-components-v1/components.xml",
+    "bytes": 13910,
+    "sha256": "7f9fde98890c8803d37e5b5b15df087051b6d2a7ddc77ccd235cdb0a650144c7"
+  },
+  {
+    "path": "ops017-safe-loader-regression-components-v1/original-collection.stderr.raw",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "ops017-safe-loader-regression-components-v1/original-collection.stdout.raw",
+    "bytes": 100793,
+    "sha256": "b99e4291f6a10d30eae06c39d5a069b37920d22db92f461b2d615caffadd23cc"
+  },
+  {
+    "path": "ops017-safe-loader-regression-components-v1/overlay-collection.stderr.raw",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "ops017-safe-loader-regression-components-v1/overlay-collection.stdout.raw",
+    "bytes": 100793,
+    "sha256": "3eb63a4eb48550efc2c830fe20863ab50ee71e653345c97714ee41ebe24472a6"
+  },
+  {
+    "path": "ops017-safe-loader-regression-components-v1/results.json",
+    "bytes": 5419,
+    "sha256": "6db8c37a77435e8726eca8d773a5837f7af7041f110bf71c8a6e900904444133"
+  },
+  {
+    "path": "ops017-lifecycle-safe-loader-parity-v1/results.json",
+    "bytes": 84462,
+    "sha256": "f0f68d9de18788168a3e332c8432c7fc5b0a5a11af6e91174904c2a8495b7c39"
+  },
+  {
+    "path": "ops017-lifecycle-safe-loader-regression-overlay-v1/scripts/check-program-lifecycle-guards.py",
+    "bytes": 57580,
+    "sha256": "2c54aee4e9276e2c5e5564b6346d8f36fc22fc2c3ec2fabbc3c0166b751aa85b"
+  },
+  {
+    "path": "ops017-lifecycle-safe-loader-regression-overlay-v1/tests/governance/test_poc_contract_repair_admission.py",
+    "bytes": 76564,
+    "sha256": "f7e6905ba1ed0e1f410e0611d374a6fcb15e9cbfa3f85a9a4ba12f0602aaf9bc"
+  }
+]
