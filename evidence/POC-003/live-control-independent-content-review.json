@@ -1,0 +1,15 @@
+{
+  "decision": "accepted content delta only",
+  "actualReviewer": "/root/gz022_planning_independent_review",
+  "reviewedAt": "2026-10-22T17:12:02Z",
+  "authorHead": "558d306874b48e2e4bbd1f802933585e7b570d0f",
+  "reviewedUncommittedContent": true,
+  "path": "poc/POC-03-ats-range/lab.py",
+  "labSha256": "2f2b6a82066b99c730d9ee9f19e26e2879d828931ddc4c5142f51a016799b1e4",
+  "mustFix": [],
+  "scope": "authenticated private control operation, controller-generated label,16-call quota including startup, idle-only capture and strict nonfuture monotonic request boundary",
+  "experimentApproved": false,
+  "fullMediaCoverageProven": false,
+  "original15Accepted": false,
+  "integrationApproved": false
+}

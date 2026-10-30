@@ -1,0 +1,135 @@
+{
+  "requestId": "d4a0e6a613e44463b1dd302dc34783ff",
+  "case": "if_stale",
+  "userId": "lab-user-a",
+  "url": "http://127.0.0.1:18233/media/object.bin",
+  "sourceVersion": "base",
+  "sourceSha256": "938a8bc3e0a64184f1551bff0c500dc891366ead8f30f8f83753587e763c1c26",
+  "aclVersion": "poc003-local-acl-v1",
+  "authorizationContext": "a9459da427d894a5b78545d7ff0e509f",
+  "requestRange": "bytes=0-7",
+  "ifRange": "\"stale-diagnostic-version\"",
+  "bodyRef": "bodies/if_stale-d4a0e6a613e44463b1dd302dc34783ff.bin",
+  "configuredOriginFault": null,
+  "collectorRetryCount": 0,
+  "statusCode": 200,
+  "responseHeaders": [
+    [
+      "Server",
+      "BaseHTTP/0.6 Python/3.12.3"
+    ],
+    [
+      "Date",
+      "Thu, 22 Oct 2026 15:59:58 GMT"
+    ],
+    [
+      "Content-Type",
+      "application/octet-stream"
+    ],
+    [
+      "Content-Length",
+      "67108864"
+    ],
+    [
+      "ETag",
+      "\"sha256-938a8bc3e0a64184f1551bff0c500dc891366ead8f30f8f83753587e763c1c26\""
+    ],
+    [
+      "Accept-Ranges",
+      "bytes"
+    ],
+    [
+      "Via",
+      "http/1.1 traffic_server (ApacheTrafficServer/9.2.3 [uScHs f p eN:t cCHp s ]), http/1.1 traffic_server (ApacheTrafficServer/9.2.3 [uSc sSf pSeN:t c  p sS])"
+    ],
+    [
+      "X-Lab-ATS-Cache",
+      "none"
+    ],
+    [
+      "Last-Modified",
+      "Mon, 19 Oct 2026 00:00:00 GMT"
+    ],
+    [
+      "X-Lab-Request-ID",
+      "d4a0e6a613e44463b1dd302dc34783ff"
+    ],
+    [
+      "X-Lab-Source-Version",
+      "base"
+    ],
+    [
+      "X-Lab-Cache-Context",
+      "a9459da427d894a5b78545d7ff0e509f"
+    ],
+    [
+      "Connection",
+      "close"
+    ]
+  ],
+  "firstResponseByteAt": "2026-10-22T15:59:58.992804Z",
+  "firstResponseByteLatencyMs": 15.899903999525122,
+  "responseHeadersAt": "2026-10-22T15:59:58.992991Z",
+  "firstBodyByteAt": "2026-10-22T15:59:58.993108Z",
+  "firstBodyByteLatencyMs": 16.188469002372585,
+  "firstBodyChunkAt": "2026-10-22T15:59:58.993114Z",
+  "finishedAt": "2026-10-22T15:59:59.378409Z",
+  "bodyBytes": 67108864,
+  "clientChunkPeak": 65536,
+  "transportCompleted": true,
+  "originObservation": {
+    "requestId": "d4a0e6a613e44463b1dd302dc34783ff",
+    "observedAt": "2026-10-22T15:59:59.536563Z",
+    "originRequestCount": 0,
+    "objectReadCount": 0,
+    "objectReadBytes": 0,
+    "activeOriginRequests": 0,
+    "originTransactions": [],
+    "gatewayTransactions": [
+      {
+        "requestId": "d4a0e6a613e44463b1dd302dc34783ff",
+        "case": "if_stale",
+        "startedAt": "2026-10-22T15:59:58.988747Z",
+        "userId": "lab-user-a",
+        "sourceVersion": "base",
+        "aclVersion": "poc003-local-acl-v1",
+        "requestRange": "bytes=0-7",
+        "ifRange": "\"stale-diagnostic-version\"",
+        "atsRequestSent": true,
+        "responseByteCount": 67108864,
+        "gatewayChunkPeak": 65536,
+        "grantObservation": {
+          "grantId": "poc003-grant-lab-user-a",
+          "principalId": "lab-user-a",
+          "validFrom": "2026-10-22T15:59:50.017715Z",
+          "validUntil": "2026-10-22T16:08:55.017715Z",
+          "revokedAt": null,
+          "authorizedAt": "2026-10-22T15:59:58.988792Z",
+          "reason": "allowed"
+        },
+        "cacheContextPath": "/ctx/a9459da427d894a5b78545d7ff0e509f/base/object.bin",
+        "statusCode": 200,
+        "atsResponseHeadersAt": "2026-10-22T15:59:58.992610Z",
+        "atsExpectedBodyBytes": 67108864,
+        "upstreamReadTimeoutSeconds": 10,
+        "transportCompleted": true,
+        "firstBodyChunkAt": "2026-10-22T15:59:58.992782Z",
+        "finishedAt": "2026-10-22T15:59:59.363400Z"
+      }
+    ]
+  },
+  "startedAt": "2026-10-22T15:59:58.976914Z",
+  "responseHeaderLatencyMs": 16.070769997895695,
+  "elapsedMs": 401.50364900182467,
+  "bodySha256": "938a8bc3e0a64184f1551bff0c500dc891366ead8f30f8f83753587e763c1c26",
+  "originPollingSettled": true,
+  "originPollingScope": "Only these timestamped snapshots; no assertion about unobserved later I/O.",
+  "sourceIntervalComparison": {
+    "expectedStatus": 200,
+    "start": 0,
+    "end": 67108863,
+    "expectedBytes": 67108864,
+    "expectedSha256": "938a8bc3e0a64184f1551bff0c500dc891366ead8f30f8f83753587e763c1c26",
+    "actualBytesEqual": true
+  }
+}

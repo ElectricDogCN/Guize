@@ -1,0 +1,184 @@
+{
+  "source": "d1c0cf7d008f3f359811a5ab75ec949c8d412dd7",
+  "local15Accepted": true,
+  "offline21Accepted": true,
+  "ci811TerminalSuccess": true,
+  "tests": 713,
+  "noSkippedTests": true,
+  "original15Accepted": false,
+  "sourceOverallAccepted": false,
+  "files": [
+    {
+      "source": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-implementation-d1c0cf7-results/00.txt",
+      "file": "poc003-implementation-d1c0cf7-results__00.txt.base64.json",
+      "bytes": 137,
+      "sha256": "ff9509b505752333f51cb1b47b3887e3e0e301f0326e33a3e084708367c5d4ff",
+      "encoding": "base64"
+    },
+    {
+      "source": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-implementation-d1c0cf7-results/01.txt",
+      "file": "poc003-implementation-d1c0cf7-results__01.txt.base64.json",
+      "bytes": 248,
+      "sha256": "e8863f318b022f748d56de9333b2aea52df81321a9d2ececed89cb7c0f9ce194",
+      "encoding": "base64"
+    },
+    {
+      "source": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-implementation-d1c0cf7-results/02.txt",
+      "file": "poc003-implementation-d1c0cf7-results__02.txt.base64.json",
+      "bytes": 653,
+      "sha256": "68b3bfc4ae102c95771601aa31ff07f4944db507e698107dfd53f3cb85d51d3d",
+      "encoding": "base64"
+    },
+    {
+      "source": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-implementation-d1c0cf7-results/03.txt",
+      "file": "poc003-implementation-d1c0cf7-results__03.txt.base64.json",
+      "bytes": 1807,
+      "sha256": "e4939b8f2d1146ef2db1162938aceac8973f4f9ddc683c52d223306feb8ab072",
+      "encoding": "base64"
+    },
+    {
+      "source": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-implementation-d1c0cf7-results/04.txt",
+      "file": "poc003-implementation-d1c0cf7-results__04.txt.base64.json",
+      "bytes": 412,
+      "sha256": "134da689019f012583032f3cb7f4c16d7180a8bd54cfb686b220c8707c7dcc75",
+      "encoding": "base64"
+    },
+    {
+      "source": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-implementation-d1c0cf7-results/05.txt",
+      "file": "poc003-implementation-d1c0cf7-results__05.txt.base64.json",
+      "bytes": 461,
+      "sha256": "f863750c344d8ea70bcbb7d0e656758bdf13887dd2e101645de8b6b1a5e46a6e",
+      "encoding": "base64"
+    },
+    {
+      "source": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-implementation-d1c0cf7-results/06.txt",
+      "file": "poc003-implementation-d1c0cf7-results__06.txt.base64.json",
+      "bytes": 414,
+      "sha256": "45f7daa4e63ca6ff46b12e2e5fb24f662f9ad9d0fd5722853273b59bee3c286b",
+      "encoding": "base64"
+    },
+    {
+      "source": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-implementation-d1c0cf7-results/07.txt",
+      "file": "poc003-implementation-d1c0cf7-results__07.txt.base64.json",
+      "bytes": 355,
+      "sha256": "373a365ef1cbb817b88396d9f39d3a63f3f7a73ed75674bfc4e00759ac76b7fd",
+      "encoding": "base64"
+    },
+    {
+      "source": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-implementation-d1c0cf7-results/08.txt",
+      "file": "poc003-implementation-d1c0cf7-results__08.txt.base64.json",
+      "bytes": 481,
+      "sha256": "3cc31f07b13f0783a1a1bd6277c8a95ab005544fb715b9af9cf465eff5d6e9c7",
+      "encoding": "base64"
+    },
+    {
+      "source": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-implementation-d1c0cf7-results/09.txt",
+      "file": "poc003-implementation-d1c0cf7-results__09.txt.base64.json",
+      "bytes": 572,
+      "sha256": "898a71b7c61f37777a68ef1f0bcad5980968a1699ff231e8b37fcde6f9b367e2",
+      "encoding": "base64"
+    },
+    {
+      "source": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-implementation-d1c0cf7-results/10.txt",
+      "file": "poc003-implementation-d1c0cf7-results__10.txt.base64.json",
+      "bytes": 373,
+      "sha256": "cfb59105a7594c8a2850e1e3f1d55f3651803afec906c9fd11d1c53e2ab641ab",
+      "encoding": "base64"
+    },
+    {
+      "source": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-implementation-d1c0cf7-results/11.txt",
+      "file": "poc003-implementation-d1c0cf7-results__11.txt.base64.json",
+      "bytes": 101703,
+      "sha256": "423080e6d5356b9352367e45035274372dbad387a3eb1bbbc23098f085666a2b",
+      "encoding": "base64"
+    },
+    {
+      "source": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-implementation-d1c0cf7-results/12.txt",
+      "file": "poc003-implementation-d1c0cf7-results__12.txt.base64.json",
+      "bytes": 300,
+      "sha256": "ac4dd6d57e9144c5280e674b0cd88f3baf6a602aa57386560f6e65851b5386ac",
+      "encoding": "base64"
+    },
+    {
+      "source": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-implementation-d1c0cf7-results/13.txt",
+      "file": "poc003-implementation-d1c0cf7-results__13.txt.base64.json",
+      "bytes": 394,
+      "sha256": "fb142314587844dce1473330ba1bcc44c8dc09d3ff0054732bea3cfcdd1a7a51",
+      "encoding": "base64"
+    },
+    {
+      "source": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-implementation-d1c0cf7-results/14.txt",
+      "file": "poc003-implementation-d1c0cf7-results__14.txt.base64.json",
+      "bytes": 157,
+      "sha256": "8095f9534b0d40e8045cfc94504fd65e944b7b7e711ce5c63fd13c5a75ae1d70",
+      "encoding": "base64"
+    },
+    {
+      "source": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-implementation-d1c0cf7-results/results.json",
+      "file": "poc003-implementation-d1c0cf7-results__results.json",
+      "bytes": 3989,
+      "sha256": "d7174d69a3f5475da6158cb263b19505f13b08ea4fbd230ff86496c1d1e531e6"
+    },
+    {
+      "source": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-implementation-d1c0cf7-code-checks/results.json",
+      "file": "poc003-implementation-d1c0cf7-code-checks__results.json",
+      "bytes": 3319,
+      "sha256": "1995463df8e843433f14ee8a538ab5f4a48a2189dd7fde4c4c8d638d942bf317"
+    },
+    {
+      "source": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-implementation-d1c0cf7-code-checks/test_cache_probe.py.raw",
+      "file": "poc003-implementation-d1c0cf7-code-checks__test_cache_probe.py.raw",
+      "bytes": 746,
+      "sha256": "38daf0af36beab9168e7ff2c4d0e9459dd9d44997b0889b2bd62a798358630a8"
+    },
+    {
+      "source": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-implementation-d1c0cf7-code-checks/test_cache_probe_native.py.raw",
+      "file": "poc003-implementation-d1c0cf7-code-checks__test_cache_probe_native.py.raw",
+      "bytes": 458,
+      "sha256": "477800b56654353ea21830b5ad5884d90c07d4480c7b560c6f264bca57d9f2c4"
+    },
+    {
+      "source": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-implementation-d1c0cf7-code-checks/test_gateway_native.py.raw",
+      "file": "poc003-implementation-d1c0cf7-code-checks__test_gateway_native.py.raw",
+      "bytes": 633,
+      "sha256": "7599cff87515b059119b21de7a0d729ec3a32275de401c046c7cfeb4bcbda99a"
+    },
+    {
+      "source": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-implementation-d1c0cf7-code-checks/test_http_timing_native.py.raw",
+      "file": "poc003-implementation-d1c0cf7-code-checks__test_http_timing_native.py.raw",
+      "bytes": 408,
+      "sha256": "d028d8a27df3256582f9f538b5a63669cc6d29f2bcdddead5948c3554ad45e9f"
+    },
+    {
+      "source": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-implementation-d1c0cf7-code-checks/test_lab.py.raw",
+      "file": "poc003-implementation-d1c0cf7-code-checks__test_lab.py.raw",
+      "bytes": 1168,
+      "sha256": "4f6f789c84be212fc708c27b0db19e13e0b7cfb2757f57d4b8522c69d43def41"
+    },
+    {
+      "source": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-implementation-d1c0cf7-code-checks/test_revocation_binding.py.raw",
+      "file": "poc003-implementation-d1c0cf7-code-checks__test_revocation_binding.py.raw",
+      "bytes": 424,
+      "sha256": "6d35ea8bd4eb191ddc0904304bfbe06a5b621cf570ee4e078a3b47526a8d8dd2"
+    },
+    {
+      "source": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-implementation-d1c0cf7-code-checks/test_warm_cache_revocation.py.raw",
+      "file": "poc003-implementation-d1c0cf7-code-checks__test_warm_cache_revocation.py.raw",
+      "bytes": 556,
+      "sha256": "c584396df9d93df4de086287e327c3c1e4d414db1c793adf78c3b343005c97fa"
+    },
+    {
+      "source": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-implementation-d1c0cf7-ci811.raw.txt",
+      "file": "ci811.raw.txt.base64.json",
+      "bytes": 386704,
+      "sha256": "cc5f69a94e3e7656cd310619016e25129d32aa12dac661fb342686173ab8825c",
+      "encoding": "base64"
+    },
+    {
+      "source": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-implementation-d1c0cf7-ci811.snapshot.json",
+      "file": "ci811.snapshot.json",
+      "bytes": 20339,
+      "sha256": "fdde545c257d2a3f931dfdf67f58d05ad12e4e39e29a53ef9c07e84d336f8591"
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "/home/sur/.cache/guize-takeover/ops012-history-parser/poc/POC-03-ats-range/test_warm_cache_revocation.py", line 173, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/home/sur/.cache/guize-takeover/ops012-history-parser/poc/POC-03-ats-range/test_warm_cache_revocation.py", line 50, in main
+    raise ValueError('actual GUIZE_POC003_RUN_DIR and new GUIZE_POC003_REVOCATION_OUT required')
+ValueError: actual GUIZE_POC003_RUN_DIR and new GUIZE_POC003_REVOCATION_OUT required

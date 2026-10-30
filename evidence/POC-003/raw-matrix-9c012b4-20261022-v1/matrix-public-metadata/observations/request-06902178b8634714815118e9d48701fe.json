@@ -1,0 +1,133 @@
+{
+  "requestId": "06902178b8634714815118e9d48701fe",
+  "case": "stream",
+  "userId": "lab-user-a",
+  "url": "http://127.0.0.1:18233/media/object.bin",
+  "sourceVersion": "base",
+  "sourceSha256": "938a8bc3e0a64184f1551bff0c500dc891366ead8f30f8f83753587e763c1c26",
+  "aclVersion": "poc003-local-acl-v1",
+  "authorizationContext": "a9459da427d894a5b78545d7ff0e509f",
+  "requestRange": "",
+  "ifRange": "",
+  "bodyRef": "bodies/stream-06902178b8634714815118e9d48701fe.bin",
+  "configuredOriginFault": null,
+  "collectorRetryCount": 0,
+  "statusCode": 200,
+  "responseHeaders": [
+    [
+      "Server",
+      "BaseHTTP/0.6 Python/3.12.3"
+    ],
+    [
+      "Date",
+      "Thu, 22 Oct 2026 14:56:09 GMT"
+    ],
+    [
+      "Content-Type",
+      "application/octet-stream"
+    ],
+    [
+      "Content-Length",
+      "67108864"
+    ],
+    [
+      "ETag",
+      "\"sha256-938a8bc3e0a64184f1551bff0c500dc891366ead8f30f8f83753587e763c1c26\""
+    ],
+    [
+      "Accept-Ranges",
+      "bytes"
+    ],
+    [
+      "Via",
+      "http/1.1 traffic_server (ApacheTrafficServer/9.2.3 [uScHs f p eN:t cCHp s ]), http/1.1 traffic_server (ApacheTrafficServer/9.2.3 [uSc sSf pSeN:t c  p sS])"
+    ],
+    [
+      "X-Lab-ATS-Cache",
+      "none"
+    ],
+    [
+      "Last-Modified",
+      "Mon, 19 Oct 2026 00:00:00 GMT"
+    ],
+    [
+      "X-Lab-Request-ID",
+      "06902178b8634714815118e9d48701fe"
+    ],
+    [
+      "X-Lab-Source-Version",
+      "base"
+    ],
+    [
+      "X-Lab-Cache-Context",
+      "a9459da427d894a5b78545d7ff0e509f"
+    ],
+    [
+      "Connection",
+      "close"
+    ]
+  ],
+  "responseHeadersAt": "2026-10-22T14:56:09.484345Z",
+  "firstBodyByteAt": "2026-10-22T14:56:09.484438Z",
+  "firstBodyByteLatencyMs": 3.528519009705633,
+  "firstBodyChunkAt": "2026-10-22T14:56:09.484442Z",
+  "finishedAt": "2026-10-22T14:56:09.868063Z",
+  "bodyBytes": 67108864,
+  "clientChunkPeak": 65536,
+  "transportCompleted": true,
+  "originObservation": {
+    "requestId": "06902178b8634714815118e9d48701fe",
+    "observedAt": "2026-10-22T14:56:10.070690Z",
+    "originRequestCount": 0,
+    "objectReadCount": 0,
+    "objectReadBytes": 0,
+    "activeOriginRequests": 0,
+    "originTransactions": [],
+    "gatewayTransactions": [
+      {
+        "requestId": "06902178b8634714815118e9d48701fe",
+        "case": "stream",
+        "startedAt": "2026-10-22T14:56:09.481478Z",
+        "userId": "lab-user-a",
+        "sourceVersion": "base",
+        "aclVersion": "poc003-local-acl-v1",
+        "requestRange": "",
+        "ifRange": "",
+        "atsRequestSent": true,
+        "responseByteCount": 67108864,
+        "gatewayChunkPeak": 65536,
+        "grantObservation": {
+          "grantId": "poc003-grant-lab-user-a",
+          "principalId": "lab-user-a",
+          "validFrom": "2026-10-22T14:55:55.818086Z",
+          "validUntil": "2026-10-22T15:16:00.818086Z",
+          "revokedAt": null,
+          "authorizedAt": "2026-10-22T14:56:09.481504Z",
+          "reason": "allowed"
+        },
+        "cacheContextPath": "/ctx/a9459da427d894a5b78545d7ff0e509f/base/object.bin",
+        "statusCode": 200,
+        "atsResponseHeadersAt": "2026-10-22T14:56:09.484073Z",
+        "atsExpectedBodyBytes": 67108864,
+        "upstreamReadTimeoutSeconds": 10,
+        "transportCompleted": true,
+        "firstBodyChunkAt": "2026-10-22T14:56:09.484203Z",
+        "finishedAt": "2026-10-22T14:56:09.842189Z"
+      }
+    ]
+  },
+  "startedAt": "2026-10-22T14:56:09.480903Z",
+  "responseHeaderLatencyMs": 3.4444680059095845,
+  "elapsedMs": 387.16989599925,
+  "bodySha256": "938a8bc3e0a64184f1551bff0c500dc891366ead8f30f8f83753587e763c1c26",
+  "originPollingSettled": true,
+  "originPollingScope": "Only these timestamped snapshots; no assertion about unobserved later I/O.",
+  "sourceIntervalComparison": {
+    "expectedStatus": 200,
+    "start": 0,
+    "end": 67108863,
+    "expectedBytes": 67108864,
+    "expectedSha256": "938a8bc3e0a64184f1551bff0c500dc891366ead8f30f8f83753587e763c1c26",
+    "actualBytesEqual": true
+  }
+}

@@ -1,0 +1,4 @@
+# Immutable captured stdout/stderr are opaque byte archives, not source text.
+*.raw binary
+# Keep structured receipts readable without changing their original Windows CRLF bytes.
+*.json -text whitespace=cr-at-eol

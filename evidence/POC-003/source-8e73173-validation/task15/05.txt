@@ -1,0 +1,5 @@
+Source: 8e73173bb48106a8b7b41275364ff1aca8a7f760
+Command: python scripts/check-program-plan-history.py --base-ref 11c32830c0d1bb8ccdcc04aa278876065bce1f33 --head-ref HEAD --task POC-003 --branch-name chore/POC-003-ats-range
+{"status": "PASS", "message": "Program Plan history transitions are valid", "details": {"baseRef": "11c32830c0d1bb8ccdcc04aa278876065bce1f33", "headRef": "HEAD", "completionRecords": 5, "auditedOwnerCapacityFailures": []}}
+
+Exit Code: 0

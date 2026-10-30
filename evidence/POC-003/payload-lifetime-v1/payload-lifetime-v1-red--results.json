@@ -1,0 +1,28 @@
+{
+  "kind": "ORIGINAL_SOURCE_ACTUAL_OFFLINE_LIFETIME_NEGATIVE",
+  "head": "de2f4f3bceffa964cc4ebbc0278fb6229845c31d",
+  "argv": [
+    "C:\\ProgramData\\anaconda3\\python.exe",
+    "-X",
+    "utf8",
+    "-B",
+    "poc/POC-03-ats-range/test_payload_lifetime.py"
+  ],
+  "pid": 22500,
+  "actualWaitCompleted": true,
+  "exitCode": 1,
+  "sourcePins": {
+    "poc/POC-03-ats-range/lab.py": {
+      "bytes": 47207,
+      "sha256": "493ff3a3178027c8fa9f5ca2af12a57a93a685ce269a6187c1a3278aaf9f22cb"
+    },
+    "poc/POC-03-ats-range/cache_probe.py": {
+      "bytes": 16483,
+      "sha256": "113a353e6fdd93e19ca13226eef319e918ae2951379f1dbacbe9a07887f0750f"
+    },
+    "poc/POC-03-ats-range/test_payload_lifetime.py": {
+      "bytes": 6959,
+      "sha256": "75018c5c4ecc418fed0f65ea7e693ecf4c465d517743444c4a14374933d2970b"
+    }
+  }
+}

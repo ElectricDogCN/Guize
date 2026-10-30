@@ -1,0 +1,59 @@
+{
+  "requestId": "e734d197571e49aaa4c2e1fcf33511a3",
+  "observedAt": "2026-10-22T14:56:57.042518Z",
+  "originRequestCount": 1,
+  "objectReadCount": 6,
+  "objectReadBytes": 393216,
+  "activeOriginRequests": 1,
+  "originTransactions": [
+    {
+      "originTransactionId": "bde2ed65040e7f0b",
+      "requestId": "e734d197571e49aaa4c2e1fcf33511a3",
+      "startedAt": "2026-10-22T14:56:56.424937Z",
+      "finishedAt": null,
+      "path": "/ctx/a9459da427d894a5b78545d7ff0e509f/base/object.bin",
+      "range": "bytes=0-1048575",
+      "ifRange": "",
+      "authorized": true,
+      "objectReadCount": 6,
+      "objectReadBytes": 393216,
+      "statusCode": 206,
+      "fault": "slow",
+      "sourceVersion": "base",
+      "sourceSha256": "938a8bc3e0a64184f1551bff0c500dc891366ead8f30f8f83753587e763c1c26",
+      "transportError": null
+    }
+  ],
+  "gatewayTransactions": [
+    {
+      "requestId": "e734d197571e49aaa4c2e1fcf33511a3",
+      "case": "latency_slow",
+      "startedAt": "2026-10-22T14:56:56.422973Z",
+      "userId": "lab-user-a",
+      "sourceVersion": "base",
+      "aclVersion": "poc003-local-acl-v1",
+      "requestRange": "bytes=0-7",
+      "ifRange": "",
+      "atsRequestSent": true,
+      "responseByteCount": 8,
+      "gatewayChunkPeak": 8,
+      "grantObservation": {
+        "grantId": "poc003-grant-lab-user-a",
+        "principalId": "lab-user-a",
+        "validFrom": "2026-10-22T14:55:55.818086Z",
+        "validUntil": "2026-10-22T15:16:00.818086Z",
+        "revokedAt": null,
+        "authorizedAt": "2026-10-22T14:56:56.422995Z",
+        "reason": "allowed"
+      },
+      "cacheContextPath": "/ctx/a9459da427d894a5b78545d7ff0e509f/base/object.bin",
+      "statusCode": 206,
+      "atsResponseHeadersAt": "2026-10-22T14:56:56.676087Z",
+      "atsExpectedBodyBytes": 8,
+      "upstreamReadTimeoutSeconds": 10,
+      "transportCompleted": true,
+      "firstBodyChunkAt": "2026-10-22T14:56:56.678894Z",
+      "finishedAt": "2026-10-22T14:56:56.678916Z"
+    }
+  ]
+}

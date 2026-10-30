@@ -1,0 +1,56 @@
+{
+  "kind": "ACTUAL_REVIEWED_UNCOMMITTED_DRAFT_CHECKS",
+  "sourceBase": "18163e180e554773ef82e1eea7ffcafa634b027a",
+  "sourceFiles": {
+    "cache_probe.py": "cb785c6f7cc1e6c3715b5569049d79aa8315bc44c76768c40cdb86430871cba2",
+    "collect.py": "076c5d07a86f93874ebf676175bc98596f9339c5c5e1cdb4144a21464eb526ab",
+    "lab.py": "dc818d08802d18bd18401e8a436b3059c87a42d03f92d497ffdeb580ae16edeb",
+    "test_cache_probe.py": "880b226f4d0a54524a95599954237d27bf2bf157da3b363f6e3aeab1acb430a0",
+    "test_cache_probe_native.py": "e835fd96229fe843fc1505718494ba2c6b34acc415703f40da6b3815fbdac2fc"
+  },
+  "totalTests": 14,
+  "syntaxParsed": true,
+  "checks": [
+    {
+      "argv": [
+        "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+        "-B",
+        "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz021-hls-publication-worktree/poc/POC-03-ats-range/test_lab.py"
+      ],
+      "exitCode": 0,
+      "actualTests": 8,
+      "noSkippedTests": true,
+      "raw": "test_lab.py.raw",
+      "bytes": 1168,
+      "sha256": "4f6f789c84be212fc708c27b0db19e13e0b7cfb2757f57d4b8522c69d43def41"
+    },
+    {
+      "argv": [
+        "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+        "-B",
+        "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz021-hls-publication-worktree/poc/POC-03-ats-range/test_cache_probe.py"
+      ],
+      "exitCode": 0,
+      "actualTests": 4,
+      "noSkippedTests": true,
+      "raw": "test_cache_probe.py.raw",
+      "bytes": 746,
+      "sha256": "38daf0af36beab9168e7ff2c4d0e9459dd9d44997b0889b2bd62a798358630a8"
+    },
+    {
+      "argv": [
+        "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+        "-B",
+        "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz021-hls-publication-worktree/poc/POC-03-ats-range/test_cache_probe_native.py"
+      ],
+      "exitCode": 0,
+      "actualTests": 2,
+      "noSkippedTests": true,
+      "raw": "test_cache_probe_native.py.raw",
+      "bytes": 458,
+      "sha256": "98b6c8e9cdfad8c7274de0e1b9ff7c2f09ca254249f6a8ea9fa9e4115f394e7f"
+    }
+  ],
+  "realAtsExperimentExecuted": false,
+  "exactNewCommittedSourceAccepted": false
+}

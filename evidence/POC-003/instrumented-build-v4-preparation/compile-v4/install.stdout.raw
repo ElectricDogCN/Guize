@@ -1,0 +1,555 @@
+Making install in include
+make[1]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/include'
+Making install in ts
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/include/ts'
+make[3]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/include/ts'
+make[3]: Nothing to be done for 'install-exec-am'.
+ /usr/bin/mkdir -p '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/include/ts'
+ /usr/bin/install -c -m 644 apidefs.h ts.h remap.h experimental.h parentselectdefs.h '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/include/ts'
+make[3]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/include/ts'
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/include/ts'
+Making install in tscpp/api
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/include/tscpp/api'
+make[3]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/include/tscpp/api'
+make[3]: Nothing to be done for 'install-exec-am'.
+ /usr/bin/mkdir -p '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/include/tscpp/api'
+ /usr/bin/install -c -m 644 Async.h AsyncHttpFetch.h AsyncTimer.h CaseInsensitiveStringComparator.h ClientRequest.h Continuation.h GlobalPlugin.h GzipDeflateTransformation.h GzipInflateTransformation.h Headers.h HttpMethod.h HttpStatus.h HttpVersion.h InterceptPlugin.h Logger.h Plugin.h PluginInit.h RemapPlugin.h Request.h Response.h Stat.h Transaction.h TransactionPlugin.h TransformationPlugin.h Url.h noncopyable.h utils.h '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/include/tscpp/api'
+make[3]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/include/tscpp/api'
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/include/tscpp/api'
+Making install in tscpp/util
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/include/tscpp/util'
+make[3]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/include/tscpp/util'
+make[3]: Nothing to be done for 'install-exec-am'.
+ /usr/bin/mkdir -p '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/include/tscpp/util'
+ /usr/bin/install -c -m 644 IntrusiveDList.h LocalBuffer.h PostScript.h TextView.h TsSharedMutex.h '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/include/tscpp/util'
+make[3]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/include/tscpp/util'
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/include/tscpp/util'
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/include'
+make[3]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/include'
+make[3]: Nothing to be done for 'install-exec-am'.
+make[3]: Nothing to be done for 'install-data-am'.
+make[3]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/include'
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/include'
+make[1]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/include'
+Making install in src/tscpp/util
+make[1]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/src/tscpp/util'
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/src/tscpp/util'
+ /usr/bin/mkdir -p '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver'
+ /bin/bash ../../../libtool   --mode=install /usr/bin/install -c   libtscpputil.la '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver'
+libtool: install: /usr/bin/install -c .libs/libtscpputil.so.9.2.3 /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/libtscpputil.so.9.2.3
+libtool: install: (cd /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver && { ln -s -f libtscpputil.so.9.2.3 libtscpputil.so.9 || { rm -f libtscpputil.so.9 && ln -s libtscpputil.so.9.2.3 libtscpputil.so.9; }; })
+libtool: install: (cd /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver && { ln -s -f libtscpputil.so.9.2.3 libtscpputil.so || { rm -f libtscpputil.so && ln -s libtscpputil.so.9.2.3 libtscpputil.so; }; })
+libtool: install: /usr/bin/install -c .libs/libtscpputil.lai /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/libtscpputil.la
+make[2]: Nothing to be done for 'install-data-am'.
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/src/tscpp/util'
+make[1]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/src/tscpp/util'
+Making install in lib
+make[1]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/lib'
+Making install in .
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/lib'
+make[3]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/lib'
+make[3]: Nothing to be done for 'install-exec-am'.
+make[3]: Nothing to be done for 'install-data-am'.
+make[3]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/lib'
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/lib'
+Making install in records
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/lib/records'
+make[3]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/lib/records'
+make[3]: Nothing to be done for 'install-exec-am'.
+make[3]: Nothing to be done for 'install-data-am'.
+make[3]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/lib/records'
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/lib/records'
+Making install in fastlz
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/lib/fastlz'
+make[3]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/lib/fastlz'
+make[3]: Nothing to be done for 'install-exec-am'.
+make[3]: Nothing to be done for 'install-data-am'.
+make[3]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/lib/fastlz'
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/lib/fastlz'
+Making install in perl
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/lib/perl'
+make -f Makefile-pl INSTALLDIRS=perl PREFIX=/usr DESTDIR=/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot
+make[3]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/lib/perl'
+Manifying 3 pod documents
+make[3]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/lib/perl'
+make[3]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/lib/perl'
+make -f Makefile-pl INSTALLMAN3DIR=/usr/share/man/man3 INSTALLDIRS=perl PREFIX=/usr DESTDIR=/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot install
+make[4]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/lib/perl'
+Manifying 3 pod documents
+Installing /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/perl5/Apache/TS.pm
+Installing /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/perl5/Apache/TS/Config.pm
+Installing /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/perl5/Apache/TS/AdminClient.pm
+Installing /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/perl5/Apache/TS/Config/Records.pm
+Installing /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/share/man/man3/Apache::TS::AdminClient.3pm
+Installing /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/share/man/man3/Apache::TS.3pm
+Installing /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/share/man/man3/Apache::TS::Config::Records.3pm
+make[4]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/lib/perl'
+make[3]: Nothing to be done for 'install-data-am'.
+make[3]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/lib/perl'
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/lib/perl'
+make[1]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/lib'
+Making install in src/tscore
+make[1]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/src/tscore'
+make  install-am
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/src/tscore'
+make[3]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/src/tscore'
+ /usr/bin/mkdir -p '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver'
+ /bin/bash ../../libtool   --mode=install /usr/bin/install -c   libtscore.la '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver'
+libtool: install: (cd /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/src/tscore; /bin/bash "/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/libtool"  --silent --tag CXX --mode=relink c++ -std=c++17 -g -pipe -Wall -Wextra -Wno-ignored-qualifiers -Wno-unused-parameter -Wno-format-truncation -Wno-cast-function-type -Wno-stringop-overflow -feliminate-unused-debug-symbols -fno-strict-aliasing -Wno-invalid-offsetof -Wno-noexcept-type -Wsuggest-override -mcx16 -O2 -g0 -rdynamic -Wl,--as-needed -no-undefined -version-info 11:3:2 -o libtscore.la -rpath /usr/lib/trafficserver AcidPtr.lo Arena.lo ArgParser.lo BaseLogFile.lo BufferWriterFormat.lo ConsistentHash.lo ContFlags.lo CryptoHash.lo Diags.lo Errata.lo EventNotify.lo Extendible.lo Hash.lo HashFNV.lo HashMD5.lo HashSip.lo HostLookup.lo hugepages.lo ink_args.lo ink_assert.lo ink_base64.lo ink_cap.lo ink_code.lo ink_defs.lo InkErrno.lo ink_error.lo ink_file.lo ink_hrtime.lo ink_hw.lo ink_inet.lo ink_memory.lo ink_mutex.lo ink_queue.lo ink_queue_utils.lo ink_rand.lo ink_res_init.lo ink_res_mkquery.lo ink_resource.lo ink_rwlock.lo ink_sock.lo ink_sprintf.lo ink_stack_trace.lo ink_string.lo ink_string++.lo ink_sys_control.lo ink_syslog.lo ink_thread.lo ink_time.lo ink_uuid.lo IpMap.lo IpMapConf.lo JeAllocator.lo Layout.lo llqueue.lo lockfile.lo MatcherUtils.lo MemArena.lo MMH.lo ParseRules.lo Random.lo RbTree.lo Regex.lo Regression.lo runroot.lo signals.lo SourceLocation.lo TextBuffer.lo LogMessage.lo Throttler.lo Tokenizer.lo ts_file.lo Version.lo X509HostnameValidator.lo HKDF_openssl3.lo ../../src/tscpp/util/libtscpputil.la -lpcre -lssl -lcrypto -lresolv -lcap -lyaml-cpp -lc -inst-prefix-dir /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot)
+libtool: install: /usr/bin/install -c .libs/libtscore.so.9.2.3T /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/libtscore.so.9.2.3
+libtool: install: (cd /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver && { ln -s -f libtscore.so.9.2.3 libtscore.so.9 || { rm -f libtscore.so.9 && ln -s libtscore.so.9.2.3 libtscore.so.9; }; })
+libtool: install: (cd /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver && { ln -s -f libtscore.so.9.2.3 libtscore.so || { rm -f libtscore.so && ln -s libtscore.so.9.2.3 libtscore.so; }; })
+libtool: install: /usr/bin/install -c .libs/libtscore.lai /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/libtscore.la
+make[3]: Nothing to be done for 'install-data-am'.
+make[3]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/src/tscore'
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/src/tscore'
+make[1]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/src/tscore'
+Making install in iocore
+make[1]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/iocore'
+Making install in eventsystem
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/iocore/eventsystem'
+make[3]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/iocore/eventsystem'
+make[3]: Nothing to be done for 'install-exec-am'.
+make[3]: Nothing to be done for 'install-data-am'.
+make[3]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/iocore/eventsystem'
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/iocore/eventsystem'
+Making install in net
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/iocore/net'
+make[3]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/iocore/net'
+make[4]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/iocore/net'
+make[4]: Nothing to be done for 'install-exec-am'.
+make[4]: Nothing to be done for 'install-data-am'.
+make[4]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/iocore/net'
+make[3]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/iocore/net'
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/iocore/net'
+Making install in aio
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/iocore/aio'
+make[3]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/iocore/aio'
+make[3]: Nothing to be done for 'install-exec-am'.
+make[3]: Nothing to be done for 'install-data-am'.
+make[3]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/iocore/aio'
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/iocore/aio'
+Making install in dns
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/iocore/dns'
+make[3]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/iocore/dns'
+make[3]: Nothing to be done for 'install-exec-am'.
+make[3]: Nothing to be done for 'install-data-am'.
+make[3]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/iocore/dns'
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/iocore/dns'
+Making install in hostdb
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/iocore/hostdb'
+make[3]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/iocore/hostdb'
+make[3]: Nothing to be done for 'install-exec-am'.
+make[3]: Nothing to be done for 'install-data-am'.
+make[3]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/iocore/hostdb'
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/iocore/hostdb'
+Making install in utils
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/iocore/utils'
+make[3]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/iocore/utils'
+make[3]: Nothing to be done for 'install-exec-am'.
+make[3]: Nothing to be done for 'install-data-am'.
+make[3]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/iocore/utils'
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/iocore/utils'
+Making install in cache
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/iocore/cache'
+make[3]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/iocore/cache'
+make[3]: Nothing to be done for 'install-exec-am'.
+make[3]: Nothing to be done for 'install-data-am'.
+make[3]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/iocore/cache'
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/iocore/cache'
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/iocore'
+make[3]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/iocore'
+make[3]: Nothing to be done for 'install-exec-am'.
+make[3]: Nothing to be done for 'install-data-am'.
+make[3]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/iocore'
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/iocore'
+make[1]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/iocore'
+Making install in proxy
+make[1]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/proxy'
+Making install in hdrs
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/proxy/hdrs'
+make[3]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/proxy/hdrs'
+make[3]: Nothing to be done for 'install-exec-am'.
+make[3]: Nothing to be done for 'install-data-am'.
+make[3]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/proxy/hdrs'
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/proxy/hdrs'
+Making install in shared
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/proxy/shared'
+make[3]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/proxy/shared'
+make[3]: Nothing to be done for 'install-exec-am'.
+make[3]: Nothing to be done for 'install-data-am'.
+make[3]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/proxy/shared'
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/proxy/shared'
+Making install in http
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/proxy/http'
+Making install in remap
+make[3]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/proxy/http/remap'
+make[4]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/proxy/http/remap'
+ /usr/bin/mkdir -p '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver'
+ /bin/bash ../../../libtool   --mode=install /usr/bin/install -c   unit-tests/plugin_v1.la unit-tests/plugin_v2.la unit-tests/plugin_init_fail.la unit-tests/plugin_instinit_fail.la unit-tests/plugin_required_cb.la unit-tests/plugin_missing_deleteinstance.la unit-tests/plugin_missing_doremap.la unit-tests/plugin_missing_init.la unit-tests/plugin_missing_newinstance.la unit-tests/plugin_testing_calls.la '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver'
+libtool: install: /usr/bin/install -c unit-tests/.libs/plugin_v1.so /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/plugin_v1.so
+libtool: install: /usr/bin/install -c unit-tests/.libs/plugin_v1.lai /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/plugin_v1.la
+libtool: install: /usr/bin/install -c unit-tests/.libs/plugin_v2.so /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/plugin_v2.so
+libtool: install: /usr/bin/install -c unit-tests/.libs/plugin_v2.lai /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/plugin_v2.la
+libtool: install: /usr/bin/install -c unit-tests/.libs/plugin_init_fail.so /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/plugin_init_fail.so
+libtool: install: /usr/bin/install -c unit-tests/.libs/plugin_init_fail.lai /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/plugin_init_fail.la
+libtool: install: /usr/bin/install -c unit-tests/.libs/plugin_instinit_fail.so /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/plugin_instinit_fail.so
+libtool: install: /usr/bin/install -c unit-tests/.libs/plugin_instinit_fail.lai /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/plugin_instinit_fail.la
+libtool: install: /usr/bin/install -c unit-tests/.libs/plugin_required_cb.so /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/plugin_required_cb.so
+libtool: install: /usr/bin/install -c unit-tests/.libs/plugin_required_cb.lai /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/plugin_required_cb.la
+libtool: install: /usr/bin/install -c unit-tests/.libs/plugin_missing_deleteinstance.so /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/plugin_missing_deleteinstance.so
+libtool: install: /usr/bin/install -c unit-tests/.libs/plugin_missing_deleteinstance.lai /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/plugin_missing_deleteinstance.la
+libtool: install: /usr/bin/install -c unit-tests/.libs/plugin_missing_doremap.so /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/plugin_missing_doremap.so
+libtool: install: /usr/bin/install -c unit-tests/.libs/plugin_missing_doremap.lai /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/plugin_missing_doremap.la
+libtool: install: /usr/bin/install -c unit-tests/.libs/plugin_missing_init.so /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/plugin_missing_init.so
+libtool: install: /usr/bin/install -c unit-tests/.libs/plugin_missing_init.lai /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/plugin_missing_init.la
+libtool: install: /usr/bin/install -c unit-tests/.libs/plugin_missing_newinstance.so /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/plugin_missing_newinstance.so
+libtool: install: /usr/bin/install -c unit-tests/.libs/plugin_missing_newinstance.lai /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/plugin_missing_newinstance.la
+libtool: install: /usr/bin/install -c unit-tests/.libs/plugin_testing_calls.so /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/plugin_testing_calls.so
+libtool: install: /usr/bin/install -c unit-tests/.libs/plugin_testing_calls.lai /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/plugin_testing_calls.la
+make[4]: Nothing to be done for 'install-data-am'.
+make[4]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/proxy/http/remap'
+make[3]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/proxy/http/remap'
+make[3]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/proxy/http'
+make[4]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/proxy/http'
+make[4]: Nothing to be done for 'install-exec-am'.
+make[4]: Nothing to be done for 'install-data-am'.
+make[4]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/proxy/http'
+make[3]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/proxy/http'
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/proxy/http'
+Making install in http2
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/proxy/http2'
+make[3]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/proxy/http2'
+make[3]: Nothing to be done for 'install-exec-am'.
+make[3]: Nothing to be done for 'install-data-am'.
+make[3]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/proxy/http2'
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/proxy/http2'
+Making install in logging
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/proxy/logging'
+make[3]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/proxy/logging'
+make[3]: Nothing to be done for 'install-exec-am'.
+make[3]: Nothing to be done for 'install-data-am'.
+make[3]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/proxy/logging'
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/proxy/logging'
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/proxy'
+make[3]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/proxy'
+make[3]: Nothing to be done for 'install-exec-am'.
+if [ `id -un` != "root" ]; then \
+	/usr/bin/install -c -d /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/run /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/var/log/trafficserver /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/run/trafficserver \
+			/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/etc/trafficserver /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/var/cache/trafficserver /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/var/cache/trafficserver; \
+else \
+	 /usr/bin/install -c -d /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/run; \
+	 /usr/bin/install -c -d -o nobody -g nogroup /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/var/log/trafficserver \
+			/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/run/trafficserver /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/etc/trafficserver \
+			/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/var/cache/trafficserver /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/var/cache/trafficserver; \
+fi
+make  install-data-hook
+make[4]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/proxy'
+if [ `id -un` == "root" ]; then \
+	chown -R nobody:nogroup /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/etc/trafficserver /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/var/cache/trafficserver;\
+fi
+echo "<TS_VERSION> 9.2.3" > /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/etc/trafficserver/trafficserver-release
+make[4]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/proxy'
+make[3]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/proxy'
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/proxy'
+make[1]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/proxy'
+Making install in mgmt
+make[1]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/mgmt'
+Making install in utils
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/mgmt/utils'
+make[3]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/mgmt/utils'
+make[3]: Nothing to be done for 'install-exec-am'.
+make[3]: Nothing to be done for 'install-data-am'.
+make[3]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/mgmt/utils'
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/mgmt/utils'
+Making install in api
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/mgmt/api'
+Making install in include
+make[3]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/mgmt/api/include'
+make[4]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/mgmt/api/include'
+make[4]: Nothing to be done for 'install-exec-am'.
+ /usr/bin/mkdir -p '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/include/ts'
+ /usr/bin/install -c -m 644 mgmtapi.h '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/include/ts'
+make[4]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/mgmt/api/include'
+make[3]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/mgmt/api/include'
+make[3]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/mgmt/api'
+make[4]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/mgmt/api'
+ /usr/bin/mkdir -p '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver'
+ /bin/bash ../../libtool   --mode=install /usr/bin/install -c   libtsmgmt.la '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver'
+libtool: install: (cd /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/mgmt/api; /bin/bash "/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/libtool"  --silent --tag CXX --mode=relink c++ -std=c++17 -g -pipe -Wall -Wextra -Wno-ignored-qualifiers -Wno-unused-parameter -Wno-format-truncation -Wno-cast-function-type -Wno-stringop-overflow -feliminate-unused-debug-symbols -fno-strict-aliasing -Wno-invalid-offsetof -Wno-noexcept-type -Wsuggest-override -mcx16 -O2 -g0 -rdynamic -Wl,--as-needed -no-undefined -version-info 11:3:2 -o libtsmgmt.la -rpath /usr/lib/trafficserver CoreAPIRemote.lo NetworkUtilsRemote.lo libmgmtapi.la ../../src/tscore/libtscore.la ../../mgmt/utils/libutils_p.la -inst-prefix-dir /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot)
+libtool: install: /usr/bin/install -c .libs/libtsmgmt.so.9.2.3T /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/libtsmgmt.so.9.2.3
+libtool: install: (cd /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver && { ln -s -f libtsmgmt.so.9.2.3 libtsmgmt.so.9 || { rm -f libtsmgmt.so.9 && ln -s libtsmgmt.so.9.2.3 libtsmgmt.so.9; }; })
+libtool: install: (cd /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver && { ln -s -f libtsmgmt.so.9.2.3 libtsmgmt.so || { rm -f libtsmgmt.so && ln -s libtsmgmt.so.9.2.3 libtsmgmt.so; }; })
+libtool: install: /usr/bin/install -c .libs/libtsmgmt.lai /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/libtsmgmt.la
+make[4]: Nothing to be done for 'install-data-am'.
+make[4]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/mgmt/api'
+make[3]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/mgmt/api'
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/mgmt/api'
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/mgmt'
+make[3]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/mgmt'
+make[3]: Nothing to be done for 'install-exec-am'.
+make[3]: Nothing to be done for 'install-data-am'.
+make[3]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/mgmt'
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/mgmt'
+make[1]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/mgmt'
+Making install in src
+make[1]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/src'
+Making install in tscpp/api
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/src/tscpp/api'
+make[3]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/src/tscpp/api'
+ /usr/bin/mkdir -p '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver'
+ /bin/bash ../../../libtool   --mode=install /usr/bin/install -c   libtscppapi.la '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver'
+libtool: install: /usr/bin/install -c .libs/libtscppapi.so.9.2.3 /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/libtscppapi.so.9.2.3
+libtool: install: (cd /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver && { ln -s -f libtscppapi.so.9.2.3 libtscppapi.so.9 || { rm -f libtscppapi.so.9 && ln -s libtscppapi.so.9.2.3 libtscppapi.so.9; }; })
+libtool: install: (cd /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver && { ln -s -f libtscppapi.so.9.2.3 libtscppapi.so || { rm -f libtscppapi.so && ln -s libtscppapi.so.9.2.3 libtscppapi.so; }; })
+libtool: install: /usr/bin/install -c .libs/libtscppapi.lai /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/libtscppapi.la
+make[3]: Nothing to be done for 'install-data-am'.
+make[3]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/src/tscpp/api'
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/src/tscpp/api'
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/src'
+make[3]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/src'
+ /usr/bin/mkdir -p '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/bin'
+  /bin/bash ../libtool   --mode=install /usr/bin/install -c traffic_cache_tool/traffic_cache_tool traffic_via/traffic_via traffic_manager/traffic_manager traffic_server/traffic_server traffic_logstats/traffic_logstats traffic_crashlog/traffic_crashlog traffic_ctl/traffic_ctl traffic_layout/traffic_layout traffic_logcat/traffic_logcat '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/bin'
+libtool: install: /usr/bin/install -c traffic_cache_tool/traffic_cache_tool /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/bin/traffic_cache_tool
+libtool: install: /usr/bin/install -c traffic_via/.libs/traffic_via /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/bin/traffic_via
+libtool: install: /usr/bin/install -c traffic_manager/.libs/traffic_manager /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/bin/traffic_manager
+libtool: install: /usr/bin/install -c traffic_server/.libs/traffic_server /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/bin/traffic_server
+libtool: install: /usr/bin/install -c traffic_logstats/.libs/traffic_logstats /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/bin/traffic_logstats
+libtool: install: /usr/bin/install -c traffic_crashlog/.libs/traffic_crashlog /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/bin/traffic_crashlog
+libtool: install: /usr/bin/install -c traffic_ctl/.libs/traffic_ctl /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/bin/traffic_ctl
+libtool: install: /usr/bin/install -c traffic_layout/.libs/traffic_layout /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/bin/traffic_layout
+libtool: install: /usr/bin/install -c traffic_logcat/.libs/traffic_logcat /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/bin/traffic_logcat
+make[3]: Nothing to be done for 'install-data-am'.
+make[3]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/src'
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/src'
+make[1]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/src'
+Making install in plugins
+make[1]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/plugins'
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/plugins'
+make[3]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/plugins'
+ /usr/bin/mkdir -p '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules'
+ /bin/bash ../libtool   --mode=install /usr/bin/install -c   authproxy/authproxy.la background_fetch/background_fetch.la cachekey/cachekey.la cache_promote/cache_promote.la cache_range_requests/cache_range_requests.la certifier/certifier.la conf_remap/conf_remap.la escalate/escalate.la esi/esi.la esi/combo_handler.la generator/generator.la compress/compress.la header_rewrite/header_rewrite.la healthchecks/healthchecks.la libloader/libloader.la multiplexer/multiplexer.la prefetch/prefetch.la regex_remap/regex_remap.la regex_revalidate/regex_revalidate.la remap_purge/remap_purge.la s3_auth/s3_auth.la server_push_preload/server_push_preload.la stats_over_http/stats_over_http.la tcpinfo/tcpinfo.la xdebug/xdebug.la experimental/access_control/access_control.la experimental/acme/acme.la experimental/block_errors/block_errors.la experimental/cache_fill/cache_fill.la experimental/cert_reporting_tool/cert_reporting_tool.la experimental/collapsed_forwarding/collapsed_forwarding.la experimental/cookie_remap/cookie_remap.la experimental/custom_redirect/custom_redirect.la experimental/fq_pacing/fq_pacing.la experimental/geoip_acl/geoip_acl.la experimental/header_freq/header_freq.la experimental/parent_select/parent_select.la experimental/hook-trace/hook-trace.la experimental/http_stats/http_stats.la experimental/icap/icap.la experimental/inliner/inliner.la experimental/memcache/tsmemcache.la experimental/memory_profile/memory_profile.la experimental/metalink/metalink.la experimental/money_trace/money_trace.la experimental/mp4/mp4.la experimental/rate_limit/rate_limit.la experimental/redo_cache_lookup/redo_cache_lookup.la experimental/remap_stats/remap_stats.la experimental/slice/slice.la experimental/sslheaders/sslheaders.la experimental/statichit/statichit.la experimental/stream_editor/stream_editor.la experimental/system_stats/system_stats.la experimental/traffic_dump/traffic_dump.la experimental/tls_bridge/tls_bridge.la experimental/url_sig/url_sig.la experimental/ja3_fingerprint/ja3_fingerprint.la '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules'
+libtool: install: /usr/bin/install -c authproxy/.libs/authproxy.so /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/authproxy.so
+libtool: install: /usr/bin/install -c authproxy/.libs/authproxy.lai /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/authproxy.la
+libtool: install: /usr/bin/install -c background_fetch/.libs/background_fetch.so /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/background_fetch.so
+libtool: install: /usr/bin/install -c background_fetch/.libs/background_fetch.lai /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/background_fetch.la
+libtool: install: /usr/bin/install -c cachekey/.libs/cachekey.so /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/cachekey.so
+libtool: install: /usr/bin/install -c cachekey/.libs/cachekey.lai /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/cachekey.la
+libtool: install: /usr/bin/install -c cache_promote/.libs/cache_promote.so /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/cache_promote.so
+libtool: install: /usr/bin/install -c cache_promote/.libs/cache_promote.lai /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/cache_promote.la
+libtool: install: /usr/bin/install -c cache_range_requests/.libs/cache_range_requests.so /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/cache_range_requests.so
+libtool: install: /usr/bin/install -c cache_range_requests/.libs/cache_range_requests.lai /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/cache_range_requests.la
+libtool: install: /usr/bin/install -c certifier/.libs/certifier.so /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/certifier.so
+libtool: install: /usr/bin/install -c certifier/.libs/certifier.lai /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/certifier.la
+libtool: install: /usr/bin/install -c conf_remap/.libs/conf_remap.so /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/conf_remap.so
+libtool: install: /usr/bin/install -c conf_remap/.libs/conf_remap.lai /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/conf_remap.la
+libtool: install: /usr/bin/install -c escalate/.libs/escalate.so /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/escalate.so
+libtool: install: /usr/bin/install -c escalate/.libs/escalate.lai /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/escalate.la
+libtool: install: /usr/bin/install -c esi/.libs/esi.so /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/esi.so
+libtool: install: /usr/bin/install -c esi/.libs/esi.lai /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/esi.la
+libtool: install: /usr/bin/install -c esi/.libs/combo_handler.so /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/combo_handler.so
+libtool: install: /usr/bin/install -c esi/.libs/combo_handler.lai /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/combo_handler.la
+libtool: install: /usr/bin/install -c generator/.libs/generator.so /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/generator.so
+libtool: install: /usr/bin/install -c generator/.libs/generator.lai /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/generator.la
+libtool: install: /usr/bin/install -c compress/.libs/compress.so /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/compress.so
+libtool: install: /usr/bin/install -c compress/.libs/compress.lai /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/compress.la
+libtool: install: /usr/bin/install -c header_rewrite/.libs/header_rewrite.so /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/header_rewrite.so
+libtool: install: /usr/bin/install -c header_rewrite/.libs/header_rewrite.lai /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/header_rewrite.la
+libtool: install: /usr/bin/install -c healthchecks/.libs/healthchecks.so /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/healthchecks.so
+libtool: install: /usr/bin/install -c healthchecks/.libs/healthchecks.lai /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/healthchecks.la
+libtool: install: /usr/bin/install -c libloader/.libs/libloader.so /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/libloader.so
+libtool: install: /usr/bin/install -c libloader/.libs/libloader.lai /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/libloader.la
+libtool: install: /usr/bin/install -c multiplexer/.libs/multiplexer.so /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/multiplexer.so
+libtool: install: /usr/bin/install -c multiplexer/.libs/multiplexer.lai /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/multiplexer.la
+libtool: install: /usr/bin/install -c prefetch/.libs/prefetch.so /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/prefetch.so
+libtool: install: /usr/bin/install -c prefetch/.libs/prefetch.lai /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/prefetch.la
+libtool: install: /usr/bin/install -c regex_remap/.libs/regex_remap.so /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/regex_remap.so
+libtool: install: /usr/bin/install -c regex_remap/.libs/regex_remap.lai /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/regex_remap.la
+libtool: install: /usr/bin/install -c regex_revalidate/.libs/regex_revalidate.so /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/regex_revalidate.so
+libtool: install: /usr/bin/install -c regex_revalidate/.libs/regex_revalidate.lai /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/regex_revalidate.la
+libtool: install: /usr/bin/install -c remap_purge/.libs/remap_purge.so /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/remap_purge.so
+libtool: install: /usr/bin/install -c remap_purge/.libs/remap_purge.lai /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/remap_purge.la
+libtool: install: /usr/bin/install -c s3_auth/.libs/s3_auth.so /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/s3_auth.so
+libtool: install: /usr/bin/install -c s3_auth/.libs/s3_auth.lai /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/s3_auth.la
+libtool: install: (cd /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/plugins; /bin/bash "/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/libtool"  --silent --tag CXX --mode=relink c++ -std=c++17 -g -pipe -Wall -Wextra -Wno-ignored-qualifiers -Wno-unused-parameter -Wno-format-truncation -Wno-cast-function-type -Wno-stringop-overflow -feliminate-unused-debug-symbols -fno-strict-aliasing -Wno-invalid-offsetof -Wno-noexcept-type -Wsuggest-override -mcx16 -O2 -g0 -rdynamic -Wl,--as-needed -module -shared -avoid-version -export-symbols-regex "^(TSRemapInit|TSRemapDone|TSRemapDoRemap|TSRemapNewInstance|TSRemapDeleteInstance|TSRemapOSResponse|TSPluginInit|TSRemapPreConfigReload|TSRemapPostConfigReload)\$" -o server_push_preload/server_push_preload.la -rpath /usr/lib/trafficserver/modules server_push_preload/server_push_preload.lo ../src/tscpp/api/libtscppapi.la -inst-prefix-dir /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot)
+libtool: install: /usr/bin/install -c server_push_preload/.libs/server_push_preload.soT /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/server_push_preload.so
+libtool: install: /usr/bin/install -c server_push_preload/.libs/server_push_preload.lai /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/server_push_preload.la
+libtool: install: /usr/bin/install -c stats_over_http/.libs/stats_over_http.so /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/stats_over_http.so
+libtool: install: /usr/bin/install -c stats_over_http/.libs/stats_over_http.lai /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/stats_over_http.la
+libtool: install: /usr/bin/install -c tcpinfo/.libs/tcpinfo.so /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/tcpinfo.so
+libtool: install: /usr/bin/install -c tcpinfo/.libs/tcpinfo.lai /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/tcpinfo.la
+libtool: install: /usr/bin/install -c xdebug/.libs/xdebug.so /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/xdebug.so
+libtool: install: /usr/bin/install -c xdebug/.libs/xdebug.lai /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/xdebug.la
+libtool: install: /usr/bin/install -c experimental/access_control/.libs/access_control.so /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/access_control.so
+libtool: install: /usr/bin/install -c experimental/access_control/.libs/access_control.lai /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/access_control.la
+libtool: install: /usr/bin/install -c experimental/acme/.libs/acme.so /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/acme.so
+libtool: install: /usr/bin/install -c experimental/acme/.libs/acme.lai /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/acme.la
+libtool: install: /usr/bin/install -c experimental/block_errors/.libs/block_errors.so /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/block_errors.so
+libtool: install: /usr/bin/install -c experimental/block_errors/.libs/block_errors.lai /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/block_errors.la
+libtool: install: /usr/bin/install -c experimental/cache_fill/.libs/cache_fill.so /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/cache_fill.so
+libtool: install: /usr/bin/install -c experimental/cache_fill/.libs/cache_fill.lai /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/cache_fill.la
+libtool: install: /usr/bin/install -c experimental/cert_reporting_tool/.libs/cert_reporting_tool.so /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/cert_reporting_tool.so
+libtool: install: /usr/bin/install -c experimental/cert_reporting_tool/.libs/cert_reporting_tool.lai /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/cert_reporting_tool.la
+libtool: install: /usr/bin/install -c experimental/collapsed_forwarding/.libs/collapsed_forwarding.so /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/collapsed_forwarding.so
+libtool: install: /usr/bin/install -c experimental/collapsed_forwarding/.libs/collapsed_forwarding.lai /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/collapsed_forwarding.la
+libtool: install: /usr/bin/install -c experimental/cookie_remap/.libs/cookie_remap.so /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/cookie_remap.so
+libtool: install: /usr/bin/install -c experimental/cookie_remap/.libs/cookie_remap.lai /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/cookie_remap.la
+libtool: install: /usr/bin/install -c experimental/custom_redirect/.libs/custom_redirect.so /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/custom_redirect.so
+libtool: install: /usr/bin/install -c experimental/custom_redirect/.libs/custom_redirect.lai /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/custom_redirect.la
+libtool: install: /usr/bin/install -c experimental/fq_pacing/.libs/fq_pacing.so /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/fq_pacing.so
+libtool: install: /usr/bin/install -c experimental/fq_pacing/.libs/fq_pacing.lai /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/fq_pacing.la
+libtool: install: /usr/bin/install -c experimental/geoip_acl/.libs/geoip_acl.so /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/geoip_acl.so
+libtool: install: /usr/bin/install -c experimental/geoip_acl/.libs/geoip_acl.lai /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/geoip_acl.la
+libtool: install: /usr/bin/install -c experimental/header_freq/.libs/header_freq.so /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/header_freq.so
+libtool: install: /usr/bin/install -c experimental/header_freq/.libs/header_freq.lai /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/header_freq.la
+libtool: install: /usr/bin/install -c experimental/parent_select/.libs/parent_select.so /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/parent_select.so
+libtool: install: /usr/bin/install -c experimental/parent_select/.libs/parent_select.lai /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/parent_select.la
+libtool: install: /usr/bin/install -c experimental/hook-trace/.libs/hook-trace.so /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/hook-trace.so
+libtool: install: /usr/bin/install -c experimental/hook-trace/.libs/hook-trace.lai /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/hook-trace.la
+libtool: install: /usr/bin/install -c experimental/http_stats/.libs/http_stats.so /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/http_stats.so
+libtool: install: /usr/bin/install -c experimental/http_stats/.libs/http_stats.lai /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/http_stats.la
+libtool: install: /usr/bin/install -c experimental/icap/.libs/icap.so /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/icap.so
+libtool: install: /usr/bin/install -c experimental/icap/.libs/icap.lai /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/icap.la
+libtool: install: /usr/bin/install -c experimental/inliner/.libs/inliner.so /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/inliner.so
+libtool: install: /usr/bin/install -c experimental/inliner/.libs/inliner.lai /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/inliner.la
+libtool: install: /usr/bin/install -c experimental/memcache/.libs/tsmemcache.so /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/tsmemcache.so
+libtool: install: /usr/bin/install -c experimental/memcache/.libs/tsmemcache.lai /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/tsmemcache.la
+libtool: install: /usr/bin/install -c experimental/memory_profile/.libs/memory_profile.so /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/memory_profile.so
+libtool: install: /usr/bin/install -c experimental/memory_profile/.libs/memory_profile.lai /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/memory_profile.la
+libtool: install: /usr/bin/install -c experimental/metalink/.libs/metalink.so /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/metalink.so
+libtool: install: /usr/bin/install -c experimental/metalink/.libs/metalink.lai /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/metalink.la
+libtool: install: /usr/bin/install -c experimental/money_trace/.libs/money_trace.so /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/money_trace.so
+libtool: install: /usr/bin/install -c experimental/money_trace/.libs/money_trace.lai /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/money_trace.la
+libtool: install: /usr/bin/install -c experimental/mp4/.libs/mp4.so /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/mp4.so
+libtool: install: /usr/bin/install -c experimental/mp4/.libs/mp4.lai /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/mp4.la
+libtool: install: /usr/bin/install -c experimental/rate_limit/.libs/rate_limit.so /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/rate_limit.so
+libtool: install: /usr/bin/install -c experimental/rate_limit/.libs/rate_limit.lai /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/rate_limit.la
+libtool: install: (cd /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/plugins; /bin/bash "/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/libtool"  --silent --tag CXX --mode=relink c++ -std=c++17 -g -pipe -Wall -Wextra -Wno-ignored-qualifiers -Wno-unused-parameter -Wno-format-truncation -Wno-cast-function-type -Wno-stringop-overflow -feliminate-unused-debug-symbols -fno-strict-aliasing -Wno-invalid-offsetof -Wno-noexcept-type -Wsuggest-override -mcx16 -O2 -g0 -rdynamic -Wl,--as-needed -module -shared -avoid-version -export-symbols-regex "^(TSRemapInit|TSRemapDone|TSRemapDoRemap|TSRemapNewInstance|TSRemapDeleteInstance|TSRemapOSResponse|TSPluginInit|TSRemapPreConfigReload|TSRemapPostConfigReload)\$" -o experimental/redo_cache_lookup/redo_cache_lookup.la -rpath /usr/lib/trafficserver/modules experimental/redo_cache_lookup/redo_cache_lookup.lo ../src/tscpp/api/libtscppapi.la -inst-prefix-dir /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot)
+libtool: install: /usr/bin/install -c experimental/redo_cache_lookup/.libs/redo_cache_lookup.soT /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/redo_cache_lookup.so
+libtool: install: /usr/bin/install -c experimental/redo_cache_lookup/.libs/redo_cache_lookup.lai /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/redo_cache_lookup.la
+libtool: install: /usr/bin/install -c experimental/remap_stats/.libs/remap_stats.so /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/remap_stats.so
+libtool: install: /usr/bin/install -c experimental/remap_stats/.libs/remap_stats.lai /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/remap_stats.la
+libtool: install: /usr/bin/install -c experimental/slice/.libs/slice.so /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/slice.so
+libtool: install: /usr/bin/install -c experimental/slice/.libs/slice.lai /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/slice.la
+libtool: install: /usr/bin/install -c experimental/sslheaders/.libs/sslheaders.so /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/sslheaders.so
+libtool: install: /usr/bin/install -c experimental/sslheaders/.libs/sslheaders.lai /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/sslheaders.la
+libtool: install: /usr/bin/install -c experimental/statichit/.libs/statichit.so /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/statichit.so
+libtool: install: /usr/bin/install -c experimental/statichit/.libs/statichit.lai /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/statichit.la
+libtool: install: /usr/bin/install -c experimental/stream_editor/.libs/stream_editor.so /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/stream_editor.so
+libtool: install: /usr/bin/install -c experimental/stream_editor/.libs/stream_editor.lai /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/stream_editor.la
+libtool: install: /usr/bin/install -c experimental/system_stats/.libs/system_stats.so /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/system_stats.so
+libtool: install: /usr/bin/install -c experimental/system_stats/.libs/system_stats.lai /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/system_stats.la
+libtool: install: /usr/bin/install -c experimental/traffic_dump/.libs/traffic_dump.so /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/traffic_dump.so
+libtool: install: /usr/bin/install -c experimental/traffic_dump/.libs/traffic_dump.lai /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/traffic_dump.la
+libtool: install: /usr/bin/install -c experimental/tls_bridge/.libs/tls_bridge.so /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/tls_bridge.so
+libtool: install: /usr/bin/install -c experimental/tls_bridge/.libs/tls_bridge.lai /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/tls_bridge.la
+libtool: install: /usr/bin/install -c experimental/url_sig/.libs/url_sig.so /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/url_sig.so
+libtool: install: /usr/bin/install -c experimental/url_sig/.libs/url_sig.lai /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/url_sig.la
+libtool: install: /usr/bin/install -c experimental/ja3_fingerprint/.libs/ja3_fingerprint.so /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/ja3_fingerprint.so
+libtool: install: /usr/bin/install -c experimental/ja3_fingerprint/.libs/ja3_fingerprint.lai /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/modules/ja3_fingerprint.la
+make[3]: Nothing to be done for 'install-data-am'.
+make[3]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/plugins'
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/plugins'
+make[1]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/plugins'
+Making install in tools
+make[1]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/tools'
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/tools'
+ /usr/bin/mkdir -p '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/bin'
+ /usr/bin/install -c tsxs tspush '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/bin'
+ /usr/bin/mkdir -p '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/pkgconfig'
+ /usr/bin/install -c -m 644 trafficserver.pc '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver/pkgconfig'
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/tools'
+make[1]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/tools'
+Making install in example
+make[1]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/example'
+Making install in plugins
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/example/plugins'
+Making install in c-api
+make[3]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/example/plugins/c-api'
+make[4]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/example/plugins/c-api'
+make[4]: Nothing to be done for 'install-data-am'.
+make[4]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/example/plugins/c-api'
+make[3]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/example/plugins/c-api'
+Making install in cpp-api
+make[3]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/example/plugins/cpp-api'
+make[4]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/example/plugins/cpp-api'
+make[4]: Nothing to be done for 'install-data-am'.
+make[4]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/example/plugins/cpp-api'
+make[3]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/example/plugins/cpp-api'
+make[3]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/example/plugins'
+make[4]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/example/plugins'
+make[4]: Nothing to be done for 'install-exec-am'.
+make[4]: Nothing to be done for 'install-data-am'.
+make[4]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/example/plugins'
+make[3]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/example/plugins'
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/example/plugins'
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/example'
+make[3]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/example'
+make[3]: Nothing to be done for 'install-exec-am'.
+make[3]: Nothing to be done for 'install-data-am'.
+make[3]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/example'
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/example'
+make[1]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/example'
+Making install in rc
+make[1]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/rc'
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/rc'
+ /usr/bin/mkdir -p '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/bin'
+ /usr/bin/install -c trafficserver '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/bin'
+make[2]: Nothing to be done for 'install-data-am'.
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/rc'
+make[1]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/rc'
+Making install in configs
+make[1]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/configs'
+Making install in body_factory
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/configs/body_factory'
+Making install in default
+make[3]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/configs/body_factory/default'
+make[4]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/configs/body_factory/default'
+make[4]: Nothing to be done for 'install-exec-am'.
+ /usr/bin/mkdir -p '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/etc/trafficserver/body_factory/default'
+ /usr/bin/install -c -m 644 access#denied access#proxy_auth_required access#ssl_forbidden .body_factory_info cache#not_in_cache cache#read_error connect#dns_failed connect#failed_connect connect#hangup default interception#no_host README redirect#moved_temporarily redirect#moved_permanently request#cycle_detected request#no_content_length request#invalid_content_length request#no_host request#scheme_unsupported request#syntax_error response#bad_response response#bad_version timeout#activity timeout#inactivity transcoding#unsupported urlrouting#no_mapping request#uri_len_too_long '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/etc/trafficserver/body_factory/default'
+make[4]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/configs/body_factory/default'
+make[3]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/configs/body_factory/default'
+make[3]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/configs/body_factory'
+make[4]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/configs/body_factory'
+make[4]: Nothing to be done for 'install-exec-am'.
+make[4]: Nothing to be done for 'install-data-am'.
+make[4]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/configs/body_factory'
+make[3]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/configs/body_factory'
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/configs/body_factory'
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/configs'
+make[3]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/configs'
+ /usr/bin/mkdir -p '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/etc/trafficserver'
+ /usr/bin/install -c -m 644 cache.config.default hosting.config.default ip_allow.yaml.default logging.yaml.default parent.config.default plugin.config.default remap.config.default sni.yaml.default socks.config.default splitdns.config.default ssl_multicert.config.default strategies.yaml.default volume.config.default '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/etc/trafficserver'
+ /usr/bin/mkdir -p '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/etc/trafficserver'
+ /usr/bin/install -c -m 644 records.config.default storage.config.default '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/etc/trafficserver'
+make  install-exec-hook
+make[4]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/configs'
+for dfltcfgfile in cache.config.default hosting.config.default ip_allow.yaml.default logging.yaml.default parent.config.default plugin.config.default remap.config.default sni.yaml.default socks.config.default splitdns.config.default ssl_multicert.config.default strategies.yaml.default volume.config.default records.config.default storage.config.default ; \
+do \
+	cfgfile=`echo $dfltcfgfile | sed 's/\.default$//'` ; \
+	test -f /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot//etc/trafficserver/$cfgfile || mv /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot//etc/trafficserver/$dfltcfgfile /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot//etc/trafficserver/$cfgfile ; \
+done
+make[4]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/configs'
+make[3]: Nothing to be done for 'install-data-am'.
+make[3]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/configs'
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/configs'
+make[1]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/configs'
+Making install in tests
+make[1]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/tests'
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/tests'
+make[3]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/tests'
+make[3]: Nothing to be done for 'install-exec-am'.
+make[3]: Nothing to be done for 'install-data-am'.
+make[3]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/tests'
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/tests'
+make[1]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/tests'
+make[1]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3'
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3'
+make[2]: Nothing to be done for 'install-exec-am'.
+make  install-data-hook
+make[3]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3'
+make[3]: Nothing to be done for 'install-data-hook'.
+make[3]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3'
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3'
+make[1]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3'

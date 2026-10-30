@@ -1,0 +1,341 @@
+{
+  "kind": "POC003_FIXED_CACHE_STREAM_COMPONENT_INDEPENDENT_REVIEW",
+  "reviewer": "/root/independent_review",
+  "reviewedAt": "2026-10-28T01:33:42Z",
+  "taskId": "POC-003",
+  "repository": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-feature-actor-import-v1",
+  "parent": "246e264a9674326ffab4a03f11255d8580ea0ee6",
+  "parentTree": "c375a0ea7d1c0bb55a6326b517c6a8c39ec32319",
+  "candidateSha256": "629775c8a138b1eb22d80fec6c339b716030dc3bcf7a9ef8e5e292f6624940be",
+  "commitHelperSha256": "a24b144e08963699943434a2c0927fe142299647f573b6ed450dfaff90e38dea",
+  "mustFix": [],
+  "componentAccepted": true,
+  "relevantResultsAccepted": true,
+  "commitComponentAllowed": true,
+  "scope": "Only this exact cache streaming source/test component and truthful Own metadata/archive may be committed locally. No full-source, CI, publication, Ready, integration or experiment qualification is supplied.",
+  "sourcePins": {
+    "buffer_probe.py": {
+      "bytes": 6732,
+      "sha256": "56933170456c3414f5fc3dfc28bec8c98c1a27273868d5d545c447663a385025"
+    },
+    "build_observer.py": {
+      "bytes": 2076,
+      "sha256": "7c5ec2475d26e56394922ebba8f14a387d8ba0b318c37b8ef8ec2ade24c56ca9"
+    },
+    "cache_probe.py": {
+      "bytes": 19578,
+      "sha256": "870234005d98fa829b5da8d151d6ae1a4d20c34c7bc375da6a680574a3ddf16f"
+    },
+    "collect.py": {
+      "bytes": 16711,
+      "sha256": "b6851f6c16083b3d49386976c05b66588f1fbd721d38bfb2331a674a4a02bc36"
+    },
+    "durable_peak_probe.py": {
+      "bytes": 6265,
+      "sha256": "b7bfd6e767a4cba4bf2ee1de2e7c0f9f82e2afff3037015e317b8a8e860fa599"
+    },
+    "epoch_owner.py": {
+      "bytes": 26029,
+      "sha256": "30b9cfc4b22f297e8dc822c8a15e2f84a4f7f5fbe69cc7ad708abed74e7c8a8e"
+    },
+    "grants.py": {
+      "bytes": 2003,
+      "sha256": "4d48a477541545a296d31ea00a97445e15f6b6eae92e79f39629c074923403bf"
+    },
+    "http_timing.py": {
+      "bytes": 1477,
+      "sha256": "fde2afed2b9fcc3e607930eb72b9cecf5386761965d8881a095b98f041e663cb"
+    },
+    "input_profile.py": {
+      "bytes": 6966,
+      "sha256": "9e05fc5da62ff8471d1b404417b0b27d2179caeeebeb0dfeb498a8a8de9945e6"
+    },
+    "lab.py": {
+      "bytes": 49391,
+      "sha256": "99e7a369f70eeb616d442a43af08a0290f6d16b9dc786a0cfd942810d3103314"
+    },
+    "live_buffer_probe.py": {
+      "bytes": 9883,
+      "sha256": "d3154af91abcab988632201acbf13cc1e1466b1b73cd296554b014fe30fb0f12"
+    },
+    "owned_epoch.py": {
+      "bytes": 21233,
+      "sha256": "cf170056c5a7f2201e863145522b0433e5911e128ba585d79cef0cb6c5125ccb"
+    },
+    "test_buffer_probe.py": {
+      "bytes": 2485,
+      "sha256": "f8c55495e94eed9ea19e77b1018319bf8e0f3931b56cf5832bd4f5f3f40edfcb"
+    },
+    "test_buffer_probe_native.py": {
+      "bytes": 3216,
+      "sha256": "0cd0820a982111207337bf6a37595a3f74686f403299d7cf78b5dea545309ec2"
+    },
+    "test_cache_body_bounds.py": {
+      "bytes": 2906,
+      "sha256": "bfa3ebe632117836a5afd48d415288326e2b3eedaac470923be72a26a8e1deac"
+    },
+    "test_cache_probe.py": {
+      "bytes": 2359,
+      "sha256": "880b226f4d0a54524a95599954237d27bf2bf157da3b363f6e3aeab1acb430a0"
+    },
+    "test_cache_probe_native.py": {
+      "bytes": 3359,
+      "sha256": "e835fd96229fe843fc1505718494ba2c6b34acc415703f40da6b3815fbdac2fc"
+    },
+    "test_cache_stream_io.py": {
+      "bytes": 7886,
+      "sha256": "2c4fa7726451515795cf0846c6ab742a674b8271e2f2c3a5a9c79dfec03b388a"
+    },
+    "test_collector_raw_io.py": {
+      "bytes": 7378,
+      "sha256": "6ff520f4dcaeb65fb9c271a61a88745a4e35285c8bae90addffa67768181bc42"
+    },
+    "test_durable_peak_probe.py": {
+      "bytes": 2913,
+      "sha256": "7228f7d01cbade1f4e27e227478538bd81ca9af50c2dfcff586749454c2a39bd"
+    },
+    "test_epoch_owner.py": {
+      "bytes": 8868,
+      "sha256": "fb72cb61c5b4cc71f70a9582451c7e7c4e1ad1bcdc9b3cdc9e6ccb3f12f7a3d8"
+    },
+    "test_fixed_origin_io.py": {
+      "bytes": 7624,
+      "sha256": "12a9b22a8c7d1ed9b5abda421ef04f5115a113bf4e57b5b106309b868ed931f7"
+    },
+    "test_gateway_native.py": {
+      "bytes": 4608,
+      "sha256": "5c3a73a1177a73d93756e410ffd75ce10fe89403586d6ccfbeaaf1db63ad7eec"
+    },
+    "test_http_timing_native.py": {
+      "bytes": 3181,
+      "sha256": "3e27f76d65167a196bac70e38e8d7c4df03f0e079bf60f99a64006edfdf90d86"
+    },
+    "test_input_profile.py": {
+      "bytes": 13104,
+      "sha256": "575e7af140da31822c5fb8007e9f0c4a58aa282a28e1fecdcb5b749785d96b97"
+    },
+    "test_lab.py": {
+      "bytes": 3547,
+      "sha256": "20373fbe76e7dc18c59da922c9b24c0793153c7181e6d22b101f28bdfe1a0513"
+    },
+    "test_live_buffer_probe.py": {
+      "bytes": 3991,
+      "sha256": "d3b9c69a2c2dc749b3f97f23c4222dd5d1162b37e42c9968d5fd8bb88eaf1a2c"
+    },
+    "test_live_component_native.py": {
+      "bytes": 2197,
+      "sha256": "492d6b2c89d07929103a882cfd9b41f9ff2a82bc9332b6fa980daeddbd738270"
+    },
+    "test_owned_epoch_fixed.py": {
+      "bytes": 4938,
+      "sha256": "5f819400247a4351b503f15390c38103297072d88f8878720f45d78a3ee26e56"
+    },
+    "test_payload_lifetime.py": {
+      "bytes": 15090,
+      "sha256": "b907b1603a6d0379fd9996d497e77160bdbbc7e68767c4026303f106bf4d181d"
+    },
+    "test_representative_cache.py": {
+      "bytes": 1785,
+      "sha256": "a1d94f6e09312e79d5dba03a124013bfc7f3919f758c9464660d8ba20e189216"
+    },
+    "test_representative_cache_native.py": {
+      "bytes": 7099,
+      "sha256": "29c373aa84cfb6afbe41738050cca95da6d12c93ec7fb938a9e72738cea2b1fa"
+    },
+    "test_request_concurrency.py": {
+      "bytes": 6490,
+      "sha256": "01a5afc0cb63e4a3840e81b019b2adbf9e7f4361b5faf839d812dfa4d27604fa"
+    },
+    "test_revocation_binding.py": {
+      "bytes": 1870,
+      "sha256": "6dec7dfd850bac65f110a6a4462a77c24323dec4527c686266daf10793884d39"
+    },
+    "test_single_exec_filter.py": {
+      "bytes": 6214,
+      "sha256": "970c12080b11b0a5a3f6c827dfc12d1918355dd23ed8936d6934ed6c25af0eb3"
+    },
+    "test_warm_cache_revocation.py": {
+      "bytes": 11773,
+      "sha256": "a2a17b985b9ef737f85d8b653c8e169ba28035ec2e668135f32993004fc6b449"
+    }
+  },
+  "snapshotSourceFiles": 36,
+  "physicalPinsBeforeReviewCopy": {
+    "poc/POC-03-ats-range/cache_probe.py": {
+      "byteCount": 19578,
+      "sha256": "870234005d98fa829b5da8d151d6ae1a4d20c34c7bc375da6a680574a3ddf16f"
+    },
+    "poc/POC-03-ats-range/test_cache_body_bounds.py": {
+      "byteCount": 2906,
+      "sha256": "bfa3ebe632117836a5afd48d415288326e2b3eedaac470923be72a26a8e1deac"
+    },
+    "poc/POC-03-ats-range/test_payload_lifetime.py": {
+      "byteCount": 15090,
+      "sha256": "b907b1603a6d0379fd9996d497e77160bdbbc7e68767c4026303f106bf4d181d"
+    },
+    "poc/POC-03-ats-range/test_cache_stream_io.py": {
+      "byteCount": 7886,
+      "sha256": "2c4fa7726451515795cf0846c6ab742a674b8271e2f2c3a5a9c79dfec03b388a"
+    },
+    "specs/tasks/POC-003.md": {
+      "byteCount": 48211,
+      "sha256": "46bf8bbb1540a25b64d13bf23c2e1fcc18a4aabb696f97f29574ef71518eace7"
+    },
+    "evidence/POC-003/summary.md": {
+      "byteCount": 42263,
+      "sha256": "8a2784d189906d6efa583c92a77527b0ff3feb6ea335e3951777b79acdeb8183"
+    },
+    "evidence/POC-003/handoff.md": {
+      "byteCount": 201224,
+      "sha256": "7c931563af002c03fcab69e88d6159106e9f5137022005e53dd646d013eccf7d"
+    },
+    "evidence/POC-003/commands.txt": {
+      "byteCount": 11900,
+      "sha256": "2122268d36bfc9c1eab3ccc126144177617141df88cd299feb7cb9a506b36a89"
+    },
+    "evidence/POC-003/cache-stream-io-v1/artifacts.zip": {
+      "byteCount": 134753,
+      "sha256": "325f2c8049aadb17c6d3349c133668eaec79e4f5fa995ea0b7a7e5b2b9d8f3e7"
+    },
+    "evidence/POC-003/cache-stream-io-v1/index.json": {
+      "byteCount": 35792,
+      "sha256": "f1f5a77d09510f009dafd9de040fb87ae45e37c19d878d03a68be17a056c9a6d"
+    }
+  },
+  "exactCommitPaths": [
+    "poc/POC-03-ats-range/cache_probe.py",
+    "poc/POC-03-ats-range/test_cache_body_bounds.py",
+    "poc/POC-03-ats-range/test_payload_lifetime.py",
+    "poc/POC-03-ats-range/test_cache_stream_io.py",
+    "specs/tasks/POC-003.md",
+    "evidence/POC-003/summary.md",
+    "evidence/POC-003/handoff.md",
+    "evidence/POC-003/commands.txt",
+    "evidence/POC-003/cache-stream-io-v1/artifacts.zip",
+    "evidence/POC-003/cache-stream-io-v1/index.json",
+    "evidence/POC-003/cache-stream-io-v1/component-independent-review.json"
+  ],
+  "sourceFindings": [
+    {
+      "path": "poc/POC-03-ats-range/cache_probe.py",
+      "lines": "88-96",
+      "finding": "raw_write_all consumes the supplied view through bounded subviews until all bytes are written; noninteger, zero, negative or excessive write progress raises OSError. It does not silently accept a partial raw write."
+    },
+    {
+      "path": "poc/POC-03-ats-range/cache_probe.py",
+      "lines": "99-149",
+      "finding": "Export/comparison replaces whole-Slice returned bytes with two fixed65536byte raw-I/O slots, guarded through __alloc__==65537. Export read counts are validated and bounded to remaining selected length plus one; exceeding original stat size or selected count rejects, as does final count differing from initial stat. Short reference reads are filled across repeated calls. Missing reference bytes or any later-block mismatch permanently prevents exactInputSliceEqual while all actual export bytes/hash remain retained. Only scalar metadata returns; every slot/view/raw stream is released or closed through context/finally boundaries."
+    },
+    {
+      "path": "poc/POC-03-ats-range/cache_probe.py",
+      "lines": "152-171,349-358",
+      "finding": "Ordered assembly reuses one guarded65536byte raw slot across all parts, completes partial writes and counts/hashes only actual bytes. The original full size and SHA equality remain prerequisites to completeLogicalObjectVerified; no nativeSingleEntry claim is introduced."
+    },
+    {
+      "finding": "The prior bound and export-lifetime methods are adapted to the removed whole-Slice API by checking actual output files plus metadata. Exact/partial/empty bytes, oversize-before-open, growth rejection without trimming native originals, adjacent-key release, source-read error and write-failure-before-reference-open obligations remain. Three exact prior source/test preimages match parent Git blobs; no old failure or old assertion obligation is silently discarded."
+    },
+    {
+      "path": "poc/POC-03-ats-range/test_cache_stream_io.py",
+      "finding": "Six actual raw-file cases cover multiple blocks with asymmetric short reads and partial writes, short reference, a later-block mismatch, zero-progress write refusing reference open, real retained bytearray over-allocation rejection before media read, and one assembly slot across multiple/empty parts with final release."
+    }
+  ],
+  "changedFailureArtifactTiming": {
+    "partialDestinationMayRemain": true,
+    "interpretation": "Streaming may write a valid prefix before discovering later growth, shrinkage, source error or write failure. The function then raises; export_stage retains a distinct failure record/raw and rethrows, without returning normal observation or a successful logical-object record. Native original exports are not trimmed or rewritten. This differs from the old whole-read-before-write failure artifact timing and is not represented as transactional output rollback."
+  },
+  "actualResults": {
+    "windows": {
+      "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-cache-stream-v1-windows-checks/results.json",
+      "sha256": "721303f13453697d7621b90be4de13fe0b53305b881dc80f6e3aaffbd052fdca",
+      "actualCommands": 11,
+      "tests": 60,
+      "perCommandCounts": [
+        6,
+        5,
+        5,
+        4,
+        11,
+        8,
+        2,
+        3,
+        4,
+        9,
+        3
+      ]
+    },
+    "linux": {
+      "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-cache-stream-v1-linux-checks/results.json",
+      "sha256": "869026de3599d1c4df8b423e20e094029ca6eaa0d197816a9f871d00c9777ec2",
+      "actualCommands": 14,
+      "tests": 69,
+      "perCommandCounts": [
+        6,
+        5,
+        5,
+        4,
+        11,
+        8,
+        2,
+        3,
+        4,
+        9,
+        3,
+        3,
+        2,
+        4
+      ]
+    },
+    "all25ActualPidWaitsCompletedExitZero": true,
+    "allRawBytesSizesHashesAndUnittestSummariesChecked": true,
+    "testFailures": 0,
+    "testErrors": 0,
+    "testSkipped": 0,
+    "all36SourcePinsBeforeAfterAndWorkingEqual": true,
+    "scope": "Actual offline/raw-files and existing loopback/simulated-producer tests only; no ATS workload, original media matrix or separate JUnit XML is claimed."
+  },
+  "archive": {
+    "indexPath": "evidence/POC-003/cache-stream-io-v1/index.json",
+    "indexByteCount": 35792,
+    "indexSha256": "f1f5a77d09510f009dafd9de040fb87ae45e37c19d878d03a68be17a056c9a6d",
+    "path": "evidence/POC-003/cache-stream-io-v1/artifacts.zip",
+    "byteCount": 134753,
+    "sha256": "325f2c8049aadb17c6d3349c133668eaec79e4f5fa995ea0b7a7e5b2b9d8f3e7",
+    "entries": 94,
+    "uncompressedIndexedBytes": 405685,
+    "zipCrcUniqueNamesAndExactIndexSetValid": true,
+    "all94DecodedSizeAndShaMatchIndex": true,
+    "externalOriginalsByteCompared": 58,
+    "currentSourceCopiesCompared": 36,
+    "threePriorSourceTestPreimagesComparedToParentGitBlobs": true,
+    "rawLineEndingsPreservedWithoutNormalization": true,
+    "gitTransportStatus": "Archive is a standard binary ZIP and index is current LF JSON. Physical originals and ZIP entries were verified; future staged/committed bytes still require the exact helper comparisons. No future Git snapshot is pre-accepted."
+  },
+  "metadataBoundary": "Observed HEAD246e264/indexempty. Tracked delta only cache_probe/two adapted tests and Own Task/summary/handoff/commands; new stream tests and Own archive are uncommitted. Task frontmatter and Program/Active equal parent. Own document additions truthfully state60/69 tests/component-only and pending aggregate/full-source/runtime/experiment obligations; historical text is retained. No frozen checker/schema, threshold, original lease/actors or old archive is modified.",
+  "commitHelperReview": {
+    "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/commit_poc003_cache_stream_v1_once.py",
+    "byteCount": 4475,
+    "sha256": "a24b144e08963699943434a2c0927fe142299647f573b6ed450dfaff90e38dea",
+    "conditionalLocalCommitMethodAccepted": true,
+    "oldDraftSha256": "0970d53af78f597aa16469f367bb3f81f7c733ea59529944b131e0cdf279ff70",
+    "oldDraftLimitation": "The unexecuted old helper did not bind candidate bytes to the review and dynamically included archive directory entries. The old exact draft remains retained as pre-review.py; no execution failure is fabricated.",
+    "correction": "Current helper checks candidateSha256 and its own commitHelperSha256 from this review, accepts exactly the three named archive members and exact11paths, verifies full candidate source pins and archive/index, checks staged physical-byte equality including decoded ZIP entries, and performs an ordinary local commit only. It has no push or experiment operation.",
+    "executionStillRequired": true,
+    "reviewerExecutedHelper": false
+  },
+  "remainingProof": [
+    "Two export/comparison slots and one assembly slot establish only these explicit owned backing terms. Future actual CPython runtime/HTTP/native binding remains separate.",
+    "Concurrent cross-owner aggregation, complete closed window, native hash/sendall/ATS epochs and any remaining payload owners are not completed by these tests. Whole-process RSS is not substituted for the payload metric.",
+    "New fixed-source gates and same-head CI, fresh resource/window approval, original full matrix, independent fresh hot-cache revocation and formal POC acceptance remain required before their respective claims."
+  ],
+  "reviewerRanTestsValidatorsBuildsOrExperiments": false,
+  "reviewerModifiedRepositoryOrGit": false,
+  "entireSourceQualified": false,
+  "runtimeBindingAccepted": false,
+  "nativeCapacityAccepted": false,
+  "closedWindowAccepted": false,
+  "aggregateCapacityProofComplete": false,
+  "experimentApproved": false,
+  "formalPocAccepted": false,
+  "readyAccepted": false,
+  "mainIntegrationApproved": false
+}

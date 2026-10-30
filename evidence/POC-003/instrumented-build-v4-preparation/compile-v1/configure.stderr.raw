@@ -1,0 +1,4 @@
+./configure: line 441: test: check: integer expression expected
+configure: error: Sphinx
+./configure: line 312: return: check: numeric argument required
+./configure: line 322: exit: check: numeric argument required

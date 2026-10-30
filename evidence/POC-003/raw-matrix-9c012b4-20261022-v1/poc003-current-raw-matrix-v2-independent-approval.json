@@ -1,0 +1,75 @@
+{
+  "kind": "ACTUAL_INDEPENDENT_BEFORE_EXECUTION_APPROVAL_V2",
+  "decision": "approved",
+  "approver": "independent-review-agent",
+  "actualReviewer": "/root/gz022_planning_independent_review",
+  "approvedAt": "2026-10-22T14:55:15Z",
+  "proposalSha256": "bf277075d68f2b21dfcec6f3f5c1140ec265c15cc23f49dba039e7ec8a9be92a",
+  "configSha256": "2acd0f8fd0fdb726fa6f522c09bc01f031745289fb32ee1fb42f41f915ef91e2",
+  "testedSource": {
+    "commit": "9c012b4e1c90b014fe619253a8f07a738b5c0724",
+    "tree": "38d75ba10e21b53c45907d4a88db22cccaaeae78"
+  },
+  "executionScope": "ONE_RAW_ORIGINAL_21_CASE_MATRIX_SIX_NATIVE_CACHE_STAGES_THEN_ONE_CURRENT_SAME_UNEXPIRED_GRANT_REVOCATION_IN_SEPARATE_FRESH_SANDBOXES_SERIAL",
+  "validFrom": "2026-10-22T14:54:15.659055+00:00",
+  "validUntil": "2026-10-22T15:54:15.659055+00:00",
+  "samples": [
+    {
+      "kind": "base",
+      "path": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/local-lab/range-fixtures/local64m-v1/guize-range-local64m-base-v1.bin",
+      "file": "guize-range-local64m-base-v1.bin",
+      "sizeBytes": 67108864,
+      "sha256": "938a8bc3e0a64184f1551bff0c500dc891366ead8f30f8f83753587e763c1c26",
+      "immutableId": "sha256:938a8bc3e0a64184f1551bff0c500dc891366ead8f30f8f83753587e763c1c26"
+    },
+    {
+      "kind": "changedVersion",
+      "path": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/local-lab/range-fixtures/local64m-v1/guize-range-local64m-changed-v1.bin",
+      "file": "guize-range-local64m-changed-v1.bin",
+      "sizeBytes": 67108864,
+      "sha256": "643d769e1b5120a7c52d63df3d266f67a4177050180858480feb4e686e2fdda1",
+      "immutableId": "sha256:643d769e1b5120a7c52d63df3d266f67a4177050180858480feb4e686e2fdda1"
+    }
+  ],
+  "resourceLimits": {
+    "maxRunSeconds": 900,
+    "collectorTimeoutSeconds": 600,
+    "revocationTimeoutSeconds": 60,
+    "maxCollectorBodyBytes": 1073741824,
+    "maxRetainedRawBytes": 2147483648,
+    "cacheMiB": 256,
+    "maximumOriginRequests": 2048,
+    "atsNetThreads": 2,
+    "maxExportsPerAtsInstance": 8,
+    "maxExportTotalPerInstanceBytes": 536870912,
+    "loopbackOnly": true,
+    "bookingRequired": false,
+    "maxOverallSeconds": 960,
+    "matrixSandboxMaximumSeconds": 720,
+    "revocationSandboxMaximumSeconds": 180
+  },
+  "paths": {
+    "runDir": "/home/sur/.cache/guize-takeover/poc003-original-matrix-20261022-v1",
+    "rawOutputDir": "/home/sur/.cache/guize-takeover/poc003-original-matrix-raw-20261022-v1",
+    "revocationRunDir": "/home/sur/.cache/guize-takeover/poc003-current-revocation-20261022-v1",
+    "revocationOutputDir": "/home/sur/.cache/guize-takeover/poc003-current-revocation-raw-20261022-v1"
+  },
+  "mustFix": [],
+  "conditions": [
+    "Actual independent approval of exact proposal/config/source/actual immutable input bytes/resources/window before any listener or protected request",
+    "Serial local measurements only; no POC005 workload overlaps",
+    "All raw responses/native export outcomes and actual failures retained without expected-state normalization",
+    "Only actual contiguous native cache payload exports permit separately labelled logical reassembly; HTTP Slice responses remain distinct",
+    "Empty historical catalogue/open-read failure does not prove cache empty/disposed; no such acceptance supplied",
+    "First-body-byte timestamps and kernel memory are exploratory raw observations only;8MiB buffer configuration is not an observed peak or qualified approval",
+    "No original15/qualified/performance/buffer/integration acceptance inferred from collector exit0 or focused revocation",
+    "Keep runtime keys/private settings outside Git; do not commit bulky raw bodies or entire private runroot",
+    "Stop only owned controller/ATS in finally; retain raw data and verify all3ports released before deadline",
+    "Never reuse matrix runroot or its old listeners/sourceVersion for revocation; fully stop/verify first, then prepare a separate new base-version sandbox. Matrix failures remain failures even if independent revocation later passes."
+  ],
+  "original15Accepted": false,
+  "performanceOrBufferDomainApproved": false,
+  "qualifiedProfileApproved": false,
+  "integrationApproved": false,
+  "experimentExecuted": false
+}

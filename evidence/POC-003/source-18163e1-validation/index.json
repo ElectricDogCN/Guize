@@ -1,0 +1,158 @@
+{
+  "source": "18163e180e554773ef82e1eea7ffcafa634b027a",
+  "local15Accepted": true,
+  "offline8Accepted": true,
+  "missingSandboxGuardActualExit": 1,
+  "independentIntermediateContentAccepted": true,
+  "sourceOverallAccepted": false,
+  "sourceCi809Status": "completed success",
+  "files": [
+    {
+      "original": "poc003-implementation-18163e1-intermediate-review.json",
+      "retained": "poc003-implementation-18163e1-intermediate-review.json",
+      "encoding": "original-bytes",
+      "bytes": 749,
+      "sha256": "735abf88426a30d099d26ebf9d2df97b3700ebe8f2ddaa7001922afcd4f5d504"
+    },
+    {
+      "original": "poc003-implementation-18163e1-results/results.json",
+      "retained": "poc003-implementation-18163e1-results__results.json",
+      "encoding": "original-bytes",
+      "bytes": 3989,
+      "sha256": "212af53155ac24bb712928880913978f6e64d16b5f7de382f4bd84c461a12e8e"
+    },
+    {
+      "original": "poc003-implementation-18163e1-code-checks/results.json",
+      "retained": "poc003-implementation-18163e1-code-checks__results.json",
+      "encoding": "original-bytes",
+      "bytes": 741,
+      "sha256": "9f4f646789807b991ee7e31653046ac04eec1f70ff15defd6f5bbf0f606d5023"
+    },
+    {
+      "original": "poc003-implementation-18163e1-results/00.txt",
+      "retained": "poc003-implementation-18163e1-results__00.txt.base64.json",
+      "encoding": "base64-json",
+      "bytes": 137,
+      "sha256": "bc2edd5b20f51aef271151065033cb363608b81cb8f08ee23b4476a78a32c3de"
+    },
+    {
+      "original": "poc003-implementation-18163e1-results/01.txt",
+      "retained": "poc003-implementation-18163e1-results__01.txt.base64.json",
+      "encoding": "base64-json",
+      "bytes": 248,
+      "sha256": "0cced06542d6b44c2aa497a234e820fbfaafa96d2fe9060ea8a3786aea869603"
+    },
+    {
+      "original": "poc003-implementation-18163e1-results/02.txt",
+      "retained": "poc003-implementation-18163e1-results__02.txt.base64.json",
+      "encoding": "base64-json",
+      "bytes": 653,
+      "sha256": "d796f166e91e242326783ced3828dc87004322f604baee9c34fc13073d0c944c"
+    },
+    {
+      "original": "poc003-implementation-18163e1-results/03.txt",
+      "retained": "poc003-implementation-18163e1-results__03.txt.base64.json",
+      "encoding": "base64-json",
+      "bytes": 1807,
+      "sha256": "d88a7bcafa883dcd4b5d72c0a075f380ba2634ab4556da45d18954456237ba56"
+    },
+    {
+      "original": "poc003-implementation-18163e1-results/04.txt",
+      "retained": "poc003-implementation-18163e1-results__04.txt.base64.json",
+      "encoding": "base64-json",
+      "bytes": 412,
+      "sha256": "395ddc335f0d7a811f6b8ae9f28d4df8c0f1fae47def62dacf2e15c0336ec31c"
+    },
+    {
+      "original": "poc003-implementation-18163e1-results/05.txt",
+      "retained": "poc003-implementation-18163e1-results__05.txt.base64.json",
+      "encoding": "base64-json",
+      "bytes": 461,
+      "sha256": "0853318f3cbda7a138c7e7a58744d23f52f488e381ed6e5bad01207b8d732072"
+    },
+    {
+      "original": "poc003-implementation-18163e1-results/06.txt",
+      "retained": "poc003-implementation-18163e1-results__06.txt.base64.json",
+      "encoding": "base64-json",
+      "bytes": 414,
+      "sha256": "bc948dd9dce8f1669742cc82860d8afc549f7a5559563ea9bb3cac90e9de383a"
+    },
+    {
+      "original": "poc003-implementation-18163e1-results/07.txt",
+      "retained": "poc003-implementation-18163e1-results__07.txt.base64.json",
+      "encoding": "base64-json",
+      "bytes": 355,
+      "sha256": "dbe2dc8b72839395d95e3d078f59bf77fd22a2426e2778bb34ad02121b32cd07"
+    },
+    {
+      "original": "poc003-implementation-18163e1-results/08.txt",
+      "retained": "poc003-implementation-18163e1-results__08.txt.base64.json",
+      "encoding": "base64-json",
+      "bytes": 480,
+      "sha256": "cc319dae2c6c8a7af787ead0fc07ced856fc489ccbbb62caf9a34345a2d1df55"
+    },
+    {
+      "original": "poc003-implementation-18163e1-results/09.txt",
+      "retained": "poc003-implementation-18163e1-results__09.txt.base64.json",
+      "encoding": "base64-json",
+      "bytes": 571,
+      "sha256": "d0d02f70fc18ac4d8319701280cec263dcb7a77b033c8bef47e2e85563696e58"
+    },
+    {
+      "original": "poc003-implementation-18163e1-results/10.txt",
+      "retained": "poc003-implementation-18163e1-results__10.txt.base64.json",
+      "encoding": "base64-json",
+      "bytes": 373,
+      "sha256": "558e1af74aef550791bc8da44e0455f50b595d811011f8f7027cc653da9d31ea"
+    },
+    {
+      "original": "poc003-implementation-18163e1-results/11.txt",
+      "retained": "poc003-implementation-18163e1-results__11.txt.base64.json",
+      "encoding": "base64-json",
+      "bytes": 4626,
+      "sha256": "ff7a79a64fe1b7d87c5b9ad3839d564de0224de9ae9f9aebb8c4ee953703ebe8"
+    },
+    {
+      "original": "poc003-implementation-18163e1-results/12.txt",
+      "retained": "poc003-implementation-18163e1-results__12.txt.base64.json",
+      "encoding": "base64-json",
+      "bytes": 300,
+      "sha256": "a8464418f2305dc07f5e892c98a924d2984784d82016e5551f512613107841ce"
+    },
+    {
+      "original": "poc003-implementation-18163e1-results/13.txt",
+      "retained": "poc003-implementation-18163e1-results__13.txt.base64.json",
+      "encoding": "base64-json",
+      "bytes": 394,
+      "sha256": "5ab25f7ca42af60d0239ac96f7839140f865aa35b9fcca4cfe62fe429e3df0de"
+    },
+    {
+      "original": "poc003-implementation-18163e1-results/14.txt",
+      "retained": "poc003-implementation-18163e1-results__14.txt.base64.json",
+      "encoding": "base64-json",
+      "bytes": 157,
+      "sha256": "b235109ca51bb4cb796b65baaba65aae369b44a130c826b7559a8ffde9d6a18d"
+    },
+    {
+      "original": "poc003-implementation-18163e1-code-checks/00.txt",
+      "retained": "poc003-implementation-18163e1-code-checks__00.txt.base64.json",
+      "encoding": "base64-json",
+      "bytes": 1345,
+      "sha256": "cd73d0493fc4f9b23ece6b8c857867514b23c00416d69f1240358e81a9e00cff"
+    },
+    {
+      "original": "poc003-implementation-18163e1-code-checks/01.txt",
+      "retained": "poc003-implementation-18163e1-code-checks__01.txt.base64.json",
+      "encoding": "base64-json",
+      "bytes": 751,
+      "sha256": "ecf6dd773e749a46ec1aa422a5f929842b624aecd82ff93cfe624e802d0e69c2"
+    }
+  ],
+  "ciAccepted": true,
+  "ciSnapshot": "ci809.snapshot.json",
+  "ciRaw": "ci809.raw.txt.base64.json",
+  "ciRawBytes": 289686,
+  "ciRawSha256": "c151629152d42c55d39f525874b74ebe37bb8006863d72916b79c99dedb56bd6",
+  "testCount": 713,
+  "testSeconds": 929.83
+}

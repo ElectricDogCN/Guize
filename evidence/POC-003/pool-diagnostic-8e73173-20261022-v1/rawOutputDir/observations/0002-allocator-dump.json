@@ -1,0 +1,395 @@
+{
+  "rows": [
+    {
+      "name": "ioBufAllocator[14]",
+      "typeBytes": 2097152,
+      "allocatedBytes": 0,
+      "inUseBytes": 0
+    },
+    {
+      "name": "ioBufAllocator[13]",
+      "typeBytes": 1048576,
+      "allocatedBytes": 0,
+      "inUseBytes": 0
+    },
+    {
+      "name": "ioBufAllocator[12]",
+      "typeBytes": 524288,
+      "allocatedBytes": 0,
+      "inUseBytes": 0
+    },
+    {
+      "name": "ioBufAllocator[11]",
+      "typeBytes": 262144,
+      "allocatedBytes": 0,
+      "inUseBytes": 0
+    },
+    {
+      "name": "ioBufAllocator[10]",
+      "typeBytes": 131072,
+      "allocatedBytes": 0,
+      "inUseBytes": 0
+    },
+    {
+      "name": "ioBufAllocator[9]",
+      "typeBytes": 65536,
+      "allocatedBytes": 0,
+      "inUseBytes": 0
+    },
+    {
+      "name": "ioBufAllocator[8]",
+      "typeBytes": 32768,
+      "allocatedBytes": 0,
+      "inUseBytes": 0
+    },
+    {
+      "name": "ioBufAllocator[7]",
+      "typeBytes": 16384,
+      "allocatedBytes": 524288,
+      "inUseBytes": 32768
+    },
+    {
+      "name": "ioBufAllocator[6]",
+      "typeBytes": 8192,
+      "allocatedBytes": 0,
+      "inUseBytes": 0
+    },
+    {
+      "name": "ioBufAllocator[5]",
+      "typeBytes": 4096,
+      "allocatedBytes": 524288,
+      "inUseBytes": 0
+    },
+    {
+      "name": "ioBufAllocator[4]",
+      "typeBytes": 2048,
+      "allocatedBytes": 0,
+      "inUseBytes": 0
+    },
+    {
+      "name": "ioBufAllocator[3]",
+      "typeBytes": 1024,
+      "allocatedBytes": 0,
+      "inUseBytes": 0
+    },
+    {
+      "name": "ioBufAllocator[2]",
+      "typeBytes": 512,
+      "allocatedBytes": 0,
+      "inUseBytes": 0
+    },
+    {
+      "name": "ioBufAllocator[1]",
+      "typeBytes": 256,
+      "allocatedBytes": 0,
+      "inUseBytes": 0
+    },
+    {
+      "name": "ioBufAllocator[0]",
+      "typeBytes": 128,
+      "allocatedBytes": 0,
+      "inUseBytes": 0
+    },
+    {
+      "name": "FetchSMAllocator",
+      "typeBytes": 544,
+      "allocatedBytes": 0,
+      "inUseBytes": 0
+    },
+    {
+      "name": "MIMEFieldSDKHandle",
+      "typeBytes": 32,
+      "allocatedBytes": 0,
+      "inUseBytes": 0
+    },
+    {
+      "name": "INKVConnAllocator",
+      "typeBytes": 320,
+      "allocatedBytes": 0,
+      "inUseBytes": 0
+    },
+    {
+      "name": "INKContAllocator",
+      "typeBytes": 160,
+      "allocatedBytes": 20480,
+      "inUseBytes": 960
+    },
+    {
+      "name": "apiHookAllocator",
+      "typeBytes": 32,
+      "allocatedBytes": 4096,
+      "inUseBytes": 128
+    },
+    {
+      "name": "socksProxyAllocator",
+      "typeBytes": 160,
+      "allocatedBytes": 0,
+      "inUseBytes": 0
+    },
+    {
+      "name": "http1ClientSessionAllocator",
+      "typeBytes": 1056,
+      "allocatedBytes": 0,
+      "inUseBytes": 0
+    },
+    {
+      "name": "httpSMAllocator",
+      "typeBytes": 9360,
+      "allocatedBytes": 0,
+      "inUseBytes": 0
+    },
+    {
+      "name": "httpServerSessionAllocator",
+      "typeBytes": 1056,
+      "allocatedBytes": 0,
+      "inUseBytes": 0
+    },
+    {
+      "name": "preWarmSMAllocator",
+      "typeBytes": 240,
+      "allocatedBytes": 0,
+      "inUseBytes": 0
+    },
+    {
+      "name": "RemapPluginsAlloc",
+      "typeBytes": 144,
+      "allocatedBytes": 0,
+      "inUseBytes": 0
+    },
+    {
+      "name": "http2StreamAllocator",
+      "typeBytes": 3104,
+      "allocatedBytes": 0,
+      "inUseBytes": 0
+    },
+    {
+      "name": "http2ClientSessionAllocator",
+      "typeBytes": 3616,
+      "allocatedBytes": 0,
+      "inUseBytes": 0
+    },
+    {
+      "name": "httpCacheAltAllocator",
+      "typeBytes": 256,
+      "allocatedBytes": 0,
+      "inUseBytes": 0
+    },
+    {
+      "name": "hdrStrHeap",
+      "typeBytes": 2048,
+      "allocatedBytes": 262144,
+      "inUseBytes": 4096
+    },
+    {
+      "name": "hdrHeap",
+      "typeBytes": 2048,
+      "allocatedBytes": 262144,
+      "inUseBytes": 4096
+    },
+    {
+      "name": "OneWayTunnelAllocator",
+      "typeBytes": 128,
+      "allocatedBytes": 0,
+      "inUseBytes": 0
+    },
+    {
+      "name": "hostDBFileContAllocator",
+      "typeBytes": 112,
+      "allocatedBytes": 0,
+      "inUseBytes": 0
+    },
+    {
+      "name": "hostDBContAllocator",
+      "typeBytes": 2320,
+      "allocatedBytes": 296960,
+      "inUseBytes": 2320
+    },
+    {
+      "name": "expiryQueueEntry",
+      "typeBytes": 16,
+      "allocatedBytes": 0,
+      "inUseBytes": 0
+    },
+    {
+      "name": "refCountCacheHashingValueAllocator",
+      "typeBytes": 64,
+      "allocatedBytes": 0,
+      "inUseBytes": 0
+    },
+    {
+      "name": "dnsBufAllocator",
+      "typeBytes": 236032,
+      "allocatedBytes": 0,
+      "inUseBytes": 0
+    },
+    {
+      "name": "dnsEntryAllocator",
+      "typeBytes": 1296,
+      "allocatedBytes": 0,
+      "inUseBytes": 0
+    },
+    {
+      "name": "DNSRequestDataAllocator",
+      "typeBytes": 16,
+      "allocatedBytes": 0,
+      "inUseBytes": 0
+    },
+    {
+      "name": "evacuationKey",
+      "typeBytes": 48,
+      "allocatedBytes": 0,
+      "inUseBytes": 0
+    },
+    {
+      "name": "cacheRemoveCont",
+      "typeBytes": 64,
+      "allocatedBytes": 0,
+      "inUseBytes": 0
+    },
+    {
+      "name": "evacuationBlock",
+      "typeBytes": 96,
+      "allocatedBytes": 0,
+      "inUseBytes": 0
+    },
+    {
+      "name": "cacheVConnection",
+      "typeBytes": 960,
+      "allocatedBytes": 0,
+      "inUseBytes": 0
+    },
+    {
+      "name": "openDirEntry",
+      "typeBytes": 160,
+      "allocatedBytes": 0,
+      "inUseBytes": 0
+    },
+    {
+      "name": "RamCacheCLFUSEntry",
+      "typeBytes": 96,
+      "allocatedBytes": 0,
+      "inUseBytes": 0
+    },
+    {
+      "name": "RamCacheLRUEntry",
+      "typeBytes": 64,
+      "allocatedBytes": 0,
+      "inUseBytes": 0
+    },
+    {
+      "name": "sslNetVCAllocator",
+      "typeBytes": 1344,
+      "allocatedBytes": 0,
+      "inUseBytes": 0
+    },
+    {
+      "name": "UDPIOEventAllocator",
+      "typeBytes": 128,
+      "allocatedBytes": 0,
+      "inUseBytes": 0
+    },
+    {
+      "name": "netVCAllocator",
+      "typeBytes": 960,
+      "allocatedBytes": 122880,
+      "inUseBytes": 0
+    },
+    {
+      "name": "udpReadContAllocator",
+      "typeBytes": 144,
+      "allocatedBytes": 0,
+      "inUseBytes": 0
+    },
+    {
+      "name": "udpPacketAllocator",
+      "typeBytes": 160,
+      "allocatedBytes": 0,
+      "inUseBytes": 0
+    },
+    {
+      "name": "socksAllocator",
+      "typeBytes": 480,
+      "allocatedBytes": 0,
+      "inUseBytes": 0
+    },
+    {
+      "name": "ioBlockAllocator",
+      "typeBytes": 64,
+      "allocatedBytes": 8192,
+      "inUseBytes": 64
+    },
+    {
+      "name": "ioDataAllocator",
+      "typeBytes": 48,
+      "allocatedBytes": 8160,
+      "inUseBytes": 48
+    },
+    {
+      "name": "ioAllocator",
+      "typeBytes": 240,
+      "allocatedBytes": 32640,
+      "inUseBytes": 240
+    },
+    {
+      "name": "mutexAllocator",
+      "typeBytes": 80,
+      "allocatedBytes": 24480,
+      "inUseBytes": 13920
+    },
+    {
+      "name": "eventAllocator",
+      "typeBytes": 96,
+      "allocatedBytes": 24576,
+      "inUseBytes": 2784
+    },
+    {
+      "name": "ArenaBlock",
+      "typeBytes": 1024,
+      "allocatedBytes": 0,
+      "inUseBytes": 0
+    }
+  ],
+  "allocatedPoolBytes": 2115328,
+  "inUsePoolBytes": 61424,
+  "tableStart": 0,
+  "tableEnd": 5032,
+  "fullMediaBufferBoundProven": false,
+  "baselineSubtracted": false,
+  "kind": "ABSOLUTE_NATIVE_POOL_DIAGNOSTIC_NOT_MEDIA_BOUND",
+  "process": {
+    "pid": 688910,
+    "startTicks": 11033647,
+    "executable": "/home/sur/.cache/guize-takeover/ats-user-runtime-20261019/pkgroot/usr/bin/traffic_server",
+    "executableDevice": 2128,
+    "executableInode": 301094,
+    "argv": [
+      "/home/sur/.cache/guize-takeover/ats-user-runtime-20261019/pkgroot/usr/bin/traffic_server",
+      "--run-root=/home/sur/.cache/guize-takeover/poc003-pool-diagnostic-20261022-v1",
+      "-n",
+      "2"
+    ],
+    "allocatorOverridesAbsent": true
+  },
+  "signalSentUnixNs": 1792684796526982869,
+  "observedUnixNs": 1792684797031949531,
+  "stderrOffset": 41,
+  "stderrEnd": 5073,
+  "stderrDevice": 2128,
+  "stderrInode": 947650,
+  "rawBytes": 5032,
+  "rawSha256": "fdc0cafe6c04e0735c38dbe5d9ea9c3d0811bcb28edea146e0ca362da67cd2be",
+  "rawFile": "stderr-interval.raw",
+  "experimentApprovedByObserver": false,
+  "action": "allocator-dump",
+  "observedAt": "2026-10-22T15:59:57.032255Z",
+  "outputDir": "/home/sur/.cache/guize-takeover/poc003-pool-diagnostic-20261022-v1/allocator-dump-0",
+  "nativeCacheReady": {
+    "atsPid": 688910,
+    "observedAt": "2026-10-22T15:59:56Z",
+    "cacheReady": true,
+    "httpCacheReady": true,
+    "nativeApi": "TSCacheReady+TSCacheDataTypeReady"
+  },
+  "activeOriginRequests": 0,
+  "activeGatewayRequests": 0
+}

@@ -1,64 +1,1701 @@
+## Current source-gate correction: immutable raw archives
+
+Source8eae8a7 reached only its first declared gate, unchanged git diff --check against accepted main22. It actually exited2 on captured raw stderr/CRLF receipts in payload-lifetime-v1 and request-concurrency-v1; the other fourteen commands were not executed. Original output and context are preserved at source-8eae8a7-stopped-validation/index.json.
+
+Only these two archive directories now classify captured.raw streams as binary byte archives; their.json receipts retain original bytes and permit CR at end of line. No captured byte, source implementation, frozen checker/schema/threshold or declared gate command was changed. The complete original pin inventory is in that index. This is archive representation, not a skipped source check. The new exact source still needs all fifteen checks, related validation, same-head CI and independent final source acceptance before any new approved media experiment.
+
+## Current source freeze after accepted closed-record capacity component
+
+Current implementation code is ordinarily committed throughfc3cd23 after normal accepted-main22 importcd804502. Runtime initialization/crypto bindingdbacbae and closed-record capacityfc3cd23 have independent component acceptance. Conditional finite H4096/carrier2608 and the synchronous phase max1048577 are reviewed method terms; actual whole-window/model application, original full matrix, fresh revocation and formal POC results remain outstanding. The prospective hook-free entryv3 retains the exact currentlab/Collector pins and has not executed a media experiment.
+
+The current fifteen declared source commands now compare with accepted main22ab6a0668da2d64a016fccef2c3b5a634638a24. This updates their integration comparison only: original creationbase760f6c5838597d1d66c0a536ecbf440ef5a7dfec, original Task front/roles/lease, frozen schemas/checkers/thresholds, Program/Active and previous records remain unchanged. Whole-source checks, current related regressions, same-head CI and independent final-source acceptance are pending on this new metadata HEAD. Windows/fixed-image7 component results do not substitute for those gates. Preserve all environment failures and raw; use ordinary reviewed forward rollback.
+
+Historical source-bound records below keep their original attribution:
+
+## Accepted-main synchronization (local only; new fixed-source gates pending)
+
+The actual ordinary author merge43634485a674167c4c198bc406126f2127021a25 has parents[c6a3ed76abf70b02947b9ffaa09869c848250f42,746e23e582501fa08380c3f3301bdc1774902f7c] and treefd013f7498fa58ce0e5ae03c1cfad35bf5d2f7da. Merge actualwait0/clean, with no conflict resolution or discarded history. The entire Ownpoc tree remains byte-identical to the tested componentc6. Registrationbase760/Taskfront/roles/lease/claims remain; current integrationbase is accepted main746. Task prospective15 commands now use746, without rewriting historical logs. Exact commit/precommit/merge raw records are retained in accepted-main-sync-v1/index.json. This local sync is not publication, source15/CI acceptance, native owner/ATS validation or POC completion. Freeze the next metadata source before running its actual15 and same-head CI.
+
+
+## Single-thread execution owner integration (30 pure tests; no native owner/ATS execution)
+
+After the local9a428c6 component, lab.py now routes the instrumented profile's helper/start/restart/stop, actual pidfd signals, native diagnostics and finished journal waits through the POC-specific epoch_owner.py child. Owner creation precedes HTTP threads; namespace PID1 monitors owner liveness independently of State.lock and exits70 directly on lost/ambiguous control, without first waiting for filesystem evidence, HTTP cleanup or a replay. The client holds bound target metadata and owner liveness facts, not a target Popen/wait authority. Actual target wait/journal facts stay in owner; normal shutdown records the lab's distinct actual owner wait. The local ordinary-UID/caps0/NoNewPrivs/PID1 guard does not by itself prove the external private-container profile.
+
+The final source-only review c169f392a6c744b97a33c79cbaa5f52bf084acc4545d7665a89e1cf50f624d88 accepted this integration with mustFix=[] (owner30b9cfc4..., lab493ff3a3...). It does not accept tests, kernel/ATS/media execution, resource/profile approval or whole-source CI. Earlier reviews retained four P2 findings: received stderr name did not satisfy the existing probe path API; authorized owner shutdown raced independent monitoring; the same named-handle issue regressed the non-instrumented branch; and bulk historical closures could exceed the bounded shutdown packet. Both paths now retain actual verified path/FD pairs, expected shutdown has a finite pre-send state, and shutdown returns a fixed-size checked summary while full per-epoch closures stay on disk. Ancillary rejection consumes/closes all received rights. One active target at a time and operation-specific RPC deadlines preserve finite setup5/activation5/helper30/stop10/abort5 rather than introducing a target wait in HTTP threads.
+
+The source-v1 negative review8d1376..., v2 negative review9ed620..., design reviewa0276... and actual v2 source copies are retained in single-owner-integration-v1/index.json. The initial source4375eb... was read through tool output without a separate historical file capture; the explicitly labelled reconstruction matches the original23011-byte/SHA pin and is not represented as original capture. After POC-005 original session12489 actually ended, the finite pure-test wrapper actually waited0:30 unique JUnit cases (7 fixed policy,7 prior caller,16 new owner), zero failures/errors/skips, pytest0.65s. The396-byte raw keeps the initial UTF16 WSL warning and complete test output;11 source pins before/after/current are identical. Independent e7c0a3ea04dc4937d04bb0b81dda7eb9ba6dcd63174f2ffc3970876fdc9f92c1 accepted these results only. New tests use mocked protocol/process/fatal branches and actual regular-file/raw_writer/_stdio/capture_dump open/fstat boundaries stopped before a mocked pidfd; no native target/filter/signal/owner/ATS/media executes. The2000-closure test is pure memory, not2000 real processes. OldWindows62 and four native controls retain their old source identity. The18 retained items total161090 decoded bytes, including a cumulative-vs-increment inventory guard failure and its correction; old retained bytes remain unchanged. Next: separately approve a concrete bounded private-PID1 owner/ATS compatibility method. Full media/accounting, same-run untraced latency, stable-main synchronization, fixed-source gates/CI, original15, hot-cache revocation and frozen POC qualification remain pending. No new native resources or ATS experiments were started by this implementation.
+
+## Fixed first-exec control component (actual four cases; lab integration pending)
+
+The default-off OwnedEpoch.fixed_single_exec caller pins the interpreter, bootstrap and literal29-instruction native-x86_64 policy, transfers one private CLOEXEC listener, binds the real birth/ELF/argv/environment and sends at most one CONTINUE. The final listener closes on every path. Fork/vfork/non-thread clone and filter replacement are rejected; clone3 returns ENOSYS and later exec is not serviced. This is a fixed trusted bootstrap, not a general hostile-code sandbox.
+
+Current Linux14 pure/pipe tests and Windows62 reader regressions passed with actual wait0, zero failures/errors/skips and unchanged source hashes. The first caller test run11pass/2fail used an incomplete fake Popen object; only that fixture changed. A subsequent independent P2 found a listener ownership gap before argument lookups; the actual source was corrected and a real-pipe missing-target rejection added before the14-case run. The helper's earlier deadline/FD-consumption findings and all original raw/source versions remain losslessly archived.
+
+V1's WSL launcher actually exited1 with WSAETIMEDOUT before any controller output marker. It is not a kernel/filter failure; original UTF16 bytes were not locally captured and that limitation remains explicit. The Windows Docker Desktop health call also timed out. After the observed host boot, fresh WSL and the existing Ubuntu Docker29.8.0/kernel6.18.54.1/cgroup2/builtin-seccomp engine reads actually completed0. No host-service restart or security relaxation was performed. V1 approval was not extended or relabeled.
+
+Separately approved V2 executed once in one existing-image private PID namespace as UID1000/caps0 with default seccomp, no-new-privileges, readonly root, no network/host mounts and finite tmpfs/CPU/memory/PID limits. Four native cases passed: first owned FDexec plus actual C main/syscall denials and working pthread; last listener closed before GO; a deliberate sole parent duplicate holding syscall322 pending until lastclose; and an actual NOTIF_RECV timeout followed by owned SIGKILL/wait. Target outcomes were0/71/71/-9, each FD count4 to4. Ten actual CLI waits returned0 with20 complete raw streams;33 exact exported files total22644B. Independent4487a8ae accepted this control compatibility only; the container is stopped/Pid0/exit0 and retained. It does not prove pthread's internal syscall selection, dynamic ATS loader/journal, media memory domain or latency.
+
+The lab still uses the old caller. Its origin and gateway threads are active during ATS launches and HTTP-triggered restart/helper paths; the current fixed helper requires an actual singleton native main thread, exclusive default/unblocked SIGALRM and a finite setup/activation deadline on every launch. Moving only first startup before threads is insufficient. Resolve that concrete ownership path before enabling the fixed mode in lab; preserve real birth/pidfd/wait, journals, all media owners, untraced latency and original15/hot-cache revocation. Current source is an unpublished component, not whole-source CI, POC completion or Ready. See single-exec-control-v1/index.json for originals and explicit limitations.
+
+
+## Private PID-namespace lifetime method (two non-media cases only)
+
+The existing engine was read without starting the old retained container: Docker29.8.0/kernel6.18.54.1/cgroup2, UID1000, private/default PID namespace, private IPC/cgroup namespace, networknone, readonly root, no mounts/devices, no capabilities and no-new-privileges. The first read-only template encountered a missing optional StopSignal field; its raw and exact reader remain retained. The corrected read used an optional lookup and observed null, without changing a container or host setting.
+
+The prospectively approved V1 control attempt created a new stopped container but Docker refused to start its local logger: default compression is incompatible with max-file1. Actual start CLI1, created/Pid0/zeroStartedAt and the logger error remain failed; no PID1/workers began and the second case was not created. V2 was a separate reviewed namespace/name/output/window with explicit compress=false, retaining max-size1m/max-file1 and all prior limits. No daemon edit, restart, image pull, root, host cgroup write or deletion occurred.
+
+V2 actually executed two finite cases on the existing fixed Python image, each with private namespace PID1 and two live setsid workers in different process groups; one worker was adopted after its intermediate parent actually exited0/waited. Actual proc status/stat/namespace/cohort and engine state preceded the signal. USR1 caused the PID1 handler to exit0 (1.8276s case); engine KILL ended PID1 with137 (1.3881s case). All34 actual CLI commands returned0 with both stdout/stderr EOF,68 retained raw streams match their hashes, total4.1569s, within the unchanged90s/65s budgets and25s child alarms. Independent fresh reads confirmed both V2 containers exited/Pid0 with0/137 and the old V1 still created128 with its original logger error. All containers and raw remain retained.
+
+The fixed control-profile lifetime method is accepted. Namespace-wide termination is inferred from actual private PID1 exit plus Linux PID-namespace semantics, not from fabricated individual worker wait codes. Sequential namespaces can reuse an inode; these two cases do not claim simultaneously unique namespace IDs or directly observed namespace-object destruction. See namespace-lifetime-v2/index.json and the independent ca466a5d result. The earlier attach/EXITKILL incompatibility remains; no strace, ATS or media run occurred. Actual integration of containment, complete execve/execveat/family observation, same-run untraced latency and all non-ATS/external media ownership remain unresolved before formal source gates/CI, representative experiments, original15, hot-cache revocation and POC qualification. Kernel memory.peak remains rejected as a strict bound.
+
+
+## Owned-epoch lab control integration (real ATS/media execution still pending)
+
+The instrumented lab code now routes helpers and each server start/restart/stop/error wait through the accepted OwnedEpoch bridge, with separate exclusive per-launch journal/launch/closure records. Actual gate and target identities remain distinct; helpers close in finally, live snapshots use the current private journal, and only real wait0 plus the strict journal and stable configuration can accept a tracked epoch. Seven effective configuration files are pinned before/after launches; the diagnostic preparation explicitly fixes NULL crash helper and a private empty TLS multicert file. The process signal/reap race now catches ProcessLookupError and still performs the owned wait.
+
+Six control-only native cases passed and were independently read: the real v3 --version helper used a private runroot and initial-zero journal/accepted closure; an explicitly synthetic false ELF only tested nonzero cleanup; changed configuration before GO produced no child, and changed configuration after actual exit0 rejected acceptance; legacy nonlive --version retained its existing behavior; an actual held target was told to exit and genuinely reaped between abort poll and the original real pidfd syscall, which raised ESRCH3. Abort still recorded actual wait0/stateaborted/completefalse. This imposed real reaping interleaving does not assume that a zombie signal must return ESRCH. The runtime captured OSError is retained; there was no additional syscall tracer. All54 native/export files43443bytes were byte-exact, four recorded owned children plus runner were gone. Legacy has actual CompletedProcess0/raw but no recorded PID; none was fabricated. Portable buffer/live/durable reader regressions additionally passed62 tests.
+
+Reversible source/raw/decisions are in owned-epoch-lab-control-v1/index.json. These tests deliberately used no-input/no-user control fixtures, not lab.prepare's approved sample/resource profile. They did not start ATS services or fabricate cache-ready, and --version does not verify application of live ATS configuration. Actual verify_config, clear_cache, genuine cache-ready, server graceful-stop/exit code, restart/final closure and helper30s timeout remain to be exercised under the required source/input/resource/window conditions. Nonzero target epochs remain rejects. Process-family/no-later-exec and the complete approved media domain are still unproven; current source gates/CI, original15/current hot-cache revocation and full POC remain pending. No new service/media/experiment permission follows from this archive.
+
+
+## Opt-in eager core journal component (full process/media closure still pending)
+
+The same translation unit now initializes the existing ledger after its loaded-PID initialization when an explicit nonempty journal directory is present. Its ordinary C++ initializer publishes actual initial zero before main even when a linked helper never calls a Guize API; no constructor-priority attribute, ABI/parser/header change, baseline subtraction or reset is introduced. Missing/empty environment preserves the former lazy version-probe behavior. Existing precharge, sticky external/fork/exec rejection and deliberate retained-pool overcount remain.
+
+The exact six-file/three-header native v3 source was built and privately installed by an ordinary user; all four stages actually exited0 (make242.256s). The first unexecuted build method had two static timeout/group/PID-record defects; its exact rejected f677 bytes were reconstructed against the prior independent SHA and archived with the rejection. The accepted 5a006 correction records PID/PGID/birth and anchors timeout group cleanup to the unreaped leader, always failing a timeout. This actual build had no timeout, so the cleanup branch is not reported as runtime-tested.
+
+Five new real checks passed: a --no-as-needed linked zero-API target demonstrably loaded the old v2 core via actual DT_NEEDED and executable maps yet exited0 without a journal, correctly rejecting completion; the same target with v3 had one358-byte initial-zero record before main and a real wait0; a post-prepare0500 directory violated the journal-mode contract and exited70 before main, without claiming an actual write/fsync failure; unset and empty directory --version probes each returned9.2.3/exit0. Separately all22 existing gate cases passed on the actual v3 core. The earlier no-journal gate target returns before dlopen and remains a different negative, not the loaded-core counterexample.
+
+Independent result review checked192 native/export files128399bytes byte-exactly and all27 recorded exact PIDs gone. Reversible build/raw/source/decision records are in eager-core-journal-v1/index.json; original v2 builds and failed/partial streams remain untouched. No ATS service/network/media workload ran. This is limited component acceptance: lab helper/start/restart/final integration, actual effective NULL crash-helper/empty TLS configuration, full exec/descendant coverage and the explicitly approved media domain still remain. Source audit does not cover Python Origin/Gateway or kernel buffers by silently calling them ATS allocations. Current fixed-source gates/CI, original15/current hot-cache revocation and full POC remain pending; no new experiment or full V1 acceptance follows.
+
+
+## Same-PID exec gate component (not integrated or full-family proof)
+
+The ordinary-user ELF gate binds the actual owned Python gate birth and verified target descriptor before GO. It waits for the entire bounded control stream to be exactly one G followed by EOF; the former prefix-only read was found by static independent review and its original bytes remain archived. The parent preserves gate and target identities separately without rewriting Popen.args, uses pidfd ownership and bounded cleanup, and requires actual wait0 plus a fresh trusted same-PID/start core journal before accepting the tracked epoch. Clean CLOEXEC EOF alone never proves exec or completion.
+
+The exact reviewed native driver/core ran once after the actual POC-005 scan had completed. All22 real/injected component cases passed: held same-birth target identity, a fast target exiting before any target proc read with a retained3MiB peak, no-journal exit0 rejection, core70/partial37-byte journal rejection, actual exec EACCES13/ENOEXEC8 exit71, hash/input/directory guards, actual pre-exec death producing empty EOF but no completed epoch, stopped-gate deadline and owned kill/wait, malformed/split duplicate/missing GO, duplicate activation, injected partial setup and before/after component changes. Every case returned to the same6 open parent FDs. Injected setup failures are labeled and are not claims of actual kernel EMFILE. Native private originals and their terminal Windows export were independently compared.
+
+Recoverable original sources, controls, native raw journals, partial/failure outputs and independent decisions: same-pid-exec-gate-v1/index.json. No ATS service, network request or media workload was started by these checks. The gate is not yet integrated into lab.py. Integration must reap every owned launch in finally, including helper/restart/final/error paths; finish_journal alone does not abort a still-live child. All-descendant coverage, no subsequent uninstrumented exec and the full-media upper bound remain unproven. Existing pool/core results retain their own source identities. Remaining: full lab integration and all process/media owners, stable-main sync, current fixed-source gates/CI, original15/current hot-cache revocation and full POC qualification.
+
+
+## Retained ioBufAllocator capacity component (full POC still pending)
+
+The exact native ink_queue.cc grow site now durably charges checked page/huge-round-up backing capacity before any allocation. Returning/reusing blocks does not decrement that backing charge. Original logical IOBufferData capacity remains deliberately double-counted. The current lab requires the entire current instrumentation manifest, preventing reuse of the former five-file core merely because its ledger/journal headers match.
+
+The old actual core is a preserved negative: 65536 backing bytes versus a 40960 logical peak, with logical current zero after return/reuse (actual exit2; physical coverage failed). The new six-file/three-header ordinary-user core builds and links successfully. The same actual pool driver passes: backing65536, held/peak106496, return/reuse65536; sixteen concurrent payloads retain their actual pool backing too. Independent implementation, actual build/behaviour and failure/fallback reviews accept their stated scope.
+
+Real private invalid-product and 37-byte partial-journal cases exit70 before the allocation call returns, preserving failed/partial raw and rejecting complete epochs. The actual unavailable-hugepage profile has huge enabled/2097152, direct huge allocation ENOMEM, normal 4096-byte target mapping pages, backing2097152 and retained current2097152. Hugepage success remains unmeasured. Smaps mapping Size is not a media-payload measurement, and journal peak rows do not claim to record final release snapshots; return/current facts come from actual driver snapshots/stdout.
+
+Old/current real runtime receipts were exercised through lab.prepare with synthetic input/exporter setup only: the old core is rejected at the exact manifest guard and the new core reaches the intercepted pre-run-creation boundary. No input media, sandbox, listener or ATS workload was created. Manifest draft/no-qualification flags remain the original build-input snapshot; actual component results are in immutable test/review archives, not retroactively rewritten flags.
+
+Recoverable originals: retained-pool-capacity-v1/index.json; the previously accepted five-file build/link/API evidence is separately archived in durable-core-build-v1/index.json. Remaining: exact all-helper/restart/final epochs and exec chain, other ATS/media owners and alternative allocation paths as applicable, complete media-domain approval, stable-main sync/new fixed-source Task15/CI, original15 cases/current-source hot-cache revocation and full qualification. No new media experiment is approved here.
+
+
+## Durable tracked-peak component V2 (not full-media qualification)
+
+The process-lifetime logical-allocation ledger now writes/fsyncs each increasing peak under its lock before payload acquisition. No cache-ready reset; accounting, publication, external attachment, inherited fork and reused exec epochs fail closed. A native ordinary child preserves its released 1MiB peak across actual wait0; partial/failed streams cannot be promoted to complete success.
+
+The original reader had a P2: opening a FIFO could block. Its original bytes and negative independent review remain archived. V2 uses nonblocking open plus path/FD identity checks; real FIFO-without-writer and path replacement after open/before validation and during read are rejected. The corrected reader's Windows55 and Linux55, actual live/final capture, ten retained native success/failure streams and three filesystem regressions passed. Earlier native11 scenarios plus six original ledger cases retain their original source hashes. The observer compiles against the exact SDK. Independent component review accepts this limited scope.
+
+Reversible originals and source snapshots: durable-tracked-peak-v2/index.json. Current core build is still pending and is not accepted here. This ledger measures logical live ownership; retained physical freelist capacity, all short-lived helper/restart/final epochs, exec chain and other media owners remain incomplete. Full media bound, source Task15/current CI, original15 ATS cases, current-source warm-cache revocation and formal POC qualification are not granted. No ATS service or new media experiment was started by these component checks.
+
+Next: finish exact core build; account for retained pools and all process windows/other media owners; ordinary sync a fully accepted stable main, run new fixed-source gates and CI, then obtain explicit representative input/resource/window acceptance and execute the full POC. Old failed/unknown methods remain preserved. Actual Task roles, claims, lease and base remain unchanged by this component commit.
+
 Task: POC-003
 Issue: 131
-PR: https://github.com/ElectricDogCN/Guize/pull/133
-Base: 44e5200ed506d30c0abc83ca38f1d6912cbab1c1
-Branch: chore/POC-003-ats-range-reservation
-Work Branch: chore/POC-003-ats-range
-Tested parent source: daed2f533a726bef3f519ce7f14109eee6447c25
-Tested parent tree: ee50149e4e3797961ccbcd919230d80252b3f16b
-Current repair source: resolve Git HEAD / PR133 head.sha; tests, CI and independent acceptance PENDING.
+Branch: chore/POC-003-ats-range
+Base: 760f6c5838597d1d66c0a536ecbf440ef5a7dfec
+Current phase: in_progress / implementer
 
-Parent local15 PASS and CI805 PASS (713 passed, 1432.31s, zero skipped); parent overall NOT ACCEPTED because three actual P1 findings. These results bind only the tested parent, not this forward repair. No experiment executed, sample/resource approval granted, or POC result accepted.
+Forward cache component checkpoint (2026-10-25T19:57:37.072590+00:00); parent c63facc1cccc331428ebf848f8129bd9c5425a5a, next exact commit identity is Git HEAD after commit. Explicit representative input exports use <=128-key batches and unchanged native8-job/16-control/512MiB process limits, with exact per-batch request/events/results and whole-stage source/hash verification. Prototype128-key/128MiB limits remain. Original red3(2pass1error), first native fixture-user failure and rejected unbatched implementation remain recoverable. Current Windows10/native14 actual0/no skipped; native129 real Slice files135266287B are checked and assembled through128+1 batches, with a simulated bounded producer. Three quota refusals run the actual consumer and leave failure records before publication. No real ATS run follows from these tests.
 
-Durable parent records: `validation-source-daed2f5/index.json`, `local-results.json`, `local-00.raw.base64.json` through `local-14.raw.base64.json`, `ci805.raw.base64.json`, `ci805.snapshot.json`, `review-findings.json` and historical independent receipt. Paths are relative to this Evidence directory; all archive files are under validation-source-daed2f5/. Decode each raw JSON data field with base64; verify decoded byte count/SHA-256 against index.json before reading. The historical independent acceptance predates the actual cloud findings and cannot override them.
+Independent V2 component acceptance f1cc15bc5c0ec23468c514845efacaaa9707030494dd25f1e46c77b7e4fc8be5 resolves the native128-key mismatch;15 forward originals and accepted review are under representative-cache-batches-v2, prior17 under representative-cache-forward. Earlier canary V4 failed/unknown operand and V5 finite anonymous-child acceptance plus45 recoverable originals remain in container-counter-method-v5. Current-kernel independent review5c16499 rejects strict cgroup-peak upper-bound use; complete the existing synchronized ledger ownership/lifetime/other-media-owner bounds. All sample, numeric resource/domain/window approvals, original15, current-source warm-cache revocation and qualification remain pending.
 
-Exact PR inventory relative to accepted base (35 files):
+Next: synchronize a fully accepted actual governance main before Review/full source verification, run the original Task15 and declared components plus test_representative_cache.py and native Linux test_representative_cache_native.py on the exact future source, then same-head CI and independent review. Keep Draft134. No Program/Registry state, lease, role, claims, contract, policy or capacity is changed by this component commit. Historical source-bound checkpoints follow.
+
+Task: POC-003
+Issue: 131
+Branch: chore/POC-003-ats-range
+Base: 760f6c5838597d1d66c0a536ecbf440ef5a7dfec
+Current phase: in_progress / implementer
+
+Forward representative-input component checkpoint (2026-10-25T17:17:02.632293+00:00). Parent implementation 087068d32c918da43465f0f91ca6cccd0e088d67; actual next source identity is Git HEAD after this commit. The explicit representative-v1 profile verifies real file bytes, manifest hash/closed shape, size/identity and declared request/collection budgets; default prototype-64m-v1 retains its two pinned hashes,64MiB/2048/1GiB limits. Collector single-response allowance follows actual source size; aggregate budget remains a response-completion check, not a whole-run disk quota.
+
+V3 fixes the actual prepare-entry unbounded manifest read: at most65537 bytes, reject>65536 before runtime receipt or run creation, and the same raw bytes supply hashing/parsing. Windows and native Linux each actually passed26 offline regressions, zero skips. The unit file is67239936 bytes=64.125MiB; mocked transport streaming exercises actual bytes without starting HTTP/ATS. New ingress regression actually failed before correction (8pass/1failure). First red harness selected only the old8 tests and is explicitly not counted as red; original outcomes remain in the archive. V1 Windows ctime mismatch and V2 negative component review remain unchanged.
+
+Independent V3 component content accepted, mustFix=[]; exact4 source hashes, original waits/raw/results and33 recoverable files are in input-profile-v3/index.json, with the original accepted review in input-profile-v3/component-review.json. Earlier34 originals remain in input-profile-v2/index.json. These are component findings, not new-source Task15/CI or media qualification. Existing full-source087/44/CI843 results remain bound to087.
+
+Next: integrate complete media-owner accounting, then synchronize the actual accepted Gov history-fix main before Review and full source validation. Run the Task15 and declared component checks on that future exact source, obtain same-source CI and independent review. Real representative samples, numeric resource/domain/window approvals, original15 observations, untraced latency and current-source hot-cache revocation remain required. No changed-source ATS run, new sample approval, formal POC acceptance or capacity release is claimed. Keep Draft PR134; preserve all old sources/failures and the separate dirty development worktree.
+
+Historical checkpoints follow; their current/pending wording belongs to their original source.
+
+Task: POC-003
+Issue: 131
+Branch: chore/POC-003-ats-range
+Base: 760f6c5838597d1d66c0a536ecbf440ef5a7dfec
+Current phase: in_progress / implementer
+
+已普通合入完整接受的实际主线 760f6c5838597d1d66c0a536ecbf440ef5a7dfec，同步提交 8fabc3137c60e8eed07024cd8101777396bf21dc。该主线七项本地检查与CI841742项/1628.73s/零测试跳过及独立审查已通过，OPS-013正常完成。仅刷新自身Task/Active基线和交接；原角色、claims、order2、租约与缓存修复代码字节保持。先前47090d6在第六项history失败（前五项通过、后九项未执行），另行44项组件测试通过；原始结果分别完整归档，组件通过不替代整体接受。新固定源Task15、44项组件及同头CI仍待验证；原15项实测、当前源热缓存撤权、完整media数域与POC资格仍未完成，没有新的ATS实验批准。
+
+Evidence: cache-47090d6-stopped-validation/ preserves actual failed Task and separate44 component originals.
+Next: commit a fixed candidate, run Task15 and44 declared components on that exact source; obtain independent review and fresh same-source CI before integration. Keep Draft PR134. No changed-source ATS/full-matrix/revocation/qualification result is inherited.
+
+## Historical source-bound checkpoints
+
+Task: POC-003
+Issue: 131
+Branch: chore/POC-003-ats-range
+Current synchronized base: 43270da544d9df3da68a45d2eca3e0a2fed2de6e
+Original reservation merge: 11c32830c0d1bb8ccdcc04aa278876065bce1f33
+State: in_progress / implementer
+
+Current synchronization: normal main merge 5d7b0abad1da1f88fe4147e03970036e37c71426; Task/Active Own base updated to actual accepted Review main43270. Metadata context was committed separately before importing only the reviewed Slice-bounded cache reader and three offline regressions. Component source hashes equal the accepted originals; current fixed-source Task15 and required offline regressions/CI remain PENDING. No new ATS or qualification is claimed. Original dirty1cc development workspace and every prototype/evidence file remain untouched.
+
+The following paragraphs preserve historical development checkpoints; their current/pending wording belongs to their original source.
+
+SourceE123 actually passed Task15/code57 and was pushed. Its approved one-shot live diagnostic failed during strict component mapping at startup: prepare0/controller1, collector not started, no HTTP samples, two unbound native baseline rows, all owned ATS stopped and ports released within3.497617s. The actual first failing component/inode/hash is unknown because old maps were not retained. Failure archive and distinct actual result review are preserved. Old approval is consumed.
+
+Current forward repair preserves raw maps before checks and records per-component expected and actual device/inode/hash/rejection facts. Only the optional fixed live diagnostic profile sets dynamic reload0; stock defaults remain. Two real Linux simulated-child mapping tests passed; distinct content review accepted exact repair bytes at2026-10-22T17:26:36Z. New exact-source checks and new experiment approval remain pending; no repaired-source ATS run occurred. Mainf2e0150 is fully accepted with local5/POC check/CI816713 tests and no skipped tests.
+
+
+
+Current forward candidate: optional instrumented ATS live-media observation. Exact synchronized main f2e0150265e0c1eeca5f69fe85708b2434e5ee79 has passed five main checks plus existing POC protocol; CI816 is pending. Source8e Task15/code30/CI812713 no-skips and its actual finite pool diagnostic are retained without result transfer. Pool capacity73,363,200bytes included unused freelist slots and cannot prove a below64MiB live-media bound; this does not prove whole-object buffering.
+
+The exact Ubuntu source plus task-owned patch/header now built and installed as ordinary UID1000 after preserving three real failed attempts. Five runtime component hashes, resolved dependencies, three core diagnostic exports and version-only execution were checked. Six ledger scenarios passed, including sticky unknown-external risk across wrapper release/repeated reset; distinct intermediate content review accepted that repair only. The new observer built against the same actual SDK;27 parser tests passed. New controller wiring still needs current-source checks, independent content review, concrete experiment approval and real runtime results. At that previous draft checkpoint no instrumentation ATS service/experiment, complete media-domain, prototype8MiB budget, original15, qualified result or integration acceptance is claimed. Generated416/502 text, kernel/socket/page cache, origin/gateway/client and stock performance remain distinct domains.
+
+Evidence: source-8e73173-validation/, pool-diagnostic-8e73173-20261022-v1/, instrumented-build-v4-preparation/; actual source/tree for this forward candidate is Git HEAD after commit. Preserve all older failures, source identities and review limitations.
+
+Current implementation source/tests: PENDING; no inherited experimental PASS.
+
+Reservation PR133 source 2fa51e8d0d8d83761dc324ce1bb5e0da4afcad3c / tree e4f9c0f4957778063cbf306a3f63f9ec6d9e05a0; original base 44e5200ed506d30c0abc83ca38f1d6912cbab1c1. Actual local15/CI807713/1463.80s, independent source content and all3 threads accepted; actual merge parents/tree and five main checks plus POC checker executed successfully. FullpushCI808 pending. Exact prior inventory/commands/logs and raw byte archive are retained in reservation-merge-11c3283/ and its source snapshot; current changed files must be regenerated from Git when implementation is committed.
+
+Roles/claims/lease/order remain original: owner ElectricDogCN, coordinator program-coordinator-agent, implementer/executor task-owner-agent, independent reviewer independent-review-agent, integrator integration-agent; expires2026-10-29T12:47:06Z, poc-results/order2. Own poc/POC-03-ats-range/** and evidence/POC-003/**; shared adr/** and only own results-index row.
+
+Next Implementer: review actual historical candidates, implement real bounded gateway/origin/ATS observations and direct revocation assertions; retain exact source/config/input identities. Before any formal experiment, obtain concrete independent sample/resource/domain approval binding current tested source and actual bytes/window. Next Reviewer: inspect actual implementation, raw facts, all15, separate revocation and original failures; no source or experimental acceptance until actual validations. Next Integrator: source exact-head gates, current review/threads/latestmain/order/lease, ordinary merge then actualmain checks. FullV1 remains incomplete.
+
+Rollback: stop/clean only owned sandbox; preserve inputs/evidence/history, lawful cancellation or forward repair, no unrelated services or Docker/WSL restart.
+
+Current implementation PR134 is OPEN/DRAFT. Prior tested source18163e180e554773ef82e1eea7ffcafa634b027a/tree422c95a29fb8fe7558091826c1d1464a6d08398f passed actual Task15/offline8 and actual distinct intermediate review. Its real focused revocation experiment passed after concrete before-execution approval, with independent result acceptance; see focused-revocation-20261022-v1/ and source-18163e1-validation/. Reservation full-main CI808 is now officially terminal success; final acceptance and exact-CAS ended remote reservation cleanup are under reservation-main-final-11c3283/. Earlier pending/no-experiment paragraphs describe initial startup only.
+
+The current forward draft adds real stage TSCacheRead exports and explicit logical Slice reassembly provenance. Reviewer found exclusive-write collisions and a double-hardlink publication race in the first draft; the corrected design uses separate immutable records and atomic no-replace rename, with actual Linux filesystem regressions. Distinct independent corrected-content review accepted at2026-10-22T14:47:50Z with no mustFix; actual draft offline8/catalogue4/Linux-filesystem2 all passed. New committed-source checks remain pending. This is intermediate content, without a new matrix approval or real matrix execution.
+
+Next Implementer: finish original15 typed result assembly, combined interruption/unpublished-read/recovery proof and justified buffer measurement; preserve actual failures and use the frozen fallback if necessary. Next Reviewer: inspect the corrected actual source, boundaries and new validation; independently approve concrete source/input/resources/window before any new experiment. Prior focused approval does not apply to changed source or the whole matrix. Original15/full POC/V1/integration remain incomplete.
+
+
+Current forward change after source9c: Task15/offline14/fullCI810713/899.22s actually passed at9c; full raw matrix retained21cases/101requests/6stages with separately reviewed failures. Actual416202-byte native error and later fresh sandbox EADDRINUSE remain preserved; current-source revocation did not execute, historical TIME_WAIT is only a possible cause. All owned processes stopped and ports released. Original bulky744228584bytes stay at indexed native paths and are not qualified artifacts.
+
+The current draft repairs authorized unsatisfiable Range handling, stopped-own-port reuse, actual HTTP first-response-byte observation, and explicit warm/denial version/context binding. Actual21 regressions and distinct read-only independent content review accepted these draft bytes; no new ATS experiment, original15/buffer/qualified/integration acceptance. Next: exact new source checks/CI, then concrete new-source/source-pair/resource/window approval before rerunning the original matrix and a strictly separate fresh revocation sandbox. Preserve all prior failures; complete typed/buffer/disposal validation before requesting ordinary integration/Review/Completion.
+
+
+Current authoritative checkpoint after sourceD1: actual Task15/offline21 and official terminal CI811713/1461.80s all passed without skips. Approved D1 serial raw21case/101request/6stage investigation and a separate fresh real current-source revocation passed, with finite independent result review. See source-d1c0cf7-validation/ and raw-matrix-d1c0cf7-20261022-v2/. Older source9c failures remain actual historical failures.
+
+The current forward diagnostic draft was accepted as intermediate content at2026-10-22T15:50:44Z, with actual30 tests/no skips, missing-sandbox guard actualexit1 and strict native C++ buildactualexit0. It requires native HTTP cache readiness, explicitly disables RAM cache, fixes the owned default-freelist environment and adds bounded owned-pidfd SIGUSR1 diagnostics. A complete absolute pool table is a diagnostic subtotal, not the full media-buffer bound. No changed-source ATS experiment, measurement-domain/sample/resource approval or integration acceptance exists. Next: exact committed-source checks, concrete finite diagnostic approval, actual runtime observation; continue closing static Doc/non-pool coverage and original15/qualified results without changing frozen checks or assuming8MiB is approved.
+
+Raw stderr and two original CRLF source-research receipts are retained byte-exact using scoped binary attributes; no raw bytes or assertions were altered to satisfy whitespace checks.
+
+Source558d306 actually passed Task15/code57 and missing-sandbox guard; source was not pushed and has no fullCI. The forward controller operation adds authenticated bounded post-request snapshot access; its distinct content delta review accepted actual lab.py2f2b6a82 at2026-10-22T17:12:02Z. Current exact-source checks remain pending; no experiment ran.
+
+Exact implementation candidate inventory against synchronized main f2e0150265e0c1eeca5f69fe85708b2434e5ee79 (1499 files):
 
 - `evidence/POC-003/EVIDENCE-STRUCTURE.md`
 - `evidence/POC-003/assumptions.md`
+- `evidence/POC-003/buffer-domain-source-research/.gitattributes`
+- `evidence/POC-003/buffer-domain-source-research/allocator-independent-design-review.json`
+- `evidence/POC-003/buffer-domain-source-research/receipt.json`
+- `evidence/POC-003/buffer-domain-source-research/selected-source-comparison.json`
+- `evidence/POC-003/buffer-domain-source-research/ubuntu-source-independent-supplement.json`
+- `evidence/POC-003/buffer-observer-independent-content-review.json`
+- `evidence/POC-003/cache-stage-corrected-independent-review.json`
 - `evidence/POC-003/changed-files.md`
 - `evidence/POC-003/commands.txt`
+- `evidence/POC-003/development-buffer-observer-build/receipt.json`
+- `evidence/POC-003/development-buffer-observer-build/stderr.raw`
+- `evidence/POC-003/development-buffer-observer-build/stdout.raw`
+- `evidence/POC-003/development-buffer-observer-checks/results.json`
+- `evidence/POC-003/development-buffer-observer-checks/test_buffer_probe.py.raw`
+- `evidence/POC-003/development-buffer-observer-checks/test_buffer_probe_native.py.raw`
+- `evidence/POC-003/development-buffer-observer-checks/test_cache_probe.py.raw`
+- `evidence/POC-003/development-buffer-observer-checks/test_cache_probe_native.py.raw`
+- `evidence/POC-003/development-buffer-observer-checks/test_gateway_native.py.raw`
+- `evidence/POC-003/development-buffer-observer-checks/test_http_timing_native.py.raw`
+- `evidence/POC-003/development-buffer-observer-checks/test_lab.py.raw`
+- `evidence/POC-003/development-buffer-observer-checks/test_revocation_binding.py.raw`
+- `evidence/POC-003/development-buffer-observer-checks/test_warm_cache_revocation.py.raw`
+- `evidence/POC-003/development-cache-stage-checks/manifest.json`
+- `evidence/POC-003/development-cache-stage-checks/test_cache_probe.py.raw`
+- `evidence/POC-003/development-cache-stage-checks/test_cache_probe_native.py.raw`
+- `evidence/POC-003/development-cache-stage-checks/test_lab.py.raw`
+- `evidence/POC-003/development-checks/manifest.json`
+- `evidence/POC-003/development-checks/missing-sandbox-must-fail.txt`
+- `evidence/POC-003/development-checks/offline8.txt`
+- `evidence/POC-003/development-http-fixes-checks/v1-19/manifest.json`
+- `evidence/POC-003/development-http-fixes-checks/v1-19/test_cache_probe.py.raw`
+- `evidence/POC-003/development-http-fixes-checks/v1-19/test_cache_probe_native.py.raw`
+- `evidence/POC-003/development-http-fixes-checks/v1-19/test_gateway_native.py.raw`
+- `evidence/POC-003/development-http-fixes-checks/v1-19/test_http_timing_native.py.raw`
+- `evidence/POC-003/development-http-fixes-checks/v1-19/test_lab.py.raw`
+- `evidence/POC-003/development-http-fixes-checks/v2-21/manifest.json`
+- `evidence/POC-003/development-http-fixes-checks/v2-21/test_cache_probe.py.raw`
+- `evidence/POC-003/development-http-fixes-checks/v2-21/test_cache_probe_native.py.raw`
+- `evidence/POC-003/development-http-fixes-checks/v2-21/test_gateway_native.py.raw`
+- `evidence/POC-003/development-http-fixes-checks/v2-21/test_http_timing_native.py.raw`
+- `evidence/POC-003/development-http-fixes-checks/v2-21/test_lab.py.raw`
+- `evidence/POC-003/development-http-fixes-checks/v2-21/test_revocation_binding.py.raw`
+- `evidence/POC-003/development-observer-build/receipt.json`
+- `evidence/POC-003/development-observer-build/stderr.raw`
+- `evidence/POC-003/development-observer-build/stdout.raw`
+- `evidence/POC-003/focused-revocation-20261022-v1/.gitattributes`
+- `evidence/POC-003/focused-revocation-20261022-v1/README.md`
+- `evidence/POC-003/focused-revocation-20261022-v1/approved-config.json`
+- `evidence/POC-003/focused-revocation-20261022-v1/archive-index.json`
+- `evidence/POC-003/focused-revocation-20261022-v1/execution/controller.stderr.raw`
+- `evidence/POC-003/focused-revocation-20261022-v1/execution/controller.stdout.raw`
+- `evidence/POC-003/focused-revocation-20261022-v1/execution/execution.json`
+- `evidence/POC-003/focused-revocation-20261022-v1/execution/prepare.stderr.raw`
+- `evidence/POC-003/focused-revocation-20261022-v1/execution/prepare.stdout.raw`
+- `evidence/POC-003/focused-revocation-20261022-v1/execution/real-revocation.stderr.raw`
+- `evidence/POC-003/focused-revocation-20261022-v1/execution/real-revocation.stdout.raw`
+- `evidence/POC-003/focused-revocation-20261022-v1/independent-approval.json`
+- `evidence/POC-003/focused-revocation-20261022-v1/independent-result-review.json`
+- `evidence/POC-003/focused-revocation-20261022-v1/native-observer/cache-export-674493/events.jsonl`
+- `evidence/POC-003/focused-revocation-20261022-v1/native-observer/cache-export-674493/lookup-events.jsonl`
+- `evidence/POC-003/focused-revocation-20261022-v1/native-observer/cache-export-674493/lookups.jsonl`
+- `evidence/POC-003/focused-revocation-20261022-v1/native-observer/cache-export-674514/events.jsonl`
+- `evidence/POC-003/focused-revocation-20261022-v1/native-observer/cache-export-674514/lookup-events.jsonl`
+- `evidence/POC-003/focused-revocation-20261022-v1/native-observer/cache-export-674514/lookups.jsonl`
+- `evidence/POC-003/focused-revocation-20261022-v1/native-runtime/ats-process-memory.jsonl`
+- `evidence/POC-003/focused-revocation-20261022-v1/native-runtime/controller.jsonl`
+- `evidence/POC-003/focused-revocation-20261022-v1/native-runtime/gateway-access.jsonl`
+- `evidence/POC-003/focused-revocation-20261022-v1/native-runtime/listeners-started.json`
+- `evidence/POC-003/focused-revocation-20261022-v1/native-runtime/origin-access.jsonl`
+- `evidence/POC-003/focused-revocation-20261022-v1/native-runtime/origin-start.jsonl`
+- `evidence/POC-003/focused-revocation-20261022-v1/proposal.json`
+- `evidence/POC-003/focused-revocation-20261022-v1/raw/bodies/revocation-4f1f9599f8954d6daac7f63225811a2f.bin`
+- `evidence/POC-003/focused-revocation-20261022-v1/raw/bodies/revocation-6760b2cf6ff84165bbe111981c1cf0e1.bin`
+- `evidence/POC-003/focused-revocation-20261022-v1/raw/bodies/revocation-d801057771d447f7a1a561fc5d8992ac.bin`
+- `evidence/POC-003/focused-revocation-20261022-v1/raw/collection.json`
+- `evidence/POC-003/focused-revocation-20261022-v1/raw/controller-after.native.jsonl`
+- `evidence/POC-003/focused-revocation-20261022-v1/raw/controller-before.native.jsonl`
+- `evidence/POC-003/focused-revocation-20261022-v1/raw/export-after.native.jsonl`
+- `evidence/POC-003/focused-revocation-20261022-v1/raw/export-before.native.jsonl`
+- `evidence/POC-003/focused-revocation-20261022-v1/raw/lookup-after.native.jsonl`
+- `evidence/POC-003/focused-revocation-20261022-v1/raw/lookup-before.native.jsonl`
+- `evidence/POC-003/focused-revocation-20261022-v1/raw/observations/0001-grant-state.json`
+- `evidence/POC-003/focused-revocation-20261022-v1/raw/observations/0002-witness.json`
+- `evidence/POC-003/focused-revocation-20261022-v1/raw/observations/0003-witness.json`
+- `evidence/POC-003/focused-revocation-20261022-v1/raw/observations/0004-witness.json`
+- `evidence/POC-003/focused-revocation-20261022-v1/raw/observations/0005-witness.json`
+- `evidence/POC-003/focused-revocation-20261022-v1/raw/observations/0006-witness.json`
+- `evidence/POC-003/focused-revocation-20261022-v1/raw/observations/0007-witness.json`
+- `evidence/POC-003/focused-revocation-20261022-v1/raw/observations/0008-witness.json`
+- `evidence/POC-003/focused-revocation-20261022-v1/raw/observations/0009-witness.json`
+- `evidence/POC-003/focused-revocation-20261022-v1/raw/observations/0010-witness.json`
+- `evidence/POC-003/focused-revocation-20261022-v1/raw/observations/0011-revoke-grant.json`
+- `evidence/POC-003/focused-revocation-20261022-v1/raw/observations/0012-witness.json`
+- `evidence/POC-003/focused-revocation-20261022-v1/raw/observations/0013-witness.json`
+- `evidence/POC-003/focused-revocation-20261022-v1/raw/observations/0014-witness.json`
+- `evidence/POC-003/focused-revocation-20261022-v1/raw/observations/0015-witness.json`
+- `evidence/POC-003/focused-revocation-20261022-v1/raw/observations/0016-witness.json`
+- `evidence/POC-003/focused-revocation-20261022-v1/raw/observations/0017-witness.json`
+- `evidence/POC-003/focused-revocation-20261022-v1/raw/observations/request-4f1f9599f8954d6daac7f63225811a2f.json`
+- `evidence/POC-003/focused-revocation-20261022-v1/raw/observations/request-6760b2cf6ff84165bbe111981c1cf0e1.json`
+- `evidence/POC-003/focused-revocation-20261022-v1/raw/observations/request-d801057771d447f7a1a561fc5d8992ac.json`
+- `evidence/POC-003/focused-revocation-20261022-v1/raw/post-denial-control.body.bin`
+- `evidence/POC-003/focused-revocation-20261022-v1/raw/revocation-result.json`
+- `evidence/POC-003/focused-revocation-20261022-v1/resource-configuration.yaml`
+- `evidence/POC-003/focused-revocation-20261022-v1/runtime-public-facts.json`
+- `evidence/POC-003/focused-revocation-20261022-v1/sample-base-approval.yaml`
+- `evidence/POC-003/focused-revocation-20261022-v1/sample-changedVersion-approval.yaml`
 - `evidence/POC-003/follow-ups.md`
 - `evidence/POC-003/handoff.md`
-- `evidence/POC-003/planning-completion-main-acceptance.json`
+- `evidence/POC-003/http-fixes-independent-review.json`
+- `evidence/POC-003/implementation-input-provenance.json`
+- `evidence/POC-003/instrumented-build-v4-preparation/.gitattributes`
+- `evidence/POC-003/instrumented-build-v4-preparation/README.md`
+- `evidence/POC-003/instrumented-build-v4-preparation/compile-v1/autoreconf.stderr.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/compile-v1/autoreconf.stdout.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/compile-v1/configure.stderr.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/compile-v1/configure.stdout.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/compile-v1/receipt.json`
+- `evidence/POC-003/instrumented-build-v4-preparation/compile-v2/autoreconf.stderr.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/compile-v2/autoreconf.stdout.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/compile-v2/configure.stderr.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/compile-v2/configure.stdout.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/compile-v2/receipt.json`
+- `evidence/POC-003/instrumented-build-v4-preparation/compile-v3/autoreconf.stderr.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/compile-v3/autoreconf.stdout.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/compile-v3/configure.stderr.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/compile-v3/configure.stdout.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/compile-v3/make.stderr.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/compile-v3/make.stdout.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/compile-v3/receipt.json`
+- `evidence/POC-003/instrumented-build-v4-preparation/compile-v4/autoreconf.stderr.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/compile-v4/autoreconf.stdout.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/compile-v4/configure.stderr.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/compile-v4/configure.stdout.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/compile-v4/install.stderr.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/compile-v4/install.stdout.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/compile-v4/make.stderr.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/compile-v4/make.stdout.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/compile-v4/receipt.json`
+- `evidence/POC-003/instrumented-build-v4-preparation/index.json`
+- `evidence/POC-003/instrumented-build-v4-preparation/instrumentation-preparation.json`
+- `evidence/POC-003/instrumented-build-v4-preparation/live-observer-build-v1/receipt.json`
+- `evidence/POC-003/instrumented-build-v4-preparation/live-observer-build-v1/stderr.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/live-observer-build-v1/stdout.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/poc003-live-accounting-sticky-external-independent-content-review.json`
+- `evidence/POC-003/instrumented-build-v4-preparation/poc003-live-accounting-v3-independent-rejection.json`
+- `evidence/POC-003/instrumented-build-v4-preparation/poc003-live-buffer-probe-v1-test-transcript.json`
+- `evidence/POC-003/instrumented-build-v4-preparation/poc003-live-ledger-draft-checks-v2/build.stderr.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/poc003-live-ledger-draft-checks-v2/build.stdout.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/poc003-live-ledger-draft-checks-v2/results.json`
+- `evidence/POC-003/instrumented-build-v4-preparation/poc003-live-ledger-draft-checks-v2/tests.stderr.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/poc003-live-ledger-draft-checks-v2/tests.stdout.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/poc003-live-ledger-draft-checks-v3/build.stderr.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/poc003-live-ledger-draft-checks-v3/build.stdout.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/poc003-live-ledger-draft-checks-v3/results.json`
+- `evidence/POC-003/instrumented-build-v4-preparation/poc003-live-ledger-draft-checks-v3/tests.stderr.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/poc003-live-ledger-draft-checks-v3/tests.stdout.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/poc003-native-build-tool-preparation-v1/installed-packages.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/poc003-native-build-tool-preparation-v1/receipt.json`
+- `evidence/POC-003/instrumented-build-v4-preparation/poc003-native-build-tool-preparation-v1/stderr.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/poc003-native-build-tool-preparation-v1/stdout.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/poc003-native-build-tool-preparation-v2/installed-packages.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/poc003-native-build-tool-preparation-v2/receipt.json`
+- `evidence/POC-003/instrumented-build-v4-preparation/poc003-native-build-tool-preparation-v2/stderr.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/poc003-native-build-tool-preparation-v2/stdout.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/rejected-draft-v3/ats-live-buffer-accounting.patch`
+- `evidence/POC-003/instrumented-build-v4-preparation/rejected-draft-v3/live_buffer_accounting.h`
+- `evidence/POC-003/instrumented-build-v4-preparation/rejected-draft-v3/patch-manifest.json`
+- `evidence/POC-003/instrumented-build-v4-preparation/rejected-draft-v3/test_live_buffer_accounting.cc`
+- `evidence/POC-003/instrumented-build-v4-preparation/runtime-validation-v1/core-symbols.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/runtime-validation-v1/ldd-0.stderr.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/runtime-validation-v1/ldd-0.stdout.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/runtime-validation-v1/ldd-1.stderr.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/runtime-validation-v1/ldd-1.stdout.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/runtime-validation-v1/ldd-2.stderr.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/runtime-validation-v1/ldd-2.stdout.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/runtime-validation-v1/ldd-3.stderr.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/runtime-validation-v1/ldd-3.stdout.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/runtime-validation-v1/ldd-4.stderr.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/runtime-validation-v1/ldd-4.stdout.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/runtime-validation-v1/receipt.json`
+- `evidence/POC-003/instrumented-build-v4-preparation/runtime-validation-v1/version.stderr.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/runtime-validation-v1/version.stdout.raw`
+- `evidence/POC-003/instrumented-build-v4-preparation/source-preparation.json`
+- `evidence/POC-003/live-control-independent-content-review.json`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/.gitattributes`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/README.md`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/collect_poc003_instrumented_live_diagnostic.py`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/execution/controller.stderr.raw`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/execution/controller.stdout.raw`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/execution/execution.json`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/execution/prepare.stderr.raw`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/execution/prepare.stdout.raw`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/index.json`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/poc003-live-diagnostic-config-v1.json`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/poc003-live-diagnostic-independent-approval-v1.json`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/poc003-live-diagnostic-proposal-v1.json`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/poc003-live-diagnostic-v1-independent-result-review.json`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/run/cache-observer/cache-export-765244/events.jsonl`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/run/cache-observer/cache-export-765244/lookup-events.jsonl`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/run/cache-observer/cache-export-765244/lookups.jsonl`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/run/cache-observer/cache-export-765265/cache-ready.json`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/run/cache-observer/cache-export-765265/events.jsonl`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/run/cache-observer/cache-export-765265/lookup-events.jsonl`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/run/cache-observer/cache-export-765265/lookups.jsonl`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/run/cache-observer/live-buffer-765244.jsonl`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/run/cache-observer/live-buffer-765265.jsonl`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/run/commands/verify-config.stderr.raw`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/run/commands/verify-config.stdout.raw`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/run/controller.jsonl`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/run/log/.diags.log.meta`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/run/log/ats-0.stderr.raw`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/run/log/ats-0.stdout.raw`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/run/log/diags.log`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/run/owner.json`
+- `evidence/POC-003/live-diagnostic-e1231a8-20261023-v1-failed/run_poc003_approved_live_diagnostic_once.py`
+- `evidence/POC-003/live-mapping-repair-independent-content-review.json`
+- `evidence/POC-003/live-observer-wiring-independent-content-review.json`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/.gitattributes`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/README.md`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/archive-index.json`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/collect_poc003_native_pool_diagnostic.py`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/execution/controller.stderr.raw`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/execution/controller.stdout.raw`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/execution/execution.json`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/execution/experiment.stderr.raw`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/execution/experiment.stdout.raw`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/execution/prepare.stderr.raw`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/execution/prepare.stdout.raw`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/independent-result-review.json`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/poc003-pool-diagnostic-config-v1.json`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/poc003-pool-diagnostic-independent-approval-v2.json`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/poc003-pool-diagnostic-proposal-v1.json`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/poc003-pool-diagnostic-proposal-v2.json`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/poc003-pool-diagnostic-v1-independent-rejection.json`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/rawOutputDir/collection.json`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/rawOutputDir/observations/0001-snapshot.json`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/rawOutputDir/observations/0002-allocator-dump.json`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/rawOutputDir/observations/0003-witness.json`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/rawOutputDir/observations/0004-witness.json`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/rawOutputDir/observations/0005-witness.json`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/rawOutputDir/observations/0006-witness.json`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/rawOutputDir/observations/0007-allocator-dump.json`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/rawOutputDir/observations/0008-witness.json`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/rawOutputDir/observations/0009-witness.json`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/rawOutputDir/observations/0010-witness.json`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/rawOutputDir/observations/0011-witness.json`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/rawOutputDir/observations/0012-allocator-dump.json`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/rawOutputDir/observations/request-407158d7fdf4403498ec232669fd0ad9.json`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/rawOutputDir/observations/request-d4a0e6a613e44463b1dd302dc34783ff.json`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/runDir/allocator-dump-0/diagnostic.json`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/runDir/allocator-dump-0/stderr-interval.raw`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/runDir/allocator-dump-1/diagnostic.json`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/runDir/allocator-dump-1/stderr-interval.raw`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/runDir/allocator-dump-2/diagnostic.json`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/runDir/allocator-dump-2/stderr-interval.raw`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/runDir/ats-process-memory.jsonl`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/runDir/cache-observer/cache-export-688889/events.jsonl`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/runDir/cache-observer/cache-export-688889/lookup-events.jsonl`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/runDir/cache-observer/cache-export-688889/lookups.jsonl`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/runDir/cache-observer/cache-export-688910/cache-ready.json`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/runDir/cache-observer/cache-export-688910/events.jsonl`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/runDir/cache-observer/cache-export-688910/lookup-events.jsonl`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/runDir/cache-observer/cache-export-688910/lookups.jsonl`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/runDir/commands/verify-config.stderr.raw`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/runDir/commands/verify-config.stdout.raw`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/runDir/controller.jsonl`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/runDir/gateway-access.jsonl`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/runDir/listeners-started.json`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/runDir/log/.diags.log.meta`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/runDir/log/.squid.blog.meta`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/runDir/log/ats-0.stderr.raw`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/runDir/log/ats-0.stdout.raw`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/runDir/log/diags.log`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/runDir/log/squid.blog_RuifengSu.20261022.23h59m55s-20261023.00h00m00s.old`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/runDir/origin-access.jsonl`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/runDir/owner.json`
+- `evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/run_poc003_approved_pool_diagnostic_once.py`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/archive-index.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/execution/execution.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/execution/matrix-controller.stderr.raw`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/execution/matrix-controller.stdout.raw`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/execution/matrix-experiment.stderr.raw`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/execution/matrix-experiment.stdout.raw`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/execution/matrix-prepare.stderr.raw`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/execution/matrix-prepare.stdout.raw`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/execution/revocation-controller.stderr.raw`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/execution/revocation-controller.stdout.raw`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/execution/revocation-prepare.stderr.raw`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/execution/revocation-prepare.stdout.raw`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/independent-result-review.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/cache-stage-before/catalogue.before.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/cache-stage-before/events.before.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/cache-stage-before/native-stage.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/cache-stage-before/origin-access.jsonl.after`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/cache-stage-before/origin-access.jsonl.before`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/cache-stage-before/origin-start.jsonl.after`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/cache-stage-before/origin-start.jsonl.before`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/cache-stage-before/stage.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/cache-stage-before/stage.started.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/cache-stage-cleanup/catalogue.before.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/cache-stage-cleanup/events.before.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/cache-stage-cleanup/native-stage.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/cache-stage-cleanup/origin-access.jsonl.after`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/cache-stage-cleanup/origin-access.jsonl.before`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/cache-stage-cleanup/origin-start.jsonl.after`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/cache-stage-cleanup/origin-start.jsonl.before`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/cache-stage-cleanup/stage.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/cache-stage-cleanup/stage.started.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/cache-stage-filled/catalogue.before.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/cache-stage-filled/events.after.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/cache-stage-filled/events.before.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/cache-stage-filled/native-stage.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/cache-stage-filled/origin-access.jsonl.after`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/cache-stage-filled/origin-access.jsonl.before`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/cache-stage-filled/origin-start.jsonl.after`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/cache-stage-filled/origin-start.jsonl.before`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/cache-stage-filled/request.txt`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/cache-stage-filled/results.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/cache-stage-filled/stage.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/cache-stage-filled/stage.started.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/cache-stage-interrupted/catalogue.before.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/cache-stage-interrupted/events.after.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/cache-stage-interrupted/events.before.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/cache-stage-interrupted/native-stage.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/cache-stage-interrupted/origin-access.jsonl.after`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/cache-stage-interrupted/origin-access.jsonl.before`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/cache-stage-interrupted/origin-start.jsonl.after`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/cache-stage-interrupted/origin-start.jsonl.before`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/cache-stage-interrupted/request.txt`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/cache-stage-interrupted/results.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/cache-stage-interrupted/stage.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/cache-stage-interrupted/stage.started.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/cache-stage-recovered/catalogue.before.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/cache-stage-recovered/events.after.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/cache-stage-recovered/events.before.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/cache-stage-recovered/native-stage.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/cache-stage-recovered/origin-access.jsonl.after`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/cache-stage-recovered/origin-access.jsonl.before`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/cache-stage-recovered/origin-start.jsonl.after`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/cache-stage-recovered/origin-start.jsonl.before`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/cache-stage-recovered/request.txt`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/cache-stage-recovered/results.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/cache-stage-recovered/stage.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/cache-stage-recovered/stage.started.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/cache-stage-updated/catalogue.before.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/cache-stage-updated/events.after.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/cache-stage-updated/events.before.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/cache-stage-updated/native-stage.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/cache-stage-updated/origin-access.jsonl.after`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/cache-stage-updated/origin-access.jsonl.before`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/cache-stage-updated/origin-start.jsonl.after`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/cache-stage-updated/origin-start.jsonl.before`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/cache-stage-updated/request.txt`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/cache-stage-updated/results.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/cache-stage-updated/stage.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/cache-stage-updated/stage.started.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/collection.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0001-clear-cache.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0002-version.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0003-fault.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0004-snapshot.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0005-snapshot.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0006-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0007-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0008-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0009-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0010-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0011-clear-cache.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0012-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0013-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0014-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0015-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0016-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0017-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0018-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0019-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0020-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0021-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0022-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0023-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0024-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0025-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0026-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0027-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0028-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0029-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0030-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0031-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0032-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0033-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0034-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0035-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0036-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0037-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0038-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0039-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0040-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0041-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0042-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0043-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0044-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0045-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0046-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0047-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0048-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0049-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0050-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0051-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0052-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0053-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0054-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0055-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0056-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0057-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0058-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0059-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0060-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0061-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0062-snapshot.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0063-snapshot.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0064-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0065-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0066-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0067-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0068-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0069-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0070-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0071-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0072-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0073-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0074-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0075-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0076-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0077-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0078-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0079-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0080-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0081-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0082-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0083-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0084-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0085-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0086-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0087-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0088-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0089-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0090-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0091-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0092-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0093-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0094-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0095-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0096-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0097-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0098-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0099-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0100-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0101-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0102-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0103-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0104-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0105-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0106-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0107-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0108-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0109-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0110-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0111-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0112-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0113-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0114-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0115-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0116-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0117-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0118-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0119-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0120-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0121-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0122-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0123-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0124-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0125-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0126-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0127-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0128-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0129-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0130-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0131-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0132-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0133-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0134-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0135-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0136-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0137-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0138-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0139-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0140-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0141-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0142-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0143-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0144-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0145-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0146-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0147-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0148-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0149-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0150-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0151-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0152-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0153-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0154-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0155-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0156-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0157-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0158-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0159-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0160-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0161-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0162-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0163-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0164-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0165-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0166-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0167-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0168-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0169-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0170-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0171-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0172-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0173-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0174-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0175-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0176-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0177-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0178-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0179-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0180-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0181-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0182-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0183-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0184-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0185-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0186-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0187-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0188-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0189-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0190-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0191-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0192-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0193-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0194-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0195-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0196-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0197-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0198-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0199-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0200-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0201-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0202-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0203-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0204-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0205-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0206-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0207-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0208-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0209-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0210-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0211-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0212-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0213-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0214-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0215-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0216-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0217-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0218-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0219-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0220-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0221-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0222-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0223-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0224-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0225-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0226-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0227-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0228-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0229-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0230-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0231-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0232-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0233-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0234-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0235-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0236-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0237-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0238-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0239-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0240-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0241-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0242-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0243-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0244-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0245-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0246-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0247-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0248-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0249-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0250-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0251-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0252-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0253-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0254-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0255-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0256-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0257-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0258-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0259-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0260-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0261-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0262-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0263-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0264-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0265-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0266-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0267-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0268-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0269-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0270-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0271-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0272-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0273-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0274-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0275-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0276-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0277-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0278-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0279-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0280-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0281-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0282-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0283-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0284-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0285-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0286-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0287-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0288-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0289-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0290-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0291-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0292-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0293-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0294-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0295-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0296-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0297-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0298-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0299-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0300-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0301-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0302-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0303-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0304-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0305-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0306-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0307-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0308-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0309-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0310-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0311-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0312-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0313-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0314-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0315-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0316-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0317-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0318-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0319-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0320-clear-cache.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0321-fault.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0322-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0323-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0324-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0325-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0326-snapshot.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0327-snapshot.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0328-fault.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0329-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0330-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0331-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0332-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0333-fault.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0334-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0335-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0336-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0337-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0338-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0339-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0340-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0341-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0342-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0343-snapshot.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0344-snapshot.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0345-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0346-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0347-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0348-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0349-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0350-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0351-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0352-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0353-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0354-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0355-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0356-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0357-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0358-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0359-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0360-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0361-clear-cache.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0362-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0363-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0364-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0365-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0366-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0367-clear-cache.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0368-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0369-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0370-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0371-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0372-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0373-clear-cache.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0374-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0375-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0376-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0377-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0378-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0379-clear-cache.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0380-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0381-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0382-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0383-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0384-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0385-clear-cache.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0386-fault.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0387-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0388-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0389-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0390-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0391-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0392-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0393-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0394-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0395-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0396-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0397-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0398-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0399-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0400-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0401-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0402-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0403-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0404-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0405-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0406-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0407-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0408-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0409-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0410-fault.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0411-clear-cache.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0412-fault.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0413-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0414-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0415-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0416-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0417-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0418-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0419-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0420-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0421-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0422-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0423-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0424-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0425-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0426-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0427-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0428-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0429-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0430-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0431-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0432-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0433-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0434-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0435-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0436-fault.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0437-clear-cache.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0438-fault.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0439-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0440-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0441-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0442-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0443-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0444-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0445-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0446-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0447-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0448-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0449-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0450-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0451-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0452-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0453-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0454-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0455-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0456-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0457-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0458-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0459-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0460-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0461-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0462-fault.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0463-clear-cache.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0464-fault.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0465-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0466-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0467-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0468-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0469-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0470-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0471-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0472-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0473-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0474-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0475-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0476-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0477-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0478-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0479-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0480-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0481-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0482-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0483-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0484-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0485-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0486-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0487-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0488-fault.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0489-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0490-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0491-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0492-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0493-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0494-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0495-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0496-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0497-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0498-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0499-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0500-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0501-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0502-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0503-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0504-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0505-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0506-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0507-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0508-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0509-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0510-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0511-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0512-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0513-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0514-version.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0515-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0516-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0517-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0518-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0519-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0520-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0521-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0522-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0523-witness.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0524-snapshot.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0525-snapshot.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0526-clear-cache.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0527-snapshot.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/0528-snapshot.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-068d1d43faa848518c14824bad85b7b3.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-06902178b8634714815118e9d48701fe.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-0699bd52f95d4cdcab507fda4b1bfa7f.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-08d417a28afa4523a82810af33bbda69.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-0ae8fa6a031f4ffbad2d45dd718d73de.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-0f8ba3f5cc5e48bca010db58f3e8603c.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-12dcf4880dbd4b07909b5521c7e88ff0.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-156a7f8c4e6a4aeaaff3b7f54ae2afff.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-158e4ce072e94b3b93f99ea4979b49e9.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-1a0cc67f5a7b4af695601dc3334af7dc.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-1d89b627714c4aab9d1f6e812967f332.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-1f825a5272754bd49b8a9b58adb0abb8.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-20e6237361ae4d428d2c306250c1edc8.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-257603b53ad645c0939fbe81a5e9e99d.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-278279517c7e43d59875b4f6ce3a17f0.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-28426e31c7a541a88d7d9ab1b5aa936b.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-2aa17e9cf23f4e7e8dc9bdf5dc021f10.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-2aedfc04cd6b47b38f36826fb5b1b7a0.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-2bbe5437eae74e8bbddc147c8b07caef.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-2bf53262092e4700b232839d55668d41.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-2c1fd60c07a64482a018fcdd0d139b03.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-2d43d343922e4b20b8fe56bbd471911e.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-2e4ac1ba40b34dd6a31f04e5ddced5e8.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-33b0652ed50b421b968eaf447590fae4.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-3447cf9aabc44a6ba55e73b9b231da61.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-3a918dab11484663a2a733bbe891a365.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-3b00fd1ae9b149058a09483a578ff02f.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-3b8aff45421f41129f8c349053ece903.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-3edc7e83d190417db01dc24adc87d5a0.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-41293ead845348ef80e7df37c7791fc3.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-42f33cf249b6441b990a3e49aca7474d.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-44bad725dcc54ce485016b1a4f4e56e6.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-45ce0ac0d1da4e448af0d79fa9cb2282.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-46288f90bd9a4f8e868f265fbb748abe.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-489acc82e9714fb692ba51421c870ea5.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-53ae523c7e6647019c3360759d562d40.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-54f259a7efd944b1a4d49468362757c9.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-551e078043184dc293cba3c4f2f914fc.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-568a1e2c9c7b495092ed08b9d6d1aee0.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-59362097616a4cf0a33b4e6cee0affd4.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-59c1a10b0a29407b8af8118ec042c3c9.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-5e228d9b9d8f4b48a0547b7e4f223868.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-5f0fd55779f14d04904780a95c44eccb.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-5f4855bb9f5842ac83c3c8a35fc9ac81.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-5fb3c90c30a74959befa91190998382a.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-60af511f091a481f872ab7bc4793b854.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-62e08b64effb4c72874ede36afac08e5.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-62e45e1426dd4df685a9a143f1c3f540.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-645d0b1507f44418bd62dca33215e2c0.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-6c275e98ba534d90a0217836cb66208d.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-703f1ca9b20a4d5f9a9d53272d525fa2.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-764f832fe8fc4cf4bf4738e5e3c94539.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-7a3a023e40b14bc8b11490a8258fc6a5.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-7b69591b88b04ee58fce3a53f6fcaf49.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-7d360d53064c450c934cb6e9b9392802.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-85a498839e86415abd8ca318369956f5.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-89ba490668884d50afc73535f7ebfc0e.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-8bd00f109046485e8a9ce1d80fb4a6f9.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-8e7c913b1b364fb8b4b3dc5fd2591901.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-92b3a3031eb64e6295f16fa8b31ec4fb.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-9464c9d8693c4f6e924f8cae2434a1fe.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-94b37c339c07497083515ce4b921ba73.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-952aad0ad51149b08e1f499882bbba56.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-95800524931940278e9d2fafb8ccf5ac.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-9743494094d14304b71749b4eca067ab.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-97dc76469619410692ac6900ee2da8ce.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-9d1712824d9040ff81b8e5ef4d2d9fd5.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-9e6c1a1d057c4bc1b9af9adb6fe4055c.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-9f80867398454630b04b39c69c60550e.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-a0f8be43917849758760d1fad45c61d9.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-a39fcda5c9574d4eb3ccba6321819af3.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-a3c4cab41a924aa0bda7a164e9692ae1.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-a8b48d32e7d94465aad49148c2a1cbe3.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-a8d0429e578d48508edbb3e3feb4a3f2.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-abe0013669164a2eb7b75af3ed2c75db.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-ac6fd6c4b13246a1863a6789002fe018.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-ad382b735308487387b3a6e7a0b37b93.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-b5b77c8b8d374b13924c22035db6ffe2.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-ba7f67786f914700b357f8fe1eb7e191.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-bbb67cf5f5f8460598286012e8052edb.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-c65d5722ecac4b07a0d3b15b875f6f82.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-c738f8e2d908434aa0e2ef929ab121ac.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-cbc0db888e92454eb6e85b512bd12d69.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-cfb221c9edc14eff84d86eacf44e2b52.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-d2c13397ddf24ffa8ed06555e75c7ebf.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-d7632a4dae7a44e693d70692a0f7f460.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-d77b4192965f40c7ab3790fc4c1dbb63.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-dafccf3c13364d73a667d796dcbe888b.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-e1ea91efd5ed42acb4df9d91efc4f72d.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-e546794be9ea46c98d4ed50b7b140ed8.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-e734d197571e49aaa4c2e1fcf33511a3.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-e998c989d46048118ed76927e6dfe9e0.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-eedb4ee56edc4bccb2df2d80aa2becf8.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-f0ab478bcc0a4334bd38cd3570b3d3f9.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-f36dcb0e06ef41fcb3ac6af970ca7aba.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-f645d1cd98a4442f9847248442a068b8.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-f660aba266874de9b7e27b7dd3fccfff.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-f682ba61dec642d7a5d1d08417015cef.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-f97c0ff562384d0fbde8944ba174bb8e.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-fcc81c8c2932448bb0062ee483eb49b6.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/matrix-public-metadata/observations/request-febbd936723541eb90c437b297efd9bb.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/poc003-current-raw-matrix-config.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/poc003-current-raw-matrix-proposal-v2.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/poc003-current-raw-matrix-proposal.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/poc003-current-raw-matrix-v1-independent-rejection.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/poc003-current-raw-matrix-v2-independent-approval.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/revocationRunDir/controller.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/revocationRunDir/native-observer/cache-export-679515/events.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/revocationRunDir/native-observer/cache-export-679515/lookup-events.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/revocationRunDir/native-observer/cache-export-679515/lookups.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/runDir/ats-process-memory.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/runDir/controller.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/runDir/gateway-access.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/runDir/listeners-started.json`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/runDir/native-observer/cache-export-678283/events.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/runDir/native-observer/cache-export-678283/lookup-events.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/runDir/native-observer/cache-export-678283/lookups.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/runDir/native-observer/cache-export-678304/events.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/runDir/native-observer/cache-export-678304/lookup-events.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/runDir/native-observer/cache-export-678304/lookups.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/runDir/native-observer/cache-export-678351/events.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/runDir/native-observer/cache-export-678351/lookup-events.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/runDir/native-observer/cache-export-678351/lookups.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/runDir/native-observer/cache-export-678407/events.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/runDir/native-observer/cache-export-678407/lookup-events.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/runDir/native-observer/cache-export-678407/lookups.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/runDir/native-observer/cache-export-678407/request-stage-846d00c8d9b84ebeb67010a5/request.txt`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/runDir/native-observer/cache-export-678407/request-stage-846d00c8d9b84ebeb67010a5/results.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/runDir/native-observer/cache-export-678838/events.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/runDir/native-observer/cache-export-678838/lookup-events.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/runDir/native-observer/cache-export-678838/lookups.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/runDir/native-observer/cache-export-678838/request-stage-d58aef93e1644be2a295a56e/request.txt`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/runDir/native-observer/cache-export-678838/request-stage-d58aef93e1644be2a295a56e/results.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/runDir/native-observer/cache-export-678838/request-stage-f4edae604e7d427db9d4af6b/request.txt`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/runDir/native-observer/cache-export-678838/request-stage-f4edae604e7d427db9d4af6b/results.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/runDir/native-observer/cache-export-678937/events.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/runDir/native-observer/cache-export-678937/lookup-events.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/runDir/native-observer/cache-export-678937/lookups.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/runDir/native-observer/cache-export-678989/events.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/runDir/native-observer/cache-export-678989/lookup-events.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/runDir/native-observer/cache-export-678989/lookups.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/runDir/native-observer/cache-export-679041/events.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/runDir/native-observer/cache-export-679041/lookup-events.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/runDir/native-observer/cache-export-679041/lookups.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/runDir/native-observer/cache-export-679093/events.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/runDir/native-observer/cache-export-679093/lookup-events.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/runDir/native-observer/cache-export-679093/lookups.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/runDir/native-observer/cache-export-679145/events.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/runDir/native-observer/cache-export-679145/lookup-events.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/runDir/native-observer/cache-export-679145/lookups.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/runDir/native-observer/cache-export-679217/events.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/runDir/native-observer/cache-export-679217/lookup-events.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/runDir/native-observer/cache-export-679217/lookups.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/runDir/native-observer/cache-export-679295/events.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/runDir/native-observer/cache-export-679295/lookup-events.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/runDir/native-observer/cache-export-679295/lookups.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/runDir/native-observer/cache-export-679367/events.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/runDir/native-observer/cache-export-679367/lookup-events.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/runDir/native-observer/cache-export-679367/lookups.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/runDir/native-observer/cache-export-679367/request-stage-55fd72743f2f453eb2c208af/request.txt`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/runDir/native-observer/cache-export-679367/request-stage-55fd72743f2f453eb2c208af/results.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/runDir/native-observer/cache-export-679492/events.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/runDir/native-observer/cache-export-679492/lookup-events.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/runDir/native-observer/cache-export-679492/lookups.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/runDir/origin-access.jsonl`
+- `evidence/POC-003/raw-matrix-9c012b4-20261022-v1/runDir/origin-start.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/.gitattributes`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/archive-index.json`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/execution/execution.json`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/execution/matrix-controller.stderr.raw`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/execution/matrix-controller.stdout.raw`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/execution/matrix-experiment.stderr.raw`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/execution/matrix-experiment.stdout.raw`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/execution/matrix-prepare.stderr.raw`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/execution/matrix-prepare.stdout.raw`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/execution/revocation-controller.stderr.raw`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/execution/revocation-controller.stdout.raw`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/execution/revocation-experiment.stderr.raw`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/execution/revocation-experiment.stdout.raw`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/execution/revocation-prepare.stderr.raw`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/execution/revocation-prepare.stdout.raw`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/independent-result-review.json`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/poc003-current-raw-matrix-config.json`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/poc003-current-raw-matrix-proposal-v3.json`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/poc003-current-raw-matrix-v3-independent-approval.json`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/rawOutputDir/cache-stage-before/catalogue.before.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/rawOutputDir/cache-stage-before/events.before.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/rawOutputDir/cache-stage-before/native-stage.json`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/rawOutputDir/cache-stage-before/origin-access.jsonl.after`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/rawOutputDir/cache-stage-before/origin-access.jsonl.before`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/rawOutputDir/cache-stage-before/origin-start.jsonl.after`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/rawOutputDir/cache-stage-before/origin-start.jsonl.before`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/rawOutputDir/cache-stage-before/stage.json`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/rawOutputDir/cache-stage-before/stage.started.json`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/rawOutputDir/cache-stage-cleanup/catalogue.before.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/rawOutputDir/cache-stage-cleanup/events.before.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/rawOutputDir/cache-stage-cleanup/native-stage.json`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/rawOutputDir/cache-stage-cleanup/origin-access.jsonl.after`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/rawOutputDir/cache-stage-cleanup/origin-access.jsonl.before`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/rawOutputDir/cache-stage-cleanup/origin-start.jsonl.after`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/rawOutputDir/cache-stage-cleanup/origin-start.jsonl.before`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/rawOutputDir/cache-stage-cleanup/stage.json`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/rawOutputDir/cache-stage-cleanup/stage.started.json`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/rawOutputDir/cache-stage-filled/catalogue.before.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/rawOutputDir/cache-stage-filled/events.after.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/rawOutputDir/cache-stage-filled/events.before.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/rawOutputDir/cache-stage-filled/native-stage.json`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/rawOutputDir/cache-stage-filled/origin-access.jsonl.after`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/rawOutputDir/cache-stage-filled/origin-access.jsonl.before`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/rawOutputDir/cache-stage-filled/origin-start.jsonl.after`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/rawOutputDir/cache-stage-filled/origin-start.jsonl.before`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/rawOutputDir/cache-stage-filled/request.txt`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/rawOutputDir/cache-stage-filled/results.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/rawOutputDir/cache-stage-filled/stage.json`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/rawOutputDir/cache-stage-filled/stage.started.json`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/rawOutputDir/cache-stage-interrupted/catalogue.before.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/rawOutputDir/cache-stage-interrupted/events.after.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/rawOutputDir/cache-stage-interrupted/events.before.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/rawOutputDir/cache-stage-interrupted/native-stage.json`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/rawOutputDir/cache-stage-interrupted/origin-access.jsonl.after`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/rawOutputDir/cache-stage-interrupted/origin-access.jsonl.before`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/rawOutputDir/cache-stage-interrupted/origin-start.jsonl.after`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/rawOutputDir/cache-stage-interrupted/origin-start.jsonl.before`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/rawOutputDir/cache-stage-interrupted/request.txt`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/rawOutputDir/cache-stage-interrupted/results.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/rawOutputDir/cache-stage-interrupted/stage.json`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/rawOutputDir/cache-stage-interrupted/stage.started.json`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/rawOutputDir/cache-stage-recovered/catalogue.before.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/rawOutputDir/cache-stage-recovered/events.after.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/rawOutputDir/cache-stage-recovered/events.before.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/rawOutputDir/cache-stage-recovered/native-stage.json`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/rawOutputDir/cache-stage-recovered/origin-access.jsonl.after`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/rawOutputDir/cache-stage-recovered/origin-access.jsonl.before`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/rawOutputDir/cache-stage-recovered/origin-start.jsonl.after`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/rawOutputDir/cache-stage-recovered/origin-start.jsonl.before`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/rawOutputDir/cache-stage-recovered/request.txt`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/rawOutputDir/cache-stage-recovered/results.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/rawOutputDir/cache-stage-recovered/stage.json`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/rawOutputDir/cache-stage-recovered/stage.started.json`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/rawOutputDir/cache-stage-updated/catalogue.before.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/rawOutputDir/cache-stage-updated/events.after.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/rawOutputDir/cache-stage-updated/events.before.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/rawOutputDir/cache-stage-updated/native-stage.json`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/rawOutputDir/cache-stage-updated/origin-access.jsonl.after`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/rawOutputDir/cache-stage-updated/origin-access.jsonl.before`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/rawOutputDir/cache-stage-updated/origin-start.jsonl.after`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/rawOutputDir/cache-stage-updated/origin-start.jsonl.before`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/rawOutputDir/cache-stage-updated/request.txt`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/rawOutputDir/cache-stage-updated/results.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/rawOutputDir/cache-stage-updated/stage.json`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/rawOutputDir/cache-stage-updated/stage.started.json`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/rawOutputDir/collection.json`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/revocationOutputDir/bodies/revocation-39167ea62d25461cb2a98a7bd0cfb734.bin`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/revocationOutputDir/bodies/revocation-674b4c791c164638ba153f92e5a434b9.bin`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/revocationOutputDir/bodies/revocation-e0b9fc36fc034bb98b92a371e3328649.bin`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/revocationOutputDir/collection.json`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/revocationOutputDir/controller-after.native.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/revocationOutputDir/controller-before.native.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/revocationOutputDir/export-after.native.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/revocationOutputDir/export-before.native.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/revocationOutputDir/lookup-after.native.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/revocationOutputDir/lookup-before.native.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/revocationOutputDir/observations/0001-snapshot.json`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/revocationOutputDir/observations/0002-grant-state.json`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/revocationOutputDir/observations/0003-witness.json`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/revocationOutputDir/observations/0004-witness.json`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/revocationOutputDir/observations/0005-witness.json`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/revocationOutputDir/observations/0006-witness.json`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/revocationOutputDir/observations/0007-witness.json`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/revocationOutputDir/observations/0008-witness.json`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/revocationOutputDir/observations/0009-witness.json`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/revocationOutputDir/observations/0010-witness.json`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/revocationOutputDir/observations/0011-witness.json`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/revocationOutputDir/observations/0012-revoke-grant.json`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/revocationOutputDir/observations/0013-witness.json`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/revocationOutputDir/observations/0014-witness.json`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/revocationOutputDir/observations/0015-witness.json`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/revocationOutputDir/observations/0016-witness.json`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/revocationOutputDir/observations/0017-witness.json`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/revocationOutputDir/observations/0018-witness.json`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/revocationOutputDir/observations/request-39167ea62d25461cb2a98a7bd0cfb734.json`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/revocationOutputDir/observations/request-674b4c791c164638ba153f92e5a434b9.json`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/revocationOutputDir/observations/request-e0b9fc36fc034bb98b92a371e3328649.json`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/revocationOutputDir/post-denial-control.body.bin`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/revocationOutputDir/revocation-result.json`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/revocationRunDir/ats-process-memory.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/revocationRunDir/cache-observer/cache-export-684713/events.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/revocationRunDir/cache-observer/cache-export-684713/lookup-events.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/revocationRunDir/cache-observer/cache-export-684713/lookups.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/revocationRunDir/cache-observer/cache-export-684734/events.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/revocationRunDir/cache-observer/cache-export-684734/lookup-events.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/revocationRunDir/cache-observer/cache-export-684734/lookups.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/revocationRunDir/commands/verify-config.stderr.raw`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/revocationRunDir/commands/verify-config.stdout.raw`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/revocationRunDir/controller.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/revocationRunDir/gateway-access.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/revocationRunDir/listeners-started.json`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/revocationRunDir/origin-access.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/revocationRunDir/origin-start.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/ats-process-memory.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/cache-observer/cache-export-683492/events.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/cache-observer/cache-export-683492/lookup-events.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/cache-observer/cache-export-683492/lookups.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/cache-observer/cache-export-683513/events.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/cache-observer/cache-export-683513/lookup-events.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/cache-observer/cache-export-683513/lookups.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/cache-observer/cache-export-683560/events.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/cache-observer/cache-export-683560/lookup-events.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/cache-observer/cache-export-683560/lookups.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/cache-observer/cache-export-683616/events.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/cache-observer/cache-export-683616/lookup-events.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/cache-observer/cache-export-683616/lookups.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/cache-observer/cache-export-683616/request-stage-91f0002354e04f7a9edd6c61/request.txt`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/cache-observer/cache-export-683616/request-stage-91f0002354e04f7a9edd6c61/results.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/cache-observer/cache-export-684047/events.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/cache-observer/cache-export-684047/lookup-events.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/cache-observer/cache-export-684047/lookups.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/cache-observer/cache-export-684047/request-stage-bf051d6cebed4753b248429c/request.txt`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/cache-observer/cache-export-684047/request-stage-bf051d6cebed4753b248429c/results.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/cache-observer/cache-export-684047/request-stage-c0ac4e22bc5745409794619d/request.txt`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/cache-observer/cache-export-684047/request-stage-c0ac4e22bc5745409794619d/results.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/cache-observer/cache-export-684144/events.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/cache-observer/cache-export-684144/lookup-events.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/cache-observer/cache-export-684144/lookups.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/cache-observer/cache-export-684196/events.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/cache-observer/cache-export-684196/lookup-events.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/cache-observer/cache-export-684196/lookups.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/cache-observer/cache-export-684248/events.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/cache-observer/cache-export-684248/lookup-events.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/cache-observer/cache-export-684248/lookups.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/cache-observer/cache-export-684300/events.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/cache-observer/cache-export-684300/lookup-events.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/cache-observer/cache-export-684300/lookups.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/cache-observer/cache-export-684352/events.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/cache-observer/cache-export-684352/lookup-events.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/cache-observer/cache-export-684352/lookups.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/cache-observer/cache-export-684424/events.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/cache-observer/cache-export-684424/lookup-events.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/cache-observer/cache-export-684424/lookups.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/cache-observer/cache-export-684496/events.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/cache-observer/cache-export-684496/lookup-events.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/cache-observer/cache-export-684496/lookups.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/cache-observer/cache-export-684568/events.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/cache-observer/cache-export-684568/lookup-events.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/cache-observer/cache-export-684568/lookups.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/cache-observer/cache-export-684568/request-stage-e8524bec0e7f493ea1329c33/request.txt`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/cache-observer/cache-export-684568/request-stage-e8524bec0e7f493ea1329c33/results.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/cache-observer/cache-export-684690/events.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/cache-observer/cache-export-684690/lookup-events.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/cache-observer/cache-export-684690/lookups.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/commands/clear-cache-1.stderr.raw`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/commands/clear-cache-1.stdout.raw`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/commands/clear-cache-10.stderr.raw`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/commands/clear-cache-10.stdout.raw`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/commands/clear-cache-11.stderr.raw`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/commands/clear-cache-11.stdout.raw`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/commands/clear-cache-12.stderr.raw`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/commands/clear-cache-12.stdout.raw`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/commands/clear-cache-2.stderr.raw`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/commands/clear-cache-2.stdout.raw`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/commands/clear-cache-3.stderr.raw`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/commands/clear-cache-3.stdout.raw`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/commands/clear-cache-4.stderr.raw`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/commands/clear-cache-4.stdout.raw`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/commands/clear-cache-5.stderr.raw`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/commands/clear-cache-5.stdout.raw`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/commands/clear-cache-6.stderr.raw`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/commands/clear-cache-6.stdout.raw`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/commands/clear-cache-7.stderr.raw`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/commands/clear-cache-7.stdout.raw`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/commands/clear-cache-8.stderr.raw`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/commands/clear-cache-8.stdout.raw`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/commands/clear-cache-9.stderr.raw`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/commands/clear-cache-9.stdout.raw`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/commands/verify-config.stderr.raw`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/commands/verify-config.stdout.raw`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/controller.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/gateway-access.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/listeners-started.json`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/origin-access.jsonl`
+- `evidence/POC-003/raw-matrix-d1c0cf7-20261022-v2/runDir/origin-start.jsonl`
+- `evidence/POC-003/reservation-main-final-11c3283/poc003-reservation-11c3283-ci808.snapshot.json`
+- `evidence/POC-003/reservation-main-final-11c3283/poc003-reservation-11c3283-main-acceptance.json`
+- `evidence/POC-003/reservation-main-final-11c3283/poc003-reservation-2fa51e8-remote-cleanup.json`
+- `evidence/POC-003/reservation-merge-11c3283/index.json`
+- `evidence/POC-003/reservation-merge-11c3283/poc003-reservation-11c3283-adoption.json`
+- `evidence/POC-003/reservation-merge-11c3283/poc003-reservation-11c3283-main-checks__00.txt.base64.json`
+- `evidence/POC-003/reservation-merge-11c3283/poc003-reservation-11c3283-main-checks__01.txt.base64.json`
+- `evidence/POC-003/reservation-merge-11c3283/poc003-reservation-11c3283-main-checks__02.txt.base64.json`
+- `evidence/POC-003/reservation-merge-11c3283/poc003-reservation-11c3283-main-checks__03.txt.base64.json`
+- `evidence/POC-003/reservation-merge-11c3283/poc003-reservation-11c3283-main-checks__04.txt.base64.json`
+- `evidence/POC-003/reservation-merge-11c3283/poc003-reservation-11c3283-main-checks__results.json`
+- `evidence/POC-003/reservation-merge-11c3283/poc003-reservation-11c3283-main-protocol__protocol.txt.base64.json`
+- `evidence/POC-003/reservation-merge-11c3283/poc003-reservation-11c3283-main-protocol__results.json`
+- `evidence/POC-003/reservation-merge-11c3283/poc003-reservation-2fa51e8-ci807.raw.txt.base64.json`
+- `evidence/POC-003/reservation-merge-11c3283/poc003-reservation-2fa51e8-ci807.snapshot.json`
+- `evidence/POC-003/reservation-merge-11c3283/poc003-reservation-2fa51e8-independent-review.json`
+- `evidence/POC-003/reservation-merge-11c3283/poc003-reservation-2fa51e8-results__00.txt.base64.json`
+- `evidence/POC-003/reservation-merge-11c3283/poc003-reservation-2fa51e8-results__01.txt.base64.json`
+- `evidence/POC-003/reservation-merge-11c3283/poc003-reservation-2fa51e8-results__02.txt.base64.json`
+- `evidence/POC-003/reservation-merge-11c3283/poc003-reservation-2fa51e8-results__03.txt.base64.json`
+- `evidence/POC-003/reservation-merge-11c3283/poc003-reservation-2fa51e8-results__04.txt.base64.json`
+- `evidence/POC-003/reservation-merge-11c3283/poc003-reservation-2fa51e8-results__05.txt.base64.json`
+- `evidence/POC-003/reservation-merge-11c3283/poc003-reservation-2fa51e8-results__06.txt.base64.json`
+- `evidence/POC-003/reservation-merge-11c3283/poc003-reservation-2fa51e8-results__07.txt.base64.json`
+- `evidence/POC-003/reservation-merge-11c3283/poc003-reservation-2fa51e8-results__08.txt.base64.json`
+- `evidence/POC-003/reservation-merge-11c3283/poc003-reservation-2fa51e8-results__09.txt.base64.json`
+- `evidence/POC-003/reservation-merge-11c3283/poc003-reservation-2fa51e8-results__10.txt.base64.json`
+- `evidence/POC-003/reservation-merge-11c3283/poc003-reservation-2fa51e8-results__11.txt.base64.json`
+- `evidence/POC-003/reservation-merge-11c3283/poc003-reservation-2fa51e8-results__12.txt.base64.json`
+- `evidence/POC-003/reservation-merge-11c3283/poc003-reservation-2fa51e8-results__13.txt.base64.json`
+- `evidence/POC-003/reservation-merge-11c3283/poc003-reservation-2fa51e8-results__14.txt.base64.json`
+- `evidence/POC-003/reservation-merge-11c3283/poc003-reservation-2fa51e8-results__results.json`
+- `evidence/POC-003/reservation-merge-11c3283/poc003-reservation-2fa51e8-source-admission.json`
 - `evidence/POC-003/risks.md`
 - `evidence/POC-003/scope.md`
+- `evidence/POC-003/source-18163e1-validation/ci809.raw.txt.base64.json`
+- `evidence/POC-003/source-18163e1-validation/ci809.snapshot.json`
+- `evidence/POC-003/source-18163e1-validation/index.json`
+- `evidence/POC-003/source-18163e1-validation/poc003-implementation-18163e1-code-checks__00.txt.base64.json`
+- `evidence/POC-003/source-18163e1-validation/poc003-implementation-18163e1-code-checks__01.txt.base64.json`
+- `evidence/POC-003/source-18163e1-validation/poc003-implementation-18163e1-code-checks__results.json`
+- `evidence/POC-003/source-18163e1-validation/poc003-implementation-18163e1-intermediate-review.json`
+- `evidence/POC-003/source-18163e1-validation/poc003-implementation-18163e1-results__00.txt.base64.json`
+- `evidence/POC-003/source-18163e1-validation/poc003-implementation-18163e1-results__01.txt.base64.json`
+- `evidence/POC-003/source-18163e1-validation/poc003-implementation-18163e1-results__02.txt.base64.json`
+- `evidence/POC-003/source-18163e1-validation/poc003-implementation-18163e1-results__03.txt.base64.json`
+- `evidence/POC-003/source-18163e1-validation/poc003-implementation-18163e1-results__04.txt.base64.json`
+- `evidence/POC-003/source-18163e1-validation/poc003-implementation-18163e1-results__05.txt.base64.json`
+- `evidence/POC-003/source-18163e1-validation/poc003-implementation-18163e1-results__06.txt.base64.json`
+- `evidence/POC-003/source-18163e1-validation/poc003-implementation-18163e1-results__07.txt.base64.json`
+- `evidence/POC-003/source-18163e1-validation/poc003-implementation-18163e1-results__08.txt.base64.json`
+- `evidence/POC-003/source-18163e1-validation/poc003-implementation-18163e1-results__09.txt.base64.json`
+- `evidence/POC-003/source-18163e1-validation/poc003-implementation-18163e1-results__10.txt.base64.json`
+- `evidence/POC-003/source-18163e1-validation/poc003-implementation-18163e1-results__11.txt.base64.json`
+- `evidence/POC-003/source-18163e1-validation/poc003-implementation-18163e1-results__12.txt.base64.json`
+- `evidence/POC-003/source-18163e1-validation/poc003-implementation-18163e1-results__13.txt.base64.json`
+- `evidence/POC-003/source-18163e1-validation/poc003-implementation-18163e1-results__14.txt.base64.json`
+- `evidence/POC-003/source-18163e1-validation/poc003-implementation-18163e1-results__results.json`
+- `evidence/POC-003/source-558d306-validation/.gitattributes`
+- `evidence/POC-003/source-558d306-validation/index.json`
+- `evidence/POC-003/source-558d306-validation/results.json`
+- `evidence/POC-003/source-558d306-validation/task-00.raw`
+- `evidence/POC-003/source-558d306-validation/task-01.raw`
+- `evidence/POC-003/source-558d306-validation/task-02.raw`
+- `evidence/POC-003/source-558d306-validation/task-03.raw`
+- `evidence/POC-003/source-558d306-validation/task-04.raw`
+- `evidence/POC-003/source-558d306-validation/task-05.raw`
+- `evidence/POC-003/source-558d306-validation/task-06.raw`
+- `evidence/POC-003/source-558d306-validation/task-07.raw`
+- `evidence/POC-003/source-558d306-validation/task-08.raw`
+- `evidence/POC-003/source-558d306-validation/task-09.raw`
+- `evidence/POC-003/source-558d306-validation/task-10.raw`
+- `evidence/POC-003/source-558d306-validation/task-11.raw`
+- `evidence/POC-003/source-558d306-validation/task-12.raw`
+- `evidence/POC-003/source-558d306-validation/task-13.raw`
+- `evidence/POC-003/source-558d306-validation/task-14.raw`
+- `evidence/POC-003/source-558d306-validation/test_buffer_probe.py.raw`
+- `evidence/POC-003/source-558d306-validation/test_buffer_probe_native.py.raw`
+- `evidence/POC-003/source-558d306-validation/test_cache_probe.py.raw`
+- `evidence/POC-003/source-558d306-validation/test_cache_probe_native.py.raw`
+- `evidence/POC-003/source-558d306-validation/test_gateway_native.py.raw`
+- `evidence/POC-003/source-558d306-validation/test_http_timing_native.py.raw`
+- `evidence/POC-003/source-558d306-validation/test_lab.py.raw`
+- `evidence/POC-003/source-558d306-validation/test_live_buffer_probe.py.raw`
+- `evidence/POC-003/source-558d306-validation/test_revocation_binding.py.raw`
+- `evidence/POC-003/source-558d306-validation/test_warm_cache_revocation.py.raw`
+- `evidence/POC-003/source-8e73173-validation/.gitattributes`
+- `evidence/POC-003/source-8e73173-validation/code30/results.json`
+- `evidence/POC-003/source-8e73173-validation/code30/test_buffer_probe.py.raw`
+- `evidence/POC-003/source-8e73173-validation/code30/test_buffer_probe_native.py.raw`
+- `evidence/POC-003/source-8e73173-validation/code30/test_cache_probe.py.raw`
+- `evidence/POC-003/source-8e73173-validation/code30/test_cache_probe_native.py.raw`
+- `evidence/POC-003/source-8e73173-validation/code30/test_gateway_native.py.raw`
+- `evidence/POC-003/source-8e73173-validation/code30/test_http_timing_native.py.raw`
+- `evidence/POC-003/source-8e73173-validation/code30/test_lab.py.raw`
+- `evidence/POC-003/source-8e73173-validation/code30/test_revocation_binding.py.raw`
+- `evidence/POC-003/source-8e73173-validation/code30/test_warm_cache_revocation.py.raw`
+- `evidence/POC-003/source-8e73173-validation/index.json`
+- `evidence/POC-003/source-8e73173-validation/poc003-implementation-8e73173-ci812.raw.txt`
+- `evidence/POC-003/source-8e73173-validation/poc003-implementation-8e73173-ci812.snapshot.json`
+- `evidence/POC-003/source-8e73173-validation/task15/00.txt`
+- `evidence/POC-003/source-8e73173-validation/task15/01.txt`
+- `evidence/POC-003/source-8e73173-validation/task15/02.txt`
+- `evidence/POC-003/source-8e73173-validation/task15/03.txt`
+- `evidence/POC-003/source-8e73173-validation/task15/04.txt`
+- `evidence/POC-003/source-8e73173-validation/task15/05.txt`
+- `evidence/POC-003/source-8e73173-validation/task15/06.txt`
+- `evidence/POC-003/source-8e73173-validation/task15/07.txt`
+- `evidence/POC-003/source-8e73173-validation/task15/08.txt`
+- `evidence/POC-003/source-8e73173-validation/task15/09.txt`
+- `evidence/POC-003/source-8e73173-validation/task15/10.txt`
+- `evidence/POC-003/source-8e73173-validation/task15/11.txt`
+- `evidence/POC-003/source-8e73173-validation/task15/12.txt`
+- `evidence/POC-003/source-8e73173-validation/task15/13.txt`
+- `evidence/POC-003/source-8e73173-validation/task15/14.txt`
+- `evidence/POC-003/source-8e73173-validation/task15/results.json`
+- `evidence/POC-003/source-9c012b4-validation/ci810.raw.txt.base64.json`
+- `evidence/POC-003/source-9c012b4-validation/ci810.snapshot.json`
+- `evidence/POC-003/source-9c012b4-validation/index.json`
+- `evidence/POC-003/source-9c012b4-validation/poc003-implementation-9c012b4-code-checks__results.json`
+- `evidence/POC-003/source-9c012b4-validation/poc003-implementation-9c012b4-code-checks__test_cache_probe.py.raw`
+- `evidence/POC-003/source-9c012b4-validation/poc003-implementation-9c012b4-code-checks__test_cache_probe_native.py.raw`
+- `evidence/POC-003/source-9c012b4-validation/poc003-implementation-9c012b4-code-checks__test_lab.py.raw`
+- `evidence/POC-003/source-9c012b4-validation/poc003-implementation-9c012b4-code-checks__test_warm_cache_revocation.py.raw`
+- `evidence/POC-003/source-9c012b4-validation/poc003-implementation-9c012b4-results__00.txt.base64.json`
+- `evidence/POC-003/source-9c012b4-validation/poc003-implementation-9c012b4-results__01.txt.base64.json`
+- `evidence/POC-003/source-9c012b4-validation/poc003-implementation-9c012b4-results__02.txt.base64.json`
+- `evidence/POC-003/source-9c012b4-validation/poc003-implementation-9c012b4-results__03.txt.base64.json`
+- `evidence/POC-003/source-9c012b4-validation/poc003-implementation-9c012b4-results__04.txt.base64.json`
+- `evidence/POC-003/source-9c012b4-validation/poc003-implementation-9c012b4-results__05.txt.base64.json`
+- `evidence/POC-003/source-9c012b4-validation/poc003-implementation-9c012b4-results__06.txt.base64.json`
+- `evidence/POC-003/source-9c012b4-validation/poc003-implementation-9c012b4-results__07.txt.base64.json`
+- `evidence/POC-003/source-9c012b4-validation/poc003-implementation-9c012b4-results__08.txt.base64.json`
+- `evidence/POC-003/source-9c012b4-validation/poc003-implementation-9c012b4-results__09.txt.base64.json`
+- `evidence/POC-003/source-9c012b4-validation/poc003-implementation-9c012b4-results__10.txt.base64.json`
+- `evidence/POC-003/source-9c012b4-validation/poc003-implementation-9c012b4-results__11.txt.base64.json`
+- `evidence/POC-003/source-9c012b4-validation/poc003-implementation-9c012b4-results__12.txt.base64.json`
+- `evidence/POC-003/source-9c012b4-validation/poc003-implementation-9c012b4-results__13.txt.base64.json`
+- `evidence/POC-003/source-9c012b4-validation/poc003-implementation-9c012b4-results__14.txt.base64.json`
+- `evidence/POC-003/source-9c012b4-validation/poc003-implementation-9c012b4-results__results.json`
+- `evidence/POC-003/source-d1c0cf7-validation/ci811.raw.txt.base64.json`
+- `evidence/POC-003/source-d1c0cf7-validation/ci811.snapshot.json`
+- `evidence/POC-003/source-d1c0cf7-validation/index.json`
+- `evidence/POC-003/source-d1c0cf7-validation/poc003-implementation-d1c0cf7-code-checks__results.json`
+- `evidence/POC-003/source-d1c0cf7-validation/poc003-implementation-d1c0cf7-code-checks__test_cache_probe.py.raw`
+- `evidence/POC-003/source-d1c0cf7-validation/poc003-implementation-d1c0cf7-code-checks__test_cache_probe_native.py.raw`
+- `evidence/POC-003/source-d1c0cf7-validation/poc003-implementation-d1c0cf7-code-checks__test_gateway_native.py.raw`
+- `evidence/POC-003/source-d1c0cf7-validation/poc003-implementation-d1c0cf7-code-checks__test_http_timing_native.py.raw`
+- `evidence/POC-003/source-d1c0cf7-validation/poc003-implementation-d1c0cf7-code-checks__test_lab.py.raw`
+- `evidence/POC-003/source-d1c0cf7-validation/poc003-implementation-d1c0cf7-code-checks__test_revocation_binding.py.raw`
+- `evidence/POC-003/source-d1c0cf7-validation/poc003-implementation-d1c0cf7-code-checks__test_warm_cache_revocation.py.raw`
+- `evidence/POC-003/source-d1c0cf7-validation/poc003-implementation-d1c0cf7-results__00.txt.base64.json`
+- `evidence/POC-003/source-d1c0cf7-validation/poc003-implementation-d1c0cf7-results__01.txt.base64.json`
+- `evidence/POC-003/source-d1c0cf7-validation/poc003-implementation-d1c0cf7-results__02.txt.base64.json`
+- `evidence/POC-003/source-d1c0cf7-validation/poc003-implementation-d1c0cf7-results__03.txt.base64.json`
+- `evidence/POC-003/source-d1c0cf7-validation/poc003-implementation-d1c0cf7-results__04.txt.base64.json`
+- `evidence/POC-003/source-d1c0cf7-validation/poc003-implementation-d1c0cf7-results__05.txt.base64.json`
+- `evidence/POC-003/source-d1c0cf7-validation/poc003-implementation-d1c0cf7-results__06.txt.base64.json`
+- `evidence/POC-003/source-d1c0cf7-validation/poc003-implementation-d1c0cf7-results__07.txt.base64.json`
+- `evidence/POC-003/source-d1c0cf7-validation/poc003-implementation-d1c0cf7-results__08.txt.base64.json`
+- `evidence/POC-003/source-d1c0cf7-validation/poc003-implementation-d1c0cf7-results__09.txt.base64.json`
+- `evidence/POC-003/source-d1c0cf7-validation/poc003-implementation-d1c0cf7-results__10.txt.base64.json`
+- `evidence/POC-003/source-d1c0cf7-validation/poc003-implementation-d1c0cf7-results__11.txt.base64.json`
+- `evidence/POC-003/source-d1c0cf7-validation/poc003-implementation-d1c0cf7-results__12.txt.base64.json`
+- `evidence/POC-003/source-d1c0cf7-validation/poc003-implementation-d1c0cf7-results__13.txt.base64.json`
+- `evidence/POC-003/source-d1c0cf7-validation/poc003-implementation-d1c0cf7-results__14.txt.base64.json`
+- `evidence/POC-003/source-d1c0cf7-validation/poc003-implementation-d1c0cf7-results__results.json`
+- `evidence/POC-003/source-e1231a8-validation/.gitattributes`
+- `evidence/POC-003/source-e1231a8-validation/index.json`
+- `evidence/POC-003/source-e1231a8-validation/results.json`
+- `evidence/POC-003/source-e1231a8-validation/task-00.raw`
+- `evidence/POC-003/source-e1231a8-validation/task-01.raw`
+- `evidence/POC-003/source-e1231a8-validation/task-02.raw`
+- `evidence/POC-003/source-e1231a8-validation/task-03.raw`
+- `evidence/POC-003/source-e1231a8-validation/task-04.raw`
+- `evidence/POC-003/source-e1231a8-validation/task-05.raw`
+- `evidence/POC-003/source-e1231a8-validation/task-06.raw`
+- `evidence/POC-003/source-e1231a8-validation/task-07.raw`
+- `evidence/POC-003/source-e1231a8-validation/task-08.raw`
+- `evidence/POC-003/source-e1231a8-validation/task-09.raw`
+- `evidence/POC-003/source-e1231a8-validation/task-10.raw`
+- `evidence/POC-003/source-e1231a8-validation/task-11.raw`
+- `evidence/POC-003/source-e1231a8-validation/task-12.raw`
+- `evidence/POC-003/source-e1231a8-validation/task-13.raw`
+- `evidence/POC-003/source-e1231a8-validation/task-14.raw`
+- `evidence/POC-003/source-e1231a8-validation/test_buffer_probe.py.raw`
+- `evidence/POC-003/source-e1231a8-validation/test_buffer_probe_native.py.raw`
+- `evidence/POC-003/source-e1231a8-validation/test_cache_probe.py.raw`
+- `evidence/POC-003/source-e1231a8-validation/test_cache_probe_native.py.raw`
+- `evidence/POC-003/source-e1231a8-validation/test_gateway_native.py.raw`
+- `evidence/POC-003/source-e1231a8-validation/test_http_timing_native.py.raw`
+- `evidence/POC-003/source-e1231a8-validation/test_lab.py.raw`
+- `evidence/POC-003/source-e1231a8-validation/test_live_buffer_probe.py.raw`
+- `evidence/POC-003/source-e1231a8-validation/test_revocation_binding.py.raw`
+- `evidence/POC-003/source-e1231a8-validation/test_warm_cache_revocation.py.raw`
 - `evidence/POC-003/summary.md`
 - `evidence/POC-003/test-results/README.md`
-- `evidence/POC-003/validation-source-daed2f5/ci805.raw.base64.json`
-- `evidence/POC-003/validation-source-daed2f5/ci805.snapshot.json`
-- `evidence/POC-003/validation-source-daed2f5/historical-independent-review.json`
-- `evidence/POC-003/validation-source-daed2f5/index.json`
-- `evidence/POC-003/validation-source-daed2f5/local-00.raw.base64.json`
-- `evidence/POC-003/validation-source-daed2f5/local-01.raw.base64.json`
-- `evidence/POC-003/validation-source-daed2f5/local-02.raw.base64.json`
-- `evidence/POC-003/validation-source-daed2f5/local-03.raw.base64.json`
-- `evidence/POC-003/validation-source-daed2f5/local-04.raw.base64.json`
-- `evidence/POC-003/validation-source-daed2f5/local-05.raw.base64.json`
-- `evidence/POC-003/validation-source-daed2f5/local-06.raw.base64.json`
-- `evidence/POC-003/validation-source-daed2f5/local-07.raw.base64.json`
-- `evidence/POC-003/validation-source-daed2f5/local-08.raw.base64.json`
-- `evidence/POC-003/validation-source-daed2f5/local-09.raw.base64.json`
-- `evidence/POC-003/validation-source-daed2f5/local-10.raw.base64.json`
-- `evidence/POC-003/validation-source-daed2f5/local-11.raw.base64.json`
-- `evidence/POC-003/validation-source-daed2f5/local-12.raw.base64.json`
-- `evidence/POC-003/validation-source-daed2f5/local-13.raw.base64.json`
-- `evidence/POC-003/validation-source-daed2f5/local-14.raw.base64.json`
-- `evidence/POC-003/validation-source-daed2f5/local-results.json`
-- `evidence/POC-003/validation-source-daed2f5/review-findings.json`
+- `poc/POC-03-ats-range/README.md`
+- `poc/POC-03-ats-range/buffer_probe.py`
+- `poc/POC-03-ats-range/build_observer.py`
+- `poc/POC-03-ats-range/cache_export.cc`
+- `poc/POC-03-ats-range/cache_probe.py`
+- `poc/POC-03-ats-range/collect.py`
+- `poc/POC-03-ats-range/config.example.json`
+- `poc/POC-03-ats-range/grants.py`
+- `poc/POC-03-ats-range/http_timing.py`
+- `poc/POC-03-ats-range/instrumentation/.gitattributes`
+- `poc/POC-03-ats-range/instrumentation/README.md`
+- `poc/POC-03-ats-range/instrumentation/ats-live-buffer-accounting.patch`
+- `poc/POC-03-ats-range/instrumentation/build_live_observer.py`
+- `poc/POC-03-ats-range/instrumentation/live_buffer_accounting.h`
+- `poc/POC-03-ats-range/instrumentation/live_buffer_observer.cc`
+- `poc/POC-03-ats-range/instrumentation/patch-manifest.json`
+- `poc/POC-03-ats-range/instrumentation/test_live_buffer_accounting.cc`
+- `poc/POC-03-ats-range/lab.py`
+- `poc/POC-03-ats-range/live_buffer_probe.py`
+- `poc/POC-03-ats-range/test_buffer_probe.py`
+- `poc/POC-03-ats-range/test_buffer_probe_native.py`
+- `poc/POC-03-ats-range/test_cache_probe.py`
+- `poc/POC-03-ats-range/test_cache_probe_native.py`
+- `poc/POC-03-ats-range/test_gateway_native.py`
+- `poc/POC-03-ats-range/test_http_timing_native.py`
+- `poc/POC-03-ats-range/test_lab.py`
+- `poc/POC-03-ats-range/test_live_buffer_probe.py`
+- `poc/POC-03-ats-range/test_live_component_native.py`
+- `poc/POC-03-ats-range/test_revocation_binding.py`
+- `poc/POC-03-ats-range/test_warm_cache_revocation.py`
 - `specs/coordination/active-work.yaml`
 - `specs/coordination/program-plan.yaml`
 - `specs/tasks/POC-003.md`
-
-Roles: owner ElectricDogCN; coordinator program-coordinator-agent; implementer/executor task-owner-agent; independent reviewer independent-review-agent; integrator integration-agent.
-Lease: 2026-10-22T12:47:06Z to 2026-10-29T12:47:06Z (unchanged).
-Contracts: POC-03-EVIDENCE / POC-PROTOCOL-V1. Exclusive poc/POC-03-ats-range/** and evidence/POC-003/**; shared adr/** and specs/poc/results-index.yaml, own row only, group poc-results/order2 before POC-005/order3.
-
-Failure: three P1 findings on tested parent require durable executed evidence, concrete handoff identity/inventory, and mandatory separate revocation test. This forward repair addresses those definitions but has no inherited acceptance. All fifteen actual parent commands/exits are in commands.txt; all original measurement scope/thresholds remain. No tested implementation or experimental decision exists.
-
-Next Reviewer: resolve exact current source/tree from Git HEAD and PR133, verify parent archive decoded hashes, exact diff against base, fresh fifteen commands/exit codes and same-head full CI, and each actual P1 remedy; independently review current content and all actual threads. Parent receipts are historical only. Next Integrator: verify latest actual main still matches base, dependency/order/lease and independent acceptance, zero unresolved findings and exact-head gates, then ordinary merge; verify actual ordered parents [base, source] and tree equality, actual-main five metadata checks plus standalone POC protocol checker and full push CI. Only after accepted reservation may implementation start from latest main on stable work branch, then obtain required independent sample/resource/domain approvals before experimentation.
-
-Rollback: withdraw unmerged proposal; after accepted reservation use lawful cancellation to release own lease. Later stop/clean only isolated sandbox, preserving input/Evidence/history; forward repair accepted defects. No Docker/WSL restart or unrelated service operation.
 
 
 ## Prospective concrete actor assignment (new work only)
@@ -72,8 +1709,145 @@ No implementation start, experiment, sample/resource/window approval, old source
 Withdraw before merge or use an ordinary forward correction afterward, preserving all local feature refs, 86 untracked originals, prior raw and data.
 
 
+## Actual admitted actor-main import into this feature lineage
+
+Original feature: 76c9c6e1f99972835db0716009d324b9b119c2cd; accepted actor main: 055ccf18e4b125850d59c93f5ec3204e630f101c (PR166, complete CI893805 and independent actual-main acceptance).
+The preceding actor-assignment suffix is preserved verbatim from the accepted main metadata transaction; its reserved declaration describes that transaction. This feature retains its local in_progress status, base760f6c5838597d1d66c0a536ecbf440ef5a7dfec and original lease/claims/branch.
+The Task had a genuine clean stage-0 merge before Evidence conflict resolution: mode100644/blob620c57239e253e9e50ea5380788285d926b58b48. Only this Handoff conflict is resolved; the Task is never hand-edited. Original feature Handoff bytes remain the exact prefix, followed by the exact accepted actor suffix and this scope note.
+Current actors: implementer /root, independent reviewer /root/independent_review. Read actual new merge source/tree from Git after commit; do not predict a self SHA.
+This import grants no feature-source qualification, sample/resource/window approval or experiment. New source checks/fullCI/independent acceptance and fresh prospective execution approval remain required; source76 controls and old855 retain their old identity.
+# Payload-reference lifetime component after accepted actor import
+
+Task POC-003 / Issue131 / branch chore/POC-003-ats-range remains in_progress. Creation base760f6c5838597d1d66c0a536ecbf440ef5a7dfec and original lease stay unchanged; current integration base is accepted actor-main055ccf18e4b125850d59c93f5ec3204e630f101c. Its genuine import de2f4f3bceffa964cc4ebbc0278fb6229845c31d has parents76+055 and the original automatic Task stage0. Actual implementing/reviewing agents are /root and /root/independent_review.
+
+Current local component changes only Ownlab.py/cache_probe.py/collect.py and newtest_payload_lifetime.py, OwnTask body and OwnEvidence. It releases per-block media references before next reads and request/control boundaries and scopes per-key export bodies to metadata-only observations, preserving prior digest, clock and failure semantics. Current source hashes and raw observations are in payload-lifetime-v1/index.json. Original6+2 failures and intermediate38/47 results remain; finalWindows40/Linux49 (17 original child waits0/no skips) accepted by independent component review35c7b75210999273dc7d08da924266fe363b40d0f425d04a9dd6385ffe955209. This includes synthetic bodies and a simulated native export producer, not an ATS or real-media experiment.
+
+Next implementer action: complete the Python HTTP/IO backing and all-handler overlap proof and conservative aggregation with actual native epoch peaks. Then freeze a complete new source, run all source gates/CI and obtain independent source/resource/window approval before original matrix and separate fresh revocation. Integrator must not promote this component to Ready, main, source qualification or formal POC acceptance. Frozen schemas/checkers/thresholds, Program/Active, claims and prior raw remain unchanged. Rollback is a reviewed forward change preserving all originals.
+# Synchronous request-overlap component after local de202
+
+Task POC-003 / Issue131 / chore/POC-003-ats-range, creationbase760f6c5838597d1d66c0a536ecbf440ef5a7dfec and accepted integrationbase055ccf18e4b125850d59c93f5ec3204e630f101c remain; implementer/root, reviewer/root/independent_review and original lease unchanged. Current local component adds synchronous admitted-request peaks to Origin/Gateway and full Collector request intervals, and lock-held snapshots/saves. It retains completed transient peaks without imposing a new concurrency cap or changing first-byte clocks and fault semantics.
+
+Windows44/Linux53 related tests/all19 actual wait0/no skips and four synthetic threaded overlap regressions accepted by independent reviewdb8195cb97a63736a29cd1be1f928d8fb7fa216c4511aec1260da438464f2fb1. First-stage41+41 tests each had three fixture initialization errors; only missing metadata fields were added, old assertions preserved and all failures archived. Exact current/prior source and raw: request-concurrency-v1/index.json. Archive .raw/.json attributes preserve recorded bytes within this directory only.
+
+Next: prove HTTP/IO intermediate/backing capacity, initialization hash/export/reassembly terms, closed whole-run coverage and native-epoch aggregation. A request high-water is not itself a byte bound. Full source/CI and prospective input/resource/window approval, original matrix and separate fresh revocation remain required. No new ATS/media experiment or main/Ready qualification; normal forward rollback preserves all originals.
+# Fixed raw-file Origin/hash component after local6c15211
+
+POC-003/Issue131/chore/POC-003-ats-range keeps creationbase760f6c5838597d1d66c0a536ecbf440ef5a7dfec, accepted integrationbase055ccf18e4b125850d59c93f5ec3204e630f101c, original lease and /root versus /root/independent_review. Current Ownlab component uses one fixed raw FileIO/readinto backing for digest and Origin, guarded by actual __alloc__ and released before hold/active-end; first-byte clocks, truncation digest, original configuration and actual count/error observations stay intact. Other media owners remain unresolved separately.
+
+Current eight source snapshots passed Windows49/Linux58 related tests/all21 actual waits0/no skips and independent component reviewcd25225f46c4069bc6d667ac12b862dcbe3d1b79f74536746465842e0ad8652b. Five new regressions include exact content across short reads, errors and rejection of an actual retained excess-capacity object. Older48/57 stage is receipt-hash bound only, not an original draft-source capture. Source/test originals and104 unique ZIP entries are indexed at fixed-origin-io-v1/index.json; ZIP bytes preserve CRLF exactly.
+
+Next: bind the actual runtime, complete HTTP/Collector and export/reassembly capacity plus startup/full-window/native hash/sendall/ATS aggregation. No full source/Ready/main, resources/window, original matrix, fresh revocation or formal POC qualification is granted. Frozen contracts, policies, thresholds, Program/Active/claims and old raw stay unchanged. Use a reviewed ordinary forward rollback, retaining the component and its evidence.
+# Fixed Collector raw-I/O component after localf8b821f
+
+POC-003/Issue131/chore/POC-003-ats-range keeps creationbase760f6c5838597d1d66c0a536ecbf440ef5a7dfec, accepted integrationbase055ccf18e4b125850d59c93f5ec3204e630f101c, /root versus /root/independent_review and original lease. OwnCollector now uses one guarded64KiB backing, first-target1 HTTP readinto and raw output/comparison; partial writes complete, no-progress persistence remains a failure, and response/reference backings release before witness/metadata boundaries. The first-byte timing and original budgets remain.
+
+Windows54/Linux63/all23 actual child waits0/no skips and five real loopback/synthetic-source cases accepted by independent reviewa1540735148c6f0e4a7a78fc1290736278b7894830e60c2c595f36f0a1eef76a. Nine current/eight prior source snapshots and72 ZIP entries indexed at collector-raw-io-v1/index.json. Initial invalid partial producer and tuple/JSON representation failures retain their precise provenance; no original uncaptured child stream is asserted. Received hashes on storage-write failure must not be treated as persisted-file proof.
+
+Next: finish runtime/HTTP native/intermediate and export/reassembly bounds plus whole-window/native/hash/sendall/ATS aggregation, then sync the latest fully accepted main and freeze whole source/gates/CI before any new approved original matrix/fresh revocation. This local component grants no Ready/main, source, resource/window, experiment or POC qualification. Frozen contracts/thresholds/Program/Active and old originals remain; use an ordinary reviewed forward rollback.
+
+## Fixed raw cache export/comparison/reassembly component after local246e264
+
+Export comparison now uses two guarded64KiB backing slots with raw readinto and complete partial writes; native exports are never trimmed. Ordered reassembly uses one guarded64KiB raw slot. Exact-byte/hash/equality, selected-Slice bounds/growth rejection and error/release obligations remain. Three old bound and three lifetime cases were adapted to the streaming API with exact prior test preimages retained. Six new actual raw-file cases cover multiblock/short reads/partial writes, short and mismatched references, zero write progress, retained over-allocation rejection and assembly slot release.
+
+Windows60/Linux69 related tests, all25 actual child waits0, no skips. Source/raw/preimages in cache-stream-io-v1/artifacts.zip with per-entry index.json. This is a local component awaiting independent review; no new source, Ready/main, runtime/HTTP/native aggregate/full-window, resource/window, original matrix/fresh revocation or formal POC acceptance is supplied. Frozen checker, thresholds, Program/Active, original lease/roles and old originals remain unchanged. Next: independent component review, then finish actual runtime/HTTP/native and closed-window aggregation; sync latest accepted main and qualify whole source before any approved workload. Use ordinary reviewed forward rollback, retaining evidence.
+
+## Owned request-window closure component after local31a6cc8
+
+Controller HTTP sockets are synchronously admitted before worker start; teardown retires only owned sockets and waits for actual admitted/finished equality. Delayed workers cannot disappear from closure. Collector closes request admission and records zero-active closure while preserving cumulative peaks; active work and late requests are rejected. Matrix and fresh revocation CLI explicitly seal their request windows; revocation probe bytes release before its success seal. Controller emits a new immutable request-window receipt only after owned HTTP/ATS teardown and zero media counts; cleanup failures retain a distinct nonclosed receipt.
+
+Windows65/Linux74 related regressions/all27 actual child waits0/no skips. V1 Windows5/one real timeout and old Linux74 pass are retained with exact original draft source; no timeout, threshold or assertion was relaxed. HTTP makefile references motivated shutdown+detach+native close, verified by a separate private Windows socket diagnostic. Source/raw/preimages and offline fixed-image Python3.12.15 byte-match inspection are in request-window-v2/artifacts.zip and index.json.
+
+This local component is pending independent review. Closed request intervals are not aggregate memory or native epoch acceptance; actual runtime binding, HTTP/native intermediates, hash/sendall and full native aggregation remain pending. No source/Ready/main, resources/window, original matrix/fresh revocation execution or formal POC qualification. Original policies/thresholds/roles/lease and old evidence remain; use a reviewed ordinary forward rollback retaining originals.
+
+## Forward V3 request-close ownership correction
+
+V2 was not committed: independent review found a real worker/controller native shutdown/close race and blocked component acceptance. Its exact negative review, candidate and standard ZIP (including the earlier Windows timeout) remain in request-window-v3/artifacts.zip and unchanged request-window-v2/. V3 uses the same existing request_condition for normal worker shutdown_request and the controller full shutdown/detach/nativeclose sequence. A sixth real HTTP thread race case actually failed on the old code (one test/exit1), then passed after the ownership lock. No timeout/threshold/assertion was relaxed.
+
+V3 Windows66/Linux75 related regressions/all27 child waits0/no skips;37 current source snapshots and original raw/negative/red records are indexed at request-window-v3/index.json. Independent V3 review and ordinary local commit remain pending. All full-source/runtime/native aggregate/new experiment/POC boundaries from the preceding entry remain incomplete; this component only closes actual owned request intervals and their counters.
+
+## Instrumented Python runtime component-byte binding after local424bab7
+
+Instrumented prepare/controller/Collector now verify a fixed ten-component Python3.12.15/Linux-x86_64/OpenSSL3.5.7 profile before media input use (Collector before output creation). Seven native components must be the actual executable mapped device/inode, not merely equal bytes at another path; stdlib paths/bytes, ABI, IO size, hash backend and disallowed overrides are checked. Each future process records fresh PID/startTicks/maps and profile digest; controller closure and Collector receipt reference their own binding. Profile and helper are part of implementationSources.
+
+Eight final real fixed-image tests and Windows66/Linux75 related regressions/all28 current child waits0/no skips; exact current source/profile/native observations/raw in python-runtime-binding-v1/artifacts.zip/index.json. Initial capture and earlier eight checks remain separately attributed, with no asserted contemporaneous full helper preimage; current proof comes from final exact-byte execution.
+
+This component awaits independent review and local commit. Runtime component binding is not a complete HTTP/hash/sendall/native transient bound or aggregate capacity proof, and future workload must execute these guards again. No full-source/Ready/main, sample/resource/window, original matrix/fresh revocation or POC approval. Frozen checker/thresholds/roles/lease and old evidence remain; next complete source-derived native terms and actual epoch aggregation, then sync latest accepted main and qualify whole source before approved workloads.
+
+Future entry compatibility: the old c_call-profile readiness harness installed before lab.serve is incompatible with this pre-input no-profile guard. Do not reuse it as a current approved entry or relax the guard. Prepare a new hook-free or independently reviewed legitimate readiness method and qualify it with the new source before any original matrix/revocation execution.
+
+## Explicit readiness callback component after local8dde1cc
+
+Own lab.serve now accepts an optional callable from a reviewed in-process supervisor. It invokes that callable once, after the singleton EpochOwner setup, both owned HTTP listeners and the fresh listeners-started marker. CLI behavior supplies no callback. Invalid callback types fail before State creation; callback failures follow the same owned HTTP/ATS/owner teardown and propagate. The runtime guard remains unchanged; no profiling/tracing hooks are installed or disabled by this component.
+
+Five real loopback tests cover live-listener/marker ordering, callback failure teardown, occupied gateway port, default entry and invalid callback ingress. Windows5 and the fixed Python3.12.15 image5 pass, plus the unchanged fixed-image runtime guard8; three actual child waits0, no skips, full selected source bytes stable before/after. Synthetic State/ATS metadata is explicit: these tests exercise real owned HTTP servers but do not start ATS or prove native owner initialization. Exact source/preimages/raw and prospective original-matrix entry are preserved in hook-free-readiness-v1/artifacts.zip and index.json.
+
+The prospective entry starts the original Collector from this callback, preserving singleton owner initialization and all matrix cases without a frame/profile hook. Only syntax preparation has run for that entry; actual entry/native owner/media execution, independent component/method acceptance, complete HTTP/hash/native capacity model, full-source checks/CI and new sample/resource/window approval remain pending. No new experiment or formal POC acceptance is granted; frozen policies, thresholds, original roles/lease and old evidence remain unchanged. Rollback uses an ordinary reviewed forward change with originals retained.
+
+## Fixed raw input-validation slot after local25867db
+
+The independently accepted hook-free readiness component was ordinarily committed as25867db (Windows5/fixed-image5+runtime-guard8). A separate source audit found input_profile._actual_digest still retained its previous os.read result during the next read. This component uses a raw FileIO wrapper on the same already validated descriptor, closefd=False and one guarded1MiB bytearray/memoryview, including a one-byte EOF growth probe. Actual read counts, shortened/grown inputs and all before/after descriptor/path identity checks remain enforced; views, stream and FD close on success and error. Original prototype/representative size/hash/budget rules are unchanged.
+
+Five new real-file tests cover empty/multiblock/short tails, partial reads, original I/O errors, invalid counts/premature EOF and same-length excess backing, with actual slot/stream/descriptor release. Existing shortening/growth injection now targets the real readinto path while preserving failure assertions. Windows5+9 and fixed Python3.12.15 image5+9 all pass, four actual child waits0/no skips;43 selected sources remain byte-stable before/after. Exact preimages, source snapshots and raw are in input-validation-fixed-io-v1/artifacts.zip/index.json.
+
+This local component awaits independent review. It fixes one missing input-validation owner; HTTP/native HASH provider/copy/final/CPU-dispatch capacity, complete same-owner native epoch aggregation, full-source/main sync/CI and actual approved original matrix/fresh revocation remain pending. No experiment, complete aggregate, formal POC or V1 acceptance is granted. Frozen checker/schema/thresholds, original Task front/roles/lease and all earlier evidence stay unchanged; rollback is a reviewed ordinary forward change retaining originals.
+
+## Crypto initialization and public native-route binding after local7af0fa7
+
+POC-003 / Issue131 / chore/POC-003-ats-range retains creationbase760f6c5838597d1d66c0a536ecbf440ef5a7dfec, accepted integrationbase055ccf18e4b125850d59c93f5ec3204e630f101c, original lease, implementer/root and reviewer/root/independent_review. The prior input-validation fixed-slot component was independently accepted and ordinarily committed as7af0fa7.
+
+The selected runtime profile advances explicitly to v2. The pre-input guard binds the actual public OpenSSL configuration bytes, compiled configuration/engine/module directories, global default SHA256 method/provider/FIPS/no-ENGINE metadata and public dispatch library offsets. It also binds actual resolved libc memcpy offset and the ctypes/_ctypes/libffi public-call dependencies:14 selected files and9 actual mapped native components. Active configuration includes, unsupported runtime selectors and profile drift are rejected. Existing HASH private layouts are not inspected. lab implementationSources includes the new helper. This binds an initialization route; a fresh public method query alone does not attest every existing HASH object or the complete experiment window.
+
+Windows4 configuration cases and fixed-image4 configuration+11 runtime+5 readiness+9 input-profile cases pass, five actual child waits0/no skips. The profile capture is a separate actual child wait0 with exact three-source before/after pins. Original eight runtime assertions remain; three actual route/profile negative cases and four configuration cases are added. These use no media inputs or ATS. Exact preimages, current selected sources, capture and command/raw results are in crypto-route-binding-v1/artifacts.zip with per-entry index.json.
+
+Component review and ordinary local commit are pending. HTTP/HASH native capacity and same-owner complete epoch aggregation, latest-main integration/full-source checks/CI, new method/sample/resource/window approval and actual original matrix/fresh revocation remain outstanding. The older prospective original_matrix_entry_v2 lab pin is stale after this source change; preserve it and prepare a forward v3 before any experiment. Frozen checker/schema/thresholds, original Task front, Program/Active, roles/lease and all old evidence remain unchanged. Rollback is an ordinary reviewed forward change retaining originals; this component does not grant source qualification, Ready, merge, experiment, formal POC or V1 acceptance.
+
+## Closed-record native/request capacity aggregation component after accepted main22 import
+
+The crypto initialization component was independently accepted and ordinarily committed asdbacbae; accepted main22 was normally imported in two-parent cd804502 (parentdbac+22ab), OwnPOC source bytes unchanged. Creationbase760f6c5838597d1d66c0a536ecbf440ef5a7dfec, implementer/root, reviewer/root/independent_review and original lease remain unchanged.
+
+New media_capacity.py derives retained synchronous Origin/Gateway/Collector request peaks only from closed owned HTTP/Collector windows. It reparses every nonempty expected native epoch, including helper runs, verifies actual owner/target waits, initialization/complete journal, exact approved component digests with stable before/after device/inode, source-enforced single-initial-exec handoff, complete role/token sequence and monotonic raw identity. The singleton owner's no-overlap rule permits max across complete native target epochs; no artificial end timestamps or idle-count shortcuts are used. Every independent O/G/C term adds. The separately reviewed synchronous phase max1048577 and conditionalH4096 per concurrent source-payload owner remain explicit; a fresh revocation reader receives its own conservativeC+H allowance. This module returns conditional unapproved derivations, never a source/method/experiment/POC pass.
+
+Seven Windows and seven actual fixed-image tests pass, two successful child waits0/no skips and47 selected sources unchanged. Regressions use synthetic closed records and real temporary files, including a missing middle helper, a retained middle peak, changed components/actual-wait rejection, tampered/truncated raw, unfinished request intervals and independently added owner terms. First Windows7 already passed; the first fixed-image attempt actually exited1 because Docker Desktop was stopped and its API pipe was absent. The installed desktop app was initially started (no restart), Docker server29.8.0 became available, and only that missing fixed-image check was executed on the unchanged source. Original environment failure/raw and both source snapshots are in closed-capacity-v1/artifacts.zip/index.json. Ordinary WSL7 also passed in tool output86bbc2 but is not a standalone captured raw claim.
+
+Finite H4096 is conditionally accepted by hash-native-bound-v3 review (carrier2608), and the phase callgraph max was independently reviewed; actual fresh guards, immutable initialization/no-interposition, single source/entry and complete window conditions must still hold in the real experiment. The new exact-pin original matrix entryv3 is syntax-only and prospective. Component review/local commit, full-source checks/CI, independent method/input/resource/window approval and actual full original matrix/fresh revocation remain pending. No actual native or media experiment was run by these tests, no aggregate result/Ready/main/POC/V1 is accepted. Frozen checker/schema/thresholds/Program/Active, Task front/roles/lease and all old evidence stay unchanged; rollback is an ordinary reviewed forward change retaining originals.
+
+
 ## Prospective lease renewal 2026-10-29T11:01:07Z (proposal; original text above is historical)
 
 Task POC-003 / Issue #131. Actual current accepted base `dcfefbeca496b43d40c4145c751191bdd386375d`, metadata branch `chore/POC-003-lease-renewal-20261029`; original registered feature branch and creation base remain. New coordination decision and all fifteen fully substituted commands are in `lease-renewal-v1/decision.json` and `commands.json`; original reviews are recoverable from `prerequisites.zip` with `prerequisites.json` digests. Proposed lease 2026-10-29T11:01:07Z to 2026-11-05T11:01:07Z. Only Own Registry lease and front-matter expiry change. All historical actors, approval times, execution windows, source results, full original matrix/thresholds and separate revocation requirement remain.
 
 Candidate source/tree are resolved from actual Git HEAD after commit. Current source15, full same-head hosted CI, independent review, normal merge and actual-main/full push CI acceptance are PENDING; this note is not effective renewed authority. Earlier snapshot statuses above are historical. Matrix raw collection has ended; conservative native capacity exceeds the unchanged 8MiB budget, so POC acceptance is not granted. Next role must independently verify the precise delta and complete actual delivery before original expiry for continuity. No new experiment, code change, result acceptance or frozen-contract permission is granted. Preserve all local refs, raw data and databases.
+
+
+## Current implementation after accepted lease main import (prospective merge)
+
+Incoming main `fdf93444a72aa5cc52dd49a79d2f4e435cd1ce1d` has actual independent full acceptance170c69c5 at2026-10-29T12:10:52Z, including source15/CI900 and actual-main7/CI901. The previous prospective renewal note immediately above is preserved verbatim as historical evidence; its pending fields are not the current main acceptance. Current implementation keeps stable branch chore/POC-003-ats-range, creationbase760f6c5838597d1d66c0a536ecbf440ef5a7dfec, in_progress/implementer and concrete roles/root plus/root/independent_review. Only the automatic current Registry lease and Task header expiry import the actually accepted2026-10-29T11:01:07Z→2026-11-05T11:01:07Z authority. Original Task body and every current POC source byte remain unchanged.
+
+The one handoff conflict is resolved by retaining the entire local217552-byte file and appending exactly the incoming1495-byte addition (the incoming handoff is base6614 bytes plus that append); no historical local or incoming delta is discarded. The automatic Task and Registry/Program merge is verified against the exact old/current sources. All foreign metadata equals incoming accepted main. See lease-main-import-v1/provenance.json and README.md for precise identities and pending scope.
+
+New smaller-fragment plugin3b4d1797 was actually compiled on sourceaf996 with static dependencies accepted8515471c; this does not qualify the merged complete source or prove runtime/8MiB. Latest accepted-main synchronization (including pending POC005 renewal), new whole-source checks/CI and exact new method/sample/resource/window approval remain before a new real matrix or fresh revocation. Original2c9 matrix failure/partial and literalURL limitations and all consumed approvals/raws are unchanged. No reset/rebase/force or local ref/workspace/data deletion occurs. The ordinary two-parent merge itself is still pending independent precommit review.
+
+
+## Small-fragment compile originals (component only)
+
+The actual approved af996ac compile and static ELF result accepted by independent review8515471c are archived in ats-small-fragment-v1/build-originals/originals.zip with24 exact inputs in index.json, including original native receipt and separate five synthetic owner controls. This evidence-only commit preserves all73 current POC source files byte-for-byte. No runtime compatibility, current whole-source qualification, new media execution, buffer-budget pass or full POC acceptance is granted. Old partial/rejected results, approval windows and sources remain unchanged.
+
+
+## Accepted offline194 component originals
+
+Exact67f9cf3 completed87 Windows+96 Linux+11 fixed-image regressions,36 actual waits0 and no skips, independently accepted0d6e4fce.76 original results/raw/review files are recoverable from ats-small-fragment-v1/offline194/originals.zip and index.json. This archive preserves the POC source tree. Whole-source gates/CI, actual new-plugin runtime compatibility,8MiB capacity, new approved full matrix, independent hot-cache revocation and normal POC completion remain pending. Original partial and failed records retain their own source/window.
+
+
+## Normal peer-lease main7996 import
+
+The independently fully accepted main7996dedc0b01c5208824eff4d70c95724ba1b26d is imported by an ordinary two-parent merge. Incoming POC005 lease metadata is preserved; POC003 Task all bytes, creation base760f, actual roles/lease, Own Program and73 source files remain unchanged. See peer-lease-main7996-import-v1/provenance.json. Earlier194 checks and af996 compile retain their exact recorded sources. This import grants no whole-source/CI qualification, new runtime or experiment,8MiB bound, revocation result or full POC acceptance.
+
+
+## Cooperative stop development candidate
+
+Source07 matrix control exit70 prevented final owner/epoch25/media closure despite21/101 raw collection; negative7353 and consumed3e797 remain. Optional Event stop keeps complete owner RPC/fail-fast semantics and is statically acceptede4fb with two old TypeError failures and seven Windows development passes only. Exact component originals are at cooperative-stop-v1/component/. This is not full fixed-source/native qualification or a new experiment; current accepted source07 remains historical to its exact context. FullPOC/V1 incomplete.
+
+
+## Fixed021c3f3 offline198 originals
+
+Exact021c3f3 completed89 Windows+98 Linux+11 fixed-image synthetic regressions,36 actual waits0, no failures/errors/skips; independently accepted373884.78 original results/raw/review/method files are indexed and archived at cooperative-stop-v1/offline198/. POC code tree remains unchanged. This is not whole-source/current-main or new experimental qualification. Source07 exit70,7353 negative and consumed3e797 remain; original8MiB/15 observations/fresh revocation/fullPOC/V1 remain incomplete.

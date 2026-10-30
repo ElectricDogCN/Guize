@@ -1,92 +1,134 @@
+## Current source freeze after accepted closed-record capacity component
+
+Current implementation code is ordinarily committed throughfc3cd23 after normal accepted-main22 importcd804502. Runtime initialization/crypto bindingdbacbae and closed-record capacityfc3cd23 have independent component acceptance. Conditional finite H4096/carrier2608 and the synchronous phase max1048577 are reviewed method terms; actual whole-window/model application, original full matrix, fresh revocation and formal POC results remain outstanding. The prospective hook-free entryv3 retains the exact currentlab/Collector pins and has not executed a media experiment.
+
+The current fifteen declared source commands now compare with accepted main22ab6a0668da2d64a016fccef2c3b5a634638a24. This updates their integration comparison only: original creationbase760f6c5838597d1d66c0a536ecbf440ef5a7dfec, original Task front/roles/lease, frozen schemas/checkers/thresholds, Program/Active and previous records remain unchanged. Whole-source checks, current related regressions, same-head CI and independent final-source acceptance are pending on this new metadata HEAD. Windows/fixed-image7 component results do not substitute for those gates. Preserve all environment failures and raw; use ordinary reviewed forward rollback.
+
+Historical source-bound records below keep their original attribution:
+
+Current exact-source Task15; NOT YET RUN on this metadata source:
+
+```bash
+git diff --check 22ab6a0668da2d64a016fccef2c3b5a634638a24...HEAD
+python scripts/check-task-file.py --task POC-003
+python scripts/check-project-readiness.py
+python scripts/check-schemas.py
+python scripts/check-program-plan-integrity.py --base-ref 22ab6a0668da2d64a016fccef2c3b5a634638a24
+python scripts/check-program-plan-history.py --base-ref 22ab6a0668da2d64a016fccef2c3b5a634638a24 --head-ref HEAD --task POC-003 --branch-name chore/POC-003-ats-range
+python scripts/check-program-plan-transitions.py --base-ref 22ab6a0668da2d64a016fccef2c3b5a634638a24 --head-ref HEAD --task POC-003 --branch-name chore/POC-003-ats-range
+python scripts/check-program-plan-finalization.py --base-ref 22ab6a0668da2d64a016fccef2c3b5a634638a24 --head-ref HEAD --task POC-003
+python scripts/check-program-lifecycle-guards.py --base-ref 22ab6a0668da2d64a016fccef2c3b5a634638a24 --head-ref HEAD --task POC-003 --branch-name chore/POC-003-ats-range
+python scripts/run-program-lifecycle-gate.py --base-ref 22ab6a0668da2d64a016fccef2c3b5a634638a24 --head-ref HEAD --task POC-003 --branch-name chore/POC-003-ats-range
+python scripts/run-agent-coordination-gate.py --base-ref 22ab6a0668da2d64a016fccef2c3b5a634638a24 --head-ref HEAD --task POC-003 --branch-name chore/POC-003-ats-range
+python scripts/run-task-scope-gate.py --task POC-003 --base 22ab6a0668da2d64a016fccef2c3b5a634638a24
+python scripts/check-evidence.py --task POC-003
+python specs/poc/check_program.py --task POC-003 --base-ref 22ab6a0668da2d64a016fccef2c3b5a634638a24
+python scripts/check-markdown.py
+```
+
+Historical commands follow unchanged:
+
 Task: POC-003
 Issue: 131
-PR: https://github.com/ElectricDogCN/Guize/pull/133
-Base: 44e5200ed506d30c0abc83ca38f1d6912cbab1c1
-Branch: chore/POC-003-ats-range-reservation
-Work Branch: chore/POC-003-ats-range
-Tested parent source: daed2f533a726bef3f519ce7f14109eee6447c25
-Tested parent tree: ee50149e4e3797961ccbcd919230d80252b3f16b
-Current repair source: resolve Git HEAD / PR133 head.sha; tests, CI and independent acceptance PENDING.
+Branch: chore/POC-003-ats-range
+Base: 760f6c5838597d1d66c0a536ecbf440ef5a7dfec
+Current phase: in_progress / implementer
 
-Parent local15 PASS and CI805 PASS (713 passed, 1432.31s, zero skipped); parent overall NOT ACCEPTED because three actual P1 findings. These results bind only the tested parent, not this forward repair. No experiment executed, sample/resource approval granted, or POC result accepted.
+已普通合入完整接受的实际主线 760f6c5838597d1d66c0a536ecbf440ef5a7dfec，同步提交 8fabc3137c60e8eed07024cd8101777396bf21dc。该主线七项本地检查与CI841742项/1628.73s/零测试跳过及独立审查已通过，OPS-013正常完成。仅刷新自身Task/Active基线和交接；原角色、claims、order2、租约与缓存修复代码字节保持。先前47090d6在第六项history失败（前五项通过、后九项未执行），另行44项组件测试通过；原始结果分别完整归档，组件通过不替代整体接受。新固定源Task15、44项组件及同头CI仍待验证；原15项实测、当前源热缓存撤权、完整media数域与POC资格仍未完成，没有新的ATS实验批准。
 
-ACTUALLY EXECUTED on the tested parent above (Source and Command embedded in each raw log):
+Evidence: cache-47090d6-stopped-validation/ preserves actual failed Task and separate44 component originals.
+Next: commit a fixed candidate, run Task15 and44 declared components on that exact source; obtain independent review and fresh same-source CI before integration. Keep Draft PR134. No changed-source ATS/full-matrix/revocation/qualification result is inherited.
 
-[00] Command: git diff --check 44e5200ed506d30c0abc83ca38f1d6912cbab1c1...HEAD
-Exit Code: 0
-Result: PASS; tested source daed2f533a726bef3f519ce7f14109eee6447c25
-Raw: validation-source-daed2f5/local-00.raw.base64.json
+Current exact-source Task15 (planned before the new run):
+git diff --check 760f6c5838597d1d66c0a536ecbf440ef5a7dfec...HEAD
+python scripts/check-task-file.py --task POC-003
+python scripts/check-project-readiness.py
+python scripts/check-schemas.py
+python scripts/check-program-plan-integrity.py --base-ref 760f6c5838597d1d66c0a536ecbf440ef5a7dfec
+python scripts/check-program-plan-history.py --base-ref 760f6c5838597d1d66c0a536ecbf440ef5a7dfec --head-ref HEAD --task POC-003 --branch-name chore/POC-003-ats-range
+python scripts/check-program-plan-transitions.py --base-ref 760f6c5838597d1d66c0a536ecbf440ef5a7dfec --head-ref HEAD --task POC-003 --branch-name chore/POC-003-ats-range
+python scripts/check-program-plan-finalization.py --base-ref 760f6c5838597d1d66c0a536ecbf440ef5a7dfec --head-ref HEAD --task POC-003
+python scripts/check-program-lifecycle-guards.py --base-ref 760f6c5838597d1d66c0a536ecbf440ef5a7dfec --head-ref HEAD --task POC-003 --branch-name chore/POC-003-ats-range
+python scripts/run-program-lifecycle-gate.py --base-ref 760f6c5838597d1d66c0a536ecbf440ef5a7dfec --head-ref HEAD --task POC-003 --branch-name chore/POC-003-ats-range
+python scripts/run-agent-coordination-gate.py --base-ref 760f6c5838597d1d66c0a536ecbf440ef5a7dfec --head-ref HEAD --task POC-003 --branch-name chore/POC-003-ats-range
+python scripts/run-task-scope-gate.py --task POC-003 --base 760f6c5838597d1d66c0a536ecbf440ef5a7dfec
+python scripts/check-evidence.py --task POC-003
+python specs/poc/check_program.py --task POC-003 --base-ref 760f6c5838597d1d66c0a536ecbf440ef5a7dfec
+python scripts/check-markdown.py
 
-[01] Command: python scripts/check-task-file.py --task POC-003
-Exit Code: 0
-Result: PASS; tested source daed2f533a726bef3f519ce7f14109eee6447c25
-Raw: validation-source-daed2f5/local-01.raw.base64.json
+Historical source-bound command records follow.
 
-[02] Command: python scripts/check-project-readiness.py
-Exit Code: 0
-Result: PASS; tested source daed2f533a726bef3f519ce7f14109eee6447c25
-Raw: validation-source-daed2f5/local-02.raw.base64.json
+Task: POC-003
+Issue: 131
+Branch: chore/POC-003-ats-range
+Base: f2e0150265e0c1eeca5f69fe85708b2434e5ee79
+Current phase: in_progress / implementer
 
-[03] Command: python scripts/check-schemas.py
-Exit Code: 0
-Result: PASS; tested source daed2f533a726bef3f519ce7f14109eee6447c25
-Raw: validation-source-daed2f5/local-03.raw.base64.json
+SourceE123 actually passed Task15/code57 and was pushed. Its approved one-shot live diagnostic failed during strict component mapping at startup: prepare0/controller1, collector not started, no HTTP samples, two unbound native baseline rows, all owned ATS stopped and ports released within3.497617s. The actual first failing component/inode/hash is unknown because old maps were not retained. Failure archive and distinct actual result review are preserved. Old approval is consumed.
 
-[04] Command: python scripts/check-program-plan-integrity.py --base-ref 44e5200ed506d30c0abc83ca38f1d6912cbab1c1
-Exit Code: 0
-Result: PASS; tested source daed2f533a726bef3f519ce7f14109eee6447c25
-Raw: validation-source-daed2f5/local-04.raw.base64.json
+Current forward repair preserves raw maps before checks and records per-component expected and actual device/inode/hash/rejection facts. Only the optional fixed live diagnostic profile sets dynamic reload0; stock defaults remain. Two real Linux simulated-child mapping tests passed; distinct content review accepted exact repair bytes at2026-10-22T17:26:36Z. New exact-source checks and new experiment approval remain pending; no repaired-source ATS run occurred. Mainf2e0150 is fully accepted with local5/POC check/CI816713 tests and no skipped tests.
 
-[05] Command: python scripts/check-program-plan-history.py --base-ref 44e5200ed506d30c0abc83ca38f1d6912cbab1c1 --head-ref HEAD --task POC-003 --branch-name chore/POC-003-ats-range-reservation
-Exit Code: 0
-Result: PASS; tested source daed2f533a726bef3f519ce7f14109eee6447c25
-Raw: validation-source-daed2f5/local-05.raw.base64.json
 
-[06] Command: python scripts/check-program-plan-transitions.py --base-ref 44e5200ed506d30c0abc83ca38f1d6912cbab1c1 --head-ref HEAD --task POC-003 --branch-name chore/POC-003-ats-range-reservation
-Exit Code: 0
-Result: PASS; tested source daed2f533a726bef3f519ce7f14109eee6447c25
-Raw: validation-source-daed2f5/local-06.raw.base64.json
 
-[07] Command: python scripts/check-program-plan-finalization.py --base-ref 44e5200ed506d30c0abc83ca38f1d6912cbab1c1 --head-ref HEAD --task POC-003
-Exit Code: 0
-Result: PASS; tested source daed2f533a726bef3f519ce7f14109eee6447c25
-Raw: validation-source-daed2f5/local-07.raw.base64.json
+Current forward candidate: optional instrumented ATS live-media observation. Exact synchronized main f2e0150265e0c1eeca5f69fe85708b2434e5ee79 has passed five main checks plus existing POC protocol; CI816 is pending. Source8e Task15/code30/CI812713 no-skips and its actual finite pool diagnostic are retained without result transfer. Pool capacity73,363,200bytes included unused freelist slots and cannot prove a below64MiB live-media bound; this does not prove whole-object buffering.
 
-[08] Command: python scripts/check-program-lifecycle-guards.py --base-ref 44e5200ed506d30c0abc83ca38f1d6912cbab1c1 --head-ref HEAD --task POC-003 --branch-name chore/POC-003-ats-range-reservation
-Exit Code: 0
-Result: PASS; tested source daed2f533a726bef3f519ce7f14109eee6447c25
-Raw: validation-source-daed2f5/local-08.raw.base64.json
+The exact Ubuntu source plus task-owned patch/header now built and installed as ordinary UID1000 after preserving three real failed attempts. Five runtime component hashes, resolved dependencies, three core diagnostic exports and version-only execution were checked. Six ledger scenarios passed, including sticky unknown-external risk across wrapper release/repeated reset; distinct intermediate content review accepted that repair only. The new observer built against the same actual SDK;27 parser tests passed. New controller wiring still needs current-source checks, independent content review, concrete experiment approval and real runtime results. At that previous draft checkpoint no instrumentation ATS service/experiment, complete media-domain, prototype8MiB budget, original15, qualified result or integration acceptance is claimed. Generated416/502 text, kernel/socket/page cache, origin/gateway/client and stock performance remain distinct domains.
 
-[09] Command: python scripts/run-program-lifecycle-gate.py --base-ref 44e5200ed506d30c0abc83ca38f1d6912cbab1c1 --head-ref HEAD --task POC-003 --branch-name chore/POC-003-ats-range-reservation
-Exit Code: 0
-Result: PASS; tested source daed2f533a726bef3f519ce7f14109eee6447c25
-Raw: validation-source-daed2f5/local-09.raw.base64.json
+Evidence: source-8e73173-validation/, pool-diagnostic-8e73173-20261022-v1/, instrumented-build-v4-preparation/; actual source/tree for this forward candidate is Git HEAD after commit. Preserve all older failures, source identities and review limitations.
 
-[10] Command: python scripts/run-agent-coordination-gate.py --base-ref 44e5200ed506d30c0abc83ca38f1d6912cbab1c1 --head-ref HEAD --task POC-003 --branch-name chore/POC-003-ats-range-reservation
-Exit Code: 0
-Result: PASS; tested source daed2f533a726bef3f519ce7f14109eee6447c25
-Raw: validation-source-daed2f5/local-10.raw.base64.json
+Historical source-bound checkpoints follow; pending statements below retain their original scope.
+Current forward draft validation: pending exact new committed source. Historical source181 actual results are archived under source-18163e1-validation/.
 
-[11] Command: python scripts/run-task-scope-gate.py --task POC-003 --base 44e5200ed506d30c0abc83ca38f1d6912cbab1c1
-Exit Code: 0
-Result: PASS; tested source daed2f533a726bef3f519ce7f14109eee6447c25
-Raw: validation-source-daed2f5/local-11.raw.base64.json
+Historical accepted reservation: actual local15 and CI807713/1463.80s, independent2fa source review, PR133 ordinary merge, actualmain5 plus POC checker archived under reservation-merge-11c3283/. Its index preserves CI808 pending and no experiment approval. No inherited implementation PASS.
 
-[12] Command: python scripts/check-evidence.py --task POC-003
-Exit Code: 0
-Result: PASS; tested source daed2f533a726bef3f519ce7f14109eee6447c25
-Raw: validation-source-daed2f5/local-12.raw.base64.json
+Development checks (uncommitted worktree only; exact code hashes and actual argv/exits in development-checks/manifest.json): eight offline tests actually ran, exit0. The real revocation command without a sandbox actually failed exit1 as required; this is a missing-environment guard observation, not a real revocation PASS. Earlier snapshot precedes subsequent code edits; fresh committed-source validation is still required.
 
-[13] Command: python specs/poc/check_program.py --task POC-003 --base-ref 44e5200ed506d30c0abc83ca38f1d6912cbab1c1
-Exit Code: 0
-Result: PASS; tested source daed2f533a726bef3f519ce7f14109eee6447c25
-Raw: validation-source-daed2f5/local-13.raw.base64.json
+Actual observer compiler command/stdout/stderr/source+SDK+binary hashes and exit0 are retained in development-observer-build/. This proves compilation, not runtime or source admission.
 
-[14] Command: python scripts/check-markdown.py
-Exit Code: 0
-Result: PASS; tested source daed2f533a726bef3f519ce7f14109eee6447c25
-Raw: validation-source-daed2f5/local-14.raw.base64.json
+Source181 actually passed its fifteen Task commands, eight offline tests and actual build-source match; distinct independent intermediate review accepted. The real focused revocation command executed at source181 after independent approval and returned0/one scenario/no skips; actual argv/stdout/stderr/exits/window/cleanup and independent result review are retained under focused-revocation-20261022-v1/. Original matrix/full POC acceptance remains incomplete.
 
-ACTUAL CI805: pull_request run39781484599/job119833578329, tested source daed2f533a726bef3f519ce7f14109eee6447c25; Governance Checks SUCCESS, 713 passed in 1432.31s, zero failed/errors/skipped. Full job raw and actual API snapshot archived; CI is not source admission.
+The forward draft requires the fifteen Task commands on its exact new committed source, python poc/POC-03-ats-range/test_lab.py, python poc/POC-03-ats-range/test_cache_probe.py, and actual Linux python poc/POC-03-ats-range/test_cache_probe_native.py, fresh full same-head CI and corrected-content review. No new matrix may run until concrete independent source/input/resource/window approval. The original matrix and python specs/poc/check_program.py --profile local-v1 --require-results --poc POC-03 still need actual complete evidence; no conditional PASS is supplied here.
 
-Current forward repair must rerun all fifteen Task metadata commands and fresh same-head CI. Future implementation additionally MUST directly execute python poc/POC-03-ats-range/test_warm_cache_revocation.py and the formal local-v1 checker after lawful reservation and independent input/resource approvals. Neither experiment command is executed or passed by this reservation.
+Current source9c actual Task15/offline14/fullCI810713/899.22s records are in source-9c012b4-validation/. Approved raw21case matrix actually completed unassessed; separate fresh revocation startup failed, no scenario executed. Raw failures and exact commands/exits are retained under raw-matrix-9c012b4-20261022-v1/. Current forward21 tests/actual argv/exits are under development-http-fixes-checks/v2-21/. These are draft-byte checks, not new committed-source admission or experimental approval. Next committed-source checks also require test_gateway_native.py, test_http_timing_native.py and test_revocation_binding.py.
+
+SourceD1 exact Task15/offline21 and complete CI811713/1461.80s records: source-d1c0cf7-validation/. Actual approved D1 raw matrix and separate real revocation: raw-matrix-d1c0cf7-20261022-v2/. Draft native cache-ready/allocator diagnostic actual30 tests and fresh strict C++ build: development-buffer-observer-checks/, development-buffer-observer-build/. Native signal unit tests use an explicitly simulated diagnostic child; they are not ATS buffering evidence.
+
+Forward representative-input component: Windows/native each26 actual offline tests. Exact interpreter argv/source hashes/waits/raw under input-profile-v3/index.json. Future exact source must execute:
+python poc/POC-03-ats-range/test_input_profile.py
+
+Forward bounded representative-cache components (in addition to existing Task15/components):
+python poc/POC-03-ats-range/test_representative_cache.py
+python poc/POC-03-ats-range/test_representative_cache_native.py
+Native test requires ordinary-user Linux; simulated producer, no ATS/POC approval. Actual interpreter argv/hashes/waits are archived.
+
+Payload-reference lifetime component (local component; not whole-source or experiment qualification):
+python poc/POC-03-ats-range/test_payload_lifetime.py
+Eleven actual tests, no skips. Related unchanged commands and exact actual interpreter argv/PID/wait0/raw are in payload-lifetime-v1/index.json; current Windows40/Linux49. Original six and two failures retained. Full aggregate backing-capacity proof and new full-source/experiment approval still required.
+
+Synchronous cumulative request-interval peak component:
+python poc/POC-03-ats-range/test_request_concurrency.py
+Four actual synthetic overlap tests, zero skips; Windows44/Linux53 related regressions/all19 actual child waits0. First-pass fixture errors and current raw/source snapshots remain in request-concurrency-v1/index.json. This records request concurrency through each snapshot/save, not memory sampling, byte capacity, a closed entire window or POC qualification.
+
+Fixed raw Origin/hash buffer component:
+python poc/POC-03-ats-range/test_fixed_origin_io.py
+Five actual tests, zero skips; Windows49/Linux58 related regressions/all21 child waits0. Exact commands/source/raw are entries of fixed-origin-io-v1/artifacts.zip; index.json supplies archive/per-entry size and SHA256. Read entries using standard zipfile.ZipFile.read; no extraction or external dependency required. Pinned source facts and local tests do not bind a future runtime or approve the full media capacity/window/experiment.
+
+Fixed Collector raw I/O component:
+python poc/POC-03-ats-range/test_collector_raw_io.py
+Five actual loopback/synthetic-source tests, zero skips; Windows54/Linux63 related regressions/all23 child waits0. Exact source/raw and initial fixture failure provenance in collector-raw-io-v1/artifacts.zip and index.json. Runtime/HTTP native intermediates/export/reassembly/closed-window/native aggregation and new source/experiment qualifications remain pending.
+
+Fixed cache raw-I/O component:
+python poc/POC-03-ats-range/test_cache_stream_io.py
+Six actual offline tests; related Windows60/Linux69,25 child waits0/no skips. Exact draft source and original streams/preimages in cache-stream-io-v1/artifacts.zip/index.json; no full-source/runtime/experiment qualification.
+
+Owned request-window closure component:
+python poc/POC-03-ats-range/test_request_window.py
+Five actual offline loopback/lifetime tests; Windows65/Linux74 related checks,27 actual waits0/no skips. Standard ZIP/index in request-window-v2 preserves v1 failure, original code and runtime inspection; no aggregate/source/experiment qualification.
+
+V3 owned request-close correction:
+python poc/POC-03-ats-range/test_request_window.py
+Six actual offline tests, Windows66/Linux75 related checks/all27wait0/no skips; old v2 race red/negative review and original Windows failure retained. Standard ZIP/index request-window-v3; no full-source/runtime/aggregate/experiment qualification.
+
+Python runtime component binding:
+python poc/POC-03-ats-range/test_python_runtime_binding_native.py
+Eight actual tests only in fixed nonroot/read-only/offline image (see exact Docker argv in ZIP); Windows66/Linux75 related checks/all28 current commands wait0. Not a generic host target or media/capacity/POC acceptance. Standard ZIP/index python-runtime-binding-v1.

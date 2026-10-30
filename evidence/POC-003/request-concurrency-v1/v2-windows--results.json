@@ -1,0 +1,275 @@
+{
+  "kind": "ACTUAL_SYNCHRONOUS_REQUEST_OVERLAP_COMPONENT_CHECKS_NOT_CAPACITY_OR_POC_QUALIFICATION",
+  "platform": "windows",
+  "pythonVersion": "3.12.4 | packaged by Anaconda, Inc. | (main, Jun 18 2024, 15:03:56) [MSC v.1929 64 bit (AMD64)]",
+  "before": {
+    "poc\\POC-03-ats-range\\lab.py": {
+      "bytes": 48543,
+      "sha256": "3ea0384d14c3507f8cfdab70a9355b61c5709035b3e3d3fb6730cdf14bd134d7"
+    },
+    "poc\\POC-03-ats-range\\cache_probe.py": {
+      "bytes": 16894,
+      "sha256": "a2b083dc907a8ece5a20c35ca15838f190a9d8577cdb2514369f4724dbd55b23"
+    },
+    "poc\\POC-03-ats-range\\collect.py": {
+      "bytes": 14804,
+      "sha256": "f43b80321b1760266745c860a4f534e596384b7044d57750779175e82c5dffe1"
+    },
+    "poc\\POC-03-ats-range\\test_payload_lifetime.py": {
+      "bytes": 13873,
+      "sha256": "2f5cc9a4ee25ff2087d402c0956e9cff40225623aac319d5d8f12773000b4dc2"
+    },
+    "poc\\POC-03-ats-range\\test_gateway_native.py": {
+      "bytes": 4608,
+      "sha256": "5c3a73a1177a73d93756e410ffd75ce10fe89403586d6ccfbeaaf1db63ad7eec"
+    },
+    "poc\\POC-03-ats-range\\test_request_concurrency.py": {
+      "bytes": 6438,
+      "sha256": "4201206322be396eddfeb8c9dc311dae17308b7b526cbc929e742688df4656cb"
+    },
+    "poc\\POC-03-ats-range\\test_input_profile.py": {
+      "bytes": 13011,
+      "sha256": "8ec5c0c2369ead6454b92668c6e22a062a3a47bafb85679325ebb64af4ef025b"
+    }
+  },
+  "after": {
+    "poc\\POC-03-ats-range\\lab.py": {
+      "bytes": 48543,
+      "sha256": "3ea0384d14c3507f8cfdab70a9355b61c5709035b3e3d3fb6730cdf14bd134d7"
+    },
+    "poc\\POC-03-ats-range\\cache_probe.py": {
+      "bytes": 16894,
+      "sha256": "a2b083dc907a8ece5a20c35ca15838f190a9d8577cdb2514369f4724dbd55b23"
+    },
+    "poc\\POC-03-ats-range\\collect.py": {
+      "bytes": 14804,
+      "sha256": "f43b80321b1760266745c860a4f534e596384b7044d57750779175e82c5dffe1"
+    },
+    "poc\\POC-03-ats-range\\test_payload_lifetime.py": {
+      "bytes": 13873,
+      "sha256": "2f5cc9a4ee25ff2087d402c0956e9cff40225623aac319d5d8f12773000b4dc2"
+    },
+    "poc\\POC-03-ats-range\\test_gateway_native.py": {
+      "bytes": 4608,
+      "sha256": "5c3a73a1177a73d93756e410ffd75ce10fe89403586d6ccfbeaaf1db63ad7eec"
+    },
+    "poc\\POC-03-ats-range\\test_request_concurrency.py": {
+      "bytes": 6438,
+      "sha256": "4201206322be396eddfeb8c9dc311dae17308b7b526cbc929e742688df4656cb"
+    },
+    "poc\\POC-03-ats-range\\test_input_profile.py": {
+      "bytes": 13011,
+      "sha256": "8ec5c0c2369ead6454b92668c6e22a062a3a47bafb85679325ebb64af4ef025b"
+    }
+  },
+  "sourceBytesUnchanged": true,
+  "commands": [
+    {
+      "name": "test_request_concurrency.py",
+      "argv": [
+        "C:\\ProgramData\\anaconda3\\python.exe",
+        "-X",
+        "utf8",
+        "-B",
+        "poc\\POC-03-ats-range\\test_request_concurrency.py"
+      ],
+      "pid": 51208,
+      "exitCode": 0,
+      "actualWaitCompleted": true,
+      "startedAt": "2026-10-28T00:01:50.321047+00:00",
+      "finishedAt": "2026-10-28T00:01:50.550725+00:00",
+      "raw": {
+        ".stdout.raw": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        ".stderr.raw": {
+          "bytes": 797,
+          "sha256": "eb7940918c7a710aae0d83a1f9cef5b9d494d9cbe3a2d92bbdccd87c652ca1a4"
+        }
+      }
+    },
+    {
+      "name": "test_payload_lifetime.py",
+      "argv": [
+        "C:\\ProgramData\\anaconda3\\python.exe",
+        "-X",
+        "utf8",
+        "-B",
+        "poc\\POC-03-ats-range\\test_payload_lifetime.py"
+      ],
+      "pid": 49884,
+      "exitCode": 0,
+      "actualWaitCompleted": true,
+      "startedAt": "2026-10-28T00:01:50.551724+00:00",
+      "finishedAt": "2026-10-28T00:01:51.067668+00:00",
+      "raw": {
+        ".stdout.raw": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        ".stderr.raw": {
+          "bytes": 1973,
+          "sha256": "59b2d5517f439f3e4e226f351854dbd356c7a4f02a3e1cc92cd5c318367fd54e"
+        }
+      }
+    },
+    {
+      "name": "test_lab.py",
+      "argv": [
+        "C:\\ProgramData\\anaconda3\\python.exe",
+        "-X",
+        "utf8",
+        "-B",
+        "poc\\POC-03-ats-range\\test_lab.py"
+      ],
+      "pid": 51300,
+      "exitCode": 0,
+      "actualWaitCompleted": true,
+      "startedAt": "2026-10-28T00:01:51.068671+00:00",
+      "finishedAt": "2026-10-28T00:01:51.217141+00:00",
+      "raw": {
+        ".stdout.raw": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        ".stderr.raw": {
+          "bytes": 1181,
+          "sha256": "0ade121e63fb24a30195e5bb49ace27a3da771b5b568a2581a659c689d60b738"
+        }
+      }
+    },
+    {
+      "name": "test_revocation_binding.py",
+      "argv": [
+        "C:\\ProgramData\\anaconda3\\python.exe",
+        "-X",
+        "utf8",
+        "-B",
+        "poc\\POC-03-ats-range\\test_revocation_binding.py"
+      ],
+      "pid": 53052,
+      "exitCode": 0,
+      "actualWaitCompleted": true,
+      "startedAt": "2026-10-28T00:01:51.218140+00:00",
+      "finishedAt": "2026-10-28T00:01:51.381663+00:00",
+      "raw": {
+        ".stdout.raw": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        ".stderr.raw": {
+          "bytes": 431,
+          "sha256": "60d12af1296d22119f6144d8a4a9402ac042175258788b082df089de4e0f2c3c"
+        }
+      }
+    },
+    {
+      "name": "test_cache_body_bounds.py",
+      "argv": [
+        "C:\\ProgramData\\anaconda3\\python.exe",
+        "-X",
+        "utf8",
+        "-B",
+        "poc\\POC-03-ats-range\\test_cache_body_bounds.py"
+      ],
+      "pid": 60516,
+      "exitCode": 0,
+      "actualWaitCompleted": true,
+      "startedAt": "2026-10-28T00:01:51.382713+00:00",
+      "finishedAt": "2026-10-28T00:01:51.574669+00:00",
+      "raw": {
+        ".stdout.raw": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        ".stderr.raw": {
+          "bytes": 597,
+          "sha256": "852a6ff9dc2bc573204dec0fc03995d23536bc40c3b3b6a83f424cbc1927eaad"
+        }
+      }
+    },
+    {
+      "name": "test_cache_probe.py",
+      "argv": [
+        "C:\\ProgramData\\anaconda3\\python.exe",
+        "-X",
+        "utf8",
+        "-B",
+        "poc\\POC-03-ats-range\\test_cache_probe.py"
+      ],
+      "pid": 23008,
+      "exitCode": 0,
+      "actualWaitCompleted": true,
+      "startedAt": "2026-10-28T00:01:51.575669+00:00",
+      "finishedAt": "2026-10-28T00:01:51.733299+00:00",
+      "raw": {
+        ".stdout.raw": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        ".stderr.raw": {
+          "bytes": 755,
+          "sha256": "573d06854e05b1ae6c6591931cc916cce53a87648d341cb2698d18926e9878a7"
+        }
+      }
+    },
+    {
+      "name": "test_input_profile.py",
+      "argv": [
+        "C:\\ProgramData\\anaconda3\\python.exe",
+        "-X",
+        "utf8",
+        "-B",
+        "poc\\POC-03-ats-range\\test_input_profile.py"
+      ],
+      "pid": 49024,
+      "exitCode": 0,
+      "actualWaitCompleted": true,
+      "startedAt": "2026-10-28T00:01:51.734302+00:00",
+      "finishedAt": "2026-10-28T00:01:52.454408+00:00",
+      "raw": {
+        ".stdout.raw": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        ".stderr.raw": {
+          "bytes": 1561,
+          "sha256": "0a60cab57e970aeb0ecc22b1e58642599c89cd4a6dbbc340b6ad120b21168da5"
+        }
+      }
+    },
+    {
+      "name": "test_representative_cache.py",
+      "argv": [
+        "C:\\ProgramData\\anaconda3\\python.exe",
+        "-X",
+        "utf8",
+        "-B",
+        "poc\\POC-03-ats-range\\test_representative_cache.py"
+      ],
+      "pid": 13404,
+      "exitCode": 0,
+      "actualWaitCompleted": true,
+      "startedAt": "2026-10-28T00:01:52.455207+00:00",
+      "finishedAt": "2026-10-28T00:01:52.629352+00:00",
+      "raw": {
+        ".stdout.raw": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        ".stderr.raw": {
+          "bytes": 585,
+          "sha256": "f8f97c82c88a71c524f4b09be06fa11d87d03ad2527afabea89307e0948b0968"
+        }
+      }
+    }
+  ],
+  "allRequestedExecuted": true,
+  "actualAllZero": true,
+  "atsExecuted": false,
+  "mediaExperimentExecuted": false,
+  "aggregateCapacityProofComplete": false,
+  "sourceQualified": false,
+  "formalPocAccepted": false
+}

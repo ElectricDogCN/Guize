@@ -1,0 +1,24 @@
+{
+  "reviewerRole": "independent-review-agent",
+  "actualReviewer": "/root/gz022_planning_independent_review",
+  "reviewedAt": "2026-10-22T14:47:50Z",
+  "baseSource": "18163e180e554773ef82e1eea7ffcafa634b027a",
+  "scope": "Actual corrected forward intermediate code only",
+  "intermediateContentAccepted": true,
+  "mustFix": [],
+  "files": {
+    "cache_probe.py": "cb785c6f7cc1e6c3715b5569049d79aa8315bc44c76768c40cdb86430871cba2",
+    "collect.py": "076c5d07a86f93874ebf676175bc98596f9339c5c5e1cdb4144a21464eb526ab",
+    "lab.py": "dc818d08802d18bd18401e8a436b3059c87a42d03f92d497ffdeb580ae16edeb",
+    "test_cache_probe.py": "880b226f4d0a54524a95599954237d27bf2bf157da3b363f6e3aeab1acb430a0",
+    "test_cache_probe_native.py": "e835fd96229fe843fc1505718494ba2c6b34acc415703f40da6b3815fbdac2fc"
+  },
+  "actualFindingsFixed": [
+    "Distinct immutable start/native-final/collector-final records; failed receipt separate; existing output refused without mutation",
+    "Atomic renameat2(RENAME_NOREPLACE) publishes single-link0600 request and refuses replacement"
+  ],
+  "original15Accepted": false,
+  "fullBufferMeasurementAccepted": false,
+  "canonicalEvidenceAccepted": false,
+  "newExperimentApproved": false
+}

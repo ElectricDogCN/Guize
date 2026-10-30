@@ -1,0 +1,134 @@
+{
+  "kind": "LIMITED_COOPERATIVE_STOP_DEVELOPMENT_AND_FAILED_MATRIX_PUBLIC_ORIGINALS",
+  "parent": "07d7f842f62a8a878915ebf60ea26f559eaed4eb",
+  "originalFiles": [
+    {
+      "path": "source07-preimages/lab.py",
+      "bytes": 57149,
+      "sha256": "cc302d0c255f3950f51df990f4762acc7aa863a5661449daf980efb475b968c5"
+    },
+    {
+      "path": "current-development/lab.py",
+      "bytes": 57596,
+      "sha256": "310d38b82fc9898711147b2ae560d1f5bb5def38798533a45462489cb98b358f"
+    },
+    {
+      "path": "source07-preimages/test_serve_readiness.py",
+      "bytes": 5205,
+      "sha256": "ef30890956e856012d19301a87350519421687f30c0c687f4f7041fec729523f"
+    },
+    {
+      "path": "current-development/test_serve_readiness.py",
+      "bytes": 8198,
+      "sha256": "dd2157694044c422642f0e338978a83c425f102b29f6c79225d3dd2a373ca84f"
+    },
+    {
+      "path": "poc003_small_fragment_original_matrix_cooperative_entry_v2.py",
+      "bytes": 8568,
+      "sha256": "eb2a9d4bbe210d8d2720a0c98404851c96b49ffd90699cb74f4517010382cdf6"
+    },
+    {
+      "path": "poc003-cooperative-stop-development-v1-independent-review.json",
+      "bytes": 6341,
+      "sha256": "e4fb2956ef477868628d6027bd1f6fcaf399c67c008fb8fac934c2cb97b1a437"
+    },
+    {
+      "path": "poc003-small-fragment-original-matrix-source07-v1-negative-independent-review.json",
+      "bytes": 35036,
+      "sha256": "7353f1f2b89495d1dc630197a78a540219e967a6eb93d267a64229b31a83b9d2"
+    },
+    {
+      "path": "run_poc003_small_fragment_original_matrix_source07_v1.py",
+      "bytes": 20236,
+      "sha256": "1c70977a28f903081e08f0748b38571d412b44fb1e2fff53684f73a978156b1b"
+    },
+    {
+      "path": "poc003_small_fragment_original_matrix_entry_v1.py",
+      "bytes": 8503,
+      "sha256": "cbad54cdaf3d918d049fbc07a443e861a82a15839fc7c51ca4b3d1c1b080b186"
+    },
+    {
+      "path": "launch_poc003_approved_small_fragment_original_matrix_source07_v1.py",
+      "bytes": 9467,
+      "sha256": "d21d9a9ffb93b98a0f9cf5d8d13aeb0b3f66c09ed44c1616dfe8e77826118884"
+    },
+    {
+      "path": "launch_poc003_approved_small_fragment_original_matrix_source07_v1_pre_config_integrity_fix.py",
+      "bytes": 6470,
+      "sha256": "c47af828c34305e6061b7769adc9a4a22784933058ac148527b4278e0a22949e"
+    },
+    {
+      "path": "development/results.json",
+      "bytes": 1841,
+      "sha256": "2e0afc097afe5909b96e2792dd87ba8d1cefffe92cecd7cffc1cf096d736fd2e"
+    },
+    {
+      "path": "development/old-source-two.raw",
+      "bytes": 6077,
+      "sha256": "314053f8afd1fe1341ad4bdc2bafdee6823851d4086c2975cd6f163acba253db"
+    },
+    {
+      "path": "development/old-source-two.xml",
+      "bytes": 6091,
+      "sha256": "cdd6c91169bdd912693208f0c00c7a271756cbd717fa693708297f397240ec63"
+    },
+    {
+      "path": "development/new-source-seven.raw",
+      "bytes": 278,
+      "sha256": "d7274e83953cbadd89561a1d8069d4515db24f6e14cd74be5da57f37efb046d5"
+    },
+    {
+      "path": "development/new-source-seven.xml",
+      "bytes": 1392,
+      "sha256": "fd433eb807aa9a616f1e7cd53e4fac4c6274db8d1cb577b8e2794fb341a42475"
+    },
+    {
+      "path": "consumed-matrix-approval/independent-approval.json",
+      "bytes": 16342,
+      "sha256": "3e797ed175c5abed586ddfa3e72e3a21fd4434d1597c70b7a50946fda194053a"
+    },
+    {
+      "path": "consumed-matrix-approval/sample-approval.json",
+      "bytes": 398,
+      "sha256": "7b4c473a6490b3bbf21dac3a23dc3b329a0a32f919c81d17488b789b3069485a"
+    },
+    {
+      "path": "consumed-matrix-approval/changed-sample-approval.json",
+      "bytes": 398,
+      "sha256": "cc0fa66a6cb07243ad40d5ad277458d657bea80602fa2153f5ba0ee87d95ae35"
+    },
+    {
+      "path": "consumed-matrix-approval/resource-configuration.json",
+      "bytes": 8162,
+      "sha256": "674093aa07eed9b0067fc5efa9f02e6366e92dc7d27d53d573b6e279cfe64f56"
+    },
+    {
+      "path": "consumed-matrix-approval/resource-booking.json",
+      "bytes": 446,
+      "sha256": "e5789083f808db7c4268dc887d11617375801fd68665ade9145ec037879b9466"
+    },
+    {
+      "path": "poc003-small-fragment-original-matrix-source07-v1/results.json",
+      "bytes": 15602,
+      "sha256": "453adca57e87ad8a1f7400f0538d9d436c72f5c9205c78fdca511fd6680bfbdb"
+    },
+    {
+      "path": "poc003-small-fragment-original-matrix-source07-launch-v1/results.json",
+      "bytes": 9754,
+      "sha256": "857c485aa303e43e297dd2160676b1184b85fe353a88fd3bd7a3adceacfe689a"
+    },
+    {
+      "path": "poc003-small-fragment-original-matrix-source07-launch-v1/native.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "poc003-small-fragment-original-matrix-source07-launch-v1/native.stderr.raw",
+      "bytes": 1268,
+      "sha256": "c6400f37ab02861028e329ec3d3aba09be50aea41b5f3bf5f983d047d0e1a7e9"
+    }
+  ],
+  "newSourceQualified": false,
+  "newExperimentApproved": false,
+  "privatePayloadAndRuntimeSettingsExcluded": true
+}

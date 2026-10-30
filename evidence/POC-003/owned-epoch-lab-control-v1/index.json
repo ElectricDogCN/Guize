@@ -1,0 +1,407 @@
+{
+  "parent": "a45cd72427c1f8f4834562c0641240089f12c62c",
+  "workingSourceHashes": {
+    "poc/POC-03-ats-range/lab.py": "f359bf7e96b12cba9b476431c5a57f4f082b3cc9e22973087526a02ecaf6509a",
+    "poc/POC-03-ats-range/live_buffer_probe.py": "d3154af91abcab988632201acbf13cc1e1466b1b73cd296554b014fe30fb0f12",
+    "poc/POC-03-ats-range/owned_epoch.py": "0ecfb5d90c9e345a1cba11005e4f1e57c069751c79ee3a6f8267ede28ce6d3b3"
+  },
+  "files": [
+    {
+      "original": "poc003-owned-epoch-integration-native-v1/actual-failure-elf/commands/failure.stderr.raw",
+      "encoded": "000-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-owned-epoch-integration-native-v1/actual-failure-elf/commands/failure.stdout.raw",
+      "encoded": "001-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-owned-epoch-integration-native-v1/actual-failure-elf/controller.jsonl",
+      "encoded": "002-42da4957a1eb.zlib.b64",
+      "bytes": 1113,
+      "sha256": "42da4957a1eb4c5bdd7b163e44222194f58601af9528b5381b2ebaf25c776956"
+    },
+    {
+      "original": "poc003-owned-epoch-integration-native-v1/actual-failure-elf/process-epochs/epoch-0/closure.json",
+      "encoded": "003-31983c65218c.zlib.b64",
+      "bytes": 582,
+      "sha256": "31983c65218cd7e08476a18a1daa99321ed6e54e4ee17b9e22172e6f6a188fba"
+    },
+    {
+      "original": "poc003-owned-epoch-integration-native-v1/actual-failure-elf/process-epochs/epoch-0/finished/durable-peaks.raw",
+      "encoded": "004-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-owned-epoch-integration-native-v1/actual-failure-elf/process-epochs/epoch-0/launch/exec-error.raw",
+      "encoded": "005-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-owned-epoch-integration-native-v1/actual-failure-elf/process-epochs/epoch-0/launch/gate-control-fdinfo.raw",
+      "encoded": "006-87df3d51bdfe.zlib.b64",
+      "bytes": 48,
+      "sha256": "87df3d51bdfea7dc3401a0bff29b7eb66caf1c460690cb61f54870baf42f0011"
+    },
+    {
+      "original": "poc003-owned-epoch-integration-native-v1/actual-failure-elf/process-epochs/epoch-0/launch/gate-exec-error-fdinfo.raw",
+      "encoded": "007-b619aa1f3397.zlib.b64",
+      "bytes": 48,
+      "sha256": "b619aa1f33979203e587b85bfdc7115abd373a7b4adb886e3616a2e5f1cf5553"
+    },
+    {
+      "original": "poc003-owned-epoch-integration-native-v1/actual-failure-elf/process-epochs/epoch-0/launch/gate-executable-fdinfo.raw",
+      "encoded": "008-bdcbe8b979a9.zlib.b64",
+      "bytes": 52,
+      "sha256": "bdcbe8b979a9232d1f90bf31b41e190d0b50eced45abe13256e214b362835bb6"
+    },
+    {
+      "original": "poc003-owned-epoch-integration-native-v1/actual-failure-elf/process-epochs/epoch-0/launch/launch.json",
+      "encoded": "009-18d547553ad8.zlib.b64",
+      "bytes": 5516,
+      "sha256": "18d547553ad87c49f8b86525c7e6f0caac21c7d502eff88b4e9e43721bb37868"
+    },
+    {
+      "original": "poc003-owned-epoch-integration-native-v1/actual-failure-elf/process-epochs/epoch-0/launch/ready.raw",
+      "encoded": "010-3dfa3fb239f5.zlib.b64",
+      "bytes": 6,
+      "sha256": "3dfa3fb239f56c778a1e9b33eb31328349edd155a95806dac4378904e88527e5"
+    },
+    {
+      "original": "poc003-owned-epoch-integration-native-v1/actual-version/commands/version.stderr.raw",
+      "encoded": "011-5516fdd2ee38.zlib.b64",
+      "bytes": 41,
+      "sha256": "5516fdd2ee38768a3b08da79276f9e024004b3f85061e46ab5b95edf25f87850"
+    },
+    {
+      "original": "poc003-owned-epoch-integration-native-v1/actual-version/commands/version.stdout.raw",
+      "encoded": "012-3a701a8f2593.zlib.b64",
+      "bytes": 274,
+      "sha256": "3a701a8f259353c5802a89164011a45b206669606385827fb0fb2e31ab20192b"
+    },
+    {
+      "original": "poc003-owned-epoch-integration-native-v1/actual-version/controller.jsonl",
+      "encoded": "013-538cf3d47bf6.zlib.b64",
+      "bytes": 2176,
+      "sha256": "538cf3d47bf677ba2dd943d9da318ba223d77c70fa8e3ceb0e052015df3603a5"
+    },
+    {
+      "original": "poc003-owned-epoch-integration-native-v1/actual-version/process-epochs/epoch-0/closure.json",
+      "encoded": "014-3d30c7161e8b.zlib.b64",
+      "bytes": 2222,
+      "sha256": "3d30c7161e8bf92656847b387e94c1e5eb8c17c4786b64250ca37e61eb31567f"
+    },
+    {
+      "original": "poc003-owned-epoch-integration-native-v1/actual-version/process-epochs/epoch-0/finished/durable-peaks.raw",
+      "encoded": "015-c1c1d35ac4f0.zlib.b64",
+      "bytes": 358,
+      "sha256": "c1c1d35ac4f0f6215da5f7371e5252fdfe941582fc89323df9673f7df3417663"
+    },
+    {
+      "original": "poc003-owned-epoch-integration-native-v1/actual-version/process-epochs/epoch-0/journal/peak-2210398-10975763.jsonl",
+      "encoded": "016-c1c1d35ac4f0.zlib.b64",
+      "bytes": 358,
+      "sha256": "c1c1d35ac4f0f6215da5f7371e5252fdfe941582fc89323df9673f7df3417663"
+    },
+    {
+      "original": "poc003-owned-epoch-integration-native-v1/actual-version/process-epochs/epoch-0/launch/exec-error.raw",
+      "encoded": "017-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-owned-epoch-integration-native-v1/actual-version/process-epochs/epoch-0/launch/gate-control-fdinfo.raw",
+      "encoded": "018-7dbf2c55246e.zlib.b64",
+      "bytes": 48,
+      "sha256": "7dbf2c55246e70760be4a23eecf1c50fe66d6ac3b4f912e18a8bd30ecada7bcf"
+    },
+    {
+      "original": "poc003-owned-epoch-integration-native-v1/actual-version/process-epochs/epoch-0/launch/gate-exec-error-fdinfo.raw",
+      "encoded": "019-c49aa1a1ea48.zlib.b64",
+      "bytes": 48,
+      "sha256": "c49aa1a1ea486271f09f782a033436d5aa5dec19b0a80fc5d4279b64025bdb41"
+    },
+    {
+      "original": "poc003-owned-epoch-integration-native-v1/actual-version/process-epochs/epoch-0/launch/gate-executable-fdinfo.raw",
+      "encoded": "020-dc5e3714a4ac.zlib.b64",
+      "bytes": 54,
+      "sha256": "dc5e3714a4ac9812972880b48dfaf8b89075c46e7567af5ff95239d76c673841"
+    },
+    {
+      "original": "poc003-owned-epoch-integration-native-v1/actual-version/process-epochs/epoch-0/launch/launch.json",
+      "encoded": "021-c15a1a3a7a3c.zlib.b64",
+      "bytes": 7977,
+      "sha256": "c15a1a3a7a3c77fe179ba6e12340b12b9594ad3ec313a6030c07d4c842cf97ea"
+    },
+    {
+      "original": "poc003-owned-epoch-integration-native-v1/actual-version/process-epochs/epoch-0/launch/ready.raw",
+      "encoded": "022-3dfa3fb239f5.zlib.b64",
+      "bytes": 6,
+      "sha256": "3dfa3fb239f56c778a1e9b33eb31328349edd155a95806dac4378904e88527e5"
+    },
+    {
+      "original": "poc003-owned-epoch-integration-native-v1/config-after-exit/commands/config-change.stderr.raw",
+      "encoded": "023-5516fdd2ee38.zlib.b64",
+      "bytes": 41,
+      "sha256": "5516fdd2ee38768a3b08da79276f9e024004b3f85061e46ab5b95edf25f87850"
+    },
+    {
+      "original": "poc003-owned-epoch-integration-native-v1/config-after-exit/commands/config-change.stdout.raw",
+      "encoded": "024-7886340abfc4.zlib.b64",
+      "bytes": 277,
+      "sha256": "7886340abfc400949a259e7339ec8e3c1c04e84e09ac9a86f01406080a2300e5"
+    },
+    {
+      "original": "poc003-owned-epoch-integration-native-v1/config-after-exit/controller.jsonl",
+      "encoded": "025-12bd0a3150a1.zlib.b64",
+      "bytes": 928,
+      "sha256": "12bd0a3150a1342b676869472a0fa6aaa10cd91d053d021f60db527eadca7132"
+    },
+    {
+      "original": "poc003-owned-epoch-integration-native-v1/config-after-exit/process-epochs/epoch-0/closure.json",
+      "encoded": "026-37a3d2e5212f.zlib.b64",
+      "bytes": 425,
+      "sha256": "37a3d2e5212f54e47d4303a34cedb9331138ac35050e8eb0d0248f1a2e332660"
+    },
+    {
+      "original": "poc003-owned-epoch-integration-native-v1/config-after-exit/process-epochs/epoch-0/finished/durable-peaks.raw",
+      "encoded": "027-845aba7d01d4.zlib.b64",
+      "bytes": 358,
+      "sha256": "845aba7d01d4eedd2b4258ba4529b8c29b97df609a5943ae46b45b80a4fd41b4"
+    },
+    {
+      "original": "poc003-owned-epoch-integration-native-v1/config-after-exit/process-epochs/epoch-0/journal/peak-2210400-10975801.jsonl",
+      "encoded": "028-845aba7d01d4.zlib.b64",
+      "bytes": 358,
+      "sha256": "845aba7d01d4eedd2b4258ba4529b8c29b97df609a5943ae46b45b80a4fd41b4"
+    },
+    {
+      "original": "poc003-owned-epoch-integration-native-v1/config-after-exit/process-epochs/epoch-0/launch/exec-error.raw",
+      "encoded": "029-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-owned-epoch-integration-native-v1/config-after-exit/process-epochs/epoch-0/launch/gate-control-fdinfo.raw",
+      "encoded": "030-ffa5eb11c4a4.zlib.b64",
+      "bytes": 48,
+      "sha256": "ffa5eb11c4a45af6a25a013f21ee44ae8257399ba9fc698e47ee3c84fa38d922"
+    },
+    {
+      "original": "poc003-owned-epoch-integration-native-v1/config-after-exit/process-epochs/epoch-0/launch/gate-exec-error-fdinfo.raw",
+      "encoded": "031-9ee4da694e12.zlib.b64",
+      "bytes": 48,
+      "sha256": "9ee4da694e12f5592cf0e643cca686a9f8a102a7c5329665305c741d9196d640"
+    },
+    {
+      "original": "poc003-owned-epoch-integration-native-v1/config-after-exit/process-epochs/epoch-0/launch/gate-executable-fdinfo.raw",
+      "encoded": "032-dc5e3714a4ac.zlib.b64",
+      "bytes": 54,
+      "sha256": "dc5e3714a4ac9812972880b48dfaf8b89075c46e7567af5ff95239d76c673841"
+    },
+    {
+      "original": "poc003-owned-epoch-integration-native-v1/config-after-exit/process-epochs/epoch-0/launch/launch.json",
+      "encoded": "033-d407e8d6f7c7.zlib.b64",
+      "bytes": 5477,
+      "sha256": "d407e8d6f7c737a7b2b4910a96f328fdfd805c0b831a3791918fe25c500e5419"
+    },
+    {
+      "original": "poc003-owned-epoch-integration-native-v1/config-after-exit/process-epochs/epoch-0/launch/ready.raw",
+      "encoded": "034-3dfa3fb239f5.zlib.b64",
+      "bytes": 6,
+      "sha256": "3dfa3fb239f56c778a1e9b33eb31328349edd155a95806dac4378904e88527e5"
+    },
+    {
+      "original": "poc003-owned-epoch-integration-native-v1/config-before-GO/commands/config-change.stderr.raw",
+      "encoded": "035-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-owned-epoch-integration-native-v1/config-before-GO/commands/config-change.stdout.raw",
+      "encoded": "036-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-owned-epoch-integration-native-v1/config-before-GO/controller.jsonl",
+      "encoded": "037-5d256d81a34a.zlib.b64",
+      "bytes": 436,
+      "sha256": "5d256d81a34ac2993a9ee580eeac1cd9f871d4c1479d04fa4dbdd666c12f40dc"
+    },
+    {
+      "original": "poc003-owned-epoch-integration-native-v1/config-before-GO/process-epochs/epoch-0/closure.json",
+      "encoded": "038-8977958974a7.zlib.b64",
+      "bytes": 464,
+      "sha256": "8977958974a7e628fa06aa4fc63b775d385333a55db0620269675c0e6dc15d15"
+    },
+    {
+      "original": "poc003-owned-epoch-integration-native-v1/config-before-GO/process-epochs/epoch-0/launch/launch.json",
+      "encoded": "039-071558e0bf41.zlib.b64",
+      "bytes": 665,
+      "sha256": "071558e0bf41dbee1ad4197724c9ce31d044663472f0d88bc24af847f4b98626"
+    },
+    {
+      "original": "poc003-owned-epoch-integration-native-v1/legacy-version/commands/legacy.stderr.raw",
+      "encoded": "040-5516fdd2ee38.zlib.b64",
+      "bytes": 41,
+      "sha256": "5516fdd2ee38768a3b08da79276f9e024004b3f85061e46ab5b95edf25f87850"
+    },
+    {
+      "original": "poc003-owned-epoch-integration-native-v1/legacy-version/commands/legacy.stdout.raw",
+      "encoded": "041-1321ff811225.zlib.b64",
+      "bytes": 274,
+      "sha256": "1321ff8112254d23bd25ca08410a71f3f38c1288521804497792fb55cb9a80a4"
+    },
+    {
+      "original": "poc003-owned-epoch-integration-native-v1/legacy-version/controller.jsonl",
+      "encoded": "042-3bb332b121de.zlib.b64",
+      "bytes": 355,
+      "sha256": "3bb332b121de2afb4a99d52529b5c38ce56fd947ac1d2ba74d717f7bee3aefd2"
+    },
+    {
+      "original": "poc003-owned-epoch-integration-native-v1/real-reaped-esrch/journal/peak-2210402-10975817.jsonl",
+      "encoded": "043-139d10a241da.zlib.b64",
+      "bytes": 1116,
+      "sha256": "139d10a241dadf18b7c65cc7664579cdd1a432d21f2b7bf598e1d1b8e100e8cb"
+    },
+    {
+      "original": "poc003-owned-epoch-integration-native-v1/real-reaped-esrch/journal/target-started",
+      "encoded": "044-94cc918b903f.zlib.b64",
+      "bytes": 8,
+      "sha256": "94cc918b903fff7d95e96db3efd9cb47fd71eab492736fe19dc65aed462d2a61"
+    },
+    {
+      "original": "poc003-owned-epoch-integration-native-v1/real-reaped-esrch/launch/exec-error.raw",
+      "encoded": "045-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-owned-epoch-integration-native-v1/real-reaped-esrch/launch/gate-control-fdinfo.raw",
+      "encoded": "046-3a2db81e4466.zlib.b64",
+      "bytes": 48,
+      "sha256": "3a2db81e4466f337392f03df62552d9bea838388ef8260f65ba871092a887a0a"
+    },
+    {
+      "original": "poc003-owned-epoch-integration-native-v1/real-reaped-esrch/launch/gate-exec-error-fdinfo.raw",
+      "encoded": "047-b5e01920d11d.zlib.b64",
+      "bytes": 48,
+      "sha256": "b5e01920d11da199f93bcaa9c8e9f46db0a06ec9b7e2a233caca00385e0e5009"
+    },
+    {
+      "original": "poc003-owned-epoch-integration-native-v1/real-reaped-esrch/launch/gate-executable-fdinfo.raw",
+      "encoded": "048-b1100d3816a9.zlib.b64",
+      "bytes": 52,
+      "sha256": "b1100d3816a98fdb573a2d52971da087c052ac904912e9ddd51ee3834959c7d3"
+    },
+    {
+      "original": "poc003-owned-epoch-integration-native-v1/real-reaped-esrch/launch/launch.json",
+      "encoded": "049-9daa1f19b5f4.zlib.b64",
+      "bytes": 3517,
+      "sha256": "9daa1f19b5f4d55487d2c127acec14c063af197a9873a855cd9dfac19905190e"
+    },
+    {
+      "original": "poc003-owned-epoch-integration-native-v1/real-reaped-esrch/launch/ready.raw",
+      "encoded": "050-3dfa3fb239f5.zlib.b64",
+      "bytes": 6,
+      "sha256": "3dfa3fb239f56c778a1e9b33eb31328349edd155a95806dac4378904e88527e5"
+    },
+    {
+      "original": "poc003-owned-epoch-integration-native-v1/real-reaped-esrch/stderr.raw",
+      "encoded": "051-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-owned-epoch-integration-native-v1/real-reaped-esrch/stdout.raw",
+      "encoded": "052-55e1741d84f2.zlib.b64",
+      "bytes": 13,
+      "sha256": "55e1741d84f2d462b0d153d3db13f6eb9aa9324b4a0b240bb0d82e1390802a8f"
+    },
+    {
+      "original": "poc003-owned-epoch-integration-native-v1/results.json",
+      "encoded": "053-dcb0a6cbb182.zlib.b64",
+      "bytes": 7453,
+      "sha256": "dcb0a6cbb182fc4a713bf974403ea68870c02b93b566b0b50f1ac1dc7b9b4e1d"
+    },
+    {
+      "original": "poc003-owned-epoch-integration-reader-regressions/pytest.raw",
+      "encoded": "054-dcbdafa083ff.zlib.b64",
+      "bytes": 281,
+      "sha256": "dcbdafa083ff3c918b3edd85ff639b756f5c6f14586eab8ed0dbba5458e0e06c"
+    },
+    {
+      "original": "poc003-owned-epoch-integration-reader-regressions/results.json",
+      "encoded": "055-1899b27333ee.zlib.b64",
+      "bytes": 1254,
+      "sha256": "1899b27333ee7d182eaf97ab0ddda3f03899d1814ad47664c7b49ac6607cd438"
+    },
+    {
+      "original": "poc003-owned-epoch-integration-reader-regressions/results.xml",
+      "encoded": "056-cbfc078705dd.zlib.b64",
+      "bytes": 9618,
+      "sha256": "cbfc078705dd582c9bb0eba06d03e51afc6b759ce716d9d4b892214a277009e0"
+    },
+    {
+      "original": "poc003-owned-epoch-integration-implementation-independent-review.json",
+      "encoded": "057-635b812b30a1.zlib.b64",
+      "bytes": 6694,
+      "sha256": "635b812b30a123c648b75a3c9ec2a346093cf485b5cb511403188b60be055c52"
+    },
+    {
+      "original": "poc003-owned-epoch-integration-control-canary-plan-independent-review.json",
+      "encoded": "058-550b1bf73ae2.zlib.b64",
+      "bytes": 7127,
+      "sha256": "550b1bf73ae25294c5ff4749d06fcf3b0bb884b2b1be1a5aafaf8f4772bfd8ea"
+    },
+    {
+      "original": "poc003-owned-epoch-integration-control-canary-results-independent-review.json",
+      "encoded": "059-7c6510831444.zlib.b64",
+      "bytes": 32986,
+      "sha256": "7c6510831444df1b6acd84c01425df3831c0e86fc0f31103ed9b01f54f9beda0"
+    },
+    {
+      "original": "check_poc003_owned_epoch_integration_native_once.py",
+      "encoded": "060-2b7c04825bbe.zlib.b64",
+      "bytes": 11260,
+      "sha256": "2b7c04825bbe23498764b93bb162fec75f4a3d7964a6b3e2e4d7a6fd006b1461"
+    },
+    {
+      "original": "working-source/poc/POC-03-ats-range/lab.py",
+      "encoded": "061-f359bf7e96b1.zlib.b64",
+      "bytes": 48339,
+      "sha256": "f359bf7e96b12cba9b476431c5a57f4f082b3cc9e22973087526a02ecaf6509a"
+    },
+    {
+      "original": "working-source/poc/POC-03-ats-range/live_buffer_probe.py",
+      "encoded": "062-d3154af91abc.zlib.b64",
+      "bytes": 9883,
+      "sha256": "d3154af91abcab988632201acbf13cc1e1466b1b73cd296554b014fe30fb0f12"
+    },
+    {
+      "original": "working-source/poc/POC-03-ats-range/owned_epoch.py",
+      "encoded": "063-0ecfb5d90c9e.zlib.b64",
+      "bytes": 15702,
+      "sha256": "0ecfb5d90c9e345a1cba11005e4f1e57c069751c79ee3a6f8267ede28ce6d3b3"
+    }
+  ],
+  "scope": "Lab ownership integration code plus six control-only native fixtures and portable reader regressions",
+  "actualNativeControlCases": 6,
+  "portableReaderTests": 62,
+  "labCodeIntegrated": true,
+  "fullLabRuntimeAccepted": false,
+  "actualAtsServerStartStopRestartTested": false,
+  "cacheReadyFabricated": false,
+  "actualMediaExperimentExecuted": false,
+  "allDescendantsCovered": false,
+  "noSubsequentExecProven": false,
+  "fullMediaBufferBoundProven": false,
+  "experimentApproved": false,
+  "qualificationAccepted": false
+}

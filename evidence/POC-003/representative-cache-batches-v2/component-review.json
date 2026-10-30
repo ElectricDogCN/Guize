@@ -1,0 +1,117 @@
+{
+  "schemaVersion": 1,
+  "kind": "independent_read_only_bounded_cache_batches_component_review",
+  "reviewedAt": "2026-10-25T19:55:58.316198Z",
+  "actor": "/root/gz022_planning_independent_review",
+  "reviewer": "independent-review-agent",
+  "authorHead": "c63facc1cccc331428ebf848f8129bd9c5425a5a",
+  "workingComponent": true,
+  "componentAccepted": true,
+  "previousP2Resolved": true,
+  "mustFix": [],
+  "sourceSha256": "113a353e6fdd93e19ca13226eef319e918ae2951379f1dbacbe9a07887f0750f",
+  "checks": {
+    "nativeCacheExportExactHeadBytesUnchanged": true,
+    "nativeCatalogue512VersusPerRequest128CorrectlyDistinguished": true,
+    "requestsPartitionSelectedAtMost128": true,
+    "priorAcceptedJobAndControlCountsCheckedBeforePublication": true,
+    "priorActualTerminalResultExportedByteTotalsBoundWholeProcess": true,
+    "remaining8Jobs16Controls512MiBBudgetCheckedBeforePublication": true,
+    "everyBatchAcceptedKeyCountOrderAndExactRequestFileVerified": true,
+    "everyBatchResultKeySetAndLookupUrlVerified": true,
+    "perBatchRawArtifactDirectoriesRetained": true,
+    "perSliceExactInputBytesAndWholeStageCoverageSizeHashPreserved": true,
+    "prototype128Keys128MiBDefaultsUnchanged": true,
+    "all15NewEncodedOriginalsRestoredExactAndEqualRootOriginals": true,
+    "old17OriginalsAndPriorNegativeNotRewritten": true
+  },
+  "actualTests": {
+    "windows": 10,
+    "windowsExit": 0,
+    "windowsSeconds": 0.019,
+    "nativeIntermediate": 11,
+    "nativeIntermediateExit": 0,
+    "nativeFinal": 14,
+    "nativeFinalExit": 0,
+    "nativeFinalSeconds": 0.705,
+    "skipped": 0,
+    "actualWaitCompleted": true,
+    "sourceHashBindingsVerified": true
+  },
+  "regressionCoverage": [
+    "An explicit129-key single simulated request is rejected by the same128-key boundary.",
+    "129 real temporary Slice files use legal128+1 batches;135266287 bytes are compared and assembled with complete size/hash checks.",
+    "Actual Python export_stage calls reject exhausted8-job,16-control and insufficient remaining512MiB byte budgets before rename publication, preserving stage failure receipt."
+  ],
+  "simulationDisclosure": {
+    "producerSimulated": true,
+    "journalsSimulated": true,
+    "realTemporaryFilesUsed": true,
+    "realAtsOrNativePluginNotExecuted": true,
+    "nativeConsumerCompatibilityAssessedByStaticUnchangedProtocolComparison": true
+  },
+  "files": [
+    {
+      "path": ".takeover-tools/poc003-cache-integration/poc/POC-03-ats-range/cache_probe.py",
+      "bytes": 16483,
+      "sha256": "113a353e6fdd93e19ca13226eef319e918ae2951379f1dbacbe9a07887f0750f"
+    },
+    {
+      "path": ".takeover-tools/poc003-cache-integration/poc/POC-03-ats-range/cache_export.cc",
+      "bytes": 15285,
+      "sha256": "c2d73081e3a554f4d9a7e7c77b9c7337db31afac4689dfa6f37995ffa35315de"
+    },
+    {
+      "path": ".takeover-tools/poc003-cache-integration/poc/POC-03-ats-range/test_representative_cache.py",
+      "bytes": 1785,
+      "sha256": "a1d94f6e09312e79d5dba03a124013bfc7f3919f758c9464660d8ba20e189216"
+    },
+    {
+      "path": ".takeover-tools/poc003-cache-integration/poc/POC-03-ats-range/test_representative_cache_native.py",
+      "bytes": 7099,
+      "sha256": "29c373aa84cfb6afbe41738050cca95da6d12c93ec7fb938a9e72738cea2b1fa"
+    }
+  ],
+  "evidence": [
+    {
+      "path": ".takeover-tools/poc003-cache-integration/evidence/POC-003/representative-cache-batches-v2/index.json",
+      "bytes": 4105,
+      "sha256": "506a93afd0d95c27410fbf0e1878dd4b9a8f4da5fc2aac3e312b3864489e1f6e"
+    },
+    {
+      "path": ".takeover-tools/poc003-representative-cache-component-independent-review.json",
+      "bytes": 5861,
+      "sha256": "1e17b742ccee674c56c01ce77f9d198065a0236a163393e864a2491636867e3b"
+    },
+    {
+      "path": ".takeover-tools/poc003-representative-cache-windows-v2-checks/results.json",
+      "bytes": 978,
+      "sha256": "0e4476dfb02e8eaf01cd5a44a2667578985632d4b2c0bcc7ab144b068fb9a1ec"
+    },
+    {
+      "path": ".takeover-tools/poc003-representative-cache-native-v3-checks/results.json",
+      "bytes": 999,
+      "sha256": "c2beafa2db11a75b7a76443d26ee0598717b0b9302dc48d1ce95d09810e84851"
+    },
+    {
+      "path": ".takeover-tools/poc003-representative-cache-native-v4-checks/results.json",
+      "bytes": 999,
+      "sha256": "994b205089ade897b31d27f4b41896d6e87a24675ac4952c075aea8b32e5b44e"
+    }
+  ],
+  "remainingBoundaries": [
+    "Real ATS/plugin acceptance, whole multi-stage user/version catalogue capacity, process-lifetime total budget and complete declared workload must still be verified under an exact fixed source and separately approved resources/window.",
+    "Batching remains bounded but may increase total stage duration and artifact disk use; it does not approve an enlarged experiment budget.",
+    "This component does not establish a strict memory upper bound, complete media owner/lifecycle domain, original15 measurements or qualification."
+  ],
+  "fixedSourceAccepted": false,
+  "currentCiAccepted": false,
+  "prPublicationApproved": false,
+  "experimentApproved": false,
+  "atsExecutionApproved": false,
+  "fullMediaDomainAccepted": false,
+  "original15Accepted": false,
+  "qualificationAccepted": false,
+  "reviewerReexecutedTests": false,
+  "reviewerModifiedAuthor": false
+}

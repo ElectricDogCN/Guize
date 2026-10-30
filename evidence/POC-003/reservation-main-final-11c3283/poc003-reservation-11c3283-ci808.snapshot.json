@@ -1,0 +1,422 @@
+{
+  "capturedAt": "2026-10-22T14:36:54.678Z",
+  "actualMain": "11c32830c0d1bb8ccdcc04aa278876065bce1f33",
+  "source": "2fa51e8d0d8d83761dc324ce1bb5e0da4afcad3c",
+  "base": "44e5200ed506d30c0abc83ca38f1d6912cbab1c1",
+  "run": {
+    "id": 39791311721,
+    "name": "Governance Gate",
+    "node_id": "WFR_kwLOTgCQ3c8AAAAJQ787aQ",
+    "head_branch": "main",
+    "head_sha": "11c32830c0d1bb8ccdcc04aa278876065bce1f33",
+    "path": ".github/workflows/governance-gate.yml",
+    "display_title": "Merge pull request #133 from ElectricDogCN/chore/POC-003-ats-range-re…",
+    "run_number": 808,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "workflow_id": 318794701,
+    "check_suite_id": 107842349758,
+    "check_suite_node_id": "CS_kwDOTgCQ3c8AAAAZG-eqvg",
+    "url": "https://api.github.com/repos/ElectricDogCN/Guize/actions/runs/39791311721",
+    "html_url": "https://github.com/ElectricDogCN/Guize/actions/runs/39791311721",
+    "pull_requests": [],
+    "created_at": "2026-10-22T13:56:09Z",
+    "updated_at": "2026-10-22T14:32:38Z",
+    "actor": {
+      "login": "ElectricDogCN",
+      "id": 43232390,
+      "node_id": "MDQ6VXNlcjQzMjMyMzkw",
+      "avatar_url": "https://avatars.githubusercontent.com/u/43232390?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/ElectricDogCN",
+      "html_url": "https://github.com/ElectricDogCN",
+      "followers_url": "https://api.github.com/users/ElectricDogCN/followers",
+      "following_url": "https://api.github.com/users/ElectricDogCN/following{/other_user}",
+      "gists_url": "https://api.github.com/users/ElectricDogCN/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/ElectricDogCN/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/ElectricDogCN/subscriptions",
+      "organizations_url": "https://api.github.com/users/ElectricDogCN/orgs",
+      "repos_url": "https://api.github.com/users/ElectricDogCN/repos",
+      "events_url": "https://api.github.com/users/ElectricDogCN/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/ElectricDogCN/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "run_attempt": 1,
+    "referenced_workflows": [],
+    "run_started_at": "2026-10-22T13:56:09Z",
+    "triggering_actor": {
+      "login": "ElectricDogCN",
+      "id": 43232390,
+      "node_id": "MDQ6VXNlcjQzMjMyMzkw",
+      "avatar_url": "https://avatars.githubusercontent.com/u/43232390?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/ElectricDogCN",
+      "html_url": "https://github.com/ElectricDogCN",
+      "followers_url": "https://api.github.com/users/ElectricDogCN/followers",
+      "following_url": "https://api.github.com/users/ElectricDogCN/following{/other_user}",
+      "gists_url": "https://api.github.com/users/ElectricDogCN/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/ElectricDogCN/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/ElectricDogCN/subscriptions",
+      "organizations_url": "https://api.github.com/users/ElectricDogCN/orgs",
+      "repos_url": "https://api.github.com/users/ElectricDogCN/repos",
+      "events_url": "https://api.github.com/users/ElectricDogCN/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/ElectricDogCN/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "jobs_url": "https://api.github.com/repos/ElectricDogCN/Guize/actions/runs/39791311721/jobs",
+    "logs_url": "https://api.github.com/repos/ElectricDogCN/Guize/actions/runs/39791311721/logs",
+    "check_suite_url": "https://api.github.com/repos/ElectricDogCN/Guize/check-suites/107842349758",
+    "artifacts_url": "https://api.github.com/repos/ElectricDogCN/Guize/actions/runs/39791311721/artifacts",
+    "cancel_url": "https://api.github.com/repos/ElectricDogCN/Guize/actions/runs/39791311721/cancel",
+    "rerun_url": "https://api.github.com/repos/ElectricDogCN/Guize/actions/runs/39791311721/rerun",
+    "previous_attempt_url": null,
+    "workflow_url": "https://api.github.com/repos/ElectricDogCN/Guize/actions/workflows/318794701",
+    "head_commit": {
+      "id": "11c32830c0d1bb8ccdcc04aa278876065bce1f33",
+      "tree_id": "e4f9c0f4957778063cbf306a3f63f9ec6d9e05a0",
+      "message": "Merge pull request #133 from ElectricDogCN/chore/POC-003-ats-range-reservation\n\nPOC-003: reserve ATS Range Slice and authorization cache validation",
+      "timestamp": "2026-10-22T13:56:06Z",
+      "author": {
+        "name": "Su",
+        "email": "suruifeng98@gmail.com"
+      },
+      "committer": {
+        "name": "GitHub",
+        "email": "noreply@github.com"
+      }
+    },
+    "repository": {
+      "id": 1308659933,
+      "node_id": "R_kgDOTgCQ3Q",
+      "name": "Guize",
+      "full_name": "ElectricDogCN/Guize",
+      "private": false,
+      "owner": {
+        "login": "ElectricDogCN",
+        "id": 43232390,
+        "node_id": "MDQ6VXNlcjQzMjMyMzkw",
+        "avatar_url": "https://avatars.githubusercontent.com/u/43232390?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ElectricDogCN",
+        "html_url": "https://github.com/ElectricDogCN",
+        "followers_url": "https://api.github.com/users/ElectricDogCN/followers",
+        "following_url": "https://api.github.com/users/ElectricDogCN/following{/other_user}",
+        "gists_url": "https://api.github.com/users/ElectricDogCN/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/ElectricDogCN/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/ElectricDogCN/subscriptions",
+        "organizations_url": "https://api.github.com/users/ElectricDogCN/orgs",
+        "repos_url": "https://api.github.com/users/ElectricDogCN/repos",
+        "events_url": "https://api.github.com/users/ElectricDogCN/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/ElectricDogCN/received_events",
+        "type": "User",
+        "user_view_type": "public",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/ElectricDogCN/Guize",
+      "description": null,
+      "fork": false,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize",
+      "forks_url": "https://api.github.com/repos/ElectricDogCN/Guize/forks",
+      "keys_url": "https://api.github.com/repos/ElectricDogCN/Guize/keys{/key_id}",
+      "collaborators_url": "https://api.github.com/repos/ElectricDogCN/Guize/collaborators{/collaborator}",
+      "teams_url": "https://api.github.com/repos/ElectricDogCN/Guize/teams",
+      "hooks_url": "https://api.github.com/repos/ElectricDogCN/Guize/hooks",
+      "issue_events_url": "https://api.github.com/repos/ElectricDogCN/Guize/issues/events{/number}",
+      "events_url": "https://api.github.com/repos/ElectricDogCN/Guize/events",
+      "assignees_url": "https://api.github.com/repos/ElectricDogCN/Guize/assignees{/user}",
+      "branches_url": "https://api.github.com/repos/ElectricDogCN/Guize/branches{/branch}",
+      "tags_url": "https://api.github.com/repos/ElectricDogCN/Guize/tags",
+      "blobs_url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs{/sha}",
+      "git_tags_url": "https://api.github.com/repos/ElectricDogCN/Guize/git/tags{/sha}",
+      "git_refs_url": "https://api.github.com/repos/ElectricDogCN/Guize/git/refs{/sha}",
+      "trees_url": "https://api.github.com/repos/ElectricDogCN/Guize/git/trees{/sha}",
+      "statuses_url": "https://api.github.com/repos/ElectricDogCN/Guize/statuses/{sha}",
+      "languages_url": "https://api.github.com/repos/ElectricDogCN/Guize/languages",
+      "stargazers_url": "https://api.github.com/repos/ElectricDogCN/Guize/stargazers",
+      "contributors_url": "https://api.github.com/repos/ElectricDogCN/Guize/contributors",
+      "subscribers_url": "https://api.github.com/repos/ElectricDogCN/Guize/subscribers",
+      "subscription_url": "https://api.github.com/repos/ElectricDogCN/Guize/subscription",
+      "commits_url": "https://api.github.com/repos/ElectricDogCN/Guize/commits{/sha}",
+      "git_commits_url": "https://api.github.com/repos/ElectricDogCN/Guize/git/commits{/sha}",
+      "comments_url": "https://api.github.com/repos/ElectricDogCN/Guize/comments{/number}",
+      "issue_comment_url": "https://api.github.com/repos/ElectricDogCN/Guize/issues/comments{/number}",
+      "contents_url": "https://api.github.com/repos/ElectricDogCN/Guize/contents/{+path}",
+      "compare_url": "https://api.github.com/repos/ElectricDogCN/Guize/compare/{base}...{head}",
+      "merges_url": "https://api.github.com/repos/ElectricDogCN/Guize/merges",
+      "archive_url": "https://api.github.com/repos/ElectricDogCN/Guize/{archive_format}{/ref}",
+      "downloads_url": "https://api.github.com/repos/ElectricDogCN/Guize/downloads",
+      "issues_url": "https://api.github.com/repos/ElectricDogCN/Guize/issues{/number}",
+      "pulls_url": "https://api.github.com/repos/ElectricDogCN/Guize/pulls{/number}",
+      "milestones_url": "https://api.github.com/repos/ElectricDogCN/Guize/milestones{/number}",
+      "notifications_url": "https://api.github.com/repos/ElectricDogCN/Guize/notifications{?since,all,participating}",
+      "labels_url": "https://api.github.com/repos/ElectricDogCN/Guize/labels{/name}",
+      "releases_url": "https://api.github.com/repos/ElectricDogCN/Guize/releases{/id}",
+      "deployments_url": "https://api.github.com/repos/ElectricDogCN/Guize/deployments"
+    },
+    "head_repository": {
+      "id": 1308659933,
+      "node_id": "R_kgDOTgCQ3Q",
+      "name": "Guize",
+      "full_name": "ElectricDogCN/Guize",
+      "private": false,
+      "owner": {
+        "login": "ElectricDogCN",
+        "id": 43232390,
+        "node_id": "MDQ6VXNlcjQzMjMyMzkw",
+        "avatar_url": "https://avatars.githubusercontent.com/u/43232390?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ElectricDogCN",
+        "html_url": "https://github.com/ElectricDogCN",
+        "followers_url": "https://api.github.com/users/ElectricDogCN/followers",
+        "following_url": "https://api.github.com/users/ElectricDogCN/following{/other_user}",
+        "gists_url": "https://api.github.com/users/ElectricDogCN/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/ElectricDogCN/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/ElectricDogCN/subscriptions",
+        "organizations_url": "https://api.github.com/users/ElectricDogCN/orgs",
+        "repos_url": "https://api.github.com/users/ElectricDogCN/repos",
+        "events_url": "https://api.github.com/users/ElectricDogCN/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/ElectricDogCN/received_events",
+        "type": "User",
+        "user_view_type": "public",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/ElectricDogCN/Guize",
+      "description": null,
+      "fork": false,
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize",
+      "forks_url": "https://api.github.com/repos/ElectricDogCN/Guize/forks",
+      "keys_url": "https://api.github.com/repos/ElectricDogCN/Guize/keys{/key_id}",
+      "collaborators_url": "https://api.github.com/repos/ElectricDogCN/Guize/collaborators{/collaborator}",
+      "teams_url": "https://api.github.com/repos/ElectricDogCN/Guize/teams",
+      "hooks_url": "https://api.github.com/repos/ElectricDogCN/Guize/hooks",
+      "issue_events_url": "https://api.github.com/repos/ElectricDogCN/Guize/issues/events{/number}",
+      "events_url": "https://api.github.com/repos/ElectricDogCN/Guize/events",
+      "assignees_url": "https://api.github.com/repos/ElectricDogCN/Guize/assignees{/user}",
+      "branches_url": "https://api.github.com/repos/ElectricDogCN/Guize/branches{/branch}",
+      "tags_url": "https://api.github.com/repos/ElectricDogCN/Guize/tags",
+      "blobs_url": "https://api.github.com/repos/ElectricDogCN/Guize/git/blobs{/sha}",
+      "git_tags_url": "https://api.github.com/repos/ElectricDogCN/Guize/git/tags{/sha}",
+      "git_refs_url": "https://api.github.com/repos/ElectricDogCN/Guize/git/refs{/sha}",
+      "trees_url": "https://api.github.com/repos/ElectricDogCN/Guize/git/trees{/sha}",
+      "statuses_url": "https://api.github.com/repos/ElectricDogCN/Guize/statuses/{sha}",
+      "languages_url": "https://api.github.com/repos/ElectricDogCN/Guize/languages",
+      "stargazers_url": "https://api.github.com/repos/ElectricDogCN/Guize/stargazers",
+      "contributors_url": "https://api.github.com/repos/ElectricDogCN/Guize/contributors",
+      "subscribers_url": "https://api.github.com/repos/ElectricDogCN/Guize/subscribers",
+      "subscription_url": "https://api.github.com/repos/ElectricDogCN/Guize/subscription",
+      "commits_url": "https://api.github.com/repos/ElectricDogCN/Guize/commits{/sha}",
+      "git_commits_url": "https://api.github.com/repos/ElectricDogCN/Guize/git/commits{/sha}",
+      "comments_url": "https://api.github.com/repos/ElectricDogCN/Guize/comments{/number}",
+      "issue_comment_url": "https://api.github.com/repos/ElectricDogCN/Guize/issues/comments{/number}",
+      "contents_url": "https://api.github.com/repos/ElectricDogCN/Guize/contents/{+path}",
+      "compare_url": "https://api.github.com/repos/ElectricDogCN/Guize/compare/{base}...{head}",
+      "merges_url": "https://api.github.com/repos/ElectricDogCN/Guize/merges",
+      "archive_url": "https://api.github.com/repos/ElectricDogCN/Guize/{archive_format}{/ref}",
+      "downloads_url": "https://api.github.com/repos/ElectricDogCN/Guize/downloads",
+      "issues_url": "https://api.github.com/repos/ElectricDogCN/Guize/issues{/number}",
+      "pulls_url": "https://api.github.com/repos/ElectricDogCN/Guize/pulls{/number}",
+      "milestones_url": "https://api.github.com/repos/ElectricDogCN/Guize/milestones{/number}",
+      "notifications_url": "https://api.github.com/repos/ElectricDogCN/Guize/notifications{?since,all,participating}",
+      "labels_url": "https://api.github.com/repos/ElectricDogCN/Guize/labels{/name}",
+      "releases_url": "https://api.github.com/repos/ElectricDogCN/Guize/releases{/id}",
+      "deployments_url": "https://api.github.com/repos/ElectricDogCN/Guize/deployments"
+    }
+  },
+  "jobs": [
+    {
+      "id": 119867782196,
+      "name": "Governance Checks",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 39791311721,
+      "logs_url": null,
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Checkout repository",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Setup Python 3.11",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3
+        },
+        {
+          "name": "Install governance dependencies",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "Verify core dependencies importable",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5
+        },
+        {
+          "name": "Compile scripts and tests",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6
+        },
+        {
+          "name": "Pytest collect-only",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7
+        },
+        {
+          "name": "Resolve task context",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8
+        },
+        {
+          "name": "Task file validation",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 9
+        },
+        {
+          "name": "Project readiness check",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10
+        },
+        {
+          "name": "Program Plan integrity, history, transitions, finalization, and lifecycle guard",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11
+        },
+        {
+          "name": "Agent coordination check",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 12
+        },
+        {
+          "name": "Governance tests",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13
+        },
+        {
+          "name": "Skip audit",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14
+        },
+        {
+          "name": "Markdown basic check",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15
+        },
+        {
+          "name": "YAML/JSON schema check",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16
+        },
+        {
+          "name": "Secret scan",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17
+        },
+        {
+          "name": "Evidence check",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 18
+        },
+        {
+          "name": "Evidence integrity check",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 19
+        },
+        {
+          "name": "Task-branch linkage check",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 20
+        },
+        {
+          "name": "Scope check",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 21
+        },
+        {
+          "name": "Spec sync check",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 22
+        },
+        {
+          "name": "Parent directory reference check",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 23
+        },
+        {
+          "name": "CI workflow static validation",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 24
+        },
+        {
+          "name": "Generate governance report",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 25
+        },
+        {
+          "name": "Post Setup Python 3.11",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 49
+        },
+        {
+          "name": "Post Checkout repository",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 50
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 51
+        }
+      ]
+    }
+  ],
+  "jobAccepted": true,
+  "testCount": 713,
+  "testSeconds": 1428.34,
+  "noSkippedTests": true,
+  "workflowAggregateAccepted": true,
+  "actualMainAccepted": true,
+  "reason": "Actual official workflow aggregate completed success; actual terminal job and all713 tests plus unchanged complete raw log verified. Earlier interim pending capture retained.",
+  "rawPath": "poc003-reservation-11c3283-ci808.raw.txt",
+  "raw": {
+    "bytes": 278118,
+    "sha256": "bea674b11e7d6559dae732334bdc1d487415597e254f308e76015fe285a25f3b"
+  }
+}

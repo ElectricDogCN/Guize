@@ -1,0 +1,9 @@
+# Cooperative stop development component
+
+The source07 original matrix collected21 cases/101 requests/six cache stages but exited70 before the last target/owner/final window closure. Only25 closures were present; epoch25 retains initial launch/journal evidence. The original cause is not confirmed. Approval3e797 was consumed once; negative7353 and all failed CID/raw remain intact. No owner wait or8MiB result is manufactured.
+
+The two-path development change adds an optional per-serve Event. The client requests stop without asynchronous selfSIGINT; the main loop observes it after its current complete RPC and follows the existing finally. Default CLI/signal behavior and all owner failure paths remain unchanged. The future entry is unexecuted and separately pinned; it is not an experiment approval.
+
+Two new Windows development tests failed on old lab because the new keyword was unsupported; this is not a deterministic fatal70 reproduction. New lab passed seven readiness tests, including an actual bounded socket/thread response-before-teardown and stop-before-next-poll. No ATS/native owner/media experiment was executed by these tests. Original results lack an execution-time complete before/after source-pin table, so static reviewe4fb accepts only the recorded development facts and current delta, not full fixed-source/native qualification.
+
+This archive retains exact source07 preimages, current source/entry, five original development results, independent receipts and the consumed public method/approval/ordinary records/actual controller results. Large media bodies and private runtime settings remain in the retained original sandbox; they are not published here. New fixed-source relevant qualification, full gates/CI, immutable package/config and separately approved new method/window are required before another matrix. Original8MiB,15 measurements, fresh hot-cache revocation and fullPOC/V1 remain incomplete.

@@ -1,0 +1,329 @@
+{
+  "kind": "REAL_FOCUSED_EXPERIMENT_RAW_ARCHIVE_NOT_FULL_POC_ACCEPTANCE",
+  "testedSource": {
+    "commit": "18163e180e554773ef82e1eea7ffcafa634b027a",
+    "tree": "422c95a29fb8fe7558091826c1d1464a6d08398f"
+  },
+  "startedAt": "2026-10-22T14:28:22.723364+00:00",
+  "finishedAt": "2026-10-22T14:28:27.484987+00:00",
+  "actualScenarioStatus": "PASS",
+  "executedScenarios": 1,
+  "actualScenarioExitCode": 0,
+  "ownedControllerExitCode": 0,
+  "portsReleased": true,
+  "ownedAtsGone": true,
+  "finishedInsideApprovalWindow": true,
+  "retainedBytes": 158777,
+  "privateRuntimeValuesExcluded": true,
+  "pocAccepted": false,
+  "original15Accepted": false,
+  "qualifiedProfileAccepted": false,
+  "files": [
+    {
+      "original": "/home/sur/.cache/guize-takeover/poc003-focused-revocation-raw-20261022-v1/bodies/revocation-4f1f9599f8954d6daac7f63225811a2f.bin",
+      "retained": "evidence/POC-003/focused-revocation-20261022-v1/raw/bodies/revocation-4f1f9599f8954d6daac7f63225811a2f.bin",
+      "bytes": 8,
+      "sha256": "7275a918178823dd3531ca933d3c9ad23249a72a483d270b0034eb9d465ecc15"
+    },
+    {
+      "original": "/home/sur/.cache/guize-takeover/poc003-focused-revocation-raw-20261022-v1/bodies/revocation-6760b2cf6ff84165bbe111981c1cf0e1.bin",
+      "retained": "evidence/POC-003/focused-revocation-20261022-v1/raw/bodies/revocation-6760b2cf6ff84165bbe111981c1cf0e1.bin",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/home/sur/.cache/guize-takeover/poc003-focused-revocation-raw-20261022-v1/bodies/revocation-d801057771d447f7a1a561fc5d8992ac.bin",
+      "retained": "evidence/POC-003/focused-revocation-20261022-v1/raw/bodies/revocation-d801057771d447f7a1a561fc5d8992ac.bin",
+      "bytes": 8,
+      "sha256": "7275a918178823dd3531ca933d3c9ad23249a72a483d270b0034eb9d465ecc15"
+    },
+    {
+      "original": "/home/sur/.cache/guize-takeover/poc003-focused-revocation-raw-20261022-v1/collection.json",
+      "retained": "evidence/POC-003/focused-revocation-20261022-v1/raw/collection.json",
+      "bytes": 39057,
+      "sha256": "8f4a83bd26152034906a585b1d2e9b2abc303a4b7351e3bfa7ed5027adc27064"
+    },
+    {
+      "original": "/home/sur/.cache/guize-takeover/poc003-focused-revocation-raw-20261022-v1/controller-after.native.jsonl",
+      "retained": "evidence/POC-003/focused-revocation-20261022-v1/raw/controller-after.native.jsonl",
+      "bytes": 18903,
+      "sha256": "6ab59c197d98f694c54eeabc5827232205c30f1205faf40dfce365079b56c14b"
+    },
+    {
+      "original": "/home/sur/.cache/guize-takeover/poc003-focused-revocation-raw-20261022-v1/controller-before.native.jsonl",
+      "retained": "evidence/POC-003/focused-revocation-20261022-v1/raw/controller-before.native.jsonl",
+      "bytes": 13842,
+      "sha256": "0485f74ce02fb3045d8b60385164635a6617405239a7b1aefdee9d8b80122844"
+    },
+    {
+      "original": "/home/sur/.cache/guize-takeover/poc003-focused-revocation-raw-20261022-v1/export-after.native.jsonl",
+      "retained": "evidence/POC-003/focused-revocation-20261022-v1/raw/export-after.native.jsonl",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/home/sur/.cache/guize-takeover/poc003-focused-revocation-raw-20261022-v1/export-before.native.jsonl",
+      "retained": "evidence/POC-003/focused-revocation-20261022-v1/raw/export-before.native.jsonl",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/home/sur/.cache/guize-takeover/poc003-focused-revocation-raw-20261022-v1/lookup-after.native.jsonl",
+      "retained": "evidence/POC-003/focused-revocation-20261022-v1/raw/lookup-after.native.jsonl",
+      "bytes": 474,
+      "sha256": "b746860a1f0251f825c0f967e7e5e9e2795404638372f13938bc4944ef3e777d"
+    },
+    {
+      "original": "/home/sur/.cache/guize-takeover/poc003-focused-revocation-raw-20261022-v1/lookup-before.native.jsonl",
+      "retained": "evidence/POC-003/focused-revocation-20261022-v1/raw/lookup-before.native.jsonl",
+      "bytes": 474,
+      "sha256": "b746860a1f0251f825c0f967e7e5e9e2795404638372f13938bc4944ef3e777d"
+    },
+    {
+      "original": "/home/sur/.cache/guize-takeover/poc003-focused-revocation-raw-20261022-v1/observations/0001-grant-state.json",
+      "retained": "evidence/POC-003/focused-revocation-20261022-v1/raw/observations/0001-grant-state.json",
+      "bytes": 365,
+      "sha256": "30655371a02846e4a81f5b7eaa41f8f51440591374430d765881b6fa6f450b3e"
+    },
+    {
+      "original": "/home/sur/.cache/guize-takeover/poc003-focused-revocation-raw-20261022-v1/observations/0002-witness.json",
+      "retained": "evidence/POC-003/focused-revocation-20261022-v1/raw/observations/0002-witness.json",
+      "bytes": 1988,
+      "sha256": "bbbd9e3b1b25b061a61de4eeb3be77fbd1d712229226350493d11e1ec1e514b0"
+    },
+    {
+      "original": "/home/sur/.cache/guize-takeover/poc003-focused-revocation-raw-20261022-v1/observations/0003-witness.json",
+      "retained": "evidence/POC-003/focused-revocation-20261022-v1/raw/observations/0003-witness.json",
+      "bytes": 2017,
+      "sha256": "3ab4791509b6151c5af1948150265aef3eddaf3156380c8eb59e9a7209822197"
+    },
+    {
+      "original": "/home/sur/.cache/guize-takeover/poc003-focused-revocation-raw-20261022-v1/observations/0004-witness.json",
+      "retained": "evidence/POC-003/focused-revocation-20261022-v1/raw/observations/0004-witness.json",
+      "bytes": 2017,
+      "sha256": "18ba9b1ef1ada06246f5a892f49da813f5a42657a600143e4290b06074a7593b"
+    },
+    {
+      "original": "/home/sur/.cache/guize-takeover/poc003-focused-revocation-raw-20261022-v1/observations/0005-witness.json",
+      "retained": "evidence/POC-003/focused-revocation-20261022-v1/raw/observations/0005-witness.json",
+      "bytes": 2017,
+      "sha256": "b9260640b2662b574635fadd306a58fe1a7229ed7dfab86145f6fbe600552590"
+    },
+    {
+      "original": "/home/sur/.cache/guize-takeover/poc003-focused-revocation-raw-20261022-v1/observations/0006-witness.json",
+      "retained": "evidence/POC-003/focused-revocation-20261022-v1/raw/observations/0006-witness.json",
+      "bytes": 2017,
+      "sha256": "3c1508a2ea3d85ef8f5e4f540570ea3d8c26e5d44126b00624011f156f49762f"
+    },
+    {
+      "original": "/home/sur/.cache/guize-takeover/poc003-focused-revocation-raw-20261022-v1/observations/0007-witness.json",
+      "retained": "evidence/POC-003/focused-revocation-20261022-v1/raw/observations/0007-witness.json",
+      "bytes": 1377,
+      "sha256": "72606d95474827976bce7d2462b20cbf802c9af4a6a71b7ff4273220b5ce518d"
+    },
+    {
+      "original": "/home/sur/.cache/guize-takeover/poc003-focused-revocation-raw-20261022-v1/observations/0008-witness.json",
+      "retained": "evidence/POC-003/focused-revocation-20261022-v1/raw/observations/0008-witness.json",
+      "bytes": 1377,
+      "sha256": "43dbcb7d4a136f6f47dfc42ea627d15db49004cdddb7c819ca589e2d36538e05"
+    },
+    {
+      "original": "/home/sur/.cache/guize-takeover/poc003-focused-revocation-raw-20261022-v1/observations/0009-witness.json",
+      "retained": "evidence/POC-003/focused-revocation-20261022-v1/raw/observations/0009-witness.json",
+      "bytes": 1377,
+      "sha256": "0f9232012f49be565c477959f8476c9c752f901ffaa7d4a8346629f2c71faa34"
+    },
+    {
+      "original": "/home/sur/.cache/guize-takeover/poc003-focused-revocation-raw-20261022-v1/observations/0010-witness.json",
+      "retained": "evidence/POC-003/focused-revocation-20261022-v1/raw/observations/0010-witness.json",
+      "bytes": 1377,
+      "sha256": "80ccc49060274f7eb9dbaaa505edc7b797a51880b50f7a52511c94e75e158775"
+    },
+    {
+      "original": "/home/sur/.cache/guize-takeover/poc003-focused-revocation-raw-20261022-v1/observations/0011-revoke-grant.json",
+      "retained": "evidence/POC-003/focused-revocation-20261022-v1/raw/observations/0011-revoke-grant.json",
+      "bytes": 391,
+      "sha256": "f45ca1ac4a27d3188a733c9e0207e632f872a629db66ca62dcfdc35066c5d280"
+    },
+    {
+      "original": "/home/sur/.cache/guize-takeover/poc003-focused-revocation-raw-20261022-v1/observations/0012-witness.json",
+      "retained": "evidence/POC-003/focused-revocation-20261022-v1/raw/observations/0012-witness.json",
+      "bytes": 1128,
+      "sha256": "be0c9d59387fc42b6dc597efbccdf2f38a99db82450640e5c702f7b9623a9976"
+    },
+    {
+      "original": "/home/sur/.cache/guize-takeover/poc003-focused-revocation-raw-20261022-v1/observations/0013-witness.json",
+      "retained": "evidence/POC-003/focused-revocation-20261022-v1/raw/observations/0013-witness.json",
+      "bytes": 1128,
+      "sha256": "a7f6c351c0eaf06344a148012671ec2a3e84ce9cc4bd0b2f1fcd9a0a4f1cc45e"
+    },
+    {
+      "original": "/home/sur/.cache/guize-takeover/poc003-focused-revocation-raw-20261022-v1/observations/0014-witness.json",
+      "retained": "evidence/POC-003/focused-revocation-20261022-v1/raw/observations/0014-witness.json",
+      "bytes": 1128,
+      "sha256": "d8e80018b7277e93e4b64b70925ef9339d4927928ce9e97d9e9a1f03975585d9"
+    },
+    {
+      "original": "/home/sur/.cache/guize-takeover/poc003-focused-revocation-raw-20261022-v1/observations/0015-witness.json",
+      "retained": "evidence/POC-003/focused-revocation-20261022-v1/raw/observations/0015-witness.json",
+      "bytes": 1128,
+      "sha256": "d904569c077f1cab1cd37f58f58ff756baa067cb68b18189d9d69bb30f9e0668"
+    },
+    {
+      "original": "/home/sur/.cache/guize-takeover/poc003-focused-revocation-raw-20261022-v1/observations/0016-witness.json",
+      "retained": "evidence/POC-003/focused-revocation-20261022-v1/raw/observations/0016-witness.json",
+      "bytes": 1128,
+      "sha256": "aa805e4b2756b4b78bfc2d1bbbb8df6fbbe97f11c08f1c8fb4d69b29a813bbb5"
+    },
+    {
+      "original": "/home/sur/.cache/guize-takeover/poc003-focused-revocation-raw-20261022-v1/observations/0017-witness.json",
+      "retained": "evidence/POC-003/focused-revocation-20261022-v1/raw/observations/0017-witness.json",
+      "bytes": 262,
+      "sha256": "1a1931d32433f8b6218e8799cb7d2bb185f12f2f227ef85d17c1a3a308082743"
+    },
+    {
+      "original": "/home/sur/.cache/guize-takeover/poc003-focused-revocation-raw-20261022-v1/observations/request-4f1f9599f8954d6daac7f63225811a2f.json",
+      "retained": "evidence/POC-003/focused-revocation-20261022-v1/raw/observations/request-4f1f9599f8954d6daac7f63225811a2f.json",
+      "bytes": 4036,
+      "sha256": "9d530e584edd521bca1362c72a68a590d26bee5abe228e97a26a9c3b3a64ff27"
+    },
+    {
+      "original": "/home/sur/.cache/guize-takeover/poc003-focused-revocation-raw-20261022-v1/observations/request-6760b2cf6ff84165bbe111981c1cf0e1.json",
+      "retained": "evidence/POC-003/focused-revocation-20261022-v1/raw/observations/request-6760b2cf6ff84165bbe111981c1cf0e1.json",
+      "bytes": 2706,
+      "sha256": "776cdbb1808c10192219c6401451882954178ba90f49c7ace7359791afc8ffeb"
+    },
+    {
+      "original": "/home/sur/.cache/guize-takeover/poc003-focused-revocation-raw-20261022-v1/observations/request-d801057771d447f7a1a561fc5d8992ac.json",
+      "retained": "evidence/POC-003/focused-revocation-20261022-v1/raw/observations/request-d801057771d447f7a1a561fc5d8992ac.json",
+      "bytes": 4711,
+      "sha256": "e341ef3a99368117bd7bcbacae430e62ca7ca36f4c36649d0b15eb7ae4916623"
+    },
+    {
+      "original": "/home/sur/.cache/guize-takeover/poc003-focused-revocation-raw-20261022-v1/post-denial-control.body.bin",
+      "retained": "evidence/POC-003/focused-revocation-20261022-v1/raw/post-denial-control.body.bin",
+      "bytes": 8,
+      "sha256": "7275a918178823dd3531ca933d3c9ad23249a72a483d270b0034eb9d465ecc15"
+    },
+    {
+      "original": "/home/sur/.cache/guize-takeover/poc003-focused-revocation-raw-20261022-v1/revocation-result.json",
+      "retained": "evidence/POC-003/focused-revocation-20261022-v1/raw/revocation-result.json",
+      "bytes": 11436,
+      "sha256": "9ab6c9d3975dd3b7a33b7f965c57eed17fdf2a97e0759a6471ec47b7d83a7657"
+    },
+    {
+      "original": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-focused-revocation-execution/controller.stderr.raw",
+      "retained": "evidence/POC-003/focused-revocation-20261022-v1/execution/controller.stderr.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-focused-revocation-execution/controller.stdout.raw",
+      "retained": "evidence/POC-003/focused-revocation-20261022-v1/execution/controller.stdout.raw",
+      "bytes": 142,
+      "sha256": "0eb05909e36cab56fadc9b58a0a0ba892750a9d78c31fee8c1ec6a5b2d76af8d"
+    },
+    {
+      "original": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-focused-revocation-execution/execution.json",
+      "retained": "evidence/POC-003/focused-revocation-20261022-v1/execution/execution.json",
+      "bytes": 15054,
+      "sha256": "620947712c557b10d2589c6d5ed3e863712b92521bf410e2afd2777379519310"
+    },
+    {
+      "original": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-focused-revocation-execution/prepare.stderr.raw",
+      "retained": "evidence/POC-003/focused-revocation-20261022-v1/execution/prepare.stderr.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-focused-revocation-execution/prepare.stdout.raw",
+      "retained": "evidence/POC-003/focused-revocation-20261022-v1/execution/prepare.stdout.raw",
+      "bytes": 190,
+      "sha256": "885b131cacb17192a4ca1175e935ebbf2243eadee74f9fb3bdfbce72d45f36ee"
+    },
+    {
+      "original": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-focused-revocation-execution/real-revocation.stderr.raw",
+      "retained": "evidence/POC-003/focused-revocation-20261022-v1/execution/real-revocation.stderr.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-focused-revocation-execution/real-revocation.stdout.raw",
+      "retained": "evidence/POC-003/focused-revocation-20261022-v1/execution/real-revocation.stdout.raw",
+      "bytes": 89,
+      "sha256": "d6594988af7a3c4636627b9fdbe002414942bb0ce3a101b5a3bbd1c4a314ece4"
+    },
+    {
+      "original": "/home/sur/.cache/guize-takeover/poc003-focused-revocation-20261022-v1/controller.jsonl",
+      "retained": "evidence/POC-003/focused-revocation-20261022-v1/native-runtime/controller.jsonl",
+      "bytes": 19309,
+      "sha256": "14b501fd6da6b1c570294d20b13f479f023bb4abf3cd3574873dab835bc1637e"
+    },
+    {
+      "original": "/home/sur/.cache/guize-takeover/poc003-focused-revocation-20261022-v1/gateway-access.jsonl",
+      "retained": "evidence/POC-003/focused-revocation-20261022-v1/native-runtime/gateway-access.jsonl",
+      "bytes": 2535,
+      "sha256": "f0e038c08c2d1b3605021281a443b229b102c2d5654f97037b3b3176e41a0681"
+    },
+    {
+      "original": "/home/sur/.cache/guize-takeover/poc003-focused-revocation-20261022-v1/origin-start.jsonl",
+      "retained": "evidence/POC-003/focused-revocation-20261022-v1/native-runtime/origin-start.jsonl",
+      "bytes": 434,
+      "sha256": "a5b3590012678523d8fd6b11a0514e72351692d050df86071aafb9b5ca6140d3"
+    },
+    {
+      "original": "/home/sur/.cache/guize-takeover/poc003-focused-revocation-20261022-v1/origin-access.jsonl",
+      "retained": "evidence/POC-003/focused-revocation-20261022-v1/native-runtime/origin-access.jsonl",
+      "bytes": 530,
+      "sha256": "b03a4c74b3856711cff854368ba4cabd3a905ff593a4c1a0d68ec0338922af49"
+    },
+    {
+      "original": "/home/sur/.cache/guize-takeover/poc003-focused-revocation-20261022-v1/listeners-started.json",
+      "retained": "evidence/POC-003/focused-revocation-20261022-v1/native-runtime/listeners-started.json",
+      "bytes": 199,
+      "sha256": "160e2ac4858ec27436d850d2a653d369bb48f4a75187710d1a6a6d3f219f6868"
+    },
+    {
+      "original": "/home/sur/.cache/guize-takeover/poc003-focused-revocation-20261022-v1/ats-process-memory.jsonl",
+      "retained": "evidence/POC-003/focused-revocation-20261022-v1/native-runtime/ats-process-memory.jsonl",
+      "bytes": 1545,
+      "sha256": "a8c4c2a8c07dc56605b5183c5be86b42a8b40d1554a7dacc1a87669f7b98d16a"
+    },
+    {
+      "original": "/home/sur/.cache/guize-takeover/poc003-focused-revocation-20261022-v1/cache-observer/cache-export-674493/events.jsonl",
+      "retained": "evidence/POC-003/focused-revocation-20261022-v1/native-observer/cache-export-674493/events.jsonl",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/home/sur/.cache/guize-takeover/poc003-focused-revocation-20261022-v1/cache-observer/cache-export-674493/lookup-events.jsonl",
+      "retained": "evidence/POC-003/focused-revocation-20261022-v1/native-observer/cache-export-674493/lookup-events.jsonl",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/home/sur/.cache/guize-takeover/poc003-focused-revocation-20261022-v1/cache-observer/cache-export-674493/lookups.jsonl",
+      "retained": "evidence/POC-003/focused-revocation-20261022-v1/native-observer/cache-export-674493/lookups.jsonl",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/home/sur/.cache/guize-takeover/poc003-focused-revocation-20261022-v1/cache-observer/cache-export-674514/events.jsonl",
+      "retained": "evidence/POC-003/focused-revocation-20261022-v1/native-observer/cache-export-674514/events.jsonl",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "/home/sur/.cache/guize-takeover/poc003-focused-revocation-20261022-v1/cache-observer/cache-export-674514/lookup-events.jsonl",
+      "retained": "evidence/POC-003/focused-revocation-20261022-v1/native-observer/cache-export-674514/lookup-events.jsonl",
+      "bytes": 711,
+      "sha256": "a401c377dbef298594eab35ed425d4b7c1d4ad20eb00d827cd7f6fc35a2e16a5"
+    },
+    {
+      "original": "/home/sur/.cache/guize-takeover/poc003-focused-revocation-20261022-v1/cache-observer/cache-export-674514/lookups.jsonl",
+      "retained": "evidence/POC-003/focused-revocation-20261022-v1/native-observer/cache-export-674514/lookups.jsonl",
+      "bytes": 154,
+      "sha256": "39fc3175c9764d87af53adf2ec4ab4c99dd78e13223d287dfa670baec2a7ab03"
+    }
+  ]
+}

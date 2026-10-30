@@ -1,0 +1,13 @@
+{
+  "action": "grant-state",
+  "observedAt": "2026-10-22T15:16:26.077543Z",
+  "grant": {
+    "grantId": "poc003-grant-lab-user-a",
+    "principalId": "lab-user-a",
+    "validFrom": "2026-10-22T15:16:19.917503Z",
+    "validUntil": "2026-10-22T15:36:24.917503Z",
+    "revokedAt": null,
+    "authorizedAt": "2026-10-22T15:16:26.077543Z",
+    "reason": "allowed"
+  }
+}

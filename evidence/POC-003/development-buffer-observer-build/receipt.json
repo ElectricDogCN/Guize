@@ -1,0 +1,31 @@
+{
+  "kind": "TASK_OWNED_CACHE_OBSERVER_BUILD",
+  "startedAt": "2026-10-22T15:47:11.078528+00:00",
+  "finishedAt": "2026-10-22T15:47:16.175081+00:00",
+  "argv": [
+    "/usr/bin/g++",
+    "-std=c++17",
+    "-O2",
+    "-fPIC",
+    "-shared",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-pthread",
+    "-I/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/local-lab/ats-cache-export-preparation-v1/sdk/usr/include",
+    "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz021-hls-publication-worktree/poc/POC-03-ats-range/cache_export.cc",
+    "-o",
+    "/home/sur/.cache/guize-takeover/poc003-observer-build-20261022-v2/cache_export.so"
+  ],
+  "compiler": "g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "sourceSha256": "c2d73081e3a554f4d9a7e7c77b9c7337db31afac4689dfa6f37995ffa35315de",
+  "sdkHeaderSha256": {
+    "ts.h": "fb9cb7cba46a2339b22eb879e6ff1e00a27553755ab89a05152edad211639299",
+    "experimental.h": "fac634218a69d61cfb5cbbad485cb5e5f2222944cbefb9c156f9af94e78d049f",
+    "apidefs.h": "a2e131d409dd0844345359174a005d103f4895dbc08db18195e0e88f56d56ef9"
+  },
+  "exitCode": 0,
+  "pluginSha256": "d282145792051f38800f014eb4b5f823025b3460afc2f1329f17bfbc4724e9a2",
+  "runtimeExecuted": false,
+  "experimentAccepted": false
+}

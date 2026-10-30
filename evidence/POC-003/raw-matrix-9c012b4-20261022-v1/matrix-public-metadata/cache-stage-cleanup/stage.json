@@ -1,0 +1,56 @@
+{
+  "kind": "ACTUAL_NATIVE_CACHE_STAGE_EXPORT_UNASSESSED",
+  "stage": "cleanup",
+  "startedAt": "2026-10-22T14:57:13.495854Z",
+  "atsPid": 679492,
+  "sourceVersion": "changed",
+  "userId": "lab-user-a",
+  "selectedKeys": [],
+  "exports": [],
+  "nativeExportFinished": false,
+  "noKeysObserved": true,
+  "completeLogicalObjectVerified": false,
+  "partialDiscardProven": false,
+  "formalPocAccepted": false,
+  "finishedAt": "2026-10-22T14:57:13.498368Z",
+  "originJournalUnchangedDuringExport": true,
+  "controllerSnapshotBefore": {
+    "stage": "cleanup",
+    "observedAt": "2026-10-22T14:57:12.591081Z",
+    "sourceVersion": "changed",
+    "atsPid": 679492,
+    "cacheFiles": [
+      {
+        "name": "cache.db",
+        "logicalBytes": 268435456,
+        "allocatedBytes": 71741440
+      }
+    ],
+    "allocatedDiskBytes": 71741440,
+    "canonicalCacheObjectExported": false,
+    "activeOriginRequests": 0,
+    "activeGatewayRequests": 0,
+    "originRequestCount": 205,
+    "originObjectReadBytes": 212860932
+  },
+  "controllerSnapshotAfter": {
+    "stage": "cleanup-after-export",
+    "observedAt": "2026-10-22T14:57:13.499779Z",
+    "sourceVersion": "changed",
+    "atsPid": 679492,
+    "cacheFiles": [
+      {
+        "name": "cache.db",
+        "logicalBytes": 268435456,
+        "allocatedBytes": 71741440
+      }
+    ],
+    "allocatedDiskBytes": 71741440,
+    "canonicalCacheObjectExported": false,
+    "activeOriginRequests": 0,
+    "activeGatewayRequests": 0,
+    "originRequestCount": 205,
+    "originObjectReadBytes": 212860932
+  },
+  "originCountersUnchanged": true
+}

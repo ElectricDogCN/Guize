@@ -1,0 +1,188 @@
+{
+  "task": "POC-003",
+  "source": "18163e180e554773ef82e1eea7ffcafa634b027a",
+  "commands": [
+    {
+      "command": [
+        "git",
+        "diff",
+        "--check",
+        "11c32830c0d1bb8ccdcc04aa278876065bce1f33...HEAD"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true
+    },
+    {
+      "command": [
+        "python",
+        "scripts/check-task-file.py",
+        "--task",
+        "POC-003"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true
+    },
+    {
+      "command": [
+        "python",
+        "scripts/check-project-readiness.py"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true
+    },
+    {
+      "command": [
+        "python",
+        "scripts/check-schemas.py"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true
+    },
+    {
+      "command": [
+        "python",
+        "scripts/check-program-plan-integrity.py",
+        "--base-ref",
+        "11c32830c0d1bb8ccdcc04aa278876065bce1f33"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true
+    },
+    {
+      "command": [
+        "python",
+        "scripts/check-program-plan-history.py",
+        "--base-ref",
+        "11c32830c0d1bb8ccdcc04aa278876065bce1f33",
+        "--head-ref",
+        "HEAD",
+        "--task",
+        "POC-003",
+        "--branch-name",
+        "chore/POC-003-ats-range"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true
+    },
+    {
+      "command": [
+        "python",
+        "scripts/check-program-plan-transitions.py",
+        "--base-ref",
+        "11c32830c0d1bb8ccdcc04aa278876065bce1f33",
+        "--head-ref",
+        "HEAD",
+        "--task",
+        "POC-003",
+        "--branch-name",
+        "chore/POC-003-ats-range"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true
+    },
+    {
+      "command": [
+        "python",
+        "scripts/check-program-plan-finalization.py",
+        "--base-ref",
+        "11c32830c0d1bb8ccdcc04aa278876065bce1f33",
+        "--head-ref",
+        "HEAD",
+        "--task",
+        "POC-003"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true
+    },
+    {
+      "command": [
+        "python",
+        "scripts/check-program-lifecycle-guards.py",
+        "--base-ref",
+        "11c32830c0d1bb8ccdcc04aa278876065bce1f33",
+        "--head-ref",
+        "HEAD",
+        "--task",
+        "POC-003",
+        "--branch-name",
+        "chore/POC-003-ats-range"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true
+    },
+    {
+      "command": [
+        "python",
+        "scripts/run-program-lifecycle-gate.py",
+        "--base-ref",
+        "11c32830c0d1bb8ccdcc04aa278876065bce1f33",
+        "--head-ref",
+        "HEAD",
+        "--task",
+        "POC-003",
+        "--branch-name",
+        "chore/POC-003-ats-range"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true
+    },
+    {
+      "command": [
+        "python",
+        "scripts/run-agent-coordination-gate.py",
+        "--base-ref",
+        "11c32830c0d1bb8ccdcc04aa278876065bce1f33",
+        "--head-ref",
+        "HEAD",
+        "--task",
+        "POC-003",
+        "--branch-name",
+        "chore/POC-003-ats-range"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true
+    },
+    {
+      "command": [
+        "python",
+        "scripts/run-task-scope-gate.py",
+        "--task",
+        "POC-003",
+        "--base",
+        "11c32830c0d1bb8ccdcc04aa278876065bce1f33"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true
+    },
+    {
+      "command": [
+        "python",
+        "scripts/check-evidence.py",
+        "--task",
+        "POC-003"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true
+    },
+    {
+      "command": [
+        "python",
+        "specs/poc/check_program.py",
+        "--task",
+        "POC-003",
+        "--base-ref",
+        "11c32830c0d1bb8ccdcc04aa278876065bce1f33"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true
+    },
+    {
+      "command": [
+        "python",
+        "scripts/check-markdown.py"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true
+    }
+  ]
+}

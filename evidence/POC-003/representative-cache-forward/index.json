@@ -1,0 +1,128 @@
+{
+  "source": "c63facc1cccc331428ebf848f8129bd9c5425a5a",
+  "workingComponent": true,
+  "files": [
+    {
+      "original": "poc003-representative-cache-before/cache_probe.py",
+      "encoded": "00-6291f28408c5.zlib.b64",
+      "bytes": 12263,
+      "sha256": "6291f28408c56294f961fcf2756c548a212e7adea673db63de972fed11ee7f9f"
+    },
+    {
+      "original": "poc003-representative-cache-before/test_representative_cache.py",
+      "encoded": "01-a1d94f6e0931.zlib.b64",
+      "bytes": 1785,
+      "sha256": "a1d94f6e09312e79d5dba03a124013bfc7f3919f758c9464660d8ba20e189216"
+    },
+    {
+      "original": "poc003-representative-cache-before/test_representative_cache_native_first.py",
+      "encoded": "02-78e1b21d2f39.zlib.b64",
+      "bytes": 3949,
+      "sha256": "78e1b21d2f39c9b718fd950ef7dd359f0fa23825a39000595a28e43c45e106a6"
+    },
+    {
+      "original": "poc003-representative-cache-catalogue-red.raw",
+      "encoded": "03-6b0ffc880ad5.zlib.b64",
+      "bytes": 1721,
+      "sha256": "6b0ffc880ad578c603cd6009024d77376c423db43feec16ee7a94d5c2c861246"
+    },
+    {
+      "original": "poc003-representative-cache-catalogue-green.raw",
+      "encoded": "04-b7a3490857de.zlib.b64",
+      "bytes": 636,
+      "sha256": "b7a3490857de5470cab45eeb384c83841cfc0feff70652f1eb8614d5a07d235f"
+    },
+    {
+      "original": "poc003-representative-cache-native-checks/results.json",
+      "encoded": "05-3a0a13e43bdb.zlib.b64",
+      "bytes": 999,
+      "sha256": "3a0a13e43bdb925d3c9c2495d647bfb825e5ebed79213ee1a0f92b38abf3fd43"
+    },
+    {
+      "original": "poc003-representative-cache-native-checks/tests.raw",
+      "encoded": "06-2a28dce8b77a.zlib.b64",
+      "bytes": 3040,
+      "sha256": "2a28dce8b77a74a71706b721823bf45b4eba319558df138773f91150f55992b1"
+    },
+    {
+      "original": "poc003-representative-cache-native-v2-checks/results.json",
+      "encoded": "07-26bd74362303.zlib.b64",
+      "bytes": 999,
+      "sha256": "26bd7436230309d18dccc20360709a3d1b748465da7a7730f22615e7e1319282"
+    },
+    {
+      "original": "poc003-representative-cache-native-v2-checks/tests.raw",
+      "encoded": "08-15208f46bd97.zlib.b64",
+      "bytes": 2345,
+      "sha256": "15208f46bd9737c6ff51081e839a0c93e2bd7a6a9103f0b00eae143e82d9e88b"
+    },
+    {
+      "original": "poc003-representative-cache-windows-checks/results.json",
+      "encoded": "09-65d24b69b5fd.zlib.b64",
+      "bytes": 978,
+      "sha256": "65d24b69b5fd4509f6b0cff39d50fc26397b17e1f7cc51065c18c08295c0ab0a"
+    },
+    {
+      "original": "poc003-representative-cache-windows-checks/tests.raw",
+      "encoded": "10-82a7b9495fb0.zlib.b64",
+      "bytes": 2103,
+      "sha256": "82a7b9495fb04cb6820f16e946e792fd13b3a61d6e563bf42dc833d763ec0266"
+    },
+    {
+      "original": "check_poc003_representative_cache_native_once.py",
+      "encoded": "11-e4601a0a8d03.zlib.b64",
+      "bytes": 2156,
+      "sha256": "e4601a0a8d03985fa12c3bb4affd2e6c3b5fe5a397d1725685a37201b2688442"
+    },
+    {
+      "original": "check_poc003_representative_cache_native_v2_once.py",
+      "encoded": "12-c6d11738c473.zlib.b64",
+      "bytes": 2162,
+      "sha256": "c6d11738c4735be5408038a9793ca82ba134345dcce17492c74b893223867068"
+    },
+    {
+      "original": "poc003-container-peak-domain-current-kernel-review.json",
+      "encoded": "13-5c16499b5b49.zlib.b64",
+      "bytes": 7959,
+      "sha256": "5c16499b5b498fdafca2cf3bfecbb5b257813748bce192d28564eb87ff286c4e"
+    },
+    {
+      "original": "poc003-cache-integration/poc/POC-03-ats-range/cache_probe.py",
+      "encoded": "14-50a02d12d972.zlib.b64",
+      "bytes": 12873,
+      "sha256": "50a02d12d97290db42c7c71fca4b7b3566d0845150f58397d6bffdd1c4a8b696"
+    },
+    {
+      "original": "poc003-cache-integration/poc/POC-03-ats-range/test_representative_cache.py",
+      "encoded": "15-a1d94f6e0931.zlib.b64",
+      "bytes": 1785,
+      "sha256": "a1d94f6e09312e79d5dba03a124013bfc7f3919f758c9464660d8ba20e189216"
+    },
+    {
+      "original": "poc003-cache-integration/poc/POC-03-ats-range/test_representative_cache_native.py",
+      "encoded": "16-6fe5be20bc0e.zlib.b64",
+      "bytes": 3962,
+      "sha256": "6fe5be20bc0e1cd08d5875ec789aff664524121d8262081a09dd54ece849e543"
+    }
+  ],
+  "windowsTests": 10,
+  "nativeTests": 11,
+  "testSkipped": 0,
+  "initialRed": {
+    "tests": 3,
+    "passed": 2,
+    "errors": 1
+  },
+  "firstNativeHarness": {
+    "tests": 11,
+    "passed": 10,
+    "failed": 1,
+    "reason": "Catalogue fixture used alice; export default lab-user-a correctly selected no matching keys. Explicit alice fixes only the harness."
+  },
+  "actualNativeExportBytes": 135266287,
+  "simulatedProducer": true,
+  "atsExecuted": false,
+  "experimentApproved": false,
+  "fullMediaDomainAccepted": false,
+  "qualificationAccepted": false
+}

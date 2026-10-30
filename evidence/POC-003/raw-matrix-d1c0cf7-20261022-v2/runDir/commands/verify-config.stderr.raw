@@ -1,0 +1,13 @@
+NOTE: using command line path as RUNROOT
+NOTE: VERIFY
+
+INFO: Successfully loaded plugin.config
+
+INFO: Successfully loaded remap.config
+
+INFO: Successfully loaded records.config
+
+INFO: Successfully loaded ssl multicert.config
+
+INFO: Successfully initialized SSL client context
+

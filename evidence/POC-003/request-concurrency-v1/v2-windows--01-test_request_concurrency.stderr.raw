@@ -1,0 +1,9 @@
+test_collector_exception_ends_interval_without_erasing_peak_or_failure (__main__.RequestConcurrencyTests.test_collector_exception_ends_interval_without_erasing_peak_or_failure) ... ok
+test_collector_save_retains_transient_four_request_overlap (__main__.RequestConcurrencyTests.test_collector_save_retains_transient_four_request_overlap) ... ok
+test_gateway_peak_survives_two_completed_actual_handler_intervals (__main__.RequestConcurrencyTests.test_gateway_peak_survives_two_completed_actual_handler_intervals) ... ok
+test_origin_peak_survives_two_completed_actual_handler_intervals (__main__.RequestConcurrencyTests.test_origin_peak_survives_two_completed_actual_handler_intervals) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.013s
+
+OK

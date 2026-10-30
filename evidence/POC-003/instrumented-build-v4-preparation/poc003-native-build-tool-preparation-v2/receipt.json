@@ -1,0 +1,45 @@
+{
+  "kind": "LOCAL_BUILD_DEPENDENCIES_ONLY",
+  "startedAt": "2026-10-22T16:43:38.650818+00:00",
+  "argv": [
+    "C:/Windows/System32/wsl.exe",
+    "-d",
+    "Ubuntu",
+    "-u",
+    "root",
+    "--",
+    "env",
+    "DEBIAN_FRONTEND=noninteractive",
+    "NEEDRESTART_MODE=l",
+    "apt-get",
+    "-o",
+    "DPkg::Lock::Timeout=30",
+    "install",
+    "-y",
+    "--no-install-recommends",
+    "zlib1g-dev"
+  ],
+  "simulationObserved": {
+    "upgraded": 0,
+    "newPackages": 1,
+    "removed": 0
+  },
+  "atsStarted": false,
+  "experimentExecuted": false,
+  "serviceRestartRequested": false,
+  "finishedAt": "2026-10-22T16:43:41.546404+00:00",
+  "exitCode": 0,
+  "logs": [
+    {
+      "file": "stdout.raw",
+      "bytes": 1386,
+      "sha256": "c758b74cfeb7b7667bc81bfc87e648ead5258ef990470d91766db188c56218e5"
+    },
+    {
+      "file": "stderr.raw",
+      "bytes": 132,
+      "sha256": "b280c454d6f559e56eb3f5ed39f3ba084b8d1744a3ff7fe016b21ff86dea1aca"
+    }
+  ],
+  "installedPackageQueryExit": 0
+}
