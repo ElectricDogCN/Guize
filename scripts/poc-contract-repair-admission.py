@@ -3,9 +3,13 @@
 from __future__ import annotations
 
 from datetime import datetime, timedelta, timezone
+from contextlib import contextmanager
+from contextvars import ContextVar
+import copy
 import hashlib
 import importlib.util
 import json
+import os
 from pathlib import Path
 import re
 import subprocess
@@ -296,7 +300,79 @@ def validate_capacity(root: str, base: str, entry: dict[str, Any], *, successor:
     require(not errors, 'Repair overlaps another actual lease: '+'; '.join(errors))
 
 
+_AUDIT_SESSION = ContextVar('bound_repair_audit_session', default=None)
+
+
+@contextmanager
+def audit_session():
+    """Keep successful immutable-history work private to one caller's audit.
+
+    There is no process-wide or disk cache, and a nested audit starts fresh.
+    Current entry, lease, capacity and working-file checks remain live.
+    """
+    token = _AUDIT_SESSION.set({})
+    try:
+        yield
+    finally:
+        _AUDIT_SESSION.reset(token)
+
+
+def _immutable_git_view(root: str):
+    """Bypass reuse for replacement/graft/custom object or config views."""
+    custom = ('GIT_DIR','GIT_COMMON_DIR','GIT_WORK_TREE','GIT_REPLACE_REF_BASE',
+              'GIT_GRAFT_FILE','GIT_SHALLOW_FILE','GIT_OBJECT_DIRECTORY',
+              'GIT_ALTERNATE_OBJECT_DIRECTORIES','GIT_CONFIG','GIT_CONFIG_COUNT',
+              'GIT_CONFIG_PARAMETERS','GIT_CONFIG_SYSTEM','GIT_CONFIG_GLOBAL','GIT_NAMESPACE')
+    if any(name in os.environ for name in custom):
+        return None
+    try:
+        git_dir = Path(git(root,'rev-parse','--absolute-git-dir').decode().strip())
+        common = Path(git(root,'rev-parse','--git-common-dir').decode().strip())
+        common = (Path(root)/common).resolve() if not common.is_absolute() else common.resolve()
+        if any((directory/name).exists() for directory in (git_dir,common)
+               for name in ('info/grafts','shallow','objects/info/alternates')):
+            return None
+        if git(root,'for-each-ref','--format=%(refname)','refs/replace/'):
+            return None
+        # Hash configuration in memory only; it may contain private transport
+        # settings and must never be emitted as evidence or cache contents.
+        config = hashlib.sha256(git(root,'config','--null','--list','--show-origin')).digest()
+        return str(git_dir.resolve()),str(common),config
+    except (AdmissionError,OSError,ValueError):
+        return None
+
+
+def _authority_working_evidence(root: str, selected) -> None:
+    # validate_foundations also checks these current filesystem prerequisites.
+    # Immutable commit IDs alone cannot stand in for their present existence.
+    task = selected.authority
+    require(Path(root,'evidence',task).is_dir()
+            and Path(root,'evidence',task,'handoff.md').is_file(),
+            'Source compatibility authority history rejected: Foundation '+task+' Evidence/Handoff does not exist')
+
+
 def authority(root: str, base: str, *, protected_through: str | None = None,
+              successor: str = SUCCESSOR) -> tuple[dict[str, Any], str]:
+    session = _AUDIT_SESSION.get()
+    eligible = (session is not None and successor == SOURCE_COMPATIBILITY.successor
+                and re.fullmatch(r'[0-9a-f]{40}',base)
+                and (protected_through is None or re.fullmatch(r'[0-9a-f]{40}',protected_through)))
+    view = _immutable_git_view(root) if eligible else None
+    if view is None:
+        return _authority(root,base,protected_through=protected_through,successor=successor)
+    key = (str(Path(root).resolve()),base,protected_through,successor,view)
+    if key in session:
+        _authority_working_evidence(root,contract(successor))
+        return copy.deepcopy(session[key])
+    result = _authority(root,base,protected_through=protected_through,successor=successor)
+    # Failed proofs are never stored. A changed Git view cannot populate this
+    # session; the next call runs the complete ordinary proof again.
+    if _immutable_git_view(root) == view:
+        session[key] = copy.deepcopy(result)
+    return result
+
+
+def _authority(root: str, base: str, *, protected_through: str | None = None,
               successor: str = SUCCESSOR) -> tuple[dict[str, Any], str]:
     """Prove immutable intent and the actual normal completed Foundation chain."""
     selected = contract(successor)
@@ -403,7 +479,10 @@ def authority(root: str, base: str, *, protected_through: str | None = None,
                         'Source compatibility authority changed a frozen repair target before admission')
             # Full ordinary Foundation history owns transitions and identity;
             # only actual metadata changes need its otherwise expensive audit.
-            if any(blob(root,previous,path) != blob(root,node,path) for path in
+            # The exact parent(finish)->finish audit already ran above. Earlier
+            # prefixes remain mandatory: their foreign edit/restore checks may
+            # cover history outside a later implementation's integrated range.
+            if node != finish and any(blob(root,previous,path) != blob(root,node,path) for path in
                    (PLAN,ACTIVE,'specs/tasks/'+AUTHORITY+'.md')):
                 normal_errors: list[str] = []
                 task_front,_ = history.parse_front_matter(blob(root,node,'specs/tasks/'+AUTHORITY+'.md').decode())

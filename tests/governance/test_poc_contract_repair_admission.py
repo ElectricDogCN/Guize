@@ -696,7 +696,7 @@ class TestSourceCompatibilityRepairAdmission(unittest.TestCase):
     def setUpClass(cls):
         cls.temporary = tempfile.TemporaryDirectory(prefix='guize-source-admission-')
         cls.fixture = Path(cls.temporary.name,'fixture')
-        subprocess.run(['git','clone','--shared','--quiet',str(ROOT),str(cls.fixture)],check=True,capture_output=True)
+        subprocess.run(['git','clone','--local','--quiet',str(ROOT),str(cls.fixture)],check=True,capture_output=True)
         cls.git(cls.fixture,'checkout','--detach',cls.reservation)
         for key,value in [('user.email','test@example.com'),('user.name','Source admission fixture'),('core.autocrlf','false')]:
             cls.git(cls.fixture,'config',key,value)
@@ -721,7 +721,7 @@ class TestSourceCompatibilityRepairAdmission(unittest.TestCase):
         self.working = tempfile.TemporaryDirectory(prefix='guize-source-admission-case-')
         self.addCleanup(self.working.cleanup)
         self.repo = Path(self.working.name,'repo')
-        subprocess.run(['git','clone','--shared','--quiet',str(self.fixture),str(self.repo)],check=True,capture_output=True)
+        subprocess.run(['git','clone','--local','--quiet',str(self.fixture),str(self.repo)],check=True,capture_output=True)
         self.git(self.repo,'checkout','--detach',self.completed)
         for key,value in [('user.email','test@example.com'),('user.name','Source admission case'),('core.autocrlf','false')]:
             self.git(self.repo,'config',key,value)
@@ -732,6 +732,9 @@ class TestSourceCompatibilityRepairAdmission(unittest.TestCase):
             branch='chore/OPS-018-fixture-repair',baseSha=self.completed,dependsOn=['OPS-017'],
             handoffPath='evidence/OPS-018/handoff.md',exclusivePaths=sorted(PROOF.SOURCE_COMPATIBILITY.paths),integrationOrder=14,
             lease={'acquiredAt':utc(now-timedelta(minutes=1)),'expiresAt':utc(now+timedelta(days=1))})
+        self.audit = PROOF.audit_session()
+        self.audit.__enter__()
+        self.addCleanup(self.audit.__exit__,None,None,None)
 
     def claims(self, *, base=None, entry=None, observed=None):
         return PROOF.prove_claims(str(self.repo),'OPS-018',entry or self.entry,base or self.completed,observed_ref=observed)
@@ -757,6 +760,31 @@ class TestSourceCompatibilityRepairAdmission(unittest.TestCase):
         self.assertEqual(PROOF.contract('OPS-014').paths,frozenset(PROOF.REPAIR_PATHS))
         self.assertEqual(PROOF.authenticated_claims(str(self.repo),'OPS-099',self.entry,self.completed),set())
         self.assertEqual(self.claims(),PROOF.SOURCE_COMPATIBILITY.paths)
+        # An audit hit must recheck current files even with unchanged commits.
+        handoff = Path(self.repo,'evidence/OPS-017/handoff.md')
+        raw = handoff.read_bytes()
+        handoff.unlink()
+        try:
+            with self.assertRaisesRegex(PROOF.AdmissionError,'Evidence/Handoff does not exist'):
+                self.claims()
+        finally:
+            handoff.write_bytes(raw)
+        self.assertEqual(self.claims(),PROOF.SOURCE_COMPATIBILITY.paths)
+        expired = dict(self.entry,lease={'acquiredAt':'2020-01-01T00:00:00Z','expiresAt':'2020-01-02T00:00:00Z'})
+        with self.assertRaisesRegex(PROOF.AdmissionError,'lease is invalid'):
+            self.claims(entry=expired)
+        # Returned mutable intent cannot poison a later hit.
+        intent,_ = PROOF.authority(str(self.repo),self.completed,protected_through=self.completed,successor='OPS-018')
+        intent['authorityTaskId'] = 'OPS-099'
+        self.assertEqual(PROOF.authority(str(self.repo),self.completed,protected_through=self.completed,successor='OPS-018')[0]['authorityTaskId'],'OPS-017')
+        # Shared object storage is not an immutable view for audit reuse.
+        with tempfile.TemporaryDirectory(prefix='guize-alternate-view-') as temporary:
+            borrowed = Path(temporary,'repo')
+            subprocess.run(['git','clone','--shared','--quiet',str(self.repo),str(borrowed)],check=True,capture_output=True)
+            PROOF.authority(str(borrowed),self.completed,protected_through=self.completed,successor='OPS-018')
+            Path(borrowed,'.git/objects/info/alternates').unlink()
+            with self.assertRaisesRegex(PROOF.AdmissionError,'Cannot read committed repair authority'):
+                PROOF.authority(str(borrowed),self.completed,protected_through=self.completed,successor='OPS-018')
 
     def test_original_uncompleted_or_side_completion_cannot_grant_new_scope(self):
         with self.assertRaisesRegex(PROOF.AdmissionError,'not normally completed'):

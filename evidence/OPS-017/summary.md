@@ -17,3 +17,10 @@ Rollback: withdraw unmerged work or normal forward correction preserving all ori
 
 
 Current candidate base-alignment amendment: Foundation active Task/Registry baseSha must match the audited integration base. The earlier11-path draft omitted this mandatory mutable synchronization and is superseded by the13-path inventory. Only Own two baseSha scalars now advance7996 to877; original Task body/14 commands, roles/branch/lease/four claims, Program, foreign objects, intent, frozen files and ledger stay exact. Candidate test SHA3344 and all actual development results retain their original overlay context; fixed-source checks remain pending. Earlier draft and its complete physical snapshots are preserved outside Git.
+
+
+## Current same-audit authority cost repair
+Task OPS-017 / Issue168 / branch chore/OPS-017-source-compatibility-admission / target base 877d1b0fbd717f71fa9ad1e2ea4db4723ded3bcc / uncommitted parent 3396b93e880cbfc42b86128e64bc362c827195ca.
+Both CI911 cancellations are negative, preserved and not accepted; no third unchanged retry. Only the three originally claimed code/test paths and Own Evidence change. Full immutable-history checks, live entry/lease/capacity, current filesystem, all earlier prefix/sidebranch/edit-restore protections and all828 test nodes remain.
+Development v3 readiness1/focused4/full828 (including62 component) passed on the exact pinned uncommitted overlay with canonical main aliases877; source/refs/pins stayed unchanged. Diagnostic/development earlier failures and corrections retain their real identities in authority-audit-reuse-v1/index.json and originals.zip.
+Current committed-source14/full hosted CI/final independent source and actual new code-main acceptance: UNEXECUTED/PENDING. No lifecycle or capacity release, OPS018 reservation, POC qualification or experiment. Next freeze the independently reviewed exact snapshot, qualify current source, normal merge/main verification, then normal Review and Completion. Preserve all local refs/checkouts and original negatives.

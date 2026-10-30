@@ -1007,7 +1007,7 @@ def is_ancestor(root: str, before: str, after: str) -> bool:
     return git(root, "merge-base", "--is-ancestor", before, after).returncode == 0
 
 
-def main() -> int:
+def _main() -> int:
     args = parse_args()
     root = os.path.abspath(args.repo_root)
     errors: list[str] = []
@@ -1177,6 +1177,16 @@ def main() -> int:
         },
     )
     return 0
+
+
+def main() -> int:
+    try:
+        module = repair_module()
+    except (OSError, ImportError, ValueError):
+        # The existing denial paths still own unavailable repair modules.
+        return _main()
+    with module.audit_session():
+        return _main()
 
 
 if __name__ == "__main__":

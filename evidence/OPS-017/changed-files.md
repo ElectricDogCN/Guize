@@ -58,3 +58,31 @@ The preceding11-path draft is superseded. Full integration base: 877d1b0fbd717f7
 - specs/coordination/active-work.yaml
 - specs/tasks/OPS-017.md
 - tests/governance/test_poc_contract_repair_admission.py
+
+
+## Current authority cost repair target-delta inventory
+Target: 877d1b0fbd717f71fa9ad1e2ea4db4723ded3bcc
+Parent: 3396b93e880cbfc42b86128e64bc362c827195ca
+Entire current PR delta (earlier inventory is historical):
+- evidence/OPS-017/authority-audit-reuse-v1/README.md
+- evidence/OPS-017/authority-audit-reuse-v1/commands.txt
+- evidence/OPS-017/authority-audit-reuse-v1/context.json
+- evidence/OPS-017/authority-audit-reuse-v1/index.json
+- evidence/OPS-017/authority-audit-reuse-v1/originals.zip
+- evidence/OPS-017/changed-files.md
+- evidence/OPS-017/commands.txt
+- evidence/OPS-017/handoff.md
+- evidence/OPS-017/historical-authority-fixture-v1/README.md
+- evidence/OPS-017/historical-authority-fixture-v1/commands.txt
+- evidence/OPS-017/historical-authority-fixture-v1/context.json
+- evidence/OPS-017/historical-authority-fixture-v1/index.json
+- evidence/OPS-017/historical-authority-fixture-v1/originals.zip
+- evidence/OPS-017/summary.md
+- evidence/OPS-017/test-results/README.md
+- scripts/check-program-lifecycle-guards.py
+- scripts/poc-contract-repair-admission.py
+- specs/coordination/active-work.yaml
+- specs/tasks/OPS-017.md
+- tests/governance/test_poc_contract_repair_admission.py
+
+This commit parent delta: 13 Own paths.
