@@ -63,3 +63,26 @@ CI913 actual30-minute cancellation/749PASS is negative, incomplete and preserved
 Current pinned overlay readiness1/focused4/all62 passed with raw/PID/wait/JUnit and unchanged main/origin-main877/remote/pins. Existing828 node corpus and all original assertions preserved; new error-order/fallback/disappearance/reintroduction subcases included. Source307 older whole828 is not transferred to this new code.
 Current new fixed-source14/full hosted828 CI/final source/actual new main: UNEXECUTED/PENDING. Normal Review/Completion, high-slot release, OPS018 and POC windows remain ungranted. Current originals: registry-batch-v1/index.json and originals.zip; prior negative and positive phases remain unchanged.
 Next: exact independent candidate review, ordinary commit, fixed-source14 and current whole CI, final source/actual main acceptance then normal lifecycle. No reset/rebase/force/local cleanup or original-time rewrite.
+
+
+## Measured exact-edge forward repair / target a55680b9d06901729fcae7f35cb167b8b59d33f4
+
+
+Accepted code main a556 retains its own complete source/main CI and independent review. Pure Review553/PR175 remains unmerged: CI916 attempts1/2 hit the unchanged30-minute cap at749/753 unique PASS, no full summary. Both negatives and originals are preserved; no third unchanged retry or aggregation occurs.
+
+Actual tested checkout cc508 plus the isolated two-file overlay ran the same three existing diagnostic cases. First two checker profiles changed3.569->3.647s and4.758->4.813s; lifecycle changed22.161->16.698s, normal Foundation edge calls8->4 while authority proofs2 remain. This bounded result does not predict complete hosted CI or qualify a source. Focused2 and all62 admission nodes passed; every original assertion and828-node set remains.
+
+Only same-session successful immutable exact Foundation edges are reused inside the original admission claim. The key binds root, before/head40SHAs, authority, branch, actualHEAD, refs, Git directories/configuration and ordinary object view. All earlier prefix loops, stable identities, leases, capacity, frozen targets and failures remain checked. Hits recheck every newly completed Foundation Evidence/Handoff. Failed proofs are not cached; custom Git/object/replacement/graft/shallow/alternate views bypass reuse; legacyOPS014 does not use edge reuse. No global/disk cache, history module patch, frozen-file edit, CI timeout/runner/threshold change or POC/runtime grant occurs.
+
+The original implementation branch ordinarily fast-forwarded b5 to accepteda556. Only Own mutable Task/Registry base changes877->a556; original body14, lease, roles, claims, intent, Program/ordinary ledger and all foreign bytes are preserved. Actual fixed-source14 and complete828 hostedCI remain unexecuted for this new source until commit and ordinary publication. Then independent final source review, normal expected-head merge and real code-main checks precede refreshed normal Review/Completion. High capacity remains occupied.
+
+
+# OPS-017 measured lifecycle document parser refinement
+
+CI917/sourcea94 attempts1/2 both hit the original30-minute cap:771/761 unique PASS,57/67 incomplete, no complete summary and no observed failed/error/skipped/xfail/xpass. Both exact raw sets, the real09c9 checkout/orderedM+a94 parents/tree921, official caps and independent negative decisions are preserved. No third unchanged retry or aggregation occurs. Accepted older code maina556 keeps only its original full source/main acceptance; sourcea94 was never fully accepted or merged.
+
+Only the lifecycle checker's three safe YAML parsing calls select the same optional CSafeLoader/pure SafeLoader fallback pattern already used elsewhere. Return, rejection and front-matter boundaries stay unchanged. Independent40-input/120-method comparisons including actual metadata, Task headers, malformed/scalar/alias/Unicode/date and fallback were equal. Same original two-case child profiles measured parser1.574->0.156s and target18.154->16.978s; history control7.812->7.749s. This does not prove complete828 performance. The unclaimed planning module remains a major cost and is not modified or monkeypatched.
+
+One existing NoTask test prepends permanent backend/fallback safety comparisons; all pre-existing statements remain its exact suffix and every original node/assertion remains. Both full collections retain identical828 nodes. All62 admission plus11 lifecycle cases passed73/zero failure/error/skipped in an uncommitted diagnostic overlay. No current-source14 or complete same-head CI has executed for this new candidate. Task body/14, fourclaims, actors/lease, Program/Registry/ledger, immutable intent, frozen5 and all foreign source remain unchanged from parenta94. High capacity stays occupied; no OPS018 or POC runtime grant.
+
+Next: exact independent candidate review, ordinary forward commit, new fixed-source14, ordinary exact-olda94 publication on existing PR176, complete new-source CI and independent source/actual-code-main acceptance, then fresh normal Review/Completion. No reset/rebase/force/local cleanup or approval-time rewrite.

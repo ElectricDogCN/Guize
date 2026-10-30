@@ -419,9 +419,44 @@ def _immutable_git_view(root: str):
         # Hash configuration in memory only; it may contain private transport
         # settings and must never be emitted as evidence or cache contents.
         config = hashlib.sha256(git(root,'config','--null','--list','--show-origin')).digest()
-        return str(git_dir.resolve()),str(common),config
+        # Normal Foundation proofs depend on actual HEAD ancestry, and may
+        # resolve repository refs while auditing the immutable edge.
+        head = git(root,'rev-parse','--verify','HEAD').decode().strip()
+        refs = hashlib.sha256(git(root,'for-each-ref','--format=%(refname) %(objectname)')).digest()
+        return str(git_dir.resolve()),str(common),config,head,refs
     except (AdmissionError,OSError,ValueError):
         return None
+
+
+def _normal_foundation_edge(root: str, before: str, after: str, branch: str,
+                            errors: list[str], *, selected) -> None:
+    """Reuse only successful exact immutable edges in this private audit."""
+    session = _AUDIT_SESSION.get()
+    eligible = (session is not None and selected.successor == SOURCE_COMPATIBILITY.successor
+                and re.fullmatch(r'[0-9a-f]{40}',before)
+                and re.fullmatch(r'[0-9a-f]{40}',after))
+    view = _immutable_git_view(root) if eligible else None
+    key = ('normal-foundation-edge',str(Path(root).resolve()),before,after,
+           selected.authority,branch,view)
+    if view is not None and key in session:
+        # These are the only mutable filesystem prerequisites of the normal
+        # validator. Successful immutable history cannot replace their checks.
+        for task in session[key]:
+            if not (Path(root,'evidence',task).is_dir()
+                    and Path(root,'evidence',task,'handoff.md').is_file()):
+                errors.append('Foundation '+task+' Evidence/Handoff does not exist')
+        return
+    before_plan,after_plan = document(root,before,PLAN),document(root,after,PLAN)
+    observed: list[str] = []
+    history_module().validate_foundations(root,before_plan,after_plan,
+        document(root,before,ACTIVE),document(root,after,ACTIVE),document(root,before,LEDGER),
+        document(root,after,LEDGER),before,after,branch,observed,task_hint=selected.authority)
+    errors.extend(observed)
+    if view is not None and not observed and _immutable_git_view(root) == view:
+        previous = rows(before_plan.get('foundationTasks'))
+        session[key] = tuple(task for task,state in rows(after_plan.get('foundationTasks')).items()
+                             if state.get('status') == 'completed'
+                             and previous.get(task,{}).get('status') != 'completed')
 
 
 def _authority_working_evidence(root: str, selected) -> None:
@@ -531,9 +566,7 @@ def _authority(root: str, base: str, *, protected_through: str | None = None,
     history = history_module()
     errors: list[str] = []
     front,_ = history.parse_front_matter(blob(root,finish,'specs/tasks/'+AUTHORITY+'.md').decode())
-    history.validate_foundations(root,document(root,before,PLAN),document(root,finish,PLAN),
-        document(root,before,ACTIVE),document(root,finish,ACTIVE),document(root,before,LEDGER),
-        document(root,finish,LEDGER),before,finish,str(front.get('workBranch') or ''),errors,task_hint=AUTHORITY)
+    _normal_foundation_edge(root,before,finish,str(front.get('workBranch') or ''),errors,selected=selected)
     require(not errors, 'Normal authority Foundation history rejected: '+'; '.join(errors))
     if SUCCESSOR == SOURCE_COMPATIBILITY.successor:
         require(AUTHORITY_CLAIMS <= changed(root, preceding, implementation)
@@ -568,10 +601,7 @@ def _authority(root: str, base: str, *, protected_through: str | None = None,
                    (PLAN,ACTIVE,'specs/tasks/'+AUTHORITY+'.md')):
                 normal_errors: list[str] = []
                 task_front,_ = history.parse_front_matter(blob(root,node,'specs/tasks/'+AUTHORITY+'.md').decode())
-                history.validate_foundations(root,document(root,previous,PLAN),document(root,node,PLAN),
-                    document(root,previous,ACTIVE),document(root,node,ACTIVE),document(root,previous,LEDGER),
-                    document(root,node,LEDGER),previous,node,str(task_front.get('workBranch') or ''),
-                    normal_errors,task_hint=AUTHORITY)
+                _normal_foundation_edge(root,previous,node,str(task_front.get('workBranch') or ''),normal_errors,selected=selected)
                 require(not normal_errors, 'Source compatibility authority history rejected: '+'; '.join(normal_errors))
             previous = node
         # The original admission base may be later than Completion. A target

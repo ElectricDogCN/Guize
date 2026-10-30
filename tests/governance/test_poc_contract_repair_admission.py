@@ -756,6 +756,40 @@ class TestSourceCompatibilityRepairAdmission(unittest.TestCase):
         return self.commit(self.repo,'OPS-018 fixture independent metadata reservation (#2014)')
 
     def test_real_new_authority_admits_exact_five_and_preserves_legacy_configuration(self):
+        # Normal-edge reuse must survive a different outer protected endpoint,
+        # while actual HEAD ancestry, live files and failed proofs stay fresh.
+        history_module = PROOF.history_module()
+        with PROOF.audit_session(), mock.patch.object(history_module,'validate_foundations',
+                wraps=history_module.validate_foundations) as ordinary:
+            self.assertEqual(self.claims(),PROOF.SOURCE_COMPATIBILITY.paths)
+            calls = ordinary.call_count
+            self.assertGreater(calls,0)
+            PROOF.authority(str(self.repo),self.completed,successor='OPS-018')
+            self.assertEqual(ordinary.call_count,calls)
+            self.git(self.repo,'checkout','--detach',self.reservation)
+            try:
+                for _ in range(2):
+                    with self.assertRaisesRegex(PROOF.AdmissionError,'is not reachable from HEAD'):
+                        PROOF.authority(str(self.repo),self.completed,successor='OPS-018')
+                self.assertGreater(ordinary.call_count,calls+1)
+            finally:
+                self.git(self.repo,'checkout','--detach',self.completed)
+            # Force an outer miss but reuse the same Completion edge: its
+            # current Handoff cannot be supplied by the cached edge proof.
+            with PROOF.audit_session():
+                PROOF.authority(str(self.repo),self.completed,successor='OPS-018')
+                handoff = Path(self.repo,'evidence/OPS-017/handoff.md')
+                raw = handoff.read_bytes()
+                handoff.unlink()
+                try:
+                    with self.assertRaisesRegex(PROOF.AdmissionError,'Evidence/Handoff does not exist'):
+                        PROOF.authority(str(self.repo),self.completed,protected_through=self.completed,successor='OPS-018')
+                finally:
+                    handoff.write_bytes(raw)
+        with PROOF.audit_session(), mock.patch.object(history_module,'validate_foundations',
+                wraps=history_module.validate_foundations) as fresh:
+            self.assertEqual(self.claims(),PROOF.SOURCE_COMPATIBILITY.paths)
+            self.assertGreater(fresh.call_count,0)
         self.assertEqual(self.claims(),PROOF.SOURCE_COMPATIBILITY.paths)
         self.assertEqual(PROOF.contract('OPS-014').paths,frozenset(PROOF.REPAIR_PATHS))
         self.assertEqual(PROOF.authenticated_claims(str(self.repo),'OPS-099',self.entry,self.completed),set())
@@ -948,6 +982,40 @@ class TestSourceCompatibilityRepairAdmission(unittest.TestCase):
         self.assertIn('preceding unchanged frozen recovery event',result.stdout+result.stderr)
 
     def test_actual_no_task_lifecycle_accepts_real_registered_frozen_repair(self):
+        # The fast optional backend must preserve the legacy safe parser's
+        # accepted values and rejection, including a pure-Python fallback.
+        parser_spec = importlib.util.spec_from_file_location(
+            'bound_repair_lifecycle_parser',ROOT/'scripts/check-program-lifecycle-guards.py')
+        lifecycle = importlib.util.module_from_spec(parser_spec)
+        parser_spec.loader.exec_module(lifecycle)
+        metadata = [Path(ROOT,path).read_text(encoding='utf-8') for path in
+                    (PROOF.PLAN,PROOF.ACTIVE,PROOF.LEDGER,'specs/designs/module-ownership.yaml')]
+        fragments = ['', 'null\n', 'true\n', '[1, two, null]\n',
+                     'a: 1\na: 2\n', 'a: &x [1, 2]\nb: *x\n',
+                     'name: 归泽\nquoted: "with space"\n',
+                     'date: 2026-10-30\n', 'tasks: [\n', 'x: !unknown value\n']
+        with tempfile.TemporaryDirectory(prefix='guize-lifecycle-parser-') as parser_root:
+            for backend in (lifecycle.SAFE_DOCUMENT_LOADER,yaml.SafeLoader):
+                with mock.patch.object(lifecycle,'SAFE_DOCUMENT_LOADER',backend):
+                    for index,text in enumerate(metadata+fragments):
+                        filename=str(index)+'.yaml'
+                        Path(parser_root,filename).write_text(text,encoding='utf-8')
+                        try:
+                            expected=yaml.safe_load(text)
+                        except yaml.YAMLError:
+                            self.assertIsNone(lifecycle.load_yaml_text(text))
+                            with self.assertRaises(yaml.YAMLError):
+                                lifecycle.load_current(parser_root,filename)
+                            if index>=len(metadata):
+                                self.assertEqual(lifecycle.parse_front('---\n'+text+'\n---\nBody'),{})
+                        else:
+                            self.assertEqual(lifecycle.load_yaml_text(text),expected)
+                            self.assertEqual(lifecycle.load_current(parser_root,filename),expected)
+                            if index>=len(metadata):
+                                self.assertEqual(lifecycle.parse_front('---\n'+text+'\n---\nBody'),
+                                                 expected if isinstance(expected,dict) else {})
+                    for text in (None,'','no front matter','---\nunterminated'):
+                        self.assertEqual(lifecycle.parse_front(text),{})
         _,frozen,_ = self.frozen_repair()
         with Path(self.repo,'docs/18-testing-and-acceptance.md').open('a',encoding='utf-8') as stream:stream.write('\nFixture real bounded contract repair.\n')
         code=self.commit(self.repo,'OPS-018 fixture valid repair after real freeze')
