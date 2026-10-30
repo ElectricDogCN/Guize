@@ -96,17 +96,17 @@ tasks:
 - taskId: OPS-017
   issue: 168
   title: 为版本化POC源兼容性修复建立受限准入
-  status: in_progress
+  status: review
   riskLevel: high
   owner: ElectricDogCN
   coordinator: /root
   implementer: /root
   reviewer: /root/gz022_planning_independent_review
   integrator: /root
-  agentRole: implementer
-  branch: chore/OPS-017-source-compatibility-admission
+  agentRole: reviewer
+  branch: chore/OPS-017-normal-review-v2
   baseBranch: main
-  baseSha: 877d1b0fbd717f71fa9ad1e2ea4db4723ded3bcc
+  baseSha: a55680b9d06901729fcae7f35cb167b8b59d33f4
   workPackage: WP-M0-01
   programPlan: specs/coordination/program-plan.yaml
   programTaskId: OPS-017

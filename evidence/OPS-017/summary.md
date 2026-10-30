@@ -32,3 +32,16 @@ CI913 actual30-minute cancellation/749PASS is negative, incomplete and preserved
 Current pinned overlay readiness1/focused4/all62 passed with raw/PID/wait/JUnit and unchanged main/origin-main877/remote/pins. Existing828 node corpus and all original assertions preserved; new error-order/fallback/disappearance/reintroduction subcases included. Source307 older whole828 is not transferred to this new code.
 Current new fixed-source14/full hosted828 CI/final source/actual new main: UNEXECUTED/PENDING. Normal Review/Completion, high-slot release, OPS018 and POC windows remain ungranted. Current originals: registry-batch-v1/index.json and originals.zip; prior negative and positive phases remain unchanged.
 Next: exact independent candidate review, ordinary commit, fixed-source14 and current whole CI, final source/actual main acceptance then normal lifecycle. No reset/rebase/force/local cleanup or original-time rewrite.
+
+
+
+## Current phase: normal Review (prospective)
+Updated: 2026-10-30T10:32:35.833616+00:00
+Task OPS-017 / Issue168 / branch chore/OPS-017-normal-review-v2 / full actual Review base a55680b9d06901729fcae7f35cb167b8b59d33f4.
+Actual implementation: PR174 / source b5b36ba2c198dccda156f88a43c5190445c26cfa / code main a55680b9d06901729fcae7f35cb167b8b59d33f4.
+Prerequisites: accepted source14/CI914 828, actual main7/new actual-code push CI828 and independent actual-main acceptance. This is evidence of the finished code phase, not of this new Review source.
+Own normal-review-v2/context.json binds the unchanged historical Task14 recipe to this actual base/branch; normal-review-v2/commands.txt gives all fourteen actual argv families, preserving direct lifecycle and its wrapper.
+Both old CI911 cancellations remain in the code phase82-original inherited archive. CI912 synchronize was cancelled; CI913 subsequently reached the unchanged 30-minute cap with only749 unique PASS and no complete summary. Both negatives remain indexed here. Current b5 CI914 has its own complete828 success. Actual code-main CI915 attempt1 hit the original30-minute cap after779 PASS with49 incomplete and no summary; its originals and bounded retry decision are indexed here. Main acceptance below requires a separately complete accepted attempt2, never aggregated partial results. All 64 prerequisite originals are losslessly indexed at normal-review-v2/index.json and prerequisites.zip.
+Current Review checks/full828 CI: UNEXECUTED. Review source/tree: UNCOMMITTED.
+Exact current path inventory: changed-files.md current-phase appendix below.
+Task body, four code claims, source/frozen/intent/foreign bytes and original lease stay unchanged; high-risk capacity remains occupied. OPS018 and new POC experiments remain unauthorized.
