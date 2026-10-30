@@ -9,9 +9,14 @@ import json
 from pathlib import Path
 import re
 import subprocess
-from typing import Any
+from typing import Any, NamedTuple
 
 import yaml
+
+# The input remains the same immutable Git bytes and safe YAML dialect. The
+# C-backed safe parser avoids reparsing each large canonical Registry in Python
+# during every independently audited original-history snapshot.
+SAFE_DOCUMENT_LOADER = getattr(yaml, 'CSafeLoader', yaml.SafeLoader)
 
 PLAN = 'specs/coordination/program-plan.yaml'
 ACTIVE = 'specs/coordination/active-work.yaml'
@@ -28,6 +33,72 @@ AUTHORITY_CLAIMS = {
 }
 REPAIR_PATHS = {'specs/poc/check_program.py', 'specs/poc/test_program.py'}
 _HISTORY = None
+
+
+class RepairContract(NamedTuple):
+    authority: str
+    successor: str
+    intent: str
+    digest: str
+    claims: frozenset[str]
+    paths: frozenset[str]
+
+
+SOURCE_COMPATIBILITY = RepairContract(
+    'OPS-017', 'OPS-018', 'evidence/OPS-017/source-compatibility-admission-intent.json',
+    '985942645f493d1e25f1034842aa588594d83a8a0e5587526c830251ee23fdb5',
+    frozenset({'AGENTS.md', 'scripts/poc-contract-repair-admission.py',
+               'scripts/check-program-lifecycle-guards.py',
+               'tests/governance/test_poc_contract_repair_admission.py'}),
+    frozenset({'specs/poc/program.schema.yaml', 'specs/poc/program.yaml',
+               'specs/poc/check_program.py', 'specs/poc/test_program.py',
+               'docs/18-testing-and-acceptance.md'}))
+
+
+def contract(task_id: str) -> RepairContract:
+    if task_id == SUCCESSOR:
+        return RepairContract(AUTHORITY, SUCCESSOR, INTENT, INTENT_SHA256,
+                              frozenset(AUTHORITY_CLAIMS), frozenset(REPAIR_PATHS))
+    if task_id == SOURCE_COMPATIBILITY.successor:
+        return SOURCE_COMPATIBILITY
+    raise AdmissionError('No declared repair for this identity')
+
+
+def approved_paths(root: str, preceding: str, intent: dict[str, Any],
+                   selected: RepairContract) -> list[dict[str, Any]]:
+    if selected.successor == SUCCESSOR:
+        successor = intent['successor']
+        require(successor['taskId'] == selected.successor
+                and {p['path'] for p in successor['paths']} == selected.paths,
+                'Authorization declares another repair')
+        return successor['paths']
+    require(intent.get('schemaVersion') == 1
+            and intent.get('kind') == 'one_versioned_poc_source_compatibility_repair_authorization_intent'
+            and intent.get('authorityTaskId') == selected.authority
+            and intent.get('successorTaskId') == selected.successor
+            and intent.get('reservationParent') == preceding
+            and intent.get('issue') == 168,
+            'Source compatibility intent identity is not parent-bound')
+    for field, expected in [('authorityClaims', selected.claims), ('repairPaths', selected.paths)]:
+        value = intent.get(field)
+        require(isinstance(value, list) and len(value) == len(expected) and set(value) == expected,
+                'Source compatibility intent has different exact paths')
+    for field in ('repairRequiresIndependentReservation', 'repairRequiresActualFreezeVerificationAndIndependentThaw',
+                  'oldIndexStrictRulePreserved', 'thresholdsProductionPlatformAndFullCiUnchanged'):
+        require(intent.get(field) is True, 'Source compatibility intent requires '+field)
+    for field in ('originalAuthorityRewriteAllowed', 'historicalExecutionRebindingAllowed', 'compatibilityMigrationGuaranteed'):
+        require(intent.get(field) is False, 'Source compatibility intent forbids '+field)
+    require(intent.get('requiredSemantics') == 'versioned immutable complete dependency closure and separately approved current compatibility',
+            'Source compatibility intent has different semantics')
+    records = []
+    for path in sorted(selected.paths):
+        identity = git(root, 'ls-tree', preceding, '--', path).decode().split()
+        require(len(identity) == 4 and identity[0] in {'100644', '100755'}
+                and identity[1] == 'blob' and identity[3] == path,
+                'Original repair baseline must be an actual regular Git blob')
+        raw = blob(root, preceding, path)
+        records.append(dict(path=path, bytes=len(raw), gitBlobSha256=hashlib.sha256(raw).hexdigest()))
+    return records
 
 
 class AdmissionError(ValueError):
@@ -56,7 +127,7 @@ def blob(root: str, ref: str, path: str) -> bytes:
 
 
 def document(root: str, ref: str, path: str) -> dict[str, Any]:
-    value = yaml.safe_load(blob(root, ref, path))
+    value = yaml.load(blob(root, ref, path), Loader=SAFE_DOCUMENT_LOADER)
     require(isinstance(value, dict), 'Repair authority document must be a mapping')
     return value
 
@@ -119,6 +190,77 @@ def history_module():
     return _HISTORY
 
 
+def audit_source_authority_intent(root: str, base: str, observation: str) -> None:
+    """Protect the registered original even while its authority is implementing."""
+    selected = SOURCE_COMPATIBILITY
+    exists = lambda ref: subprocess.run(
+        ['git','-C',str(root),'cat-file','-e',ref+':'+selected.intent],capture_output=True).returncode == 0
+    admitted = exists(base)
+    if admitted:
+        # This check grants no scope and does not require Completion. Inspect
+        # original canonical intent changes too, including an earlier restore.
+        nodes = git(root,'rev-list','--first-parent','--reverse',base,'--',selected.intent).decode().split()
+        for node in nodes:
+            require(hashlib.sha256(blob(root,node,selected.intent)).hexdigest() == selected.digest,
+                    'Authorization intent changed after registration')
+    # Follow every side branch and retain merges, including TREESAME imports.
+    # The displayed parents are rewritten by Git: only select commit identities
+    # here and keep auditing each commit against its real first parent below.
+    candidates = git(root,'rev-list','--full-history','--parents','--reverse',
+                     base+'..'+observation,'--',selected.intent).decode().splitlines()
+    for record in candidates:
+        node = record.split()[0]
+        previous = parent(root,node)
+        if selected.intent not in changed(root,previous,node):
+            continue
+        incoming = history_module().approved_synchronization_parents(root,node,base)
+        imports = history_module().clean_synchronization_paths(root,node,{selected.intent},incoming) if incoming else set()
+        if selected.intent in imports:
+            continue
+        # Only the first real, parent-bound reservation may create the original.
+        first = entry_at(root,node,selected.authority) if not admitted and not exists(previous) else None
+        require(first is not None and first.get('status') == 'reserved'
+                and first.get('agentRole') == 'coordinator' and first.get('baseSha') == previous
+                and hashlib.sha256(blob(root,node,selected.intent)).hexdigest() == selected.digest,
+                'Authorization intent changed after registration')
+
+
+def validate_source_authority_intent(root: str, before: str, after: str, errors: list[str]) -> None:
+    try:
+        audit_source_authority_intent(root,resolve(root,before),resolve(root,after))
+    except (AdmissionError,KeyError,TypeError,ValueError,OSError,yaml.YAMLError) as exc:
+        errors.append('Bound POC authority intent audit rejected: '+str(exc))
+
+
+def source_protected_ref(root: str, base: str, observation: str) -> str:
+    """Use admitted main history for a peer's proven, automatic main import."""
+    selected = SOURCE_COMPATIBILITY
+    audit_source_authority_intent(root,base,observation)
+    admitted = introduction(root,chain(root,base),selected.successor)
+    observed = introduction(root,chain(root,observation),selected.successor)
+    if admitted is None or (observed is not None and admitted[0] == observed[0]):
+        return observation
+    require(subprocess.run(['git','-C',str(root),'merge-base','--is-ancestor',base,observation],
+                           capture_output=True).returncode == 0,
+            'Peer synchronization does not import its admitted main base')
+    history = history_module()
+    task_paths = {task:'specs/tasks/'+task+'.md' for task in (selected.authority,selected.successor)}
+    fixed = set(selected.claims) | set(selected.paths) | {selected.intent,*task_paths.values()}
+    for node in git(root,'rev-list','--reverse',base+'..'+observation).decode().split():
+        previous = parent(root,node)
+        paths = changed(root,previous,node)
+        own = {path for path in paths if path in fixed or any(
+            path.startswith('evidence/'+task+'/') for task in task_paths)}
+        incoming = history.approved_synchronization_parents(root,node,base)
+        candidates = (own | {PLAN,ACTIVE}) & paths
+        imports = history.clean_synchronization_paths(root,node,candidates,incoming) if incoming and candidates else set()
+        require(not (own-imports), 'Peer synchronization contains unadmitted local authority or repair changes')
+        for task,path in task_paths.items():
+            require(not history.foundation_local_metadata_changed(root,previous,node,task,paths,{path},imports,incoming),
+                    'Peer synchronization changed protected authority or repair metadata')
+    return base
+
+
 def validate_entry(entry: dict[str, Any], task_id: str, paths: set[str], when: datetime,
                    *, historical: bool = False) -> None:
     require(entry.get('taskId') == task_id and entry.get('programTaskId') == task_id,
@@ -141,21 +283,24 @@ def validate_entry(entry: dict[str, Any], task_id: str, paths: set[str], when: d
             'Repair lease is invalid at the actual observation')
 
 
-def validate_capacity(root: str, base: str, entry: dict[str, Any]) -> None:
+def validate_capacity(root: str, base: str, entry: dict[str, Any], *, successor: str = SUCCESSOR) -> None:
     registry = document(root,base,ACTIVE)
     current = rows(registry.get('tasks'))
-    current[SUCCESSOR] = entry
+    current[successor] = entry
     policy = registry['policy']
     require(len(current) <= policy['maxActiveTasks']
             and sum(x.get('riskLevel') in {'high','critical'} for x in current.values()) <= policy['maxHighRiskTasks'],
             'Repair exceeds the existing active/high capacity')
     errors: list[str] = []
-    history_module().historical_conflicts(SUCCESSOR,entry,registry,'Bound POC repair',errors)
+    history_module().historical_conflicts(successor,entry,registry,'Bound POC repair',errors)
     require(not errors, 'Repair overlaps another actual lease: '+'; '.join(errors))
 
 
-def authority(root: str, base: str, *, protected_through: str | None = None) -> tuple[dict[str, Any], str]:
+def authority(root: str, base: str, *, protected_through: str | None = None,
+              successor: str = SUCCESSOR) -> tuple[dict[str, Any], str]:
     """Prove immutable intent and the actual normal completed Foundation chain."""
+    selected = contract(successor)
+    AUTHORITY, SUCCESSOR, INTENT, INTENT_SHA256, AUTHORITY_CLAIMS, REPAIR_PATHS = selected
     canonical = chain(root, base)
     original = introduction(root, canonical, AUTHORITY)
     require(original is not None, 'No original canonical authority registration')
@@ -164,7 +309,7 @@ def authority(root: str, base: str, *, protected_through: str | None = None) -> 
     raw = blob(root, registration, INTENT)
     require(hashlib.sha256(raw).hexdigest() == INTENT_SHA256, 'Original authorization intent differs')
     intent = json.loads(raw)
-    require(intent.get('kind') == 'one_poc_contract_repair_authorization_intent'
+    require((SUCCESSOR == SOURCE_COMPATIBILITY.successor or intent.get('kind') == 'one_poc_contract_repair_authorization_intent')
             and intent.get('authorityTaskId') == AUTHORITY
             and intent.get('reservationParent') == preceding,
             'Authorization intent is not parent-bound')
@@ -176,17 +321,17 @@ def authority(root: str, base: str, *, protected_through: str | None = None) -> 
     require(metadata <= changed(root,preceding,registration)
             and all(p in metadata or p.startswith('evidence/'+AUTHORITY+'/')
                     for p in changed(root,preceding,registration)), 'Authority reservation contains implementation')
-    defect = intent['defect']
-    for ref_key, sha_key in [('sourceObservationRef','sourceObservationSha256'),
-                             ('actualExecutionReviewRef','actualExecutionReviewSha256'),
-                             ('responseRef','responseSha256')]:
+    defect = intent['defect'] if SUCCESSOR != SOURCE_COMPATIBILITY.successor else None
+    defect_fields = [('sourceObservationRef','sourceObservationSha256'),
+                     ('actualExecutionReviewRef','actualExecutionReviewSha256'),
+                     ('responseRef','responseSha256')] if defect is not None else []
+    for ref_key, sha_key in defect_fields:
         require(hashlib.sha256(blob(root,registration,defect[ref_key])).hexdigest() == defect[sha_key],
                 'Original defect evidence differs from declared Git bytes')
-    require(len(blob(root,registration,defect['responseRef'])) == defect['responseBytes'], 'Defect response length differs')
-    successor = intent['successor']
-    require(successor['taskId'] == SUCCESSOR and {p['path'] for p in successor['paths']} == REPAIR_PATHS,
-            'Authorization declares another repair')
-    for record in successor['paths']:
+    if defect is not None:
+        require(len(blob(root,registration,defect['responseRef'])) == defect['responseBytes'], 'Defect response length differs')
+    records = approved_paths(root, preceding, intent, selected)
+    for record in records:
         value = blob(root,preceding,record['path'])
         require(len(value) == record['bytes'] and hashlib.sha256(value).hexdigest() == record['gitBlobSha256'],
                 'Original approved contract baseline differs')
@@ -197,9 +342,7 @@ def authority(root: str, base: str, *, protected_through: str | None = None) -> 
             'Protected authority audit must extend the original first-parent admission chain')
     for node in protected[protected.index(registration):]:
         require(blob(root,node,INTENT) == raw, 'Authorization intent changed after registration')
-        for ref_key,sha_key in [('sourceObservationRef','sourceObservationSha256'),
-                                ('actualExecutionReviewRef','actualExecutionReviewSha256'),
-                                ('responseRef','responseSha256')]:
+        for ref_key,sha_key in defect_fields:
             require(hashlib.sha256(blob(root,node,defect[ref_key])).hexdigest() == defect[sha_key],
                     'Declared original defect evidence changed after registration')
     plan = document(root,base,PLAN)
@@ -234,12 +377,56 @@ def authority(root: str, base: str, *, protected_through: str | None = None) -> 
         document(root,before,ACTIVE),document(root,finish,ACTIVE),document(root,before,LEDGER),
         document(root,finish,LEDGER),before,finish,str(front.get('workBranch') or ''),errors,task_hint=AUTHORITY)
     require(not errors, 'Normal authority Foundation history rejected: '+'; '.join(errors))
+    if SUCCESSOR == SOURCE_COMPATIBILITY.successor:
+        require(AUTHORITY_CLAIMS <= changed(root, preceding, implementation)
+                and bool(AUTHORITY_CLAIMS.intersection(changed(root, parent(root, implementation), implementation))),
+                'Source compatibility authority has no complete registered implementation')
+        # The new authority is audited at every original canonical snapshot;
+        # changing and restoring an intent, role or claim cannot erase history.
+        previous = preceding
+        for node in canonical[canonical.index(registration):canonical.index(finish)+1]:
+            current = entry_at(root, node, AUTHORITY)
+            if node != finish:
+                require(current is not None, 'Source compatibility authority disappeared before Completion')
+                moment = datetime.fromtimestamp(int(git(root,'show','-s','--format=%ct',node)),timezone.utc)
+                validate_entry(current, AUTHORITY, set(AUTHORITY_CLAIMS), moment, historical=True)
+                require(all(current.get(key) == reserved.get(key) for key in
+                            ('owner','coordinator','implementer','reviewer','integrator','issue','dependsOn')),
+                        'Source compatibility authority stable identity changed')
+                task_front, task_body = history.parse_front_matter(blob(root,node,'specs/tasks/'+AUTHORITY+'.md').decode())
+                task_errors: list[str] = []
+                history.stable_spec_matches(AUTHORITY,current,task_front,task_body,task_errors,
+                                           reservation=current.get('status') == 'reserved')
+                require(not task_errors, 'Source compatibility authority Task differs: '+'; '.join(task_errors))
+            for record in records:
+                require(blob(root,node,record['path']) == blob(root,preceding,record['path']),
+                        'Source compatibility authority changed a frozen repair target before admission')
+            # Full ordinary Foundation history owns transitions and identity;
+            # only actual metadata changes need its otherwise expensive audit.
+            if any(blob(root,previous,path) != blob(root,node,path) for path in
+                   (PLAN,ACTIVE,'specs/tasks/'+AUTHORITY+'.md')):
+                normal_errors: list[str] = []
+                task_front,_ = history.parse_front_matter(blob(root,node,'specs/tasks/'+AUTHORITY+'.md').decode())
+                history.validate_foundations(root,document(root,previous,PLAN),document(root,node,PLAN),
+                    document(root,previous,ACTIVE),document(root,node,ACTIVE),document(root,previous,LEDGER),
+                    document(root,node,LEDGER),previous,node,str(task_front.get('workBranch') or ''),
+                    normal_errors,task_hint=AUTHORITY)
+                require(not normal_errors, 'Source compatibility authority history rejected: '+'; '.join(normal_errors))
+            previous = node
+        # The original admission base may be later than Completion. A target
+        # edit/restore in that interval cannot acquire fresh repair authority.
+        for node in canonical[canonical.index(finish)+1:]:
+            for record in records:
+                require(blob(root,node,record['path']) == blob(root,preceding,record['path']),
+                        'Source compatibility authority changed an approved contract frozen repair target before admission')
     return intent, registration
 
 
 def prove_claims(root: str, task_id: str, entry: dict[str, Any], base_ref: str,
                  *, observed_ref: str | None = None) -> set[str]:
     """Supplement ownership only; all normal transition/history/recovery gates remain."""
+    selected = contract(task_id)
+    AUTHORITY, SUCCESSOR, INTENT, _, _, REPAIR_PATHS = selected
     require(task_id == SUCCESSOR, 'No declared repair for this identity')
     when = datetime.fromtimestamp(int(git(root,'show','-s','--format=%ct',observed_ref)),timezone.utc) if observed_ref else datetime.now(timezone.utc)
     validate_entry(entry,task_id,REPAIR_PATHS,when,historical=observed_ref is not None)
@@ -283,9 +470,12 @@ def prove_claims(root: str, task_id: str, entry: dict[str, Any], base_ref: str,
                 'Repair original Task does not bind its exact registration: '+'; '.join(errors))
         require(bool(blob(root,registration,'evidence/'+task_id+'/handoff.md').strip()),
                 'Repair original handoff is missing')
-    intent,_ = authority(root,admission_base,protected_through=base)
+    protected = observed_ref if task_id == SOURCE_COMPATIBILITY.successor and observed_ref is not None else base
+    if task_id == SOURCE_COMPATIBILITY.successor and observed_ref is not None:
+        protected = source_protected_ref(root,base,resolve(root,observed_ref))
+    intent, authority_registration = authority(root,admission_base,protected_through=protected,successor=task_id)
     require(blob(root,base,INTENT) == blob(root,admission_base,INTENT), 'Current authority intent changed')
-    for record in intent['successor']['paths']:
+    for record in approved_paths(root,parent(root,authority_registration),intent,selected):
         raw = blob(root,admission_base,record['path'])
         require(len(raw) == record['bytes'] and hashlib.sha256(raw).hexdigest() == record['gitBlobSha256'],
                 'Repair original reservation base changed the approved contract')
@@ -293,14 +483,14 @@ def prove_claims(root: str, task_id: str, entry: dict[str, Any], base_ref: str,
     original_time = datetime.fromtimestamp(int(git(root,'show','-s','--format=%ct',original[0])),timezone.utc) if original else when
     validate_entry(reserved,task_id,REPAIR_PATHS,original_time,
                    historical=original is not None or observed_ref is not None)
-    validate_capacity(root,admission_base,reserved)
-    validate_capacity(root,base,entry)
+    validate_capacity(root,admission_base,reserved,successor=task_id)
+    validate_capacity(root,base,entry,successor=task_id)
     return set(REPAIR_PATHS)
 
 
 def authenticated_claims(root: str | None, task_id: str, entry: dict[str, Any], base_ref: str,
                          *, observed_ref: str | None = None) -> set[str]:
-    if not root or task_id != SUCCESSOR:
+    if not root or task_id not in {SUCCESSOR, SOURCE_COMPATIBILITY.successor}:
         return set()
     try:
         return prove_claims(root,task_id,entry,base_ref,observed_ref=observed_ref)
@@ -311,7 +501,26 @@ def authenticated_claims(root: str | None, task_id: str, entry: dict[str, Any], 
 def validate_repair_changes(root: str, before: str, after: str, task_id: str,
                             paths: set[str], errors: list[str]) -> None:
     """Claim admission cannot authorize changing a completed contract while active."""
-    if task_id != SUCCESSOR or not paths.intersection(REPAIR_PATHS):
+    if task_id not in {SUCCESSOR, SOURCE_COMPATIBILITY.successor}:
+        return
+    selected = contract(task_id)
+    if task_id == SOURCE_COMPATIBILITY.successor:
+        # Authority Evidence is also protected on metadata-only changes, on a
+        # net-empty edit/restore range and when Completion removes the entry.
+        # The original successor admission base must never move to this tip.
+        try:
+            observation = resolve(root, after)
+            admitted = resolve(root,before)
+            original = introduction(root, chain(root, admitted), task_id)
+            if original is None:
+                original = introduction(root, chain(root, observation), task_id)
+            require(original is not None, 'Source compatibility repair has no original canonical reservation')
+            protected = source_protected_ref(root,admitted,observation)
+            authority(root, parent(root, original[0]), protected_through=protected, successor=task_id)
+        except (AdmissionError,KeyError,TypeError,ValueError,OSError,yaml.YAMLError) as exc:
+            errors.append('Bound POC contract authority audit rejected: '+str(exc))
+            return
+    if not paths.intersection(selected.paths):
         return
     try:
         left, right = document(root,before,PLAN), document(root,after,PLAN)
@@ -319,7 +528,7 @@ def validate_repair_changes(root: str, before: str, after: str, task_id: str,
         require(left.get('status') == right.get('status') == 'frozen'
                 and isinstance(recovery,dict) and right.get('recovery') == recovery,
                 'Contract changes require a preceding unchanged frozen recovery event')
-        require(recovery.get('taskId') == SUCCESSOR
+        require(recovery.get('taskId') == task_id
                 and recovery.get('affectedTasks') == ['GZ-021'],
                 'Contract recovery must bind its actual owner and completed producer GZ-021')
         source = resolve(root,recovery['sourceCommit'])
@@ -332,9 +541,9 @@ def validate_repair_changes(root: str, before: str, after: str, task_id: str,
         for plan in (left,right):
             require(rows(plan.get('tasks')).get('GZ-021') == rows(original.get('tasks')).get('GZ-021'),
                     'Contract recovery cannot rewrite the completed producer')
-        entry = entry_at(root,after,SUCCESSOR)
+        entry = entry_at(root,after,task_id)
         require(entry is not None and entry.get('status') in {'in_progress','review','integration'},
                 'Contract edits require a separately registered working repair')
-        prove_claims(root,SUCCESSOR,entry,before,observed_ref=after)
+        prove_claims(root,task_id,entry,before,observed_ref=after)
     except (AdmissionError,KeyError,TypeError,ValueError,OSError,yaml.YAMLError) as exc:
         errors.append('Bound POC contract recovery rejected: '+str(exc))
