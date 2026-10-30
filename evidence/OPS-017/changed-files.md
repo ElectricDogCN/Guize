@@ -119,3 +119,21 @@ Entire current PR delta:
 - tests/governance/test_poc_contract_repair_admission.py
 
 Current parent delta:12 Own paths.
+
+
+## Exact-edge forward repair
+Base: a55680b9d06901729fcae7f35cb167b8b59d33f4
+- evidence/OPS-017/changed-files.md
+- evidence/OPS-017/commands.txt
+- evidence/OPS-017/exact-edge-reuse-v1/README.md
+- evidence/OPS-017/exact-edge-reuse-v1/commands.txt
+- evidence/OPS-017/exact-edge-reuse-v1/context.json
+- evidence/OPS-017/exact-edge-reuse-v1/index.json
+- evidence/OPS-017/exact-edge-reuse-v1/originals.zip
+- evidence/OPS-017/handoff.md
+- evidence/OPS-017/summary.md
+- evidence/OPS-017/test-results/README.md
+- scripts/poc-contract-repair-admission.py
+- specs/coordination/active-work.yaml
+- specs/tasks/OPS-017.md
+- tests/governance/test_poc_contract_repair_admission.py

@@ -756,6 +756,40 @@ class TestSourceCompatibilityRepairAdmission(unittest.TestCase):
         return self.commit(self.repo,'OPS-018 fixture independent metadata reservation (#2014)')
 
     def test_real_new_authority_admits_exact_five_and_preserves_legacy_configuration(self):
+        # Normal-edge reuse must survive a different outer protected endpoint,
+        # while actual HEAD ancestry, live files and failed proofs stay fresh.
+        history_module = PROOF.history_module()
+        with PROOF.audit_session(), mock.patch.object(history_module,'validate_foundations',
+                wraps=history_module.validate_foundations) as ordinary:
+            self.assertEqual(self.claims(),PROOF.SOURCE_COMPATIBILITY.paths)
+            calls = ordinary.call_count
+            self.assertGreater(calls,0)
+            PROOF.authority(str(self.repo),self.completed,successor='OPS-018')
+            self.assertEqual(ordinary.call_count,calls)
+            self.git(self.repo,'checkout','--detach',self.reservation)
+            try:
+                for _ in range(2):
+                    with self.assertRaisesRegex(PROOF.AdmissionError,'is not reachable from HEAD'):
+                        PROOF.authority(str(self.repo),self.completed,successor='OPS-018')
+                self.assertGreater(ordinary.call_count,calls+1)
+            finally:
+                self.git(self.repo,'checkout','--detach',self.completed)
+            # Force an outer miss but reuse the same Completion edge: its
+            # current Handoff cannot be supplied by the cached edge proof.
+            with PROOF.audit_session():
+                PROOF.authority(str(self.repo),self.completed,successor='OPS-018')
+                handoff = Path(self.repo,'evidence/OPS-017/handoff.md')
+                raw = handoff.read_bytes()
+                handoff.unlink()
+                try:
+                    with self.assertRaisesRegex(PROOF.AdmissionError,'Evidence/Handoff does not exist'):
+                        PROOF.authority(str(self.repo),self.completed,protected_through=self.completed,successor='OPS-018')
+                finally:
+                    handoff.write_bytes(raw)
+        with PROOF.audit_session(), mock.patch.object(history_module,'validate_foundations',
+                wraps=history_module.validate_foundations) as fresh:
+            self.assertEqual(self.claims(),PROOF.SOURCE_COMPATIBILITY.paths)
+            self.assertGreater(fresh.call_count,0)
         self.assertEqual(self.claims(),PROOF.SOURCE_COMPATIBILITY.paths)
         self.assertEqual(PROOF.contract('OPS-014').paths,frozenset(PROOF.REPAIR_PATHS))
         self.assertEqual(PROOF.authenticated_claims(str(self.repo),'OPS-099',self.entry,self.completed),set())

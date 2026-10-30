@@ -63,3 +63,15 @@ CI913 actual30-minute cancellation/749PASS is negative, incomplete and preserved
 Current pinned overlay readiness1/focused4/all62 passed with raw/PID/wait/JUnit and unchanged main/origin-main877/remote/pins. Existing828 node corpus and all original assertions preserved; new error-order/fallback/disappearance/reintroduction subcases included. Source307 older whole828 is not transferred to this new code.
 Current new fixed-source14/full hosted828 CI/final source/actual new main: UNEXECUTED/PENDING. Normal Review/Completion, high-slot release, OPS018 and POC windows remain ungranted. Current originals: registry-batch-v1/index.json and originals.zip; prior negative and positive phases remain unchanged.
 Next: exact independent candidate review, ordinary commit, fixed-source14 and current whole CI, final source/actual main acceptance then normal lifecycle. No reset/rebase/force/local cleanup or original-time rewrite.
+
+
+## Measured exact-edge forward repair / target a55680b9d06901729fcae7f35cb167b8b59d33f4
+
+
+Accepted code main a556 retains its own complete source/main CI and independent review. Pure Review553/PR175 remains unmerged: CI916 attempts1/2 hit the unchanged30-minute cap at749/753 unique PASS, no full summary. Both negatives and originals are preserved; no third unchanged retry or aggregation occurs.
+
+Actual tested checkout cc508 plus the isolated two-file overlay ran the same three existing diagnostic cases. First two checker profiles changed3.569->3.647s and4.758->4.813s; lifecycle changed22.161->16.698s, normal Foundation edge calls8->4 while authority proofs2 remain. This bounded result does not predict complete hosted CI or qualify a source. Focused2 and all62 admission nodes passed; every original assertion and828-node set remains.
+
+Only same-session successful immutable exact Foundation edges are reused inside the original admission claim. The key binds root, before/head40SHAs, authority, branch, actualHEAD, refs, Git directories/configuration and ordinary object view. All earlier prefix loops, stable identities, leases, capacity, frozen targets and failures remain checked. Hits recheck every newly completed Foundation Evidence/Handoff. Failed proofs are not cached; custom Git/object/replacement/graft/shallow/alternate views bypass reuse; legacyOPS014 does not use edge reuse. No global/disk cache, history module patch, frozen-file edit, CI timeout/runner/threshold change or POC/runtime grant occurs.
+
+The original implementation branch ordinarily fast-forwarded b5 to accepteda556. Only Own mutable Task/Registry base changes877->a556; original body14, lease, roles, claims, intent, Program/ordinary ledger and all foreign bytes are preserved. Actual fixed-source14 and complete828 hostedCI remain unexecuted for this new source until commit and ordinary publication. Then independent final source review, normal expected-head merge and real code-main checks precede refreshed normal Review/Completion. High capacity remains occupied.
