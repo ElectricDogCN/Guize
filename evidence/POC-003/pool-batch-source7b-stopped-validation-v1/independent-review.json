@@ -1,0 +1,94 @@
+{
+  "schemaVersion": 1,
+  "kind": "POC003_FIXED_SOURCE_FIRST_GATE_FAILURE_AND_NARROW_RAW_ARCHIVE_TYPE_REVIEW",
+  "taskId": "POC-003",
+  "reviewer": "/root/independent_review",
+  "reviewedAt": "2026-11-02T15:34:42Z",
+  "source": "7b0246f153715a8b520e2aa45800ac6a58dab016",
+  "base": "7e405b61d872761817a0614b3b2fdc46edde9f14",
+  "tree": "087481621928a9f1e1883c9001e441e858b82d6b",
+  "candidate": {
+    "path": ".takeover-tools/poc003-pool-batch-performance-current-candidate.json",
+    "bytes": 18893,
+    "sha256": "4a466de7394a9662b1b2bfd1d9d2e228ebdda8fee16e3b6e4fde7252b57ee8b8"
+  },
+  "contentReview": {
+    "exactDeltaPathCount": 32,
+    "sourcePinCount": 73,
+    "archivedOriginals": 25,
+    "all32GitBlobPhysicalBytesEqual": true,
+    "all73SourcePinsMatch": true,
+    "all25ArchivedOriginalGitPhysicalAndRootBytesEqual": true,
+    "scope": "Two reviewed instrumentation inputs, two Own README/handoff changes and28 new Own archive files only.",
+    "protectedTaskProgramRegistryLedgerAndForeignUnchanged": true,
+    "originalCreationBase": "760f6c5838597d1d66c0a536ecbf440ef5a7dfec",
+    "actors": {
+      "implementer": "/root",
+      "reviewer": "/root/independent_review"
+    },
+    "leaseExpiresAt": "2026-11-05T11:01:07Z",
+    "sourceClean": true,
+    "componentContentStillAccepted": true,
+    "fullSourceAccepted": false
+  },
+  "actualFailure": {
+    "outerSession": 19225,
+    "terminalChunk": "926d65",
+    "outerExitCode": 1,
+    "executedCommands": 1,
+    "failedCommand": "declared-00",
+    "actualChildPid": 102410,
+    "actualWaitCompleted": true,
+    "commandExitCode": 2,
+    "checksNotStarted": 14,
+    "requiredProfileNegativeStarted": false,
+    "sourceBeforeAfterEqualAndClean": true,
+    "allReportsPath": "evidence/POC-003/pool-batch-component-v1/build/configure.stdout.raw",
+    "reports": 11,
+    "reportKinds": "Ten trailing-whitespace reports plus one new blank line at EOF.",
+    "rawContainsActualSourceCommandAndExitFooter": true,
+    "productSourceWhitespaceDefectFound": false
+  },
+  "negativeEvidence": [
+    {
+      "path": ".takeover-tools/poc003-pool-batch-code-7b0246f-native-source15/results.json",
+      "bytes": 2572,
+      "sha256": "8e5e397c67d765d000bfff84d3f22d5a8f2efb266c2e8016cc9d72f9fd220ed8"
+    },
+    {
+      "path": ".takeover-tools/poc003-pool-batch-code-7b0246f-native-source15/declared-00.raw",
+      "bytes": 1526,
+      "sha256": "0e7526399e89f2de78354b2a6e23c3d2f83ef91c7d5b45c5f89da9be6e7a7671"
+    }
+  ],
+  "narrowForwardCorrection": {
+    "contentDirectionAccepted": true,
+    "attributePath": "evidence/POC-003/pool-batch-component-v1/.gitattributes",
+    "exactAdditionalPattern": "build/configure.stdout.raw binary",
+    "onlyAffectedRawPath": "evidence/POC-003/pool-batch-component-v1/build/configure.stdout.raw",
+    "rawBytes": 20401,
+    "rawSha256": "9eace03621b0375b4408e0dd7949ee3523d8ac30861d3328dcd5ceb27cf8f1c5",
+    "precedentRead": "evidence/POC-003/instrumented-build-v4-preparation/.gitattributes contains *.raw binary.",
+    "meaning": "Declare this exact immutable native command-output artifact as binary, consistent with existing evidence conventions. Retain original bytes and disable text formatting interpretation for that artifact only. This is narrower than a directory-wide rule and does not change product source, checkers, gate argv, threshold or original experiment assertions.",
+    "supersedesEarlierAdvice": "Earlier message proposed exact-file -whitespace; the repository's existing binary raw-artifact convention is accepted instead. Do not apply both changes unnecessarily.",
+    "constraints": [
+      "Forward normal commit only; retain original7b and its actual failed results. No amend or historical result rewrite.",
+      "Do not strip/reformat the original configure output or change its byte/hash pin.",
+      "Do not widen the pattern to product code, tests, methods or other files.",
+      "Freeze the resulting exact new source/bundle and execute a fresh unique15-check run; source7b remains failed and is not Ready/publication accepted."
+    ]
+  },
+  "mustFix": [
+    "The current fixed source15 is stopped at declared00 and cannot be accepted for qualification publication. Apply the exact forward raw-artifact type declaration and obtain the complete new-source15 plus honest required-profile negative result."
+  ],
+  "currentLocal15Accepted": false,
+  "source15Passed": false,
+  "publicationApproved": false,
+  "readyVerificationPublicationAllowed": false,
+  "fullCiAccepted": false,
+  "eightMiBBoundAccepted": false,
+  "newExperimentApproved": false,
+  "formalPocAccepted": false,
+  "taskCompleted": false,
+  "reviewerActions": "Read-only current committed content, existing raw outputs and Git metadata; no checker or experiment rerun."
+}

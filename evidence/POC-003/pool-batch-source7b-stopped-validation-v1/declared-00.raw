@@ -1,0 +1,25 @@
+Source Commit: 7b0246f153715a8b520e2aa45800ac6a58dab016
+Command: git -c core.longpaths=true -c core.autocrlf=false diff --check 7e405b61d872761817a0614b3b2fdc46edde9f14...HEAD
+evidence/POC-003/pool-batch-component-v1/build/configure.stdout.raw:55: trailing whitespace.
++checking for suffix of executables... 
+evidence/POC-003/pool-batch-component-v1/build/configure.stdout.raw:168: trailing whitespace.
++checking for ncursesw via fallback... 
+evidence/POC-003/pool-batch-component-v1/build/configure.stdout.raw:171: trailing whitespace.
++checking for ncurses via fallback... 
+evidence/POC-003/pool-batch-component-v1/build/configure.stdout.raw:453: trailing whitespace.
++    LDFLAGS:            
+evidence/POC-003/pool-batch-component-v1/build/configure.stdout.raw:458: trailing whitespace.
++    TS_INCLUDES:        
+evidence/POC-003/pool-batch-component-v1/build/configure.stdout.raw:459: trailing whitespace.
++    OPENSSL_LDFLAGS:    
+evidence/POC-003/pool-batch-component-v1/build/configure.stdout.raw:460: trailing whitespace.
++    OPENSSL_INCLUDES:   
+evidence/POC-003/pool-batch-component-v1/build/configure.stdout.raw:461: trailing whitespace.
++    YAMLCPP_LDFLAGS:    
+evidence/POC-003/pool-batch-component-v1/build/configure.stdout.raw:463: trailing whitespace.
++    NURAFT_LDFLAGS:     
+evidence/POC-003/pool-batch-component-v1/build/configure.stdout.raw:464: trailing whitespace.
++    NURAFT_INCLUDES:    
+evidence/POC-003/pool-batch-component-v1/build/configure.stdout.raw:465: new blank line at EOF.
+
+Exit Code: 2
