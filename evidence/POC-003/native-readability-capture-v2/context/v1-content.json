@@ -1,0 +1,34 @@
+{
+  "kind": "UNCOMMITTED_TARGETED_NATIVE_READABILITY_CAPTURE_NOT_EXPERIMENT",
+  "sourceBase": "19ec87a1a5e81146816c6d0ce6bdd164634f11e5",
+  "scope": [
+    "miss",
+    "latency_cold",
+    "latency_slow"
+  ],
+  "originalNineTargetRequests": true,
+  "originalMatrixAndHttpPrimitiveDefinitionsByteIdentical": {
+    "matrix": "113ed06ec5612a3d13190e52bc3678f1db6e8580a96f767bb6c3e937ae00c4df",
+    "_request": "f0a5ed7abf939fe7377ea40afc0bf2aa73b0bf53593459b3cc7a948d8dbdf1c2"
+  },
+  "files": {
+    "collect.py": {
+      "bytes": 24371,
+      "sha256": "c8651cd350935678ff34496dc6fe3922793deb4f1e7ef50ab967e52347e1710c"
+    },
+    "cache_probe.py": {
+      "bytes": 20635,
+      "sha256": "b21a31751dbb84ab95d1629c9637bb898b15fca3c4f5437ab8416af2a6469399"
+    },
+    "test_request_readability.py": {
+      "bytes": 8135,
+      "sha256": "7a059dfa7a26a5f8306c3fc326b62df4ae9f792d07d8688bcd764ca457577db3"
+    }
+  },
+  "trackedDiffSha256": "7a7b311a560d2a3897a060f10b1a6618ce3064eee26669d8f9563d3a83476f06",
+  "testsResult": "poc003-readability-capture-components-v1/results.json",
+  "testsActualExitCode": 0,
+  "testsPassed": 27,
+  "realAtsExperimentExecuted": false,
+  "formalPocAccepted": false
+}

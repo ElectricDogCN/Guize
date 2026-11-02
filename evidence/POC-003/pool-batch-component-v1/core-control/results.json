@@ -1,0 +1,284 @@
+{
+  "kind": "ACTUAL_NEW_CORE_ABI_ROUNDING_RETENTION_COMPONENT_CHECK_NOT_MEDIA",
+  "startedAt": "2026-11-02T15:21:24.840901+00:00",
+  "uid": 1000,
+  "coreSha256": "17c1aec20cdc64f12188e6e2acd6daabea42512822594a377bb339c012c58671",
+  "buildReceiptSha256": "770ad0e987a7abc6eaabb37b0ca3275c6c508ca8a583008b613149c374e8bf3e",
+  "driverSourceSha256": "8eaaeaea4ad34e9299405b60619f50b69ac81c6ca38c7b2ecafbde2494461265",
+  "commands": [
+    {
+      "label": "compile-component-driver",
+      "argv": [
+        "/usr/bin/g++",
+        "-std=c++17",
+        "-O2",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-pthread",
+        "-I/home/sur/.cache/guize-takeover/poc003-pool-batch-ats-build-common7e-v1/source/trafficserver-9.2.3/include",
+        "-I/home/sur/.cache/guize-takeover/poc003-pool-batch-ats-build-common7e-v1/source/trafficserver-9.2.3/lib",
+        "/home/sur/.cache/guize-takeover/poc003-pool-batch-ats-build-common7e-v1/pool-batch-canary-v1/driver.cc",
+        "-ldl",
+        "-o",
+        "/home/sur/.cache/guize-takeover/poc003-pool-batch-ats-build-common7e-v1/pool-batch-canary-v1/driver"
+      ],
+      "pid": 102309,
+      "birth": {
+        "pid": 102309,
+        "state": "R",
+        "processGroupId": 102309,
+        "sessionId": 102309,
+        "startTicks": 2057500
+      },
+      "actualWaitCompleted": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "timeoutCleanup": null
+    }
+  ],
+  "componentAccepted": false,
+  "atsStarted": false,
+  "mediaExperimentExecuted": false,
+  "fullMedia8MiBAccepted": false,
+  "officialCiAccepted": false,
+  "driverPid": 102314,
+  "driverIdentity": {
+    "pid": 102314,
+    "startTicks": 2057608,
+    "executable": "/home/sur/.cache/guize-takeover/poc003-pool-batch-ats-build-common7e-v1/pool-batch-canary-v1/driver",
+    "executableDevice": 2128,
+    "executableInode": 1731125,
+    "argv": [
+      "/home/sur/.cache/guize-takeover/poc003-pool-batch-ats-build-common7e-v1/pool-batch-canary-v1/driver",
+      "/home/sur/.cache/guize-takeover/poc003-pool-batch-ats-build-common7e-v1/pkgroot/usr/lib/trafficserver/libtscore.so.9.2.3"
+    ],
+    "allocatorOverridesAbsent": true
+  },
+  "live": {
+    "kind": "TRACKED_ALLOCATION_PEAK_PREFIX_NOT_MEDIA_QUALIFICATION",
+    "recordCount": 27,
+    "rawEnd": 10003,
+    "trailingBytes": 0,
+    "rawSha256": "b2b5db63a2e232053836dc0f167b0c0dd6ea3abf20f0e53c2ac74a7bf72ac90d",
+    "first": {
+      "kind": "INSTRUMENTED_ATS_DURABLE_PEAK",
+      "schemaVersion": 1,
+      "pid": 102314,
+      "startTicks": 2057608,
+      "sequence": 0,
+      "abiVersion": 1,
+      "generation": 0,
+      "accountingWindow": "process-lifetime",
+      "beforeMonotonicNs": 20576099930331,
+      "peakBytes": 0,
+      "currentBytes": 0,
+      "currentByKind": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "acquisitions": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "releases": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "violations": 0,
+      "uncoveredExternalEvents": 0
+    },
+    "last": {
+      "kind": "INSTRUMENTED_ATS_DURABLE_PEAK",
+      "schemaVersion": 1,
+      "pid": 102314,
+      "startTicks": 2057608,
+      "sequence": 26,
+      "abiVersion": 1,
+      "generation": 0,
+      "accountingWindow": "process-lifetime",
+      "beforeMonotonicNs": 20576164228513,
+      "peakBytes": 700416,
+      "currentBytes": 700416,
+      "currentByKind": [
+        700416,
+        0,
+        0,
+        0
+      ],
+      "acquisitions": [
+        282,
+        0,
+        0,
+        0
+      ],
+      "releases": [
+        266,
+        0,
+        0,
+        0
+      ],
+      "violations": 0,
+      "uncoveredExternalEvents": 0
+    },
+    "maximumObservedTrackedCapacityBytes": 700416,
+    "completeTrackedProcessEpoch": false,
+    "fullMediaBufferBoundProven": false,
+    "process": {
+      "pid": 102314,
+      "startTicks": 2057608,
+      "executable": "/home/sur/.cache/guize-takeover/poc003-pool-batch-ats-build-common7e-v1/pool-batch-canary-v1/driver",
+      "executableDevice": 2128,
+      "executableInode": 1731125,
+      "argv": [
+        "/home/sur/.cache/guize-takeover/poc003-pool-batch-ats-build-common7e-v1/pool-batch-canary-v1/driver",
+        "/home/sur/.cache/guize-takeover/poc003-pool-batch-ats-build-common7e-v1/pkgroot/usr/lib/trafficserver/libtscore.so.9.2.3"
+      ],
+      "allocatorOverridesAbsent": true
+    },
+    "exitCode": null,
+    "waitCompleted": false,
+    "rawBytes": 10003,
+    "journalDevice": 2128,
+    "journalInode": 1731121,
+    "rawFile": "durable-peaks.raw"
+  },
+  "driverActualWaitCompleted": true,
+  "driverExitCode": 0,
+  "finished": {
+    "kind": "TRACKED_ALLOCATION_PEAK_PREFIX_NOT_MEDIA_QUALIFICATION",
+    "recordCount": 27,
+    "rawEnd": 10003,
+    "trailingBytes": 0,
+    "rawSha256": "b2b5db63a2e232053836dc0f167b0c0dd6ea3abf20f0e53c2ac74a7bf72ac90d",
+    "first": {
+      "kind": "INSTRUMENTED_ATS_DURABLE_PEAK",
+      "schemaVersion": 1,
+      "pid": 102314,
+      "startTicks": 2057608,
+      "sequence": 0,
+      "abiVersion": 1,
+      "generation": 0,
+      "accountingWindow": "process-lifetime",
+      "beforeMonotonicNs": 20576099930331,
+      "peakBytes": 0,
+      "currentBytes": 0,
+      "currentByKind": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "acquisitions": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "releases": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "violations": 0,
+      "uncoveredExternalEvents": 0
+    },
+    "last": {
+      "kind": "INSTRUMENTED_ATS_DURABLE_PEAK",
+      "schemaVersion": 1,
+      "pid": 102314,
+      "startTicks": 2057608,
+      "sequence": 26,
+      "abiVersion": 1,
+      "generation": 0,
+      "accountingWindow": "process-lifetime",
+      "beforeMonotonicNs": 20576164228513,
+      "peakBytes": 700416,
+      "currentBytes": 700416,
+      "currentByKind": [
+        700416,
+        0,
+        0,
+        0
+      ],
+      "acquisitions": [
+        282,
+        0,
+        0,
+        0
+      ],
+      "releases": [
+        266,
+        0,
+        0,
+        0
+      ],
+      "violations": 0,
+      "uncoveredExternalEvents": 0
+    },
+    "maximumObservedTrackedCapacityBytes": 700416,
+    "completeTrackedProcessEpoch": true,
+    "fullMediaBufferBoundProven": false,
+    "process": {
+      "pid": 102314,
+      "startTicks": 2057608,
+      "executable": "/home/sur/.cache/guize-takeover/poc003-pool-batch-ats-build-common7e-v1/pool-batch-canary-v1/driver",
+      "executableDevice": 2128,
+      "executableInode": 1731125,
+      "argv": [
+        "/home/sur/.cache/guize-takeover/poc003-pool-batch-ats-build-common7e-v1/pool-batch-canary-v1/driver",
+        "/home/sur/.cache/guize-takeover/poc003-pool-batch-ats-build-common7e-v1/pkgroot/usr/lib/trafficserver/libtscore.so.9.2.3"
+      ],
+      "allocatorOverridesAbsent": true
+    },
+    "exitCode": 0,
+    "waitCompleted": true,
+    "rawBytes": 10003,
+    "journalDevice": 2128,
+    "journalInode": 1731121,
+    "rawFile": "durable-peaks.raw"
+  },
+  "actualPoolCases": {
+    "actualCases": [
+      {
+        "typeBytes": 128,
+        "requestedChunkItems": 1,
+        "actualChunkItems": 32,
+        "allocatedItems": 32,
+        "backingBytes": 4096,
+        "returnedCurrentBytes": 4096
+      },
+      {
+        "typeBytes": 8192,
+        "requestedChunkItems": 1,
+        "actualChunkItems": 1,
+        "allocatedItems": 5,
+        "backingBytes": 40960,
+        "returnedCurrentBytes": 45056
+      },
+      {
+        "typeBytes": 65536,
+        "requestedChunkItems": 1,
+        "actualChunkItems": 1,
+        "allocatedItems": 5,
+        "backingBytes": 327680,
+        "returnedCurrentBytes": 372736
+      }
+    ],
+    "retainedBytes": 372736,
+    "peakBytes": 700416,
+    "abiHealthy": true,
+    "media8MiBAccepted": false
+  },
+  "componentCheckCompleted": true,
+  "independentResultReviewRequired": true,
+  "coreUnchanged": true,
+  "finishedAt": "2026-11-02T15:21:26.042819+00:00"
+}

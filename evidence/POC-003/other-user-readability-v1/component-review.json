@@ -1,0 +1,100 @@
+{
+  "schemaVersion": 1,
+  "kind": "POC003_OTHER_USER_NATIVE_READABILITY_TARGET_COMPONENT_INDEPENDENT_REVIEW",
+  "reviewer": "/root/independent_review",
+  "reviewedAt": "2026-11-02T17:14:19Z",
+  "taskId": "POC-003",
+  "parent": "6ee3e04cb065f000516259624804ac776146fa46",
+  "scope": "Minimal other_user trigger and its actual27 related offline regressions only.",
+  "componentAccepted": true,
+  "relevantResultsAccepted": true,
+  "componentEvidenceArchivingMayProceed": true,
+  "commitComponentAllowed": true,
+  "fixedNewSourcePreparationAllowed": true,
+  "mustFix": [],
+  "sourceAndEvidencePins": [
+    {
+      "ref": ".takeover-tools\\poc003-pool-batch-performance-v1\\poc\\POC-03-ats-range\\collect.py",
+      "bytes": 24567,
+      "sha256": "1b2220a6afd2e4790b17e091048dca7fcf2772c4bbcea6215beccc3700f6fd71"
+    },
+    {
+      "ref": ".takeover-tools\\poc003-pool-batch-performance-v1\\poc\\POC-03-ats-range\\cache_probe.py",
+      "bytes": 20635,
+      "sha256": "b21a31751dbb84ab95d1629c9637bb898b15fca3c4f5437ab8416af2a6469399"
+    },
+    {
+      "ref": ".takeover-tools\\poc003-pool-batch-performance-v1\\poc\\POC-03-ats-range\\test_request_readability.py",
+      "bytes": 8479,
+      "sha256": "83910665a4dce13dfb3d09060fbdf9e3fd9af2a4523fccde1a8e0492df466b8a"
+    },
+    {
+      "ref": ".takeover-tools\\poc003-readability-other-user-components-v1\\tests.stdout.raw",
+      "bytes": 274,
+      "sha256": "80166056952531466de9a5ad5a673e3aa2bb62ed156b6e077a08c80ff554ee9d"
+    },
+    {
+      "ref": ".takeover-tools\\poc003-readability-other-user-components-v1\\tests.stderr.raw",
+      "bytes": 132,
+      "sha256": "b280c454d6f559e56eb3f5ed39f3ba084b8d1744a3ff7fe016b21ff86dea1aca"
+    },
+    {
+      "ref": ".takeover-tools\\poc003-readability-other-user-components-v1\\junit.xml",
+      "bytes": 4392,
+      "sha256": "15360af82fc077ab38bb799f34b796ecd95076f6339b3eb63a26be17cea113e8"
+    },
+    {
+      "ref": ".takeover-tools\\poc003-readability-other-user-components-v1\\results.json",
+      "bytes": 2130,
+      "sha256": "d573d2bf8b95038c96cd3006b253d3df1d8c26e665be07ea9969b9f4a55abfad"
+    }
+  ],
+  "gapReview": {
+    "path": ".takeover-tools/poc003-other-user-native-readability-gap-readonly-review-v1.json",
+    "sha256": "01eff7c71fdba05574fad0cf65282b84f28563b8bd7e07a435d51cf86ebfc3cd",
+    "oldRawSource": "7e405b61d872761817a0614b3b2fdc46edde9f14",
+    "oldRequestId": "1864317109fd49b4bdc2c42b7874d1d7"
+  },
+  "sourceDelta": {
+    "collector": "Only READABILITY_CASES adds other_user to existing miss/cold/slow set. Request/export logic, original matrix and _request are unchanged.",
+    "cacheProbe": "Exact prior b21a31751dbb84ab95d1629c9637bb898b15fca3c4f5437ab8416af2a6469399; no change.",
+    "tests": "Observed-key selection now also checks bob selects its actual key3, while alice remains key1; hook target test includes other_user after the original response returns. Existing assertions remain.",
+    "targetRequestsBefore": 9,
+    "targetRequestsAfter": 10,
+    "originalCases": 21,
+    "originalMediaRows": 101,
+    "canonicalStages": 6,
+    "nativeEpochs": 26,
+    "clears": 12,
+    "originalEightMiBAccountingUnchanged": true
+  },
+  "actualResults": {
+    "reportedTerminalChunk": "e29d68",
+    "actualPid": 65412,
+    "actualWaitCompleted": true,
+    "exitCode": 0,
+    "tests": 27,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "python": "ordinary Linux Python3.11.17",
+    "sourcePinsAtReviewEqualTestedPins": true,
+    "actualSourceFilesUnchangedByReceipt": true,
+    "rawSizesHashesAndJUnitChecked": true,
+    "atsOrMediaExecuted": false
+  },
+  "boundedMeaning": "The same existing helper receives the request row's actual user; its catalogue selection filters that context and one observed Slice. Absent/no-doc/short/epoch-or-origin drift remains false/unproven; helper exceptions retain unknown actual read-attempt state. All new native backing/read work and Python fixed-buffer/hash/control work stays in the full original8MiB closed-window model.",
+  "budgetBoundary": "The target adds one1MiB job in the old epoch5 alongside one64MiB job, within existing per-epoch8-job/16-control/512MiB limits. Actual future capture must enforce remaining budgets and bind token/birth/complete owner closure; these offline tests are not the actual cache visibility proof.",
+  "preparationScope": "Archive the exact tested source/results and preserved negative history, then prepare a fixed normal source and its original15/full official CI. This receipt does not certify an as-yet-unassembled archive or directly authorize push/publication.",
+  "oldSourceCiHistory": "Existing6ee/CI935 keeps its own source/results. A successful old-head CI is not transferred onto this dirty target addition.",
+  "entireSourceQualified": false,
+  "publicationApproved": false,
+  "actualMergeApproved": false,
+  "newRuntimeExperimentApproved": false,
+  "newResourcesOrWindowApproved": false,
+  "aggregateCapacityProofComplete": false,
+  "eightMiBBoundAccepted": false,
+  "formalPocAccepted": false,
+  "taskCompleted": false,
+  "reviewerActions": "Read-only source delta and recorded raw/JUnit bytes; no tests, native reads or runtime started."
+}

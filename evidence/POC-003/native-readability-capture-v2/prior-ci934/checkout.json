@@ -1,0 +1,40 @@
+{
+  "sha": "d16d71d70e2e472c02513036ed6c3d192bd60934",
+  "node_id": "C_kwDOTgCQ3doAKGQxNmQ3MWQ3MGUyZTQ3MmMwMjUxMzAzNmVkNmMzZDE5MmJkNjA5MzQ",
+  "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/commits/d16d71d70e2e472c02513036ed6c3d192bd60934",
+  "html_url": "https://github.com/ElectricDogCN/Guize/commit/d16d71d70e2e472c02513036ed6c3d192bd60934",
+  "author": {
+    "name": "Su",
+    "email": "suruifeng98@gmail.com",
+    "date": "2026-11-02T15:48:51Z"
+  },
+  "committer": {
+    "name": "GitHub",
+    "email": "noreply@github.com",
+    "date": "2026-11-02T15:48:51Z"
+  },
+  "tree": {
+    "sha": "9ab03787329e5777df78ffc80bd06835ccc45816",
+    "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/trees/9ab03787329e5777df78ffc80bd06835ccc45816"
+  },
+  "message": "Merge 19ec87a1a5e81146816c6d0ce6bdd164634f11e5 into 7e405b61d872761817a0614b3b2fdc46edde9f14",
+  "parents": [
+    {
+      "sha": "7e405b61d872761817a0614b3b2fdc46edde9f14",
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/commits/7e405b61d872761817a0614b3b2fdc46edde9f14",
+      "html_url": "https://github.com/ElectricDogCN/Guize/commit/7e405b61d872761817a0614b3b2fdc46edde9f14"
+    },
+    {
+      "sha": "19ec87a1a5e81146816c6d0ce6bdd164634f11e5",
+      "url": "https://api.github.com/repos/ElectricDogCN/Guize/git/commits/19ec87a1a5e81146816c6d0ce6bdd164634f11e5",
+      "html_url": "https://github.com/ElectricDogCN/Guize/commit/19ec87a1a5e81146816c6d0ce6bdd164634f11e5"
+    }
+  ],
+  "verification": {
+    "verified": true,
+    "reason": "valid",
+    "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJq6LDjCRC1aQ7uu5UhlAAAbWgQAF7hqMBAAKf4DQB4o6FCqjkt\n+QQUU40KDOb7qPqft2QSBtF8YnyXDMf6QpV44WagN2XugyVXCPPxCziIyf5Y75AV\nJ5MYFsnlYOZNQ4vK08brt63++MdBmdrUw2+vArDx6Gx+4CYltMR2a38C4sEcaINI\npSag/73Vh4MdhYWE64com2O4lDxnIxCtUVmwGYa4wNTqtFiIiVQ9ouzdHlQ2eCJF\n8oBFQ/j5yTVVcRegdms4vWV0R+/DqaEh7ktlH63EuBDkvmRTqSXaQOT/XCN2ZqZc\n3hQvqtqtG01Yd6E40YCGeqX2b7+XMuOrJc8NMEUdjoHX47XRK3C4LaKU8HlhL5Pt\n77kEqMLFCy8jCO1mS3X4MyTb2f35jzQ5ikPDA8y8bQNKMgORe2aUYDSWvxucIm87\nJlQFjM7CrXzF+vTVNFAPcGvLojgo7GzZoRP+2VKUq2G7RiTC4/8FekDaTL5OrIBf\nFOPkUtUKdfUjIyW0vJPLs0yrKMLd6LY3pXzuTgrCKkYeClRWHnEuCCB+tRXrVg8Y\nkMeyizG55InnotmPmDj17jyVWsq9wSavupxNY83pbQNoWsiTWDNIqfyYo3H0Ubxn\nO1SoAJ0+Ryu4KJ0Z9clQFDGsO/GXM0/KTZ7HEk+F5hSpNiD7oirSzDp+3R0Q4XYg\n8moDRUY9nMUxB2OMHyRc\n=gOAH\n-----END PGP SIGNATURE-----\n",
+    "payload": "tree 9ab03787329e5777df78ffc80bd06835ccc45816\nparent 7e405b61d872761817a0614b3b2fdc46edde9f14\nparent 19ec87a1a5e81146816c6d0ce6bdd164634f11e5\nauthor Su <suruifeng98@gmail.com> 1793634531 +0800\ncommitter GitHub <noreply@github.com> 1793634531 +0800\n\nMerge 19ec87a1a5e81146816c6d0ce6bdd164634f11e5 into 7e405b61d872761817a0614b3b2fdc46edde9f14\n",
+    "verified_at": "2026-11-02T15:48:52Z"
+  }
+}

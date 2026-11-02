@@ -1,0 +1,258 @@
+{
+  "schemaVersion": 1,
+  "kind": "POC003_COLD_SLOW_PER_EPOCH_NATIVE_READABILITY_GAP_READONLY_ADDENDUM",
+  "taskId": "POC-003",
+  "reviewer": "/root/independent_review",
+  "reviewedAt": "2026-11-02T16:16:58Z",
+  "rawSource": "7e405b61d872761817a0614b3b2fdc46edde9f14",
+  "priorFirstMissReview": {
+    "path": ".takeover-tools/poc003-first-miss-native-readability-gap-readonly-review-v1.json",
+    "sha256": "6cc51b20d5336aa1117e789c07bfb04479833f7a74f018fd789e79d53e412620"
+  },
+  "scope": "Only eight latency_cold/latency_slow rows and their native lookup/export metadata; no response-body or allocation-journal repeat.",
+  "actualRows": [
+    {
+      "case": "latency_cold",
+      "requestId": "c444d000581d421da7ac0f853e26e0b6",
+      "atsPid": 656,
+      "epoch": 9,
+      "nativeLookupStatus": 0,
+      "matchingNativeKeyIds": [
+        1
+      ],
+      "statusCode": 206,
+      "transportCompleted": true,
+      "actualOriginRequests": 1,
+      "matchingNativeReadResultCount": 0,
+      "allNativeRequestEvents": 0,
+      "cacheCompletionVisibilityForThisKeyProven": false
+    },
+    {
+      "case": "latency_cold",
+      "requestId": "83f72fd958124ef58995046058033178",
+      "atsPid": 706,
+      "epoch": 11,
+      "nativeLookupStatus": 0,
+      "matchingNativeKeyIds": [
+        1
+      ],
+      "statusCode": 206,
+      "transportCompleted": true,
+      "actualOriginRequests": 1,
+      "matchingNativeReadResultCount": 0,
+      "allNativeRequestEvents": 0,
+      "cacheCompletionVisibilityForThisKeyProven": false
+    },
+    {
+      "case": "latency_cold",
+      "requestId": "8d7d7fde27944428a3be8f1a9483adb3",
+      "atsPid": 756,
+      "epoch": 13,
+      "nativeLookupStatus": 0,
+      "matchingNativeKeyIds": [
+        1
+      ],
+      "statusCode": 206,
+      "transportCompleted": true,
+      "actualOriginRequests": 1,
+      "matchingNativeReadResultCount": 0,
+      "allNativeRequestEvents": 0,
+      "cacheCompletionVisibilityForThisKeyProven": false
+    },
+    {
+      "case": "latency_cold",
+      "requestId": "9dade559fbe84768b11c1b41898e6f51",
+      "atsPid": 806,
+      "epoch": 15,
+      "nativeLookupStatus": 0,
+      "matchingNativeKeyIds": [
+        1
+      ],
+      "statusCode": 206,
+      "transportCompleted": true,
+      "actualOriginRequests": 1,
+      "matchingNativeReadResultCount": 0,
+      "allNativeRequestEvents": 0,
+      "cacheCompletionVisibilityForThisKeyProven": false
+    },
+    {
+      "case": "latency_slow",
+      "requestId": "97d48f03fc9c453ba03e5575a8c008d1",
+      "atsPid": 856,
+      "epoch": 17,
+      "nativeLookupStatus": 0,
+      "matchingNativeKeyIds": [
+        1
+      ],
+      "statusCode": 206,
+      "transportCompleted": true,
+      "actualOriginRequests": 1,
+      "matchingNativeReadResultCount": 0,
+      "allNativeRequestEvents": 0,
+      "cacheCompletionVisibilityForThisKeyProven": false
+    },
+    {
+      "case": "latency_slow",
+      "requestId": "1f0b50e1866349a0b55bee358df16f6f",
+      "atsPid": 924,
+      "epoch": 19,
+      "nativeLookupStatus": 0,
+      "matchingNativeKeyIds": [
+        1
+      ],
+      "statusCode": 206,
+      "transportCompleted": true,
+      "actualOriginRequests": 1,
+      "matchingNativeReadResultCount": 0,
+      "allNativeRequestEvents": 0,
+      "cacheCompletionVisibilityForThisKeyProven": false
+    },
+    {
+      "case": "latency_slow",
+      "requestId": "939f1785bb4a4c09af6d71d3af419ba7",
+      "atsPid": 993,
+      "epoch": 21,
+      "nativeLookupStatus": 0,
+      "matchingNativeKeyIds": [
+        1
+      ],
+      "statusCode": 206,
+      "transportCompleted": true,
+      "actualOriginRequests": 1,
+      "matchingNativeReadResultCount": 0,
+      "allNativeRequestEvents": 0,
+      "cacheCompletionVisibilityForThisKeyProven": false
+    },
+    {
+      "case": "latency_slow",
+      "requestId": "028d5edabcdd4032b70f93114aabddc5",
+      "atsPid": 1062,
+      "epoch": 23,
+      "nativeLookupStatus": 0,
+      "matchingNativeKeyIds": [
+        1
+      ],
+      "statusCode": 206,
+      "transportCompleted": true,
+      "actualOriginRequests": 1,
+      "matchingNativeReadResultCount": 0,
+      "allNativeRequestEvents": 2,
+      "cacheCompletionVisibilityForThisKeyProven": false
+    }
+  ],
+  "finding": "All eight rows lack a matched same-key native complete-read/export result in their own epoch. Seven directories have only four files and empty export-event journals. PID1062 has a real completed export job for the later changed-source stage, but no native read result for base key1. Those changed bytes cannot attest its earlier base-source slow request. This is an evidence gap, not proof that the cache actually failed.",
+  "targetedProspectiveDirection": {
+    "reuseOneBoundedHelper": true,
+    "initialTargetCases": [
+      "miss",
+      "latency_cold",
+      "latency_slow"
+    ],
+    "initialTargetRequestCount": 9,
+    "boundary": "After each selected successful protected response and observed origin/gateway settlement, before the next destructive clear/context change. Perform the complete observation before starting the next timed request. Do not overlap any measured request interval or alter the original started/first-response-byte/finished timestamps.",
+    "exactProbe": "Use the existing explicit native TSCacheRead exporter on the original request's exact key/lookupURL, same PID/startTicks/source/version/user/ACL. Preserve the actual accepted/finished events, result/body/source-Slice equality and any NO_DOC/error/timeout. A successful read is bounded read-time readability of the complete relevant Slice; not whole64MiB or physical disk durability.",
+    "artifact": "Separate raw request-linked sidecar, never a seventh lifecycle stage or an invented successful measurement.",
+    "countsRetained": {
+      "originalCases": 21,
+      "mediaRequestRows": 101,
+      "canonicalCacheStages": 6,
+      "nativeEpochs": 26,
+      "clearOperations": 12
+    },
+    "actualInstrumentationCounts": "Nine extra native export jobs are a targeted candidate, not already observed. Each of the first eight affected server epochs had zero export jobs, while PID1062 had one; the proposed additional one stays within existing8-job/16-control/512MiB per-epoch exporter budgets for these exact target rows. Future code must check real remaining budget rather than assume it.",
+    "accounting": "All additional native read/retained pool backing, Python two fixed export/reference slots and hash/control memory remain in the full closed-window and original8MiB accounting. Observational file I/O is not a capacity exemption or a timing/throughput acceptance claim.",
+    "failure": "A missing key, context drift, active request, insufficient native budget, NO_DOC, short body, mismatched bytes or failed read must remain actual failure/unproven and must not be turned into true canonical flags.",
+    "doNotGeneralize": "Do not blindly add a job for every one of101 rows or every success; that can exceed the existing native process budgets. This addendum proves only these eight plus the previously reviewed first-miss gap, not universal coverage of all other canonical request flags."
+  },
+  "necessaryPreparation": "Prepare the smallest explicit request-linked capture delta and relevant bounded protocol tests for independent source/method review. Leave source19/CI934 history intact and qualify the new fixed head separately; no old data or grant transfers. No general tracing platform or default-true flags.",
+  "evidencePins": [
+    {
+      "ref": "work/cache-observer/cache-export-656/lookup-events.jsonl",
+      "bytes": 237,
+      "sha256": "a379b6894e62b759f53af0bf351b04dc173da06b062d00a1b7ebd2dd662156ea"
+    },
+    {
+      "ref": "work/cache-observer/cache-export-656/events.jsonl",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "ref": "work/cache-observer/cache-export-706/lookup-events.jsonl",
+      "bytes": 237,
+      "sha256": "010d7e3499ec5f5cbd92ffb2b2ea3bd8304a622f5ff4b57b3b1f2e22339abdc8"
+    },
+    {
+      "ref": "work/cache-observer/cache-export-706/events.jsonl",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "ref": "work/cache-observer/cache-export-756/lookup-events.jsonl",
+      "bytes": 237,
+      "sha256": "8669ecdd6e5fec2979191692638818ee062b55f50b68b0a103e6cfb4d56a1d77"
+    },
+    {
+      "ref": "work/cache-observer/cache-export-756/events.jsonl",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "ref": "work/cache-observer/cache-export-806/lookup-events.jsonl",
+      "bytes": 237,
+      "sha256": "863de85910b8d186483c02ca56b46170c135a5bbb73eba8d9da9ff6a0d2d3a79"
+    },
+    {
+      "ref": "work/cache-observer/cache-export-806/events.jsonl",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "ref": "work/cache-observer/cache-export-856/lookup-events.jsonl",
+      "bytes": 237,
+      "sha256": "e96c27ca37a0901807955c5ef696bba9f62f9b8ccaebd9b37e05d97305b68aac"
+    },
+    {
+      "ref": "work/cache-observer/cache-export-856/events.jsonl",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "ref": "work/cache-observer/cache-export-924/lookup-events.jsonl",
+      "bytes": 237,
+      "sha256": "9d6b79f08ef46a5488830d405dadc2d35a308e2143ae3d4501b8e634e35576cf"
+    },
+    {
+      "ref": "work/cache-observer/cache-export-924/events.jsonl",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "ref": "work/cache-observer/cache-export-993/lookup-events.jsonl",
+      "bytes": 237,
+      "sha256": "f81aef177f8e453cc659c10ed4ea1d6ff6805f578dd9b24d7a71f0ec2ae2f020"
+    },
+    {
+      "ref": "work/cache-observer/cache-export-993/events.jsonl",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "ref": "work/cache-observer/cache-export-1062/lookup-events.jsonl",
+      "bytes": 17746,
+      "sha256": "72876a736599fe78ab8f5f962f827f2064bdb88ff60e12386da52956a96b0508"
+    },
+    {
+      "ref": "work/cache-observer/cache-export-1062/events.jsonl",
+      "bytes": 142,
+      "sha256": "3feaa1c5cfac288a7f1d5e347c04a2bb9012e9d1dc5d79380700ce89db0e08b5"
+    }
+  ],
+  "newImplementationApproved": false,
+  "newCaptureExecutionApproved": false,
+  "newResourceWindowApproved": false,
+  "source19MergeApproved": false,
+  "ci934Accepted": false,
+  "eightMiBBoundAccepted": false,
+  "formalPocAccepted": false,
+  "reviewerActions": "Read existing request/control/native metadata only. No container, target, read probe, test or build started."
+}

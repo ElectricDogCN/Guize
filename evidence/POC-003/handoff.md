@@ -1860,3 +1860,15 @@ Genuine ordinary merge is pending with ordered parents feature 9ab4613bf221687a4
 OPS017's exact normal Completion/main acceptance and complete source/main CI originals are archived as prerequisites. The current staged POC003 source has not run its own15/full842CI and is not approved for publication, merge, new resources or experiment. No current local-v1 locator exists in either parent, so none is retired or fabricated. Old observations, failures and inputs remain in their original contexts.
 
 After exact snapshot review: commit the real merge, run current15 and required source checks, independently review fixed source, obtain full842 official sourceCI before ordinary code integration and separate actual-main own7/full842 acceptance. Keep task in_progress. Integrate both POC net implementations before approving a common immutable testedSource and independent non-overlapping host windows, original21matrix/26closure, new current result and subsequent normal lifecycle. No prior profile is rebound. Rollback uses retained original author/bundle/refs and reviewed forward changes; no reset/rebase/force/raw or DB deletion.
+
+## 2026-11-02 payload池批量性能候选
+
+原记录与创建基线760不变；本次普通实现从已接受共同main7e405b6承接，角色/root实施、/root/independent_review独审，Task仍in_progress。仅调整命名payload pool增长请求至1，保留原页取整、完整保守计账、冻结协议与8MiB/原21场景。新构建4阶段及三类core ABI控制已实际等待0并获独审；[精确方法、原件和限定](pool-batch-component-v1/README.md)已归档。下一承接：固定Git内容并完成原15项、本源完整官方CI、普通合并及实际main完整CI/7项，随后新common anchor、新批准配置窗口下做原21/26和fresh热缓存撤权。旧M7e原矩阵完整原件保留，其18,960,430B保守容量不能证明8MiB，不移绑新源。未签发Ready/merge、正式POC或任务结项；未生成current profile locator。
+
+## 2026-11-03 原生可读副证前向修正
+
+原19源码CI934虽然842项测试完成，仍因原30分钟时限取消，整项未接受且未合并。定点核实首miss与八cold/slow在旧epoch没有完整原生read证据；现在仅在响应计时之后、clear之前补九个同key有界TSCacheRead副证，保留原HTTP观测、21/101/6/26/12和8MiB。V1误报尝试状态的负面及原件完整保留，V2改为异常时未知，27相关回归零FES并获独审。见[native-readability-capture-v2](native-readability-capture-v2/README.md)。下一步固定新head、完整原15、新head官方完整CI及实际mainCI后，重新固定共同测量源和批准窗口，执行原矩阵及fresh热缓存撤权；当前不授Ready/merge/试验或POC结项。
+
+## 2026-11-03 另一授权用户定点可读性取证
+
+同一原始矩阵的other_user-B在epoch5/PID130仅有MISS/key65，实际原生导出只含用户A的64项；成功8B响应和后续不同epoch的B命中不能回证该缓存Slice完整可读。将other_user加入已有响应完成后、clear前的同key有界副证；原生选择按实际user/ACL保持隔离。原9个目标前向补为10个，其余原21场景/101请求/6阶段/26闭环/12清理、完整内存口径及8MiB均不变。epoch5由原1job64MiB预期增加1job1MiB，仍逐次检查真实8job/16control/512MiB额度，不代表实际已运行或通过。前一6ee/CI935结果保留，后继固定提交须独立通过本源15及完整官方CI，重新固定实际main后才能申请新矩阵及fresh撤权；任务仍in_progress。

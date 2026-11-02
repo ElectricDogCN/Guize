@@ -1,0 +1,171 @@
+{
+  "kind": "EXACT_COMPONENT_EVIDENCE_FOR_UNCOMMITTED_POOL_BATCH_PERFORMANCE_CANDIDATE_NOT_POC",
+  "assembledAt": "2026-11-02T15:23:25.476Z",
+  "taskId": "POC-003",
+  "base": "7e405b61d872761817a0614b3b2fdc46edde9f14",
+  "creationBase": "760f6c5838597d1d66c0a536ecbf440ef5a7dfec",
+  "patchSha256": "590f7a4bc9a044cbc6321ae1b1e20462aee681c0b122d6518dc2c1c9fcb072bf",
+  "manifestSha256": "35a018339cc0bf54a2fc91cf518a787e1ecf1f4a63d9ce91d155b328ba43ef40",
+  "pins": [
+    {
+      "path": "candidate.diff.patch",
+      "bytes": 3105,
+      "sha256": "6cf242565b4127b73401420afada78d72d97130f9acd3c5c2aa9602f8a9ac61a",
+      "original": "poc003-pool-batch-performance-code-diff-v1.patch"
+    },
+    {
+      "path": "methods/build-native.actual.py",
+      "bytes": 9548,
+      "sha256": "efa4fe46fbc4cecb8533b804a4c4b0542f363c8f47981046ae2d6e47d6a1bd1d",
+      "original": "build_poc003_pool_batch_ats_native_common7e_v2_once.py"
+    },
+    {
+      "path": "methods/new-core-driver.actual.cc",
+      "bytes": 3612,
+      "sha256": "8eaaeaea4ad34e9299405b60619f50b69ac81c6ca38c7b2ecafbde2494461265",
+      "original": "poc003_pool_batch_new_core_canary_v1.cc"
+    },
+    {
+      "path": "methods/new-core-control.actual.py",
+      "bytes": 7992,
+      "sha256": "7a01efad60c24d9759b3caae41fc7813dea7b3cdb9e6f8725fba9a5dedd38566",
+      "original": "check_poc003_pool_batch_new_core_canary_v1_once.py"
+    },
+    {
+      "path": "reviews/content-and-method.json",
+      "bytes": 8064,
+      "sha256": "10046073258ca2eeb67e239c51084fba8078be315f5d4ae91263901f979cb9ef",
+      "original": "poc003-pool-batch-performance-v1-independent-review.json"
+    },
+    {
+      "path": "reviews/build-and-before-control.json",
+      "bytes": 8541,
+      "sha256": "8ce6c31c98072c50f6642f2ee6569d07583910311882966bfdfeb41ee622f94d",
+      "original": "poc003-pool-batch-build-and-new-core-canary-v1-independent-review.json"
+    },
+    {
+      "path": "context/prior-matrix-result-review.json",
+      "bytes": 25980,
+      "sha256": "1b408f21abdcccf986ab687b7d828b23f902261179014e3593fe962ec2b429b0",
+      "original": "poc003-common-main7e405b6-original-matrix-v1-result-independent-review.json"
+    },
+    {
+      "path": "build\\autoreconf.stderr.raw",
+      "bytes": 166,
+      "sha256": "5002c921c90648aa3463e612fc813f02d6f1a254e7a1988234e0aa37788057e4",
+      "original": "poc003-pool-batch-ats-build-common7e-v1\\autoreconf.stderr.raw"
+    },
+    {
+      "path": "build\\autoreconf.stdout.raw",
+      "bytes": 409,
+      "sha256": "9a83b0c31f1868d29e87cc8a5675903bfcf4df88fafee50a028472fac339f8ed",
+      "original": "poc003-pool-batch-ats-build-common7e-v1\\autoreconf.stdout.raw"
+    },
+    {
+      "path": "build\\configure.stderr.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original": "poc003-pool-batch-ats-build-common7e-v1\\configure.stderr.raw"
+    },
+    {
+      "path": "build\\configure.stdout.raw",
+      "bytes": 20401,
+      "sha256": "9eace03621b0375b4408e0dd7949ee3523d8ac30861d3328dcd5ceb27cf8f1c5",
+      "original": "poc003-pool-batch-ats-build-common7e-v1\\configure.stdout.raw"
+    },
+    {
+      "path": "build\\install.stderr.raw",
+      "bytes": 3360,
+      "sha256": "022036dc2cd29d72fd742fdcc29f2b58497b24f7387be945b942cec8f4d70eab",
+      "original": "poc003-pool-batch-ats-build-common7e-v1\\install.stderr.raw"
+    },
+    {
+      "path": "build\\install.stdout.raw",
+      "bytes": 84430,
+      "sha256": "34413988d74575d2aa385285e3478e595ecf0e77f7817181503b207ce1591197",
+      "original": "poc003-pool-batch-ats-build-common7e-v1\\install.stdout.raw"
+    },
+    {
+      "path": "build\\make.stderr.raw",
+      "bytes": 1906,
+      "sha256": "f04050634b2128f6deab510bc55832fe9ec8b1cdec05ea9133b4ad518c3cfa91",
+      "original": "poc003-pool-batch-ats-build-common7e-v1\\make.stderr.raw"
+    },
+    {
+      "path": "build\\make.stdout.raw",
+      "bytes": 45186,
+      "sha256": "7bdb96ffd3efdab0c29ca1063ce5ae39776caecb6cd0c220026ae9e5e88ebc5f",
+      "original": "poc003-pool-batch-ats-build-common7e-v1\\make.stdout.raw"
+    },
+    {
+      "path": "build\\receipt.json",
+      "bytes": 54930,
+      "sha256": "770ad0e987a7abc6eaabb37b0ca3275c6c508ca8a583008b613149c374e8bf3e",
+      "original": "poc003-pool-batch-ats-build-common7e-v1\\receipt.json"
+    },
+    {
+      "path": "build\\source-preparation.json",
+      "bytes": 1750,
+      "sha256": "b6eca998f8d8e2f8cbf6585c8be413e5cbf739e9a9b54152dde01b02919b108a",
+      "original": "poc003-pool-batch-ats-build-common7e-v1\\source-preparation.json"
+    },
+    {
+      "path": "core-control\\build.stderr.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original": "poc003-pool-batch-new-core-canary-v1\\build.stderr.raw"
+    },
+    {
+      "path": "core-control\\build.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original": "poc003-pool-batch-new-core-canary-v1\\build.stdout.raw"
+    },
+    {
+      "path": "core-control\\driver.stderr.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original": "poc003-pool-batch-new-core-canary-v1\\driver.stderr.raw"
+    },
+    {
+      "path": "core-control\\driver.stdout.raw",
+      "bytes": 511,
+      "sha256": "1e3524b4c33ad065f45b52fa7c5acd551d76878c4f611058c94166c4b24dfbad",
+      "original": "poc003-pool-batch-new-core-canary-v1\\driver.stdout.raw"
+    },
+    {
+      "path": "core-control\\finished\\durable-peaks.raw",
+      "bytes": 10003,
+      "sha256": "b2b5db63a2e232053836dc0f167b0c0dd6ea3abf20f0e53c2ac74a7bf72ac90d",
+      "original": "poc003-pool-batch-new-core-canary-v1\\finished\\durable-peaks.raw"
+    },
+    {
+      "path": "core-control\\live\\durable-peaks.raw",
+      "bytes": 10003,
+      "sha256": "b2b5db63a2e232053836dc0f167b0c0dd6ea3abf20f0e53c2ac74a7bf72ac90d",
+      "original": "poc003-pool-batch-new-core-canary-v1\\live\\durable-peaks.raw"
+    },
+    {
+      "path": "core-control\\results.json",
+      "bytes": 7943,
+      "sha256": "ec760301b3f9bd7f2668083f371b95f6674749a135c3e42aeab53c24f69596a2",
+      "original": "poc003-pool-batch-new-core-canary-v1\\results.json"
+    },
+    {
+      "path": "reviews/actual-new-core-result.json",
+      "bytes": 8292,
+      "sha256": "4ca16a6996ad0d55dfa2e3ae74aef3a0d3fcf1aa181842b88d32434f460a9861",
+      "original": "poc003-pool-batch-new-core-canary-v1-result-independent-review.json"
+    }
+  ],
+  "actualBuildAccepted": true,
+  "controlExitZero": true,
+  "actualControlIndependentReviewPending": false,
+  "noAtsServerOrMediaExperimentExecuted": true,
+  "allOriginalParametersAccountingAnd8MiBUnchanged": true,
+  "codeSourceAndOfficialCiNotYetQualified": true,
+  "formalPocAccepted": false,
+  "taskCompleted": false,
+  "actualControlAccepted": true,
+  "controlReviewSha256": "4ca16a6996ad0d55dfa2e3ae74aef3a0d3fcf1aa181842b88d32434f460a9861"
+}

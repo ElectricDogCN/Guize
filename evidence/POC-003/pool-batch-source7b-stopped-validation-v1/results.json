@@ -1,0 +1,58 @@
+{
+  "source": "7b0246f153715a8b520e2aa45800ac6a58dab016",
+  "base": "7e405b61d872761817a0614b3b2fdc46edde9f14",
+  "tree": "087481621928a9f1e1883c9001e441e858b82d6b",
+  "branch": "chore/POC-003-ats-range",
+  "before": {
+    "source": "7b0246f153715a8b520e2aa45800ac6a58dab016",
+    "tree": "087481621928a9f1e1883c9001e441e858b82d6b",
+    "branch": "chore/POC-003-ats-range",
+    "main": "7e405b61d872761817a0614b3b2fdc46edde9f14",
+    "originMain": "7e405b61d872761817a0614b3b2fdc46edde9f14",
+    "refs": "refs/heads/chore/POC-003-ats-range 7b0246f153715a8b520e2aa45800ac6a58dab016\nrefs/heads/main 7e405b61d872761817a0614b3b2fdc46edde9f14\nrefs/remotes/origin/HEAD 7b0246f153715a8b520e2aa45800ac6a58dab016\nrefs/remotes/origin/chore/POC-003-ats-range 7b0246f153715a8b520e2aa45800ac6a58dab016\nrefs/remotes/origin/main 7e405b61d872761817a0614b3b2fdc46edde9f14",
+    "status": ""
+  },
+  "python": "3.11.17 (main, Oct  1 2026, 14:32:31) [GCC 13.3.0]",
+  "commands": [
+    {
+      "label": "declared-00",
+      "argv": [
+        "git",
+        "-c",
+        "core.longpaths=true",
+        "-c",
+        "core.autocrlf=false",
+        "diff",
+        "--check",
+        "7e405b61d872761817a0614b3b2fdc46edde9f14...HEAD"
+      ],
+      "raw": "declared-00.raw",
+      "startedAt": "2026-11-02T15:31:03.006456+00:00",
+      "pid": 102410,
+      "actualWaitCompleted": true,
+      "exitCode": 2,
+      "bytes": 1526,
+      "sha256": "0e7526399e89f2de78354b2a6e23c3d2f83ef91c7d5b45c5f89da9be6e7a7671"
+    }
+  ],
+  "supplemental": [],
+  "source15Passed": false,
+  "currentSourceChecksPassed": false,
+  "requiredProfileNegativeCaptured": false,
+  "all73RuntimeBytesVerifiedAtExactCandidate": true,
+  "expectedGovernanceCases": 842,
+  "fullCiAccepted": false,
+  "formalPocAccepted": false,
+  "newResourcesOrExperimentApproved": false,
+  "startedAt": "2026-11-02T15:31:03.001730+00:00",
+  "after": {
+    "source": "7b0246f153715a8b520e2aa45800ac6a58dab016",
+    "tree": "087481621928a9f1e1883c9001e441e858b82d6b",
+    "branch": "chore/POC-003-ats-range",
+    "main": "7e405b61d872761817a0614b3b2fdc46edde9f14",
+    "originMain": "7e405b61d872761817a0614b3b2fdc46edde9f14",
+    "refs": "refs/heads/chore/POC-003-ats-range 7b0246f153715a8b520e2aa45800ac6a58dab016\nrefs/heads/main 7e405b61d872761817a0614b3b2fdc46edde9f14\nrefs/remotes/origin/HEAD 7b0246f153715a8b520e2aa45800ac6a58dab016\nrefs/remotes/origin/chore/POC-003-ats-range 7b0246f153715a8b520e2aa45800ac6a58dab016\nrefs/remotes/origin/main 7e405b61d872761817a0614b3b2fdc46edde9f14",
+    "status": ""
+  },
+  "failedIndex": 0
+}

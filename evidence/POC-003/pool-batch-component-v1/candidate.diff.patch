@@ -1,0 +1,52 @@
+diff --git a/poc/POC-03-ats-range/instrumentation/ats-live-buffer-accounting.patch b/poc/POC-03-ats-range/instrumentation/ats-live-buffer-accounting.patch
+index fd7d8fbdf3ab8cc4915f5c18ff6c25e5db73d2a1..bec639be702070a93386b5b17546c9630b10bfd8 100644
+GIT binary patch
+delta 476
+zcmZWl%Sr<=6vgd)LRV)wV{L1pXmO@GGn&>yTcPc2+=Muf5*(8<Nf8z4R=N`W5&ytn
+zGt-x-5EAY^Ip>~xR>2$jT;aW9-GqxQON)9Oe|#NOmi?dF@_p1=?W0pv&E1CYTL3ay
+zz~(}Oql07DJRYt{H;4vP8b;kN8PiGsmP`y%tvYxqIe;OYw5WzMq(8sIU_#au9Kv4O
+zN;A!48Z)K6E$iHFIu1M!+;M-)vHx<xpx+w}$!O|Ywe4hxwTDjWwSy$h*do_7XT>a~
+zT;8qsr;0zPxLE#mH;RTK8RKl<zm9rjx9A3Rt!k;?XrNcfN6gt%E?I)Pl(~WwX5a%8
+ziEDsaib5_#!o>`Q>2je=GUnXVtVq+Gt4mF};JUt%EMwkzZ|+vlU@Mb3+h+@uF{my6
+GYJCIJoQLZG
+
+delta 7
+OcmeBh?Q-1Er2qg7R|4|@
+
+diff --git a/poc/POC-03-ats-range/instrumentation/patch-manifest.json b/poc/POC-03-ats-range/instrumentation/patch-manifest.json
+index 1301abc2..a3d679d3 100644
+--- a/poc/POC-03-ats-range/instrumentation/patch-manifest.json
++++ b/poc/POC-03-ats-range/instrumentation/patch-manifest.json
+@@ -30,9 +30,14 @@
+       "path": "src/tscore/ink_queue.cc",
+       "beforeSha256": "83c38349f8cc56734f74ece47fe515f5b2d80869eaf155adb793b247647fbc8f",
+       "afterSha256": "2db32f95c747618a8d370f565d7355d0900c90f6ea092b082a7302eadcf5f621"
++    },
++    {
++      "path": "iocore/eventsystem/IOBuffer.cc",
++      "beforeSha256": "d9e1a686b285208817514be062f484ac0b57670aee00d004b825c6641d5975ec",
++      "afterSha256": "3cca322c0111c68e205a3bc4af7faf4ec7b9e49db7b98d4d9f58d38e1d89db89"
+     }
+   ],
+-  "patchSha256": "283986264c5e166aad94ad537cbeeb460993b531a58caca8c9aa116d423e79f4",
++  "patchSha256": "590f7a4bc9a044cbc6321ae1b1e20462aee681c0b122d6518dc2c1c9fcb072bf",
+   "additionalHeaderSha256": "f771476d0e5bb5124577329744128d83a4a0bdf43f1d10f91145e006848dc7fb",
+   "observationWindow": "Process-lifetime tracked capacities; each increasing peak fully written/fsynced under the ledger lock before payload acquisition. No reset. Per-process fork/exec reuse and accounting/publication faults fail the diagnostic epoch.",
+   "uncoveredExternalEventsInvalidateQualification": true,
+@@ -70,5 +75,15 @@
+   "initialJournalAtCoreLoadWithExplicitDirectory": true,
+   "coreLoadWithoutDirectoryRemainsLazy": true,
+   "eagerInitializationUsesSameTranslationUnitOrder": true,
+-  "eagerCoreInitializationTested": false
++  "eagerCoreInitializationTested": false,
++  "payloadPoolBatchPolicy": {
++    "requestedElementsPerGrowth": 1,
++    "previousSmallClassElements": 128,
++    "previousLargerClassElements": 32,
++    "scope": "Only named ioBufAllocator payload backing pools; global class allocator constants unchanged.",
++    "pageAndHugePageRounding": "Unchanged ink_freelist_init rounds actual batch; existing checked retained-pool accounting covers actual rounded backing capacity.",
++    "accounting": "Unchanged retained backing plus logical overcount; no baseline subtraction or reset.",
++    "status": "Candidate only. New native build, actual allocation checks, original full matrix and full source/actual-main CI still required.",
++    "maximumBufferedBytesAcceptanceThreshold": 8388608
++  }
+ }

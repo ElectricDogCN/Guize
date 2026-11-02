@@ -1,0 +1,4 @@
+* -text whitespace=cr-at-eol
+*.raw binary
+*.utf8.txt binary
+context/v1-content.patch binary

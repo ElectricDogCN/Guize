@@ -64,3 +64,15 @@ The larger-input profile previously reached the old128-key catalogue cap and128M
 A real failing129-key regression is retained. The first correction passed10 Windows/11 native tests, but independent review rejected it because its simulated producer omitted the actual native128-keys-per-request constraint. That negative review and the earlier fixture-user failure remain recoverable in `evidence/POC-003/representative-cache-forward/` and the forward batch archive.
 
 The forward consumer uses batches of at most128 keys, preserving the unchanged native8-job,16-control and512MiB process budgets. It checks remaining capacity before publishing, binds each batch to its exact accepted/finished events, request and result set, and retains individual raw records plus one whole-stage source/hash verification. Insufficient capacity fails. Current10 Windows/14 native tests pass with no skips; the native file test requires a129-key single request to be refused, then verifies two legal batches of128+1 actual Slice files totaling135,266,287 bytes and the full assembled hash. The producer remains simulated with explicit native boundaries: this is a filesystem/protocol component result, not a real ATS or formal POC result. Originals are in `evidence/POC-003/representative-cache-batches-v2/`.
+
+## Payload 池按需增长候选（2026-11-02）
+
+命名ioBufAllocator的增长请求改为1，实际批量仍由原页和hugepage规则取整。计账保留全部backing及logical的保守相加，不扣减基线，也不修改8MiB要求。新构建和三类新core ABI控制已接受；完整官方CI与同一原始矩阵下的媒体容量、独立热缓存撤权和正式POC仍待验收。详见[组件证据](../../evidence/POC-003/pool-batch-component-v1/README.md)。
+
+## 清理前的原生可读副证
+
+在已有liveBufferObserver模式下，首miss和每条cold/slow在原HTTP响应计时及settling完成后、下一clear之前，额外读取一个已实际观测的同context Slice key。独立sidecar保留原响应和时钟，不追加媒体HTTP、六阶段或ATS进程；未观测key不构造，NO_DOC/短读/漂移保持未证明，异常中的实际读取状态保持未知。全部新增I/O和内存仍纳入原8MiB界限。此为九条证据缺口的最小捕获，尚需新源正式矩阵实测；详见[组件记录](../../evidence/POC-003/native-readability-capture-v2/README.md)。
+
+## 2026-11-03 另一授权用户定点可读性取证
+
+同一原始矩阵的other_user-B在epoch5/PID130仅有MISS/key65，实际原生导出只含用户A的64项；成功8B响应和后续不同epoch的B命中不能回证该缓存Slice完整可读。将other_user加入已有响应完成后、clear前的同key有界副证；原生选择按实际user/ACL保持隔离。原9个目标前向补为10个，其余原21场景/101请求/6阶段/26闭环/12清理、完整内存口径及8MiB均不变。epoch5由原1job64MiB预期增加1job1MiB，仍逐次检查真实8job/16control/512MiB额度，不代表实际已运行或通过。前一6ee/CI935结果保留，后继固定提交须独立通过本源15及完整官方CI，重新固定实际main后才能申请新矩阵及fresh撤权；任务仍in_progress。

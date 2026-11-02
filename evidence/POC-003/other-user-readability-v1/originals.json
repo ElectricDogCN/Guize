@@ -1,0 +1,49 @@
+{
+  "scope": "Other-user exact same-epoch native readability gap and 27 bounded component regressions only",
+  "files": [
+    {
+      "file": "gap-review.json",
+      "original": "poc003-other-user-native-readability-gap-readonly-review-v1.json",
+      "bytes": 5069,
+      "sha256": "01eff7c71fdba05574fad0cf65282b84f28563b8bd7e07a435d51cf86ebfc3cd"
+    },
+    {
+      "file": "component-method.py",
+      "original": "run_poc003_other_user_readability_components_v1_once.py",
+      "bytes": 1875,
+      "sha256": "57fb2439b0514a8e962e082d2415a41437550a681ff4a26400ffa4e2aaa12786"
+    },
+    {
+      "file": "component/results.json",
+      "original": "poc003-readability-other-user-components-v1/results.json",
+      "bytes": 2130,
+      "sha256": "d573d2bf8b95038c96cd3006b253d3df1d8c26e665be07ea9969b9f4a55abfad"
+    },
+    {
+      "file": "component/tests.stdout.raw",
+      "original": "poc003-readability-other-user-components-v1/tests.stdout.raw",
+      "bytes": 274,
+      "sha256": "80166056952531466de9a5ad5a673e3aa2bb62ed156b6e077a08c80ff554ee9d"
+    },
+    {
+      "file": "component/tests.stderr.raw",
+      "original": "poc003-readability-other-user-components-v1/tests.stderr.raw",
+      "bytes": 132,
+      "sha256": "b280c454d6f559e56eb3f5ed39f3ba084b8d1744a3ff7fe016b21ff86dea1aca"
+    },
+    {
+      "file": "component/junit.xml",
+      "original": "poc003-readability-other-user-components-v1/junit.xml",
+      "bytes": 4392,
+      "sha256": "15360af82fc077ab38bb799f34b796ecd95076f6339b3eb63a26be17cea113e8"
+    },
+    {
+      "file": "component-review.json",
+      "original": "poc003-other-user-readability-component-v1-independent-review.json",
+      "bytes": 5175,
+      "sha256": "958db7596fb0f196675ba61c684cbb4112d8b49a8981e3585de3de03210b24a8"
+    }
+  ],
+  "atsExecuted": false,
+  "formalPocAccepted": false
+}

@@ -1,0 +1,9 @@
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"headRevision\":\"19ec87a1a5e81146816c6d0ce6bdd164634f11e5\",\"checks\":[{\"id\":125379118242,\"name\":\"Governance Checks\",\"head_sha\":\"19ec87a1a5e81146816c6d0ce6bdd164634f11e5\",\"status\":\"completed\",\"conclusion\":\"cancelled\",\"details_url\":\"https://github.com/ElectricDogCN/Guize/actions/runs/41475286753/job/125379118242\",\"output\":{\"title\":null,\"summary\":null,\"text\":null,\"annotations_count\":4}}],\"statuses\":[],\"annotations\":[{\"path\":\".github\",\"start_line\":1,\"end_line\":1,\"annotation_level\":\"failure\",\"message\":\"The job has exceeded the maximum execution time of 30m0s\",\"title\":\"\",\"raw_details\":\"\"},{\"path\":\".github\",\"start_line\":4,\"end_line\":4,\"annotation_level\":\"warning\",\"message\":\"Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@11d5960a326750d5838078e36cf38b85af677262, actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/\",\"title\":\"\",\"raw_details\":\"\"},{\"path\":\".github\",\"start_line\":14,\"end_line\":14,\"annotation_level\":\"failure\",\"message\":\"The operation was canceled.\",\"title\":\"\",\"raw_details\":\"\"},{\"path\":\".github\",\"start_line\":1,\"end_line\":1,\"annotation_level\":\"notice\",\"message\":\"\\\"The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748\\\"\",\"title\":\"\",\"raw_details\":\"\"}],\"hasMore\":false,\"job\":null,\"jobs\":[],\"log\":null,\"logTruncated\":false}"
+    }
+  ],
+  "isError": false
+}

@@ -1,0 +1,182 @@
+{
+  "schemaVersion": 1,
+  "kind": "POC003_NEW_CORE_POOL_ROUNDING_RETENTION_CANARY_ACTUAL_RESULT_INDEPENDENT_REVIEW",
+  "taskId": "POC-003",
+  "reviewer": "/root/independent_review",
+  "reviewedAt": "2026-11-02T15:22:51Z",
+  "source": "7e405b61d872761817a0614b3b2fdc46edde9f14",
+  "scope": "EXACT_NEW_CORE_SYNTHETIC_FREELIST_ABI_ROUNDING_RETENTION_AND_DURABLE_JOURNAL_COMPONENT_ONLY",
+  "componentAccepted": true,
+  "relevantResultsAccepted": true,
+  "newCoreFreelistComponentAccepted": true,
+  "componentEvidenceArchivingMayProceed": true,
+  "mustFix": [],
+  "approval": {
+    "path": ".takeover-tools/poc003-pool-batch-build-and-new-core-canary-v1-independent-review.json",
+    "sha256": "8ce6c31c98072c50f6642f2ee6569d07583910311882966bfdfeb41ee622f94d",
+    "approvedAt": "2026-11-02T15:19:53Z",
+    "validUntil": "2026-11-02T16:19:53Z",
+    "maximumActualAttempts": 1,
+    "actualAttempts": 1,
+    "remainingActualAttempts": 0
+  },
+  "actual": {
+    "outerTerminalChunk": "9162a4",
+    "outerExitCode": 0,
+    "startedAt": "2026-11-02T15:21:24.840901+00:00",
+    "finishedAt": "2026-11-02T15:21:26.042819+00:00",
+    "insideApprovalWindow": true,
+    "uid": 1000,
+    "driverCompiler": {
+      "pid": 102309,
+      "processGroupId": 102309,
+      "sessionId": 102309,
+      "startTicks": 2057500,
+      "actualWaitCompleted": true,
+      "exitCode": 0,
+      "timedOut": false
+    },
+    "driver": {
+      "pid": 102314,
+      "startTicks": 2057608,
+      "executableDevice": 2128,
+      "executableInode": 1731125,
+      "actualWaitCompleted": true,
+      "exitCode": 0,
+      "ownedForcedStop": false,
+      "executable": "/home/sur/.cache/guize-takeover/poc003-pool-batch-ats-build-common7e-v1/pool-batch-canary-v1/driver",
+      "bytes": 30512,
+      "sha256": "835827ee5a732967bd67ff2008c5328630c8360976745db7e85f7dbe9db5434e"
+    },
+    "core": {
+      "bytes": 733304,
+      "sha256": "17c1aec20cdc64f12188e6e2acd6daabea42512822594a377bb339c012c58671",
+      "beforeAfterStable": true,
+      "buildReceiptSha256": "770ad0e987a7abc6eaabb37b0ca3275c6c508ca8a583008b613149c374e8bf3e"
+    },
+    "methodSha256": "7a01efad60c24d9759b3caae41fc7813dea7b3cdb9e6f8725fba9a5dedd38566",
+    "driverSourceSha256": "8eaaeaea4ad34e9299405b60619f50b69ac81c6ca38c7b2ecafbde2494461265",
+    "loadingEvidence": "The exact reviewed driver calls dlopen on the full new core path and resolves the real ABI through that handle. Recorded argv names that same core; source/header/build/core hashes match. This receipt does not invent an unrecorded /proc/maps inode attestation for the loaded core.",
+    "atsServiceStarted": false,
+    "networkOrMediaExperimentExecuted": false
+  },
+  "actualPoolCases": [
+    {
+      "typeBytes": 128,
+      "requestedChunkItems": 1,
+      "actualChunkItems": 32,
+      "heldItems": 5,
+      "allocatedItems": 32,
+      "backingBytes": 4096,
+      "returnedCumulativeCurrentBytes": 4096,
+      "reuseCycles": 128
+    },
+    {
+      "typeBytes": 8192,
+      "requestedChunkItems": 1,
+      "actualChunkItems": 1,
+      "heldItems": 5,
+      "allocatedItems": 5,
+      "backingBytes": 40960,
+      "returnedCumulativeCurrentBytes": 45056,
+      "reuseCycles": 128
+    },
+    {
+      "typeBytes": 65536,
+      "requestedChunkItems": 1,
+      "actualChunkItems": 1,
+      "heldItems": 5,
+      "allocatedItems": 5,
+      "backingBytes": 327680,
+      "returnedCumulativeCurrentBytes": 372736,
+      "reuseCycles": 128
+    }
+  ],
+  "accountingResult": {
+    "retainedBytesAfterAllReturns": 372736,
+    "maximumTrackedPeakBytes": 700416,
+    "abiHealthy": true,
+    "independentArithmetic": "4096+40960+327680=372736 retained. At the five-held 65536-byte stage, 45056 prior retained +327680 new backing +327680 explicit logical charge =700416.",
+    "actualAssertions": "The compiled driver (without NDEBUG) verifies five simultaneous holds, actual allocated/used counters, actual returned retained snapshot, then128 sequential alloc/free/reuse operations with unchanged allocated backing, current retained bytes and peak. These are actual native function calls, not simulated allocator successes.",
+    "journal": {
+      "pid": 102314,
+      "startTicks": 2057608,
+      "rows": 27,
+      "firstSequence": 0,
+      "lastSequence": 26,
+      "rawBytes": 10003,
+      "rawSha256": "b2b5db63a2e232053836dc0f167b0c0dd6ea3abf20f0e53c2ac74a7bf72ac90d",
+      "nativeLiveAndFinishedBytesEqual": true,
+      "completeSuccessfulTrackedProcessEpoch": true,
+      "firstPeakBytes": 0,
+      "maximumPeakBytes": 700416,
+      "abiVersion": 1,
+      "generation": 0,
+      "violations": 0,
+      "uncoveredExternalEvents": 0,
+      "allSequencesAndIdentitiesIndependentlyReparsed": true
+    },
+    "journalMeaning": "This is a durable increasing-peak journal. Its last row currentBytes=700416 is the state when the last peak was published, not a final-exit current snapshot. The later printed snapshot/assertions establish372736 retained after logical returns; no journal row was rewritten or reset."
+  },
+  "evidencePins": [
+    {
+      "path": ".takeover-tools/poc003-pool-batch-new-core-canary-v1/results.json",
+      "bytes": 7943,
+      "sha256": "ec760301b3f9bd7f2668083f371b95f6674749a135c3e42aeab53c24f69596a2"
+    },
+    {
+      "path": ".takeover-tools/poc003-pool-batch-new-core-canary-v1/driver.stdout.raw",
+      "bytes": 511,
+      "sha256": "1e3524b4c33ad065f45b52fa7c5acd551d76878c4f611058c94166c4b24dfbad"
+    },
+    {
+      "path": ".takeover-tools/poc003-pool-batch-new-core-canary-v1/driver.stderr.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".takeover-tools/poc003-pool-batch-new-core-canary-v1/build.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".takeover-tools/poc003-pool-batch-new-core-canary-v1/build.stderr.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".takeover-tools/poc003-pool-batch-new-core-canary-v1/live/durable-peaks.raw",
+      "bytes": 10003,
+      "sha256": "b2b5db63a2e232053836dc0f167b0c0dd6ea3abf20f0e53c2ac74a7bf72ac90d"
+    },
+    {
+      "path": ".takeover-tools/poc003-pool-batch-new-core-canary-v1/finished/durable-peaks.raw",
+      "bytes": 10003,
+      "sha256": "b2b5db63a2e232053836dc0f167b0c0dd6ea3abf20f0e53c2ac74a7bf72ac90d"
+    },
+    {
+      "path": "/home/sur/.cache/guize-takeover/poc003-pool-batch-ats-build-common7e-v1/pool-batch-canary-v1/journal/peak-102314-2057608.jsonl",
+      "bytes": 10003,
+      "sha256": "b2b5db63a2e232053836dc0f167b0c0dd6ea3abf20f0e53c2ac74a7bf72ac90d"
+    }
+  ],
+  "limitations": [
+    "Manual ink_freelist_init requestedChunk1 is not a server init_buffer_allocators policy execution test.",
+    "The driver explicitly models logical acquire/release; it does not establish every IOBufferData/HTTP/media owner path or throughput.",
+    "The three classes demonstrate actual32/1/1 element rounding and retained capacity, not a full-media8MiB upper bound.",
+    "No timeout or forced cleanup occurred; those paths were not dynamically exercised here.",
+    "The initial zero record is observed, but this API-using driver is not a replacement zero-API eager-constructor experiment.",
+    "Actual direct compiler/driver waits establish those owned process lifetimes; no arbitrary family claim is added."
+  ],
+  "nextScope": "The reviewed two-file performance component and these actual build/canary originals may be archived and a fixed candidate prepared. Its new source15/full sourceCI, ordinary integration/main checks/full mainCI and independent acceptance must precede a new common-source full original21/26 matrix and separate fresh warm-cache revocation under new permissions.",
+  "entireSourceQualified": false,
+  "sourceCiAccepted": false,
+  "actualImplementationMainAccepted": false,
+  "aggregateCapacityProofComplete": false,
+  "eightMiBBoundAccepted": false,
+  "newRuntimeExperimentApproved": false,
+  "formalPocAccepted": false,
+  "taskCompleted": false,
+  "readyOrMergeApproved": false,
+  "reviewerActions": "Read-only replay and byte/hash comparison of retained originals; no native target/test/build was rerun."
+}
