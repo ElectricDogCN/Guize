@@ -1,0 +1,370 @@
+{
+  "kind": "READONLY_NEW_PACKAGE_ELF_DEPENDENCY_DELTA_NOT_RUNTIME_APPROVAL",
+  "observedAt": "2026-11-02T19:32:06.738965+00:00",
+  "image": "sha256:df18428df8a0f9189c84e7424d214b4c50092af1f9dca5842a00c41c39bda316",
+  "buildReceiptSha256": "9995d8a8fe286c9908062d142c61231cd40876980412a815f597fa927de32026",
+  "componentCount": 6,
+  "components": [
+    {
+      "actual": {
+        "path": "/home/sur/.cache/guize-takeover/poc003-aggregation-ats-build-common2e-v1/pkgroot/usr/bin/traffic_server",
+        "bytes": 7450352,
+        "sha256": "876ce08955e456b3235b1e21bc020bedc8478231f68f9228046b5281109874c5",
+        "needed": [
+          "libtscore.so.9",
+          "libtscpputil.so.9",
+          "libpcre.so.3",
+          "libz.so.1",
+          "libssl.so.3",
+          "libcrypto.so.3",
+          "libyaml-cpp.so.0.8",
+          "libstdc++.so.6",
+          "libgcc_s.so.1",
+          "libc.so.6",
+          "ld-linux-x86-64.so.2"
+        ],
+        "soname": [],
+        "versionNames": [
+          "CXXABI_1.3",
+          "CXXABI_1.3.5",
+          "CXXABI_1.3.7",
+          "CXXABI_1.3.8",
+          "CXXABI_1.3.9",
+          "GCC_3.0",
+          "GLIBCXX_3.4",
+          "GLIBCXX_3.4.11",
+          "GLIBCXX_3.4.14",
+          "GLIBCXX_3.4.15",
+          "GLIBCXX_3.4.18",
+          "GLIBCXX_3.4.19",
+          "GLIBCXX_3.4.20",
+          "GLIBCXX_3.4.21",
+          "GLIBCXX_3.4.26",
+          "GLIBCXX_3.4.29",
+          "GLIBCXX_3.4.30",
+          "GLIBCXX_3.4.32",
+          "GLIBCXX_3.4.9",
+          "GLIBC_2.10",
+          "GLIBC_2.14",
+          "GLIBC_2.15",
+          "GLIBC_2.17",
+          "GLIBC_2.2.5",
+          "GLIBC_2.3",
+          "GLIBC_2.3.2",
+          "GLIBC_2.3.4",
+          "GLIBC_2.32",
+          "GLIBC_2.33",
+          "GLIBC_2.34",
+          "GLIBC_2.38",
+          "GLIBC_2.4",
+          "GLIBC_2.7",
+          "OPENSSL_3.0.0",
+          "ZLIB_1.2.0"
+        ]
+      },
+      "priorPath": "/home/sur/.cache/guize-takeover/poc003-durable-ats-build-20261026-v3/pkgroot/usr/bin/traffic_server",
+      "priorSha256": "d11095d0334e15530a5a4c1b16ce9348ead5fdb547c15950e024b5bbf6dfdd36",
+      "staticDependencyNamesAndVersionsUnchanged": true
+    },
+    {
+      "actual": {
+        "path": "/home/sur/.cache/guize-takeover/poc003-aggregation-ats-build-common2e-v1/pkgroot/usr/lib/trafficserver/libtscore.so.9.2.3",
+        "bytes": 733304,
+        "sha256": "a1efc2bf5e4ab078193f6daabe329fbecee84b4e64d4ea2db1b180e4b394374b",
+        "needed": [
+          "libtscpputil.so.9",
+          "libpcre.so.3",
+          "libcrypto.so.3",
+          "libcap.so.2",
+          "libyaml-cpp.so.0.8",
+          "libstdc++.so.6",
+          "libm.so.6",
+          "libc.so.6",
+          "ld-linux-x86-64.so.2",
+          "libgcc_s.so.1"
+        ],
+        "soname": [
+          "libtscore.so.9"
+        ],
+        "versionNames": [
+          "CXXABI_1.3",
+          "CXXABI_1.3.5",
+          "CXXABI_1.3.7",
+          "CXXABI_1.3.9",
+          "GCC_3.0",
+          "GLIBCXX_3.4",
+          "GLIBCXX_3.4.11",
+          "GLIBCXX_3.4.14",
+          "GLIBCXX_3.4.18",
+          "GLIBCXX_3.4.19",
+          "GLIBCXX_3.4.20",
+          "GLIBCXX_3.4.21",
+          "GLIBCXX_3.4.29",
+          "GLIBCXX_3.4.32",
+          "GLIBCXX_3.4.9",
+          "GLIBC_2.14",
+          "GLIBC_2.17",
+          "GLIBC_2.2.5",
+          "GLIBC_2.3",
+          "GLIBC_2.3.2",
+          "GLIBC_2.3.4",
+          "GLIBC_2.32",
+          "GLIBC_2.33",
+          "GLIBC_2.34",
+          "GLIBC_2.38",
+          "GLIBC_2.4",
+          "GLIBC_2.7",
+          "OPENSSL_3.0.0"
+        ]
+      },
+      "priorPath": "/home/sur/.cache/guize-takeover/poc003-durable-ats-build-20261026-v3/pkgroot/usr/lib/trafficserver/libtscore.so.9.2.3",
+      "priorSha256": "8fca4f40bcd0762576e36b16acffc69c7d84389f66069c5cf845f7e10d20418f",
+      "staticDependencyNamesAndVersionsUnchanged": true
+    },
+    {
+      "actual": {
+        "path": "/home/sur/.cache/guize-takeover/poc003-aggregation-ats-build-common2e-v1/pkgroot/usr/lib/trafficserver/libtscpputil.so.9.2.3",
+        "bytes": 16344,
+        "sha256": "192dea2b298b8349712e96d73069a406ef95b5fab21d10ca42862b44975adf7c",
+        "needed": [
+          "libstdc++.so.6",
+          "libc.so.6"
+        ],
+        "soname": [
+          "libtscpputil.so.9"
+        ],
+        "versionNames": [
+          "GLIBCXX_3.4",
+          "GLIBCXX_3.4.11",
+          "GLIBC_2.2.5",
+          "GLIBC_2.4"
+        ]
+      },
+      "priorPath": "/home/sur/.cache/guize-takeover/poc003-durable-ats-build-20261026-v3/pkgroot/usr/lib/trafficserver/libtscpputil.so.9.2.3",
+      "priorSha256": "192dea2b298b8349712e96d73069a406ef95b5fab21d10ca42862b44975adf7c",
+      "staticDependencyNamesAndVersionsUnchanged": true
+    },
+    {
+      "actual": {
+        "path": "/home/sur/.cache/guize-takeover/poc003-aggregation-ats-build-common2e-v1/pkgroot/usr/lib/trafficserver/modules/slice.so",
+        "bytes": 82152,
+        "sha256": "1f8d3f0af3a1e7f2119a33a6a4ae446931297eebbaf671daf7b5d89ad0729adf",
+        "needed": [
+          "libstdc++.so.6",
+          "libc.so.6",
+          "libgcc_s.so.1"
+        ],
+        "soname": [
+          "slice.so"
+        ],
+        "versionNames": [
+          "CXXABI_1.3",
+          "CXXABI_1.3.9",
+          "GCC_3.0",
+          "GLIBCXX_3.4",
+          "GLIBCXX_3.4.11",
+          "GLIBCXX_3.4.20",
+          "GLIBCXX_3.4.21",
+          "GLIBC_2.14",
+          "GLIBC_2.2.5",
+          "GLIBC_2.3.4",
+          "GLIBC_2.38",
+          "GLIBC_2.4"
+        ]
+      },
+      "priorPath": "/home/sur/.cache/guize-takeover/poc003-durable-ats-build-20261026-v3/pkgroot/usr/lib/trafficserver/modules/slice.so",
+      "priorSha256": "1f8d3f0af3a1e7f2119a33a6a4ae446931297eebbaf671daf7b5d89ad0729adf",
+      "staticDependencyNamesAndVersionsUnchanged": true
+    },
+    {
+      "actual": {
+        "path": "/home/sur/.cache/guize-takeover/poc003-aggregation-ats-build-common2e-v1/pkgroot/usr/lib/trafficserver/modules/cache_range_requests.so",
+        "bytes": 27512,
+        "sha256": "62bd3c96066b65fee359367a82861d3908bbb55b768d5ff9472b36938a7922f9",
+        "needed": [
+          "libstdc++.so.6",
+          "libc.so.6"
+        ],
+        "soname": [
+          "cache_range_requests.so"
+        ],
+        "versionNames": [
+          "CXXABI_1.3.9",
+          "GLIBCXX_3.4",
+          "GLIBCXX_3.4.21",
+          "GLIBC_2.2.5",
+          "GLIBC_2.3.4",
+          "GLIBC_2.4"
+        ]
+      },
+      "priorPath": "/home/sur/.cache/guize-takeover/poc003-durable-ats-build-20261026-v3/pkgroot/usr/lib/trafficserver/modules/cache_range_requests.so",
+      "priorSha256": "62bd3c96066b65fee359367a82861d3908bbb55b768d5ff9472b36938a7922f9",
+      "staticDependencyNamesAndVersionsUnchanged": true
+    },
+    {
+      "actual": {
+        "path": "/home/sur/.cache/guize-takeover/poc003-aggregation-ats-build-common2e-v1/pkgroot/usr/lib/trafficserver/modules/header_rewrite.so",
+        "bytes": 283224,
+        "sha256": "9dee1bf3062d3a62ed45f6ccdb04efb779e7a63977738713143cce3cfac6e9bf",
+        "needed": [
+          "libstdc++.so.6",
+          "libc.so.6",
+          "ld-linux-x86-64.so.2",
+          "libgcc_s.so.1"
+        ],
+        "soname": [
+          "header_rewrite.so"
+        ],
+        "versionNames": [
+          "CXXABI_1.3",
+          "CXXABI_1.3.9",
+          "GCC_3.0",
+          "GLIBCXX_3.4",
+          "GLIBCXX_3.4.11",
+          "GLIBCXX_3.4.20",
+          "GLIBCXX_3.4.21",
+          "GLIBCXX_3.4.26",
+          "GLIBCXX_3.4.29",
+          "GLIBCXX_3.4.32",
+          "GLIBCXX_3.4.9",
+          "GLIBC_2.14",
+          "GLIBC_2.2.5",
+          "GLIBC_2.3",
+          "GLIBC_2.3.4",
+          "GLIBC_2.34",
+          "GLIBC_2.38",
+          "GLIBC_2.4"
+        ]
+      },
+      "priorPath": "/home/sur/.cache/guize-takeover/poc003-durable-ats-build-20261026-v3/pkgroot/usr/lib/trafficserver/modules/header_rewrite.so",
+      "priorSha256": "9dee1bf3062d3a62ed45f6ccdb04efb779e7a63977738713143cce3cfac6e9bf",
+      "staticDependencyNamesAndVersionsUnchanged": true
+    }
+  ],
+  "commands": [
+    {
+      "argv": [
+        "readelf",
+        "-d",
+        "/home/sur/.cache/guize-takeover/poc003-aggregation-ats-build-common2e-v1/pkgroot/usr/bin/traffic_server"
+      ],
+      "pid": 159886,
+      "actualWaitCompleted": true,
+      "exitCode": 0
+    },
+    {
+      "argv": [
+        "readelf",
+        "-V",
+        "/home/sur/.cache/guize-takeover/poc003-aggregation-ats-build-common2e-v1/pkgroot/usr/bin/traffic_server"
+      ],
+      "pid": 159887,
+      "actualWaitCompleted": true,
+      "exitCode": 0
+    },
+    {
+      "argv": [
+        "readelf",
+        "-d",
+        "/home/sur/.cache/guize-takeover/poc003-aggregation-ats-build-common2e-v1/pkgroot/usr/lib/trafficserver/libtscore.so.9.2.3"
+      ],
+      "pid": 159888,
+      "actualWaitCompleted": true,
+      "exitCode": 0
+    },
+    {
+      "argv": [
+        "readelf",
+        "-V",
+        "/home/sur/.cache/guize-takeover/poc003-aggregation-ats-build-common2e-v1/pkgroot/usr/lib/trafficserver/libtscore.so.9.2.3"
+      ],
+      "pid": 159889,
+      "actualWaitCompleted": true,
+      "exitCode": 0
+    },
+    {
+      "argv": [
+        "readelf",
+        "-d",
+        "/home/sur/.cache/guize-takeover/poc003-aggregation-ats-build-common2e-v1/pkgroot/usr/lib/trafficserver/libtscpputil.so.9.2.3"
+      ],
+      "pid": 159890,
+      "actualWaitCompleted": true,
+      "exitCode": 0
+    },
+    {
+      "argv": [
+        "readelf",
+        "-V",
+        "/home/sur/.cache/guize-takeover/poc003-aggregation-ats-build-common2e-v1/pkgroot/usr/lib/trafficserver/libtscpputil.so.9.2.3"
+      ],
+      "pid": 159891,
+      "actualWaitCompleted": true,
+      "exitCode": 0
+    },
+    {
+      "argv": [
+        "readelf",
+        "-d",
+        "/home/sur/.cache/guize-takeover/poc003-aggregation-ats-build-common2e-v1/pkgroot/usr/lib/trafficserver/modules/slice.so"
+      ],
+      "pid": 159892,
+      "actualWaitCompleted": true,
+      "exitCode": 0
+    },
+    {
+      "argv": [
+        "readelf",
+        "-V",
+        "/home/sur/.cache/guize-takeover/poc003-aggregation-ats-build-common2e-v1/pkgroot/usr/lib/trafficserver/modules/slice.so"
+      ],
+      "pid": 159893,
+      "actualWaitCompleted": true,
+      "exitCode": 0
+    },
+    {
+      "argv": [
+        "readelf",
+        "-d",
+        "/home/sur/.cache/guize-takeover/poc003-aggregation-ats-build-common2e-v1/pkgroot/usr/lib/trafficserver/modules/cache_range_requests.so"
+      ],
+      "pid": 159894,
+      "actualWaitCompleted": true,
+      "exitCode": 0
+    },
+    {
+      "argv": [
+        "readelf",
+        "-V",
+        "/home/sur/.cache/guize-takeover/poc003-aggregation-ats-build-common2e-v1/pkgroot/usr/lib/trafficserver/modules/cache_range_requests.so"
+      ],
+      "pid": 159895,
+      "actualWaitCompleted": true,
+      "exitCode": 0
+    },
+    {
+      "argv": [
+        "readelf",
+        "-d",
+        "/home/sur/.cache/guize-takeover/poc003-aggregation-ats-build-common2e-v1/pkgroot/usr/lib/trafficserver/modules/header_rewrite.so"
+      ],
+      "pid": 159896,
+      "actualWaitCompleted": true,
+      "exitCode": 0
+    },
+    {
+      "argv": [
+        "readelf",
+        "-V",
+        "/home/sur/.cache/guize-takeover/poc003-aggregation-ats-build-common2e-v1/pkgroot/usr/lib/trafficserver/modules/header_rewrite.so"
+      ],
+      "pid": 159897,
+      "actualWaitCompleted": true,
+      "exitCode": 0
+    }
+  ],
+  "atsExecuted": false,
+  "containerCreated": false,
+  "dynamicAbiProven": false,
+  "formalPocAccepted": false
+}

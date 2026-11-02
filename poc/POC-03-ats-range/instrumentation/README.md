@@ -59,3 +59,8 @@ The first approved E123 live attempt failed before gateway readiness at componen
 ## Fixed single-initial-exec helper (under implementation; not active)
 
 The prospective helper has one native-x86_64 fixed filter and one trusted FDexec handoff. OwnedEpoch has an explicit default-off fixed_single_exec caller under review; the existing lab and legacy gate do not select it. The caller pins the interpreter, bootstrap and policy as components, uses one private descriptor transfer and finite setup/activation deadlines, consumes its sole listener exactly once, and retains abort/wait and journal completion requirements. It requires a genuine single native parent thread and the fixed locale; current multithreaded lab cannot bypass that restriction. No filter installation or canary is approved until independent source review and a concrete finite resource profile. USER_NOTIF pointer checks remain limited to the trusted singleton bootstrap with immutable code and inputs, not hostile arbitrary code.
+
+
+## 私有测试构建的聚合容量候选
+
+P_CacheVol.h聚合容量候选为1MiB，派生high-water/evacuation/recovery常量随同一表达式变化，实际分配仍全计账。显式8KiB目标片段、1MiB Slice及冻结样本/8MiB阈值保持。只允许全新空缓存；不得将此构建打开旧stock或之前构建的缓存。变化可能影响聚合刷写、目录保护与恢复行为，完整原矩阵与独立撤权必须在新完整CI源/实际主线接受后验证，不以原常量差值认定容量通过。

@@ -1,0 +1,166 @@
+{
+  "kind": "READONLY_STATIC_ELF_DEPENDENCY_COMPONENT_ONLY",
+  "components": 6,
+  "commands": 12,
+  "allActualWaitZero": true,
+  "atsExecuted": false,
+  "dynamicAbiProven": false,
+  "files": [
+    {
+      "path": "static-dependencies/0-dynamic.stderr.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original": ".takeover-tools/poc003-aggregation-new-runtime-static-dependency-delta-v1/0-dynamic.stderr.raw"
+    },
+    {
+      "path": "static-dependencies/0-dynamic.stdout.raw",
+      "bytes": 2301,
+      "sha256": "d229f8ac51f0e439910084c6fcd6cd3f957f2147114ec0c17cb1030cc513294c",
+      "original": ".takeover-tools/poc003-aggregation-new-runtime-static-dependency-delta-v1/0-dynamic.stdout.raw"
+    },
+    {
+      "path": "static-dependencies/0-versions.stderr.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original": ".takeover-tools/poc003-aggregation-new-runtime-static-dependency-delta-v1/0-versions.stderr.raw"
+    },
+    {
+      "path": "static-dependencies/0-versions.stdout.raw",
+      "bytes": 199860,
+      "sha256": "f127b450cd1a15da0dd797dd6aa3823f99d6f223c9af7d50853d161c938cbfdb",
+      "original": ".takeover-tools/poc003-aggregation-new-runtime-static-dependency-delta-v1/0-versions.stdout.raw"
+    },
+    {
+      "path": "static-dependencies/1-dynamic.stderr.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original": ".takeover-tools/poc003-aggregation-new-runtime-static-dependency-delta-v1/1-dynamic.stderr.raw"
+    },
+    {
+      "path": "static-dependencies/1-dynamic.stdout.raw",
+      "bytes": 2139,
+      "sha256": "8601cf0d828ea2f196551a0ef99be25ad197fa7e2318238a042d2fa2036f84d0",
+      "original": ".takeover-tools/poc003-aggregation-new-runtime-static-dependency-delta-v1/1-dynamic.stdout.raw"
+    },
+    {
+      "path": "static-dependencies/1-versions.stderr.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original": ".takeover-tools/poc003-aggregation-new-runtime-static-dependency-delta-v1/1-versions.stderr.raw"
+    },
+    {
+      "path": "static-dependencies/1-versions.stdout.raw",
+      "bytes": 31037,
+      "sha256": "810d1f0ecee85f7fd66161e6147385362f3da727351616ced9b64c4074d847df",
+      "original": ".takeover-tools/poc003-aggregation-new-runtime-static-dependency-delta-v1/1-versions.stdout.raw"
+    },
+    {
+      "path": "static-dependencies/2-dynamic.stderr.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original": ".takeover-tools/poc003-aggregation-new-runtime-static-dependency-delta-v1/2-dynamic.stderr.raw"
+    },
+    {
+      "path": "static-dependencies/2-dynamic.stdout.raw",
+      "bytes": 1439,
+      "sha256": "7f2cfaa51a551b4e2c72971ed411001566fc4e1fd161d3caa12fc6938aff3093",
+      "original": ".takeover-tools/poc003-aggregation-new-runtime-static-dependency-delta-v1/2-dynamic.stdout.raw"
+    },
+    {
+      "path": "static-dependencies/2-versions.stderr.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original": ".takeover-tools/poc003-aggregation-new-runtime-static-dependency-delta-v1/2-versions.stderr.raw"
+    },
+    {
+      "path": "static-dependencies/2-versions.stdout.raw",
+      "bytes": 950,
+      "sha256": "ebae4263b7b845c825c96ff9445cf14954d048207999ff8e1b109fdb32b9e8ca",
+      "original": ".takeover-tools/poc003-aggregation-new-runtime-static-dependency-delta-v1/2-versions.stdout.raw"
+    },
+    {
+      "path": "static-dependencies/3-dynamic.stderr.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original": ".takeover-tools/poc003-aggregation-new-runtime-static-dependency-delta-v1/3-dynamic.stderr.raw"
+    },
+    {
+      "path": "static-dependencies/3-dynamic.stdout.raw",
+      "bytes": 1517,
+      "sha256": "cf8b6359357778952b1eb2618fe0df70da44f58008b166283b65314e165ff446",
+      "original": ".takeover-tools/poc003-aggregation-new-runtime-static-dependency-delta-v1/3-dynamic.stdout.raw"
+    },
+    {
+      "path": "static-dependencies/3-versions.stderr.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original": ".takeover-tools/poc003-aggregation-new-runtime-static-dependency-delta-v1/3-versions.stderr.raw"
+    },
+    {
+      "path": "static-dependencies/3-versions.stdout.raw",
+      "bytes": 5578,
+      "sha256": "7f33361efc8e858328ea6101b41c3fdfab6c95f203dbd39323e4cfd51b06b8b3",
+      "original": ".takeover-tools/poc003-aggregation-new-runtime-static-dependency-delta-v1/3-versions.stdout.raw"
+    },
+    {
+      "path": "static-dependencies/4-dynamic.stderr.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original": ".takeover-tools/poc003-aggregation-new-runtime-static-dependency-delta-v1/4-dynamic.stderr.raw"
+    },
+    {
+      "path": "static-dependencies/4-dynamic.stdout.raw",
+      "bytes": 1448,
+      "sha256": "f29977ad25bb92d0a6b2e659496e93ab30d86f4e8315a150fa280d52a0361124",
+      "original": ".takeover-tools/poc003-aggregation-new-runtime-static-dependency-delta-v1/4-dynamic.stdout.raw"
+    },
+    {
+      "path": "static-dependencies/4-versions.stderr.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original": ".takeover-tools/poc003-aggregation-new-runtime-static-dependency-delta-v1/4-versions.stderr.raw"
+    },
+    {
+      "path": "static-dependencies/4-versions.stdout.raw",
+      "bytes": 1992,
+      "sha256": "c79f01866364ae68c780d589e8861eb2f1d0bc889b513d5255b3bf28cb045059",
+      "original": ".takeover-tools/poc003-aggregation-new-runtime-static-dependency-delta-v1/4-versions.stdout.raw"
+    },
+    {
+      "path": "static-dependencies/5-dynamic.stderr.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original": ".takeover-tools/poc003-aggregation-new-runtime-static-dependency-delta-v1/5-dynamic.stderr.raw"
+    },
+    {
+      "path": "static-dependencies/5-dynamic.stdout.raw",
+      "bytes": 1611,
+      "sha256": "5038c97f9056b3fe26e500faa99e07b0f039f5121fdc3b41200332104090554d",
+      "original": ".takeover-tools/poc003-aggregation-new-runtime-static-dependency-delta-v1/5-dynamic.stdout.raw"
+    },
+    {
+      "path": "static-dependencies/5-versions.stderr.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original": ".takeover-tools/poc003-aggregation-new-runtime-static-dependency-delta-v1/5-versions.stderr.raw"
+    },
+    {
+      "path": "static-dependencies/5-versions.stdout.raw",
+      "bytes": 17089,
+      "sha256": "948d5b19680b72940da11cf5abf804fd9746dd276cb33cdbe8f5a2f9a7746cdb",
+      "original": ".takeover-tools/poc003-aggregation-new-runtime-static-dependency-delta-v1/5-versions.stdout.raw"
+    },
+    {
+      "path": "static-dependencies/results.json",
+      "bytes": 11514,
+      "sha256": "b131ecb8aee03cfbdb90ac39bff71757b08ee9f5396d13d5e0924cd49669f538",
+      "original": ".takeover-tools/poc003-aggregation-new-runtime-static-dependency-delta-v1/results.json"
+    },
+    {
+      "path": "methods/inspect_poc003_aggregation_new_runtime_static_dependencies_v1_once.py",
+      "bytes": 2707,
+      "sha256": "4938bf43eeabda28066981986db983edaa784b9e028479173579c88693ad5112",
+      "original": ".takeover-tools/inspect_poc003_aggregation_new_runtime_static_dependencies_v1_once.py"
+    }
+  ]
+}

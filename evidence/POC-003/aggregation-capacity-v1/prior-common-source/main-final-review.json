@@ -1,0 +1,240 @@
+{
+  "schemaVersion": 1,
+  "kind": "poc003_pool_batch_pr182_final_actual_main_independent_review",
+  "reviewer": "/root/independent_review",
+  "reviewedAt": "2026-11-02T18:28:50Z",
+  "actualMain": "2e8655e5b6d59261a4d1597d999dd7530875c1c7",
+  "source": "d049adee8f5b68a5acc49d7f7a44050bc3430ba8",
+  "base": "7e405b61d872761817a0614b3b2fdc46edde9f14",
+  "tree": "7229996140ebf1f623d22a0eb21a85d44edf253c",
+  "orderedParents": [
+    "7e405b61d872761817a0614b3b2fdc46edde9f14",
+    "d049adee8f5b68a5acc49d7f7a44050bc3430ba8"
+  ],
+  "actualImplementationMainAccepted": true,
+  "fullMainCiAccepted": true,
+  "ownMainSevenAccepted": true,
+  "mustFix": [],
+  "scope": "EXACT_POC003_IN_PROGRESS_IMPLEMENTATION_AND_COMMON_TESTED_SOURCE_ACCEPTANCE_ONLY",
+  "sourceFullCiAccepted": true,
+  "sourceLocal15Accepted": true,
+  "requiredProfileNegativeCaptured": true,
+  "bootstrapExceptionAccepted": false,
+  "sourceReviewSha256": "96ac8e8c52372d206ae6b71ba6c2df6b9e19d9961b700b2bf104bc9e869190c2",
+  "mergeFacts": {
+    "pullRequest": 182,
+    "ordinaryMerge": true,
+    "expectedHeadWasExactSource": true,
+    "freshGuardCapturedAt": "2026-11-02T17:58:16.498Z",
+    "preflightCheckedAt": "2026-11-02T17:58:25.368067+00:00",
+    "freshGuardAgeSeconds": 8.870067,
+    "actualApiMerged": true,
+    "actualMergeMatchesParentsAndTree": true,
+    "platformReview": "GitHub APPROVE returned actual422 because the same platform account cannot approve its own PR. Independent review was retained in a COMMENT review5740968471; no platform APPROVED state is claimed.",
+    "taskRemainsInProgress": true
+  },
+  "canonical": {
+    "head": "2e8655e5b6d59261a4d1597d999dd7530875c1c7",
+    "branch": "main",
+    "clean": true,
+    "ordinaryFastForwardAdoption": true,
+    "bundleRef": ".takeover-tools/poc003-pool-batch-pr182-actual-main-2e8655e-full.bundle",
+    "bundleBytes": 129581366,
+    "bundleSha256": "f511c5fa759dde4ae77993a6cbab99d8b0af7d72e5b4ce49dc240cae01adf455"
+  },
+  "mainSeven": {
+    "actualChildrenWaitZero": 7,
+    "beforeAfterEqual": true,
+    "labels": [
+      "integrity",
+      "history",
+      "transitions",
+      "finalization",
+      "raw-lifecycle",
+      "coordination",
+      "poc-protocol"
+    ],
+    "rawSourceCommandFootersAndPinsVerified": true,
+    "actualMainExact": true,
+    "sourceTreeExact": true
+  },
+  "mainCi": {
+    "run": 41496159510,
+    "runNumber": 937,
+    "attempt": 1,
+    "job": 125451549051,
+    "event": "push",
+    "conclusion": "success",
+    "actualCheckout": "2e8655e5b6d59261a4d1597d999dd7530875c1c7",
+    "startedAt": "2026-11-02T17:58:38Z",
+    "completedAt": "2026-11-02T18:17:34Z",
+    "jobElapsedSeconds": 1136,
+    "pytestSeconds": 1071.54,
+    "uniquePassed": 842,
+    "original828Included": true,
+    "completeExpected842SetEqual": true,
+    "failed": 0,
+    "errors": 0,
+    "skippedTests": 0,
+    "xfail": 0,
+    "xpass": 0,
+    "stepCount": 28,
+    "successfulSteps": 23,
+    "conditionalSkippedSteps": [
+      "Task file validation",
+      "Evidence check",
+      "Evidence integrity check",
+      "Task-branch linkage check",
+      "Scope check"
+    ],
+    "conditionalSkipsVerifiedAgainstActualPriorMain933": true,
+    "skipAuditPassed": true,
+    "python": "3.11.17",
+    "decodedLogBytes": 325967,
+    "decodedLogSha256": "62982533a78477824c3f9de884fdf6714cf3ded0d622eea09796f39399f17eb9",
+    "logRepresentation": "Complete connector-decoded UTF-8 bytes equal the saved connector envelope content; not separately captured original HTTP response bytes. No direct downloaded JUnit XML is claimed.",
+    "sourceAndMainResultsKeptSeparate": true
+  },
+  "officialObservation": {
+    "capturedAt": "2026-11-02T18:27:13.340Z",
+    "remoteMain": "2e8655e5b6d59261a4d1597d999dd7530875c1c7",
+    "pr182ClosedMerged": true,
+    "pr182MergeCommitExact": true,
+    "latestSameHeadRun": 41496159510,
+    "issue131": "open",
+    "issue132": "open"
+  },
+  "testedSource": {
+    "commit": "2e8655e5b6d59261a4d1597d999dd7530875c1c7",
+    "tree": "7229996140ebf1f623d22a0eb21a85d44edf253c"
+  },
+  "specificResourceSampleMethodPreparationMayStart": true,
+  "inputCopyAuthorizationInThisReceipt": false,
+  "newResourcesOrExperimentApproved": false,
+  "runtimeApproved": false,
+  "windowApproved": false,
+  "eightMiBAccepted": false,
+  "aggregateCapacityProofAccepted": false,
+  "matrixBusinessResultsAccepted": false,
+  "freshWarmCacheRevocationAccepted": false,
+  "qualifiedProfileAccepted": false,
+  "formalPocAccepted": false,
+  "taskCompleted": false,
+  "limitations": [
+    "Code integration and exact actual-main source qualification are accepted. The absent current qualified-profile result remains a real negative; this is not POC completion.",
+    "New input copy, configuration, samples, resources and windows require their own exact prospective scope. Historical old grants, matrix results or runtime controls do not transfer to H.",
+    "Future original21/101/six-stage/26-epoch matrix, complete buffer bound under unchanged8MiB threshold, four latency observations and independent fresh warm-cache revocation remain unaccepted."
+  ],
+  "evidencePins": [
+    {
+      "ref": ".takeover-tools/poc003-pool-batch-pr182-main-ci937-final/run.json",
+      "bytes": 13664,
+      "sha256": "48946d99829babcf10fd65cb01f588b6c6249129670946e2b0ebccb875df6330"
+    },
+    {
+      "ref": ".takeover-tools/poc003-pool-batch-pr182-main-ci937-final/jobs.json",
+      "bytes": 8276,
+      "sha256": "514ded8782545a631eaeaba559dbdd7961d04b9f44fa5d7af6f896719f3f5081"
+    },
+    {
+      "ref": ".takeover-tools/poc003-pool-batch-pr182-main-ci937-final/checkout.json",
+      "bytes": 2903,
+      "sha256": "cdbab47657e84bdb2fc359f6e4c9c67e8ac0ed85f9a71ca959fb3fd1915b29c5"
+    },
+    {
+      "ref": ".takeover-tools/poc003-pool-batch-pr182-main-ci937-final/analysis.json",
+      "bytes": 1036,
+      "sha256": "9f3bfba4c23bfbbc28bcbddcd79a7bc67362014504e4099a973c6df91975fb53"
+    },
+    {
+      "ref": ".takeover-tools/poc003-pool-batch-pr182-main-ci937-final/expected-main-step-conditions.prior-ci933.json",
+      "bytes": 1219,
+      "sha256": "4529126b0bf3adb8487f24f0c5e29a4c4d802f20292fa1998b842e896bc721a0"
+    },
+    {
+      "ref": ".takeover-tools/poc003-pool-batch-pr182-main-ci937-final/job-log-connector-envelope.json",
+      "bytes": 330737,
+      "sha256": "adc4b35465139f71f216e7bfb956e6b9202f285311ec167103fd88e6ae66e0b5"
+    },
+    {
+      "ref": ".takeover-tools/poc003-pool-batch-pr182-main-ci937-final/job-log.connector-decoded.utf8.txt",
+      "bytes": 325967,
+      "sha256": "62982533a78477824c3f9de884fdf6714cf3ded0d622eea09796f39399f17eb9"
+    },
+    {
+      "ref": ".takeover-tools/poc003-pool-batch-pr182-actual-main-final-official-snapshot-v1.json",
+      "bytes": 80059,
+      "sha256": "1e2ffcce453487efa6eb7e94fd8e6d37d6708c611bae58a36703f75a337b84c1"
+    },
+    {
+      "ref": ".takeover-tools/poc003-pool-batch-pr182-actual-main-candidate.json",
+      "bytes": 826,
+      "sha256": "12cf1e278479bda05acd5fb8ce34579e35c351c072218fdae534f9ece5cc7a75"
+    },
+    {
+      "ref": ".takeover-tools/poc003-pool-batch-code-2e8655e-native-main-seven/results.json",
+      "bytes": 33289,
+      "sha256": "46093252263e90999c1037865a8e9f3c9ff96de1d3c76631f04c9c48c1c25b07"
+    },
+    {
+      "ref": ".takeover-tools/poc003-pool-batch-pr182-d049ade-final-source-independent-review.json",
+      "bytes": 8049,
+      "sha256": "96ac8e8c52372d206ae6b71ba6c2df6b9e19d9961b700b2bf104bc9e869190c2"
+    },
+    {
+      "ref": ".takeover-tools/poc003-pool-batch-pr182-d049ade-final-merge-preflight-result.json",
+      "bytes": 659,
+      "sha256": "026513ba2e0869bb54f5bd2714fdc6644d6d02dedde4198d370c5e9305ef21a0"
+    },
+    {
+      "ref": ".takeover-tools/poc003-pool-batch-pr182-merge-api-result-v1.json",
+      "bytes": 266,
+      "sha256": "e02913b92f206cf6f7879d41f1e83610a00158d2104e17d9fd4d6c42d33a7f81"
+    },
+    {
+      "ref": ".takeover-tools/poc003-pool-batch-pr182-d049ade-platform-review-outcome.json",
+      "bytes": 1256,
+      "sha256": "00b2f93fd18129a0212ea47645c3402275711b4dd6269f19fb88190871cf18a9"
+    },
+    {
+      "ref": ".takeover-tools/poc003-pool-batch-new-runtime-static-dependency-delta-v1-independent-review.json",
+      "bytes": 12118,
+      "sha256": "f8a629a9b44420836821a736ff1bdef031544a70a18230ddc109b616db8ca26a"
+    },
+    {
+      "ref": ".takeover-tools/poc003-pool-batch-code-2e8655e-native-main-seven/coordination.raw",
+      "bytes": 346,
+      "sha256": "8f72094f405dad71351dc12dea934c8369b556c53f8ef309ca558aec20fe3bdd"
+    },
+    {
+      "ref": ".takeover-tools/poc003-pool-batch-code-2e8655e-native-main-seven/finalization.raw",
+      "bytes": 454,
+      "sha256": "7535674ea2f6d8c2d35e15857f7a6a7fd92ca94a7c29d5cd0811ecd83972e721"
+    },
+    {
+      "ref": ".takeover-tools/poc003-pool-batch-code-2e8655e-native-main-seven/history.raw",
+      "bytes": 563,
+      "sha256": "8b057e1d7418dd109b2ad1c2f842df0333f791f8247059b2680d16f3613c42ee"
+    },
+    {
+      "ref": ".takeover-tools/poc003-pool-batch-code-2e8655e-native-main-seven/integrity.raw",
+      "bytes": 495,
+      "sha256": "76c5bb32ab3c00e253cec5993a5141148fcb593fe07fb0e88c1d7c1baca09bbf"
+    },
+    {
+      "ref": ".takeover-tools/poc003-pool-batch-code-2e8655e-native-main-seven/poc-protocol.raw",
+      "bytes": 393,
+      "sha256": "f3667b739cd3de70406c9bb89d0b5e8d2b818a0c307ad755fe0a36e3c1c4e39f"
+    },
+    {
+      "ref": ".takeover-tools/poc003-pool-batch-code-2e8655e-native-main-seven/raw-lifecycle.raw",
+      "bytes": 546,
+      "sha256": "b83b384279587985f5f04930df6863e4a471977a84c3413bf0140ad982d61187"
+    },
+    {
+      "ref": ".takeover-tools/poc003-pool-batch-code-2e8655e-native-main-seven/transitions.raw",
+      "bytes": 475,
+      "sha256": "be9ff2a749a6150a99c8fa9bbd6157f6ca61245a526a94db68a06afb87819807"
+    }
+  ]
+}

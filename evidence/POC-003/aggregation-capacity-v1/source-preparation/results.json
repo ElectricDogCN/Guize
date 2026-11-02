@@ -1,0 +1,15 @@
+{
+  "kind": "TASK_OWNED_AGGREGATION_CAPACITY_SOURCE_CANDIDATE_ONLY",
+  "sourceBase": "2e8655e5b6d59261a4d1597d999dd7530875c1c7",
+  "observedAt": "2026-11-02T19:24:55.574768+00:00",
+  "originalPatchSha256": "590f7a4bc9a044cbc6321ae1b1e20462aee681c0b122d6518dc2c1c9fcb072bf",
+  "originalManifestSha256": "35a018339cc0bf54a2fc91cf518a787e1ecf1f4a63d9ce91d155b328ba43ef40",
+  "patchSha256": "16cdccd54050f13d89faee16a95a23fbe1fc7d4a64d98b31777cd2f5eee3855f",
+  "manifestSha256": "80c2cc37a6a6ed36738be20eef1e3efa59e69780f3549562ceee7e7a115f0010",
+  "newPcacheVolAfterSha256": "809ecd0c47d7093da8f5461b7f304ac71c4de04409476eede92ee51bd336dacd",
+  "unchangedOtherPatchedSourceFiles": 6,
+  "patchCheckExitCode": 0,
+  "atsStarted": false,
+  "experimentExecuted": false,
+  "performancePassClaimed": false
+}
