@@ -370,6 +370,11 @@ def audit_scope_amendment(root: str, before: str, after: str) -> None:
     grant = scope_integration(root,canonical) if canonical is not None else None
     nodes = git(root,'rev-list','--reverse',before+'..'+after).decode().split()
     for node in nodes:
+        # A peer may predate this policy's fixed base. Preserve that immutable
+        # pre-existing prefix; unrelated local side work is not its ancestor
+        # and remains audited, including edit/restore before a later import.
+        if subprocess.run(['git','-C',str(root),'merge-base','--is-ancestor',node,SCOPE_AMENDMENT_BASE],capture_output=True).returncode == 0:
+            continue
         previous = parent(root,node)
         paths = changed(root,previous,node)
         history = history_module()

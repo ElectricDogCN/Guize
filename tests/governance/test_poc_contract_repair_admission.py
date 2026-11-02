@@ -201,15 +201,29 @@ class TestProspectiveScopeAmendment(unittest.TestCase):
         self.assertIn('Scope amendment cannot be removed',result.stdout+result.stderr)
 
     def test_clean_main_import_into_old_peer_does_not_become_local_write(self):
-        # The old peer first parent has no amendment. Only automatic paths
-        # imported from already canonical main may cross this boundary.
-        self.git(self.repo,'checkout','-b','chore/POC-005-fixture-old-peer',self.base)
+        # The real POC005 creation base predates N and older P/H work. The
+        # policy must preserve N's prefix while auditing independent peer work.
+        old_base='746e23e582501fa08380c3f3301bdc1774902f7c'
+        self.git(self.repo,'checkout','-b','chore/POC-005-fixture-old-peer',old_base)
         path=self.repo/'evidence/POC-005/scope-import-fixture.txt'
+        path.parent.mkdir(parents=True,exist_ok=True)
         path.write_text('independent peer fixture\n',encoding='utf-8')
         peer=self.commit_at(self.repo,'POC-005 fixture independent peer work',10)
         imported=self.merge_at(self.repo,self.integrated,'POC-005 fixture clean accepted main import',11)
         PROOF.audit_scope_amendment(str(self.repo),peer,imported)
         self.assertEqual((self.repo/PROOF.SCOPE_AMENDMENT).read_bytes(),self.record)
+
+        # A locally edited/restored supplemental file on the same old peer is
+        # outside N's prefix and cannot be erased by a later clean main import.
+        self.git(self.repo,'checkout','-b','chore/POC-005-fixture-old-peer-attack',old_base)
+        target=self.repo/'scripts/check-program-plan-history.py';raw=target.read_bytes()
+        with target.open('a',encoding='utf-8') as f:f.write('\n# Unadmitted peer modification.\n')
+        self.commit_at(self.repo,'POC-005 fixture unadmitted P/H edit',12)
+        target.write_bytes(raw)
+        self.commit_at(self.repo,'POC-005 fixture restore P/H before main import',13)
+        attacked=self.merge_at(self.repo,self.integrated,'POC-005 fixture import after restored local work',14)
+        with self.assertRaisesRegex(PROOF.AdmissionError,'previously integrated amendment main'):
+            PROOF.audit_scope_amendment(str(self.repo),old_base,attacked)
 
 
 class TestBoundPocContractRepair(unittest.TestCase):
