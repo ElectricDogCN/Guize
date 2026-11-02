@@ -1,0 +1,40 @@
+{
+  "source": "a21a47693af9705ca659c737d4c5c7e41e736ec1",
+  "base": "76be38c26dea26669819f142c572e69aac84c32b",
+  "before": {
+    "head": "a21a47693af9705ca659c737d4c5c7e41e736ec1",
+    "tree": "200dc78a21910f93d3bc790b4f2823acdaaf2a20",
+    "refs": "refs/heads/chore/OPS-017-scope-amendment-v1 a21a47693af9705ca659c737d4c5c7e41e736ec1\nrefs/heads/main 76be38c26dea26669819f142c572e69aac84c32b\nrefs/remotes/origin/chore/OPS-017-scope-amendment-v1 a21a47693af9705ca659c737d4c5c7e41e736ec1\nrefs/remotes/origin/main 76be38c26dea26669819f142c572e69aac84c32b",
+    "status": ""
+  },
+  "python": "3.11.17 (main, Oct  1 2026, 14:32:31) [GCC 13.3.0]",
+  "argv": [
+    "/home/sur/.cache/guize-takeover/python31117-official-runtime-v1/venv/bin/python",
+    "-B",
+    "-m",
+    "pytest",
+    "-p",
+    "no:cacheprovider",
+    "-v",
+    "-ra",
+    "tests/governance/test_poc_contract_repair_admission.py::TestProspectiveScopeAmendment",
+    "--junitxml=/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops017-scope-amendment-a21a476-new-regressions/new-regressions.xml"
+  ],
+  "startedAt": "2026-11-02T02:04:55.731225+00:00",
+  "newRegressionPassed": true,
+  "fullCiAccepted": false,
+  "pid": 543,
+  "actualWaitCompleted": true,
+  "exitCode": 0,
+  "after": {
+    "head": "a21a47693af9705ca659c737d4c5c7e41e736ec1",
+    "tree": "200dc78a21910f93d3bc790b4f2823acdaaf2a20",
+    "refs": "refs/heads/chore/OPS-017-scope-amendment-v1 a21a47693af9705ca659c737d4c5c7e41e736ec1\nrefs/heads/main 76be38c26dea26669819f142c572e69aac84c32b\nrefs/remotes/origin/chore/OPS-017-scope-amendment-v1 a21a47693af9705ca659c737d4c5c7e41e736ec1\nrefs/remotes/origin/main 76be38c26dea26669819f142c572e69aac84c32b",
+    "status": ""
+  },
+  "cases": 11,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "finishedAt": "2026-11-02T02:05:39.927658+00:00"
+}

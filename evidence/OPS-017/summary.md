@@ -55,3 +55,8 @@ Only the lifecycle checker's three safe YAML parsing calls select the same optio
 One existing NoTask test prepends permanent backend/fallback safety comparisons; all pre-existing statements remain its exact suffix and every original node/assertion remains. Both full collections retain identical828 nodes. All62 admission plus11 lifecycle cases passed73/zero failure/error/skipped in an uncommitted diagnostic overlay. No current-source14 or complete same-head CI has executed for this new candidate. Task body/14, fourclaims, actors/lease, Program/Registry/ledger, immutable intent, frozen5 and all foreign source remain unchanged from parenta94. High capacity stays occupied; no OPS018 or POC runtime grant.
 
 Next: exact independent candidate review, ordinary forward commit, new fixed-source14, ordinary exact-olda94 publication on existing PR176, complete new-source CI and independent source/actual-code-main acceptance, then fresh normal Review/Completion. No reset/rebase/force/local cleanup or approval-time rewrite.
+
+
+## Prospective scope amendment2026-11-02
+
+See `scope-amendment-stage-v1/README.md` and the immutable `scope-amendment-v1.json`. Actual source/main qualification remains pending. Original828 assertions are retained;11new Git regressions cover staged scope and its historical protection. P/H and all five frozen targets are unchanged.

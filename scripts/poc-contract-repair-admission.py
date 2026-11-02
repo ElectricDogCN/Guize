@@ -58,6 +58,14 @@ SOURCE_COMPATIBILITY = RepairContract(
                'specs/poc/check_program.py', 'specs/poc/test_program.py',
                'docs/18-testing-and-acceptance.md'}))
 
+# A separately approved, prospective amendment. The original intent and its
+# four claims retain their original meaning at every preceding snapshot.
+SCOPE_AMENDMENT = 'evidence/OPS-017/scope-amendment-v1.json'
+SCOPE_AMENDMENT_SHA256 = '4c08a88117b508dc4d772594d7481392f9059321a1f1a43f1928a6526ca38e5f'
+SCOPE_AMENDMENT_BASE = '76be38c26dea26669819f142c572e69aac84c32b'
+SCOPE_SUPPLEMENT = frozenset({'scripts/program-planning-revision.py',
+                              'scripts/check-program-plan-history.py'})
+
 
 def contract(task_id: str) -> RepairContract:
     if task_id == SUCCESSOR:
@@ -276,6 +284,120 @@ def history_module():
     return _HISTORY
 
 
+def scope_record(root: str, ref: str) -> bytes | None:
+    identity = git(root,'ls-tree',ref,'--',SCOPE_AMENDMENT).decode().split()
+    if not identity:
+        return None
+    require(len(identity) == 4 and identity[0] in {'100644','100755'}
+            and identity[1] == 'blob' and identity[3] == SCOPE_AMENDMENT,
+            'Scope amendment must be a regular committed file')
+    raw = blob(root,ref,SCOPE_AMENDMENT)
+    require(hashlib.sha256(raw).hexdigest() == SCOPE_AMENDMENT_SHA256,
+            'Scope amendment differs from the approved immutable record')
+    return raw
+
+
+def scope_canonical_ref(root: str) -> str | None:
+    for ref in ('origin/main','main'):
+        probe = subprocess.run(['git','-C',str(root),'rev-parse','--verify',ref+'^{commit}'],capture_output=True)
+        if probe.returncode == 0:
+            return probe.stdout.decode().strip()
+    return None
+
+
+def scope_integration(root: str, admitted_base: str) -> str | None:
+    """Only an actual main first-parent event already admitted may grant writes.
+
+    A PR's virtual merge or an otherwise identical side merge is insufficient.
+    The fetched main ref is checked independently of the observation endpoint.
+    External source/main qualification and the bounded bootstrap exception are
+    additional requirements; this helper certifies Git scope provenance only.
+    """
+    if scope_record(root,admitted_base) is None:
+        return None
+    canonical = scope_canonical_ref(root)
+    if canonical is None:
+        return None
+    admitted = resolve(root,admitted_base)
+    canonical_nodes = chain(root,canonical)
+    if admitted not in canonical_nodes or SCOPE_AMENDMENT_BASE not in canonical_nodes:
+        return None
+    nodes = chain(root,admitted)
+    if SCOPE_AMENDMENT_BASE not in nodes:
+        return None
+    event = None
+    for node in nodes[nodes.index(SCOPE_AMENDMENT_BASE)+1:]:
+        raw = scope_record(root,node)
+        if event is None and raw is not None:
+            parents = git(root,'show','-s','--format=%P',node).decode().split()
+            require(len(parents) == 2 and parents[0] == SCOPE_AMENDMENT_BASE,
+                    'Scope amendment requires its exact ordinary first-parent main merge')
+            introduced = git(root,'rev-list','--reverse',SCOPE_AMENDMENT_BASE+'..'+parents[1],
+                             '--',SCOPE_AMENDMENT).decode().split()
+            require(len(introduced) == 1 and parent(root,introduced[0]) == SCOPE_AMENDMENT_BASE,
+                    'Scope amendment source must start at its approved actual main')
+            scope_record(root,introduced[0])
+            event = node
+        elif event is not None:
+            require(raw is not None,'Scope amendment disappeared after main integration')
+    return event
+
+
+def declared_authority_paths(root: str, node: str, selected: RepairContract) -> set[str]:
+    original = set(selected.claims)
+    if selected.successor != SOURCE_COMPATIBILITY.successor or scope_record(root,node) is None:
+        return original
+    return original | set(SCOPE_SUPPLEMENT)
+
+
+def audit_scope_amendment(root: str, before: str, after: str) -> None:
+    """Validate declaration separately from write authority, including restores."""
+    before,after = resolve(root,before),resolve(root,after)
+    left,right = scope_record(root,before),scope_record(root,after)
+    touched = git(root,'rev-list','--full-history',before+'..'+after,'--',SCOPE_AMENDMENT).decode().split()
+    entry = entry_at(root,after,SOURCE_COMPATIBILITY.authority)
+    if left is None and right is None and not touched:
+        if entry is not None:
+            require(set(entry.get('exclusivePaths') or []) == set(SOURCE_COMPATIBILITY.claims),
+                    'Repair claims must equal the exact declared paths')
+        return
+    require(right is not None,'Scope amendment cannot be removed or supplied only in an intermediate node')
+    require(subprocess.run(['git','-C',str(root),'merge-base','--is-ancestor',SCOPE_AMENDMENT_BASE,after],capture_output=True).returncode == 0,
+            'Scope amendment is not descended from its approved integration base')
+    # Historical H callers supply each edge's actual parent, which can be an
+    # old peer. Only fetched canonical main supplies the shared admission.
+    canonical = scope_canonical_ref(root)
+    grant = scope_integration(root,canonical) if canonical is not None else None
+    nodes = git(root,'rev-list','--reverse',before+'..'+after).decode().split()
+    for node in nodes:
+        # A peer may predate this policy's fixed base. Preserve that immutable
+        # pre-existing prefix; unrelated local side work is not its ancestor
+        # and remains audited, including edit/restore before a later import.
+        if subprocess.run(['git','-C',str(root),'merge-base','--is-ancestor',node,SCOPE_AMENDMENT_BASE],capture_output=True).returncode == 0:
+            continue
+        previous = parent(root,node)
+        paths = changed(root,previous,node)
+        history = history_module()
+        incoming = history.approved_synchronization_parents(root,node,canonical) if canonical is not None else []
+        imports = history.clean_synchronization_paths(root,node,
+                    paths & ({SCOPE_AMENDMENT} | set(SCOPE_SUPPLEMENT)),incoming) if incoming else set()
+        old_record,new_record = scope_record(root,previous),scope_record(root,node)
+        if old_record is not None:
+            require(new_record is not None,'Scope amendment disappeared in introduced history')
+        elif new_record is not None:
+            require(previous == SCOPE_AMENDMENT_BASE or SCOPE_AMENDMENT in imports,
+                    'Scope amendment cannot be introduced late or on another baseline')
+        if (paths & set(SCOPE_SUPPLEMENT)) - imports:
+            require(grant is not None and subprocess.run(
+                ['git','-C',str(root),'merge-base','--is-ancestor',grant,previous],capture_output=True).returncode == 0,
+                'Supplemental writes require the previously integrated amendment main')
+        own = entry_at(root,node,SOURCE_COMPATIBILITY.authority)
+        if own is not None and new_record is not None:
+            observed = datetime.fromtimestamp(int(git(root,'show','-s','--format=%ct',node)),timezone.utc)
+            validate_entry(own,SOURCE_COMPATIBILITY.authority,
+                           set(SOURCE_COMPATIBILITY.claims) | set(SCOPE_SUPPLEMENT),observed,historical=True)
+
+
 def audit_source_authority_intent(root: str, base: str, observation: str) -> None:
     """Protect the registered original even while its authority is implementing."""
     selected = SOURCE_COMPATIBILITY
@@ -309,6 +431,7 @@ def audit_source_authority_intent(root: str, base: str, observation: str) -> Non
                 and first.get('agentRole') == 'coordinator' and first.get('baseSha') == previous
                 and hashlib.sha256(blob(root,node,selected.intent)).hexdigest() == selected.digest,
                 'Authorization intent changed after registration')
+    audit_scope_amendment(root,base,observation)
 
 
 def validate_source_authority_intent(root: str, before: str, after: str, errors: list[str]) -> None:
@@ -538,6 +661,15 @@ def _authority(root: str, base: str, *, protected_through: str | None = None,
         for ref_key,sha_key in defect_fields:
             require(hashlib.sha256(blob(root,node,defect[ref_key])).hexdigest() == defect[sha_key],
                     'Declared original defect evidence changed after registration')
+    if SUCCESSOR == SOURCE_COMPATIBILITY.successor:
+        for endpoint in dict.fromkeys([base,protected_through] if protected_through is not None else [base]):
+            contains_base = subprocess.run(['git','-C',str(root),'merge-base','--is-ancestor',SCOPE_AMENDMENT_BASE,endpoint],capture_output=True).returncode == 0
+            if contains_base:
+                # Do not decide whether history exists from the tip's bytes:
+                # deleting the record or restoring four claims cannot erase it.
+                audit_scope_amendment(root,SCOPE_AMENDMENT_BASE,endpoint)
+            elif scope_record(root,endpoint) is not None:
+                raise AdmissionError('Scope amendment is not descended from its approved integration base')
     plan = document(root,base,PLAN)
     completed = rows(plan.get('foundationTasks')).get(AUTHORITY,{})
     require(completed.get('status') == 'completed' and entry_at(root,base,AUTHORITY) is None,
@@ -569,8 +701,9 @@ def _authority(root: str, base: str, *, protected_through: str | None = None,
     _normal_foundation_edge(root,before,finish,str(front.get('workBranch') or ''),errors,selected=selected)
     require(not errors, 'Normal authority Foundation history rejected: '+'; '.join(errors))
     if SUCCESSOR == SOURCE_COMPATIBILITY.successor:
+        implementation_paths = declared_authority_paths(root,implementation,selected)
         require(AUTHORITY_CLAIMS <= changed(root, preceding, implementation)
-                and bool(AUTHORITY_CLAIMS.intersection(changed(root, parent(root, implementation), implementation))),
+                and bool(implementation_paths.intersection(changed(root, parent(root, implementation), implementation))),
                 'Source compatibility authority has no complete registered implementation')
         # The new authority is audited at every original canonical snapshot;
         # changing and restoring an intent, role or claim cannot erase history.
@@ -580,7 +713,7 @@ def _authority(root: str, base: str, *, protected_through: str | None = None,
             if node != finish:
                 require(current is not None, 'Source compatibility authority disappeared before Completion')
                 moment = datetime.fromtimestamp(int(git(root,'show','-s','--format=%ct',node)),timezone.utc)
-                validate_entry(current, AUTHORITY, set(AUTHORITY_CLAIMS), moment, historical=True)
+                validate_entry(current, AUTHORITY, declared_authority_paths(root,node,selected), moment, historical=True)
                 require(all(current.get(key) == reserved.get(key) for key in
                             ('owner','coordinator','implementer','reviewer','integrator','issue','dependsOn')),
                         'Source compatibility authority stable identity changed')
@@ -692,6 +825,12 @@ def authenticated_claims(root: str | None, task_id: str, entry: dict[str, Any], 
 def validate_repair_changes(root: str, before: str, after: str, task_id: str,
                             paths: set[str], errors: list[str]) -> None:
     """Claim admission cannot authorize changing a completed contract while active."""
+    if task_id == SOURCE_COMPATIBILITY.authority:
+        try:
+            audit_scope_amendment(root,before,after)
+        except (AdmissionError,KeyError,TypeError,ValueError,OSError,yaml.YAMLError) as exc:
+            errors.append('Prospective authority scope amendment rejected: '+str(exc))
+        return
     if task_id not in {SUCCESSOR, SOURCE_COMPATIBILITY.successor}:
         return
     selected = contract(task_id)

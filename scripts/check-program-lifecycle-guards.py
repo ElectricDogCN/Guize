@@ -75,7 +75,7 @@ def authenticated_repair_claims(root, task_id, entry, base_ref, *, observed_ref=
 
 
 def validate_bound_repair_changes(root, before, after, task_id, paths, errors):
-    if task_id not in {"OPS-014", "OPS-018"}:
+    if task_id not in {"OPS-014", "OPS-017", "OPS-018"}:
         return
     try:
         repair_module().validate_repair_changes(root, before, after, task_id, paths, errors)
@@ -1059,7 +1059,7 @@ def _main() -> int:
             repair_module().validate_source_authority_intent(root,args.base_ref,args.head_ref,errors)
         except (OSError,ImportError,ValueError) as exc:
             errors.append('Bound POC authority intent proof is unavailable: '+str(exc))
-    for repair_id in ('OPS-014', 'OPS-018'):
+    for repair_id in ('OPS-014', 'OPS-017', 'OPS-018'):
         if any(e.get('taskId') == repair_id for e in current_active.get('tasks', []) + base_active.get('tasks', [])):
             validate_bound_repair_changes(root, args.base_ref, args.head_ref, repair_id, paths, errors)
     validate_frozen_changes(root, args.base_ref, args.head_ref, errors)

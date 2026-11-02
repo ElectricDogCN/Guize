@@ -104,9 +104,9 @@ tasks:
   reviewer: /root/gz022_planning_independent_review
   integrator: /root
   agentRole: implementer
-  branch: chore/OPS-017-source-compatibility-admission
+  branch: chore/OPS-017-scope-amendment-v1
   baseBranch: main
-  baseSha: a55680b9d06901729fcae7f35cb167b8b59d33f4
+  baseSha: 76be38c26dea26669819f142c572e69aac84c32b
   workPackage: WP-M0-01
   programPlan: specs/coordination/program-plan.yaml
   programTaskId: OPS-017
@@ -128,6 +128,8 @@ tasks:
   - scripts/poc-contract-repair-admission.py
   - scripts/check-program-lifecycle-guards.py
   - tests/governance/test_poc_contract_repair_admission.py
+  - scripts/program-planning-revision.py
+  - scripts/check-program-plan-history.py
   sharedPaths: []
   handoffPath: evidence/OPS-017/handoff.md
   integrationStrategy: merge
