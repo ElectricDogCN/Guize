@@ -42,11 +42,11 @@
       "noNewPrivileges": true,
       "requireBuiltinSeccomp": true,
       "readonlyRoot": true,
-      "network": "none",
+      "network": "Docker --network=none (isolated loopback-only namespace)",
       "privatePidIpcCgroup": true,
       "init": false,
       "autoRemove": false,
-      "logDriver": "none",
+      "logDriver": "Docker --log-driver=none (attached output retained explicitly)",
       "normalRunSeconds": 840,
       "sharedRunAndCleanupSeconds": 900,
       "internalLabSeconds": 600,
@@ -83,6 +83,16 @@
       "updatedETag": "\"sha256-643d769e1b5120a7c52d63df3d266f67a4177050180858480feb4e686e2fdda1\""
     },
     "changedInputApprovalRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/changed-sample-approval.json",
-    "privateSettingsPublicationProhibited": true
+    "privateSettingsPublicationProhibited": true,
+    "representationEvidence": {
+      "originalBeforeResourceRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/before-originals/resource-configuration.json",
+      "originalBeforeResourceSha256": "486680e87495ae85576a84804500cbfdcc5e947557fa44372b477368c6dbc2a7",
+      "independentPostRunReviewRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/tools/capture-representation-reconciliation-review.json",
+      "meaning": "Canonical descriptions of actual Docker enums only; all approved resource numbers, image, isolation and execution-window semantics remain identical to the original independently approved before-control.",
+      "viewProducedAt": "2026-11-02T22:22:16.169Z",
+      "decisionSemantics": "The outer approvedAt and approvedBy refer exclusively to the preserved original before-workload decision; this mechanically produced canonical view is covered only by the separately referenced post-run representation review.",
+      "originalApprovedAt": "2026-11-02T21:47:14.318029Z",
+      "originalApprovedBy": "/root/independent_review"
+    }
   }
 }

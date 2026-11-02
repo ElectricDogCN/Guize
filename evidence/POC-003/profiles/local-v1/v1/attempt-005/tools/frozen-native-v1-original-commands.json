@@ -1,0 +1,88 @@
+[
+  {
+    "label": "init",
+    "argv": [
+      "git",
+      "init",
+      "-q",
+      "--initial-branch=main",
+      "/home/sur/.cache/guize-takeover/poc003-attempt005-qualified-native-e72d32b-v1"
+    ],
+    "pid": 169933,
+    "actualWaitCompleted": true,
+    "exitCode": 0,
+    "timedOut": false,
+    "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "label": "config",
+    "argv": [
+      "git",
+      "-C",
+      "/home/sur/.cache/guize-takeover/poc003-attempt005-qualified-native-e72d32b-v1",
+      "config",
+      "core.autocrlf",
+      "false"
+    ],
+    "pid": 169934,
+    "actualWaitCompleted": true,
+    "exitCode": 0,
+    "timedOut": false,
+    "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "label": "fetch-full-evidence",
+    "argv": [
+      "git",
+      "-C",
+      "/home/sur/.cache/guize-takeover/poc003-attempt005-qualified-native-e72d32b-v1",
+      "fetch",
+      "--quiet",
+      "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-attempt005-matrix-delivery-v1-full.bundle",
+      "HEAD"
+    ],
+    "pid": 169935,
+    "actualWaitCompleted": true,
+    "exitCode": 0,
+    "timedOut": false,
+    "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "label": "checkout",
+    "argv": [
+      "git",
+      "-C",
+      "/home/sur/.cache/guize-takeover/poc003-attempt005-qualified-native-e72d32b-v1",
+      "switch",
+      "-c",
+      "chore/POC-003-ats-range",
+      "FETCH_HEAD"
+    ],
+    "pid": 169947,
+    "actualWaitCompleted": true,
+    "exitCode": 0,
+    "timedOut": false,
+    "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderrSha256": "a689eb34c4df9b9afefeae4ca932443f8f979ca8300b2af4ad31ad3a7dbbb0c5"
+  },
+  {
+    "label": "frozen-execution",
+    "argv": [
+      "/home/sur/.cache/guize-takeover/python31117-official-runtime-v1/venv/bin/python",
+      "-B",
+      "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003_full_execution_assembler_v8.py",
+      "--repo",
+      "/home/sur/.cache/guize-takeover/poc003-attempt005-qualified-native-e72d32b-v1",
+      "--validate"
+    ],
+    "pid": 169972,
+    "actualWaitCompleted": true,
+    "exitCode": 1,
+    "timedOut": false,
+    "stdoutSha256": "e8b4d158a68f864c63535fab056794e5dc6bd172213a1ab522052b1f3c4fca3f",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+]

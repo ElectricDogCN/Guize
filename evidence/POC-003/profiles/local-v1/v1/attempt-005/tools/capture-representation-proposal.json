@@ -1,0 +1,52 @@
+{
+  "kind": "POST_RUN_CAPTURED_FACT_REPRESENTATION_PROPOSAL_NOT_APPROVAL",
+  "sourceEvidenceCommit": "e72d32b170a209aa55e3fde620ff38d3b4ccee22",
+  "testedSource": "1b5c68bab02d98f8e11286d80033585090c7af99",
+  "originalExecution": {
+    "bytes": 328043,
+    "sha256": "fa6f90355e1cc93db71cfc631c58b7f8a0aad564581e690cf1ab6794ba7096d4"
+  },
+  "originalResource": {
+    "bytes": 3510,
+    "sha256": "486680e87495ae85576a84804500cbfdcc5e947557fa44372b477368c6dbc2a7"
+  },
+  "targetExecution": {
+    "path": ".takeover-tools/poc003-attempt005-capture-representation-proposal-v2/execution.canonical.json",
+    "bytes": 328632,
+    "sha256": "194cfc750a10fe591a687995449f9a9b01d90f7e2b34beef8d3040272396243c"
+  },
+  "targetResource": {
+    "path": ".takeover-tools/poc003-attempt005-capture-representation-proposal-v2/resource-configuration.canonical.json",
+    "bytes": 4688,
+    "sha256": "fa9e6407a646c78c0da32c6bb64b2e7f7479b0db4ac0e8e995c14b0d316742ed"
+  },
+  "classificationDelta": {
+    "path": ".takeover-tools/poc003-attempt005-capture-representation-proposal-v2/media-classification-delta.json",
+    "bytes": 69926,
+    "sha256": "7c0deb94fe646a456672789e3400d63afcf62a09de7d9004735d3e9ba126a0d1"
+  },
+  "actualOriginalRun": {
+    "path": ".takeover-tools/poc003-common-main1b5c68b-full-original-matrix-v1/results.json",
+    "bytes": 86382,
+    "sha256": "354a982d62ea9b6c709b9e6bac1a71b17fd91e6b981083cc2c40392ce5d797ee"
+  },
+  "originalRunApproval": {
+    "path": ".takeover-tools/poc003-common-main1b5c68b-full-original-matrix-approval-v1/independent-approval.json",
+    "bytes": 11774,
+    "sha256": "8238d4c06503661da3bc350ac1da37857ec47b8d6f484b4ef168ba5d7ddadfc3"
+  },
+  "changes": [
+    "202 genuine cache_export.cc native key-*.body media Slice outputs: artifactType only command_output -> produced_media; exact refs/bytes/hashes unchanged",
+    "Actual empty before GPU device lists -> explicit observed count0 and captured-fact text; original before file retained unchanged",
+    "Actual Docker network/logDriver enum none -> non-placeholder descriptive canonical labels; original before resource retained and source hash/ref included"
+  ],
+  "noMediaRerun": true,
+  "noRawBytesOrMetricsOrWindowChanged": true,
+  "noBeforeApprovalRewritten": true,
+  "approved": false,
+  "originalBeforeEnvironment": {
+    "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/observed/before-environment.json",
+    "sha256": "bcbe927c1fec248f10ea1a7a89e2072f0a2bc58f063cf68a5f8ba57757537626"
+  },
+  "canonicalViewProducedAt": "2026-11-02T22:22:16.169Z"
+}
