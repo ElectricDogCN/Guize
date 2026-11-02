@@ -62,7 +62,12 @@ class TestProspectiveScopeAmendment(unittest.TestCase):
         own.update(baseSha=cls.base,branch='chore/OPS-017-fixture-amendment',
                    exclusivePaths=sorted(PROOF.SOURCE_COMPATIBILITY.claims|PROOF.SCOPE_SUPPLEMENT))
         (cls.fixture/PROOF.ACTIVE).write_text(yaml.safe_dump(active,sort_keys=False,allow_unicode=True),encoding='utf-8')
-        text=(ROOT/'specs/tasks/OPS-017.md').read_text(encoding='utf-8')
+        # The synthetic introduction is always an in-progress task at N,
+        # even when the real checkout has moved to a later base or phase.
+        baseline=cls.git(cls.fixture,'show',cls.base+':specs/tasks/OPS-017.md')
+        front=baseline.split('---',2)[1]
+        body=(ROOT/'specs/tasks/OPS-017.md').read_text(encoding='utf-8').split('---',2)[2]
+        text='---'+front+'---'+body
         text=re.sub(r'^workBranch:.*$','workBranch: chore/OPS-017-fixture-amendment',text,flags=re.M)
         (cls.fixture/'specs/tasks/OPS-017.md').write_text(text,encoding='utf-8')
         with (cls.fixture/'AGENTS.md').open('a',encoding='utf-8') as f:f.write('\nSynthetic scope protocol implementation.\n')
@@ -224,6 +229,101 @@ class TestProspectiveScopeAmendment(unittest.TestCase):
         attacked=self.merge_at(self.repo,self.integrated,'POC-005 fixture import after restored local work',14)
         with self.assertRaisesRegex(PROOF.AdmissionError,'previously integrated amendment main'):
             PROOF.audit_scope_amendment(str(self.repo),old_base,attacked)
+
+
+class TestSafeYamlReaders(unittest.TestCase):
+    """Exercise the real public readers with C available and with the fallback."""
+    @classmethod
+    def setUpClass(cls):
+        for attr,path in [('planning','program-planning-revision.py'),
+                          ('history','check-program-plan-history.py')]:
+            name='guize_safe_yaml_'+attr
+            spec=importlib.util.spec_from_file_location(name,ROOT/'scripts'/path)
+            module=importlib.util.module_from_spec(spec)
+            sys.modules[name]=module
+            cls.addClassCleanup(sys.modules.pop,name,None)
+            spec.loader.exec_module(module)
+            setattr(cls,attr,module)
+
+    def setUp(self):
+        self.temporary=tempfile.TemporaryDirectory(prefix='guize-safe-yaml-')
+        self.addCleanup(self.temporary.cleanup)
+        self.repo=Path(self.temporary.name,'repo')
+        self.repo.mkdir()
+        self.git('init','--quiet','-b','main')
+        self.git('config','user.name','Safe YAML fixture')
+        self.git('config','user.email','fixture@example.invalid')
+        self.git('config','core.autocrlf','false')
+        (self.repo/'specs/tasks').mkdir(parents=True)
+
+    def git(self,*args):
+        return subprocess.check_output(['git','-C',str(self.repo),*args],
+                                       stderr=subprocess.STDOUT).decode().strip()
+
+    def commit_document(self,text,label):
+        (self.repo/'document.yaml').write_text(text,encoding='utf-8',newline='\n')
+        (self.repo/'specs/tasks/YAML-PROBE.md').write_text(
+            '---\n'+text+'---\nBody stays unchanged.\n',encoding='utf-8',newline='\n')
+        self.git('add','.')
+        self.git('commit','--quiet','-m',label)
+        return self.git('rev-parse','HEAD')
+
+    @staticmethod
+    def modes():
+        return [False,True] if hasattr(yaml,'CSafeLoader') else [True]
+
+    def test_typed_metadata_anchors_and_body_agree_with_safe_loader(self):
+        text=('enabled: true\ncount: 012\nratio: 1.25\nwhen: 2026-11-02\n'
+              'title: 归泽\nitems: [1, null, false]\n'
+              'base: &base {role: reviewer}\nmerged: {<<: *base, allowed: true}\n')
+        expected=yaml.safe_load(text)
+        head=self.commit_document(text,'typed safe metadata')
+        front='---\n'+text+'---\nBody stays unchanged.\n'
+        for fallback in self.modes():
+            with self.subTest(fallback=fallback),mock.patch.dict(yaml.__dict__):
+                if fallback:yaml.__dict__.pop('CSafeLoader',None)
+                self.planning.committed_document.cache_clear()
+                self.planning.spec_index.cache_clear()
+                values=[self.planning.committed_document(str(self.repo),head,'document.yaml'),
+                        self.history.load_current(str(self.repo),'document.yaml'),
+                        self.history.parse_front_matter(front)[0],
+                        self.planning.spec_index(str(self.repo),head)[0][1]]
+                for actual in values:
+                    self.assertEqual(actual,expected)
+                    for key in ['enabled','count','ratio','when','title','items']:
+                        self.assertIs(type(actual[key]),type(expected[key]))
+                self.assertEqual(self.history.parse_front_matter(front)[1],
+                                 '\nBody stays unchanged.\n')
+
+    def test_unsafe_tags_and_malformed_metadata_stay_rejected(self):
+        samples=['!!python/name:builtins.len ""\n','value: !unregistered x\n',
+                 'value: *missing\n','value: [\n']
+        for index,text in enumerate(samples):
+            head=self.commit_document(text,'invalid metadata '+str(index))
+            front='---\n'+text+'---\nBody stays unchanged.\n'
+            for fallback in self.modes():
+                with self.subTest(sample=index,fallback=fallback),mock.patch.dict(yaml.__dict__):
+                    if fallback:yaml.__dict__.pop('CSafeLoader',None)
+                    self.planning.committed_document.cache_clear()
+                    self.planning.spec_index.cache_clear()
+                    with self.assertRaises(yaml.YAMLError):
+                        self.planning.committed_document(str(self.repo),head,'document.yaml')
+                    with self.assertRaises(yaml.YAMLError):
+                        self.planning.spec_index(str(self.repo),head)
+                    with self.assertRaises(yaml.YAMLError):
+                        self.history.load_current(str(self.repo),'document.yaml')
+                    self.assertEqual(self.history.parse_front_matter(front),
+                                     ({},'\nBody stays unchanged.\n'))
+
+    def test_registered_current_indexes_keep_identical_typed_content(self):
+        plan=yaml.safe_load((ROOT/self.planning.PLAN).read_text(encoding='utf-8'))
+        expected=self.planning.validate_edge_indexes(str(ROOT),plan)
+        for fallback in self.modes():
+            with self.subTest(fallback=fallback),mock.patch.dict(yaml.__dict__):
+                if fallback:yaml.__dict__.pop('CSafeLoader',None)
+                actual=self.planning.validate_edge_indexes(str(ROOT),plan)
+                self.assertEqual(json.dumps(actual,sort_keys=True,ensure_ascii=False),
+                                 json.dumps(expected,sort_keys=True,ensure_ascii=False))
 
 
 class TestBoundPocContractRepair(unittest.TestCase):

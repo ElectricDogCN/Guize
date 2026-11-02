@@ -1,3 +1,13 @@
+## Current P/H safe-reader implementation stage
+
+Task OPS-017 / Issue168 / base `d15d8e106aef844992caa183d866e95189a56776` / branch `chore/OPS-017-fast-yaml-loaders` / implementer `/root` / reviewer `/root/gz022_planning_independent_review`. Actual scope-amendment main independently accepted: receipt SHA cab8ebc00bfbdcbc484815627a90fcbf5c8caadcf70a371dd1d6ce63f1a605ab, complete local original workflow/839 and own7 plus official CI922 success. Supplemental scope is now effective; all prior source timeout negatives and the narrow bootstrap source exception retain their historical meaning.
+
+This working implementation changes only five existing P/H safe YAML read sites, the new scope fixture front copied from immutable N instead of the mutable current task phase, and three added safety regressions. Original828 classes/AST and the prior11 test methods/assertions are unchanged; expected total842. Windows3.12 draft safety first found a fixture newline issue (retained v1); explicit LF fixture correction passed all3 in v2. These are draft-only results, not committed-source/Python3.11 qualification or performance evidence.
+
+Current committed-source14, related Python3.11 regressions, measured comparison, complete official source CI and actual performance-code main acceptance remain PENDING. No normal Review/Completion, capacity release, OPS018 or POC experiment is granted. The bootstrap exception does not apply. Details and planned commands: `ph-safe-loaders-v1/README.md` and `ph-safe-loaders-v1/commands.txt`. Rollback by withdrawing an unmerged candidate or normal forward correction, preserving all history and local recovery material.
+
+## Retained prior-stage records
+
 # OPS-017 handoff
 
 Task OPS-017 / Issue168 / branch chore/OPS-017-source-compatibility-admission-reservation / base 22ab6a0668da2d64a016fccef2c3b5a634638a24. reserved/coordinator; exact source/tree pending actual commit.

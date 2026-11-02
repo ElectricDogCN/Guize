@@ -83,7 +83,7 @@ def blob(root: str, ref: str, path: str) -> bytes | None:
 @lru_cache(maxsize=512)
 def committed_document(root: str, source: str, path: str) -> dict[str, Any]:
     raw = committed_blob(root, source, path)
-    value = yaml.safe_load(raw.decode("utf-8")) if raw is not None else {}
+    value = yaml.load(raw.decode("utf-8"), Loader=getattr(yaml, "CSafeLoader", yaml.SafeLoader)) if raw is not None else {}
     require(isinstance(value, dict), f"Invalid document {path} at {source}")
     return value
 
@@ -197,7 +197,7 @@ def validate_edge_indexes(root: str, plan: dict[str, Any], *, ref: str | None = 
     validate_scope_boundary(plan)
     ordinary, by_id = records(plan.get("tasks", [])), tasks(plan)
     def read(path: str) -> dict[str, Any]:
-        value = document(root, ref, path) if ref is not None else yaml.safe_load((Path(root) / path).read_text(encoding="utf-8"))
+        value = document(root, ref, path) if ref is not None else yaml.load((Path(root) / path).read_text(encoding="utf-8"), Loader=getattr(yaml, "CSafeLoader", yaml.SafeLoader))
         require(isinstance(value, dict), f"Invalid independent index {path}")
         return value
     active_exists = blob(root, ref, ACTIVE) is not None if ref is not None else (Path(root) / ACTIVE).exists()
@@ -342,7 +342,7 @@ def spec_index(root: str, source: str) -> tuple:
         raw = blob(root, source, path)
         if not raw or not raw.startswith(b"---\n"):
             continue
-        front = yaml.safe_load(raw.decode("utf-8").split("---", 2)[1])
+        front = yaml.load(raw.decode("utf-8").split("---", 2)[1], Loader=getattr(yaml, "CSafeLoader", yaml.SafeLoader))
         if isinstance(front, dict):
             result.append((path, front))
     return tuple(result)

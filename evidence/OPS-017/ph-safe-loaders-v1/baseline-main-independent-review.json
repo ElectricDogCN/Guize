@@ -1,0 +1,568 @@
+{
+  "schemaVersion": 1,
+  "kind": "ops017_scope_amendment_actual_bootstrap_main_independent_review",
+  "reviewer": "/root/gz022_planning_independent_review",
+  "reviewedAt": "2026-11-02T04:05:48Z",
+  "actualMain": "d15d8e106aef844992caa183d866e95189a56776",
+  "source": "a6a99e0a89fb7af854a098f6e9658f7e6437f39e",
+  "base": "76be38c26dea26669819f142c572e69aac84c32b",
+  "tree": "8a54e432ef060876f5f44f832faecbefc1f75540",
+  "pullRequest": 178,
+  "mustFix": [],
+  "acceptanceBasis": "full_official_ci",
+  "fullMainCiAccepted": true,
+  "bootstrapExceptionAccepted": false,
+  "localFullWorkflowAccepted": true,
+  "nativeMainSevenAccepted": true,
+  "ownMainSevenAccepted": true,
+  "actualMainSevenAccepted": true,
+  "actualBootstrapMainAccepted": true,
+  "scopeAmendmentMainAccepted": true,
+  "effectiveScopeUseAllowed": true,
+  "sourceHistory": {
+    "receipt": ".takeover-tools/ops017-scope-amendment-a6a99e0-final-source-independent-review.json",
+    "receiptSha256": "8695d45c3c1db75fa329d195853310ec4aa89867c2f03f3a8ccac97035d50f3b",
+    "acceptanceBasis": "bounded_bootstrap_timeout_exception",
+    "sourceFullCiAccepted": false,
+    "sourceBootstrapExceptionAccepted": true,
+    "scope": "Exact A6 source/PR178 timeout exception stays historical and separate. Actual main CI922 succeeded normally; its acceptance consumes no main timeout exception."
+  },
+  "mergeAndMain": {
+    "ordinaryExpectedHeadMerge": true,
+    "officialMerge": "d15d8e106aef844992caa183d866e95189a56776",
+    "orderedParents": [
+      "76be38c26dea26669819f142c572e69aac84c32b",
+      "a6a99e0a89fb7af854a098f6e9658f7e6437f39e"
+    ],
+    "canonicalBranch": "main",
+    "canonicalClean": true,
+    "bundleBytes": 20038003,
+    "bundleSha256": "9b6b019de18becd5c08f9535adb93b752cd36744fbfd523ec5e859e9cccc1a08"
+  },
+  "nativeSeven": {
+    "python": "3.11.17",
+    "actualCommands": 7,
+    "allActualWaitCompleted": true,
+    "allExitZero": true,
+    "allRawBytesAndSha256Matched": true,
+    "beforeEqualsAfter": true,
+    "mainBranchAndMainOriginAliasesExact": true,
+    "clean": true,
+    "finishedAt": "2026-11-02T03:08:38.140534Z"
+  },
+  "localMainWorkflow": {
+    "methodSha256": "6ffabfeb5a172690a82ceea07fc44bb9e337bcfba5b724b6975003fe870cc84d",
+    "contextSha256": "7f488dc5be223e8682df1ad3a4d9e8fa51f96e396bffc10bc90a2ad15a3e2931",
+    "controllerSha256": "66cc5340380c4d0d3a845ee3436d73286e8dca20e871b9bc79575d992ba6378c",
+    "controllerPid": 447,
+    "controllerStartTicks": 10566,
+    "driverPid": 448,
+    "driverStartTicks": 10579,
+    "actualChildWaitCompleted": true,
+    "exitCode": 0,
+    "terminalWaitSha256": "bb1306901bc7c42b7a14776fd0bd048720ac2a15c344800ac6b85f6b4e0160e5",
+    "startedAt": "2026-11-02T03:35:13.147833Z",
+    "finishedAt": "2026-11-02T04:00:31.358991Z",
+    "controllerWaitFinishedAt": "2026-11-02T04:00:31.446145Z",
+    "python": "3.11.17",
+    "uid": 1000,
+    "independentClone": true,
+    "noAlternates": true,
+    "definedWorkflowSteps": 24,
+    "localInfrastructureAttributedProviderSteps": 2,
+    "applicableRunSteps": 17,
+    "allApplicableRunStepsActualWaitZero": true,
+    "originalMainConditionalSkips": 5,
+    "allApplicableRawAndScriptHashesMatched": true,
+    "renderedScriptsByteMatchOriginalWorkflow": true,
+    "workflowSha256": "1751d6d1c43372c2724b630e9baeb78c600bbbb6a8ceaa1492b73a504d407096",
+    "uniquePassed": 839,
+    "passedLines": 839,
+    "pytestSummary": "839 passed in 1453.76s",
+    "junitCases": 839,
+    "junitFailures": 0,
+    "junitErrors": 0,
+    "junitSkipped": 0,
+    "junitSha256": "830507e99fce3ea79b811f59483e6770f481ad802507b0f6502e377f46fd63b7",
+    "rawAndJUnitNodeSetEqual": true,
+    "original828Preserved": true,
+    "addedRegressionNodes": 11,
+    "beforeEqualsAfter": true,
+    "clean": true,
+    "providerActionsClaimedHosted": false,
+    "priorInterruptedRun": "Retained original 58% partial/raw/context and attribution clarification. Unknown session alone was not terminal proof; independently verified stopped processes justified a new whole run. No partial tests were stitched into v2. Intermittent observer probe timeouts do not override the real child.wait(0)."
+  },
+  "officialMainCi": {
+    "runId": 41381312500,
+    "runNumber": 922,
+    "attempt": 1,
+    "jobId": 125072534371,
+    "event": "push",
+    "head": "d15d8e106aef844992caa183d866e95189a56776",
+    "status": "completed",
+    "conclusion": "success",
+    "startedAt": "2026-11-02T03:07:23Z",
+    "completedAt": "2026-11-02T03:27:44Z",
+    "jobElapsedSeconds": 1221,
+    "python": "3.11.17",
+    "uniquePassed": 839,
+    "original828Preserved": true,
+    "addedRegressionNodes": 11,
+    "pytestSummary": "839 passed in 1185.32s",
+    "observedPytestFailures": 0,
+    "observedPytestErrors": 0,
+    "observedPytestSkipped": 0,
+    "observedXfail": 0,
+    "observedXpass": 0,
+    "errorLines": 0,
+    "totalLiteralSteps": 28,
+    "successfulSteps": 23,
+    "conditionalSkippedSteps": [
+      "Task file validation",
+      "Evidence check",
+      "Evidence integrity check",
+      "Task-branch linkage check",
+      "Scope check"
+    ],
+    "skipAudit": "success",
+    "actualLoggedCheckout": "d15d8e106aef844992caa183d866e95189a56776",
+    "orderedParentsAndTreeMatched": true,
+    "localAndOfficialTestNodeSetsEqual": true,
+    "connectorEnvelopeDecodedBytesMatch": true,
+    "decodedBytes": 322199,
+    "decodedSha256": "dd2528d6e6c9e7c8ed1e32151c7f09a9fa126566f80a3f8f938bcb17df9fe37f",
+    "httpWireBytesClaimed": false,
+    "downloadedHostedJunitClaimed": false,
+    "secondaryPrHeadDiagnostic": "Unavailable: The pull request changed. Reload its checks. Actual merge-main B is not source A6. This secondary PR-head-only error is preserved and excluded from acceptance; no empty annotations/success was fabricated. Exact authoritative run/job/steps/full log/checkout provide the main success evidence.",
+    "originalAnalysisFailure": "Initial source-derived analyzer KeyError/6e4f38 preserved; successful v2 analyzer/d7ffd2 and its explicit diagnostic limitation were inspected. Reviewer independently parsed the authoritative originals."
+  },
+  "freshOfficialRead": {
+    "observedAt": "2026-11-02T04:04:32Z",
+    "main": "d15d8e106aef844992caa183d866e95189a56776",
+    "pr178": "closed/merged",
+    "pr178Head": "a6a99e0a89fb7af854a098f6e9658f7e6437f39e",
+    "pr178Base": "76be38c26dea26669819f142c572e69aac84c32b",
+    "mergeMain": "d15d8e106aef844992caa183d866e95189a56776",
+    "issue168": "open",
+    "run922": "completed/success/attempt1",
+    "job125072534371": "completed/success/attempt1"
+  },
+  "scope": {
+    "record": "evidence/OPS-017/scope-amendment-v1.json",
+    "recordSha256": "4c08a88117b508dc4d772594d7481392f9059321a1f1a43f1928a6526ca38e5f",
+    "originalIntentUnchanged": true,
+    "phBytesUnchangedFromBase": true,
+    "frozenFiveUnchanged": true,
+    "workflowAndOriginalThirtyMinuteCapUnchanged": true,
+    "registeredClaims": [
+      "AGENTS.md",
+      "scripts/poc-contract-repair-admission.py",
+      "scripts/check-program-lifecycle-guards.py",
+      "tests/governance/test_poc_contract_repair_admission.py",
+      "scripts/program-planning-revision.py",
+      "scripts/check-program-plan-history.py"
+    ],
+    "lease": {
+      "acquiredAt": "2026-10-29T09:16:44Z",
+      "expiresAt": "2026-11-05T09:16:44Z",
+      "unchanged": true
+    },
+    "actors": {
+      "implementer": "/root",
+      "reviewer": "/root/gz022_planning_independent_review",
+      "unchanged": true
+    },
+    "effectiveUse": "The prospectively approved six-path amendment is now an independently accepted real first-parent main event. Subsequent measured P/H performance work may use the amended registered scope through the normal source/component/official-CI/actual-main review route. This receipt accepts no future code.",
+    "originalFourCumulativeImplementationObligationsPreserved": true,
+    "finalCodeReferenceRequiresThenEffectiveScope": true,
+    "taskStatus": "in_progress",
+    "highSlotStillOccupied": true
+  },
+  "futureFixtureNote": "The added amendment class currently derives ROOT Task text while its real registration fixture is fixed at N. If later base/status/branch front matter changes, construct that fixture from the explicit immutable N in_progress front rather than inheriting the caller's mutable ROOT fields. Preserve the original 828 AST/assertions, all 11 new nodes/assertions and lease semantics; any actual patch remains part of later measured code review. No edit to accepted B is authorized or made by this receipt.",
+  "boundaries": {
+    "normalReviewMayStart": false,
+    "normalCompletionMayStart": false,
+    "actualTaskCompleted": false,
+    "actualHighCapacityReleaseAccepted": false,
+    "ops018AdmissionGranted": false,
+    "frozenContractRepairGranted": false,
+    "pocExperimentApproved": false,
+    "oldPocQualificationTransferred": false,
+    "fullV1Accepted": false,
+    "laterPerformanceAndClosureRequireFullOfficialSourceAndActualMainCi": true,
+    "bootstrapExceptionExtendedToPerformanceCode": false,
+    "reviewerExecutedTestsOrMutation": false
+  },
+  "evidencePins": [
+    {
+      "ref": ".takeover-tools/ops017-amendment-d15d8e1-native-main-seven/results.json",
+      "bytes": 5692,
+      "sha256": "3962993f68fa9ec5f297a47708e339c52f9e4fc60d21e272df4fab135931c180"
+    },
+    {
+      "ref": ".takeover-tools/ops017-amendment-d15d8e1-native-main-seven/integrity.raw",
+      "bytes": 495,
+      "sha256": "148f3d314df6e46498e262a0b5f77e63d7ae59a37a10bc57e5eba7b6d58cbd33"
+    },
+    {
+      "ref": ".takeover-tools/ops017-amendment-d15d8e1-native-main-seven/history.raw",
+      "bytes": 563,
+      "sha256": "4ec797eb1dd3da94efd995b5465055348ede9a6d5fd5a80af3b5553c441577ca"
+    },
+    {
+      "ref": ".takeover-tools/ops017-amendment-d15d8e1-native-main-seven/transitions.raw",
+      "bytes": 475,
+      "sha256": "697f5eb22502c95dfad0b7f8814f3199c8b5895e549e445837fc3f465c4eedec"
+    },
+    {
+      "ref": ".takeover-tools/ops017-amendment-d15d8e1-native-main-seven/finalization.raw",
+      "bytes": 454,
+      "sha256": "d9b9e904e7b81c3a5e5de7bb42df004275c444944b88dd28168797a014f48493"
+    },
+    {
+      "ref": ".takeover-tools/ops017-amendment-d15d8e1-native-main-seven/raw-lifecycle.raw",
+      "bytes": 546,
+      "sha256": "dfb65682809764831c5c22685677be394a9b1f8da8ddd7111eaa5459595a3df6"
+    },
+    {
+      "ref": ".takeover-tools/ops017-amendment-d15d8e1-native-main-seven/coordination.raw",
+      "bytes": 357,
+      "sha256": "df73e42e522c2900f3138b50a9ff0cbd5d7f854b889b8cba9f65ee754e33ffbc"
+    },
+    {
+      "ref": ".takeover-tools/ops017-amendment-d15d8e1-native-main-seven/poc-protocol.raw",
+      "bytes": 386,
+      "sha256": "1d879b9f848ce45d66a12a883cc7796224cafb097a8d224fdd9965e6475e4d0e"
+    },
+    {
+      "ref": ".takeover-tools/ops017-amendment-d15d8e1-full-local-main-v2/results.json",
+      "bytes": 15461,
+      "sha256": "8a1d45a1c0be74e80c7b7dfa66b8ae96d8eb3d598a9b3f5ca0e37bb81da2e532"
+    },
+    {
+      "ref": ".takeover-tools/ops017-amendment-d15d8e1-full-local-main-v2/02-install-deps.raw",
+      "bytes": 3469,
+      "sha256": "536976ed52c109d82acacb39a831a5790ec640c16211a7683bb20976a70e340b"
+    },
+    {
+      "ref": ".takeover-tools/ops017-amendment-d15d8e1-full-local-main-v2/02-install-deps.sh",
+      "bytes": 179,
+      "sha256": "3b98a38d5417673d7e2abcb45bbf1a4b7982c03ee589454a606dcaf5305db5dc"
+    },
+    {
+      "ref": ".takeover-tools/ops017-amendment-d15d8e1-full-local-main-v2/03-verify-deps.raw",
+      "bytes": 280,
+      "sha256": "24442794a3c3f78428f98f07b4f68c6df62bb3ee3742e2a9616be158963d6404"
+    },
+    {
+      "ref": ".takeover-tools/ops017-amendment-d15d8e1-full-local-main-v2/03-verify-deps.sh",
+      "bytes": 104,
+      "sha256": "07fc66d71e0455006069f174ba4d8eb9c4986d3e7632d80e78fb2c6146c7f51d"
+    },
+    {
+      "ref": ".takeover-tools/ops017-amendment-d15d8e1-full-local-main-v2/04-compile.raw",
+      "bytes": 244,
+      "sha256": "570c18a4996f812ef34cdd2ddbe6eba65c712da03d098fb22a7574bf65fae454"
+    },
+    {
+      "ref": ".takeover-tools/ops017-amendment-d15d8e1-full-local-main-v2/04-compile.sh",
+      "bytes": 56,
+      "sha256": "5e5633e8a73c59917c7c54af43b0901635aa16dee08edd875aae8508038a455c"
+    },
+    {
+      "ref": ".takeover-tools/ops017-amendment-d15d8e1-full-local-main-v2/05-collect-tests.raw",
+      "bytes": 102600,
+      "sha256": "900bca2be62aafe19e1e4f7ba0e7bbfc4db06f01e8dbebcbd0969cb5edc1c32d"
+    },
+    {
+      "ref": ".takeover-tools/ops017-amendment-d15d8e1-full-local-main-v2/05-collect-tests.sh",
+      "bytes": 71,
+      "sha256": "7d91f054451eaa3c46c8540410f35ab34e29290522a2d69a88d5e56de2c21ec0"
+    },
+    {
+      "ref": ".takeover-tools/ops017-amendment-d15d8e1-full-local-main-v2/06-task-context.raw",
+      "bytes": 350,
+      "sha256": "af08bb7fece89a9cd32d180bf32b3ef64f9fb2d49bee0f647ebde0a0b0ddf4fd"
+    },
+    {
+      "ref": ".takeover-tools/ops017-amendment-d15d8e1-full-local-main-v2/06-task-context.sh",
+      "bytes": 695,
+      "sha256": "89da90e826c97264fbbfefb98442f5a3b4ee470c811a9b4a7b0c531184df44db"
+    },
+    {
+      "ref": ".takeover-tools/ops017-amendment-d15d8e1-full-local-main-v2/08-project-readiness.raw",
+      "bytes": 793,
+      "sha256": "d97f2017c0cd1b0e06b99d6d4f228ba051204177e71e61592534dd2594fe12b0"
+    },
+    {
+      "ref": ".takeover-tools/ops017-amendment-d15d8e1-full-local-main-v2/08-project-readiness.sh",
+      "bytes": 60,
+      "sha256": "d703a6d2a02063cf8638f1c832a5f870f0f60ae0b24958be302ba3f631b6d993"
+    },
+    {
+      "ref": ".takeover-tools/ops017-amendment-d15d8e1-full-local-main-v2/09-program-integrity.raw",
+      "bytes": 1339,
+      "sha256": "675ad9646e0377b88854c4688dd00df045b3947cb6335edc7421b58a73bdfe53"
+    },
+    {
+      "ref": ".takeover-tools/ops017-amendment-d15d8e1-full-local-main-v2/09-program-integrity.sh",
+      "bytes": 1750,
+      "sha256": "e8b380541e0b22b7c8b8b4e3897c624643b2ed1868c8f65c00e0e2aaf04c4209"
+    },
+    {
+      "ref": ".takeover-tools/ops017-amendment-d15d8e1-full-local-main-v2/10-agent-coordination.raw",
+      "bytes": 411,
+      "sha256": "f2dee6209efc5c2cf4ada9ccd45b163f9915fa03c69e540c25ff318e25fb6737"
+    },
+    {
+      "ref": ".takeover-tools/ops017-amendment-d15d8e1-full-local-main-v2/10-agent-coordination.sh",
+      "bytes": 763,
+      "sha256": "3314728fd519ddecba9bc9311ea464746fcce6d37a93e46504f88b62d79e90fe"
+    },
+    {
+      "ref": ".takeover-tools/ops017-amendment-d15d8e1-full-local-main-v2/11-governance-tests.raw",
+      "bytes": 114876,
+      "sha256": "34aac7654bf61b6dbbbebe8ae975021e1f9a1b7ba9f915531eb76c76740f6f9c"
+    },
+    {
+      "ref": ".takeover-tools/ops017-amendment-d15d8e1-full-local-main-v2/11-governance-tests.sh",
+      "bytes": 233,
+      "sha256": "01664625f0b2c3e84d7bc89848dacc785372d00ec6692792c78513ce8b013b99"
+    },
+    {
+      "ref": ".takeover-tools/ops017-amendment-d15d8e1-full-local-main-v2/12-skip-audit.raw",
+      "bytes": 268,
+      "sha256": "2428d2162a4ef0e809c751667909c3d516956dc43c26101a1418f0c06d12eac3"
+    },
+    {
+      "ref": ".takeover-tools/ops017-amendment-d15d8e1-full-local-main-v2/12-skip-audit.sh",
+      "bytes": 385,
+      "sha256": "0c294a83b8b6548242b6f87824ffa2e19d36d684a50d6d9005f1ace659c14207"
+    },
+    {
+      "ref": ".takeover-tools/ops017-amendment-d15d8e1-full-local-main-v2/13-markdown-check.raw",
+      "bytes": 303,
+      "sha256": "d73b3f1930c3df8d9dfc2c714b8ff622cfe92a8c522d602aefbc6b787ff3b727"
+    },
+    {
+      "ref": ".takeover-tools/ops017-amendment-d15d8e1-full-local-main-v2/13-markdown-check.sh",
+      "bytes": 51,
+      "sha256": "3b6d5e2c8b366538ee581e43033364ba3cd4555e008347c640035bed290b2ff2"
+    },
+    {
+      "ref": ".takeover-tools/ops017-amendment-d15d8e1-full-local-main-v2/14-schema-check.raw",
+      "bytes": 2085,
+      "sha256": "73f91ee27e3118902b975e0b796714d5e6fdda2421c42f48500488801fc68549"
+    },
+    {
+      "ref": ".takeover-tools/ops017-amendment-d15d8e1-full-local-main-v2/14-schema-check.sh",
+      "bytes": 50,
+      "sha256": "5ae27312bdb618aec4634ac113277da78e5145c3a1c68c82159c1b5e6e2dbb81"
+    },
+    {
+      "ref": ".takeover-tools/ops017-amendment-d15d8e1-full-local-main-v2/15-secret-scan.raw",
+      "bytes": 282,
+      "sha256": "05ffd28fec2ad0fddfc7c577e038a38b1e8d09a50340da5c965356b00877b8ba"
+    },
+    {
+      "ref": ".takeover-tools/ops017-amendment-d15d8e1-full-local-main-v2/15-secret-scan.sh",
+      "bytes": 50,
+      "sha256": "55a80bfe60fd4bf541faaedea1c0fcdc7ae3f882e223b9239e03e39224aa2a6b"
+    },
+    {
+      "ref": ".takeover-tools/ops017-amendment-d15d8e1-full-local-main-v2/20-spec-sync.raw",
+      "bytes": 339,
+      "sha256": "5a74093c4de84107982fd6a2fc070eee5dc00b5d5eebacc2ec738a12867fc0d2"
+    },
+    {
+      "ref": ".takeover-tools/ops017-amendment-d15d8e1-full-local-main-v2/20-spec-sync.sh",
+      "bytes": 71,
+      "sha256": "9a1f2576ead8b04c2dd6135acbb67cac3237c726bb25bd196992b2e394436bb4"
+    },
+    {
+      "ref": ".takeover-tools/ops017-amendment-d15d8e1-full-local-main-v2/21-parent-dir-check.raw",
+      "bytes": 253,
+      "sha256": "f3ac02ae7b82084cc9a0130780e94db0cd20570321a9aeb0575fc531d785c96c"
+    },
+    {
+      "ref": ".takeover-tools/ops017-amendment-d15d8e1-full-local-main-v2/21-parent-dir-check.sh",
+      "bytes": 131,
+      "sha256": "66444c3edc8095415f116e9a15ba72129245250bb62799ee01a7eb138e9ffb1a"
+    },
+    {
+      "ref": ".takeover-tools/ops017-amendment-d15d8e1-full-local-main-v2/22-ci-validation.raw",
+      "bytes": 363,
+      "sha256": "ab60ada58603d5cf5054a07de3cca33daba9db265a7172e1a078eaad1304470e"
+    },
+    {
+      "ref": ".takeover-tools/ops017-amendment-d15d8e1-full-local-main-v2/22-ci-validation.sh",
+      "bytes": 91,
+      "sha256": "53276c5acc99d0ca71680df166e1192cfd0a56988f6983238c3ab7f150414750"
+    },
+    {
+      "ref": ".takeover-tools/ops017-amendment-d15d8e1-full-local-main-v2/23-summary.raw",
+      "bytes": 244,
+      "sha256": "9592e3030c64b32f548c08206d3c51644e66e0531a3071263c60d6c8a9eaa5a6"
+    },
+    {
+      "ref": ".takeover-tools/ops017-amendment-d15d8e1-full-local-main-v2/23-summary.sh",
+      "bytes": 1207,
+      "sha256": "e46cab74e30f76c103b0fc6bdcfeb156f52392aeceef2e8a7ccf82d641d09a18"
+    },
+    {
+      "ref": ".takeover-tools/ops017-amendment-d15d8e1-full-local-main-v2/governance-junit.xml",
+      "bytes": 135657,
+      "sha256": "830507e99fce3ea79b811f59483e6770f481ad802507b0f6502e377f46fd63b7"
+    },
+    {
+      "ref": ".takeover-tools/ops017-amendment-main-local-v2-controller/actual-terminal-wait.json",
+      "bytes": 516,
+      "sha256": "bb1306901bc7c42b7a14776fd0bd048720ac2a15c344800ac6b85f6b4e0160e5"
+    },
+    {
+      "ref": ".takeover-tools/ops017-amendment-main-local-v2-controller/driver.stdout.raw",
+      "bytes": 1061,
+      "sha256": "b55593fc5737e385d82467f7dcb4d6d40d274bde0f1b96a02daad7ef94d5e183"
+    },
+    {
+      "ref": ".takeover-tools/ops017-amendment-main-local-v2-controller/driver.stderr.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "ref": ".takeover-tools/ops017-scope-amendment-main-full-workflow-v2-context.json",
+      "bytes": 1470,
+      "sha256": "7f488dc5be223e8682df1ad3a4d9e8fa51f96e396bffc10bc90a2ad15a3e2931"
+    },
+    {
+      "ref": ".takeover-tools/run_ops017_amendment_full_local_main_v2_once.py",
+      "bytes": 10008,
+      "sha256": "6ffabfeb5a172690a82ceea07fc44bb9e337bcfba5b724b6975003fe870cc84d"
+    },
+    {
+      "ref": ".takeover-tools/ops017-amendment-main-ci922-final/run.json",
+      "bytes": 13668,
+      "sha256": "37dc2c136df9d00c9c35c1f7f2f49dd90a350ca570665a593cb5f2c24ee686ca"
+    },
+    {
+      "ref": ".takeover-tools/ops017-amendment-main-ci922-final/jobs.json",
+      "bytes": 8276,
+      "sha256": "b7e8d8a72b3dc5b04eaa321010c1cee75e8657d6d471309c3a60062ff1f99d9a"
+    },
+    {
+      "ref": ".takeover-tools/ops017-amendment-main-ci922-final/checkout.json",
+      "bytes": 2899,
+      "sha256": "270decab5ba4ff40ebd1b0ac454581bcc9187691409b17abf73326e6fbff61cc"
+    },
+    {
+      "ref": ".takeover-tools/ops017-amendment-main-ci922-final/analysis-v2.json",
+      "bytes": 1817,
+      "sha256": "79835cafacd2210d5acf331da50cdce9ec76d535361ef13aaab25683ad8b4f65"
+    },
+    {
+      "ref": ".takeover-tools/ops017-amendment-main-ci922-final/job-log-connector-envelope.json",
+      "bytes": 326910,
+      "sha256": "f7f9f859417ffa308f65c7e29c6f8b16ca9d840c96da043a8f9202dac85a4972"
+    },
+    {
+      "ref": ".takeover-tools/ops017-amendment-main-ci922-final/job-log.connector-decoded.utf8.txt",
+      "bytes": 322199,
+      "sha256": "dd2528d6e6c9e7c8ed1e32151c7f09a9fa126566f80a3f8f938bcb17df9fe37f"
+    },
+    {
+      "ref": ".takeover-tools/ops017-amendment-official-merge.json",
+      "bytes": 863,
+      "sha256": "68b47da473b441d33bd82f3500e3a036a0372270cdbe35042f49027e55d609de"
+    },
+    {
+      "ref": ".takeover-tools/ops017-amendment-actual-main-candidate.json",
+      "bytes": 1478,
+      "sha256": "6e863daa06b62134f6d2fc9b13759d052d91944185abf2ac4c583efaf35f4dd1"
+    },
+    {
+      "ref": ".takeover-tools/ops017-amendment-main-complete-official-fresh-context.json",
+      "bytes": 25489,
+      "sha256": "c18688b5fc846c5859458f8ab2b23f0f5fb36bfebc963fa70a13b595e5fb509d"
+    },
+    {
+      "ref": ".takeover-tools/ops017-scope-amendment-a6a99e0-final-source-independent-review.json",
+      "bytes": 21335,
+      "sha256": "8695d45c3c1db75fa329d195853310ec4aa89867c2f03f3a8ccac97035d50f3b"
+    },
+    {
+      "ref": ".takeover-tools/ops017-amendment-main-v2-execution-method-independent-review.json",
+      "bytes": 7282,
+      "sha256": "ebce14d34594e4a77990b45fc8663b15c39e9e7f6fa315b3e66d8db87db5c4fe"
+    },
+    {
+      "ref": ".takeover-tools/ops017_amendment_main_v2_controller.py",
+      "bytes": 4564,
+      "sha256": "66cc5340380c4d0d3a845ee3436d73286e8dca20e871b9bc79575d992ba6378c"
+    },
+    {
+      "ref": ".takeover-tools/verify_ops017_amendment_actual_main_seven_once.py",
+      "bytes": 4064,
+      "sha256": "f80b3dd6c6142dbca5039b1a088af63b8b0026509a1a12ff0694067951ec4565"
+    },
+    {
+      "ref": ".takeover-tools/analyze_ops017_amendment_main_ci_success_v2_once.py",
+      "bytes": 4438,
+      "sha256": "8c02783a2c0b95a2cfc7f39e41fc455b6d17491edc3b52f88444c616397b37fa"
+    },
+    {
+      "ref": ".takeover-tools/ops017-amendment-main-first-local-interruption.json",
+      "bytes": 993,
+      "sha256": "351e591e78c1f9ee1b6b2825ae0bc6fc9872b24a041f2740e98d9c277c14fe97"
+    },
+    {
+      "ref": ".takeover-tools/ops017-amendment-main-context-provenance-clarification.json",
+      "bytes": 1458,
+      "sha256": "29c2b0f802aa0e807c799a63866b2b72fb01c39d8ee64fa2e6eb76ec516f7a9e"
+    },
+    {
+      "ref": ".takeover-tools/ops017-scope-amendment-main-full-workflow-context.json",
+      "bytes": 1305,
+      "sha256": "1461c1fb885722d842c12798cd3c3df0fbd3332b5b5c8e8bbe14f2fdf933ef3a"
+    },
+    {
+      "ref": ".takeover-tools/ops017-amendment-d15d8e1-actual-main.bundle",
+      "bytes": 20038003,
+      "sha256": "9b6b019de18becd5c08f9535adb93b752cd36744fbfd523ec5e859e9cccc1a08"
+    },
+    {
+      "ref": ".takeover-tools/ops017-amendment-main-ci922-final/official-check-diagnostics-envelope.json",
+      "bytes": 154,
+      "sha256": "c096d62a0d7e1e5c342ba4b69ebe61443af7f7c0d42002a817c895d24972faae"
+    },
+    {
+      "ref": ".takeover-tools/ops017-amendment-main-local-v2-controller/launch-intent.json",
+      "bytes": 442,
+      "sha256": "8505cf8e3b17df17bc6a299c04cdbdab5963a126376b376b4bd5214b763b1d63"
+    },
+    {
+      "ref": ".takeover-tools/ops017-amendment-main-local-v2-controller/launch-result.json",
+      "bytes": 493,
+      "sha256": "09adad6161b9860787b7f5ca1d78af6a84802837c9fbea98810eae45ef54f6e4"
+    },
+    {
+      "ref": ".takeover-tools/ops017-amendment-main-local-v2-controller/controller-started.json",
+      "bytes": 91,
+      "sha256": "5c88b64cc513b7a76c7c50d3e6fb472517d9d18ce8d4ece4b13fc7815b8c4791"
+    },
+    {
+      "ref": ".takeover-tools/ops017-amendment-main-local-v2-controller/driver-started.json",
+      "bytes": 762,
+      "sha256": "a0ef0cc2f62cc8042a376a9b15fd7a43630f88126f56d3d32969ccb68fd7057f"
+    },
+    {
+      "ref": ".takeover-tools/ops017-amendment-d15d8e1-full-local-main/results.json",
+      "bytes": 7705,
+      "sha256": "4901c6227b033d31b3747691f83767f8ca799543eebdef0fd749b68f739cc657"
+    },
+    {
+      "ref": ".takeover-tools/ops017-amendment-d15d8e1-full-local-main/11-governance-tests.raw",
+      "bytes": 68231,
+      "sha256": "4b0035426d4e5042bc5e99af02b67a1c43d5a3a83ce553d077892c693de91d3a"
+    }
+  ]
+}

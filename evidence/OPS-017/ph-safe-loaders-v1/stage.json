@@ -1,0 +1,14 @@
+{
+  "base": "d15d8e106aef844992caa183d866e95189a56776",
+  "branch": "chore/OPS-017-fast-yaml-loaders",
+  "original828ClassesAstUnchanged": true,
+  "prior11TestMethodsAstUnchanged": true,
+  "newSafetyCases": 3,
+  "expectedFullCases": 842,
+  "actualMainScopeAccepted": true,
+  "currentSourceAccepted": false,
+  "fullCiAccepted": false,
+  "performanceAccepted": false,
+  "originalFrozenTargetsUnchanged": true,
+  "createdAt": "2026-11-02T04:11:43.858196+00:00"
+}

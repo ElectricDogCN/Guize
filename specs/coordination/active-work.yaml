@@ -104,9 +104,9 @@ tasks:
   reviewer: /root/gz022_planning_independent_review
   integrator: /root
   agentRole: implementer
-  branch: chore/OPS-017-scope-amendment-v1
+  branch: chore/OPS-017-fast-yaml-loaders
   baseBranch: main
-  baseSha: 76be38c26dea26669819f142c572e69aac84c32b
+  baseSha: d15d8e106aef844992caa183d866e95189a56776
   workPackage: WP-M0-01
   programPlan: specs/coordination/program-plan.yaml
   programTaskId: OPS-017

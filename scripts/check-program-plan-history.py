@@ -122,7 +122,7 @@ def load_yaml_text(text: str | None) -> Any | None:
 
 def load_current(root: str, path: str) -> Any:
     with open(os.path.join(root, path), "r", encoding="utf-8") as handle:
-        return yaml.safe_load(handle)
+        return yaml.load(handle, Loader=getattr(yaml, "CSafeLoader", yaml.SafeLoader))
 
 
 def load_ref(root: str, ref: str, path: str) -> Any | None:
@@ -155,7 +155,7 @@ def parse_front_matter(text: str | None) -> tuple[dict[str, Any], str]:
     if len(parts) < 3:
         return {}, text
     try:
-        document = yaml.safe_load(parts[1])
+        document = yaml.load(parts[1], Loader=getattr(yaml, "CSafeLoader", yaml.SafeLoader))
     except yaml.YAMLError:
         return {}, parts[2]
     return (document if isinstance(document, dict) else {}), parts[2]

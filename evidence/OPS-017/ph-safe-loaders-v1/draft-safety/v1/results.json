@@ -1,0 +1,15 @@
+{
+  "kind": "DRAFT_WORKING_TREE_SAFETY_ONLY",
+  "base": "d15d8e106aef844992caa183d866e95189a56776",
+  "draftCodePins": {
+    "scripts/program-planning-revision.py": "ed2421fcee9b06c67fa7bff09fd63aa4034d40af21966b3cdbff1c7a6ddbcb2f",
+    "scripts/check-program-plan-history.py": "925fe025e56e2eebeeb07bd4c08c1a3e228eddf12370b8459b3b310d583d721d",
+    "tests/governance/test_poc_contract_repair_admission.py": "934c947506ab9f6667a25e1b58c8c32a48ebac763cff3c677cd518293a08f56c"
+  },
+  "python": "3.12.4 | packaged by Anaconda, Inc. | (main, Jun 18 2024, 15:03:56) [MSC v.1929 64 bit (AMD64)]",
+  "pid": 32336,
+  "actualWaitCompleted": true,
+  "exitCode": 1,
+  "committedSourceAccepted": false,
+  "fullCiAccepted": false
+}
