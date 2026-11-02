@@ -1,0 +1,51 @@
+.FF                                                                      [100%]
+================================== FAILURES ===================================
+_ TestSafeYamlReaders.test_typed_metadata_anchors_and_body_agree_with_safe_loader _
+
+self = <tests.governance.test_poc_contract_repair_admission.TestSafeYamlReaders testMethod=test_typed_metadata_anchors_and_body_agree_with_safe_loader>
+
+    def test_typed_metadata_anchors_and_body_agree_with_safe_loader(self):
+        text=('enabled: true\ncount: 012\nratio: 1.25\nwhen: 2026-11-02\n'
+              'title: 归泽\nitems: [1, null, false]\n'
+              'base: &base {role: reviewer}\nmerged: {<<: *base, allowed: true}\n')
+        expected=yaml.safe_load(text)
+        head=self.commit_document(text,'typed safe metadata')
+        front='---\n'+text+'---\nBody stays unchanged.\n'
+        for fallback in self.modes():
+            with self.subTest(fallback=fallback),mock.patch.dict(yaml.__dict__):
+                if fallback:yaml.__dict__.pop('CSafeLoader',None)
+                self.planning.committed_document.cache_clear()
+                self.planning.spec_index.cache_clear()
+                values=[self.planning.committed_document(str(self.repo),head,'document.yaml'),
+                        self.history.load_current(str(self.repo),'document.yaml'),
+                        self.history.parse_front_matter(front)[0],
+>                       self.planning.spec_index(str(self.repo),head)[0][1]]
+E               IndexError: tuple index out of range
+
+tests\governance\test_poc_contract_repair_admission.py:290: IndexError
+__ TestSafeYamlReaders.test_unsafe_tags_and_malformed_metadata_stay_rejected __
+
+self = <tests.governance.test_poc_contract_repair_admission.TestSafeYamlReaders testMethod=test_unsafe_tags_and_malformed_metadata_stay_rejected>
+
+    def test_unsafe_tags_and_malformed_metadata_stay_rejected(self):
+        samples=['!!python/name:builtins.len ""\n','value: !unregistered x\n',
+                 'value: *missing\n','value: [\n']
+        for index,text in enumerate(samples):
+            head=self.commit_document(text,'invalid metadata '+str(index))
+            front='---\n'+text+'---\nBody stays unchanged.\n'
+            for fallback in self.modes():
+                with self.subTest(sample=index,fallback=fallback),mock.patch.dict(yaml.__dict__):
+                    if fallback:yaml.__dict__.pop('CSafeLoader',None)
+                    self.planning.committed_document.cache_clear()
+                    self.planning.spec_index.cache_clear()
+                    with self.assertRaises(yaml.YAMLError):
+                        self.planning.committed_document(str(self.repo),head,'document.yaml')
+>                   with self.assertRaises(yaml.YAMLError):
+E                   AssertionError: YAMLError not raised
+
+tests\governance\test_poc_contract_repair_admission.py:311: AssertionError
+- generated xml file: C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\ops017-ph-safe-loaders-draft-safety-v1\junit.xml -
+=========================== short test summary info ===========================
+FAILED tests/governance/test_poc_contract_repair_admission.py::TestSafeYamlReaders::test_typed_metadata_anchors_and_body_agree_with_safe_loader
+FAILED tests/governance/test_poc_contract_repair_admission.py::TestSafeYamlReaders::test_unsafe_tags_and_malformed_metadata_stay_rejected
+2 failed, 1 passed in 3.46s
