@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 2,
+  "pocId": "POC-03",
+  "taskId": "POC-003",
+  "acceptanceProfile": {
+    "id": "local-v1",
+    "version": 1,
+    "bindingRevision": 1,
+    "scope": "LOCAL_FULL_V1"
+  },
+  "resourceIds": [
+    "RES-ATS-SANDBOX"
+  ],
+  "measurementIds": [
+    "ats_slice_behavior",
+    "cache_disk_observation",
+    "cache_hit_observation",
+    "cache_key_isolation",
+    "etag_semantics",
+    "if_range_semantics",
+    "large_file_streaming",
+    "origin_interruption_recovery",
+    "partial_cache_integrity",
+    "range_cold_cache_latency",
+    "range_correctness",
+    "range_hot_cache_latency",
+    "range_multi_user_latency",
+    "range_slow_origin_latency",
+    "source_update_invalidation"
+  ],
+  "testedSource": {
+    "commit": "1b5c68bab02d98f8e11286d80033585090c7af99",
+    "tree": "f94ed8da8d83391f2474365af848bf267a0dc8d1"
+  },
+  "numericDomainReviewRefs": {},
+  "decision": "approved",
+  "approvedBy": "/root/independent_review",
+  "approvedAt": "2026-11-02T21:47:14.318029Z",
+  "capturedSettings": {}
+}
