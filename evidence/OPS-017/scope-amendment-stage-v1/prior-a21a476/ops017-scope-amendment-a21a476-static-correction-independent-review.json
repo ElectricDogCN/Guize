@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "kind": "scope_amendment_static_correction_review",
+  "taskId": "OPS-017",
+  "reviewer": "/root/gz022_planning_independent_review",
+  "reviewedAt": "2026-11-02T02:07:23Z",
+  "source": "a21a47693af9705ca659c737d4c5c7e41e736ec1",
+  "base": "76be38c26dea26669819f142c572e69aac84c32b",
+  "tree": "200dc78a21910f93d3bc790b4f2823acdaaf2a20",
+  "sourcePins": [
+    {"path": "scripts/poc-contract-repair-admission.py", "bytes": 50169, "sha256": "1d90dc9b86d5653e921cc3de8a457ed0d6477700842a05c1584f45c7f6e30070"},
+    {"path": "scripts/check-program-lifecycle-guards.py", "bytes": 57602, "sha256": "0a4b366a06c7f71d6ad0417e4a44e2e43dcbf0c908286fb83c9abce9d46c4396"},
+    {"path": "tests/governance/test_poc_contract_repair_admission.py", "bytes": 89004, "sha256": "c9680a1497a6ecec57a522ff4bac775074b4fe05ff0ef18e307a09930f664918"}
+  ],
+  "priorFindings": {
+    "ops017HistoricalWrapperForwarding": "Closed statically: both L wrapper and _main now forward OPS017.",
+    "authorityProtectionWhenRecordAbsentAtTip": "Closed statically: _authority audits from fixed N through base/protected endpoints when N is their ancestor, regardless of current record presence. Deletion cannot merely restore an original-four declaration to skip this audit.",
+    "cleanAdmittedMainImport": "Partially corrected: introduced record/P/H paths can be recognized as exact automatic imports using the original H proof. The real pre-N peer baseline case below still fails."
+  },
+  "mustFix": [
+    {
+      "priority": "P1",
+      "path": "scripts/poc-contract-repair-admission.py",
+      "line": 371,
+      "title": "A pre-N peer range retroactively subjects already-existing P/H history to the amendment grant",
+      "reason": "audit_scope_amendment walks every node in before..after. For an old feature/base predating N, this includes original P/H commits already contained in the fixed approved N prefix. Their single-parent edges have no clean-import exemption, and the future amendment grant cannot be an ancestor of their parents, so lines385-388 reject legitimate historical work before the amendment existed.",
+      "actualRepositoryEvidence": {
+        "realPoc005CreationBase": "746e23e582501fa08380c3f3301bdc1774902f7c",
+        "oldPhCommitsInCreationBaseToNRange": [
+          {"sha": "ef4f92c8ac788e15c7b91e35e118fb4449d1d1d8", "parent": "36d8ba69581c98ab15559e5a4a7f6281435d327f"},
+          {"sha": "5c30e01d4bffe7faceafe662208c7dd06b10dfe2", "parent": "955d226134e2562d7f509ffb320f352d8bc08c6d"}
+        ],
+        "readOnlyGitEvidenceOnly": true
+      },
+      "testGap": "The new old-peer test starts at N itself (line206), so it never includes these pre-N P/H nodes. It also imports the scope declaration main before later P/H implementation, leaving the actual old-peer import of accepted P/H code unexercised.",
+      "minimalRepair": "Treat the immutable fixed N object prefix as pre-existing approved starting history for this prospective rule, including its already integrated side-history ancestors. Continue auditing record introduction and all genuinely later/local side history. This is not a general exemption for any current canonical ancestor, which could forgive later violations. Add a real pre-N peer/base import of an accepted amendment plus subsequent P/H main, and retain a negative with local pre-grant P/H edit/restore."
+    }
+  ],
+  "scopeOfConclusion": "The correction review is static and pins the committed a21 source. Native11 was still the parent's original active run when requested; no terminal result or 839/full-CI success is inferred. No tests, Git fixture mutation or author edit was performed by the reviewer.",
+  "legacyApiAssessment": "Original SOURCE_COMPATIBILITY original-four intent parsing and OPS014 contract selection remain unchanged in the reviewed delta. The current added audit retains the explicit original-four cumulative duty and actual P/H-only final-code identity approach, but the remaining pre-N compatibility bug prevents accepting this component/source.",
+  "componentAccepted": false,
+  "bootstrapSourceAccepted": false,
+  "actualBootstrapMainAccepted": false,
+  "publicationApproved": false,
+  "fullCiAccepted": false,
+  "actualMergeApproved": false,
+  "extraPathsEffectiveNow": false,
+  "taskCompleted": false,
+  "ops018OrPocExperimentApproved": false
+}

@@ -38,6 +38,8 @@ from typing import Any
 
 import yaml
 
+SAFE_DOCUMENT_LOADER = getattr(yaml, 'CSafeLoader', yaml.SafeLoader)
+
 PLANNING_SPEC = importlib.util.spec_from_file_location(
     "guize_lifecycle_planning", os.path.join(os.path.dirname(__file__), "program-planning-revision.py")
 )
@@ -73,7 +75,7 @@ def authenticated_repair_claims(root, task_id, entry, base_ref, *, observed_ref=
 
 
 def validate_bound_repair_changes(root, before, after, task_id, paths, errors):
-    if task_id not in {"OPS-014", "OPS-018"}:
+    if task_id not in {"OPS-014", "OPS-017", "OPS-018"}:
         return
     try:
         repair_module().validate_repair_changes(root, before, after, task_id, paths, errors)
@@ -157,7 +159,7 @@ def load_yaml_text(text: str | None) -> Any | None:
     if text is None:
         return None
     try:
-        return yaml.safe_load(text)
+        return yaml.load(text, Loader=SAFE_DOCUMENT_LOADER)
     except yaml.YAMLError:
         return None
 
@@ -168,7 +170,7 @@ def load_ref(root: str, ref: str, path: str) -> Any | None:
 
 def load_current(root: str, path: str) -> Any:
     with open(os.path.join(root, path), "r", encoding="utf-8") as handle:
-        return yaml.safe_load(handle)
+        return yaml.load(handle, Loader=SAFE_DOCUMENT_LOADER)
 
 
 def mapping(items: list[dict[str, Any]] | None) -> dict[str, dict[str, Any]]:
@@ -213,7 +215,7 @@ def parse_front(text: str | None) -> dict[str, Any]:
     if len(parts) < 3:
         return {}
     try:
-        value = yaml.safe_load(parts[1])
+        value = yaml.load(parts[1], Loader=SAFE_DOCUMENT_LOADER)
     except yaml.YAMLError:
         return {}
     return value if isinstance(value, dict) else {}
@@ -1007,7 +1009,7 @@ def is_ancestor(root: str, before: str, after: str) -> bool:
     return git(root, "merge-base", "--is-ancestor", before, after).returncode == 0
 
 
-def main() -> int:
+def _main() -> int:
     args = parse_args()
     root = os.path.abspath(args.repo_root)
     errors: list[str] = []
@@ -1057,7 +1059,7 @@ def main() -> int:
             repair_module().validate_source_authority_intent(root,args.base_ref,args.head_ref,errors)
         except (OSError,ImportError,ValueError) as exc:
             errors.append('Bound POC authority intent proof is unavailable: '+str(exc))
-    for repair_id in ('OPS-014', 'OPS-018'):
+    for repair_id in ('OPS-014', 'OPS-017', 'OPS-018'):
         if any(e.get('taskId') == repair_id for e in current_active.get('tasks', []) + base_active.get('tasks', [])):
             validate_bound_repair_changes(root, args.base_ref, args.head_ref, repair_id, paths, errors)
     validate_frozen_changes(root, args.base_ref, args.head_ref, errors)
@@ -1177,6 +1179,16 @@ def main() -> int:
         },
     )
     return 0
+
+
+def main() -> int:
+    try:
+        module = repair_module()
+    except (OSError, ImportError, ValueError):
+        # The existing denial paths still own unavailable repair modules.
+        return _main()
+    with module.audit_session():
+        return _main()
 
 
 if __name__ == "__main__":

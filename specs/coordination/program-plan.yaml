@@ -96,9 +96,9 @@ foundationTasks:
     mergeCommit: d166b4d39f2dcc40c99b2bbd79db568c7cd72270
   - taskId: OPS-017
     title: 为版本化POC源兼容性修复建立受限准入
-    status: in_progress
-    completionRef: ISSUE-168
-    mergeCommit: null
+    status: completed
+    completionRef: PR-179
+    mergeCommit: ed5e4d4ad9d40d85358347760ac90bd1f73b10a7
 waves:
   - {id: W1, order: 1, name: "需求与 POC 计划", maxConcurrent: 2, maxHighRisk: 1}
   - {id: W2, order: 2, name: "OpenAPI + 独立 POC", maxConcurrent: 3, maxHighRisk: 1}

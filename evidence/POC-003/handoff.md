@@ -1851,3 +1851,12 @@ Source07 matrix control exit70 prevented final owner/epoch25/media closure despi
 ## Fixed021c3f3 offline198 originals
 
 Exact021c3f3 completed89 Windows+98 Linux+11 fixed-image synthetic regressions,36 actual waits0, no failures/errors/skips; independently accepted373884.78 original results/raw/review/method files are indexed and archived at cooperative-stop-v1/offline198/. POC code tree remains unchanged. This is not whole-source/current-main or new experimental qualification. Source07 exit70,7353 negative and consumed3e797 remain; original8MiB/15 observations/fresh revocation/fullPOC/V1 remain incomplete.
+
+
+# POC-003 staged implementation integration after accepted OPS-017
+
+Genuine ordinary merge is pending with ordered parents feature 9ab4613bf221687a49ecd04723c1a40712f95ddb and qualified main 98cf7e5340c9a512461eb7d18659019de4c9c2a1. The actual index merged without conflicts; no hand-selected incoming projection is claimed. Main foreign bytes and original feature POC003 in_progress/implementer/creation760/real actors/Nov5 lease coexist under their own rules. All73 runtime files remain unchanged, including the previously independently accepted198 offline-component scope; this is not current whole-source or profile qualification. Original Task body and literal15 remain intact; actual current15 argv are recorded here.
+
+OPS017's exact normal Completion/main acceptance and complete source/main CI originals are archived as prerequisites. The current staged POC003 source has not run its own15/full842CI and is not approved for publication, merge, new resources or experiment. No current local-v1 locator exists in either parent, so none is retired or fabricated. Old observations, failures and inputs remain in their original contexts.
+
+After exact snapshot review: commit the real merge, run current15 and required source checks, independently review fixed source, obtain full842 official sourceCI before ordinary code integration and separate actual-main own7/full842 acceptance. Keep task in_progress. Integrate both POC net implementations before approving a common immutable testedSource and independent non-overlapping host windows, original21matrix/26closure, new current result and subsequent normal lifecycle. No prior profile is rebound. Rollback uses retained original author/bundle/refs and reviewed forward changes; no reset/rebase/force/raw or DB deletion.

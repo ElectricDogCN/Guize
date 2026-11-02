@@ -1,0 +1,162 @@
+[
+  {
+    "path": "ops017-normal-completion-v5-pr181-final-actual-main-independent-review.json",
+    "bytes": 32142,
+    "sha256": "7bae32c4a088a623687ee5a08fb9e8494881dd143c943298179bcb3ecedcbd8a"
+  },
+  {
+    "path": "ops017-normal-completion-v5-pr181-final-source-independent-review.json",
+    "bytes": 24650,
+    "sha256": "c6e4f3399fa5c788eb266ae0eceeb8d306f9842f444a94b71d3f6358f4d3f76e"
+  },
+  {
+    "path": "ops017-normal-completion-v5-pr181-actual-main-candidate.json",
+    "bytes": 1483,
+    "sha256": "5ba680417e7fe68286c5b039bef0e7d846ee9da6625848464773fb3c9025ce84"
+  },
+  {
+    "path": "ops017-final-ended-branches-remote-cleanup-result-independent-review.json",
+    "bytes": 12602,
+    "sha256": "eed51fbb2f7e1c91c8e791c8f2e7c06a8dd6d1ea9a872fc1f505eedb0dfbf4ab"
+  },
+  {
+    "path": "poc003-main98-feature9ab-integration-preparation-readonly-advice-v1.json",
+    "bytes": 6411,
+    "sha256": "0799edc39063469deb90a6e6c4a9d23a6b82f237eda00ee1ae7f20980c1dcc3c"
+  },
+  {
+    "path": "poc003-poc005-staged-code-integration-before-fresh-profiles-readonly-independent-review.json",
+    "bytes": 9453,
+    "sha256": "b1300920652561bf2bf0ddab5ad0815a41be084449b9585624e5c208067e6a98"
+  },
+  {
+    "path": "poc003-main98-staged-code-task-context-v1.json",
+    "bytes": 3056,
+    "sha256": "bd3684ac30589cc66f1f5b36eedb5f581901c99a0a222860c0d68306fbdbec21"
+  },
+  {
+    "path": "poc003-main98-staged-code-import-v1/begin.json",
+    "bytes": 25776,
+    "sha256": "88a53d6f5ff9d5122b7b6503917072a52bde79fd061d474fa36d5296f28a9d92"
+  },
+  {
+    "path": "ops017-normal-completion-v5-pr181-main-ci-final/run.json",
+    "bytes": 13680,
+    "sha256": "e145c901127f0578eea8c1c1724d352cc683bcb225aba7157da8ef4b18a4aed4"
+  },
+  {
+    "path": "ops017-normal-completion-v5-pr181-main-ci-final/jobs.json",
+    "bytes": 8276,
+    "sha256": "2fe423183937e9d7c1b3b81cd0153399296627a66e290ce9fdb90f32ac002874"
+  },
+  {
+    "path": "ops017-normal-completion-v5-pr181-main-ci-final/checkout.json",
+    "bytes": 2923,
+    "sha256": "1b05be52602b59080065bc8a242b4e57b2d9888a58b6ed9ce1148aba761a8ac0"
+  },
+  {
+    "path": "ops017-normal-completion-v5-pr181-main-ci-final/analysis.json",
+    "bytes": 1848,
+    "sha256": "a15554b26a16ef9e05d0335d266012579cd0b1dd94e1c61b08dfe8972d5c0ad7"
+  },
+  {
+    "path": "ops017-normal-completion-v5-pr181-main-ci-final/job-log-connector-envelope.json",
+    "bytes": 327776,
+    "sha256": "4ddc1f196c89d46e2f1f9806bff00f91712c16dec259c1b1c55266bd9f99c07f"
+  },
+  {
+    "path": "ops017-normal-completion-v5-pr181-main-ci-final/job-log.connector-decoded.utf8.txt",
+    "bytes": 323063,
+    "sha256": "9fd90f73baaafe234a7c7976e0508959afde3e044f3512d6f8aa1cd7dc21eca3"
+  },
+  {
+    "path": "ops017-normal-completion-v5-pr181-source-ci927-final/run.json",
+    "bytes": 14460,
+    "sha256": "4d989de1b23701ca85100dd64909b33e5b310466257b1b0c367f16d6606c37b9"
+  },
+  {
+    "path": "ops017-normal-completion-v5-pr181-source-ci927-final/jobs.json",
+    "bytes": 8306,
+    "sha256": "2ae6d08b81272745f7a483c451f4bea034a41210f744007bb28a8b952b8980f9"
+  },
+  {
+    "path": "ops017-normal-completion-v5-pr181-source-ci927-final/checkout.json",
+    "bytes": 2805,
+    "sha256": "66e7432e3673ca887db0c4c11297f08373f35587e9e6acfe2853238762377015"
+  },
+  {
+    "path": "ops017-normal-completion-v5-pr181-source-ci927-final/analysis.json",
+    "bytes": 2235,
+    "sha256": "187b56c659a29e138bb60627e5bc4c2f0f379fc91955dffddf887ae153ca1008"
+  },
+  {
+    "path": "ops017-normal-completion-v5-pr181-source-ci927-final/job-log-connector-envelope.json",
+    "bytes": 336192,
+    "sha256": "3ccf13f8f70e2722b7fcb270092a963036d860b568a2cd35a68b4fba3342be48"
+  },
+  {
+    "path": "ops017-normal-completion-v5-pr181-source-ci927-final/job-log.connector-decoded.utf8.txt",
+    "bytes": 331066,
+    "sha256": "8ba80e771653447a8d67c556c1afa1dc68df4d24c57499c8b65834d320a8578e"
+  },
+  {
+    "path": "ops017-normal-completion-v5-98cf7e5-native-main-seven/results.json",
+    "bytes": 5703,
+    "sha256": "e64cd5fe7dfbcb58988566f22891cc1a6e9f66880d9cc83416cb189b04ab6174"
+  },
+  {
+    "path": "ops017-normal-completion-v5-98cf7e5-native-main-seven/integrity.raw",
+    "bytes": 495,
+    "sha256": "51b178d231404885d779468641c8895fe6c9b4097afd2956c4c1683c465d7665"
+  },
+  {
+    "path": "ops017-normal-completion-v5-98cf7e5-native-main-seven/history.raw",
+    "bytes": 563,
+    "sha256": "9da6602f800298fbe33b56746276333250329dec9f02ee6875deac25d04a0f7a"
+  },
+  {
+    "path": "ops017-normal-completion-v5-98cf7e5-native-main-seven/transitions.raw",
+    "bytes": 475,
+    "sha256": "fd5408de371a6f12c681faad4274f7d245ecd639e1b61f88dabdb6f285c16a0b"
+  },
+  {
+    "path": "ops017-normal-completion-v5-98cf7e5-native-main-seven/finalization.raw",
+    "bytes": 454,
+    "sha256": "04cf98b6f568b9da9699da3e16356b9a4372643fed7b1fe813d3ebd14b7af067"
+  },
+  {
+    "path": "ops017-normal-completion-v5-98cf7e5-native-main-seven/raw-lifecycle.raw",
+    "bytes": 546,
+    "sha256": "5253cf8ae7f0e1c7546407a409d8090125e5c579031f3843dbea1b43ab676ed8"
+  },
+  {
+    "path": "ops017-normal-completion-v5-98cf7e5-native-main-seven/coordination.raw",
+    "bytes": 346,
+    "sha256": "1e7f9fb5500cf93384c006eba294ce1af3c5eb0166f6eed1b18ec85703249297"
+  },
+  {
+    "path": "ops017-normal-completion-v5-98cf7e5-native-main-seven/poc-protocol.raw",
+    "bytes": 403,
+    "sha256": "b2222b7d907b0f7d0afba8e25a185dfb25de150abd2ae2c23d6153511de916a4"
+  },
+  {
+    "path": "poc003-main98-staged-code-import-v1/historical-feature-bundle.raw",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "poc003-main98-staged-code-import-v1/isolated-author-clone.raw",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "poc003-main98-staged-code-import-v1/fetch.raw",
+    "bytes": 91,
+    "sha256": "b306780329a98b9d77d485063dff508b14c6f3030f649cf5b08a29cf8c8d3b57"
+  },
+  {
+    "path": "poc003-main98-staged-code-import-v1/merge.raw",
+    "bytes": 165,
+    "sha256": "96b331d650c9de8390b27b55e143d75a8765889897a79fed083cc748599635d4"
+  }
+]

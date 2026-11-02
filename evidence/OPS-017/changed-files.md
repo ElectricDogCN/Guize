@@ -1,3 +1,63 @@
+# Current complete delta relative to d15d8e106aef844992caa183d866e95189a56776
+
+- `evidence/OPS-017/changed-files.md`
+- `evidence/OPS-017/commands.txt`
+- `evidence/OPS-017/handoff.md`
+- `evidence/OPS-017/ph-safe-loaders-v1/README.md`
+- `evidence/OPS-017/ph-safe-loaders-v1/ba4fe39-fixture-base-failure-index.json`
+- `evidence/OPS-017/ph-safe-loaders-v1/ba4fe39-fixture-base-failure.zip`
+- `evidence/OPS-017/ph-safe-loaders-v1/baseline-main-independent-review.json`
+- `evidence/OPS-017/ph-safe-loaders-v1/commands.txt`
+- `evidence/OPS-017/ph-safe-loaders-v1/current-validation-source-02bc987-index.json`
+- `evidence/OPS-017/ph-safe-loaders-v1/current-validation-source-02bc987.zip`
+- `evidence/OPS-017/ph-safe-loaders-v1/draft-safety/v1/junit.xml`
+- `evidence/OPS-017/ph-safe-loaders-v1/draft-safety/v1/results.json`
+- `evidence/OPS-017/ph-safe-loaders-v1/draft-safety/v1/stderr.raw`
+- `evidence/OPS-017/ph-safe-loaders-v1/draft-safety/v1/stdout.raw`
+- `evidence/OPS-017/ph-safe-loaders-v1/draft-safety/v2/junit.xml`
+- `evidence/OPS-017/ph-safe-loaders-v1/draft-safety/v2/results.json`
+- `evidence/OPS-017/ph-safe-loaders-v1/draft-safety/v2/stderr.raw`
+- `evidence/OPS-017/ph-safe-loaders-v1/draft-safety/v2/stdout.raw`
+- `evidence/OPS-017/ph-safe-loaders-v1/originals-prequalification-index.json`
+- `evidence/OPS-017/ph-safe-loaders-v1/originals-prequalification.zip`
+- `evidence/OPS-017/ph-safe-loaders-v1/stage.json`
+- `evidence/OPS-017/summary.md`
+- `evidence/OPS-017/test-results/README.md`
+- `scripts/check-program-plan-history.py`
+- `scripts/program-planning-revision.py`
+- `specs/coordination/active-work.yaml`
+- `specs/tasks/OPS-017.md`
+- `tests/governance/test_poc_contract_repair_admission.py`
+
+## Retained prior inventories
+
+# Current P/H stage delta relative to d15d8e106aef844992caa183d866e95189a56776
+
+- `evidence/OPS-017/changed-files.md`
+- `evidence/OPS-017/commands.txt`
+- `evidence/OPS-017/handoff.md`
+- `evidence/OPS-017/ph-safe-loaders-v1/README.md`
+- `evidence/OPS-017/ph-safe-loaders-v1/baseline-main-independent-review.json`
+- `evidence/OPS-017/ph-safe-loaders-v1/commands.txt`
+- `evidence/OPS-017/ph-safe-loaders-v1/draft-safety/v1/junit.xml`
+- `evidence/OPS-017/ph-safe-loaders-v1/draft-safety/v1/results.json`
+- `evidence/OPS-017/ph-safe-loaders-v1/draft-safety/v1/stderr.raw`
+- `evidence/OPS-017/ph-safe-loaders-v1/draft-safety/v1/stdout.raw`
+- `evidence/OPS-017/ph-safe-loaders-v1/draft-safety/v2/junit.xml`
+- `evidence/OPS-017/ph-safe-loaders-v1/draft-safety/v2/results.json`
+- `evidence/OPS-017/ph-safe-loaders-v1/draft-safety/v2/stderr.raw`
+- `evidence/OPS-017/ph-safe-loaders-v1/draft-safety/v2/stdout.raw`
+- `evidence/OPS-017/ph-safe-loaders-v1/stage.json`
+- `evidence/OPS-017/summary.md`
+- `evidence/OPS-017/test-results/README.md`
+- `scripts/check-program-plan-history.py`
+- `scripts/program-planning-revision.py`
+- `specs/coordination/active-work.yaml`
+- `specs/tasks/OPS-017.md`
+- `tests/governance/test_poc_contract_repair_admission.py`
+
+## Retained previous inventories
+
 # OPS-017 reservation inventory
 
 - `evidence/OPS-017/api-samples/README.md`
@@ -21,3 +81,179 @@
 - `specs/coordination/active-work.yaml`
 - `specs/coordination/program-plan.yaml`
 - `specs/tasks/OPS-017.md`
+
+
+## Current historical-authority fixture rework inventory
+
+Base: 877d1b0fbd717f71fa9ad1e2ea4db4723ded3bcc
+Branch: chore/OPS-017-source-compatibility-admission
+
+- evidence/OPS-017/changed-files.md
+- evidence/OPS-017/commands.txt
+- evidence/OPS-017/handoff.md
+- evidence/OPS-017/historical-authority-fixture-v1/README.md
+- evidence/OPS-017/historical-authority-fixture-v1/commands.txt
+- evidence/OPS-017/historical-authority-fixture-v1/context.json
+- evidence/OPS-017/historical-authority-fixture-v1/index.json
+- evidence/OPS-017/historical-authority-fixture-v1/originals.zip
+- evidence/OPS-017/summary.md
+- evidence/OPS-017/test-results/README.md
+- tests/governance/test_poc_contract_repair_admission.py
+
+
+## Current13-path fixture rework with audited-base alignment
+
+The preceding11-path draft is superseded. Full integration base: 877d1b0fbd717f71fa9ad1e2ea4db4723ded3bcc
+
+- evidence/OPS-017/changed-files.md
+- evidence/OPS-017/commands.txt
+- evidence/OPS-017/handoff.md
+- evidence/OPS-017/historical-authority-fixture-v1/README.md
+- evidence/OPS-017/historical-authority-fixture-v1/commands.txt
+- evidence/OPS-017/historical-authority-fixture-v1/context.json
+- evidence/OPS-017/historical-authority-fixture-v1/index.json
+- evidence/OPS-017/historical-authority-fixture-v1/originals.zip
+- evidence/OPS-017/summary.md
+- evidence/OPS-017/test-results/README.md
+- specs/coordination/active-work.yaml
+- specs/tasks/OPS-017.md
+- tests/governance/test_poc_contract_repair_admission.py
+
+
+## Current authority cost repair target-delta inventory
+Target: 877d1b0fbd717f71fa9ad1e2ea4db4723ded3bcc
+Parent: 3396b93e880cbfc42b86128e64bc362c827195ca
+Entire current PR delta (earlier inventory is historical):
+- evidence/OPS-017/authority-audit-reuse-v1/README.md
+- evidence/OPS-017/authority-audit-reuse-v1/commands.txt
+- evidence/OPS-017/authority-audit-reuse-v1/context.json
+- evidence/OPS-017/authority-audit-reuse-v1/index.json
+- evidence/OPS-017/authority-audit-reuse-v1/originals.zip
+- evidence/OPS-017/changed-files.md
+- evidence/OPS-017/commands.txt
+- evidence/OPS-017/handoff.md
+- evidence/OPS-017/historical-authority-fixture-v1/README.md
+- evidence/OPS-017/historical-authority-fixture-v1/commands.txt
+- evidence/OPS-017/historical-authority-fixture-v1/context.json
+- evidence/OPS-017/historical-authority-fixture-v1/index.json
+- evidence/OPS-017/historical-authority-fixture-v1/originals.zip
+- evidence/OPS-017/summary.md
+- evidence/OPS-017/test-results/README.md
+- scripts/check-program-lifecycle-guards.py
+- scripts/poc-contract-repair-admission.py
+- specs/coordination/active-work.yaml
+- specs/tasks/OPS-017.md
+- tests/governance/test_poc_contract_repair_admission.py
+
+This commit parent delta: 13 Own paths.
+
+
+## Current Registry batch target-delta inventory
+Target: 877d1b0fbd717f71fa9ad1e2ea4db4723ded3bcc
+Parent: 30794b65dd81b256d88c4ad616c0130712f2168b
+Entire current PR delta:
+- evidence/OPS-017/authority-audit-reuse-v1/README.md
+- evidence/OPS-017/authority-audit-reuse-v1/commands.txt
+- evidence/OPS-017/authority-audit-reuse-v1/context.json
+- evidence/OPS-017/authority-audit-reuse-v1/index.json
+- evidence/OPS-017/authority-audit-reuse-v1/originals.zip
+- evidence/OPS-017/changed-files.md
+- evidence/OPS-017/commands.txt
+- evidence/OPS-017/handoff.md
+- evidence/OPS-017/historical-authority-fixture-v1/README.md
+- evidence/OPS-017/historical-authority-fixture-v1/commands.txt
+- evidence/OPS-017/historical-authority-fixture-v1/context.json
+- evidence/OPS-017/historical-authority-fixture-v1/index.json
+- evidence/OPS-017/historical-authority-fixture-v1/originals.zip
+- evidence/OPS-017/registry-batch-v1/README.md
+- evidence/OPS-017/registry-batch-v1/commands.txt
+- evidence/OPS-017/registry-batch-v1/context.json
+- evidence/OPS-017/registry-batch-v1/index.json
+- evidence/OPS-017/registry-batch-v1/originals.zip
+- evidence/OPS-017/summary.md
+- evidence/OPS-017/test-results/README.md
+- scripts/check-program-lifecycle-guards.py
+- scripts/poc-contract-repair-admission.py
+- specs/coordination/active-work.yaml
+- specs/tasks/OPS-017.md
+- tests/governance/test_poc_contract_repair_admission.py
+
+Current parent delta:12 Own paths.
+
+
+## Exact-edge forward repair
+Base: a55680b9d06901729fcae7f35cb167b8b59d33f4
+- evidence/OPS-017/changed-files.md
+- evidence/OPS-017/commands.txt
+- evidence/OPS-017/exact-edge-reuse-v1/README.md
+- evidence/OPS-017/exact-edge-reuse-v1/commands.txt
+- evidence/OPS-017/exact-edge-reuse-v1/context.json
+- evidence/OPS-017/exact-edge-reuse-v1/index.json
+- evidence/OPS-017/exact-edge-reuse-v1/originals.zip
+- evidence/OPS-017/handoff.md
+- evidence/OPS-017/summary.md
+- evidence/OPS-017/test-results/README.md
+- scripts/poc-contract-repair-admission.py
+- specs/coordination/active-work.yaml
+- specs/tasks/OPS-017.md
+- tests/governance/test_poc_contract_repair_admission.py
+
+
+## Lifecycle safe-loader forward refinement
+Target: a55680b9d06901729fcae7f35cb167b8b59d33f4
+Parent: a94e2352182e7388c8c2b4c6e331b6e556ba0f99
+Parent delta:
+- evidence/OPS-017/changed-files.md
+- evidence/OPS-017/commands.txt
+- evidence/OPS-017/handoff.md
+- evidence/OPS-017/lifecycle-loader-v1/README.md
+- evidence/OPS-017/lifecycle-loader-v1/commands.txt
+- evidence/OPS-017/lifecycle-loader-v1/context.json
+- evidence/OPS-017/lifecycle-loader-v1/index.json
+- evidence/OPS-017/lifecycle-loader-v1/originals.zip
+- evidence/OPS-017/summary.md
+- evidence/OPS-017/test-results/README.md
+- scripts/check-program-lifecycle-guards.py
+- tests/governance/test_poc_contract_repair_admission.py
+
+
+## Prospective scope amendment2026-11-02
+
+See `scope-amendment-stage-v1/README.md` and the immutable `scope-amendment-v1.json`. Actual source/main qualification remains pending. Original828 assertions are retained;11new Git regressions cover staged scope and its historical protection. P/H and all five frozen targets are unchanged.
+
+
+## New normal Review complete prospective inventory
+Base: ed5e4d4ad9d40d85358347760ac90bd1f73b10a7
+Branch: chore/OPS-017-normal-review-v5
+- evidence/OPS-017/changed-files.md
+- evidence/OPS-017/commands.txt
+- evidence/OPS-017/handoff.md
+- evidence/OPS-017/normal-review-v5/README.md
+- evidence/OPS-017/normal-review-v5/context.json
+- evidence/OPS-017/normal-review-v5/index.json
+- evidence/OPS-017/normal-review-v5/prerequisites.zip
+- evidence/OPS-017/summary.md
+- evidence/OPS-017/test-results/README.md
+- specs/coordination/active-work.yaml
+- specs/coordination/program-plan.yaml
+- specs/tasks/OPS-017.md
+
+
+## Current normal Completion prospective inventory
+
+Base: 82428752c3debc8aba77a67a10d94bc8ea0f6baa
+Branch: chore/OPS-017-normal-completion-v5
+
+- evidence/OPS-017/changed-files.md
+- evidence/OPS-017/commands.txt
+- evidence/OPS-017/handoff.md
+- evidence/OPS-017/normal-completion-v5/README.md
+- evidence/OPS-017/normal-completion-v5/commands.txt
+- evidence/OPS-017/normal-completion-v5/context.json
+- evidence/OPS-017/normal-completion-v5/index.json
+- evidence/OPS-017/normal-completion-v5/prerequisites.zip
+- evidence/OPS-017/summary.md
+- evidence/OPS-017/test-results/README.md
+- specs/coordination/active-work.yaml
+- specs/coordination/program-plan.yaml
+- specs/tasks/OPS-017.md

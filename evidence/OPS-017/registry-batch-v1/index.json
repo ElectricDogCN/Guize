@@ -1,0 +1,157 @@
+[
+  {
+    "path": "ops017-ci913-negative-and-batch-io-static-independent-review.json",
+    "bytes": 6343,
+    "sha256": "3d392b0abd4ea7e34323a7510cc7fe9b48a46124aa489fc365bb9c26ef0e06fe"
+  },
+  {
+    "path": "ops017-registry-batch-io-readonly-design-review.json",
+    "bytes": 5115,
+    "sha256": "ec997b23a95c9cb8225cb27d63d2f5f2a9af1206b79397999539b6d85b670951"
+  },
+  {
+    "path": "probe_ops017_registry_batch_readonly_once.py",
+    "bytes": 3926,
+    "sha256": "6eae6fd2d6d0e94efb1de87b8d90dcd421239358473d6d568aaa9e6fd802b2b3"
+  },
+  {
+    "path": "registry_batch_introduction_proposal_fragment.py",
+    "bytes": 3480,
+    "sha256": "2dd6d91214f60b357338c04817aa818e5f447539bac90531565765e70551e2d5"
+  },
+  {
+    "path": "registry_batch_test_proposal_fragment.py",
+    "bytes": 3243,
+    "sha256": "1d56ab4158eff876ec6de4bbf547437cee07bfac58dabf2ab701db614b41c2d2"
+  },
+  {
+    "path": "ops017-registry-batch-on307-production-v1.py",
+    "bytes": 40590,
+    "sha256": "f8b9fc75e9aef0c5fbf8f7aefe1cac35610d00c941bf9480207d6bf2902685c3"
+  },
+  {
+    "path": "ops017-registry-batch-on307-tests-v1.py",
+    "bytes": 71948,
+    "sha256": "a07a581864fd6504b17c020375d7794e18885e9203006f35dc180dcfa0e89e54"
+  },
+  {
+    "path": "run_ops017_registry_batch_development_v1_once.py",
+    "bytes": 5764,
+    "sha256": "96be4fca64062076a5114b127d4001aacc9d0e954933e7be79f49976c4856d3b"
+  },
+  {
+    "path": "ops017-authority-reuse-current-candidate.json",
+    "bytes": 6468,
+    "sha256": "a4d59efa46dd61fa6587b29d7bf7062ddc8486b73ea27b40dfb799fb7370a01e"
+  },
+  {
+    "path": "ops017-authority-reuse-source-ci/analysis.json",
+    "bytes": 1495,
+    "sha256": "106d9af0ad703b924452643b21edb6d03edd6c6454cdd26a533c1dd436f40175"
+  },
+  {
+    "path": "ops017-authority-reuse-source-ci/checkout.json",
+    "bytes": 2805,
+    "sha256": "22190ffadd8896d3bc716e4ec9cde0b5106b5210f397300d69e080f1a0d5ab97"
+  },
+  {
+    "path": "ops017-authority-reuse-source-ci/initial-jobs.json",
+    "bytes": 7428,
+    "sha256": "9e0fea6c8f059a450b06f6e9818225f6ee8ab048f9d32858f6107ea1d596d0c0"
+  },
+  {
+    "path": "ops017-authority-reuse-source-ci/initial-run.json",
+    "bytes": 14532,
+    "sha256": "d85c441b5ccaa5b1aebaaac5981b3f740cf97216ab7dfc4c2f43475fe83a11ca"
+  },
+  {
+    "path": "ops017-authority-reuse-source-ci/job-log-connector-envelope.json",
+    "bytes": 300831,
+    "sha256": "8c685c3219028f7d6397d2a09494f464908c8e985c8d055179c73fb1572a14ac"
+  },
+  {
+    "path": "ops017-authority-reuse-source-ci/job-log.connector-decoded.utf8.txt",
+    "bytes": 296515,
+    "sha256": "25655449b2c1572a0d677e2afd83742b8ffd350181b72a76c85733a255b1fb45"
+  },
+  {
+    "path": "ops017-authority-reuse-source-ci/jobs.json",
+    "bytes": 8320,
+    "sha256": "70ee90bb4f1977558eaad95f3b198cddfe0d8a7d4fe3a541e938fb4801518de2"
+  },
+  {
+    "path": "ops017-authority-reuse-source-ci/official-check-diagnostics-envelope.json",
+    "bytes": 1794,
+    "sha256": "dfcf84edc08325c6a56ff56f8fcb5c8919a4a1477e66a28c8d74670c92bd3f9b"
+  },
+  {
+    "path": "ops017-authority-reuse-source-ci/run.json",
+    "bytes": 14537,
+    "sha256": "fc04e193f4d24e1bbe67b352f717b9d184f98a63cc957f3c3daed71e8c7bdb6d"
+  },
+  {
+    "path": "ops017-registry-batch-readonly-probe-v1/results.json",
+    "bytes": 1581,
+    "sha256": "6d0d5aa81692c0a47489522c80399f2576f0c880699cd248c6d2f051d061e8cd"
+  },
+  {
+    "path": "ops017-registry-batch-development-v1/all-existing-component62.stderr.raw",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "ops017-registry-batch-development-v1/all-existing-component62.stdout.raw",
+    "bytes": 298,
+    "sha256": "15fb44c9721094343867295f9c0f9b53a7267e90d081afd77176983c6cf68a11"
+  },
+  {
+    "path": "ops017-registry-batch-development-v1/all-existing-component62.xml",
+    "bytes": 12079,
+    "sha256": "2faaaef69e65ab230ce0e367dabb94198470c3bd475fdf3d02de1618ecda60f9"
+  },
+  {
+    "path": "ops017-registry-batch-development-v1/focused-existing-four.stderr.raw",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "ops017-registry-batch-development-v1/focused-existing-four.stdout.raw",
+    "bytes": 283,
+    "sha256": "5dd205639505923a2cb889e7bd7688f90993c1ff587452cf122f42a908834ac7"
+  },
+  {
+    "path": "ops017-registry-batch-development-v1/focused-existing-four.xml",
+    "bytes": 977,
+    "sha256": "650f9d9620348db73889f9005d5b5ff05433f4d25b34158d2fc63ea72d688c28"
+  },
+  {
+    "path": "ops017-registry-batch-development-v1/native-main-readiness1.stderr.raw",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "ops017-registry-batch-development-v1/native-main-readiness1.stdout.raw",
+    "bytes": 283,
+    "sha256": "67ac335be8c4d2971422cd670557835dca3d4912a9a0127acb0a0794511f0c62"
+  },
+  {
+    "path": "ops017-registry-batch-development-v1/native-main-readiness1.xml",
+    "bytes": 393,
+    "sha256": "f202903c12086b5bbcb510246d87c53de2756459657cd11bddfebeb5d9c1f458"
+  },
+  {
+    "path": "ops017-registry-batch-development-v1/poc-contract-repair-admission.py.overlay",
+    "bytes": 40590,
+    "sha256": "f8b9fc75e9aef0c5fbf8f7aefe1cac35610d00c941bf9480207d6bf2902685c3"
+  },
+  {
+    "path": "ops017-registry-batch-development-v1/results.json",
+    "bytes": 6254,
+    "sha256": "8f6489956da51d581a463dea227ee7bc20306ea6204f8ddfc3baabb7e093295e"
+  },
+  {
+    "path": "ops017-registry-batch-development-v1/test_poc_contract_repair_admission.py.overlay",
+    "bytes": 71948,
+    "sha256": "a07a581864fd6504b17c020375d7794e18885e9203006f35dc180dcfa0e89e54"
+  }
+]

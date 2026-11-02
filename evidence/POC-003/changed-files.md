@@ -2660,3 +2660,19 @@ Current cumulative paths: 2654. Accepted main synchronized locally; current-sour
 - `specs/coordination/active-work.yaml`
 - `specs/coordination/program-plan.yaml`
 - `specs/tasks/POC-003.md`
+
+
+## Main98 staged-code imported-main handoff
+Incoming: 98cf7e5340c9a512461eb7d18659019de4c9c2a1
+Feature: 9ab4613bf221687a49ecd04723c1a40712f95ddb
+Only ten OwnEvidence handoff paths authored after genuine automatic merge; original netruntime73 unchanged. Current net inventory is derived from Git in the candidate.
+- evidence/POC-003/changed-files.md
+- evidence/POC-003/commands.txt
+- evidence/POC-003/handoff.md
+- evidence/POC-003/main98-staged-code-v1/README.md
+- evidence/POC-003/main98-staged-code-v1/commands.txt
+- evidence/POC-003/main98-staged-code-v1/context.json
+- evidence/POC-003/main98-staged-code-v1/index.json
+- evidence/POC-003/main98-staged-code-v1/prerequisites.zip
+- evidence/POC-003/summary.md
+- evidence/POC-003/test-results/README.md
