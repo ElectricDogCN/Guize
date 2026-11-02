@@ -1,0 +1,26 @@
+{
+  "stage": "diagnostic-before",
+  "observedAt": "2026-10-22T15:59:56.522943Z",
+  "sourceVersion": "base",
+  "atsPid": 688910,
+  "cacheFiles": [
+    {
+      "name": "cache.db",
+      "logicalBytes": 268435456,
+      "allocatedBytes": 368640
+    }
+  ],
+  "nativeCacheReady": {
+    "atsPid": 688910,
+    "observedAt": "2026-10-22T15:59:56Z",
+    "cacheReady": true,
+    "httpCacheReady": true,
+    "nativeApi": "TSCacheReady+TSCacheDataTypeReady"
+  },
+  "allocatedDiskBytes": 368640,
+  "canonicalCacheObjectExported": false,
+  "activeOriginRequests": 0,
+  "activeGatewayRequests": 0,
+  "originRequestCount": 0,
+  "originObjectReadBytes": 0
+}

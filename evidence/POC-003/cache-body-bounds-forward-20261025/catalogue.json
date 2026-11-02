@@ -1,0 +1,17 @@
+{
+  "phase": "catalogue",
+  "startedAt": "2026-10-24T19:25:40.265985+00:00",
+  "argv": [
+    "C:\\ProgramData\\anaconda3\\python.exe",
+    "-X",
+    "utf8",
+    "-B",
+    "test_cache_probe.py"
+  ],
+  "exitCode": 0,
+  "waitCompleted": true,
+  "expectedTests": 4,
+  "rawBytes": 755,
+  "rawSha256": "573d06854e05b1ae6c6591931cc916cce53a87648d341cb2698d18926e9878a7",
+  "noAtsOrHttpWorkload": true
+}

@@ -1,0 +1,7 @@
+# Genuine ordinary import of accepted lease main
+
+Expected parents: localaf996acf20889d456b968b7c86d6fe91f0ae974b then acceptedmainfdf93444a72aa5cc52dd49a79d2f4e435cd1ce1d. Actual fetch and merge --no-commit/--no-ff ran normally; only Own handoff conflicted. Its exact local bytes remain a prefix, followed by the exact incoming append and a clearly current interpretation. No whole incoming Task replacement, actor relabeling, role rewrite or old-window extension is performed.
+
+The automatic full Task equals the local Task with only expiry changed. The automatic Registry equals current main with only the retained Own implementation record (and its imported actual lease). Program mirrors retain Own in_progress and all other incoming definitions. Ledger and foreign Task/Evidence bytes stay incoming-main exact. All current POC source files remain byte-identical to the already reviewed/compiled component. provenance.json binds exact source identities, old/new lease and every source file digest.
+
+Only the accepted metadata lease is imported. The smaller allocation policy has no new runtime or8MiB qualification. Whole-source gates/CI, remaining latest-main sync and new actual experimental approvals are pending. The consumed original matrix and actual negative/partial result are preserved, including the fullURL correction required prospectively. No formal POC, Ready, code merge or V1 acceptance follows from this pending ordinary merge.

@@ -1,0 +1,9 @@
+{
+  "actualReviewer": "/root/gz022_planning_independent_review",
+  "reviewedAt": "2026-10-22T14:53:10Z",
+  "source": "9c012b4e1c90b014fe619253a8f07a738b5c0724",
+  "proposalSha256": "19d80e6b42b0e9b86fa2ec97a6bcd2d1729de974df01de11d0904b8cd2a0b2a3",
+  "approved": false,
+  "reason": "Same runroot would retain stale initial ATS PID and changed source version; independently found before execution",
+  "experimentExecuted": false
+}

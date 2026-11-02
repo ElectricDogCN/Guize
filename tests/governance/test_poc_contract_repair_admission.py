@@ -1,11 +1,13 @@
 """Real Git histories prove bounded repair admission and preserve existing denial."""
 import copy
+import json
 from datetime import datetime, timedelta, timezone
 import importlib.util
 import os
 from pathlib import Path
 import re
 import subprocess
+import sys
 import tempfile
 import unittest
 from unittest import mock
@@ -17,6 +19,312 @@ SPEC = importlib.util.spec_from_file_location('poc_repair_test',ROOT/'scripts/po
 PROOF = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(PROOF)
 RESERVATION_MAIN = '3eb9bb69b4fb1df85a359750b73356b953429540'
+
+
+class TestProspectiveScopeAmendment(unittest.TestCase):
+    """Synthetic real Git merges exercise scope; none certify production CI."""
+    @staticmethod
+    def git(root, *args):
+        return subprocess.check_output(['git','-C',str(root),*args],stderr=subprocess.STDOUT).decode().strip()
+
+    @classmethod
+    def commit_at(cls, root, message, seconds):
+        cls.git(root,'add','.')
+        at=(cls.recorded+timedelta(seconds=seconds)).isoformat()
+        subprocess.run(['git','-C',str(root),'commit','--quiet','-m',message],check=True,capture_output=True,
+                       env=dict(os.environ,GIT_AUTHOR_DATE=at,GIT_COMMITTER_DATE=at))
+        return cls.git(root,'rev-parse','HEAD')
+
+    @classmethod
+    def merge_at(cls, root, source, message, seconds):
+        at=(cls.recorded+timedelta(seconds=seconds)).isoformat()
+        subprocess.run(['git','-C',str(root),'merge','--quiet','--no-ff','-m',message,source],check=True,capture_output=True,
+                       env=dict(os.environ,GIT_AUTHOR_DATE=at,GIT_COMMITTER_DATE=at))
+        return cls.git(root,'rev-parse','HEAD')
+
+    @classmethod
+    def setUpClass(cls):
+        cls.temporary=tempfile.TemporaryDirectory(prefix='guize-scope-amendment-fixture-')
+        cls.fixture=Path(cls.temporary.name,'repo')
+        subprocess.run(['git','clone','--local','--quiet',str(ROOT),str(cls.fixture)],check=True,capture_output=True)
+        cls.git(cls.fixture,'config','user.name','Scope amendment fixture')
+        cls.git(cls.fixture,'config','user.email','fixture@example.invalid')
+        cls.git(cls.fixture,'config','core.autocrlf','false')
+        cls.base=PROOF.SCOPE_AMENDMENT_BASE
+        cls.record=(ROOT/PROOF.SCOPE_AMENDMENT).read_bytes()
+        cls.recorded=datetime.fromisoformat(json.loads(cls.record)['approvalEvidence']['recordedAt'])
+        cls.git(cls.fixture,'checkout','-B','main',cls.base)
+        cls.git(cls.fixture,'update-ref','refs/remotes/origin/main',cls.base)
+        cls.git(cls.fixture,'switch','-c','chore/OPS-017-fixture-amendment')
+        (cls.fixture/PROOF.SCOPE_AMENDMENT).write_bytes(cls.record)
+        active=yaml.safe_load((cls.fixture/PROOF.ACTIVE).read_bytes())
+        own=next(x for x in active['tasks'] if x['taskId']=='OPS-017')
+        own.update(baseSha=cls.base,branch='chore/OPS-017-fixture-amendment',
+                   exclusivePaths=sorted(PROOF.SOURCE_COMPATIBILITY.claims|PROOF.SCOPE_SUPPLEMENT))
+        (cls.fixture/PROOF.ACTIVE).write_text(yaml.safe_dump(active,sort_keys=False,allow_unicode=True),encoding='utf-8')
+        # The synthetic introduction is always an in-progress task at N,
+        # even when the real checkout has moved to a later base or phase.
+        baseline=cls.git(cls.fixture,'show',cls.base+':specs/tasks/OPS-017.md')
+        front=baseline.split('---',2)[1]
+        front=re.sub(r'^baseSha:.*$','baseSha: '+cls.base,front,flags=re.M)
+        body=(ROOT/'specs/tasks/OPS-017.md').read_text(encoding='utf-8').split('---',2)[2]
+        text='---'+front+'---'+body
+        text=re.sub(r'^workBranch:.*$','workBranch: chore/OPS-017-fixture-amendment',text,flags=re.M)
+        (cls.fixture/'specs/tasks/OPS-017.md').write_text(text,encoding='utf-8')
+        with (cls.fixture/'AGENTS.md').open('a',encoding='utf-8') as f:f.write('\nSynthetic scope protocol implementation.\n')
+        cls.source=cls.commit_at(cls.fixture,'OPS-017 fixture scope declaration (#2991)',2)
+        cls.git(cls.fixture,'switch','main')
+        cls.integrated=cls.merge_at(cls.fixture,cls.source,'OPS-017 fixture scope main (#2991)',3)
+        cls.git(cls.fixture,'update-ref','refs/remotes/origin/main',cls.integrated)
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.temporary.cleanup()
+
+    def setUp(self):
+        self.working=tempfile.TemporaryDirectory(prefix='guize-scope-amendment-case-')
+        self.addCleanup(self.working.cleanup)
+        self.repo=Path(self.working.name,'repo')
+        subprocess.run(['git','clone','--local','--quiet',str(self.fixture),str(self.repo)],check=True,capture_output=True)
+        self.git(self.repo,'config','user.name','Scope amendment case')
+        self.git(self.repo,'config','user.email','fixture@example.invalid')
+        self.git(self.repo,'config','core.autocrlf','false')
+        self.git(self.repo,'update-ref','refs/remotes/origin/main',self.integrated)
+
+    def unadmit(self, head):
+        self.git(self.repo,'checkout','--detach',head)
+        self.git(self.repo,'update-ref','refs/heads/main',self.base)
+        self.git(self.repo,'update-ref','refs/remotes/origin/main',self.base)
+
+    def supplemental_write(self, seconds=10):
+        with (self.repo/'scripts/program-planning-revision.py').open('a',encoding='utf-8') as f:f.write('\n# Synthetic separately scoped implementation.\n')
+        return self.commit_at(self.repo,'OPS-017 fixture supplemental implementation (#2992)',seconds)
+
+    def test_declaration_does_not_grant_write_before_main(self):
+        self.unadmit(self.source)
+        PROOF.audit_scope_amendment(str(self.repo),self.base,self.source)
+        changed=self.supplemental_write()
+        with self.assertRaisesRegex(PROOF.AdmissionError,'previously integrated amendment main'):
+            PROOF.audit_scope_amendment(str(self.repo),self.base,changed)
+
+    def test_side_or_virtual_merge_does_not_grant_scope(self):
+        self.unadmit(self.integrated)
+        self.assertIsNone(PROOF.scope_integration(str(self.repo),self.integrated))
+        changed=self.supplemental_write()
+        with self.assertRaisesRegex(PROOF.AdmissionError,'previously integrated amendment main'):
+            PROOF.audit_scope_amendment(str(self.repo),self.base,changed)
+
+    def test_canonical_integration_admits_later_registered_write(self):
+        self.assertEqual(PROOF.scope_integration(str(self.repo),self.integrated),self.integrated)
+        changed=self.supplemental_write()
+        PROOF.audit_scope_amendment(str(self.repo),self.integrated,changed)
+        self.assertEqual(self.git(self.repo,'show',changed+':'+PROOF.SOURCE_COMPATIBILITY.intent),
+                         self.git(self.repo,'show',self.base+':'+PROOF.SOURCE_COMPATIBILITY.intent))
+
+    def test_scope_record_edit_restore_in_introduced_history_rejected(self):
+        (self.repo/PROOF.SCOPE_AMENDMENT).write_bytes(self.record+b' ')
+        self.commit_at(self.repo,'OPS-017 fixture invalid scope record',10)
+        (self.repo/PROOF.SCOPE_AMENDMENT).write_bytes(self.record)
+        restored=self.commit_at(self.repo,'OPS-017 fixture restore scope record',11)
+        with self.assertRaisesRegex(PROOF.AdmissionError,'approved immutable record'):
+            PROOF.audit_scope_amendment(str(self.repo),self.integrated,restored)
+
+    def test_ph_edit_restore_before_integration_rejected(self):
+        self.unadmit(self.source)
+        path=self.repo/'scripts/program-planning-revision.py';raw=path.read_bytes()
+        self.supplemental_write()
+        path.write_bytes(raw);restored=self.commit_at(self.repo,'OPS-017 fixture restore premature code',11)
+        with self.assertRaisesRegex(PROOF.AdmissionError,'previously integrated amendment main'):
+            PROOF.audit_scope_amendment(str(self.repo),self.base,restored)
+
+    def test_late_scope_record_introduction_rejected(self):
+        self.unadmit(self.base)
+        (self.repo/'evidence/OPS-017/unrelated-fixture.txt').write_text('fixture\n',encoding='utf-8')
+        self.commit_at(self.repo,'OPS-017 fixture intervening source',10)
+        (self.repo/PROOF.SCOPE_AMENDMENT).write_bytes(self.record)
+        late=self.commit_at(self.repo,'OPS-017 fixture late declaration',11)
+        with self.assertRaisesRegex(PROOF.AdmissionError,'late or on another baseline'):
+            PROOF.audit_scope_amendment(str(self.repo),self.base,late)
+
+    def test_unrecorded_extended_declaration_denied(self):
+        self.unadmit(self.base)
+        active=yaml.safe_load((self.repo/PROOF.ACTIVE).read_bytes())
+        next(x for x in active['tasks'] if x['taskId']=='OPS-017')['exclusivePaths']=sorted(PROOF.SOURCE_COMPATIBILITY.claims|PROOF.SCOPE_SUPPLEMENT)
+        (self.repo/PROOF.ACTIVE).write_text(yaml.safe_dump(active,sort_keys=False),encoding='utf-8')
+        bad=self.commit_at(self.repo,'OPS-017 fixture unrecorded extension',10)
+        with self.assertRaisesRegex(PROOF.AdmissionError,'exact declared paths'):
+            PROOF.audit_scope_amendment(str(self.repo),self.base,bad)
+
+    def complete_authority_fixture(self):
+        branch='chore/OPS-017-fixture-performance'
+        self.git(self.repo,'switch','-c',branch)
+        TestBoundPocContractRepair.lifecycle(self.repo,'OPS-017','in_progress','implementer',self.integrated,branch)
+        source=self.supplemental_write()
+        self.git(self.repo,'switch','main')
+        code=self.merge_at(self.repo,source,'OPS-017 fixture latest performance code (#2992)',11)
+        self.git(self.repo,'update-ref','refs/remotes/origin/main',code)
+        branch='chore/OPS-017-fixture-review'
+        self.git(self.repo,'switch','-c',branch)
+        TestBoundPocContractRepair.lifecycle(self.repo,'OPS-017','review','reviewer',code,branch)
+        source=self.commit_at(self.repo,'OPS-017 fixture independent Review (#2993)',12)
+        self.git(self.repo,'switch','main')
+        review=self.merge_at(self.repo,source,'OPS-017 fixture Review main (#2993)',13)
+        self.git(self.repo,'update-ref','refs/remotes/origin/main',review)
+        branch='chore/OPS-017-fixture-completion'
+        self.git(self.repo,'switch','-c',branch)
+        TestBoundPocContractRepair.lifecycle(self.repo,'OPS-017','completed','integrator',review,branch)
+        active=yaml.safe_load((self.repo/PROOF.ACTIVE).read_bytes());active['tasks']=[x for x in active['tasks'] if x['taskId']!='OPS-017']
+        plan=yaml.safe_load((self.repo/PROOF.PLAN).read_bytes());next(x for x in plan['foundationTasks'] if x['taskId']=='OPS-017').update(status='completed',completionRef='PR-2992',mergeCommit=code)
+        TestBoundPocContractRepair.write(self.repo,PROOF.ACTIVE,active)
+        TestBoundPocContractRepair.write(self.repo,PROOF.PLAN,plan)
+        source=self.commit_at(self.repo,'OPS-017 fixture normal Completion (#2994)',14)
+        self.git(self.repo,'switch','main')
+        completed=self.merge_at(self.repo,source,'OPS-017 fixture Completion main (#2994)',15)
+        self.git(self.repo,'update-ref','refs/remotes/origin/main',completed)
+        return completed,code
+
+    def test_normal_completed_authority_uses_latest_ph_only_code_identity(self):
+        completed,code=self.complete_authority_fixture()
+        intent,_=PROOF.authority(str(self.repo),completed,successor='OPS-018')
+        self.assertEqual(set(intent['authorityClaims']),set(PROOF.SOURCE_COMPATIBILITY.claims))
+        self.assertFalse(PROOF.SOURCE_COMPATIBILITY.claims & set(self.git(self.repo,'diff','--name-only',code+'^1',code).splitlines()))
+
+    def test_authority_rejects_record_deleted_after_amended_implementation(self):
+        completed,_=self.complete_authority_fixture()
+        (self.repo/PROOF.SCOPE_AMENDMENT).unlink()
+        removed=self.commit_at(self.repo,'OPS-017 fixture delete scope proof after Completion',20)
+        self.git(self.repo,'update-ref','refs/remotes/origin/main',removed)
+        with self.assertRaisesRegex(PROOF.AdmissionError,'cannot be removed'):
+            PROOF.authority(str(self.repo),removed,successor='OPS-018')
+
+    def test_no_task_lifecycle_rejects_record_deletion(self):
+        (self.repo/PROOF.SCOPE_AMENDMENT).unlink()
+        removed=self.commit_at(self.repo,'OPS-017 fixture delete scope proof',20)
+        result=subprocess.run([sys.executable,str(ROOT/'scripts/check-program-lifecycle-guards.py'),
+            '--repo-root',str(self.repo),'--base-ref',self.integrated,'--head-ref',removed,
+            '--branch-name','chore/OPS-017-fixture-amendment'],capture_output=True,text=True)
+        self.assertNotEqual(result.returncode,0)
+        self.assertIn('Scope amendment cannot be removed',result.stdout+result.stderr)
+
+    def test_clean_main_import_into_old_peer_does_not_become_local_write(self):
+        # The real POC005 creation base predates N and older P/H work. The
+        # policy must preserve N's prefix while auditing independent peer work.
+        old_base='746e23e582501fa08380c3f3301bdc1774902f7c'
+        self.git(self.repo,'checkout','-b','chore/POC-005-fixture-old-peer',old_base)
+        path=self.repo/'evidence/POC-005/scope-import-fixture.txt'
+        path.parent.mkdir(parents=True,exist_ok=True)
+        path.write_text('independent peer fixture\n',encoding='utf-8')
+        peer=self.commit_at(self.repo,'POC-005 fixture independent peer work',10)
+        imported=self.merge_at(self.repo,self.integrated,'POC-005 fixture clean accepted main import',11)
+        PROOF.audit_scope_amendment(str(self.repo),peer,imported)
+        self.assertEqual((self.repo/PROOF.SCOPE_AMENDMENT).read_bytes(),self.record)
+
+        # A locally edited/restored supplemental file on the same old peer is
+        # outside N's prefix and cannot be erased by a later clean main import.
+        self.git(self.repo,'checkout','-b','chore/POC-005-fixture-old-peer-attack',old_base)
+        target=self.repo/'scripts/check-program-plan-history.py';raw=target.read_bytes()
+        with target.open('a',encoding='utf-8') as f:f.write('\n# Unadmitted peer modification.\n')
+        self.commit_at(self.repo,'POC-005 fixture unadmitted P/H edit',12)
+        target.write_bytes(raw)
+        self.commit_at(self.repo,'POC-005 fixture restore P/H before main import',13)
+        attacked=self.merge_at(self.repo,self.integrated,'POC-005 fixture import after restored local work',14)
+        with self.assertRaisesRegex(PROOF.AdmissionError,'previously integrated amendment main'):
+            PROOF.audit_scope_amendment(str(self.repo),old_base,attacked)
+
+
+class TestSafeYamlReaders(unittest.TestCase):
+    """Exercise the real public readers with C available and with the fallback."""
+    @classmethod
+    def setUpClass(cls):
+        for attr,path in [('planning','program-planning-revision.py'),
+                          ('history','check-program-plan-history.py')]:
+            name='guize_safe_yaml_'+attr
+            spec=importlib.util.spec_from_file_location(name,ROOT/'scripts'/path)
+            module=importlib.util.module_from_spec(spec)
+            sys.modules[name]=module
+            cls.addClassCleanup(sys.modules.pop,name,None)
+            spec.loader.exec_module(module)
+            setattr(cls,attr,module)
+
+    def setUp(self):
+        self.temporary=tempfile.TemporaryDirectory(prefix='guize-safe-yaml-')
+        self.addCleanup(self.temporary.cleanup)
+        self.repo=Path(self.temporary.name,'repo')
+        self.repo.mkdir()
+        self.git('init','--quiet','-b','main')
+        self.git('config','user.name','Safe YAML fixture')
+        self.git('config','user.email','fixture@example.invalid')
+        self.git('config','core.autocrlf','false')
+        (self.repo/'specs/tasks').mkdir(parents=True)
+
+    def git(self,*args):
+        return subprocess.check_output(['git','-C',str(self.repo),*args],
+                                       stderr=subprocess.STDOUT).decode().strip()
+
+    def commit_document(self,text,label):
+        (self.repo/'document.yaml').write_text(text,encoding='utf-8',newline='\n')
+        (self.repo/'specs/tasks/YAML-PROBE.md').write_text(
+            '---\n'+text+'---\nBody stays unchanged.\n',encoding='utf-8',newline='\n')
+        self.git('add','.')
+        self.git('commit','--quiet','-m',label)
+        return self.git('rev-parse','HEAD')
+
+    @staticmethod
+    def modes():
+        return [False,True] if hasattr(yaml,'CSafeLoader') else [True]
+
+    def test_typed_metadata_anchors_and_body_agree_with_safe_loader(self):
+        text=('enabled: true\ncount: 012\nratio: 1.25\nwhen: 2026-11-02\n'
+              'title: 归泽\nitems: [1, null, false]\n'
+              'base: &base {role: reviewer}\nmerged: {<<: *base, allowed: true}\n')
+        expected=yaml.safe_load(text)
+        head=self.commit_document(text,'typed safe metadata')
+        front='---\n'+text+'---\nBody stays unchanged.\n'
+        for fallback in self.modes():
+            with self.subTest(fallback=fallback),mock.patch.dict(yaml.__dict__):
+                if fallback:yaml.__dict__.pop('CSafeLoader',None)
+                self.planning.committed_document.cache_clear()
+                self.planning.spec_index.cache_clear()
+                values=[self.planning.committed_document(str(self.repo),head,'document.yaml'),
+                        self.history.load_current(str(self.repo),'document.yaml'),
+                        self.history.parse_front_matter(front)[0],
+                        self.planning.spec_index(str(self.repo),head)[0][1]]
+                for actual in values:
+                    self.assertEqual(actual,expected)
+                    for key in ['enabled','count','ratio','when','title','items']:
+                        self.assertIs(type(actual[key]),type(expected[key]))
+                self.assertEqual(self.history.parse_front_matter(front)[1],
+                                 '\nBody stays unchanged.\n')
+
+    def test_unsafe_tags_and_malformed_metadata_stay_rejected(self):
+        samples=['!!python/name:builtins.len ""\n','value: !unregistered x\n',
+                 'value: *missing\n','value: [\n']
+        for index,text in enumerate(samples):
+            head=self.commit_document(text,'invalid metadata '+str(index))
+            front='---\n'+text+'---\nBody stays unchanged.\n'
+            for fallback in self.modes():
+                with self.subTest(sample=index,fallback=fallback),mock.patch.dict(yaml.__dict__):
+                    if fallback:yaml.__dict__.pop('CSafeLoader',None)
+                    self.planning.committed_document.cache_clear()
+                    self.planning.spec_index.cache_clear()
+                    with self.assertRaises(yaml.YAMLError):
+                        self.planning.committed_document(str(self.repo),head,'document.yaml')
+                    with self.assertRaises(yaml.YAMLError):
+                        self.planning.spec_index(str(self.repo),head)
+                    with self.assertRaises(yaml.YAMLError):
+                        self.history.load_current(str(self.repo),'document.yaml')
+                    self.assertEqual(self.history.parse_front_matter(front),
+                                     ({},'\nBody stays unchanged.\n'))
+
+    def test_registered_current_indexes_keep_identical_typed_content(self):
+        plan=yaml.safe_load((ROOT/self.planning.PLAN).read_text(encoding='utf-8'))
+        expected=self.planning.validate_edge_indexes(str(ROOT),plan)
+        for fallback in self.modes():
+            with self.subTest(fallback=fallback),mock.patch.dict(yaml.__dict__):
+                if fallback:yaml.__dict__.pop('CSafeLoader',None)
+                actual=self.planning.validate_edge_indexes(str(ROOT),plan)
+                self.assertEqual(json.dumps(actual,sort_keys=True,ensure_ascii=False),
+                                 json.dumps(expected,sort_keys=True,ensure_ascii=False))
 
 
 class TestBoundPocContractRepair(unittest.TestCase):
@@ -67,6 +375,15 @@ class TestBoundPocContractRepair(unittest.TestCase):
         cls.write(root,'specs/tasks/'+task_id+'.md','---\n'+front+'\n---\n'+body)
 
     @classmethod
+    def authority_timestamp(cls, seconds):
+        # These isolated commits model the original authority's history. Their
+        # integration times must remain inside its real historical lease even
+        # when this test runs after that lease has expired.
+        observed = cls.authority_registered_at+timedelta(seconds=seconds)
+        assert cls.authority_acquired_at <= observed < cls.authority_expires_at
+        return observed.isoformat()
+
+    @classmethod
     def setUpClass(cls):
         # Start from the actual immutable intent and canonical reservation.
         # Subsequent commits are isolated test history, never production proof.
@@ -77,13 +394,18 @@ class TestBoundPocContractRepair(unittest.TestCase):
         cls.git(cls.fixture,'config','user.email','test@example.com')
         cls.git(cls.fixture,'config','user.name','Bound repair test')
         cls.git(cls.fixture,'config','core.autocrlf','false')
+        authority = PROOF.entry_at(str(cls.fixture),RESERVATION_MAIN,'OPS-013')
+        cls.authority_registered_at = datetime.fromtimestamp(
+            int(cls.git(cls.fixture,'show','-s','--format=%ct',RESERVATION_MAIN)),timezone.utc)
+        cls.authority_acquired_at = datetime.fromisoformat(authority['lease']['acquiredAt'].replace('Z','+00:00'))
+        cls.authority_expires_at = datetime.fromisoformat(authority['lease']['expiresAt'].replace('Z','+00:00'))
         cls.lifecycle(cls.fixture,'OPS-013','in_progress','implementer',RESERVATION_MAIN,'chore/OPS-013-contract-repair-admission')
-        cls.activation = cls.commit(cls.fixture,'OPS-013 fixture metadata activation')
+        cls.activation = cls.commit(cls.fixture,'OPS-013 fixture metadata activation',timestamp=cls.authority_timestamp(1))
         with Path(cls.fixture,'AGENTS.md').open('a',encoding='utf-8') as stream:
             stream.write('\nTest fixture nonempty registered implementation.\n')
-        cls.code = cls.commit(cls.fixture,'OPS-013 fixture implementation (#2001)')
+        cls.code = cls.commit(cls.fixture,'OPS-013 fixture implementation (#2001)',timestamp=cls.authority_timestamp(2))
         cls.lifecycle(cls.fixture,'OPS-013','review','reviewer',cls.code,'chore/OPS-013-fixture-review')
-        cls.review = cls.commit(cls.fixture,'OPS-013 independent fixture Review (#2002)')
+        cls.review = cls.commit(cls.fixture,'OPS-013 independent fixture Review (#2002)',timestamp=cls.authority_timestamp(3))
         cls.lifecycle(cls.fixture,'OPS-013','completed','integrator',cls.review,'chore/OPS-013-fixture-completion')
         plan = yaml.safe_load(Path(cls.fixture,PROOF.PLAN).read_bytes())
         next(x for x in plan['foundationTasks'] if x['taskId']=='OPS-013').update(completionRef='PR-2001',mergeCommit=cls.code)
@@ -91,7 +413,7 @@ class TestBoundPocContractRepair(unittest.TestCase):
         active['tasks'] = [x for x in active['tasks'] if x['taskId'] != 'OPS-013']
         cls.write(cls.fixture,PROOF.PLAN,plan)
         cls.write(cls.fixture,PROOF.ACTIVE,active)
-        cls.completed = cls.commit(cls.fixture,'OPS-013 fixture normal Completion (#2003)')
+        cls.completed = cls.commit(cls.fixture,'OPS-013 fixture normal Completion (#2003)',timestamp=cls.authority_timestamp(4))
 
     @classmethod
     def tearDownClass(cls):
@@ -282,7 +604,7 @@ class TestBoundPocContractRepair(unittest.TestCase):
         self.git(self.repo,'checkout','--detach',self.code)
         for name in [PROOF.PLAN,PROOF.ACTIVE,'specs/tasks/OPS-013.md']:
             self.write(self.repo,name,PROOF.blob(str(self.repo),self.completed,name).decode())
-        premature = self.commit(self.repo,'OPS-013 fixture direct Completion without Review')
+        premature = self.commit(self.repo,'OPS-013 fixture direct Completion without Review',timestamp=self.authority_timestamp(3))
         with self.assertRaisesRegex(PROOF.AdmissionError,'independent Review'):
             self.claims(base=premature,entry=dict(self.entry,baseSha=premature))
 
@@ -332,7 +654,7 @@ class TestBoundPocContractRepair(unittest.TestCase):
         self.git(self.repo,'checkout','--detach',self.activation)
         self.lifecycle(self.repo,'OPS-013','review','reviewer',self.activation,
                        'chore/OPS-013-fixture-review-baseline')
-        baseline = self.commit(self.repo,'OPS-013 fixture review baseline (#2002)')
+        baseline = self.commit(self.repo,'OPS-013 fixture review baseline (#2002)',timestamp=self.authority_timestamp(2))
         # The source includes separately registered implementation and Review
         # commits. Retain it under a ref even though the integration is squash.
         self.git(self.repo,'branch','fixture-reviewed-source',self.review)
@@ -350,7 +672,7 @@ class TestBoundPocContractRepair(unittest.TestCase):
             path = 'specs/tasks/OPS-013.md'
             text = Path(self.repo,path).read_text(encoding='utf-8')
             self.write(self.repo,path,text.replace('agentRole: integrator','agentRole: reviewer'))
-        implementation = self.commit(self.repo,'OPS-013 fixture reviewed source integration (#2001)')
+        implementation = self.commit(self.repo,'OPS-013 fixture reviewed source integration (#2001)',timestamp=self.authority_timestamp(4))
         self.assertEqual(PROOF.blob(str(self.repo),implementation,'AGENTS.md'),
                          PROOF.blob(str(self.repo),self.review,'AGENTS.md'))
         self.lifecycle(self.repo,'OPS-013','completed','integrator',implementation,
@@ -362,7 +684,7 @@ class TestBoundPocContractRepair(unittest.TestCase):
         active['tasks'] = [x for x in active['tasks'] if x['taskId']!='OPS-013']
         self.write(self.repo,PROOF.PLAN,plan)
         self.write(self.repo,PROOF.ACTIVE,active)
-        return self.commit(self.repo,'OPS-013 fixture immediate normal Completion (#2003)')
+        return self.commit(self.repo,'OPS-013 fixture immediate normal Completion (#2003)',timestamp=self.authority_timestamp(5))
 
     def test_reviewed_integration_can_complete_without_extra_review_commit(self):
         completed = self.integrated_authority()
@@ -650,3 +972,491 @@ class TestFoundationCleanImports(unittest.TestCase):
                     self.git('update-index', '--chmod=+x', self.own_task)
                     self.git('commit', '--quiet', '-m', 'Fixture raw Task mode mutation')
                 self.assertTrue(self.selected())
+
+
+class TestSourceCompatibilityRepairAdmission(unittest.TestCase):
+    """Real isolated Git graphs; these fixtures never certify project completion."""
+    git = classmethod(TestBoundPocContractRepair.git.__func__)
+    write = staticmethod(TestBoundPocContractRepair.write)
+    commit = classmethod(TestBoundPocContractRepair.commit.__func__)
+    front_fields = staticmethod(TestBoundPocContractRepair.front_fields)
+    lifecycle = classmethod(TestBoundPocContractRepair.lifecycle.__func__)
+    authority_timestamp = classmethod(TestBoundPocContractRepair.authority_timestamp.__func__)
+    reservation = 'dcfefbeca496b43d40c4145c751191bdd386375d'
+
+    @classmethod
+    def complete_authority(cls, root, code, *, review=True):
+        previous = code
+        code_seconds = int(cls.git(root,'show','-s','--format=%ct',code))-int(cls.authority_registered_at.timestamp())
+        if review:
+            cls.lifecycle(root,'OPS-017','review','reviewer',code,'chore/OPS-017-fixture-review')
+            previous = cls.commit(root,'OPS-017 fixture independent Review (#2012)',timestamp=cls.authority_timestamp(code_seconds+1))
+        cls.lifecycle(root,'OPS-017','completed','integrator',previous,'chore/OPS-017-fixture-completion')
+        plan = yaml.safe_load(Path(root,PROOF.PLAN).read_bytes())
+        next(x for x in plan['foundationTasks'] if x['taskId']=='OPS-017').update(completionRef='PR-2011',mergeCommit=code)
+        active = yaml.safe_load(Path(root,PROOF.ACTIVE).read_bytes())
+        active['tasks'] = [x for x in active['tasks'] if x['taskId'] != 'OPS-017']
+        cls.write(root,PROOF.PLAN,plan);cls.write(root,PROOF.ACTIVE,active)
+        return cls.commit(root,'OPS-017 fixture normal Completion (#2013)',timestamp=cls.authority_timestamp(code_seconds+(2 if review else 1)))
+
+    @classmethod
+    def setUpClass(cls):
+        cls.temporary = tempfile.TemporaryDirectory(prefix='guize-source-admission-')
+        cls.fixture = Path(cls.temporary.name,'fixture')
+        subprocess.run(['git','clone','--local','--quiet',str(ROOT),str(cls.fixture)],check=True,capture_output=True)
+        cls.git(cls.fixture,'checkout','--detach',cls.reservation)
+        for key,value in [('user.email','test@example.com'),('user.name','Source admission fixture'),('core.autocrlf','false')]:
+            cls.git(cls.fixture,'config',key,value)
+        authority = PROOF.entry_at(str(cls.fixture),cls.reservation,'OPS-017')
+        cls.authority_registered_at = datetime.fromtimestamp(
+            int(cls.git(cls.fixture,'show','-s','--format=%ct',cls.reservation)),timezone.utc)
+        cls.authority_acquired_at = datetime.fromisoformat(authority['lease']['acquiredAt'].replace('Z','+00:00'))
+        cls.authority_expires_at = datetime.fromisoformat(authority['lease']['expiresAt'].replace('Z','+00:00'))
+        cls.lifecycle(cls.fixture,'OPS-017','in_progress','implementer',cls.reservation,'chore/OPS-017-fixture-implementation')
+        cls.activation = cls.commit(cls.fixture,'OPS-017 fixture separate activation',timestamp=cls.authority_timestamp(1))
+        for path in sorted(PROOF.SOURCE_COMPATIBILITY.claims):
+            with Path(cls.fixture,path).open('a',encoding='utf-8') as stream:
+                stream.write('\n# Fixture nonempty registered implementation coverage.\n')
+        cls.code = cls.commit(cls.fixture,'OPS-017 fixture four-claim implementation (#2011)',timestamp=cls.authority_timestamp(2))
+        cls.completed = cls.complete_authority(cls.fixture,cls.code)
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.temporary.cleanup()
+
+    def setUp(self):
+        self.working = tempfile.TemporaryDirectory(prefix='guize-source-admission-case-')
+        self.addCleanup(self.working.cleanup)
+        self.repo = Path(self.working.name,'repo')
+        subprocess.run(['git','clone','--local','--quiet',str(self.fixture),str(self.repo)],check=True,capture_output=True)
+        self.git(self.repo,'checkout','--detach',self.completed)
+        for key,value in [('user.email','test@example.com'),('user.name','Source admission case'),('core.autocrlf','false')]:
+            self.git(self.repo,'config',key,value)
+        self.entry = copy.deepcopy(PROOF.entry_at(str(self.repo),self.reservation,'OPS-017'))
+        now = datetime.now(timezone.utc).replace(microsecond=0)
+        utc = lambda value:value.isoformat().replace('+00:00','Z')
+        self.entry.update(taskId='OPS-018',programTaskId='OPS-018',issue=2014,title='Fixture versioned compatibility repair',
+            branch='chore/OPS-018-fixture-repair',baseSha=self.completed,dependsOn=['OPS-017'],
+            handoffPath='evidence/OPS-018/handoff.md',exclusivePaths=sorted(PROOF.SOURCE_COMPATIBILITY.paths),integrationOrder=14,
+            lease={'acquiredAt':utc(now-timedelta(minutes=1)),'expiresAt':utc(now+timedelta(days=1))})
+        self.audit = PROOF.audit_session()
+        self.audit.__enter__()
+        self.addCleanup(self.audit.__exit__,None,None,None)
+
+    def claims(self, *, base=None, entry=None, observed=None):
+        return PROOF.prove_claims(str(self.repo),'OPS-018',entry or self.entry,base or self.completed,observed_ref=observed)
+
+    def register(self):
+        plan = yaml.safe_load(Path(self.repo,PROOF.PLAN).read_bytes())
+        plan['foundationTasks'].append(dict(taskId='OPS-018',title=self.entry['title'],status='reserved',completionRef='ISSUE-2014',mergeCommit=None))
+        active = yaml.safe_load(Path(self.repo,PROOF.ACTIVE).read_bytes());active['tasks'].append(self.entry)
+        self.write(self.repo,PROOF.PLAN,plan);self.write(self.repo,PROOF.ACTIVE,active)
+        front,body = Path(self.repo,'specs/tasks/OPS-017.md').read_text(encoding='utf-8')[4:].split('\n---\n',1)
+        front = self.front_fields(front,dict(id='OPS-018',titleZh=self.entry['title'],status='reserved',issue=2014,
+            agentRole='coordinator',baseSha=self.entry['baseSha'],workBranch=self.entry['branch'],
+            evidencePath='evidence/OPS-018',programTaskId='OPS-018',dependsOn='OPS-017',
+            handoffPath='evidence/OPS-018/handoff.md',integrationOrder=14,leaseExpiresAt=self.entry['lease']['expiresAt']))
+        start = body.index('## 独占写范围\n');end = body.index('\n## ',start+4)
+        body = body[:start]+'## 独占写范围\n\n'+''.join('- `'+p+'`\n' for p in sorted(PROOF.SOURCE_COMPATIBILITY.paths))+body[end:]
+        self.write(self.repo,'specs/tasks/OPS-018.md','---\n'+front+'\n---\n'+body)
+        self.write(self.repo,'evidence/OPS-018/handoff.md','# Synthetic fixture handoff only\n')
+        return self.commit(self.repo,'OPS-018 fixture independent metadata reservation (#2014)')
+
+    def test_real_new_authority_admits_exact_five_and_preserves_legacy_configuration(self):
+        # Normal-edge reuse must survive a different outer protected endpoint,
+        # while actual HEAD ancestry, live files and failed proofs stay fresh.
+        history_module = PROOF.history_module()
+        with PROOF.audit_session(), mock.patch.object(history_module,'validate_foundations',
+                wraps=history_module.validate_foundations) as ordinary:
+            self.assertEqual(self.claims(),PROOF.SOURCE_COMPATIBILITY.paths)
+            calls = ordinary.call_count
+            self.assertGreater(calls,0)
+            PROOF.authority(str(self.repo),self.completed,successor='OPS-018')
+            self.assertEqual(ordinary.call_count,calls)
+            self.git(self.repo,'checkout','--detach',self.reservation)
+            try:
+                for _ in range(2):
+                    with self.assertRaisesRegex(PROOF.AdmissionError,'is not reachable from HEAD'):
+                        PROOF.authority(str(self.repo),self.completed,successor='OPS-018')
+                self.assertGreater(ordinary.call_count,calls+1)
+            finally:
+                self.git(self.repo,'checkout','--detach',self.completed)
+            # Force an outer miss but reuse the same Completion edge: its
+            # current Handoff cannot be supplied by the cached edge proof.
+            with PROOF.audit_session():
+                PROOF.authority(str(self.repo),self.completed,successor='OPS-018')
+                handoff = Path(self.repo,'evidence/OPS-017/handoff.md')
+                raw = handoff.read_bytes()
+                handoff.unlink()
+                try:
+                    with self.assertRaisesRegex(PROOF.AdmissionError,'Evidence/Handoff does not exist'):
+                        PROOF.authority(str(self.repo),self.completed,protected_through=self.completed,successor='OPS-018')
+                finally:
+                    handoff.write_bytes(raw)
+        with PROOF.audit_session(), mock.patch.object(history_module,'validate_foundations',
+                wraps=history_module.validate_foundations) as fresh:
+            self.assertEqual(self.claims(),PROOF.SOURCE_COMPATIBILITY.paths)
+            self.assertGreater(fresh.call_count,0)
+        self.assertEqual(self.claims(),PROOF.SOURCE_COMPATIBILITY.paths)
+        self.assertEqual(PROOF.contract('OPS-014').paths,frozenset(PROOF.REPAIR_PATHS))
+        self.assertEqual(PROOF.authenticated_claims(str(self.repo),'OPS-099',self.entry,self.completed),set())
+        self.assertEqual(self.claims(),PROOF.SOURCE_COMPATIBILITY.paths)
+        # An audit hit must recheck current files even with unchanged commits.
+        handoff = Path(self.repo,'evidence/OPS-017/handoff.md')
+        raw = handoff.read_bytes()
+        handoff.unlink()
+        try:
+            with self.assertRaisesRegex(PROOF.AdmissionError,'Evidence/Handoff does not exist'):
+                self.claims()
+        finally:
+            handoff.write_bytes(raw)
+        self.assertEqual(self.claims(),PROOF.SOURCE_COMPATIBILITY.paths)
+        expired = dict(self.entry,lease={'acquiredAt':'2020-01-01T00:00:00Z','expiresAt':'2020-01-02T00:00:00Z'})
+        with self.assertRaisesRegex(PROOF.AdmissionError,'lease is invalid'):
+            self.claims(entry=expired)
+        # Returned mutable intent cannot poison a later hit.
+        intent,_ = PROOF.authority(str(self.repo),self.completed,protected_through=self.completed,successor='OPS-018')
+        intent['authorityTaskId'] = 'OPS-099'
+        self.assertEqual(PROOF.authority(str(self.repo),self.completed,protected_through=self.completed,successor='OPS-018')[0]['authorityTaskId'],'OPS-017')
+        # Shared object storage is not an immutable view for audit reuse.
+        with tempfile.TemporaryDirectory(prefix='guize-alternate-view-') as temporary:
+            borrowed = Path(temporary,'repo')
+            subprocess.run(['git','clone','--shared','--quiet',str(self.repo),str(borrowed)],check=True,capture_output=True)
+            PROOF.authority(str(borrowed),self.completed,protected_through=self.completed,successor='OPS-018')
+            Path(borrowed,'.git/objects/info/alternates').unlink()
+            with self.assertRaisesRegex(PROOF.AdmissionError,'Cannot read committed repair authority'):
+                PROOF.authority(str(borrowed),self.completed,protected_through=self.completed,successor='OPS-018')
+
+        history = PROOF.chain(str(self.repo),self.completed)
+        expected = PROOF._introduction_sequential(str(self.repo),history,'OPS-017')
+        run = subprocess.run
+        for fault in ['transport','metadata-frame','content-frame']:
+            with self.subTest(batchFault=fault):
+                def faulty_batch(argv,*args,**kwargs):
+                    if '--batch-check' in argv:
+                        if fault == 'transport':
+                            return subprocess.CompletedProcess(argv,1,b'',b'fixture batch unavailable')
+                        if fault == 'metadata-frame':
+                            return subprocess.CompletedProcess(argv,0,b'incomplete\n',b'')
+                    if '--batch' in argv and fault == 'content-frame':
+                        return subprocess.CompletedProcess(argv,0,b'incomplete\n',b'')
+                    return run(argv,*args,**kwargs)
+                with mock.patch.object(PROOF.subprocess,'run',side_effect=faulty_batch):
+                    self.assertEqual(PROOF.introduction(str(self.repo),history,'OPS-017'),expected)
+
+        with tempfile.TemporaryDirectory(prefix='guize-registry-order-') as temporary:
+            root = Path(temporary)
+            self.git(root,'init','--quiet')
+            self.git(root,'config','user.email','test@example.com')
+            self.git(root,'config','user.name','Registry reader test')
+            self.write(root,PROOF.ACTIVE,'tasks: [\n')
+            malformed = self.commit(root,'Fixture earlier malformed Registry')
+            Path(root,PROOF.ACTIVE).unlink()
+            self.write(root,PROOF.ACTIVE+'/nested.txt','Fixture later tree object\n')
+            tree = self.commit(root,'Fixture later Registry path becomes a tree')
+            for reader in [PROOF._introduction_sequential,PROOF.introduction]:
+                with self.assertRaises(yaml.YAMLError):
+                    reader(str(root),[malformed,tree],'OPS-099')
+
+        for middle,message in [(None,'Registry disappeared'),({'tasks':[]},'Repair identity was reintroduced')]:
+            with self.subTest(registryMiddle=middle),tempfile.TemporaryDirectory(prefix='guize-registry-return-') as temporary:
+                root = Path(temporary)
+                self.git(root,'init','--quiet')
+                self.git(root,'config','user.email','test@example.com')
+                self.git(root,'config','user.name','Registry reader test')
+                value = {'tasks':[{'taskId':'OPS-099'}]}
+                self.write(root,PROOF.ACTIVE,value)
+                present = self.commit(root,'Fixture Registry identity appears')
+                if middle is None:
+                    Path(root,PROOF.ACTIVE).unlink()
+                else:
+                    self.write(root,PROOF.ACTIVE,middle)
+                absent = self.commit(root,'Fixture Registry identity absent')
+                self.write(root,PROOF.ACTIVE,value)
+                restored = self.commit(root,'Fixture Registry identity returns with same blob')
+                for reader in [PROOF._introduction_sequential,PROOF.introduction]:
+                    with self.assertRaisesRegex(PROOF.AdmissionError,message):
+                        reader(str(root),[present,absent,restored],'OPS-099')
+
+    def test_original_uncompleted_or_side_completion_cannot_grant_new_scope(self):
+        with self.assertRaisesRegex(PROOF.AdmissionError,'not normally completed'):
+            self.claims(base=self.reservation,entry=dict(self.entry,baseSha=self.reservation))
+        self.assertEqual(PROOF.authenticated_claims(None,'OPS-018',self.entry,self.completed),set())
+
+    def test_flat_intent_requires_exact_paths_parent_kind_and_real_boolean_values(self):
+        intent = yaml.safe_load(PROOF.blob(str(self.repo),self.reservation,PROOF.SOURCE_COMPATIBILITY.intent))
+        original_parent = PROOF.parent(str(self.repo),self.reservation)
+        for key,value in [('kind','one_poc_contract_repair_authorization_intent'),('reservationParent',self.completed),
+                          ('repairPaths',sorted(PROOF.REPAIR_PATHS)),('oldIndexStrictRulePreserved','true'),
+                          ('historicalExecutionRebindingAllowed',0)]:
+            with self.subTest(field=key):
+                altered = dict(intent,**{key:value})
+                with self.assertRaises(PROOF.AdmissionError):
+                    PROOF.approved_paths(str(self.repo),original_parent,altered,PROOF.SOURCE_COMPATIBILITY)
+
+    def test_each_original_target_baseline_is_bound_before_admission(self):
+        target = 'docs/18-testing-and-acceptance.md'
+        with Path(self.repo,target).open('a',encoding='utf-8') as stream:stream.write('\nPremature fixture target change.\n')
+        changed = self.commit(self.repo,'Fixture changed one of five original baseline targets')
+        with self.assertRaisesRegex(PROOF.AdmissionError,'approved contract'):
+            self.claims(base=changed,entry=dict(self.entry,baseSha=changed))
+
+    def test_missing_cumulative_claim_or_metadata_only_code_reference_is_denied(self):
+        self.git(self.repo,'checkout','--detach',self.activation)
+        with Path(self.repo,'AGENTS.md').open('a',encoding='utf-8') as stream:stream.write('\nFixture only one claim.\n')
+        one = self.commit(self.repo,'OPS-017 fixture incomplete implementation (#2011)',timestamp=self.authority_timestamp(2))
+        completed = self.complete_authority(self.repo,one)
+        with self.assertRaisesRegex(PROOF.AdmissionError,'complete registered implementation'):
+            self.claims(base=completed,entry=dict(self.entry,baseSha=completed))
+        self.git(self.repo,'checkout','--detach',self.code)
+        self.write(self.repo,'evidence/OPS-017/metadata-only-code-reference.txt','Not an implementation.\n')
+        metadata = self.commit(self.repo,'OPS-017 fixture metadata-only claimed code reference (#2011)',timestamp=self.authority_timestamp(3))
+        completed = self.complete_authority(self.repo,metadata)
+        with self.assertRaisesRegex(PROOF.AdmissionError,'claimed implementation contains only lifecycle metadata or Evidence'):
+            self.claims(base=completed,entry=dict(self.entry,baseSha=completed))
+
+    def test_later_real_subset_rework_retains_cumulative_four_claim_coverage(self):
+        self.git(self.repo,'checkout','--detach',self.code)
+        with Path(self.repo,'AGENTS.md').open('a',encoding='utf-8') as stream:stream.write('\nFixture later nonempty subset rework.\n')
+        rework = self.commit(self.repo,'OPS-017 fixture real incremental implementation (#2011)',timestamp=self.authority_timestamp(3))
+        completed = self.complete_authority(self.repo,rework)
+        self.assertEqual(self.claims(base=completed,entry=dict(self.entry,baseSha=completed)),PROOF.SOURCE_COMPATIBILITY.paths)
+
+    def test_direct_completion_without_independent_review_is_denied(self):
+        self.git(self.repo,'checkout','--detach',self.code)
+        completed = self.complete_authority(self.repo,self.code,review=False)
+        with self.assertRaisesRegex(PROOF.AdmissionError,'independent Review'):
+            self.claims(base=completed,entry=dict(self.entry,baseSha=completed))
+
+    def test_new_intent_changed_then_restored_remains_denied(self):
+        p = Path(self.repo,PROOF.SOURCE_COMPATIBILITY.intent);raw = p.read_bytes()
+        p.write_bytes(raw+b'\n');self.commit(self.repo,'Fixture forbidden new intent edit')
+        p.write_bytes(raw);restored = self.commit(self.repo,'Fixture restore cannot erase authorization history')
+        with self.assertRaisesRegex(PROOF.AdmissionError,'intent changed'):
+            self.claims(base=restored,entry=dict(self.entry,baseSha=restored))
+
+    def test_successor_exact_claims_roles_lease_and_capacity_remain_mandatory(self):
+        variants = [dict(self.entry,exclusivePaths=sorted(PROOF.REPAIR_PATHS)),
+                    dict(self.entry,sharedPaths=['specs/poc/**']),dict(self.entry,dependsOn=['OPS-013']),
+                    dict(self.entry,reviewer=self.entry['implementer']),
+                    dict(self.entry,lease={'acquiredAt':'2020-01-01T00:00:00Z','expiresAt':'2020-01-02T00:00:00Z'})]
+        for entry in variants:
+            with self.subTest(entry=entry):
+                with self.assertRaises(PROOF.AdmissionError):self.claims(entry=entry)
+        active = yaml.safe_load(Path(self.repo,PROOF.ACTIVE).read_bytes())
+        other = copy.deepcopy(self.entry);other.update(taskId='OPS-099',programTaskId='OPS-099',exclusivePaths=['scripts/unrelated.py'])
+        active['tasks'].append(other);self.write(self.repo,PROOF.ACTIVE,active)
+        occupied = self.commit(self.repo,'Fixture another high slot is occupied')
+        with self.assertRaisesRegex(PROOF.AdmissionError,'capacity'):
+            self.claims(base=occupied,entry=dict(self.entry,baseSha=occupied))
+
+    def frozen_repair(self):
+        registration = self.register()
+        plan = yaml.safe_load(Path(self.repo,PROOF.PLAN).read_bytes())
+        plan.update(status='frozen',recovery=dict(taskId='OPS-018',reason='Fixture real completed contract recovery',
+            affectedTasks=['GZ-021'],sourceCommit=registration,
+            frozenAt=datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace('+00:00','Z'),
+            verificationPath='evidence/OPS-018/recovery-proof.json'))
+        self.write(self.repo,PROOF.PLAN,plan);frozen = self.commit(self.repo,'OPS-018 fixture preceding metadata freeze')
+        self.lifecycle(self.repo,'OPS-018','in_progress','implementer',frozen,self.entry['branch'])
+        activation = self.commit(self.repo,'OPS-018 fixture separate metadata activation')
+        return registration,frozen,activation
+
+    def test_separate_real_freeze_admits_all_five_paths(self):
+        _,_,activation = self.frozen_repair()
+        with Path(self.repo,'docs/18-testing-and-acceptance.md').open('a',encoding='utf-8') as stream:stream.write('\nFixture lawful bounded repair.\n')
+        code = self.commit(self.repo,'OPS-018 fixture code after preceding freeze')
+        errors=[];PROOF.validate_repair_changes(str(self.repo),activation,code,'OPS-018',{'docs/18-testing-and-acceptance.md'},errors)
+        self.assertEqual(errors,[])
+
+    def test_same_tip_intent_mutation_is_included_in_observed_protected_audit(self):
+        _,_,activation = self.frozen_repair()
+        with Path(self.repo,'docs/18-testing-and-acceptance.md').open('a',encoding='utf-8') as stream:stream.write('\nFixture repair plus intent attack.\n')
+        p=Path(self.repo,PROOF.SOURCE_COMPATIBILITY.intent);p.write_bytes(p.read_bytes()+b'\n')
+        code=self.commit(self.repo,'OPS-018 fixture code and forbidden intent edit in same head')
+        errors=[];PROOF.validate_repair_changes(str(self.repo),activation,code,'OPS-018',{'docs/18-testing-and-acceptance.md',PROOF.SOURCE_COMPATIBILITY.intent},errors)
+        self.assertTrue(any('intent changed' in error for error in errors),errors)
+
+    def test_actual_no_task_lifecycle_denies_contract_edit_without_preceding_freeze(self):
+        registration = self.register()
+        self.lifecycle(self.repo,'OPS-018','in_progress','implementer',registration,self.entry['branch'])
+        self.commit(self.repo,'OPS-018 fixture working activation without freeze')
+        with Path(self.repo,'docs/18-testing-and-acceptance.md').open('a',encoding='utf-8') as stream:stream.write('\nFixture premature repair.\n')
+        code=self.commit(self.repo,'OPS-018 fixture illegal active-state contract edit')
+        result=subprocess.run([sys.executable,'-X','utf8','-B',str(ROOT/'scripts/check-program-lifecycle-guards.py'),'--repo-root',str(self.repo),
+            '--base-ref',registration,'--head-ref',code,'--branch-name',self.entry['branch']],capture_output=True,text=True,encoding='utf-8')
+        self.assertNotEqual(result.returncode,0)
+        self.assertIn('preceding unchanged frozen recovery event',result.stdout+result.stderr)
+
+    def test_actual_no_task_lifecycle_accepts_real_registered_frozen_repair(self):
+        # The fast optional backend must preserve the legacy safe parser's
+        # accepted values and rejection, including a pure-Python fallback.
+        parser_spec = importlib.util.spec_from_file_location(
+            'bound_repair_lifecycle_parser',ROOT/'scripts/check-program-lifecycle-guards.py')
+        lifecycle = importlib.util.module_from_spec(parser_spec)
+        parser_spec.loader.exec_module(lifecycle)
+        metadata = [Path(ROOT,path).read_text(encoding='utf-8') for path in
+                    (PROOF.PLAN,PROOF.ACTIVE,PROOF.LEDGER,'specs/designs/module-ownership.yaml')]
+        fragments = ['', 'null\n', 'true\n', '[1, two, null]\n',
+                     'a: 1\na: 2\n', 'a: &x [1, 2]\nb: *x\n',
+                     'name: 归泽\nquoted: "with space"\n',
+                     'date: 2026-10-30\n', 'tasks: [\n', 'x: !unknown value\n']
+        with tempfile.TemporaryDirectory(prefix='guize-lifecycle-parser-') as parser_root:
+            for backend in (lifecycle.SAFE_DOCUMENT_LOADER,yaml.SafeLoader):
+                with mock.patch.object(lifecycle,'SAFE_DOCUMENT_LOADER',backend):
+                    for index,text in enumerate(metadata+fragments):
+                        filename=str(index)+'.yaml'
+                        Path(parser_root,filename).write_text(text,encoding='utf-8')
+                        try:
+                            expected=yaml.safe_load(text)
+                        except yaml.YAMLError:
+                            self.assertIsNone(lifecycle.load_yaml_text(text))
+                            with self.assertRaises(yaml.YAMLError):
+                                lifecycle.load_current(parser_root,filename)
+                            if index>=len(metadata):
+                                self.assertEqual(lifecycle.parse_front('---\n'+text+'\n---\nBody'),{})
+                        else:
+                            self.assertEqual(lifecycle.load_yaml_text(text),expected)
+                            self.assertEqual(lifecycle.load_current(parser_root,filename),expected)
+                            if index>=len(metadata):
+                                self.assertEqual(lifecycle.parse_front('---\n'+text+'\n---\nBody'),
+                                                 expected if isinstance(expected,dict) else {})
+                    for text in (None,'','no front matter','---\nunterminated'):
+                        self.assertEqual(lifecycle.parse_front(text),{})
+        _,frozen,_ = self.frozen_repair()
+        with Path(self.repo,'docs/18-testing-and-acceptance.md').open('a',encoding='utf-8') as stream:stream.write('\nFixture real bounded contract repair.\n')
+        code=self.commit(self.repo,'OPS-018 fixture valid repair after real freeze')
+        result=subprocess.run([sys.executable,'-X','utf8','-B',str(ROOT/'scripts/check-program-lifecycle-guards.py'),
+            '--repo-root',str(self.repo),'--base-ref',frozen,'--head-ref',code,'--branch-name',self.entry['branch']],
+            capture_output=True,text=True,encoding='utf-8')
+        self.assertEqual(result.returncode,0,result.stdout+result.stderr)
+
+    def test_wrong_owner_producer_and_post_thaw_edits_remain_denied_for_new_scope(self):
+        _,_,activation = self.frozen_repair()
+        for mutation in ['owner','producer','thawed']:
+            with self.subTest(mutation=mutation):
+                self.git(self.repo,'checkout','--detach',activation)
+                plan=yaml.safe_load(Path(self.repo,PROOF.PLAN).read_bytes())
+                if mutation=='owner':plan['recovery']['taskId']='OPS-014'
+                elif mutation=='producer':plan['recovery']['affectedTasks']=['GZ-022']
+                else:plan['status']='active'
+                self.write(self.repo,PROOF.PLAN,plan)
+                bad_base=self.commit(self.repo,'OPS-018 fixture wrong preceding recovery '+mutation)
+                with Path(self.repo,'docs/18-testing-and-acceptance.md').open('a',encoding='utf-8') as stream:stream.write('\nFixture impermissible recovery.\n')
+                code=self.commit(self.repo,'OPS-018 fixture forbidden edit '+mutation)
+                errors=[];PROOF.validate_repair_changes(str(self.repo),bad_base,code,'OPS-018',{'docs/18-testing-and-acceptance.md'},errors)
+                self.assertTrue(errors,mutation)
+
+    def test_original_new_successor_reservation_cannot_already_edit_frozen_contract(self):
+        # Put the target change in the very first registered successor snapshot.
+        with Path(self.repo,'docs/18-testing-and-acceptance.md').open('a',encoding='utf-8') as stream:stream.write('\nFixture premature same-reservation code.\n')
+        registration=self.register()
+        with self.assertRaisesRegex(PROOF.AdmissionError,'metadata-only'):
+            self.claims(base=registration)
+
+    def test_intermediate_new_successor_claim_expansion_cannot_be_erased(self):
+        self.register()
+        active=yaml.safe_load(Path(self.repo,PROOF.ACTIVE).read_bytes())
+        own=next(x for x in active['tasks'] if x['taskId']=='OPS-018')
+        original=copy.deepcopy(own)
+        own['exclusivePaths'].append('specs/poc/policy.yaml')
+        self.write(self.repo,PROOF.ACTIVE,active);self.commit(self.repo,'OPS-018 fixture forbidden intermediate expansion')
+        own['exclusivePaths']=original['exclusivePaths']
+        self.write(self.repo,PROOF.ACTIVE,active);restored=self.commit(self.repo,'OPS-018 fixture restored final claims')
+        with self.assertRaisesRegex(PROOF.AdmissionError,'exact declared paths'):
+            self.claims(base=restored)
+
+    def test_actual_metadata_only_tip_and_net_empty_restore_audit_authority_intent(self):
+        registration=self.register()
+        p=Path(self.repo,PROOF.SOURCE_COMPATIBILITY.intent);original=p.read_bytes()
+        p.write_bytes(original+b'\n')
+        altered=self.commit(self.repo,'OPS-017 fixture forbidden metadata-only authorization correction')
+        result=subprocess.run([sys.executable,'-X','utf8','-B',str(ROOT/'scripts/check-program-lifecycle-guards.py'),
+            '--repo-root',str(self.repo),'--base-ref',registration,'--head-ref',altered,'--branch-name','chore/OPS-017-fixture-evidence-correction'],
+            capture_output=True,text=True,encoding='utf-8')
+        self.assertNotEqual(result.returncode,0)
+        self.assertIn('Authorization intent changed after registration',result.stdout+result.stderr)
+        p.write_bytes(original)
+        restored=self.commit(self.repo,'OPS-017 fixture restored bytes cannot erase metadata history')
+        self.assertEqual(PROOF.changed(str(self.repo),registration,restored),set())
+        errors=[];PROOF.validate_repair_changes(str(self.repo),registration,restored,'OPS-018',set(),errors)
+        self.assertTrue(any('Authorization intent changed after registration' in error for error in errors),errors)
+
+    def test_clean_peer_import_authenticates_the_admitted_successor_history(self):
+        registration=self.register()
+        self.git(self.repo,'checkout','--detach',self.activation)
+        self.write(self.repo,'evidence/POC-003/peer-import-fixture.txt','Independent peer work before authority Completion.\n')
+        self.commit(self.repo,'POC-003 fixture work before completed authority',timestamp=self.authority_timestamp(2))
+        self.git(self.repo,'merge','--no-ff','--no-edit',registration)
+        imported=self.git(self.repo,'rev-parse','HEAD')
+        self.assertEqual(self.git(self.repo,'show','-s','--format=%P',imported).split()[1],registration)
+        paths=PROOF.changed(str(self.repo),registration,imported)
+        errors=[];PROOF.validate_repair_changes(str(self.repo),registration,imported,'OPS-018',paths,errors)
+        self.assertEqual(errors,[])
+        self.assertEqual(self.claims(base=registration,observed=imported),PROOF.SOURCE_COMPATIBILITY.paths)
+
+    def test_peer_import_cannot_erase_a_local_authority_intent_attack(self):
+        registration=self.register()
+        self.git(self.repo,'checkout','--detach',self.activation)
+        path=Path(self.repo,PROOF.SOURCE_COMPATIBILITY.intent);raw=path.read_bytes()
+        path.write_bytes(raw+b'\n');self.commit(self.repo,'Fixture peer temporarily changes immutable authority',timestamp=self.authority_timestamp(2))
+        path.write_bytes(raw);self.commit(self.repo,'Fixture peer restores authority before importing main',timestamp=self.authority_timestamp(3))
+        self.git(self.repo,'merge','--no-ff','--no-edit',registration)
+        imported=self.git(self.repo,'rev-parse','HEAD')
+        errors=[];PROOF.validate_repair_changes(str(self.repo),registration,imported,'OPS-018',PROOF.changed(str(self.repo),registration,imported),errors)
+        self.assertTrue(errors)
+        self.assertEqual(PROOF.authenticated_claims(str(self.repo),'OPS-018',self.entry,registration,observed_ref=imported),set())
+
+    def test_treesame_merge_cannot_hide_side_branch_intent_edit_and_restore(self):
+        self.git(self.repo,'checkout','-b','fixture-hidden-intent-side',self.completed)
+        path=Path(self.repo,PROOF.SOURCE_COMPATIBILITY.intent);raw=path.read_bytes()
+        path.write_bytes(raw+b'\n');self.commit(self.repo,'Fixture side branch alters immutable intent')
+        path.write_bytes(raw);restored=self.commit(self.repo,'Fixture side branch restores immutable intent')
+        self.git(self.repo,'checkout','--detach',self.completed)
+        self.write(self.repo,'evidence/POC-003/treesame-peer-fixture.txt','Unrelated first-parent progress.\n')
+        first=self.commit(self.repo,'Fixture independent mainline progress')
+        self.git(self.repo,'merge','--no-ff','--no-edit',restored)
+        merged=self.git(self.repo,'rev-parse','HEAD')
+        self.assertEqual(PROOF.blob(str(self.repo),merged,PROOF.SOURCE_COMPATIBILITY.intent),raw)
+        self.assertNotIn(PROOF.SOURCE_COMPATIBILITY.intent,PROOF.changed(str(self.repo),first,merged))
+        self.assertNotIn(PROOF.SOURCE_COMPATIBILITY.intent,PROOF.changed(str(self.repo),self.completed,merged))
+        with self.assertRaisesRegex(PROOF.AdmissionError,'Authorization intent changed after registration'):
+            PROOF.audit_source_authority_intent(str(self.repo),self.completed,merged)
+
+    def test_peer_cannot_admit_a_successor_from_an_unadmitted_side_parent(self):
+        registration=self.register()
+        self.git(self.repo,'checkout','--detach',self.activation)
+        self.write(self.repo,'evidence/POC-003/unadmitted-peer-fixture.txt','No admitted successor on comparison base.\n')
+        self.commit(self.repo,'Fixture peer work before importing unadmitted side reservation',timestamp=self.authority_timestamp(2))
+        self.git(self.repo,'merge','--no-ff','--no-edit',registration)
+        imported=self.git(self.repo,'rev-parse','HEAD')
+        errors=[];PROOF.validate_repair_changes(str(self.repo),self.reservation,imported,'OPS-018',PROOF.changed(str(self.repo),self.reservation,imported),errors)
+        self.assertTrue(errors)
+
+    def test_target_edit_restore_between_completion_and_successor_reservation_is_denied(self):
+        path=Path(self.repo,'docs/18-testing-and-acceptance.md');raw=path.read_bytes()
+        path.write_bytes(raw+b'\nPremature post-Completion target change.\n')
+        self.commit(self.repo,'Fixture target changed after authority Completion')
+        path.write_bytes(raw)
+        restored=self.commit(self.repo,'Fixture target restored before successor admission')
+        self.entry['baseSha']=restored
+        registration=self.register()
+        with self.assertRaisesRegex(PROOF.AdmissionError,'frozen repair target before admission'):
+            self.claims(base=registration)
+
+    def test_actual_pre_successor_intent_attack_is_rejected_when_submitted(self):
+        path=Path(self.repo,PROOF.SOURCE_COMPATIBILITY.intent);raw=path.read_bytes()
+        path.write_bytes(raw+b'\n')
+        altered=self.commit(self.repo,'OPS-017 fixture intent attack before successor registration')
+        result=subprocess.run([sys.executable,'-X','utf8','-B',str(ROOT/'scripts/check-program-lifecycle-guards.py'),
+            '--repo-root',str(self.repo),'--base-ref',self.completed,'--head-ref',altered,
+            '--branch-name','chore/OPS-017-fixture-evidence-correction'],capture_output=True,text=True,encoding='utf-8')
+        self.assertNotEqual(result.returncode,0,result.stdout+result.stderr)
+        self.assertIn('Authorization intent changed after registration',result.stdout+result.stderr)
+        path.write_bytes(raw)
+        restored=self.commit(self.repo,'OPS-017 fixture restoration before successor registration')
+        result=subprocess.run([sys.executable,'-X','utf8','-B',str(ROOT/'scripts/check-program-lifecycle-guards.py'),
+            '--repo-root',str(self.repo),'--base-ref',self.completed,'--head-ref',restored,
+            '--branch-name','chore/OPS-017-fixture-evidence-correction'],capture_output=True,text=True,encoding='utf-8')
+        self.assertNotEqual(result.returncode,0,result.stdout+result.stderr)
+        self.assertIn('Authorization intent changed after registration',result.stdout+result.stderr)

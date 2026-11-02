@@ -1,0 +1,13 @@
+ar: `u' modifier ignored since `D' is the default (see `U')
+ar: `u' modifier ignored since `D' is the default (see `U')
+ar: `u' modifier ignored since `D' is the default (see `U')
+Makefile:2615: warning: overriding recipe for target 'CompileParseRules'
+Makefile:1189: warning: ignoring old recipe for target 'CompileParseRules'
+Makefile:2615: warning: overriding recipe for target 'CompileParseRules'
+Makefile:1189: warning: ignoring old recipe for target 'CompileParseRules'
+/usr/bin/ld: cannot find -lyamlcpp: No such file or directory
+collect2: error: ld returned 1 exit status
+make[2]: *** [Makefile:1186: libtscore.la] Error 1
+make[2]: *** Waiting for unfinished jobs....
+make[1]: *** [Makefile:1097: all] Error 2
+make: *** [Makefile:898: all-recursive] Error 1

@@ -1,0 +1,22 @@
+{
+  "decision": "approved",
+  "approver": "independent-review-agent",
+  "actor": "/root/gz022_planning_independent_review",
+  "approvedAt": "2026-10-22T15:59:18Z",
+  "mustFix": [],
+  "proposalSha256": "034a2d89e3147cacf05b03ac465b5d783ba58826e25ce0e6e7577ac8419c5b40",
+  "configSha256": "b48d3e0679a9e86958cf5a3cc5b094365f1f7c2032c0b316fd7669be9748a83b",
+  "runnerSha256": "1fea61be5ee6208da0fae9598feb695336b8c8c10645aeb19324ad4023584ac5",
+  "collectorSha256": "689c4351d9113dbfd16a4802edda06c180a1d6fe2c8cb6bfc5bd2cc74580908c",
+  "testedSource": {
+    "commit": "8e73173bb48106a8b7b41275364ff1aca8a7f760",
+    "tree": "2c4d307dee07cb960500bd14121b703ccb67f742"
+  },
+  "executionScope": "ONE_FRESH_SANDBOX_THREE_ABSOLUTE_NATIVE_POOL_DUMPS_AND_TWO_BASE64M_HTTP_RESPONSES_ONLY_NO_FULL_BUFFER_BOUND",
+  "validFrom": "2026-10-22T15:55:50.855448Z",
+  "validUntil": "2026-10-22T16:40:50.855448Z",
+  "measurementDomainApproved": false,
+  "original15Accepted": false,
+  "qualifiedProfileAccepted": false,
+  "integrationAccepted": false
+}

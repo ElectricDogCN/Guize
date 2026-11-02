@@ -1,0 +1,239 @@
+{
+  "kind": "ACTUAL_APPROVED_V2_SERIAL_INDEPENDENT_SANDBOX_EXECUTION",
+  "testedSource": {
+    "commit": "9c012b4e1c90b014fe619253a8f07a738b5c0724",
+    "tree": "38d75ba10e21b53c45907d4a88db22cccaaeae78"
+  },
+  "approvalSha256": "681abcafd2858fbb2e689a7547287790b8d7fab8c3344c27eab482beb13e39b3",
+  "proposalSha256": "bf277075d68f2b21dfcec6f3f5c1140ec265c15cc23f49dba039e7ec8a9be92a",
+  "configSha256": "2acd0f8fd0fdb726fa6f522c09bc01f031745289fb32ee1fb42f41f915ef91e2",
+  "startedAt": "2026-10-22T14:55:59.862255+00:00",
+  "sandboxes": [
+    {
+      "name": "matrix",
+      "runDir": "/home/sur/.cache/guize-takeover/poc003-original-matrix-20261022-v1",
+      "outputDir": "/home/sur/.cache/guize-takeover/poc003-original-matrix-raw-20261022-v1",
+      "startedAt": "2026-10-22T14:55:59.879547+00:00",
+      "portsBefore": [
+        {
+          "port": 18231,
+          "listening": false
+        },
+        {
+          "port": 18232,
+          "listening": false
+        },
+        {
+          "port": 18233,
+          "listening": false
+        }
+      ],
+      "commands": [
+        {
+          "argv": [
+            "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+            "-B",
+            "poc/POC-03-ats-range/lab.py",
+            "prepare",
+            "--config",
+            "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-current-raw-matrix-config.json",
+            "--run-dir",
+            "/home/sur/.cache/guize-takeover/poc003-original-matrix-20261022-v1"
+          ],
+          "startedAt": "2026-10-22T14:55:59.883798+00:00",
+          "finishedAt": "2026-10-22T14:56:00.857812+00:00",
+          "exitCode": 0,
+          "timedOut": false,
+          "waitCompleted": true
+        },
+        {
+          "argv": [
+            "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+            "-B",
+            "poc/POC-03-ats-range/collect.py",
+            "--run-dir",
+            "/home/sur/.cache/guize-takeover/poc003-original-matrix-20261022-v1",
+            "--output-dir",
+            "/home/sur/.cache/guize-takeover/poc003-original-matrix-raw-20261022-v1",
+            "--execute-raw-matrix"
+          ],
+          "startedAt": "2026-10-22T14:56:01.874989+00:00",
+          "finishedAt": "2026-10-22T14:57:13.602368+00:00",
+          "exitCode": 0,
+          "timedOut": false,
+          "waitCompleted": true
+        }
+      ],
+      "experimentExitCode": 0,
+      "controller": {
+        "argv": [
+          "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+          "-B",
+          "poc/POC-03-ats-range/lab.py",
+          "serve",
+          "--run-dir",
+          "/home/sur/.cache/guize-takeover/poc003-original-matrix-20261022-v1"
+        ],
+        "pid": 678282
+      },
+      "initialListeners": {
+        "startedAt": "2026-10-22T14:56:01.861483Z",
+        "controllerPid": 678282,
+        "atsPid": 678304,
+        "bind": "127.0.0.1",
+        "ports": [
+          18231,
+          18232,
+          18233
+        ],
+        "formalPocAccepted": false
+      },
+      "controllerExitCode": 0,
+      "ownedAtsChildren": [
+        678304,
+        678351,
+        678407,
+        678838,
+        678937,
+        678989,
+        679041,
+        679093,
+        679145,
+        679217,
+        679295,
+        679367,
+        679492
+      ],
+      "ownedAtsChildrenGone": true,
+      "portsAfter": [
+        {
+          "port": 18231,
+          "listening": false
+        },
+        {
+          "port": 18232,
+          "listening": false
+        },
+        {
+          "port": 18233,
+          "listening": false
+        }
+      ],
+      "finishedAt": "2026-10-22T14:57:15.232539+00:00",
+      "portsReleased": true,
+      "rawSummary": {
+        "status": "RAW_COLLECTION_COMPLETED_UNASSESSED",
+        "collectedCases": [
+          "denied_user",
+          "fill",
+          "hit",
+          "if_match",
+          "if_stale",
+          "interrupted",
+          "latency_cold",
+          "latency_hot",
+          "latency_multi",
+          "latency_slow",
+          "miss",
+          "other_user",
+          "partial_read",
+          "range_end",
+          "range_middle",
+          "range_start",
+          "recovered",
+          "stream",
+          "suffix",
+          "unsatisfiable",
+          "updated"
+        ],
+        "missingCases": [],
+        "totalResponseBodyBytes": 335544758,
+        "errorType": null,
+        "error": null,
+        "actualRows": 101,
+        "actualStages": 6
+      }
+    },
+    {
+      "name": "revocation",
+      "runDir": "/home/sur/.cache/guize-takeover/poc003-current-revocation-20261022-v1",
+      "outputDir": "/home/sur/.cache/guize-takeover/poc003-current-revocation-raw-20261022-v1",
+      "startedAt": "2026-10-22T14:57:15.249064+00:00",
+      "portsBefore": [
+        {
+          "port": 18231,
+          "listening": false
+        },
+        {
+          "port": 18232,
+          "listening": false
+        },
+        {
+          "port": 18233,
+          "listening": false
+        }
+      ],
+      "commands": [
+        {
+          "argv": [
+            "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+            "-B",
+            "poc/POC-03-ats-range/lab.py",
+            "prepare",
+            "--config",
+            "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-current-raw-matrix-config.json",
+            "--run-dir",
+            "/home/sur/.cache/guize-takeover/poc003-current-revocation-20261022-v1"
+          ],
+          "startedAt": "2026-10-22T14:57:15.252625+00:00",
+          "finishedAt": "2026-10-22T14:57:16.174675+00:00",
+          "exitCode": 0,
+          "timedOut": false,
+          "waitCompleted": true
+        }
+      ],
+      "experimentExitCode": null,
+      "controller": {
+        "argv": [
+          "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+          "-B",
+          "poc/POC-03-ats-range/lab.py",
+          "serve",
+          "--run-dir",
+          "/home/sur/.cache/guize-takeover/poc003-current-revocation-20261022-v1"
+        ],
+        "pid": 679514
+      },
+      "errorType": "RuntimeError",
+      "error": "owned controller exited before readiness",
+      "controllerExitCode": 1,
+      "ownedAtsChildren": [],
+      "ownedAtsChildrenGone": true,
+      "portsAfter": [
+        {
+          "port": 18231,
+          "listening": false
+        },
+        {
+          "port": 18232,
+          "listening": false
+        },
+        {
+          "port": 18233,
+          "listening": false
+        }
+      ],
+      "finishedAt": "2026-10-22T14:57:17.191457+00:00",
+      "portsReleased": true
+    }
+  ],
+  "original15Accepted": false,
+  "qualifiedProfileAccepted": false,
+  "performanceOrBufferAccepted": false,
+  "overallIntegrationAccepted": false,
+  "bothCommandsCompleted": false,
+  "finishedAt": "2026-10-22T14:57:17.195386+00:00",
+  "elapsedSeconds": 77.20243900899368,
+  "finishedInsideApprovalWindow": true,
+  "retainedRawBytes": 744228584
+}

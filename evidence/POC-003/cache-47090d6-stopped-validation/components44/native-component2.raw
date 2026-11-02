@@ -1,0 +1,9 @@
+Source Commit: 47090d6f4590565932475fb3fc22e9d464eebbb7
+Command: /home/sur/.cache/guize-takeover/governance-venv/bin/python -B poc/POC-03-ats-range/test_live_component_native.py
+..
+----------------------------------------------------------------------
+Ran 2 tests in 0.037s
+
+OK
+
+Exit Code: 0

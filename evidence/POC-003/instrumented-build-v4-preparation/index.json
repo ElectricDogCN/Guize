@@ -1,0 +1,434 @@
+{
+  "kind": "ACTUAL_BUILD_AND_LEDGER_EVIDENCE_NOT_ATS_EXPERIMENT",
+  "files": [
+    {
+      "file": "compile-v1/autoreconf.stderr.raw",
+      "bytes": 166,
+      "sha256": "5002c921c90648aa3463e612fc813f02d6f1a254e7a1988234e0aa37788057e4",
+      "original": "/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/compile-v1/autoreconf.stderr.raw"
+    },
+    {
+      "file": "compile-v1/autoreconf.stdout.raw",
+      "bytes": 409,
+      "sha256": "9a83b0c31f1868d29e87cc8a5675903bfcf4df88fafee50a028472fac339f8ed",
+      "original": "/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/compile-v1/autoreconf.stdout.raw"
+    },
+    {
+      "file": "compile-v1/configure.stderr.raw",
+      "bytes": 215,
+      "sha256": "95b413f3d3f3a388256517aa1bd78ea514ca7bd4e9747b2a4d6f2f7daa5252a0",
+      "original": "/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/compile-v1/configure.stderr.raw"
+    },
+    {
+      "file": "compile-v1/configure.stdout.raw",
+      "bytes": 2232,
+      "sha256": "ad36c7632e1cd46eba689f236624875863add530d82c6a6b77cac9d2bd40f4ff",
+      "original": "/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/compile-v1/configure.stdout.raw"
+    },
+    {
+      "file": "compile-v1/receipt.json",
+      "bytes": 5533,
+      "sha256": "ae5ac6220dbb5cf7f03dbeab1991eb10efe57dc7eb13c6d5396cb4a892b0f720",
+      "original": "/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/compile-v1/receipt.json"
+    },
+    {
+      "file": "compile-v2/autoreconf.stderr.raw",
+      "bytes": 166,
+      "sha256": "5002c921c90648aa3463e612fc813f02d6f1a254e7a1988234e0aa37788057e4",
+      "original": "/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/compile-v2/autoreconf.stderr.raw"
+    },
+    {
+      "file": "compile-v2/autoreconf.stdout.raw",
+      "bytes": 409,
+      "sha256": "9a83b0c31f1868d29e87cc8a5675903bfcf4df88fafee50a028472fac339f8ed",
+      "original": "/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/compile-v2/autoreconf.stdout.raw"
+    },
+    {
+      "file": "compile-v2/configure.stderr.raw",
+      "bytes": 70,
+      "sha256": "de306102002958de28df49bf073f2b240f9a26c8b8a9cd081907a91801d5299a",
+      "original": "/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/compile-v2/configure.stderr.raw"
+    },
+    {
+      "file": "compile-v2/configure.stdout.raw",
+      "bytes": 10900,
+      "sha256": "0face5f0616f865c2a62c7d04786b2195b66f4642a527956161ee147d2966668",
+      "original": "/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/compile-v2/configure.stdout.raw"
+    },
+    {
+      "file": "compile-v2/receipt.json",
+      "bytes": 5721,
+      "sha256": "4b647fd0e29c64db3ef1a3773d8de96cc083bc5e4974da5128345e738fc4c864",
+      "original": "/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/compile-v2/receipt.json"
+    },
+    {
+      "file": "compile-v3/autoreconf.stderr.raw",
+      "bytes": 166,
+      "sha256": "5002c921c90648aa3463e612fc813f02d6f1a254e7a1988234e0aa37788057e4",
+      "original": "/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/compile-v3/autoreconf.stderr.raw"
+    },
+    {
+      "file": "compile-v3/autoreconf.stdout.raw",
+      "bytes": 409,
+      "sha256": "9a83b0c31f1868d29e87cc8a5675903bfcf4df88fafee50a028472fac339f8ed",
+      "original": "/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/compile-v3/autoreconf.stdout.raw"
+    },
+    {
+      "file": "compile-v3/configure.stderr.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original": "/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/compile-v3/configure.stderr.raw"
+    },
+    {
+      "file": "compile-v3/configure.stdout.raw",
+      "bytes": 20401,
+      "sha256": "8322c02fbd8bfeb635198a2f60ad16ed488d2c4b2470a2868ba8796f1e0369d0",
+      "original": "/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/compile-v3/configure.stdout.raw"
+    },
+    {
+      "file": "compile-v3/make.stderr.raw",
+      "bytes": 767,
+      "sha256": "c344d7fa7325c3cb689486a0e62e13e0ca2eda8f34947d30f7e7997649dc23f7",
+      "original": "/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/compile-v3/make.stderr.raw"
+    },
+    {
+      "file": "compile-v3/make.stdout.raw",
+      "bytes": 8254,
+      "sha256": "cc4468ac8cba0a3d04396c00d69ba1a10b61b6c48b83fb03c78535c7c5a331dd",
+      "original": "/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/compile-v3/make.stdout.raw"
+    },
+    {
+      "file": "compile-v3/receipt.json",
+      "bytes": 6407,
+      "sha256": "7f631e0b2ba9c56ee1a8d56730bbae39cbe508538f781b407f763f9798cad7a9",
+      "original": "/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/compile-v3/receipt.json"
+    },
+    {
+      "file": "compile-v4/autoreconf.stderr.raw",
+      "bytes": 166,
+      "sha256": "5002c921c90648aa3463e612fc813f02d6f1a254e7a1988234e0aa37788057e4",
+      "original": "/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/compile-v4/autoreconf.stderr.raw"
+    },
+    {
+      "file": "compile-v4/autoreconf.stdout.raw",
+      "bytes": 409,
+      "sha256": "9a83b0c31f1868d29e87cc8a5675903bfcf4df88fafee50a028472fac339f8ed",
+      "original": "/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/compile-v4/autoreconf.stdout.raw"
+    },
+    {
+      "file": "compile-v4/configure.stderr.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original": "/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/compile-v4/configure.stderr.raw"
+    },
+    {
+      "file": "compile-v4/configure.stdout.raw",
+      "bytes": 20452,
+      "sha256": "46d5ae5fe03e1e850d94ac6a067d46fd905d5eaa8b8fc0a5836fb2f7eda1f770",
+      "original": "/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/compile-v4/configure.stdout.raw"
+    },
+    {
+      "file": "compile-v4/install.stderr.raw",
+      "bytes": 3364,
+      "sha256": "2ec74bc750009ad0c3a56900c0831e6749f99ca055cc22e22817cf2beb9c74e4",
+      "original": "/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/compile-v4/install.stderr.raw"
+    },
+    {
+      "file": "compile-v4/install.stdout.raw",
+      "bytes": 85326,
+      "sha256": "b9f033f3709b913921ec1e375ce5d669766b35bad16801d1b32f5afbd9377c02",
+      "original": "/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/compile-v4/install.stdout.raw"
+    },
+    {
+      "file": "compile-v4/make.stderr.raw",
+      "bytes": 1846,
+      "sha256": "d17e45d9c2d4ee36fb0548dfe52e948ef73da8f50d653371faa848bf0127d4ac",
+      "original": "/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/compile-v4/make.stderr.raw"
+    },
+    {
+      "file": "compile-v4/make.stdout.raw",
+      "bytes": 45121,
+      "sha256": "87252fa1f6b324431c68c43aa82dab50d24639be9ae1a32e23718653e3bd459a",
+      "original": "/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/compile-v4/make.stdout.raw"
+    },
+    {
+      "file": "compile-v4/receipt.json",
+      "bytes": 50960,
+      "sha256": "62e8ff5a6bd501b706ad7179c7a41e3c803c9c984fc187e9fbc28a6a133447de",
+      "original": "/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/compile-v4/receipt.json"
+    },
+    {
+      "file": "runtime-validation-v1/core-symbols.raw",
+      "bytes": 72637,
+      "sha256": "9b0095cc9109c3ce529394a36fa65b8d753b79bddafaa68785edada923151237",
+      "original": "/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/runtime-validation-v1/core-symbols.raw"
+    },
+    {
+      "file": "runtime-validation-v1/ldd-0.stderr.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original": "/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/runtime-validation-v1/ldd-0.stderr.raw"
+    },
+    {
+      "file": "runtime-validation-v1/ldd-0.stdout.raw",
+      "bytes": 1142,
+      "sha256": "293d5d5470180b6073b459954a4f0ed9cb042132a7d3c0341e774ddcf1590c73",
+      "original": "/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/runtime-validation-v1/ldd-0.stdout.raw"
+    },
+    {
+      "file": "runtime-validation-v1/ldd-1.stderr.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original": "/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/runtime-validation-v1/ldd-1.stderr.raw"
+    },
+    {
+      "file": "runtime-validation-v1/ldd-1.stdout.raw",
+      "bytes": 845,
+      "sha256": "d0549749d33cb823c1062259b3f9c7d5d22c2d27747974869e92801084d499d0",
+      "original": "/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/runtime-validation-v1/ldd-1.stdout.raw"
+    },
+    {
+      "file": "runtime-validation-v1/ldd-2.stderr.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original": "/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/runtime-validation-v1/ldd-2.stderr.raw"
+    },
+    {
+      "file": "runtime-validation-v1/ldd-2.stdout.raw",
+      "bytes": 374,
+      "sha256": "2c2b00f08605c08feb5ca9449a1c18833dc18a45df42bb0bb9c2bf59530a15ba",
+      "original": "/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/runtime-validation-v1/ldd-2.stdout.raw"
+    },
+    {
+      "file": "runtime-validation-v1/ldd-3.stderr.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original": "/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/runtime-validation-v1/ldd-3.stderr.raw"
+    },
+    {
+      "file": "runtime-validation-v1/ldd-3.stdout.raw",
+      "bytes": 374,
+      "sha256": "eb58d6a27c74b3dae82a972230bf61030781e69b980c9d367ecfa2ff1128d4c5",
+      "original": "/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/runtime-validation-v1/ldd-3.stdout.raw"
+    },
+    {
+      "file": "runtime-validation-v1/ldd-4.stderr.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original": "/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/runtime-validation-v1/ldd-4.stderr.raw"
+    },
+    {
+      "file": "runtime-validation-v1/ldd-4.stdout.raw",
+      "bytes": 374,
+      "sha256": "ef5de6093ef28be9519f51d0e00aaab553d5c62606382375a2016944826277d8",
+      "original": "/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/runtime-validation-v1/ldd-4.stdout.raw"
+    },
+    {
+      "file": "runtime-validation-v1/receipt.json",
+      "bytes": 3176,
+      "sha256": "b46d7d73ffb7680bd4cc3dc22f8dd396f1f9d4fd3257ac83434137d066a4fc12",
+      "original": "/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/runtime-validation-v1/receipt.json"
+    },
+    {
+      "file": "runtime-validation-v1/version.stderr.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original": "/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/runtime-validation-v1/version.stderr.raw"
+    },
+    {
+      "file": "runtime-validation-v1/version.stdout.raw",
+      "bytes": 189,
+      "sha256": "406d2ec1d493df66271b668ea061146e7f39d77e4dc6593777bb03e893f0a0fd",
+      "original": "/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/runtime-validation-v1/version.stdout.raw"
+    },
+    {
+      "file": "poc003-live-ledger-draft-checks-v2/build.stderr.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-live-ledger-draft-checks-v2/build.stderr.raw"
+    },
+    {
+      "file": "poc003-live-ledger-draft-checks-v2/build.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-live-ledger-draft-checks-v2/build.stdout.raw"
+    },
+    {
+      "file": "poc003-live-ledger-draft-checks-v2/results.json",
+      "bytes": 842,
+      "sha256": "e99913f247b44aa99b7c91eb3e60d89d7bfb290742268e4741335c0d0f9793d0",
+      "original": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-live-ledger-draft-checks-v2/results.json"
+    },
+    {
+      "file": "poc003-live-ledger-draft-checks-v2/tests.stderr.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-live-ledger-draft-checks-v2/tests.stderr.raw"
+    },
+    {
+      "file": "poc003-live-ledger-draft-checks-v2/tests.stdout.raw",
+      "bytes": 477,
+      "sha256": "21de2af7ff05bea49657297ccd19cf649ac8531df3192b1d8b5ecd61e6b601c2",
+      "original": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-live-ledger-draft-checks-v2/tests.stdout.raw"
+    },
+    {
+      "file": "poc003-live-ledger-draft-checks-v3/build.stderr.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-live-ledger-draft-checks-v3/build.stderr.raw"
+    },
+    {
+      "file": "poc003-live-ledger-draft-checks-v3/build.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-live-ledger-draft-checks-v3/build.stdout.raw"
+    },
+    {
+      "file": "poc003-live-ledger-draft-checks-v3/results.json",
+      "bytes": 842,
+      "sha256": "ea6c192fa4d3567e0c57a5a67109a4f8035df40994b0cfe96b3dd83bf02238c7",
+      "original": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-live-ledger-draft-checks-v3/results.json"
+    },
+    {
+      "file": "poc003-live-ledger-draft-checks-v3/tests.stderr.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-live-ledger-draft-checks-v3/tests.stderr.raw"
+    },
+    {
+      "file": "poc003-live-ledger-draft-checks-v3/tests.stdout.raw",
+      "bytes": 487,
+      "sha256": "4a4903525260ff17ceb2441c53c8e1cb9b4c6454dec43a2cd11e47aa725d1281",
+      "original": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-live-ledger-draft-checks-v3/tests.stdout.raw"
+    },
+    {
+      "file": "poc003-native-build-tool-preparation-v1/installed-packages.raw",
+      "bytes": 20,
+      "sha256": "c6b19a9aee48338b02db479a37fddaace3230b74bab9f5ff79c35961eb0745ee",
+      "original": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-native-build-tool-preparation-v1/installed-packages.raw"
+    },
+    {
+      "file": "poc003-native-build-tool-preparation-v1/receipt.json",
+      "bytes": 1201,
+      "sha256": "8ffb9617b2f2603a2e31e4ff64c65bee7d054e2124876fa4b2539019ebfe57ce",
+      "original": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-native-build-tool-preparation-v1/receipt.json"
+    },
+    {
+      "file": "poc003-native-build-tool-preparation-v1/stderr.raw",
+      "bytes": 132,
+      "sha256": "b280c454d6f559e56eb3f5ed39f3ba084b8d1744a3ff7fe016b21ff86dea1aca",
+      "original": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-native-build-tool-preparation-v1/stderr.raw"
+    },
+    {
+      "file": "poc003-native-build-tool-preparation-v1/stdout.raw",
+      "bytes": 8544,
+      "sha256": "65219ff773a264f6e6ce581eb220e3eb0f7f6349f5a6fb319172f41ae59f714e",
+      "original": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-native-build-tool-preparation-v1/stdout.raw"
+    },
+    {
+      "file": "poc003-native-build-tool-preparation-v2/installed-packages.raw",
+      "bytes": 2,
+      "sha256": "34a6225b83a638ed08f01ecdbf30cf0be3478ffdd36be92295fee92c5585d57c",
+      "original": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-native-build-tool-preparation-v2/installed-packages.raw"
+    },
+    {
+      "file": "poc003-native-build-tool-preparation-v2/receipt.json",
+      "bytes": 1040,
+      "sha256": "c318f58079ec4f46d32bb369d3f643e9e566b0c02568f1a93c8322bb9131df6a",
+      "original": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-native-build-tool-preparation-v2/receipt.json"
+    },
+    {
+      "file": "poc003-native-build-tool-preparation-v2/stderr.raw",
+      "bytes": 132,
+      "sha256": "b280c454d6f559e56eb3f5ed39f3ba084b8d1744a3ff7fe016b21ff86dea1aca",
+      "original": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-native-build-tool-preparation-v2/stderr.raw"
+    },
+    {
+      "file": "poc003-native-build-tool-preparation-v2/stdout.raw",
+      "bytes": 1386,
+      "sha256": "c758b74cfeb7b7667bc81bfc87e648ead5258ef990470d91766db188c56218e5",
+      "original": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-native-build-tool-preparation-v2/stdout.raw"
+    },
+    {
+      "file": "poc003-live-accounting-v3-independent-rejection.json",
+      "bytes": 1020,
+      "sha256": "a29a7a1e324019f3422562dcf616f453f0b2a55d4f8c3eb18dbae6744193092a",
+      "original": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-live-accounting-v3-independent-rejection.json"
+    },
+    {
+      "file": "poc003-live-accounting-sticky-external-independent-content-review.json",
+      "bytes": 824,
+      "sha256": "f8c64d5d037133e0304119e3c750634f6e438b959d1bc33ef5ee5f3829fa92c9",
+      "original": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-live-accounting-sticky-external-independent-content-review.json"
+    },
+    {
+      "file": "poc003-live-buffer-probe-v1-test-transcript.json",
+      "bytes": 541,
+      "sha256": "2134327f90526fc56ce727540af7a3c6389edef6bd1f226cb6611e31febf28f4",
+      "original": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-live-buffer-probe-v1-test-transcript.json"
+    },
+    {
+      "file": "rejected-draft-v3/ats-live-buffer-accounting.patch",
+      "bytes": 5812,
+      "sha256": "0ad76c3878bcbeb088b2a522308bbabe17cdb61c5336580aedb1d550db203cd4",
+      "original": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-live-accounting-draft-v3/ats-live-buffer-accounting.patch"
+    },
+    {
+      "file": "rejected-draft-v3/live_buffer_accounting.h",
+      "bytes": 2334,
+      "sha256": "80a5f767d0b145b70976eb16939d6b5753a5cf8f3a18a0b7ffe1f37434af62b9",
+      "original": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-live-accounting-draft-v3/live_buffer_accounting.h"
+    },
+    {
+      "file": "rejected-draft-v3/patch-manifest.json",
+      "bytes": 1850,
+      "sha256": "d32cbb578d63476bbcb114bafa4f37416edcdd0978a65f7ea0f40347fdb9fd9f",
+      "original": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-live-accounting-draft-v3/patch-manifest.json"
+    },
+    {
+      "file": "rejected-draft-v3/test_live_buffer_accounting.cc",
+      "bytes": 3552,
+      "sha256": "5fde19d53c4d26571e11b0179ef132e703bd33e1ce89bf12ca3da00228bc308c",
+      "original": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-live-accounting-draft-v3/test_live_buffer_accounting.cc"
+    },
+    {
+      "file": "live-observer-build-v1/receipt.json",
+      "bytes": 1652,
+      "sha256": "d07306c91907200dc234a749d7ca31eec9a52ab73f0086850373324ff2361ab9",
+      "original": "/home/sur/.cache/guize-takeover/poc003-live-buffer-observer-build-v1/receipt.json"
+    },
+    {
+      "file": "live-observer-build-v1/stderr.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original": "/home/sur/.cache/guize-takeover/poc003-live-buffer-observer-build-v1/stderr.raw"
+    },
+    {
+      "file": "live-observer-build-v1/stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original": "/home/sur/.cache/guize-takeover/poc003-live-buffer-observer-build-v1/stdout.raw"
+    },
+    {
+      "file": "source-preparation.json",
+      "bytes": 1752,
+      "sha256": "e2bf1155dd1b1ad937ec0f06924ea70b7c4cefb2a603cf301d0157b2e5744ae1",
+      "original": "/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source-preparation.json"
+    },
+    {
+      "file": "instrumentation-preparation.json",
+      "bytes": 1991,
+      "sha256": "4150de91c247155ed79f0be50a5fe54ffd5e9ac4762e42c129243c9c45c1fb52",
+      "original": "/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/instrumentation-preparation.json"
+    }
+  ],
+  "atsServerStarted": false,
+  "actualBuildAttempt4Passed": true,
+  "previousBuildFailuresRetained": true,
+  "ledgerScenarios": 6,
+  "liveParserTests": 27,
+  "intermediateContentAcceptedOnly": true,
+  "experimentApproved": false,
+  "fullMediaCoverageProven": false,
+  "original15Accepted": false
+}

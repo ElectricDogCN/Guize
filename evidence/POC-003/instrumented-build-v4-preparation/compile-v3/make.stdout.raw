@@ -1,0 +1,155 @@
+Making all in include
+make[1]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/include'
+make  all-recursive
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/include'
+Making all in ts
+make[3]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/include/ts'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/include/ts'
+Making all in tscpp/api
+make[3]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/include/tscpp/api'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/include/tscpp/api'
+Making all in tscpp/util
+make[3]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/include/tscpp/util'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/include/tscpp/util'
+make[3]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/include'
+make[3]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/include'
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/include'
+make[1]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/include'
+Making all in src/tscpp/util
+make[1]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/src/tscpp/util'
+  CXX      TextView.lo
+  CXXLD    libtscpputil.la
+make[1]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/src/tscpp/util'
+Making all in lib
+make[1]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/lib'
+Making all in .
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/lib'
+make[2]: Nothing to be done for 'all-am'.
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/lib'
+Making all in records
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/lib/records'
+  CXX      P_RecCore.o
+  CXX      RecConfigParse.o
+  CXX      RecCore.o
+  CXX      RecDebug.o
+  CXX      RecFile.o
+  CXX      RecHttp.o
+  CXX      RecMessage.o
+  CXX      RecMutex.o
+  CXX      RecRawStats.o
+  CXX      RecUtils.o
+  CXX      RecLocal.o
+  CXX      RecProcess.o
+  AR       librecords_lm.a
+  AR       librecords_p.a
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/lib/records'
+Making all in fastlz
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/lib/fastlz'
+  CXX      fastlz.o
+  AR       libfastlz.a
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/lib/fastlz'
+Making all in perl
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/lib/perl'
+test -f "../../lib/perl/Makefile.PL" || cp -rf "./." "../../lib/perl/"
+/usr/bin/perl Makefile.PL INSTALLDIRS=perl INSTALL_BASE=/usr PREFIX=
+Generating a Unix-style Makefile-pl
+Writing Makefile-pl for Apache::TS
+Writing MYMETA.yml and MYMETA.json
+make -f Makefile-pl INSTALLDIRS=perl PREFIX=/usr DESTDIR=
+make[3]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/lib/perl'
+cp lib/Apache/TS/Config/Records.pm blib/lib/Apache/TS/Config/Records.pm
+cp lib/Apache/TS.pm blib/lib/Apache/TS.pm
+cp lib/Apache/TS/Config.pm blib/lib/Apache/TS/Config.pm
+cp lib/Apache/TS/AdminClient.pm blib/lib/Apache/TS/AdminClient.pm
+Manifying 3 pod documents
+make[3]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/lib/perl'
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/lib/perl'
+make[1]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/lib'
+Making all in src/tscore
+make[1]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/src/tscore'
+  CXX      CompileParseRules.o
+c++ -std=c++17 -g -pipe -Wall -Wextra -Wno-ignored-qualifiers -Wno-unused-parameter -Wno-format-truncation -Wno-cast-function-type -Wno-stringop-overflow -feliminate-unused-debug-symbols -fno-strict-aliasing -Wno-invalid-offsetof -Wno-noexcept-type -Wsuggest-override -mcx16 -D_GNU_SOURCE -DOPENSSL_NO_SSL_INTERN -DOPENSSL_API_COMPAT=10002 -DOPENSSL_IS_OPENSSL3 -I../../include -I/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/include -o CompileParseRules /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/src/tscore/CompileParseRules.cc
+LSAN_OPTIONS='detect_leaks=0' ./CompileParseRules
+make  all-am
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/src/tscore'
+  CXX      AcidPtr.lo
+  CXX      Arena.lo
+  CXX      ArgParser.lo
+  CXX      BaseLogFile.lo
+  CXX      BufferWriterFormat.lo
+  CXX      ConsistentHash.lo
+  CXX      ContFlags.lo
+  CXX      CryptoHash.lo
+  CXX      Diags.lo
+  CXX      Errata.lo
+  CXX      EventNotify.lo
+  CXX      Extendible.lo
+  CXX      Hash.lo
+  CXX      HashFNV.lo
+  CXX      HashMD5.lo
+  CXX      HashSip.lo
+  CXX      HostLookup.lo
+  CXX      hugepages.lo
+  CXX      ink_args.lo
+  CXX      ink_assert.lo
+  CXX      ink_base64.lo
+  CXX      ink_cap.lo
+  CXX      ink_code.lo
+  CXX      ink_defs.lo
+  CXX      InkErrno.lo
+  CXX      ink_error.lo
+  CXX      ink_file.lo
+  CXX      ink_hrtime.lo
+  CXX      ink_hw.lo
+  CXX      ink_inet.lo
+  CXX      ink_memory.lo
+  CXX      ink_mutex.lo
+  CXX      ink_queue.lo
+  CXX      ink_queue_utils.lo
+  CXX      ink_rand.lo
+  CXX      ink_res_init.lo
+  CXX      ink_res_mkquery.lo
+  CXX      ink_resource.lo
+  CXX      ink_rwlock.lo
+  CXX      ink_sock.lo
+  CXX      ink_sprintf.lo
+  CXX      ink_stack_trace.lo
+  CXX      ink_string.lo
+  CXX      ink_string++.lo
+  CXX      ink_sys_control.lo
+  CXX      ink_syslog.lo
+  CXX      ink_thread.lo
+  CXX      ink_time.lo
+  CXX      ink_uuid.lo
+  CXX      IpMap.lo
+  CXX      IpMapConf.lo
+  CXX      JeAllocator.lo
+  CXX      Layout.lo
+  CXX      llqueue.lo
+  CXX      lockfile.lo
+  CXX      MatcherUtils.lo
+  CXX      MemArena.lo
+  CXX      MMH.lo
+  CXX      ParseRules.lo
+  CXX      Random.lo
+  CXX      RbTree.lo
+  CXX      Regex.lo
+  CXX      Regression.lo
+  CXX      runroot.lo
+  CXX      signals.lo
+  CXX      SourceLocation.lo
+  CXX      TextBuffer.lo
+  CXX      LogMessage.lo
+  CXX      Throttler.lo
+  CXX      Tokenizer.lo
+  CXX      ts_file.lo
+  CXX      Version.lo
+  CXX      X509HostnameValidator.lo
+  CXX      HKDF_openssl3.lo
+  CXX      unit_tests/freelist_benchmark-freelist_benchmark.o
+  CXXLD    libtscore.la
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/src/tscore'
+make[1]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/src/tscore'

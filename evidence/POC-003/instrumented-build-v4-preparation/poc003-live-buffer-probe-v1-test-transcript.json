@@ -1,0 +1,13 @@
+{
+  "kind": "LOCAL_PARSER_TEST_TOOL_TRANSCRIPT_NOT_ATS_EXPERIMENT",
+  "capturedAt": "2026-10-22T17:01:07.547Z",
+  "tests": 27,
+  "seconds": 25.14,
+  "exitCode": 0,
+  "toolSession": 40940,
+  "toolOutput": "...........................                                              [100%]\n27 passed in 25.14s\n",
+  "sourceSha256": "e1351c9aec15e7e9e08e46ade27869d6f30729b655f49ac9bf603f2e747f3343",
+  "testSourceSha256": "d0f9e22d3487e5b0ff3a415caddfd46fae8c34f99c026f1b63b23d255148dfa5",
+  "atsStarted": false,
+  "experimentExecuted": false
+}

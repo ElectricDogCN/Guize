@@ -1,0 +1,4 @@
+* -text
+red.raw whitespace=cr-at-eol
+green.raw whitespace=cr-at-eol
+catalogue.raw whitespace=cr-at-eol

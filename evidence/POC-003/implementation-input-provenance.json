@@ -1,0 +1,28 @@
+{
+  "kind": "HISTORICAL_IMPLEMENTATION_INPUT_NOT_EXECUTION",
+  "reservationMerge": "11c32830c0d1bb8ccdcc04aa278876065bce1f33",
+  "inputs": [
+    {
+      "source": "local-lab/ats-gateway-streaming-preparation-v1/lab.py",
+      "target": "poc/POC-03-ats-range/lab.py",
+      "sha256": "5689e57946848dfa284af8be2bbb548d7c26b0e102e8c8ab7a33692c423da121",
+      "historicalOnlyNotAccepted": true
+    },
+    {
+      "source": "local-lab/poc003-preparation-v1/collect.py",
+      "target": "poc/POC-03-ats-range/collect.py",
+      "sha256": "29750ae466f085c9deddbdbc48f5e3241a5ac4b475fb4d35bea4ee009c44f076",
+      "historicalOnlyNotAccepted": true
+    },
+    {
+      "source": "local-lab/ats-cache-export-preparation-v1/cache_export.cc",
+      "target": "poc/POC-03-ats-range/cache_export.cc",
+      "sha256": "b923d9d1a4f9a09fe9cdedc80fa17fe41925712bd4022ccb13b7ebfe4ff96645",
+      "historicalOnlyNotAccepted": true
+    }
+  ],
+  "currentImplementationTested": false,
+  "formalSampleApproved": false,
+  "experimentExecuted": false,
+  "pocAccepted": false
+}

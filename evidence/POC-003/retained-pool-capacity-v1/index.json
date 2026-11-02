@@ -1,0 +1,643 @@
+{
+  "parent": "2489f7d27814c146085101bc93fe482ac604c1d3",
+  "workingSourceHashes": {
+    "poc/POC-03-ats-range/instrumentation/ats-live-buffer-accounting.patch": "3d40024fd459c7bd1a0c6fc98a7e8dc049a047dd4865a2a2104e922138d94e9b",
+    "poc/POC-03-ats-range/instrumentation/check_exact_core_build_guard.py": "187fcf8a460c79bfa9dc2652cae08e055cc3f8c73f950689376c89dd8fffde3f",
+    "poc/POC-03-ats-range/instrumentation/live_pool_capacity.h": "4f4aee7c70e4e6cb9a32691b87840783abd71b25d43379f97163e232c6b71255",
+    "poc/POC-03-ats-range/instrumentation/patch-manifest.json": "c9fee14bc401ffa2dd6ba58c4d5826d55cc12e7f2c064f91dc912b4a0dc64cab",
+    "poc/POC-03-ats-range/instrumentation/test_live_pool_capacity.cc": "49ce8a0fd40238bbaa77800939d377c9ffb6187928f5be4ac1b1bf13c0c81bee",
+    "poc/POC-03-ats-range/instrumentation/test_live_pool_concurrent_core.cc": "91230dd2025bbb2f298d042d16c8a0bd3555ec78f069317a2ad017d52bf5495f",
+    "poc/POC-03-ats-range/instrumentation/test_live_pool_core.cc": "774a039114dd503b254caafe5ed4c946f501fef97961e81dbea36ca17088e534",
+    "poc/POC-03-ats-range/instrumentation/test_live_pool_failure_core.cc": "0fbd63629555546f3c59b8539b874f568949df9b99adb6009376a713da2de143",
+    "poc/POC-03-ats-range/lab.py": "f5ccdbd57a98fc9fbfa57298317a97eff9f167e8b37b992277ca023315369e4d"
+  },
+  "files": [
+    {
+      "original": "poc003-retained-pool-native-units-v1/boundaries.raw",
+      "encoded": "000-d08946d94675.zlib.b64",
+      "bytes": 91,
+      "sha256": "d08946d9467528a12fc8682183afab18fc2ef1b8ef188915fe2461df3e90eb35"
+    },
+    {
+      "original": "poc003-retained-pool-native-units-v1/compile.raw",
+      "encoded": "001-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-retained-pool-native-units-v1/results.json",
+      "encoded": "002-5f646d4fd425.zlib.b64",
+      "bytes": 1742,
+      "sha256": "5f646d4fd42544f0067d49dce6e60271e62407ad9e27a4f62efd76cbbe401387"
+    },
+    {
+      "original": "poc003-retained-pool-core-v1/build.raw",
+      "encoded": "003-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-retained-pool-core-v1/driver.stderr.raw",
+      "encoded": "004-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-retained-pool-core-v1/driver.stdout.raw",
+      "encoded": "005-f1a533114323.zlib.b64",
+      "bytes": 138,
+      "sha256": "f1a533114323a5bf7662e7adb314f1de9db23f3e5278bd628daf498d19660ed8"
+    },
+    {
+      "original": "poc003-retained-pool-core-v1/finished/durable-peaks.raw",
+      "encoded": "006-ec5196d8b99a.zlib.b64",
+      "bytes": 2193,
+      "sha256": "ec5196d8b99a89f32a92bc0043bc34dcd050e24d0b9e053f50362d668dd809e2"
+    },
+    {
+      "original": "poc003-retained-pool-core-v1/live/durable-peaks.raw",
+      "encoded": "007-ec5196d8b99a.zlib.b64",
+      "bytes": 2193,
+      "sha256": "ec5196d8b99a89f32a92bc0043bc34dcd050e24d0b9e053f50362d668dd809e2"
+    },
+    {
+      "original": "poc003-retained-pool-core-v1/results.json",
+      "encoded": "008-5fab8af95cb5.zlib.b64",
+      "bytes": 4860,
+      "sha256": "5fab8af95cb55c7e81c8a36dc94836dd733dfe56c8faea401018f5091bd915e1"
+    },
+    {
+      "original": "poc003-retained-pool-core-v1/runner.before-concurrent.py",
+      "encoded": "009-84b9d4cec7d3.zlib.b64",
+      "bytes": 4579,
+      "sha256": "84b9d4cec7d39c76f9688cd567e532535faf137609a1bed997dd8281d38de04f"
+    },
+    {
+      "original": "poc003-retained-pool-core-v2/build.raw",
+      "encoded": "010-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-retained-pool-core-v2/driver.stderr.raw",
+      "encoded": "011-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-retained-pool-core-v2/driver.stdout.raw",
+      "encoded": "012-5f9e54aa4ceb.zlib.b64",
+      "bytes": 148,
+      "sha256": "5f9e54aa4ceb61f20fe82f6c2b46dca7d90da01343e16b69d1d87093b335cd25"
+    },
+    {
+      "original": "poc003-retained-pool-core-v2/finished/durable-peaks.raw",
+      "encoded": "013-6dfe1b426150.zlib.b64",
+      "bytes": 2948,
+      "sha256": "6dfe1b4261509eb4cbb7408e571f0a4bbce8ba0cee1d556f5333cff14ec43419"
+    },
+    {
+      "original": "poc003-retained-pool-core-v2/live/durable-peaks.raw",
+      "encoded": "014-6dfe1b426150.zlib.b64",
+      "bytes": 2948,
+      "sha256": "6dfe1b4261509eb4cbb7408e571f0a4bbce8ba0cee1d556f5333cff14ec43419"
+    },
+    {
+      "original": "poc003-retained-pool-core-v2/results.json",
+      "encoded": "015-3897ef0c9db2.zlib.b64",
+      "bytes": 4902,
+      "sha256": "3897ef0c9db2290c6a50fb48bb241681b5e427b1016d5bc9d1394727d33aa2ec"
+    },
+    {
+      "original": "poc003-retained-pool-core-v2-concurrent/build.raw",
+      "encoded": "016-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-retained-pool-core-v2-concurrent/driver.stderr.raw",
+      "encoded": "017-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-retained-pool-core-v2-concurrent/driver.stdout.raw",
+      "encoded": "018-dc68657bdaf1.zlib.b64",
+      "bytes": 152,
+      "sha256": "dc68657bdaf19a352031830a33ab905730e31ee8d27248d760faeb449aa0204a"
+    },
+    {
+      "original": "poc003-retained-pool-core-v2-concurrent/finished/durable-peaks.raw",
+      "encoded": "019-9a144809d431.zlib.b64",
+      "bytes": 8194,
+      "sha256": "9a144809d4313a914ba9047dc6099f2d011f9f1b381c591a8ef0f4b4ae5e9316"
+    },
+    {
+      "original": "poc003-retained-pool-core-v2-concurrent/live/durable-peaks.raw",
+      "encoded": "020-9a144809d431.zlib.b64",
+      "bytes": 8194,
+      "sha256": "9a144809d4313a914ba9047dc6099f2d011f9f1b381c591a8ef0f4b4ae5e9316"
+    },
+    {
+      "original": "poc003-retained-pool-core-v2-concurrent/results.json",
+      "encoded": "021-cc4fd80575bc.zlib.b64",
+      "bytes": 4996,
+      "sha256": "cc4fd80575bcb93e3483c0cf51bba1bef67a0d790d0c6c9c384504afd7dddaf7"
+    },
+    {
+      "original": "poc003-retained-pool-core-failures-v1/build.raw",
+      "encoded": "022-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-retained-pool-core-failures-v1/huge-fallback-finished/durable-peaks.raw",
+      "encoded": "023-8b1fcdd6cdb8.zlib.b64",
+      "bytes": 1101,
+      "sha256": "8b1fcdd6cdb8f27b730ebab056c71e06e585f2c7f558efffc606a3ef683099bb"
+    },
+    {
+      "original": "poc003-retained-pool-core-failures-v1/huge-fallback-live/durable-peaks.raw",
+      "encoded": "024-d74f551f7324.zlib.b64",
+      "bytes": 358,
+      "sha256": "d74f551f7324ec812942731e5ffc5dcf952c602ab857e29dd01d3e9cf5498169"
+    },
+    {
+      "original": "poc003-retained-pool-core-failures-v1/huge-fallback-target-smaps.raw",
+      "encoded": "025-101fb5a4d3a0.zlib.b64",
+      "bytes": 721,
+      "sha256": "101fb5a4d3a04b0be8eca007431a13f7eaad86bd7deecf385360ccef09743b30"
+    },
+    {
+      "original": "poc003-retained-pool-core-failures-v1/huge-fallback.stderr.raw",
+      "encoded": "026-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-retained-pool-core-failures-v1/huge-fallback.stdout.raw",
+      "encoded": "027-bb0f8b0e0cae.zlib.b64",
+      "bytes": 179,
+      "sha256": "bb0f8b0e0caebe61aa7711302eff2e22a7811c36a1bceec9f2e348253383bcc0"
+    },
+    {
+      "original": "poc003-retained-pool-core-failures-v1/invalid-product-finished/durable-peaks.raw",
+      "encoded": "028-d0218401ee85.zlib.b64",
+      "bytes": 358,
+      "sha256": "d0218401ee8545027a3e31b11a432eb75916e854fdb08bbf2246af0a0840eece"
+    },
+    {
+      "original": "poc003-retained-pool-core-failures-v1/invalid-product-live/durable-peaks.raw",
+      "encoded": "029-d0218401ee85.zlib.b64",
+      "bytes": 358,
+      "sha256": "d0218401ee8545027a3e31b11a432eb75916e854fdb08bbf2246af0a0840eece"
+    },
+    {
+      "original": "poc003-retained-pool-core-failures-v1/invalid-product.stderr.raw",
+      "encoded": "030-7ebfe5484876.zlib.b64",
+      "bytes": 39,
+      "sha256": "7ebfe548487646f0b23d1de7421aa475e868ae8466811c6a2df8a9e061b7a3b8"
+    },
+    {
+      "original": "poc003-retained-pool-core-failures-v1/invalid-product.stdout.raw",
+      "encoded": "031-3dfa3fb239f5.zlib.b64",
+      "bytes": 6,
+      "sha256": "3dfa3fb239f56c778a1e9b33eb31328349edd155a95806dac4378904e88527e5"
+    },
+    {
+      "original": "poc003-retained-pool-core-failures-v1/meminfo-before.raw",
+      "encoded": "032-2667d71c5332.zlib.b64",
+      "bytes": 1475,
+      "sha256": "2667d71c5332952c5e42fef545c7f23563746d89de58b9b3725a706782ae96ec"
+    },
+    {
+      "original": "poc003-retained-pool-core-failures-v1/results.json",
+      "encoded": "033-9b09514a0ef8.zlib.b64",
+      "bytes": 14531,
+      "sha256": "9b09514a0ef8270c546644d2ca5daaaaaa99d32f9b693a9288f7f8ed23b9f2de"
+    },
+    {
+      "original": "poc003-retained-pool-core-failures-v1/write-failure-finished/durable-peaks.raw",
+      "encoded": "034-a30c7fc050ad.zlib.b64",
+      "bytes": 395,
+      "sha256": "a30c7fc050adf4a705993abe8ebe98a45dc0d4b18bb1edbbfbb6b660370d2d74"
+    },
+    {
+      "original": "poc003-retained-pool-core-failures-v1/write-failure-live/durable-peaks.raw",
+      "encoded": "035-b01f91032451.zlib.b64",
+      "bytes": 358,
+      "sha256": "b01f91032451703c86bb21b2a559cb2d9821ad9f590dab55b9536df3f4bf03ae"
+    },
+    {
+      "original": "poc003-retained-pool-core-failures-v1/write-failure.stderr.raw",
+      "encoded": "036-7ebfe5484876.zlib.b64",
+      "bytes": 39,
+      "sha256": "7ebfe548487646f0b23d1de7421aa475e868ae8466811c6a2df8a9e061b7a3b8"
+    },
+    {
+      "original": "poc003-retained-pool-core-failures-v1/write-failure.stdout.raw",
+      "encoded": "037-3dfa3fb239f5.zlib.b64",
+      "bytes": 6,
+      "sha256": "3dfa3fb239f56c778a1e9b33eb31328349edd155a95806dac4378904e88527e5"
+    },
+    {
+      "original": "poc003-exact-core-guard-native-v1/config.json",
+      "encoded": "038-df327a0db652.zlib.b64",
+      "bytes": 1181,
+      "sha256": "df327a0db652364258b44ead681081e23bc4dcadf54fab405b31bcbac6a09323"
+    },
+    {
+      "original": "poc003-exact-core-guard-native-v1/exporter.json",
+      "encoded": "039-c3bc74bc0b0b.zlib.b64",
+      "bytes": 183,
+      "sha256": "c3bc74bc0b0b0754f28c861c0b25f0278a562f61749c225ea2720c2db9cfa3ec"
+    },
+    {
+      "original": "poc003-exact-core-guard-native-v1/fixture.json",
+      "encoded": "040-44136fa355b3.zlib.b64",
+      "bytes": 2,
+      "sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+    },
+    {
+      "original": "poc003-exact-core-guard-native-v1/results.json",
+      "encoded": "041-db3d398321a1.zlib.b64",
+      "bytes": 938,
+      "sha256": "db3d398321a174b68618464e1568c177d17dcfef51ffe0c6a3be8f1359dc4de2"
+    },
+    {
+      "original": "poc003-exact-core-guard-native-v1/unloaded-exporter.so",
+      "encoded": "042-bdfe17c60cd6.zlib.b64",
+      "bytes": 33,
+      "sha256": "bdfe17c60cd6ebd3fc75a49dec1a899213d64252026ba863e048fda08d60d9a5"
+    },
+    {
+      "original": "poc003-exact-core-guard-native-v2/check.raw",
+      "encoded": "043-64eab2c987ca.zlib.b64",
+      "bytes": 846,
+      "sha256": "64eab2c987cad88bd6be96c7719a5b38eaefc2e3f70274055b8a49d1f82f1d7c"
+    },
+    {
+      "original": "poc003-exact-core-guard-native-v2/fixture/config.json",
+      "encoded": "044-58db78856d1e.zlib.b64",
+      "bytes": 1197,
+      "sha256": "58db78856d1e2059070464c98fb28b1ae3569fc136ae334edb7f186cb0989aa8"
+    },
+    {
+      "original": "poc003-exact-core-guard-native-v2/fixture/exporter.json",
+      "encoded": "045-c3bc74bc0b0b.zlib.b64",
+      "bytes": 183,
+      "sha256": "c3bc74bc0b0b0754f28c861c0b25f0278a562f61749c225ea2720c2db9cfa3ec"
+    },
+    {
+      "original": "poc003-exact-core-guard-native-v2/fixture/fixture.json",
+      "encoded": "046-44136fa355b3.zlib.b64",
+      "bytes": 2,
+      "sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+    },
+    {
+      "original": "poc003-exact-core-guard-native-v2/fixture/results.json",
+      "encoded": "047-db3d398321a1.zlib.b64",
+      "bytes": 938,
+      "sha256": "db3d398321a174b68618464e1568c177d17dcfef51ffe0c6a3be8f1359dc4de2"
+    },
+    {
+      "original": "poc003-exact-core-guard-native-v2/fixture/unloaded-exporter.so",
+      "encoded": "048-bdfe17c60cd6.zlib.b64",
+      "bytes": 33,
+      "sha256": "bdfe17c60cd6ebd3fc75a49dec1a899213d64252026ba863e048fda08d60d9a5"
+    },
+    {
+      "original": "poc003-exact-core-guard-native-v2/results.json",
+      "encoded": "049-65613c18b31a.zlib.b64",
+      "bytes": 1276,
+      "sha256": "65613c18b31a051fd57e146fcd6bb87e5ac97d860acedab7625e1f14e8bf9c6f"
+    },
+    {
+      "original": "poc003-durable-ats-build-native-v2/autoreconf.stderr.raw",
+      "encoded": "050-5002c921c906.zlib.b64",
+      "bytes": 166,
+      "sha256": "5002c921c90648aa3463e612fc813f02d6f1a254e7a1988234e0aa37788057e4"
+    },
+    {
+      "original": "poc003-durable-ats-build-native-v2/autoreconf.stdout.raw",
+      "encoded": "051-9a83b0c31f18.zlib.b64",
+      "bytes": 409,
+      "sha256": "9a83b0c31f1868d29e87cc8a5675903bfcf4df88fafee50a028472fac339f8ed"
+    },
+    {
+      "original": "poc003-durable-ats-build-native-v2/configure.stderr.raw",
+      "encoded": "052-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-durable-ats-build-native-v2/configure.stdout.raw",
+      "encoded": "053-9eace03621b0.zlib.b64",
+      "bytes": 20401,
+      "sha256": "9eace03621b0375b4408e0dd7949ee3523d8ac30861d3328dcd5ceb27cf8f1c5"
+    },
+    {
+      "original": "poc003-durable-ats-build-native-v2/install.stderr.raw",
+      "encoded": "054-b31178fc1c45.zlib.b64",
+      "bytes": 3354,
+      "sha256": "b31178fc1c4544e9b7b2a17a9d358b56e9c0ecfa703dbba9c1e67d3026f1d821"
+    },
+    {
+      "original": "poc003-durable-ats-build-native-v2/install.stdout.raw",
+      "encoded": "055-9160696030da.zlib.b64",
+      "bytes": 83086,
+      "sha256": "9160696030da9c131b2b403443844d0a0a8e169fb6b3d200f352991340565e3c"
+    },
+    {
+      "original": "poc003-durable-ats-build-native-v2/make.stderr.raw",
+      "encoded": "056-f04050634b21.zlib.b64",
+      "bytes": 1906,
+      "sha256": "f04050634b2128f6deab510bc55832fe9ec8b1cdec05ea9133b4ad518c3cfa91"
+    },
+    {
+      "original": "poc003-durable-ats-build-native-v2/make.stdout.raw",
+      "encoded": "057-661b91cd25d1.zlib.b64",
+      "bytes": 44814,
+      "sha256": "661b91cd25d1c0a4e7c1adde57527f37a65915e8a455352254dea1c96a377a1f"
+    },
+    {
+      "original": "poc003-durable-ats-build-native-v2/receipt.json",
+      "encoded": "058-77c8394e589d.zlib.b64",
+      "bytes": 52375,
+      "sha256": "77c8394e589dfdc655be20a71f0ea62be36c2d61d436b89461c34a98cffcf6d4"
+    },
+    {
+      "original": "poc003-durable-ats-build-native-v2/source-preparation.json",
+      "encoded": "059-b981b3883ad5.zlib.b64",
+      "bytes": 1747,
+      "sha256": "b981b3883ad55e14ab9850ac87cbccd7b5ec4359f52dbb2ff1fc197d0d10c3b1"
+    },
+    {
+      "original": "poc003-durable-ats-link-native-v2/core-symbols.raw",
+      "encoded": "060-59d90e4fd607.zlib.b64",
+      "bytes": 72984,
+      "sha256": "59d90e4fd6072a099ccc81c1223b38683089503cc9af5a925ec9bb4f0a236fd5"
+    },
+    {
+      "original": "poc003-durable-ats-link-native-v2/ldd-0.stderr.raw",
+      "encoded": "061-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-durable-ats-link-native-v2/ldd-0.stdout.raw",
+      "encoded": "062-9be5a6b0dfba.zlib.b64",
+      "bytes": 1132,
+      "sha256": "9be5a6b0dfba6fc833835fcc0f89b073779b99f02b2b6e85f724c75cf2fa8e92"
+    },
+    {
+      "original": "poc003-durable-ats-link-native-v2/ldd-1.stderr.raw",
+      "encoded": "063-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-durable-ats-link-native-v2/ldd-1.stdout.raw",
+      "encoded": "064-8357ae589e53.zlib.b64",
+      "bytes": 840,
+      "sha256": "8357ae589e53fcb2b0e47ed02aebed8df28d7880d9a23fca09c5f7f33b086a5d"
+    },
+    {
+      "original": "poc003-durable-ats-link-native-v2/ldd-2.stderr.raw",
+      "encoded": "065-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-durable-ats-link-native-v2/ldd-2.stdout.raw",
+      "encoded": "066-f60efd9a280d.zlib.b64",
+      "bytes": 374,
+      "sha256": "f60efd9a280dcef34be2419015896cc62810cfca7e3911933b9739fdeabf665b"
+    },
+    {
+      "original": "poc003-durable-ats-link-native-v2/ldd-3.stderr.raw",
+      "encoded": "067-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-durable-ats-link-native-v2/ldd-3.stdout.raw",
+      "encoded": "068-bc925d117a8d.zlib.b64",
+      "bytes": 374,
+      "sha256": "bc925d117a8d71fd5a455b7e1e9381359131ce114f9380987ae59c7991cecadc"
+    },
+    {
+      "original": "poc003-durable-ats-link-native-v2/ldd-4.stderr.raw",
+      "encoded": "069-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-durable-ats-link-native-v2/ldd-4.stdout.raw",
+      "encoded": "070-436d7baabe9d.zlib.b64",
+      "bytes": 374,
+      "sha256": "436d7baabe9d57245932dd1d0e481a6d1a528896bc8d2c1b1e4f1f7a264d121d"
+    },
+    {
+      "original": "poc003-durable-ats-link-native-v2/receipt.json",
+      "encoded": "071-29ff22516808.zlib.b64",
+      "bytes": 3400,
+      "sha256": "29ff225168083d132ca68468f419759e574790902046768879e22b7cef0023bd"
+    },
+    {
+      "original": "poc003-durable-ats-link-native-v2/version.stderr.raw",
+      "encoded": "072-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-durable-ats-link-native-v2/version.stdout.raw",
+      "encoded": "073-1890d96411b0.zlib.b64",
+      "bytes": 189,
+      "sha256": "1890d96411b00f5c46956386e0ba687abfd3fa8fff89c4d91a00cdd4f853cdb5"
+    },
+    {
+      "original": "poc003-retained-pool-patch-v1/apply-check.raw",
+      "encoded": "074-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-retained-pool-patch-v1/apply.raw",
+      "encoded": "075-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-retained-pool-patch-v1/before-manifest.json",
+      "encoded": "076-678b11358e6a.zlib.b64",
+      "bytes": 2703,
+      "sha256": "678b11358e6a1c3355e8459f3e7d51a392a241155d34d2f492eb15412eb06655"
+    },
+    {
+      "original": "poc003-retained-pool-patch-v1/before.patch",
+      "encoded": "077-d613e3b1895b.zlib.b64",
+      "bytes": 6364,
+      "sha256": "d613e3b1895b490bc262116da28f479f669da55465ecd1f9c97fd6e52996a94c"
+    },
+    {
+      "original": "poc003-retained-pool-patch-v1/source/iocore/cache/Cache.cc",
+      "encoded": "078-8926035b3c46.zlib.b64",
+      "bytes": 117068,
+      "sha256": "8926035b3c46a9d584cd5fae86094617817df207869e1c8d59ba902c516e76b2"
+    },
+    {
+      "original": "poc003-retained-pool-patch-v1/source/iocore/cache/P_CacheVol.h",
+      "encoded": "079-ba06f2298a0f.zlib.b64",
+      "bytes": 15262,
+      "sha256": "ba06f2298a0f7d38c955d2cd5cb7ed3fb582871a5ca4ecd9bdb487fa1f0a9c7a"
+    },
+    {
+      "original": "poc003-retained-pool-patch-v1/source/iocore/eventsystem/I_IOBuffer.h",
+      "encoded": "080-936c0c4db159.zlib.b64",
+      "bytes": 43104,
+      "sha256": "936c0c4db159676a357fc5ace9d16d008c4136652849926d0f0d99e1c5225007"
+    },
+    {
+      "original": "poc003-retained-pool-patch-v1/source/iocore/eventsystem/P_IOBuffer.h",
+      "encoded": "081-445ca92bd3e5.zlib.b64",
+      "bytes": 24584,
+      "sha256": "445ca92bd3e50d3d73f16bb9821ad96110a6b3d71f665b6871805b2832d2446e"
+    },
+    {
+      "original": "poc003-retained-pool-patch-v1/source/src/tscore/ink_queue.cc",
+      "encoded": "082-2db32f95c747.zlib.b64",
+      "bytes": 19000,
+      "sha256": "2db32f95c747618a8d370f565d7355d0900c90f6ea092b082a7302eadcf5f621"
+    },
+    {
+      "original": "poc003-retained-pool-patch-v1/source/src/tscore/ink_resource.cc",
+      "encoded": "083-8d701f8aad9c.zlib.b64",
+      "bytes": 6722,
+      "sha256": "8d701f8aad9c3da1815d5f92ba80f1ea2ba399b23c1a01bca781f9d67e765c4c"
+    },
+    {
+      "original": "poc003-retained-pool-v1-implementation-independent-review.json",
+      "encoded": "084-65fbbb844062.zlib.b64",
+      "bytes": 6010,
+      "sha256": "65fbbb844062643089536abe4ba0fbf0e71bb675fbd756247b3d6a0977afe569"
+    },
+    {
+      "original": "poc003-retained-pool-v2-build-behaviour-independent-review.json",
+      "encoded": "085-03ed8c1449db.zlib.b64",
+      "bytes": 6694,
+      "sha256": "03ed8c1449db00e16439e6d680a83de37e7ecddabb474c6bed17650b1ab1cddc"
+    },
+    {
+      "original": "poc003-retained-pool-core-failures-v1-independent-review.json",
+      "encoded": "086-8fa28b32ad30.zlib.b64",
+      "bytes": 9705,
+      "sha256": "8fa28b32ad30c9d9b3ca9c9424fef69bbdcd17a3e7e359e9714fddfc173badec"
+    },
+    {
+      "original": "prepare_poc003_retained_pool_patch_once.py",
+      "encoded": "087-416726c9b2b6.zlib.b64",
+      "bytes": 4224,
+      "sha256": "416726c9b2b6a4f2c39288e8a39192be6fc737d88251529663658b4b2b22c934"
+    },
+    {
+      "original": "build_poc003_retained_pool_ats_native_once.py",
+      "encoded": "088-5b75b643e330.zlib.b64",
+      "bytes": 6575,
+      "sha256": "5b75b643e330721859d42ffa6820e35861ec19f320a727a56f4363ede283df2f"
+    },
+    {
+      "original": "check_poc003_retained_pool_units_once.py",
+      "encoded": "089-f1c9804b2c84.zlib.b64",
+      "bytes": 2123,
+      "sha256": "f1c9804b2c847e07aa4b18b8c26a22112ffced0fe02c06d11dfc4905028b9d19"
+    },
+    {
+      "original": "check_poc003_retained_pool_core_once.py",
+      "encoded": "090-fc384f50e35c.zlib.b64",
+      "bytes": 5007,
+      "sha256": "fc384f50e35cbded309d505720f63e060f66c5d1c4e866c916e20e208d29bdbb"
+    },
+    {
+      "original": "verify_poc003_retained_pool_runtime_native_once.py",
+      "encoded": "091-dee352d70a96.zlib.b64",
+      "bytes": 3891,
+      "sha256": "dee352d70a96a480a3d765cf0f1029b5692c7f169d047706df88e09517d0c8e6"
+    },
+    {
+      "original": "check_poc003_retained_pool_failures_once.py",
+      "encoded": "092-074188b70777.zlib.b64",
+      "bytes": 4866,
+      "sha256": "074188b7077736635505e0f315d228626544d9281a0d460a1a1eae4063ed65c8"
+    },
+    {
+      "original": "check_poc003_exact_core_guard_once.py",
+      "encoded": "093-b7c256d52ed0.zlib.b64",
+      "bytes": 1459,
+      "sha256": "b7c256d52ed039253ea572250911b6bb95f70107650a56ac4bd68adc7203ee96"
+    },
+    {
+      "original": "working-source/poc/POC-03-ats-range/instrumentation/ats-live-buffer-accounting.patch",
+      "encoded": "094-3d40024fd459.zlib.b64",
+      "bytes": 7775,
+      "sha256": "3d40024fd459c7bd1a0c6fc98a7e8dc049a047dd4865a2a2104e922138d94e9b"
+    },
+    {
+      "original": "working-source/poc/POC-03-ats-range/instrumentation/check_exact_core_build_guard.py",
+      "encoded": "095-187fcf8a460c.zlib.b64",
+      "bytes": 3637,
+      "sha256": "187fcf8a460c79bfa9dc2652cae08e055cc3f8c73f950689376c89dd8fffde3f"
+    },
+    {
+      "original": "working-source/poc/POC-03-ats-range/instrumentation/live_pool_capacity.h",
+      "encoded": "096-4f4aee7c70e4.zlib.b64",
+      "bytes": 1323,
+      "sha256": "4f4aee7c70e4e6cb9a32691b87840783abd71b25d43379f97163e232c6b71255"
+    },
+    {
+      "original": "working-source/poc/POC-03-ats-range/instrumentation/patch-manifest.json",
+      "encoded": "097-c9fee14bc401.zlib.b64",
+      "bytes": 3497,
+      "sha256": "c9fee14bc401ffa2dd6ba58c4d5826d55cc12e7f2c064f91dc912b4a0dc64cab"
+    },
+    {
+      "original": "working-source/poc/POC-03-ats-range/instrumentation/test_live_pool_capacity.cc",
+      "encoded": "098-49ce8a0fd402.zlib.b64",
+      "bytes": 1653,
+      "sha256": "49ce8a0fd40238bbaa77800939d377c9ffb6187928f5be4ac1b1bf13c0c81bee"
+    },
+    {
+      "original": "working-source/poc/POC-03-ats-range/instrumentation/test_live_pool_concurrent_core.cc",
+      "encoded": "099-91230dd2025b.zlib.b64",
+      "bytes": 2781,
+      "sha256": "91230dd2025bbb2f298d042d16c8a0bd3555ec78f069317a2ad017d52bf5495f"
+    },
+    {
+      "original": "working-source/poc/POC-03-ats-range/instrumentation/test_live_pool_core.cc",
+      "encoded": "100-774a039114dd.zlib.b64",
+      "bytes": 2818,
+      "sha256": "774a039114dd503b254caafe5ed4c946f501fef97961e81dbea36ca17088e534"
+    },
+    {
+      "original": "working-source/poc/POC-03-ats-range/instrumentation/test_live_pool_failure_core.cc",
+      "encoded": "101-0fbd63629555.zlib.b64",
+      "bytes": 4593,
+      "sha256": "0fbd63629555546f3c59b8539b874f568949df9b99adb6009376a713da2de143"
+    },
+    {
+      "original": "working-source/poc/POC-03-ats-range/lab.py",
+      "encoded": "102-f5ccdbd57a98.zlib.b64",
+      "bytes": 42020,
+      "sha256": "f5ccdbd57a98fc9fbfa57298317a97eff9f167e8b37b992277ca023315369e4d"
+    }
+  ],
+  "scope": "Exact ATS ioBufAllocator backing-pool capacity in addition to logical ownership; not RSS or all-media coverage",
+  "oldCorePhysicalCoverageFailed": true,
+  "normalAndConcurrentActualPoolChecksPassed": true,
+  "invalidProductAndPartialJournalRejected": true,
+  "unavailableHugepageFallbackMeasured": true,
+  "hugepageSuccessMeasured": false,
+  "fullMediaBufferBoundProven": false,
+  "experimentApproved": false,
+  "qualificationAccepted": false
+}

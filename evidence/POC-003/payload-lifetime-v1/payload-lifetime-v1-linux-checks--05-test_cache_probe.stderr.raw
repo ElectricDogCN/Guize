@@ -1,0 +1,9 @@
+test_misaligned_shortened_or_out_of_input_slice_is_rejected (__main__.CacheCatalogueIsolationTests.test_misaligned_shortened_or_out_of_input_slice_is_rejected) ... ok
+test_other_user_and_old_version_cannot_supply_missing_cache_bytes (__main__.CacheCatalogueIsolationTests.test_other_user_and_old_version_cannot_supply_missing_cache_bytes) ... ok
+test_same_interval_under_two_native_keys_is_rejected (__main__.CacheCatalogueIsolationTests.test_same_interval_under_two_native_keys_is_rejected) ... ok
+test_unknown_origin_cannot_become_cache_provenance (__main__.CacheCatalogueIsolationTests.test_unknown_origin_cannot_become_cache_provenance) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.005s
+
+OK

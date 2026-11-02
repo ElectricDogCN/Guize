@@ -1,0 +1,137 @@
+{
+  "requestId": "c65d5722ecac4b07a0d3b15b875f6f82",
+  "case": "if_match",
+  "userId": "lab-user-a",
+  "url": "http://127.0.0.1:18233/media/object.bin",
+  "sourceVersion": "base",
+  "sourceSha256": "938a8bc3e0a64184f1551bff0c500dc891366ead8f30f8f83753587e763c1c26",
+  "aclVersion": "poc003-local-acl-v1",
+  "authorizationContext": "a9459da427d894a5b78545d7ff0e509f",
+  "requestRange": "bytes=0-7",
+  "ifRange": "\"sha256-938a8bc3e0a64184f1551bff0c500dc891366ead8f30f8f83753587e763c1c26\"",
+  "bodyRef": "bodies/if_match-c65d5722ecac4b07a0d3b15b875f6f82.bin",
+  "configuredOriginFault": null,
+  "collectorRetryCount": 0,
+  "statusCode": 206,
+  "responseHeaders": [
+    [
+      "Server",
+      "BaseHTTP/0.6 Python/3.12.3"
+    ],
+    [
+      "Date",
+      "Thu, 22 Oct 2026 14:56:07 GMT"
+    ],
+    [
+      "Content-Type",
+      "application/octet-stream"
+    ],
+    [
+      "Content-Length",
+      "8"
+    ],
+    [
+      "Content-Range",
+      "bytes 0-7/67108864"
+    ],
+    [
+      "ETag",
+      "\"sha256-938a8bc3e0a64184f1551bff0c500dc891366ead8f30f8f83753587e763c1c26\""
+    ],
+    [
+      "Accept-Ranges",
+      "bytes"
+    ],
+    [
+      "Via",
+      "http/1.1 traffic_server (ApacheTrafficServer/9.2.3 [uScRs f p eN:t cCHp s ]), http/1.1 traffic_server (ApacheTrafficServer/9.2.3 [uSc s f p eN:t c  p sS])"
+    ],
+    [
+      "X-Lab-ATS-Cache",
+      "none"
+    ],
+    [
+      "Last-Modified",
+      "Mon, 19 Oct 2026 00:00:00 GMT"
+    ],
+    [
+      "X-Lab-Request-ID",
+      "c65d5722ecac4b07a0d3b15b875f6f82"
+    ],
+    [
+      "X-Lab-Source-Version",
+      "base"
+    ],
+    [
+      "X-Lab-Cache-Context",
+      "a9459da427d894a5b78545d7ff0e509f"
+    ],
+    [
+      "Connection",
+      "close"
+    ]
+  ],
+  "responseHeadersAt": "2026-10-22T14:56:07.386162Z",
+  "firstBodyByteAt": "2026-10-22T14:56:07.386408Z",
+  "firstBodyByteLatencyMs": 2.019253995968029,
+  "firstBodyChunkAt": "2026-10-22T14:56:07.386418Z",
+  "finishedAt": "2026-10-22T14:56:07.386612Z",
+  "bodyBytes": 8,
+  "clientChunkPeak": 7,
+  "transportCompleted": true,
+  "originObservation": {
+    "requestId": "c65d5722ecac4b07a0d3b15b875f6f82",
+    "observedAt": "2026-10-22T14:56:07.543198Z",
+    "originRequestCount": 0,
+    "objectReadCount": 0,
+    "objectReadBytes": 0,
+    "activeOriginRequests": 0,
+    "originTransactions": [],
+    "gatewayTransactions": [
+      {
+        "requestId": "c65d5722ecac4b07a0d3b15b875f6f82",
+        "case": "if_match",
+        "startedAt": "2026-10-22T14:56:07.384955Z",
+        "userId": "lab-user-a",
+        "sourceVersion": "base",
+        "aclVersion": "poc003-local-acl-v1",
+        "requestRange": "bytes=0-7",
+        "ifRange": "\"sha256-938a8bc3e0a64184f1551bff0c500dc891366ead8f30f8f83753587e763c1c26\"",
+        "atsRequestSent": true,
+        "responseByteCount": 8,
+        "gatewayChunkPeak": 8,
+        "grantObservation": {
+          "grantId": "poc003-grant-lab-user-a",
+          "principalId": "lab-user-a",
+          "validFrom": "2026-10-22T14:55:55.818086Z",
+          "validUntil": "2026-10-22T15:16:00.818086Z",
+          "revokedAt": null,
+          "authorizedAt": "2026-10-22T14:56:07.385005Z",
+          "reason": "allowed"
+        },
+        "cacheContextPath": "/ctx/a9459da427d894a5b78545d7ff0e509f/base/object.bin",
+        "statusCode": 206,
+        "atsResponseHeadersAt": "2026-10-22T14:56:07.385869Z",
+        "atsExpectedBodyBytes": 8,
+        "upstreamReadTimeoutSeconds": 10,
+        "transportCompleted": true,
+        "firstBodyChunkAt": "2026-10-22T14:56:07.386074Z",
+        "finishedAt": "2026-10-22T14:56:07.386087Z"
+      }
+    ]
+  },
+  "startedAt": "2026-10-22T14:56:07.384388Z",
+  "responseHeaderLatencyMs": 1.7757239984348416,
+  "elapsedMs": 2.2219679958652705,
+  "bodySha256": "7275a918178823dd3531ca933d3c9ad23249a72a483d270b0034eb9d465ecc15",
+  "originPollingSettled": true,
+  "originPollingScope": "Only these timestamped snapshots; no assertion about unobserved later I/O.",
+  "sourceIntervalComparison": {
+    "expectedStatus": 206,
+    "start": 0,
+    "end": 7,
+    "expectedBytes": 8,
+    "expectedSha256": "7275a918178823dd3531ca933d3c9ad23249a72a483d270b0034eb9d465ecc15",
+    "actualBytesEqual": true
+  }
+}

@@ -1,0 +1,241 @@
+{
+  "recordedAt": "2026-10-25T17:06:26.734928+00:00",
+  "sourceCommit": "087068d32c918da43465f0f91ca6cccd0e088d67",
+  "sourceStatus": "DIRTY four exact code hashes",
+  "sources": [
+    {
+      "path": "poc/POC-03-ats-range/lab.py",
+      "bytes": 40980,
+      "sha256": "3ecb45001fe61f82299e177b46ddce38320a712e74c978416dd056f925442ffc"
+    },
+    {
+      "path": "poc/POC-03-ats-range/collect.py",
+      "bytes": 13833,
+      "sha256": "f28b3dbc0e8d295d125fe67f5c863a4a2f5385df4db1a76780025b07101e7c25"
+    },
+    {
+      "path": "poc/POC-03-ats-range/input_profile.py",
+      "bytes": 6966,
+      "sha256": "9e05fc5da62ff8471d1b404417b0b27d2179caeeebeb0dfeb498a8a8de9945e6"
+    },
+    {
+      "path": "poc/POC-03-ats-range/test_input_profile.py",
+      "bytes": 12957,
+      "sha256": "8fad15b55e076e032756119e8a82f85a3e3d91be6c0cce8a3b7d3d797dec204c"
+    }
+  ],
+  "priorArchive": "evidence/POC-003/input-profile-v2/index.json",
+  "actualWindowsTests": 26,
+  "actualNativeTests": 26,
+  "testSkipped": 0,
+  "redActualTests": 9,
+  "redActualPass": 8,
+  "redActualFailure": 1,
+  "initialRedHarnessDidNotSelectAddedClass": true,
+  "initialHarnessNotRed": true,
+  "sourceHttpStarted": false,
+  "atsStarted": false,
+  "pocExecuted": false,
+  "fullSourceAccepted": false,
+  "qualificationAccepted": false,
+  "files": [
+    {
+      "original": "poc003-input-profile-v2-component-independent-review.json",
+      "bytes": 5290,
+      "sha256": "f6beea8659821b5df8a525bb64784f71390843db8a37f6545d91e6df2181670c",
+      "encoded": "00-f6beea865982.zlib.b64"
+    },
+    {
+      "original": "poc003-input-profile-manifest-ingress-red/results.json",
+      "bytes": 466,
+      "sha256": "538df7ecee76dd56537b9d30af25c96edab33460facc4d527a23a7aa570238d2",
+      "encoded": "01-538df7ecee76.zlib.b64"
+    },
+    {
+      "original": "poc003-input-profile-manifest-ingress-red/source-snapshot/collect.py",
+      "bytes": 13833,
+      "sha256": "f28b3dbc0e8d295d125fe67f5c863a4a2f5385df4db1a76780025b07101e7c25",
+      "encoded": "02-f28b3dbc0e8d.zlib.b64"
+    },
+    {
+      "original": "poc003-input-profile-manifest-ingress-red/source-snapshot/input_profile.py",
+      "bytes": 6966,
+      "sha256": "9e05fc5da62ff8471d1b404417b0b27d2179caeeebeb0dfeb498a8a8de9945e6",
+      "encoded": "03-9e05fc5da62f.zlib.b64"
+    },
+    {
+      "original": "poc003-input-profile-manifest-ingress-red/source-snapshot/lab.py",
+      "bytes": 40835,
+      "sha256": "49631a1681d1bda39fa77915244326a1c6fa4069f67245c213e997d1dd1d12fc",
+      "encoded": "04-49631a1681d1.zlib.b64"
+    },
+    {
+      "original": "poc003-input-profile-manifest-ingress-red/source-snapshot/test_input_profile.py",
+      "bytes": 12848,
+      "sha256": "6923972f505b3ac3545c583b8992430b6dad89aeba37bdbde1f46f58d600a86f",
+      "encoded": "05-6923972f505b.zlib.b64"
+    },
+    {
+      "original": "poc003-input-profile-manifest-ingress-red/test.raw",
+      "bytes": 1630,
+      "sha256": "c44fd52a817713121891c740d2893a4de58e11600f0f2fe02a7c1ba92dd6cf3b",
+      "encoded": "06-c44fd52a8177.zlib.b64"
+    },
+    {
+      "original": "poc003-input-profile-manifest-ingress-red-v2/results.json",
+      "bytes": 1126,
+      "sha256": "d1b2abb163cb51a8c26ee478e3ab7ca6b1b8778af5d0144f455a5c02ebced336",
+      "encoded": "07-d1b2abb163cb.zlib.b64"
+    },
+    {
+      "original": "poc003-input-profile-manifest-ingress-red-v2/source-snapshot/collect.py",
+      "bytes": 13833,
+      "sha256": "f28b3dbc0e8d295d125fe67f5c863a4a2f5385df4db1a76780025b07101e7c25",
+      "encoded": "08-f28b3dbc0e8d.zlib.b64"
+    },
+    {
+      "original": "poc003-input-profile-manifest-ingress-red-v2/source-snapshot/input_profile.py",
+      "bytes": 6966,
+      "sha256": "9e05fc5da62ff8471d1b404417b0b27d2179caeeebeb0dfeb498a8a8de9945e6",
+      "encoded": "09-9e05fc5da62f.zlib.b64"
+    },
+    {
+      "original": "poc003-input-profile-manifest-ingress-red-v2/source-snapshot/lab.py",
+      "bytes": 40835,
+      "sha256": "49631a1681d1bda39fa77915244326a1c6fa4069f67245c213e997d1dd1d12fc",
+      "encoded": "10-49631a1681d1.zlib.b64"
+    },
+    {
+      "original": "poc003-input-profile-manifest-ingress-red-v2/source-snapshot/test_input_profile.py",
+      "bytes": 12957,
+      "sha256": "8fad15b55e076e032756119e8a82f85a3e3d91be6c0cce8a3b7d3d797dec204c",
+      "encoded": "11-8fad15b55e07.zlib.b64"
+    },
+    {
+      "original": "poc003-input-profile-manifest-ingress-red-v2/test.raw",
+      "bytes": 3221,
+      "sha256": "65e618bcc101f2f2ae7b3b32f8a465501f0aa90ae569f03f754d9034381b4d0c",
+      "encoded": "12-65e618bcc101.zlib.b64"
+    },
+    {
+      "original": "poc003-input-profile-v3-windows-checks/results.json",
+      "bytes": 4630,
+      "sha256": "94b16b521c622f6955a6777ca4ef163e1867c4919ef3d1f4ba61f4b26c024c58",
+      "encoded": "13-94b16b521c62.zlib.b64"
+    },
+    {
+      "original": "poc003-input-profile-v3-windows-checks/source-snapshot/collect.py",
+      "bytes": 13833,
+      "sha256": "f28b3dbc0e8d295d125fe67f5c863a4a2f5385df4db1a76780025b07101e7c25",
+      "encoded": "14-f28b3dbc0e8d.zlib.b64"
+    },
+    {
+      "original": "poc003-input-profile-v3-windows-checks/source-snapshot/input_profile.py",
+      "bytes": 6966,
+      "sha256": "9e05fc5da62ff8471d1b404417b0b27d2179caeeebeb0dfeb498a8a8de9945e6",
+      "encoded": "15-9e05fc5da62f.zlib.b64"
+    },
+    {
+      "original": "poc003-input-profile-v3-windows-checks/source-snapshot/lab.py",
+      "bytes": 40980,
+      "sha256": "3ecb45001fe61f82299e177b46ddce38320a712e74c978416dd056f925442ffc",
+      "encoded": "16-3ecb45001fe6.zlib.b64"
+    },
+    {
+      "original": "poc003-input-profile-v3-windows-checks/source-snapshot/test_input_profile.py",
+      "bytes": 12957,
+      "sha256": "8fad15b55e076e032756119e8a82f85a3e3d91be6c0cce8a3b7d3d797dec204c",
+      "encoded": "17-8fad15b55e07.zlib.b64"
+    },
+    {
+      "original": "poc003-input-profile-v3-windows-checks/test_cache_body_bounds.py.raw",
+      "bytes": 832,
+      "sha256": "0ea9bbd7f71b91c5222d37022dd1973d37a2a3f2c9116ade8b979383ee9aa3af",
+      "encoded": "18-0ea9bbd7f71b.zlib.b64"
+    },
+    {
+      "original": "poc003-input-profile-v3-windows-checks/test_cache_probe.py.raw",
+      "bytes": 984,
+      "sha256": "b8f559527f92a84c55c41fdebe3d099acd9aff16743ba9e70ccef9aea4c11f54",
+      "encoded": "19-b8f559527f92.zlib.b64"
+    },
+    {
+      "original": "poc003-input-profile-v3-windows-checks/test_input_profile.py.raw",
+      "bytes": 1792,
+      "sha256": "eb47fe612c8635e87f9a5e54f151c99cd1708664cda651d619837b6321bbc1ef",
+      "encoded": "20-eb47fe612c86.zlib.b64"
+    },
+    {
+      "original": "poc003-input-profile-v3-windows-checks/test_lab.py.raw",
+      "bytes": 1402,
+      "sha256": "017996a565970b021492d4ff3cdaad6b4ee6df28a255fc0c19ef9fde9edc6ff6",
+      "encoded": "21-017996a56597.zlib.b64"
+    },
+    {
+      "original": "poc003-input-profile-v3-windows-checks/test_revocation_binding.py.raw",
+      "bytes": 667,
+      "sha256": "1f75caac3f896ff1e982f86a6d7a0a1eec0ba64dc81db37e6ff2b482563acbda",
+      "encoded": "22-1f75caac3f89.zlib.b64"
+    },
+    {
+      "original": "poc003-input-profile-v3-native-checks/results.json",
+      "bytes": 4443,
+      "sha256": "24c4f4486d7797a7e4ebd9d1c7ef9d307716eec4ad64034cd6b3da2d59313e7e",
+      "encoded": "23-24c4f4486d77.zlib.b64"
+    },
+    {
+      "original": "poc003-input-profile-v3-native-checks/source-snapshot/collect.py",
+      "bytes": 13833,
+      "sha256": "f28b3dbc0e8d295d125fe67f5c863a4a2f5385df4db1a76780025b07101e7c25",
+      "encoded": "24-f28b3dbc0e8d.zlib.b64"
+    },
+    {
+      "original": "poc003-input-profile-v3-native-checks/source-snapshot/input_profile.py",
+      "bytes": 6966,
+      "sha256": "9e05fc5da62ff8471d1b404417b0b27d2179caeeebeb0dfeb498a8a8de9945e6",
+      "encoded": "25-9e05fc5da62f.zlib.b64"
+    },
+    {
+      "original": "poc003-input-profile-v3-native-checks/source-snapshot/lab.py",
+      "bytes": 40980,
+      "sha256": "3ecb45001fe61f82299e177b46ddce38320a712e74c978416dd056f925442ffc",
+      "encoded": "26-3ecb45001fe6.zlib.b64"
+    },
+    {
+      "original": "poc003-input-profile-v3-native-checks/source-snapshot/test_input_profile.py",
+      "bytes": 12957,
+      "sha256": "8fad15b55e076e032756119e8a82f85a3e3d91be6c0cce8a3b7d3d797dec204c",
+      "encoded": "27-8fad15b55e07.zlib.b64"
+    },
+    {
+      "original": "poc003-input-profile-v3-native-checks/test_cache_body_bounds.py.raw",
+      "bytes": 832,
+      "sha256": "41bddcf325ecc474afd68f8e66e88c3798f14f55cb7d5097a2f5ec334f4214d8",
+      "encoded": "28-41bddcf325ec.zlib.b64"
+    },
+    {
+      "original": "poc003-input-profile-v3-native-checks/test_cache_probe.py.raw",
+      "bytes": 983,
+      "sha256": "0fce31e259b7935bc4dfee99fae8a815a138308ff790ff974083c02aecbe6595",
+      "encoded": "29-0fce31e259b7.zlib.b64"
+    },
+    {
+      "original": "poc003-input-profile-v3-native-checks/test_input_profile.py.raw",
+      "bytes": 1786,
+      "sha256": "ac3129c0f29c1463cda12a9e068b0cf40b24db357a9e35464bb463467b1d9e2e",
+      "encoded": "30-ac3129c0f29c.zlib.b64"
+    },
+    {
+      "original": "poc003-input-profile-v3-native-checks/test_lab.py.raw",
+      "bytes": 1397,
+      "sha256": "4a6013fcb41ba6e37be714ee772e4d0fada85625d74665083dce7588647e4a18",
+      "encoded": "31-4a6013fcb41b.zlib.b64"
+    },
+    {
+      "original": "poc003-input-profile-v3-native-checks/test_revocation_binding.py.raw",
+      "bytes": 668,
+      "sha256": "7689abb9f8af638a1064c0e2cfbdd5d858a20a258debbddbf11aa18a04a5b45b",
+      "encoded": "32-7689abb9f8af.zlib.b64"
+    }
+  ]
+}

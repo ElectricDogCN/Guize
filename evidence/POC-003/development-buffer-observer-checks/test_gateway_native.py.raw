@@ -1,0 +1,8 @@
+test_denied_user_cannot_obtain_unsatisfiable_representation_metadata (__main__.GatewayNativeTests.test_denied_user_cannot_obtain_unsatisfiable_representation_metadata) ... ok
+test_owned_port_can_rebind_after_close_but_refuses_live_listener (__main__.GatewayNativeTests.test_owned_port_can_rebind_after_close_but_refuses_live_listener) ... ok
+test_unsatisfiable_interval_has_empty_correct_response_without_contacting_ats (__main__.GatewayNativeTests.test_unsatisfiable_interval_has_empty_correct_response_without_contacting_ats) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.006s
+
+OK

@@ -1,0 +1,39 @@
+{
+  "reviewerRole": "independent-review-agent",
+  "actualReviewer": "/root/gz022_planning_independent_review",
+  "reviewedAt": "2026-10-22T15:26:44Z",
+  "scope": "Read-only official ATS9.2.3 allocator-buffer measurement-domain design",
+  "defaultFreelistPostRequestAbsoluteReservedCapacityCanConservativelyBoundThatPool": true,
+  "subtractStartupBaselinePermitted": false,
+  "exactPerRequestPeakClaimed": false,
+  "requiredConditions": [
+    "Same owned process/pool; counters not reset or overflowed",
+    "Actual default freelist backend; -f/-F/malloc backend invalidates allocated bound",
+    "Wait for actual complete SIGUSR1 stderr dump with exact PID/byte range/TOTAL/footer; signal flag is handled asynchronously",
+    "Cover actual Vol4MiB agg_buffer outside freelists and all actual reachable non-pool/external/XMALLOC payload",
+    "Distinguish request temporary physical buffers and already published cached content; no duplicate logical reader counts",
+    "Verify relevant exact Ubuntu source/package patches before applying upstream reasoning"
+  ],
+  "confirmedGaps": [
+    "All allocator TOTAL omits per-Vol direct ats_memalign4MiB agg_buffer used by CacheWrite disk AIO",
+    "IOBuffer descriptors can wrap external/non-fast payload not counted in the corresponding pool",
+    "Current pool symbols and output do not prove backend or full media-path coverage"
+  ],
+  "fullMediaBufferCoverageProven": false,
+  "measurementDomainApproved": false,
+  "experimentApproved": false,
+  "original15Accepted": false,
+  "qualifiedProfileAccepted": false,
+  "integrationAccepted": false,
+  "officialSources": [
+    "https://raw.githubusercontent.com/apache/trafficserver/9.2.3/src/tscore/ink_queue.cc",
+    "https://raw.githubusercontent.com/apache/trafficserver/9.2.3/iocore/eventsystem/P_IOBuffer.h",
+    "https://raw.githubusercontent.com/apache/trafficserver/9.2.3/iocore/cache/P_CacheVol.h",
+    "https://raw.githubusercontent.com/apache/trafficserver/9.2.3/iocore/cache/CacheWrite.cc"
+  ],
+  "subsequentSourceInvestigation": {
+    "receipt": "../local-lab/ats-buffer-domain-ubuntu-source-9.2.3/receipt.json",
+    "comparison": "../local-lab/ats-buffer-domain-ubuntu-source-9.2.3/selected-source-comparison.json",
+    "actualIndependentSupplementReview": "pending; no inherited approval"
+  }
+}

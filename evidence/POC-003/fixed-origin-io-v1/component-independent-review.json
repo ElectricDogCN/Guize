@@ -1,0 +1,83 @@
+{
+  "kind": "POC003_FIXED_RAW_FILE_BACKING_COMPONENT_INDEPENDENT_REVIEW",
+  "reviewer": "/root/independent_review",
+  "reviewedAt": "2026-10-28T00:22:54Z",
+  "taskId": "POC-003",
+  "repository": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-feature-actor-import-v1",
+  "parent": "6c152113b9f3185b9462eb717c3a021e184d8941",
+  "parentTree": "d9de4240f17d4849288d8a68cad2cd348605114f",
+  "candidateSha256": "82042d38e2fedb422cde16c4b60f925655fde776e0fce8ab0ae01830fcd2ed3a",
+  "mustFix": [],
+  "componentAccepted": true,
+  "relevantResultsAccepted": true,
+  "commitComponentAllowed": true,
+  "commitScope": "Only the reviewed raw-file/fixed-backing component, its truthful Own Task context and task-owned evidence may be committed locally. This is not a full-source, CI, publication, Ready, integration or experiment acceptance.",
+  "sourcePins": {
+    "poc/POC-03-ats-range/lab.py": {"byteCount": 49391, "sha256": "99e7a369f70eeb616d442a43af08a0290f6d16b9dc786a0cfd942810d3103314"},
+    "poc/POC-03-ats-range/cache_probe.py": {"byteCount": 16894, "sha256": "a2b083dc907a8ece5a20c35ca15838f190a9d8577cdb2514369f4724dbd55b23"},
+    "poc/POC-03-ats-range/collect.py": {"byteCount": 14804, "sha256": "f43b80321b1760266745c860a4f534e596384b7044d57750779175e82c5dffe1"},
+    "poc/POC-03-ats-range/test_payload_lifetime.py": {"byteCount": 14136, "sha256": "cf8d828a3629b57bc472b9ccc46734fbf5abb3c3f917efe710b5f224f484eade"},
+    "poc/POC-03-ats-range/test_gateway_native.py": {"byteCount": 4608, "sha256": "5c3a73a1177a73d93756e410ffd75ce10fe89403586d6ccfbeaaf1db63ad7eec"},
+    "poc/POC-03-ats-range/test_request_concurrency.py": {"byteCount": 6490, "sha256": "01a5afc0cb63e4a3840e81b019b2adbf9e7f4361b5faf839d812dfa4d27604fa"},
+    "poc/POC-03-ats-range/test_input_profile.py": {"byteCount": 13011, "sha256": "8ec5c0c2369ead6454b92668c6e22a062a3a47bafb85679325ebb64af4ef025b"},
+    "poc/POC-03-ats-range/test_fixed_origin_io.py": {"byteCount": 7624, "sha256": "12a9b22a8c7d1ed9b5abda421ef04f5115a113bf4e57b5b106309b868ed931f7"}
+  },
+  "sourceFindings": [
+    {"path": "poc/POC-03-ats-range/lab.py", "lines": "21-30", "finding": "digest opens raw FileIO with buffering0 and owns one1MiB bytearray through a memoryview context. It checks actual bytearray.__alloc__ against view length+1 before any read, rejects invalid count types/ranges, hashes only the returned count and loops through valid short reads to EOF. Nested views are released each iteration; both the fixed view and raw file close on normal or exceptional exit. No repeated returned-bytes block is introduced by this Python read loop."},
+    {"path": "poc/POC-03-ats-range/lab.py", "lines": "463-491", "finding": "Origin retains the existing configured chunk size and request/counter boundaries while reading into one fixed backing. Each target subview limits the final request remainder and each returned-count subview limits write/hash input; short reads reduce remaining by actual count. Invalid/zero premature counts remain transport failures. Actual read count/bytes, proportional slow delay and final flushed-block truncation digest remain tied to bytes actually handled. The outer backing/file scopes end before truncation hold, activity decrement and terminal log. The recorded sourceBackingCapacityBytes is bytearray ob_alloc, not process RSS or a claim about every native allocator."},
+    {"finding": "The fixed bytearray is fresh, has no external production alias and remains exported through the backing memoryview for its entire read loop. The one pre-use capacity check therefore applies to this unchanged backing across reads. The excess-retained-capacity regression checks a real minor-downsized bytearray, rather than substituting its logical len for backing capacity."},
+    {"path": "poc/POC-03-ats-range/test_fixed_origin_io.py", "finding": "Five methods cover real empty/short/over1MiB files and exact hashes, one backing, repeated synthetic short reads, propagated OSError with close/release, actual retained excess capacity rejection before read, and Origin19bytes delivered as7short reads with one8byte backing/capacity9 and close-before-terminal behavior."},
+    {"finding": "The prior lifetime and concurrency fixtures now provide readinto and track actual backing weak references. Prior assertion ASTs in both edited existing test modules are exact; eleven lifetime and four concurrency methods remain. No freezing contract, threshold, sample, chunk configuration or concurrency limit changed."}
+  ],
+  "primarySourceBasis": {
+    "bytearray": {"url": "https://github.com/python/cpython/blob/v3.12.15/Objects/bytearrayobject.c", "byteCount": 73528, "sha256": "371795e3559821c7b0870febca595adf370c5156f76acde0cf3530fed7a0bd1d", "readLines": "171-246", "fact": "Resize can retain ob_alloc on a minor downsize; actual allocated character backing must not be inferred from logical length alone."},
+    "fileio": {"url": "https://github.com/python/cpython/blob/v3.12.15/Modules/_io/fileio.c", "byteCount": 31814, "sha256": "b2266a58fd78f856f0b8b47ff34b3b166bd4cf4ca80adaaacaa271417fbe9f23", "readLines": "638-665", "fact": "FileIO.readinto passes caller buffer pointer/length to _Py_read and returns its count; EAGAIN may returnNone, which this regular-file path rejects as an invalid count."},
+    "localPrimaryBytesAndPinnedNotesCompared": true,
+    "futureRuntimeIdentityBound": false
+  },
+  "actualResults": {
+    "windows": {"path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-fixed-origin-io-v2-windows-checks/results.json", "sha256": "f17dd09731561ba19ad6e974cfcc55692e9bb168e566aa449e3a7dd35fc52284", "actualCommands": 9, "tests": 49, "perCommandCounts": [5,4,11,8,2,3,4,9,3]},
+    "linux": {"path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-fixed-origin-io-v2-linux-checks/results.json", "sha256": "dc49ce09aaae95c54d3aefafcbcacca26c24db3bde6b16509e4e05cd9da86105", "actualCommands": 12, "tests": 58, "perCommandCounts": [5,4,11,8,2,3,4,9,3,3,2,4]},
+    "all21ActualPidWaitsCompletedExitZero": true,
+    "allCurrentRawBytesSizesHashesAndUnittestSummariesRead": true,
+    "testFailures": 0,
+    "testErrors": 0,
+    "testSkipped": 0,
+    "allEightSourcePinsBeforeAfterAndWorkingEqual": true,
+    "retainedEarlierDraft": {"windowsTests": 48, "linuxTests": 57, "windowsResultsSha256": "06c3245a92a5299b03fbd614e8c099ce4327ed28c9b8221948aab18f2ca3aa05", "linuxResultsSha256": "25694e06cebf35f9470c4363501188dd6e1d6b69baf4aace3706647166a6731f", "status": "Actual earlier results and receipt source pins retained. Earlier draft source was not separately captured and is not presented as an original source snapshot or as current qualified source."},
+    "scope": "Unit/raw-file tests with synthetic content and existing loopback/simulated-producer regressions. No ATS, original real media matrix or full-source gate suite was executed by these results. No separate JUnit XML is claimed."
+  },
+  "archive": {
+    "indexPath": "evidence/POC-003/fixed-origin-io-v1/index.json",
+    "indexByteCount": 39284,
+    "indexSha256": "d1e1286384acdc14383fa75e7165dd857370acdc51aa25bf221643c0744ad101",
+    "path": "evidence/POC-003/fixed-origin-io-v1/artifacts.zip",
+    "byteCount": 108657,
+    "sha256": "d2e2738bb1ec53a6a0eba881fcae1b1714a7fc8816ae0aed35e233b71db489e2",
+    "entries": 104,
+    "uncompressedIndexedBytes": 328488,
+    "uniqueNamesExactIndexSetAndZipCrcValid": true,
+    "all104DecodedSizeAndSha256MatchIndex": true,
+    "externalOriginalsByteCompared": 88,
+    "eightCurrentCopiesComparedToWorkingFiles": true,
+    "sevenPriorCopiesComparedToParentGitBlobs": true,
+    "primaryNotesRetainTaggedSourcePinsAndRuntimeLimitations": true,
+    "noArchiveExtractionOrOriginalRewrite": true
+  },
+  "metadataBoundary": "Observed parent6c15211 and tracked delta onlylab/twoadaptedtests/OwnTaskbody; new fixed-origin test and Own ZIP evidence are uncommitted. Task frontmatter and Program/Active physical bytes remain equal to parent. Previous archives and frozen checker/schema/thresholds are outside this component's changes.",
+  "remainingProof": [
+    "The tagged CPython source interpretation must be bound to the actual future executable/runtime before using these buffer terms in an experimental capacity proof. Current tests do not establish the future container runtime identity.",
+    "The1MiB digest slot and configured Origin raw slot are separate owned backing terms. Their initialization/concurrency overlap and final closed measurement window still need explicit assembly; this component is not aggregate proof.",
+    "HTTP/IO intermediate buffering, cache export/comparison/reassembly, native hashing/sendall internals, ATS/native epoch ownership and complete media-window aggregation remain separate obligations. No process-RSS threshold or new typed-domain gate is introduced.",
+    "New fixed-source gates/CI, resources/window approval, original matrix, independent fresh hot-cache revocation and formal POC acceptance are not supplied by this local component."
+  ],
+  "reviewerRanTestsBuildsOrExperiments": false,
+  "reviewerModifiedRepositoryOrGit": false,
+  "wholeSourceQualified": false,
+  "entireSourceQualified": false,
+  "aggregateCapacityProofComplete": false,
+  "experimentApproved": false,
+  "formalPocAccepted": false,
+  "readyAccepted": false,
+  "mainIntegrationApproved": false
+}

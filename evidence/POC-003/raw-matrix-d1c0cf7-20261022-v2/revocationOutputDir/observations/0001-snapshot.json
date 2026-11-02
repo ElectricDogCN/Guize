@@ -1,0 +1,19 @@
+{
+  "stage": "revocation-preflight",
+  "observedAt": "2026-10-22T15:16:26.076027Z",
+  "sourceVersion": "base",
+  "atsPid": 684734,
+  "cacheFiles": [
+    {
+      "name": "cache.db",
+      "logicalBytes": 268435456,
+      "allocatedBytes": 368640
+    }
+  ],
+  "allocatedDiskBytes": 368640,
+  "canonicalCacheObjectExported": false,
+  "activeOriginRequests": 0,
+  "activeGatewayRequests": 0,
+  "originRequestCount": 0,
+  "originObjectReadBytes": 0
+}

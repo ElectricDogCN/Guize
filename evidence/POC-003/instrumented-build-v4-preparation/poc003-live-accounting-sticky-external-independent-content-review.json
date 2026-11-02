@@ -1,0 +1,19 @@
+{
+  "decision": "accepted intermediate content only",
+  "actualReviewer": "/root/gz022_planning_independent_review",
+  "reviewedAt": "2026-10-22T16:51:22Z",
+  "mustFix": [],
+  "headerSha256": "e17adfb92fc4093e3a0e4f46d538f37809dfb433c1fa054729d1dec819c3d615",
+  "testSourceSha256": "dd6456d2c86256fa6d218a9cc5065a8761312ad803cebb1aaf3c909a64ad7950",
+  "patchSha256": "0ad76c3878bcbeb088b2a522308bbabe17cdb61c5336580aedb1d550db203cd4",
+  "manifestSha256": "4150de91c247155ed79f0be50a5fe54ffd5e9ac4762e42c129243c9c45c1fb52",
+  "actualLedgerScenarios": 6,
+  "actualBuildExit": 0,
+  "actualTestExit": 0,
+  "externalSourceHeaderAndFiveAfterHashesVerified": true,
+  "previousMustFixResolved": true,
+  "experimentApproved": false,
+  "fullMediaCoverageProven": false,
+  "original15Accepted": false,
+  "integrationApproved": false
+}

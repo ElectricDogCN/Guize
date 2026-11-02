@@ -1,0 +1,13 @@
+test_duplicate_controls_and_context_collision_are_rejected (__main__.RangeAndGrantTests.test_duplicate_controls_and_context_collision_are_rejected) ... ok
+test_invalid_grant_intervals_are_rejected (__main__.RangeAndGrantTests.test_invalid_grant_intervals_are_rejected) ... ok
+test_multi_range_is_explicitly_rejected (__main__.RangeAndGrantTests.test_multi_range_is_explicitly_rejected) ... ok
+test_revocation_denies_same_unexpired_grant (__main__.RangeAndGrantTests.test_revocation_denies_same_unexpired_grant) ... ok
+test_revoke_is_idempotent_without_moving_effective_time (__main__.RangeAndGrantTests.test_revoke_is_idempotent_without_moving_effective_time) ... ok
+test_stale_if_range_and_slice_crossing (__main__.RangeAndGrantTests.test_stale_if_range_and_slice_crossing) ... ok
+test_time_boundaries_and_other_principal_fail_closed (__main__.RangeAndGrantTests.test_time_boundaries_and_other_principal_fail_closed) ... ok
+test_two_gib_range_offsets_and_unsatisfiable_boundary (__main__.RangeAndGrantTests.test_two_gib_range_offsets_and_unsatisfiable_boundary) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.002s
+
+OK

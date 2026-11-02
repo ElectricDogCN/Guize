@@ -1,0 +1,2 @@
+{"status": "WARN", "message": "Command evidence may be missing command/exit-code indicators."}
+{"status": "PASS", "message": "Evidence contract passed with warnings for POC-003."}

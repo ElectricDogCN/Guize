@@ -1,0 +1,47 @@
+{
+  "kind": "ACTUAL_SINGLE_CASE_NEGATIVE",
+  "source": "ba4fe395444cacbb3e9a786af76034b4e3e8a660",
+  "case": "TestProspectiveScopeAmendment.test_normal_completed_authority_uses_latest_ph_only_code_identity",
+  "actualReproductionExitCode": 1,
+  "reproductionTerminal": "5b97fd",
+  "cause": "Immutable N Task front has baseSha=a55680b9..., while synthetic scope registration updates its own registry base to N76be. Copying the front requires explicit synthetic base synchronization.",
+  "fix": "Only new fixture front baseSha is set to cls.base; original828 and prior11 test assertions remain unchanged; no production validator change.",
+  "archive": "ba4fe39-fixture-base-failure.zip",
+  "archiveBytes": 8262,
+  "archiveSha256": "3740c7ab6548658d15ae799d03ed03602ca71606b2e76de175f8611cb4bdd4b3",
+  "items": [
+    {
+      "path": "reproduction/junit.xml",
+      "bytes": 11477,
+      "sha256": "f462e8fa19fa3f2ddf2bde2d79e05c0ef8d9e5f1190960ac19496e455e3ee2a3"
+    },
+    {
+      "path": "reproduction/results.json",
+      "bytes": 190,
+      "sha256": "557d4a9a614eab02cf71f85e5315215d139c70099945b85012eceb7781995707"
+    },
+    {
+      "path": "reproduction/stdout.raw",
+      "bytes": 12682,
+      "sha256": "d7f7d76ae58508fcf543fea932817680c5f3df9009aad678bbd1c465a1385fd3"
+    },
+    {
+      "path": "methods/reproduction.py",
+      "bytes": 1757,
+      "sha256": "4b8eb74610435f20386cd4997d4d18e865e9fdaa5d8a0236cfb34509869ced59"
+    }
+  ],
+  "related442NotAccepted": true,
+  "createdAt": "2026-11-02T04:40:27.631271+00:00",
+  "related442OutcomeNotConsumedAtArchiveCreation": true,
+  "priorFlagWasLastObservedStateNotLiveTerminalEvidence": true,
+  "related442ActualFinalOutcome": {
+    "testcases": 442,
+    "passed": 441,
+    "failures": 1,
+    "errors": 0,
+    "skipped": 0,
+    "exitCode": 1,
+    "finishedAt": "2026-11-02T04:39:59.688105+00:00"
+  }
+}

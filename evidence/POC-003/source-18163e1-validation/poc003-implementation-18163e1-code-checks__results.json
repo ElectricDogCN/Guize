@@ -1,0 +1,30 @@
+{
+  "source": "18163e180e554773ef82e1eea7ffcafa634b027a",
+  "syntaxParsed": true,
+  "offlineTests": 8,
+  "missingRealSandboxMustFail": true,
+  "actualObserverSourceMatchesBuild": true,
+  "checks": [
+    {
+      "argv": [
+        "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+        "-B",
+        "poc/POC-03-ats-range/test_lab.py"
+      ],
+      "actualExit": 0,
+      "expectedExit": 0,
+      "waitCompleted": true
+    },
+    {
+      "argv": [
+        "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+        "-B",
+        "poc/POC-03-ats-range/test_warm_cache_revocation.py"
+      ],
+      "actualExit": 1,
+      "expectedExit": 1,
+      "waitCompleted": true
+    }
+  ],
+  "actualExperimentExecuted": false
+}

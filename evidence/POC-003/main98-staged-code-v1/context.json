@@ -1,0 +1,286 @@
+{
+  "taskId": "POC-003",
+  "phase": "stagedImplementationIntegrationBeforeFreshCommonSourceProfiles",
+  "oldFeature": "9ab4613bf221687a49ecd04723c1a40712f95ddb",
+  "incomingAcceptedMain": "98cf7e5340c9a512461eb7d18659019de4c9c2a1",
+  "expectedOrderedParents": [
+    "9ab4613bf221687a49ecd04723c1a40712f95ddb",
+    "98cf7e5340c9a512461eb7d18659019de4c9c2a1"
+  ],
+  "branch": "chore/POC-003-ats-range",
+  "author": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-main98-staged-code-v1",
+  "originalCreationBase": "760f6c5838597d1d66c0a536ecbf440ef5a7dfec",
+  "canonicalReservationBase": "44e5200ed506d30c0abc83ca38f1d6912cbab1c1",
+  "ordinaryCreationBasePreserved": true,
+  "actorsAndLeasePreserved": true,
+  "lease": {
+    "acquiredAt": "2026-10-29T11:01:07Z",
+    "expiresAt": "2026-11-05T11:01:07Z"
+  },
+  "originalTaskBodyAndHistorical15Preserved": true,
+  "historicalTaskCommands": [
+    [
+      "git",
+      "diff",
+      "--check",
+      "22ab6a0668da2d64a016fccef2c3b5a634638a24...HEAD"
+    ],
+    [
+      "python",
+      "scripts/check-task-file.py",
+      "--task",
+      "POC-003"
+    ],
+    [
+      "python",
+      "scripts/check-project-readiness.py"
+    ],
+    [
+      "python",
+      "scripts/check-schemas.py"
+    ],
+    [
+      "python",
+      "scripts/check-program-plan-integrity.py",
+      "--base-ref",
+      "22ab6a0668da2d64a016fccef2c3b5a634638a24"
+    ],
+    [
+      "python",
+      "scripts/check-program-plan-history.py",
+      "--base-ref",
+      "22ab6a0668da2d64a016fccef2c3b5a634638a24",
+      "--head-ref",
+      "HEAD",
+      "--task",
+      "POC-003",
+      "--branch-name",
+      "chore/POC-003-ats-range"
+    ],
+    [
+      "python",
+      "scripts/check-program-plan-transitions.py",
+      "--base-ref",
+      "22ab6a0668da2d64a016fccef2c3b5a634638a24",
+      "--head-ref",
+      "HEAD",
+      "--task",
+      "POC-003",
+      "--branch-name",
+      "chore/POC-003-ats-range"
+    ],
+    [
+      "python",
+      "scripts/check-program-plan-finalization.py",
+      "--base-ref",
+      "22ab6a0668da2d64a016fccef2c3b5a634638a24",
+      "--head-ref",
+      "HEAD",
+      "--task",
+      "POC-003"
+    ],
+    [
+      "python",
+      "scripts/check-program-lifecycle-guards.py",
+      "--base-ref",
+      "22ab6a0668da2d64a016fccef2c3b5a634638a24",
+      "--head-ref",
+      "HEAD",
+      "--task",
+      "POC-003",
+      "--branch-name",
+      "chore/POC-003-ats-range"
+    ],
+    [
+      "python",
+      "scripts/run-program-lifecycle-gate.py",
+      "--base-ref",
+      "22ab6a0668da2d64a016fccef2c3b5a634638a24",
+      "--head-ref",
+      "HEAD",
+      "--task",
+      "POC-003",
+      "--branch-name",
+      "chore/POC-003-ats-range"
+    ],
+    [
+      "python",
+      "scripts/run-agent-coordination-gate.py",
+      "--base-ref",
+      "22ab6a0668da2d64a016fccef2c3b5a634638a24",
+      "--head-ref",
+      "HEAD",
+      "--task",
+      "POC-003",
+      "--branch-name",
+      "chore/POC-003-ats-range"
+    ],
+    [
+      "python",
+      "scripts/run-task-scope-gate.py",
+      "--task",
+      "POC-003",
+      "--base",
+      "22ab6a0668da2d64a016fccef2c3b5a634638a24"
+    ],
+    [
+      "python",
+      "scripts/check-evidence.py",
+      "--task",
+      "POC-003"
+    ],
+    [
+      "python",
+      "specs/poc/check_program.py",
+      "--task",
+      "POC-003",
+      "--base-ref",
+      "22ab6a0668da2d64a016fccef2c3b5a634638a24"
+    ],
+    [
+      "python",
+      "scripts/check-markdown.py"
+    ]
+  ],
+  "currentSourceCommands": [
+    [
+      "git",
+      "diff",
+      "--check",
+      "98cf7e5340c9a512461eb7d18659019de4c9c2a1...HEAD"
+    ],
+    [
+      "python",
+      "scripts/check-task-file.py",
+      "--task",
+      "POC-003"
+    ],
+    [
+      "python",
+      "scripts/check-project-readiness.py"
+    ],
+    [
+      "python",
+      "scripts/check-schemas.py"
+    ],
+    [
+      "python",
+      "scripts/check-program-plan-integrity.py",
+      "--base-ref",
+      "98cf7e5340c9a512461eb7d18659019de4c9c2a1"
+    ],
+    [
+      "python",
+      "scripts/check-program-plan-history.py",
+      "--base-ref",
+      "98cf7e5340c9a512461eb7d18659019de4c9c2a1",
+      "--head-ref",
+      "HEAD",
+      "--task",
+      "POC-003",
+      "--branch-name",
+      "chore/POC-003-ats-range"
+    ],
+    [
+      "python",
+      "scripts/check-program-plan-transitions.py",
+      "--base-ref",
+      "98cf7e5340c9a512461eb7d18659019de4c9c2a1",
+      "--head-ref",
+      "HEAD",
+      "--task",
+      "POC-003",
+      "--branch-name",
+      "chore/POC-003-ats-range"
+    ],
+    [
+      "python",
+      "scripts/check-program-plan-finalization.py",
+      "--base-ref",
+      "98cf7e5340c9a512461eb7d18659019de4c9c2a1",
+      "--head-ref",
+      "HEAD",
+      "--task",
+      "POC-003"
+    ],
+    [
+      "python",
+      "scripts/check-program-lifecycle-guards.py",
+      "--base-ref",
+      "98cf7e5340c9a512461eb7d18659019de4c9c2a1",
+      "--head-ref",
+      "HEAD",
+      "--task",
+      "POC-003",
+      "--branch-name",
+      "chore/POC-003-ats-range"
+    ],
+    [
+      "python",
+      "scripts/run-program-lifecycle-gate.py",
+      "--base-ref",
+      "98cf7e5340c9a512461eb7d18659019de4c9c2a1",
+      "--head-ref",
+      "HEAD",
+      "--task",
+      "POC-003",
+      "--branch-name",
+      "chore/POC-003-ats-range"
+    ],
+    [
+      "python",
+      "scripts/run-agent-coordination-gate.py",
+      "--base-ref",
+      "98cf7e5340c9a512461eb7d18659019de4c9c2a1",
+      "--head-ref",
+      "HEAD",
+      "--task",
+      "POC-003",
+      "--branch-name",
+      "chore/POC-003-ats-range"
+    ],
+    [
+      "python",
+      "scripts/run-task-scope-gate.py",
+      "--task",
+      "POC-003",
+      "--base",
+      "98cf7e5340c9a512461eb7d18659019de4c9c2a1"
+    ],
+    [
+      "python",
+      "scripts/check-evidence.py",
+      "--task",
+      "POC-003"
+    ],
+    [
+      "python",
+      "specs/poc/check_program.py",
+      "--task",
+      "POC-003",
+      "--base-ref",
+      "98cf7e5340c9a512461eb7d18659019de4c9c2a1"
+    ],
+    [
+      "python",
+      "scripts/check-markdown.py"
+    ]
+  ],
+  "runtimeFiles": 73,
+  "all73RuntimeBytesUnchanged": true,
+  "component198AcceptanceScope": "Existing exact021c unchanged offline runtime only; not current profile/full-source acceptance",
+  "noCurrentPoc003LocatorExists": true,
+  "locatorRetirementNeeded": false,
+  "allOldObservationsAndRawRetained": true,
+  "mainImportWasRealAutomaticStage0": true,
+  "manualResolutionApplied": false,
+  "currentSourceChecksPassed": false,
+  "fullCiAccepted": false,
+  "actualMergeApproved": false,
+  "newResourcesApproved": false,
+  "newExperimentApproved": false,
+  "oldProfilesRebound": false,
+  "formalPocAccepted": false,
+  "taskCompleted": false,
+  "createdAt": "2026-11-02T10:38:00.316438+00:00"
+}

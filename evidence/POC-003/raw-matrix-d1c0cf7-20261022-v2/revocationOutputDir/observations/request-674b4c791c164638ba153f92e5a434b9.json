@@ -1,0 +1,90 @@
+{
+  "requestId": "674b4c791c164638ba153f92e5a434b9",
+  "case": "revocation",
+  "userId": "lab-user-a",
+  "url": "http://127.0.0.1:18233/media/object.bin",
+  "sourceVersion": "base",
+  "sourceSha256": "938a8bc3e0a64184f1551bff0c500dc891366ead8f30f8f83753587e763c1c26",
+  "aclVersion": "poc003-local-acl-v1",
+  "authorizationContext": "a9459da427d894a5b78545d7ff0e509f",
+  "requestRange": "bytes=0-7",
+  "ifRange": "",
+  "bodyRef": "bodies/revocation-674b4c791c164638ba153f92e5a434b9.bin",
+  "configuredOriginFault": null,
+  "collectorRetryCount": 0,
+  "statusCode": 403,
+  "responseHeaders": [
+    [
+      "Server",
+      "BaseHTTP/0.6 Python/3.12.3"
+    ],
+    [
+      "Date",
+      "Thu, 22 Oct 2026 15:16:26 GMT"
+    ],
+    [
+      "Content-Length",
+      "0"
+    ],
+    [
+      "Cache-Control",
+      "no-store"
+    ],
+    [
+      "Connection",
+      "close"
+    ]
+  ],
+  "firstResponseByteAt": "2026-10-22T15:16:26.500501Z",
+  "firstResponseByteLatencyMs": 11.5774799924111,
+  "responseHeadersAt": "2026-10-22T15:16:26.500627Z",
+  "firstBodyByteAt": null,
+  "firstBodyByteLatencyMs": null,
+  "firstBodyChunkAt": null,
+  "finishedAt": "2026-10-22T15:16:26.500754Z",
+  "bodyBytes": 0,
+  "clientChunkPeak": 0,
+  "transportCompleted": true,
+  "originObservation": {
+    "requestId": "674b4c791c164638ba153f92e5a434b9",
+    "observedAt": "2026-10-22T15:16:26.657198Z",
+    "originRequestCount": 0,
+    "objectReadCount": 0,
+    "objectReadBytes": 0,
+    "activeOriginRequests": 0,
+    "originTransactions": [],
+    "gatewayTransactions": [
+      {
+        "requestId": "674b4c791c164638ba153f92e5a434b9",
+        "case": "revocation",
+        "startedAt": "2026-10-22T15:16:26.500320Z",
+        "userId": "lab-user-a",
+        "sourceVersion": "base",
+        "aclVersion": "poc003-local-acl-v1",
+        "requestRange": "bytes=0-7",
+        "ifRange": "",
+        "atsRequestSent": false,
+        "responseByteCount": 0,
+        "gatewayChunkPeak": 0,
+        "grantObservation": {
+          "grantId": "poc003-grant-lab-user-a",
+          "principalId": "lab-user-a",
+          "validFrom": "2026-10-22T15:16:19.917503Z",
+          "validUntil": "2026-10-22T15:36:24.917503Z",
+          "revokedAt": "2026-10-22T15:16:26.488014Z",
+          "authorizedAt": "2026-10-22T15:16:26.500357Z",
+          "reason": "revoked"
+        },
+        "statusCode": 403,
+        "denialReason": "revoked",
+        "finishedAt": "2026-10-22T15:16:26.500499Z"
+      }
+    ]
+  },
+  "startedAt": "2026-10-22T15:16:26.488924Z",
+  "responseHeaderLatencyMs": 11.695436987793073,
+  "elapsedMs": 11.822650994872674,
+  "bodySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "originPollingSettled": true,
+  "originPollingScope": "Only these timestamped snapshots; no assertion about unobserved later I/O."
+}

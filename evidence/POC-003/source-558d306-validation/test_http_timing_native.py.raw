@@ -1,0 +1,7 @@
+test_first_response_byte_precedes_delayed_header_completion (__main__.HttpTimingTests.test_first_response_byte_precedes_delayed_header_completion) ... ok
+test_zero_body_denial_still_observes_real_http_response_byte (__main__.HttpTimingTests.test_zero_body_denial_still_observes_real_http_response_byte) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.180s
+
+OK

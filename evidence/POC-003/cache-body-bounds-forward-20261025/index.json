@@ -1,0 +1,94 @@
+{
+  "task": "POC-003",
+  "capturedAt": "2026-10-24T19:26:52.886508+00:00",
+  "implementationHead": "1cc28415f2f2383b0272a518828d7ee3660f7545",
+  "sourceState": "uncommitted forward development, exact working file hashes in native results",
+  "redFailures": 2,
+  "windowsGreenTests": 7,
+  "nativeGreenTests": 7,
+  "noSkips": true,
+  "noAtsNoHttpNoTracing": true,
+  "wholeTaskGatesAccepted": false,
+  "measurementDomainApproved": false,
+  "qualificationAccepted": false,
+  "files": [
+    {
+      "ref": "catalogue.json",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-cache-body-bounds-forward\\catalogue.json",
+      "bytes": 396,
+      "sha256": "b231abfb480e3f37a0b5bd251966ed7ee0ef0a1e2335ee8a7b1d057dda0360a3"
+    },
+    {
+      "ref": "catalogue.raw",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-cache-body-bounds-forward\\catalogue.raw",
+      "bytes": 755,
+      "sha256": "573d06854e05b1ae6c6591931cc916cce53a87648d341cb2698d18926e9878a7"
+    },
+    {
+      "ref": "green-cache_probe.py",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-cache-body-bounds-forward\\green-cache_probe.py",
+      "bytes": 12263,
+      "sha256": "6291f28408c56294f961fcf2756c548a212e7adea673db63de972fed11ee7f9f"
+    },
+    {
+      "ref": "green-test_cache_body_bounds.py",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-cache-body-bounds-forward\\green-test_cache_body_bounds.py",
+      "bytes": 2178,
+      "sha256": "5328822c6c71736f683c35e0a4e9517e591da8c1eadfb62446c1e160f0b96d26"
+    },
+    {
+      "ref": "green.json",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-cache-body-bounds-forward\\green.json",
+      "bytes": 398,
+      "sha256": "d9f57c2e3d32544639ea3454686f5d1d7c5a65a52a596005200d6f074cb7ea67"
+    },
+    {
+      "ref": "green.raw",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-cache-body-bounds-forward\\green.raw",
+      "bytes": 597,
+      "sha256": "75ac01e8b3830592e019bc71041723e74a07fbced15697f384faef9f8f29a247"
+    },
+    {
+      "ref": "native/results.json",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-cache-body-bounds-forward\\native\\results.json",
+      "bytes": 1462,
+      "sha256": "1878d39533b5e83e1d9d71d74b0ec57ca8184804842a966d09a9a5168f1522fc"
+    },
+    {
+      "ref": "native/test_cache_body_bounds.py.raw",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-cache-body-bounds-forward\\native\\test_cache_body_bounds.py.raw",
+      "bytes": 589,
+      "sha256": "6526de8257444475e769e03d09cfd5fb82b0f7a78961ae3625203ea8fdbda8d3"
+    },
+    {
+      "ref": "native/test_cache_probe.py.raw",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-cache-body-bounds-forward\\native\\test_cache_probe.py.raw",
+      "bytes": 746,
+      "sha256": "38daf0af36beab9168e7ff2c4d0e9459dd9d44997b0889b2bd62a798358630a8"
+    },
+    {
+      "ref": "red-cache_probe.py",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-cache-body-bounds-forward\\red-cache_probe.py",
+      "bytes": 11785,
+      "sha256": "9dd06270cfe968bcdbd6b2ae1d263b4b0443131053a783cd00a3ddc744e0c8ab"
+    },
+    {
+      "ref": "red-test_cache_body_bounds.py",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-cache-body-bounds-forward\\red-test_cache_body_bounds.py",
+      "bytes": 2178,
+      "sha256": "5328822c6c71736f683c35e0a4e9517e591da8c1eadfb62446c1e160f0b96d26"
+    },
+    {
+      "ref": "red.json",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-cache-body-bounds-forward\\red.json",
+      "bytes": 375,
+      "sha256": "9853c17f211be5dab52608fa42e73cd3c03f49f49329b719f33a92c6aa067b25"
+    },
+    {
+      "ref": "red.raw",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-cache-body-bounds-forward\\red.raw",
+      "bytes": 2880,
+      "sha256": "459723e4b0cc8a7fe1b5bd0daf51751e218f1d66377face3d6206763757f024b"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "fixtureManifest": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/local-lab/range-fixtures/local64m-v1/manifest.json",
+  "runtimeReceipt": "/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/runtime-validation-v1/receipt.json",
+  "originPort": 18231,
+  "atsPort": 18232,
+  "entryPort": 18233,
+  "sliceBytes": 1048576,
+  "minimumInputBytes": 67108864,
+  "maximumBufferedBytes": 8388608,
+  "cacheMiB": 256,
+  "chunkBytes": 65536,
+  "maximumRetries": 0,
+  "slowOriginDelayMs": 250,
+  "slowOriginBandwidthBytesPerSecond": 1048576,
+  "faultAfterBytes": 4,
+  "latencySampleCount": 4,
+  "concurrentUsers": 2,
+  "maximumRunSeconds": 240,
+  "maximumOriginRequests": 2048,
+  "assetId": "poc003-local-object",
+  "aclVersion": "poc003-local-acl-v1",
+  "exportPluginPath": "/home/sur/.cache/guize-takeover/poc003-observer-build-20261022-v2/cache_export.so",
+  "exportPluginSha256": "d282145792051f38800f014eb4b5f823025b3460afc2f1329f17bfbc4724e9a2",
+  "exportBuildReceipt": "/home/sur/.cache/guize-takeover/poc003-observer-build-20261022-v2/receipt.json",
+  "liveBufferObserver": {
+    "path": "/home/sur/.cache/guize-takeover/poc003-live-buffer-observer-build-v1/live_buffer_observer.so",
+    "sha256": "f9774ada1081a3601f6b098f6c4e5f86a8d53e0def74df305868f54cb809d04d",
+    "buildReceipt": "/home/sur/.cache/guize-takeover/poc003-live-buffer-observer-build-v1/receipt.json"
+  }
+}

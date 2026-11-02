@@ -1,0 +1,412 @@
+[
+  {
+    "path": "ops017-historical-authority-fixture-ci911-attempt1-cancellation-independent-assessment.json",
+    "bytes": 15275,
+    "sha256": "7def243aa8e694f334a6bf2a8585738cdb6955ea4cec8abf9ca8c62f501f5165"
+  },
+  {
+    "path": "ops017-historical-authority-fixture-ci911-attempt2-negative-and-rework-independent-assessment.json",
+    "bytes": 9143,
+    "sha256": "25d763822e7ab74e718214b223374fa0ad0a0c55749a50ac4614b9dd71c04f17"
+  },
+  {
+    "path": "ops017-same-cli-authority-reuse-design-independent-review.json",
+    "bytes": 6507,
+    "sha256": "11e949eff9b649dc96414dd0d98fab1b166f711d55062fb85df7e68fa00f40fe"
+  },
+  {
+    "path": "ops017-same-cli-authority-reuse-v1-code-independent-review.json",
+    "bytes": 3718,
+    "sha256": "d779de38603c6942d448c18f8357a616a81871d1e4febcf79c89ac9329155b6d"
+  },
+  {
+    "path": "ops017-same-cli-authority-reuse-v2-p2-correction-independent-review.json",
+    "bytes": 2747,
+    "sha256": "56914e38f8960d953d8bcf845f861809a2706c2c1fbdd4cced2a8170e1d22f29"
+  },
+  {
+    "path": "ops017-authority-normal-audit-overlap-readonly-assessment.json",
+    "bytes": 4926,
+    "sha256": "f7a1a2655858924d231b704e20a1d371eb9cae85ce26c9d59729bb1e1e7f271d"
+  },
+  {
+    "path": "profile_ops017_ci911_actual_child_costs_v1_once.py",
+    "bytes": 4724,
+    "sha256": "80643ee0114d66226f4c271e74642e79a99940a0aeb4b49d0a18f833339754b1"
+  },
+  {
+    "path": "profile_ops017_ci911_actual_child_costs_v2_once.py",
+    "bytes": 4846,
+    "sha256": "699ea6c2da4d78d0b91d53df43e29bc2a757eb324aee412074f18ec6711a4460"
+  },
+  {
+    "path": "profile_checker_preserve_exit_v2.py",
+    "bytes": 348,
+    "sha256": "46551ab126e6e550692de28c4e2f76f6df59643996cf9903393b931507ad207e"
+  },
+  {
+    "path": "run_ops017_scoped_authority_reuse_development_v1_once.py",
+    "bytes": 4455,
+    "sha256": "a5e4eda8de9d543801f3409354ea4e0908b40178413e17e9b0be8807d90e41ff"
+  },
+  {
+    "path": "run_ops017_scoped_authority_reuse_development_v2_once.py",
+    "bytes": 4689,
+    "sha256": "11616f8e9805b19374241914d1f4545518adefcde02df88e3e705494e3bc307d"
+  },
+  {
+    "path": "run_ops017_scoped_authority_reuse_development_v3_once.py",
+    "bytes": 5497,
+    "sha256": "8095dea0955f52158dead10b7a91cd433f255cfd1eed1a759a9ef13008d8126f"
+  },
+  {
+    "path": "stop_ops017_v2_missing_main_diagnostic_once.py",
+    "bytes": 1666,
+    "sha256": "aab5cec2853af3bb327ae2a7a25fccf30c96d9165f732b02c86c8c7ae62d2a52"
+  },
+  {
+    "path": "ops017-historical-authority-fixture-ci911/analysis.json",
+    "bytes": 4200,
+    "sha256": "1af827ae68ec1d22f077eba14891d49ae1261034d220a946380c8206fc10b36f"
+  },
+  {
+    "path": "ops017-historical-authority-fixture-ci911/annotations.json",
+    "bytes": 1257,
+    "sha256": "2138013d2e16d56fcbc9f1401e8829bbf677e4473f1dccabe10771eadda1e6e7"
+  },
+  {
+    "path": "ops017-historical-authority-fixture-ci911/checkout.json",
+    "bytes": 2805,
+    "sha256": "1039b95c15a62e3081b0504a09963a13dfd977760797157bb917bd3e1458c0b8"
+  },
+  {
+    "path": "ops017-historical-authority-fixture-ci911/job-log-connector-envelope.json",
+    "bytes": 284667,
+    "sha256": "f4a3b99c5448b86c5687ffab84d8975eea2c2cd2e190a85b54dc17e6a2129f04"
+  },
+  {
+    "path": "ops017-historical-authority-fixture-ci911/job-log.connector-decoded.utf8.txt",
+    "bytes": 280450,
+    "sha256": "e32b6e6c4af677fd307595396e514e4b5c089aef1909dbcd96df5fe9f7c0a395"
+  },
+  {
+    "path": "ops017-historical-authority-fixture-ci911/jobs.json",
+    "bytes": 8320,
+    "sha256": "9b5111a6d943a2c91917e69508f9e587824d7208ea6f69991bcbb965507bf309"
+  },
+  {
+    "path": "ops017-historical-authority-fixture-ci911/official-check-diagnostics-envelope.json",
+    "bytes": 1794,
+    "sha256": "bf5c696d937ad4ff0ef343c6f2ee55ea6ce9a82efa7a1eecce02b02a3bf47796"
+  },
+  {
+    "path": "ops017-historical-authority-fixture-ci911/read-only-prior-failure-resolution-and-runner-comparison.json",
+    "bytes": 3647,
+    "sha256": "8fa379515c723eec35d2d044700a5124676df520cb0a20919a061be116df2331"
+  },
+  {
+    "path": "ops017-historical-authority-fixture-ci911/read-only-unaffected-pass-interval-comparison.json",
+    "bytes": 393,
+    "sha256": "4dcd51cfcce274c161f72514c0b70bed1fd79235954d06d3b43bdc833c61f9bf"
+  },
+  {
+    "path": "ops017-historical-authority-fixture-ci911/run.json",
+    "bytes": 14546,
+    "sha256": "f7062723e87b057502b969740024ee755c71e877cb15fd4325af83d546d9b9e2"
+  },
+  {
+    "path": "ops017-historical-authority-fixture-ci911-attempt2/analysis.json",
+    "bytes": 1772,
+    "sha256": "49cd4a459a9af35f6690a935761aa676c66af19e389e494465f41cb17ee248f5"
+  },
+  {
+    "path": "ops017-historical-authority-fixture-ci911-attempt2/checkout.json",
+    "bytes": 2805,
+    "sha256": "1039b95c15a62e3081b0504a09963a13dfd977760797157bb917bd3e1458c0b8"
+  },
+  {
+    "path": "ops017-historical-authority-fixture-ci911-attempt2/job-log-connector-envelope.json",
+    "bytes": 285033,
+    "sha256": "ae7ecb128636e27599a483ff25774dc321ef07b978c7f5629577f7a87a67f79e"
+  },
+  {
+    "path": "ops017-historical-authority-fixture-ci911-attempt2/job-log.connector-decoded.utf8.txt",
+    "bytes": 280814,
+    "sha256": "852d6f6195cc3f826c601acf1520ff94ea8212714c5ddead702dba1233363f18"
+  },
+  {
+    "path": "ops017-historical-authority-fixture-ci911-attempt2/jobs.json",
+    "bytes": 8320,
+    "sha256": "d559d0d78cc9a3efaac09c221d7b95f2a26a5407b157f5050b2963e49bfaf622"
+  },
+  {
+    "path": "ops017-historical-authority-fixture-ci911-attempt2/official-check-diagnostics-envelope.json",
+    "bytes": 1794,
+    "sha256": "65622b8d144925c816b1858921e2ddf4a1d5004e079d6fb27be06882977550d5"
+  },
+  {
+    "path": "ops017-historical-authority-fixture-ci911-attempt2/read-only-cost-localization.json",
+    "bytes": 30747,
+    "sha256": "e5f920d56865ebea7e48ecefdcbc458f93d9ce26bf6c92978ffe33e83a078934"
+  },
+  {
+    "path": "ops017-historical-authority-fixture-ci911-attempt2/run.json",
+    "bytes": 14628,
+    "sha256": "c792b89b47df90b496321511f3505df02e0bd6cf623e4cb374eecd15aeb4f17e"
+  },
+  {
+    "path": "ops017-ci911-attempt2-bounded-child-profile-v1/child-00.pstats",
+    "bytes": 292110,
+    "sha256": "606d52f708f4c75ef50333e8f165bb9e581d63811884b6ff3d581b56dff602d6"
+  },
+  {
+    "path": "ops017-ci911-attempt2-bounded-child-profile-v1/child-01.pstats",
+    "bytes": 292110,
+    "sha256": "8946b2ed53aab2f5d9bac1bde7f0febd222b2c74f8175310ffad9084d1b635a6"
+  },
+  {
+    "path": "ops017-ci911-attempt2-bounded-child-profile-v1/child-costs.json",
+    "bytes": 15759,
+    "sha256": "eacdfe3cdeb3e5aca3c741be9df54b8df3d33f0f0953bd39c26ac208c065bbbf"
+  },
+  {
+    "path": "ops017-ci911-attempt2-bounded-child-profile-v1/diagnostic-junit.xml",
+    "bytes": 2641,
+    "sha256": "a4e3a84301c8600e6db835dadc45cf0a8367bf82dd404cee2a3e659754e3c51e"
+  },
+  {
+    "path": "ops017-ci911-attempt2-bounded-child-profile-v1/results.json",
+    "bytes": 18498,
+    "sha256": "30745d760227b3044d6caa0c8e6e288d0622c706655bf421339e7950f927c268"
+  },
+  {
+    "path": "ops017-ci911-attempt2-bounded-child-profile-v1/stderr.raw",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "ops017-ci911-attempt2-bounded-child-profile-v1/stdout.raw",
+    "bytes": 1820,
+    "sha256": "bef15964c08fb3f6b7f02d857a269544b63469a3d34e281b887b9cd153177991"
+  },
+  {
+    "path": "ops017-ci911-attempt2-bounded-child-profile-v2/child-00.pstats",
+    "bytes": 320646,
+    "sha256": "9e541246f88fc5f209f79ad1340ef9c8c136e9aebd50a5d31e46275b3530932c"
+  },
+  {
+    "path": "ops017-ci911-attempt2-bounded-child-profile-v2/child-01.pstats",
+    "bytes": 320782,
+    "sha256": "bc689fc20037e7b1429d56632f6a3723b747fe2147cd1ee99995dfe92926e023"
+  },
+  {
+    "path": "ops017-ci911-attempt2-bounded-child-profile-v2/child-02.pstats",
+    "bytes": 337780,
+    "sha256": "4eb8ca3496e5eee052a00408ab218a2b8bca7688e1aadd84ddbd7d8bde889625"
+  },
+  {
+    "path": "ops017-ci911-attempt2-bounded-child-profile-v2/child-costs.json",
+    "bytes": 24675,
+    "sha256": "429d76e99cea99be17230af15cb8a41c0e678ddb630f1344173398ec536910f0"
+  },
+  {
+    "path": "ops017-ci911-attempt2-bounded-child-profile-v2/diagnostic-junit.xml",
+    "bytes": 764,
+    "sha256": "30bac8c8670fb2947b1f420607bd050d5dda9d4f8ded5951bfad607f81ef2f61"
+  },
+  {
+    "path": "ops017-ci911-attempt2-bounded-child-profile-v2/results.json",
+    "bytes": 27876,
+    "sha256": "4735ec8996166d715da8a0b140bc5e99cff6aa5db0695de66ab40897f2c739ea"
+  },
+  {
+    "path": "ops017-ci911-attempt2-bounded-child-profile-v2/stderr.raw",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "ops017-ci911-attempt2-bounded-child-profile-v2/stdout.raw",
+    "bytes": 298,
+    "sha256": "f8d964a14027a61c176f8154b6dca7398defa09fdd36ad4d0135b6e0ab147aeb"
+  },
+  {
+    "path": "ops017-scoped-authority-reuse-development-v1/all-existing-component62.stderr.raw",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "ops017-scoped-authority-reuse-development-v1/all-existing-component62.stdout.raw",
+    "bytes": 306,
+    "sha256": "ab9385e06eea1e4cc467eace7fbd05f8e083f0f162973beeacdafe021e9776a3"
+  },
+  {
+    "path": "ops017-scoped-authority-reuse-development-v1/all-existing-component62.xml",
+    "bytes": 12082,
+    "sha256": "f0ec7bdbdf333ed9c6e169bf57b52104c51c0bbfb599583fceef28de682f0576"
+  },
+  {
+    "path": "ops017-scoped-authority-reuse-development-v1/check-program-lifecycle-guards.py.overlay",
+    "bytes": 57438,
+    "sha256": "3ad375207c6ebdeb5d007031c779e4eb17319d824e6c6fb879bf0dc398b2f13b"
+  },
+  {
+    "path": "ops017-scoped-authority-reuse-development-v1/focused-existing-four.stderr.raw",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "ops017-scoped-authority-reuse-development-v1/focused-existing-four.stdout.raw",
+    "bytes": 291,
+    "sha256": "5df209d6d6baf2a9857a93a14ee639d7528cdbdbc6de58cf0fbd87cc25a38a57"
+  },
+  {
+    "path": "ops017-scoped-authority-reuse-development-v1/focused-existing-four.xml",
+    "bytes": 977,
+    "sha256": "bee481b2c3e48297d7b235f0a8c1f85d45d2726b91d5d1ffecba6ac4d07112c7"
+  },
+  {
+    "path": "ops017-scoped-authority-reuse-development-v1/poc-contract-repair-admission.py.overlay",
+    "bytes": 36813,
+    "sha256": "7477127bd1f2dcc40a760b00ce6296728a5d4722ba0799a478ae2e990bd53fd8"
+  },
+  {
+    "path": "ops017-scoped-authority-reuse-development-v1/results.json",
+    "bytes": 5032,
+    "sha256": "642e5a6a0033bceefe3601008e3996b2a47cac99ecdaf6cbdf230825f952a15d"
+  },
+  {
+    "path": "ops017-scoped-authority-reuse-development-v1/test_poc_contract_repair_admission.py.overlay",
+    "bytes": 67977,
+    "sha256": "616d22854a23ade44b972c1aae493388f5209216ac40ff7bd6df82f553a190cd"
+  },
+  {
+    "path": "ops017-scoped-authority-reuse-development-v2/all-existing-governance828.stderr.raw",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "ops017-scoped-authority-reuse-development-v2/all-existing-governance828.stdout.raw",
+    "bytes": 10043,
+    "sha256": "7c598eee748afa4a77f37769f639ccb3322a679eb3ed817ebfa9479f3c3c85a7"
+  },
+  {
+    "path": "ops017-scoped-authority-reuse-development-v2/all-existing-governance828.xml",
+    "bytes": 81188,
+    "sha256": "cb6c0ce88717a033b42a68729b20a62a8c97780f07da78cea937dfed245be690"
+  },
+  {
+    "path": "ops017-scoped-authority-reuse-development-v2/check-program-lifecycle-guards.py.overlay",
+    "bytes": 57438,
+    "sha256": "3ad375207c6ebdeb5d007031c779e4eb17319d824e6c6fb879bf0dc398b2f13b"
+  },
+  {
+    "path": "ops017-scoped-authority-reuse-development-v2/focused-existing-four.stderr.raw",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "ops017-scoped-authority-reuse-development-v2/focused-existing-four.stdout.raw",
+    "bytes": 291,
+    "sha256": "203ceeb12d950e2862d0b43cf5271e95231abf00e4cc7b61993b2bd582c21696"
+  },
+  {
+    "path": "ops017-scoped-authority-reuse-development-v2/focused-existing-four.xml",
+    "bytes": 977,
+    "sha256": "72128433609a5305c4bd669fcb32e881a6724552497b7da575a10154ef6498ca"
+  },
+  {
+    "path": "ops017-scoped-authority-reuse-development-v2/invalid-main-context-graceful-stop.json",
+    "bytes": 767,
+    "sha256": "ffb14ca41f6a0dadfd2ed73c61890e8c8529adcf26c52373bdee1327e136154a"
+  },
+  {
+    "path": "ops017-scoped-authority-reuse-development-v2/poc-contract-repair-admission.py.overlay",
+    "bytes": 36839,
+    "sha256": "b13c27a21945802c3e4c8e7f2f7a73044e52ea923db8cb885f3716c25f5b7d10"
+  },
+  {
+    "path": "ops017-scoped-authority-reuse-development-v2/readiness-failure-reproduction.stderr.raw",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "ops017-scoped-authority-reuse-development-v2/readiness-failure-reproduction.stdout.raw",
+    "bytes": 7567,
+    "sha256": "a7eee1a10a27f60da371a2434c3483b865bf5f076c030497316c5bb9076a9fd0"
+  },
+  {
+    "path": "ops017-scoped-authority-reuse-development-v2/results.json",
+    "bytes": 4855,
+    "sha256": "39991caa303aa6df5d8a113e08ab039b338333170bf063fa30049de163ff2647"
+  },
+  {
+    "path": "ops017-scoped-authority-reuse-development-v2/test_poc_contract_repair_admission.py.overlay",
+    "bytes": 68704,
+    "sha256": "0b0eec988183499cab9e070f468fe04a8d6d430dc5053fcaea16967b1db99490"
+  },
+  {
+    "path": "ops017-scoped-authority-reuse-development-v3/all-existing-governance828.stderr.raw",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "ops017-scoped-authority-reuse-development-v3/all-existing-governance828.stdout.raw",
+    "bytes": 1190,
+    "sha256": "94cd7d2b6769d965350b3de7993a7a4c1205a4ae8339b22cf0e0be68377a8fa3"
+  },
+  {
+    "path": "ops017-scoped-authority-reuse-development-v3/all-existing-governance828.xml",
+    "bytes": 133673,
+    "sha256": "074f3bc02b5c46a75ab92ef4f8b63f77024e352ddc30c3da14b5e940f5a136ab"
+  },
+  {
+    "path": "ops017-scoped-authority-reuse-development-v3/check-program-lifecycle-guards.py.overlay",
+    "bytes": 57438,
+    "sha256": "3ad375207c6ebdeb5d007031c779e4eb17319d824e6c6fb879bf0dc398b2f13b"
+  },
+  {
+    "path": "ops017-scoped-authority-reuse-development-v3/focused-existing-four.stderr.raw",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "ops017-scoped-authority-reuse-development-v3/focused-existing-four.stdout.raw",
+    "bytes": 291,
+    "sha256": "f297faddedfb057391025277ccfc3d1237717f2b7955e30f5399e93fdd69efa3"
+  },
+  {
+    "path": "ops017-scoped-authority-reuse-development-v3/focused-existing-four.xml",
+    "bytes": 977,
+    "sha256": "298589dc120b12b937145e824bdb743b7f013d0ead9c97e86d79a0dc42ff5953"
+  },
+  {
+    "path": "ops017-scoped-authority-reuse-development-v3/native-main-readiness1.stderr.raw",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "ops017-scoped-authority-reuse-development-v3/native-main-readiness1.stdout.raw",
+    "bytes": 291,
+    "sha256": "deddf39004eb9e8008d6beaeba25b07cb8e57491bd98fd9232c76c4d7205f3a2"
+  },
+  {
+    "path": "ops017-scoped-authority-reuse-development-v3/native-main-readiness1.xml",
+    "bytes": 393,
+    "sha256": "aea257262a54b56d837cc76005eff5fe0768448cacf5c5c49f95745cfe1219b4"
+  },
+  {
+    "path": "ops017-scoped-authority-reuse-development-v3/poc-contract-repair-admission.py.overlay",
+    "bytes": 37096,
+    "sha256": "27e5bd76c50dc9fb2f076eecf6d53c92269fd85d41d66b3e776906b213ce05f5"
+  },
+  {
+    "path": "ops017-scoped-authority-reuse-development-v3/results.json",
+    "bytes": 6697,
+    "sha256": "96a2bf54313acabf7648845af874af04328327c7451adc524518ce521559003c"
+  },
+  {
+    "path": "ops017-scoped-authority-reuse-development-v3/test_poc_contract_repair_admission.py.overlay",
+    "bytes": 68704,
+    "sha256": "0b0eec988183499cab9e070f468fe04a8d6d430dc5053fcaea16967b1db99490"
+  }
+]

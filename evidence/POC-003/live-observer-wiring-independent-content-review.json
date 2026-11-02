@@ -1,0 +1,25 @@
+{
+  "decision": "accepted intermediate wiring content only",
+  "actualReviewer": "/root/gz022_planning_independent_review",
+  "reviewedAt": "2026-10-22T17:04:45Z",
+  "authorHead": "2c9423e41e2371cde459890fec5d82d812b0754a",
+  "authorTree": "b79e79d66770910acc7ff2ce0c28fa3be8acac71",
+  "reviewedUncommittedContent": true,
+  "mustFix": [],
+  "files": {
+    "instrumentation/live_buffer_observer.cc": "404f57124d924932cbd361191bad00130823d7d1ef41eda8c6fc04d74a40eae5",
+    "instrumentation/build_live_observer.py": "f340421744f2fc69a4753858cd8082bd116293983a9fb49988c499a1bf26d841",
+    "live_buffer_probe.py": "e1351c9aec15e7e9e08e46ade27869d6f30729b655f49ac9bf603f2e747f3343",
+    "test_live_buffer_probe.py": "d0f9e22d3487e5b0ff3a415caddfd46fae8c34f99c026f1b63b23d255148dfa5",
+    "lab.py": "6a5ccd237e6b6fdcb63358b94002884494c185dcdf127d4e87ca1b8bf27fc2c9"
+  },
+  "runtimeReceiptSha256": "b46d7d73ffb7680bd4cc3dc22f8dd396f1f9d4fd3257ac83434137d066a4fc12",
+  "observerBuildReceiptSha256": "d07306c91907200dc234a749d7ca31eec9a52ab73f0086850373324ff2361ab9",
+  "actualFiveComponentsAndObserverHashesRecomputed": true,
+  "actualParserTests": 27,
+  "realAtsLifecycleVerified": false,
+  "experimentApproved": false,
+  "fullMediaCoverageProven": false,
+  "original15Accepted": false,
+  "integrationApproved": false
+}

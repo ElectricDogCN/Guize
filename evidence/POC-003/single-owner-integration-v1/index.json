@@ -1,0 +1,165 @@
+{
+  "kind": "RETAINED_OWNER_COMPONENT_INPUTS_NOT_NATIVE_OR_POC_ACCEPTANCE",
+  "authorParent": "9a428c6ca99b2130fdfa941a5f067e2a9da250aa",
+  "items": [
+    {
+      "encoding": "zlib+base64",
+      "sourceRef": "poc003-single-owner-integration-design-review-v1.json",
+      "bytes": 9979,
+      "sha256": "a0276cf70b55276675a09ed125824830f63fe328f888b375fbed597f852d74e3",
+      "provenance": "actual retained file bytes",
+      "retainedRef": "evidence/POC-003/single-owner-integration-v1/retained-001.json"
+    },
+    {
+      "encoding": "zlib+base64",
+      "sourceRef": "poc003-epoch-owner-source-v1-independent-review.json",
+      "bytes": 5666,
+      "sha256": "8d1376be10f6ec6e649b8f628dd7961abfe46d2826e37751760d4edce3079378",
+      "provenance": "actual retained file bytes",
+      "retainedRef": "evidence/POC-003/single-owner-integration-v1/retained-002.json"
+    },
+    {
+      "encoding": "zlib+base64",
+      "sourceRef": "poc003-epoch-owner-integration-v2-independent-review.json",
+      "bytes": 6734,
+      "sha256": "9ed6203a1342fd99d07d56645446529be8c5fac013a1e7b430f4259dff7a494c",
+      "provenance": "actual retained file bytes",
+      "retainedRef": "evidence/POC-003/single-owner-integration-v1/retained-003.json"
+    },
+    {
+      "encoding": "zlib+base64",
+      "sourceRef": "poc003-epoch-owner-integration-v3-independent-review.json",
+      "bytes": 3636,
+      "sha256": "c169f392a6c744b97a33c79cbaa5f52bf084acc4545d7665a89e1cf50f624d88",
+      "provenance": "actual retained file bytes",
+      "retainedRef": "evidence/POC-003/single-owner-integration-v1/retained-004.json"
+    },
+    {
+      "encoding": "zlib+base64",
+      "sourceRef": "poc003-single-owner-pure-v1-results-independent-review.json",
+      "bytes": 11892,
+      "sha256": "e7c0a3ea04dc4937d04bb0b81dda7eb9ba6dcd63174f2ffc3970876fdc9f92c1",
+      "provenance": "actual retained file bytes",
+      "retainedRef": "evidence/POC-003/single-owner-integration-v1/retained-005.json"
+    },
+    {
+      "encoding": "zlib+base64",
+      "sourceRef": "poc003-epoch-owner-source-v2-before-followup-fixes/epoch_owner.py",
+      "bytes": 25214,
+      "sha256": "302a70a38305c7bfd74cf13430046e515446f3bb21f4f6af89dadd83ab2fc4c5",
+      "provenance": "actual retained file bytes",
+      "retainedRef": "evidence/POC-003/single-owner-integration-v1/retained-006.json"
+    },
+    {
+      "encoding": "zlib+base64",
+      "sourceRef": "poc003-epoch-owner-source-v2-before-followup-fixes/lab.py",
+      "bytes": 47209,
+      "sha256": "32b66a6a0c07698bd5af9ef219e89f437a025d9dac2b12bbf97fe3caae1c6353",
+      "provenance": "actual retained file bytes",
+      "retainedRef": "evidence/POC-003/single-owner-integration-v1/retained-007.json"
+    },
+    {
+      "encoding": "zlib+base64",
+      "sourceRef": "poc003-epoch-owner-source-v2-before-followup-fixes/snapshot.json",
+      "bytes": 381,
+      "sha256": "33ca30e972b8c2a01f1b9be3b3acfe7aed586ac992f4d62d7fe30479405b6606",
+      "provenance": "actual retained file bytes",
+      "retainedRef": "evidence/POC-003/single-owner-integration-v1/retained-008.json"
+    },
+    {
+      "encoding": "zlib+base64",
+      "sourceRef": "poc003-epoch-owner-source-v1-reconstructed-against-reviewed-sha.txt",
+      "bytes": 23011,
+      "sha256": "4375eb042a5f6308403e357cd8eb5ffe9dfed59d49888eb4fb0f6259f6d75fcd",
+      "provenance": "hash-verified reconstruction; not original capture",
+      "retainedRef": "evidence/POC-003/single-owner-integration-v1/retained-009.json"
+    },
+    {
+      "encoding": "zlib+base64",
+      "sourceRef": "poc003-epoch-owner-source-v1-reconstruction-receipt.json",
+      "bytes": 732,
+      "sha256": "e456db32c47e723ef6a217449cc357d18fee99106a966c0f20b0e29f29ea04ae",
+      "provenance": "actual retained file bytes",
+      "retainedRef": "evidence/POC-003/single-owner-integration-v1/retained-010.json"
+    },
+    {
+      "encoding": "zlib+base64",
+      "sourceRef": "reconstruct_poc003_epoch_owner_v1_source_once.py",
+      "bytes": 7462,
+      "sha256": "b4452d18045df3191d2ceabd93d98fb0366cbb565e4da2a6aacd68cbfbb6a976",
+      "provenance": "actual retained file bytes",
+      "retainedRef": "evidence/POC-003/single-owner-integration-v1/retained-011.json"
+    },
+    {
+      "encoding": "zlib+base64",
+      "sourceRef": "run_poc003_single_owner_pure_v1_once.py",
+      "bytes": 2534,
+      "sha256": "b613cf31a9f1f1df1cd75aef9bf0cf8c6ed480f2d866a484eab8d3f29ba3c2e6",
+      "provenance": "actual retained file bytes",
+      "retainedRef": "evidence/POC-003/single-owner-integration-v1/retained-012.json"
+    },
+    {
+      "encoding": "zlib+base64",
+      "sourceRef": "poc003-single-owner-pure-v1-run/results.json",
+      "bytes": 4460,
+      "sha256": "32a538a38eff594a848b1e2c8e621703efe7c070e919dbb10bed306d07b2d53d",
+      "provenance": "actual retained file bytes",
+      "retainedRef": "evidence/POC-003/single-owner-integration-v1/retained-013.json"
+    },
+    {
+      "encoding": "zlib+base64",
+      "sourceRef": "poc003-single-owner-pure-v1-run/results.xml",
+      "bytes": 4246,
+      "sha256": "93c504f891d2864c4bb6fc055900d4e75b117f05537a405334bff3bbd6a29633",
+      "provenance": "actual retained file bytes",
+      "retainedRef": "evidence/POC-003/single-owner-integration-v1/retained-014.json"
+    },
+    {
+      "encoding": "zlib+base64",
+      "sourceRef": "poc003-single-owner-pure-v1-run/pytest.raw",
+      "bytes": 396,
+      "sha256": "200cf472bdd2b0ef543741c2dabc303349310e3c8f05d54c4c79834406e976e0",
+      "provenance": "actual retained file bytes",
+      "retainedRef": "evidence/POC-003/single-owner-integration-v1/retained-015.json"
+    },
+    {
+      "encoding": "zlib+base64",
+      "sourceRef": "archive_poc003_single_owner_integration_v1_once.py",
+      "bytes": 4054,
+      "sha256": "89d80f705f7cc47c85bf69a6a305526dc20ff61c3706a5cc92af6def01346661",
+      "provenance": "actual retained file bytes",
+      "retainedRef": "evidence/POC-003/single-owner-integration-v1/retained-016.json"
+    },
+    {
+      "encoding": "zlib+base64",
+      "sourceRef": "poc003-single-owner-archive-v1-intermediate-failure.json",
+      "bytes": 782,
+      "sha256": "b593265634de1892d33a0884c62a07f99b2d53b05363411e1025825165cd8196",
+      "provenance": "actual retained file bytes",
+      "retainedRef": "evidence/POC-003/single-owner-integration-v1/retained-017.json"
+    },
+    {
+      "encoding": "zlib+base64",
+      "sourceRef": "complete_poc003_single_owner_archive_v1_inventory.py",
+      "bytes": 2702,
+      "sha256": "46239a99f88a58b3894fa7e606a8bc33a396d809d806a43f0c177a507439253d",
+      "provenance": "actual retained file bytes",
+      "retainedRef": "evidence/POC-003/single-owner-integration-v1/retained-018.json"
+    }
+  ],
+  "retainedItems": 18,
+  "historicalCaptureExcludesReconstructedSource": true,
+  "pureTests": {
+    "testCases": 30,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0,
+    "actualWrapperWaitCompleted": true
+  },
+  "nativeOwnerExecuted": false,
+  "atsCompatibilityExecuted": false,
+  "wholeSourceCiAccepted": false,
+  "taskCompleted": false,
+  "decodedBytes": 161090,
+  "intermediateMetadataGuardFailureRetained": true
+}

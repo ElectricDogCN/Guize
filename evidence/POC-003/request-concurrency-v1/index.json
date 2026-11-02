@@ -1,0 +1,579 @@
+{
+  "task": "POC-003",
+  "capturedAt": "2026-10-28T00:04:18.309072+00:00",
+  "parent": "de202dabff3435d75853d7a3af3effeedbfa1d28",
+  "sourceState": "Uncommitted component; seven exact source pins",
+  "sourcePins": {
+    "lab.py": {
+      "bytes": 48543,
+      "sha256": "3ea0384d14c3507f8cfdab70a9355b61c5709035b3e3d3fb6730cdf14bd134d7"
+    },
+    "cache_probe.py": {
+      "bytes": 16894,
+      "sha256": "a2b083dc907a8ece5a20c35ca15838f190a9d8577cdb2514369f4724dbd55b23"
+    },
+    "collect.py": {
+      "bytes": 14804,
+      "sha256": "f43b80321b1760266745c860a4f534e596384b7044d57750779175e82c5dffe1"
+    },
+    "test_payload_lifetime.py": {
+      "bytes": 13873,
+      "sha256": "2f5cc9a4ee25ff2087d402c0956e9cff40225623aac319d5d8f12773000b4dc2"
+    },
+    "test_gateway_native.py": {
+      "bytes": 4608,
+      "sha256": "5c3a73a1177a73d93756e410ffd75ce10fe89403586d6ccfbeaaf1db63ad7eec"
+    },
+    "test_request_concurrency.py": {
+      "bytes": 6438,
+      "sha256": "4201206322be396eddfeb8c9dc311dae17308b7b526cbc929e742688df4656cb"
+    },
+    "test_input_profile.py": {
+      "bytes": 13011,
+      "sha256": "8ec5c0c2369ead6454b92668c6e22a062a3a47bafb85679325ebb64af4ef025b"
+    }
+  },
+  "stages": [
+    {
+      "version": "v1",
+      "platform": "windows",
+      "testsActuallyRun": 41,
+      "allRequestedPassed": false,
+      "originalFailure": "Three prior input-profile fixtures omitted newly initialized counters"
+    },
+    {
+      "version": "v1",
+      "platform": "linux",
+      "testsActuallyRun": 41,
+      "allRequestedPassed": false,
+      "originalFailure": "Three prior input-profile fixtures omitted newly initialized counters"
+    },
+    {
+      "version": "v2",
+      "platform": "windows",
+      "testsActuallyRun": 44,
+      "allRequestedPassed": true,
+      "originalFailure": null
+    },
+    {
+      "version": "v2",
+      "platform": "linux",
+      "testsActuallyRun": 53,
+      "allRequestedPassed": true,
+      "originalFailure": null
+    }
+  ],
+  "windowsCurrentTests": 44,
+  "linuxCurrentTests": 53,
+  "coverage": "Cumulative synchronous request-interval concurrency only; completed transients remain in the peak.",
+  "limitations": [
+    "Counters do not measure payload bytes or HTTP/IO intermediate backing.",
+    "Initialization hashes, cache export/reassembly and native epochs require separate capacity and window terms.",
+    "Snapshots/saves cover initialization through that operation, not an accepted closed entire run.",
+    "Actual handler regressions use synthetic I/O; native export producer is simulated; no ATS/media experiment."
+  ],
+  "entireSourceQualified": false,
+  "aggregateCapacityProofComplete": false,
+  "experimentApproved": false,
+  "formalPocAccepted": false,
+  "files": [
+    {
+      "ref": "current-lab.py",
+      "bytes": 48543,
+      "sha256": "3ea0384d14c3507f8cfdab70a9355b61c5709035b3e3d3fb6730cdf14bd134d7",
+      "source": "Exact working source, not whole-source qualified"
+    },
+    {
+      "ref": "current-cache_probe.py",
+      "bytes": 16894,
+      "sha256": "a2b083dc907a8ece5a20c35ca15838f190a9d8577cdb2514369f4724dbd55b23",
+      "source": "Exact working source, not whole-source qualified"
+    },
+    {
+      "ref": "current-collect.py",
+      "bytes": 14804,
+      "sha256": "f43b80321b1760266745c860a4f534e596384b7044d57750779175e82c5dffe1",
+      "source": "Exact working source, not whole-source qualified"
+    },
+    {
+      "ref": "current-test_payload_lifetime.py",
+      "bytes": 13873,
+      "sha256": "2f5cc9a4ee25ff2087d402c0956e9cff40225623aac319d5d8f12773000b4dc2",
+      "source": "Exact working source, not whole-source qualified"
+    },
+    {
+      "ref": "current-test_gateway_native.py",
+      "bytes": 4608,
+      "sha256": "5c3a73a1177a73d93756e410ffd75ce10fe89403586d6ccfbeaaf1db63ad7eec",
+      "source": "Exact working source, not whole-source qualified"
+    },
+    {
+      "ref": "current-test_request_concurrency.py",
+      "bytes": 6438,
+      "sha256": "4201206322be396eddfeb8c9dc311dae17308b7b526cbc929e742688df4656cb",
+      "source": "Exact working source, not whole-source qualified"
+    },
+    {
+      "ref": "current-test_input_profile.py",
+      "bytes": 13011,
+      "sha256": "8ec5c0c2369ead6454b92668c6e22a062a3a47bafb85679325ebb64af4ef025b",
+      "source": "Exact working source, not whole-source qualified"
+    },
+    {
+      "ref": "original-lab.py",
+      "bytes": 47771,
+      "sha256": "1730852b63c30b7e1b837f88a95b57c05199df3fec2c5861bab8ecc6c454f80c",
+      "source": "Exact prior component Git source de202"
+    },
+    {
+      "ref": "original-cache_probe.py",
+      "bytes": 16894,
+      "sha256": "a2b083dc907a8ece5a20c35ca15838f190a9d8577cdb2514369f4724dbd55b23",
+      "source": "Exact prior component Git source de202"
+    },
+    {
+      "ref": "original-collect.py",
+      "bytes": 14085,
+      "sha256": "e4c182aeb79ebab93486ead83ba10cc168c42edab52dfe1c1e3cf9e3925cb0ad",
+      "source": "Exact prior component Git source de202"
+    },
+    {
+      "ref": "original-test_payload_lifetime.py",
+      "bytes": 13748,
+      "sha256": "9a5309f9f05018f8c5c27d08f754a4eb4dd54c5cbb1115d14fe8122a6b0dda9e",
+      "source": "Exact prior component Git source de202"
+    },
+    {
+      "ref": "original-test_gateway_native.py",
+      "bytes": 4585,
+      "sha256": "4e11be081c72d4b09732e323a7b3bafef2e8ca7e711df65aa410943add551f86",
+      "source": "Exact prior component Git source de202"
+    },
+    {
+      "ref": "original-test_input_profile.py",
+      "bytes": 12957,
+      "sha256": "8fad15b55e076e032756119e8a82f85a3e3d91be6c0cce8a3b7d3d797dec204c",
+      "source": "Exact prior component Git source de202"
+    },
+    {
+      "ref": "v1-windows--01-test_request_concurrency.stderr.raw",
+      "bytes": 797,
+      "sha256": "355e89dab34cc707c0b21fb7d40a22993e3eded7f895cfa30ec5da59f59999ba",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-request-concurrency-v1-windows-checks\\01-test_request_concurrency.stderr.raw"
+    },
+    {
+      "ref": "v1-windows--01-test_request_concurrency.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-request-concurrency-v1-windows-checks\\01-test_request_concurrency.stdout.raw"
+    },
+    {
+      "ref": "v1-windows--02-test_payload_lifetime.stderr.raw",
+      "bytes": 1973,
+      "sha256": "72c836094c498327ca3f74e0c217840e41134175df7a7d82783bd3afd2e3557c",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-request-concurrency-v1-windows-checks\\02-test_payload_lifetime.stderr.raw"
+    },
+    {
+      "ref": "v1-windows--02-test_payload_lifetime.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-request-concurrency-v1-windows-checks\\02-test_payload_lifetime.stdout.raw"
+    },
+    {
+      "ref": "v1-windows--03-test_lab.stderr.raw",
+      "bytes": 1181,
+      "sha256": "50c12044993178e6b6f80674343d5984d69955ac99a4e4ec920c36b07ba2ac7e",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-request-concurrency-v1-windows-checks\\03-test_lab.stderr.raw"
+    },
+    {
+      "ref": "v1-windows--03-test_lab.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-request-concurrency-v1-windows-checks\\03-test_lab.stdout.raw"
+    },
+    {
+      "ref": "v1-windows--04-test_revocation_binding.stderr.raw",
+      "bytes": 431,
+      "sha256": "60d12af1296d22119f6144d8a4a9402ac042175258788b082df089de4e0f2c3c",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-request-concurrency-v1-windows-checks\\04-test_revocation_binding.stderr.raw"
+    },
+    {
+      "ref": "v1-windows--04-test_revocation_binding.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-request-concurrency-v1-windows-checks\\04-test_revocation_binding.stdout.raw"
+    },
+    {
+      "ref": "v1-windows--05-test_cache_body_bounds.stderr.raw",
+      "bytes": 597,
+      "sha256": "852a6ff9dc2bc573204dec0fc03995d23536bc40c3b3b6a83f424cbc1927eaad",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-request-concurrency-v1-windows-checks\\05-test_cache_body_bounds.stderr.raw"
+    },
+    {
+      "ref": "v1-windows--05-test_cache_body_bounds.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-request-concurrency-v1-windows-checks\\05-test_cache_body_bounds.stdout.raw"
+    },
+    {
+      "ref": "v1-windows--06-test_cache_probe.stderr.raw",
+      "bytes": 755,
+      "sha256": "573d06854e05b1ae6c6591931cc916cce53a87648d341cb2698d18926e9878a7",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-request-concurrency-v1-windows-checks\\06-test_cache_probe.stderr.raw"
+    },
+    {
+      "ref": "v1-windows--06-test_cache_probe.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-request-concurrency-v1-windows-checks\\06-test_cache_probe.stdout.raw"
+    },
+    {
+      "ref": "v1-windows--07-test_input_profile.stderr.raw",
+      "bytes": 6148,
+      "sha256": "8d6ec5290cd2434f0168ab5de9db5bb0506508b4032337c6fd1b3f322dee5749",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-request-concurrency-v1-windows-checks\\07-test_input_profile.stderr.raw"
+    },
+    {
+      "ref": "v1-windows--07-test_input_profile.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-request-concurrency-v1-windows-checks\\07-test_input_profile.stdout.raw"
+    },
+    {
+      "ref": "v1-windows--results.json",
+      "bytes": 7598,
+      "sha256": "b65f9e8ea9a0d057b59c74be8e7fe443e6ea38576781f377f9bf1a58844300a0",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-request-concurrency-v1-windows-checks\\results.json"
+    },
+    {
+      "ref": "v1-linux--01-test_request_concurrency.stderr.raw",
+      "bytes": 788,
+      "sha256": "06ce58958edc20fb77b135166cd9fd706cb5ec184f95c7f6554ee2e9af201ee5",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-request-concurrency-v1-linux-checks\\01-test_request_concurrency.stderr.raw"
+    },
+    {
+      "ref": "v1-linux--01-test_request_concurrency.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-request-concurrency-v1-linux-checks\\01-test_request_concurrency.stdout.raw"
+    },
+    {
+      "ref": "v1-linux--02-test_payload_lifetime.stderr.raw",
+      "bytes": 1957,
+      "sha256": "5234b5ca95a073bd2a90cfecb2de5bd057f1ac3fd566c91784b6b92c74cf9f5b",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-request-concurrency-v1-linux-checks\\02-test_payload_lifetime.stderr.raw"
+    },
+    {
+      "ref": "v1-linux--02-test_payload_lifetime.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-request-concurrency-v1-linux-checks\\02-test_payload_lifetime.stdout.raw"
+    },
+    {
+      "ref": "v1-linux--03-test_lab.stderr.raw",
+      "bytes": 1168,
+      "sha256": "20b5d5a7ce893b6919f7e63b33501c7e18316f393acaf4781936c1e28e78cb46",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-request-concurrency-v1-linux-checks\\03-test_lab.stderr.raw"
+    },
+    {
+      "ref": "v1-linux--03-test_lab.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-request-concurrency-v1-linux-checks\\03-test_lab.stdout.raw"
+    },
+    {
+      "ref": "v1-linux--04-test_revocation_binding.stderr.raw",
+      "bytes": 424,
+      "sha256": "e5ac9c035b0fabd7b4ea1eee828aee34e3fde4488288ef5ab6ada148ccb469e5",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-request-concurrency-v1-linux-checks\\04-test_revocation_binding.stderr.raw"
+    },
+    {
+      "ref": "v1-linux--04-test_revocation_binding.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-request-concurrency-v1-linux-checks\\04-test_revocation_binding.stdout.raw"
+    },
+    {
+      "ref": "v1-linux--05-test_cache_body_bounds.stderr.raw",
+      "bytes": 589,
+      "sha256": "71e1f7b7d1f9c39b8d49d64daf5f46fe286382c54183364843ded69324319bf1",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-request-concurrency-v1-linux-checks\\05-test_cache_body_bounds.stderr.raw"
+    },
+    {
+      "ref": "v1-linux--05-test_cache_body_bounds.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-request-concurrency-v1-linux-checks\\05-test_cache_body_bounds.stdout.raw"
+    },
+    {
+      "ref": "v1-linux--06-test_cache_probe.stderr.raw",
+      "bytes": 746,
+      "sha256": "5163b9a2c651f06ced124134524ee04f43bb4d6fbf3236ed629b0d22273316d6",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-request-concurrency-v1-linux-checks\\06-test_cache_probe.stderr.raw"
+    },
+    {
+      "ref": "v1-linux--06-test_cache_probe.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-request-concurrency-v1-linux-checks\\06-test_cache_probe.stdout.raw"
+    },
+    {
+      "ref": "v1-linux--07-test_input_profile.stderr.raw",
+      "bytes": 6124,
+      "sha256": "a4af8247c3c4c388b84c74ae839ca98cb0cb98bdc38bbb1e242003a76ee89a14",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-request-concurrency-v1-linux-checks\\07-test_input_profile.stderr.raw"
+    },
+    {
+      "ref": "v1-linux--07-test_input_profile.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-request-concurrency-v1-linux-checks\\07-test_input_profile.stdout.raw"
+    },
+    {
+      "ref": "v1-linux--results.json",
+      "bytes": 7659,
+      "sha256": "77b2e5cba2d7994dba449a436d21aff48ffc7700a6d0f50071938058cbb61186",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-request-concurrency-v1-linux-checks\\results.json"
+    },
+    {
+      "ref": "v2-windows--01-test_request_concurrency.stderr.raw",
+      "bytes": 797,
+      "sha256": "eb7940918c7a710aae0d83a1f9cef5b9d494d9cbe3a2d92bbdccd87c652ca1a4",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-request-concurrency-v2-windows-checks\\01-test_request_concurrency.stderr.raw"
+    },
+    {
+      "ref": "v2-windows--01-test_request_concurrency.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-request-concurrency-v2-windows-checks\\01-test_request_concurrency.stdout.raw"
+    },
+    {
+      "ref": "v2-windows--02-test_payload_lifetime.stderr.raw",
+      "bytes": 1973,
+      "sha256": "59b2d5517f439f3e4e226f351854dbd356c7a4f02a3e1cc92cd5c318367fd54e",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-request-concurrency-v2-windows-checks\\02-test_payload_lifetime.stderr.raw"
+    },
+    {
+      "ref": "v2-windows--02-test_payload_lifetime.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-request-concurrency-v2-windows-checks\\02-test_payload_lifetime.stdout.raw"
+    },
+    {
+      "ref": "v2-windows--03-test_lab.stderr.raw",
+      "bytes": 1181,
+      "sha256": "0ade121e63fb24a30195e5bb49ace27a3da771b5b568a2581a659c689d60b738",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-request-concurrency-v2-windows-checks\\03-test_lab.stderr.raw"
+    },
+    {
+      "ref": "v2-windows--03-test_lab.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-request-concurrency-v2-windows-checks\\03-test_lab.stdout.raw"
+    },
+    {
+      "ref": "v2-windows--04-test_revocation_binding.stderr.raw",
+      "bytes": 431,
+      "sha256": "60d12af1296d22119f6144d8a4a9402ac042175258788b082df089de4e0f2c3c",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-request-concurrency-v2-windows-checks\\04-test_revocation_binding.stderr.raw"
+    },
+    {
+      "ref": "v2-windows--04-test_revocation_binding.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-request-concurrency-v2-windows-checks\\04-test_revocation_binding.stdout.raw"
+    },
+    {
+      "ref": "v2-windows--05-test_cache_body_bounds.stderr.raw",
+      "bytes": 597,
+      "sha256": "852a6ff9dc2bc573204dec0fc03995d23536bc40c3b3b6a83f424cbc1927eaad",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-request-concurrency-v2-windows-checks\\05-test_cache_body_bounds.stderr.raw"
+    },
+    {
+      "ref": "v2-windows--05-test_cache_body_bounds.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-request-concurrency-v2-windows-checks\\05-test_cache_body_bounds.stdout.raw"
+    },
+    {
+      "ref": "v2-windows--06-test_cache_probe.stderr.raw",
+      "bytes": 755,
+      "sha256": "573d06854e05b1ae6c6591931cc916cce53a87648d341cb2698d18926e9878a7",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-request-concurrency-v2-windows-checks\\06-test_cache_probe.stderr.raw"
+    },
+    {
+      "ref": "v2-windows--06-test_cache_probe.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-request-concurrency-v2-windows-checks\\06-test_cache_probe.stdout.raw"
+    },
+    {
+      "ref": "v2-windows--07-test_input_profile.stderr.raw",
+      "bytes": 1561,
+      "sha256": "0a60cab57e970aeb0ecc22b1e58642599c89cd4a6dbbc340b6ad120b21168da5",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-request-concurrency-v2-windows-checks\\07-test_input_profile.stderr.raw"
+    },
+    {
+      "ref": "v2-windows--07-test_input_profile.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-request-concurrency-v2-windows-checks\\07-test_input_profile.stdout.raw"
+    },
+    {
+      "ref": "v2-windows--08-test_representative_cache.stderr.raw",
+      "bytes": 585,
+      "sha256": "f8f97c82c88a71c524f4b09be06fa11d87d03ad2527afabea89307e0948b0968",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-request-concurrency-v2-windows-checks\\08-test_representative_cache.stderr.raw"
+    },
+    {
+      "ref": "v2-windows--08-test_representative_cache.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-request-concurrency-v2-windows-checks\\08-test_representative_cache.stdout.raw"
+    },
+    {
+      "ref": "v2-windows--results.json",
+      "bytes": 8669,
+      "sha256": "1b217d38b25be006b807db8e7b00d73ea7bfcc089492cf75ad8f80e8b1fcaf40",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-request-concurrency-v2-windows-checks\\results.json"
+    },
+    {
+      "ref": "v2-linux--01-test_request_concurrency.stderr.raw",
+      "bytes": 788,
+      "sha256": "e2da45e0605cb449b878bac7b700f528a9d98ab7ff32164b46b56157f71114fd",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-request-concurrency-v2-linux-checks\\01-test_request_concurrency.stderr.raw"
+    },
+    {
+      "ref": "v2-linux--01-test_request_concurrency.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-request-concurrency-v2-linux-checks\\01-test_request_concurrency.stdout.raw"
+    },
+    {
+      "ref": "v2-linux--02-test_payload_lifetime.stderr.raw",
+      "bytes": 1957,
+      "sha256": "671d1109a1bc4c6735f955a8dec5c22356017a383e3647a1624ec0853cde1d9a",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-request-concurrency-v2-linux-checks\\02-test_payload_lifetime.stderr.raw"
+    },
+    {
+      "ref": "v2-linux--02-test_payload_lifetime.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-request-concurrency-v2-linux-checks\\02-test_payload_lifetime.stdout.raw"
+    },
+    {
+      "ref": "v2-linux--03-test_lab.stderr.raw",
+      "bytes": 1168,
+      "sha256": "20b5d5a7ce893b6919f7e63b33501c7e18316f393acaf4781936c1e28e78cb46",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-request-concurrency-v2-linux-checks\\03-test_lab.stderr.raw"
+    },
+    {
+      "ref": "v2-linux--03-test_lab.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-request-concurrency-v2-linux-checks\\03-test_lab.stdout.raw"
+    },
+    {
+      "ref": "v2-linux--04-test_revocation_binding.stderr.raw",
+      "bytes": 424,
+      "sha256": "534ec7ff4dfcd56668c203cf098c5f3a0beace0135b32431fec744a422c4f9e6",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-request-concurrency-v2-linux-checks\\04-test_revocation_binding.stderr.raw"
+    },
+    {
+      "ref": "v2-linux--04-test_revocation_binding.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-request-concurrency-v2-linux-checks\\04-test_revocation_binding.stdout.raw"
+    },
+    {
+      "ref": "v2-linux--05-test_cache_body_bounds.stderr.raw",
+      "bytes": 589,
+      "sha256": "6a6bc0bd50d77475c6104b915411eb314fe3a29937dc6a737511b7f61e5d204c",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-request-concurrency-v2-linux-checks\\05-test_cache_body_bounds.stderr.raw"
+    },
+    {
+      "ref": "v2-linux--05-test_cache_body_bounds.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-request-concurrency-v2-linux-checks\\05-test_cache_body_bounds.stdout.raw"
+    },
+    {
+      "ref": "v2-linux--06-test_cache_probe.stderr.raw",
+      "bytes": 746,
+      "sha256": "5163b9a2c651f06ced124134524ee04f43bb4d6fbf3236ed629b0d22273316d6",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-request-concurrency-v2-linux-checks\\06-test_cache_probe.stderr.raw"
+    },
+    {
+      "ref": "v2-linux--06-test_cache_probe.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-request-concurrency-v2-linux-checks\\06-test_cache_probe.stdout.raw"
+    },
+    {
+      "ref": "v2-linux--07-test_input_profile.stderr.raw",
+      "bytes": 1547,
+      "sha256": "b6fe8e5378a1b26eb338b0b81b582b00af47d7cec8b0ad1e5d5d7d03bc4f7554",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-request-concurrency-v2-linux-checks\\07-test_input_profile.stderr.raw"
+    },
+    {
+      "ref": "v2-linux--07-test_input_profile.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-request-concurrency-v2-linux-checks\\07-test_input_profile.stdout.raw"
+    },
+    {
+      "ref": "v2-linux--08-test_representative_cache.stderr.raw",
+      "bytes": 577,
+      "sha256": "3274332076eabc879c06ec758a1b1967a9e2cd06e3487702c482ee8e99486f27",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-request-concurrency-v2-linux-checks\\08-test_representative_cache.stderr.raw"
+    },
+    {
+      "ref": "v2-linux--08-test_representative_cache.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-request-concurrency-v2-linux-checks\\08-test_representative_cache.stdout.raw"
+    },
+    {
+      "ref": "v2-linux--09-test_gateway_native.stderr.raw",
+      "bytes": 633,
+      "sha256": "11de0ced483fbaa65f26fcfc3a0124adfc5abd90355427249c090411793c1a38",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-request-concurrency-v2-linux-checks\\09-test_gateway_native.stderr.raw"
+    },
+    {
+      "ref": "v2-linux--09-test_gateway_native.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-request-concurrency-v2-linux-checks\\09-test_gateway_native.stdout.raw"
+    },
+    {
+      "ref": "v2-linux--10-test_http_timing_native.stderr.raw",
+      "bytes": 408,
+      "sha256": "a3cfd8f05c44972c26ee60416b6d794de263c930d500c41b5f34f292b13ec6e4",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-request-concurrency-v2-linux-checks\\10-test_http_timing_native.stderr.raw"
+    },
+    {
+      "ref": "v2-linux--10-test_http_timing_native.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-request-concurrency-v2-linux-checks\\10-test_http_timing_native.stdout.raw"
+    },
+    {
+      "ref": "v2-linux--11-test_representative_cache_native.stderr.raw",
+      "bytes": 778,
+      "sha256": "d68c814ddd0870e2f1d76dc33d5e42c4ddf980444e98e4697a4fcdbad7e5ac15",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-request-concurrency-v2-linux-checks\\11-test_representative_cache_native.stderr.raw"
+    },
+    {
+      "ref": "v2-linux--11-test_representative_cache_native.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-request-concurrency-v2-linux-checks\\11-test_representative_cache_native.stdout.raw"
+    },
+    {
+      "ref": "v2-linux--results.json",
+      "bytes": 11023,
+      "sha256": "71b82f2fda9e5dc509888d104ad695a10a8f1f5cb5b918bacd096240915d35ec",
+      "source": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-request-concurrency-v2-linux-checks\\results.json"
+    }
+  ]
+}

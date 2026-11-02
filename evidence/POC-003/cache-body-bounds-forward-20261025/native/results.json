@@ -1,0 +1,43 @@
+{
+  "sourceState": "uncommitted development files, identified by exact SHA256",
+  "sourceFiles": {
+    "cache_probe.py": "6291f28408c56294f961fcf2756c548a212e7adea673db63de972fed11ee7f9f",
+    "test_cache_body_bounds.py": "5328822c6c71736f683c35e0a4e9517e591da8c1eadfb62446c1e160f0b96d26",
+    "test_cache_probe.py": "880b226f4d0a54524a95599954237d27bf2bf157da3b363f6e3aeab1acb430a0",
+    "lab.py": "062c1c1936a1face3b2c8a0df12d9695e2337ab00c9d6e6ea9e954539bb8551b"
+  },
+  "uid": 1000,
+  "commands": [
+    {
+      "argv": [
+        "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+        "-B",
+        "test_cache_body_bounds.py"
+      ],
+      "expectedTests": 3,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "rawBytes": 589,
+      "rawSha256": "6526de8257444475e769e03d09cfd5fb82b0f7a78961ae3625203ea8fdbda8d3",
+      "startedAt": "2026-10-24T19:26:17.359393+00:00"
+    },
+    {
+      "argv": [
+        "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+        "-B",
+        "test_cache_probe.py"
+      ],
+      "expectedTests": 4,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "rawBytes": 746,
+      "rawSha256": "38daf0af36beab9168e7ff2c4d0e9459dd9d44997b0889b2bd62a798358630a8",
+      "startedAt": "2026-10-24T19:26:17.507860+00:00"
+    }
+  ],
+  "totalTests": 7,
+  "noAtsNoHttpNoTracing": true,
+  "qualificationAccepted": false,
+  "sourceUnchanged": true,
+  "completedAt": "2026-10-24T19:26:17.660703+00:00"
+}

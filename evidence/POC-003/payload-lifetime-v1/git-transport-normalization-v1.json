@@ -1,0 +1,160 @@
+{
+  "kind": "ORIGINAL_CAPTURE_BYTE_PRESERVATION_FORWARD_FIX_NOT_TEST_RERUN",
+  "parent": "3f59beb0c27e97a473811ac794981a5040946fcd",
+  "originalFilesAndSourceSnapshotsUnmodified": true,
+  "rootGitAttributesUnmodified": true,
+  "scopedAttributes": "evidence/POC-003/payload-lifetime-v1/.gitattributes",
+  "changedGitArtifacts": [
+    {
+      "path": "evidence/POC-003/payload-lifetime-v1/payload-lifetime-v1-red--results.json",
+      "capturedBytes": 852,
+      "capturedSha256": "fefaf780fd921562d6972cf735839c3a19659bc9ab0fb07518fbb4a348ca996d",
+      "previousGitBytes": 824,
+      "previousGitSha256": "bef807a0b79fa29ef125caff8798c4571fe4513b11a440ea10a79878cfd4f037",
+      "difference": "CRLF normalized to LF by inherited root text=auto eol=lf"
+    },
+    {
+      "path": "evidence/POC-003/payload-lifetime-v1/payload-lifetime-v1-red--stderr.raw",
+      "capturedBytes": 12115,
+      "capturedSha256": "0ff12c7badee4ace9f43863aa5f21eb6cea297518698ec84e5e0d7c46ec0d6ff",
+      "previousGitBytes": 11986,
+      "previousGitSha256": "a5ac43a6660775e556a5fa82892934acf23b1618a6b1156f41f2d9865e0df53d",
+      "difference": "CRLF normalized to LF by inherited root text=auto eol=lf"
+    },
+    {
+      "path": "evidence/POC-003/payload-lifetime-v1/collector-lifetime-v1-red--results.json",
+      "capturedBytes": 574,
+      "capturedSha256": "9ee92f6fdb9b72cbffa421e8def11ee92bf2a82be861ea8e9d848236d5d54e50",
+      "previousGitBytes": 549,
+      "previousGitSha256": "292c17e64471f73cb9767b337ca57ede61550a8852850087025317d3b05298e4",
+      "difference": "CRLF normalized to LF by inherited root text=auto eol=lf"
+    },
+    {
+      "path": "evidence/POC-003/payload-lifetime-v1/collector-lifetime-v1-red--stderr.raw",
+      "capturedBytes": 3817,
+      "capturedSha256": "46d5650da851d29de6c9b261e9042773fdba09eeceb3ba06001cd6e45e827f4a",
+      "previousGitBytes": 3776,
+      "previousGitSha256": "875d1214dde3eef4b770740689e3a02296b8c5e63202e06f9b3add0cbd09bddc",
+      "difference": "CRLF normalized to LF by inherited root text=auto eol=lf"
+    },
+    {
+      "path": "evidence/POC-003/payload-lifetime-v1/payload-lifetime-v1-windows-checks--01-test_payload_lifetime.stderr.raw",
+      "capturedBytes": 1624,
+      "capturedSha256": "d0c7b0fe3532f1e498611c08be04d154268aa6435a39e92590d41c02f05ed706",
+      "previousGitBytes": 1610,
+      "previousGitSha256": "91aea567e02474fee39dd84ce09e8eba26aaf733752dc07013f4e85d0914fa77",
+      "difference": "CRLF normalized to LF by inherited root text=auto eol=lf"
+    },
+    {
+      "path": "evidence/POC-003/payload-lifetime-v1/payload-lifetime-v1-windows-checks--02-test_lab.stderr.raw",
+      "capturedBytes": 1181,
+      "capturedSha256": "0ade121e63fb24a30195e5bb49ace27a3da771b5b568a2581a659c689d60b738",
+      "previousGitBytes": 1168,
+      "previousGitSha256": "4f6f789c84be212fc708c27b0db19e13e0b7cfb2757f57d4b8522c69d43def41",
+      "difference": "CRLF normalized to LF by inherited root text=auto eol=lf"
+    },
+    {
+      "path": "evidence/POC-003/payload-lifetime-v1/payload-lifetime-v1-windows-checks--03-test_revocation_binding.stderr.raw",
+      "capturedBytes": 431,
+      "capturedSha256": "539286f1d16273ff54a11a7a254e9849082a7625a353bde2c11f7644b14da467",
+      "previousGitBytes": 424,
+      "previousGitSha256": "f3dbaefe4854bd38896ec08c1c42e64c647a4d28285f0347d70177d2b2db0375",
+      "difference": "CRLF normalized to LF by inherited root text=auto eol=lf"
+    },
+    {
+      "path": "evidence/POC-003/payload-lifetime-v1/payload-lifetime-v1-windows-checks--04-test_cache_body_bounds.stderr.raw",
+      "capturedBytes": 597,
+      "capturedSha256": "11e267319e4f33a8636f4302c5b512cd92db92e3e5149ec6a340620f84cdf036",
+      "previousGitBytes": 589,
+      "previousGitSha256": "43ae145b9b7d15c08f5a53c71e0e6f51080033b255093ff3eaa6b84d24ba567a",
+      "difference": "CRLF normalized to LF by inherited root text=auto eol=lf"
+    },
+    {
+      "path": "evidence/POC-003/payload-lifetime-v1/payload-lifetime-v1-windows-checks--05-test_cache_probe.stderr.raw",
+      "capturedBytes": 755,
+      "capturedSha256": "573d06854e05b1ae6c6591931cc916cce53a87648d341cb2698d18926e9878a7",
+      "previousGitBytes": 746,
+      "previousGitSha256": "38daf0af36beab9168e7ff2c4d0e9459dd9d44997b0889b2bd62a798358630a8",
+      "difference": "CRLF normalized to LF by inherited root text=auto eol=lf"
+    },
+    {
+      "path": "evidence/POC-003/payload-lifetime-v1/payload-lifetime-v1-windows-checks--06-test_input_profile.stderr.raw",
+      "capturedBytes": 1561,
+      "capturedSha256": "acf2fea333853df0b8f20fc298af8a4433956482698608f476e5020867944176",
+      "previousGitBytes": 1547,
+      "previousGitSha256": "655548c06a4c35a6f762a4392bfa9eba18eda70aeca28c50554dcc55d9c02299",
+      "difference": "CRLF normalized to LF by inherited root text=auto eol=lf"
+    },
+    {
+      "path": "evidence/POC-003/payload-lifetime-v1/payload-lifetime-v1-windows-checks--07-test_representative_cache.stderr.raw",
+      "capturedBytes": 585,
+      "capturedSha256": "f8f97c82c88a71c524f4b09be06fa11d87d03ad2527afabea89307e0948b0968",
+      "previousGitBytes": 577,
+      "previousGitSha256": "9e3cb695a81b5c34430be2c13e01f2cadb3996e4a4fb8f22300c921a39533bbd",
+      "difference": "CRLF normalized to LF by inherited root text=auto eol=lf"
+    },
+    {
+      "path": "evidence/POC-003/payload-lifetime-v1/payload-lifetime-v2-windows-checks--01-test_payload_lifetime.stderr.raw",
+      "capturedBytes": 1973,
+      "capturedSha256": "2974f9f86a62937303c3c01ee03844b2e68053170959295e36f5646019941466",
+      "previousGitBytes": 1957,
+      "previousGitSha256": "27a28b0db603d8d5f9f78240cf5cd39144eccab3642bd62738b2d1b4aeedf22a",
+      "difference": "CRLF normalized to LF by inherited root text=auto eol=lf"
+    },
+    {
+      "path": "evidence/POC-003/payload-lifetime-v1/payload-lifetime-v2-windows-checks--02-test_lab.stderr.raw",
+      "capturedBytes": 1181,
+      "capturedSha256": "0ade121e63fb24a30195e5bb49ace27a3da771b5b568a2581a659c689d60b738",
+      "previousGitBytes": 1168,
+      "previousGitSha256": "4f6f789c84be212fc708c27b0db19e13e0b7cfb2757f57d4b8522c69d43def41",
+      "difference": "CRLF normalized to LF by inherited root text=auto eol=lf"
+    },
+    {
+      "path": "evidence/POC-003/payload-lifetime-v1/payload-lifetime-v2-windows-checks--03-test_revocation_binding.stderr.raw",
+      "capturedBytes": 431,
+      "capturedSha256": "60d12af1296d22119f6144d8a4a9402ac042175258788b082df089de4e0f2c3c",
+      "previousGitBytes": 424,
+      "previousGitSha256": "6d35ea8bd4eb191ddc0904304bfbe06a5b621cf570ee4e078a3b47526a8d8dd2",
+      "difference": "CRLF normalized to LF by inherited root text=auto eol=lf"
+    },
+    {
+      "path": "evidence/POC-003/payload-lifetime-v1/payload-lifetime-v2-windows-checks--04-test_cache_body_bounds.stderr.raw",
+      "capturedBytes": 597,
+      "capturedSha256": "75ac01e8b3830592e019bc71041723e74a07fbced15697f384faef9f8f29a247",
+      "previousGitBytes": 589,
+      "previousGitSha256": "bd0fbee97c71bf270c71dda95973ae4aca4916687dc75af4e8c8e55e65d262e9",
+      "difference": "CRLF normalized to LF by inherited root text=auto eol=lf"
+    },
+    {
+      "path": "evidence/POC-003/payload-lifetime-v1/payload-lifetime-v2-windows-checks--05-test_cache_probe.stderr.raw",
+      "capturedBytes": 755,
+      "capturedSha256": "573d06854e05b1ae6c6591931cc916cce53a87648d341cb2698d18926e9878a7",
+      "previousGitBytes": 746,
+      "previousGitSha256": "38daf0af36beab9168e7ff2c4d0e9459dd9d44997b0889b2bd62a798358630a8",
+      "difference": "CRLF normalized to LF by inherited root text=auto eol=lf"
+    },
+    {
+      "path": "evidence/POC-003/payload-lifetime-v1/payload-lifetime-v2-windows-checks--06-test_input_profile.stderr.raw",
+      "capturedBytes": 1561,
+      "capturedSha256": "b7f4d4800e27d74431442418b241e1d79d851d774ce6fe947d93f3974b7f5305",
+      "previousGitBytes": 1547,
+      "previousGitSha256": "9ad8f7dc154763ac98f5581d16a686dc20d9fb59186a480cb3acee94adeb7a10",
+      "difference": "CRLF normalized to LF by inherited root text=auto eol=lf"
+    },
+    {
+      "path": "evidence/POC-003/payload-lifetime-v1/payload-lifetime-v2-windows-checks--07-test_representative_cache.stderr.raw",
+      "capturedBytes": 585,
+      "capturedSha256": "0270bbf56fd973c4df2f0e595df28fed02bb73c169b374bb77c7d4ef6a1d9ffd",
+      "previousGitBytes": 577,
+      "previousGitSha256": "8fdc0d25bbfa43101f2d48d250aadc168eca781efb5e2b11bb6b9f8a746442fc",
+      "difference": "CRLF normalized to LF by inherited root text=auto eol=lf"
+    }
+  ],
+  "codePinsUnchanged": true,
+  "qualificationUnchanged": true,
+  "entireSourceQualified": false,
+  "sourceQualified": false,
+  "aggregateCapacityProofComplete": false,
+  "experimentApproved": false,
+  "formalPocAccepted": false
+}

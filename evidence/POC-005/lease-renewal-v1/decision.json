@@ -1,0 +1,33 @@
+{
+  "kind": "prospective_reserved_task_lease_renewal_decision",
+  "task": "POC-005",
+  "issue": 132,
+  "decidedAt": "2026-10-29T12:12:19Z",
+  "decisionActor": "/root",
+  "authority": "The user directly delegated project decisions, normal merges and ended-branch cleanup in this conversation. This actual prospective coordination decision does not relabel historical Registry actors.",
+  "base": "fdf93444a72aa5cc52dd49a79d2f4e435cd1ce1d",
+  "actualBranch": "chore/POC-005-lease-renewal-20261029",
+  "originalLease": {
+    "acquiredAt": "2026-10-22T16:08:44Z",
+    "expiresAt": "2026-10-29T16:08:44Z"
+  },
+  "proposedLease": {
+    "acquiredAt": "2026-10-29T12:12:19Z",
+    "expiresAt": "2026-11-05T12:12:19Z"
+  },
+  "reason": "Continue complete POC005 current-source integration and normal closure while preserving the original million-object011 execution and its exact historical3592 local-profile qualification.",
+  "taskStatusUnchanged": "reserved",
+  "taskAgentRoleUnchanged": "coordinator",
+  "originalWorkBranchUnchanged": "chore/POC-005-metadata-scale",
+  "originalCreationBaseUnchanged": "11c32830c0d1bb8ccdcc04aa278876065bce1f33",
+  "oldExperimentApprovalOrWindowExtended": false,
+  "oldExecutionOrQualifiedSourceRebound": false,
+  "compatibilityRuleWaived": false,
+  "programLedgerActorsScopeThresholdsAndProductionObligationsUnchanged": true,
+  "original3592AcceptanceScope": "Exact historical local-v1 context only; later code/lease compatibility remains subject to the unchanged frozen checker and the separately registered prospective governance repair.",
+  "newExperimentApproved": false,
+  "currentSourceGatesPassed": false,
+  "fullCiAccepted": false,
+  "leaseAcceptedOnMain": false,
+  "integrationRequirement": "All15 current candidate gates, complete same-head CI, independent review, ordinary merge, actual-main7/fullpushCI and independent acceptance before original16:08:44Z are required to claim continuous renewed authority."
+}

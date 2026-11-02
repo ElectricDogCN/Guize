@@ -1,0 +1,217 @@
+{
+  "kind": "ACTUAL_FINITE_INSTRUMENTED_STARTUP_FAILURE_NOT_QUALIFIED",
+  "source": "e1231a80dfab6b30a6fcae800c1184b72299fa14",
+  "files": [
+    {
+      "file": "poc003-live-diagnostic-proposal-v1.json",
+      "bytes": 10493,
+      "sha256": "bc8b02c551c3e4375b50ac74847c5879f8f5f7cdfb48d9daa67c3da6fd990cae",
+      "original": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-live-diagnostic-proposal-v1.json",
+      "qualifiedArtifact": false
+    },
+    {
+      "file": "poc003-live-diagnostic-config-v1.json",
+      "bytes": 1431,
+      "sha256": "e5a5a7b57eb4056d8a6ec1cb7e22c966dc4b7668a649268bc9f917310c2caa5d",
+      "original": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-live-diagnostic-config-v1.json",
+      "qualifiedArtifact": false
+    },
+    {
+      "file": "poc003-live-diagnostic-independent-approval-v1.json",
+      "bytes": 1294,
+      "sha256": "70af33c06b7e63231bd57230f6c8b986ab681bb3035cce2f61e9c2c6f4885a7a",
+      "original": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-live-diagnostic-independent-approval-v1.json",
+      "qualifiedArtifact": false
+    },
+    {
+      "file": "poc003-live-diagnostic-v1-independent-result-review.json",
+      "bytes": 1475,
+      "sha256": "a9af4c718af670a2a2fbdacdce6244f136f50c7700fca4c3cd512cabaad41feb",
+      "original": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-live-diagnostic-v1-independent-result-review.json",
+      "qualifiedArtifact": false
+    },
+    {
+      "file": "run_poc003_approved_live_diagnostic_once.py",
+      "bytes": 5933,
+      "sha256": "4e6c6c8f5657e0a57cbd2a03141232b960f7936a550b67b9bda9da5fd46f9eff",
+      "original": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/run_poc003_approved_live_diagnostic_once.py",
+      "qualifiedArtifact": false
+    },
+    {
+      "file": "collect_poc003_instrumented_live_diagnostic.py",
+      "bytes": 2425,
+      "sha256": "6b4835c486c9912618866f91ac0ed2f983a4ce1a75b7cba55f30a9de2c1a494f",
+      "original": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/collect_poc003_instrumented_live_diagnostic.py",
+      "qualifiedArtifact": false
+    },
+    {
+      "file": "execution/controller.stderr.raw",
+      "bytes": 1261,
+      "sha256": "bbbdb2db8a8df2d3c7bb5b4e2c5d7222a0724577030c03105d6218063bce3171",
+      "original": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-live-diagnostic-v1-execution/controller.stderr.raw",
+      "qualifiedArtifact": false
+    },
+    {
+      "file": "execution/controller.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-live-diagnostic-v1-execution/controller.stdout.raw",
+      "qualifiedArtifact": false
+    },
+    {
+      "file": "execution/execution.json",
+      "bytes": 1624,
+      "sha256": "45f07d2eecd7794e0d1ccad82ac58ace6978a0e13dfef7f57219f907d97ef784",
+      "original": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-live-diagnostic-v1-execution/execution.json",
+      "qualifiedArtifact": false
+    },
+    {
+      "file": "execution/prepare.stderr.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-live-diagnostic-v1-execution/prepare.stderr.raw",
+      "qualifiedArtifact": false
+    },
+    {
+      "file": "execution/prepare.stdout.raw",
+      "bytes": 187,
+      "sha256": "3ad7b76008779f59c33b3ead22ff9484491f0b8d83bbe124883fa54b3ebc0f92",
+      "original": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-live-diagnostic-v1-execution/prepare.stdout.raw",
+      "qualifiedArtifact": false
+    },
+    {
+      "file": "run/commands/verify-config.stderr.raw",
+      "bytes": 277,
+      "sha256": "ef45c8e9e3911c87a27f8e68a1315fe7315ec90ad17291dc91bf10b7a89af483",
+      "original": "/home/sur/.cache/guize-takeover/poc003-live-diagnostic-20261023-v1/commands/verify-config.stderr.raw",
+      "qualifiedArtifact": false
+    },
+    {
+      "file": "run/commands/verify-config.stdout.raw",
+      "bytes": 158,
+      "sha256": "89aa036be1eed38af15cbccfa78e95e25dbeff8746df15adf4d5a7782a5f006a",
+      "original": "/home/sur/.cache/guize-takeover/poc003-live-diagnostic-20261023-v1/commands/verify-config.stdout.raw",
+      "qualifiedArtifact": false
+    },
+    {
+      "file": "run/log/.diags.log.meta",
+      "bytes": 27,
+      "sha256": "aeae12d4bc872dea2ae639ce8c061b24e8e25f75b5db05680c30612f7090f4c0",
+      "original": "/home/sur/.cache/guize-takeover/poc003-live-diagnostic-20261023-v1/log/.diags.log.meta",
+      "qualifiedArtifact": false
+    },
+    {
+      "file": "run/log/ats-0.stderr.raw",
+      "bytes": 41,
+      "sha256": "5516fdd2ee38768a3b08da79276f9e024004b3f85061e46ab5b95edf25f87850",
+      "original": "/home/sur/.cache/guize-takeover/poc003-live-diagnostic-20261023-v1/log/ats-0.stderr.raw",
+      "qualifiedArtifact": false
+    },
+    {
+      "file": "run/log/ats-0.stdout.raw",
+      "bytes": 158,
+      "sha256": "89aa036be1eed38af15cbccfa78e95e25dbeff8746df15adf4d5a7782a5f006a",
+      "original": "/home/sur/.cache/guize-takeover/poc003-live-diagnostic-20261023-v1/log/ats-0.stdout.raw",
+      "qualifiedArtifact": false
+    },
+    {
+      "file": "run/log/diags.log",
+      "bytes": 5695,
+      "sha256": "6698177c9e9a9d7865b42c407ae86c66a5fc6fad1794f7c80eeed83417b74bd6",
+      "original": "/home/sur/.cache/guize-takeover/poc003-live-diagnostic-20261023-v1/log/diags.log",
+      "qualifiedArtifact": false
+    },
+    {
+      "file": "run/cache-observer/cache-export-765244/events.jsonl",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original": "/home/sur/.cache/guize-takeover/poc003-live-diagnostic-20261023-v1/cache-observer/cache-export-765244/events.jsonl",
+      "qualifiedArtifact": false
+    },
+    {
+      "file": "run/cache-observer/cache-export-765244/lookup-events.jsonl",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original": "/home/sur/.cache/guize-takeover/poc003-live-diagnostic-20261023-v1/cache-observer/cache-export-765244/lookup-events.jsonl",
+      "qualifiedArtifact": false
+    },
+    {
+      "file": "run/cache-observer/cache-export-765244/lookups.jsonl",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original": "/home/sur/.cache/guize-takeover/poc003-live-diagnostic-20261023-v1/cache-observer/cache-export-765244/lookups.jsonl",
+      "qualifiedArtifact": false
+    },
+    {
+      "file": "run/cache-observer/cache-export-765265/cache-ready.json",
+      "bytes": 142,
+      "sha256": "d8542715f91d912f02b54ce77cb4d3835d1bcd3f9bdd3d5e6ae28068cf155988",
+      "original": "/home/sur/.cache/guize-takeover/poc003-live-diagnostic-20261023-v1/cache-observer/cache-export-765265/cache-ready.json",
+      "qualifiedArtifact": false
+    },
+    {
+      "file": "run/cache-observer/cache-export-765265/events.jsonl",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original": "/home/sur/.cache/guize-takeover/poc003-live-diagnostic-20261023-v1/cache-observer/cache-export-765265/events.jsonl",
+      "qualifiedArtifact": false
+    },
+    {
+      "file": "run/cache-observer/cache-export-765265/lookup-events.jsonl",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original": "/home/sur/.cache/guize-takeover/poc003-live-diagnostic-20261023-v1/cache-observer/cache-export-765265/lookup-events.jsonl",
+      "qualifiedArtifact": false
+    },
+    {
+      "file": "run/cache-observer/cache-export-765265/lookups.jsonl",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original": "/home/sur/.cache/guize-takeover/poc003-live-diagnostic-20261023-v1/cache-observer/cache-export-765265/lookups.jsonl",
+      "qualifiedArtifact": false
+    },
+    {
+      "file": "run/cache-observer/live-buffer-765244.jsonl",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original": "/home/sur/.cache/guize-takeover/poc003-live-diagnostic-20261023-v1/cache-observer/live-buffer-765244.jsonl",
+      "qualifiedArtifact": false
+    },
+    {
+      "file": "run/cache-observer/live-buffer-765265.jsonl",
+      "bytes": 1397,
+      "sha256": "6072ec58dc0ff20102b4f11c33ffd319e9a1b382163f129ff5f1c19628c774d9",
+      "original": "/home/sur/.cache/guize-takeover/poc003-live-diagnostic-20261023-v1/cache-observer/live-buffer-765265.jsonl",
+      "qualifiedArtifact": false
+    },
+    {
+      "file": "run/controller.jsonl",
+      "bytes": 780,
+      "sha256": "8b6a762f3851162dac7e0ce5709b416e58d181f571211018ebed465f51cd43e7",
+      "original": "/home/sur/.cache/guize-takeover/poc003-live-diagnostic-20261023-v1/controller.jsonl",
+      "qualifiedArtifact": false
+    },
+    {
+      "file": "run/owner.json",
+      "bytes": 146,
+      "sha256": "c999e9f0fc3405f98440cfe99cbd5dced469661adc9498b5d09865b3a5db7092",
+      "original": "/home/sur/.cache/guize-takeover/poc003-live-diagnostic-20261023-v1/owner.json",
+      "qualifiedArtifact": false
+    }
+  ],
+  "prepareExit": 0,
+  "controllerExit": 1,
+  "collectorStarted": false,
+  "httpResponses": 0,
+  "unboundNativeBaselineRows": 2,
+  "usableMeasuredWindow": false,
+  "failure": "strict process component mapping mismatch before gateway readiness",
+  "exactFirstFailingComponentKnown": false,
+  "originalMapsPreserved": false,
+  "ownedAtsGone": true,
+  "portsReleased": true,
+  "approvalConsumed": true,
+  "actualIndependentFailureReview": "poc003-live-diagnostic-v1-independent-result-review.json",
+  "original15Accepted": false,
+  "fullMediaCoverageProven": false
+}

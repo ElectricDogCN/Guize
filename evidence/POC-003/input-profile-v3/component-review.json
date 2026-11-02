@@ -1,0 +1,127 @@
+{
+  "schemaVersion": 1,
+  "kind": "independent_input_profile_v3_forward_component_review",
+  "reviewedAt": "2026-10-25T17:07:48.381241Z",
+  "reviewer": "independent-review-agent",
+  "actor": "/root/gz022_planning_independent_review",
+  "task": "POC-003",
+  "authorHead": "087068d32c918da43465f0f91ca6cccd0e088d67",
+  "sourceStatus": "DIRTY exact four source hashes, not a fixed accepted source",
+  "codeSources": [
+    {
+      "path": "poc/POC-03-ats-range/lab.py",
+      "bytes": 40980,
+      "sha256": "3ecb45001fe61f82299e177b46ddce38320a712e74c978416dd056f925442ffc"
+    },
+    {
+      "path": "poc/POC-03-ats-range/collect.py",
+      "bytes": 13833,
+      "sha256": "f28b3dbc0e8d295d125fe67f5c863a4a2f5385df4db1a76780025b07101e7c25"
+    },
+    {
+      "path": "poc/POC-03-ats-range/input_profile.py",
+      "bytes": 6966,
+      "sha256": "9e05fc5da62ff8471d1b404417b0b27d2179caeeebeb0dfeb498a8a8de9945e6"
+    },
+    {
+      "path": "poc/POC-03-ats-range/test_input_profile.py",
+      "bytes": 12957,
+      "sha256": "8fad15b55e076e032756119e8a82f85a3e3d91be6c0cce8a3b7d3d797dec204c"
+    }
+  ],
+  "decision": "accepted_component_content_only",
+  "mustFix": [],
+  "componentContentAccepted": true,
+  "previousP2Resolved": true,
+  "previousNegativeReview": {
+    "ref": "poc003-input-profile-v2-component-independent-review.json",
+    "bytes": 5290,
+    "sha256": "f6beea8659821b5df8a525bb64784f71390843db8a37f6545d91e6df2181670c",
+    "preserved": true
+  },
+  "fixChecks": [
+    "Actual lab.prepare now opens the manifest and requests at most65537 bytes, rejects >65536 before runtime receipt reading or run directory creation, and uses this same manifest_raw for the helper and recorded SHA.",
+    "ManifestIngressTests invokes actual prepare with a real131073-byte file, observes read(65537) returning65537, uses an absent runtime receipt to prove early rejection, and requires run directory absent. Ordinary-user check alone is mocked; no ATS/runtime preparation occurs.",
+    "Direct script suite now registers both test classes and requires actual9 tests/no skips. Existing8 methods and downstream lab8/revocation2/bounds3/catalogue4 remain."
+  ],
+  "actualComponentTests": [
+    {
+      "platform": "windows",
+      "actualTests": 26,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "allFiveRawArgvCountsExitWaitBytesShaVerified": true,
+      "sourceUnchanged": true,
+      "resultsBytes": 4630,
+      "resultsSha256": "94b16b521c622f6955a6777ca4ef163e1867c4919ef3d1f4ba61f4b26c024c58"
+    },
+    {
+      "platform": "native",
+      "actualTests": 26,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "allFiveRawArgvCountsExitWaitBytesShaVerified": true,
+      "sourceUnchanged": true,
+      "resultsBytes": 4443,
+      "resultsSha256": "24c4f4486d7797a7e4ebd9d1c7ef9d307716eec4ad64034cd6b3da2d59313e7e"
+    }
+  ],
+  "archive": {
+    "ref": "evidence/POC-003/input-profile-v3/index.json",
+    "bytes": 9762,
+    "sha256": "4a6855416d6e8f40b60f365b48ab5af80c886b3c40f45fef4d2c47bc46202d17",
+    "all33EncodedOriginalsDecodedAndByteMatched": true,
+    "oldV1V2RawSourceSnapshotsUnmodified": true
+  },
+  "actualRed": {
+    "tests": 9,
+    "passed": 8,
+    "failures": 1,
+    "exitCode": 1,
+    "waitCompleted": true,
+    "rawBytes": 3221,
+    "rawSha256": "65e618bcc101f2f2ae7b3b32f8a465501f0aa90ae569f03f754d9034381b4d0c",
+    "usesOldLabAndNewNineTestSuite": true
+  },
+  "initialHarness": {
+    "actualOldTests": 8,
+    "addedManifestClassSelected": false,
+    "actualTestExitCode": 0,
+    "wrapperAssertionFailed": true,
+    "notCountedAsRed": true,
+    "originalsRetained": true
+  },
+  "representativeUnitFixture": {
+    "actualBytes": 67239936,
+    "actualMiB": 64.125,
+    "actualFilesReadAndHashed": true,
+    "mockedTransportOnly": true,
+    "prior65_125MiBProseWasIncorrect": true,
+    "currentReadmeCorrectedTo64_125MiB": true,
+    "oldRawNotRewritten": true
+  },
+  "retainedAcceptedObservations": [
+    "Default prototype keeps the pinned names/content hashes,64MiB input sizes,2048 origin requests and1GiB collection limit. No frozen POC checker/schema/measurement threshold changes.",
+    "Opt-in representative manifest has exact shape, duplicate/nonfinite rejection, exact raw manifest SHA, distinct portable leaf names/content hashes, positive declared sizes/bounds and actual streamed file hash/size checks.",
+    "Open FD must be regular; full same-FD dev/inode/mode/size/mtime/ctime signatures are stable. Windows cross-FD/path comparison uses matching identity/size/mtime/birth fields, retaining same-FD change-time checks; the first portability failure is not rewritten.",
+    "Collector per-response bound derives from the fixed actual source size plus existing error allowance; aggregate is checked under the lock after a response, including retained failed bytes. It remains a completion aggregate bound, not a full-run disk quota.",
+    "25Windows+25native real local-file/mocked-response tests are verified as component facts only; no HTTP server/ATS/media experiment is implied."
+  ],
+  "remainingBoundaries": [
+    "Input hashing is preparation-time observation, not proof files remain immutable throughout a future run. Actual approved sample/config/source and lifecycle validation remain necessary.",
+    "maximumBufferedBytes is a declaration here, not measured complete media ownership; representative input/domain/numeric resource/window approval and original15/permission/revocation/current-source observations remain outstanding.",
+    "Aggregate response budget excludes separate input/cache/export/temp/evidence storage and may be exceeded by an in-progress/concurrent response before completion. A future resource plan must include that headroom; no baseline or protocol relaxation follows.",
+    "Current parent087 and dirty components are not a new fully accepted source; main sync and declared source gates/CI remain separate."
+  ],
+  "fixedSourceAccepted": false,
+  "publicationApproved": false,
+  "experimentApproved": false,
+  "sampleApproved": false,
+  "fullMediaDomainAccepted": false,
+  "qualificationAccepted": false,
+  "taskCompleted": false,
+  "testsExecutedByReviewer": false,
+  "authorFilesModified": false
+}

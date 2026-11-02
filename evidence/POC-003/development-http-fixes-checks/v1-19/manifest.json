@@ -1,0 +1,89 @@
+{
+  "kind": "ACTUAL_UNCOMMITTED_DRAFT_VALIDATION",
+  "sourceBase": "9c012b4e1c90b014fe619253a8f07a738b5c0724",
+  "files": {
+    "build_observer.py": "7c5ec2475d26e56394922ebba8f14a387d8ba0b318c37b8ef8ec2ade24c56ca9",
+    "cache_probe.py": "cb785c6f7cc1e6c3715b5569049d79aa8315bc44c76768c40cdb86430871cba2",
+    "collect.py": "2a184b85ab7356d542b2d140090efc40ca067bd6a12f8b1173890d700cf3d108",
+    "grants.py": "4d48a477541545a296d31ea00a97445e15f6b6eae92e79f39629c074923403bf",
+    "http_timing.py": "fde2afed2b9fcc3e607930eb72b9cecf5386761965d8881a095b98f041e663cb",
+    "lab.py": "7d82696320d51744b66cdb689878171ad3dd9908846bb71c2f4f31e222f8b126",
+    "test_cache_probe.py": "880b226f4d0a54524a95599954237d27bf2bf157da3b363f6e3aeab1acb430a0",
+    "test_cache_probe_native.py": "e835fd96229fe843fc1505718494ba2c6b34acc415703f40da6b3815fbdac2fc",
+    "test_gateway_native.py": "4e11be081c72d4b09732e323a7b3bafef2e8ca7e711df65aa410943add551f86",
+    "test_http_timing_native.py": "3e27f76d65167a196bac70e38e8d7c4df03f0e079bf60f99a64006edfdf90d86",
+    "test_lab.py": "20373fbe76e7dc18c59da922c9b24c0793153c7181e6d22b101f28bdfe1a0513",
+    "test_warm_cache_revocation.py": "a2804773586717f2ca8880c11938aa169c1bab77a20307e96604c5ede282232f"
+  },
+  "syntaxParsed": true,
+  "totalTests": 19,
+  "checks": [
+    {
+      "argv": [
+        "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+        "-B",
+        "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz021-hls-publication-worktree/poc/POC-03-ats-range/test_lab.py"
+      ],
+      "exitCode": 0,
+      "actualTests": 8,
+      "noSkippedTests": true,
+      "raw": "test_lab.py.raw",
+      "bytes": 1168,
+      "sha256": "4f6f789c84be212fc708c27b0db19e13e0b7cfb2757f57d4b8522c69d43def41"
+    },
+    {
+      "argv": [
+        "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+        "-B",
+        "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz021-hls-publication-worktree/poc/POC-03-ats-range/test_cache_probe.py"
+      ],
+      "exitCode": 0,
+      "actualTests": 4,
+      "noSkippedTests": true,
+      "raw": "test_cache_probe.py.raw",
+      "bytes": 746,
+      "sha256": "38daf0af36beab9168e7ff2c4d0e9459dd9d44997b0889b2bd62a798358630a8"
+    },
+    {
+      "argv": [
+        "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+        "-B",
+        "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz021-hls-publication-worktree/poc/POC-03-ats-range/test_cache_probe_native.py"
+      ],
+      "exitCode": 0,
+      "actualTests": 2,
+      "noSkippedTests": true,
+      "raw": "test_cache_probe_native.py.raw",
+      "bytes": 458,
+      "sha256": "98b6c8e9cdfad8c7274de0e1b9ff7c2f09ca254249f6a8ea9fa9e4115f394e7f"
+    },
+    {
+      "argv": [
+        "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+        "-B",
+        "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz021-hls-publication-worktree/poc/POC-03-ats-range/test_gateway_native.py"
+      ],
+      "exitCode": 0,
+      "actualTests": 3,
+      "noSkippedTests": true,
+      "raw": "test_gateway_native.py.raw",
+      "bytes": 633,
+      "sha256": "24d0bbed836bfd9631d66b5c4487b6d8f2a936dcb9a7d3c4d36882ec20df8735"
+    },
+    {
+      "argv": [
+        "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+        "-B",
+        "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz021-hls-publication-worktree/poc/POC-03-ats-range/test_http_timing_native.py"
+      ],
+      "exitCode": 0,
+      "actualTests": 2,
+      "noSkippedTests": true,
+      "raw": "test_http_timing_native.py.raw",
+      "bytes": 408,
+      "sha256": "340351017694f9567ce0a1a4070f9b9705d591e9de6ed2d5ead5c98c71981abe"
+    }
+  ],
+  "realAtsExperimentExecuted": false,
+  "exactNewCommitAccepted": false
+}

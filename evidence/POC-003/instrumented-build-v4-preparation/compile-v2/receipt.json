@@ -1,0 +1,153 @@
+{
+  "kind": "INSTRUMENTED_ATS_NATIVE_BUILD_NOT_RUNTIME_EXPERIMENT",
+  "uid": 1000,
+  "startedAt": "2026-10-22T16:37:23.209833+00:00",
+  "previousBuildAttempt": "compile-v1 configure failed: upstream AC_ARG_ENABLE docs action runs for --disable-docs too; omit the option to use the actual default enable_doc_build=no. Original source is unchanged.",
+  "sourcePreparation": {
+    "kind": "EXACT_SOURCE_PREPARED_ONLY_NOT_RUNTIME",
+    "uid": 1000,
+    "sourceArchiveSha256": "0e323e1c4c01d1506cfd49d4c6935dbebd125b187d9ba72fe909bd6b10d81110",
+    "sourceRoot": "/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3",
+    "patches": [
+      {
+        "file": "0003-reproductible-build.patch",
+        "sha256": "d44983b746d56dc824e680eb04ab990d9a32138ad450ce39c5314c2ce388583f",
+        "exitCode": 0
+      },
+      {
+        "file": "0006-fix-doc-build.patch",
+        "sha256": "f23b7cc381803e6dafe16f529e04677ed2c1d371eca7360a62d4e46804c5683d",
+        "exitCode": 0
+      },
+      {
+        "file": "0008-fix-python-check-unused-dependencies.patch",
+        "sha256": "5b3d74a79ba2cb3cebdf0ffd353501dd61477162c8601b83123fe632b0f387b5",
+        "exitCode": 0
+      },
+      {
+        "file": "0013-fix-perl-interpreter-path.patch",
+        "sha256": "67d5c0c2be81d9c364a2b8e950fff018f20aae1be45cae1848693b5f2edb7275",
+        "exitCode": 0
+      },
+      {
+        "file": "0014-use_system_yaml-cpp.patch",
+        "sha256": "e2477f251fce68c38db3378ef60609ca4c0dbb13c1d56cc0e8cfda5b0af178f5",
+        "exitCode": 0
+      },
+      {
+        "file": "0021-workaround-obsolete-plantuml.patch",
+        "sha256": "f9b89b9b657b5115746ba4ecf7d58a871e8b954614b2fd96d40ef131884a0e16",
+        "exitCode": 0
+      },
+      {
+        "file": "0022-workaround-missing-sphinxcontrib.jquery.patch",
+        "sha256": "eb442b8dd4eaf1ac73bf7fede581e59d7b560f1bb44f272e80edbc4ee16518b4",
+        "exitCode": 0
+      },
+      {
+        "file": "0023-CVE-2024-50305.patch",
+        "sha256": "28ae9c5204579f894ff1fdb33a77798250f62d51d4f59c6537bbff1b48d05fc0",
+        "exitCode": 0
+      }
+    ],
+    "atsStarted": false,
+    "instrumentationApplied": false,
+    "experimentExecuted": false
+  },
+  "instrumentation": {
+    "kind": "DRAFT_NATIVE_LIVE_ACCOUNTING_PATCH_NOT_EXPERIMENTED",
+    "files": [
+      {
+        "path": "iocore/eventsystem/I_IOBuffer.h",
+        "beforeSha256": "81819fc587efa0586bd4621318f14bd7ae8342484e872a13f8778862dc7f75a5",
+        "afterSha256": "936c0c4db159676a357fc5ace9d16d008c4136652849926d0f0d99e1c5225007"
+      },
+      {
+        "path": "iocore/eventsystem/P_IOBuffer.h",
+        "beforeSha256": "be8d0bbe13f9a459fe71b1269eda21a855c8ab1b50ffbef88be4e78569a794e7",
+        "afterSha256": "ed5cc31438c32581d4ee0b06c38a85326a06ded1214905e7d7373aa0ab3ffc06"
+      },
+      {
+        "path": "iocore/cache/P_CacheVol.h",
+        "beforeSha256": "582da9160e9fa23fb33a8b8f851daf20523b1b8dec357dd51552736639d09ec5",
+        "afterSha256": "ba06f2298a0f7d38c955d2cd5cb7ed3fb582871a5ca4ecd9bdb487fa1f0a9c7a"
+      },
+      {
+        "path": "src/tscore/ink_resource.cc",
+        "beforeSha256": "64f3899408dc02fed6978179d5def6363d9577ba334d7b9761d777034cdcdcde",
+        "afterSha256": "0aabcfc660f2391f154cd771f1280220067cd1db774d17bce9e89679d4e44c5f"
+      },
+      {
+        "path": "iocore/cache/Cache.cc",
+        "beforeSha256": "a6f1937b4aa042cd75ad5cb4479ca0f6e45aab09706ff820a035a763653ecf69",
+        "afterSha256": "320227b2bc493d1f603f5b98c9fddba67bd32931ea6b95b6cc43d482cc74f93d"
+      }
+    ],
+    "patchSha256": "ec10d672d79133bbc21a583d68dc8a517c41fa77367928138467f212e7550ae1",
+    "additionalHeaderSha256": "80a5f767d0b145b70976eb16939d6b5753a5cf8f3a18a0b7ffe1f37434af62b9",
+    "observationWindow": "Only after native HTTP-cache-ready with an atomic reset retaining all currently live baseline payload",
+    "uncoveredExternalEventsInvalidateQualification": true,
+    "directRecoveryIncluded": true,
+    "managementScanUsesTrackedNonFastIOBufferData": true,
+    "fullMediaCoverageProven": false,
+    "experimentApproved": false,
+    "atsStarted": false
+  },
+  "commands": [
+    {
+      "label": "autoreconf",
+      "argv": [
+        "autoreconf",
+        "-if"
+      ],
+      "startedAt": "2026-10-22T16:37:23.210090+00:00",
+      "finishedAt": "2026-10-22T16:37:29.868165+00:00",
+      "seconds": 6.65809537700261,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "logs": [
+        {
+          "file": "autoreconf.stdout.raw",
+          "bytes": 409,
+          "sha256": "9a83b0c31f1868d29e87cc8a5675903bfcf4df88fafee50a028472fac339f8ed"
+        },
+        {
+          "file": "autoreconf.stderr.raw",
+          "bytes": 166,
+          "sha256": "5002c921c90648aa3463e612fc813f02d6f1a254e7a1988234e0aa37788057e4"
+        }
+      ]
+    },
+    {
+      "label": "configure",
+      "argv": [
+        "./configure",
+        "--prefix=/usr",
+        "--enable-layout=Debian",
+        "--disable-tests",
+        "--disable-hwloc",
+        "--disable-unwind",
+        "--enable-experimental-plugins"
+      ],
+      "startedAt": "2026-10-22T16:37:29.868802+00:00",
+      "finishedAt": "2026-10-22T16:37:52.116849+00:00",
+      "seconds": 22.171894843995688,
+      "exitCode": 1,
+      "waitCompleted": true,
+      "logs": [
+        {
+          "file": "configure.stdout.raw",
+          "bytes": 10900,
+          "sha256": "0face5f0616f865c2a62c7d04786b2195b66f4642a527956161ee147d2966668"
+        },
+        {
+          "file": "configure.stderr.raw",
+          "bytes": 70,
+          "sha256": "de306102002958de28df49bf073f2b240f9a26c8b8a9cd081907a91801d5299a"
+        }
+      ]
+    }
+  ],
+  "atsStarted": false,
+  "experimentExecuted": false
+}

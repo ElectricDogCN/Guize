@@ -1,0 +1,11 @@
+Context: UNCOMMITTED DEVELOPMENT WORKTREE over actual reservation main11c3283; exact code hashes in manifest.json. Not validation of committed main or an experimental PASS.
+Command: ['C:/ProgramData/anaconda3/python.exe', '-X', 'utf8', '-B', 'poc/POC-03-ats-range/test_warm_cache_revocation.py']
+Traceback (most recent call last):
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\gz021-hls-publication-worktree\poc\POC-03-ats-range\test_warm_cache_revocation.py", line 155, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\gz021-hls-publication-worktree\poc\POC-03-ats-range\test_warm_cache_revocation.py", line 37, in main
+    raise ValueError('actual GUIZE_POC003_RUN_DIR and new GUIZE_POC003_REVOCATION_OUT required')
+ValueError: actual GUIZE_POC003_RUN_DIR and new GUIZE_POC003_REVOCATION_OUT required
+
+Exit Code: 1

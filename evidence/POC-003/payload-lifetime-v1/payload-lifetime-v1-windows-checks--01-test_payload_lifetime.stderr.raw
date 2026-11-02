@@ -1,0 +1,14 @@
+test_gateway_incomplete_partial_releases_payload_and_retains_failure (__main__.PayloadLifetimeTests.test_gateway_incomplete_partial_releases_payload_and_retains_failure) ... ok
+test_gateway_normal_blocks_do_not_overlap_and_first_body_clock_remains (__main__.PayloadLifetimeTests.test_gateway_normal_blocks_do_not_overlap_and_first_body_clock_remains) ... ok
+test_gateway_write_failure_releases_payload_and_retains_failure (__main__.PayloadLifetimeTests.test_gateway_write_failure_releases_payload_and_retains_failure) ... ok
+test_origin_success_releases_payload_before_terminal_log (__main__.PayloadLifetimeTests.test_origin_success_releases_payload_before_terminal_log) ... ok
+test_origin_truncation_preserves_digest_without_retaining_payload (__main__.PayloadLifetimeTests.test_origin_truncation_preserves_digest_without_retaining_payload) ... ok
+test_origin_write_failure_releases_payload_before_terminal_log (__main__.PayloadLifetimeTests.test_origin_write_failure_releases_payload_before_terminal_log) ... ok
+test_adjacent_exports_keep_metadata_and_release_both_bodies (__main__.ExportBodyLifetimeTests.test_adjacent_exports_keep_metadata_and_release_both_bodies) ... ok
+test_export_write_failure_releases_actual_without_reading_input (__main__.ExportBodyLifetimeTests.test_export_write_failure_releases_actual_without_reading_input) ... ok
+test_input_read_failure_releases_actual_and_preserves_failure (__main__.ExportBodyLifetimeTests.test_input_read_failure_releases_actual_and_preserves_failure) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.003s
+
+OK

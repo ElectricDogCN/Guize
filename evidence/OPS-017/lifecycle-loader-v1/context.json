@@ -1,0 +1,260 @@
+{
+  "taskId": "OPS-017",
+  "phase": "lifecycleSafeDocumentLoader",
+  "base": "a55680b9d06901729fcae7f35cb167b8b59d33f4",
+  "parent": "a94e2352182e7388c8c2b4c6e331b6e556ba0f99",
+  "branch": "chore/OPS-017-source-compatibility-admission",
+  "codePins": {
+    "scripts/check-program-lifecycle-guards.py": "2c54aee4e9276e2c5e5564b6346d8f36fc22fc2c3ec2fabbc3c0166b751aa85b",
+    "tests/governance/test_poc_contract_repair_admission.py": "f7e6905ba1ed0e1f410e0611d374a6fcb15e9cbfa3f85a9a4ba12f0602aaf9bc"
+  },
+  "historicalTaskCommands": [
+    [
+      "git",
+      "diff",
+      "--check",
+      "22ab6a0668da2d64a016fccef2c3b5a634638a24...HEAD"
+    ],
+    [
+      "python",
+      "scripts/check-task-file.py",
+      "--task",
+      "OPS-017"
+    ],
+    [
+      "python",
+      "scripts/check-schemas.py"
+    ],
+    [
+      "python",
+      "scripts/check-program-plan-integrity.py",
+      "--base-ref",
+      "22ab6a0668da2d64a016fccef2c3b5a634638a24"
+    ],
+    [
+      "python",
+      "scripts/check-program-plan-history.py",
+      "--base-ref",
+      "22ab6a0668da2d64a016fccef2c3b5a634638a24",
+      "--head-ref",
+      "HEAD",
+      "--task",
+      "OPS-017",
+      "--branch-name",
+      "chore/OPS-017-source-compatibility-admission-reservation"
+    ],
+    [
+      "python",
+      "scripts/check-program-plan-transitions.py",
+      "--base-ref",
+      "22ab6a0668da2d64a016fccef2c3b5a634638a24",
+      "--head-ref",
+      "HEAD",
+      "--task",
+      "OPS-017",
+      "--branch-name",
+      "chore/OPS-017-source-compatibility-admission-reservation"
+    ],
+    [
+      "python",
+      "scripts/check-program-lifecycle-guards.py",
+      "--base-ref",
+      "22ab6a0668da2d64a016fccef2c3b5a634638a24",
+      "--head-ref",
+      "HEAD",
+      "--task",
+      "OPS-017",
+      "--branch-name",
+      "chore/OPS-017-source-compatibility-admission-reservation"
+    ],
+    [
+      "python",
+      "scripts/run-program-lifecycle-gate.py",
+      "--base-ref",
+      "22ab6a0668da2d64a016fccef2c3b5a634638a24",
+      "--head-ref",
+      "HEAD",
+      "--task",
+      "OPS-017",
+      "--branch-name",
+      "chore/OPS-017-source-compatibility-admission-reservation"
+    ],
+    [
+      "python",
+      "scripts/run-agent-coordination-gate.py",
+      "--base-ref",
+      "22ab6a0668da2d64a016fccef2c3b5a634638a24",
+      "--head-ref",
+      "HEAD",
+      "--task",
+      "OPS-017",
+      "--branch-name",
+      "chore/OPS-017-source-compatibility-admission-reservation"
+    ],
+    [
+      "python",
+      "scripts/check-program-plan-finalization.py",
+      "--base-ref",
+      "22ab6a0668da2d64a016fccef2c3b5a634638a24",
+      "--head-ref",
+      "HEAD",
+      "--task",
+      "OPS-017"
+    ],
+    [
+      "python",
+      "scripts/run-task-scope-gate.py",
+      "--task",
+      "OPS-017",
+      "--base",
+      "22ab6a0668da2d64a016fccef2c3b5a634638a24"
+    ],
+    [
+      "python",
+      "scripts/check-evidence.py",
+      "--task",
+      "OPS-017"
+    ],
+    [
+      "python",
+      "scripts/check-project-readiness.py"
+    ],
+    [
+      "python",
+      "scripts/check-markdown.py"
+    ]
+  ],
+  "currentSourceCommands": [
+    [
+      "git",
+      "diff",
+      "--check",
+      "a55680b9d06901729fcae7f35cb167b8b59d33f4...HEAD"
+    ],
+    [
+      "python",
+      "scripts/check-task-file.py",
+      "--task",
+      "OPS-017"
+    ],
+    [
+      "python",
+      "scripts/check-schemas.py"
+    ],
+    [
+      "python",
+      "scripts/check-program-plan-integrity.py",
+      "--base-ref",
+      "a55680b9d06901729fcae7f35cb167b8b59d33f4"
+    ],
+    [
+      "python",
+      "scripts/check-program-plan-history.py",
+      "--base-ref",
+      "a55680b9d06901729fcae7f35cb167b8b59d33f4",
+      "--head-ref",
+      "HEAD",
+      "--task",
+      "OPS-017",
+      "--branch-name",
+      "chore/OPS-017-source-compatibility-admission"
+    ],
+    [
+      "python",
+      "scripts/check-program-plan-transitions.py",
+      "--base-ref",
+      "a55680b9d06901729fcae7f35cb167b8b59d33f4",
+      "--head-ref",
+      "HEAD",
+      "--task",
+      "OPS-017",
+      "--branch-name",
+      "chore/OPS-017-source-compatibility-admission"
+    ],
+    [
+      "python",
+      "scripts/check-program-lifecycle-guards.py",
+      "--base-ref",
+      "a55680b9d06901729fcae7f35cb167b8b59d33f4",
+      "--head-ref",
+      "HEAD",
+      "--task",
+      "OPS-017",
+      "--branch-name",
+      "chore/OPS-017-source-compatibility-admission"
+    ],
+    [
+      "python",
+      "scripts/run-program-lifecycle-gate.py",
+      "--base-ref",
+      "a55680b9d06901729fcae7f35cb167b8b59d33f4",
+      "--head-ref",
+      "HEAD",
+      "--task",
+      "OPS-017",
+      "--branch-name",
+      "chore/OPS-017-source-compatibility-admission"
+    ],
+    [
+      "python",
+      "scripts/run-agent-coordination-gate.py",
+      "--base-ref",
+      "a55680b9d06901729fcae7f35cb167b8b59d33f4",
+      "--head-ref",
+      "HEAD",
+      "--task",
+      "OPS-017",
+      "--branch-name",
+      "chore/OPS-017-source-compatibility-admission"
+    ],
+    [
+      "python",
+      "scripts/check-program-plan-finalization.py",
+      "--base-ref",
+      "a55680b9d06901729fcae7f35cb167b8b59d33f4",
+      "--head-ref",
+      "HEAD",
+      "--task",
+      "OPS-017"
+    ],
+    [
+      "python",
+      "scripts/run-task-scope-gate.py",
+      "--task",
+      "OPS-017",
+      "--base",
+      "a55680b9d06901729fcae7f35cb167b8b59d33f4"
+    ],
+    [
+      "python",
+      "scripts/check-evidence.py",
+      "--task",
+      "OPS-017"
+    ],
+    [
+      "python",
+      "scripts/check-project-readiness.py"
+    ],
+    [
+      "python",
+      "scripts/check-markdown.py"
+    ]
+  ],
+  "originalTaskBodyAnd14Preserved": true,
+  "originalLease": {
+    "acquiredAt": "2026-10-29T09:16:44Z",
+    "expiresAt": "2026-11-05T09:16:44Z"
+  },
+  "original828NodesPreserved": true,
+  "allExistingAssertionsRetained": true,
+  "component73Passed": true,
+  "componentDiagnosticOnly": true,
+  "currentFixedSource14Executed": false,
+  "currentSourceWhole828Accepted": false,
+  "currentFullCiAccepted": false,
+  "sourceCommitted": false,
+  "normalReviewMayStart": false,
+  "highCapacityReleased": false,
+  "experimentApproved": false,
+  "createdAt": "2026-10-30T14:53:38.681116+00:00"
+}

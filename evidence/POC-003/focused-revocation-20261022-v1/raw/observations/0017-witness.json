@@ -1,0 +1,10 @@
+{
+  "requestId": "914d00737586496f86f77c3e1e2905a6",
+  "observedAt": "2026-10-22T14:28:25.458004Z",
+  "originRequestCount": 0,
+  "objectReadCount": 0,
+  "objectReadBytes": 0,
+  "activeOriginRequests": 0,
+  "originTransactions": [],
+  "gatewayTransactions": []
+}

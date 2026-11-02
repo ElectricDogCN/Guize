@@ -1,0 +1,12 @@
+{
+  "originalFeature": "3592f62f57d7b717e1f5ae6e203b9f5a679e7439",
+  "measuredRuntime": "15dcd6cd22a576821cdbe0f936002ad9a1be69e3",
+  "attempt": "011",
+  "originalApprovedAt": "2026-10-29T07:31:14Z",
+  "originalIndexSha256": "d49beaabebfee037938395f3a6913776bb070d8a910c2fe1f7bbbaddd7f7d76f",
+  "selectedResult": "evidence/POC-005/profiles/local-v1/v1/attempt-011/result.json",
+  "selectedResultSha256": "256f903851caae98454bd4fa288cdef6800da07dedf7bc72e9dfed6a266eb1d3",
+  "legacy010StillSeparate": true,
+  "reason": "Forward current-locator retirement for evolved code; historical3592 qualification preserved, no rebinding",
+  "newCurrentProfileAccepted": false
+}

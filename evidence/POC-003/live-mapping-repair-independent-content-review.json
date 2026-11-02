@@ -1,0 +1,20 @@
+{
+  "decision": "accepted intermediate mapping repair content only",
+  "actualReviewer": "/root/gz022_planning_independent_review",
+  "reviewedAt": "2026-10-22T17:26:36Z",
+  "authorHead": "e1231a80dfab6b30a6fcae800c1184b72299fa14",
+  "reviewedUncommittedContent": true,
+  "files": {
+    "lab.py": "062c1c1936a1face3b2c8a0df12d9695e2337ab00c9d6e6ea9e954539bb8551b",
+    "live_buffer_probe.py": "1e2f9d330d92382fdd8b4eb149f58f9dd9f8a645324aabafbcdb70c768eb3b39",
+    "test_live_component_native.py": "492d6b2c89d07929103a882cfd9b41f9ff2a82bc9332b6fa980daeddbd738270"
+  },
+  "mustFix": [],
+  "actualFailedArchiveFilesVerified": 28,
+  "actualFailedArchiveBytes": 34944,
+  "failureArchiveIndexSha256": "06e4bad7e095d359c2d8298518995f1069486b3c62c2b910eb094a36a150671c",
+  "experimentApproved": false,
+  "original15Accepted": false,
+  "qualifiedAccepted": false,
+  "integrationApproved": false
+}

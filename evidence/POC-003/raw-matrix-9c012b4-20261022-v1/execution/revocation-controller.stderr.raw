@@ -1,0 +1,20 @@
+Traceback (most recent call last):
+  File "/home/sur/.cache/guize-takeover/ops012-history-parser/poc/POC-03-ats-range/lab.py", line 445, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/home/sur/.cache/guize-takeover/ops012-history-parser/poc/POC-03-ats-range/lab.py", line 444, in main
+    else:serve(args.run_dir)
+         ^^^^^^^^^^^^^^^^^^^
+  File "/home/sur/.cache/guize-takeover/ops012-history-parser/poc/POC-03-ats-range/lab.py", line 411, in serve
+    origin=Server(('127.0.0.1',cfg['originPort']),Origin,state);servers.append(origin)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/sur/.cache/guize-takeover/ops012-history-parser/poc/POC-03-ats-range/lab.py", line 235, in __init__
+    def __init__(self,address,handler,state):self.state=state;super().__init__(address,handler)
+                                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/socketserver.py", line 457, in __init__
+    self.server_bind()
+  File "/usr/lib/python3.12/http/server.py", line 136, in server_bind
+    socketserver.TCPServer.server_bind(self)
+  File "/usr/lib/python3.12/socketserver.py", line 473, in server_bind
+    self.socket.bind(self.server_address)
+OSError: [Errno 98] Address already in use

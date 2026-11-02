@@ -1,0 +1,137 @@
+{
+  "requestId": "952aad0ad51149b08e1f499882bbba56",
+  "case": "slice",
+  "userId": "lab-user-a",
+  "url": "http://127.0.0.1:18233/media/object.bin",
+  "sourceVersion": "base",
+  "sourceSha256": "938a8bc3e0a64184f1551bff0c500dc891366ead8f30f8f83753587e763c1c26",
+  "aclVersion": "poc003-local-acl-v1",
+  "authorizationContext": "a9459da427d894a5b78545d7ff0e509f",
+  "requestRange": "bytes=38797312-39845887",
+  "ifRange": "",
+  "bodyRef": "bodies/slice-952aad0ad51149b08e1f499882bbba56.bin",
+  "configuredOriginFault": null,
+  "collectorRetryCount": 0,
+  "statusCode": 206,
+  "responseHeaders": [
+    [
+      "Server",
+      "BaseHTTP/0.6 Python/3.12.3"
+    ],
+    [
+      "Date",
+      "Thu, 22 Oct 2026 14:56:20 GMT"
+    ],
+    [
+      "Content-Type",
+      "application/octet-stream"
+    ],
+    [
+      "Content-Length",
+      "1048576"
+    ],
+    [
+      "Content-Range",
+      "bytes 38797312-39845887/67108864"
+    ],
+    [
+      "ETag",
+      "\"sha256-938a8bc3e0a64184f1551bff0c500dc891366ead8f30f8f83753587e763c1c26\""
+    ],
+    [
+      "Accept-Ranges",
+      "bytes"
+    ],
+    [
+      "Via",
+      "http/1.1 traffic_server (ApacheTrafficServer/9.2.3 [uScHs f p eN:t cCHp s ]), http/1.1 traffic_server (ApacheTrafficServer/9.2.3 [uSc s f p eN:t c  p sS])"
+    ],
+    [
+      "X-Lab-ATS-Cache",
+      "none"
+    ],
+    [
+      "Last-Modified",
+      "Mon, 19 Oct 2026 00:00:00 GMT"
+    ],
+    [
+      "X-Lab-Request-ID",
+      "952aad0ad51149b08e1f499882bbba56"
+    ],
+    [
+      "X-Lab-Source-Version",
+      "base"
+    ],
+    [
+      "X-Lab-Cache-Context",
+      "a9459da427d894a5b78545d7ff0e509f"
+    ],
+    [
+      "Connection",
+      "close"
+    ]
+  ],
+  "responseHeadersAt": "2026-10-22T14:56:20.451086Z",
+  "firstBodyByteAt": "2026-10-22T14:56:20.451752Z",
+  "firstBodyByteLatencyMs": 3.849558997899294,
+  "firstBodyChunkAt": "2026-10-22T14:56:20.451766Z",
+  "finishedAt": "2026-10-22T14:56:20.459340Z",
+  "bodyBytes": 1048576,
+  "clientChunkPeak": 65536,
+  "transportCompleted": true,
+  "originObservation": {
+    "requestId": "952aad0ad51149b08e1f499882bbba56",
+    "observedAt": "2026-10-22T14:56:20.614846Z",
+    "originRequestCount": 0,
+    "objectReadCount": 0,
+    "objectReadBytes": 0,
+    "activeOriginRequests": 0,
+    "originTransactions": [],
+    "gatewayTransactions": [
+      {
+        "requestId": "952aad0ad51149b08e1f499882bbba56",
+        "case": "slice",
+        "startedAt": "2026-10-22T14:56:20.448561Z",
+        "userId": "lab-user-a",
+        "sourceVersion": "base",
+        "aclVersion": "poc003-local-acl-v1",
+        "requestRange": "bytes=38797312-39845887",
+        "ifRange": "",
+        "atsRequestSent": true,
+        "responseByteCount": 1048576,
+        "gatewayChunkPeak": 65536,
+        "grantObservation": {
+          "grantId": "poc003-grant-lab-user-a",
+          "principalId": "lab-user-a",
+          "validFrom": "2026-10-22T14:55:55.818086Z",
+          "validUntil": "2026-10-22T15:16:00.818086Z",
+          "revokedAt": null,
+          "authorizedAt": "2026-10-22T14:56:20.448595Z",
+          "reason": "allowed"
+        },
+        "cacheContextPath": "/ctx/a9459da427d894a5b78545d7ff0e509f/base/object.bin",
+        "statusCode": 206,
+        "atsResponseHeadersAt": "2026-10-22T14:56:20.450829Z",
+        "atsExpectedBodyBytes": 1048576,
+        "upstreamReadTimeoutSeconds": 10,
+        "transportCompleted": true,
+        "firstBodyChunkAt": "2026-10-22T14:56:20.451736Z",
+        "finishedAt": "2026-10-22T14:56:20.457257Z"
+      }
+    ]
+  },
+  "startedAt": "2026-10-22T14:56:20.447902Z",
+  "responseHeaderLatencyMs": 3.1799249991308898,
+  "elapsedMs": 11.438268993515521,
+  "bodySha256": "9eccbde4671fb636eac91571d9322e94b7211f6e6270139af681895d664dfd66",
+  "originPollingSettled": true,
+  "originPollingScope": "Only these timestamped snapshots; no assertion about unobserved later I/O.",
+  "sourceIntervalComparison": {
+    "expectedStatus": 206,
+    "start": 38797312,
+    "end": 39845887,
+    "expectedBytes": 1048576,
+    "expectedSha256": "9eccbde4671fb636eac91571d9322e94b7211f6e6270139af681895d664dfd66",
+    "actualBytesEqual": true
+  }
+}

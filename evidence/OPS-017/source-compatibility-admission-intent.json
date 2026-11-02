@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "kind": "one_versioned_poc_source_compatibility_repair_authorization_intent",
+  "authorityTaskId": "OPS-017",
+  "successorTaskId": "OPS-018",
+  "reservationParent": "22ab6a0668da2d64a016fccef2c3b5a634638a24",
+  "issue": 168,
+  "authorityClaims": [
+    "AGENTS.md",
+    "scripts/poc-contract-repair-admission.py",
+    "scripts/check-program-lifecycle-guards.py",
+    "tests/governance/test_poc_contract_repair_admission.py"
+  ],
+  "repairPaths": [
+    "specs/poc/program.schema.yaml",
+    "specs/poc/program.yaml",
+    "specs/poc/check_program.py",
+    "specs/poc/test_program.py",
+    "docs/18-testing-and-acceptance.md"
+  ],
+  "originalAuthorityRewriteAllowed": false,
+  "repairRequiresIndependentReservation": true,
+  "repairRequiresActualFreezeVerificationAndIndependentThaw": true,
+  "oldIndexStrictRulePreserved": true,
+  "historicalExecutionRebindingAllowed": false,
+  "requiredSemantics": "versioned immutable complete dependency closure and separately approved current compatibility",
+  "thresholdsProductionPlatformAndFullCiUnchanged": true,
+  "compatibilityMigrationGuaranteed": false
+}

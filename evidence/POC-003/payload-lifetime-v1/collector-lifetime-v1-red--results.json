@@ -1,0 +1,25 @@
+{
+  "argv": [
+    "C:\\ProgramData\\anaconda3\\python.exe",
+    "-X",
+    "utf8",
+    "-B",
+    "-m",
+    "unittest",
+    "test_payload_lifetime.CollectorLifetimeTests",
+    "-v"
+  ],
+  "pid": 49248,
+  "exitCode": 1,
+  "actualWaitCompleted": true,
+  "sourcePins": {
+    "collect.py": {
+      "bytes": 13833,
+      "sha256": "f28b3dbc0e8d295d125fe67f5c863a4a2f5385df4db1a76780025b07101e7c25"
+    },
+    "test_payload_lifetime.py": {
+      "bytes": 13748,
+      "sha256": "9a5309f9f05018f8c5c27d08f754a4eb4dd54c5cbb1115d14fe8122a6b0dda9e"
+    }
+  }
+}

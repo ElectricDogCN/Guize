@@ -1,0 +1,23 @@
+Source Commit: a21a47693af9705ca659c737d4c5c7e41e736ec1
+Command: /home/sur/.cache/guize-takeover/python31117-official-runtime-v1/venv/bin/python -B -m pytest -p no:cacheprovider -v -ra tests/governance/test_poc_contract_repair_admission.py::TestProspectiveScopeAmendment --junitxml=/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops017-scope-amendment-a21a476-new-regressions/new-regressions.xml
+============================= test session starts ==============================
+platform linux -- Python 3.11.17, pytest-8.4.2, pluggy-1.7.0 -- /home/sur/.cache/guize-takeover/python31117-official-runtime-v1/venv/bin/python
+rootdir: /home/sur/.cache/guize-takeover/ops017-scope-amendment-a21a476
+collecting ... collected 11 items
+
+tests/governance/test_poc_contract_repair_admission.py::TestProspectiveScopeAmendment::test_authority_rejects_record_deleted_after_amended_implementation PASSED [  9%]
+tests/governance/test_poc_contract_repair_admission.py::TestProspectiveScopeAmendment::test_canonical_integration_admits_later_registered_write PASSED [ 18%]
+tests/governance/test_poc_contract_repair_admission.py::TestProspectiveScopeAmendment::test_clean_main_import_into_old_peer_does_not_become_local_write PASSED [ 27%]
+tests/governance/test_poc_contract_repair_admission.py::TestProspectiveScopeAmendment::test_declaration_does_not_grant_write_before_main PASSED [ 36%]
+tests/governance/test_poc_contract_repair_admission.py::TestProspectiveScopeAmendment::test_late_scope_record_introduction_rejected PASSED [ 45%]
+tests/governance/test_poc_contract_repair_admission.py::TestProspectiveScopeAmendment::test_no_task_lifecycle_rejects_record_deletion PASSED [ 54%]
+tests/governance/test_poc_contract_repair_admission.py::TestProspectiveScopeAmendment::test_normal_completed_authority_uses_latest_ph_only_code_identity PASSED [ 63%]
+tests/governance/test_poc_contract_repair_admission.py::TestProspectiveScopeAmendment::test_ph_edit_restore_before_integration_rejected PASSED [ 72%]
+tests/governance/test_poc_contract_repair_admission.py::TestProspectiveScopeAmendment::test_scope_record_edit_restore_in_introduced_history_rejected PASSED [ 81%]
+tests/governance/test_poc_contract_repair_admission.py::TestProspectiveScopeAmendment::test_side_or_virtual_merge_does_not_grant_scope PASSED [ 90%]
+tests/governance/test_poc_contract_repair_admission.py::TestProspectiveScopeAmendment::test_unrecorded_extended_declaration_denied PASSED [100%]
+
+- generated xml file: /mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/ops017-scope-amendment-a21a476-new-regressions/new-regressions.xml -
+============================= 11 passed in 43.56s ==============================
+
+Exit Code: 0

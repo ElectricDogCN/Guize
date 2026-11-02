@@ -1,0 +1,350 @@
+{
+  "kind": "ACTUAL_SYNCHRONOUS_REQUEST_OVERLAP_COMPONENT_CHECKS_NOT_CAPACITY_OR_POC_QUALIFICATION",
+  "platform": "linux",
+  "pythonVersion": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+  "before": {
+    "poc/POC-03-ats-range/lab.py": {
+      "bytes": 48543,
+      "sha256": "3ea0384d14c3507f8cfdab70a9355b61c5709035b3e3d3fb6730cdf14bd134d7"
+    },
+    "poc/POC-03-ats-range/cache_probe.py": {
+      "bytes": 16894,
+      "sha256": "a2b083dc907a8ece5a20c35ca15838f190a9d8577cdb2514369f4724dbd55b23"
+    },
+    "poc/POC-03-ats-range/collect.py": {
+      "bytes": 14804,
+      "sha256": "f43b80321b1760266745c860a4f534e596384b7044d57750779175e82c5dffe1"
+    },
+    "poc/POC-03-ats-range/test_payload_lifetime.py": {
+      "bytes": 13873,
+      "sha256": "2f5cc9a4ee25ff2087d402c0956e9cff40225623aac319d5d8f12773000b4dc2"
+    },
+    "poc/POC-03-ats-range/test_gateway_native.py": {
+      "bytes": 4608,
+      "sha256": "5c3a73a1177a73d93756e410ffd75ce10fe89403586d6ccfbeaaf1db63ad7eec"
+    },
+    "poc/POC-03-ats-range/test_request_concurrency.py": {
+      "bytes": 6438,
+      "sha256": "4201206322be396eddfeb8c9dc311dae17308b7b526cbc929e742688df4656cb"
+    },
+    "poc/POC-03-ats-range/test_input_profile.py": {
+      "bytes": 13011,
+      "sha256": "8ec5c0c2369ead6454b92668c6e22a062a3a47bafb85679325ebb64af4ef025b"
+    }
+  },
+  "after": {
+    "poc/POC-03-ats-range/lab.py": {
+      "bytes": 48543,
+      "sha256": "3ea0384d14c3507f8cfdab70a9355b61c5709035b3e3d3fb6730cdf14bd134d7"
+    },
+    "poc/POC-03-ats-range/cache_probe.py": {
+      "bytes": 16894,
+      "sha256": "a2b083dc907a8ece5a20c35ca15838f190a9d8577cdb2514369f4724dbd55b23"
+    },
+    "poc/POC-03-ats-range/collect.py": {
+      "bytes": 14804,
+      "sha256": "f43b80321b1760266745c860a4f534e596384b7044d57750779175e82c5dffe1"
+    },
+    "poc/POC-03-ats-range/test_payload_lifetime.py": {
+      "bytes": 13873,
+      "sha256": "2f5cc9a4ee25ff2087d402c0956e9cff40225623aac319d5d8f12773000b4dc2"
+    },
+    "poc/POC-03-ats-range/test_gateway_native.py": {
+      "bytes": 4608,
+      "sha256": "5c3a73a1177a73d93756e410ffd75ce10fe89403586d6ccfbeaaf1db63ad7eec"
+    },
+    "poc/POC-03-ats-range/test_request_concurrency.py": {
+      "bytes": 6438,
+      "sha256": "4201206322be396eddfeb8c9dc311dae17308b7b526cbc929e742688df4656cb"
+    },
+    "poc/POC-03-ats-range/test_input_profile.py": {
+      "bytes": 13011,
+      "sha256": "8ec5c0c2369ead6454b92668c6e22a062a3a47bafb85679325ebb64af4ef025b"
+    }
+  },
+  "sourceBytesUnchanged": true,
+  "commands": [
+    {
+      "name": "test_request_concurrency.py",
+      "argv": [
+        "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+        "-X",
+        "utf8",
+        "-B",
+        "poc/POC-03-ats-range/test_request_concurrency.py"
+      ],
+      "pid": 304388,
+      "exitCode": 0,
+      "actualWaitCompleted": true,
+      "startedAt": "2026-10-28T00:01:50.656370+00:00",
+      "finishedAt": "2026-10-28T00:01:50.923696+00:00",
+      "raw": {
+        ".stdout.raw": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        ".stderr.raw": {
+          "bytes": 788,
+          "sha256": "e2da45e0605cb449b878bac7b700f528a9d98ab7ff32164b46b56157f71114fd"
+        }
+      }
+    },
+    {
+      "name": "test_payload_lifetime.py",
+      "argv": [
+        "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+        "-X",
+        "utf8",
+        "-B",
+        "poc/POC-03-ats-range/test_payload_lifetime.py"
+      ],
+      "pid": 304401,
+      "exitCode": 0,
+      "actualWaitCompleted": true,
+      "startedAt": "2026-10-28T00:01:50.933648+00:00",
+      "finishedAt": "2026-10-28T00:01:51.542129+00:00",
+      "raw": {
+        ".stdout.raw": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        ".stderr.raw": {
+          "bytes": 1957,
+          "sha256": "671d1109a1bc4c6735f955a8dec5c22356017a383e3647a1624ec0853cde1d9a"
+        }
+      }
+    },
+    {
+      "name": "test_lab.py",
+      "argv": [
+        "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+        "-X",
+        "utf8",
+        "-B",
+        "poc/POC-03-ats-range/test_lab.py"
+      ],
+      "pid": 304402,
+      "exitCode": 0,
+      "actualWaitCompleted": true,
+      "startedAt": "2026-10-28T00:01:51.551797+00:00",
+      "finishedAt": "2026-10-28T00:01:51.778395+00:00",
+      "raw": {
+        ".stdout.raw": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        ".stderr.raw": {
+          "bytes": 1168,
+          "sha256": "20b5d5a7ce893b6919f7e63b33501c7e18316f393acaf4781936c1e28e78cb46"
+        }
+      }
+    },
+    {
+      "name": "test_revocation_binding.py",
+      "argv": [
+        "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+        "-X",
+        "utf8",
+        "-B",
+        "poc/POC-03-ats-range/test_revocation_binding.py"
+      ],
+      "pid": 304403,
+      "exitCode": 0,
+      "actualWaitCompleted": true,
+      "startedAt": "2026-10-28T00:01:51.789052+00:00",
+      "finishedAt": "2026-10-28T00:01:52.083542+00:00",
+      "raw": {
+        ".stdout.raw": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        ".stderr.raw": {
+          "bytes": 424,
+          "sha256": "534ec7ff4dfcd56668c203cf098c5f3a0beace0135b32431fec744a422c4f9e6"
+        }
+      }
+    },
+    {
+      "name": "test_cache_body_bounds.py",
+      "argv": [
+        "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+        "-X",
+        "utf8",
+        "-B",
+        "poc/POC-03-ats-range/test_cache_body_bounds.py"
+      ],
+      "pid": 304404,
+      "exitCode": 0,
+      "actualWaitCompleted": true,
+      "startedAt": "2026-10-28T00:01:52.095397+00:00",
+      "finishedAt": "2026-10-28T00:01:52.382292+00:00",
+      "raw": {
+        ".stdout.raw": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        ".stderr.raw": {
+          "bytes": 589,
+          "sha256": "6a6bc0bd50d77475c6104b915411eb314fe3a29937dc6a737511b7f61e5d204c"
+        }
+      }
+    },
+    {
+      "name": "test_cache_probe.py",
+      "argv": [
+        "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+        "-X",
+        "utf8",
+        "-B",
+        "poc/POC-03-ats-range/test_cache_probe.py"
+      ],
+      "pid": 304405,
+      "exitCode": 0,
+      "actualWaitCompleted": true,
+      "startedAt": "2026-10-28T00:01:52.392532+00:00",
+      "finishedAt": "2026-10-28T00:01:52.639993+00:00",
+      "raw": {
+        ".stdout.raw": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        ".stderr.raw": {
+          "bytes": 746,
+          "sha256": "5163b9a2c651f06ced124134524ee04f43bb4d6fbf3236ed629b0d22273316d6"
+        }
+      }
+    },
+    {
+      "name": "test_input_profile.py",
+      "argv": [
+        "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+        "-X",
+        "utf8",
+        "-B",
+        "poc/POC-03-ats-range/test_input_profile.py"
+      ],
+      "pid": 304406,
+      "exitCode": 0,
+      "actualWaitCompleted": true,
+      "startedAt": "2026-10-28T00:01:52.651508+00:00",
+      "finishedAt": "2026-10-28T00:01:53.346956+00:00",
+      "raw": {
+        ".stdout.raw": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        ".stderr.raw": {
+          "bytes": 1547,
+          "sha256": "b6fe8e5378a1b26eb338b0b81b582b00af47d7cec8b0ad1e5d5d7d03bc4f7554"
+        }
+      }
+    },
+    {
+      "name": "test_representative_cache.py",
+      "argv": [
+        "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+        "-X",
+        "utf8",
+        "-B",
+        "poc/POC-03-ats-range/test_representative_cache.py"
+      ],
+      "pid": 304407,
+      "exitCode": 0,
+      "actualWaitCompleted": true,
+      "startedAt": "2026-10-28T00:01:53.359842+00:00",
+      "finishedAt": "2026-10-28T00:01:53.615099+00:00",
+      "raw": {
+        ".stdout.raw": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        ".stderr.raw": {
+          "bytes": 577,
+          "sha256": "3274332076eabc879c06ec758a1b1967a9e2cd06e3487702c482ee8e99486f27"
+        }
+      }
+    },
+    {
+      "name": "test_gateway_native.py",
+      "argv": [
+        "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+        "-X",
+        "utf8",
+        "-B",
+        "poc/POC-03-ats-range/test_gateway_native.py"
+      ],
+      "pid": 304408,
+      "exitCode": 0,
+      "actualWaitCompleted": true,
+      "startedAt": "2026-10-28T00:01:53.625038+00:00",
+      "finishedAt": "2026-10-28T00:01:53.863549+00:00",
+      "raw": {
+        ".stdout.raw": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        ".stderr.raw": {
+          "bytes": 633,
+          "sha256": "11de0ced483fbaa65f26fcfc3a0124adfc5abd90355427249c090411793c1a38"
+        }
+      }
+    },
+    {
+      "name": "test_http_timing_native.py",
+      "argv": [
+        "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+        "-X",
+        "utf8",
+        "-B",
+        "poc/POC-03-ats-range/test_http_timing_native.py"
+      ],
+      "pid": 304415,
+      "exitCode": 0,
+      "actualWaitCompleted": true,
+      "startedAt": "2026-10-28T00:01:53.873168+00:00",
+      "finishedAt": "2026-10-28T00:01:54.270140+00:00",
+      "raw": {
+        ".stdout.raw": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        ".stderr.raw": {
+          "bytes": 408,
+          "sha256": "a3cfd8f05c44972c26ee60416b6d794de263c930d500c41b5f34f292b13ec6e4"
+        }
+      }
+    },
+    {
+      "name": "test_representative_cache_native.py",
+      "argv": [
+        "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+        "-X",
+        "utf8",
+        "-B",
+        "poc/POC-03-ats-range/test_representative_cache_native.py"
+      ],
+      "pid": 304418,
+      "exitCode": 0,
+      "actualWaitCompleted": true,
+      "startedAt": "2026-10-28T00:01:54.282805+00:00",
+      "finishedAt": "2026-10-28T00:01:55.237156+00:00",
+      "raw": {
+        ".stdout.raw": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        ".stderr.raw": {
+          "bytes": 778,
+          "sha256": "d68c814ddd0870e2f1d76dc33d5e42c4ddf980444e98e4697a4fcdbad7e5ac15"
+        }
+      }
+    }
+  ],
+  "allRequestedExecuted": true,
+  "actualAllZero": true,
+  "atsExecuted": false,
+  "mediaExperimentExecuted": false,
+  "aggregateCapacityProofComplete": false,
+  "sourceQualified": false,
+  "formalPocAccepted": false
+}

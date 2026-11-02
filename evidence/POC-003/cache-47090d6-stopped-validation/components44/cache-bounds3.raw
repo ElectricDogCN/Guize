@@ -1,0 +1,12 @@
+Source Commit: 47090d6f4590565932475fb3fc22e9d464eebbb7
+Command: /home/sur/.cache/guize-takeover/governance-venv/bin/python -B poc/POC-03-ats-range/test_cache_body_bounds.py
+test_exact_and_partial_exports_preserve_every_returned_byte (__main__.CacheBodyBoundsTests.test_exact_and_partial_exports_preserve_every_returned_byte) ... ok
+test_growth_between_size_check_and_open_is_rejected_without_trimming (__main__.CacheBodyBoundsTests.test_growth_between_size_check_and_open_is_rejected_without_trimming) ... ok
+test_oversized_export_is_rejected_before_opening_its_body (__main__.CacheBodyBoundsTests.test_oversized_export_is_rejected_before_opening_its_body) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.007s
+
+OK
+
+Exit Code: 0

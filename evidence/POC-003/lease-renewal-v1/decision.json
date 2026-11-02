@@ -1,0 +1,35 @@
+{
+  "kind": "prospective_reserved_task_lease_renewal_decision",
+  "task": "POC-003",
+  "issue": 131,
+  "decidedAt": "2026-10-29T11:01:07Z",
+  "decisionActor": "/root",
+  "authority": "User directly delegated project decisions, reviews, normal merges and ended remote branch cleanup in this conversation; Root records a new prospective coordination decision without relabeling original Registry actors.",
+  "base": "dcfefbeca496b43d40c4145c751191bdd386375d",
+  "actualBranch": "chore/POC-003-lease-renewal-20261029",
+  "originalLease": {
+    "acquiredAt": "2026-10-22T12:47:06Z",
+    "expiresAt": "2026-10-29T12:47:06Z"
+  },
+  "proposedLease": {
+    "acquiredAt": "2026-10-29T11:01:07Z",
+    "expiresAt": "2026-11-05T11:01:07Z"
+  },
+  "reason": "Continue real POC003 implementation and verification while preserving the original full matrix, 8MiB budget, separate real revocation CLI and independent review.",
+  "leaseAcceptedOnMain": false,
+  "sourceGatesPassed": false,
+  "hostedCiPassed": false,
+  "experimentApproved": false,
+  "taskStatusUnchanged": "reserved",
+  "taskAgentRoleUnchanged": "coordinator",
+  "originalWorkBranchUnchanged": "chore/POC-003-ats-range",
+  "originalCreationBaseUnchanged": "44e5200ed506d30c0abc83ca38f1d6912cbab1c1",
+  "historicalTaskBodyUnchanged": true,
+  "oldExperimentalApprovalOrWindowExtended": false,
+  "newTaskScopeOrThresholdGranted": false,
+  "originalMatrixCollectionSuccessIsNotPocAcceptance": true,
+  "actualMatrixNativeConservativeCapacityMaximumBytes": 84242432,
+  "approvedMaximumBufferedBytes": 8388608,
+  "partialDiscardProofIndependentReviewPending": true,
+  "integrationRequirement": "Candidate source checks, full same-head hosted CI, independent review, ordinary merge, actual main checks and full push CI must be accepted before old expiry to claim continuous lease authority."
+}

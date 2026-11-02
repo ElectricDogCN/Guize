@@ -1,0 +1,182 @@
+Current planned14; all UNEXECUTED at preparation:
+git diff --check 22ab6a0668da2d64a016fccef2c3b5a634638a24...HEAD
+python scripts/check-task-file.py --task OPS-017
+python scripts/check-schemas.py
+python scripts/check-program-plan-integrity.py --base-ref 22ab6a0668da2d64a016fccef2c3b5a634638a24
+python scripts/check-program-plan-history.py --base-ref 22ab6a0668da2d64a016fccef2c3b5a634638a24 --head-ref HEAD --task OPS-017 --branch-name chore/OPS-017-source-compatibility-admission-reservation
+python scripts/check-program-plan-transitions.py --base-ref 22ab6a0668da2d64a016fccef2c3b5a634638a24 --head-ref HEAD --task OPS-017 --branch-name chore/OPS-017-source-compatibility-admission-reservation
+python scripts/check-program-lifecycle-guards.py --base-ref 22ab6a0668da2d64a016fccef2c3b5a634638a24 --head-ref HEAD --task OPS-017 --branch-name chore/OPS-017-source-compatibility-admission-reservation
+python scripts/run-program-lifecycle-gate.py --base-ref 22ab6a0668da2d64a016fccef2c3b5a634638a24 --head-ref HEAD --task OPS-017 --branch-name chore/OPS-017-source-compatibility-admission-reservation
+python scripts/run-agent-coordination-gate.py --base-ref 22ab6a0668da2d64a016fccef2c3b5a634638a24 --head-ref HEAD --task OPS-017 --branch-name chore/OPS-017-source-compatibility-admission-reservation
+python scripts/check-program-plan-finalization.py --base-ref 22ab6a0668da2d64a016fccef2c3b5a634638a24 --head-ref HEAD --task OPS-017
+python scripts/run-task-scope-gate.py --task OPS-017 --base 22ab6a0668da2d64a016fccef2c3b5a634638a24
+python scripts/check-evidence.py --task OPS-017
+python scripts/check-project-readiness.py
+python scripts/check-markdown.py
+
+
+# Current fixture rework / chore/OPS-017-source-compatibility-admission / base 877d1b0fbd717f71fa9ad1e2ea4db4723ded3bcc / fixed-source checks UNEXECUTED
+git diff --check 877d1b0fbd717f71fa9ad1e2ea4db4723ded3bcc...HEAD
+python scripts/check-task-file.py --task OPS-017
+python scripts/check-schemas.py
+python scripts/check-program-plan-integrity.py --base-ref 877d1b0fbd717f71fa9ad1e2ea4db4723ded3bcc
+python scripts/check-program-plan-history.py --base-ref 877d1b0fbd717f71fa9ad1e2ea4db4723ded3bcc --head-ref HEAD --task OPS-017 --branch-name chore/OPS-017-source-compatibility-admission
+python scripts/check-program-plan-transitions.py --base-ref 877d1b0fbd717f71fa9ad1e2ea4db4723ded3bcc --head-ref HEAD --task OPS-017 --branch-name chore/OPS-017-source-compatibility-admission
+python scripts/check-program-lifecycle-guards.py --base-ref 877d1b0fbd717f71fa9ad1e2ea4db4723ded3bcc --head-ref HEAD --task OPS-017 --branch-name chore/OPS-017-source-compatibility-admission
+python scripts/run-program-lifecycle-gate.py --base-ref 877d1b0fbd717f71fa9ad1e2ea4db4723ded3bcc --head-ref HEAD --task OPS-017 --branch-name chore/OPS-017-source-compatibility-admission
+python scripts/run-agent-coordination-gate.py --base-ref 877d1b0fbd717f71fa9ad1e2ea4db4723ded3bcc --head-ref HEAD --task OPS-017 --branch-name chore/OPS-017-source-compatibility-admission
+python scripts/check-program-plan-finalization.py --base-ref 877d1b0fbd717f71fa9ad1e2ea4db4723ded3bcc --head-ref HEAD --task OPS-017
+python scripts/run-task-scope-gate.py --task OPS-017 --base 877d1b0fbd717f71fa9ad1e2ea4db4723ded3bcc
+python scripts/check-evidence.py --task OPS-017
+python scripts/check-project-readiness.py
+python scripts/check-markdown.py
+
+
+Current candidate base-alignment amendment: Foundation active Task/Registry baseSha must match the audited integration base. The earlier11-path draft omitted this mandatory mutable synchronization and is superseded by the13-path inventory. Only Own two baseSha scalars now advance7996 to877; original Task body/14 commands, roles/branch/lease/four claims, Program, foreign objects, intent, frozen files and ledger stay exact. Candidate test SHA3344 and all actual development results retain their original overlay context; fixed-source checks remain pending. Earlier draft and its complete physical snapshots are preserved outside Git.
+
+
+# Current authority reuse / target 877d1b0fbd717f71fa9ad1e2ea4db4723ded3bcc / fixed new-source14 UNEXECUTED
+git diff --check 877d1b0fbd717f71fa9ad1e2ea4db4723ded3bcc...HEAD
+python scripts/check-task-file.py --task OPS-017
+python scripts/check-schemas.py
+python scripts/check-program-plan-integrity.py --base-ref 877d1b0fbd717f71fa9ad1e2ea4db4723ded3bcc
+python scripts/check-program-plan-history.py --base-ref 877d1b0fbd717f71fa9ad1e2ea4db4723ded3bcc --head-ref HEAD --task OPS-017 --branch-name chore/OPS-017-source-compatibility-admission
+python scripts/check-program-plan-transitions.py --base-ref 877d1b0fbd717f71fa9ad1e2ea4db4723ded3bcc --head-ref HEAD --task OPS-017 --branch-name chore/OPS-017-source-compatibility-admission
+python scripts/check-program-lifecycle-guards.py --base-ref 877d1b0fbd717f71fa9ad1e2ea4db4723ded3bcc --head-ref HEAD --task OPS-017 --branch-name chore/OPS-017-source-compatibility-admission
+python scripts/run-program-lifecycle-gate.py --base-ref 877d1b0fbd717f71fa9ad1e2ea4db4723ded3bcc --head-ref HEAD --task OPS-017 --branch-name chore/OPS-017-source-compatibility-admission
+python scripts/run-agent-coordination-gate.py --base-ref 877d1b0fbd717f71fa9ad1e2ea4db4723ded3bcc --head-ref HEAD --task OPS-017 --branch-name chore/OPS-017-source-compatibility-admission
+python scripts/check-program-plan-finalization.py --base-ref 877d1b0fbd717f71fa9ad1e2ea4db4723ded3bcc --head-ref HEAD --task OPS-017
+python scripts/run-task-scope-gate.py --task OPS-017 --base 877d1b0fbd717f71fa9ad1e2ea4db4723ded3bcc
+python scripts/check-evidence.py --task OPS-017
+python scripts/check-project-readiness.py
+python scripts/check-markdown.py
+
+
+# Current Registry batch / target 877d1b0fbd717f71fa9ad1e2ea4db4723ded3bcc / fixed new-source14 UNEXECUTED
+git diff --check 877d1b0fbd717f71fa9ad1e2ea4db4723ded3bcc...HEAD
+python scripts/check-task-file.py --task OPS-017
+python scripts/check-schemas.py
+python scripts/check-program-plan-integrity.py --base-ref 877d1b0fbd717f71fa9ad1e2ea4db4723ded3bcc
+python scripts/check-program-plan-history.py --base-ref 877d1b0fbd717f71fa9ad1e2ea4db4723ded3bcc --head-ref HEAD --task OPS-017 --branch-name chore/OPS-017-source-compatibility-admission
+python scripts/check-program-plan-transitions.py --base-ref 877d1b0fbd717f71fa9ad1e2ea4db4723ded3bcc --head-ref HEAD --task OPS-017 --branch-name chore/OPS-017-source-compatibility-admission
+python scripts/check-program-lifecycle-guards.py --base-ref 877d1b0fbd717f71fa9ad1e2ea4db4723ded3bcc --head-ref HEAD --task OPS-017 --branch-name chore/OPS-017-source-compatibility-admission
+python scripts/run-program-lifecycle-gate.py --base-ref 877d1b0fbd717f71fa9ad1e2ea4db4723ded3bcc --head-ref HEAD --task OPS-017 --branch-name chore/OPS-017-source-compatibility-admission
+python scripts/run-agent-coordination-gate.py --base-ref 877d1b0fbd717f71fa9ad1e2ea4db4723ded3bcc --head-ref HEAD --task OPS-017 --branch-name chore/OPS-017-source-compatibility-admission
+python scripts/check-program-plan-finalization.py --base-ref 877d1b0fbd717f71fa9ad1e2ea4db4723ded3bcc --head-ref HEAD --task OPS-017
+python scripts/run-task-scope-gate.py --task OPS-017 --base 877d1b0fbd717f71fa9ad1e2ea4db4723ded3bcc
+python scripts/check-evidence.py --task OPS-017
+python scripts/check-project-readiness.py
+python scripts/check-markdown.py
+
+# New fixed source14 UNEXECUTED / target a55680b9d06901729fcae7f35cb167b8b59d33f4
+git diff --check a55680b9d06901729fcae7f35cb167b8b59d33f4...HEAD
+python scripts/check-task-file.py --task OPS-017
+python scripts/check-schemas.py
+python scripts/check-program-plan-integrity.py --base-ref a55680b9d06901729fcae7f35cb167b8b59d33f4
+python scripts/check-program-plan-history.py --base-ref a55680b9d06901729fcae7f35cb167b8b59d33f4 --head-ref HEAD --task OPS-017 --branch-name chore/OPS-017-source-compatibility-admission
+python scripts/check-program-plan-transitions.py --base-ref a55680b9d06901729fcae7f35cb167b8b59d33f4 --head-ref HEAD --task OPS-017 --branch-name chore/OPS-017-source-compatibility-admission
+python scripts/check-program-lifecycle-guards.py --base-ref a55680b9d06901729fcae7f35cb167b8b59d33f4 --head-ref HEAD --task OPS-017 --branch-name chore/OPS-017-source-compatibility-admission
+python scripts/run-program-lifecycle-gate.py --base-ref a55680b9d06901729fcae7f35cb167b8b59d33f4 --head-ref HEAD --task OPS-017 --branch-name chore/OPS-017-source-compatibility-admission
+python scripts/run-agent-coordination-gate.py --base-ref a55680b9d06901729fcae7f35cb167b8b59d33f4 --head-ref HEAD --task OPS-017 --branch-name chore/OPS-017-source-compatibility-admission
+python scripts/check-program-plan-finalization.py --base-ref a55680b9d06901729fcae7f35cb167b8b59d33f4 --head-ref HEAD --task OPS-017
+python scripts/run-task-scope-gate.py --task OPS-017 --base a55680b9d06901729fcae7f35cb167b8b59d33f4
+python scripts/check-evidence.py --task OPS-017
+python scripts/check-project-readiness.py
+python scripts/check-markdown.py
+
+
+# New loader source14 UNEXECUTED / target a55680b9d06901729fcae7f35cb167b8b59d33f4
+git diff --check a55680b9d06901729fcae7f35cb167b8b59d33f4...HEAD
+python scripts/check-task-file.py --task OPS-017
+python scripts/check-schemas.py
+python scripts/check-program-plan-integrity.py --base-ref a55680b9d06901729fcae7f35cb167b8b59d33f4
+python scripts/check-program-plan-history.py --base-ref a55680b9d06901729fcae7f35cb167b8b59d33f4 --head-ref HEAD --task OPS-017 --branch-name chore/OPS-017-source-compatibility-admission
+python scripts/check-program-plan-transitions.py --base-ref a55680b9d06901729fcae7f35cb167b8b59d33f4 --head-ref HEAD --task OPS-017 --branch-name chore/OPS-017-source-compatibility-admission
+python scripts/check-program-lifecycle-guards.py --base-ref a55680b9d06901729fcae7f35cb167b8b59d33f4 --head-ref HEAD --task OPS-017 --branch-name chore/OPS-017-source-compatibility-admission
+python scripts/run-program-lifecycle-gate.py --base-ref a55680b9d06901729fcae7f35cb167b8b59d33f4 --head-ref HEAD --task OPS-017 --branch-name chore/OPS-017-source-compatibility-admission
+python scripts/run-agent-coordination-gate.py --base-ref a55680b9d06901729fcae7f35cb167b8b59d33f4 --head-ref HEAD --task OPS-017 --branch-name chore/OPS-017-source-compatibility-admission
+python scripts/check-program-plan-finalization.py --base-ref a55680b9d06901729fcae7f35cb167b8b59d33f4 --head-ref HEAD --task OPS-017
+python scripts/run-task-scope-gate.py --task OPS-017 --base a55680b9d06901729fcae7f35cb167b8b59d33f4
+python scripts/check-evidence.py --task OPS-017
+python scripts/check-project-readiness.py
+python scripts/check-markdown.py
+
+# Prospective scope amendment: current expanded14 commands
+git diff --check 76be38c26dea26669819f142c572e69aac84c32b...HEAD
+python scripts/check-task-file.py --task OPS-017
+python scripts/check-schemas.py
+python scripts/check-program-plan-integrity.py --base-ref 76be38c26dea26669819f142c572e69aac84c32b
+python scripts/check-program-plan-history.py --base-ref 76be38c26dea26669819f142c572e69aac84c32b --head-ref HEAD --task OPS-017 --branch-name chore/OPS-017-scope-amendment-v1
+python scripts/check-program-plan-transitions.py --base-ref 76be38c26dea26669819f142c572e69aac84c32b --head-ref HEAD --task OPS-017 --branch-name chore/OPS-017-scope-amendment-v1
+python scripts/check-program-lifecycle-guards.py --base-ref 76be38c26dea26669819f142c572e69aac84c32b --head-ref HEAD --task OPS-017 --branch-name chore/OPS-017-scope-amendment-v1
+python scripts/run-program-lifecycle-gate.py --base-ref 76be38c26dea26669819f142c572e69aac84c32b --head-ref HEAD --task OPS-017 --branch-name chore/OPS-017-scope-amendment-v1
+python scripts/run-agent-coordination-gate.py --base-ref 76be38c26dea26669819f142c572e69aac84c32b --head-ref HEAD --task OPS-017 --branch-name chore/OPS-017-scope-amendment-v1
+python scripts/check-program-plan-finalization.py --base-ref 76be38c26dea26669819f142c572e69aac84c32b --head-ref HEAD --task OPS-017
+python scripts/run-task-scope-gate.py --task OPS-017 --base 76be38c26dea26669819f142c572e69aac84c32b
+python scripts/check-evidence.py --task OPS-017
+python scripts/check-project-readiness.py
+python scripts/check-markdown.py
+python -m pytest tests/governance/ -v -ra --junitxml=governance.xml
+
+# Current P/H performance stage (planned, not executed)
+git diff --check d15d8e106aef844992caa183d866e95189a56776...HEAD
+python scripts/check-task-file.py --task OPS-017
+python scripts/check-schemas.py
+python scripts/check-program-plan-integrity.py --base-ref d15d8e106aef844992caa183d866e95189a56776
+python scripts/check-program-plan-history.py --base-ref d15d8e106aef844992caa183d866e95189a56776 --head-ref HEAD --task OPS-017 --branch-name chore/OPS-017-fast-yaml-loaders
+python scripts/check-program-plan-transitions.py --base-ref d15d8e106aef844992caa183d866e95189a56776 --head-ref HEAD --task OPS-017 --branch-name chore/OPS-017-fast-yaml-loaders
+python scripts/check-program-lifecycle-guards.py --base-ref d15d8e106aef844992caa183d866e95189a56776 --head-ref HEAD --task OPS-017 --branch-name chore/OPS-017-fast-yaml-loaders
+python scripts/run-program-lifecycle-gate.py --base-ref d15d8e106aef844992caa183d866e95189a56776 --head-ref HEAD --task OPS-017 --branch-name chore/OPS-017-fast-yaml-loaders
+python scripts/run-agent-coordination-gate.py --base-ref d15d8e106aef844992caa183d866e95189a56776 --head-ref HEAD --task OPS-017 --branch-name chore/OPS-017-fast-yaml-loaders
+python scripts/check-program-plan-finalization.py --base-ref d15d8e106aef844992caa183d866e95189a56776 --head-ref HEAD --task OPS-017
+python scripts/run-task-scope-gate.py --task OPS-017 --base d15d8e106aef844992caa183d866e95189a56776
+python scripts/check-evidence.py --task OPS-017
+python scripts/check-project-readiness.py
+python scripts/check-markdown.py
+
+
+# New Review source14 UNEXECUTED / base ed5e4d4ad9d40d85358347760ac90bd1f73b10a7 / chore/OPS-017-normal-review-v5
+git diff --check ed5e4d4ad9d40d85358347760ac90bd1f73b10a7...HEAD
+python scripts/check-task-file.py --task OPS-017
+python scripts/check-schemas.py
+python scripts/check-program-plan-integrity.py --base-ref ed5e4d4ad9d40d85358347760ac90bd1f73b10a7
+python scripts/check-program-plan-history.py --base-ref ed5e4d4ad9d40d85358347760ac90bd1f73b10a7 --head-ref HEAD --task OPS-017 --branch-name chore/OPS-017-normal-review-v5
+python scripts/check-program-plan-transitions.py --base-ref ed5e4d4ad9d40d85358347760ac90bd1f73b10a7 --head-ref HEAD --task OPS-017 --branch-name chore/OPS-017-normal-review-v5
+python scripts/check-program-lifecycle-guards.py --base-ref ed5e4d4ad9d40d85358347760ac90bd1f73b10a7 --head-ref HEAD --task OPS-017 --branch-name chore/OPS-017-normal-review-v5
+python scripts/run-program-lifecycle-gate.py --base-ref ed5e4d4ad9d40d85358347760ac90bd1f73b10a7 --head-ref HEAD --task OPS-017 --branch-name chore/OPS-017-normal-review-v5
+python scripts/run-agent-coordination-gate.py --base-ref ed5e4d4ad9d40d85358347760ac90bd1f73b10a7 --head-ref HEAD --task OPS-017 --branch-name chore/OPS-017-normal-review-v5
+python scripts/check-program-plan-finalization.py --base-ref ed5e4d4ad9d40d85358347760ac90bd1f73b10a7 --head-ref HEAD --task OPS-017
+python scripts/run-task-scope-gate.py --task OPS-017 --base ed5e4d4ad9d40d85358347760ac90bd1f73b10a7
+python scripts/check-evidence.py --task OPS-017
+python scripts/check-project-readiness.py
+python scripts/check-markdown.py
+
+
+# Current normal Completion / chore/OPS-017-normal-completion-v5 / base 82428752c3debc8aba77a67a10d94bc8ea0f6baa / checks UNEXECUTED
+git diff --check 82428752c3debc8aba77a67a10d94bc8ea0f6baa...HEAD
+python scripts/check-task-file.py --task OPS-017
+python scripts/check-schemas.py
+python scripts/check-program-plan-integrity.py --base-ref 82428752c3debc8aba77a67a10d94bc8ea0f6baa
+python scripts/check-program-plan-history.py --base-ref 82428752c3debc8aba77a67a10d94bc8ea0f6baa --head-ref HEAD --task OPS-017 --branch-name chore/OPS-017-normal-completion-v5
+python scripts/check-program-plan-transitions.py --base-ref 82428752c3debc8aba77a67a10d94bc8ea0f6baa --head-ref HEAD --task OPS-017 --branch-name chore/OPS-017-normal-completion-v5
+python scripts/check-program-lifecycle-guards.py --base-ref 82428752c3debc8aba77a67a10d94bc8ea0f6baa --head-ref HEAD --task OPS-017 --branch-name chore/OPS-017-normal-completion-v5
+python scripts/run-program-lifecycle-gate.py --base-ref 82428752c3debc8aba77a67a10d94bc8ea0f6baa --head-ref HEAD --task OPS-017 --branch-name chore/OPS-017-normal-completion-v5
+python scripts/run-agent-coordination-gate.py --base-ref 82428752c3debc8aba77a67a10d94bc8ea0f6baa --head-ref HEAD --task OPS-017 --branch-name chore/OPS-017-normal-completion-v5
+python scripts/check-program-plan-finalization.py --base-ref 82428752c3debc8aba77a67a10d94bc8ea0f6baa --head-ref HEAD --task OPS-017
+python scripts/run-task-scope-gate.py --task OPS-017 --base 82428752c3debc8aba77a67a10d94bc8ea0f6baa
+python scripts/check-evidence.py --task OPS-017
+python scripts/check-project-readiness.py
+python scripts/check-markdown.py
+
+Status: PASS (accepted prerequisite Review main only)
+Result: SUCCESS (accepted prerequisite Review main only)
+Source Commit: 82428752c3debc8aba77a67a10d94bc8ea0f6baa
+Task: OPS-017
+Real code merge identity: PR179 / ed5e4d4ad9d40d85358347760ac90bd1f73b10a7
+Current Completion14/full842CI/final source/actual Completion main remain UNEXECUTED/PENDING; this PASS records only already accepted prerequisites.
+Evidence: normal-completion-v5/index.json and prerequisites.zip; original integrity log entry ops017-normal-review-v5-8242875-native-main-seven/integrity.raw
+
+Executed prerequisite command (accepted Review main only):
+Command: /home/sur/.cache/guize-takeover/python31117-official-runtime-v1/venv/bin/python -B scripts/check-program-plan-integrity.py --base-ref ed5e4d4ad9d40d85358347760ac90bd1f73b10a7
+Exit Code: 0
+Result: PASS (accepted prerequisite Review main only)

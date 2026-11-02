@@ -1,0 +1,23 @@
+{
+  "task": "OPS-017",
+  "originalImplementationSource": "ffceabe88c6e67eb65da08fc6de742d37d282000",
+  "incomingAcceptedMain": "7996dedc0b01c5208824eff4d70c95724ba1b26d",
+  "currentTargetBase": "7996dedc0b01c5208824eff4d70c95724ba1b26d",
+  "originalIntentUnchanged": true,
+  "codeAndFrozenPins": {
+    "AGENTS.md": "ea5ab67a199a96f806748634cf5073153d32769206775b30dacf23c8909d7322",
+    "scripts/poc-contract-repair-admission.py": "1ee17ff240c27071744386edc3ae33004a98cfbd31dd577e997625ebc9dd3389",
+    "scripts/check-program-lifecycle-guards.py": "1be8986e74616f4708728aa383b896539e2a0886d4afcb9d2ad43aa80b1033ba",
+    "tests/governance/test_poc_contract_repair_admission.py": "43f091c1a03348c5a9ed8d3619f0e7b392f0d4d868c52e73a4aabd20f639d4b2",
+    "specs/poc/program.schema.yaml": "74b5218c3e8b126727ddb15b9830240e9ee0b5a1eb73558c2f6ae138e70934d7",
+    "specs/poc/program.yaml": "4b155984d793fd0b990003826af2ef94ffc2f14e3dc31fb07a6fe437863e02e2",
+    "specs/poc/check_program.py": "ee53ccf38e80095fd77ded709aa5dba7808d011a6346e864cd1a9f6482be8cc8",
+    "specs/poc/test_program.py": "ae2bda2b9ad50578d56dd3b72b08d7054f16172dc1ea88a57447ff1b22bc2c79",
+    "docs/18-testing-and-acceptance.md": "5e74b1955ded3377a8f4947382a3987dab15de6c8390bd2b514ba43b6c5804ad"
+  },
+  "foreignRegistryAndProgramPreserved": true,
+  "taskBodyUnchanged": true,
+  "successorRegistered": false,
+  "experimentApproved": false,
+  "createdAt": "2026-10-29T13:07:16.077836+00:00"
+}

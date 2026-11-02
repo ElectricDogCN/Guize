@@ -1,0 +1,7 @@
+{
+  "instruction": "批准这次受限治理修订和一次引导例外，按提案继续推进 OPS-017 收口及 POC-003/005 验证。后续性能代码和结项仍须完整官方 CI 通过，通过后直接审批、合并并清理已结束的远端分支。",
+  "recordedAt": "2026-11-02T01:51:26.771359+00:00",
+  "proposalSha256": "79948da7f525fff26c12abe1d75917394f01b1ea224baa7fbfee59ea00a23c74",
+  "kind": "direct_user_message",
+  "approvalIsNotCandidateQualification": true
+}

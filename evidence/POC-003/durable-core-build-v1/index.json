@@ -1,0 +1,294 @@
+{
+  "acceptedBuildSource": "2489f7d27814c146085101bc93fe482ac604c1d3",
+  "scope": "prior five-file logical-capacity core only",
+  "coreBuildAccepted": true,
+  "builtCoreApiChecksAccepted": true,
+  "currentSixFilePoolPatchAccepted": false,
+  "fullMediaBufferBoundProven": false,
+  "experimentApproved": false,
+  "qualificationAccepted": false,
+  "files": [
+    {
+      "original": "poc003-durable-ats-build-native-v1/autoreconf.stderr.raw",
+      "encoded": "000-5002c921c906.zlib.b64",
+      "bytes": 166,
+      "sha256": "5002c921c90648aa3463e612fc813f02d6f1a254e7a1988234e0aa37788057e4"
+    },
+    {
+      "original": "poc003-durable-ats-build-native-v1/autoreconf.stdout.raw",
+      "encoded": "001-9a83b0c31f18.zlib.b64",
+      "bytes": 409,
+      "sha256": "9a83b0c31f1868d29e87cc8a5675903bfcf4df88fafee50a028472fac339f8ed"
+    },
+    {
+      "original": "poc003-durable-ats-build-native-v1/configure.stderr.raw",
+      "encoded": "002-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-durable-ats-build-native-v1/configure.stdout.raw",
+      "encoded": "003-9eace03621b0.zlib.b64",
+      "bytes": 20401,
+      "sha256": "9eace03621b0375b4408e0dd7949ee3523d8ac30861d3328dcd5ceb27cf8f1c5"
+    },
+    {
+      "original": "poc003-durable-ats-build-native-v1/install.stderr.raw",
+      "encoded": "004-b25337c7e274.zlib.b64",
+      "bytes": 3354,
+      "sha256": "b25337c7e274535014ce931f5e1c14d2a9cb6ebf4fc9ac0098551c4e0dac91b3"
+    },
+    {
+      "original": "poc003-durable-ats-build-native-v1/install.stdout.raw",
+      "encoded": "005-426c782445ac.zlib.b64",
+      "bytes": 83086,
+      "sha256": "426c782445ac384ce49416b02895db00dffbff97c3e0c2c66ea11c0d8b7ab24f"
+    },
+    {
+      "original": "poc003-durable-ats-build-native-v1/make.stderr.raw",
+      "encoded": "006-f04050634b21.zlib.b64",
+      "bytes": 1906,
+      "sha256": "f04050634b2128f6deab510bc55832fe9ec8b1cdec05ea9133b4ad518c3cfa91"
+    },
+    {
+      "original": "poc003-durable-ats-build-native-v1/make.stdout.raw",
+      "encoded": "007-be5fc6bfe13b.zlib.b64",
+      "bytes": 44814,
+      "sha256": "be5fc6bfe13b0cc1f8217046924360e1bfda21dc58022341c4c5d45745b2d589"
+    },
+    {
+      "original": "poc003-durable-ats-build-native-v1/receipt.json",
+      "encoded": "008-a6c38cf2e07b.zlib.b64",
+      "bytes": 51554,
+      "sha256": "a6c38cf2e07b1ced5025319686bcf1918c09a5ea1be86927ae2a48728ef653ac"
+    },
+    {
+      "original": "poc003-durable-ats-build-native-v1/source-preparation.json",
+      "encoded": "009-e37a216c3b00.zlib.b64",
+      "bytes": 1747,
+      "sha256": "e37a216c3b0086e93b1564c08af3ddc6a87cc08cf712500507ce9ff7a878c302"
+    },
+    {
+      "original": "poc003-durable-ats-link-native-v1/core-symbols.raw",
+      "encoded": "010-2f3039934fc8.zlib.b64",
+      "bytes": 72984,
+      "sha256": "2f3039934fc869251477caf4b7bd31bed3965a733f3bbb23d385a9edffcd7f2f"
+    },
+    {
+      "original": "poc003-durable-ats-link-native-v1/ldd-0.stderr.raw",
+      "encoded": "011-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-durable-ats-link-native-v1/ldd-0.stdout.raw",
+      "encoded": "012-c121e16b8877.zlib.b64",
+      "bytes": 1132,
+      "sha256": "c121e16b8877b0298fac42ba273193737df78a5c851cb5703221549e4e4b169d"
+    },
+    {
+      "original": "poc003-durable-ats-link-native-v1/ldd-1.stderr.raw",
+      "encoded": "013-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-durable-ats-link-native-v1/ldd-1.stdout.raw",
+      "encoded": "014-9fa7d704c302.zlib.b64",
+      "bytes": 840,
+      "sha256": "9fa7d704c302cf43707d9ce54d091552a09e357cc4b7f88cb1360d964dd8cf1f"
+    },
+    {
+      "original": "poc003-durable-ats-link-native-v1/ldd-2.stderr.raw",
+      "encoded": "015-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-durable-ats-link-native-v1/ldd-2.stdout.raw",
+      "encoded": "016-3654c9b293ff.zlib.b64",
+      "bytes": 374,
+      "sha256": "3654c9b293ffd5f0211c93016a0d5050a35bef71423bcc009134e4f5071f361b"
+    },
+    {
+      "original": "poc003-durable-ats-link-native-v1/ldd-3.stderr.raw",
+      "encoded": "017-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-durable-ats-link-native-v1/ldd-3.stdout.raw",
+      "encoded": "018-ebe57de5f9d4.zlib.b64",
+      "bytes": 374,
+      "sha256": "ebe57de5f9d4c787ce2d5f3ed668467c65fa905081230babc0ca8dd72bb23597"
+    },
+    {
+      "original": "poc003-durable-ats-link-native-v1/ldd-4.stderr.raw",
+      "encoded": "019-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-durable-ats-link-native-v1/ldd-4.stdout.raw",
+      "encoded": "020-f99a87e9dd8b.zlib.b64",
+      "bytes": 374,
+      "sha256": "f99a87e9dd8b4c110a79b8881ccb2cb0159902b1f5b59254f90a12132cefb1dc"
+    },
+    {
+      "original": "poc003-durable-ats-link-native-v1/receipt.json",
+      "encoded": "021-7a7a85639f9a.zlib.b64",
+      "bytes": 3300,
+      "sha256": "7a7a85639f9a6fd6c3341677c70a5866ed3bf52093a7e933c5bd1c1660491ba2"
+    },
+    {
+      "original": "poc003-durable-ats-link-native-v1/version.stderr.raw",
+      "encoded": "022-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-durable-ats-link-native-v1/version.stdout.raw",
+      "encoded": "023-de73fdb13dac.zlib.b64",
+      "bytes": 189,
+      "sha256": "de73fdb13daccf88f5d7b33df43791686a6f893a11fc0e801b3990ed3a0188e2"
+    },
+    {
+      "original": "poc003-durable-core-api-native-v1/build.raw",
+      "encoded": "024-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-durable-core-api-native-v1/driver.cc",
+      "encoded": "025-d3e46503e47f.zlib.b64",
+      "bytes": 1766,
+      "sha256": "d3e46503e47f0db37e4a55ce022e12873fb5dc78c493826a40feb35d8ff97a94"
+    },
+    {
+      "original": "poc003-durable-core-api-native-v1/fork-final/durable-peaks.raw",
+      "encoded": "026-fe289f6be97e.zlib.b64",
+      "bytes": 715,
+      "sha256": "fe289f6be97ea3c33262740abf6489ce9b440ff2798f922cee4523083be9ff98"
+    },
+    {
+      "original": "poc003-durable-core-api-native-v1/fork-live/durable-peaks.raw",
+      "encoded": "027-fe289f6be97e.zlib.b64",
+      "bytes": 715,
+      "sha256": "fe289f6be97ea3c33262740abf6489ce9b440ff2798f922cee4523083be9ff98"
+    },
+    {
+      "original": "poc003-durable-core-api-native-v1/fork.stderr.raw",
+      "encoded": "028-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-durable-core-api-native-v1/fork.stdout.raw",
+      "encoded": "029-31611d42a040.zlib.b64",
+      "bytes": 40,
+      "sha256": "31611d42a040c4cbb889dbfbc6be7cf4de3a56d6d902149c47ccd92f1566233b"
+    },
+    {
+      "original": "poc003-durable-core-api-native-v1/normal-final/durable-peaks.raw",
+      "encoded": "030-34bc513bb7f3.zlib.b64",
+      "bytes": 1110,
+      "sha256": "34bc513bb7f3a6df35be9511684df6261637ea5388d1a423697d080d4bb9a77c"
+    },
+    {
+      "original": "poc003-durable-core-api-native-v1/normal-live/durable-peaks.raw",
+      "encoded": "031-34bc513bb7f3.zlib.b64",
+      "bytes": 1110,
+      "sha256": "34bc513bb7f3a6df35be9511684df6261637ea5388d1a423697d080d4bb9a77c"
+    },
+    {
+      "original": "poc003-durable-core-api-native-v1/normal.stderr.raw",
+      "encoded": "032-e3b0c44298fc.zlib.b64",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-durable-core-api-native-v1/normal.stdout.raw",
+      "encoded": "033-3dfa3fb239f5.zlib.b64",
+      "bytes": 6,
+      "sha256": "3dfa3fb239f56c778a1e9b33eb31328349edd155a95806dac4378904e88527e5"
+    },
+    {
+      "original": "poc003-durable-core-api-native-v1/results.json",
+      "encoded": "034-09012aee7c99.zlib.b64",
+      "bytes": 12353,
+      "sha256": "09012aee7c99e4ef4e47685283cf6ec031874d52aa27fc4e9181cfc0b6a38790"
+    },
+    {
+      "original": "poc003-durable-core-api-native-v1/underflow-final/durable-peaks.raw",
+      "encoded": "035-1ebe5c99b102.zlib.b64",
+      "bytes": 715,
+      "sha256": "1ebe5c99b1025ae5a44158977d34c4c1bb2460ce89c08b47b62c0c7be81b9613"
+    },
+    {
+      "original": "poc003-durable-core-api-native-v1/underflow-live/durable-peaks.raw",
+      "encoded": "036-1ebe5c99b102.zlib.b64",
+      "bytes": 715,
+      "sha256": "1ebe5c99b1025ae5a44158977d34c4c1bb2460ce89c08b47b62c0c7be81b9613"
+    },
+    {
+      "original": "poc003-durable-core-api-native-v1/underflow.stderr.raw",
+      "encoded": "037-7ebfe5484876.zlib.b64",
+      "bytes": 39,
+      "sha256": "7ebfe548487646f0b23d1de7421aa475e868ae8466811c6a2df8a9e061b7a3b8"
+    },
+    {
+      "original": "poc003-durable-core-api-native-v1/underflow.stdout.raw",
+      "encoded": "038-3dfa3fb239f5.zlib.b64",
+      "bytes": 6,
+      "sha256": "3dfa3fb239f56c778a1e9b33eb31328349edd155a95806dac4378904e88527e5"
+    },
+    {
+      "original": "poc003-durable-ats-build-link-independent-review.json",
+      "encoded": "039-b354ff7987ec.zlib.b64",
+      "bytes": 7335,
+      "sha256": "b354ff7987ece58eb8082b38cfa683ef126edde63394e3f14c4d40fa1dbe92fc"
+    },
+    {
+      "original": "build_poc003_durable_ats_native_once.py",
+      "encoded": "040-d2aa14a4bc22.zlib.b64",
+      "bytes": 6575,
+      "sha256": "d2aa14a4bc22a061c701359387393b1a1015f2c9bb99ec6378538abcc6186cd5"
+    },
+    {
+      "original": "verify_poc003_durable_runtime_native_once.py",
+      "encoded": "041-33f9002e2a24.zlib.b64",
+      "bytes": 3813,
+      "sha256": "33f9002e2a24a592594094bf46f58fd2a838990925c8352346df985126e0336b"
+    },
+    {
+      "original": "check_poc003_durable_core_api_once.py",
+      "encoded": "042-8db55a109cfd.zlib.b64",
+      "bytes": 5909,
+      "sha256": "8db55a109cfd6b6e0d21755540d48dedce1bbf47bc17f08506e4353a6eaacf50"
+    },
+    {
+      "original": "accepted-source/poc/POC-03-ats-range/instrumentation/ats-live-buffer-accounting.patch",
+      "encoded": "043-d613e3b1895b.zlib.b64",
+      "bytes": 6364,
+      "sha256": "d613e3b1895b490bc262116da28f479f669da55465ecd1f9c97fd6e52996a94c"
+    },
+    {
+      "original": "accepted-source/poc/POC-03-ats-range/instrumentation/patch-manifest.json",
+      "encoded": "044-678b11358e6a.zlib.b64",
+      "bytes": 2703,
+      "sha256": "678b11358e6a1c3355e8459f3e7d51a392a241155d34d2f492eb15412eb06655"
+    },
+    {
+      "original": "accepted-source/poc/POC-03-ats-range/instrumentation/live_buffer_accounting.h",
+      "encoded": "045-f771476d0e5b.zlib.b64",
+      "bytes": 2959,
+      "sha256": "f771476d0e5bb5124577329744128d83a4a0bdf43f1d10f91145e006848dc7fb"
+    },
+    {
+      "original": "accepted-source/poc/POC-03-ats-range/instrumentation/live_peak_journal.h",
+      "encoded": "046-b1f45c1b7135.zlib.b64",
+      "bytes": 6078,
+      "sha256": "b1f45c1b71359e5463e9f043451ad3fc34243426b96aea9d5e0e9180eaf79ea4"
+    }
+  ]
+}

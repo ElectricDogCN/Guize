@@ -1,0 +1,63 @@
+{
+  "implementationSources": {
+    "lab.py": "a44d62c19d6dbf565396799329e9e825d1bdf3db3e078e2138a71db29df578a8",
+    "grants.py": "4d48a477541545a296d31ea00a97445e15f6b6eae92e79f39629c074923403bf",
+    "collect.py": "47f7f42a9529a5184b8660002508deb68146ae32966c57b690db24ad76f636d7",
+    "cache_export.cc": "5051d403bea1f25b69dcf781415f802137a283591934e800dc67ca271d3fd4e3",
+    "test_warm_cache_revocation.py": "a2804773586717f2ca8880c11938aa169c1bab77a20307e96604c5ede282232f"
+  },
+  "inputs": {
+    "base": {
+      "path": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/local-lab/range-fixtures/local64m-v1/guize-range-local64m-base-v1.bin",
+      "sha256": "938a8bc3e0a64184f1551bff0c500dc891366ead8f30f8f83753587e763c1c26",
+      "sizeBytes": 67108864,
+      "etag": "\"sha256-938a8bc3e0a64184f1551bff0c500dc891366ead8f30f8f83753587e763c1c26\""
+    },
+    "changed": {
+      "path": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/local-lab/range-fixtures/local64m-v1/guize-range-local64m-changed-v1.bin",
+      "sha256": "643d769e1b5120a7c52d63df3d266f67a4177050180858480feb4e686e2fdda1",
+      "sizeBytes": 67108864,
+      "etag": "\"sha256-643d769e1b5120a7c52d63df3d266f67a4177050180858480feb4e686e2fdda1\""
+    }
+  },
+  "grants": {
+    "lab-user-a": {
+      "grantId": "poc003-grant-lab-user-a",
+      "principalId": "lab-user-a",
+      "validFrom": "2026-10-22T14:28:18.652975Z",
+      "validUntil": "2026-10-22T14:48:23.652975Z"
+    },
+    "lab-user-b": {
+      "grantId": "poc003-grant-lab-user-b",
+      "principalId": "lab-user-b",
+      "validFrom": "2026-10-22T14:28:18.652975Z",
+      "validUntil": "2026-10-22T14:48:23.652975Z"
+    },
+    "lab-denied-user": {
+      "grantId": "poc003-grant-lab-denied-user",
+      "principalId": "lab-denied-user",
+      "validFrom": "2026-10-22T14:28:18.652975Z",
+      "validUntil": "2026-10-22T14:48:23.652975Z"
+    }
+  },
+  "plugins": {
+    "slice.so": {
+      "path": "/home/sur/.cache/guize-takeover/ats-user-runtime-20261019/pkgroot/usr/lib/trafficserver/modules/slice.so",
+      "sha256": "27d2c20e5380b492d818a03098bcfb4e6e2eb3cff7857aa33ad5a0bbe1086241"
+    },
+    "cache_range_requests.so": {
+      "path": "/home/sur/.cache/guize-takeover/ats-user-runtime-20261019/pkgroot/usr/lib/trafficserver/modules/cache_range_requests.so",
+      "sha256": "8e0c169ae15bdfa9fd03ebb494905627f987cc28c7ac6297271af540f7533533"
+    },
+    "header_rewrite.so": {
+      "path": "/home/sur/.cache/guize-takeover/ats-user-runtime-20261019/pkgroot/usr/lib/trafficserver/modules/header_rewrite.so",
+      "sha256": "13b46811ee0e2316fd807968e4718ef12c44b81262b852d33a45bc45987b289d"
+    },
+    "cache_export.so": {
+      "path": "/home/sur/.cache/guize-takeover/poc003-observer-build-20261022-v1/cache_export.so",
+      "sha256": "73ce9c224995bf29ae04563de5f827b0f02eb197a699d41af53d002513d9075f"
+    }
+  },
+  "runtimeReceiptSha256": "7d51507df661d2fb6bc4c44fcce5752093d64ebd6dbc93c4cc744d4b5f2307ed",
+  "exportBuildReceiptSha256": "94110fd9d07c92e88a1952ec2291076d7631f713d279b9bc8db023a85df4e313"
+}

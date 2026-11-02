@@ -1,0 +1,129 @@
+test_gateway_incomplete_partial_releases_payload_and_retains_failure (__main__.PayloadLifetimeTests.test_gateway_incomplete_partial_releases_payload_and_retains_failure) ... FAIL
+test_gateway_normal_blocks_do_not_overlap_and_first_body_clock_remains (__main__.PayloadLifetimeTests.test_gateway_normal_blocks_do_not_overlap_and_first_body_clock_remains) ... FAIL
+test_gateway_write_failure_releases_payload_and_retains_failure (__main__.PayloadLifetimeTests.test_gateway_write_failure_releases_payload_and_retains_failure) ... FAIL
+test_origin_success_releases_payload_before_terminal_log (__main__.PayloadLifetimeTests.test_origin_success_releases_payload_before_terminal_log) ... FAIL
+test_origin_truncation_preserves_digest_without_retaining_payload (__main__.PayloadLifetimeTests.test_origin_truncation_preserves_digest_without_retaining_payload) ... FAIL
+test_origin_write_failure_releases_payload_before_terminal_log (__main__.PayloadLifetimeTests.test_origin_write_failure_releases_payload_before_terminal_log) ... FAIL
+
+======================================================================
+FAIL: test_gateway_incomplete_partial_releases_payload_and_retains_failure (__main__.PayloadLifetimeTests.test_gateway_incomplete_partial_releases_payload_and_retains_failure)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc003-feature-actor-import-v1\poc\POC-03-ats-range\test_payload_lifetime.py", line 131, in test_gateway_incomplete_partial_releases_payload_and_retains_failure
+    row = self.gateway('incomplete')
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc003-feature-actor-import-v1\poc\POC-03-ats-range\test_payload_lifetime.py", line 109, in gateway
+    handler.media(False)
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc003-feature-actor-import-v1\poc\POC-03-ats-range\lab.py", line 585, in media
+    state.log('gateway-access',row)
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc003-feature-actor-import-v1\poc\POC-03-ats-range\test_payload_lifetime.py", line 104, in log
+    self.assertEqual(self.live(), 0, 'terminal log retained a returned or partial media block')
+AssertionError: 1 != 0 : terminal log retained a returned or partial media block
+
+======================================================================
+FAIL: test_gateway_normal_blocks_do_not_overlap_and_first_body_clock_remains (__main__.PayloadLifetimeTests.test_gateway_normal_blocks_do_not_overlap_and_first_body_clock_remains)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc003-feature-actor-import-v1\poc\POC-03-ats-range\lab.py", line 563, in media
+    try:block=response.read1(cfg['chunkBytes'])
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc003-feature-actor-import-v1\poc\POC-03-ats-range\test_payload_lifetime.py", line 88, in read
+    self.assertEqual(self.live(), 0, 'next read overlapped the previous returned block')
+AssertionError: 1 != 0 : next read overlapped the previous returned block
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc003-feature-actor-import-v1\poc\POC-03-ats-range\test_payload_lifetime.py", line 125, in test_gateway_normal_blocks_do_not_overlap_and_first_body_clock_remains
+    row = self.gateway('normal')
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc003-feature-actor-import-v1\poc\POC-03-ats-range\test_payload_lifetime.py", line 109, in gateway
+    handler.media(False)
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc003-feature-actor-import-v1\poc\POC-03-ats-range\lab.py", line 585, in media
+    state.log('gateway-access',row)
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc003-feature-actor-import-v1\poc\POC-03-ats-range\test_payload_lifetime.py", line 104, in log
+    self.assertEqual(self.live(), 0, 'terminal log retained a returned or partial media block')
+AssertionError: 1 != 0 : terminal log retained a returned or partial media block
+
+======================================================================
+FAIL: test_gateway_write_failure_releases_payload_and_retains_failure (__main__.PayloadLifetimeTests.test_gateway_write_failure_releases_payload_and_retains_failure)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc003-feature-actor-import-v1\poc\POC-03-ats-range\test_payload_lifetime.py", line 137, in test_gateway_write_failure_releases_payload_and_retains_failure
+    row = self.gateway('write-failure')
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc003-feature-actor-import-v1\poc\POC-03-ats-range\test_payload_lifetime.py", line 109, in gateway
+    handler.media(False)
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc003-feature-actor-import-v1\poc\POC-03-ats-range\lab.py", line 585, in media
+    state.log('gateway-access',row)
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc003-feature-actor-import-v1\poc\POC-03-ats-range\test_payload_lifetime.py", line 104, in log
+    self.assertEqual(self.live(), 0, 'terminal log retained a returned or partial media block')
+AssertionError: 1 != 0 : terminal log retained a returned or partial media block
+
+======================================================================
+FAIL: test_origin_success_releases_payload_before_terminal_log (__main__.PayloadLifetimeTests.test_origin_success_releases_payload_before_terminal_log)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc003-feature-actor-import-v1\poc\POC-03-ats-range\test_payload_lifetime.py", line 113, in test_origin_success_releases_payload_before_terminal_log
+    row = self.origin()
+          ^^^^^^^^^^^^^
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc003-feature-actor-import-v1\poc\POC-03-ats-range\test_payload_lifetime.py", line 77, in origin
+    handler.handle_media(False)
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc003-feature-actor-import-v1\poc\POC-03-ats-range\lab.py", line 465, in handle_media
+    state.log('origin-access',dict(row))
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc003-feature-actor-import-v1\poc\POC-03-ats-range\test_payload_lifetime.py", line 69, in log
+    self.assertEqual(self.live(), 0, 'terminal log retained a media payload')
+AssertionError: 1 != 0 : terminal log retained a media payload
+
+======================================================================
+FAIL: test_origin_truncation_preserves_digest_without_retaining_payload (__main__.PayloadLifetimeTests.test_origin_truncation_preserves_digest_without_retaining_payload)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc003-feature-actor-import-v1\poc\POC-03-ats-range\lab.py", line 459, in handle_media
+    time.sleep(2)
+  File "C:\ProgramData\anaconda3\Lib\unittest\mock.py", line 1134, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\Lib\unittest\mock.py", line 1138, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\Lib\unittest\mock.py", line 1199, in _execute_mock_call
+    result = effect(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc003-feature-actor-import-v1\poc\POC-03-ats-range\test_payload_lifetime.py", line 74, in sleep
+    self.assertEqual(self.live(), 0, 'truncation hold retained the final block')
+AssertionError: 1 != 0 : truncation hold retained the final block
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc003-feature-actor-import-v1\poc\POC-03-ats-range\test_payload_lifetime.py", line 117, in test_origin_truncation_preserves_digest_without_retaining_payload
+    row = self.origin('truncate')
+          ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc003-feature-actor-import-v1\poc\POC-03-ats-range\test_payload_lifetime.py", line 77, in origin
+    handler.handle_media(False)
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc003-feature-actor-import-v1\poc\POC-03-ats-range\lab.py", line 465, in handle_media
+    state.log('origin-access',dict(row))
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc003-feature-actor-import-v1\poc\POC-03-ats-range\test_payload_lifetime.py", line 69, in log
+    self.assertEqual(self.live(), 0, 'terminal log retained a media payload')
+AssertionError: 1 != 0 : terminal log retained a media payload
+
+======================================================================
+FAIL: test_origin_write_failure_releases_payload_before_terminal_log (__main__.PayloadLifetimeTests.test_origin_write_failure_releases_payload_before_terminal_log)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc003-feature-actor-import-v1\poc\POC-03-ats-range\test_payload_lifetime.py", line 122, in test_origin_write_failure_releases_payload_before_terminal_log
+    self.assertEqual(self.origin(fail_write=True)['transportError'], 'OSError')
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc003-feature-actor-import-v1\poc\POC-03-ats-range\test_payload_lifetime.py", line 77, in origin
+    handler.handle_media(False)
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc003-feature-actor-import-v1\poc\POC-03-ats-range\lab.py", line 465, in handle_media
+    state.log('origin-access',dict(row))
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc003-feature-actor-import-v1\poc\POC-03-ats-range\test_payload_lifetime.py", line 69, in log
+    self.assertEqual(self.live(), 0, 'terminal log retained a media payload')
+AssertionError: 1 != 0 : terminal log retained a media payload
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.011s
+
+FAILED (failures=6)

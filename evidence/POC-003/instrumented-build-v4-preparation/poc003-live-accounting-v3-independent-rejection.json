@@ -1,0 +1,20 @@
+{
+  "decision": "not accepted; one must-fix",
+  "actualReviewer": "/root/gz022_planning_independent_review",
+  "reviewedAt": "2026-10-22T16:47:30Z",
+  "headerSha256": "80a5f767d0b145b70976eb16939d6b5753a5cf8f3a18a0b7ffe1f37434af62b9",
+  "patchSha256": "0ad76c3878bcbeb088b2a522308bbabe17cdb61c5336580aedb1d550db203cd4",
+  "mustFix": [
+    {
+      "priority": "P1",
+      "path": "live_buffer_accounting.h",
+      "line": 43,
+      "finding": "reset must not erase unknown external storage risk after wrapper deallocation; actual owner may retain or reuse payload",
+      "required": "process-lifetime sticky unknownExternal or proof of real owner release"
+    }
+  ],
+  "additionalDomainBoundary": "Slice generated 416/502 std::string bodies are not ledger-tracked before TSIOBuffer copy; full HTTP body domain would require accounting, protected source-media domain must explicitly exclude generated error text",
+  "otherLifecycleMustFixFound": false,
+  "experimentApproved": false,
+  "fullMediaCoverageProven": false
+}

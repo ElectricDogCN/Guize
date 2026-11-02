@@ -1,0 +1,548 @@
+{
+  "task": "POC-003",
+  "capturedAt": "2026-10-27T23:49:45.177403+00:00",
+  "implementationHead": "de2f4f3bceffa964cc4ebbc0278fb6229845c31d",
+  "sourceState": "Uncommitted component change; exact four file hashes and source copies, no whole-source qualification",
+  "redFailures": 8,
+  "windowsGreenTests": 40,
+  "linuxGreenTests": 49,
+  "counts": {
+    "poc003-payload-lifetime-v1-red": 6,
+    "poc003-collector-lifetime-v1-red": 2,
+    "poc003-payload-lifetime-v1-windows-checks": 38,
+    "poc003-payload-lifetime-v1-linux-checks": 47,
+    "poc003-payload-lifetime-v2-windows-checks": 40,
+    "poc003-payload-lifetime-v2-linux-checks": 49
+  },
+  "noTestSkips": true,
+  "atsExecuted": false,
+  "mediaExperimentExecuted": false,
+  "note": "Linux regressions include actual loopback HTTP and synthetic large-file export/assembly; no real ATS producer.",
+  "limitations": [
+    "Reference lifetime tests use weak-referenceable synthetic bytearrays; they do not measure real backing capacity.",
+    "HTTP/IO intermediate capacity and aggregate concurrency/ownership proof remain incomplete.",
+    "New fixed-source gates/CI, resource/window approval, original matrix and fresh revocation CLI remain required."
+  ],
+  "fullSourceAccepted": false,
+  "aggregateCapacityProofComplete": false,
+  "experimentApproved": false,
+  "formalPocAccepted": false,
+  "files": [
+    {
+      "ref": "current-lab.py",
+      "bytes": 47771,
+      "sha256": "1730852b63c30b7e1b837f88a95b57c05199df3fec2c5861bab8ecc6c454f80c",
+      "provenance": "Actual current working source; not yet a qualified Git source"
+    },
+    {
+      "ref": "current-cache_probe.py",
+      "bytes": 16894,
+      "sha256": "a2b083dc907a8ece5a20c35ca15838f190a9d8577cdb2514369f4724dbd55b23",
+      "provenance": "Actual current working source; not yet a qualified Git source"
+    },
+    {
+      "ref": "current-collect.py",
+      "bytes": 14085,
+      "sha256": "e4c182aeb79ebab93486ead83ba10cc168c42edab52dfe1c1e3cf9e3925cb0ad",
+      "provenance": "Actual current working source; not yet a qualified Git source"
+    },
+    {
+      "ref": "current-test_payload_lifetime.py",
+      "bytes": 13748,
+      "sha256": "9a5309f9f05018f8c5c27d08f754a4eb4dd54c5cbb1115d14fe8122a6b0dda9e",
+      "provenance": "Actual current working source; not yet a qualified Git source"
+    },
+    {
+      "ref": "original-lab.py",
+      "bytes": 47207,
+      "sha256": "493ff3a3178027c8fa9f5ca2af12a57a93a685ce269a6187c1a3278aaf9f22cb",
+      "provenance": "Actual unchanged original bytes from imported de2 Git object"
+    },
+    {
+      "ref": "original-cache_probe.py",
+      "bytes": 16483,
+      "sha256": "113a353e6fdd93e19ca13226eef319e918ae2951379f1dbacbe9a07887f0750f",
+      "provenance": "Actual unchanged original bytes from imported de2 Git object"
+    },
+    {
+      "ref": "original-collect.py",
+      "bytes": 13833,
+      "sha256": "f28b3dbc0e8d295d125fe67f5c863a4a2f5385df4db1a76780025b07101e7c25",
+      "provenance": "Actual unchanged original bytes from imported de2 Git object"
+    },
+    {
+      "ref": "reconstructed-original-six-test.py",
+      "bytes": 6959,
+      "sha256": "75018c5c4ecc418fed0f65ea7e693ecf4c465d517743444c4a14374933d2970b",
+      "provenance": "Reconstructed after execution from exact patch text; matches original red receipt bytes/hash; not an original capture"
+    },
+    {
+      "ref": "payload-lifetime-v1-red--results.json",
+      "bytes": 852,
+      "sha256": "fefaf780fd921562d6972cf735839c3a19659bc9ab0fb07518fbb4a348ca996d",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v1-red\\results.json"
+    },
+    {
+      "ref": "payload-lifetime-v1-red--stderr.raw",
+      "bytes": 12115,
+      "sha256": "0ff12c7badee4ace9f43863aa5f21eb6cea297518698ec84e5e0d7c46ec0d6ff",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v1-red\\stderr.raw"
+    },
+    {
+      "ref": "payload-lifetime-v1-red--stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v1-red\\stdout.raw"
+    },
+    {
+      "ref": "collector-lifetime-v1-red--results.json",
+      "bytes": 574,
+      "sha256": "9ee92f6fdb9b72cbffa421e8def11ee92bf2a82be861ea8e9d848236d5d54e50",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-collector-lifetime-v1-red\\results.json"
+    },
+    {
+      "ref": "collector-lifetime-v1-red--stderr.raw",
+      "bytes": 3817,
+      "sha256": "46d5650da851d29de6c9b261e9042773fdba09eeceb3ba06001cd6e45e827f4a",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-collector-lifetime-v1-red\\stderr.raw"
+    },
+    {
+      "ref": "collector-lifetime-v1-red--stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-collector-lifetime-v1-red\\stdout.raw"
+    },
+    {
+      "ref": "payload-lifetime-v1-windows-checks--01-test_payload_lifetime.stderr.raw",
+      "bytes": 1624,
+      "sha256": "d0c7b0fe3532f1e498611c08be04d154268aa6435a39e92590d41c02f05ed706",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v1-windows-checks\\01-test_payload_lifetime.stderr.raw"
+    },
+    {
+      "ref": "payload-lifetime-v1-windows-checks--01-test_payload_lifetime.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v1-windows-checks\\01-test_payload_lifetime.stdout.raw"
+    },
+    {
+      "ref": "payload-lifetime-v1-windows-checks--02-test_lab.stderr.raw",
+      "bytes": 1181,
+      "sha256": "0ade121e63fb24a30195e5bb49ace27a3da771b5b568a2581a659c689d60b738",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v1-windows-checks\\02-test_lab.stderr.raw"
+    },
+    {
+      "ref": "payload-lifetime-v1-windows-checks--02-test_lab.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v1-windows-checks\\02-test_lab.stdout.raw"
+    },
+    {
+      "ref": "payload-lifetime-v1-windows-checks--03-test_revocation_binding.stderr.raw",
+      "bytes": 431,
+      "sha256": "539286f1d16273ff54a11a7a254e9849082a7625a353bde2c11f7644b14da467",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v1-windows-checks\\03-test_revocation_binding.stderr.raw"
+    },
+    {
+      "ref": "payload-lifetime-v1-windows-checks--03-test_revocation_binding.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v1-windows-checks\\03-test_revocation_binding.stdout.raw"
+    },
+    {
+      "ref": "payload-lifetime-v1-windows-checks--04-test_cache_body_bounds.stderr.raw",
+      "bytes": 597,
+      "sha256": "11e267319e4f33a8636f4302c5b512cd92db92e3e5149ec6a340620f84cdf036",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v1-windows-checks\\04-test_cache_body_bounds.stderr.raw"
+    },
+    {
+      "ref": "payload-lifetime-v1-windows-checks--04-test_cache_body_bounds.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v1-windows-checks\\04-test_cache_body_bounds.stdout.raw"
+    },
+    {
+      "ref": "payload-lifetime-v1-windows-checks--05-test_cache_probe.stderr.raw",
+      "bytes": 755,
+      "sha256": "573d06854e05b1ae6c6591931cc916cce53a87648d341cb2698d18926e9878a7",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v1-windows-checks\\05-test_cache_probe.stderr.raw"
+    },
+    {
+      "ref": "payload-lifetime-v1-windows-checks--05-test_cache_probe.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v1-windows-checks\\05-test_cache_probe.stdout.raw"
+    },
+    {
+      "ref": "payload-lifetime-v1-windows-checks--06-test_input_profile.stderr.raw",
+      "bytes": 1561,
+      "sha256": "acf2fea333853df0b8f20fc298af8a4433956482698608f476e5020867944176",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v1-windows-checks\\06-test_input_profile.stderr.raw"
+    },
+    {
+      "ref": "payload-lifetime-v1-windows-checks--06-test_input_profile.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v1-windows-checks\\06-test_input_profile.stdout.raw"
+    },
+    {
+      "ref": "payload-lifetime-v1-windows-checks--07-test_representative_cache.stderr.raw",
+      "bytes": 585,
+      "sha256": "f8f97c82c88a71c524f4b09be06fa11d87d03ad2527afabea89307e0948b0968",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v1-windows-checks\\07-test_representative_cache.stderr.raw"
+    },
+    {
+      "ref": "payload-lifetime-v1-windows-checks--07-test_representative_cache.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v1-windows-checks\\07-test_representative_cache.stdout.raw"
+    },
+    {
+      "ref": "payload-lifetime-v1-windows-checks--results.json",
+      "bytes": 6599,
+      "sha256": "7755fe0a447cb789cf818c1b457f55392fe6ea14e5f1551c1c4e958777433f2c",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v1-windows-checks\\results.json"
+    },
+    {
+      "ref": "payload-lifetime-v1-linux-checks--01-test_payload_lifetime.stderr.raw",
+      "bytes": 1610,
+      "sha256": "c4f29e25e0f83055354037738245491584e32031708cae5f48ab0ab34623580d",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v1-linux-checks\\01-test_payload_lifetime.stderr.raw"
+    },
+    {
+      "ref": "payload-lifetime-v1-linux-checks--01-test_payload_lifetime.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v1-linux-checks\\01-test_payload_lifetime.stdout.raw"
+    },
+    {
+      "ref": "payload-lifetime-v1-linux-checks--02-test_lab.stderr.raw",
+      "bytes": 1168,
+      "sha256": "20b5d5a7ce893b6919f7e63b33501c7e18316f393acaf4781936c1e28e78cb46",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v1-linux-checks\\02-test_lab.stderr.raw"
+    },
+    {
+      "ref": "payload-lifetime-v1-linux-checks--02-test_lab.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v1-linux-checks\\02-test_lab.stdout.raw"
+    },
+    {
+      "ref": "payload-lifetime-v1-linux-checks--03-test_revocation_binding.stderr.raw",
+      "bytes": 424,
+      "sha256": "e5ac9c035b0fabd7b4ea1eee828aee34e3fde4488288ef5ab6ada148ccb469e5",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v1-linux-checks\\03-test_revocation_binding.stderr.raw"
+    },
+    {
+      "ref": "payload-lifetime-v1-linux-checks--03-test_revocation_binding.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v1-linux-checks\\03-test_revocation_binding.stdout.raw"
+    },
+    {
+      "ref": "payload-lifetime-v1-linux-checks--04-test_cache_body_bounds.stderr.raw",
+      "bytes": 589,
+      "sha256": "6a6bc0bd50d77475c6104b915411eb314fe3a29937dc6a737511b7f61e5d204c",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v1-linux-checks\\04-test_cache_body_bounds.stderr.raw"
+    },
+    {
+      "ref": "payload-lifetime-v1-linux-checks--04-test_cache_body_bounds.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v1-linux-checks\\04-test_cache_body_bounds.stdout.raw"
+    },
+    {
+      "ref": "payload-lifetime-v1-linux-checks--05-test_cache_probe.stderr.raw",
+      "bytes": 746,
+      "sha256": "30581f21870bcc615f02d08dd60adc8411ca573b0af5c3763c974cb9f17fa7aa",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v1-linux-checks\\05-test_cache_probe.stderr.raw"
+    },
+    {
+      "ref": "payload-lifetime-v1-linux-checks--05-test_cache_probe.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v1-linux-checks\\05-test_cache_probe.stdout.raw"
+    },
+    {
+      "ref": "payload-lifetime-v1-linux-checks--06-test_input_profile.stderr.raw",
+      "bytes": 1547,
+      "sha256": "4457d7f48d6bcab02e195187d0fed0b173ad554dd8fe06b68871285a8027b5f3",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v1-linux-checks\\06-test_input_profile.stderr.raw"
+    },
+    {
+      "ref": "payload-lifetime-v1-linux-checks--06-test_input_profile.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v1-linux-checks\\06-test_input_profile.stdout.raw"
+    },
+    {
+      "ref": "payload-lifetime-v1-linux-checks--07-test_representative_cache.stderr.raw",
+      "bytes": 577,
+      "sha256": "278ed5f320615391c3e65c83243d9475b02ad19ef6829249f77628af1adb3691",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v1-linux-checks\\07-test_representative_cache.stderr.raw"
+    },
+    {
+      "ref": "payload-lifetime-v1-linux-checks--07-test_representative_cache.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v1-linux-checks\\07-test_representative_cache.stdout.raw"
+    },
+    {
+      "ref": "payload-lifetime-v1-linux-checks--08-test_gateway_native.stderr.raw",
+      "bytes": 633,
+      "sha256": "9ac63562b8f61c2e35096f20540b31fac60c0830f9b1b98f11f3d8761f18cd23",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v1-linux-checks\\08-test_gateway_native.stderr.raw"
+    },
+    {
+      "ref": "payload-lifetime-v1-linux-checks--08-test_gateway_native.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v1-linux-checks\\08-test_gateway_native.stdout.raw"
+    },
+    {
+      "ref": "payload-lifetime-v1-linux-checks--09-test_http_timing_native.stderr.raw",
+      "bytes": 408,
+      "sha256": "340351017694f9567ce0a1a4070f9b9705d591e9de6ed2d5ead5c98c71981abe",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v1-linux-checks\\09-test_http_timing_native.stderr.raw"
+    },
+    {
+      "ref": "payload-lifetime-v1-linux-checks--09-test_http_timing_native.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v1-linux-checks\\09-test_http_timing_native.stdout.raw"
+    },
+    {
+      "ref": "payload-lifetime-v1-linux-checks--10-test_representative_cache_native.stderr.raw",
+      "bytes": 778,
+      "sha256": "cdac8c0db7ad6cd9116bf63c4561efe63f099cf387cbc67d4f03edeb12d71caa",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v1-linux-checks\\10-test_representative_cache_native.stderr.raw"
+    },
+    {
+      "ref": "payload-lifetime-v1-linux-checks--10-test_representative_cache_native.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v1-linux-checks\\10-test_representative_cache_native.stdout.raw"
+    },
+    {
+      "ref": "payload-lifetime-v1-linux-checks--results.json",
+      "bytes": 8950,
+      "sha256": "c4a77be51ed9b4636ac46ecfb2bf16111da0ea84c7e61bef9443f1d1cba43b58",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v1-linux-checks\\results.json"
+    },
+    {
+      "ref": "payload-lifetime-v2-windows-checks--01-test_payload_lifetime.stderr.raw",
+      "bytes": 1973,
+      "sha256": "2974f9f86a62937303c3c01ee03844b2e68053170959295e36f5646019941466",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v2-windows-checks\\01-test_payload_lifetime.stderr.raw"
+    },
+    {
+      "ref": "payload-lifetime-v2-windows-checks--01-test_payload_lifetime.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v2-windows-checks\\01-test_payload_lifetime.stdout.raw"
+    },
+    {
+      "ref": "payload-lifetime-v2-windows-checks--02-test_lab.stderr.raw",
+      "bytes": 1181,
+      "sha256": "0ade121e63fb24a30195e5bb49ace27a3da771b5b568a2581a659c689d60b738",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v2-windows-checks\\02-test_lab.stderr.raw"
+    },
+    {
+      "ref": "payload-lifetime-v2-windows-checks--02-test_lab.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v2-windows-checks\\02-test_lab.stdout.raw"
+    },
+    {
+      "ref": "payload-lifetime-v2-windows-checks--03-test_revocation_binding.stderr.raw",
+      "bytes": 431,
+      "sha256": "60d12af1296d22119f6144d8a4a9402ac042175258788b082df089de4e0f2c3c",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v2-windows-checks\\03-test_revocation_binding.stderr.raw"
+    },
+    {
+      "ref": "payload-lifetime-v2-windows-checks--03-test_revocation_binding.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v2-windows-checks\\03-test_revocation_binding.stdout.raw"
+    },
+    {
+      "ref": "payload-lifetime-v2-windows-checks--04-test_cache_body_bounds.stderr.raw",
+      "bytes": 597,
+      "sha256": "75ac01e8b3830592e019bc71041723e74a07fbced15697f384faef9f8f29a247",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v2-windows-checks\\04-test_cache_body_bounds.stderr.raw"
+    },
+    {
+      "ref": "payload-lifetime-v2-windows-checks--04-test_cache_body_bounds.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v2-windows-checks\\04-test_cache_body_bounds.stdout.raw"
+    },
+    {
+      "ref": "payload-lifetime-v2-windows-checks--05-test_cache_probe.stderr.raw",
+      "bytes": 755,
+      "sha256": "573d06854e05b1ae6c6591931cc916cce53a87648d341cb2698d18926e9878a7",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v2-windows-checks\\05-test_cache_probe.stderr.raw"
+    },
+    {
+      "ref": "payload-lifetime-v2-windows-checks--05-test_cache_probe.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v2-windows-checks\\05-test_cache_probe.stdout.raw"
+    },
+    {
+      "ref": "payload-lifetime-v2-windows-checks--06-test_input_profile.stderr.raw",
+      "bytes": 1561,
+      "sha256": "b7f4d4800e27d74431442418b241e1d79d851d774ce6fe947d93f3974b7f5305",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v2-windows-checks\\06-test_input_profile.stderr.raw"
+    },
+    {
+      "ref": "payload-lifetime-v2-windows-checks--06-test_input_profile.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v2-windows-checks\\06-test_input_profile.stdout.raw"
+    },
+    {
+      "ref": "payload-lifetime-v2-windows-checks--07-test_representative_cache.stderr.raw",
+      "bytes": 585,
+      "sha256": "0270bbf56fd973c4df2f0e595df28fed02bb73c169b374bb77c7d4ef6a1d9ffd",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v2-windows-checks\\07-test_representative_cache.stderr.raw"
+    },
+    {
+      "ref": "payload-lifetime-v2-windows-checks--07-test_representative_cache.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v2-windows-checks\\07-test_representative_cache.stdout.raw"
+    },
+    {
+      "ref": "payload-lifetime-v2-windows-checks--results.json",
+      "bytes": 6909,
+      "sha256": "0abf843ecb5a75f517a3483b12345f903ff411bd24828f16f2b884051a074296",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v2-windows-checks\\results.json"
+    },
+    {
+      "ref": "payload-lifetime-v2-linux-checks--01-test_payload_lifetime.stderr.raw",
+      "bytes": 1957,
+      "sha256": "ffc65bedae83d22bfe0a64a0ffe116e649c65b82acf31c73198777ec40c69e9e",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v2-linux-checks\\01-test_payload_lifetime.stderr.raw"
+    },
+    {
+      "ref": "payload-lifetime-v2-linux-checks--01-test_payload_lifetime.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v2-linux-checks\\01-test_payload_lifetime.stdout.raw"
+    },
+    {
+      "ref": "payload-lifetime-v2-linux-checks--02-test_lab.stderr.raw",
+      "bytes": 1168,
+      "sha256": "20b5d5a7ce893b6919f7e63b33501c7e18316f393acaf4781936c1e28e78cb46",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v2-linux-checks\\02-test_lab.stderr.raw"
+    },
+    {
+      "ref": "payload-lifetime-v2-linux-checks--02-test_lab.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v2-linux-checks\\02-test_lab.stdout.raw"
+    },
+    {
+      "ref": "payload-lifetime-v2-linux-checks--03-test_revocation_binding.stderr.raw",
+      "bytes": 424,
+      "sha256": "534ec7ff4dfcd56668c203cf098c5f3a0beace0135b32431fec744a422c4f9e6",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v2-linux-checks\\03-test_revocation_binding.stderr.raw"
+    },
+    {
+      "ref": "payload-lifetime-v2-linux-checks--03-test_revocation_binding.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v2-linux-checks\\03-test_revocation_binding.stdout.raw"
+    },
+    {
+      "ref": "payload-lifetime-v2-linux-checks--04-test_cache_body_bounds.stderr.raw",
+      "bytes": 589,
+      "sha256": "6a6bc0bd50d77475c6104b915411eb314fe3a29937dc6a737511b7f61e5d204c",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v2-linux-checks\\04-test_cache_body_bounds.stderr.raw"
+    },
+    {
+      "ref": "payload-lifetime-v2-linux-checks--04-test_cache_body_bounds.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v2-linux-checks\\04-test_cache_body_bounds.stdout.raw"
+    },
+    {
+      "ref": "payload-lifetime-v2-linux-checks--05-test_cache_probe.stderr.raw",
+      "bytes": 746,
+      "sha256": "5163b9a2c651f06ced124134524ee04f43bb4d6fbf3236ed629b0d22273316d6",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v2-linux-checks\\05-test_cache_probe.stderr.raw"
+    },
+    {
+      "ref": "payload-lifetime-v2-linux-checks--05-test_cache_probe.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v2-linux-checks\\05-test_cache_probe.stdout.raw"
+    },
+    {
+      "ref": "payload-lifetime-v2-linux-checks--06-test_input_profile.stderr.raw",
+      "bytes": 1547,
+      "sha256": "39932f3836e1575a3a8de4b7747336b65e9f6cb415234092d9d21900be1238a3",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v2-linux-checks\\06-test_input_profile.stderr.raw"
+    },
+    {
+      "ref": "payload-lifetime-v2-linux-checks--06-test_input_profile.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v2-linux-checks\\06-test_input_profile.stdout.raw"
+    },
+    {
+      "ref": "payload-lifetime-v2-linux-checks--07-test_representative_cache.stderr.raw",
+      "bytes": 577,
+      "sha256": "278ed5f320615391c3e65c83243d9475b02ad19ef6829249f77628af1adb3691",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v2-linux-checks\\07-test_representative_cache.stderr.raw"
+    },
+    {
+      "ref": "payload-lifetime-v2-linux-checks--07-test_representative_cache.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v2-linux-checks\\07-test_representative_cache.stdout.raw"
+    },
+    {
+      "ref": "payload-lifetime-v2-linux-checks--08-test_gateway_native.stderr.raw",
+      "bytes": 633,
+      "sha256": "11de0ced483fbaa65f26fcfc3a0124adfc5abd90355427249c090411793c1a38",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v2-linux-checks\\08-test_gateway_native.stderr.raw"
+    },
+    {
+      "ref": "payload-lifetime-v2-linux-checks--08-test_gateway_native.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v2-linux-checks\\08-test_gateway_native.stdout.raw"
+    },
+    {
+      "ref": "payload-lifetime-v2-linux-checks--09-test_http_timing_native.stderr.raw",
+      "bytes": 408,
+      "sha256": "a3cfd8f05c44972c26ee60416b6d794de263c930d500c41b5f34f292b13ec6e4",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v2-linux-checks\\09-test_http_timing_native.stderr.raw"
+    },
+    {
+      "ref": "payload-lifetime-v2-linux-checks--09-test_http_timing_native.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v2-linux-checks\\09-test_http_timing_native.stdout.raw"
+    },
+    {
+      "ref": "payload-lifetime-v2-linux-checks--10-test_representative_cache_native.stderr.raw",
+      "bytes": 778,
+      "sha256": "9371edef625fb01755d4de010324d54662bb7ff1204ea2cce25ca836bb7e1dea",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v2-linux-checks\\10-test_representative_cache_native.stderr.raw"
+    },
+    {
+      "ref": "payload-lifetime-v2-linux-checks--10-test_representative_cache_native.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v2-linux-checks\\10-test_representative_cache_native.stdout.raw"
+    },
+    {
+      "ref": "payload-lifetime-v2-linux-checks--results.json",
+      "bytes": 9256,
+      "sha256": "90aaab71102cad9210b53a415e66a82ad0a351913339cf90bd7259d03d3ae505",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-payload-lifetime-v2-linux-checks\\results.json"
+    }
+  ]
+}

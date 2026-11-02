@@ -1,0 +1,59 @@
+{
+  "kind": "ACTUAL_INDEPENDENT_BEFORE_EXECUTION_APPROVAL",
+  "decision": "approved",
+  "approver": "independent-review-agent",
+  "actualReviewer": "/root/gz022_planning_independent_review",
+  "approvedAt": "2026-10-22T14:25:41Z",
+  "proposalSha256": "543c726bbf3655b6521df67869e18af68c5bf396f8f1778656e06a65a7e66a26",
+  "configSha256": "2acd0f8fd0fdb726fa6f522c09bc01f031745289fb32ee1fb42f41f915ef91e2",
+  "testedSource": {
+    "commit": "18163e180e554773ef82e1eea7ffcafa634b027a",
+    "tree": "422c95a29fb8fe7558091826c1d1464a6d08398f"
+  },
+  "executionScope": "ONE_REAL_SERIAL_SAME_UNEXPIRED_GRANT_WARM_CACHE_REVOCATION_ONLY",
+  "mustFix": [],
+  "validFrom": "2026-10-22T14:24:17.207322+00:00",
+  "validUntil": "2026-10-22T15:04:17.207322+00:00",
+  "samples": [
+    {
+      "kind": "base",
+      "path": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/local-lab/range-fixtures/local64m-v1/guize-range-local64m-base-v1.bin",
+      "file": "guize-range-local64m-base-v1.bin",
+      "sizeBytes": 67108864,
+      "sha256": "938a8bc3e0a64184f1551bff0c500dc891366ead8f30f8f83753587e763c1c26",
+      "immutableId": "sha256:938a8bc3e0a64184f1551bff0c500dc891366ead8f30f8f83753587e763c1c26"
+    },
+    {
+      "kind": "changedVersion",
+      "path": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/local-lab/range-fixtures/local64m-v1/guize-range-local64m-changed-v1.bin",
+      "file": "guize-range-local64m-changed-v1.bin",
+      "sizeBytes": 67108864,
+      "sha256": "643d769e1b5120a7c52d63df3d266f67a4177050180858480feb4e686e2fdda1",
+      "immutableId": "sha256:643d769e1b5120a7c52d63df3d266f67a4177050180858480feb4e686e2fdda1"
+    }
+  ],
+  "resourceLimits": {
+    "loopbackOnly": true,
+    "maxRunSeconds": 900,
+    "cacheMiB": 256,
+    "maxCollectorBodyBytes": 1073741824,
+    "maximumOriginRequests": 2048,
+    "atsNetThreads": 2,
+    "bookingRequired": false
+  },
+  "runDir": "/home/sur/.cache/guize-takeover/poc003-focused-revocation-20261022-v1",
+  "rawOutputDir": "/home/sur/.cache/guize-takeover/poc003-focused-revocation-raw-20261022-v1",
+  "conditions": [
+    "Concrete independent approval of exact proposal SHA/source/both actual immutable inputs/resource/window before starting listeners or protected requests",
+    "Actual main fullCI808 result remains separately tracked; sourceCI809 pending is not experimental acceptance",
+    "Private runtime keys/settings remain outside Git; never copy the private runroot or auth values",
+    "Retain raw request bodies/headers/native observer journals; failing real assertions remain failure",
+    "Stop only the owned controller/ATS child after scenario, verify ports released and preserve raw data",
+    "No latency/buffering-domain/complete-original15/qualified-profile/fullV1 claim; full15 stage/buffer/typed evidence remain required separately"
+  ],
+  "original15Approved": false,
+  "performanceOrBufferDomainApproved": false,
+  "qualifiedProfileApproved": false,
+  "integrationApproved": false,
+  "experimentExecuted": false
+}

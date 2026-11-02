@@ -1,0 +1,67 @@
+{
+  "source": "9c012b4e1c90b014fe619253a8f07a738b5c0724",
+  "syntaxParsed": true,
+  "testsActuallyPassed": 14,
+  "noSkippedTests": true,
+  "missingSandboxActuallyFailed": true,
+  "actualObserverSourceMatchesBuild": true,
+  "realAtsExperimentExecutedByThisChecker": false,
+  "checks": [
+    {
+      "argv": [
+        "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+        "-B",
+        "poc/POC-03-ats-range/test_lab.py"
+      ],
+      "actualExitCode": 0,
+      "expectedExitCode": 0,
+      "actualTests": 8,
+      "waitCompleted": true,
+      "raw": "test_lab.py.raw",
+      "bytes": 1168,
+      "sha256": "4f6f789c84be212fc708c27b0db19e13e0b7cfb2757f57d4b8522c69d43def41"
+    },
+    {
+      "argv": [
+        "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+        "-B",
+        "poc/POC-03-ats-range/test_cache_probe.py"
+      ],
+      "actualExitCode": 0,
+      "expectedExitCode": 0,
+      "actualTests": 4,
+      "waitCompleted": true,
+      "raw": "test_cache_probe.py.raw",
+      "bytes": 746,
+      "sha256": "38daf0af36beab9168e7ff2c4d0e9459dd9d44997b0889b2bd62a798358630a8"
+    },
+    {
+      "argv": [
+        "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+        "-B",
+        "poc/POC-03-ats-range/test_cache_probe_native.py"
+      ],
+      "actualExitCode": 0,
+      "expectedExitCode": 0,
+      "actualTests": 2,
+      "waitCompleted": true,
+      "raw": "test_cache_probe_native.py.raw",
+      "bytes": 458,
+      "sha256": "98b6c8e9cdfad8c7274de0e1b9ff7c2f09ca254249f6a8ea9fa9e4115f394e7f"
+    },
+    {
+      "argv": [
+        "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+        "-B",
+        "poc/POC-03-ats-range/test_warm_cache_revocation.py"
+      ],
+      "actualExitCode": 1,
+      "expectedExitCode": 1,
+      "actualTests": 0,
+      "waitCompleted": true,
+      "raw": "test_warm_cache_revocation.py.raw",
+      "bytes": 556,
+      "sha256": "07196e91bab35b8fe73c36fdcd3641016824ca80744a5410e23b2e40ec11c0cd"
+    }
+  ]
+}

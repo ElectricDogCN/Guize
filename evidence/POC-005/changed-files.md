@@ -28679,3 +28679,19 @@ Accepted integration base: `22ab6a0668da2d64a016fccef2c3b5a634638a24`. Creation 
 - `specs/coordination/active-work.yaml`
 - `specs/coordination/program-plan.yaml`
 - `specs/tasks/POC-005.md`
+
+
+## Actual main0d8 staged code integration and exact locator retirement
+- evidence/POC-005/changed-files.md
+- evidence/POC-005/commands.txt
+- evidence/POC-005/handoff.md
+- evidence/POC-005/post-poc003-staged-code-v1/README.md
+- evidence/POC-005/post-poc003-staged-code-v1/commands.txt
+- evidence/POC-005/post-poc003-staged-code-v1/context.json
+- evidence/POC-005/post-poc003-staged-code-v1/index.json
+- evidence/POC-005/post-poc003-staged-code-v1/prerequisites.zip
+- evidence/POC-005/profile-history/local-v1-3592-attempt011/attribution.json
+- evidence/POC-005/profile-history/local-v1-3592-attempt011/index.original.yaml
+- evidence/POC-005/profiles/local-v1/v1/index.yaml
+- evidence/POC-005/summary.md
+- evidence/POC-005/test-results/README.md

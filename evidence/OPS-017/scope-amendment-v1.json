@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "kind": "ops017_prospective_scope_amendment_v1",
+  "taskId": "OPS-017",
+  "owner": "ElectricDogCN",
+  "integrationBase": "76be38c26dea26669819f142c572e69aac84c32b",
+  "originalIntentSha256": "985942645f493d1e25f1034842aa588594d83a8a0e5587526c830251ee23fdb5",
+  "originalAuthorityPaths": [
+    "AGENTS.md",
+    "scripts/check-program-lifecycle-guards.py",
+    "scripts/poc-contract-repair-admission.py",
+    "tests/governance/test_poc_contract_repair_admission.py"
+  ],
+  "supplementalPaths": [
+    "scripts/check-program-plan-history.py",
+    "scripts/program-planning-revision.py"
+  ],
+  "declaredPaths": [
+    "AGENTS.md",
+    "scripts/check-program-lifecycle-guards.py",
+    "scripts/check-program-plan-history.py",
+    "scripts/poc-contract-repair-admission.py",
+    "scripts/program-planning-revision.py",
+    "tests/governance/test_poc_contract_repair_admission.py"
+  ],
+  "effectiveRule": "supplemental writes require the independently accepted first-parent amendment main in the admitted base and ancestral to the write parent",
+  "originalFourCumulativeImplementationRequired": true,
+  "finalCodeIdentityUsesThenEffectiveDeclaredScope": true,
+  "bootstrapMayChangeSupplementalFiles": false,
+  "bootstrapExceptionAppliesOnlyToAmendmentSourceAndItsActualMain": true,
+  "laterPerformanceAndCompletionRequireFullOfficialCi": true,
+  "original828AssertionsTimeoutRunnerAndFrozenTargetsPreserved": true,
+  "approvalEvidence": {
+    "kind": "direct_user_message",
+    "instruction": "批准这次受限治理修订和一次引导例外，按提案继续推进 OPS-017 收口及 POC-003/005 验证。后续性能代码和结项仍须完整官方 CI 通过，通过后直接审批、合并并清理已结束的远端分支。",
+    "proposalSha256": "79948da7f525fff26c12abe1d75917394f01b1ea224baa7fbfee59ea00a23c74",
+    "recordedAt": "2026-11-02T01:51:26.771359+00:00"
+  }
+}

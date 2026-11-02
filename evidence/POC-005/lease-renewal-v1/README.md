@@ -1,0 +1,7 @@
+# POC-005 prospective reserved lease renewal
+
+Actual accepted base `fdf93444a72aa5cc52dd49a79d2f4e435cd1ce1d`; actual metadata branch `chore/POC-005-lease-renewal-20261029`. This transaction changes only Own Registry acquiredAt/expiresAt and Task front-matter expiry, plus new Own Evidence and an append to the historical handoff. All historical Task body, actors, creation base, registered work branch, Program, Ledger, source, old approvals/windows, measurements, thresholds and production obligations remain unchanged.
+
+`decision.json` records the real new prospective coordination decision and original/proposed lease. `commands.json` binds all15 existing gate families to this actual current base and branch; the Task's old command block remains historical and is not claimed freshly executed literally. The actual source/tree is resolved from eventual Git commit. Candidate gates, full same-head CI, independent review, normal merge and actual-main/full push CI acceptance are pending. A proposal or local timestamp cannot cure an expired interval or qualify old evidence on new source.
+
+Original011 execution/raw/sample/DBs and exact3592 local-profile acceptance are preserved. Current compatibility, current sourceCI, normal task closure, full originalV1 and independent production remeasurement remain separate required work. No new execution or rewritten identity is approved. Withdraw before merge or use lawful Own cancellation afterward; preserve all local refs, workspaces, raw data and databases.

@@ -1,0 +1,1439 @@
+{
+  "kind": "INSTRUMENTED_ATS_NATIVE_BUILD_NOT_RUNTIME_EXPERIMENT",
+  "uid": 1000,
+  "startedAt": "2026-10-22T16:50:45.997853+00:00",
+  "previousBuildAttempt": "compile-v1 docs option failed; compile-v2 lacked zlib-dev; compile-v3 selected removed bundled yamlcpp and failed link. Preserve all raw logs. Use actual system yaml-cpp with explicit /usr prefix; updated sticky-external header separately verified.",
+  "sourcePreparation": {
+    "kind": "EXACT_SOURCE_PREPARED_ONLY_NOT_RUNTIME",
+    "uid": 1000,
+    "sourceArchiveSha256": "0e323e1c4c01d1506cfd49d4c6935dbebd125b187d9ba72fe909bd6b10d81110",
+    "sourceRoot": "/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3",
+    "patches": [
+      {
+        "file": "0003-reproductible-build.patch",
+        "sha256": "d44983b746d56dc824e680eb04ab990d9a32138ad450ce39c5314c2ce388583f",
+        "exitCode": 0
+      },
+      {
+        "file": "0006-fix-doc-build.patch",
+        "sha256": "f23b7cc381803e6dafe16f529e04677ed2c1d371eca7360a62d4e46804c5683d",
+        "exitCode": 0
+      },
+      {
+        "file": "0008-fix-python-check-unused-dependencies.patch",
+        "sha256": "5b3d74a79ba2cb3cebdf0ffd353501dd61477162c8601b83123fe632b0f387b5",
+        "exitCode": 0
+      },
+      {
+        "file": "0013-fix-perl-interpreter-path.patch",
+        "sha256": "67d5c0c2be81d9c364a2b8e950fff018f20aae1be45cae1848693b5f2edb7275",
+        "exitCode": 0
+      },
+      {
+        "file": "0014-use_system_yaml-cpp.patch",
+        "sha256": "e2477f251fce68c38db3378ef60609ca4c0dbb13c1d56cc0e8cfda5b0af178f5",
+        "exitCode": 0
+      },
+      {
+        "file": "0021-workaround-obsolete-plantuml.patch",
+        "sha256": "f9b89b9b657b5115746ba4ecf7d58a871e8b954614b2fd96d40ef131884a0e16",
+        "exitCode": 0
+      },
+      {
+        "file": "0022-workaround-missing-sphinxcontrib.jquery.patch",
+        "sha256": "eb442b8dd4eaf1ac73bf7fede581e59d7b560f1bb44f272e80edbc4ee16518b4",
+        "exitCode": 0
+      },
+      {
+        "file": "0023-CVE-2024-50305.patch",
+        "sha256": "28ae9c5204579f894ff1fdb33a77798250f62d51d4f59c6537bbff1b48d05fc0",
+        "exitCode": 0
+      }
+    ],
+    "atsStarted": false,
+    "instrumentationApplied": false,
+    "experimentExecuted": false
+  },
+  "instrumentation": {
+    "kind": "DRAFT_NATIVE_LIVE_ACCOUNTING_PATCH_NOT_EXPERIMENTED",
+    "files": [
+      {
+        "path": "iocore/eventsystem/I_IOBuffer.h",
+        "beforeSha256": "81819fc587efa0586bd4621318f14bd7ae8342484e872a13f8778862dc7f75a5",
+        "afterSha256": "936c0c4db159676a357fc5ace9d16d008c4136652849926d0f0d99e1c5225007"
+      },
+      {
+        "path": "iocore/eventsystem/P_IOBuffer.h",
+        "beforeSha256": "be8d0bbe13f9a459fe71b1269eda21a855c8ab1b50ffbef88be4e78569a794e7",
+        "afterSha256": "445ca92bd3e50d3d73f16bb9821ad96110a6b3d71f665b6871805b2832d2446e"
+      },
+      {
+        "path": "iocore/cache/P_CacheVol.h",
+        "beforeSha256": "582da9160e9fa23fb33a8b8f851daf20523b1b8dec357dd51552736639d09ec5",
+        "afterSha256": "ba06f2298a0f7d38c955d2cd5cb7ed3fb582871a5ca4ecd9bdb487fa1f0a9c7a"
+      },
+      {
+        "path": "src/tscore/ink_resource.cc",
+        "beforeSha256": "64f3899408dc02fed6978179d5def6363d9577ba334d7b9761d777034cdcdcde",
+        "afterSha256": "0aabcfc660f2391f154cd771f1280220067cd1db774d17bce9e89679d4e44c5f"
+      },
+      {
+        "path": "iocore/cache/Cache.cc",
+        "beforeSha256": "a6f1937b4aa042cd75ad5cb4479ca0f6e45aab09706ff820a035a763653ecf69",
+        "afterSha256": "8926035b3c46a9d584cd5fae86094617817df207869e1c8d59ba902c516e76b2"
+      }
+    ],
+    "patchSha256": "0ad76c3878bcbeb088b2a522308bbabe17cdb61c5336580aedb1d550db203cd4",
+    "additionalHeaderSha256": "e17adfb92fc4093e3a0e4f46d538f37809dfb433c1fa054729d1dec819c3d615",
+    "observationWindow": "Only after native HTTP-cache-ready with an atomic reset retaining all currently live baseline payload",
+    "uncoveredExternalEventsInvalidateQualification": true,
+    "externalSetInternalIncluded": true,
+    "directRecoveryIncluded": true,
+    "managementScanUsesTrackedNonFastIOBufferData": true,
+    "fullMediaCoverageProven": false,
+    "experimentApproved": false,
+    "atsStarted": false,
+    "unknownExternalRiskProcessLifetimeSticky": true,
+    "protectedSourceMediaOnly": true,
+    "generatedSliceErrorTextOutsideMediaDomain": true
+  },
+  "commands": [
+    {
+      "label": "autoreconf",
+      "argv": [
+        "autoreconf",
+        "-if"
+      ],
+      "startedAt": "2026-10-22T16:50:45.998091+00:00",
+      "finishedAt": "2026-10-22T16:50:52.730760+00:00",
+      "seconds": 6.732691404002253,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "logs": [
+        {
+          "file": "autoreconf.stdout.raw",
+          "bytes": 409,
+          "sha256": "9a83b0c31f1868d29e87cc8a5675903bfcf4df88fafee50a028472fac339f8ed"
+        },
+        {
+          "file": "autoreconf.stderr.raw",
+          "bytes": 166,
+          "sha256": "5002c921c90648aa3463e612fc813f02d6f1a254e7a1988234e0aa37788057e4"
+        }
+      ]
+    },
+    {
+      "label": "configure",
+      "argv": [
+        "./configure",
+        "--prefix=/usr",
+        "--enable-layout=Debian",
+        "--disable-tests",
+        "--disable-hwloc",
+        "--disable-unwind",
+        "--enable-experimental-plugins",
+        "--with-yaml-cpp=/usr"
+      ],
+      "startedAt": "2026-10-22T16:50:52.731459+00:00",
+      "finishedAt": "2026-10-22T16:51:34.865419+00:00",
+      "seconds": 42.00198005599668,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "logs": [
+        {
+          "file": "configure.stdout.raw",
+          "bytes": 20452,
+          "sha256": "46d5ae5fe03e1e850d94ac6a067d46fd905d5eaa8b8fc0a5836fb2f7eda1f770"
+        },
+        {
+          "file": "configure.stderr.raw",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ]
+    },
+    {
+      "label": "make",
+      "argv": [
+        "make",
+        "-j2"
+      ],
+      "startedAt": "2026-10-22T16:51:34.866034+00:00",
+      "finishedAt": "2026-10-22T16:56:16.222603+00:00",
+      "seconds": 280.62061169299704,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "logs": [
+        {
+          "file": "make.stdout.raw",
+          "bytes": 45121,
+          "sha256": "87252fa1f6b324431c68c43aa82dab50d24639be9ae1a32e23718653e3bd459a"
+        },
+        {
+          "file": "make.stderr.raw",
+          "bytes": 1846,
+          "sha256": "d17e45d9c2d4ee36fb0548dfe52e948ef73da8f50d653371faa848bf0127d4ac"
+        }
+      ]
+    },
+    {
+      "label": "install",
+      "argv": [
+        "make",
+        "install",
+        "DESTDIR=/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot"
+      ],
+      "startedAt": "2026-10-22T16:56:16.223374+00:00",
+      "finishedAt": "2026-10-22T16:56:22.052239+00:00",
+      "seconds": 5.828891885001212,
+      "exitCode": 0,
+      "waitCompleted": true,
+      "logs": [
+        {
+          "file": "install.stdout.raw",
+          "bytes": 85326,
+          "sha256": "b9f033f3709b913921ec1e375ce5d669766b35bad16801d1b32f5afbd9377c02"
+        },
+        {
+          "file": "install.stderr.raw",
+          "bytes": 3364,
+          "sha256": "2ec74bc750009ad0c3a56900c0831e6749f99ca055cc22e22817cf2beb9c74e4"
+        }
+      ]
+    }
+  ],
+  "atsStarted": false,
+  "experimentExecuted": false,
+  "finishedAt": "2026-10-22T16:56:22.092259+00:00",
+  "artifacts": [
+    {
+      "file": "etc/trafficserver/body_factory/default/.body_factory_info",
+      "bytes": 610,
+      "sha256": "e74d26c9f561e3f3d666ecf7c4e57dd71e2ce46f4eabeaa4f712b726105f7b28"
+    },
+    {
+      "file": "etc/trafficserver/body_factory/default/README",
+      "bytes": 679,
+      "sha256": "8e01060a5ace93a16749de383c6c0cc91084282e6743dd59b13b7dab7b3706d6"
+    },
+    {
+      "file": "etc/trafficserver/body_factory/default/access#denied",
+      "bytes": 249,
+      "sha256": "65210bc7baf68cffd24c541cea88d213a55dff2ab747743452d2af5d5a5ecf9f"
+    },
+    {
+      "file": "etc/trafficserver/body_factory/default/access#proxy_auth_required",
+      "bytes": 264,
+      "sha256": "4dee0cc8a3509d3c8fd78ef258f99b75d2d6e7a5f12cbfbbc3d2329bf3e395b6"
+    },
+    {
+      "file": "etc/trafficserver/body_factory/default/access#ssl_forbidden",
+      "bytes": 281,
+      "sha256": "34b2e8c4b8dc458c61657529b64968fb02a28d4d29141823c230e213fca40606"
+    },
+    {
+      "file": "etc/trafficserver/body_factory/default/cache#not_in_cache",
+      "bytes": 340,
+      "sha256": "2e1867c72379bfe7cda3e0bf1bf4dcff11220bad100d89030f43baf32a6aeebf"
+    },
+    {
+      "file": "etc/trafficserver/body_factory/default/cache#read_error",
+      "bytes": 237,
+      "sha256": "5c41b84726745848976076c405f3045a52a37eb7eb9c220744e3e86b7ae94024"
+    },
+    {
+      "file": "etc/trafficserver/body_factory/default/connect#dns_failed",
+      "bytes": 391,
+      "sha256": "6612530eae2f631be9c13106b39484f5712d60bd0abdbf32edfddbebbc953bfa"
+    },
+    {
+      "file": "etc/trafficserver/body_factory/default/connect#failed_connect",
+      "bytes": 247,
+      "sha256": "f98b95e1968cf3cda9ebfdf6273d555663f51dfa8258c7b62c03e890050ba6d4"
+    },
+    {
+      "file": "etc/trafficserver/body_factory/default/connect#hangup",
+      "bytes": 294,
+      "sha256": "98777d43e9bf197e5577eadbbe0e4c3d993c98a02ac0bcfd7a9296f0e9d7de03"
+    },
+    {
+      "file": "etc/trafficserver/body_factory/default/default",
+      "bytes": 207,
+      "sha256": "0e42305048d934ca620c0c33fc39aef477dca63d6035245b72e717874a396e75"
+    },
+    {
+      "file": "etc/trafficserver/body_factory/default/interception#no_host",
+      "bytes": 461,
+      "sha256": "3f928e321dc283c9436886d3a6147a9d2d1238226f0b1e6f72c6dd5bd5b92872"
+    },
+    {
+      "file": "etc/trafficserver/body_factory/default/redirect#moved_permanently",
+      "bytes": 299,
+      "sha256": "a2bd56bfa44cfc91c7c4d5d7638b7716f42725f5240ba42d4dadf1b2a892cfb4"
+    },
+    {
+      "file": "etc/trafficserver/body_factory/default/redirect#moved_temporarily",
+      "bytes": 299,
+      "sha256": "a2bd56bfa44cfc91c7c4d5d7638b7716f42725f5240ba42d4dadf1b2a892cfb4"
+    },
+    {
+      "file": "etc/trafficserver/body_factory/default/request#cycle_detected",
+      "bytes": 346,
+      "sha256": "fcf6888b68f8fdf4137363d58a4652ca6b150ad0f9ba9c91b790b5f1a5a6b3e4"
+    },
+    {
+      "file": "etc/trafficserver/body_factory/default/request#invalid_content_length",
+      "bytes": 304,
+      "sha256": "763edb058986a0cad055cefa091ca741dbaaaff22fd80ed94b605540040a4e2f"
+    },
+    {
+      "file": "etc/trafficserver/body_factory/default/request#no_content_length",
+      "bytes": 277,
+      "sha256": "e7e28d0395e93040e3453ff9e3b0dbe1f32995f56513e3cc5b5c1b08912b8e3d"
+    },
+    {
+      "file": "etc/trafficserver/body_factory/default/request#no_host",
+      "bytes": 447,
+      "sha256": "bf9dc256872da186300068fa9f128da8c66c12f18228d30cb4758fd2aef1f024"
+    },
+    {
+      "file": "etc/trafficserver/body_factory/default/request#scheme_unsupported",
+      "bytes": 289,
+      "sha256": "8c7a1aa6ba4b9282af75018d25b5506629b1f7fa758cfb089afb3190638d6d5f"
+    },
+    {
+      "file": "etc/trafficserver/body_factory/default/request#syntax_error",
+      "bytes": 219,
+      "sha256": "0431b85fc70a44a664984b2306597ab7e577f437dd5715a335fb44d61f69ba88"
+    },
+    {
+      "file": "etc/trafficserver/body_factory/default/request#uri_len_too_long",
+      "bytes": 300,
+      "sha256": "3beafeb63f145f64fed20a0bbf58692069c49131c43811576ba203ea8a6b58ac"
+    },
+    {
+      "file": "etc/trafficserver/body_factory/default/response#bad_response",
+      "bytes": 255,
+      "sha256": "b756e550d8355df5ce77e88fa0c093fed7911a0f506a3ad805c59ccbc624b8b3"
+    },
+    {
+      "file": "etc/trafficserver/body_factory/default/response#bad_version",
+      "bytes": 296,
+      "sha256": "915d3b6cea7b655c2e3ab21f7d14f34244f9de213cf210644a0e8926ed9f6f54"
+    },
+    {
+      "file": "etc/trafficserver/body_factory/default/timeout#activity",
+      "bytes": 245,
+      "sha256": "9073ebdb34e6b0abc125f1e1277007105a938022a46cf6c2556077214f919a64"
+    },
+    {
+      "file": "etc/trafficserver/body_factory/default/timeout#inactivity",
+      "bytes": 265,
+      "sha256": "7fe38dcad8016218afa981e6f3c439dda23849ab82d51fcd23820de5faa44b2a"
+    },
+    {
+      "file": "etc/trafficserver/body_factory/default/transcoding#unsupported",
+      "bytes": 289,
+      "sha256": "f48157693564e1d587a412d2ea96c0b750d1bf00658eeff056ddb95744692c95"
+    },
+    {
+      "file": "etc/trafficserver/body_factory/default/urlrouting#no_mapping",
+      "bytes": 297,
+      "sha256": "c2e07ecc0456a9a8ced77f81ad809230c2ccf61da6ecb6b3e0982093bcbda5c1"
+    },
+    {
+      "file": "etc/trafficserver/cache.config",
+      "bytes": 1793,
+      "sha256": "9f774e03af03ccd9505c812b544d837357c09be9da0c46a3716f79a4a0e0b262"
+    },
+    {
+      "file": "etc/trafficserver/hosting.config",
+      "bytes": 869,
+      "sha256": "89388e1c22047531163ff347a0008ba96b78ed02a1296a0329e0172dcc9312ff"
+    },
+    {
+      "file": "etc/trafficserver/ip_allow.yaml",
+      "bytes": 1502,
+      "sha256": "9a9ba88090a5276057935a8fa95b0b105adb1b23936f6eaceafb06c01b2bd72e"
+    },
+    {
+      "file": "etc/trafficserver/logging.yaml",
+      "bytes": 2102,
+      "sha256": "b4fa5a7079b32e89f654761f5ebe4c22d516586343ff1d578c44344ab99f69a2"
+    },
+    {
+      "file": "etc/trafficserver/parent.config",
+      "bytes": 1491,
+      "sha256": "f2a859831eba51c747e72c04db44813abb64b0ff70bfef6c41d0a525e9fa5e63"
+    },
+    {
+      "file": "etc/trafficserver/plugin.config",
+      "bytes": 393,
+      "sha256": "5c95abb027d51660e7ff7e3db1f9bdbe7d9c76e628a9bc948cd2ea887b0a18c3"
+    },
+    {
+      "file": "etc/trafficserver/records.config",
+      "bytes": 10781,
+      "sha256": "5bf326efb094f0381b01f03a7a2372a60edac81fed65d8ed5288e6d7d8d78cc1"
+    },
+    {
+      "file": "etc/trafficserver/remap.config",
+      "bytes": 8836,
+      "sha256": "a8b993d6d954934477b59f4d6c90d0350e55c0115aa2e6df5aff7f2571f88c2a"
+    },
+    {
+      "file": "etc/trafficserver/sni.yaml",
+      "bytes": 3318,
+      "sha256": "260932a8378d9305c0f6f22a83bc16ca5a459f7adbde0650386ab6cef40ea2cc"
+    },
+    {
+      "file": "etc/trafficserver/socks.config",
+      "bytes": 1678,
+      "sha256": "54e8e21db1ecbb0cce07a4efe2f66e47f2c011b3064929d119505d8e964ef9f4"
+    },
+    {
+      "file": "etc/trafficserver/splitdns.config",
+      "bytes": 2228,
+      "sha256": "60a5ae6946e97403a626dca144e2fcb35127bc31c178063678f9f6b0e8ab2a2d"
+    },
+    {
+      "file": "etc/trafficserver/ssl_multicert.config",
+      "bytes": 2871,
+      "sha256": "69406fae3a6ab1cfc9de13354d3a23e0e2c5dfb756419790e2d12d2482b2c25b"
+    },
+    {
+      "file": "etc/trafficserver/storage.config",
+      "bytes": 1886,
+      "sha256": "cac8c9c9549a45e4fe5f0c0033b3772071b91c9cc4929a803598a7e592c4c20c"
+    },
+    {
+      "file": "etc/trafficserver/strategies.yaml",
+      "bytes": 6295,
+      "sha256": "678274c2d811472d3f14a7fd498e89092cd3849a29bc7374822e4e62a0233a07"
+    },
+    {
+      "file": "etc/trafficserver/trafficserver-release",
+      "bytes": 19,
+      "sha256": "4f335385f0d52cb584c83e25e3e0b6a7cc06bf0c423152069788f1cff27dba40"
+    },
+    {
+      "file": "etc/trafficserver/volume.config",
+      "bytes": 1393,
+      "sha256": "53668d8ac3be3e6ebee21108661db2ca1b6d57f1c3fe45ef6b421ced9222ae00"
+    },
+    {
+      "file": "usr/bin/traffic_cache_tool",
+      "bytes": 510504,
+      "sha256": "815508239266a35f95d9fec86339258ae0629c8b5ffb49905d744b822fe4b8d4"
+    },
+    {
+      "file": "usr/bin/traffic_crashlog",
+      "bytes": 469896,
+      "sha256": "518183481e7f885bf3907cee1f0174e9f5a747f800a7611dc1a861601cc1d037"
+    },
+    {
+      "file": "usr/bin/traffic_ctl",
+      "bytes": 604848,
+      "sha256": "5e5ba60255019b2f567eb4e71073adc59905a6fb8df04fc215c6e541937623cc"
+    },
+    {
+      "file": "usr/bin/traffic_layout",
+      "bytes": 591680,
+      "sha256": "76609729e7e4355a6f2ef9f38abbf4c2df060a88788ab2eaa02ae52905de5e38"
+    },
+    {
+      "file": "usr/bin/traffic_logcat",
+      "bytes": 1459152,
+      "sha256": "6c1c3c03b24f323b8229a66937c696989e83b19a85a9c1cab5fef584c5632fb6"
+    },
+    {
+      "file": "usr/bin/traffic_logstats",
+      "bytes": 1540704,
+      "sha256": "a70d11e2bd8329f8cf102502330a8f60d91db89543d26618d9cf2709de8a8ded"
+    },
+    {
+      "file": "usr/bin/traffic_manager",
+      "bytes": 952256,
+      "sha256": "c5f2a3ae6572ad629a7011dddfd4de56afc8e70f57c2df48a542d0a44dc85c5d"
+    },
+    {
+      "file": "usr/bin/traffic_server",
+      "bytes": 7450352,
+      "sha256": "d08c84b38818eed4dcc414a1acfa9335a6b2e99e77f9c06924eebe974139f745"
+    },
+    {
+      "file": "usr/bin/traffic_via",
+      "bytes": 25968,
+      "sha256": "fe98963407c5db8a55753bea5b657ece878009f8ef4190d27b8895c83819cd43"
+    },
+    {
+      "file": "usr/bin/trafficserver",
+      "bytes": 19166,
+      "sha256": "5a6528b375b452b988154c2a0954b83281fc83ae19c137e5a25c5bf7b35a0030"
+    },
+    {
+      "file": "usr/bin/tspush",
+      "bytes": 2064,
+      "sha256": "9c951822b282f2114164583f6a81b2f471ee13d3db3b8187a08df0671d35855b"
+    },
+    {
+      "file": "usr/bin/tsxs",
+      "bytes": 6165,
+      "sha256": "cc05e45441380906bb931e048e4445046b605b43d9177775f41206f297bf15bd"
+    },
+    {
+      "file": "usr/include/ts/apidefs.h",
+      "bytes": 52115,
+      "sha256": "a2e131d409dd0844345359174a005d103f4895dbc08db18195e0e88f56d56ef9"
+    },
+    {
+      "file": "usr/include/ts/experimental.h",
+      "bytes": 18897,
+      "sha256": "fac634218a69d61cfb5cbbad485cb5e5f2222944cbefb9c156f9af94e78d049f"
+    },
+    {
+      "file": "usr/include/ts/mgmtapi.h",
+      "bytes": 23921,
+      "sha256": "30de4e5200bb7362bd6c90c24377625d65064c93f1906e26dffa5ad95eae0bb7"
+    },
+    {
+      "file": "usr/include/ts/parentselectdefs.h",
+      "bytes": 2125,
+      "sha256": "4779c455875976265a9f869f26cfd766e336fc13cb54762a3f4a45bca50eb442"
+    },
+    {
+      "file": "usr/include/ts/remap.h",
+      "bytes": 6508,
+      "sha256": "b6f418b2fe86c439964f407a1859b1cfdef65c01ef53f3f61e68139aca1b997d"
+    },
+    {
+      "file": "usr/include/ts/ts.h",
+      "bytes": 116933,
+      "sha256": "fb9cb7cba46a2339b22eb879e6ff1e00a27553755ab89a05152edad211639299"
+    },
+    {
+      "file": "usr/include/tscpp/api/Async.h",
+      "bytes": 8481,
+      "sha256": "cc9ac23e797258dd262d498edcf737fa5e1afa1c1794ef1da031890b56b42bb7"
+    },
+    {
+      "file": "usr/include/tscpp/api/AsyncHttpFetch.h",
+      "bytes": 3893,
+      "sha256": "9ae71904b07358228569ebe4012ad89260e029a8294aadafc4584e89c76a33ca"
+    },
+    {
+      "file": "usr/include/tscpp/api/AsyncTimer.h",
+      "bytes": 2850,
+      "sha256": "325fe400cb7f41c194a673f608213803c726789aba03d97cf7e8033bfe644c9e"
+    },
+    {
+      "file": "usr/include/tscpp/api/CaseInsensitiveStringComparator.h",
+      "bytes": 1593,
+      "sha256": "797b9548230923427bab736435c8f91bcc9f7d72ce3ab0eb8457c03502fcc354"
+    },
+    {
+      "file": "usr/include/tscpp/api/ClientRequest.h",
+      "bytes": 1519,
+      "sha256": "4e310865d935f3051f4e74f4d41df8952d959ca73462f359b5f2d45b4a048cd1"
+    },
+    {
+      "file": "usr/include/tscpp/api/Continuation.h",
+      "bytes": 3360,
+      "sha256": "1583f537bdbd579132611654ac18bfb0aa5f866b71fd7debb86dcc94c92b2f68"
+    },
+    {
+      "file": "usr/include/tscpp/api/GlobalPlugin.h",
+      "bytes": 2931,
+      "sha256": "38dfb571c7cc96a762ee2a659de169a3f1bf3cc71ac281aead498aad287de8b4"
+    },
+    {
+      "file": "usr/include/tscpp/api/GzipDeflateTransformation.h",
+      "bytes": 3043,
+      "sha256": "b7deb2f1cf7e90cefae3c12cd673ec8f33a711ca864131a2048a4cb128d2becf"
+    },
+    {
+      "file": "usr/include/tscpp/api/GzipInflateTransformation.h",
+      "bytes": 3213,
+      "sha256": "308c2c9bf83959bb884ff423fad9bee9875efd300f4b2d45fc4ffddfab8a5921"
+    },
+    {
+      "file": "usr/include/tscpp/api/Headers.h",
+      "bytes": 19404,
+      "sha256": "c2c31158237734f814d28c4f3e3c149cfa186726e797f002d46ac896c400e939"
+    },
+    {
+      "file": "usr/include/tscpp/api/HttpMethod.h",
+      "bytes": 1486,
+      "sha256": "eb910eb431c2a50166069b71224e26d10d6d048a7e8f8364ea6caccaee7b6a95"
+    },
+    {
+      "file": "usr/include/tscpp/api/HttpStatus.h",
+      "bytes": 4007,
+      "sha256": "6e3d27eee718711370c815339c9477fd8ee10026fbf2cefc874977c19d885a61"
+    },
+    {
+      "file": "usr/include/tscpp/api/HttpVersion.h",
+      "bytes": 1349,
+      "sha256": "0316b24edb8e5daea4435d1cd484278a8e08fe75b861aef1a909d6c43aed9aba"
+    },
+    {
+      "file": "usr/include/tscpp/api/InterceptPlugin.h",
+      "bytes": 2840,
+      "sha256": "e849f98fe49eee19583a92fb661ea3bfd1b3f3e3dd89dd78583405e058be802d"
+    },
+    {
+      "file": "usr/include/tscpp/api/Logger.h",
+      "bytes": 10403,
+      "sha256": "c0c304cdcd9fbcc303dccc0db90221e2452f0b57208a4a9a2abad87f42fe842e"
+    },
+    {
+      "file": "usr/include/tscpp/api/Plugin.h",
+      "bytes": 5730,
+      "sha256": "0ff49371da28cb888cc64c5e1aa7e424ee3170c04852f072c026621d6070d44d"
+    },
+    {
+      "file": "usr/include/tscpp/api/PluginInit.h",
+      "bytes": 1795,
+      "sha256": "f194073738130c5702209b59cc1a3f2ac439134ecefe083e2fcb973156070423"
+    },
+    {
+      "file": "usr/include/tscpp/api/RemapPlugin.h",
+      "bytes": 3055,
+      "sha256": "30ccc913607f26f7bdbea588a0245c93cc1d6930d4ccb17c7a50cd82cda9cbd2"
+    },
+    {
+      "file": "usr/include/tscpp/api/Request.h",
+      "bytes": 2367,
+      "sha256": "82d86cafb6d46663aadcda80e5956f5977e2ac389aadf2273f8353955f3e2c5c"
+    },
+    {
+      "file": "usr/include/tscpp/api/Response.h",
+      "bytes": 1819,
+      "sha256": "90f38ba1e66e874767cd8010d6b8f9f919ab1d26c4c4be1477015bbeacce91c5"
+    },
+    {
+      "file": "usr/include/tscpp/api/Stat.h",
+      "bytes": 3405,
+      "sha256": "69f83f9e60870c82f45b04f6bd72fe47aaebf269fb5fe320f3d00bbf07224740"
+    },
+    {
+      "file": "usr/include/tscpp/api/Transaction.h",
+      "bytes": 13524,
+      "sha256": "a794fc956864c70d39f5d95d95d80c0540089489cff1180c4cf6ca5f75c1305b"
+    },
+    {
+      "file": "usr/include/tscpp/api/TransactionPlugin.h",
+      "bytes": 4307,
+      "sha256": "b8cf665ce61f9f52f0949b62250ba7e20d97c590ed8fa2a84648374ca4ebdc5c"
+    },
+    {
+      "file": "usr/include/tscpp/api/TransformationPlugin.h",
+      "bytes": 5167,
+      "sha256": "8040b905f33636849673131a050c9d5e9ca12327beaf09bc4c31de489bc45061"
+    },
+    {
+      "file": "usr/include/tscpp/api/Url.h",
+      "bytes": 3923,
+      "sha256": "b70915c4a55eb29892ca4a4733e9893faf48a28cd6b950738ca4d49856cedd03"
+    },
+    {
+      "file": "usr/include/tscpp/api/noncopyable.h",
+      "bytes": 1707,
+      "sha256": "e0fee81f3c9cb316500ee5f720a760617bb506de049a5e1fb6abeb7130a0202f"
+    },
+    {
+      "file": "usr/include/tscpp/api/utils.h",
+      "bytes": 1926,
+      "sha256": "f081a3dafd0ccc5923119d3ed8453023f0c00b395b66426958d5dc0ca48245d5"
+    },
+    {
+      "file": "usr/include/tscpp/util/IntrusiveDList.h",
+      "bytes": 24074,
+      "sha256": "779bf6c8dcdbe98f3b0a7eefafbfd544f568ee97e9d6e8da0f185641b8976c9c"
+    },
+    {
+      "file": "usr/include/tscpp/util/LocalBuffer.h",
+      "bytes": 1775,
+      "sha256": "d46466f5990f02d118145a77d16a84d4635fa1a8d5bdf835b203263520591198"
+    },
+    {
+      "file": "usr/include/tscpp/util/PostScript.h",
+      "bytes": 1908,
+      "sha256": "a16897d24ebf872743d0a4a0ad315a0f9d6f2f371637c2c8d46d61e47fe630de"
+    },
+    {
+      "file": "usr/include/tscpp/util/TextView.h",
+      "bytes": 40573,
+      "sha256": "f832c6b7ab4fb732a2c95cada92ce96c1c35d74cfff60d025a45e7a3f2e4e618"
+    },
+    {
+      "file": "usr/include/tscpp/util/TsSharedMutex.h",
+      "bytes": 4750,
+      "sha256": "ab8ed9f98c8d9f019b6f85fb5aa090d8d0d7166f60afed37e246e2f1ca44093c"
+    },
+    {
+      "file": "usr/lib/perl5/Apache/TS/AdminClient.pm",
+      "bytes": 21512,
+      "sha256": "26a5e6e5f1bad707d945217689c8f1f1ae598e34db77a37a67a8a455c8d529d4"
+    },
+    {
+      "file": "usr/lib/perl5/Apache/TS/Config/Records.pm",
+      "bytes": 7600,
+      "sha256": "b9e3209784d4c1bb3ac7391b15a84c54ae981aaf5f0532087465ec10fa163bdd"
+    },
+    {
+      "file": "usr/lib/perl5/Apache/TS/Config.pm",
+      "bytes": 1129,
+      "sha256": "c9242b4921d10c8c32b7e1afb8decae6d7a91b8832d49a6b9bdb3a588ce4de62"
+    },
+    {
+      "file": "usr/lib/perl5/Apache/TS.pm",
+      "bytes": 2722,
+      "sha256": "4048767852655c4937411fe540ddba6ab3a25bfa101aa5816a35615affff25b3"
+    },
+    {
+      "file": "usr/lib/trafficserver/libtscore.la",
+      "bytes": 1036,
+      "sha256": "7b958362623ea6e8f5162a502f6dc6e506b267bf203f9cddee75618ef5555559"
+    },
+    {
+      "file": "usr/lib/trafficserver/libtscore.so.9.2.3",
+      "bytes": 732536,
+      "sha256": "f2b7d816e25765b517ebac749d50ac11d86b67cdde5286acb279f8384728ede1"
+    },
+    {
+      "file": "usr/lib/trafficserver/libtscppapi.la",
+      "bytes": 975,
+      "sha256": "00250659380acffa235c466ae84753c1b352fe75951eba11b2244425a5ea502c"
+    },
+    {
+      "file": "usr/lib/trafficserver/libtscppapi.so.9.2.3",
+      "bytes": 268616,
+      "sha256": "968302dfea6b591183ae3de6bf804a9125f7ac28454090739f5809d953197f86"
+    },
+    {
+      "file": "usr/lib/trafficserver/libtscpputil.la",
+      "bytes": 967,
+      "sha256": "512e4be42636145567f3ba85b050a1e86027883634f4dac8a60dcf9e6c7437df"
+    },
+    {
+      "file": "usr/lib/trafficserver/libtscpputil.so.9.2.3",
+      "bytes": 16344,
+      "sha256": "192dea2b298b8349712e96d73069a406ef95b5fab21d10ca42862b44975adf7c"
+    },
+    {
+      "file": "usr/lib/trafficserver/libtsmgmt.la",
+      "bytes": 1072,
+      "sha256": "eb14542a0f27a3c4178c3bc1d54cedeff116fc3461ab048c2a741757c8ecba51"
+    },
+    {
+      "file": "usr/lib/trafficserver/libtsmgmt.so.9.2.3",
+      "bytes": 107632,
+      "sha256": "4f1e6e2db40db7b5031e2b7e054b413c2bca293c0ee4434af14582b431c435ad"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/access_control.la",
+      "bytes": 977,
+      "sha256": "447ea96b5b86b937a8fe775d836e5e1ae83138a36bb1542c71403e358b752fb5"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/access_control.so",
+      "bytes": 114632,
+      "sha256": "6b4f535247be829379b690dfd01722402740e5abcc3c9ec6b798d0b4e3f04075"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/acme.la",
+      "bytes": 917,
+      "sha256": "e2b22cd0941c3793a2636902f039d6e97a5377fe604340f98670de7779a57162"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/acme.so",
+      "bytes": 17976,
+      "sha256": "a60fae18a9c1054fb41b5f5999ff48d9c1f8b63f7666f20c672bf90c83d33617"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/authproxy.la",
+      "bytes": 947,
+      "sha256": "7d70ce6de33c29e8e7402465be1cd20cbd68b4a1487695b5ee8d6b00c3f04ce3"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/authproxy.so",
+      "bytes": 36088,
+      "sha256": "4bdc3ebb55f72e26c0507499c58a6cf4d757bf421f8b30d28c3b7038f104c50d"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/background_fetch.la",
+      "bytes": 989,
+      "sha256": "57125d0c49483c1aca3412297611d687d188f00ef3dc572995512960181ed260"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/background_fetch.so",
+      "bytes": 48688,
+      "sha256": "e2214ec385558f94ea9d18d463983e68b327c5b02adef6274624453dba74be67"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/block_errors.la",
+      "bytes": 965,
+      "sha256": "18d867401d6f8b84a747e7a653067f7a1893d70852107e6e50fbfa55a4861e1f"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/block_errors.so",
+      "bytes": 31640,
+      "sha256": "461b168f05fea6026d02625ab1b74bdf8f5520fb20c088cf6363b6b26b603bf9"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/cache_fill.la",
+      "bytes": 953,
+      "sha256": "ddd5984500dd72e441bd0fa07545c3c751dac995aa076fc19426ec0510807523"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/cache_fill.so",
+      "bytes": 31944,
+      "sha256": "104edf9b02ca78f6847e0b3b91dedb9c06424c705a09741276f7350243a5fb52"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/cache_promote.la",
+      "bytes": 971,
+      "sha256": "9097fd4aa8ffb700ffc13a105c844576c868ef095af264df6d861d3cd4bfe610"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/cache_promote.so",
+      "bytes": 64952,
+      "sha256": "b11cfbf63e4e27cf54f834f28336a8f3e181ca45bc97ebc0d4ba6e7617e7cfe6"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/cache_range_requests.la",
+      "bytes": 1013,
+      "sha256": "44f345b1958fb6eb7ca5e65faf0f91ac2926daaf8083372ec2b5cebca4662d4c"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/cache_range_requests.so",
+      "bytes": 27512,
+      "sha256": "62bd3c96066b65fee359367a82861d3908bbb55b768d5ff9472b36938a7922f9"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/cachekey.la",
+      "bytes": 941,
+      "sha256": "2f26481636929f97145fd6515d89f21e3ccfa9c5810f91893994bc53fb5f3df8"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/cachekey.so",
+      "bytes": 122752,
+      "sha256": "d7ad16dcaa02bce7cb9e544ed4f773cd9dcfe06b6efdd373a79741a481e6944f"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/cert_reporting_tool.la",
+      "bytes": 1007,
+      "sha256": "0d71ab27314db0ccd131a6a5f60419e279dde3d07a6eae825139d8c1449d2c68"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/cert_reporting_tool.so",
+      "bytes": 23240,
+      "sha256": "bfb5274fbd0c38f7b51031d3e4ddae49488cc9d1cb0422f5256901346ae6cfe4"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/certifier.la",
+      "bytes": 947,
+      "sha256": "9c534f90ea773fe58fced7ac6b00774579089435dd20c26cb116d002890e334e"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/certifier.so",
+      "bytes": 48392,
+      "sha256": "c63db503a5f1411b5dbf9bdf827403ddd442cdcef175d0e8b30bdbb049080d4e"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/collapsed_forwarding.la",
+      "bytes": 1013,
+      "sha256": "6803b69d9afa67ffaef407b8838b8249b37495bccd7a527d50c9cf2054c9963c"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/collapsed_forwarding.so",
+      "bytes": 15024,
+      "sha256": "9e13b0786b73638791b83b813870416b50e8aa3dfabc53f615ff75c6f85e53e5"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/combo_handler.la",
+      "bytes": 971,
+      "sha256": "c4ef4f48ac72ad73b7273bb8358939c91ca0fc302ed2b0736257a63033662369"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/combo_handler.so",
+      "bytes": 213720,
+      "sha256": "7d8f438ab868c367b13fcd393e1154016b098bb213d72d15cef60f4d26a0fc44"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/compress.la",
+      "bytes": 945,
+      "sha256": "a2014a8c08fe551aed570ced2308c471a2045dcf7c1179081bef9c441c16469d"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/compress.so",
+      "bytes": 65184,
+      "sha256": "599860ee41a26788bba4275b5ace40e37268bee83aff668e0eaac94560117e82"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/conf_remap.la",
+      "bytes": 953,
+      "sha256": "a17d403d9944f49b0812327b28ec83330fa89c3c7c46197daee72d9125763c02"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/conf_remap.so",
+      "bytes": 23280,
+      "sha256": "962aab69cee96a0a81122db2e2d723d93d48ef27f59dd4a0cc25e159e2b69186"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/cookie_remap.la",
+      "bytes": 965,
+      "sha256": "8c1d849f9f6466834c524e3a45a7753a0f649af248f06dd2031530310201c701"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/cookie_remap.so",
+      "bytes": 93688,
+      "sha256": "fe0a793a844dae4c48940327099dcf16fb74897ab4b130f1513ff5864f872e41"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/custom_redirect.la",
+      "bytes": 983,
+      "sha256": "1e0e309a32ee52a2f949b096e197cf28b34a4287b3cba5d854a4592fc0e536db"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/custom_redirect.so",
+      "bytes": 14776,
+      "sha256": "04acabd8f8cc814be2c0f556e6958f31a44fb688f4d968c2e6b2013899a8cd0b"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/escalate.la",
+      "bytes": 941,
+      "sha256": "96feeefa630613398e3b9179858c05f91dd73cd86b2b878d965a0d34c7490f2c"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/escalate.so",
+      "bytes": 19208,
+      "sha256": "7badc1d6d6a0d9b730c5ac86f5c575d88d9cae32db99d9ab73314b3137e92f69"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/esi.la",
+      "bytes": 911,
+      "sha256": "322d530d78a50daebf1a7226b651b7441bed18937872f4009b7e2bfc50b04e65"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/esi.so",
+      "bytes": 230360,
+      "sha256": "be0ffe66005b2eba86f9ee6c853cbbe9e788a98111ab928693051adabfe3c207"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/fq_pacing.la",
+      "bytes": 947,
+      "sha256": "28d6f6cd086997d729fc7ae31a093dbe9a469e060e643b84622b44c2168c4c4e"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/fq_pacing.so",
+      "bytes": 17144,
+      "sha256": "2678077c48da4fb84f2056efb38d76b25733bbeb7625467dd4d00ed377220f00"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/generator.la",
+      "bytes": 947,
+      "sha256": "024f27ec0cfce90e91188474b61ea19c4988df8a8a78da0499ac3ad80b231edd"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/generator.so",
+      "bytes": 27776,
+      "sha256": "63c4b6ccd21885c4bd4cf8344f88aed8cdac9b4e1d908e506a599da7eaecd553"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/geoip_acl.la",
+      "bytes": 947,
+      "sha256": "db9392c12ce6514e740b0fadea2545af699dfd3fb197badbbda0681735ce55c4"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/geoip_acl.so",
+      "bytes": 31704,
+      "sha256": "e8b1178b446aef7067eaabe493d06787473f5b872662e389ae839810e149a25f"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/header_freq.la",
+      "bytes": 959,
+      "sha256": "ab3a5d7b7bbc7701e13878ded76c850a037a0911af4ead21e1e81958b86952cf"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/header_freq.so",
+      "bytes": 27576,
+      "sha256": "e6bb15a0f7a947fc59bf447c6579b5494edb5c938fe3b4f56ccdde1e8fc342af"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/header_rewrite.la",
+      "bytes": 977,
+      "sha256": "50b3da64489cf5849202df9dbf5a9efc627380b14cce928c43a406cc67771d30"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/header_rewrite.so",
+      "bytes": 283224,
+      "sha256": "9dee1bf3062d3a62ed45f6ccdb04efb779e7a63977738713143cce3cfac6e9bf"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/healthchecks.la",
+      "bytes": 965,
+      "sha256": "8ad4cca97c361750c8dcba4b6f3ed187bc982a6d97568d704de7cc62f4d1159f"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/healthchecks.so",
+      "bytes": 26688,
+      "sha256": "ac1823350efd25232b47125f054ef504e91759baa952396f87babf63d1b16f2a"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/hook-trace.la",
+      "bytes": 953,
+      "sha256": "cbc7fc0a27dad941bf70d4fdcbbc2e3b2865f0454db9ff389c2a15020c2c9b54"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/hook-trace.so",
+      "bytes": 14680,
+      "sha256": "a2bdb6d7216fa97db6d5bf2bca97d18eb20e6e0411b3fb43a8566c8055a899c1"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/http_stats.la",
+      "bytes": 953,
+      "sha256": "7f9fdfa17dce389632f06b07dfa2a705ea02c9b83f98647390fee599e8f792f0"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/http_stats.so",
+      "bytes": 36024,
+      "sha256": "e38e21fed1af088119f57d4d0097de0fc2f28b50ed8935483708a0e344054173"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/icap.la",
+      "bytes": 917,
+      "sha256": "2fd60dab2005b1793f2cb5cac0d98f79987b15b545d97172d1777439ca875a28"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/icap.so",
+      "bytes": 189736,
+      "sha256": "10c5e1eb1dd6f5a2258fda263f4664c22146f2b29514d6095a3787da99402dda"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/inliner.la",
+      "bytes": 935,
+      "sha256": "824a5ca79dfeffe359838ab9f1a929f2ecbf31414256501a66be9146d0af9888"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/inliner.so",
+      "bytes": 130920,
+      "sha256": "544e0b797d04a037b4d9ee1eabdc9317107a132d7246562f074047c8e2c72d6a"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/ja3_fingerprint.la",
+      "bytes": 983,
+      "sha256": "43b9cf5e7553041266002e0f6e37a2095dc7a9b8b9e0ceca4367f0ade8ad0b27"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/ja3_fingerprint.so",
+      "bytes": 27656,
+      "sha256": "ff77a67d642f57453c3f95876a86f068b9faa37f6fdfa5da603f737428333f2d"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/libloader.la",
+      "bytes": 947,
+      "sha256": "9b12d54356c7a50bc32f55696a5c21c12d988fb9f187785df8bdc4da474db327"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/libloader.so",
+      "bytes": 16080,
+      "sha256": "6b3d49b9ab040bcea7d8c92ee4eb3f17019fc248e0d43a40b831cd2630a9f2d5"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/memory_profile.la",
+      "bytes": 977,
+      "sha256": "86cffc6ab79843a4d9cfaacb1a9ec25e1d02df87ba4b454f68ad0d77ad158953"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/memory_profile.so",
+      "bytes": 14656,
+      "sha256": "d5c8759f8abd74b5257baa6eee68b83982c06d3b017cb0d9220fc4efa8e5d732"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/metalink.la",
+      "bytes": 941,
+      "sha256": "fa3bf3a530c6a2fab577d79928b3d133b6a9ccc434829be60f2116b5e93f80db"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/metalink.so",
+      "bytes": 23304,
+      "sha256": "97c1b3c0170051a435862ead9fd192175e394037e1d028fa39c5a03f1471563e"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/money_trace.la",
+      "bytes": 959,
+      "sha256": "034777cad2630afef23dafb2f6ea0b6d001e1fc29f289906bf0b6650fa29e95d"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/money_trace.so",
+      "bytes": 39912,
+      "sha256": "1e78639c1e89990450d5d1592699cbbaaa818fb5bbb8d36c926ac36fdd62ee11"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/mp4.la",
+      "bytes": 911,
+      "sha256": "ffb777efd2add9a2433fdca005ad61a4f20a8da0258c5848df78da83c5dbc7ce"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/mp4.so",
+      "bytes": 44960,
+      "sha256": "9144cf4655a5e64a6a128625a146c4ed284bae4768a939523afe601ebad30810"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/multiplexer.la",
+      "bytes": 959,
+      "sha256": "f5ddcb6aeb06fcab78ffb9cdd730ad7c265e9b0765ee4726629506391308598f"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/multiplexer.so",
+      "bytes": 52656,
+      "sha256": "d9cb9531574c270172a09a89045ea62ffa045b9a147b1f93a858dbf58c106891"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/parent_select.la",
+      "bytes": 971,
+      "sha256": "b132d3f0a976123cf342fe380283d944c98f671e1ea0d0b51ec20cda1b9107a8"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/parent_select.so",
+      "bytes": 250512,
+      "sha256": "c2642174330810b4fc51845cc2c2afa5e6b079358f5ed7ae727760f47e4fa30b"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/prefetch.la",
+      "bytes": 941,
+      "sha256": "36fc9ffa3bf7fb76aa73e077b053ef820328c296a9b9cfb8741229ee86ef2a1e"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/prefetch.so",
+      "bytes": 114792,
+      "sha256": "41fbeb1959b026f354cf976e91625c0e0e60e83ac816587eed50fd6a8d95f8db"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/rate_limit.la",
+      "bytes": 953,
+      "sha256": "bcc6dc7ad7f8744b26c930dbd676e0795b4fcaae6397e19110928a88af49d635"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/rate_limit.so",
+      "bytes": 73248,
+      "sha256": "2b76aad407c0476147465a83c6f554fdfcc244ea53726917cb5256c95d006eae"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/redo_cache_lookup.la",
+      "bytes": 1047,
+      "sha256": "89d60f148e9542310a04b74166df391c3bab8745808c52f6cd63b2c1e983de7a"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/redo_cache_lookup.so",
+      "bytes": 18984,
+      "sha256": "e7ea2589162df69c17536578daeec67842e5d4293064cbaeceaf5f691b13bcc2"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/regex_remap.la",
+      "bytes": 959,
+      "sha256": "a5b69639df2875adec9f17de460e03eb63b2a61367251d994dcc4bacbc2c16a4"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/regex_remap.so",
+      "bytes": 44192,
+      "sha256": "014e7466feb21da943f45d85f8b111e609a33457318d4824f91a19f2ac78a420"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/regex_revalidate.la",
+      "bytes": 989,
+      "sha256": "adc44c918afb952e17ff88e337f2328af523c992dbdaad3af76b26a068ddba86"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/regex_revalidate.so",
+      "bytes": 31360,
+      "sha256": "682ecafaa92a63c61abbf4efa122bfba6e6fc2bb722de4b6e72b8ac4bed4d74e"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/remap_purge.la",
+      "bytes": 959,
+      "sha256": "27cda46143b9fda6001db5b83b9a21bf086a81a8c2ff8412289899c50ad2cdfb"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/remap_purge.so",
+      "bytes": 26192,
+      "sha256": "2732656b4f2cc3b527d4d4924f1f8204dff802faf5dca3a243797c462a87a69b"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/remap_stats.la",
+      "bytes": 959,
+      "sha256": "e64e6112c7b89deadd3875de348aeb9b01fc7734332b19358892a3f8ffacda75"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/remap_stats.so",
+      "bytes": 31760,
+      "sha256": "f214115ff3c05375e189612191b83a50c8c862bc08ec1cafbadcd3cad946146b"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/s3_auth.la",
+      "bytes": 935,
+      "sha256": "a7e8e4606deb86a59904e32567ed160cefb9f9da4bde238592d86dedc250d015"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/s3_auth.so",
+      "bytes": 118728,
+      "sha256": "a0f0dc9f6aa35abf2647a0ef06817f65bc09c0e655f00763d137b38200498584"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/server_push_preload.la",
+      "bytes": 1059,
+      "sha256": "555a23b1b2a47212bba67d28cbccc82dafc891992d06b39ed56a7642eafd4749"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/server_push_preload.so",
+      "bytes": 185424,
+      "sha256": "2e82e88816224b1d6c93857b0677d82dd9e448101f229322de414cd939c3d502"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/slice.la",
+      "bytes": 923,
+      "sha256": "eb9621c57d9aa77b79042b9b84b1567609db72970c8559e1648693a58e4d9ace"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/slice.so",
+      "bytes": 82152,
+      "sha256": "1f8d3f0af3a1e7f2119a33a6a4ae446931297eebbaf671daf7b5d89ad0729adf"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/sslheaders.la",
+      "bytes": 953,
+      "sha256": "9bca9e267d434bf13edf7dfb770534eaabee86473f5f90620380ab79060ad631"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/sslheaders.so",
+      "bytes": 23576,
+      "sha256": "b1abc337c93545429002933fb2fe8b3c90f5de7e4fdfbc2e21d0a1e912e1573f"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/statichit.la",
+      "bytes": 947,
+      "sha256": "b4c176a46d5baa965aca1a75b28bd174546fd6008d097f8d69049f7d119545fb"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/statichit.so",
+      "bytes": 48552,
+      "sha256": "028f00e2f4f11c8539ccaa98daa6b0088d502f265278d917b732c654ccceb509"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/stats_over_http.la",
+      "bytes": 987,
+      "sha256": "74d09feed257206dff664b20143b5cbcc10dab5abe8576c25650947e55892c05"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/stats_over_http.so",
+      "bytes": 36704,
+      "sha256": "716f5b69e67cca53fb8f2b75150f4bd2b9c29a72274a2bb4af9b306cf5c5c89e"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/stream_editor.la",
+      "bytes": 971,
+      "sha256": "f1ab39c169dfb9d2945559f7dfe811ab75d2a7549de0e08da82f022de60a386a"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/stream_editor.so",
+      "bytes": 40016,
+      "sha256": "8ebced583f580ad1f9b2e7920e42539bfe167873f72f8694d7f59c4eefd71074"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/system_stats.la",
+      "bytes": 965,
+      "sha256": "fe81716403990e2060d219dcc9d10d5ac612bc3d7b473a0ba709c954525b67d8"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/system_stats.so",
+      "bytes": 16848,
+      "sha256": "2cbceb09c4a0574bfdfb06b9a97d36dc0dfe2641b5feea32131ada5eadce986a"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/tcpinfo.la",
+      "bytes": 935,
+      "sha256": "69b04173198264cf049a19f71666c9fba4ef28838f1dec63639ea463cbc75e3a"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/tcpinfo.so",
+      "bytes": 23288,
+      "sha256": "3f847e6975d83b9c6e4bd61f88b91ead8cc55958348106442268fba817865aee"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/tls_bridge.la",
+      "bytes": 953,
+      "sha256": "c23101af891a8fd7f7beb5589c19e77b8e2a0a6eaa9c0b270cb99b9b60082588"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/tls_bridge.so",
+      "bytes": 40120,
+      "sha256": "d0ec5760f45712e9c0c3b77df284268f156c0b4ea6da68614d76554daaace9a1"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/traffic_dump.la",
+      "bytes": 965,
+      "sha256": "f7238ac2d1a9459deea46141d6549fe9fee02faa7861b655f4688046a9355d66"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/traffic_dump.so",
+      "bytes": 131016,
+      "sha256": "0603738d5a1b059c2388c7376b2bd53feffa55c7f79299d3e378045166ac1936"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/tsmemcache.la",
+      "bytes": 953,
+      "sha256": "11277d72cbb7f968fd4a055e8590c7205982572291e1dc3a7302cb87fd294c33"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/tsmemcache.so",
+      "bytes": 64552,
+      "sha256": "86d86844b5bc7c4b8e204c5ef88ecc59e7cd4111720839cd7bda8afb84d9eb8b"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/url_sig.la",
+      "bytes": 935,
+      "sha256": "3bf66146e96bad097604ae4252e2296a762cc67fd9503e5e374aa8f552c86109"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/url_sig.so",
+      "bytes": 34536,
+      "sha256": "11cbf7fa734cd4b57dd6962eb3cc732561478818b1c2fd663b8589217a668ed3"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/xdebug.la",
+      "bytes": 929,
+      "sha256": "f109b4cd49f4f70a584c3be59409bcea7d3ff69d874b61e9e7141da9566519f2"
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/xdebug.so",
+      "bytes": 44312,
+      "sha256": "9e11a68bc1e6a691c334d0b600d84c812d33401db65fccf48fdc16090c06b44f"
+    },
+    {
+      "file": "usr/lib/trafficserver/pkgconfig/trafficserver.pc",
+      "bytes": 1175,
+      "sha256": "167ba0140fc7af7064b3bf15c123d4602d0501a70e1d57441cc121e4a4969e32"
+    },
+    {
+      "file": "usr/lib/trafficserver/plugin_init_fail.la",
+      "bytes": 981,
+      "sha256": "3c0a944c7ec62895ea52aafbb8f2f164df2a1076a3dbc45ee2dc260bda966ef2"
+    },
+    {
+      "file": "usr/lib/trafficserver/plugin_init_fail.so",
+      "bytes": 14776,
+      "sha256": "e4bf14bc71a18065d34fb74c0010f0af3e4307946fe118daae2dbad21af64dc5"
+    },
+    {
+      "file": "usr/lib/trafficserver/plugin_instinit_fail.la",
+      "bytes": 1005,
+      "sha256": "8e2127fc278f0e73be0c24e8c9a34401a77579009d431bbee5068418faba5545"
+    },
+    {
+      "file": "usr/lib/trafficserver/plugin_instinit_fail.so",
+      "bytes": 14864,
+      "sha256": "5d966eed6050c3a2230a81e3dd409a7c47860780210344a5c2c58c7b14d7c716"
+    },
+    {
+      "file": "usr/lib/trafficserver/plugin_missing_deleteinstance.la",
+      "bytes": 1059,
+      "sha256": "6f99e62de485b02dd66e012f5d5abfbccfbd98e4f6259c29acd234332bdfe7c0"
+    },
+    {
+      "file": "usr/lib/trafficserver/plugin_missing_deleteinstance.so",
+      "bytes": 14304,
+      "sha256": "03dcb51e38d0cb06fab0899191d2dac8db702dae02f87ad3f842bcf5de77597a"
+    },
+    {
+      "file": "usr/lib/trafficserver/plugin_missing_doremap.la",
+      "bytes": 1017,
+      "sha256": "8c61e0f44699cc7f798b6b42f51a5980c4356e776fc2f382af0cab3bf00ab545"
+    },
+    {
+      "file": "usr/lib/trafficserver/plugin_missing_doremap.so",
+      "bytes": 14224,
+      "sha256": "7390ab88f979650d225c6fd7c33f6c8de873937fdc31d80a324a9169ec45cea8"
+    },
+    {
+      "file": "usr/lib/trafficserver/plugin_missing_init.la",
+      "bytes": 999,
+      "sha256": "800c8e350d7ae8ac370d79e0055e18c5d46e49b2f9d5ff9eb17768a0d085ac11"
+    },
+    {
+      "file": "usr/lib/trafficserver/plugin_missing_init.so",
+      "bytes": 14224,
+      "sha256": "c8d3b3b9e293824046852e35524ea7686a18c07cdc34816cf0b3f5e1c5777deb"
+    },
+    {
+      "file": "usr/lib/trafficserver/plugin_missing_newinstance.la",
+      "bytes": 1041,
+      "sha256": "9a406520dd8045cf81621cd105f92923cd6dd827862ad2571ad9164e2499bf56"
+    },
+    {
+      "file": "usr/lib/trafficserver/plugin_missing_newinstance.so",
+      "bytes": 14304,
+      "sha256": "40636a1de30b8d6ec695a00973818efedd1c39365ca6424f013fa7de5f3b494a"
+    },
+    {
+      "file": "usr/lib/trafficserver/plugin_required_cb.la",
+      "bytes": 993,
+      "sha256": "8bfa8ecc8dc0d7f488ea85cf0f23f894fd7f9e85a36d73ed199c59ab59b30b7a"
+    },
+    {
+      "file": "usr/lib/trafficserver/plugin_required_cb.so",
+      "bytes": 14264,
+      "sha256": "535cdc03d37b894384d4d2212d9c6549e25e9c5be6e4c11abcb9cc1b6cd657a4"
+    },
+    {
+      "file": "usr/lib/trafficserver/plugin_testing_calls.la",
+      "bytes": 1005,
+      "sha256": "c598a12fc4f315258b2d2c828565d5560a25885e44881fc40a3cd79fe209a1c1"
+    },
+    {
+      "file": "usr/lib/trafficserver/plugin_testing_calls.so",
+      "bytes": 19416,
+      "sha256": "a53d784f24353460b3204ec4728e6af759c22440896f0dfb83ce8c024d55377e"
+    },
+    {
+      "file": "usr/lib/trafficserver/plugin_v1.la",
+      "bytes": 939,
+      "sha256": "3707da5e6ae99962002248d7a8efe5d159fc1686b60779fe3fe8783c6e0018d9"
+    },
+    {
+      "file": "usr/lib/trafficserver/plugin_v1.so",
+      "bytes": 15040,
+      "sha256": "1fddb85928069e5f0f1416830071a71366ef809edc423c13642002f7b43c8c1a"
+    },
+    {
+      "file": "usr/lib/trafficserver/plugin_v2.la",
+      "bytes": 939,
+      "sha256": "5d434a4d56bc1b6106201e72b249208535c91ce8612d1b9933fb66d84d00b4af"
+    },
+    {
+      "file": "usr/lib/trafficserver/plugin_v2.so",
+      "bytes": 15040,
+      "sha256": "7b202d73b3f5d444b1215e9b2d9bab56f9d3538096b14ce24671f323ed96ef8f"
+    },
+    {
+      "file": "usr/share/man/man3/Apache::TS.3pm",
+      "bytes": 3085,
+      "sha256": "c13df77059eebebb04867d62b69b0feba0b89dfb4fd89794c462be6f50a591e4"
+    },
+    {
+      "file": "usr/share/man/man3/Apache::TS::AdminClient.3pm",
+      "bytes": 17016,
+      "sha256": "015d2d8f58ea583ad89fa421b7e107ed4c7ae0b74e062aa8d585e17ebff60055"
+    },
+    {
+      "file": "usr/share/man/man3/Apache::TS::Config::Records.3pm",
+      "bytes": 4461,
+      "sha256": "22559547ad093cb02ae95d19e84590b6c699e9556e8b4ae8b4bc6d88b2256201"
+    }
+  ],
+  "buildCompleted": true,
+  "stockEquivalentPerformanceClaimed": false,
+  "fullMediaCoverageProven": false,
+  "experimentApproved": false
+}
