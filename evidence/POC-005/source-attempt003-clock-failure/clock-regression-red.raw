@@ -1,0 +1,46 @@
+test_child_failure_reaches_controller_without_becoming_state_mismatch (test_native_clock.ClockEvidenceTests.test_child_failure_reaches_controller_without_becoming_state_mismatch) ... FAIL
+test_marker_selects_bounded_bracket_and_keeps_every_actual_read (test_native_clock.ClockEvidenceTests.test_marker_selects_bounded_bracket_and_keeps_every_actual_read) ... FAIL
+test_rejected_clock_change_keeps_original_pair_calibration_and_deviation (test_native_clock.ClockEvidenceTests.test_rejected_clock_change_keeps_original_pair_calibration_and_deviation) ... ERROR
+test_uncertain_reads_are_preserved_and_rejected_without_relaxing_drift (test_native_clock.ClockEvidenceTests.test_uncertain_reads_are_preserved_and_rejected_without_relaxing_drift) ... FAIL
+
+======================================================================
+ERROR: test_rejected_clock_change_keeps_original_pair_calibration_and_deviation (test_native_clock.ClockEvidenceTests.test_rejected_clock_change_keeps_original_pair_calibration_and_deviation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc005-metadata-scale-reservation-worktree\poc\POC-05-metadata-scale\test_native_clock.py", line 20, in test_rejected_clock_change_keeps_original_pair_calibration_and_deviation
+    raw=failure.exception.observation
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ScanError' object has no attribute 'observation'
+
+======================================================================
+FAIL: test_child_failure_reaches_controller_without_becoming_state_mismatch (test_native_clock.ClockEvidenceTests.test_child_failure_reaches_controller_without_becoming_state_mismatch)
+----------------------------------------------------------------------
+metadata_scan.ScanError: SCANNER_PROTOCOL_STATE_MISMATCH
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc005-metadata-scale-reservation-worktree\poc\POC-05-metadata-scale\test_native_clock.py", line 58, in test_child_failure_reaches_controller_without_becoming_state_mismatch
+    with self.assertRaisesRegex(ScanError,'SCANNER_RUNTIME_FAILURE:WALL_CLOCK_CHANGED') as failure:
+AssertionError: "SCANNER_RUNTIME_FAILURE:WALL_CLOCK_CHANGED" does not match "SCANNER_PROTOCOL_STATE_MISMATCH"
+
+======================================================================
+FAIL: test_marker_selects_bounded_bracket_and_keeps_every_actual_read (test_native_clock.ClockEvidenceTests.test_marker_selects_bounded_bracket_and_keeps_every_actual_read)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc005-metadata-scale-reservation-worktree\poc\POC-05-metadata-scale\test_native_clock.py", line 34, in test_marker_selects_bounded_bracket_and_keeps_every_actual_read
+    self.assertEqual(event['monotonicNs'],before+50)
+AssertionError: 1010000050 != 1010000100
+
+======================================================================
+FAIL: test_uncertain_reads_are_preserved_and_rejected_without_relaxing_drift (test_native_clock.ClockEvidenceTests.test_uncertain_reads_are_preserved_and_rejected_without_relaxing_drift)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc005-metadata-scale-reservation-worktree\poc\POC-05-metadata-scale\test_native_clock.py", line 45, in test_uncertain_reads_are_preserved_and_rejected_without_relaxing_drift
+    with self.assertRaisesRegex(ScanError,'CLOCK_SAMPLE_UNCERTAINTY') as failure:
+AssertionError: ScanError not raised
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.005s
+
+FAILED (failures=3, errors=1)

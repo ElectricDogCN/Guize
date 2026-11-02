@@ -1,0 +1,33 @@
+{
+  "reviewer": "/root/gz022_planning_independent_review",
+  "reviewedAt": "2026-10-22T21:49:24Z",
+  "decision": "accepted exact five-file content only",
+  "sourceBase": "a9bcc16a3dac2bbd27bea569e7cea2226056aac1",
+  "files": {
+    "poc/POC-05-metadata-scale/native_scan_protocol.py": "bb0f497132f33a78c1467e832e80934bf72b160d0728615e17855fd34737cdfe",
+    "poc/POC-05-metadata-scale/native_scan_runtime.py": "03d304f35a8f57729a482a0c8c6a696257574c5de5a5aceec9fc74f251f1f22e",
+    "poc/POC-05-metadata-scale/native_scan_control.py": "4ce0cd31c278fbc71bdc71cd58e918977b88d4b7fabfc9aaf1998583fd425609",
+    "poc/POC-05-metadata-scale/run_source_experiment.py": "a7c0e68fe4d5066e13f2b4caf70ec95cbbf85cd281002436be91d29d2c0648bc",
+    "poc/POC-05-metadata-scale/test_native_clock.py": "bf1e019e663b1fe43008342da8b1a0430505e5df5ba15bc9f387ed751decefec"
+  },
+  "mustFix": [],
+  "independentActualLinuxTests": {
+    "tests": 6,
+    "seconds": 0.006,
+    "exitCode": 0,
+    "noSkippedTests": true,
+    "scope": "new4 plus original Protocol2, no source requests"
+  },
+  "windowsAll": {
+    "tests": 96,
+    "seconds": 52.707,
+    "exitCode": 0,
+    "noSkippedTests": true,
+    "rawRef": "evidence/POC-005/source-attempt003-clock-failure/clock-repair-windows.raw"
+  },
+  "guardUnchanged": true,
+  "environmentStabilized": false,
+  "experimentApproved": false,
+  "qualificationAccepted": false,
+  "integrationAccepted": false
+}

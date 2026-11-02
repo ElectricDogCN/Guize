@@ -1,0 +1,275 @@
+{
+  "schemaVersion": 1,
+  "kind": "prospective_attempt011_full_template_only_independent_decision",
+  "decision": "approved_full_template_only",
+  "actor": "/root/gz022_planning_independent_review",
+  "reviewer": "/root/gz022_planning_independent_review",
+  "approvedAt": "2026-10-28T03:57:00Z",
+  "validFrom": "2026-10-28T03:57:00Z",
+  "validUntil": "2026-10-28T05:57:00Z",
+  "source": "15dcd6cd22a576821cdbe0f936002ad9a1be69e3",
+  "base": "22ab6a0668da2d64a016fccef2c3b5a634638a24",
+  "tree": "2bdaef78f224f3548da822b8da8f667e2c587d81",
+  "candidateRef": "poc005-attempt011-full-ready-candidate-v2.json",
+  "candidateBytes": 30458,
+  "candidateSha256": "sha256:a55e5a89f33e4acd054ea5919f156562e6b6d980d916d506489075a0e1112b4e",
+  "mustFix": [],
+  "fullPreparationAccepted": true,
+  "finalExecutionApproved": false,
+  "scannerStarted": false,
+  "profileConfiguration": {
+    "schemaVersion": 2,
+    "pocId": "POC-05",
+    "taskId": "POC-005",
+    "acceptanceProfile": {
+      "bindingRevision": 1,
+      "id": "local-v1",
+      "scope": "LOCAL_FULL_V1",
+      "version": 1
+    },
+    "resourceIds": [
+      "RES-METADATA-SCALE",
+      "RES-OPENLIST-LOCAL"
+    ],
+    "measurementIds": [
+      "average_file_size",
+      "directory_count",
+      "directory_depth_max",
+      "enumeration_rate",
+      "etag_behavior_profiled",
+      "file_count",
+      "filename_characteristics_profiled",
+      "incremental_scan_cost",
+      "memory_peak",
+      "provider_characteristics_profiled",
+      "range_support_profiled",
+      "source_api_quota",
+      "source_change_frequency"
+    ],
+    "testedSource": {
+      "commit": "15dcd6cd22a576821cdbe0f936002ad9a1be69e3",
+      "tree": "2bdaef78f224f3548da822b8da8f667e2c587d81"
+    },
+    "numericDomainReviewRefs": {},
+    "capturedSettings": {
+      "synthetic_hierarchy_manifest": {
+        "schemaVersion": 1,
+        "scope": "LOCAL_FULL_V1",
+        "generator": {
+          "algorithm": "deterministic-tree-v1",
+          "seed": 20261015,
+          "rootPath": "fixture",
+          "fileCount": 1000000,
+          "directoryCount": 500,
+          "maximumDepth": 12
+        }
+      }
+    },
+    "decision": "approved",
+    "approvedBy": "/root/gz022_planning_independent_review",
+    "approvedAt": "2026-10-28T03:57:00Z"
+  },
+  "sampleApproval": {
+    "schemaVersion": 1,
+    "pocId": "POC-05",
+    "taskId": "POC-005",
+    "sampleId": "SAMPLE-METADATA-SYNTHETIC",
+    "immutableId": "guize-poc005-canonical-1m-20261015-gzip-attempt011",
+    "checksum": "sha256:ad0e9fc6739de60a4b773437a7a1e7be11ca6f7b8c9cc80388ac6613dd30d388",
+    "decision": "approved",
+    "approver": "/root/gz022_planning_independent_review",
+    "approvedAt": "2026-10-28T03:57:00Z"
+  },
+  "assemblyMethod": {
+    "ref": "evidence/POC-005/profiles/local-v1/v1/attempt-011/tools/poc005_full_execution_assembler_011_v1.py",
+    "byteCount": 18458,
+    "sha256": "sha256:a81a07b636a07e8de0de923d8ae3b3e4843d39ad75e3d85bd5e3165a3b1161ff"
+  },
+  "materializer": {
+    "ref": ".takeover-tools/materialize_poc005_attempt011_full_template_v2.py",
+    "bytes": 7744,
+    "sha256": "f604e18baca77141d067957bd4c201a0493d17cc5be9b056ac645e6d6f94cbde"
+  },
+  "builder": {
+    "ref": ".takeover-tools/prepare_poc005_attempt011_full_candidate_v2_once.py",
+    "bytes": 16424,
+    "sha256": "6b2e58b84dac81ddb15d924d4c82246776b3ce21d814237dc9ac04a9e29473ce"
+  },
+  "sourceReviewRef": "poc005-profile-retirement-final-source-independent-review.json",
+  "sourceReviewSha256": "4bda4cbbdd3a611cc4f40c79b1da2b8fd85e5159eb81fabb6fb85193d1abb0b1",
+  "resourcePreparationReviewRef": "poc005-attempt011-resource-preparation-result-independent-review.json",
+  "resourcePreparationReviewSha256": "d4aa1bacca9e54e2cbc6d6a6afa1c60c6028d389844484bb57214fac1468c103",
+  "priorUnapprovedCandidate": {
+    "ref": ".takeover-tools/poc005-attempt011-full-ready-candidate.json",
+    "bytes": 30430,
+    "sha256": "b01702205c110d736a7110c2939adafb64c0660ed303e07d6bb48946d3a10743"
+  },
+  "priorNegativeReview": {
+    "ref": ".takeover-tools/poc005-attempt011-full-template-v1-independent-review.json",
+    "bytes": 1697,
+    "sha256": "1f357dfbb087dcf34e48aa519ae271c89617802ef973d1ff7a0393a5f199f351"
+  },
+  "v1P2Disposition": {
+    "closedForThisV2": true,
+    "correction": "Both boundary sandboxId projections and the forward builder now identify poc005-native-windows-v8-1m-attempt011; new candidate/materializer refs and new host observation are bound. V1 remains an unapproved static negative.",
+    "oldCandidateNeverApproved": true,
+    "resourceFactsAndFiveOtherFutureMethodsUnchanged": true
+  },
+  "qualificationMethods": [
+    {
+      "ref": ".takeover-tools/poc005_full_execution_assembler_011_v1.py",
+      "bytes": 18458,
+      "sha256": "a81a07b636a07e8de0de923d8ae3b3e4843d39ad75e3d85bd5e3165a3b1161ff"
+    },
+    {
+      "ref": ".takeover-tools/capture_poc005_attempt011_full_preflight_v1.py",
+      "bytes": 9376,
+      "sha256": "73f5fd1f79c8fb8ccb651412b060037f4fb93da548c194b45c2073eefa7bd2fc"
+    },
+    {
+      "ref": ".takeover-tools/prepare_poc005_attempt011_tracked_validation.py",
+      "bytes": 6573,
+      "sha256": "c81a435de51cee83ac3bf6672bfa0ac27387e0ad50d6b91ae14b4d15982d915d"
+    },
+    {
+      "ref": ".takeover-tools/validate_poc005_attempt011_full_execution.py",
+      "bytes": 4315,
+      "sha256": "aa3d9eae0a46eb6147c455d44729e93838b947b2bf292da7870adb80f2998842"
+    },
+    {
+      "ref": ".takeover-tools/run_poc005_windows_attempt011_supervised_once.py",
+      "bytes": 4559,
+      "sha256": "4ba9bea3546ada3cdef20a1e4ab64413c63a76c9a61a8dcbbba636a4974abc31"
+    },
+    {
+      "ref": ".takeover-tools/materialize_poc005_attempt011_full_template_v2.py",
+      "bytes": 7744,
+      "sha256": "f604e18baca77141d067957bd4c201a0493d17cc5be9b056ac645e6d6f94cbde"
+    }
+  ],
+  "syntheticHierarchySandbox": {
+    "schemaVersion": 1,
+    "scope": "LOCAL_FULL_V1",
+    "resourceId": "RES-METADATA-SCALE",
+    "sandboxId": "poc005-native-windows-v8-1m-attempt011",
+    "mountId": "openlist-v426-local-v8-1m-attempt011-id1",
+    "physicalHostId": "windows-hardware-sha256:bec45caf58d1ec4808ed969814e2dcd139d4cefbf751e451814d33a5446fa18e",
+    "controlled": true,
+    "disposable": true,
+    "rootPath": "fixture"
+  },
+  "hostCimEvidence": {
+    "ref": ".takeover-tools/poc005-attempt011-candidate-host-cim-v2.json",
+    "bytes": 2839,
+    "sha256": "cbbf21b1261307e36f4dd6f90237bb7cc788b66a255987ebd81ff59ae156ce48"
+  },
+  "fixedSevenInputs": {
+    "baseline-probe.bin": "c8f5d0341d54d951a71b136e6e2afcb14d11ed8489a7ae126a8fee0df6ecf193",
+    "baseline.jsonl.gz": "ad0e9fc6739de60a4b773437a7a1e7be11ca6f7b8c9cc80388ac6613dd30d388",
+    "change-profiles.jsonl": "3324eef3cb42ae32e9e21433f2f60d0070d51291659bf7d5a27b422e5754be74",
+    "created-probe.bin": "785b0751fc2c53dc14a4ce3d800e69ef9ce1009eb327ccf458afe09c242c26c9",
+    "expected-changes.jsonl": "c1eb4e21860fdbb307b28905dffcd9f8a4329e05ef2638ade09690076def56fd",
+    "profiled.jsonl.gz": "c3dcb34521809b954b0f7862707658ce6d4f60c2c13769db47e75b832c638cd8",
+    "updated-probe.bin": "22250e12fcdfd3b338e9fcad5848a7225a8d39646f3d071ab9dac6dfd4fe0b8d"
+  },
+  "inputRoot": "evidence/POC-005/profiles/local-v1/v1/inputs-1m-attempt011/",
+  "budgetEvidence": {
+    "ref": ".takeover-tools/poc005-attempt011-inputs-budget-readonly-assessment.json",
+    "bytes": 2351,
+    "sha256": "f052229133b5a354290104c577bdaa94b4c8fd5aa75df3b3e001f6250d51b629"
+  },
+  "reviewFindings": {
+    "sourceAndConcreteRoles": "Exact accepted15d/tree2bda, implementer/root and reviewer/root/gz022_planning_independent_review. Creationbase746/original lease remain separate from integrationbase22; no old010 alias or result transfer.",
+    "actualResources": "Accepted fresh v8 fixture1mfiles/500dirs/1792000000payloadB and idle service60532 with exact original native birth134376322844061664, image/owner/command/mount/root bindings. Current identity was rechecked in Python integer space; gateway15635 is bindable and slot still absent.",
+    "inputs": "Seven physical SHA bindings are the accepted actual new inputs. Two strict single-member gzip inputs each1000500rows; baseline88838725B and profile364552802B decoded, within unchanged2GiB/2mrow/64KiBline ingress bounds; five immutable controls remain byte-identical.",
+    "originalObligations": "All13 exact frozen measurement IDs/resources, minimum2normal listings,3controlled create/update/delete operations,5actual Range/version probes including416body,4adapter faults and original window/clock/native wait/PID/counter/identity assertions remain required.",
+    "profileAndApprovalProjection": "Planned profile, metadata-resource, OpenList-resource and sample records passed existing schemas and the unchanged frozen canonical UTC predicate in memory. This decision's literalZ approvedAt/validFrom/validUntil feed all materialized approval timestamps; no older approval timestamp or identity is edited.",
+    "budget": "Provider perPage1000 versus scanner pageSize200;1385metadata-topology pages/traversal and2770two-run pages imply11080base source artifacts plus planning allowance, under20000. Source artifact cap943718400B(900MiB) remains below frozen1073741824B; physical delivery guard remains<67108864B per file. Byte fit is prospective and fail-closed, not a performance/qualification assertion.",
+    "quota": "6000requests/60s, bounded backoff0.25s and timeout5s describe only the controlled loopback adapter. Production/provider quota remains unknown.",
+    "methods": "Exact six future method bytes reviewed against accepted010 versions; changes are namespace/source/tree/root path/concrete actors plus V2 materializer's explicit candidate-v2 input. No method was invoked by this reviewer.",
+    "delivery": "Exact Own011/** plus seven new inputs only,29B CRLF-safe attributes, core.autocrlf=false/longpaths, actual staged blobs vs no-filter physical hashes, DBs retained locally; actual single-parent15d evidence commit/bundle and clean no-alternates clone.",
+    "fullQualification": "Unchanged checker ee53ccf38e80095fd77ded709aa5dba7808d011a6346e864cd1a9f6482be8cc8 full validate_execution chain with actual Task implementer and independent reviewer, full catalog/schemas/defs/statuspass is mandatory. Assembly/schema acceptance cannot replace it."
+  },
+  "methodAndInputChecks": {
+    "allCurrentPhysicalMethodAndAdjacentRecordBytesHashesVerified": true,
+    "allSixAstParseOnly": true,
+    "allAdjacentToolRefsUniqueAndScopedToOwn011": true,
+    "allSevenInputHashesVerified": true,
+    "inputGitTextUnsetAndFilterUnspecifiedVerified": true,
+    "sourceBuild": "sha256:419daca8639869688e988eae6a6538d2936ed1d6b44d8cf095db903a50e405f0",
+    "nativeCounterBuild": "sha256:3456d9371ed453a5eaabc4bc6eaf01d7ec7d46cde10ce4b24d46da3f9cd1ab21",
+    "nativeTimingBuild": "sha256:32992dca1dcbe7e8b1dd56817159bc536c49bd9607b1531be5ddc82056c8d1ce",
+    "currentSourceTrackedUnchangedOnlySevenInputs": true,
+    "currentPublicMain22AndDraftSource15dVerified": true,
+    "newAttemptSlotAbsentAtReview": true,
+    "upstreamNativeIdentityExactlyRechecked": true
+  },
+  "allowExactMaterialization": true,
+  "allowSuspendedScannerReservation": true,
+  "materializationAndReservationConditions": [
+    "Use only current candidate-v2 a55e5a89 and materializer-v2 f604e18b with the accepted source-review4bda; candidate30458B and all method/adjacent public/input SHA bindings must remain exact.",
+    "Before materialization/supervision recheck exact accepted source/tree, original Task lease/concrete actors, unchanged actual upstream identity/mount/fixture and absent new slot/final approval/DB, and current template validity.",
+    "Materialize only the concrete profile/sample/two-resource decisions and method/raw copies. The supervisor may create only the one real CREATE_SUSPENDED reservation and wait for a separately issued independent final approval; it may not self-authorize release.",
+    "Capture real before-environment with exact approved preflight method after reservation. Final independent review must freshly verify actual scanner PID/native birth/single initial suspended thread/owner/image/argv/parent chain, controller/supervisor, currentsource/Task/lease,45-style complete immutable bindings and current resources/hardware/no competing benchmark.",
+    "No data listing/WebDAV/Range/probe, controlled mutation, source gateway or scanner work may run until a new final independent execution decision binds that actual stopped scanner, all actual bytes and a future finite execution window wholly covered by the resource/template validity."
+  ],
+  "postRunPlan": {
+    "assemblyMethodAcceptedProspectively": true,
+    "deliveryMethodAcceptedProspectively": true,
+    "fullValidatorMethodAcceptedProspectively": true,
+    "actualAssemblyOnlyAfterTerminalSuccessfulControllerAndActualScannerWait": true,
+    "trackedDeliveryOnlyAfterActualObservationReviewAndAllRequiredRawRetained": true,
+    "deliveryPlan": {
+      "testedSource": {
+        "commit": "15dcd6cd22a576821cdbe0f936002ad9a1be69e3",
+        "tree": "2bdaef78f224f3548da822b8da8f667e2c587d81"
+      },
+      "sourceCodeChanges": false,
+      "allowedDeliveryPaths": [
+        "evidence/POC-005/profiles/local-v1/v1/attempt-011/**",
+        "evidence/POC-005/profiles/local-v1/v1/inputs-1m-attempt011/baseline-probe.bin",
+        "evidence/POC-005/profiles/local-v1/v1/inputs-1m-attempt011/baseline.jsonl.gz",
+        "evidence/POC-005/profiles/local-v1/v1/inputs-1m-attempt011/change-profiles.jsonl",
+        "evidence/POC-005/profiles/local-v1/v1/inputs-1m-attempt011/created-probe.bin",
+        "evidence/POC-005/profiles/local-v1/v1/inputs-1m-attempt011/expected-changes.jsonl",
+        "evidence/POC-005/profiles/local-v1/v1/inputs-1m-attempt011/profiled.jsonl.gz",
+        "evidence/POC-005/profiles/local-v1/v1/inputs-1m-attempt011/updated-probe.bin"
+      ],
+      "bytePreservation": "Write exact attempt011/.gitattributes bytes: * -text whitespace=cr-at-eol followed by LF. Use per-call core.autocrlf=false and core.longpaths=true; require new inputs text:unset/filter:unspecified and compare every staged Git blob with actual bytes before commit.",
+      "records": "Stage all seven currently untracked inputs at exact additionalRequiredInputs paths with complete Own011 selected raw, profile/resource/sample approvals, actual control records, methods and journals. Exclude physical input/structured aliases from raw lists. Retain all original local DBs outside Git; inventory exact staged paths.",
+      "validation": "Create an actual metadata-only evidence delivery commit with direct parent 15dcd6cd22a576821cdbe0f936002ad9a1be69e3, export its bundle to a clean clone, and run complete frozen validate_execution with actual Task reviewer, schemas/defs/catalog and execution ref. Every referenced input/raw/record must be tracked and not ignored. Do not alter source Task/Active/Program or equate an untracked context with the tested source.",
+      "terminal": "Local1m qualification is separate from independent formal results/profile terminal index/Task completion and original production/provider scope.",
+      "additionalRequiredInputs": {
+        "root": "evidence/POC-005/profiles/local-v1/v1/inputs-1m-attempt011/",
+        "names": [
+          "baseline-probe.bin",
+          "baseline.jsonl.gz",
+          "change-profiles.jsonl",
+          "created-probe.bin",
+          "expected-changes.jsonl",
+          "profiled.jsonl.gz",
+          "updated-probe.bin"
+        ]
+      },
+      "perFileCapBytes": 67108864,
+      "note1m": "Only Own011 and seven new inputs; retain all DBs. Explicit gzip for3scanner exports and automatic producer profilepages, with unchanged64MiB perfile guard. Whole source artifact budget900MiB stays below frozen1GiB/20k. Fit is prospective until actual full1m raw accounting; no data trimmed."
+    },
+    "fullFrozenQualificationAndLaterIndependentAssessmentMandatory": true,
+    "formalProfileIndexAndTaskCompletionSeparate": true
+  },
+  "scannerReleaseApproved": false,
+  "sourceRequestsApprovedNow": false,
+  "benchmarkWindowApproved": false,
+  "newExecutionApproved": false,
+  "experimentApproved": false,
+  "qualificationAccepted": false,
+  "profileTerminalIndexApproved": false,
+  "formalPocAccepted": false,
+  "old010QualificationTransferred": false,
+  "readyApproved": false,
+  "mainMergeApproved": false,
+  "taskCompleted": false,
+  "fullV1Accepted": false,
+  "scope": "Approve this exact future full template, profile/resource configurations, synthetic input sample and preparation methods only. No final execution file/window is issued. Real reservation and before-capture must return for separate independent approval before any workload release.",
+  "actionsPerformed": "Read-only candidate/method diffs, physical pins, original plan/schema/catalog/time rules and planned-record validation in memory, source/inputs/Git attributes/host raw/service identity/port and scope checks. Wrote V1 negative and this current decision only. Did not invoke materializer/supervisor/preflight/assembler/delivery/validator or perform listing/probe/scanning/mutation."
+}

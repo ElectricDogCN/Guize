@@ -1,0 +1,7 @@
+Source Commit: 8d1d972ab38c92997337665ab44cbe1f679c8636
+Command: C:\ProgramData\anaconda3\python.exe scripts/run-program-lifecycle-gate.py --base-ref f2e0150265e0c1eeca5f69fe85708b2434e5ee79 --head-ref HEAD --task POC-005 --branch-name chore/POC-005-metadata-scale
+{"status": "PASS", "message": "Program lifecycle scope, Foundation ownership, rename and Evidence guards passed", "details": {"affectedTaskIds": ["POC-005"], "changedPathCount": 471, "baseRef": "f2e0150265e0c1eeca5f69fe85708b2434e5ee79"}}
+{"status": "PASS", "message": "Exact lifecycle diff and Completion Issue verification passed"}
+
+Exit Code: 0
+Timed Out: False

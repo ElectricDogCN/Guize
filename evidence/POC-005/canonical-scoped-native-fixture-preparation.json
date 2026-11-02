@@ -1,0 +1,28 @@
+{
+  "preparedAt": "2026-10-22T20:39:01.992322+00:00",
+  "processId": 798337,
+  "scope": "SCOPED_SOURCE_PREPARATION_ONLY_NOT_EXPERIMENT",
+  "serviceProcessId": 669560,
+  "storageId": 2,
+  "mountPath": "/guize-poc005-canonical",
+  "storageRoot": "/home/sur/.cache/guize-takeover/poc005-native-openlist-root-v1",
+  "filesystemRoot": "/home/sur/.cache/guize-takeover/poc005-native-openlist-root-v1/fixture",
+  "readerRelativeScope": "fixture",
+  "readerBasePath": "/guize-poc005-canonical",
+  "readerCredentialRef": "/home/sur/.cache/guize-takeover/openlist-linux-lab/poc005-read-credentials.json",
+  "originalCandidatePreserved": "/home/sur/.cache/guize-takeover/poc005-native-canonical-files-v1",
+  "originalOtherStoragesAndAllUsersUnchanged": true,
+  "counts": {
+    "file": 10000,
+    "directory": 500
+  },
+  "actualPayloadBytes": 17920000,
+  "verifiedActualPayloadMapSha256": "459f5dddf9291f913ce1b696194ec8c70da1dbf8d27f21edc3f69b66e0d1db3d",
+  "hiddenFilesVisible": true,
+  "enableSign": false,
+  "sourceListingOrProbeExperimentExecuted": false,
+  "controlledChangesApplied": false,
+  "experimentApproved": false,
+  "qualificationAccepted": false,
+  "reason": "The strict read-only listing adapter requires a nonempty reader-relative scope; a native fixture child supplies it without widening the reader or adapter scope."
+}

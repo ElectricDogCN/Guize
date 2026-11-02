@@ -1,0 +1,288 @@
+{
+  "taskId": "POC-005",
+  "oldFeature": "3592f62f57d7b717e1f5ae6e203b9f5a679e7439",
+  "incomingAcceptedMain": "0d8c6f43a8c3d7794c32b350c5cbb58c0c17d583",
+  "branch": "chore/POC-005-metadata-scale",
+  "expectedOrderedParents": [
+    "3592f62f57d7b717e1f5ae6e203b9f5a679e7439",
+    "0d8c6f43a8c3d7794c32b350c5cbb58c0c17d583"
+  ],
+  "ordinaryCreationBase": "746e23e582501fa08380c3f3301bdc1774902f7c",
+  "acceptedLease": {
+    "acquiredAt": "2026-10-29T12:12:19Z",
+    "expiresAt": "2026-11-05T12:12:19Z"
+  },
+  "originalTaskBodyPreserved": true,
+  "taskFrontDeltaOnlyAlreadyAcceptedExpiry": true,
+  "registryLeaseWasActuallyAutomaticStage0": true,
+  "metadataManuallyRewritten": false,
+  "originalConflictPaths": [
+    "evidence/POC-005/handoff.md"
+  ],
+  "handoffResolution": "Original feature bytes followed by explicitly attributed incoming-main original bytes and current phase note; both archived exactly",
+  "historicalTaskCommands": [
+    [
+      "git",
+      "diff",
+      "--check",
+      "22ab6a0668da2d64a016fccef2c3b5a634638a24...HEAD"
+    ],
+    [
+      "python",
+      "scripts/check-task-file.py",
+      "--task",
+      "POC-005"
+    ],
+    [
+      "python",
+      "scripts/check-project-readiness.py"
+    ],
+    [
+      "python",
+      "scripts/check-schemas.py"
+    ],
+    [
+      "python",
+      "scripts/check-program-plan-integrity.py",
+      "--base-ref",
+      "22ab6a0668da2d64a016fccef2c3b5a634638a24"
+    ],
+    [
+      "python",
+      "scripts/check-program-plan-history.py",
+      "--base-ref",
+      "22ab6a0668da2d64a016fccef2c3b5a634638a24",
+      "--head-ref",
+      "HEAD",
+      "--task",
+      "POC-005",
+      "--branch-name",
+      "chore/POC-005-metadata-scale"
+    ],
+    [
+      "python",
+      "scripts/check-program-plan-transitions.py",
+      "--base-ref",
+      "22ab6a0668da2d64a016fccef2c3b5a634638a24",
+      "--head-ref",
+      "HEAD",
+      "--task",
+      "POC-005",
+      "--branch-name",
+      "chore/POC-005-metadata-scale"
+    ],
+    [
+      "python",
+      "scripts/check-program-plan-finalization.py",
+      "--base-ref",
+      "22ab6a0668da2d64a016fccef2c3b5a634638a24",
+      "--head-ref",
+      "HEAD",
+      "--task",
+      "POC-005"
+    ],
+    [
+      "python",
+      "scripts/check-program-lifecycle-guards.py",
+      "--base-ref",
+      "22ab6a0668da2d64a016fccef2c3b5a634638a24",
+      "--head-ref",
+      "HEAD",
+      "--task",
+      "POC-005",
+      "--branch-name",
+      "chore/POC-005-metadata-scale"
+    ],
+    [
+      "python",
+      "scripts/run-program-lifecycle-gate.py",
+      "--base-ref",
+      "22ab6a0668da2d64a016fccef2c3b5a634638a24",
+      "--head-ref",
+      "HEAD",
+      "--task",
+      "POC-005",
+      "--branch-name",
+      "chore/POC-005-metadata-scale"
+    ],
+    [
+      "python",
+      "scripts/run-agent-coordination-gate.py",
+      "--base-ref",
+      "22ab6a0668da2d64a016fccef2c3b5a634638a24",
+      "--head-ref",
+      "HEAD",
+      "--task",
+      "POC-005",
+      "--branch-name",
+      "chore/POC-005-metadata-scale"
+    ],
+    [
+      "python",
+      "scripts/run-task-scope-gate.py",
+      "--task",
+      "POC-005",
+      "--base",
+      "22ab6a0668da2d64a016fccef2c3b5a634638a24"
+    ],
+    [
+      "python",
+      "scripts/check-evidence.py",
+      "--task",
+      "POC-005"
+    ],
+    [
+      "python",
+      "specs/poc/check_program.py",
+      "--task",
+      "POC-005",
+      "--base-ref",
+      "22ab6a0668da2d64a016fccef2c3b5a634638a24"
+    ],
+    [
+      "python",
+      "scripts/check-markdown.py"
+    ]
+  ],
+  "currentSourceCommands": [
+    [
+      "git",
+      "diff",
+      "--check",
+      "0d8c6f43a8c3d7794c32b350c5cbb58c0c17d583...HEAD"
+    ],
+    [
+      "python",
+      "scripts/check-task-file.py",
+      "--task",
+      "POC-005"
+    ],
+    [
+      "python",
+      "scripts/check-project-readiness.py"
+    ],
+    [
+      "python",
+      "scripts/check-schemas.py"
+    ],
+    [
+      "python",
+      "scripts/check-program-plan-integrity.py",
+      "--base-ref",
+      "0d8c6f43a8c3d7794c32b350c5cbb58c0c17d583"
+    ],
+    [
+      "python",
+      "scripts/check-program-plan-history.py",
+      "--base-ref",
+      "0d8c6f43a8c3d7794c32b350c5cbb58c0c17d583",
+      "--head-ref",
+      "HEAD",
+      "--task",
+      "POC-005",
+      "--branch-name",
+      "chore/POC-005-metadata-scale"
+    ],
+    [
+      "python",
+      "scripts/check-program-plan-transitions.py",
+      "--base-ref",
+      "0d8c6f43a8c3d7794c32b350c5cbb58c0c17d583",
+      "--head-ref",
+      "HEAD",
+      "--task",
+      "POC-005",
+      "--branch-name",
+      "chore/POC-005-metadata-scale"
+    ],
+    [
+      "python",
+      "scripts/check-program-plan-finalization.py",
+      "--base-ref",
+      "0d8c6f43a8c3d7794c32b350c5cbb58c0c17d583",
+      "--head-ref",
+      "HEAD",
+      "--task",
+      "POC-005"
+    ],
+    [
+      "python",
+      "scripts/check-program-lifecycle-guards.py",
+      "--base-ref",
+      "0d8c6f43a8c3d7794c32b350c5cbb58c0c17d583",
+      "--head-ref",
+      "HEAD",
+      "--task",
+      "POC-005",
+      "--branch-name",
+      "chore/POC-005-metadata-scale"
+    ],
+    [
+      "python",
+      "scripts/run-program-lifecycle-gate.py",
+      "--base-ref",
+      "0d8c6f43a8c3d7794c32b350c5cbb58c0c17d583",
+      "--head-ref",
+      "HEAD",
+      "--task",
+      "POC-005",
+      "--branch-name",
+      "chore/POC-005-metadata-scale"
+    ],
+    [
+      "python",
+      "scripts/run-agent-coordination-gate.py",
+      "--base-ref",
+      "0d8c6f43a8c3d7794c32b350c5cbb58c0c17d583",
+      "--head-ref",
+      "HEAD",
+      "--task",
+      "POC-005",
+      "--branch-name",
+      "chore/POC-005-metadata-scale"
+    ],
+    [
+      "python",
+      "scripts/run-task-scope-gate.py",
+      "--task",
+      "POC-005",
+      "--base",
+      "0d8c6f43a8c3d7794c32b350c5cbb58c0c17d583"
+    ],
+    [
+      "python",
+      "scripts/check-evidence.py",
+      "--task",
+      "POC-005"
+    ],
+    [
+      "python",
+      "specs/poc/check_program.py",
+      "--task",
+      "POC-005",
+      "--base-ref",
+      "0d8c6f43a8c3d7794c32b350c5cbb58c0c17d583"
+    ],
+    [
+      "python",
+      "scripts/check-markdown.py"
+    ]
+  ],
+  "runtimeFileCount": 31,
+  "runtimeSourceBytesUnchanged": true,
+  "retiredLocatorOriginalBytes": 303,
+  "retiredLocatorOriginalSha256": "d49beaabebfee037938395f3a6913776bb070d8a910c2fe1f7bbbaddd7f7d76f",
+  "historicalSelectedResult": "evidence/POC-005/profiles/local-v1/v1/attempt-011/result.json",
+  "historicalResultApprovedAt": "2026-10-29T07:31:14Z",
+  "originalSelectedResultUnchanged": true,
+  "legacy010ResultUnchanged": true,
+  "oldObservationsApprovalsWindowsAndRawRetained": true,
+  "oldProfileRebound": false,
+  "currentSourceChecksPassed": false,
+  "fullCiAccepted": false,
+  "actualMergeApproved": false,
+  "newResourcesOrExperimentApproved": false,
+  "formalPocAccepted": false,
+  "taskCompleted": false,
+  "recordedAt": "2026-11-02T12:10:51.203661+00:00"
+}

@@ -1,0 +1,102 @@
+{
+  "base": "c0d550555dd51a29fd1c5ff1bc5e4713073c0b53",
+  "parentSource": "1869091239b51960d53b0840c4965e3f84eb10fd",
+  "files": [
+    {
+      "ref": "prior-source186--specs--tasks--POC-005.md.zlib.b64",
+      "original": "prior-source186/specs/tasks/POC-005.md",
+      "encoding": "zlib-base64",
+      "bytes": 20703,
+      "sha256": "508a00369da4d7bf8e7d15eee15de7afef9b40f529effa2c24d446743973e6be"
+    },
+    {
+      "ref": "prior-source186--evidence--POC-005--handoff.md.zlib.b64",
+      "original": "prior-source186/evidence/POC-005/handoff.md",
+      "encoding": "zlib-base64",
+      "bytes": 3000,
+      "sha256": "97f63656d4d60f9b8e715d8f8f3d3e43c6a456f7ab657197f32e898ca7f30dab"
+    },
+    {
+      "ref": "prior-source186--evidence--POC-005--commands.txt.zlib.b64",
+      "original": "prior-source186/evidence/POC-005/commands.txt",
+      "encoding": "zlib-base64",
+      "bytes": 1827,
+      "sha256": "a54ee280f43f371fc129a05b7114d3b7a1c25804631619a1a6721a3cfbf08402"
+    },
+    {
+      "ref": "prior-source186--evidence--POC-005--summary.md.zlib.b64",
+      "original": "prior-source186/evidence/POC-005/summary.md",
+      "encoding": "zlib-base64",
+      "bytes": 637,
+      "sha256": "b54f288a42f3e8792759a41e07f1c43c80e5d458bbdf43dc0b2d286c8f128fe7"
+    },
+    {
+      "ref": "prior-source186--evidence--POC-005--changed-files.md.zlib.b64",
+      "original": "prior-source186/evidence/POC-005/changed-files.md",
+      "encoding": "zlib-base64",
+      "bytes": 385050,
+      "sha256": "4081eaf14469f1d6758529b1c9e2fd35698f9510a82f7fc3dd1ce5048def5e85"
+    },
+    {
+      "ref": "poc005-wire-1869091-windows-checks--windows-all-130.raw.zlib.b64",
+      "original": "poc005-wire-1869091-windows-checks/windows-all-130.raw",
+      "encoding": "zlib-base64",
+      "bytes": 44827,
+      "sha256": "ea7add10fa69ef1a89ecb362992336a8c4b551dbc2d910341278b068752b17d3"
+    },
+    {
+      "ref": "poc005-wire-1869091-windows-checks--results.json.zlib.b64",
+      "original": "poc005-wire-1869091-windows-checks/results.json",
+      "encoding": "zlib-base64",
+      "bytes": 1715,
+      "sha256": "1429dcbe794a7a0bcc3ca30cbc7688aa1bb34cec8e1eea6743341589f1ad7058"
+    },
+    {
+      "ref": "poc005-wire-1869091-native-checks--task-05.raw.zlib.b64",
+      "original": "poc005-wire-1869091-native-checks/task-05.raw",
+      "encoding": "zlib-base64",
+      "bytes": 380864,
+      "sha256": "1295632935d44ee9fc71b41ee9607585814f475a02696ed3ca43c5223506080b"
+    },
+    {
+      "ref": "poc005-wire-1869091-native-checks--results.json.zlib.b64",
+      "original": "poc005-wire-1869091-native-checks/results.json",
+      "encoding": "zlib-base64",
+      "bytes": 4111,
+      "sha256": "02255fee43d9c614fc841873323a3c91bfc982815a00d3d933a476521e502551"
+    },
+    {
+      "ref": "original-05dc8ff10070.zlib.b64",
+      "original": "poc005-empty-password-wire-repair-checks/working-consumers-full-windows.raw",
+      "encoding": "zlib-base64",
+      "bytes": 24012,
+      "sha256": "937e5733fc66a88f3f02bc90f2d38e24bd1a6f8a347e34524338a49c415f68e9"
+    },
+    {
+      "ref": "original-fbcc442e7175.zlib.b64",
+      "original": "poc005-empty-password-wire-repair-checks/working-consumers-full-windows-result.json",
+      "encoding": "zlib-base64",
+      "bytes": 682,
+      "sha256": "0c87f0613bdb25e67d8db8211e51213ffb6012c06e52eab3bdc2d3e0908cea04"
+    },
+    {
+      "ref": "original-9a5e35d55ebc.zlib.b64",
+      "original": "poc005-wire-repair-uncommitted-independent-review.json",
+      "encoding": "zlib-base64",
+      "bytes": 11100,
+      "sha256": "94cba616a7ea85fd0c3999f1ed70dc2e85c11c990f0e7564d6c07451d8596df7"
+    },
+    {
+      "ref": "poc005-1869091-history-blocker-summary.json.zlib.b64",
+      "original": "poc005-1869091-history-blocker-summary.json",
+      "encoding": "zlib-base64",
+      "bytes": 1131,
+      "sha256": "9046934801cd09a37de4989a625dab32cff5d16ba9c09af623a31a1ba5c26ce5"
+    }
+  ],
+  "currentSourceAssigned": false,
+  "currentSourceAccepted": false,
+  "workingWindows131Passed": true,
+  "fixedSourceChecksExecuted": false,
+  "experimentApproved": false
+}

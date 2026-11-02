@@ -1,0 +1,23 @@
+{
+  "source": "8bf5d1fff8a5a07057bec68de8a7e7bb505c646f",
+  "run": 39841056383,
+  "runNumber": 823,
+  "job": 120041861231,
+  "status": "success",
+  "tests": 713,
+  "seconds": 1081.89,
+  "noSkippedTests": true,
+  "experimentAccepted": false,
+  "files": [
+    {
+      "path": "poc005-fixture-memory-8bf5d1f-ci823.raw.txt",
+      "bytes": 298374,
+      "sha256": "4eb5d97f7cde3c816f2ca4988e9c42eea2d62c471cd4a810a8d8810e0a60d6cb"
+    },
+    {
+      "path": "poc005-fixture-memory-8bf5d1f-ci823.snapshot.json",
+      "bytes": 19858,
+      "sha256": "f1c98048a7abf132ca81a95487092b8a6d251e32896c58d3d69dc43b564b1df0"
+    }
+  ]
+}

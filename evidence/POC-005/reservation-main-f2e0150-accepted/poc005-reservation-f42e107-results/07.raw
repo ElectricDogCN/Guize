@@ -1,0 +1,5 @@
+Source: f42e107374562f35aa6771e4c841ca835fcdc797
+Command: python scripts/check-program-plan-finalization.py --base-ref 11c32830c0d1bb8ccdcc04aa278876065bce1f33 --head-ref HEAD --task POC-005
+{"status": "PASS", "message": "Program finalization invariants passed", "details": {"activeTasks": 2, "completedFoundations": 10, "task": "POC-005"}}
+
+Exit Code: 0

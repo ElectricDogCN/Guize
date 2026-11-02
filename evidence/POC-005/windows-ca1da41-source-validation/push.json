@@ -1,0 +1,23 @@
+{
+  "source": "ca1da41eba2c784fa1418feb29dfcf717cad5785",
+  "branch": "chore/POC-005-metadata-scale",
+  "startedAt": "2026-10-22T22:53:10.031099+00:00",
+  "finishedAt": "2026-10-22T22:53:18.431265+00:00",
+  "argv": [
+    "git",
+    "-C",
+    "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc005-metadata-scale-reservation-worktree",
+    "push",
+    "origin",
+    "ca1da41eba2c784fa1418feb29dfcf717cad5785:refs/heads/chore/POC-005-metadata-scale"
+  ],
+  "exitCode": 0,
+  "waitCompleted": true,
+  "remoteBefore": "a9bcc16a3dac2bbd27bea569e7cea2226056aac1\trefs/heads/chore/POC-005-metadata-scale",
+  "remoteAfter": "ca1da41eba2c784fa1418feb29dfcf717cad5785\trefs/heads/chore/POC-005-metadata-scale",
+  "forceUsed": false,
+  "rawBytes": 140,
+  "rawSha256": "0b57cc1adaaec84543d342c102f20ee93cc1f2e71433143318f4c7b7e0f9e926",
+  "ciAccepted": false,
+  "experimentApproved": false
+}

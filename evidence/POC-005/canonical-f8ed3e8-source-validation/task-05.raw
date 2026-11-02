@@ -1,0 +1,5 @@
+Source Commit: f8ed3e8d740c1a90e1432df6a6e2ec6617daabf8
+Command: python scripts/check-program-plan-history.py --base-ref f2e0150265e0c1eeca5f69fe85708b2434e5ee79 --head-ref HEAD --task POC-005 --branch-name chore/POC-005-metadata-scale
+{"status": "PASS", "message": "Program Plan history transitions are valid", "details": {"baseRef": "f2e0150265e0c1eeca5f69fe85708b2434e5ee79", "headRef": "HEAD", "completionRecords": 5, "auditedOwnerCapacityFailures": []}}
+
+Exit Code: 0

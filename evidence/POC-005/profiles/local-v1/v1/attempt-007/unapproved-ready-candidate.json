@@ -1,0 +1,473 @@
+{
+  "kind": "unapproved_windows_attempt007_full_template_candidate",
+  "source": "8f7c9a5ed3f598d40f6e34bb12151a67b3f5d8e1",
+  "base": "746e23e582501fa08380c3f3301bdc1774902f7c",
+  "tree": "ef65e23a18b01bd73f16a128e0991d55817a5a36",
+  "preparedAt": "2026-10-25T22:17:36.820172+00:00",
+  "draft": {
+    "approvalRef": "evidence/POC-005/profiles/local-v1/v1/attempt-007/independent-approval.json",
+    "refs": {
+      "approvalRequest": "evidence/POC-005/profiles/local-v1/v1/attempt-007/approval-request.json",
+      "manifest": "evidence/POC-005/profiles/local-v1/v1/attempt-007/native-manifest.json",
+      "resourceConfiguration": "evidence/POC-005/profiles/local-v1/v1/attempt-007/resource.json",
+      "runtimeConfiguration": "evidence/POC-005/profiles/local-v1/v1/attempt-007/runtime.json",
+      "stderr": "evidence/POC-005/profiles/local-v1/v1/attempt-007/scanner.stderr",
+      "stdout": "evidence/POC-005/profiles/local-v1/v1/attempt-007/scanner.stdout",
+      "processIdentity": "evidence/POC-005/profiles/local-v1/v1/attempt-007/windows-process-identity.json"
+    },
+    "reservationDeadline": "2026-10-26T00:17:36.820172+00:00",
+    "resourceConfiguration": {
+      "configuration": {
+        "metadataProfilingPolicy": {
+          "baselinePayload": {
+            "ref": "evidence/POC-005/profiles/local-v1/v1/inputs/baseline-probe.bin",
+            "sha256": "sha256:c8f5d0341d54d951a71b136e6e2afcb14d11ed8489a7ae126a8fee0df6ecf193"
+          },
+          "baselineVersion": "v1",
+          "extensionCategories": [
+            "mp4",
+            "mkv",
+            "mov",
+            "txt",
+            "jpg"
+          ],
+          "filenameInput": {
+            "count": 10500,
+            "ref": "evidence/POC-005/profiles/local-v1/v1/inputs/profiled.jsonl",
+            "sha256": "sha256:2fd43a93e15b2854c02f20d78d08986c690726ac3c100513bb9e8560c5846784"
+          },
+          "minimumListingRuns": 2,
+          "probeObjectId": "f-000000003",
+          "rangeDisposition": "supported",
+          "updatedPayload": {
+            "ref": "evidence/POC-005/profiles/local-v1/v1/inputs/updated-probe.bin",
+            "sha256": "sha256:22250e12fcdfd3b338e9fcad5848a7225a8d39646f3d071ab9dac6dfd4fe0b8d"
+          },
+          "updatedVersion": "v2",
+          "validatorKind": "etag"
+        },
+        "metadataResourcePolicy": {},
+        "metadataScanPolicy": {
+          "baseline": {
+            "count": 10500,
+            "ref": "evidence/POC-005/profiles/local-v1/v1/inputs/baseline.jsonl",
+            "sha256": "sha256:5dc45ba589f8816b0f232e7a37ac54f6f5e6bc5050415ed98cf19671e0afa3f1"
+          },
+          "baselineInputSampleId": "SAMPLE-METADATA-SYNTHETIC",
+          "expectedChanges": {
+            "count": 3,
+            "ref": "evidence/POC-005/profiles/local-v1/v1/inputs/expected-changes.jsonl",
+            "sha256": "sha256:c1eb4e21860fdbb307b28905dffcd9f8a4329e05ef2638ade09690076def56fd"
+          },
+          "hierarchyGenerator": {
+            "algorithm": "deterministic-tree-v1",
+            "directoryCount": 500,
+            "fileCount": 10000,
+            "maximumDepth": 12,
+            "rootPath": "fixture",
+            "seed": 20261015
+          }
+        },
+        "syntheticHierarchySandbox": {
+          "schemaVersion": 1,
+          "scope": "LOCAL_FULL_V1",
+          "resourceId": "RES-METADATA-SCALE",
+          "sandboxId": "poc005-native-windows-v4",
+          "mountId": "openlist-v426-local-v4-id1",
+          "physicalHostId": "windows-hardware-sha256:bec45caf58d1ec4808ed969814e2dcd139d4cefbf751e451814d33a5446fa18e",
+          "controlled": true,
+          "disposable": true,
+          "rootPath": "fixture"
+        }
+      }
+    },
+    "runtimeConfig": {
+      "artifactRoot": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc005-thaw-integration",
+      "baseline": {
+        "ref": "evidence/POC-005/profiles/local-v1/v1/inputs/baseline.jsonl",
+        "sha256": "sha256:5dc45ba589f8816b0f232e7a37ac54f6f5e6bc5050415ed98cf19671e0afa3f1"
+      },
+      "changeSetId": "poc005-controlled-create-update-delete-v1",
+      "context": {
+        "acceptanceProfile": {
+          "bindingRevision": 1,
+          "id": "local-v1",
+          "scope": "LOCAL_FULL_V1",
+          "version": 1
+        },
+        "configurationRef": "evidence/POC-005/profiles/local-v1/v1/attempt-007/resource.json",
+        "inputSamples": [
+          {
+            "checksum": "sha256:5dc45ba589f8816b0f232e7a37ac54f6f5e6bc5050415ed98cf19671e0afa3f1",
+            "id": "SAMPLE-METADATA-SYNTHETIC",
+            "immutableId": "guize-poc005-canonical-10k-20261015-v1"
+          }
+        ],
+        "manifestId": "guize-poc005-canonical-10k-20261015-v1",
+        "scannerBuild": "8f7c9a5ed3f598d40f6e34bb12151a67b3f5d8e1",
+        "subjectVersion": "8f7c9a5ed3f598d40f6e34bb12151a67b3f5d8e1"
+      },
+      "counterCollectorBuild": "sha256:3456d9371ed453a5eaabc4bc6eaf01d7ec7d46cde10ce4b24d46da3f9cd1ab21",
+      "database": "evidence/POC-005/profiles/local-v1/v1/attempt-007/scanner.sqlite",
+      "executor": "task-owner-agent",
+      "memory": {
+        "after": {
+          "capture": "evidence/POC-005/profiles/local-v1/v1/attempt-007/after-capture",
+          "counter": "evidence/POC-005/profiles/local-v1/v1/attempt-007/after-counter",
+          "stderr": "evidence/POC-005/profiles/local-v1/v1/attempt-007/after-stderr",
+          "stdout": "evidence/POC-005/profiles/local-v1/v1/attempt-007/after-stdout"
+        },
+        "before": {
+          "capture": "evidence/POC-005/profiles/local-v1/v1/attempt-007/before-capture",
+          "counter": "evidence/POC-005/profiles/local-v1/v1/attempt-007/before-counter",
+          "stderr": "evidence/POC-005/profiles/local-v1/v1/attempt-007/before-stderr",
+          "stdout": "evidence/POC-005/profiles/local-v1/v1/attempt-007/before-stdout"
+        }
+      },
+      "outputs": {
+        "appliedEvents": "evidence/POC-005/profiles/local-v1/v1/attempt-007/appliedEvents.jsonl",
+        "enumeratedVersions": "evidence/POC-005/profiles/local-v1/v1/attempt-007/enumeratedVersions.jsonl",
+        "events": "evidence/POC-005/profiles/local-v1/v1/attempt-007/events.jsonl",
+        "filenameObjects": "evidence/POC-005/profiles/local-v1/v1/attempt-007/filenameObjects.jsonl",
+        "objects": "evidence/POC-005/profiles/local-v1/v1/attempt-007/objects.jsonl",
+        "postScanObjects": "evidence/POC-005/profiles/local-v1/v1/attempt-007/postScanObjects.jsonl",
+        "traversedObjects": "evidence/POC-005/profiles/local-v1/v1/attempt-007/traversedObjects.jsonl"
+      },
+      "pageSize": 200,
+      "phaseCaptures": {
+        "changeStream": "evidence/POC-005/profiles/local-v1/v1/attempt-007/changeStream.json",
+        "enumeration": "evidence/POC-005/profiles/local-v1/v1/attempt-007/enumeration.json",
+        "incremental": "evidence/POC-005/profiles/local-v1/v1/attempt-007/incremental.json"
+      },
+      "phaseFacts": "evidence/POC-005/profiles/local-v1/v1/attempt-007/phase-facts.json",
+      "phaseStderr": {
+        "changeStream": "evidence/POC-005/profiles/local-v1/v1/attempt-007/changeStream.stderr",
+        "enumeration": "evidence/POC-005/profiles/local-v1/v1/attempt-007/enumeration.stderr",
+        "incremental": "evidence/POC-005/profiles/local-v1/v1/attempt-007/incremental.stderr"
+      },
+      "postReceipt": "evidence/POC-005/profiles/local-v1/v1/attempt-007/post.json",
+      "postStderr": "evidence/POC-005/profiles/local-v1/v1/attempt-007/post.stderr",
+      "processId": "poc005-windows-scanner-attempt007",
+      "profiled": {
+        "ref": "evidence/POC-005/profiles/local-v1/v1/inputs/profiled.jsonl",
+        "sha256": "sha256:2fd43a93e15b2854c02f20d78d08986c690726ac3c100513bb9e8560c5846784"
+      },
+      "readyReceipt": "evidence/POC-005/profiles/local-v1/v1/attempt-007/ready.json",
+      "scanId": "poc005-windows-canonical-10k-attempt007",
+      "snapshotVersion": "canonical-10k-v1",
+      "sourceId": "poc005-openlist-windows-controlled-v1",
+      "sourceRun": {
+        "artifactBytes": 268435456,
+        "artifactFiles": 20000,
+        "artifactPrefix": "evidence/POC-005/profiles/local-v1/v1/attempt-007/source-artifacts",
+        "credentialRef": "C:\\Users\\13997\\.codex\\local-lab\\poc005-windows-openlist-v4\\reader-credentials.json",
+        "extensionCategories": [
+          "mp4",
+          "mkv",
+          "mov",
+          "txt",
+          "jpg"
+        ],
+        "gatewayPort": 15631,
+        "identity": {
+          "adapterBuild": "sha256:c0a9c383283198a7c10297500db0f1967563beb0e512c80ffed6a44135ce6af6",
+          "adapterId": "guize-controlled-openlist-windows-v1",
+          "sourceId": "poc005-openlist-windows-controlled-v1",
+          "sourceVersion": "OpenList-v4.2.6-Windows-Local-isolated-v4-unsigned-no-password-meta"
+        },
+        "intents": [
+          {
+            "afterVersion": "v1",
+            "beforeVersion": "absent",
+            "eventId": "controlled-event-001",
+            "modifiedAt": "2026-01-01T00:00:02Z",
+            "objectId": "controlled-created-001",
+            "operation": "create",
+            "path": "created-fixture.mp4",
+            "payloadRef": "evidence/POC-005/profiles/local-v1/v1/inputs/created-probe.bin",
+            "payloadSha256": "sha256:785b0751fc2c53dc14a4ce3d800e69ef9ce1009eb327ccf458afe09c242c26c9"
+          },
+          {
+            "afterVersion": "v2",
+            "beforeSha256": "sha256:c8f5d0341d54d951a71b136e6e2afcb14d11ed8489a7ae126a8fee0df6ecf193",
+            "beforeVersion": "v1",
+            "eventId": "controlled-event-002",
+            "modifiedAt": "2026-01-01T00:00:02Z",
+            "objectId": "f-000000003",
+            "operation": "update",
+            "path": "目录-000000001/目录-000000002/目录-000000003/目录-000000004/目录-000000015/with space 3.mov",
+            "payloadRef": "evidence/POC-005/profiles/local-v1/v1/inputs/updated-probe.bin",
+            "payloadSha256": "sha256:22250e12fcdfd3b338e9fcad5848a7225a8d39646f3d071ab9dac6dfd4fe0b8d"
+          },
+          {
+            "afterVersion": "absent",
+            "beforeSha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "beforeVersion": "v1",
+            "eventId": "controlled-event-003",
+            "objectId": "f-000000000",
+            "operation": "delete",
+            "path": "目录-000000001/目录-000000002/目录-000000003/目录-000000004/目录-000000015/目录-000000198/clip-0.mp4"
+          }
+        ],
+        "listingRuns": 2,
+        "localRoot": "C:\\Users\\13997\\.codex\\local-lab\\poc005-native-windows-v4\\fixture",
+        "maximumBackoffSeconds": 0.25,
+        "origin": "http://127.0.0.1:15531",
+        "perPage": 200,
+        "periodSeconds": 60,
+        "probe": {
+          "baselineBytes": 4096,
+          "baselineVersion": "v1",
+          "objectId": "f-000000003",
+          "path": "目录-000000001/目录-000000002/目录-000000003/目录-000000004/目录-000000015/with space 3.mov",
+          "updatedBytes": 4096,
+          "updatedVersion": "v2"
+        },
+        "quotaRef": "evidence/POC-005/profiles/local-v1/v1/attempt-007/windows-adapter-quota.json",
+        "quotaSha256": "sha256:6b2d79290b8dde3e1e997dc7f2fc9047a6dfcdabda4fe082f9cd4da378f1141e",
+        "readerUsername": "guize-poc005-windows-read-v4",
+        "requestLimit": 6000,
+        "scope": "fixture",
+        "timeout": 5,
+        "upstreamIdentity": {
+          "cmdlineSha256": "cfb34639a4f6b20e8cd606643dce625b404b8068f3403352980aec8ee08ae0da",
+          "creationTime100ns": 134374397418999545,
+          "executable": "C:\\Users\\13997\\.codex\\local-lab\\poc005-windows-openlist-v4\\openlist.exe",
+          "executableSha256": "234ee38f142858ba12d57dd57d181c9ed4a77f952b8420c053e7ab98e3db3172",
+          "nativeCommandLine": "C:\\Users\\13997\\.codex\\local-lab\\poc005-windows-openlist-v4\\openlist.exe server --data C:\\Users\\13997\\.codex\\local-lab\\poc005-windows-openlist-v4\\data",
+          "nativeCommandLineSha256": "e9ed6b3f2d931c3da3408c1d35e757d5b3db775a50d387e296822c474b459e26",
+          "nativeProcessId": 165048,
+          "ownerSid": "S-1-5-21-2057438557-2912810365-1850882449-1001"
+        }
+      },
+      "timingCollectorBuild": "sha256:32992dca1dcbe7e8b1dd56817159bc536c49bd9607b1531be5ddc82056c8d1ce",
+      "timingCollectorCommandArgs": [
+        "C:\\ProgramData\\anaconda3\\python.exe",
+        "-B",
+        "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc005-thaw-integration\\poc\\POC-05-metadata-scale\\native_scan_control.py",
+        "phase",
+        "--facts",
+        "evidence/POC-005/profiles/local-v1/v1/attempt-007/phase-facts.json"
+      ],
+      "counterFormat": "windows_process_memory_counters"
+    },
+    "unitFixtureOnly": false
+  },
+  "quota": {
+    "backoffStrategy": "At most one actual retry for explicit adapter429/503/disconnect; honor bounded Retry-After; expired gateway authorization gets no retry.",
+    "documentationRevision": "controlled-windows-adapter-v1-not-production-quota",
+    "kind": "documented_source_quota",
+    "maximumBackoffSeconds": 0.25,
+    "periodSeconds": 60,
+    "requestLimit": 6000,
+    "resetSemantics": "Adapter-only fixed monotonic buckets of60seconds from actual gateway startup; upstream provider quota is unknown.",
+    "schemaVersion": 1,
+    "sourceIdentity": {
+      "adapterBuild": "sha256:c0a9c383283198a7c10297500db0f1967563beb0e512c80ffed6a44135ce6af6",
+      "adapterId": "guize-controlled-openlist-windows-v1",
+      "sourceId": "poc005-openlist-windows-controlled-v1",
+      "sourceVersion": "OpenList-v4.2.6-Windows-Local-isolated-v4-unsigned-no-password-meta"
+    }
+  },
+  "fixedSevenInputsUnchanged": true,
+  "fixedSevenInputs": {
+    "baseline.jsonl": "5dc45ba589f8816b0f232e7a37ac54f6f5e6bc5050415ed98cf19671e0afa3f1",
+    "profiled.jsonl": "2fd43a93e15b2854c02f20d78d08986c690726ac3c100513bb9e8560c5846784",
+    "expected-changes.jsonl": "c1eb4e21860fdbb307b28905dffcd9f8a4329e05ef2638ade09690076def56fd",
+    "change-profiles.jsonl": "3324eef3cb42ae32e9e21433f2f60d0070d51291659bf7d5a27b422e5754be74",
+    "updated-probe.bin": "22250e12fcdfd3b338e9fcad5848a7225a8d39646f3d071ab9dac6dfd4fe0b8d",
+    "created-probe.bin": "785b0751fc2c53dc14a4ce3d800e69ef9ce1009eb327ccf458afe09c242c26c9",
+    "baseline-probe.bin": "c8f5d0341d54d951a71b136e6e2afcb14d11ed8489a7ae126a8fee0df6ecf193"
+  },
+  "mutations": 3,
+  "probes": 5,
+  "adapterFaults": 4,
+  "numericDomainReviewRefs": {},
+  "hypothesesOnly": [
+    "rangeDisposition=supported",
+    "validatorKind=etag"
+  ],
+  "sourceReviewRef": "poc005-completion-main-sync-8f7c9a5-final-source-independent-review.json",
+  "sourceReviewSha256": "254afe4d7eea29e337d2a6415b1545dcf39816782f1808884488543777b3f00d",
+  "resourcePreparationReviewRef": "poc005-attempt007-resource-preparation-result-independent-review.json",
+  "resourcePreparationReviewSha256": "7c15fafa47912c0d6cd7ad11e2cf7c4309dbf9e151190c7be791b558ab6b71c1",
+  "fixturePreparationRef": "poc005-attempt007-windows-native-fixture-preparation.json",
+  "servicePreparationRef": "poc005-attempt007-windows-openlist-preparation.json",
+  "requiredReviewerIdentity": "independent-review-agent",
+  "hostIdentityObservation": {
+    "observedAt": "2026-10-25T22:17:32.9974219Z",
+    "collector": "Win32_ComputerSystemProduct.UUID.Trim().ToLowerInvariant(); SHA256 UTF8",
+    "physicalHostId": "windows-hardware-sha256:bec45caf58d1ec4808ed969814e2dcd139d4cefbf751e451814d33a5446fa18e",
+    "rawUuidNotExported": true,
+    "rawRef": "poc005-attempt007-candidate-host-cim.json",
+    "rawBytes": 2838,
+    "rawSha256": "sha256:a0255ed29e451745f2a3b8da42709ae0ef870c00f38687b54d1f081749be84e8"
+  },
+  "syntheticHierarchySandbox": {
+    "schemaVersion": 1,
+    "scope": "LOCAL_FULL_V1",
+    "resourceId": "RES-METADATA-SCALE",
+    "sandboxId": "poc005-native-windows-v4",
+    "mountId": "openlist-v426-local-v4-id1",
+    "physicalHostId": "windows-hardware-sha256:bec45caf58d1ec4808ed969814e2dcd139d4cefbf751e451814d33a5446fa18e",
+    "controlled": true,
+    "disposable": true,
+    "rootPath": "fixture"
+  },
+  "profileConfigurationTemplate": {
+    "schemaVersion": 2,
+    "pocId": "POC-05",
+    "taskId": "POC-005",
+    "acceptanceProfile": {
+      "bindingRevision": 1,
+      "id": "local-v1",
+      "scope": "LOCAL_FULL_V1",
+      "version": 1
+    },
+    "resourceIds": [
+      "RES-METADATA-SCALE",
+      "RES-OPENLIST-LOCAL"
+    ],
+    "measurementIds": [
+      "average_file_size",
+      "directory_count",
+      "directory_depth_max",
+      "enumeration_rate",
+      "etag_behavior_profiled",
+      "file_count",
+      "filename_characteristics_profiled",
+      "incremental_scan_cost",
+      "memory_peak",
+      "provider_characteristics_profiled",
+      "range_support_profiled",
+      "source_api_quota",
+      "source_change_frequency"
+    ],
+    "testedSource": {
+      "commit": "8f7c9a5ed3f598d40f6e34bb12151a67b3f5d8e1",
+      "tree": "ef65e23a18b01bd73f16a128e0991d55817a5a36"
+    },
+    "numericDomainReviewRefs": {},
+    "capturedSettings": {
+      "synthetic_hierarchy_manifest": {
+        "schemaVersion": 1,
+        "scope": "LOCAL_FULL_V1",
+        "generator": {
+          "algorithm": "deterministic-tree-v1",
+          "seed": 20261015,
+          "rootPath": "fixture",
+          "fileCount": 10000,
+          "directoryCount": 500,
+          "maximumDepth": 12
+        }
+      }
+    }
+  },
+  "profileConfigurationRef": "evidence/POC-005/profiles/local-v1/v1/attempt-007/profile-configuration.json",
+  "qualificationMethods": {
+    "assembler": {
+      "sourceFile": "poc005_full_execution_assembler_v2.py",
+      "ref": "evidence/POC-005/profiles/local-v1/v1/attempt-007/tools/poc005_full_execution_assembler_v2.py",
+      "byteCount": 18460,
+      "sha256": "sha256:34f30ffa488d08a6b36fbd9597d25c1fed951b06b1762037bdb7a747c1accbc7"
+    },
+    "preflight": {
+      "sourceFile": "capture_poc005_attempt007_full_preflight_v2.py",
+      "ref": "evidence/POC-005/profiles/local-v1/v1/attempt-007/tools/capture_poc005_attempt007_full_preflight_v2.py",
+      "byteCount": 9375,
+      "sha256": "sha256:606e52fdb7eba817cc1c420ba5c1a7555727b7d3ce2f73d5a822583137ffcafd"
+    }
+  },
+  "adjacentPublicPreparationRecords": [
+    {
+      "sourceFile": "poc005-attempt007-windows-native-fixture-preparation.json",
+      "ref": "evidence/POC-005/profiles/local-v1/v1/attempt-007/tools/poc005-attempt007-windows-native-fixture-preparation.json",
+      "byteCount": 1790,
+      "sha256": "sha256:58ca6db118adebc5920d9abbbe80ca3be6b626260c1b92245a1938cf1ca7bd78"
+    },
+    {
+      "sourceFile": "poc005-attempt007-windows-openlist-preparation.json",
+      "ref": "evidence/POC-005/profiles/local-v1/v1/attempt-007/tools/poc005-attempt007-windows-openlist-preparation.json",
+      "byteCount": 1960,
+      "sha256": "sha256:829c7da90487d97cf56e1a28966d6cd60313d334455e279f5ffd9ae86f86caf8"
+    },
+    {
+      "sourceFile": "poc005-attempt007-resource-preparation-independent-review.json",
+      "ref": "evidence/POC-005/profiles/local-v1/v1/attempt-007/tools/poc005-attempt007-resource-preparation-independent-review.json",
+      "byteCount": 5435,
+      "sha256": "sha256:4c088362f8331434191e227554016c2f50c3bcc3e0da075b9c3a10c52a71d519"
+    },
+    {
+      "sourceFile": "poc005-attempt007-resource-preparation-result-independent-review.json",
+      "ref": "evidence/POC-005/profiles/local-v1/v1/attempt-007/tools/poc005-attempt007-resource-preparation-result-independent-review.json",
+      "byteCount": 8269,
+      "sha256": "sha256:7c15fafa47912c0d6cd7ad11e2cf7c4309dbf9e151190c7be791b558ab6b71c1"
+    }
+  ],
+  "materializer": "materialize_poc005_attempt007_full_template.py",
+  "materializerSha256": "e294734c7a70e2d2bb82935f3ad2eb0ba0c0c7b6f71a0a9aa32f08150e715df5",
+  "supervisorMethod": {
+    "sourceFile": "run_poc005_windows_attempt007_supervised_once.py",
+    "ref": "run_poc005_windows_attempt007_supervised_once.py",
+    "byteCount": 4492,
+    "sha256": "sha256:e6657e47e2c101e2c7eff6cc68335e566891eb7bec23f3f5fef716d4b4064e12"
+  },
+  "qualifiedEvidenceDeliveryContextPlan": {
+    "testedSource": {
+      "commit": "8f7c9a5ed3f598d40f6e34bb12151a67b3f5d8e1",
+      "tree": "ef65e23a18b01bd73f16a128e0991d55817a5a36"
+    },
+    "sourceCodeChanges": false,
+    "allowedDeliveryPaths": [
+      "evidence/POC-005/profiles/local-v1/v1/attempt-007/**"
+    ],
+    "bytePreservation": "attempt007/.gitattributes contains * -text; use per-call core.autocrlf=false and core.longpaths=true; compare staged blobs to actual source bytes before commit",
+    "records": "Track complete selected raw refs, baseline already tracked in inputs, profile/resources/sample approvals, actual control records, method and original journals; raw lists exclude baseline and structured aliases. Exclude databases from Git but retain original local DB files. Inventory exact staged paths.",
+    "validation": "Create a real metadata-only evidence delivery commit descending from current tested source 8f7c9a5ed3f598d40f6e34bb12151a67b3f5d8e1 and export a bundle to a clean clone. Run frozen validate_execution on actual full record with actualTask reviewer and execution schema/approval schema/defs/catalog plus selected execution ref; referenced inputs/raw/records tracked and not ignored. Do not edit source Task/Active/Program or claim full source equality from an untracked workspace.",
+    "terminal": "Execution qualification is separate from independent result/profile index/Task completion; 100k/1m and original production/provider scope remain."
+  },
+  "finalApprovalRequiredBindings": [
+    "runtime.json",
+    "resource.json",
+    "openlist-resource.json",
+    "profile-configuration.json",
+    "sample-approval.json",
+    "before-environment.json",
+    "controller-launch.json",
+    "native-manifest.json",
+    "assemblyMethod exact ref/byteCount/sha256"
+  ],
+  "fullPreflightInvocation": [
+    "C:\\ProgramData\\anaconda3\\python.exe",
+    "-X",
+    "utf8",
+    "-B",
+    "{ROOT}/evidence/POC-005/profiles/local-v1/v1/attempt-007/tools/capture_poc005_attempt007_full_preflight_v2.py",
+    "--root",
+    "{ROOT}"
+  ],
+  "fullAssemblyInvocation": [
+    "C:\\ProgramData\\anaconda3\\python.exe",
+    "-X",
+    "utf8",
+    "-B",
+    "{ROOT}/evidence/POC-005/profiles/local-v1/v1/attempt-007/tools/poc005_full_execution_assembler_v2.py",
+    "--root",
+    "{ROOT}",
+    "--attempt",
+    "attempt-007",
+    "--method-ref",
+    "evidence/POC-005/profiles/local-v1/v1/attempt-007/tools/poc005_full_execution_assembler_v2.py"
+  ],
+  "previousFailedAttempt": "attempt-006 remains preserved/qualification FAIL1018",
+  "original13UnitPoliciesUnchanged": true,
+  "fullPreparationAccepted": false,
+  "fullProfileConfigurationApproved": false,
+  "templateApproved": false,
+  "executionApproved": false,
+  "scannerPidReserved": false,
+  "sourceRequestsSent": false,
+  "qualificationAccepted": false,
+  "fullQualificationPreparationRequiredBeforeScannerReservation": true,
+  "note": "Only an UNAPPROVED forward template, not execution. Source8f/CI866 and specific freshv4 preparation are accepted; full profile/sample/resource/method/template review is still required, then a stopped real PID and immutable bytes/future-window acceptance before release. Do not overlap local ATS/compiler benchmarks. Keep all old failures/DB/fixtures and100k/1m/production obligations."
+}

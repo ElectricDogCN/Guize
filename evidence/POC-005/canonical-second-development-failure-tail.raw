@@ -1,0 +1,20 @@
+ok
+test_read_only_scope_validation_happens_before_network (test_openlist_source.DavTests.test_read_only_scope_validation_happens_before_network) ... ok
+test_real_http_propfind_preserves_metadata_without_inventing_identity (test_openlist_source.DavTests.test_real_http_propfind_preserves_metadata_without_inventing_identity) ... ok
+test_redirect_is_not_followed_even_to_same_origin (test_openlist_source.DavTests.test_redirect_is_not_followed_even_to_same_origin) ... ok
+
+======================================================================
+FAIL: test_reopen_resumes_both_stream_offsets_and_binds_companion_digest (test_canonical_metadata.CanonicalTests.test_reopen_resumes_both_stream_offsets_and_binds_companion_digest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc005-metadata-scale-reservation-worktree\poc\POC-05-metadata-scale\test_canonical_metadata.py", line 98, in test_reopen_resumes_both_stream_offsets_and_binds_companion_digest
+    self.assertEqual(file_sha256(new_basic),file_sha256(self.baseline))
+AssertionError: '504a5ef29a82f0a019df42c03160b120f5249afecd5b957cf3ad1de5b3b119e2' != '0e490f8a348a2ca78b6dc1b839446e475fbd1c1317b326389e3f9ea8075616e4'
+- 504a5ef29a82f0a019df42c03160b120f5249afecd5b957cf3ad1de5b3b119e2
++ 0e490f8a348a2ca78b6dc1b839446e475fbd1c1317b326389e3f9ea8075616e4
+
+
+----------------------------------------------------------------------
+Ran 42 tests in 10.845s
+
+FAILED (failures=1)

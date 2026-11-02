@@ -1,0 +1,25 @@
+{
+  "scope": "Actual binary HTTP producer regression: first red1/exit1, repaired green2/exit0; not provider experiment.",
+  "files": [
+    {
+      "path": "binary-get-red.json",
+      "bytes": 3575,
+      "sha256": "87933809b814a38a0932d092e510143627de686e94158bfa14dbd160f3826212"
+    },
+    {
+      "path": "binary-get-red.raw",
+      "bytes": 1154,
+      "sha256": "ff326e1cc766811b6a1a6af753b729ed106006cada01597eace09384467227eb"
+    },
+    {
+      "path": "binary-get-green.json",
+      "bytes": 3697,
+      "sha256": "db3d4c4d2fba0b730c4ae5a18374f36a39a62647238e7e208245efd927eb3911"
+    },
+    {
+      "path": "binary-get-green.raw",
+      "bytes": 505,
+      "sha256": "711dc5803f68b76e3c6b659501988381c999643445763090fca8e5d8786faad4"
+    }
+  ]
+}

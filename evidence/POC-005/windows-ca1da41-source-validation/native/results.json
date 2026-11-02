@@ -1,0 +1,362 @@
+{
+  "source": "ca1da41eba2c784fa1418feb29dfcf717cad5785",
+  "tree": "d05bde3c3e9aec2e9c698b287d263d77a8944bae",
+  "parent": "8d1d972ab38c92997337665ab44cbe1f679c8636",
+  "base": "f2e0150265e0c1eeca5f69fe85708b2434e5ee79",
+  "branch": "chore/POC-005-metadata-scale",
+  "previousPublished": "a9bcc16a3dac2bbd27bea569e7cea2226056aac1",
+  "fullSourceAccepted": false,
+  "host": "posix",
+  "startedAt": "2026-10-22T22:49:17.946516+00:00",
+  "taskCommands": [
+    {
+      "argv": [
+        "git",
+        "diff",
+        "--check",
+        "f2e0150265e0c1eeca5f69fe85708b2434e5ee79...HEAD"
+      ],
+      "startedAt": "2026-10-22T22:49:17.947689+00:00",
+      "finishedAt": "2026-10-22T22:49:18.022102+00:00",
+      "elapsedMonotonicNs": 74408511,
+      "exitCode": 0,
+      "timedOut": false,
+      "waitCompleted": true,
+      "raw": "task-00.raw",
+      "bytes": 161,
+      "sha256": "8bf95d8330e15169ae01449ed2e0c209fe8b9a1b31c74bd6bd2e22dd615de9ff"
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/check-task-file.py",
+        "--task",
+        "POC-005"
+      ],
+      "startedAt": "2026-10-22T22:49:18.026625+00:00",
+      "finishedAt": "2026-10-22T22:49:18.198864+00:00",
+      "elapsedMonotonicNs": 172252310,
+      "exitCode": 0,
+      "timedOut": false,
+      "waitCompleted": true,
+      "raw": "task-01.raw",
+      "bytes": 277,
+      "sha256": "5b026dff5f101fee23b851a479610ab9cdafaa5137e9ab7134e630181b55ff84"
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/check-project-readiness.py"
+      ],
+      "startedAt": "2026-10-22T22:49:18.203311+00:00",
+      "finishedAt": "2026-10-22T22:49:25.990249+00:00",
+      "elapsedMonotonicNs": 7786938930,
+      "exitCode": 0,
+      "timedOut": false,
+      "waitCompleted": true,
+      "raw": "task-02.raw",
+      "bytes": 677,
+      "sha256": "9cd287f01b7ce7d614f42139d237e66f7fb08b502bc3e1cee9858202f4ad1e6f"
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/check-schemas.py"
+      ],
+      "startedAt": "2026-10-22T22:49:25.993828+00:00",
+      "finishedAt": "2026-10-22T22:49:30.124140+00:00",
+      "elapsedMonotonicNs": 4130313184,
+      "exitCode": 0,
+      "timedOut": false,
+      "waitCompleted": true,
+      "raw": "task-03.raw",
+      "bytes": 1899,
+      "sha256": "b955a48af8fe3566d077f8fe5d4bcb6e59147001bde955007d5573d7444dc94d"
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/check-program-plan-integrity.py",
+        "--base-ref",
+        "f2e0150265e0c1eeca5f69fe85708b2434e5ee79"
+      ],
+      "startedAt": "2026-10-22T22:49:30.127744+00:00",
+      "finishedAt": "2026-10-22T22:49:32.003094+00:00",
+      "elapsedMonotonicNs": 1875351503,
+      "exitCode": 0,
+      "timedOut": false,
+      "waitCompleted": true,
+      "raw": "task-04.raw",
+      "bytes": 436,
+      "sha256": "24e17f97b2132c4b3a0ae4bae0951394d47bd40f59bd6b0f1784d83d0217b02b"
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/check-program-plan-history.py",
+        "--base-ref",
+        "f2e0150265e0c1eeca5f69fe85708b2434e5ee79",
+        "--head-ref",
+        "HEAD",
+        "--task",
+        "POC-005",
+        "--branch-name",
+        "chore/POC-005-metadata-scale"
+      ],
+      "startedAt": "2026-10-22T22:49:32.006275+00:00",
+      "finishedAt": "2026-10-22T22:49:41.430847+00:00",
+      "elapsedMonotonicNs": 8288825497,
+      "exitCode": 0,
+      "timedOut": false,
+      "waitCompleted": true,
+      "raw": "task-05.raw",
+      "bytes": 490,
+      "sha256": "2d878d20381cbe64b5a4d1041cda668f4a293b461f88352438339b58e4d9bce2"
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/check-program-plan-transitions.py",
+        "--base-ref",
+        "f2e0150265e0c1eeca5f69fe85708b2434e5ee79",
+        "--head-ref",
+        "HEAD",
+        "--task",
+        "POC-005",
+        "--branch-name",
+        "chore/POC-005-metadata-scale"
+      ],
+      "startedAt": "2026-10-22T22:49:41.435375+00:00",
+      "finishedAt": "2026-10-22T22:49:45.416140+00:00",
+      "elapsedMonotonicNs": 3980762769,
+      "exitCode": 0,
+      "timedOut": false,
+      "waitCompleted": true,
+      "raw": "task-06.raw",
+      "bytes": 443,
+      "sha256": "aab1b8f25fc743a38ba54202e5607c7edd9e8c5245237315903a7b8e16baf400"
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/check-program-plan-finalization.py",
+        "--base-ref",
+        "f2e0150265e0c1eeca5f69fe85708b2434e5ee79",
+        "--head-ref",
+        "HEAD",
+        "--task",
+        "POC-005"
+      ],
+      "startedAt": "2026-10-22T22:49:45.420137+00:00",
+      "finishedAt": "2026-10-22T22:49:45.692030+00:00",
+      "elapsedMonotonicNs": 271894907,
+      "exitCode": 0,
+      "timedOut": false,
+      "waitCompleted": true,
+      "raw": "task-07.raw",
+      "bytes": 379,
+      "sha256": "b7c5f1dd90e2a1a5412ad19542da964a4f948b329202091f5b24cf9392c955eb"
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/check-program-lifecycle-guards.py",
+        "--base-ref",
+        "f2e0150265e0c1eeca5f69fe85708b2434e5ee79",
+        "--head-ref",
+        "HEAD",
+        "--task",
+        "POC-005",
+        "--branch-name",
+        "chore/POC-005-metadata-scale"
+      ],
+      "startedAt": "2026-10-22T22:49:45.695705+00:00",
+      "finishedAt": "2026-10-22T22:49:49.278435+00:00",
+      "elapsedMonotonicNs": 3582740188,
+      "exitCode": 0,
+      "timedOut": false,
+      "waitCompleted": true,
+      "raw": "task-08.raw",
+      "bytes": 510,
+      "sha256": "f61f9abe46f32852441e2a3a4d7723945dfc51b400ad8473713396a6ea84437a"
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/run-program-lifecycle-gate.py",
+        "--base-ref",
+        "f2e0150265e0c1eeca5f69fe85708b2434e5ee79",
+        "--head-ref",
+        "HEAD",
+        "--task",
+        "POC-005",
+        "--branch-name",
+        "chore/POC-005-metadata-scale"
+      ],
+      "startedAt": "2026-10-22T22:49:49.282484+00:00",
+      "finishedAt": "2026-10-22T22:49:52.912104+00:00",
+      "elapsedMonotonicNs": 3629620486,
+      "exitCode": 0,
+      "timedOut": false,
+      "waitCompleted": true,
+      "raw": "task-09.raw",
+      "bytes": 601,
+      "sha256": "ea20e9b11adcbf4fb09a4ea7f8e64e56d084774a48ddfb8a890701586bab72ce"
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/run-agent-coordination-gate.py",
+        "--base-ref",
+        "f2e0150265e0c1eeca5f69fe85708b2434e5ee79",
+        "--head-ref",
+        "HEAD",
+        "--task",
+        "POC-005",
+        "--branch-name",
+        "chore/POC-005-metadata-scale"
+      ],
+      "startedAt": "2026-10-22T22:49:52.915799+00:00",
+      "finishedAt": "2026-10-22T22:50:16.101856+00:00",
+      "elapsedMonotonicNs": 21967117505,
+      "exitCode": 0,
+      "timedOut": false,
+      "waitCompleted": true,
+      "raw": "task-10.raw",
+      "bytes": 413,
+      "sha256": "b546f1e7e32537d7e15bc1319c17a2367c531b5ab0bee9c9bbbddb36f51014aa"
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/run-task-scope-gate.py",
+        "--task",
+        "POC-005",
+        "--base",
+        "f2e0150265e0c1eeca5f69fe85708b2434e5ee79"
+      ],
+      "startedAt": "2026-10-22T22:50:16.105611+00:00",
+      "finishedAt": "2026-10-22T22:50:36.567696+00:00",
+      "elapsedMonotonicNs": 20462091570,
+      "exitCode": 0,
+      "timedOut": false,
+      "waitCompleted": true,
+      "raw": "task-11.raw",
+      "bytes": 36242,
+      "sha256": "dc949da6e4a4c78c5afa1d5d860a1fe17c06c7c791ecbeab6fd8c64f3fbcae1e"
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/check-evidence.py",
+        "--task",
+        "POC-005"
+      ],
+      "startedAt": "2026-10-22T22:50:36.571966+00:00",
+      "finishedAt": "2026-10-22T22:50:36.612043+00:00",
+      "elapsedMonotonicNs": 40079742,
+      "exitCode": 0,
+      "timedOut": false,
+      "waitCompleted": true,
+      "raw": "task-12.raw",
+      "bytes": 215,
+      "sha256": "0fd7e4e82ef5266900eb6f2185dba78642b619c9e0bc691e8a7acb0ecb690359"
+    },
+    {
+      "argv": [
+        "python",
+        "specs/poc/check_program.py",
+        "--task",
+        "POC-005",
+        "--base-ref",
+        "f2e0150265e0c1eeca5f69fe85708b2434e5ee79"
+      ],
+      "startedAt": "2026-10-22T22:50:36.616011+00:00",
+      "finishedAt": "2026-10-22T22:50:39.242884+00:00",
+      "elapsedMonotonicNs": 2626878395,
+      "exitCode": 0,
+      "timedOut": false,
+      "waitCompleted": true,
+      "raw": "task-13.raw",
+      "bytes": 418,
+      "sha256": "782e50c6a877c30a73e64f29b9621b8055554ff2006932cdad56576f6b81d422"
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/check-markdown.py"
+      ],
+      "startedAt": "2026-10-22T22:50:39.247131+00:00",
+      "finishedAt": "2026-10-22T22:50:39.319799+00:00",
+      "elapsedMonotonicNs": 72674074,
+      "exitCode": 0,
+      "timedOut": false,
+      "waitCompleted": true,
+      "raw": "task-14.raw",
+      "bytes": 181,
+      "sha256": "9b24a349aaff5925995dd8732bcd470a89af0145290aeca8d8f2599e4729f0b7"
+    }
+  ],
+  "codeChecks": [
+    {
+      "argv": [
+        "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "poc/POC-05-metadata-scale",
+        "-p",
+        "test_windows*.py",
+        "-v"
+      ],
+      "startedAt": "2026-10-22T22:50:39.323533+00:00",
+      "finishedAt": "2026-10-22T22:50:42.743585+00:00",
+      "elapsedMonotonicNs": 2276264603,
+      "exitCode": 0,
+      "timedOut": false,
+      "waitCompleted": true,
+      "raw": "linux-platform-28.raw",
+      "bytes": 5658,
+      "sha256": "6953410127403ef6b09cc9faf1447b5141b3ded838e953fdd5c2cffc721eb592"
+    },
+    {
+      "argv": [
+        "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "poc/POC-05-metadata-scale",
+        "-p",
+        "test_controlled_source_run.py",
+        "-k",
+        "test_actual_binary_get_body",
+        "-v"
+      ],
+      "startedAt": "2026-10-22T22:50:42.750642+00:00",
+      "finishedAt": "2026-10-22T22:50:44.025721+00:00",
+      "elapsedMonotonicNs": 1275082521,
+      "exitCode": 0,
+      "timedOut": false,
+      "waitCompleted": true,
+      "raw": "linux-binary-get-1.raw",
+      "bytes": 574,
+      "sha256": "1680cf75a1eb199b7b48dd17843f2bf942be562d0f00938000f7bb3de6247093"
+    }
+  ],
+  "experimentExecuted": false,
+  "linuxClockWorkloadRetried": false,
+  "completeLinuxSuiteClaimed": false,
+  "untrackedOriginalCount": 4062,
+  "qualificationAccepted": false,
+  "task15Passed": true,
+  "linuxPlatformTests": 28,
+  "linuxBinaryHttpTests": 1,
+  "noSkippedTests": true,
+  "nativeTrackedClean": true,
+  "untrackedOriginalsPreserved": true,
+  "completedAt": "2026-10-22T22:50:44.066621+00:00"
+}

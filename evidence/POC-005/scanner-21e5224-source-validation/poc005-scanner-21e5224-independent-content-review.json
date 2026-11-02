@@ -1,0 +1,28 @@
+{
+  "reviewer": "/root/gz022_planning_independent_review",
+  "reviewedAt": "2026-10-22T17:58:40Z",
+  "source": "21e5224ae8ce144bf7730114a8de922f920ab2a7",
+  "tree": "d4e02ba4c7b5432c67adcb762fca725b0a0b13a3",
+  "base": "f2e0150265e0c1eeca5f69fe85708b2434e5ee79",
+  "decision": "accepted current implementation content only",
+  "mustFix": [],
+  "changedPaths": 64,
+  "cleanWorkingTree": true,
+  "codeThreeFilesUnchanged": true,
+  "archiveByteExactBothWorkingTreeAndGitBlob": true,
+  "reservationArchive": {
+    "files": 32,
+    "bytes": 631445,
+    "indexSha256": "c0826fff349b1d9a90f5dea9ca6947634831e0790022ae74fac0f076b62cd079"
+  },
+  "failedArchive": {
+    "files": 13,
+    "bytes": 16352,
+    "indexSha256": "5489ffa7f8401205b4dbd97c995c8c2d2e5d47e3a2677193bc1ddc5425df4e4c"
+  },
+  "currentTask15Accepted": false,
+  "currentCode19Accepted": false,
+  "currentCiAccepted": false,
+  "experimentApproved": false,
+  "qualifiedAccepted": false
+}

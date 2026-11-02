@@ -1,0 +1,22 @@
+{
+  "argv": [
+    "C:/ProgramData/anaconda3/python.exe",
+    "-X",
+    "utf8",
+    "-B",
+    "-m",
+    "unittest",
+    "-v",
+    "test_native_clock"
+  ],
+  "exitCode": 1,
+  "observedAt": "2026-10-22T21:43:21.888742+00:00",
+  "rawBytes": 4159,
+  "rawSha256": "bc0b0f6aec1cf06c66803b96d719212dc8e747d01e132bbc02e16a185bdafc58",
+  "sourceBeforeRepair": {
+    "native_scan_protocol.py": "7cf45ab1b404d2b5434e2e23f32fe9e91d4c95d36e9edc4f8fe9239d6107157e",
+    "native_scan_runtime.py": "fa13210d8488cbd8f40e9713e34fb74649354a17367b15b99c550014468808ad",
+    "native_scan_control.py": "4283ebe142d7797d408a8a70f1ea336a4c4485173f66e880bcaf7c89eb8d10e4"
+  },
+  "qualificationAccepted": false
+}

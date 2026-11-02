@@ -1,0 +1,32 @@
+{
+  "reviewer": "/root/gz022_planning_independent_review",
+  "reviewedAt": "2026-10-22T22:47:12Z",
+  "sourceBase": "8d1d972ab38c92997337665ab44cbe1f679c8636",
+  "decision": "accepted exact GET artifact classification content",
+  "mustFix": [],
+  "files": {
+    "poc/POC-05-metadata-scale/controlled_source_run.py": "bdf8b3269cf3115526a10808346cdf75aa984e3e7e20d2b28d5ab1a8bb4ebbec",
+    "poc/POC-05-metadata-scale/test_controlled_source_run.py": "47a37b9baff9a87b39e2620d0cceb2887b9169ac3992877fdb63bbf2284366b5"
+  },
+  "independentActualTests": {
+    "tests": 2,
+    "seconds": 2.762,
+    "exitCode": 0,
+    "noSkippedTests": true
+  },
+  "independentFrozenRawValidation": {
+    "actualProbeBytes": 4096,
+    "actualProbeSha256": "c8f5d0341d54d951a71b136e6e2afcb14d11ed8489a7ae126a8fee0df6ecf193",
+    "function": "validate_qualified_raw",
+    "currentProducerUsed": true,
+    "errors": [],
+    "rawBodyUnchanged": true
+  },
+  "rejectedPredecessorClassification": "command_output caused the sole frozen validation error raw textual artifacts must decode as UTF-8",
+  "initialIndependentHarnessLimits": "Initial temporary reproductions had cwd and prefix trailing slash mistakes; corrected disposable harnesses, not source experiment failures. Separate reviewer raw logs were not supplied.",
+  "frozenCheckerChanged": false,
+  "sensitiveBodyFilteringUnchanged": true,
+  "experimentApproved": false,
+  "qualificationAccepted": false,
+  "integrationAccepted": false
+}

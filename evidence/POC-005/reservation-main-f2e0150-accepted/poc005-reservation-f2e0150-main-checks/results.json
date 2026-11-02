@@ -1,0 +1,95 @@
+{
+  "actualMain": "f2e0150265e0c1eeca5f69fe85708b2434e5ee79",
+  "source": "f42e107374562f35aa6771e4c841ca835fcdc797",
+  "base": "11c32830c0d1bb8ccdcc04aa278876065bce1f33",
+  "taskId": "POC-005",
+  "identityAndTreeVerified": true,
+  "checks": [
+    {
+      "argv": [
+        "python",
+        "scripts/check-program-plan-integrity.py",
+        "--base-ref",
+        "11c32830c0d1bb8ccdcc04aa278876065bce1f33"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/check-program-plan-history.py",
+        "--base-ref",
+        "11c32830c0d1bb8ccdcc04aa278876065bce1f33",
+        "--head-ref",
+        "f2e0150265e0c1eeca5f69fe85708b2434e5ee79",
+        "--task",
+        "POC-005",
+        "--branch-name",
+        "chore/POC-005-metadata-scale-reservation"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/check-program-plan-transitions.py",
+        "--base-ref",
+        "11c32830c0d1bb8ccdcc04aa278876065bce1f33",
+        "--head-ref",
+        "f2e0150265e0c1eeca5f69fe85708b2434e5ee79",
+        "--task",
+        "POC-005",
+        "--branch-name",
+        "chore/POC-005-metadata-scale-reservation"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/check-program-lifecycle-guards.py",
+        "--base-ref",
+        "11c32830c0d1bb8ccdcc04aa278876065bce1f33",
+        "--head-ref",
+        "f2e0150265e0c1eeca5f69fe85708b2434e5ee79",
+        "--task",
+        "POC-005",
+        "--branch-name",
+        "chore/POC-005-metadata-scale-reservation"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/run-agent-coordination-gate.py",
+        "--base-ref",
+        "11c32830c0d1bb8ccdcc04aa278876065bce1f33",
+        "--head-ref",
+        "f2e0150265e0c1eeca5f69fe85708b2434e5ee79",
+        "--task",
+        "POC-005",
+        "--branch-name",
+        "chore/POC-005-metadata-scale-reservation"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true
+    },
+    {
+      "argv": [
+        "python",
+        "specs/poc/check_program.py",
+        "--task",
+        "POC-005",
+        "--base-ref",
+        "11c32830c0d1bb8ccdcc04aa278876065bce1f33"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true
+    }
+  ]
+}

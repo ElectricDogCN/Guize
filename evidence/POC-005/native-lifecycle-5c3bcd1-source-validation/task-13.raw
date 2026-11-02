@@ -1,0 +1,6 @@
+Source Commit: 5c3bcd11818c862b27876919925547808a062bc5
+Command: python specs/poc/check_program.py --task POC-005 --base-ref f2e0150265e0c1eeca5f69fe85708b2434e5ee79
+PASS: POC-PROTOCOL-V1 immutable planning baseline and task-owned Evidence contracts are consistent with Program Plan
+PASS: results-index row ownership verified for POC-005 against f2e0150265e0c1eeca5f69fe85708b2434e5ee79
+
+Exit Code: 0

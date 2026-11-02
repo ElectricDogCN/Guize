@@ -1,0 +1,20 @@
+{
+  "observedAt": "2026-10-22T18:08:08.708Z",
+  "phase": "uncommitted DAV development tests",
+  "sourceBase": "21e5224ae8ce144bf7730114a8de922f920ab2a7",
+  "files": {
+    "openlist_source.py": "007fc29336296eacc22635dc1526436701720cb26bdd7c7a14f4205348c424c7",
+    "test_openlist_source.py": "755a1d109b7a9f8f1873cc5b01ab00d539be58bdbcbdf64ecb95a60cd497c4a2"
+  },
+  "actualTests": 30,
+  "actualFailures": 1,
+  "actualSeconds": 8.451,
+  "failure": {
+    "test": "test_real_http_propfind_preserves_metadata_without_inventing_identity",
+    "message": "monotonicEndNs == monotonicStartNs ==255583140000000 on Windows",
+    "cause": "time.monotonic_ns may have coarse Windows ticks; ns naming does not guarantee nanosecond resolution"
+  },
+  "additionalObservedExpectedDisconnect": "ConnectionAbortedError WinError10053 in delayed unit HTTP handler after deliberate client socket timeout",
+  "passed": false,
+  "rawLogRetained": false
+}

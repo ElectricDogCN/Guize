@@ -1,0 +1,20 @@
+{
+  "decision": "accepted metadata content only",
+  "actualReviewer": "/root/gz022_planning_independent_review",
+  "reviewedAt": "2026-10-22T16:16:27Z",
+  "source": "f42e107374562f35aa6771e4c841ca835fcdc797",
+  "tree": "28cb63b228eafdb4d970313e7b23230bc4ece8a4",
+  "base": "11c32830c0d1bb8ccdcc04aa278876065bce1f33",
+  "mustFix": [],
+  "exactChangedPathsAgainstBase": 47,
+  "forwardEvidencePaths": 23,
+  "previousHandoffMustFixResolved": true,
+  "handoffSha256": "a616e3fcdbe00b76ba9263407b4c5e5b202f586f802f17b339eecb2de3151411",
+  "f80ValidationIndexSha256": "aceb2c9b3a0eefb33fc34e2fe7fc6de9dbd00570db3c63cf21dd431b786217f2",
+  "f80ValidationResultsSha256": "78c07938ec9c52e1607030c9962b4e141e0e4b6aee08558c4418a7097e9c7026",
+  "localCurrentGatesAcceptedByThisReview": false,
+  "currentFullCiAccepted": false,
+  "mainAccepted": false,
+  "implementationApproved": false,
+  "experimentApproved": false
+}

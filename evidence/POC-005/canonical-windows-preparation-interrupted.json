@@ -1,0 +1,19 @@
+{
+  "requestedAt": "2026-10-22T20:06:24.157792+00:00",
+  "observedGoneAt": "2026-10-22T20:06:24.258962+00:00",
+  "stoppedOwnedProcessId": 793398,
+  "exactArgvSha256": "982aa1dedc461999925f4d4a8b25750a29e6dadfb7d05bc5bd2a6c2912394919",
+  "signal": "SIGTERM",
+  "reason": "Use a dedicated native OpenList mount with show_hidden=true and unsigned metadata; preserve original hidden/signed mount. This Windows candidate remains partial and is not a benchmark.",
+  "retainedPartialRoot": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/local-lab/openlist/fixtures/poc005-canonical-10k-v1",
+  "retainedPayloadMap": {
+    "bytes": 1271958,
+    "completeLines": 3827,
+    "sha256": "95844876e74f6a34590a76b6f191b542028218ac536e84851ce9450ec9e357ff"
+  },
+  "approved": false,
+  "experimentExecuted": false,
+  "successfulFilesystemPreparation": false,
+  "allPartialFilesPreserved": true,
+  "originalOpenListMountModified": false
+}

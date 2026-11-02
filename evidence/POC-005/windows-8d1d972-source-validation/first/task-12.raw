@@ -1,0 +1,6 @@
+Source Commit: 8d1d972ab38c92997337665ab44cbe1f679c8636
+Command: C:\ProgramData\anaconda3\python.exe scripts/check-evidence.py --task POC-005
+{"status": "PASS", "message": "Evidence contract passed for POC-005."}
+
+Exit Code: 0
+Timed Out: False

@@ -1,0 +1,62 @@
+{
+  "kind": "POST_EXECUTION_RETAINED_DATABASE_LOGICAL_SIZE_SNAPSHOT",
+  "observedAt": "2026-10-27T05:17:15.247056+00:00",
+  "runtime": "ed8fbf32783c2600f75de7a69ef56c6f33b4824b",
+  "attempt": "attempt-010",
+  "files": [
+    {
+      "runtimeRelativePath": "evidence/POC-005/profiles/local-v1/v1/attempt-010/scanner.sqlite",
+      "logicalBytes": 604254208,
+      "mtimeNs": 1793071857689477600
+    },
+    {
+      "runtimeRelativePath": "evidence/POC-005/profiles/local-v1/v1/attempt-010/source-artifacts/000001.mapping.sqlite",
+      "logicalBytes": 1686667264,
+      "mtimeNs": 1793071857628254500
+    },
+    {
+      "runtimeRelativePath": "evidence/POC-005/profiles/local-v1/v1/attempt-010/source-artifacts/000003.listing.sqlite",
+      "logicalBytes": 439414784,
+      "mtimeNs": 1793070537480223500
+    },
+    {
+      "runtimeRelativePath": "evidence/POC-005/profiles/local-v1/v1/attempt-010/source-artifacts/005544.listing.sqlite",
+      "logicalBytes": 439414784,
+      "mtimeNs": 1793071313631814300
+    },
+    {
+      "runtimeRelativePath": "evidence/POC-005/profiles/local-v1/v1/attempt-010/source-artifacts/011121.parent.sqlite",
+      "logicalBytes": 12288,
+      "mtimeNs": 1793071850904616200
+    },
+    {
+      "runtimeRelativePath": "evidence/POC-005/profiles/local-v1/v1/attempt-010/source-artifacts/011133.parent.sqlite",
+      "logicalBytes": 12288,
+      "mtimeNs": 1793071851801271900
+    },
+    {
+      "runtimeRelativePath": "evidence/POC-005/profiles/local-v1/v1/attempt-010/source-artifacts/011147.parent.sqlite",
+      "logicalBytes": 12288,
+      "mtimeNs": 1793071852815851400
+    },
+    {
+      "runtimeRelativePath": "evidence/POC-005/profiles/local-v1/v1/attempt-010/source-artifacts/011159.parent.sqlite",
+      "logicalBytes": 12288,
+      "mtimeNs": 1793071854003609400
+    },
+    {
+      "runtimeRelativePath": "evidence/POC-005/profiles/local-v1/v1/attempt-010/source-artifacts/011173.parent.sqlite",
+      "logicalBytes": 12288,
+      "mtimeNs": 1793071855055803500
+    },
+    {
+      "runtimeRelativePath": "evidence/POC-005/profiles/local-v1/v1/attempt-010/source-artifacts/011185.parent.sqlite",
+      "logicalBytes": 12288,
+      "mtimeNs": 1793071856420932700
+    }
+  ],
+  "totalLogicalBytes": 3169824768,
+  "databaseOpenedOrChanged": false,
+  "physicalAllocatedBytesMeasured": false,
+  "experimentExecuted": false
+}

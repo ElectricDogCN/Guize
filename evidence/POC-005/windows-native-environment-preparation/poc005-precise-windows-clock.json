@@ -1,0 +1,16 @@
+{
+  "kind": "bounded_clock_observation_complete",
+  "sampleCount": 61,
+  "finishedAt": "2026-10-22T22:33:50.096100+00:00",
+  "residualMinNs": -50,
+  "residualMaxNs": 150,
+  "observedQpcSpanNs": 60000175700,
+  "observedPreciseUtcSpanNs": 60000175700,
+  "originalDriftGuardPreserved": true,
+  "absoluteUtcAccuracyProven": false,
+  "experimentApproved": false,
+  "limitation": "One bounded native observation under the current host load, not a stability guarantee or provider/scale approval.",
+  "raw": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc005-precise-windows-clock.jsonl",
+  "bytes": 434489,
+  "sha256": "6da638547d6c4c25b1844a73a03e568c711d8fe74bffa72a9a0b188d24c1a4f5"
+}

@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "pocId": "POC-05",
+  "taskId": "POC-005",
+  "status": "pass",
+  "evidencePath": "evidence/POC-005",
+  "executionRef": "evidence/POC-005/profiles/local-v1/v1/attempt-010/execution-candidate.json",
+  "decision": "pass",
+  "rationale": "PASS only for the tested local-v1 controlled OpenList/synthetic metadata domain. The exacted8/attempt-0101m execution passed complete frozen qualification and supplies the sole primary execution; source-bound8f/00810k andc98/009100k support the scale analysis without transferring their runtime identities. The10811B report evidence/POC-005/local-v1-scale-exit-report.md SHA2561596353fd7f20fc9f9ce9e37dd1f2e727eebea7406c22385fae010119fba7f1e covers all five frozen local exit criteria,13 observations, complete source traversal cost, actual fanout/depth/change windows, source/representation confounders, faults/quotas/Range/ETag and explicit retention/cleanup drift. It establishes no production700TB/Baidu population, quota/cost or arbitrary-hierarchy result. Formal profile-index validation and normal source/CI/integration/task lifecycle remain separate.",
+  "reviewer": "independent-review-agent",
+  "approvedAt": "2026-10-27T05:18:53Z",
+  "approval": "approved"
+}

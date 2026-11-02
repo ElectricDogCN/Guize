@@ -1,0 +1,27 @@
+{
+  "reviewer": "/root/gz022_planning_independent_review",
+  "reviewedAt": "2026-10-22T21:21:56Z",
+  "decision": "accepted mapping test correction content only",
+  "sourceBase": "38f2a7bd575b850c43143ba7d31c6cf223b89d7c",
+  "files": {
+    "poc/POC-05-metadata-scale/test_controlled_fixture_map.py": "55a54cde23202bb807cec0138179534529ac2eb021e90c2e9e97b52c2d529e6f"
+  },
+  "mustFix": [],
+  "independentActualLinuxTests": {
+    "tests": 2,
+    "seconds": 0.924,
+    "exitCode": 0,
+    "noSkippedTests": true
+  },
+  "windowsModule": {
+    "tests": 8,
+    "seconds": 6.455,
+    "exitCode": 0,
+    "noSkippedTests": true,
+    "fullRawNotRetained": true
+  },
+  "assertionScope": "Real1ns mismatch rejects; equivalent+08 complete3object population maps/exports with actual raw preserved; original size/type/incomplete-export guards unchanged.",
+  "newSourceChecksAccepted": false,
+  "experimentApproved": false,
+  "qualificationAccepted": false
+}

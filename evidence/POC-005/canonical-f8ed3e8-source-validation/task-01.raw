@@ -1,0 +1,5 @@
+Source Commit: f8ed3e8d740c1a90e1432df6a6e2ec6617daabf8
+Command: python scripts/check-task-file.py --task POC-005
+{"status": "PASS", "message": "Task file valid: /home/sur/.cache/guize-takeover/poc005-reservation-e7a962f/specs/tasks/POC-005.md"}
+
+Exit Code: 0

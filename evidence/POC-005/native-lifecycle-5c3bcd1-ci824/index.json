@@ -1,0 +1,23 @@
+{
+  "source": "5c3bcd11818c862b27876919925547808a062bc5",
+  "run": 39846291163,
+  "runNumber": 824,
+  "job": 120060324200,
+  "status": "success",
+  "tests": 713,
+  "seconds": 1474.6,
+  "noSkippedTests": true,
+  "experimentAccepted": false,
+  "files": [
+    {
+      "path": "poc005-native-lifecycle-5c3bcd1-ci824.raw.txt",
+      "bytes": 300784,
+      "sha256": "2f810a4727c4a1dadad8c53dcf67633030162de57fedc9ff23ab1558a34d7252"
+    },
+    {
+      "path": "poc005-native-lifecycle-5c3bcd1-ci824.snapshot.json",
+      "bytes": 19861,
+      "sha256": "86a2f6ed3ebf992d126db3cf16f36eb3ea5143bad6e166bd83f6076379f1520c"
+    }
+  ]
+}

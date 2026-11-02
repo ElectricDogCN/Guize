@@ -1,0 +1,12 @@
+{
+  "reviewer": "/root/gz022_planning_independent_review",
+  "reviewedAt": "2026-10-22T18:36:31Z",
+  "sourceBase": "edbf8daf5d7e2403f6b7b009b67a5bd1e60531f3",
+  "codeSha256": "e0bc658158900c1a2f11a03c1d7635d49e57750136946eeea9c2081cbe94e5c0",
+  "decision": "rejected draft; one mustFix",
+  "finding": "ORDER BY object_id can export child before parent when opaque IDs sort in reverse topology",
+  "actualReproduction": "z-parent directory then a-child under dir scans; exported a-child first; reingest fails CANONICAL_PARENT_MISSING",
+  "requiredFix": "deterministic parent-before-child export and opaque ID regression",
+  "otherIndependentChecksPassed": 4,
+  "experimentApproved": false
+}

@@ -1,0 +1,47 @@
+{
+  "task": "POC-005",
+  "parent": "72a6150c913d812b0ad4c0834a0d7a836bfcf28c",
+  "acceptedIntegrationBase": "22ab6a0668da2d64a016fccef2c3b5a634638a24",
+  "immutableCreationBase": "746e23e582501fa08380c3f3301bdc1774902f7c",
+  "sourceState": "Precommit verification-context preparation only",
+  "archive": "original-context.zip",
+  "archiveBytes": 57563,
+  "archiveSha256": "a421fec4cf828335f194283cd89fe915a8d93c415da6550d6f908da9b032e844",
+  "entries": [
+    {
+      "ref": "original-task.md",
+      "bytes": 39680,
+      "sha256": "1dfc33c951db046fb3549a52462a9b04e52b0311079d4ec9c880906c7879aeec"
+    },
+    {
+      "ref": "original-commands.txt",
+      "bytes": 2610,
+      "sha256": "5b63282e3e1e18d269d0bbefc1bd1d60e2f52a364fdfefa02766bc1fcf90b982"
+    },
+    {
+      "ref": "poc005-feature-actor-import-v1-independent-review.json",
+      "bytes": 13540,
+      "sha256": "021be70473c144fb5334ec722926c0bd96bff3e7782b15e48d6f5f4a14613b39"
+    },
+    {
+      "ref": "poc005-actor-amendment-v1-actual-main-independent-review.json",
+      "bytes": 11961,
+      "sha256": "d640ff0fefff71dcf21faea3e87a4345f781d67eafdcf5fbb3201346b59206ab"
+    },
+    {
+      "ref": "poc005-feature-actor-import-v1-preparation--results.json",
+      "bytes": 694695,
+      "sha256": "9073cf7a2bd29d43c6a60dc25e49bbc59c2def886513cfd92245c9b0e5c795e3"
+    },
+    {
+      "ref": "poc005-feature-actor-import-v1-handoff-resolution--results.json",
+      "bytes": 1967,
+      "sha256": "58ce056dc07128a98a47571412d11af5a1be60d9864a3d3f0ea7dc75bc18f82c"
+    }
+  ],
+  "oldFrontSha256": "10ca0cca9de4fbd770e4568c580d27a682713eff9a0fb8a3177a21ce4df13a05",
+  "productionCodeUnchangedFrom": "9ed424c64efd7dcea5ef707e0a303c80810c6651",
+  "sourceQualified": false,
+  "experimentApproved": false,
+  "oldAttempt010TransferAllowed": false
+}

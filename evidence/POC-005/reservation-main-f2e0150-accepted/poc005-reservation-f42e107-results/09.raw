@@ -1,0 +1,6 @@
+Source: f42e107374562f35aa6771e4c841ca835fcdc797
+Command: python scripts/run-program-lifecycle-gate.py --base-ref 11c32830c0d1bb8ccdcc04aa278876065bce1f33 --head-ref HEAD --task POC-005 --branch-name chore/POC-005-metadata-scale-reservation
+{"status": "PASS", "message": "Program lifecycle scope, Foundation ownership, rename and Evidence guards passed", "details": {"affectedTaskIds": ["POC-005"], "changedPathCount": 47, "baseRef": "11c32830c0d1bb8ccdcc04aa278876065bce1f33"}}
+{"status": "PASS", "message": "Exact lifecycle diff and Completion Issue verification passed"}
+
+Exit Code: 0

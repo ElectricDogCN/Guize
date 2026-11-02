@@ -1,0 +1,30 @@
+{
+  "kind": "candidate_native_windows_filesystem_preparation_only",
+  "startedAt": "2026-10-22T22:34:47.358229+00:00",
+  "completedAt": "2026-10-22T22:35:22.397599+00:00",
+  "preparationProcessId": 29080,
+  "filesystemRoot": "C:\\Users\\13997\\.codex\\local-lab\\poc005-native-windows-v1\\fixture",
+  "storageRoot": "C:\\Users\\13997\\.codex\\local-lab\\poc005-native-windows-v1",
+  "inputs": {
+    "baseline.jsonl": "5dc45ba589f8816b0f232e7a37ac54f6f5e6bc5050415ed98cf19671e0afa3f1",
+    "profiled.jsonl": "2fd43a93e15b2854c02f20d78d08986c690726ac3c100513bb9e8560c5846784",
+    "baseline-probe.bin": "c8f5d0341d54d951a71b136e6e2afcb14d11ed8489a7ae126a8fee0df6ecf193"
+  },
+  "actualFilesystemCounts": {
+    "file": 10000,
+    "directory": 500
+  },
+  "actualPayloadBytes": 17920000,
+  "payloadMap": {
+    "ref": "C:\\Users\\13997\\.codex\\local-lab\\poc005-native-windows-v1\\payloads.jsonl",
+    "bytes": 3326029,
+    "sha256": "459f5dddf9291f913ce1b696194ec8c70da1dbf8d27f21edc3f69b66e0d1db3d"
+  },
+  "allPayloadsReread": true,
+  "allMtimesReread": true,
+  "olderFixturesPreserved": true,
+  "sourceApiContacted": false,
+  "scannerExperimentExecuted": false,
+  "approved": false,
+  "qualificationAccepted": false
+}

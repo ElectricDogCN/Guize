@@ -1,0 +1,173 @@
+{
+  "testedRuntime": "c98c93f835ea5c6bfcf19eb1256cd66d75efc4b4",
+  "testedTree": "487a8d3b40f59c3939f79e5430cc31ccbf8fbace",
+  "qualificationContext": "da1e85ab152e6d1f7e101254c4119375c8412557",
+  "acceptedLocal100kExecution": true,
+  "original13Observed": true,
+  "fullFrozenValidateExecutionAccepted": true,
+  "files": [
+    {
+      "original": "poc005-attempt009-full-ready-candidate-static-v1.json",
+      "encoded": "000-5ee5d924ca65.zlib.b64",
+      "byteCount": 26392,
+      "sha256": "5ee5d924ca654c87d377360432654872f058362e943c458cffb521a5f6d35860"
+    },
+    {
+      "original": "poc005-attempt009-budget-readonly-plan-static-v1.json",
+      "encoded": "001-493befab3577.zlib.b64",
+      "byteCount": 1905,
+      "sha256": "493befab35774b4dff780ea93f2f1f472f7aedde2fb60684d8a811227e077c61"
+    },
+    {
+      "original": "poc005-attempt009-full-template-initial-independent-review.json",
+      "encoded": "002-3bfec5f87117.zlib.b64",
+      "byteCount": 4754,
+      "sha256": "3bfec5f8711785597500760489d67a78e0507eee97e7cd0e907c13185beefa52"
+    },
+    {
+      "original": "poc005-attempt009-full-ready-candidate.json",
+      "encoded": "003-21e043e89fd4.zlib.b64",
+      "byteCount": 27260,
+      "sha256": "21e043e89fd4aad1c4c3d64a6c36e073e7b9c6e820a0f1a665730c10fde528d6"
+    },
+    {
+      "original": "poc005-attempt009-budget-readonly-plan.json",
+      "encoded": "004-84c7f1f0e5e0.zlib.b64",
+      "byteCount": 2117,
+      "sha256": "84c7f1f0e5e02194c3d2882294a45de4416e3bddc4269caa40bfb493a0d2555e"
+    },
+    {
+      "original": "poc005-attempt009-full-template-independent-review.json",
+      "encoded": "005-199759a23831.zlib.b64",
+      "byteCount": 23303,
+      "sha256": "199759a23831689dfc8d344dc5e4abd11ca7886ee15042629708cf9b00c02b7d"
+    },
+    {
+      "original": "poc005-attempt009-final-reservation-independent-review.json",
+      "encoded": "006-3b608bcc6d74.zlib.b64",
+      "byteCount": 8201,
+      "sha256": "3b608bcc6d742e25d4ff61a6b026cadb7daaa6a6111854b3c2b1dc5d97b877f9"
+    },
+    {
+      "original": "poc005-attempt009-observations-independent-review.json",
+      "encoded": "007-c2fd8887e585.zlib.b64",
+      "byteCount": 17690,
+      "sha256": "c2fd8887e5855455c502890f48cac9f5d5385a776ccf85ee689d2139a67ee651"
+    },
+    {
+      "original": "poc005-attempt009-observations-readonly-audit.json",
+      "encoded": "008-3055b9754969.zlib.b64",
+      "byteCount": 8411,
+      "sha256": "3055b9754969ce24a082756418147c2019f11e15b358529d8e19a7ea4f959f02"
+    },
+    {
+      "original": "poc005-attempt009-delivery-precommit-readonly-inventory.json",
+      "encoded": "009-77f85c95ea6e.zlib.b64",
+      "byteCount": 914697,
+      "sha256": "77f85c95ea6ee7bf397842c985526439d9c7f6e6545934bb0deaf815305f6c9b"
+    },
+    {
+      "original": "poc005-attempt009-actual-observations-summary.json",
+      "encoded": "010-b6e9ca3ae742.zlib.b64",
+      "byteCount": 1206,
+      "sha256": "b6e9ca3ae74265beb48f076cc24b5730ff02f94ae0b60ac5e0d5fe7e84cef1a3"
+    },
+    {
+      "original": "poc005-attempt009-tracked-validation-context.json",
+      "encoded": "011-32dad5c9a49a.zlib.b64",
+      "byteCount": 357233,
+      "sha256": "32dad5c9a49a62ab9751953f3d28a29e52405c3835df077312f42194d6df12d5"
+    },
+    {
+      "original": "poc005-attempt009-tracked-context-preliminary-independent-review.json",
+      "encoded": "012-85a6ad6a9543.zlib.b64",
+      "byteCount": 1346,
+      "sha256": "85a6ad6a9543f6804e4d2e619ae06240e77a928d1d75400d2ec0574aca086b62"
+    },
+    {
+      "original": "poc005-attempt009-full-validation-da1e85a/results.json",
+      "encoded": "013-e547b43ac78a.zlib.b64",
+      "byteCount": 1137,
+      "sha256": "e547b43ac78ae1d0aba2357cd3b8d8aea6ad7d9453ea6bd5f44106dd28d7725d"
+    },
+    {
+      "original": "poc005-attempt009-full-validation-da1e85a/full-execution-validation.raw",
+      "encoded": "014-b41094c1c9fc.zlib.b64",
+      "byteCount": 382,
+      "sha256": "b41094c1c9fc697da94adc117e87d7f36b9a4250f65bc9fba0c21d242eb0b372"
+    },
+    {
+      "original": "poc005-attempt009-full-validation-independent-assessment.json",
+      "encoded": "015-fa38ac26c825.zlib.b64",
+      "byteCount": 8373,
+      "sha256": "fa38ac26c825256dc3c588c92f413d99eaf24d92c1abf2002b1e0ba290383b0a"
+    },
+    {
+      "original": "poc005-attempt009-author-premerge-snapshot.json",
+      "encoded": "016-c3c1bf4f4bfe.zlib.b64",
+      "byteCount": 466,
+      "sha256": "c3c1bf4f4bfe21b7c4f9a309819852dc640eb823edceafb48131108e2ff2e9c4"
+    },
+    {
+      "original": "poc005-attempt009-author-premerge-untracked.raw",
+      "encoded": "017-e4504da8e10c.zlib.b64",
+      "byteCount": 328271,
+      "sha256": "e4504da8e10c05402d7c10d2c6f2a95247bde7730600d7c30f6b210ff39cf53a"
+    },
+    {
+      "original": "poc005-attempt009-local-evidence-merge-result.json",
+      "encoded": "018-510be555fc29.zlib.b64",
+      "byteCount": 1595,
+      "sha256": "510be555fc29595ad340d4b548d422843eed8bbb680bb06a909f7d50437884fe"
+    },
+    {
+      "original": "poc005-attempt009-local-evidence-fetch.stdout",
+      "encoded": "019-e3b0c44298fc.zlib.b64",
+      "byteCount": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc005-attempt009-local-evidence-fetch.stderr",
+      "encoded": "020-568d2ba0fa6c.zlib.b64",
+      "byteCount": 232,
+      "sha256": "568d2ba0fa6c4a51c211e384a069195f3d6449f0758c48f94e38d3694c486515"
+    },
+    {
+      "original": "poc005-attempt009-local-evidence-merge.stdout",
+      "encoded": "021-3932df71ce6b.zlib.b64",
+      "byteCount": 34,
+      "sha256": "3932df71ce6b1a5831ef19ca12435553ca183f6a79d507a66511b5e43f1bb3ba"
+    },
+    {
+      "original": "poc005-attempt009-local-evidence-merge.stderr",
+      "encoded": "022-e3b0c44298fc.zlib.b64",
+      "byteCount": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc005-attempt009-local-evidence-merge-independent-review.json",
+      "encoded": "023-7611b11f6802.zlib.b64",
+      "byteCount": 4095,
+      "sha256": "7611b11f6802eb5b1e928a5d543efcb0a9b5d43a18d90e00dbb1146590e8cfd6"
+    },
+    {
+      "original": "poc005-attempt009-output-budget-next-scale-readonly-assessment.json",
+      "encoded": "024-ce7aaa209800.zlib.b64",
+      "byteCount": 1815,
+      "sha256": "ce7aaa209800c56651f0d6099bd02f2fbb9d8d58bc2a4ceff511ac3787aa6339"
+    },
+    {
+      "original": "poc005-attempt009-prospective-qualification-methods.json",
+      "encoded": "025-7485a41527b9.zlib.b64",
+      "byteCount": 936,
+      "sha256": "7485a41527b93db06acbba8e5ef663050fabd42aa15a3419491492008980dba8"
+    }
+  ],
+  "historicalPendingFlagsPreserved": true,
+  "newMetadataFullSourceAccepted": false,
+  "scale1mAccepted": false,
+  "profileTerminalIndexAccepted": false,
+  "taskCompleted": false,
+  "readyApproved": false,
+  "mainMergeApproved": false
+}

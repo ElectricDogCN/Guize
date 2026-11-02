@@ -1,0 +1,205 @@
+{
+  "source": "f42e107374562f35aa6771e4c841ca835fcdc797",
+  "tree": "28cb63b228eafdb4d970313e7b23230bc4ece8a4",
+  "task": "POC-005",
+  "checks": [
+    {
+      "argv": [
+        "git",
+        "diff",
+        "--check",
+        "11c32830c0d1bb8ccdcc04aa278876065bce1f33...HEAD"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true,
+      "raw": "00.raw"
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/check-task-file.py",
+        "--task",
+        "POC-005"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true,
+      "raw": "01.raw"
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/check-project-readiness.py"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true,
+      "raw": "02.raw"
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/check-schemas.py"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true,
+      "raw": "03.raw"
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/check-program-plan-integrity.py",
+        "--base-ref",
+        "11c32830c0d1bb8ccdcc04aa278876065bce1f33"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true,
+      "raw": "04.raw"
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/check-program-plan-history.py",
+        "--base-ref",
+        "11c32830c0d1bb8ccdcc04aa278876065bce1f33",
+        "--head-ref",
+        "HEAD",
+        "--task",
+        "POC-005",
+        "--branch-name",
+        "chore/POC-005-metadata-scale-reservation"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true,
+      "raw": "05.raw"
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/check-program-plan-transitions.py",
+        "--base-ref",
+        "11c32830c0d1bb8ccdcc04aa278876065bce1f33",
+        "--head-ref",
+        "HEAD",
+        "--task",
+        "POC-005",
+        "--branch-name",
+        "chore/POC-005-metadata-scale-reservation"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true,
+      "raw": "06.raw"
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/check-program-plan-finalization.py",
+        "--base-ref",
+        "11c32830c0d1bb8ccdcc04aa278876065bce1f33",
+        "--head-ref",
+        "HEAD",
+        "--task",
+        "POC-005"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true,
+      "raw": "07.raw"
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/check-program-lifecycle-guards.py",
+        "--base-ref",
+        "11c32830c0d1bb8ccdcc04aa278876065bce1f33",
+        "--head-ref",
+        "HEAD",
+        "--task",
+        "POC-005",
+        "--branch-name",
+        "chore/POC-005-metadata-scale-reservation"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true,
+      "raw": "08.raw"
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/run-program-lifecycle-gate.py",
+        "--base-ref",
+        "11c32830c0d1bb8ccdcc04aa278876065bce1f33",
+        "--head-ref",
+        "HEAD",
+        "--task",
+        "POC-005",
+        "--branch-name",
+        "chore/POC-005-metadata-scale-reservation"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true,
+      "raw": "09.raw"
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/run-agent-coordination-gate.py",
+        "--base-ref",
+        "11c32830c0d1bb8ccdcc04aa278876065bce1f33",
+        "--head-ref",
+        "HEAD",
+        "--task",
+        "POC-005",
+        "--branch-name",
+        "chore/POC-005-metadata-scale-reservation"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true,
+      "raw": "10.raw"
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/run-task-scope-gate.py",
+        "--task",
+        "POC-005",
+        "--base",
+        "11c32830c0d1bb8ccdcc04aa278876065bce1f33"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true,
+      "raw": "11.raw"
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/check-evidence.py",
+        "--task",
+        "POC-005"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true,
+      "raw": "12.raw"
+    },
+    {
+      "argv": [
+        "python",
+        "specs/poc/check_program.py",
+        "--task",
+        "POC-005",
+        "--base-ref",
+        "11c32830c0d1bb8ccdcc04aa278876065bce1f33"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true,
+      "raw": "13.raw"
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/check-markdown.py"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true,
+      "raw": "14.raw"
+    }
+  ],
+  "experimentExecuted": false
+}

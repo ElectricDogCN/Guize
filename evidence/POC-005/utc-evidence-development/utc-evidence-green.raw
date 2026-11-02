@@ -1,0 +1,8 @@
+test_actual_listing_dav_and_gateway_observations_use_accepted_utc (test_utc_evidence.UTCEvidenceTests.test_actual_listing_dav_and_gateway_observations_use_accepted_utc) ... ok
+test_independent_native_memory_receipt_uses_accepted_utc (test_utc_evidence.UTCEvidenceTests.test_independent_native_memory_receipt_uses_accepted_utc) ... ok
+test_native_clock_marker_is_accepted_without_changing_its_mapping (test_utc_evidence.UTCEvidenceTests.test_native_clock_marker_is_accepted_without_changing_its_mapping) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 2.007s
+
+OK

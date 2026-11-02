@@ -1,0 +1,9 @@
+canonical-*-failure-tail.raw binary
+source-observer-development-*.raw binary
+profiles/local-v1/v1/** -text
+profiles/local-v1/v1/attempt-*/before-counter binary
+profiles/local-v1/v1/attempt-*/after-counter binary
+timestamp-red.raw binary
+timestamp-green.raw binary
+local-v1-scale-exit-report.md -text whitespace=cr-at-eol
+local-v1-retained-database-snapshot.json -text whitespace=cr-at-eol

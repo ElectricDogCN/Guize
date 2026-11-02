@@ -1,0 +1,168 @@
+{
+  "capturedAt": "2026-10-22T17:50:49.887Z",
+  "purpose": "Preserve accepted reservation and main acceptance; not implementation or POC experiment acceptance",
+  "source": "f42e107374562f35aa6771e4c841ca835fcdc797",
+  "main": "f2e0150265e0c1eeca5f69fe85708b2434e5ee79",
+  "files": [
+    {
+      "path": "poc005-reservation-f42e107-ci814.raw.txt",
+      "bytes": 285891,
+      "sha256": "422f76f9376eb05169e1555beadc5ac7fa5955d7521937f300524f47381d1d14"
+    },
+    {
+      "path": "poc005-reservation-f42e107-ci814.snapshot.json",
+      "bytes": 544,
+      "sha256": "0a9e6cb257d9bf2ef15b3a85cd90d0e96b6bf4de4fc1585b264fa74641f801bb"
+    },
+    {
+      "path": "poc005-reservation-f2e0150-ci816.raw.txt",
+      "bytes": 284004,
+      "sha256": "ebdd50b78ca101dd34b49c67bd1a96e3b7f071eee01ace40b5ec823b2e97e777"
+    },
+    {
+      "path": "poc005-reservation-f2e0150-ci816.snapshot.json",
+      "bytes": 19363,
+      "sha256": "3560e1760aae531a0f5b09d9457b75f931e0429b69209c41b363408c2e91f6ae"
+    },
+    {
+      "path": "poc005-reservation-f2e0150-main-acceptance.json",
+      "bytes": 1078,
+      "sha256": "c64c4f1298610b5622fc01d48bb7424794dd5e969e4d66e7df2bb4069ff1af45"
+    },
+    {
+      "path": "poc005-reservation-f42e107-independent-content-review.json",
+      "bytes": 905,
+      "sha256": "feae04dcb2e4a48380b22973a87acb499cb9719e1d722785735382706e732745"
+    },
+    {
+      "path": "poc005-reservation-f42e107-official-merge.json",
+      "bytes": 123,
+      "sha256": "fb9be5e6ae3238a4131553543d9218b91c377f7544dab434a5b08bc9fbb63ea3"
+    },
+    {
+      "path": "poc005-reservation-f2e0150-adoption.json",
+      "bytes": 3202,
+      "sha256": "aee6cf4f07adb636d88bc4d6aa582bdd7c4eb7b8f5a2df32e059afd313760267"
+    },
+    {
+      "path": "poc005-reservation-f42e107-remote-cleanup.json",
+      "bytes": 19081,
+      "sha256": "5e6c89a2631b31aba50c504a3776f00678a2529fb93c62ff9c79b0f286fe092f"
+    },
+    {
+      "path": "poc005-reservation-f42e107-results/00.raw",
+      "bytes": 137,
+      "sha256": "873290fd949d35ed19522f53965cece03bddf44addf39e0bddec8364c8cb837f"
+    },
+    {
+      "path": "poc005-reservation-f42e107-results/01.raw",
+      "bytes": 253,
+      "sha256": "3587b2f0eb336dbebdaf3169e38f0f46596c11e354771b5955a05540b29a2c03"
+    },
+    {
+      "path": "poc005-reservation-f42e107-results/02.raw",
+      "bytes": 653,
+      "sha256": "25a8f70cff6e61b557962cb8617abc96e18c25a6a73190e9db15fde92ff9a55f"
+    },
+    {
+      "path": "poc005-reservation-f42e107-results/03.raw",
+      "bytes": 1875,
+      "sha256": "8bdc03bf0a855b079eebead3ccf2e123a4ee0aa04c983648d8942cb341949153"
+    },
+    {
+      "path": "poc005-reservation-f42e107-results/04.raw",
+      "bytes": 412,
+      "sha256": "3e4e2ee004e9ac733ba3fdf15c889673af7ab5670537509d9b6f0d2a00fc729a"
+    },
+    {
+      "path": "poc005-reservation-f42e107-results/05.raw",
+      "bytes": 478,
+      "sha256": "1234f729abbf8cc1100bda12f00e46b764debbd27cc48c8502fbb4900b5cf94d"
+    },
+    {
+      "path": "poc005-reservation-f42e107-results/06.raw",
+      "bytes": 431,
+      "sha256": "858c6115876a701032f51ad4fae12223a7c547d36493e23532969201bdd61a1f"
+    },
+    {
+      "path": "poc005-reservation-f42e107-results/07.raw",
+      "bytes": 355,
+      "sha256": "03a0a0ac15e7ee312512a394c8f6438135bb76282590f2aa6873593d3b244c88"
+    },
+    {
+      "path": "poc005-reservation-f42e107-results/08.raw",
+      "bytes": 497,
+      "sha256": "10386051944b7f22f54203eb7481caf4792c318563c45abd6996b034448f85f8"
+    },
+    {
+      "path": "poc005-reservation-f42e107-results/09.raw",
+      "bytes": 588,
+      "sha256": "a5465a2c283e5f8fd8c6e22e8ebdf7ad330e42612968d1935d7d873fef3f153c"
+    },
+    {
+      "path": "poc005-reservation-f42e107-results/10.raw",
+      "bytes": 558,
+      "sha256": "d6a6b8b5408b31b948546d260a7bd34881de54f72c02e85684f24ef5431eb5d1"
+    },
+    {
+      "path": "poc005-reservation-f42e107-results/11.raw",
+      "bytes": 312,
+      "sha256": "ef3060c105dffbd469485630b0f8954bfbe3d92114a6f539398c56f7a5e78a3a"
+    },
+    {
+      "path": "poc005-reservation-f42e107-results/12.raw",
+      "bytes": 191,
+      "sha256": "ebac2b3178375344e4cc38554fab76bb2740c7c574c98d6673f935cedaede638"
+    },
+    {
+      "path": "poc005-reservation-f42e107-results/13.raw",
+      "bytes": 394,
+      "sha256": "ede597394dd2e7405d3ebe14275cd0b20b64ee817923f19b668f7cbdae68e17d"
+    },
+    {
+      "path": "poc005-reservation-f42e107-results/14.raw",
+      "bytes": 157,
+      "sha256": "f87cf55f8ea288ed53e58882afd4e6073165fa0c6ec3333f29c871bdb0d5a88f"
+    },
+    {
+      "path": "poc005-reservation-f42e107-results/results.json",
+      "bytes": 4457,
+      "sha256": "c0af0e3edb054933ea98bf238bc320b16b32cec63441f970a383446ca6468de1"
+    },
+    {
+      "path": "poc005-reservation-f2e0150-main-checks/00.txt",
+      "bytes": 425,
+      "sha256": "60e09c3bac4cc0635cb666ae04cefcc32dce12989efe2e29657190681c1f7510"
+    },
+    {
+      "path": "poc005-reservation-f2e0150-main-checks/01.txt",
+      "bytes": 581,
+      "sha256": "b156511f02642b00994a073e986346c140efa2c5e6fa1ddd8eda6506bd452981"
+    },
+    {
+      "path": "poc005-reservation-f2e0150-main-checks/02.txt",
+      "bytes": 498,
+      "sha256": "5337b0d7bb91d51866a84817a505848cb9004f4902d9e83f6d5b8b4ed7ade568"
+    },
+    {
+      "path": "poc005-reservation-f2e0150-main-checks/03.txt",
+      "bytes": 564,
+      "sha256": "cee03413ffa90272f16dcc46accc5e94f02547d47b9e0a38a8f45bffa4a9f67a"
+    },
+    {
+      "path": "poc005-reservation-f2e0150-main-checks/04.txt",
+      "bytes": 625,
+      "sha256": "9a824492e9f2be7ee50a8611c5cab7cbfd8acf9932335c0f130684fee87fc175"
+    },
+    {
+      "path": "poc005-reservation-f2e0150-main-checks/05.txt",
+      "bytes": 413,
+      "sha256": "c0829da2b006ccee679b003bb0033e8862c34e40cf3f5686c21fe44e626d817d"
+    },
+    {
+      "path": "poc005-reservation-f2e0150-main-checks/results.json",
+      "bytes": 2400,
+      "sha256": "b5a35160befac86f5253ccab385961f998080f37b883881e601c20e04b6eb516"
+    }
+  ]
+}

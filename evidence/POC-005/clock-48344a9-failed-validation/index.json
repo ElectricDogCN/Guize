@@ -1,0 +1,96 @@
+{
+  "source": "48344a903a7533a930195d6010282a7a2378f070",
+  "scope": "Task15 passed; native96 failed1; complete-source rejection retained. No source retry or acceptance.",
+  "files": [
+    {
+      "path": "task-00.raw",
+      "bytes": 144,
+      "sha256": "fb02d56b45451d967ef0b7a5b29140bff61e4a0cce94b9196aaf4c0b38b0360d"
+    },
+    {
+      "path": "task-01.raw",
+      "bytes": 260,
+      "sha256": "56ab7532e884e01aa10c4a7c13330cd6852adb8c17821db3618aae18a112508a"
+    },
+    {
+      "path": "task-02.raw",
+      "bytes": 660,
+      "sha256": "aaf8509ee9cf99d146d7f9ac236f25ddb0c058b991c4db492f792d61c487d336"
+    },
+    {
+      "path": "task-03.raw",
+      "bytes": 1882,
+      "sha256": "9044de60f69ab83183689885269e2675463444caf318e66d77b83e4cb8033f32"
+    },
+    {
+      "path": "task-04.raw",
+      "bytes": 419,
+      "sha256": "759c7efb7948175faf54fc29242a7b3f091c27061b38f8b0263f6477f03b8f99"
+    },
+    {
+      "path": "task-05.raw",
+      "bytes": 473,
+      "sha256": "fbc16ac9283c20c778af583d4780897720354bc1316f583be078ea7f3b3fc196"
+    },
+    {
+      "path": "task-06.raw",
+      "bytes": 426,
+      "sha256": "977c0f813f144771fd9b2a5e4f94e1aadcc7dee86a860776eca0a85dc8c45121"
+    },
+    {
+      "path": "task-07.raw",
+      "bytes": 362,
+      "sha256": "c7817faff29d0682ad6ec60bc0b2b4efdabf5540e62f7771e76a5ac80b07b130"
+    },
+    {
+      "path": "task-08.raw",
+      "bytes": 493,
+      "sha256": "cd6e246cf1bb959673bef508ee4895ab9ab5e853d0e967a1075c05600dc21f7a"
+    },
+    {
+      "path": "task-09.raw",
+      "bytes": 584,
+      "sha256": "68a8c5cf81d13c11c58c45ea284e3674d21d8f89f63dc570cf0f98421ccfd275"
+    },
+    {
+      "path": "task-10.raw",
+      "bytes": 396,
+      "sha256": "cef8888d77547eb2a1e0ca64a1530a32b185708d51830e56cdf62802954e561d"
+    },
+    {
+      "path": "task-11.raw",
+      "bytes": 29317,
+      "sha256": "43ceeb70acc73db8093575ccbccd790dc46e74f7c8b29eb6a473deddc8a29ab9"
+    },
+    {
+      "path": "task-12.raw",
+      "bytes": 198,
+      "sha256": "be5d3294950c27f5335e48fb5e0b3161202de2092b8d5958125bf57169ca5599"
+    },
+    {
+      "path": "task-13.raw",
+      "bytes": 401,
+      "sha256": "001c2e9d867a533840c0f4845926a109540ede5c4e95088ab72d064ad1e1d791"
+    },
+    {
+      "path": "task-14.raw",
+      "bytes": 164,
+      "sha256": "d336acda6025c5dea653d86b724655ef1a220e0ca94da83130442c8f59509af7"
+    },
+    {
+      "path": "code-96.raw",
+      "bytes": 18156,
+      "sha256": "c0acbbdf640a98be29aa89f38c63b485d92eb6b89f21555feafb8b1bd0cc7e27"
+    },
+    {
+      "path": "results.json",
+      "bytes": 7573,
+      "sha256": "08d15c3b4ba5a486d37bd1b8e1a3fd3866d61f99ed252a42a005c8424b5310c3"
+    },
+    {
+      "path": "poc005-clock-48344a9-independent-source-rejection.json",
+      "bytes": 1261,
+      "sha256": "0d0f3a55d7b9b4f997d3233429fe14fcdd4aca7a33eb0b50cdb9e5367e973b32"
+    }
+  ]
+}

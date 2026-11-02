@@ -1,0 +1,5 @@
+Source: f42e107374562f35aa6771e4c841ca835fcdc797
+Command: python scripts/run-task-scope-gate.py --task POC-005 --base 11c32830c0d1bb8ccdcc04aa278876065bce1f33
+INFO: POC-005 is a Reservation PR; exact changed-file scope is owned by Program History and Program Transitions against the target branch.
+
+Exit Code: 0

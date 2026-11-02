@@ -1,0 +1,17 @@
+test_actual_change_with_missing_evidence_is_rejected (test_windows_scan.WindowsLifecycleTests.test_actual_change_with_missing_evidence_is_rejected) ... ok
+test_actual_windows_lifetime_counters_replay_post_catalogue_and_frozen_captures (test_windows_scan.WindowsLifecycleTests.test_actual_windows_lifetime_counters_replay_post_catalogue_and_frozen_captures) ... ok
+test_changed_input_after_release_fails_actual_enumeration (test_windows_scan.WindowsLifecycleTests.test_changed_input_after_release_fails_actual_enumeration) ... ok
+test_changed_runtime_source_closure_rejects_reservation (test_windows_scan.WindowsLifecycleTests.test_changed_runtime_source_closure_rejects_reservation) ... ok
+test_existing_output_fails_before_scanner_ready (test_windows_scan.WindowsLifecycleTests.test_existing_output_fails_before_scanner_ready) ... ok
+test_expected_change_row_without_source_evidence_is_rejected (test_windows_scan.WindowsLifecycleTests.test_expected_change_row_without_source_evidence_is_rejected) ... ok
+test_final_counter_requires_post_catalogue_after_incremental (test_windows_scan.WindowsLifecycleTests.test_final_counter_requires_post_catalogue_after_incremental) ... ok
+test_real_exit_observation_after_window_preserves_failure_without_success_captures (test_windows_scan.WindowsLifecycleTests.test_real_exit_observation_after_window_preserves_failure_without_success_captures) ... ok
+test_reservation_rejects_self_approval_wrong_pid_and_past_window (test_windows_scan.WindowsLifecycleTests.test_reservation_rejects_self_approval_wrong_pid_and_past_window) ... ok
+test_scanner_requires_first_independent_counter_and_new_outputs (test_windows_scan.WindowsLifecycleTests.test_scanner_requires_first_independent_counter_and_new_outputs) ... ok
+test_tampered_approval_config_terminates_exact_suspended_image_before_any_work (test_windows_scan.WindowsLifecycleTests.test_tampered_approval_config_terminates_exact_suspended_image_before_any_work) ... ok
+test_timing_capture_refuses_nonzero_exit_or_rewritten_native_tick (test_windows_scan.WindowsLifecycleTests.test_timing_capture_refuses_nonzero_exit_or_rewritten_native_tick) ... ok
+
+----------------------------------------------------------------------
+Ran 12 tests in 17.648s
+
+OK

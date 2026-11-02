@@ -1,0 +1,7 @@
+test_actual_binary_get_body_keeps_binary_artifact_and_exact_http_observation (test_controlled_source_run.SourceTests.test_actual_binary_get_body_keeps_binary_artifact_and_exact_http_observation) ... ok
+test_artifact_budget_alias_and_omitted_body_are_not_successful_substitutes (test_controlled_source_run.SourceTests.test_artifact_budget_alias_and_omitted_body_are_not_successful_substitutes) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 2.713s
+
+OK

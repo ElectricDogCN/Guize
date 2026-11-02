@@ -1,0 +1,96 @@
+{
+  "source": "4b12002397fc05afdf575b03cdf9fe915baf4f58",
+  "scope": "Exact nativeTask15/code90/source-scope-evidence review only; no real experiment acceptance.",
+  "files": [
+    {
+      "path": "task-00.raw",
+      "bytes": 144,
+      "sha256": "98a5888ec1f696c4c92279d013becfd2918ca37c23b67b9ce36e40ca4da95806"
+    },
+    {
+      "path": "task-01.raw",
+      "bytes": 260,
+      "sha256": "0d460fd81c2fd1720ef5090c01c01077dbe09cbe66bead80f9a053d7d356360d"
+    },
+    {
+      "path": "task-02.raw",
+      "bytes": 660,
+      "sha256": "7e809291da4de18e9711cb18bc23ee6571fbd29d84c81184c5331fbe8b13a648"
+    },
+    {
+      "path": "task-03.raw",
+      "bytes": 1882,
+      "sha256": "c68c02eb5293b1fc8afe1fff757270b0648e4556189f1a76bceb968a2c39746a"
+    },
+    {
+      "path": "task-04.raw",
+      "bytes": 419,
+      "sha256": "36a545dc3e40065b6cc00a896be682a0be135938534177c2e409c032571a6afb"
+    },
+    {
+      "path": "task-05.raw",
+      "bytes": 473,
+      "sha256": "eebc565e5902e6acef06816d30fb3445cba86aa602c5483c08e8ab354f343343"
+    },
+    {
+      "path": "task-06.raw",
+      "bytes": 426,
+      "sha256": "d25eef2e3e82f7487dad08f981720445ff74ec6078ee3762495801d311c14d05"
+    },
+    {
+      "path": "task-07.raw",
+      "bytes": 362,
+      "sha256": "f50ba9b8331eacef32cefab30b03d1f41a84bb5cfe2fa5a23393f971e9bd8d5e"
+    },
+    {
+      "path": "task-08.raw",
+      "bytes": 493,
+      "sha256": "316606d0555030536d46707dde5a2b7e179fb501d107a68a8e0930b88bf0ea8c"
+    },
+    {
+      "path": "task-09.raw",
+      "bytes": 584,
+      "sha256": "f61699148af39a02143927eb1a038bdc010b91f322b3e97a80df0652945250c5"
+    },
+    {
+      "path": "task-10.raw",
+      "bytes": 396,
+      "sha256": "b3f22b461cbb1d5c91acc5464f743a3a8d1738be5486cfed705311db6eed78dd"
+    },
+    {
+      "path": "task-11.raw",
+      "bytes": 17990,
+      "sha256": "b099c1cd1da4c09ee9ffc6791195826a533f78d04938b03704e8231c0b37650a"
+    },
+    {
+      "path": "task-12.raw",
+      "bytes": 198,
+      "sha256": "01e4dc6429af9eeb711bdf5f5c42cfdf4d6b75da81aa443c54b70c9484b5a732"
+    },
+    {
+      "path": "task-13.raw",
+      "bytes": 401,
+      "sha256": "9b8d60096c84f0d4ff6ccc09bac26529927100643cc6029b4facaf330f77cdda"
+    },
+    {
+      "path": "task-14.raw",
+      "bytes": 164,
+      "sha256": "ebcbe4b10b0d8ef6498ec3905c1498682aa6fee362a742b263d4c440f703916c"
+    },
+    {
+      "path": "code-90.raw",
+      "bytes": 16074,
+      "sha256": "7720371938e41795dbc14be2122ed913df0be722ad8b878fc4d861e6f48685b2"
+    },
+    {
+      "path": "results.json",
+      "bytes": 7782,
+      "sha256": "32f61d1414e3ba7bb2f7e21029f64b830062ebc0004a7fd14478a68995e70048"
+    },
+    {
+      "path": "independent-source-review.json",
+      "bytes": 888,
+      "sha256": "d8d0856da5714c80a8311e7d06bb0cd1ec73eafb85d4e5bb58d8ce685fa7a2ad"
+    }
+  ]
+}

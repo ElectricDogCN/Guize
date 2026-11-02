@@ -1,0 +1,38 @@
+test_actual_listing_dav_and_gateway_observations_use_accepted_utc (test_utc_evidence.UTCEvidenceTests.test_actual_listing_dav_and_gateway_observations_use_accepted_utc) ... FAIL
+test_independent_native_memory_receipt_uses_accepted_utc (test_utc_evidence.UTCEvidenceTests.test_independent_native_memory_receipt_uses_accepted_utc) ... FAIL
+test_native_clock_marker_is_accepted_without_changing_its_mapping (test_utc_evidence.UTCEvidenceTests.test_native_clock_marker_is_accepted_without_changing_its_mapping) ... FAIL
+
+======================================================================
+FAIL: test_actual_listing_dav_and_gateway_observations_use_accepted_utc (test_utc_evidence.UTCEvidenceTests.test_actual_listing_dav_and_gateway_observations_use_accepted_utc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc005-metadata-scale-reservation-worktree\poc\POC-05-metadata-scale\test_utc_evidence.py", line 38, in test_actual_listing_dav_and_gateway_observations_use_accepted_utc
+    self.assert_accepted_utc(observed[key])
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc005-metadata-scale-reservation-worktree\poc\POC-05-metadata-scale\test_utc_evidence.py", line 22, in assert_accepted_utc
+    self.assertTrue(acceptor.valid_utc_timestamp(value), repr(value))
+AssertionError: False is not true : '2026-10-22T23:33:30.904916+00:00'
+
+======================================================================
+FAIL: test_independent_native_memory_receipt_uses_accepted_utc (test_utc_evidence.UTCEvidenceTests.test_independent_native_memory_receipt_uses_accepted_utc)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc005-metadata-scale-reservation-worktree\poc\POC-05-metadata-scale\test_utc_evidence.py", line 59, in test_independent_native_memory_receipt_uses_accepted_utc
+    self.assert_accepted_utc(receipt['observedAt'])
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc005-metadata-scale-reservation-worktree\poc\POC-05-metadata-scale\test_utc_evidence.py", line 22, in assert_accepted_utc
+    self.assertTrue(acceptor.valid_utc_timestamp(value), repr(value))
+AssertionError: False is not true : '2026-10-22T23:33:31.985227+00:00'
+
+======================================================================
+FAIL: test_native_clock_marker_is_accepted_without_changing_its_mapping (test_utc_evidence.UTCEvidenceTests.test_native_clock_marker_is_accepted_without_changing_its_mapping)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc005-metadata-scale-reservation-worktree\poc\POC-05-metadata-scale\test_utc_evidence.py", line 28, in test_native_clock_marker_is_accepted_without_changing_its_mapping
+    self.assert_accepted_utc(event['observedAt'])
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc005-metadata-scale-reservation-worktree\poc\POC-05-metadata-scale\test_utc_evidence.py", line 22, in assert_accepted_utc
+    self.assertTrue(acceptor.valid_utc_timestamp(value), repr(value))
+AssertionError: False is not true : '2026-10-22T23:33:31.996254+00:00'
+
+----------------------------------------------------------------------
+Ran 3 tests in 2.445s
+
+FAILED (failures=3)

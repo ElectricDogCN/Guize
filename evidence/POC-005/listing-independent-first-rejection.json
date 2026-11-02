@@ -1,0 +1,15 @@
+{
+  "reviewer": "/root/gz022_planning_independent_review",
+  "recordedAt": "2026-10-22T18:55:34.562Z",
+  "decision": "rejected first listing content, P1 sensitive response retention",
+  "sourceBase": "f8ed3e8d740c1a90e1432df6a6e2ec6617daabf8",
+  "actuallyReproduced": [
+    "incomplete JSON containing nonempty sign retained after strict decode failure",
+    "duplicate code fields plus Unicode-escaped supplied token retained after strict decode failure",
+    "valid JSON Unicode-escaped object key containing supplied token not inspected"
+  ],
+  "firstDraftBodyRetained": true,
+  "repairRequired": "Fail closed when body cannot be completely and unambiguously decoded; omit raw body and keep actual hash/length/status/transport error; inspect dictionary keys as well as values for supplied token; actual HTTP callback regressions.",
+  "rawIndependentLogRetained": false,
+  "experimentExecuted": false
+}

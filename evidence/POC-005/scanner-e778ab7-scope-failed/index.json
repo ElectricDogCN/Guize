@@ -1,0 +1,76 @@
+{
+  "source": "e778ab7527296ca5e77a668e1cb42efde84bd72f",
+  "tree": "49cf6244bfdf24b1007b9ea4f2aa5566e7db5e47",
+  "first11Passed": true,
+  "taskScopeActuallyFailed": true,
+  "last3TaskCommandsNotRun": true,
+  "nativeCodeTestsNotRun": true,
+  "pocExperimentExecuted": false,
+  "files": [
+    {
+      "path": "results.json",
+      "bytes": 5939,
+      "sha256": "43d87ac943bbe7d7a41e29eaae691a20c441ed9478feed761c97eebed7a2929b"
+    },
+    {
+      "path": "task-00.raw",
+      "bytes": 144,
+      "sha256": "cfc2b40ca5d01a20f2fb9171729faec5d331b37cfcc7aced947db7c38b38bc00"
+    },
+    {
+      "path": "task-01.raw",
+      "bytes": 260,
+      "sha256": "dfc75baee4b8c8a3977b44369e2183a01cdb64f5b80d6594f6ca0642f9f769d8"
+    },
+    {
+      "path": "task-02.raw",
+      "bytes": 660,
+      "sha256": "a3073b5b34861f664d6eb5c9a90211568dcc1e4fd11c68069602443e6c81f20c"
+    },
+    {
+      "path": "task-03.raw",
+      "bytes": 1882,
+      "sha256": "619f272de73e677b57fbf98f8a5287bc0d18a99ad496be726c61c91a85d6a50f"
+    },
+    {
+      "path": "task-04.raw",
+      "bytes": 419,
+      "sha256": "d3edeb24820001ed4b0a80d18e255cee63cebb62ca2fa5c36608e5a479d5d89f"
+    },
+    {
+      "path": "task-05.raw",
+      "bytes": 473,
+      "sha256": "aac5cd37a8331a20976971f7f90e8d1810d46bb5c0052d4c366bf219fb61cad5"
+    },
+    {
+      "path": "task-06.raw",
+      "bytes": 426,
+      "sha256": "c82c05ce9c2185a45634026131eb3e54fd1163f378e4dcf59669c34b242df130"
+    },
+    {
+      "path": "task-07.raw",
+      "bytes": 362,
+      "sha256": "0320915780e0ada8280eb34a3ca1685c6eb177b8e9719943f374d915db5824bb"
+    },
+    {
+      "path": "task-08.raw",
+      "bytes": 492,
+      "sha256": "6fa6693b044c4fe129e1f2a07cd05c2bfd6a9e1a4e54919874eda9ca27b812d7"
+    },
+    {
+      "path": "task-09.raw",
+      "bytes": 583,
+      "sha256": "1f18c1f2a6f505e31feca5194eef58516809b09fe3699c7daee629384f63430f"
+    },
+    {
+      "path": "task-10.raw",
+      "bytes": 396,
+      "sha256": "540fa312b74db13b2c64847ead13ab0519f03c2880d3c2ed0aab8ba369e67da6"
+    },
+    {
+      "path": "task-11.raw",
+      "bytes": 4316,
+      "sha256": "275e4e0a9158eb1806d69363db447e70dcde6a04150a2ec89fd8b7b49c14f1e0"
+    }
+  ]
+}

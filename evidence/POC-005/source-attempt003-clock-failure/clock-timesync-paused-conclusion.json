@@ -1,0 +1,14 @@
+{
+  "kind": "actual_reversible_environment_diagnostic",
+  "rawRef": "clock-timesync-paused-diagnostic.jsonl",
+  "bytes": 11777,
+  "sha256": "918a67ff521dad8758c7a70f0991923fe742345cf6ca7580437626b0f7633af8",
+  "samples": 61,
+  "maxWallMinusMonotonicResidualNs": 1336131528,
+  "monotonicSeconds": 60.000095032,
+  "rawSeconds": 61.879718197,
+  "realtimeSeconds": 61.33622656,
+  "originalServiceRestored": true,
+  "conclusion": "Stopping the active time synchronization service did not remove observed clock separation; neither environment restoration nor underlying cause is established. No source workload or threshold change.",
+  "qualificationAccepted": false
+}

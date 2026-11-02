@@ -1,0 +1,39 @@
+Source Base: 5c3bcd11818c862b27876919925547808a062bc5; uncommitted component bytes
+Command: ["/home/sur/.cache/guize-takeover/governance-venv/bin/python", "-X", "utf8", "-B", "-m", "unittest", "discover", "-s", "poc/POC-05-metadata-scale", "-p", "test_controlled_source_run.py", "-v"]
+test_actual_forwarded_range_and_negative_bytes_and_missing_validator_are_unchanged (test_controlled_source_run.SourceTests.test_actual_forwarded_range_and_negative_bytes_and_missing_validator_are_unchanged) ... ERROR
+test_actual_native_chain_assembles_all_original13_from_observed_source_without_qualifying_it (test_controlled_source_run.SourceTests.test_actual_native_chain_assembles_all_original13_from_observed_source_without_qualifying_it) ... ok
+test_actual_quota_reset_and_injected_status_disconnect_are_distinct_from_upstream (test_controlled_source_run.SourceTests.test_actual_quota_reset_and_injected_status_disconnect_are_distinct_from_upstream) ... ok
+test_artifact_budget_alias_and_omitted_body_are_not_successful_substitutes (test_controlled_source_run.SourceTests.test_artifact_budget_alias_and_omitted_body_are_not_successful_substitutes) ... ok
+test_complete_repeated_observations_have_frozen_pages_and_no_credentials_in_artifacts (test_controlled_source_run.SourceTests.test_complete_repeated_observations_have_frozen_pages_and_no_credentials_in_artifacts) ... ok
+test_gateway_denies_admin_mutators_scope_escape_and_expired_auth_before_forwarding (test_controlled_source_run.SourceTests.test_gateway_denies_admin_mutators_scope_escape_and_expired_auth_before_forwarding) ... ok
+test_incomplete_duplicate_parent_pages_never_prove_absence (test_controlled_source_run.SourceTests.test_incomplete_duplicate_parent_pages_never_prove_absence) ... ERROR
+test_unapproved_payload_and_failed_confirmation_preserve_actual_fixture_state (test_controlled_source_run.SourceTests.test_unapproved_payload_and_failed_confirmation_preserve_actual_fixture_state) ... ok
+
+======================================================================
+ERROR: test_actual_forwarded_range_and_negative_bytes_and_missing_validator_are_unchanged (test_controlled_source_run.SourceTests.test_actual_forwarded_range_and_negative_bytes_and_missing_validator_are_unchanged)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc005-metadata-scale-reservation-worktree/poc/POC-05-metadata-scale/test_controlled_source_run.py", line 160, in test_actual_forwarded_range_and_negative_bytes_and_missing_validator_are_unchanged
+    full = dav.observe('GET', row['path'])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: OpenListSource.observe() missing 1 required keyword-only argument: 'maximum_bytes'
+
+======================================================================
+ERROR: test_incomplete_duplicate_parent_pages_never_prove_absence (test_controlled_source_run.SourceTests.test_incomplete_duplicate_parent_pages_never_prove_absence)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc005-metadata-scale-reservation-worktree/poc/POC-05-metadata-scale/test_controlled_source_run.py", line 213, in test_incomplete_duplicate_parent_pages_never_prove_absence
+    session.find('missing.bin')
+  File "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc005-metadata-scale-reservation-worktree/poc/POC-05-metadata-scale/controlled_source_run.py", line 183, in find
+    total, entries = self.listing.parse_page(observation)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc005-metadata-scale-reservation-worktree/poc/POC-05-metadata-scale/openlist_listing.py", line 203, in parse_page
+    raise SourceError("LISTING_PAGE_CARDINALITY_MISMATCH")
+openlist_source.SourceError: LISTING_PAGE_CARDINALITY_MISMATCH
+
+----------------------------------------------------------------------
+Ran 8 tests in 11.249s
+
+FAILED (errors=2)
+
+Exit Code: 1

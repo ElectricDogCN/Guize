@@ -1,0 +1,5 @@
+Source Commit: 38f2a7bd575b850c43143ba7d31c6cf223b89d7c
+Command: python scripts/check-program-lifecycle-guards.py --base-ref f2e0150265e0c1eeca5f69fe85708b2434e5ee79 --head-ref HEAD --task POC-005 --branch-name chore/POC-005-metadata-scale
+{"status": "PASS", "message": "Program lifecycle scope, Foundation ownership, rename and Evidence guards passed", "details": {"affectedTaskIds": ["POC-005"], "changedPathCount": 353, "baseRef": "f2e0150265e0c1eeca5f69fe85708b2434e5ee79"}}
+
+Exit Code: 0

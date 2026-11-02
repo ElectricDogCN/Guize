@@ -1,0 +1,14 @@
+{
+  "kind": "actual_reversible_clocksource_diagnostic",
+  "rawRef": "hyperv-clocksource-diagnostic.jsonl",
+  "bytes": 11013,
+  "sha256": "ce4904361ac1b2d7f604784b0982cc721c8e0d79b1651f7afeebe21f79673f76",
+  "samples": 61,
+  "maxWallMinusMonotonicResidualNs": 2036985547,
+  "monotonicSeconds": 60.000108371,
+  "rawSeconds": 62.0258835,
+  "realtimeSeconds": 62.037092951,
+  "originalClocksourceRestored": true,
+  "conclusion": "Selecting the existing Hyper-V clocksource did not remove observed clock separation; original tsc restored. No source workload, boot configuration change, restart or acceptance. Further host-setting experimentation is not justified by this observation.",
+  "qualificationAccepted": false
+}

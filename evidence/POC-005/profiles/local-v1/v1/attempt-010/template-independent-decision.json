@@ -1,0 +1,582 @@
+{
+  "schemaVersion": 1,
+  "kind": "POC005_ATTEMPT010_1M_FULL_TEMPLATE_ONLY_INDEPENDENT_DECISION",
+  "decision": "approved_full_template_only",
+  "actor": "/root/gz022_planning_independent_review",
+  "reviewer": "independent-review-agent",
+  "approvedAt": "2026-10-27T02:32:54Z",
+  "validFrom": "2026-10-27T02:32:54Z",
+  "validUntil": "2026-10-27T04:32:54Z",
+  "source": "ed8fbf32783c2600f75de7a69ef56c6f33b4824b",
+  "base": "746e23e582501fa08380c3f3301bdc1774902f7c",
+  "tree": "a74434e6a062f03207244b0a3a8cbd037a0dfe47",
+  "candidateRef": "poc005-attempt010-full-ready-candidate.json",
+  "candidateBytes": 31378,
+  "candidateSha256": "sha256:47d85c21e0e5753ccdfbad55313f0572cdf9be4e1cba13fb64592794eba608c9",
+  "mustFix": [],
+  "fullPreparationAccepted": true,
+  "fullProfileConfigurationApproved": true,
+  "finalExecutionApproved": false,
+  "scannerStarted": false,
+  "sourceRequestsSent": false,
+  "experimentApproved": false,
+  "qualificationAccepted": false,
+  "profileConfiguration": {
+    "schemaVersion": 2,
+    "pocId": "POC-05",
+    "taskId": "POC-005",
+    "acceptanceProfile": {
+      "bindingRevision": 1,
+      "id": "local-v1",
+      "scope": "LOCAL_FULL_V1",
+      "version": 1
+    },
+    "resourceIds": [
+      "RES-METADATA-SCALE",
+      "RES-OPENLIST-LOCAL"
+    ],
+    "measurementIds": [
+      "average_file_size",
+      "directory_count",
+      "directory_depth_max",
+      "enumeration_rate",
+      "etag_behavior_profiled",
+      "file_count",
+      "filename_characteristics_profiled",
+      "incremental_scan_cost",
+      "memory_peak",
+      "provider_characteristics_profiled",
+      "range_support_profiled",
+      "source_api_quota",
+      "source_change_frequency"
+    ],
+    "testedSource": {
+      "commit": "ed8fbf32783c2600f75de7a69ef56c6f33b4824b",
+      "tree": "a74434e6a062f03207244b0a3a8cbd037a0dfe47"
+    },
+    "numericDomainReviewRefs": {},
+    "capturedSettings": {
+      "synthetic_hierarchy_manifest": {
+        "schemaVersion": 1,
+        "scope": "LOCAL_FULL_V1",
+        "generator": {
+          "algorithm": "deterministic-tree-v1",
+          "seed": 20261015,
+          "rootPath": "fixture",
+          "fileCount": 1000000,
+          "directoryCount": 500,
+          "maximumDepth": 12
+        }
+      }
+    },
+    "decision": "approved",
+    "approvedBy": "independent-review-agent",
+    "approvedAt": "2026-10-27T02:32:54Z"
+  },
+  "sampleApproval": {
+    "schemaVersion": 1,
+    "pocId": "POC-05",
+    "taskId": "POC-005",
+    "sampleId": "SAMPLE-METADATA-SYNTHETIC",
+    "immutableId": "guize-poc005-canonical-1m-20261015-gzip-attempt010",
+    "checksum": "sha256:ad0e9fc6739de60a4b773437a7a1e7be11ca6f7b8c9cc80388ac6613dd30d388",
+    "decision": "approved",
+    "approver": "independent-review-agent",
+    "approvedAt": "2026-10-27T02:32:54Z"
+  },
+  "assemblyMethod": {
+    "ref": "evidence/POC-005/profiles/local-v1/v1/attempt-010/tools/poc005_full_execution_assembler_010_v1.py",
+    "byteCount": 18454,
+    "sha256": "sha256:ab714d17193785e72c82582a3c6353c2cd8bb619c12d12bb4405b21ab857e3af"
+  },
+  "approvedResourceConfigurations": [
+    {
+      "schemaVersion": 2,
+      "pocId": "POC-05",
+      "taskId": "POC-005",
+      "acceptanceProfile": {
+        "bindingRevision": 1,
+        "id": "local-v1",
+        "scope": "LOCAL_FULL_V1",
+        "version": 1
+      },
+      "kind": "resource_configuration",
+      "status": "approved",
+      "approvedBy": "independent-review-agent",
+      "approvedAt": "2026-10-27T02:32:54Z",
+      "validFrom": "2026-10-27T02:32:54Z",
+      "validUntil": "2026-10-27T04:32:54Z",
+      "resourceId": "RES-METADATA-SCALE",
+      "configuration": {
+        "metadataProfilingPolicy": {
+          "baselinePayload": {
+            "ref": "evidence/POC-005/profiles/local-v1/v1/inputs-1m-attempt010/baseline-probe.bin",
+            "sha256": "sha256:c8f5d0341d54d951a71b136e6e2afcb14d11ed8489a7ae126a8fee0df6ecf193"
+          },
+          "baselineVersion": "v1",
+          "extensionCategories": [
+            "mp4",
+            "mkv",
+            "mov",
+            "txt",
+            "jpg"
+          ],
+          "filenameInput": {
+            "count": 1000500,
+            "ref": "evidence/POC-005/profiles/local-v1/v1/inputs-1m-attempt010/profiled.jsonl.gz",
+            "sha256": "sha256:c3dcb34521809b954b0f7862707658ce6d4f60c2c13769db47e75b832c638cd8"
+          },
+          "minimumListingRuns": 2,
+          "probeObjectId": "f-000000003",
+          "rangeDisposition": "supported",
+          "updatedPayload": {
+            "ref": "evidence/POC-005/profiles/local-v1/v1/inputs-1m-attempt010/updated-probe.bin",
+            "sha256": "sha256:22250e12fcdfd3b338e9fcad5848a7225a8d39646f3d071ab9dac6dfd4fe0b8d"
+          },
+          "updatedVersion": "v2",
+          "validatorKind": "etag"
+        },
+        "metadataResourcePolicy": {},
+        "metadataScanPolicy": {
+          "baseline": {
+            "count": 1000500,
+            "ref": "evidence/POC-005/profiles/local-v1/v1/inputs-1m-attempt010/baseline.jsonl.gz",
+            "sha256": "sha256:ad0e9fc6739de60a4b773437a7a1e7be11ca6f7b8c9cc80388ac6613dd30d388"
+          },
+          "baselineInputSampleId": "SAMPLE-METADATA-SYNTHETIC",
+          "expectedChanges": {
+            "count": 3,
+            "ref": "evidence/POC-005/profiles/local-v1/v1/inputs-1m-attempt010/expected-changes.jsonl",
+            "sha256": "sha256:c1eb4e21860fdbb307b28905dffcd9f8a4329e05ef2638ade09690076def56fd"
+          },
+          "hierarchyGenerator": {
+            "algorithm": "deterministic-tree-v1",
+            "directoryCount": 500,
+            "fileCount": 1000000,
+            "maximumDepth": 12,
+            "rootPath": "fixture",
+            "seed": 20261015
+          }
+        },
+        "syntheticHierarchySandbox": {
+          "schemaVersion": 1,
+          "scope": "LOCAL_FULL_V1",
+          "resourceId": "RES-METADATA-SCALE",
+          "sandboxId": "poc005-native-windows-v7-1m",
+          "mountId": "openlist-v426-local-v7-1m-id1",
+          "physicalHostId": "windows-hardware-sha256:bec45caf58d1ec4808ed969814e2dcd139d4cefbf751e451814d33a5446fa18e",
+          "controlled": true,
+          "disposable": true,
+          "rootPath": "fixture"
+        }
+      }
+    },
+    {
+      "schemaVersion": 2,
+      "pocId": "POC-05",
+      "taskId": "POC-005",
+      "acceptanceProfile": {
+        "bindingRevision": 1,
+        "id": "local-v1",
+        "scope": "LOCAL_FULL_V1",
+        "version": 1
+      },
+      "kind": "resource_configuration",
+      "status": "approved",
+      "approvedBy": "independent-review-agent",
+      "approvedAt": "2026-10-27T02:32:54Z",
+      "validFrom": "2026-10-27T02:32:54Z",
+      "validUntil": "2026-10-27T04:32:54Z",
+      "resourceId": "RES-OPENLIST-LOCAL",
+      "configuration": {
+        "identity": {
+          "adapterBuild": "sha256:419daca8639869688e988eae6a6538d2936ed1d6b44d8cf095db903a50e405f0",
+          "adapterId": "guize-controlled-openlist-windows-v1",
+          "sourceId": "poc005-openlist-windows-controlled-v1",
+          "sourceVersion": "OpenList-v4.2.6-Windows-Local-isolated-v7-1m-unsigned-no-password-meta"
+        },
+        "upstreamIdentity": {
+          "cmdlineSha256": "4c4b6221e96f75f22002339b9ce96a5a5aed32d06139beb05ede9e401dbd485b",
+          "creationTime100ns": 134375409362835090,
+          "executable": "C:\\Users\\13997\\.codex\\local-lab\\poc005-windows-openlist-v7-1m\\openlist.exe",
+          "executableSha256": "234ee38f142858ba12d57dd57d181c9ed4a77f952b8420c053e7ab98e3db3172",
+          "nativeCommandLine": "C:\\Users\\13997\\.codex\\local-lab\\poc005-windows-openlist-v7-1m\\openlist.exe server --data C:\\Users\\13997\\.codex\\local-lab\\poc005-windows-openlist-v7-1m\\data",
+          "nativeCommandLineSha256": "bb2f3262e6a59166a7052ec4ed8bea5d9342e2c02beb866c63a0999727dd266a",
+          "nativeProcessId": 35132,
+          "ownerSid": "S-1-5-21-2057438557-2912810365-1850882449-1001"
+        },
+        "origin": "http://127.0.0.1:15534",
+        "scope": "fixture",
+        "gatewayPort": 15634,
+        "readerUsername": "guize-poc005-windows-read-v7",
+        "localRoot": "C:\\Users\\13997\\.codex\\local-lab\\poc005-native-windows-v7-1m\\fixture",
+        "quotaRef": "evidence/POC-005/profiles/local-v1/v1/attempt-010/windows-adapter-quota.json",
+        "quotaSha256": "sha256:7996c3a5146f554d81c7613a026d2f00638e5d3d7c353c3c80790a7edcaad204",
+        "requestLimit": 6000,
+        "periodSeconds": 60,
+        "timeout": 5,
+        "signAll": false,
+        "mountEnableSign": false,
+        "guestDisabled": true,
+        "thumbnail": false,
+        "readOnlyPermission": 256
+      }
+    }
+  ],
+  "methodInventory": [
+    {
+      "file": "poc005_full_execution_assembler_010_v1.py",
+      "bytes": 18454,
+      "sha256": "ab714d17193785e72c82582a3c6353c2cd8bb619c12d12bb4405b21ab857e3af"
+    },
+    {
+      "file": "capture_poc005_attempt010_full_preflight_v3.py",
+      "bytes": 9376,
+      "sha256": "921f25ed470fada7815d4d60ca9d928067cf1afe336b841c16571860eb0437ae"
+    },
+    {
+      "file": "materialize_poc005_attempt010_full_template.py",
+      "bytes": 7726,
+      "sha256": "0811d95c83c42448e923f1004c8f99e31883f3ccb15827f0cdac25c2b3f116bd"
+    },
+    {
+      "file": "prepare_poc005_attempt010_tracked_validation.py",
+      "bytes": 6573,
+      "sha256": "2851db0cbd28f0dcda5b761398f45e9918f6175b8b66fb29024584b79ce456c7"
+    },
+    {
+      "file": "validate_poc005_attempt010_full_execution.py",
+      "bytes": 4315,
+      "sha256": "aca448768ceaed500efc7d6686a8a745065f58c56ccd67304df4915fad8cf923"
+    },
+    {
+      "file": "run_poc005_windows_attempt010_supervised_once.py",
+      "bytes": 4529,
+      "sha256": "e43bafe1e5a3a6d3a3c0a6cd21668704027a17bd5e44c299106f8c7eb1406df5"
+    },
+    {
+      "file": "prepare_poc005_attempt010_full_candidate_once.py",
+      "bytes": 16659,
+      "sha256": "723996e652520c3f500e9aad4a03dff56251c98cee5742ad6bf2366a230ecc33"
+    }
+  ],
+  "methodInventoryRef": "poc005-attempt010-prospective-qualification-methods.json",
+  "methodInventorySha256": "c234ac431cc98f88c471566830e1bd2ebca54e40875773c0e4e878c1a3f2197b",
+  "qualificationMethods": {
+    "assembler": {
+      "sourceFile": "poc005_full_execution_assembler_010_v1.py",
+      "ref": "evidence/POC-005/profiles/local-v1/v1/attempt-010/tools/poc005_full_execution_assembler_010_v1.py",
+      "byteCount": 18454,
+      "sha256": "sha256:ab714d17193785e72c82582a3c6353c2cd8bb619c12d12bb4405b21ab857e3af"
+    },
+    "preflight": {
+      "sourceFile": "capture_poc005_attempt010_full_preflight_v3.py",
+      "ref": "evidence/POC-005/profiles/local-v1/v1/attempt-010/tools/capture_poc005_attempt010_full_preflight_v3.py",
+      "byteCount": 9376,
+      "sha256": "sha256:921f25ed470fada7815d4d60ca9d928067cf1afe336b841c16571860eb0437ae"
+    }
+  },
+  "postExecutionMethods": {
+    "delivery": {
+      "sourceFile": "prepare_poc005_attempt010_tracked_validation.py",
+      "ref": "evidence/POC-005/profiles/local-v1/v1/attempt-010/tools/prepare_poc005_attempt010_tracked_validation.py",
+      "byteCount": 6573,
+      "sha256": "sha256:2851db0cbd28f0dcda5b761398f45e9918f6175b8b66fb29024584b79ce456c7"
+    },
+    "validator": {
+      "sourceFile": "validate_poc005_attempt010_full_execution.py",
+      "ref": "evidence/POC-005/profiles/local-v1/v1/attempt-010/tools/validate_poc005_attempt010_full_execution.py",
+      "byteCount": 4315,
+      "sha256": "sha256:aca448768ceaed500efc7d6686a8a745065f58c56ccd67304df4915fad8cf923"
+    }
+  },
+  "materializer": {
+    "sourceFile": "materialize_poc005_attempt010_full_template.py",
+    "sha256": "sha256:0811d95c83c42448e923f1004c8f99e31883f3ccb15827f0cdac25c2b3f116bd"
+  },
+  "supervisorMethod": {
+    "sourceFile": "run_poc005_windows_attempt010_supervised_once.py",
+    "ref": "run_poc005_windows_attempt010_supervised_once.py",
+    "byteCount": 4529,
+    "sha256": "sha256:e43bafe1e5a3a6d3a3c0a6cd21668704027a17bd5e44c299106f8c7eb1406df5"
+  },
+  "adjacentPublicPreparationRecords": [
+    {
+      "sourceFile": "poc005-attempt010-windows-native-fixture-preparation.json",
+      "ref": "evidence/POC-005/profiles/local-v1/v1/attempt-010/tools/poc005-attempt010-windows-native-fixture-preparation.json",
+      "byteCount": 3213,
+      "sha256": "sha256:14a23d0de9b5bea5fa565b0934649bd13d0758fb0093e15d942da4603926cda3"
+    },
+    {
+      "sourceFile": "poc005-attempt010-windows-openlist-preparation.json",
+      "ref": "evidence/POC-005/profiles/local-v1/v1/attempt-010/tools/poc005-attempt010-windows-openlist-preparation.json",
+      "byteCount": 2065,
+      "sha256": "sha256:ffe0e3b07812ef02f0e899461711ef1003581f0cec9814c0164e7ae04f060357"
+    },
+    {
+      "sourceFile": "poc005-attempt010-resource-preparation-independent-review.json",
+      "ref": "evidence/POC-005/profiles/local-v1/v1/attempt-010/tools/poc005-attempt010-resource-preparation-independent-review.json",
+      "byteCount": 6982,
+      "sha256": "sha256:083f343738907581d99a98f7577293c4363667c9f9be85adf463cb90895d05bf"
+    },
+    {
+      "sourceFile": "poc005-attempt010-resource-preparation-result-independent-review.json",
+      "ref": "evidence/POC-005/profiles/local-v1/v1/attempt-010/tools/poc005-attempt010-resource-preparation-result-independent-review.json",
+      "byteCount": 12660,
+      "sha256": "sha256:92d97f9975a58902dc570581eaac289627067b4f79916624d339283d1357a331"
+    },
+    {
+      "sourceFile": "prepare_poc005_attempt010_tracked_validation.py",
+      "ref": "evidence/POC-005/profiles/local-v1/v1/attempt-010/tools/prepare_poc005_attempt010_tracked_validation.py",
+      "byteCount": 6573,
+      "sha256": "sha256:2851db0cbd28f0dcda5b761398f45e9918f6175b8b66fb29024584b79ce456c7"
+    },
+    {
+      "sourceFile": "validate_poc005_attempt010_full_execution.py",
+      "ref": "evidence/POC-005/profiles/local-v1/v1/attempt-010/tools/validate_poc005_attempt010_full_execution.py",
+      "byteCount": 4315,
+      "sha256": "sha256:aca448768ceaed500efc7d6686a8a745065f58c56ccd67304df4915fad8cf923"
+    },
+    {
+      "sourceFile": "poc005-attempt010-inputs-budget-readonly-assessment.json",
+      "ref": "evidence/POC-005/profiles/local-v1/v1/attempt-010/tools/poc005-attempt010-inputs-budget-readonly-assessment.json",
+      "byteCount": 2349,
+      "sha256": "sha256:04b6a3e296cb40dfa518b2c5b09c5479cd75343b232ff7fce6834f736b9726c8"
+    },
+    {
+      "sourceFile": "poc005-attempt010-continuation-v1-request.json",
+      "ref": "evidence/POC-005/profiles/local-v1/v1/attempt-010/tools/continuation-resource-request.json",
+      "byteCount": 4584,
+      "sha256": "sha256:2d4945240e943af31e3e0cfd8d2381754d819f9dd5ca65633235c0649295cbc2"
+    },
+    {
+      "sourceFile": "poc005-attempt010-continuation-v1-independent-review.json",
+      "ref": "evidence/POC-005/profiles/local-v1/v1/attempt-010/tools/continuation-resource-independent-decision.json",
+      "byteCount": 8562,
+      "sha256": "sha256:f3efad66e54872daa6c1c9589b25406099b00687c5b1253588f0ac17ead89752"
+    },
+    {
+      "sourceFile": "complete_poc005_attempt010_interrupted_fixture_v1_once.py",
+      "ref": "evidence/POC-005/profiles/local-v1/v1/attempt-010/tools/continuation-fixture-method.py",
+      "byteCount": 10759,
+      "sha256": "sha256:6f2cca70a6781a927d6439e2481507be230dc81c6eb02c729f308fe637c37efe"
+    },
+    {
+      "sourceFile": "complete_poc005_attempt010_resources_v1_once.py",
+      "ref": "evidence/POC-005/profiles/local-v1/v1/attempt-010/tools/continuation-resource-wrapper.py",
+      "byteCount": 11381,
+      "sha256": "sha256:2449ffc8db59187c41f428d6f65117970b5344b2d0002ab8057fdc5fa67a0436"
+    },
+    {
+      "sourceFile": "poc005-attempt010-interrupted-names-audit-20261027/results.json",
+      "ref": "evidence/POC-005/profiles/local-v1/v1/attempt-010/tools/interrupted-partial-name-audit.json",
+      "byteCount": 1407,
+      "sha256": "sha256:8d6c675b679bb0248626c44cceeea70fb7b2bd1684ec3e15225073410a10f941"
+    },
+    {
+      "sourceFile": "poc005-attempt010-interrupted-names-audit-20261027/path-inventory.jsonl.gz",
+      "ref": "evidence/POC-005/profiles/local-v1/v1/attempt-010/tools/interrupted-partial-path-inventory.jsonl.gz",
+      "byteCount": 3116381,
+      "sha256": "sha256:e600d1b7cdbcb8864d9044f60f7268979beac02a54e200b1f1130759208cce91"
+    },
+    {
+      "sourceFile": "poc005-attempt010-resource-preparation-run/results.json",
+      "ref": "evidence/POC-005/profiles/local-v1/v1/attempt-010/tools/original-interrupted-resource-run.json",
+      "byteCount": 1304,
+      "sha256": "sha256:a82195529a59b77f741e22cf626df0450d1ac9bd3034c2105b5d4507488e2146"
+    },
+    {
+      "sourceFile": "poc005-attempt010-resource-preparation-run/fixture.raw",
+      "ref": "evidence/POC-005/profiles/local-v1/v1/attempt-010/tools/original-interrupted-fixture.stdout",
+      "byteCount": 1702,
+      "sha256": "sha256:7c9770a7ea3529eede2e6a0f8a11fd99dc71736be946f5c00196a96dac183b21"
+    },
+    {
+      "sourceFile": "poc005-attempt010-resource-completion-v1-run/results.json",
+      "ref": "evidence/POC-005/profiles/local-v1/v1/attempt-010/tools/actual-resource-completion-run.json",
+      "byteCount": 3571,
+      "sha256": "sha256:9f64619b875fdefcd30b5d145db13723e327202707cea6570e88d96604a28c85"
+    },
+    {
+      "sourceFile": "poc005-attempt010-resource-completion-v1-run/fixture.raw",
+      "ref": "evidence/POC-005/profiles/local-v1/v1/attempt-010/tools/actual-completion-fixture.stdout",
+      "byteCount": 5120,
+      "sha256": "sha256:63a686bacd0300d3ccff08167dd7be387656f6426f7978828492b5eab7f947a5"
+    },
+    {
+      "sourceFile": "poc005-attempt010-resource-completion-v1-run/openlist.raw",
+      "ref": "evidence/POC-005/profiles/local-v1/v1/attempt-010/tools/actual-completion-openlist.stdout",
+      "byteCount": 2144,
+      "sha256": "sha256:fc2e81bed94af67f058d724e01a697ea4d9c7cbc30365326a7931962338950b8"
+    }
+  ],
+  "resourcePreparationReview": {
+    "ref": "poc005-attempt010-resource-preparation-result-independent-review.json",
+    "bytes": 12660,
+    "sha256": "sha256:92d97f9975a58902dc570581eaac289627067b4f79916624d339283d1357a331"
+  },
+  "sourceReview": {
+    "ref": "poc005-compressed-output-ed8fbf3-final-source-independent-review.json",
+    "bytes": 21424,
+    "sha256": "sha256:d0949b495b92d3e9715553ce1ac2154a34203eb7780273827d695407bac99648"
+  },
+  "syntheticHierarchySandbox": {
+    "schemaVersion": 1,
+    "scope": "LOCAL_FULL_V1",
+    "resourceId": "RES-METADATA-SCALE",
+    "sandboxId": "poc005-native-windows-v7-1m",
+    "mountId": "openlist-v426-local-v7-1m-id1",
+    "physicalHostId": "windows-hardware-sha256:bec45caf58d1ec4808ed969814e2dcd139d4cefbf751e451814d33a5446fa18e",
+    "controlled": true,
+    "disposable": true,
+    "rootPath": "fixture"
+  },
+  "fixedSevenInputs": {
+    "baseline.jsonl.gz": "ad0e9fc6739de60a4b773437a7a1e7be11ca6f7b8c9cc80388ac6613dd30d388",
+    "profiled.jsonl.gz": "c3dcb34521809b954b0f7862707658ce6d4f60c2c13769db47e75b832c638cd8",
+    "expected-changes.jsonl": "c1eb4e21860fdbb307b28905dffcd9f8a4329e05ef2638ade09690076def56fd",
+    "change-profiles.jsonl": "3324eef3cb42ae32e9e21433f2f60d0070d51291659bf7d5a27b422e5754be74",
+    "updated-probe.bin": "22250e12fcdfd3b338e9fcad5848a7225a8d39646f3d071ab9dac6dfd4fe0b8d",
+    "created-probe.bin": "785b0751fc2c53dc14a4ce3d800e69ef9ce1009eb327ccf458afe09c242c26c9",
+    "baseline-probe.bin": "c8f5d0341d54d951a71b136e6e2afcb14d11ed8489a7ae126a8fee0df6ecf193"
+  },
+  "inputRoot": "evidence/POC-005/profiles/local-v1/v1/inputs-1m-attempt010/",
+  "reviewedChecks": {
+    "actualSourceEd8TreeA744AndCloneTrackedClean": true,
+    "currentOfficialMain": "746e23e582501fa08380c3f3301bdc1774902f7c",
+    "pr136OpenDraftHead": "ed8fbf32783c2600f75de7a69ef56c6f33b4824b",
+    "pr136Base": "746e23e582501fa08380c3f3301bdc1774902f7c",
+    "issue132Open": true,
+    "taskImplementer": "task-owner-agent",
+    "taskReviewer": "independent-review-agent",
+    "agentRole": "implementer",
+    "originalLeaseExpiresAt": "2026-10-29T16:08:44Z",
+    "claimsAndForeignAndProtectedFilesUnchanged": true,
+    "currentSourceTask15AndSameHeadCi868Accepted": true,
+    "ci868TestsPassed": 752,
+    "fixtureActual1000000Files500Directories1792000000PayloadBytesAccepted": true,
+    "twoGzipPhysicalHashesAndStrictDecoded1000500RowsAndRetainedPlainHashesAccepted": true,
+    "fiveControlProbeInputHashesUnchanged": true,
+    "upstreamPid": 35132,
+    "actualUpstreamIdentityFreshMatched": true,
+    "serviceLoopback15534": true,
+    "gateway15634BindFree": true,
+    "readerActualPermission256GuestDisabledSignFalseNoPasswordMetadataAccepted": true,
+    "gatewayMustEnforceFixtureScope": true,
+    "hostCimRawBytes": 2839,
+    "hostCimRawSha256": "sha256:1aa1ba39f759cb870ba4b53f71f4009b6fe67338e8fa369fc5d2231b9e44d3d0",
+    "physicalHostIdMatchesBoundary": true,
+    "allSevenMethodPhysicalPinsAstAndCurrentDeltasReviewed": true,
+    "builderCurrentDeltasOnlyActualBudgetAndElevenFlatContinuationProvenanceReferences": true,
+    "validatorCurrentDeltaOnlyFalseResultFieldTypoCorrection": true,
+    "otherFiveMethodsUnchangedFromPriorAcceptedContent": true,
+    "allTwentyToolsReferencesDistinctAndCurrentByteHashesMatched": true,
+    "candidateAndSevenInputsAndTwoSourceResourceIdsAndThirteenMeasurementIdsBound": true,
+    "plannedActualProfileTwoResourcesAndSampleSchemasPassed": true,
+    "exactApprovalTimeFieldsPassedUnchangedFrozenValidUtcTimestamp": true,
+    "frozenCheckerSha256": "ee53ccf38e80095fd77ded709aa5dba7808d011a6346e864cd1a9f6482be8cc8",
+    "threeScannerExportsExplicitJsonlGz": true,
+    "acceptedProducerMetadataPageStreamsAutomaticSingleMemberGzip": true,
+    "plainControlAndTransportBodiesUnchanged": true,
+    "artifactBudgetBytes": 943718400,
+    "artifactFiles": 20000,
+    "frozenMaximumArtifactBytesUnchanged": 1073741824,
+    "perFileDeliveryBytes": 67108864,
+    "sourceHttpPerPage": 1000,
+    "scannerPageSize": 200,
+    "adapterQuotaRequests": 6000,
+    "adapterQuotaSeconds": 60,
+    "providerQuotaUnknown": true,
+    "original13Mutations3Probes5Faults4AndExistingUnitsUnchanged": true,
+    "completeFrozenValidateExecutionCallUnchanged": true,
+    "postDeliveryDirectParentEd8OnlyOwn010AndSevenInputsRealGitBlobComparisonBundleCleanNoAlternatesContext": true,
+    "inputAttributesTextUnsetFilterUnspecifiedVerified": true,
+    "originalInterruptedRunStillHasUnknownTerminalExit": true,
+    "continuationDecisionF3efAndResourceResult92dCopiedAsSeparateActualProvenance": true,
+    "slotAbsentAtReview": true,
+    "scannerNotReservedAtReview": true,
+    "noReviewerListingRangeProbeScannerOrTests": true
+  },
+  "budgetAssessment": {
+    "ref": "evidence/POC-005/profiles/local-v1/v1/attempt-010/tools/poc005-attempt010-inputs-budget-readonly-assessment.json",
+    "sourceFile": "poc005-attempt010-inputs-budget-readonly-assessment.json",
+    "bytes": 2349,
+    "sha256": "sha256:04b6a3e296cb40dfa518b2c5b09c5479cd75343b232ff7fce6834f736b9726c8",
+    "metadataTopologyProspectivePagesPerTraversal": 1385,
+    "prospectiveTwoTraversalPages": 2770,
+    "prospectiveBaseSourceArtifacts": 11080,
+    "planningExtraArtifacts": 512,
+    "actualOneMillionSourcePagesObserved": false,
+    "actualFutureArtifactBytesMeasured": false,
+    "fitRemainsProspective": true,
+    "limitation": "900MiB/20k is an enforced future ceiling below the unchanged frozen1GiB/20k maximum, not measured proof of fit. Keep all failures and partial raw; no trimming or threshold changes to obtain success."
+  },
+  "allowedPreparationActions": [
+    "Use only the exact reviewed materializer for this exact candidate and decision; copy immutable method/public preparation files, write the approved profile, sample and two resource records mechanically.",
+    "After exact materialization, the exact reviewed supervisor may establish one genuine CREATE_SUSPENDED scanner reservation and actual controller/supervisor chain while waiting. Do not release it, issue source listing/probe requests or treat this template decision as final execution approval.",
+    "Capture actual before-environment through the bound preflight method before final approval. Return all real PID/start/owner/command/thread-state, immutable runtime/resource/profile/sample/method/manifest/controller/before hashes and current source/lease/service facts for a new independent final execution decision."
+  ],
+  "allowedMechanicalFields": [
+    "actual suspended scanner PID, native creation time and process/thread identity",
+    "actual controller and supervisor PID/creation/command identities",
+    "mechanically derived runtime/resource/profile/sample/native-manifest/request/control-file bytes and hashes",
+    "actual before-environment and hostCIM observations",
+    "reservationDeadline reduced to this decision validUntil by the materializer"
+  ],
+  "conditions": [
+    "Every source, immutable input, policy, quota, boundary, profile field, method and candidate byte remains fixed by this decision. Mechanical fields cannot change source, sample tuple, files/counts, output encoding, budget, protocol, collector or reviewer.",
+    "All actual approval times must retain literal canonicalZ. The exact profile, sample and both resource records were schema-checked and checked with the unchanged frozen UTC predicate before this decision.",
+    "This2hour template validity is not an execution window or duration approval. A new prospective finite window for the actual stopped PID and current resource identities must fit within validity and be independently approved before release.",
+    "Keep the actual original interrupted run without a fabricated exitCode. Old expired083f did not authorize the fresh completion; retain original raw, newf3ef continuation decision, actual successful waits and92d resource acceptance separately.",
+    "Only local controlled1m synthetic metadata/source behavior is in scope.6000/60s is controlled-adapter quota, not provider production quota. Source throughput and scanner throughput remain separate; Windows scanner peak is not host/service-wide memory.",
+    "Original13,7inputs,3mutations,5probes including complete416body,4faults, actual QPC/clock checks, native counters, real waits, raw bytes and security remain required. No clock/guard/limit bypass, fabricated measurements or old qualification transfer.",
+    "Before final execution approval independently recheck suspended single initial thread, no DB/output, exact source/main/Task lease/claims, actual service PID/owner/listener, all bindingFiles and no concurrent ATS/media benchmark load.",
+    "After an actually completed execution, use only the exact approved assembler and prospective direct-parented8 Own010 evidence-delivery/clean-clone complete frozen validation plan. Assembly/schema acceptance alone is not qualification.",
+    "No Ready, publication, merge, profile terminal index, Task completion, production700TB/provider scope or fullV1 acceptance is granted."
+  ],
+  "postRunPlan": {
+    "testedSource": {
+      "commit": "ed8fbf32783c2600f75de7a69ef56c6f33b4824b",
+      "tree": "a74434e6a062f03207244b0a3a8cbd037a0dfe47"
+    },
+    "sourceCodeChanges": false,
+    "allowedDeliveryPaths": [
+      "evidence/POC-005/profiles/local-v1/v1/attempt-010/**",
+      "evidence/POC-005/profiles/local-v1/v1/inputs-1m-attempt010/baseline-probe.bin",
+      "evidence/POC-005/profiles/local-v1/v1/inputs-1m-attempt010/baseline.jsonl.gz",
+      "evidence/POC-005/profiles/local-v1/v1/inputs-1m-attempt010/change-profiles.jsonl",
+      "evidence/POC-005/profiles/local-v1/v1/inputs-1m-attempt010/created-probe.bin",
+      "evidence/POC-005/profiles/local-v1/v1/inputs-1m-attempt010/expected-changes.jsonl",
+      "evidence/POC-005/profiles/local-v1/v1/inputs-1m-attempt010/profiled.jsonl.gz",
+      "evidence/POC-005/profiles/local-v1/v1/inputs-1m-attempt010/updated-probe.bin"
+    ],
+    "bytePreservation": "Write exact29-byte attempt010/.gitattributes: * -text whitespace=cr-at-eol followed by LF. Use per-call core.autocrlf=false and core.longpaths=true; require new inputs text:unset/filter:unspecified and compare every staged Git blob with actual bytes before commit.",
+    "records": "Stage all seven currently untracked inputs at exact additionalRequiredInputs paths with complete Own010 selected raw, profile/resource/sample approvals, actual control records, methods and journals. Exclude physical input/structured aliases from raw lists. Retain all original local DBs outside Git; inventory exact staged paths.",
+    "validation": "Create an actual metadata-only evidence delivery commit with direct parent ed8fbf32783c2600f75de7a69ef56c6f33b4824b, export its bundle to a clean clone, and run complete frozen validate_execution with actual Task reviewer, schemas/defs/catalog and execution ref. Every referenced input/raw/record must be tracked and not ignored. Do not alter source Task/Active/Program or equate an untracked context with the tested source.",
+    "terminal": "Local1m qualification is separate from independent formal results/profile terminal index/Task completion and original production/provider scope.",
+    "additionalRequiredInputs": {
+      "root": "evidence/POC-005/profiles/local-v1/v1/inputs-1m-attempt010/",
+      "names": [
+        "baseline-probe.bin",
+        "baseline.jsonl.gz",
+        "change-profiles.jsonl",
+        "created-probe.bin",
+        "expected-changes.jsonl",
+        "profiled.jsonl.gz",
+        "updated-probe.bin"
+      ]
+    },
+    "perFileCapBytes": 67108864,
+    "note1m": "Only Own010 and seven new inputs; retain all DBs. Explicit gzip for3scanner exports and automatic producer profilepages, with unchanged64MiB perfile guard. Whole source artifact budget900MiB stays below frozen1GiB/20k. Fit is prospective until actual full1m raw accounting; no data trimmed."
+  },
+  "resourceWindowApprovedForExecution": false,
+  "pidReleaseApproved": false,
+  "scale1mAccepted": false,
+  "profileTerminalIndexAccepted": false,
+  "readyApproved": false,
+  "mergeApproved": false,
+  "taskCompleted": false,
+  "fullV1Completed": false,
+  "reviewerExecutedResourceOrScannerMethods": false,
+  "reviewerModifiedAuthor": false
+}

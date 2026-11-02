@@ -1,0 +1,27 @@
+{
+  "reviewer": "/root/gz022_planning_independent_review",
+  "reviewedAt": "2026-10-22T21:20:21Z",
+  "decision": "source rejected: one outdated equivalent-offset negative test",
+  "source": "38f2a7bd575b850c43143ba7d31c6cf223b89d7c",
+  "tree": "6f3ecb5bd7461dc83d016acb8c1c9a8ea1a006be",
+  "parent": "4b12002397fc05afdf575b03cdf9fe915baf4f58",
+  "taskCommandsPassed": 15,
+  "nativeCodeTestsRun": 91,
+  "codeExitCode": 1,
+  "codeSeconds": 32.215,
+  "noSkippedTests": true,
+  "mustFix": [
+    "Replace equivalent+00:00 negative fixture with real1ns difference, keep strict rejection, add full equivalent+08:00 population positive case."
+  ],
+  "changedPaths": 353,
+  "historicalArchives": 17,
+  "indexedHistoricalFiles": 212,
+  "selectedSlotFilesByteExact": 69,
+  "originalWorkingDatabasesPreserved": 4,
+  "resultsBytes": 7576,
+  "resultsSha256": "29529efc984c19735c8aca525e27efbfc451d3665a9f2b1ce2a18b5422cd771f",
+  "codeRawBytes": 17019,
+  "codeRawSha256": "5cb2dd8163d914a752220a514099499d7ffdf12595eb650514e909ae86ef1aff",
+  "experimentApproved": false,
+  "qualificationAccepted": false
+}

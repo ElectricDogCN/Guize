@@ -1,0 +1,19 @@
+{
+  "kind": "development test failure, not a POC experiment",
+  "sourceBase": "f8ed3e8d740c1a90e1432df6a6e2ec6617daabf8",
+  "command": "C:/ProgramData/anaconda3/python.exe -X utf8 -B -m unittest discover -s poc/POC-05-metadata-scale -p test_openlist_listing.py -v",
+  "actualTests": 11,
+  "actualErrors": 6,
+  "seconds": 5.912,
+  "exitCode": 1,
+  "rawRetained": false,
+  "diagnosis": "Tests used with sqlite3.connect as db, which commits/rolls back but does not close the connection. Windows temporary directory cleanup failed with WinError32 on test-created SQLite files. Production walk already closes its own connection in finally.",
+  "repair": "Test observations use contextlib.closing(sqlite3.connect(...)); no assertion removed or weakened.",
+  "rerun": {
+    "tests": 11,
+    "seconds": 6.222,
+    "exitCode": 0,
+    "noSkipped": true
+  },
+  "experimentExecuted": false
+}

@@ -1,0 +1,169 @@
+{
+  "schemaVersion": 1,
+  "kind": "independent_actual_poc005_attempt007_resource_preparation_result_acceptance",
+  "reviewer": "independent-review-agent",
+  "actor": "/root/gz022_planning_independent_review",
+  "reviewedAt": "2026-10-25T22:11:48.907025+00:00",
+  "mustFix": [],
+  "resourcePreparationAccepted": true,
+  "fixturePreparationFactsAccepted": true,
+  "newIdleServicePreparationFactsAccepted": true,
+  "source": "8f7c9a5ed3f598d40f6e34bb12151a67b3f5d8e1",
+  "base": "746e23e582501fa08380c3f3301bdc1774902f7c",
+  "tree": "ef65e23a18b01bd73f16a128e0991d55817a5a36",
+  "preparationReviewSha256": "4c088362f8331434191e227554016c2f50c3bcc3e0da075b9c3a10c52a71d519",
+  "requestSha256": "475402d5a2c70c1471d048ed6fb61a41d76ffb7dbe2169215196d8dc7856f185",
+  "startedAt": "2026-10-25T22:08:18.298073+00:00",
+  "completedAt": "2026-10-25T22:09:03.332049+00:00",
+  "actualSeconds": 45.033976,
+  "actualPreparers": [
+    {
+      "pid": 104196,
+      "argv": [
+        "C:\\ProgramData\\anaconda3\\python.exe",
+        "-X",
+        "utf8",
+        "-B",
+        "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\prepare_poc005_attempt007_windows_fixture_once.py",
+        "--source-review",
+        "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc005-completion-main-sync-8f7c9a5-final-source-independent-review.json"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true,
+      "methodSha256": "f9d3c40988970239527a276f9e1a1566d8bc0fcdcb1825ce46ae7abfc2ff8ff1",
+      "rawBytes": 1689,
+      "rawSha256": "b35e207e58f0afabec62f28a927c88f10268782c0d8e239462b8a28ebcb38c29"
+    },
+    {
+      "pid": 10620,
+      "argv": [
+        "C:\\ProgramData\\anaconda3\\python.exe",
+        "-X",
+        "utf8",
+        "-B",
+        "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\prepare_poc005_attempt007_windows_openlist_once.py",
+        "--source-review",
+        "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc005-completion-main-sync-8f7c9a5-final-source-independent-review.json"
+      ],
+      "exitCode": 0,
+      "waitCompleted": true,
+      "methodSha256": "423fcd0f6d4961fa8ec207f5f7e18d1a4b1823d47dc365f677de82bb942277a3",
+      "rawBytes": 2035,
+      "rawSha256": "ead9f5f1dbb73692f963990fa1ae4d385488f0275707f76b4a5f78d9955ac687"
+    }
+  ],
+  "fixture": {
+    "files": 10000,
+    "directories": 500,
+    "payloadBytes": 17920000,
+    "payloadMap": {
+      "ref": "C:\\Users\\13997\\.codex\\local-lab\\poc005-native-windows-v4\\payloads.jsonl",
+      "bytes": 3326029,
+      "sha256": "459f5dddf9291f913ce1b696194ec8c70da1dbf8d27f21edc3f69b66e0d1db3d"
+    },
+    "sevenInputHashes": {
+      "baseline.jsonl": "5dc45ba589f8816b0f232e7a37ac54f6f5e6bc5050415ed98cf19671e0afa3f1",
+      "profiled.jsonl": "2fd43a93e15b2854c02f20d78d08986c690726ac3c100513bb9e8560c5846784",
+      "expected-changes.jsonl": "c1eb4e21860fdbb307b28905dffcd9f8a4329e05ef2638ade09690076def56fd",
+      "change-profiles.jsonl": "3324eef3cb42ae32e9e21433f2f60d0070d51291659bf7d5a27b422e5754be74",
+      "updated-probe.bin": "22250e12fcdfd3b338e9fcad5848a7225a8d39646f3d071ab9dac6dfd4fe0b8d",
+      "created-probe.bin": "785b0751fc2c53dc14a4ce3d800e69ef9ce1009eb327ccf458afe09c242c26c9",
+      "baseline-probe.bin": "c8f5d0341d54d951a71b136e6e2afcb14d11ed8489a7ae126a8fee0df6ecf193"
+    },
+    "actualApprovedMethodRereadEveryPayloadMtimeAndFullPathset": true,
+    "reviewerVerifiedPayloadMapCountTotalsAndDigest": true
+  },
+  "service": {
+    "identity": {
+      "cmdlineSha256": "cfb34639a4f6b20e8cd606643dce625b404b8068f3403352980aec8ee08ae0da",
+      "creationTime100ns": 134374397418999545,
+      "executable": "C:\\Users\\13997\\.codex\\local-lab\\poc005-windows-openlist-v4\\openlist.exe",
+      "executableSha256": "234ee38f142858ba12d57dd57d181c9ed4a77f952b8420c053e7ab98e3db3172",
+      "nativeCommandLine": "C:\\Users\\13997\\.codex\\local-lab\\poc005-windows-openlist-v4\\openlist.exe server --data C:\\Users\\13997\\.codex\\local-lab\\poc005-windows-openlist-v4\\data",
+      "nativeCommandLineSha256": "e9ed6b3f2d931c3da3408c1d35e757d5b3db775a50d387e296822c474b459e26",
+      "nativeProcessId": 165048,
+      "ownerSid": "S-1-5-21-2057438557-2912810365-1850882449-1001"
+    },
+    "identityIndependentlyRereadMatches": true,
+    "actualListener": {
+      "address": "127.0.0.1",
+      "port": 15531,
+      "owningProcess": 165048
+    },
+    "actualConfigurationLoopbackAndOtherS3FtpSftpMcpDisabled": true,
+    "readonlyDatabaseMetaCount": 0,
+    "actualGuestDisabled": true,
+    "actualReaderPermission": 256,
+    "actualReaderBasePath": "/poc005-windows-v4",
+    "readerCredentialAclOwnerOnlyInherited": true,
+    "reviewerReadCredentialValues": false
+  },
+  "evidence": [
+    {
+      "ref": "poc005-attempt007-resource-preparation-request.json",
+      "bytes": 2600,
+      "sha256": "475402d5a2c70c1471d048ed6fb61a41d76ffb7dbe2169215196d8dc7856f185"
+    },
+    {
+      "ref": "poc005-attempt007-resource-preparation-independent-review.json",
+      "bytes": 5435,
+      "sha256": "4c088362f8331434191e227554016c2f50c3bcc3e0da075b9c3a10c52a71d519"
+    },
+    {
+      "ref": "poc005-attempt007-resource-preparation-run/results.json",
+      "bytes": 3501,
+      "sha256": "06ad153555b980805d2a4a8fa41a540c37ed3667f303becfd08174b3ab9dd492"
+    },
+    {
+      "ref": "poc005-attempt007-resource-preparation-run/fixture.raw",
+      "bytes": 1689,
+      "sha256": "b35e207e58f0afabec62f28a927c88f10268782c0d8e239462b8a28ebcb38c29"
+    },
+    {
+      "ref": "poc005-attempt007-resource-preparation-run/openlist.raw",
+      "bytes": 2035,
+      "sha256": "ead9f5f1dbb73692f963990fa1ae4d385488f0275707f76b4a5f78d9955ac687"
+    },
+    {
+      "ref": "poc005-attempt007-windows-native-fixture-preparation.json",
+      "bytes": 1790,
+      "sha256": "58ca6db118adebc5920d9abbbe80ca3be6b626260c1b92245a1938cf1ca7bd78"
+    },
+    {
+      "ref": "poc005-attempt007-windows-openlist-preparation.json",
+      "bytes": 1960,
+      "sha256": "829c7da90487d97cf56e1a28966d6cd60313d334455e279f5ffd9ae86f86caf8"
+    },
+    {
+      "ref": "poc005-attempt007-windows-openlist-started.json",
+      "bytes": 875,
+      "sha256": "ae2b656ac1bd9f2256ec5cac267d74d1fc8bc499cde25161ff4d033f145f4009"
+    }
+  ],
+  "checks": {
+    "actualPreparationWithinOriginalDecisionWindowAnd600Seconds": true,
+    "bothExactApprovedMethodHashesRawExitsWaitsVerified": true,
+    "source8fAndOld4161UntrackedPathsetRetained": true,
+    "actualServiceIdentityExecutableHashBirthTimeAndCmdlineVerified": true,
+    "publicStartedAndFinalServiceIdentityMatch": true,
+    "actualNoNewExperimentalAuthorityClaimed": true
+  },
+  "nextAllowedPreparation": "Prepare a new explicitly UNAPPROVED full attempt007 template that binds these actual prepared fixtures, idle service identity, current source and previously reviewed forward methods. Actual full-template/sample/resource/execution decisions remain separate.",
+  "boundaries": [
+    "This accepts actual preparation facts, not the full-template or final qualified resource descriptors. Service remains idle; before any future execution it must be rechecked against its bound identity/configuration and new resource window.",
+    "All-payload/mTime/pathset reread is established by the exact approved executed fixture method and its actual exit0; this reviewer independently verified the resulting payload-map digest/count/totals and fixed7input hashes, without rerunning the preparation workload.",
+    "No source fs/list, Range/probe/scanner reservation or workload was executed by this reviewer. The preparations and original public records retain approved=false/experimentApproved=false/qualificationAccepted=false as appropriate."
+  ],
+  "fullTemplateApproved": false,
+  "finalResourceDescriptorsApproved": false,
+  "scannerReservationApproved": false,
+  "finalExecutionApproved": false,
+  "experimentApproved": false,
+  "qualificationAccepted": false,
+  "original13QualificationAccepted": false,
+  "readyApproved": false,
+  "mergeApproved": false,
+  "fullV1Completed": false,
+  "reviewerPerformedPreparation": false,
+  "reviewerModifiedAuthor": false
+}

@@ -1,0 +1,27 @@
+{
+  "observedAt": "2026-10-22T21:13:08.776369+00:00",
+  "sourceBase": "4b12002397fc05afdf575b03cdf9fe915baf4f58",
+  "uncommitted": true,
+  "argv": [
+    "C:\\ProgramData\\anaconda3\\python.exe",
+    "-X",
+    "utf8",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "poc/POC-05-metadata-scale",
+    "-p",
+    "test_openlist_listing.py",
+    "-v"
+  ],
+  "exitCode": 0,
+  "raw": "poc005-timestamp-green.raw",
+  "bytes": 2479,
+  "sha256": "3185e3c7d70f93c5cb77db2d5054573c5082e4d0f305fd4ec5d9d2fdd8c12381",
+  "files": {
+    "openlist_listing.py": "0fcf119b1c75f726788d15d1b889dd8274019be066daaf582a3e1849836cd7f3",
+    "test_openlist_listing.py": "5284ebdd3c2624532cb8118f059d8f4becfd1a2db9b726fd042c0fdcbdf064d4"
+  }
+}

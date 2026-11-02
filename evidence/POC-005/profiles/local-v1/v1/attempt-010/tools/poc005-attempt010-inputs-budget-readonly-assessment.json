@@ -1,0 +1,59 @@
+{
+  "kind": "actual_completed_input_metadata_analysis_not_filesystem_or_scan_result",
+  "observedAt": "2026-10-26T08:45:10.510080Z",
+  "source": "ed8fbf32783c2600f75de7a69ef56c6f33b4824b",
+  "inputs": {
+    "baseline.jsonl.gz": {
+      "decodedBytes": 88838725,
+      "records": 1000500,
+      "bytes": 3493791,
+      "sha256": "ad0e9fc6739de60a4b773437a7a1e7be11ca6f7b8c9cc80388ac6613dd30d388"
+    },
+    "profiled.jsonl.gz": {
+      "decodedBytes": 364552802,
+      "records": 1000500,
+      "bytes": 17226010,
+      "sha256": "c3dcb34521809b954b0f7862707658ce6d4f60c2c13769db47e75b832c638cd8"
+    }
+  },
+  "metadataKinds": {
+    "directory": 500,
+    "file": 1000000
+  },
+  "metadataPayloadBytes": 1792000000,
+  "metadataMaximumDepth": 12,
+  "directoryNodesIncludingRoot": 501,
+  "maximumImmediateChildren": 2273,
+  "prospectiveSourcePerPage": 1000,
+  "prospectivePagesPerFullTraversal": 1385,
+  "prospectiveTwoTraversalPages": 2770,
+  "prospectiveBaseSourceArtifacts": 11080,
+  "planningExtraArtifactAllowance": 512,
+  "plannedSourceArtifactCapFiles": 20000,
+  "plannedSourceArtifactCapBytes": 943718400,
+  "frozenArtifactCapBytesUnchanged": 1073741824,
+  "unchangedDeliveryPerFileCapBytes": 67108864,
+  "topologyArtifactCountPlanningFits": true,
+  "previous009BudgetAssessment": {
+    "ref": "poc005-attempt009-output-budget-next-scale-readonly-assessment.json",
+    "bytes": 1815,
+    "sha256": "ce7aaa209800c56651f0d6099bd02f2fbb9d8d58bc2a4ceff511ac3787aa6339"
+  },
+  "previous009SelectedRawBytes": 177845732,
+  "hypotheticalTenfoldProfileCompressionEstimateBytes": 730349900,
+  "inputsPhysicallyUnchanged": true,
+  "filesystemInventoryObserved": false,
+  "sourceApiContacted": false,
+  "sourcePagesActuallyObserved": false,
+  "fixturePreparationCompleted": false,
+  "newArtifactBytesMeasured": false,
+  "fullTemplateApproved": false,
+  "experimentApproved": false,
+  "qualificationAccepted": false,
+  "limitations": [
+    "counts derive from generated metadata, not actual filesystem inventory",
+    "page arithmetic assumes stable complete OpenList totals and no faults; actual traversal still required",
+    "4artifacts/page derives from current producer; extra512 is planning allowance, not measurement",
+    "old009 byte projection is only an estimate; current1m source/output physical budgets must be enforced and later measured"
+  ]
+}

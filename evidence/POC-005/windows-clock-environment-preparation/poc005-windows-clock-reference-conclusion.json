@@ -1,0 +1,15 @@
+{
+  "rawRef": ".takeover-tools\\poc005-windows-clock-reference.jsonl",
+  "bytes": 12043,
+  "sha256": "32bae9a08d9adda67d0aac057506f6d87da0b6fa9533c9daa946135d262988a3",
+  "samples": 61,
+  "wallSeconds": 59.9998258,
+  "monotonicSeconds": 60.0,
+  "qpcSeconds": 59.9993804,
+  "unbiasedInterruptSeconds": 59.9998258,
+  "minWallMonotonicResidualNs": -11023300,
+  "maxWallMonotonicResidualNs": 3303600,
+  "maxBracketNs": 0,
+  "exitCode": 0,
+  "qualificationAccepted": false
+}

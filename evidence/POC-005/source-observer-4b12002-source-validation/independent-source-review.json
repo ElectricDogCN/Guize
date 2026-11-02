@@ -1,0 +1,23 @@
+{
+  "reviewer": "/root/gz022_planning_independent_review",
+  "reviewedAt": "2026-10-22T20:46:47Z",
+  "decision": "accepted exact committed source, scope and byte-bound evidence only",
+  "source": "4b12002397fc05afdf575b03cdf9fe915baf4f58",
+  "tree": "93cd1d6e6523566034013c683991513beb8b2379",
+  "parent": "5c3bcd11818c862b27876919925547808a062bc5",
+  "base": "f2e0150265e0c1eeca5f69fe85708b2434e5ee79",
+  "taskCommandsPassed": 15,
+  "nativeCodeTestsPassed": 90,
+  "nativeCodeSeconds": 32.231,
+  "noSkippedTests": true,
+  "changedPaths": 256,
+  "historicalArchives": 16,
+  "indexedHistoricalFiles": 194,
+  "resultsBytes": 7782,
+  "resultsSha256": "32f61d1414e3ba7bb2f7e21029f64b830062ebc0004a7fd14478a68995e70048",
+  "mustFix": [],
+  "actualOpenListAccessed": false,
+  "experimentApproved": false,
+  "qualificationAccepted": false,
+  "integrationAccepted": false
+}

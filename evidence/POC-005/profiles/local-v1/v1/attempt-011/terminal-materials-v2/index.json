@@ -1,0 +1,202 @@
+{
+  "kind": "PROFILE_PREFIX_ONLY_SUCCESSOR_WITH_PRESERVED_NEGATIVE_BFF_HISTORY",
+  "parent": "8aa353c42c98aa62d147d0d3295b836f021537d6",
+  "originalFailedHead": "bff619272ec770969804f0f853cf87a3ddc85c68",
+  "originalFailedAuthorPreserved": true,
+  "failedFormalActualExitCode": 1,
+  "originalReportPin": {
+    "bytes": 7239,
+    "sha256": "d4cba29a9c48cb0ef316e88ce4486334d99a77423cac6538bf8c93a0a6bb1942"
+  },
+  "currentReport": "report-v3.md",
+  "currentReportPin": {
+    "bytes": 7179,
+    "sha256": "175da4be73f09ffcb854675091db8ef6f86428e1ebe042f91d289988939dfd43"
+  },
+  "reportChange": "Only the two Markdown targets beginning profiles/local-v1/v1/attempt-011/ become ../; business text unchanged.",
+  "failedHistoryArchive": "failed-bff-context.zip",
+  "failedHistoryArchivePin": {
+    "bytes": 170578,
+    "sha256": "08265b456913c815bac0a4280e4295542318e1cba613d6a30530db78493779b5"
+  },
+  "failedHistoryEntries": [
+    {
+      "ref": "bff-delta/evidence/POC-005/commands.txt",
+      "bytes": 4847,
+      "sha256": "7213ca504696c30b18fd213baaed8b91aabb6671976f3e57a871eeb6ffd650c3",
+      "origin": "Exact committed bff blob"
+    },
+    {
+      "ref": "bff-delta/evidence/POC-005/handoff.md",
+      "bytes": 28299,
+      "sha256": "1461d841034fa787b8062989f4a262dd4971ff8962595f5352efd0950bc9bb3c",
+      "origin": "Exact committed bff blob"
+    },
+    {
+      "ref": "bff-delta/evidence/POC-005/local-v1-exit-decision-attempt011-v1/.gitattributes",
+      "bytes": 29,
+      "sha256": "730a35ae3d558080083c3103d9ac8100c3f6561678092abe341701dfa331eb1d",
+      "origin": "Exact committed bff blob"
+    },
+    {
+      "ref": "bff-delta/evidence/POC-005/local-v1-exit-decision-attempt011-v1/approved-exit-review.json",
+      "bytes": 9281,
+      "sha256": "184edc445493767cd26c1582788c6576a5eae9363689abdfd2a778fa04d0e6ad",
+      "origin": "Exact committed bff blob"
+    },
+    {
+      "ref": "bff-delta/evidence/POC-005/local-v1-exit-decision-attempt011-v1/candidate-materialization.py",
+      "bytes": 8444,
+      "sha256": "a9d3970a424d8cfebd7d73f827679516b7d2edcd49096a7300cb19351f4f118b",
+      "origin": "Exact committed bff blob"
+    },
+    {
+      "ref": "bff-delta/evidence/POC-005/local-v1-exit-decision-attempt011-v1/negative-report-v1-review.json",
+      "bytes": 3097,
+      "sha256": "d30c1e7d23484be5f71e56e995d5f17250b452bd7392be4edb272a664d67dff7",
+      "origin": "Exact committed bff blob"
+    },
+    {
+      "ref": "bff-delta/evidence/POC-005/local-v1-exit-decision-attempt011-v1/report-candidate-v2.json",
+      "bytes": 1651,
+      "sha256": "fd07a6ceacd25b7513b12f669c0b5b979c0c89b684ab4f4e0e8bd9a175313d0d",
+      "origin": "Exact committed bff blob"
+    },
+    {
+      "ref": "bff-delta/evidence/POC-005/local-v1-exit-decision-attempt011-v1/report-correction-v2.py",
+      "bytes": 4153,
+      "sha256": "75cda6c4736e0e94a3492c4d7ac0879d075f067fa49ac911f8b90a4dd5042477",
+      "origin": "Exact committed bff blob"
+    },
+    {
+      "ref": "bff-delta/evidence/POC-005/local-v1-scale-exit-report-attempt011-v1.md",
+      "bytes": 6125,
+      "sha256": "c453151a6d475c9e171e33a608271dc2768e52d2a763cc7ddc79fc399e88279a",
+      "origin": "Exact committed bff blob"
+    },
+    {
+      "ref": "bff-delta/evidence/POC-005/local-v1-scale-exit-report-attempt011-v2.md",
+      "bytes": 7239,
+      "sha256": "d4cba29a9c48cb0ef316e88ce4486334d99a77423cac6538bf8c93a0a6bb1942",
+      "origin": "Exact committed bff blob"
+    },
+    {
+      "ref": "bff-delta/evidence/POC-005/profiles/local-v1/v1/attempt-011/result.json",
+      "bytes": 974,
+      "sha256": "256f903851caae98454bd4fa288cdef6800da07dedf7bc72e9dfed6a266eb1d3",
+      "origin": "Exact committed bff blob"
+    },
+    {
+      "ref": "bff-delta/evidence/POC-005/profiles/local-v1/v1/index.yaml",
+      "bytes": 303,
+      "sha256": "d49beaabebfee037938395f3a6913776bb070d8a910c2fe1f7bbbaddd7f7d76f",
+      "origin": "Exact committed bff blob"
+    },
+    {
+      "ref": "bff-delta/evidence/POC-005/qualified-local-1m-attempt011-v1/artifacts.zip",
+      "bytes": 165380,
+      "sha256": "6944ccd0276b3fbce2f76ed182798f3368488e328150fde5ccac28a17c6c3748",
+      "origin": "Exact committed bff blob"
+    },
+    {
+      "ref": "bff-delta/evidence/POC-005/qualified-local-1m-attempt011-v1/index-v2.json",
+      "bytes": 1278,
+      "sha256": "30f3582b21d3405d2c575a3d7c6cb60308fe14a981c71fded72ef1cced2c32df",
+      "origin": "Exact committed bff blob"
+    },
+    {
+      "ref": "bff-delta/evidence/POC-005/qualified-local-1m-attempt011-v1/index.json",
+      "bytes": 10676,
+      "sha256": "1e681268f095257201518666ee14db0241bc286447780e74c4196a1b3b5c5041",
+      "origin": "Exact committed bff blob"
+    },
+    {
+      "ref": "bff-delta/evidence/POC-005/qualified-local-1m-attempt011-v1/observed-directory-fanout-derivation.py",
+      "bytes": 3573,
+      "sha256": "41ed04a2bdad2cf7e3c3356691b1f69dfb9ea56f3e09d417c006b3f1a6a08b47",
+      "origin": "Exact committed bff blob"
+    },
+    {
+      "ref": "bff-delta/evidence/POC-005/qualified-local-1m-attempt011-v1/observed-directory-fanout.json",
+      "bytes": 81373,
+      "sha256": "fcffdacfdb00758b330d0dfcc75ddc81de2d88f59573345024933780dc785bc2",
+      "origin": "Exact committed bff blob"
+    },
+    {
+      "ref": "bff-delta/evidence/POC-005/summary.md",
+      "bytes": 22818,
+      "sha256": "7e52bbea8638bed9b5b9355147f4a3a30e95294e1b0de6b081dbb9bd233a748b",
+      "origin": "Exact committed bff blob"
+    },
+    {
+      "ref": "bff-delta/specs/tasks/POC-005.md",
+      "bytes": 43203,
+      "sha256": "659c06b876d228e15988b36b11fdea5a8fca687d575e339fa8577791c8355533",
+      "origin": "Exact committed bff blob"
+    },
+    {
+      "ref": "formal-profile-v1/auxiliary-progress-field-note.json",
+      "bytes": 722,
+      "sha256": "a258eea2f9afdbeb0d5aa16938903efbdbdcb621aaad9a0d68accdfba06b0161",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc005-attempt011-formal-profile-linux-v1\\auxiliary-progress-field-note.json"
+    },
+    {
+      "ref": "formal-profile-v1/clone.stderr.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc005-attempt011-formal-profile-linux-v1\\clone.stderr.raw"
+    },
+    {
+      "ref": "formal-profile-v1/clone.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc005-attempt011-formal-profile-linux-v1\\clone.stdout.raw"
+    },
+    {
+      "ref": "formal-profile-v1/formal-profile.raw",
+      "bytes": 403,
+      "sha256": "423d0c1674d01e7733db66227bda454d33af93632a2f48f9fac48d235be7719f",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc005-attempt011-formal-profile-linux-v1\\formal-profile.raw"
+    },
+    {
+      "ref": "formal-profile-v1/method.actual.py",
+      "bytes": 4513,
+      "sha256": "62baf6f49f87c56329ddd44552d3f3e714b0485bdb2287545985bf255e2037a7",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc005-attempt011-formal-profile-linux-v1\\method.actual.py"
+    },
+    {
+      "ref": "formal-profile-v1/progress.json",
+      "bytes": 940,
+      "sha256": "77530e2698d0dae77250702e8914505c2c66fc8f46944b344f65c2b3f7636b69",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc005-attempt011-formal-profile-linux-v1\\progress.json"
+    },
+    {
+      "ref": "formal-profile-v1/results.json",
+      "bytes": 1589,
+      "sha256": "226e8a1359cef650071915e6cb395b87ba0482aa9ababaf91c005b98317e2562",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc005-attempt011-formal-profile-linux-v1\\results.json"
+    },
+    {
+      "ref": "independent-negative.json",
+      "bytes": 8855,
+      "sha256": "c217d1e3578a61c88e4b1d860cba489aa974b341219ad1a11a6ca5be7d74757c",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc005-attempt011-formal-profile-v1-negative-independent-review.json"
+    },
+    {
+      "ref": "profile-prefix-preparation-v2/poc005-attempt011-profile-prefix-preparation-v2-negative.json",
+      "bytes": 898,
+      "sha256": "340a29510de2cf8d9cdd83a48b3aedf10756877f17afb6e391f29610ed638dc5",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc005-attempt011-profile-prefix-preparation-v2-negative.json"
+    },
+    {
+      "ref": "profile-prefix-preparation-v2/prepare_poc005_attempt011_profile_prefix_context_v2_once.py",
+      "bytes": 10136,
+      "sha256": "99f2f3f457675a247b676dc666dcc99d2145cd99c3d104b6463c81381cc79a99",
+      "origin": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\prepare_poc005_attempt011_profile_prefix_context_v2_once.py"
+    }
+  ],
+  "qualifiedFilesRelocation": "Byte-exact historical qualification/fanout records copied under this profile-local directory; their old root refs remain historical attribution.",
+  "taskAndRootConventionalEvidenceChanged": false,
+  "formalProfileValidated": false,
+  "reportRelocationIndependentlyAccepted": false
+}

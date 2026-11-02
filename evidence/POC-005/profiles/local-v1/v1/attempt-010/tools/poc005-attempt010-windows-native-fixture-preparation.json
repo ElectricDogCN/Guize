@@ -1,0 +1,63 @@
+{
+  "kind": "candidate_native_windows_1m_filesystem_preparation_after_reviewed_interruption_completion",
+  "source": "ed8fbf32783c2600f75de7a69ef56c6f33b4824b",
+  "sourceReviewSha256": "d0949b495b92d3e9715553ce1ac2154a34203eb7780273827d695407bac99648",
+  "continuationReviewSha256": "f3efad66e54872daa6c1c9589b25406099b00687c5b1253588f0ac17ead89752",
+  "partialNameAuditSha256": "8d6c675b679bb0248626c44cceeea70fb7b2bd1684ec3e15225073410a10f941",
+  "startedAt": "2026-10-27T02:06:35.922574Z",
+  "completedAt": "2026-10-27T02:15:32.660623Z",
+  "preparationProcessId": 41092,
+  "filesystemRoot": "C:\\Users\\13997\\.codex\\local-lab\\poc005-native-windows-v7-1m\\fixture",
+  "storageRoot": "C:\\Users\\13997\\.codex\\local-lab\\poc005-native-windows-v7-1m",
+  "inputRoot": "evidence/POC-005/profiles/local-v1/v1/inputs-1m-attempt010",
+  "inputs": {
+    "baseline.jsonl.gz": "ad0e9fc6739de60a4b773437a7a1e7be11ca6f7b8c9cc80388ac6613dd30d388",
+    "profiled.jsonl.gz": "c3dcb34521809b954b0f7862707658ce6d4f60c2c13769db47e75b832c638cd8",
+    "expected-changes.jsonl": "c1eb4e21860fdbb307b28905dffcd9f8a4329e05ef2638ade09690076def56fd",
+    "change-profiles.jsonl": "3324eef3cb42ae32e9e21433f2f60d0070d51291659bf7d5a27b422e5754be74",
+    "updated-probe.bin": "22250e12fcdfd3b338e9fcad5848a7225a8d39646f3d071ab9dac6dfd4fe0b8d",
+    "created-probe.bin": "785b0751fc2c53dc14a4ce3d800e69ef9ce1009eb327ccf458afe09c242c26c9",
+    "baseline-probe.bin": "c8f5d0341d54d951a71b136e6e2afcb14d11ed8489a7ae126a8fee0df6ecf193"
+  },
+  "actualFilesystemCounts": {
+    "file": 1000000,
+    "directory": 500
+  },
+  "actualPayloadBytes": 1792000000,
+  "actualExistingFilesReread": 667845,
+  "actualMissingFilesCreatedAndReread": 332155,
+  "allPayloadsReread": true,
+  "allMtimesReread": true,
+  "exactFullPathInventoryRevalidated": true,
+  "olderFixturesPreserved": true,
+  "existingFileContentsAndMtimesNotRewritten": true,
+  "existingDirectoriesCanonicalMtimesCompleted": true,
+  "directoryMtimesBefore": {
+    "ref": "C:\\Users\\13997\\.codex\\local-lab\\poc005-native-windows-v7-1m\\continuation-v1-directory-mtimes-before.json",
+    "bytes": 128955,
+    "sha256": "b4a1f21aa39df26531329b2b35dd3c54a15c2f38ff92a834b45a183e284fe7df"
+  },
+  "interruptedOriginalJournalPreserved": {
+    "ref": "C:\\Users\\13997\\.codex\\local-lab\\poc005-native-windows-v7-1m\\payloads.jsonl",
+    "bytes": 223414723,
+    "sha256": "62cd9f78d0d1b1da1be52dabfec833adc990645b7518ee87575cc3d3dfb2d558"
+  },
+  "originalRunStillHasNoTerminalReceipt": true,
+  "payloadMap": {
+    "ref": "C:\\Users\\13997\\.codex\\local-lab\\poc005-native-windows-v7-1m\\payloads-continuation-v1.jsonl.gz",
+    "bytes": 12546539,
+    "sha256": "2e7b7bca834f6bf947a2d063bcfd439dcf40006849bc5bfdb72c32baf3b5eba9"
+  },
+  "compressedInputBytes": {
+    "baseline.jsonl.gz": 3493791,
+    "profiled.jsonl.gz": 17226010
+  },
+  "plainMetadataRoot": "C:\\Users\\13997\\.codex\\local-lab\\poc005-native-windows-v7-1m\\metadata-plain",
+  "generationWasNotRepeated": true,
+  "minimumFreeDiskBeforeBytes": 21474836480,
+  "minimumFreeMemoryBeforeBytes": 4294967296,
+  "sourceApiContacted": false,
+  "scannerExperimentExecuted": false,
+  "approved": false,
+  "qualificationAccepted": false
+}

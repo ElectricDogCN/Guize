@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "pocId": "POC-05",
+  "taskId": "POC-005",
+  "status": "pass",
+  "evidencePath": "evidence/POC-005",
+  "executionRef": "evidence/POC-005/profiles/local-v1/v1/attempt-011/execution-candidate.json",
+  "decision": "pass",
+  "rationale": "独立接受15d/attempt011的local-v1原13项及完整冻结执行资格；实际百万文件、500目录的总体、扇出/深度、来源分页与配额、确定性变更、扫描成本、原生峰值内存、文件名/Range/ETag和受控故障均有绑定原件。v2报告按原五条退出标准充分，来源与scanner耗时分开，旧尝试不转移资格。当前无原provider进程或监听，退出原因/时间/码未观测；数据库、fixture与私有配置保留且未声称还原。仅本地合成/OpenList适配器范围，不代表生产700TB或完整Task/V1验收。",
+  "reviewer": "/root/gz022_planning_independent_review",
+  "approvedAt": "2026-10-29T07:31:14Z",
+  "approval": "approved"
+}

@@ -1,0 +1,29 @@
+{
+  "reviewer": "/root/gz022_planning_independent_review",
+  "reviewedAt": "2026-10-22T20:38:35Z",
+  "decision": "accepted source controller/gateway/report content only",
+  "sourceBase": "5c3bcd11818c862b27876919925547808a062bc5",
+  "files": {
+    "poc/POC-05-metadata-scale/loopback_gateway.py": "1861d1ea10299b653ee0128c447bc454171463d94edb99fce3f572869d8d9796",
+    "poc/POC-05-metadata-scale/controlled_source_run.py": "30e4ec1cd3f6b7347d52fd0ad2ce255b86d204fc04e63bba5a8c81fbc161ba43",
+    "poc/POC-05-metadata-scale/run_source_experiment.py": "5abb76fce98e8ba3f02847dea0cd1b629b36cbeaee9a74dd1fcef1da1640ddc8",
+    "poc/POC-05-metadata-scale/test_controlled_source_run.py": "bc00d53801c5e28e07e6dead589685b0d11361297b70d696c82b405cff09b462",
+    "poc/POC-05-metadata-scale/README.md": "97155bd6a76ee1309cbb51740d7ee7556d8f915ab955f3589b9cbfd20cbd17ee",
+    "specs/tasks/POC-005.md": "98c8f44b0e75c02b181f15a597311481934f6e4ecfb83e7849f5522fed4301c9"
+  },
+  "mustFix": [],
+  "independentActualUnitTests": {
+    "platform": "Linux WSL governance Python -B - unittest test_controlled_source_run",
+    "tests": 10,
+    "seconds": 12.947,
+    "exitCode": 0,
+    "noSkipped": true,
+    "scope": "disposable HTTP/files only"
+  },
+  "actualOpenListAccessed": false,
+  "experimentApproved": false,
+  "original13Qualified": false,
+  "scales10k100k1mAccepted": false,
+  "compressedInputSupported": false,
+  "integrationAccepted": false
+}

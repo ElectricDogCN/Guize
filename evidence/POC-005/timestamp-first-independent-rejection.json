@@ -1,0 +1,22 @@
+{
+  "reviewer": "/root/gz022_planning_independent_review",
+  "reviewedAt": "2026-10-22T21:12:10Z",
+  "decision": "rejected P2 invalid timezone offset minutes",
+  "mustFix": [
+    "Constrain offset hour00..23/minute00..59 before datetime conversion; cover+00:60/-00:60/+01:99."
+  ],
+  "files": {
+    "poc/POC-05-metadata-scale/openlist_listing.py": "322e334fa4f5127eafb5a4f3c533bc13caa39987542faafb30b734e9d4b21048",
+    "poc/POC-05-metadata-scale/test_openlist_listing.py": "7023a80e0c491dcbed735d20381918cf9d7f83620d652c40e0e18b1c4523120b"
+  },
+  "actualLinuxTests": 13,
+  "seconds": 1.317,
+  "exitCode": 0,
+  "firstSafePageReplay": {
+    "objects": 25,
+    "allEightFieldsMatched": true,
+    "bytes": 5313,
+    "sha256": "de3e7c42f578f152c2eea8856f45e2c8637ae40c572d17aeb7d0e524778b9a61"
+  },
+  "qualificationAccepted": false
+}

@@ -1,0 +1,279 @@
+{
+  "source": "38f2a7bd575b850c43143ba7d31c6cf223b89d7c",
+  "tree": "6f3ecb5bd7461dc83d016acb8c1c9a8ea1a006be",
+  "parent": "4b12002397fc05afdf575b03cdf9fe915baf4f58",
+  "base": "f2e0150265e0c1eeca5f69fe85708b2434e5ee79",
+  "branch": "chore/POC-005-metadata-scale",
+  "author": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc005-metadata-scale-reservation-worktree",
+  "native": "/home/sur/.cache/guize-takeover/poc005-reservation-e7a962f",
+  "startedAt": "2026-10-22T21:17:10.238921+00:00",
+  "taskCommands": [
+    {
+      "argv": [
+        "git",
+        "diff",
+        "--check",
+        "f2e0150265e0c1eeca5f69fe85708b2434e5ee79...HEAD"
+      ],
+      "exitCode": 0,
+      "seconds": 0.03964435699163005,
+      "raw": "task-00.raw",
+      "bytes": 144,
+      "sha256": "df4bfc83e38bc628627603a2a9fb723f8cf98d819086fee69327a03c5dabddd4",
+      "waitCompleted": true
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/check-task-file.py",
+        "--task",
+        "POC-005"
+      ],
+      "exitCode": 0,
+      "seconds": 0.12242078500275966,
+      "raw": "task-01.raw",
+      "bytes": 260,
+      "sha256": "f4f0490db8a47a521e183247f3bd044abca8131a45c10bde31b0480fd630812f",
+      "waitCompleted": true
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/check-project-readiness.py"
+      ],
+      "exitCode": 0,
+      "seconds": 7.437959249000414,
+      "raw": "task-02.raw",
+      "bytes": 660,
+      "sha256": "98c84c5ce2e92943e0844a2d843143e9cd8a62bfc1d66566f225929796de179d",
+      "waitCompleted": true
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/check-schemas.py"
+      ],
+      "exitCode": 0,
+      "seconds": 3.9789153169986093,
+      "raw": "task-03.raw",
+      "bytes": 1882,
+      "sha256": "67e7eecf780c02c902767e6e31f50b29b6ea07add5fdc35f5edb795461ec5f51",
+      "waitCompleted": true
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/check-program-plan-integrity.py",
+        "--base-ref",
+        "f2e0150265e0c1eeca5f69fe85708b2434e5ee79"
+      ],
+      "exitCode": 0,
+      "seconds": 1.8255221969884587,
+      "raw": "task-04.raw",
+      "bytes": 419,
+      "sha256": "a01c14f962cb3fab4739d3bb012c9ccdf9525bca0588e57bd5ae35930634b119",
+      "waitCompleted": true
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/check-program-plan-history.py",
+        "--base-ref",
+        "f2e0150265e0c1eeca5f69fe85708b2434e5ee79",
+        "--head-ref",
+        "HEAD",
+        "--task",
+        "POC-005",
+        "--branch-name",
+        "chore/POC-005-metadata-scale"
+      ],
+      "exitCode": 0,
+      "seconds": 6.939379613002529,
+      "raw": "task-05.raw",
+      "bytes": 473,
+      "sha256": "40eda26a69f7f1cca342cb02892dd99841d9ed94329f43684ccea386af629843",
+      "waitCompleted": true
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/check-program-plan-transitions.py",
+        "--base-ref",
+        "f2e0150265e0c1eeca5f69fe85708b2434e5ee79",
+        "--head-ref",
+        "HEAD",
+        "--task",
+        "POC-005",
+        "--branch-name",
+        "chore/POC-005-metadata-scale"
+      ],
+      "exitCode": 0,
+      "seconds": 4.229968490006286,
+      "raw": "task-06.raw",
+      "bytes": 426,
+      "sha256": "d2b22153dfa62121f7090800b4aea9f1c0d0b70883174ef58665531469beb692",
+      "waitCompleted": true
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/check-program-plan-finalization.py",
+        "--base-ref",
+        "f2e0150265e0c1eeca5f69fe85708b2434e5ee79",
+        "--head-ref",
+        "HEAD",
+        "--task",
+        "POC-005"
+      ],
+      "exitCode": 0,
+      "seconds": 0.3231663979968289,
+      "raw": "task-07.raw",
+      "bytes": 362,
+      "sha256": "d6f26ae2d7be9f93049d30a2a09e0b4a713383fe93605c6384b5aaa5e384c3ed",
+      "waitCompleted": true
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/check-program-lifecycle-guards.py",
+        "--base-ref",
+        "f2e0150265e0c1eeca5f69fe85708b2434e5ee79",
+        "--head-ref",
+        "HEAD",
+        "--task",
+        "POC-005",
+        "--branch-name",
+        "chore/POC-005-metadata-scale"
+      ],
+      "exitCode": 0,
+      "seconds": 3.579474106998532,
+      "raw": "task-08.raw",
+      "bytes": 493,
+      "sha256": "431dd375b25671f41dee30e70ed93ddf46687e1d9e21018d98d2e514c4d6fd91",
+      "waitCompleted": true
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/run-program-lifecycle-gate.py",
+        "--base-ref",
+        "f2e0150265e0c1eeca5f69fe85708b2434e5ee79",
+        "--head-ref",
+        "HEAD",
+        "--task",
+        "POC-005",
+        "--branch-name",
+        "chore/POC-005-metadata-scale"
+      ],
+      "exitCode": 0,
+      "seconds": 3.9805394829891156,
+      "raw": "task-09.raw",
+      "bytes": 584,
+      "sha256": "6f931aa10ccb1007f9029f85078dacb80b2b25215f8e0b75055b8b35405c112c",
+      "waitCompleted": true
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/run-agent-coordination-gate.py",
+        "--base-ref",
+        "f2e0150265e0c1eeca5f69fe85708b2434e5ee79",
+        "--head-ref",
+        "HEAD",
+        "--task",
+        "POC-005",
+        "--branch-name",
+        "chore/POC-005-metadata-scale"
+      ],
+      "exitCode": 0,
+      "seconds": 20.264254219000577,
+      "raw": "task-10.raw",
+      "bytes": 396,
+      "sha256": "ba95938ac04293c16061d64c03f98cd4596cc73148cff0430d7db5c53c01ac3a",
+      "waitCompleted": true
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/run-task-scope-gate.py",
+        "--task",
+        "POC-005",
+        "--base",
+        "f2e0150265e0c1eeca5f69fe85708b2434e5ee79"
+      ],
+      "exitCode": 0,
+      "seconds": 21.420285282001714,
+      "raw": "task-11.raw",
+      "bytes": 24987,
+      "sha256": "1f3406b977808f046aa14b1734cf006adcae440dd51effafa8ce54cab5cecb07",
+      "waitCompleted": true
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/check-evidence.py",
+        "--task",
+        "POC-005"
+      ],
+      "exitCode": 0,
+      "seconds": 0.04115017000003718,
+      "raw": "task-12.raw",
+      "bytes": 198,
+      "sha256": "290bda97f58f7667d719ac112da7795e3746b4d7e8362fc61955f4b92e16c8e4",
+      "waitCompleted": true
+    },
+    {
+      "argv": [
+        "python",
+        "specs/poc/check_program.py",
+        "--task",
+        "POC-005",
+        "--base-ref",
+        "f2e0150265e0c1eeca5f69fe85708b2434e5ee79"
+      ],
+      "exitCode": 0,
+      "seconds": 3.3814882730075624,
+      "raw": "task-13.raw",
+      "bytes": 401,
+      "sha256": "9173115f04c6611e6b784cf081ac5aba5163d76babc9a13d36c706cf801e18ab",
+      "waitCompleted": true
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/check-markdown.py"
+      ],
+      "exitCode": 0,
+      "seconds": 0.07589558900508564,
+      "raw": "task-14.raw",
+      "bytes": 164,
+      "sha256": "5ccce4237b96c7b63bd4ab8348a4ff6dcbae7c4a33b8eeb4b313ab9475eafb0d",
+      "waitCompleted": true
+    }
+  ],
+  "codeChecks": [
+    {
+      "argv": [
+        "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "poc/POC-05-metadata-scale",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "exitCode": 1,
+      "seconds": 32.49362941099389,
+      "raw": "code-91.raw",
+      "bytes": 17019,
+      "sha256": "5cb2dd8163d914a752220a514099499d7ffdf12595eb650514e909ae86ef1aff",
+      "waitCompleted": true
+    }
+  ],
+  "experimentExecuted": false,
+  "openListAccessed": false,
+  "scaleAccepted": false
+}

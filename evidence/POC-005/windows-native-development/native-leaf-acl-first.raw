@@ -1,0 +1,11 @@
+test_actual_handle_create_update_delete_preserves_identity_and_exact_microsecond_time (test_windows_source_files.WindowsSourceFileTests.test_actual_handle_create_update_delete_preserves_identity_and_exact_microsecond_time) ... ok
+test_actual_hardlink_and_junction_cannot_redirect_controlled_changes (test_windows_source_files.WindowsSourceFileTests.test_actual_hardlink_and_junction_cannot_redirect_controlled_changes) ... ok
+test_actual_parent_rename_and_competing_writer_are_denied_until_close (test_windows_source_files.WindowsSourceFileTests.test_actual_parent_rename_and_competing_writer_are_denied_until_close) ... ok
+test_actual_private_acl_and_bounded_read_reject_another_principal (test_windows_source_files.WindowsSourceFileTests.test_actual_private_acl_and_bounded_read_reject_another_principal) ... ok
+test_windows_aliases_are_rejected_before_any_creation (test_windows_source_files.WindowsSourceFileTests.test_windows_aliases_are_rejected_before_any_creation) ... ok
+test_wrong_before_or_new_payload_never_changes_existing_bytes (test_windows_source_files.WindowsSourceFileTests.test_wrong_before_or_new_payload_never_changes_existing_bytes) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.421s
+
+OK

@@ -1,0 +1,31 @@
+{
+  "startedAt": "2026-10-22T20:25:45.770383+00:00",
+  "completedAt": "2026-10-22T20:25:57.616337+00:00",
+  "platform": "posix",
+  "sourceBase": "5c3bcd11818c862b27876919925547808a062bc5",
+  "uncommitted": true,
+  "argv": [
+    "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+    "-X",
+    "utf8",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "poc/POC-05-metadata-scale",
+    "-p",
+    "test_controlled_source_run.py",
+    "-v"
+  ],
+  "exitCode": 1,
+  "raw": "poc005-source-observer-development-1-posix.raw",
+  "bytes": 4286,
+  "sha256": "213a660fa64843a6fb16e3a71b38e440a877231227d2fe1f8f65a677b8579e33",
+  "files": {
+    "controlled_source_run.py": "5a401fb219cf033a992c01143d1504529bb70ded3cf0221c23e5a591941b41ab",
+    "test_controlled_source_run.py": "a939a9b7368a49b0b41c9bd4b7f6c3f4a238f55b8d9ac93f8fec89b6f32d4f10"
+  },
+  "experimentExecuted": false,
+  "realOpenListContacted": false
+}

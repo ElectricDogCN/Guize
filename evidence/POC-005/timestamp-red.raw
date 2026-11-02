@@ -1,0 +1,137 @@
+test_actual_offset_timestamps_normalize_without_losing_raw_bytes_or_nanoseconds (test_openlist_listing.ListingTests.test_actual_offset_timestamps_normalize_without_losing_raw_bytes_or_nanoseconds) ... 
+  test_actual_offset_timestamps_normalize_without_losing_raw_bytes_or_nanoseconds (test_openlist_listing.ListingTests.test_actual_offset_timestamps_normalize_without_losing_raw_bytes_or_nanoseconds) (original='2026-01-01T08:00:00+08:00') ... FAIL
+  test_actual_offset_timestamps_normalize_without_losing_raw_bytes_or_nanoseconds (test_openlist_listing.ListingTests.test_actual_offset_timestamps_normalize_without_losing_raw_bytes_or_nanoseconds) (original='2026-01-01T00:00:00.000000000+00:00') ... FAIL
+  test_actual_offset_timestamps_normalize_without_losing_raw_bytes_or_nanoseconds (test_openlist_listing.ListingTests.test_actual_offset_timestamps_normalize_without_losing_raw_bytes_or_nanoseconds) (original='2026-01-01T00:00:00-00:00') ... FAIL
+  test_actual_offset_timestamps_normalize_without_losing_raw_bytes_or_nanoseconds (test_openlist_listing.ListingTests.test_actual_offset_timestamps_normalize_without_losing_raw_bytes_or_nanoseconds) (original='2026-01-01T01:02:03.123456789+08:00') ... FAIL
+  test_actual_offset_timestamps_normalize_without_losing_raw_bytes_or_nanoseconds (test_openlist_listing.ListingTests.test_actual_offset_timestamps_normalize_without_losing_raw_bytes_or_nanoseconds) (original='2026-01-01T01:02:03.123456788+08:00') ... FAIL
+  test_actual_offset_timestamps_normalize_without_losing_raw_bytes_or_nanoseconds (test_openlist_listing.ListingTests.test_actual_offset_timestamps_normalize_without_losing_raw_bytes_or_nanoseconds) (original='2026-01-01T01:02:03.123400000-08:00') ... FAIL
+  test_actual_offset_timestamps_normalize_without_losing_raw_bytes_or_nanoseconds (test_openlist_listing.ListingTests.test_actual_offset_timestamps_normalize_without_losing_raw_bytes_or_nanoseconds) (original='2026-01-01T08:00:01+08:00') ... FAIL
+  test_actual_offset_timestamps_normalize_without_losing_raw_bytes_or_nanoseconds (test_openlist_listing.ListingTests.test_actual_offset_timestamps_normalize_without_losing_raw_bytes_or_nanoseconds) (invalid='0001-01-01T00:00:00+08:00') ... FAIL
+  test_actual_offset_timestamps_normalize_without_losing_raw_bytes_or_nanoseconds (test_openlist_listing.ListingTests.test_actual_offset_timestamps_normalize_without_losing_raw_bytes_or_nanoseconds) (invalid='2026-01-01T00:00:00+24:00') ... FAIL
+  test_actual_offset_timestamps_normalize_without_losing_raw_bytes_or_nanoseconds (test_openlist_listing.ListingTests.test_actual_offset_timestamps_normalize_without_losing_raw_bytes_or_nanoseconds) (invalid='2026-02-30T00:00:00Z') ... FAIL
+
+======================================================================
+FAIL: test_actual_offset_timestamps_normalize_without_losing_raw_bytes_or_nanoseconds (test_openlist_listing.ListingTests.test_actual_offset_timestamps_normalize_without_losing_raw_bytes_or_nanoseconds) (original='2026-01-01T08:00:00+08:00')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc005-metadata-scale-reservation-worktree\poc\POC-05-metadata-scale\test_openlist_listing.py", line 152, in test_actual_offset_timestamps_normalize_without_losing_raw_bytes_or_nanoseconds
+    self.assertEqual(entries[0]["modifiedAt"], expected)
+AssertionError: '2026-01-01T08:00:00+08:00' != '2026-01-01T00:00:00Z'
+- 2026-01-01T08:00:00+08:00
+?             ^      ^^^^^^
++ 2026-01-01T00:00:00Z
+?             ^      ^
+
+
+======================================================================
+FAIL: test_actual_offset_timestamps_normalize_without_losing_raw_bytes_or_nanoseconds (test_openlist_listing.ListingTests.test_actual_offset_timestamps_normalize_without_losing_raw_bytes_or_nanoseconds) (original='2026-01-01T00:00:00.000000000+00:00')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc005-metadata-scale-reservation-worktree\poc\POC-05-metadata-scale\test_openlist_listing.py", line 152, in test_actual_offset_timestamps_normalize_without_losing_raw_bytes_or_nanoseconds
+    self.assertEqual(entries[0]["modifiedAt"], expected)
+AssertionError: '2026-01-01T00:00:00.000000000+00:00' != '2026-01-01T00:00:00Z'
+- 2026-01-01T00:00:00.000000000+00:00
++ 2026-01-01T00:00:00Z
+
+
+======================================================================
+FAIL: test_actual_offset_timestamps_normalize_without_losing_raw_bytes_or_nanoseconds (test_openlist_listing.ListingTests.test_actual_offset_timestamps_normalize_without_losing_raw_bytes_or_nanoseconds) (original='2026-01-01T00:00:00-00:00')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc005-metadata-scale-reservation-worktree\poc\POC-05-metadata-scale\test_openlist_listing.py", line 152, in test_actual_offset_timestamps_normalize_without_losing_raw_bytes_or_nanoseconds
+    self.assertEqual(entries[0]["modifiedAt"], expected)
+AssertionError: '2026-01-01T00:00:00-00:00' != '2026-01-01T00:00:00Z'
+- 2026-01-01T00:00:00-00:00
+?                    ^^^^^^
++ 2026-01-01T00:00:00Z
+?                    ^
+
+
+======================================================================
+FAIL: test_actual_offset_timestamps_normalize_without_losing_raw_bytes_or_nanoseconds (test_openlist_listing.ListingTests.test_actual_offset_timestamps_normalize_without_losing_raw_bytes_or_nanoseconds) (original='2026-01-01T01:02:03.123456789+08:00')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc005-metadata-scale-reservation-worktree\poc\POC-05-metadata-scale\test_openlist_listing.py", line 152, in test_actual_offset_timestamps_normalize_without_losing_raw_bytes_or_nanoseconds
+    self.assertEqual(entries[0]["modifiedAt"], expected)
+AssertionError: '2026-01-01T01:02:03.123456789+08:00' != '2025-12-31T17:02:03.123456789Z'
+- 2026-01-01T01:02:03.123456789+08:00
+?    ^ -  ^  -                 ^^^^^^
++ 2025-12-31T17:02:03.123456789Z
+?    ^  + ^   +                ^
+
+
+======================================================================
+FAIL: test_actual_offset_timestamps_normalize_without_losing_raw_bytes_or_nanoseconds (test_openlist_listing.ListingTests.test_actual_offset_timestamps_normalize_without_losing_raw_bytes_or_nanoseconds) (original='2026-01-01T01:02:03.123456788+08:00')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc005-metadata-scale-reservation-worktree\poc\POC-05-metadata-scale\test_openlist_listing.py", line 152, in test_actual_offset_timestamps_normalize_without_losing_raw_bytes_or_nanoseconds
+    self.assertEqual(entries[0]["modifiedAt"], expected)
+AssertionError: '2026-01-01T01:02:03.123456788+08:00' != '2025-12-31T17:02:03.123456788Z'
+- 2026-01-01T01:02:03.123456788+08:00
+?    ^ -  ^  -                 ^^^^^^
++ 2025-12-31T17:02:03.123456788Z
+?    ^  + ^   +                ^
+
+
+======================================================================
+FAIL: test_actual_offset_timestamps_normalize_without_losing_raw_bytes_or_nanoseconds (test_openlist_listing.ListingTests.test_actual_offset_timestamps_normalize_without_losing_raw_bytes_or_nanoseconds) (original='2026-01-01T01:02:03.123400000-08:00')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc005-metadata-scale-reservation-worktree\poc\POC-05-metadata-scale\test_openlist_listing.py", line 152, in test_actual_offset_timestamps_normalize_without_losing_raw_bytes_or_nanoseconds
+    self.assertEqual(entries[0]["modifiedAt"], expected)
+AssertionError: '2026-01-01T01:02:03.123400000-08:00' != '2026-01-01T09:02:03.1234Z'
+- 2026-01-01T01:02:03.123400000-08:00
+?             ^           ^^^^^^^^^^^
++ 2026-01-01T09:02:03.1234Z
+?             ^           ^
+
+
+======================================================================
+FAIL: test_actual_offset_timestamps_normalize_without_losing_raw_bytes_or_nanoseconds (test_openlist_listing.ListingTests.test_actual_offset_timestamps_normalize_without_losing_raw_bytes_or_nanoseconds) (original='2026-01-01T08:00:01+08:00')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc005-metadata-scale-reservation-worktree\poc\POC-05-metadata-scale\test_openlist_listing.py", line 152, in test_actual_offset_timestamps_normalize_without_losing_raw_bytes_or_nanoseconds
+    self.assertEqual(entries[0]["modifiedAt"], expected)
+AssertionError: '2026-01-01T08:00:01+08:00' != '2026-01-01T00:00:01Z'
+- 2026-01-01T08:00:01+08:00
+?             ^      ^^^^^^
++ 2026-01-01T00:00:01Z
+?             ^      ^
+
+
+======================================================================
+FAIL: test_actual_offset_timestamps_normalize_without_losing_raw_bytes_or_nanoseconds (test_openlist_listing.ListingTests.test_actual_offset_timestamps_normalize_without_losing_raw_bytes_or_nanoseconds) (invalid='0001-01-01T00:00:00+08:00')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc005-metadata-scale-reservation-worktree\poc\POC-05-metadata-scale\test_openlist_listing.py", line 163, in test_actual_offset_timestamps_normalize_without_losing_raw_bytes_or_nanoseconds
+    with self.assertRaisesRegex(SourceError, "INVALID_LISTING_TIMESTAMP"):
+AssertionError: SourceError not raised
+
+======================================================================
+FAIL: test_actual_offset_timestamps_normalize_without_losing_raw_bytes_or_nanoseconds (test_openlist_listing.ListingTests.test_actual_offset_timestamps_normalize_without_losing_raw_bytes_or_nanoseconds) (invalid='2026-01-01T00:00:00+24:00')
+----------------------------------------------------------------------
+openlist_source.SourceError: INVALID_LISTING_OBJECT
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc005-metadata-scale-reservation-worktree\poc\POC-05-metadata-scale\test_openlist_listing.py", line 163, in test_actual_offset_timestamps_normalize_without_losing_raw_bytes_or_nanoseconds
+    with self.assertRaisesRegex(SourceError, "INVALID_LISTING_TIMESTAMP"):
+AssertionError: "INVALID_LISTING_TIMESTAMP" does not match "INVALID_LISTING_OBJECT"
+
+======================================================================
+FAIL: test_actual_offset_timestamps_normalize_without_losing_raw_bytes_or_nanoseconds (test_openlist_listing.ListingTests.test_actual_offset_timestamps_normalize_without_losing_raw_bytes_or_nanoseconds) (invalid='2026-02-30T00:00:00Z')
+----------------------------------------------------------------------
+openlist_source.SourceError: INVALID_LISTING_OBJECT
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc005-metadata-scale-reservation-worktree\poc\POC-05-metadata-scale\test_openlist_listing.py", line 163, in test_actual_offset_timestamps_normalize_without_losing_raw_bytes_or_nanoseconds
+    with self.assertRaisesRegex(SourceError, "INVALID_LISTING_TIMESTAMP"):
+AssertionError: "INVALID_LISTING_TIMESTAMP" does not match "INVALID_LISTING_OBJECT"
+
+----------------------------------------------------------------------
+Ran 1 test in 0.982s
+
+FAILED (failures=10)

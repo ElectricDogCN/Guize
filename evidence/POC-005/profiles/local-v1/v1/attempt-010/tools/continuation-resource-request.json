@@ -1,0 +1,78 @@
+{
+  "kind": "POC005_ATTEMPT010_REVIEWED_INTERRUPTION_COMPLETION_V1_REQUEST",
+  "source": "ed8fbf32783c2600f75de7a69ef56c6f33b4824b",
+  "base": "746e23e582501fa08380c3f3301bdc1774902f7c",
+  "tree": "a74434e6a062f03207244b0a3a8cbd037a0dfe47",
+  "sourceReview": "poc005-compressed-output-ed8fbf3-final-source-independent-review.json",
+  "sourceReviewSha256": "d0949b495b92d3e9715553ce1ac2154a34203eb7780273827d695407bac99648",
+  "methods": [
+    {
+      "file": "complete_poc005_attempt010_interrupted_fixture_v1_once.py",
+      "bytes": 10759,
+      "sha256": "6f2cca70a6781a927d6439e2481507be230dc81c6eb02c729f308fe637c37efe"
+    },
+    {
+      "file": "prepare_poc005_attempt010_windows_openlist_once.py",
+      "bytes": 10043,
+      "sha256": "1c7a6c3c06753b092a0dbead24bfb0d8e00803bdd6dc53144fb0ae76e931c98c"
+    }
+  ],
+  "storageRoot": "C:\\Users\\13997\\.codex\\local-lab\\poc005-native-windows-v7-1m",
+  "servicePrivateRoot": "C:\\Users\\13997\\.codex\\local-lab\\poc005-windows-openlist-v7-1m",
+  "port": 15534,
+  "inputRoot": "evidence/POC-005/profiles/local-v1/v1/inputs-1m-attempt010",
+  "expectedFilesystemCounts": {
+    "file": 1000000,
+    "directory": 500
+  },
+  "expectedPayloadBytes": 1792000000,
+  "generation": {
+    "algorithm": "deterministic-tree-v1",
+    "seed": 20261015,
+    "maximumDepth": 12,
+    "metadataInputEncoding": "single-member gzip mtime0"
+  },
+  "preparationTimeoutSeconds": 7200,
+  "minimumFreeDiskBeforeBytes": 21474836480,
+  "actions": [
+    "Validate the exact accepted ed8/sourceReview, source clone, original7input hashes, stopped original PIDs, current main/Task/lease, old journal and read-only667845-name inventory.",
+    "Within one shared7200s budget first reread and validate all667845 existing actual files/bytes/mtimes against the same immutable1m profile before submitting any new fixture write. A mismatch stops without repairing or overwriting those files.",
+    "Create only332155 missing synthetic files with exclusive opens, bounded4threads/32queued rows; reread each file and mtime. Write a distinct deterministic gzip payload map for all1m and retain the old incomplete journal223414723B/62cd9f78 unchanged.",
+    "Preserve a before snapshot of500 existing directory mtimes outside fixture, then after full creation finish their original canonical mtimes. Validate exact1000500pathset/1mfiles/500dirs/1792000000payloadB. Do not relabel the original interrupted run as completed or invent its exitCode.",
+    "Use the exact previously reviewed OpenList method once only after new completed fixture receipt exists; create fresh v7 private root, hidden127.0.0.1:15534, guestdisabled/readOnly256/signfalse/x_meta0. Only ping/auth/admin config; no listing/Range/probe/scanner/template/window/qualification."
+  ],
+  "mustPreserve": [
+    "all old fixtures/DB/raw/refs/worktrees",
+    "original008/8f and009/c98 qualifications and all failures",
+    "author ed8 tracked code/Task/roles/claims/original lease",
+    "old idle OpenList instances",
+    "all original attempt010 raw/results/metadata and preexisting file contents/mtimes; no original approval/backdating or blind replay"
+  ],
+  "executionClone": "poc005-attempt010-runtime-ed8fbf3",
+  "executionCloneReceipt": "poc005-attempt010-runtime-clone.json",
+  "retainedAuthor": "poc005-thaw-integration",
+  "retainedAuthorHead": "ed8fbf32783c2600f75de7a69ef56c6f33b4824b",
+  "newInputsApproved": false,
+  "preparationApproved": false,
+  "fullTemplateApproved": false,
+  "experimentApproved": false,
+  "qualificationAccepted": false,
+  "budgetPlanning": "Producer gzip source is accepted;1m generated inputs and actual artifact budget still require review. Old009 selected plain177845732B and hypothetical compressed profile estimate are planning inputs only. Frozen1GiB/20k and all validator limits remain unchanged; no scale qualification inherited.",
+  "wrapperMethod": {
+    "file": "complete_poc005_attempt010_resources_v1_once.py",
+    "bytes": 11381,
+    "sha256": "2449ffc8db59187c41f428d6f65117970b5344b2d0002ab8057fdc5fa67a0436"
+  },
+  "requestedValidityMinutes": 150,
+  "minimumFreeMemoryBeforeBytes": 4294967296,
+  "partialAuditRef": "poc005-attempt010-interrupted-names-audit-20261027/results.json",
+  "partialAuditBytes": 1407,
+  "partialAuditSha256": "8d6c675b679bb0248626c44cceeea70fb7b2bd1684ec3e15225073410a10f941",
+  "expectedExistingFiles": 667845,
+  "expectedNewMissingFiles": 332155,
+  "originalCompletedReceiptMissing": true,
+  "originalRunMustRemainUnmodified": true,
+  "parallelFileOperations": 4,
+  "queuedFileRows": 32,
+  "continuationApproved": false
+}

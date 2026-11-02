@@ -1,0 +1,135 @@
+{
+  "schemaVersion": 1,
+  "kind": "POC005_ATTEMPT009_100K_RESOURCE_PREPARATION_INDEPENDENT_REVIEW",
+  "decision": "approved_resource_preparation_only",
+  "actor": "/root/gz022_planning_independent_review",
+  "reviewer": "independent-review-agent",
+  "approvedAt": "2026-10-26T01:19:08.071999Z",
+  "validFrom": "2026-10-26T01:19:08.071999Z",
+  "validUntil": "2026-10-26T02:04:08.071999Z",
+  "mustFix": [],
+  "requestRef": "poc005-attempt009-resource-preparation-request.json",
+  "requestBytes": 3224,
+  "requestSha256": "d7f33d9cc9809271adb29912886e8080cbd49ac6f8dd6fafaf4fec2705b729de",
+  "source": "c98c93f835ea5c6bfcf19eb1256cd66d75efc4b4",
+  "base": "746e23e582501fa08380c3f3301bdc1774902f7c",
+  "tree": "487a8d3b40f59c3939f79e5430cc31ccbf8fbace",
+  "sourceReview": "poc005-compressed-ingress-c98c93f-final-source-independent-review.json",
+  "sourceReviewSha256": "f3c2bfb03dd02ad26e5be53fb0ab379def41011393bf5a6754a40dab3d412663",
+  "executionClone": "poc005-attempt009-runtime-c98c93f",
+  "runtimeCloneReceipt": "poc005-attempt009-runtime-clone.json",
+  "runtimeCloneReceiptSha256": "d0084125006fa74a2d6a01e80ddb6030be3baeeb06a066bfbdb11cb458bbb278",
+  "retainedAuthor": "poc005-thaw-integration",
+  "retainedAuthorHead": "c98c93f835ea5c6bfcf19eb1256cd66d75efc4b4",
+  "methods": [
+    {
+      "file": "prepare_poc005_attempt009_windows_fixture_once.py",
+      "bytes": 7644,
+      "sha256": "6ebf065b12d1dcb37a1403998d75d99ab9204d761d19fc65d30b09c0ed663e28"
+    },
+    {
+      "file": "prepare_poc005_attempt009_windows_openlist_once.py",
+      "bytes": 9993,
+      "sha256": "50e7d2a02579aafdaa121d1641bc49890e9ec57514fdf9a05ebf79bb414a1795"
+    }
+  ],
+  "methodContentAccepted": true,
+  "allowFixtureCreate": true,
+  "allowNewLoopbackServiceStart": true,
+  "preparationApproved": true,
+  "allowedExecution": {
+    "count": 1,
+    "fixtureMethodCount": 1,
+    "openlistMethodCount": 1,
+    "platform": "Windows",
+    "preparationTimeoutSeconds": 1200
+  },
+  "storageRoot": "C:\\Users\\13997\\.codex\\local-lab\\poc005-native-windows-v6-100k",
+  "servicePrivateRoot": "C:\\Users\\13997\\.codex\\local-lab\\poc005-windows-openlist-v6-100k",
+  "inputRoot": "evidence/POC-005/profiles/local-v1/v1/inputs-100k-attempt009",
+  "port": 15533,
+  "archiveSha256": "10d24913f86843e347eefac219c61224628bbd5d3c7443b2ee119c168a8cb3b9",
+  "openlistExeSha256": "234ee38f142858ba12d57dd57d181c9ed4a77f952b8420c053e7ab98e3db3172",
+  "expectedFilesystemCounts": {
+    "file": 100000,
+    "directory": 500
+  },
+  "expectedPayloadBytes": 179200000,
+  "generation": {
+    "algorithm": "deterministic-tree-v1",
+    "seed": 20261015,
+    "maximumDepth": 12,
+    "metadataInputEncoding": "single-member gzip mtime0"
+  },
+  "minimumFreeDiskBeforeBytes": 4294967296,
+  "freshOfficial": {
+    "observedBeforeApproval": true,
+    "main": "746e23e582501fa08380c3f3301bdc1774902f7c",
+    "prNumber": 136,
+    "prState": "open",
+    "draft": true,
+    "head": "c98c93f835ea5c6bfcf19eb1256cd66d75efc4b4",
+    "prBase": "746e23e582501fa08380c3f3301bdc1774902f7c",
+    "issueNumber": 132,
+    "issueState": "open",
+    "readMethod": "GitHub official REST connector reads: main ref, PR136, Issue132"
+  },
+  "readOnlyActualChecks": {
+    "requestAndMethodBytesAndSha256Matched": true,
+    "bothMethodsAstParsed": true,
+    "acceptedSourceReviewOriginalShaMatched": true,
+    "cloneExactSourceTreeFormalBranchAndEntireWorktreeClean": true,
+    "cloneNoAlternates": true,
+    "allThreeNewRootsAbsent": true,
+    "loopback15533TemporaryBindSucceeded": true,
+    "lastObservedFreeDiskBytes": 173425590272,
+    "retainedAuthorTrackedClean": true,
+    "retainedOldUntrackedCount": 4171,
+    "retainedOldUntrackedPathsetSha256": "e4504da8e10c05402d7c10d2c6f2a95247bde7730600d7c30f6b210ff39cf53a",
+    "originalLeaseStart": "2026-10-22T16:08:44Z",
+    "originalLeaseExpiresAt": "2026-10-29T16:08:44Z",
+    "taskStatus": "in_progress",
+    "agentRole": "implementer",
+    "taskReviewer": "independent-review-agent",
+    "taskImplementer": "task-owner-agent",
+    "integrationOrder": 3,
+    "exclusiveClaims": [
+      "poc/POC-05-metadata-scale/**",
+      "evidence/POC-005/**"
+    ]
+  },
+  "methodAssessment": [
+    "Fixture method validates exact accepted source-review digest and full-source/latest-CI/preparation flags, actual HEAD and clean clone before imports or writes. Five old control/probe inputs remain pinned by physical SHA; new generated compressed metadata receives actual hashes rather than a predicted approval.",
+    "New target is confined to the new private namespace, requires at least 4GiB free, and retains generated plain metadata plus deterministic single-member gzip inputs. Actual 100000 payload files, all500 directories, pathset, 179200000B, per-file readback and mtimes must complete; generation counts alone are not scan observations.",
+    "Fixture creates no scanner SQLite or source network requests. Actual f3 probe/update binding and created-path noncollision are checked against the larger generated baseline.",
+    "OpenList method preserves pinned local archive/executable, owner-only private credential/log ACL checks, hidden new loopback process, guest disabled, read-only permission256, unsigned local mount and zero metadata-password rows. Permitted requests are ping/auth/admin configuration only.",
+    "OpenList is intentionally left idle with actual start identity retained. Failures and partial resource state are retained; this decision supplies no permission to overwrite, restart a partial attempt, operate old services, or promote preparation output to approved execution samples."
+  ],
+  "conditions": [
+    "Before the first side effect, the root wrapper must verify this original decision/request/method/source-review byte hashes, canonical-Z validity and at least1200seconds remaining. Use one shared1200second preparation budget and the original process handle; validity does not extend that operation budget.",
+    "Recheck actual source/tree/formal branch and clean execution clone, current accepted stable main, original Task actors/claims/lease, new path absence and free disk. Recheck port15533 free immediately before the new service start. Any changed prerequisite requires a fresh decision rather than adapting this approval.",
+    "Invoke the exact fixture method once, then exact OpenList method once, with the approved source-review path. Only the three declared new roots may be created; preserve all previous fixture/service/DB/raw/ref/workspace state. Never reset or reuse partial output.",
+    "Keep all credentials, bootstrap output and server logs private with owner-only ACLs and never print their values. No external connector or production data; new service only127.0.0.1:15533 and local declared fixture mount with guest disabled/read-only256.",
+    "Retain actual argv/PID/creation/start/end/wait/exit/raw bytes and method/request/decision hashes. On failure or budget exhaustion preserve partial files and any started idle service identity; no blind restart, cleanup of old resources, or second invocation.",
+    "No fs/list, WebDAV/Range/source-byte probe, fixture mutation workload, scanner reservation/execution, measurement window, full-template approval or qualification. Actual generated sample hashes and concrete100k raw/output budgets require later independent full-template/resource/sample review before execution."
+  ],
+  "mustPreserve": [
+    "all old fixtures/DB/raw/refs/worktrees",
+    "original008/8f qualification and all original failures",
+    "author c98 tracked code/Task/roles/claims/lease",
+    "old idle OpenList instances"
+  ],
+  "newInputsApprovedForExecution": false,
+  "fullTemplateApproved": false,
+  "finalResourceDescriptorsApproved": false,
+  "scannerReservationApproved": false,
+  "finalExecutionApproved": false,
+  "experimentApproved": false,
+  "qualificationAccepted": false,
+  "readyApproved": false,
+  "mergeApproved": false,
+  "taskCompleted": false,
+  "fullV1Completed": false,
+  "reviewerPerformedPreparation": false,
+  "reviewerPerformedScannerOrSourceRequests": false
+}

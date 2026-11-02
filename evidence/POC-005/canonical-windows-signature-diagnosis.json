@@ -1,0 +1,30 @@
+{
+  "observedAt": "2026-10-22T18:32:40.059Z",
+  "actualFailureRun": {
+    "tests": 42,
+    "errors": 8,
+    "failures": 2,
+    "seconds": 11.187,
+    "exitCode": 1
+  },
+  "rawTail": "canonical-first-development-failure-tail.raw",
+  "rawTailIsCompleteWholeTestOutput": false,
+  "cause": "Windows path.stat ctime returned creation time while fstat ctime returned mtime on the actual Python/filesystem. Device, inode, size and mtime matched.",
+  "actualA": {
+    "path": [
+      13712951728346802000,
+      38843546788738970,
+      177,
+      1792693923110906600,
+      1792693923108641800
+    ],
+    "descriptor": [
+      13712951728346802000,
+      38843546788738970,
+      177,
+      1792693923110906600,
+      1792693923110906600
+    ]
+  },
+  "fix": "Hash the actual opened descriptor; match dev/inode/size/mtime across APIs; retain and compare each full native signature against its own API before/after. No inode/device/time check removed."
+}

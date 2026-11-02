@@ -1,0 +1,17 @@
+test_actual_binary_get_body_keeps_binary_artifact_and_exact_http_observation (test_controlled_source_run.SourceTests.test_actual_binary_get_body_keeps_binary_artifact_and_exact_http_observation) ... FAIL
+
+======================================================================
+FAIL: test_actual_binary_get_body_keeps_binary_artifact_and_exact_http_observation (test_controlled_source_run.SourceTests.test_actual_binary_get_body_keeps_binary_artifact_and_exact_http_observation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc005-metadata-scale-reservation-worktree\poc\POC-05-metadata-scale\test_controlled_source_run.py", line 275, in test_actual_binary_get_body_keeps_binary_artifact_and_exact_http_observation
+    self.assertEqual(body['artifactType'],'produced_media')
+AssertionError: 'command_output' != 'produced_media'
+- command_output
++ produced_media
+
+
+----------------------------------------------------------------------
+Ran 1 test in 2.229s
+
+FAILED (failures=1)

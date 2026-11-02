@@ -1,0 +1,182 @@
+{
+  "kind": "QUALIFIED_CURRENT011_LOCAL_EXECUTION_NOT_FORMAL_PROFILE_EXIT",
+  "preparedAt": "2026-10-29T07:27:20.346257+00:00",
+  "source": {
+    "commit": "15dcd6cd22a576821cdbe0f936002ad9a1be69e3",
+    "tree": "2bdaef78f224f3548da822b8da8f667e2c587d81"
+  },
+  "validationContext": "8aa353c42c98aa62d147d0d3295b836f021537d6",
+  "executionRef": "evidence/POC-005/profiles/local-v1/v1/attempt-011/execution-candidate.json",
+  "executionPin": {
+    "bytes": 3410855,
+    "sha256": "081dc64a8c54fca17b0637f8366780ba65c362adc7c3465746ea053f28b65359"
+  },
+  "archive": "artifacts.zip",
+  "archivePin": {
+    "bytes": 165380,
+    "sha256": "6944ccd0276b3fbce2f76ed182798f3368488e328150fde5ccac28a17c6c3748"
+  },
+  "entries": [
+    {
+      "ref": "poc005-attempt011-resource-preparation-result-independent-review.json",
+      "bytes": 16341,
+      "sha256": "d4aa1bacca9e54e2cbc6d6a6afa1c60c6028d389844484bb57214fac1468c103",
+      "original": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc005-attempt011-resource-preparation-result-independent-review.json"
+    },
+    {
+      "ref": "poc005-attempt011-full-template-independent-review.json",
+      "bytes": 17109,
+      "sha256": "326d3178be79a77007402456a5fd2606af86f56aded630969f33313205e01799",
+      "original": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc005-attempt011-full-template-independent-review.json"
+    },
+    {
+      "ref": "poc005-attempt011-final-reservation-independent-review.json",
+      "bytes": 24865,
+      "sha256": "acc0a3f509799bdc8e6600731d5f20ff43c34d773d38f9caa1ad19d0ee38dd41",
+      "original": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc005-attempt011-final-reservation-independent-review.json"
+    },
+    {
+      "ref": "poc005-attempt011-observations-independent-review.json",
+      "bytes": 13678,
+      "sha256": "29a51df2da3d7bb1e53a7f7b3101178bb8faba00859efa43787fcd0abf6862e6",
+      "original": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc005-attempt011-observations-independent-review.json"
+    },
+    {
+      "ref": "poc005-attempt011-tracked-validation-context.json",
+      "bytes": 975865,
+      "sha256": "ebd6a55f0b64b2b9ba31fa28d65976e6247adf1556275d51a497ac4142dafef6",
+      "original": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc005-attempt011-tracked-validation-context.json"
+    },
+    {
+      "ref": "poc005-attempt011-full-execution-validation-independent-review.json",
+      "bytes": 8187,
+      "sha256": "0e020d2391ef57860cd6c5c36f09171930fbccb11c14c08936e6d68363a65080",
+      "original": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc005-attempt011-full-execution-validation-independent-review.json"
+    },
+    {
+      "ref": "poc005-profile-retirement-final-source-independent-review.json",
+      "bytes": 10341,
+      "sha256": "4bda4cbbdd3a611cc4f40c79b1da2b8fd85e5159eb81fabb6fb85193d1abb0b1",
+      "original": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc005-profile-retirement-final-source-independent-review.json"
+    },
+    {
+      "ref": "poc005-profile-retirement-ci896/analysis.json",
+      "bytes": 1080,
+      "sha256": "98213a80eb6601c41ee7bb988eae139b38de031666edf1d6e7d459cd3a62dd9a",
+      "original": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc005-profile-retirement-ci896\\analysis.json"
+    },
+    {
+      "ref": "validate_poc005_attempt011_full_execution.py",
+      "bytes": 4315,
+      "sha256": "aa3d9eae0a46eb6147c455d44729e93838b947b2bf292da7870adb80f2998842",
+      "original": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\validate_poc005_attempt011_full_execution.py"
+    },
+    {
+      "ref": "import_poc005_qualified_attempt011_evidence_once.py",
+      "bytes": 3563,
+      "sha256": "744d3748c923386cdfe3a9e21f6f8a9ea19951182ea1493419ebeb4396301d84",
+      "original": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\import_poc005_qualified_attempt011_evidence_once.py"
+    },
+    {
+      "ref": "observe_poc005_attempt011_retained_environment_once.py",
+      "bytes": 3546,
+      "sha256": "e7a7ada47ba39d56a4f991db6173536dd7916cbb068e7e4f6e093a8c28567111",
+      "original": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\observe_poc005_attempt011_retained_environment_once.py"
+    },
+    {
+      "ref": "prepare_poc005_attempt011_exit_report_v1.py",
+      "bytes": 10965,
+      "sha256": "d8bdfaa56cf28f4d667812fb975eed9ab64d9754e23924de23f948d17c6adf5d",
+      "original": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\prepare_poc005_attempt011_exit_report_v1.py"
+    },
+    {
+      "ref": "poc005-attempt011-full-validation-run/launch.json",
+      "bytes": 889,
+      "sha256": "a3c00819c1aa47f62a07c7f940af91093102de36b5a1c3247e2d56cdf3bfdce8",
+      "original": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc005-attempt011-full-validation-run\\launch.json"
+    },
+    {
+      "ref": "poc005-attempt011-full-validation-run/results.json",
+      "bytes": 1246,
+      "sha256": "6c0c5fa3779d9bd270728a91bce87b9c726899e301a6de2dcc21e83d6eee9f4c",
+      "original": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc005-attempt011-full-validation-run\\results.json"
+    },
+    {
+      "ref": "poc005-attempt011-full-validation-run/stderr.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc005-attempt011-full-validation-run\\stderr.raw"
+    },
+    {
+      "ref": "poc005-attempt011-full-validation-run/stdout.raw",
+      "bytes": 155,
+      "sha256": "d4daa61138f53419a07fb6157776ffafa6a0e06ca151d8414a8e8cce6e8e30b1",
+      "original": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc005-attempt011-full-validation-run\\stdout.raw"
+    },
+    {
+      "ref": "poc005-attempt011-full-execution-validation/full-execution-validation.raw",
+      "bytes": 615,
+      "sha256": "e2b3406cee75b4877eaaece44375ea83097c80934524fc23275ace451558ef32",
+      "original": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc005-attempt011-full-execution-validation\\full-execution-validation.raw"
+    },
+    {
+      "ref": "poc005-attempt011-full-execution-validation/results.json",
+      "bytes": 1130,
+      "sha256": "c5639561e7a279bd1d2ed4bc7089bc1baa8e9655a5ba63d6c8156ac75d0e3a62",
+      "original": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc005-attempt011-full-execution-validation\\results.json"
+    },
+    {
+      "ref": "poc005-attempt011-author-evidence-integration-v1/fast-forward-evidence.stderr.raw",
+      "bytes": 3420,
+      "sha256": "17373b7cdc10d93b4fd003c631d86a15d597bee8d2548850c00280427a45d043",
+      "original": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc005-attempt011-author-evidence-integration-v1\\fast-forward-evidence.stderr.raw"
+    },
+    {
+      "ref": "poc005-attempt011-author-evidence-integration-v1/fast-forward-evidence.stdout.raw",
+      "bytes": 1883645,
+      "sha256": "f28894fdaa199401055e38780fdac8b8694024d1d1ed44b144cdf82ab84a9b88",
+      "original": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc005-attempt011-author-evidence-integration-v1\\fast-forward-evidence.stdout.raw"
+    },
+    {
+      "ref": "poc005-attempt011-author-evidence-integration-v1/fetch-qualified-bundle.stderr.raw",
+      "bytes": 206,
+      "sha256": "9afd4c8832cd4b225720ea6019376ed13c6527a1faffddbbdd993913085adca4",
+      "original": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc005-attempt011-author-evidence-integration-v1\\fetch-qualified-bundle.stderr.raw"
+    },
+    {
+      "ref": "poc005-attempt011-author-evidence-integration-v1/fetch-qualified-bundle.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc005-attempt011-author-evidence-integration-v1\\fetch-qualified-bundle.stdout.raw"
+    },
+    {
+      "ref": "poc005-attempt011-author-evidence-integration-v1/results.json",
+      "bytes": 1868,
+      "sha256": "97308bdd0dda7c6f8b070dd26006ab565d7d07ee42743dce5db4728861920b0d",
+      "original": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc005-attempt011-author-evidence-integration-v1\\results.json"
+    },
+    {
+      "ref": "poc005-attempt011-environment-close-observation-v1/results.json",
+      "bytes": 3598,
+      "sha256": "717c3a0d7c90a5df1b9e3007142491c9a8dc90336fa047366bb49e9beaf70cfc",
+      "original": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc005-attempt011-environment-close-observation-v1\\results.json"
+    },
+    {
+      "ref": "poc005-attempt011-environment-close-observation-v1/stderr.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc005-attempt011-environment-close-observation-v1\\stderr.raw"
+    },
+    {
+      "ref": "poc005-attempt011-environment-close-observation-v1/stdout.raw",
+      "bytes": 96,
+      "sha256": "506f99b21131fc09f31889f6a1485df9a0eef005c408ea4983dda7d3ae66e8bf",
+      "original": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc005-attempt011-environment-close-observation-v1\\stdout.raw"
+    }
+  ],
+  "original13Accepted": true,
+  "completeFrozenExecutionQualificationAccepted": true,
+  "profileExitDecisionApproved": false,
+  "formalProfileValidated": false,
+  "taskCompleted": false
+}

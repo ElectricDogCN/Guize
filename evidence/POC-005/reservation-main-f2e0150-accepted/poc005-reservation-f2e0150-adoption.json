@@ -1,0 +1,85 @@
+{
+  "actualMain": "f2e0150265e0c1eeca5f69fe85708b2434e5ee79",
+  "source": "f42e107374562f35aa6771e4c841ca835fcdc797",
+  "base": "11c32830c0d1bb8ccdcc04aa278876065bce1f33",
+  "tree": "28cb63b228eafdb4d970313e7b23230bc4ece8a4",
+  "priorPartialAdoptionFailure": "Initial adoption advanced primary/legacy/native005/native003, but verification found independent author003 main still at previous main. No source HEAD/file changes; completed with exact CAS here.",
+  "beforeFinalRefRepair": {
+    "primary": {
+      "head": "f2e0150265e0c1eeca5f69fe85708b2434e5ee79",
+      "main": "f2e0150265e0c1eeca5f69fe85708b2434e5ee79",
+      "branch": "main",
+      "status": ""
+    },
+    "author005": {
+      "head": "f42e107374562f35aa6771e4c841ca835fcdc797",
+      "main": "f2e0150265e0c1eeca5f69fe85708b2434e5ee79",
+      "branch": "chore/POC-005-metadata-scale-reservation",
+      "status": ""
+    },
+    "author003": {
+      "head": "8e73173bb48106a8b7b41275364ff1aca8a7f760",
+      "main": "11c32830c0d1bb8ccdcc04aa278876065bce1f33",
+      "branch": "chore/POC-003-ats-range",
+      "status": "?? evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/\n?? poc/POC-03-ats-range/instrumentation/"
+    },
+    "legacy": {
+      "head": "f2e0150265e0c1eeca5f69fe85708b2434e5ee79",
+      "main": "f2e0150265e0c1eeca5f69fe85708b2434e5ee79",
+      "branch": "main",
+      "status": ""
+    },
+    "native005": {
+      "head": "f2e0150265e0c1eeca5f69fe85708b2434e5ee79",
+      "main": "f2e0150265e0c1eeca5f69fe85708b2434e5ee79",
+      "branch": "main",
+      "status": ""
+    },
+    "native003": {
+      "head": "8e73173bb48106a8b7b41275364ff1aca8a7f760",
+      "main": "f2e0150265e0c1eeca5f69fe85708b2434e5ee79",
+      "branch": "chore/POC-003-ats-range",
+      "status": ""
+    }
+  },
+  "after": {
+    "primary": {
+      "head": "f2e0150265e0c1eeca5f69fe85708b2434e5ee79",
+      "main": "f2e0150265e0c1eeca5f69fe85708b2434e5ee79",
+      "branch": "main",
+      "status": ""
+    },
+    "author005": {
+      "head": "f42e107374562f35aa6771e4c841ca835fcdc797",
+      "main": "f2e0150265e0c1eeca5f69fe85708b2434e5ee79",
+      "branch": "chore/POC-005-metadata-scale-reservation",
+      "status": ""
+    },
+    "author003": {
+      "head": "8e73173bb48106a8b7b41275364ff1aca8a7f760",
+      "main": "f2e0150265e0c1eeca5f69fe85708b2434e5ee79",
+      "branch": "chore/POC-003-ats-range",
+      "status": "?? evidence/POC-003/pool-diagnostic-8e73173-20261022-v1/\n?? poc/POC-03-ats-range/instrumentation/"
+    },
+    "legacy": {
+      "head": "f2e0150265e0c1eeca5f69fe85708b2434e5ee79",
+      "main": "f2e0150265e0c1eeca5f69fe85708b2434e5ee79",
+      "branch": "main",
+      "status": ""
+    },
+    "native005": {
+      "head": "f2e0150265e0c1eeca5f69fe85708b2434e5ee79",
+      "main": "f2e0150265e0c1eeca5f69fe85708b2434e5ee79",
+      "branch": "main",
+      "status": ""
+    },
+    "native003": {
+      "head": "8e73173bb48106a8b7b41275364ff1aca8a7f760",
+      "main": "f2e0150265e0c1eeca5f69fe85708b2434e5ee79",
+      "branch": "chore/POC-003-ats-range",
+      "status": ""
+    }
+  },
+  "active003Preserved": true,
+  "mainAccepted": false
+}
