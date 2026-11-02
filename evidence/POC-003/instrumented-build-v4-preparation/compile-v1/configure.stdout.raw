@@ -1,0 +1,44 @@
+checking for a BSD-compatible install... /usr/bin/install -c
+checking whether build environment is sane... yes
+checking for a race-free mkdir -p... /usr/bin/mkdir -p
+checking for gawk... gawk
+checking whether make sets $(MAKE)... yes
+checking whether make supports nested variables... yes
+checking whether UID '1000' is supported by ustar format... yes
+checking whether GID '1000' is supported by ustar format... yes
+checking how to create a ustar tar archive... gnutar
+checking whether to enable maintainer-specific portions of Makefiles... yes
+checking whether make supports nested variables... (cached) yes
+checking for chosen layout... Debian
+checking build system type... x86_64-pc-linux-gnu
+checking host system type... x86_64-pc-linux-gnu
+checking whether to enable debugging... no
+checking whether to enable mime sanity check... no
+checking whether to enable all asserts, a cheaper debug... no
+checking whether to enable event tracker... no
+checking whether to code coverage... no
+checking whether to enable -Werror... no
+checking whether to enable asan... no
+checking whether to enable lsan... no
+checking whether to enable tsan... no
+checking whether to enable LTO... no
+checking whether to enable fast SDK APIs... no
+checking whether to enable CURL... yes
+checking for a sed that does not truncate output... /usr/bin/sed
+checking for curl-config... no
+checking whether to enable diags... yes
+checking whether to enable fips... no
+checking whether to enable regression tests... no
+checking whether to enable expensive unit tests... no
+checking for java... java
+Checking whether to build documentation:
+checking for a Python interpreter with version >= 3.4... python3
+checking for python3... /usr/bin/python3
+checking for python3 version... 3.12
+checking for python3 platform... linux
+checking for GNU default python3 prefix... ${prefix}
+checking for GNU default python3 exec_prefix... ${exec_prefix}
+checking for python3 script directory (pythondir)... ${PYTHON_PREFIX}/lib/python3.12/site-packages
+checking for python3 extension module directory (pyexecdir)... ${PYTHON_EXEC_PREFIX}/lib/python3.12/site-packages
+checking for ... /usr/bin/python3 -m sphinx
+checking for sphinx version >= 1.7.5... No module named 'sphinx'

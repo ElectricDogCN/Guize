@@ -1,0 +1,875 @@
+Making all in include
+make[1]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/include'
+make  all-recursive
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/include'
+Making all in ts
+make[3]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/include/ts'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/include/ts'
+Making all in tscpp/api
+make[3]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/include/tscpp/api'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/include/tscpp/api'
+Making all in tscpp/util
+make[3]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/include/tscpp/util'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/include/tscpp/util'
+make[3]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/include'
+make[3]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/include'
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/include'
+make[1]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/include'
+Making all in src/tscpp/util
+make[1]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/src/tscpp/util'
+make[1]: Nothing to be done for 'all'.
+make[1]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/src/tscpp/util'
+Making all in lib
+make[1]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/lib'
+Making all in .
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/lib'
+make[2]: Nothing to be done for 'all-am'.
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/lib'
+Making all in records
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/lib/records'
+  CXX      P_RecCore.o
+  CXX      RecConfigParse.o
+  CXX      RecCore.o
+  CXX      RecDebug.o
+  CXX      RecFile.o
+  CXX      RecHttp.o
+  CXX      RecMessage.o
+  CXX      RecMutex.o
+  CXX      RecRawStats.o
+  CXX      RecUtils.o
+  CXX      RecLocal.o
+  CXX      RecProcess.o
+  AR       librecords_lm.a
+  AR       librecords_p.a
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/lib/records'
+Making all in fastlz
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/lib/fastlz'
+make[2]: Nothing to be done for 'all'.
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/lib/fastlz'
+Making all in perl
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/lib/perl'
+test -f "../../lib/perl/Makefile.PL" || cp -rf "./." "../../lib/perl/"
+/usr/bin/perl Makefile.PL INSTALLDIRS=perl INSTALL_BASE=/usr PREFIX=
+Generating a Unix-style Makefile-pl
+Writing Makefile-pl for Apache::TS
+Writing MYMETA.yml and MYMETA.json
+make -f Makefile-pl INSTALLDIRS=perl PREFIX=/usr DESTDIR=
+make[3]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/lib/perl'
+Skip blib/lib/Apache/TS/Config/Records.pm (unchanged)
+Skip blib/lib/Apache/TS/Config.pm (unchanged)
+Skip blib/lib/Apache/TS.pm (unchanged)
+Skip blib/lib/Apache/TS/AdminClient.pm (unchanged)
+Manifying 3 pod documents
+make[3]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/lib/perl'
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/lib/perl'
+make[1]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/lib'
+Making all in src/tscore
+make[1]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/src/tscore'
+  CXX      CompileParseRules.o
+c++ -std=c++17 -g -pipe -Wall -Wextra -Wno-ignored-qualifiers -Wno-unused-parameter -Wno-format-truncation -Wno-cast-function-type -Wno-stringop-overflow -feliminate-unused-debug-symbols -fno-strict-aliasing -Wno-invalid-offsetof -Wno-noexcept-type -Wsuggest-override -mcx16 -D_GNU_SOURCE -DOPENSSL_NO_SSL_INTERN -DOPENSSL_API_COMPAT=10002 -DOPENSSL_IS_OPENSSL3 -I../../include -I/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/include -o CompileParseRules /home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/src/tscore/CompileParseRules.cc
+LSAN_OPTIONS='detect_leaks=0' ./CompileParseRules
+make  all-am
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/src/tscore'
+  CXX      unit_tests/freelist_benchmark-freelist_benchmark.o
+  CXX      Arena.lo
+  CXX      ArgParser.lo
+  CXX      BaseLogFile.lo
+  CXX      BufferWriterFormat.lo
+  CXX      ContFlags.lo
+  CXX      CryptoHash.lo
+  CXX      Diags.lo
+  CXX      EventNotify.lo
+  CXX      Extendible.lo
+  CXX      HashMD5.lo
+  CXX      HostLookup.lo
+  CXX      hugepages.lo
+  CXX      ink_args.lo
+  CXX      ink_assert.lo
+  CXX      ink_base64.lo
+  CXX      ink_cap.lo
+  CXX      ink_code.lo
+  CXX      ink_defs.lo
+  CXX      ink_error.lo
+  CXX      ink_file.lo
+  CXX      ink_hrtime.lo
+  CXX      ink_hw.lo
+  CXX      ink_inet.lo
+  CXX      ink_memory.lo
+  CXX      ink_mutex.lo
+  CXX      ink_queue.lo
+  CXX      ink_queue_utils.lo
+  CXX      ink_rand.lo
+  CXX      ink_res_init.lo
+  CXX      ink_res_mkquery.lo
+  CXX      ink_resource.lo
+  CXX      ink_rwlock.lo
+  CXX      ink_sock.lo
+  CXX      ink_sprintf.lo
+  CXX      ink_stack_trace.lo
+  CXX      ink_string.lo
+  CXX      ink_string++.lo
+  CXX      ink_sys_control.lo
+  CXX      ink_syslog.lo
+  CXX      ink_thread.lo
+  CXX      ink_time.lo
+  CXX      ink_uuid.lo
+  CXX      IpMap.lo
+  CXX      IpMapConf.lo
+  CXX      JeAllocator.lo
+  CXX      Layout.lo
+  CXX      llqueue.lo
+  CXX      lockfile.lo
+  CXX      MatcherUtils.lo
+  CXX      MemArena.lo
+  CXX      MMH.lo
+  CXX      ParseRules.lo
+  CXX      Regex.lo
+  CXX      Regression.lo
+  CXX      runroot.lo
+  CXX      signals.lo
+  CXX      SourceLocation.lo
+  CXX      TextBuffer.lo
+  CXX      LogMessage.lo
+  CXX      Tokenizer.lo
+  CXX      ts_file.lo
+  CXX      Version.lo
+  CXX      X509HostnameValidator.lo
+  CXXLD    libtscore.la
+  CXXLD    freelist_benchmark
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/src/tscore'
+make[1]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/src/tscore'
+Making all in iocore
+make[1]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/iocore'
+Making all in eventsystem
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/iocore/eventsystem'
+  CXX      EventSystem.o
+  CXX      IOBuffer.o
+  CXX      Inline.o
+  CXX      Lock.o
+  CXX      MIOBufferWriter.o
+  CXX      PQ-List.o
+  CXX      Processor.o
+  CXX      ProtectedQueue.o
+  CXX      ProxyAllocator.o
+  CXX      SocketManager.o
+  CXX      Tasks.o
+  CXX      Thread.o
+  CXX      UnixEThread.o
+  CXX      UnixEvent.o
+  CXX      UnixEventProcessor.o
+  AR       libinkevent.a
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/iocore/eventsystem'
+Making all in net
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/iocore/net'
+make[3]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/iocore/net'
+  CXX      BIO_fastopen.o
+  CXX      ALPNSupport.o
+  CXX      BoringSSLUtils.o
+  CXX      Connection.o
+  CXX      Inline.o
+  CXX      YamlSNIConfig.o
+  CXX      Net.o
+  CXX      NetVConnection.o
+  CXX      ProxyProtocol.o
+  CXX      Socks.o
+  CXX      SSLCertLookup.o
+  CXX      SSLClientCoordinator.o
+  CXX      SSLClientUtils.o
+  CXX      SSLConfig.o
+  CXX      SSLSecret.o
+  CXX      SSLDiags.o
+  CXX      SSLInternal.o
+  CXX      SSLNetAccept.o
+  CXX      SSLNetProcessor.o
+  CXX      SSLNetVConnection.o
+  CXX      SSLNextProtocolAccept.o
+  CXX      SSLNextProtocolSet.o
+  CXX      SSLSNIConfig.o
+  CXX      SSLStats.o
+  CXX      SSLSessionCache.o
+  CXX      SSLSessionTicket.o
+  CXX      SSLUtils.o
+  CXX      OCSPStapling.o
+  CXX      TLSBasicSupport.o
+  CXX      TLSKeyLogger.o
+  CXX      TLSSessionResumptionSupport.o
+  CXX      TLSSNISupport.o
+  CXX      UDPIOEvent.o
+  CXX      UnixConnection.o
+  CXX      UnixNet.o
+  CXX      UnixNetAccept.o
+  CXX      UnixNetPages.o
+  CXX      UnixNetProcessor.o
+  CXX      UnixNetVConnection.o
+  CXX      UnixUDPConnection.o
+  CXX      UnixUDPNet.o
+  CXX      SSLDynlock.o
+  AR       libinknet.a
+make[3]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/iocore/net'
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/iocore/net'
+Making all in aio
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/iocore/aio'
+  CXX      AIO.o
+  CXX      Inline.o
+  AR       libinkaio.a
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/iocore/aio'
+Making all in dns
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/iocore/dns'
+  CXX      DNS.o
+  CXX      DNSConnection.o
+  CXX      Inline.o
+  CXX      SplitDNS.o
+  AR       libinkdns.a
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/iocore/dns'
+Making all in hostdb
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/iocore/hostdb'
+  CXX      Inline.o
+  CXX      HostDB.o
+  CXX      RefCountCache.o
+  AR       libinkhostdb.a
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/iocore/hostdb'
+Making all in utils
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/iocore/utils'
+  CXX      Machine.o
+  CXX      OneWayMultiTunnel.o
+  CXX      OneWayTunnel.o
+  AR       libinkutils.a
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/iocore/utils'
+Making all in cache
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/iocore/cache'
+  CXX      Cache.o
+  CXX      CacheDir.o
+  CXX      CacheDisk.o
+  CXX      CacheHosting.o
+  CXX      CacheHttp.o
+  CXX      CacheLink.o
+  CXX      CachePages.o
+  CXX      CachePagesInternal.o
+  CXX      CacheRead.o
+  CXX      CacheVol.o
+  CXX      CacheWrite.o
+  CXX      Inline.o
+  CXX      RamCacheCLFUS.o
+  CXX      RamCacheLRU.o
+  CXX      Store.o
+  AR       libinkcache.a
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/iocore/cache'
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/iocore'
+make[2]: Nothing to be done for 'all-am'.
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/iocore'
+make[1]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/iocore'
+Making all in proxy
+make[1]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/proxy'
+Making all in hdrs
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/proxy/hdrs'
+  CXX      HdrHeap.o
+  CXX      HTTP.o
+  CXX      HdrTSOnly.o
+  CXX      HdrToken.o
+  CXX      HdrUtils.o
+  CXX      HttpCompat.o
+  CXX      MIME.o
+  CXX      URL.o
+  CXX      HuffmanCodec.o
+  CXX      XPACK.o
+  AR       libhdrs.a
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/proxy/hdrs'
+Making all in shared
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/proxy/shared'
+  CXX      UglyLogStubs.o
+  CXX      DiagsConfig.o
+  AR       libdiagsconfig.a
+  AR       libUglyLogStubs.a
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/proxy/shared'
+Making all in http
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/proxy/http'
+Making all in remap
+make[3]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/proxy/http/remap'
+  CXX      AclFiltering.o
+  CXX      NextHopSelectionStrategy.o
+  CXX      NextHopConsistentHash.o
+  CXX      NextHopHealthStatus.o
+  CXX      NextHopRoundRobin.o
+  CXX      NextHopStrategyFactory.o
+  CXX      RemapConfig.o
+  CXX      RemapHitCount.o
+  CXX      RemapPluginInfo.o
+  CXX      PluginDso.o
+  CXX      PluginFactory.o
+  CXX      RemapPlugins.o
+  CXX      RemapProcessor.o
+  CXX      UrlMapping.o
+  CXX      UrlMappingPathIndex.o
+  CXX      UrlRewrite.o
+  CXX      unit-tests/plugin_v1_la-plugin_misc_cb.lo
+  CXX      unit-tests/plugin_v2_la-plugin_misc_cb.lo
+  CXX      unit-tests/plugin_init_fail_la-plugin_init_fail.lo
+  CXX      unit-tests/plugin_instinit_fail_la-plugin_instinit_fail.lo
+  CXX      unit-tests/plugin_required_cb_la-plugin_required_cb.lo
+  CXX      unit-tests/plugin_missing_deleteinstance_la-plugin_missing_deleteinstance.lo
+  CXX      unit-tests/plugin_missing_doremap_la-plugin_missing_doremap.lo
+  CXX      unit-tests/plugin_missing_init_la-plugin_missing_init.lo
+  CXX      unit-tests/plugin_missing_newinstance_la-plugin_missing_newinstance.lo
+  CXX      unit-tests/plugin_testing_calls_la-plugin_testing_calls.lo
+  CXX      unit-tests/plugin_testing_calls_la-plugin_testing_common.lo
+  AR       libhttp_remap.a
+  CXXLD    unit-tests/plugin_v1.la
+  CXXLD    unit-tests/plugin_v2.la
+  CXXLD    unit-tests/plugin_init_fail.la
+  CXXLD    unit-tests/plugin_instinit_fail.la
+  CXXLD    unit-tests/plugin_required_cb.la
+  CXXLD    unit-tests/plugin_missing_deleteinstance.la
+  CXXLD    unit-tests/plugin_missing_doremap.la
+  CXXLD    unit-tests/plugin_missing_init.la
+  CXXLD    unit-tests/plugin_missing_newinstance.la
+  CXXLD    unit-tests/plugin_testing_calls.la
+make[3]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/proxy/http/remap'
+make[3]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/proxy/http'
+  CXX      HttpSessionAccept.o
+  CXX      HttpBodyFactory.o
+  CXX      HttpCacheSM.o
+  CXX      Http1ClientSession.o
+  CXX      Http1ClientTransaction.o
+  CXX      Http1ServerTransaction.o
+  CXX      HttpConfig.o
+  CXX      HttpConnectionCount.o
+  CXX      HttpDebugNames.o
+  CXX      HttpPages.o
+  CXX      HttpProxyServerMain.o
+  CXX      HttpSM.o
+  CXX      Http1ServerSession.o
+  CXX      HttpSessionManager.o
+  CXX      HttpTransact.o
+  CXX      HttpTransactCache.o
+  CXX      HttpTransactHeaders.o
+  CXX      HttpTunnel.o
+  CXX      ForwardedConfig.o
+  CXX      PreWarmConfig.o
+  CXX      PreWarmManager.o
+  AR       libhttp.a
+make[3]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/proxy/http'
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/proxy/http'
+Making all in http2
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/proxy/http2'
+  CXX      HPACK.o
+  CXX      HTTP2.o
+  CXX      Http2Frame.o
+  CXX      Http2ClientSession.o
+  CXX      Http2CommonSession.o
+  CXX      Http2ConnectionState.o
+  CXX      Http2DebugNames.o
+  CXX      Http2FrequencyCounter.o
+  CXX      Http2Stream.o
+  CXX      Http2SessionAccept.o
+  AR       libhttp2.a
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/proxy/http2'
+Making all in logging
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/proxy/logging'
+  CXX      Log.o
+  CXX      LogAccess.o
+  CXX      LogBuffer.o
+  CXX      LogConfig.o
+  CXX      LogField.o
+  CXX      LogFieldAliasMap.o
+  CXX      LogFile.o
+  CXX      LogFilter.o
+  CXX      LogFormat.o
+  CXX      LogObject.o
+  CXX      LogUtils.o
+  CXX      RolledLogDeleter.o
+  CXX      YamlLogConfig.o
+  CXX      YamlLogConfigDecoders.o
+  AR       liblogging.a
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/proxy/logging'
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/proxy'
+  CXX      CacheControl.o
+  CXX      ControlBase.o
+  CXX      ControlMatcher.o
+  CXX      IPAllow.o
+  CXX      ParentConsistentHash.o
+  CXX      ParentRoundRobin.o
+  CXX      ParentSelectionStrategy.o
+  CXX      ParentSelection.o
+  CXX      Plugin.o
+  CXX      PluginVC.o
+  CXX      ProtocolProbeSessionAccept.o
+  CXX      ProxySession.o
+  CXX      ProxyTransaction.o
+  CXX      ReverseProxy.o
+  CXX      StatPages.o
+  CXX      Transform.o
+  CXX      private/SSLProxySession.o
+  AR       libproxy.a
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/proxy'
+make[1]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/proxy'
+Making all in mgmt
+make[1]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/mgmt'
+Making all in utils
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/mgmt/utils'
+  CXX      MgmtMarshall.lo
+  CXX      MgmtSocket.lo
+  CXX      MgmtUtils.lo
+  CXX      ExpandingArray.lo
+  CXX      MgmtLocalCleanup.lo
+  CXX      MgmtProcessCleanup.lo
+  CXXLD    libutils_lm.la
+  CXXLD    libutils_p.la
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/mgmt/utils'
+Making all in api
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/mgmt/api'
+Making all in include
+make[3]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/mgmt/api/include'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/mgmt/api/include'
+make[3]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/mgmt/api'
+  CXX      NetworkUtilsRemote.lo
+  CXX      CoreAPIRemote.lo
+  CXX      CoreAPIShared.lo
+  CXX      EventCallback.lo
+  CXX      INKMgmtAPI.lo
+  CXX      NetworkMessage.lo
+  CXX      CoreAPI.lo
+  CXX      EventControlMain.lo
+  CXX      NetworkUtilsLocal.lo
+  CXX      TSControlMain.lo
+  CXXLD    libmgmtapi.la
+  CXXLD    libtsmgmt.la
+  CXXLD    libmgmtapilocal.la
+make[3]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/mgmt/api'
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/mgmt/api'
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/mgmt'
+  CXX      RecordsConfig.lo
+  CXX      BaseManager.lo
+  CXX      RecordsConfigUtils.lo
+  CXX      ProcessManager.lo
+  CXX      ProxyConfig.lo
+  CXX      YamlCfg.lo
+  CXX      Alarms.lo
+  CXX      DerivativeMetrics.lo
+  CXX      FileManager.lo
+  CXX      LocalManager.lo
+  CXX      ConfigManager.lo
+  CXX      WebMgmtUtils.lo
+  CXXLD    libmgmt_c.la
+  CXXLD    libmgmt_p.la
+  CXXLD    libmgmt_lm.la
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/mgmt'
+make[1]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/mgmt'
+Making all in src
+make[1]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/src'
+Making all in tscpp/api
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/src/tscpp/api'
+  CXX      libtscppapi_la-AsyncHttpFetch.lo
+  CXX      libtscppapi_la-AsyncTimer.lo
+  CXX      libtscppapi_la-CaseInsensitiveStringComparator.lo
+  CXX      libtscppapi_la-ClientRequest.lo
+  CXX      libtscppapi_la-Continuation.lo
+  CXX      libtscppapi_la-GlobalPlugin.lo
+  CXX      libtscppapi_la-GzipDeflateTransformation.lo
+  CXX      libtscppapi_la-GzipInflateTransformation.lo
+  CXX      libtscppapi_la-Headers.lo
+  CXX      libtscppapi_la-HttpMethod.lo
+  CXX      libtscppapi_la-HttpVersion.lo
+  CXX      libtscppapi_la-InterceptPlugin.lo
+  CXX      libtscppapi_la-Logger.lo
+  CXX      libtscppapi_la-Plugin.lo
+  CXX      libtscppapi_la-RemapPlugin.lo
+  CXX      libtscppapi_la-Request.lo
+  CXX      libtscppapi_la-Response.lo
+  CXX      libtscppapi_la-Stat.lo
+  CXX      libtscppapi_la-Transaction.lo
+  CXX      libtscppapi_la-TransactionPlugin.lo
+  CXX      libtscppapi_la-TransformationPlugin.lo
+  CXX      libtscppapi_la-Url.lo
+  CXX      libtscppapi_la-utils.lo
+  CXX      libtscppapi_la-utils_internal.lo
+  CXXLD    libtscppapi.la
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/src/tscpp/api'
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/src'
+  CXX      traffic_server/traffic_server-traffic_server.o
+  CXX      shared/traffic_ctl_traffic_ctl-overridable_txn_vars.o
+  CXX      traffic_ctl/traffic_ctl-traffic_ctl.o
+  CXX      traffic_cache_tool/traffic_cache_tool-CacheDefs.o
+  CXX      traffic_cache_tool/traffic_cache_tool-CacheTool.o
+  CXX      traffic_cache_tool/traffic_cache_tool-CacheScan.o
+  CXX      traffic_via/traffic_via-traffic_via.o
+  CXX      traffic_manager/traffic_manager-AddConfigFilesHere.o
+  CXX      traffic_manager/traffic_manager-traffic_manager.o
+  CXX      traffic_server/traffic_server-Crash.o
+  CXX      traffic_server/traffic_server-EventName.o
+  CXX      traffic_server/traffic_server-FetchSM.o
+  CXX      traffic_server/traffic_server-HostStatus.o
+  CXX      traffic_server/traffic_server-InkAPI.o
+  CXX      traffic_server/traffic_server-InkIOCoreAPI.o
+  CXX      traffic_server/traffic_server-SocksProxy.o
+  CXX      shared/traffic_server_traffic_server-overridable_txn_vars.o
+  CXX      traffic_logstats/traffic_logstats-logstats.o
+  CXX      traffic_crashlog/traffic_crashlog-procinfo.o
+  CXX      traffic_crashlog/traffic_crashlog-traffic_crashlog.o
+  CXX      traffic_ctl/traffic_ctl-alarm.o
+  CXX      traffic_ctl/traffic_ctl-config.o
+  CXX      traffic_ctl/traffic_ctl-metric.o
+  CXX      traffic_ctl/traffic_ctl-plugin.o
+  CXX      traffic_ctl/traffic_ctl-server.o
+  CXX      traffic_ctl/traffic_ctl-storage.o
+  CXX      traffic_ctl/traffic_ctl-host.o
+  CXX      traffic_layout/traffic_layout-traffic_layout.o
+  CXX      traffic_layout/traffic_layout-file_system.o
+  CXX      traffic_layout/traffic_layout-engine.o
+  CXX      traffic_layout/traffic_layout-info.o
+  CXX      traffic_logcat/traffic_logcat-logcat.o
+  CXXLD    traffic_cache_tool/traffic_cache_tool
+  CXXLD    traffic_via/traffic_via
+  CXXLD    traffic_manager/traffic_manager
+  CXXLD    traffic_server/traffic_server
+  CXXLD    traffic_logstats/traffic_logstats
+  CXXLD    traffic_crashlog/traffic_crashlog
+  CXXLD    traffic_ctl/traffic_ctl
+  CXXLD    traffic_layout/traffic_layout
+  CXXLD    traffic_logcat/traffic_logcat
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/src'
+make[1]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/src'
+Making all in plugins
+make[1]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/plugins'
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/plugins'
+  CXX      esi/lib/esi_la-HandlerManager.lo
+  CXX      esi/esi_la-serverIntercept.lo
+  CXX      esi/combo_handler_la-combo_handler.lo
+  CXX      esi/fetcher/combo_handler_la-HttpDataFetcherImpl.lo
+  CXX      esi/lib/combo_handler_la-HandlerManager.lo
+  CXX      header_rewrite/condition.lo
+  CXX      header_rewrite/conditions.lo
+  CXX      header_rewrite/factory.lo
+  CXX      header_rewrite/header_rewrite.lo
+  CXX      header_rewrite/lulu.lo
+  CXX      header_rewrite/operator.lo
+  CXX      header_rewrite/operators.lo
+  CXX      header_rewrite/regex_helper.lo
+  CXX      header_rewrite/ipranges_helper.lo
+  CXX      header_rewrite/resources.lo
+  CXX      header_rewrite/ruleset.lo
+  CXX      header_rewrite/statement.lo
+  CXX      header_rewrite/value.lo
+  CXX      experimental/sslheaders/sslheaders_la-sslheaders.lo
+  CXX      esi/lib/libesicore_la-DocNode.lo
+  CXX      esi/lib/libesicore_la-EsiGunzip.lo
+  CXX      esi/lib/libesicore_la-EsiGzip.lo
+  CXX      esi/lib/libesicore_la-EsiParser.lo
+  CXX      esi/lib/libesicore_la-EsiProcessor.lo
+  CXX      esi/lib/libesicore_la-Expression.lo
+  CXX      esi/lib/libesicore_la-Stats.lo
+  CXX      esi/lib/libesicore_la-Utils.lo
+  CXX      esi/lib/libesicore_la-Variables.lo
+  CXX      esi/lib/libesicore_la-gzip.lo
+  CXX      esi/test/libtest_la-print_funcs.lo
+  CXX      esi/test/libtest_la-HandlerMap.lo
+  CXX      esi/test/libtest_la-StubIncludeHandler.lo
+  CXX      esi/test/libtest_la-TestHandlerManager.lo
+  CXX      header_rewrite/parser.lo
+  CXX      experimental/sslheaders/libsslhdr_la-expand.lo
+  CXX      experimental/sslheaders/libsslhdr_la-util.lo
+  CXX      authproxy/authproxy.lo
+  CXX      authproxy/utils.lo
+  CXX      background_fetch/background_fetch.lo
+  CXX      background_fetch/configs.lo
+  CXX      background_fetch/headers.lo
+  CXX      background_fetch/rules.lo
+  CXX      cachekey/cachekey.lo
+  CXX      cachekey/common.lo
+  CXX      cachekey/configs.lo
+  CXX      cachekey/pattern.lo
+  CXX      cachekey/plugin.lo
+  CXX      cache_promote/cache_promote.lo
+  CXX      cache_promote/configs.lo
+  CXX      cache_promote/policy.lo
+  CXX      cache_promote/lru_policy.lo
+  CXX      cache_promote/policy_manager.lo
+  CXX      cache_range_requests/cache_range_requests.lo
+  CXX      certifier/certifier.lo
+  CXX      conf_remap/conf_remap.lo
+  CXX      escalate/escalate.lo
+  CXX      esi/esi_la-esi.lo
+  CXX      esi/fetcher/esi_la-HttpDataFetcherImpl.lo
+  CXX      generator/generator.lo
+  CXX      compress/compress_la-compress.lo
+  CXX      compress/compress_la-configuration.lo
+  CXX      compress/compress_la-misc.lo
+  CC       healthchecks/healthchecks.lo
+  CC       libloader/libloader.lo
+  CXX      multiplexer/multiplexer_la-ats-multiplexer.lo
+  CXX      multiplexer/multiplexer_la-chunk-decoder.lo
+  CXX      multiplexer/multiplexer_la-dispatch.lo
+  CXX      multiplexer/multiplexer_la-fetcher.lo
+  CXX      multiplexer/multiplexer_la-original-request.lo
+  CXX      multiplexer/multiplexer_la-post.lo
+  CXX      multiplexer/multiplexer_la-ts.lo
+  CXX      prefetch/plugin.lo
+  CXX      prefetch/common.lo
+  CXX      prefetch/configs.lo
+  CXX      prefetch/fetch.lo
+  CXX      prefetch/headers.lo
+  CXX      prefetch/pattern.lo
+  CXX      prefetch/fetch_policy.lo
+  CXX      prefetch/fetch_policy_simple.lo
+  CXX      prefetch/fetch_policy_lru.lo
+  CXX      prefetch/evaluate.lo
+  CXX      regex_remap/regex_remap.lo
+  CC       regex_revalidate/regex_revalidate.lo
+  CC       remap_purge/remap_purge.lo
+  CXX      s3_auth/s3_auth.lo
+  CXX      s3_auth/aws_auth_v4.lo
+  CXX      server_push_preload/server_push_preload.lo
+  CC       stats_over_http/stats_over_http.lo
+  CXX      tcpinfo/tcpinfo.lo
+  CXX      xdebug/xdebug.lo
+  CXX      experimental/access_control/access_control.lo
+  CXX      experimental/access_control/common.lo
+  CXX      experimental/access_control/config.lo
+  CXX      experimental/access_control/headers.lo
+  CXX      experimental/access_control/pattern.lo
+  CXX      experimental/access_control/plugin.lo
+  CXX      experimental/access_control/utils.lo
+  CC       experimental/acme/acme.lo
+  CXX      experimental/block_errors/block_errors.lo
+  CXX      experimental/cache_fill/cache_fill.lo
+  CXX      experimental/cache_fill/background_fetch.lo
+  CXX      experimental/cert_reporting_tool/cert_reporting_tool.lo
+  CXX      experimental/collapsed_forwarding/collapsed_forwarding.lo
+  CXX      experimental/cookie_remap/cookie_remap.lo
+  CC       experimental/cookie_remap/hash.lo
+  CXX      experimental/cookie_remap/strip.lo
+  CXX      experimental/cookie_remap/cookiejar.lo
+  CXX      experimental/custom_redirect/custom_redirect.lo
+  CC       experimental/fq_pacing/fq_pacing.lo
+  CXX      experimental/geoip_acl/acl.lo
+  CXX      experimental/geoip_acl/geoip_acl.lo
+  CXX      experimental/header_freq/header_freq.lo
+  CXX      experimental/parent_select/strategy.lo
+  CXX      experimental/parent_select/healthstatus.lo
+  CXX      experimental/parent_select/consistenthash.lo
+  CXX      experimental/parent_select/consistenthash_config.lo
+  CXX      experimental/parent_select/parent_select.lo
+  CXX      experimental/hook-trace/hook-trace.lo
+  CXX      experimental/http_stats/http_stats.lo
+  CXX      experimental/icap/icap_plugin.lo
+  CXX      experimental/inliner/inliner_la-ats-inliner.lo
+  CXX      experimental/inliner/inliner_la-cache.lo
+  CXX      experimental/inliner/inliner_la-chunk-decoder.lo
+  CXX      experimental/inliner/inliner_la-fetcher.lo
+  CXX      experimental/inliner/inliner_la-html-parser.lo
+  CXX      experimental/inliner/inliner_la-inliner-handler.lo
+  CXX      experimental/inliner/inliner_la-ts.lo
+  CXX      experimental/memcache/tsmemcache_la-tsmemcache.lo
+  CXX      experimental/memory_profile/memory_profile_la-memory_profile.lo
+  CXX      experimental/metalink/metalink.lo
+  CXX      experimental/money_trace/money_trace.lo
+  CXX      experimental/mp4/mp4.lo
+  CXX      experimental/mp4/mp4_meta.lo
+  CXX      experimental/rate_limit/rate_limit.lo
+  CXX      experimental/rate_limit/txn_limiter.lo
+  CXX      experimental/rate_limit/sni_limiter.lo
+  CXX      experimental/rate_limit/sni_selector.lo
+  CXX      experimental/rate_limit/ip_reputation.lo
+  CXX      experimental/rate_limit/utilities.lo
+  CXX      experimental/redo_cache_lookup/redo_cache_lookup.lo
+  CXX      experimental/remap_stats/remap_stats.lo
+  CXX      experimental/slice/client.lo
+  CXX      experimental/slice/Config.lo
+  CXX      experimental/slice/ContentRange.lo
+  CXX      experimental/slice/HttpHeader.lo
+  CXX      experimental/slice/intercept.lo
+  CXX      experimental/slice/prefetch.lo
+  CXX      experimental/slice/Range.lo
+  CXX      experimental/slice/response.lo
+  CXX      experimental/slice/server.lo
+  CXX      experimental/slice/slice.lo
+  CXX      experimental/slice/transfer.lo
+  CXX      experimental/slice/util.lo
+  CXX      experimental/statichit/statichit.lo
+  CXX      experimental/stream_editor/stream_editor.lo
+  CC       experimental/system_stats/system_stats.lo
+  CXX      experimental/traffic_dump/json_utils.lo
+  CXX      experimental/traffic_dump/session_data.lo
+  CXX      experimental/traffic_dump/traffic_dump.lo
+  CXX      experimental/traffic_dump/transaction_data.lo
+  CXX      experimental/tls_bridge/tls_bridge.lo
+  CXX      experimental/tls_bridge/regex.lo
+  CC       experimental/url_sig/url_sig.lo
+  CXX      experimental/ja3_fingerprint/ja3_fingerprint.lo
+  CXXLD    esi/libesicore.la
+  CXXLD    header_rewrite/parser.la
+  CXXLD    experimental/sslheaders/libsslhdr.la
+  CXXLD    authproxy/authproxy.la
+  CXXLD    background_fetch/background_fetch.la
+  CXXLD    cachekey/cachekey.la
+  CXXLD    cache_promote/cache_promote.la
+  CXXLD    cache_range_requests/cache_range_requests.la
+  CXXLD    certifier/certifier.la
+  CXXLD    conf_remap/conf_remap.la
+  CXXLD    escalate/escalate.la
+  CXXLD    esi/esi.la
+  CXXLD    esi/combo_handler.la
+  CXXLD    generator/generator.la
+  CXXLD    compress/compress.la
+  CXXLD    header_rewrite/header_rewrite.la
+  CCLD     healthchecks/healthchecks.la
+  CCLD     libloader/libloader.la
+  CXXLD    multiplexer/multiplexer.la
+  CXXLD    prefetch/prefetch.la
+  CXXLD    regex_remap/regex_remap.la
+  CCLD     regex_revalidate/regex_revalidate.la
+  CCLD     remap_purge/remap_purge.la
+  CXXLD    s3_auth/s3_auth.la
+  CXXLD    server_push_preload/server_push_preload.la
+  CCLD     stats_over_http/stats_over_http.la
+  CXXLD    tcpinfo/tcpinfo.la
+  CXXLD    xdebug/xdebug.la
+  CXXLD    experimental/access_control/access_control.la
+  CCLD     experimental/acme/acme.la
+  CXXLD    experimental/block_errors/block_errors.la
+  CXXLD    experimental/cache_fill/cache_fill.la
+  CXXLD    experimental/cert_reporting_tool/cert_reporting_tool.la
+  CXXLD    experimental/collapsed_forwarding/collapsed_forwarding.la
+  CXXLD    experimental/cookie_remap/cookie_remap.la
+  CXXLD    experimental/custom_redirect/custom_redirect.la
+  CCLD     experimental/fq_pacing/fq_pacing.la
+  CXXLD    experimental/geoip_acl/geoip_acl.la
+  CXXLD    experimental/header_freq/header_freq.la
+  CXXLD    experimental/parent_select/parent_select.la
+  CXXLD    experimental/hook-trace/hook-trace.la
+  CXXLD    experimental/http_stats/http_stats.la
+  CXXLD    experimental/icap/icap.la
+  CXXLD    experimental/inliner/inliner.la
+  CXXLD    experimental/memcache/tsmemcache.la
+  CXXLD    experimental/memory_profile/memory_profile.la
+  CXXLD    experimental/metalink/metalink.la
+  CXXLD    experimental/money_trace/money_trace.la
+  CXXLD    experimental/mp4/mp4.la
+  CXXLD    experimental/rate_limit/rate_limit.la
+  CXXLD    experimental/redo_cache_lookup/redo_cache_lookup.la
+  CXXLD    experimental/remap_stats/remap_stats.la
+  CXXLD    experimental/slice/slice.la
+  CXXLD    experimental/sslheaders/sslheaders.la
+  CXXLD    experimental/statichit/statichit.la
+  CXXLD    experimental/stream_editor/stream_editor.la
+  CCLD     experimental/system_stats/system_stats.la
+  CXXLD    experimental/traffic_dump/traffic_dump.la
+  CXXLD    experimental/tls_bridge/tls_bridge.la
+  CCLD     experimental/url_sig/url_sig.la
+  CXXLD    experimental/ja3_fingerprint/ja3_fingerprint.la
+  CXXLD    esi/libtest.la
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/plugins'
+make[1]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/plugins'
+Making all in tools
+make[1]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/tools'
+  CXX      jtest/jtest.o
+  CC       http_load/http_load.o
+  CC       http_load/timers.o
+  CXX      escape_mapper/escape_mapper.o
+  CCLD     http_load/http_load
+  CXXLD    escape_mapper/escape_mapper
+  CXXLD    jtest/jtest
+make[1]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/tools'
+Making all in example
+make[1]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/example'
+Making all in plugins
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/example/plugins'
+Making all in c-api
+make[3]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/example/plugins/c-api'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/example/plugins/c-api'
+Making all in cpp-api
+make[3]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/example/plugins/cpp-api'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/example/plugins/cpp-api'
+make[3]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/example/plugins'
+make[3]: Nothing to be done for 'all-am'.
+make[3]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/example/plugins'
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/example/plugins'
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/example'
+make[2]: Nothing to be done for 'all-am'.
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/example'
+make[1]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/example'
+Making all in rc
+make[1]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/rc'
+make[1]: Nothing to be done for 'all'.
+make[1]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/rc'
+Making all in configs
+make[1]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/configs'
+Making all in body_factory
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/configs/body_factory'
+Making all in default
+make[3]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/configs/body_factory/default'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/configs/body_factory/default'
+make[3]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/configs/body_factory'
+make[3]: Nothing to be done for 'all-am'.
+make[3]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/configs/body_factory'
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/configs/body_factory'
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/configs'
+make[2]: Nothing to be done for 'all-am'.
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/configs'
+make[1]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/configs'
+Making all in tests
+make[1]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/tests'
+make[2]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/tests'
+  CC       gold_tests/bigobj/check_ramp.o
+  CC       gold_tests/bigobj/push_request.o
+  CC       gold_tests/chunked_encoding/smuggle-client.o
+  CXX      gold_tests/timeout/ssl-delay-server.o
+  CC       gold_tests/tls/ssl-post.o
+  CXX      gold_tests/continuations/plugins/session_id_verify.lo
+  CXX      gold_tests/pluginTest/tsapi/test_tsapi.lo
+  CXX      tools/plugins/cert_update.lo
+  CXX      tools/plugins/conf_remap_stripped.lo
+  CXX      tools/plugins/continuations_verify.lo
+  CXX      tools/plugins/cont_schedule.lo
+  CXX      tools/plugins/custom204plugin.lo
+  CXX      tools/plugins/emergency_shutdown.lo
+  CXX      tools/plugins/fatal_shutdown.lo
+  CXX      tools/plugins/hook_add_plugin.lo
+  CC       tools/plugins/missing_mangled_definition_c.lo
+  CXX      tools/plugins/missing_mangled_definition_cpp.lo
+  CXX      tools/plugins/missing_ts_plugin_init.lo
+  CXX      tools/plugins/ssl_client_verify_test.lo
+  CXX      tools/plugins/ssl_hook_test.lo
+  CXX      tools/plugins/ssl_verify_test.lo
+  CXX      tools/plugins/ssntxnorder_verify.lo
+  CXX      tools/plugins/test_cppapi.lo
+  CXX      tools/plugins/test_hooks.lo
+  CXX      tools/plugins/test_log_interface.lo
+  CXX      tools/plugins/user_args.lo
+  CC       tools/plugins/async_engine.lo
+  CCLD     gold_tests/bigobj/check_ramp
+  CCLD     gold_tests/bigobj/push_request
+  CCLD     gold_tests/chunked_encoding/smuggle-client
+  CXXLD    gold_tests/timeout/ssl-delay-server
+  CCLD     gold_tests/tls/ssl-post
+  CXXLD    gold_tests/continuations/plugins/session_id_verify.la
+  CXXLD    gold_tests/pluginTest/tsapi/test_tsapi.la
+  CXXLD    tools/plugins/cert_update.la
+  CXXLD    tools/plugins/conf_remap_stripped.la
+  CXXLD    tools/plugins/continuations_verify.la
+  CXXLD    tools/plugins/cont_schedule.la
+  CXXLD    tools/plugins/custom204plugin.la
+  CXXLD    tools/plugins/emergency_shutdown.la
+  CXXLD    tools/plugins/fatal_shutdown.la
+  CXXLD    tools/plugins/hook_add_plugin.la
+  CXXLD    tools/plugins/missing_mangled_definition.la
+  CXXLD    tools/plugins/missing_ts_plugin_init.la
+  CXXLD    tools/plugins/ssl_client_verify_test.la
+  CXXLD    tools/plugins/ssl_hook_test.la
+  CXXLD    tools/plugins/ssl_verify_test.la
+  CXXLD    tools/plugins/ssntxnorder_verify.la
+  CXXLD    tools/plugins/test_cppapi.la
+  CXXLD    tools/plugins/test_hooks.la
+  CXXLD    tools/plugins/test_log_interface.la
+  CXXLD    tools/plugins/user_args.la
+  CXXLD    tools/plugins/async_engine.la
+make[2]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/tests'
+make[1]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3/tests'
+make[1]: Entering directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3'
+make[1]: Leaving directory '/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/source/trafficserver-9.2.3'

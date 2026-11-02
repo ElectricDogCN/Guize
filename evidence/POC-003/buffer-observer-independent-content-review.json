@@ -1,0 +1,29 @@
+{
+  "reviewerRole": "independent-review-agent",
+  "actualReviewer": "/root/gz022_planning_independent_review",
+  "reviewedAt": "2026-10-22T15:50:44Z",
+  "baseSource": "d1c0cf7d008f3f359811a5ab75ec949c8d412dd7",
+  "intermediateContentAccepted": true,
+  "mustFix": [],
+  "actualTestsPassed": 30,
+  "noSkippedTests": true,
+  "missingSandboxActualExitCode": 1,
+  "checksReceiptSha256": "19cf1cc3c718dfbed87081946675b3369ddc05b5ff7296800dcde43c882098d7",
+  "buildReceiptSha256": "ab215c88450c7dacd8167417b1d14a05f0b6450364c74302a8236b4287532cbf",
+  "actualBinarySha256": "d282145792051f38800f014eb4b5f823025b3460afc2f1329f17bfbc4724e9a2",
+  "files": {
+    "lab.py": "02d7cd16bc6d721bcdbfdbd86d1a54a12b14984f6386afdbdf8fa8b9c93e49e6",
+    "cache_export.cc": "c2d73081e3a554f4d9a7e7c77b9c7337db31afac4689dfa6f37995ffa35315de",
+    "buffer_probe.py": "56933170456c3414f5fc3dfc28bec8c98c1a27273868d5d545c447663a385025",
+    "test_buffer_probe.py": "f8c55495e94eed9ea19e77b1018319bf8e0f3931b56cf5832bd4f5f3f40edfcb",
+    "test_buffer_probe_native.py": "0cd0820a982111207337bf6a37595a3f74686f403299d7cf78b5dea545309ec2",
+    "README.md": "c1dd9e8d3ed78ee2b94882bbc50749199c2c47331f809f7dfc5bc23f0135da7d"
+  },
+  "measurementDomainApproved": false,
+  "samplesOrResourcesApproved": false,
+  "experimentApproved": false,
+  "original15Accepted": false,
+  "qualifiedProfileAccepted": false,
+  "fullBufferBoundAccepted": false,
+  "integrationAccepted": false
+}

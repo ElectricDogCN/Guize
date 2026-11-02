@@ -1,0 +1,16 @@
+{
+  "source": "18163e180e554773ef82e1eea7ffcafa634b027a",
+  "tree": "422c95a29fb8fe7558091826c1d1464a6d08398f",
+  "base": "11c32830c0d1bb8ccdcc04aa278876065bce1f33",
+  "reviewerRole": "independent-review-agent",
+  "actualReviewer": "/root/gz022_planning_independent_review",
+  "recordedAt": "2026-10-22T14:21:27.991Z",
+  "intermediateContentAccepted": true,
+  "mustFix": [],
+  "sourceOverallAccepted": false,
+  "experimentApproved": false,
+  "sampleApproved": false,
+  "resourceApproved": false,
+  "integrationApproved": false,
+  "scope": "Actual read-only review of current59 paths and all code/config/source receipts; no confirmed grant/revocation false-pass or authorization bypass. Original15 typed/stage/buffer remain explicitly incomplete."
+}

@@ -1,0 +1,280 @@
+{
+  "recordedAt": "2026-10-25T16:56:52.997842+00:00",
+  "sourceCommit": "087068d32c918da43465f0f91ca6cccd0e088d67",
+  "sourceStatus": "DIRTY exact four source hashes",
+  "sources": [
+    {
+      "path": "poc/POC-03-ats-range/lab.py",
+      "bytes": 40835,
+      "sha256": "49631a1681d1bda39fa77915244326a1c6fa4069f67245c213e997d1dd1d12fc"
+    },
+    {
+      "path": "poc/POC-03-ats-range/collect.py",
+      "bytes": 13833,
+      "sha256": "f28b3dbc0e8d295d125fe67f5c863a4a2f5385df4db1a76780025b07101e7c25"
+    },
+    {
+      "path": "poc/POC-03-ats-range/input_profile.py",
+      "bytes": 6966,
+      "sha256": "9e05fc5da62ff8471d1b404417b0b27d2179caeeebeb0dfeb498a8a8de9945e6"
+    },
+    {
+      "path": "poc/POC-03-ats-range/test_input_profile.py",
+      "bytes": 10989,
+      "sha256": "c496798c77dddd098f85e0dce56ce47d636de847c5066d11393f5b0596d51ff0"
+    }
+  ],
+  "actualWindowsTests": 25,
+  "actualNativeTests": 25,
+  "testSkipped": 0,
+  "priorWindowsV1ActualTests": 8,
+  "priorWindowsV1ActualErrors": 1,
+  "priorNativeV1ActualTests": 25,
+  "oldV1SourcesReconstructedAndHashVerified": true,
+  "sourceHttpStarted": false,
+  "atsStarted": false,
+  "pocExecuted": false,
+  "fullSourceAccepted": false,
+  "fullMediaDomainAccepted": false,
+  "qualificationAccepted": false,
+  "files": [
+    {
+      "ref": "00-4e905fe6820b.zlib.b64",
+      "original": "poc003-input-profile-v1-windows-checks/results.json",
+      "encoding": "zlib-base64",
+      "bytes": 1948,
+      "sha256": "7093386aa5cee912206ee3f228aab2b62189af06f276f400fd867e060f12b388"
+    },
+    {
+      "ref": "01-91e2d36b1135.zlib.b64",
+      "original": "poc003-input-profile-v1-windows-checks/test_input_profile.py.raw",
+      "encoding": "zlib-base64",
+      "bytes": 3301,
+      "sha256": "de28d5566056236fdecb48909f39b3fcfb400e1e1526350c10b397df2cc92bd9"
+    },
+    {
+      "ref": "02-b24b1191a016.zlib.b64",
+      "original": "poc003-input-profile-windows-stat-observation.json",
+      "encoding": "zlib-base64",
+      "bytes": 958,
+      "sha256": "289b0760e057caf45ff92a5dd2be0b07a111c6070f15164102dfe3b3a5a092cc"
+    },
+    {
+      "ref": "03-b4c101e9819b.zlib.b64",
+      "original": "poc003-input-profile-v1-native-checks/results.json",
+      "encoding": "zlib-base64",
+      "bytes": 4443,
+      "sha256": "26d1c3f09fb51f543e4a0fd7a2e65451ab29e53d0bc63791fcda16dd9dc9a38b"
+    },
+    {
+      "ref": "04-5de38b05ade4.zlib.b64",
+      "original": "poc003-input-profile-v1-native-checks/test_cache_body_bounds.py.raw",
+      "encoding": "zlib-base64",
+      "bytes": 832,
+      "sha256": "1b54976ffa7b0a62b898d10b8ef1f995d5562b3ea4ba3def0fb8949fe86cf7b8"
+    },
+    {
+      "ref": "05-b2ab5a49ea03.zlib.b64",
+      "original": "poc003-input-profile-v1-native-checks/test_cache_probe.py.raw",
+      "encoding": "zlib-base64",
+      "bytes": 983,
+      "sha256": "f7e1a308903939c908ba1a135ee2dc97156835b9f6ce0de59ecc2c522468a7c8"
+    },
+    {
+      "ref": "06-30764c04635e.zlib.b64",
+      "original": "poc003-input-profile-v1-native-checks/test_input_profile.py.raw",
+      "encoding": "zlib-base64",
+      "bytes": 1611,
+      "sha256": "bc4f9ec18daea47d9b81ab0737fda3354655e339c1849e36449b9db47681d8e7"
+    },
+    {
+      "ref": "07-7d83e6f8c419.zlib.b64",
+      "original": "poc003-input-profile-v1-native-checks/test_lab.py.raw",
+      "encoding": "zlib-base64",
+      "bytes": 1397,
+      "sha256": "d4b1631e4080e67e6a6c9e3f62597bfd18a8b51c0450b3bbf7968e8938c58024"
+    },
+    {
+      "ref": "08-138b699e2d22.zlib.b64",
+      "original": "poc003-input-profile-v1-native-checks/test_revocation_binding.py.raw",
+      "encoding": "zlib-base64",
+      "bytes": 668,
+      "sha256": "0ab8e8e74c0bf2d149426781d3978aabe9ee63e7d93da522881acd4628ac6790"
+    },
+    {
+      "ref": "09-af43fbbd1eb0.zlib.b64",
+      "original": "poc003-input-profile-v2-windows-checks/results.json",
+      "encoding": "zlib-base64",
+      "bytes": 4629,
+      "sha256": "b7478c6d480417129539a1b81160df1160fb2b931346903467ffd0b9fd34e6f6"
+    },
+    {
+      "ref": "10-a53e879115a0.zlib.b64",
+      "original": "poc003-input-profile-v2-windows-checks/source-snapshot/collect.py",
+      "encoding": "zlib-base64",
+      "bytes": 13833,
+      "sha256": "f28b3dbc0e8d295d125fe67f5c863a4a2f5385df4db1a76780025b07101e7c25"
+    },
+    {
+      "ref": "11-6ca7260f9ccc.zlib.b64",
+      "original": "poc003-input-profile-v2-windows-checks/source-snapshot/input_profile.py",
+      "encoding": "zlib-base64",
+      "bytes": 6966,
+      "sha256": "9e05fc5da62ff8471d1b404417b0b27d2179caeeebeb0dfeb498a8a8de9945e6"
+    },
+    {
+      "ref": "12-c2554b31a8df.zlib.b64",
+      "original": "poc003-input-profile-v2-windows-checks/source-snapshot/lab.py",
+      "encoding": "zlib-base64",
+      "bytes": 40835,
+      "sha256": "49631a1681d1bda39fa77915244326a1c6fa4069f67245c213e997d1dd1d12fc"
+    },
+    {
+      "ref": "13-c1fdbe996962.zlib.b64",
+      "original": "poc003-input-profile-v2-windows-checks/source-snapshot/test_input_profile.py",
+      "encoding": "zlib-base64",
+      "bytes": 10989,
+      "sha256": "c496798c77dddd098f85e0dce56ce47d636de847c5066d11393f5b0596d51ff0"
+    },
+    {
+      "ref": "14-7b25bdde3185.zlib.b64",
+      "original": "poc003-input-profile-v2-windows-checks/test_cache_body_bounds.py.raw",
+      "encoding": "zlib-base64",
+      "bytes": 832,
+      "sha256": "d67f61c487a66c34e3e88275bc472ab3dcc892adb018618e1a4f3ebe169493e8"
+    },
+    {
+      "ref": "15-fa7f4003bbe9.zlib.b64",
+      "original": "poc003-input-profile-v2-windows-checks/test_cache_probe.py.raw",
+      "encoding": "zlib-base64",
+      "bytes": 984,
+      "sha256": "c26415b7debe801fa7d33462cfefb38274f960b8b37151762848baf174e339be"
+    },
+    {
+      "ref": "16-850a8f68b886.zlib.b64",
+      "original": "poc003-input-profile-v2-windows-checks/test_input_profile.py.raw",
+      "encoding": "zlib-base64",
+      "bytes": 1616,
+      "sha256": "f32b8cb17b02d84c370b6400a16c929076830688253c6f022b7eb5f88840c083"
+    },
+    {
+      "ref": "17-17b8feaea10a.zlib.b64",
+      "original": "poc003-input-profile-v2-windows-checks/test_lab.py.raw",
+      "encoding": "zlib-base64",
+      "bytes": 1402,
+      "sha256": "017996a565970b021492d4ff3cdaad6b4ee6df28a255fc0c19ef9fde9edc6ff6"
+    },
+    {
+      "ref": "18-7bac6f97b568.zlib.b64",
+      "original": "poc003-input-profile-v2-windows-checks/test_revocation_binding.py.raw",
+      "encoding": "zlib-base64",
+      "bytes": 667,
+      "sha256": "1f75caac3f896ff1e982f86a6d7a0a1eec0ba64dc81db37e6ff2b482563acbda"
+    },
+    {
+      "ref": "19-6f7d9762c4ce.zlib.b64",
+      "original": "poc003-input-profile-v2-native-checks/results.json",
+      "encoding": "zlib-base64",
+      "bytes": 4443,
+      "sha256": "5509212cc6c64bf4b6b4792fdc39353a0e4dd57a5ad25c89ca1adfd023882c46"
+    },
+    {
+      "ref": "20-501ebb6c6c1b.zlib.b64",
+      "original": "poc003-input-profile-v2-native-checks/source-snapshot/collect.py",
+      "encoding": "zlib-base64",
+      "bytes": 13833,
+      "sha256": "f28b3dbc0e8d295d125fe67f5c863a4a2f5385df4db1a76780025b07101e7c25"
+    },
+    {
+      "ref": "21-10c3faeee5d3.zlib.b64",
+      "original": "poc003-input-profile-v2-native-checks/source-snapshot/input_profile.py",
+      "encoding": "zlib-base64",
+      "bytes": 6966,
+      "sha256": "9e05fc5da62ff8471d1b404417b0b27d2179caeeebeb0dfeb498a8a8de9945e6"
+    },
+    {
+      "ref": "22-df68094816f2.zlib.b64",
+      "original": "poc003-input-profile-v2-native-checks/source-snapshot/lab.py",
+      "encoding": "zlib-base64",
+      "bytes": 40835,
+      "sha256": "49631a1681d1bda39fa77915244326a1c6fa4069f67245c213e997d1dd1d12fc"
+    },
+    {
+      "ref": "23-2a4e4df0f995.zlib.b64",
+      "original": "poc003-input-profile-v2-native-checks/source-snapshot/test_input_profile.py",
+      "encoding": "zlib-base64",
+      "bytes": 10989,
+      "sha256": "c496798c77dddd098f85e0dce56ce47d636de847c5066d11393f5b0596d51ff0"
+    },
+    {
+      "ref": "24-750eb33346d6.zlib.b64",
+      "original": "poc003-input-profile-v2-native-checks/test_cache_body_bounds.py.raw",
+      "encoding": "zlib-base64",
+      "bytes": 832,
+      "sha256": "41bddcf325ecc474afd68f8e66e88c3798f14f55cb7d5097a2f5ec334f4214d8"
+    },
+    {
+      "ref": "25-e5f6ca3e8576.zlib.b64",
+      "original": "poc003-input-profile-v2-native-checks/test_cache_probe.py.raw",
+      "encoding": "zlib-base64",
+      "bytes": 983,
+      "sha256": "f7e1a308903939c908ba1a135ee2dc97156835b9f6ce0de59ecc2c522468a7c8"
+    },
+    {
+      "ref": "26-70e8ef42b60d.zlib.b64",
+      "original": "poc003-input-profile-v2-native-checks/test_input_profile.py.raw",
+      "encoding": "zlib-base64",
+      "bytes": 1611,
+      "sha256": "fd7d8083d0c7afdd4d37e865d50b6cf497ae847fe4dac01255b5b28258645b68"
+    },
+    {
+      "ref": "27-8e908288fb73.zlib.b64",
+      "original": "poc003-input-profile-v2-native-checks/test_lab.py.raw",
+      "encoding": "zlib-base64",
+      "bytes": 1397,
+      "sha256": "7d7fa3284731e538b4d12ef4ae80b282006915dc93fce67835ff97f423250253"
+    },
+    {
+      "ref": "28-30b224c68224.zlib.b64",
+      "original": "poc003-input-profile-v2-native-checks/test_revocation_binding.py.raw",
+      "encoding": "zlib-base64",
+      "bytes": 668,
+      "sha256": "7689abb9f8af638a1064c0e2cfbdd5d858a20a258debbddbf11aa18a04a5b45b"
+    },
+    {
+      "ref": "29-e7aa93bacf30.zlib.b64",
+      "original": "poc003-input-profile-v1-source-snapshot/collect.py",
+      "encoding": "zlib-base64",
+      "bytes": 13833,
+      "sha256": "f28b3dbc0e8d295d125fe67f5c863a4a2f5385df4db1a76780025b07101e7c25"
+    },
+    {
+      "ref": "30-5233e6ed766a.zlib.b64",
+      "original": "poc003-input-profile-v1-source-snapshot/index.json",
+      "encoding": "zlib-base64",
+      "bytes": 859,
+      "sha256": "c657b65417778b1de8c66f62cd54d15cc8768d7a5a2607b0a3251ce4d3b8d67a"
+    },
+    {
+      "ref": "31-86359d832531.zlib.b64",
+      "original": "poc003-input-profile-v1-source-snapshot/input_profile.py",
+      "encoding": "zlib-base64",
+      "bytes": 6490,
+      "sha256": "b6b12eb44ac21cfbb03360d96b8df9816b026769de623eee6194f7be282b2b09"
+    },
+    {
+      "ref": "32-0fe209e3b626.zlib.b64",
+      "original": "poc003-input-profile-v1-source-snapshot/lab.py",
+      "encoding": "zlib-base64",
+      "bytes": 40835,
+      "sha256": "49631a1681d1bda39fa77915244326a1c6fa4069f67245c213e997d1dd1d12fc"
+    },
+    {
+      "ref": "33-67566a0a386e.zlib.b64",
+      "original": "poc003-input-profile-v1-source-snapshot/test_input_profile.py",
+      "encoding": "zlib-base64",
+      "bytes": 10989,
+      "sha256": "c496798c77dddd098f85e0dce56ce47d636de847c5066d11393f5b0596d51ff0"
+    }
+  ]
+}

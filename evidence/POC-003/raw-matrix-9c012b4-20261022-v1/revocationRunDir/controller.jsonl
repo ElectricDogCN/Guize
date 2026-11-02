@@ -1,0 +1,2 @@
+{"action": "verify-config", "startedAt": "2026-10-22T14:57:17.018034Z", "finishedAt": "2026-10-22T14:57:17.097469Z", "argv": ["/home/sur/.cache/guize-takeover/ats-user-runtime-20261019/pkgroot/usr/bin/traffic_server", "--run-root=/home/sur/.cache/guize-takeover/poc003-current-revocation-20261022-v1", "-C", "verify_config"], "exitCode": 0}
+{"action": "lab-stop", "at": "2026-10-22T14:57:17.097695Z"}

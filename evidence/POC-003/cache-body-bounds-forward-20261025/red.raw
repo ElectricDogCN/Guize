@@ -1,0 +1,38 @@
+test_exact_and_partial_exports_preserve_every_returned_byte (__main__.CacheBodyBoundsTests.test_exact_and_partial_exports_preserve_every_returned_byte) ... ok
+test_growth_between_size_check_and_open_is_rejected_without_trimming (__main__.CacheBodyBoundsTests.test_growth_between_size_check_and_open_is_rejected_without_trimming) ... FAIL
+test_oversized_export_is_rejected_before_opening_its_body (__main__.CacheBodyBoundsTests.test_oversized_export_is_rejected_before_opening_its_body) ... FAIL
+
+======================================================================
+FAIL: test_growth_between_size_check_and_open_is_rejected_without_trimming (__main__.CacheBodyBoundsTests.test_growth_between_size_check_and_open_is_rejected_without_trimming)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\gz021-hls-publication-worktree\poc\POC-03-ats-range\test_cache_body_bounds.py", line 39, in test_growth_between_size_check_and_open_is_rejected_without_trimming
+    with self.assertRaisesRegex(ValueError, 'changed|selected Slice'):
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_oversized_export_is_rejected_before_opening_its_body (__main__.CacheBodyBoundsTests.test_oversized_export_is_rejected_before_opening_its_body)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\gz021-hls-publication-worktree\poc\POC-03-ats-range\test_cache_body_bounds.py", line 25, in test_oversized_export_is_rejected_before_opening_its_body
+    read_export_body(body, 8)
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\gz021-hls-publication-worktree\poc\POC-03-ats-range\cache_probe.py", line 78, in read_export_body
+    return body.read_bytes()
+           ^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\Lib\pathlib.py", line 1019, in read_bytes
+    with self.open(mode='rb') as f:
+         ^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\Lib\unittest\mock.py", line 1134, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\Lib\unittest\mock.py", line 1138, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\Lib\unittest\mock.py", line 1193, in _execute_mock_call
+    raise effect
+AssertionError: oversized body opened
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.016s
+
+FAILED (failures=2)

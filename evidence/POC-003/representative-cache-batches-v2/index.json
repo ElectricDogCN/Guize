@@ -1,0 +1,112 @@
+{
+  "parent": "c63facc1cccc331428ebf848f8129bd9c5425a5a",
+  "files": [
+    {
+      "original": "poc003-representative-cache-component-independent-review.json",
+      "encoded": "00-1e17b742ccee.zlib.b64",
+      "bytes": 5861,
+      "sha256": "1e17b742ccee674c56c01ce77f9d198065a0236a163393e864a2491636867e3b"
+    },
+    {
+      "original": "poc003-representative-cache-v1-negative/cache_probe.py",
+      "encoded": "01-50a02d12d972.zlib.b64",
+      "bytes": 12873,
+      "sha256": "50a02d12d97290db42c7c71fca4b7b3566d0845150f58397d6bffdd1c4a8b696"
+    },
+    {
+      "original": "poc003-representative-cache-v1-negative/test_representative_cache_native.py",
+      "encoded": "02-6fe5be20bc0e.zlib.b64",
+      "bytes": 3962,
+      "sha256": "6fe5be20bc0e1cd08d5875ec789aff664524121d8262081a09dd54ece849e543"
+    },
+    {
+      "original": "poc003-representative-cache-native-v3-checks/results.json",
+      "encoded": "03-c2beafa2db11.zlib.b64",
+      "bytes": 999,
+      "sha256": "c2beafa2db11a75b7a76443d26ee0598717b0b9302dc48d1ce95d09810e84851"
+    },
+    {
+      "original": "poc003-representative-cache-native-v3-checks/tests.raw",
+      "encoded": "04-9d2edab066f3.zlib.b64",
+      "bytes": 2345,
+      "sha256": "9d2edab066f3d4f2466f00b43df0535d3add40e44332a68cd7fcc97d72203b84"
+    },
+    {
+      "original": "poc003-representative-cache-native-v4-checks/results.json",
+      "encoded": "05-994b205089ad.zlib.b64",
+      "bytes": 999,
+      "sha256": "994b205089ade897b31d27f4b41896d6e87a24675ac4952c075aea8b32e5b44e"
+    },
+    {
+      "original": "poc003-representative-cache-native-v4-checks/tests.raw",
+      "encoded": "06-afc886da5e59.zlib.b64",
+      "bytes": 2916,
+      "sha256": "afc886da5e59a2346abccfb75cc32eec35efde0a816cf88323b772e1716ad954"
+    },
+    {
+      "original": "poc003-representative-cache-windows-v2-checks/results.json",
+      "encoded": "07-0e4476dfb02e.zlib.b64",
+      "bytes": 978,
+      "sha256": "0e4476dfb02e8eaf01cd5a44a2667578985632d4b2c0bcc7ab144b068fb9a1ec"
+    },
+    {
+      "original": "poc003-representative-cache-windows-v2-checks/tests.raw",
+      "encoded": "08-b40c79534e05.zlib.b64",
+      "bytes": 2103,
+      "sha256": "b40c79534e0558465893af1ea06877741d736810330ddc28a5bb5e95c0da7209"
+    },
+    {
+      "original": "check_poc003_representative_cache_native_v3_once.py",
+      "encoded": "09-122f57b45ed6.zlib.b64",
+      "bytes": 2162,
+      "sha256": "122f57b45ed6afb5d88b47f9244ad2e561e974b553e40f01f3be071d1ee596e4"
+    },
+    {
+      "original": "check_poc003_representative_cache_native_v4_once.py",
+      "encoded": "10-e168f545a569.zlib.b64",
+      "bytes": 2162,
+      "sha256": "e168f545a569bfbc634f6970e7db3be9640532a5b32470b630a010a9b3dcb424"
+    },
+    {
+      "original": "poc003-cache-integration/poc/POC-03-ats-range/cache_probe.py",
+      "encoded": "11-113a353e6fdd.zlib.b64",
+      "bytes": 16483,
+      "sha256": "113a353e6fdd93e19ca13226eef319e918ae2951379f1dbacbe9a07887f0750f"
+    },
+    {
+      "original": "poc003-cache-integration/poc/POC-03-ats-range/test_representative_cache.py",
+      "encoded": "12-a1d94f6e0931.zlib.b64",
+      "bytes": 1785,
+      "sha256": "a1d94f6e09312e79d5dba03a124013bfc7f3919f758c9464660d8ba20e189216"
+    },
+    {
+      "original": "poc003-cache-integration/poc/POC-03-ats-range/test_representative_cache_native.py",
+      "encoded": "13-29c373aa84cf.zlib.b64",
+      "bytes": 7099,
+      "sha256": "29c373aa84cfb6afbe41738050cca95da6d12c93ec7fb938a9e72738cea2b1fa"
+    },
+    {
+      "original": "poc003-cache-integration/poc/POC-03-ats-range/cache_export.cc",
+      "encoded": "14-c2d73081e3a5.zlib.b64",
+      "bytes": 15285,
+      "sha256": "c2d73081e3a554f4d9a7e7c77b9c7337db31afac4689dfa6f37995ffa35315de"
+    }
+  ],
+  "windowsTests": 10,
+  "nativeTests": 14,
+  "actualExportBytes": 135266287,
+  "batchSizes": [
+    128,
+    1
+  ],
+  "nativeBoundaryUnchanged": {
+    "requestKeys": 128,
+    "jobs": 8,
+    "controls": 16,
+    "totalBytes": 536870912
+  },
+  "priorComponentRejected": true,
+  "simulatedProducer": true,
+  "experimentApproved": false,
+  "qualificationAccepted": false
+}

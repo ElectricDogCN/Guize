@@ -1,0 +1,79 @@
+{
+  "requestId": "1d89b627714c4aab9d1f6e812967f332",
+  "case": "denied_user",
+  "userId": "lab-denied-user",
+  "url": "http://127.0.0.1:18233/media/object.bin",
+  "sourceVersion": "base",
+  "sourceSha256": "938a8bc3e0a64184f1551bff0c500dc891366ead8f30f8f83753587e763c1c26",
+  "aclVersion": "poc003-local-acl-v1",
+  "authorizationContext": "ffeca046861ed8f94b899b248de0b0d8",
+  "requestRange": "bytes=0-7",
+  "ifRange": "",
+  "bodyRef": "bodies/denied_user-1d89b627714c4aab9d1f6e812967f332.bin",
+  "configuredOriginFault": null,
+  "collectorRetryCount": 0,
+  "statusCode": 403,
+  "responseHeaders": [
+    [
+      "Server",
+      "BaseHTTP/0.6 Python/3.12.3"
+    ],
+    [
+      "Date",
+      "Thu, 22 Oct 2026 14:56:09 GMT"
+    ],
+    [
+      "Content-Length",
+      "0"
+    ],
+    [
+      "Cache-Control",
+      "no-store"
+    ],
+    [
+      "Connection",
+      "close"
+    ]
+  ],
+  "responseHeadersAt": "2026-10-22T14:56:09.322356Z",
+  "firstBodyByteAt": null,
+  "firstBodyByteLatencyMs": null,
+  "firstBodyChunkAt": null,
+  "finishedAt": "2026-10-22T14:56:09.322610Z",
+  "bodyBytes": 0,
+  "clientChunkPeak": 0,
+  "transportCompleted": true,
+  "originObservation": {
+    "requestId": "1d89b627714c4aab9d1f6e812967f332",
+    "observedAt": "2026-10-22T14:56:09.479465Z",
+    "originRequestCount": 0,
+    "objectReadCount": 0,
+    "objectReadBytes": 0,
+    "activeOriginRequests": 0,
+    "originTransactions": [],
+    "gatewayTransactions": [
+      {
+        "requestId": "1d89b627714c4aab9d1f6e812967f332",
+        "case": "denied_user",
+        "startedAt": "2026-10-22T14:56:09.322077Z",
+        "userId": "lab-denied-user",
+        "sourceVersion": "base",
+        "aclVersion": "poc003-local-acl-v1",
+        "requestRange": "bytes=0-7",
+        "ifRange": "",
+        "atsRequestSent": false,
+        "responseByteCount": 0,
+        "gatewayChunkPeak": 0,
+        "statusCode": 403,
+        "denialReason": "acl_denied",
+        "finishedAt": "2026-10-22T14:56:09.322199Z"
+      }
+    ]
+  },
+  "startedAt": "2026-10-22T14:56:09.321428Z",
+  "responseHeaderLatencyMs": 0.9242839878425002,
+  "elapsedMs": 1.1737309978343546,
+  "bodySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "originPollingSettled": true,
+  "originPollingScope": "Only these timestamped snapshots; no assertion about unobserved later I/O."
+}

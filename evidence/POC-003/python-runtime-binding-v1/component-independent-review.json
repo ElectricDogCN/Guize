@@ -1,0 +1,351 @@
+{
+  "kind": "POC003_SELECTED_PYTHON_RUNTIME_BYTE_BINDING_COMPONENT_REVIEW",
+  "reviewer": "/root/independent_review",
+  "reviewedAt": "2026-10-28T03:05:10Z",
+  "taskId": "POC-003",
+  "parent": "424bab779a5d45f8d3708c7030fcf34ffd1936f0",
+  "parentTree": "7505d39fa1307c53fcf166976619b2fae9f56346",
+  "candidateSha256": "81eeb9a89d40c9dca30156013361bc542c45717c5751f4a445bd0c43d9172342",
+  "commitHelperSha256": "cae873834624ddd560b4e4e315bfdb0fb39affc2c0e4c23972d772bf7f6d047b",
+  "mustFix": [],
+  "componentAccepted": true,
+  "relevantResultsAccepted": true,
+  "commitComponentAllowed": true,
+  "scope": "Selected runtime-component binding implementation and exact offline result/evidence component may be committed locally. No complete workload runtime, native transient capacity, source CI, Ready/main or experiment qualification is granted.",
+  "sourcePins": {
+    "buffer_probe.py": {
+      "bytes": 6732,
+      "sha256": "56933170456c3414f5fc3dfc28bec8c98c1a27273868d5d545c447663a385025"
+    },
+    "build_observer.py": {
+      "bytes": 2076,
+      "sha256": "7c5ec2475d26e56394922ebba8f14a387d8ba0b318c37b8ef8ec2ade24c56ca9"
+    },
+    "cache_probe.py": {
+      "bytes": 19578,
+      "sha256": "870234005d98fa829b5da8d151d6ae1a4d20c34c7bc375da6a680574a3ddf16f"
+    },
+    "collect.py": {
+      "bytes": 18767,
+      "sha256": "356302081bbfbfd0ea6dda0cb2fb1a97acc18f9d5c6a91ecdaeacae72bc99977"
+    },
+    "durable_peak_probe.py": {
+      "bytes": 6265,
+      "sha256": "b7bfd6e767a4cba4bf2ee1de2e7c0f9f82e2afff3037015e317b8a8e860fa599"
+    },
+    "epoch_owner.py": {
+      "bytes": 26029,
+      "sha256": "30b9cfc4b22f297e8dc822c8a15e2f84a4f7f5fbe69cc7ad708abed74e7c8a8e"
+    },
+    "grants.py": {
+      "bytes": 2003,
+      "sha256": "4d48a477541545a296d31ea00a97445e15f6b6eae92e79f39629c074923403bf"
+    },
+    "http_timing.py": {
+      "bytes": 1477,
+      "sha256": "fde2afed2b9fcc3e607930eb72b9cecf5386761965d8881a095b98f041e663cb"
+    },
+    "input_profile.py": {
+      "bytes": 6966,
+      "sha256": "9e05fc5da62ff8471d1b404417b0b27d2179caeeebeb0dfeb498a8a8de9945e6"
+    },
+    "lab.py": {
+      "bytes": 56389,
+      "sha256": "65680682b4f7c7cd03df31a5f0dfed417bc0683280cd9c47c9311c5a4d93f883"
+    },
+    "live_buffer_probe.py": {
+      "bytes": 9883,
+      "sha256": "d3154af91abcab988632201acbf13cc1e1466b1b73cd296554b014fe30fb0f12"
+    },
+    "owned_epoch.py": {
+      "bytes": 21233,
+      "sha256": "cf170056c5a7f2201e863145522b0433e5911e128ba585d79cef0cb6c5125ccb"
+    },
+    "python_runtime.py": {
+      "bytes": 7378,
+      "sha256": "8be306da261e07183acffaed9741eabcc08081c720dc7150d5afe83a5059a568"
+    },
+    "test_buffer_probe.py": {
+      "bytes": 2485,
+      "sha256": "f8c55495e94eed9ea19e77b1018319bf8e0f3931b56cf5832bd4f5f3f40edfcb"
+    },
+    "test_buffer_probe_native.py": {
+      "bytes": 3216,
+      "sha256": "0cd0820a982111207337bf6a37595a3f74686f403299d7cf78b5dea545309ec2"
+    },
+    "test_cache_body_bounds.py": {
+      "bytes": 2906,
+      "sha256": "bfa3ebe632117836a5afd48d415288326e2b3eedaac470923be72a26a8e1deac"
+    },
+    "test_cache_probe.py": {
+      "bytes": 2359,
+      "sha256": "880b226f4d0a54524a95599954237d27bf2bf157da3b363f6e3aeab1acb430a0"
+    },
+    "test_cache_probe_native.py": {
+      "bytes": 3359,
+      "sha256": "e835fd96229fe843fc1505718494ba2c6b34acc415703f40da6b3815fbdac2fc"
+    },
+    "test_cache_stream_io.py": {
+      "bytes": 7886,
+      "sha256": "2c4fa7726451515795cf0846c6ab742a674b8271e2f2c3a5a9c79dfec03b388a"
+    },
+    "test_collector_raw_io.py": {
+      "bytes": 7378,
+      "sha256": "6ff520f4dcaeb65fb9c271a61a88745a4e35285c8bae90addffa67768181bc42"
+    },
+    "test_durable_peak_probe.py": {
+      "bytes": 2913,
+      "sha256": "7228f7d01cbade1f4e27e227478538bd81ca9af50c2dfcff586749454c2a39bd"
+    },
+    "test_epoch_owner.py": {
+      "bytes": 8868,
+      "sha256": "fb72cb61c5b4cc71f70a9582451c7e7c4e1ad1bcdc9b3cdc9e6ccb3f12f7a3d8"
+    },
+    "test_fixed_origin_io.py": {
+      "bytes": 7624,
+      "sha256": "12a9b22a8c7d1ed9b5abda421ef04f5115a113bf4e57b5b106309b868ed931f7"
+    },
+    "test_gateway_native.py": {
+      "bytes": 4608,
+      "sha256": "5c3a73a1177a73d93756e410ffd75ce10fe89403586d6ccfbeaaf1db63ad7eec"
+    },
+    "test_http_timing_native.py": {
+      "bytes": 3181,
+      "sha256": "3e27f76d65167a196bac70e38e8d7c4df03f0e079bf60f99a64006edfdf90d86"
+    },
+    "test_input_profile.py": {
+      "bytes": 13104,
+      "sha256": "575e7af140da31822c5fb8007e9f0c4a58aa282a28e1fecdcb5b749785d96b97"
+    },
+    "test_lab.py": {
+      "bytes": 3547,
+      "sha256": "20373fbe76e7dc18c59da922c9b24c0793153c7181e6d22b101f28bdfe1a0513"
+    },
+    "test_live_buffer_probe.py": {
+      "bytes": 3991,
+      "sha256": "d3b9c69a2c2dc749b3f97f23c4222dd5d1162b37e42c9968d5fd8bb88eaf1a2c"
+    },
+    "test_live_component_native.py": {
+      "bytes": 2197,
+      "sha256": "492d6b2c89d07929103a882cfd9b41f9ff2a82bc9332b6fa980daeddbd738270"
+    },
+    "test_owned_epoch_fixed.py": {
+      "bytes": 4938,
+      "sha256": "5f819400247a4351b503f15390c38103297072d88f8878720f45d78a3ee26e56"
+    },
+    "test_payload_lifetime.py": {
+      "bytes": 15090,
+      "sha256": "b907b1603a6d0379fd9996d497e77160bdbbc7e68767c4026303f106bf4d181d"
+    },
+    "test_python_runtime_binding_native.py": {
+      "bytes": 5072,
+      "sha256": "0fa86a75f74fe912cc433101bf84e51e9d1c94b7a7fbe4609f116d4b465d933f"
+    },
+    "test_representative_cache.py": {
+      "bytes": 1785,
+      "sha256": "a1d94f6e09312e79d5dba03a124013bfc7f3919f758c9464660d8ba20e189216"
+    },
+    "test_representative_cache_native.py": {
+      "bytes": 7099,
+      "sha256": "29c373aa84cfb6afbe41738050cca95da6d12c93ec7fb938a9e72738cea2b1fa"
+    },
+    "test_request_concurrency.py": {
+      "bytes": 6490,
+      "sha256": "01a5afc0cb63e4a3840e81b019b2adbf9e7f4361b5faf839d812dfa4d27604fa"
+    },
+    "test_request_window.py": {
+      "bytes": 9209,
+      "sha256": "485bc74b0d37a4057c5ac66f95ab313e7c9580f408c647a44146918ce3841c9c"
+    },
+    "test_revocation_binding.py": {
+      "bytes": 1870,
+      "sha256": "6dec7dfd850bac65f110a6a4462a77c24323dec4527c686266daf10793884d39"
+    },
+    "test_single_exec_filter.py": {
+      "bytes": 6214,
+      "sha256": "970c12080b11b0a5a3f6c827dfc12d1918355dd23ed8936d6934ed6c25af0eb3"
+    },
+    "test_warm_cache_revocation.py": {
+      "bytes": 12004,
+      "sha256": "987608f169b25327231f0dc64bf41c571f1ab0f1b924bbe66b567cc7fa701457"
+    },
+    "python-runtime-profile.json": {
+      "bytes": 2612,
+      "sha256": "a502e6f6f4630b7aded41dbbb45e1e47bbd781fcad12cbe8dc59092fe4897713"
+    }
+  },
+  "snapshotFiles": 40,
+  "physicalPinsBeforeReviewCopy": {
+    "poc/POC-03-ats-range/lab.py": {
+      "byteCount": 56389,
+      "sha256": "65680682b4f7c7cd03df31a5f0dfed417bc0683280cd9c47c9311c5a4d93f883"
+    },
+    "poc/POC-03-ats-range/collect.py": {
+      "byteCount": 18767,
+      "sha256": "356302081bbfbfd0ea6dda0cb2fb1a97acc18f9d5c6a91ecdaeacae72bc99977"
+    },
+    "poc/POC-03-ats-range/python_runtime.py": {
+      "byteCount": 7378,
+      "sha256": "8be306da261e07183acffaed9741eabcc08081c720dc7150d5afe83a5059a568"
+    },
+    "poc/POC-03-ats-range/python-runtime-profile.json": {
+      "byteCount": 2612,
+      "sha256": "a502e6f6f4630b7aded41dbbb45e1e47bbd781fcad12cbe8dc59092fe4897713"
+    },
+    "poc/POC-03-ats-range/test_python_runtime_binding_native.py": {
+      "byteCount": 5072,
+      "sha256": "0fa86a75f74fe912cc433101bf84e51e9d1c94b7a7fbe4609f116d4b465d933f"
+    },
+    "specs/tasks/POC-003.md": {
+      "byteCount": 52957,
+      "sha256": "691cb13b7e656c4817a72bd32f54bb0a96f2bad1e8a6fd94b4b1335d18b316a5"
+    },
+    "evidence/POC-003/summary.md": {
+      "byteCount": 46632,
+      "sha256": "f171800287ad1e93d04ebab3671bc79410f2fbd0f18ad64cb5cd1bf5d8dbd35c"
+    },
+    "evidence/POC-003/handoff.md": {
+      "byteCount": 205970,
+      "sha256": "b9872edf2f6592c130a2afd0b10d5ff4ba3fd4d4f944d67ed5231cfb5e89ec9d"
+    },
+    "evidence/POC-003/commands.txt": {
+      "byteCount": 12945,
+      "sha256": "5113b73a6038b89b366dafe48fedf6d479819e1205892f93e19285009fba613e"
+    },
+    "evidence/POC-003/python-runtime-binding-v1/artifacts.zip": {
+      "byteCount": 175288,
+      "sha256": "426b26926197bace75d369c1ce72659ce60dad99b13fd72ea4e6842031fa4a54"
+    },
+    "evidence/POC-003/python-runtime-binding-v1/index.json": {
+      "byteCount": 46171,
+      "sha256": "29b11985c897e0a43489e2ab9ed0306260fdd1fbfadcc49752126edadcf372fd"
+    }
+  },
+  "exactCommitPaths": [
+    "poc/POC-03-ats-range/lab.py",
+    "poc/POC-03-ats-range/collect.py",
+    "poc/POC-03-ats-range/python_runtime.py",
+    "poc/POC-03-ats-range/python-runtime-profile.json",
+    "poc/POC-03-ats-range/test_python_runtime_binding_native.py",
+    "specs/tasks/POC-003.md",
+    "evidence/POC-003/summary.md",
+    "evidence/POC-003/handoff.md",
+    "evidence/POC-003/commands.txt",
+    "evidence/POC-003/python-runtime-binding-v1/artifacts.zip",
+    "evidence/POC-003/python-runtime-binding-v1/index.json",
+    "evidence/POC-003/python-runtime-binding-v1/component-independent-review.json"
+  ],
+  "profile": {
+    "path": "poc/POC-03-ats-range/python-runtime-profile.json",
+    "byteCount": 2612,
+    "sha256": "a502e6f6f4630b7aded41dbbb45e1e47bbd781fcad12cbe8dc59092fe4897713",
+    "components": 10,
+    "purePythonComponents": 3,
+    "mappedNativeComponents": 7,
+    "identity": "CPython3.12.15/Linuxx86_64/little-endian/8byte pointers/OpenSSL3.5.7/8192byte IO default/_hashlib.HASH sha25664byteblock32bytedigest",
+    "baseImageReference": "sha256:df18428df8a0f9189c84e7424d214b4c50092af1f9dca5842a00c41c39bda316",
+    "interpretation": "The baseImage field is a fixed reference, not a self-attested live container identity. The code binds the selected observed files/mappings; future external container/source/resource admission remains separate."
+  },
+  "sourceAssessment": [
+    {
+      "path": "poc/POC-03-ats-range/python_runtime.py",
+      "finding": "file_identity resolves each expected file, opens raw, checks regular mode, hashes through a fixed64KiB backing and compares dev/inode/size/mtime/ctime before/after. Native components additionally require an executable /proc/self/maps row with the same resolved path and actual hashed dev/inode. A same-byte copy at a different path/inode cannot satisfy that match. Deleted/replaced relevant mappings fail closed for this fixed profile."
+    },
+    {
+      "finding": "capture_runtime requires ordinary Linux CPython, the fixed ABI/IO/hash identity and the actual openssl_sha256 function. It rejects current trace/profile hooks and nonempty LD_PRELOAD,LD_AUDIT,OPENSSL_CONF,OPENSSL_MODULES. Selected pure files and any existing associated pyc file participate in exact profile comparison. These are explicit selected-component controls, not a hostile-code sandbox or a claim that every possible loader/environment influence is independently proven absent."
+    },
+    {
+      "finding": "The profile parser enforces a bounded byte input, unique JSON keys and exact root keys/profile identity; observed full identity/files must equal the fixed profile. Result records actual PID,startTicks,UID,maps raw/hash, file identities, fresh timestamp and profile byte hash. The per-check record explicitly denies aggregate/source/POC acceptance."
+    },
+    {
+      "path": "poc/POC-03-ats-range/lab.py",
+      "finding": "Instrumented prepare performs binding before prepare_input_pair; State first verifies ordinary run ownership, then rebinds before existing implementation/input/runtime activity. Profile/helper are implementationSources. Each prepares its own record; the controller closed-request-window result references its own PID/startTicks and binding file hash. Legacy noninstrumented mode remains distinct and supplies no full instrumented qualification."
+    },
+    {
+      "path": "poc/POC-03-ats-range/collect.py",
+      "finding": "Instrumented Collector reads its settings, checks the prepared profile hash and rebinds before creating the output directory. Its own binding is written independently and referenced from the receipt by exact file hash/PID/startTicks; it is not substituted with the controller record."
+    }
+  ],
+  "actualResults": {
+    "windows": {
+      "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-python-runtime-v1-windows-checks/results.json",
+      "sha256": "70339722d1a823d8afd40e82d0b0f36dce1c19ae853bc7458fb3b15defc8ea6f",
+      "tests": 66,
+      "actualCommands": 12
+    },
+    "linux": {
+      "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-python-runtime-v1-linux-checks/results.json",
+      "sha256": "7315e6959de48f34f7b83e4cb36afc98a01aed3418290dc7c4ad1378ff24311a",
+      "tests": 75,
+      "actualCommands": 15
+    },
+    "host27ActualWaitsCompletedExitZeroAndAllRawPinsChecked": true,
+    "host39PythonSourceFilesBeforeAfterEqualCurrent": true,
+    "fixedImageFinal8": {
+      "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-python-runtime-v2-fixed-image-checks/results.json",
+      "sha256": "738576533911078a954c1ce02175bd4971b053244a77e0b38f391555277b40c1",
+      "actualPid": 61564,
+      "actualWaitCompleted": true,
+      "exitCode": 0,
+      "tests": 8,
+      "stderrByteCount": 1338,
+      "stderrSha256": "ef9495f05d5ff4f0f558d3808bc72394b56a8fd8440825ab4f1d1056b91fe750",
+      "fiveCurrentSourceProfilePinsBeforeAfterEqual": true,
+      "coverage": "Actual fixed profile/native maps, wrong native hash, wrong ABI, same-hash copied SO fake path, forbidden override, Collector early refusal, controller early refusal and prepare refusal before input/run creation.",
+      "resourceScope": "Actual retained command uses fixed existing image/pullnever, ordinary1000:1000,capsALLdrop,NNP,readonlyroot,networknone,pids32,256MiB/1CPU,small tmpfs and readonly code-only mount. No media, ATS service or original matrix is mounted or executed."
+    },
+    "all28CurrentActualChildWaitsCompletedExitZero": true,
+    "testFailures": 0,
+    "testErrors": 0,
+    "testSkipped": 0,
+    "snapshotDistinction": "Host regressions snapshot39Python files; they do not claim a profile-JSON before/after entry. The final fixed-image run separately snapshots the exact five helper/profile/test/lab/collect files, including profile JSON; all match the current40-file archive.",
+    "earlyObservations": "Initial profile capturePID61248/exit0 and first fixed-image8PID44444/exit0 remain attributed to their earlier draft. A contemporaneous full standalone helper preimage was not captured for them; no current code qualification is inferred from those old runs. Final exact-current8 and host results are the current component evidence.",
+    "noSeparateJunitXmlClaim": true
+  },
+  "archive": {
+    "indexPath": "evidence/POC-003/python-runtime-binding-v1/index.json",
+    "indexByteCount": 46171,
+    "indexSha256": "29b11985c897e0a43489e2ab9ed0306260fdd1fbfadcc49752126edadcf372fd",
+    "path": "evidence/POC-003/python-runtime-binding-v1/artifacts.zip",
+    "byteCount": 175288,
+    "sha256": "426b26926197bace75d369c1ce72659ce60dad99b13fd72ea4e6842031fa4a54",
+    "entries": 114,
+    "uncompressedIndexedBytes": 523354,
+    "zipCrcUniqueNamesAndExactIndexSetValid": true,
+    "all114DecodedSizesShaMatchIndex": true,
+    "externalOriginalsByteCompared": 74,
+    "currentSourceProfileCopiesComparedToWorking": 40,
+    "rawBytesNotNormalized": true
+  },
+  "futureEntryBoundary": {
+    "finding": "The previously prepared c_call profile readiness hook installed before lab.serve conflicts with the new State no-profile guard. It must not be reused as an accepted current entry or justify relaxing this guard.",
+    "nextAction": "Prepare a new hook-free or separately reviewed legitimate readiness notification route and qualify it with its new source before any original matrix/revocation execution.",
+    "taskAndHandoffSupplementActuallyRead": true,
+    "supplementChangesSourceProfileTestZipCandidateOrCommitHelper": false
+  },
+  "commitHelperReview": {
+    "path": "C:/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/commit_poc003_python_runtime_binding_once.py",
+    "byteCount": 4606,
+    "sha256": "cae873834624ddd560b4e4e315bfdb0fb39affc2c0e4c23972d772bf7f6d047b",
+    "conditionalLocalCommitMethodAccepted": true,
+    "guards": "Candidate and self hash tied to this receipt,40source/profile pins,index/ZIP,exact three archive members and12paths; actual staged byte equality and decoded ZIPentry checks before ordinary local commit. No push or experiment operation.",
+    "reviewerExecuted": false
+  },
+  "metadataBoundary": "Observed parent424bab7/indexempty. Task frontmatter and Program/Active equal parent; only Own task/evidence text additions accompany five source/profile/test changes. Original actors/lease/claims and frozen contracts/schema/thresholds/old originals remain. Supplement explicitly preserves hook guard and pending future workload qualification.",
+  "remainingProof": [
+    "Future actual prepare/controller/Collector must execute fresh guards in their own real processes and retain those records; these offline tests are not those future workload bindings.",
+    "Selected component identity does not establish native HTTP/hash/sendall transient capacities, complete library/all-thread behavior or every source-payload owner.",
+    "Aggregate capacity, closed workload/native peak windows, whole fixed-source gates/CI, fresh resource/window approval, full original matrix and independent fresh hot-cache revocation remain separate."
+  ],
+  "reviewerRanTestsValidatorsContainersOrExperiments": false,
+  "reviewerModifiedRepositoryOrGit": false,
+  "entireSourceQualified": false,
+  "actualWorkloadRuntimeBindingAccepted": false,
+  "nativeTransientCapacityProofComplete": false,
+  "aggregateCapacityProofComplete": false,
+  "actualMatrixAccepted": false,
+  "experimentApproved": false,
+  "formalPocAccepted": false,
+  "readyAccepted": false,
+  "mainIntegrationApproved": false
+}

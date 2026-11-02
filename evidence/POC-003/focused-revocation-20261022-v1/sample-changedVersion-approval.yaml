@@ -1,0 +1,9 @@
+schemaVersion: 1
+pocId: POC-03
+taskId: POC-003
+sampleId: SAMPLE-RANGE-LARGEFILE
+immutableId: sha256:643d769e1b5120a7c52d63df3d266f67a4177050180858480feb4e686e2fdda1
+checksum: sha256:643d769e1b5120a7c52d63df3d266f67a4177050180858480feb4e686e2fdda1
+decision: approved
+approver: independent-review-agent
+approvedAt: '2026-10-22T14:25:41Z'

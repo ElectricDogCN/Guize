@@ -1,8 +1,8 @@
 Task: POC-003
 Issue: 131
-Base: 44e5200ed506d30c0abc83ca38f1d6912cbab1c1
-Branch: chore/POC-003-ats-range-reservation
-Work Branch: chore/POC-003-ats-range
-Current status: reserved; source results PENDING
+Branch: chore/POC-003-ats-range
+Base: 11c32830c0d1bb8ccdcc04aa278876065bce1f33
+Current phase: in_progress / implementer
+Current committed implementation validation: PENDING.
 
-Historical ATS/sample preparation must be revalidated; sample/resource/result approval pending; Windows/WSL share one physical host.
+Two64MiB immutable inputs and2GiB stress bytes were fully reread in preparation, not approved. Formal sample/resource/domain/source/window records remain required. Windows/WSL share one physical host. Canonical reservation exists; main full CI808 pending.

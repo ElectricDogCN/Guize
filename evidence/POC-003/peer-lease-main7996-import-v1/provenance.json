@@ -1,0 +1,17 @@
+{
+  "task": "POC-003",
+  "sourceBefore": "ba16fe8372d53950d233c8c43ce3ee9aa61f0c1a",
+  "incomingAcceptedMain": "7996dedc0b01c5208824eff4d70c95724ba1b26d",
+  "actualMergeExitCode": 0,
+  "acceptedMainReviewSha256": "72bbfc575af793bac821bc17c5bb6a541b0ef77717b528a3f39515f323c6cf93",
+  "taskAllBytesUnchanged": true,
+  "creationBasePreserved": "760f6c5838597d1d66c0a536ecbf440ef5a7dfec",
+  "ownLeaseAndRolesUnchanged": true,
+  "ownProgramAllBytesUnchanged": true,
+  "foreignRegistryExactlyIncoming": true,
+  "codeTree": "ad5a4e18045e6ce000e571f16b1d394beb0e3a7f",
+  "codeFilesUnchanged": 73,
+  "experimentApproved": false,
+  "currentWholeSourceAccepted": false,
+  "createdAt": "2026-10-29T13:08:16.316492+00:00"
+}

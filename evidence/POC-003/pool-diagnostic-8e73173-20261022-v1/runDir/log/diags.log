@@ -1,0 +1,56 @@
+[Oct 22 23:59:55.915] traffic_server STATUS: opened /home/sur/.cache/guize-takeover/poc003-pool-diagnostic-20261022-v1/log/diags.log
+[Oct 22 23:59:55.916] traffic_server NOTE: updated diags config
+[Oct 22 23:59:55.916] traffic_server WARNING: connect_attempts_rr_retries (3) is greater than connect_attempts_max_retries (0), this means requests will never redispatch to another server
+[Oct 22 23:59:55.924] traffic_server NOTE: storage.config loading ...
+[Oct 22 23:59:55.924] traffic_server NOTE: storage.config finished loading
+[Oct 22 23:59:55.936] traffic_server NOTE: /home/sur/.cache/guize-takeover/poc003-pool-diagnostic-20261022-v1/etc/logging.yaml loading ...
+[Oct 22 23:59:55.937] traffic_server NOTE: /home/sur/.cache/guize-takeover/poc003-pool-diagnostic-20261022-v1/etc/logging.yaml finished loading
+[Oct 22 23:59:55.938] traffic_server NOTE: logging initialized[3], logging_mode = 3
+[Oct 22 23:59:55.938] traffic_server NOTE: plugin.config loading ...
+[Oct 22 23:59:55.938] traffic_server NOTE: loading plugin '/home/sur/.cache/guize-takeover/ats-user-runtime-20261019/pkgroot/usr/lib/trafficserver/modules/header_rewrite.so'
+[Oct 22 23:59:55.938] traffic_server NOTE: loading plugin '/home/sur/.cache/guize-takeover/poc003-observer-build-20261022-v2/cache_export.so'
+[Oct 22 23:59:55.939] traffic_server NOTE: plugin.config finished loading
+[Oct 22 23:59:55.939] traffic_server NOTE: strategies.yaml loading ...
+[Oct 22 23:59:55.939] traffic_server NOTE: No NextHop strategy configs were loaded.
+[Oct 22 23:59:55.939] traffic_server NOTE: strategies.yaml finished loading
+[Oct 22 23:59:55.950] traffic_server NOTE: ssl_multicert.config loading ...
+[Oct 22 23:59:55.960] traffic_server NOTE: /home/sur/.cache/guize-takeover/poc003-pool-diagnostic-20261022-v1/etc/ssl_multicert.config finished loading
+[Oct 22 23:59:55.979] traffic_server STATUS: opened /home/sur/.cache/guize-takeover/poc003-pool-diagnostic-20261022-v1/log/diags.log
+[Oct 22 23:59:55.979] traffic_server NOTE: updated diags config
+[Oct 22 23:59:55.980] traffic_server WARNING: connect_attempts_rr_retries (3) is greater than connect_attempts_max_retries (0), this means requests will never redispatch to another server
+[Oct 22 23:59:55.988] traffic_server NOTE: storage.config loading ...
+[Oct 22 23:59:55.988] traffic_server NOTE: storage.config finished loading
+[Oct 22 23:59:55.990] traffic_server NOTE: ip_allow.yaml loading ...
+[Oct 22 23:59:55.990] traffic_server NOTE: ip_allow.yaml finished loading
+[Oct 22 23:59:55.990] traffic_server NOTE: parent.config loading ...
+[Oct 22 23:59:55.990] traffic_server NOTE: parent.config finished loading
+[Oct 22 23:59:55.990] traffic_server NOTE: /home/sur/.cache/guize-takeover/poc003-pool-diagnostic-20261022-v1/etc/logging.yaml loading ...
+[Oct 22 23:59:55.991] traffic_server NOTE: /home/sur/.cache/guize-takeover/poc003-pool-diagnostic-20261022-v1/etc/logging.yaml finished loading
+[Oct 22 23:59:55.992] traffic_server NOTE: logging initialized[3], logging_mode = 3
+[Oct 22 23:59:55.992] traffic_server NOTE: Initialized plugin_dynamic_reload_mode: 1
+[Oct 22 23:59:55.992] traffic_server NOTE: plugin.config loading ...
+[Oct 22 23:59:55.992] traffic_server NOTE: loading plugin '/home/sur/.cache/guize-takeover/ats-user-runtime-20261019/pkgroot/usr/lib/trafficserver/modules/header_rewrite.so'
+[Oct 22 23:59:55.992] traffic_server NOTE: loading plugin '/home/sur/.cache/guize-takeover/poc003-observer-build-20261022-v2/cache_export.so'
+[Oct 22 23:59:55.993] traffic_server NOTE: plugin.config finished loading
+[Oct 22 23:59:55.994] traffic_server NOTE: /home/sur/.cache/guize-takeover/poc003-pool-diagnostic-20261022-v1/etc/sni.yaml loading ...
+[Oct 22 23:59:55.994] traffic_server NOTE: /home/sur/.cache/guize-takeover/poc003-pool-diagnostic-20261022-v1/etc/sni.yaml finished loading
+[Oct 22 23:59:55.994] traffic_server NOTE: ssl_multicert.config loading ...
+[Oct 22 23:59:56.004] traffic_server NOTE: /home/sur/.cache/guize-takeover/poc003-pool-diagnostic-20261022-v1/etc/ssl_multicert.config finished loading
+[Oct 22 23:59:56.004] traffic_server NOTE: volume.config loading ...
+[Oct 22 23:59:56.004] traffic_server NOTE: volume.config finished loading
+[Oct 22 23:59:56.009] [ET_NET 1] WARNING: disk header different for disk /home/sur/.cache/guize-takeover/poc003-pool-diagnostic-20261022-v1/cache/cache.db: clearing the disk
+[Oct 22 23:59:56.009] traffic_server NOTE: remap.config loading ...
+[Oct 22 23:59:56.009] traffic_server NOTE: strategies.yaml loading ...
+[Oct 22 23:59:56.009] traffic_server NOTE: No NextHop strategy configs were loaded.
+[Oct 22 23:59:56.009] traffic_server NOTE: strategies.yaml finished loading
+[Oct 22 23:59:56.013] [ET_NET 1] NOTE: Clearing Disk: /home/sur/.cache/guize-takeover/poc003-pool-diagnostic-20261022-v1/cache/cache.db
+[Oct 22 23:59:56.015] [ET_NET 1] NOTE: clearing cache directory '/home/sur/.cache/guize-takeover/poc003-pool-diagnostic-20261022-v1/cache/cache.db 16384:32766'
+[Oct 22 23:59:56.018] traffic_server NOTE: remap.config finished loading
+[Oct 22 23:59:56.020] [ET_NET 0] NOTE: hosting.config loading ...
+[Oct 22 23:59:56.020] [ET_NET 0] NOTE: hosting.config finished loading
+[Oct 22 23:59:56.020] [ET_NET 0] NOTE: cache enabled
+[Oct 22 23:59:56.020] [ET_NET 0] NOTE: Traffic Server is fully initialized.
+[Oct 22 23:59:56.020] [TS_MAIN] NOTE: traffic server running
+[Oct 22 23:59:56.983] [ET_NET 1] NOTE: sbrk 0x106176419663872 from first 0 from last 0
+[Oct 22 23:59:58.970] [ET_NET 1] NOTE: sbrk 0x106176419663872 from first 0 from last 0
+[Oct 23 00:00:00.473] [ET_NET 1] NOTE: sbrk 0x106176419663872 from first 0 from last 0

@@ -1,0 +1,79 @@
+{
+  "kind": "INSTRUMENTED_ATS_BUILD_LINK_VALIDATION_NOT_EXPERIMENT",
+  "status": "ready_for_future_poc_environment",
+  "uid": 1000,
+  "verifiedAt": "2026-10-22T16:59:13.553577+00:00",
+  "prefix": "/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1",
+  "LD_LIBRARY_PATH": "/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/pkgroot/usr/lib/trafficserver",
+  "versions": {
+    "traffic_server": {
+      "returncode": 0,
+      "stdout": "Traffic Server 9.2.3 Oct 23 2026 00:54:40 localhost\ntraffic_server: using root directory '/usr'\nApache Traffic Server - traffic_server - 9.2.3 - (build # 102300 on Oct 23 2026 at 00:54:40)\n"
+    }
+  },
+  "plugins": {
+    "slice.so": {
+      "file": "usr/lib/trafficserver/modules/slice.so",
+      "bytes": 82152,
+      "sha256": "1f8d3f0af3a1e7f2119a33a6a4ae446931297eebbaf671daf7b5d89ad0729adf"
+    },
+    "cache_range_requests.so": {
+      "file": "usr/lib/trafficserver/modules/cache_range_requests.so",
+      "bytes": 27512,
+      "sha256": "62bd3c96066b65fee359367a82861d3908bbb55b768d5ff9472b36938a7922f9"
+    },
+    "header_rewrite.so": {
+      "file": "usr/lib/trafficserver/modules/header_rewrite.so",
+      "bytes": 283224,
+      "sha256": "9dee1bf3062d3a62ed45f6ccdb04efb779e7a63977738713143cce3cfac6e9bf"
+    }
+  },
+  "instrumentedLiveBuffer": {
+    "buildReceiptPath": "/home/sur/.cache/guize-takeover/poc003-instrumented-ats-build-20261023-v1/compile-v4/receipt.json",
+    "buildReceiptSha256": "62e8ff5a6bd501b706ad7179c7a41e3c803c9c984fc187e9fbc28a6a133447de",
+    "ledgerHeaderSha256": "e17adfb92fc4093e3a0e4f46d538f37809dfb433c1fa054729d1dec819c3d615",
+    "components": {
+      "usr/bin/traffic_server": "d08c84b38818eed4dcc414a1acfa9335a6b2e99e77f9c06924eebe974139f745",
+      "usr/lib/trafficserver/libtscore.so.9.2.3": "f2b7d816e25765b517ebac749d50ac11d86b67cdde5286acb279f8384728ede1",
+      "usr/lib/trafficserver/modules/slice.so": "1f8d3f0af3a1e7f2119a33a6a4ae446931297eebbaf671daf7b5d89ad0729adf",
+      "usr/lib/trafficserver/modules/cache_range_requests.so": "62bd3c96066b65fee359367a82861d3908bbb55b768d5ff9472b36938a7922f9",
+      "usr/lib/trafficserver/modules/header_rewrite.so": "9dee1bf3062d3a62ed45f6ccdb04efb779e7a63977738713143cce3cfac6e9bf"
+    }
+  },
+  "dependencies": [
+    {
+      "file": "usr/bin/traffic_server",
+      "exitCode": 0,
+      "dependenciesFound": true
+    },
+    {
+      "file": "usr/lib/trafficserver/libtscore.so.9.2.3",
+      "exitCode": 0,
+      "dependenciesFound": true
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/slice.so",
+      "exitCode": 0,
+      "dependenciesFound": true
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/cache_range_requests.so",
+      "exitCode": 0,
+      "dependenciesFound": true
+    },
+    {
+      "file": "usr/lib/trafficserver/modules/header_rewrite.so",
+      "exitCode": 0,
+      "dependenciesFound": true
+    }
+  ],
+  "exportedCoreSymbols": [
+    "GuizeAtsLiveBufferAcquire",
+    "GuizeAtsLiveBufferRelease",
+    "GuizeAtsLiveBufferSnapshot"
+  ],
+  "atsServerStarted": false,
+  "listenersStarted": false,
+  "experimentExecuted": false,
+  "fullMediaCoverageProven": false
+}

@@ -1,0 +1,157 @@
+{
+  "checks": [
+    {
+      "argv": [
+        "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+        "-B",
+        "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz021-hls-publication-worktree/poc/POC-03-ats-range/test_lab.py"
+      ],
+      "actualExitCode": 0,
+      "expectedExitCode": 0,
+      "expectedTests": 8,
+      "raw": "test_lab.py.raw",
+      "bytes": 1168,
+      "sha256": "4f6f789c84be212fc708c27b0db19e13e0b7cfb2757f57d4b8522c69d43def41",
+      "waitCompleted": true
+    },
+    {
+      "argv": [
+        "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+        "-B",
+        "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz021-hls-publication-worktree/poc/POC-03-ats-range/test_cache_probe.py"
+      ],
+      "actualExitCode": 0,
+      "expectedExitCode": 0,
+      "expectedTests": 4,
+      "raw": "test_cache_probe.py.raw",
+      "bytes": 746,
+      "sha256": "38daf0af36beab9168e7ff2c4d0e9459dd9d44997b0889b2bd62a798358630a8",
+      "waitCompleted": true
+    },
+    {
+      "argv": [
+        "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+        "-B",
+        "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz021-hls-publication-worktree/poc/POC-03-ats-range/test_cache_probe_native.py"
+      ],
+      "actualExitCode": 0,
+      "expectedExitCode": 0,
+      "expectedTests": 2,
+      "raw": "test_cache_probe_native.py.raw",
+      "bytes": 458,
+      "sha256": "61c4f72712c22875a63b68d64e345183727e0ad88d7c51db1f6e80d15dc86326",
+      "waitCompleted": true
+    },
+    {
+      "argv": [
+        "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+        "-B",
+        "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz021-hls-publication-worktree/poc/POC-03-ats-range/test_gateway_native.py"
+      ],
+      "actualExitCode": 0,
+      "expectedExitCode": 0,
+      "expectedTests": 3,
+      "raw": "test_gateway_native.py.raw",
+      "bytes": 633,
+      "sha256": "5d000be89d0c03321887fe4f986c88e898a9ebbdb48f4fa9544bae1e49472d52",
+      "waitCompleted": true
+    },
+    {
+      "argv": [
+        "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+        "-B",
+        "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz021-hls-publication-worktree/poc/POC-03-ats-range/test_http_timing_native.py"
+      ],
+      "actualExitCode": 0,
+      "expectedExitCode": 0,
+      "expectedTests": 2,
+      "raw": "test_http_timing_native.py.raw",
+      "bytes": 408,
+      "sha256": "d028d8a27df3256582f9f538b5a63669cc6d29f2bcdddead5948c3554ad45e9f",
+      "waitCompleted": true
+    },
+    {
+      "argv": [
+        "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+        "-B",
+        "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz021-hls-publication-worktree/poc/POC-03-ats-range/test_revocation_binding.py"
+      ],
+      "actualExitCode": 0,
+      "expectedExitCode": 0,
+      "expectedTests": 2,
+      "raw": "test_revocation_binding.py.raw",
+      "bytes": 424,
+      "sha256": "6d35ea8bd4eb191ddc0904304bfbe06a5b621cf570ee4e078a3b47526a8d8dd2",
+      "waitCompleted": true
+    },
+    {
+      "argv": [
+        "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+        "-B",
+        "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz021-hls-publication-worktree/poc/POC-03-ats-range/test_buffer_probe.py"
+      ],
+      "actualExitCode": 0,
+      "expectedExitCode": 0,
+      "expectedTests": 7,
+      "raw": "test_buffer_probe.py.raw",
+      "bytes": 105,
+      "sha256": "83166b089fbcb82fac63f22522fa6ae99bb5e46368cd35d756277fd463dd6346",
+      "waitCompleted": true
+    },
+    {
+      "argv": [
+        "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+        "-B",
+        "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz021-hls-publication-worktree/poc/POC-03-ats-range/test_buffer_probe_native.py"
+      ],
+      "actualExitCode": 0,
+      "expectedExitCode": 0,
+      "expectedTests": 2,
+      "raw": "test_buffer_probe_native.py.raw",
+      "bytes": 100,
+      "sha256": "798064d9a66cea91d9679682145f9b119a7c9779fbff482f8f0d4c0a79656f62",
+      "waitCompleted": true
+    },
+    {
+      "argv": [
+        "/home/sur/.cache/guize-takeover/governance-venv/bin/python",
+        "-B",
+        "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/gz021-hls-publication-worktree/poc/POC-03-ats-range/test_warm_cache_revocation.py"
+      ],
+      "actualExitCode": 1,
+      "expectedExitCode": 1,
+      "expectedTests": 0,
+      "raw": "test_warm_cache_revocation.py.raw",
+      "bytes": 704,
+      "sha256": "54b8f83e18e16df04369195565767919e64ff490c58c87ec5328c313a9b4bd6a",
+      "waitCompleted": true
+    }
+  ],
+  "testsPassed": 30,
+  "noSkippedTests": true,
+  "missingSandboxGuardFailedAsExpected": true,
+  "atsStarted": false,
+  "experimentApproved": false,
+  "committedSourceValidation": false,
+  "files": {
+    "buffer_probe.py": "56933170456c3414f5fc3dfc28bec8c98c1a27273868d5d545c447663a385025",
+    "build_observer.py": "7c5ec2475d26e56394922ebba8f14a387d8ba0b318c37b8ef8ec2ade24c56ca9",
+    "cache_export.cc": "c2d73081e3a554f4d9a7e7c77b9c7337db31afac4689dfa6f37995ffa35315de",
+    "cache_probe.py": "cb785c6f7cc1e6c3715b5569049d79aa8315bc44c76768c40cdb86430871cba2",
+    "collect.py": "2a184b85ab7356d542b2d140090efc40ca067bd6a12f8b1173890d700cf3d108",
+    "config.example.json": "5c7d3baec54dabbb6e528a86e92235a346bf1aac6aa997faaeaad08653c61661",
+    "grants.py": "4d48a477541545a296d31ea00a97445e15f6b6eae92e79f39629c074923403bf",
+    "http_timing.py": "fde2afed2b9fcc3e607930eb72b9cecf5386761965d8881a095b98f041e663cb",
+    "lab.py": "02d7cd16bc6d721bcdbfdbd86d1a54a12b14984f6386afdbdf8fa8b9c93e49e6",
+    "README.md": "7fc303e0fb8e7b811f725e87b9d0e5b38afb9475885bcc7725d9658c9a2635a8",
+    "test_buffer_probe.py": "f8c55495e94eed9ea19e77b1018319bf8e0f3931b56cf5832bd4f5f3f40edfcb",
+    "test_buffer_probe_native.py": "0cd0820a982111207337bf6a37595a3f74686f403299d7cf78b5dea545309ec2",
+    "test_cache_probe.py": "880b226f4d0a54524a95599954237d27bf2bf157da3b363f6e3aeab1acb430a0",
+    "test_cache_probe_native.py": "e835fd96229fe843fc1505718494ba2c6b34acc415703f40da6b3815fbdac2fc",
+    "test_gateway_native.py": "4e11be081c72d4b09732e323a7b3bafef2e8ca7e711df65aa410943add551f86",
+    "test_http_timing_native.py": "3e27f76d65167a196bac70e38e8d7c4df03f0e079bf60f99a64006edfdf90d86",
+    "test_lab.py": "20373fbe76e7dc18c59da922c9b24c0793153c7181e6d22b101f28bdfe1a0513",
+    "test_revocation_binding.py": "6dec7dfd850bac65f110a6a4462a77c24323dec4527c686266daf10793884d39",
+    "test_warm_cache_revocation.py": "a2a17b985b9ef737f85d8b653c8e169ba28035ec2e668135f32993004fc6b449"
+  }
+}

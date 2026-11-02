@@ -1,0 +1,59 @@
+{
+  "requestId": "dafccf3c13364d73a667d796dcbe888b",
+  "observedAt": "2026-10-22T14:57:01.179780Z",
+  "originRequestCount": 1,
+  "objectReadCount": 16,
+  "objectReadBytes": 1048576,
+  "activeOriginRequests": 0,
+  "originTransactions": [
+    {
+      "originTransactionId": "32b9d556cea64c06",
+      "requestId": "dafccf3c13364d73a667d796dcbe888b",
+      "startedAt": "2026-10-22T14:57:01.123740Z",
+      "finishedAt": "2026-10-22T14:57:01.137269Z",
+      "path": "/ctx/a9459da427d894a5b78545d7ff0e509f/changed/object.bin",
+      "range": "bytes=0-1048575",
+      "ifRange": "",
+      "authorized": true,
+      "objectReadCount": 16,
+      "objectReadBytes": 1048576,
+      "statusCode": 206,
+      "fault": "none",
+      "sourceVersion": "changed",
+      "sourceSha256": "643d769e1b5120a7c52d63df3d266f67a4177050180858480feb4e686e2fdda1",
+      "transportError": null
+    }
+  ],
+  "gatewayTransactions": [
+    {
+      "requestId": "dafccf3c13364d73a667d796dcbe888b",
+      "case": "updated",
+      "startedAt": "2026-10-22T14:57:01.122861Z",
+      "userId": "lab-user-a",
+      "sourceVersion": "changed",
+      "aclVersion": "poc003-local-acl-v1",
+      "requestRange": "bytes=0-7",
+      "ifRange": "",
+      "atsRequestSent": true,
+      "responseByteCount": 8,
+      "gatewayChunkPeak": 8,
+      "grantObservation": {
+        "grantId": "poc003-grant-lab-user-a",
+        "principalId": "lab-user-a",
+        "validFrom": "2026-10-22T14:55:55.818086Z",
+        "validUntil": "2026-10-22T15:16:00.818086Z",
+        "revokedAt": null,
+        "authorizedAt": "2026-10-22T14:57:01.122890Z",
+        "reason": "allowed"
+      },
+      "cacheContextPath": "/ctx/a9459da427d894a5b78545d7ff0e509f/changed/object.bin",
+      "statusCode": 206,
+      "atsResponseHeadersAt": "2026-10-22T14:57:01.124225Z",
+      "atsExpectedBodyBytes": 8,
+      "upstreamReadTimeoutSeconds": 10,
+      "transportCompleted": true,
+      "firstBodyChunkAt": "2026-10-22T14:57:01.127381Z",
+      "finishedAt": "2026-10-22T14:57:01.127403Z"
+    }
+  ]
+}

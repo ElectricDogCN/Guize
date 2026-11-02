@@ -1,0 +1,7 @@
+test_atomic_publication_stays_single_link_and_refuses_replacement (__main__.NativePublicationTests.test_atomic_publication_stays_single_link_and_refuses_replacement) ... ok
+test_empty_stage_returns_with_distinct_immutable_start_and_final_records (__main__.NativePublicationTests.test_empty_stage_returns_with_distinct_immutable_start_and_final_records) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.907s
+
+OK

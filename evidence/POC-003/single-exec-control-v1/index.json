@@ -1,0 +1,827 @@
+{
+  "parent": "a685bdc37561bcbc1f77dd97d49d4c195a92d44a",
+  "files": [
+    {
+      "original": "actual-working-source/buffer_probe.py",
+      "encoded": "000-56933170456c.zlib.b64",
+      "byteCount": 6732,
+      "sha256": "56933170456c3414f5fc3dfc28bec8c98c1a27273868d5d545c447663a385025"
+    },
+    {
+      "original": "actual-working-source/instrumentation/single_exec_filter.py",
+      "encoded": "001-26ccbac40fd8.zlib.b64",
+      "byteCount": 16268,
+      "sha256": "26ccbac40fd8d26d893e067576f2849a4b7b1524141bf0d24229257d2fffd0ce"
+    },
+    {
+      "original": "actual-working-source/instrumentation/single_exec_gate.py",
+      "encoded": "002-01576f6ba766.zlib.b64",
+      "byteCount": 4948,
+      "sha256": "01576f6ba76630a5f96174d6ccc5203c532c054b175b656f6a383701c1304b62"
+    },
+    {
+      "original": "actual-working-source/lab.py",
+      "encoded": "003-f359bf7e96b1.zlib.b64",
+      "byteCount": 48339,
+      "sha256": "f359bf7e96b12cba9b476431c5a57f4f082b3cc9e22973087526a02ecaf6509a"
+    },
+    {
+      "original": "actual-working-source/owned_epoch.py",
+      "encoded": "004-cf170056c5a7.zlib.b64",
+      "byteCount": 21233,
+      "sha256": "cf170056c5a7f2201e863145522b0433e5911e128ba585d79cef0cb6c5125ccb"
+    },
+    {
+      "original": "actual-working-source/test_owned_epoch_fixed.py",
+      "encoded": "005-5f819400247a.zlib.b64",
+      "byteCount": 4938,
+      "sha256": "5f819400247a4351b503f15390c38103297072d88f8878720f45d78a3ee26e56"
+    },
+    {
+      "original": "actual-working-source/test_single_exec_filter.py",
+      "encoded": "006-970c12080b11.zlib.b64",
+      "byteCount": 6214,
+      "sha256": "970c12080b11b0a5a3f6c827dfc12d1918355dd23ed8936d6934ed6c25af0eb3"
+    },
+    {
+      "original": "build_poc003_fixed_policy_canary_v1_once.py",
+      "encoded": "007-94e9bb9eff21.zlib.b64",
+      "byteCount": 1750,
+      "sha256": "94e9bb9eff219211d5ef38a0b402dd22587c7ab60417e4c9d425c0c540cdca53"
+    },
+    {
+      "original": "poc003-docker-windows-health-v1/stderr.raw",
+      "encoded": "008-e3b0c44298fc.zlib.b64",
+      "byteCount": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-docker-windows-health-v1/stdout.raw",
+      "encoded": "009-e3b0c44298fc.zlib.b64",
+      "byteCount": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-docker-windows-health-v1/timeout-and-cleanup.json",
+      "encoded": "010-4206cd345c47.zlib.b64",
+      "byteCount": 960,
+      "sha256": "4206cd345c4734d7a623e98cc5f88481fc90c88e7c7d2bb6f4d26ac830bd60d2"
+    },
+    {
+      "original": "poc003-environment-after-boot-20261027/docker.stderr",
+      "encoded": "011-e3b0c44298fc.zlib.b64",
+      "byteCount": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-environment-after-boot-20261027/docker.stdout",
+      "encoded": "012-e3b0c44298fc.zlib.b64",
+      "byteCount": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-environment-after-boot-20261027/results.json",
+      "encoded": "013-ade3847c5337.zlib.b64",
+      "byteCount": 1710,
+      "sha256": "ade3847c53372d6dc4cd24ef9d1d7e1d25215a1e74a8e32512eeffa9b982183f"
+    },
+    {
+      "original": "poc003-environment-after-boot-20261027/wsl.stderr",
+      "encoded": "014-b280c454d6f5.zlib.b64",
+      "byteCount": 132,
+      "sha256": "b280c454d6f559e56eb3f5ed39f3ba084b8d1744a3ff7fe016b21ff86dea1aca"
+    },
+    {
+      "original": "poc003-environment-after-boot-20261027/wsl.stdout",
+      "encoded": "015-e3b0c44298fc.zlib.b64",
+      "byteCount": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-fixed-caller-static-tests-v1/pytest.raw",
+      "encoded": "016-6f58d9c0049a.zlib.b64",
+      "byteCount": 18089,
+      "sha256": "6f58d9c0049a03b9fe31b7937b6f7d9ca767537235725a3851053db6be17ea99"
+    },
+    {
+      "original": "poc003-fixed-caller-static-tests-v1/results.json",
+      "encoded": "017-451cf76c82a4.zlib.b64",
+      "byteCount": 2779,
+      "sha256": "451cf76c82a4cd8b0b0cc7fdcbcfddbf040387b8545e2c3a527a422c83cdbed6"
+    },
+    {
+      "original": "poc003-fixed-caller-static-tests-v1/results.xml",
+      "encoded": "018-7d0fd367d1dc.zlib.b64",
+      "byteCount": 19507,
+      "sha256": "7d0fd367d1dc378e598cae5f68bb294da812f3896ea168489b6cd04e96424973"
+    },
+    {
+      "original": "poc003-fixed-caller-static-tests-v1/test_owned_epoch_fixed.py.txt",
+      "encoded": "019-06f4b3afc1b6.zlib.b64",
+      "byteCount": 4683,
+      "sha256": "06f4b3afc1b6395983c35ad1bd90bde45f57848721d9d56c7fc7f8b1f1206de2"
+    },
+    {
+      "original": "poc003-fixed-caller-static-tests-v2/owned_epoch.py.txt",
+      "encoded": "020-4ab3322e247d.zlib.b64",
+      "byteCount": 21074,
+      "sha256": "4ab3322e247d2376dce9a9dee6dc8e923b357682839491b494a57d12bfd88ffa"
+    },
+    {
+      "original": "poc003-fixed-caller-static-tests-v2/pytest.raw",
+      "encoded": "021-a2c37e325947.zlib.b64",
+      "byteCount": 400,
+      "sha256": "a2c37e325947630c21807e3ed87196f11bb4481959ae5bb841b2c4375eb28dbd"
+    },
+    {
+      "original": "poc003-fixed-caller-static-tests-v2/results.json",
+      "encoded": "022-f4e5c9588b3c.zlib.b64",
+      "byteCount": 2778,
+      "sha256": "f4e5c9588b3cccb7570a884674d118b43e1770e5b012456156a699836836f0c3"
+    },
+    {
+      "original": "poc003-fixed-caller-static-tests-v2/results.xml",
+      "encoded": "023-6fbfbc8c1160.zlib.b64",
+      "byteCount": 2133,
+      "sha256": "6fbfbc8c1160d448419bea85f1c7c52e15b4eabb4a7cc69331f71227a47ba2d7"
+    },
+    {
+      "original": "poc003-fixed-caller-static-tests-v2/test_owned_epoch_fixed.py.txt",
+      "encoded": "024-c9c07867d03c.zlib.b64",
+      "byteCount": 4702,
+      "sha256": "c9c07867d03cc51dbebfc164f02bbfc428c2105f4b35f441d653355ab4b23613"
+    },
+    {
+      "original": "poc003-fixed-caller-static-tests-v3/pytest.raw",
+      "encoded": "025-2905b3046049.zlib.b64",
+      "byteCount": 400,
+      "sha256": "2905b30460492e90d4510ab8c9d3272aced3f6c43d6c3fa73433198a6572f33a"
+    },
+    {
+      "original": "poc003-fixed-caller-static-tests-v3/results.json",
+      "encoded": "026-1907f44fe69f.zlib.b64",
+      "byteCount": 2778,
+      "sha256": "1907f44fe69fe57cfe1738a013aaba50eacca2fe27d29b0984c8ae04e330b7d6"
+    },
+    {
+      "original": "poc003-fixed-caller-static-tests-v3/results.xml",
+      "encoded": "027-5752b6010260.zlib.b64",
+      "byteCount": 2283,
+      "sha256": "5752b6010260fbaac016643a4cf8949cf825c652c939f9931787c6cdceee70b9"
+    },
+    {
+      "original": "poc003-fixed-caller-v1-independent-review.json",
+      "encoded": "028-f1a51029e30b.zlib.b64",
+      "byteCount": 8298,
+      "sha256": "f1a51029e30b8de76f6a0adc65ef58d4210d1ce2141070002b21cf74b560af60"
+    },
+    {
+      "original": "poc003-fixed-caller-v2-independent-review.json",
+      "encoded": "029-589947897a2a.zlib.b64",
+      "byteCount": 7131,
+      "sha256": "589947897a2a20ef82c39d1729de9a1512ad9a8b0cacefd14849feef649a9ae6"
+    },
+    {
+      "original": "poc003-fixed-exec-reader-regressions-windows-v1/pytest.raw",
+      "encoded": "030-cbaf7f75e17d.zlib.b64",
+      "byteCount": 279,
+      "sha256": "cbaf7f75e17def23b27b1fe27c18ffc8952eae3a26c7d770c11633f2127b45e7"
+    },
+    {
+      "original": "poc003-fixed-exec-reader-regressions-windows-v1/results.json",
+      "encoded": "031-2b3e24cabc73.zlib.b64",
+      "byteCount": 2379,
+      "sha256": "2b3e24cabc73e8d529695eacefde05cafe1ae761c180590d6c9fd637efb2e444"
+    },
+    {
+      "original": "poc003-fixed-exec-reader-regressions-windows-v1/results.xml",
+      "encoded": "032-6f3c2fa9899e.zlib.b64",
+      "byteCount": 9618,
+      "sha256": "6f3c2fa9899e4fc8662a7ba687e5d3dc9851f88a3fe72991add1d373dc2679df"
+    },
+    {
+      "original": "poc003-fixed-policy-canary-v1-build/build.json",
+      "encoded": "033-2694e8071cff.zlib.b64",
+      "byteCount": 1644,
+      "sha256": "2694e8071cffd74222869a303f6b772a26979e9c9e44064c3748ac55a69ee39c"
+    },
+    {
+      "original": "poc003-fixed-policy-canary-v1-build/compile.raw",
+      "encoded": "034-e3b0c44298fc.zlib.b64",
+      "byteCount": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-fixed-policy-canary-v1-build/control",
+      "encoded": "035-7d528e611442.zlib.b64",
+      "byteCount": 923608,
+      "sha256": "7d528e6114423c73573a715454e01017fe434d6d4dd85ca2eda3418608f9e64b"
+    },
+    {
+      "original": "poc003-fixed-policy-canary-v1-build/elf.raw",
+      "encoded": "036-00f1bade0c96.zlib.b64",
+      "byteCount": 3043,
+      "sha256": "00f1bade0c96d579cd383cd67af123b919d572f1da44b828456c55f528a51ec0"
+    },
+    {
+      "original": "poc003-fixed-policy-canary-v1-build/input-framed-original.bin",
+      "encoded": "037-0e525e6a38b6.zlib.b64",
+      "byteCount": 1307806,
+      "sha256": "0e525e6a38b69c79fb8f8d39cfa7e7777124d0fc5207df963a8ee6b4c91101c6"
+    },
+    {
+      "original": "poc003-fixed-policy-canary-v1-build/poc003_fixed_policy_canary_v1.c",
+      "encoded": "038-9da72170532b.zlib.b64",
+      "byteCount": 2863,
+      "sha256": "9da72170532bb78f05c3bec2cee6254340cb5aa8803d429763258ab6ac4864f6"
+    },
+    {
+      "original": "poc003-fixed-policy-canary-v1-build/version.raw",
+      "encoded": "039-8497f84b2b83.zlib.b64",
+      "byteCount": 246,
+      "sha256": "8497f84b2b8334c413d9c6166bd39d009ba55d2ff60a8f23e66dfa5819c2b048"
+    },
+    {
+      "original": "poc003-fixed-policy-canary-v1-independent-approval.json",
+      "encoded": "040-8211c7d0ed14.zlib.b64",
+      "byteCount": 16055,
+      "sha256": "8211c7d0ed144cac669f156b7bd160f68b0c87f96a66bd0d82999c4c5dde7d69"
+    },
+    {
+      "original": "poc003-fixed-policy-canary-v1-proposal.json",
+      "encoded": "041-7c8a02f540c9.zlib.b64",
+      "byteCount": 5920,
+      "sha256": "7c8a02f540c901216ec8641c40429f8a126d1cf9f686dd548ca234167f4bcb5f"
+    },
+    {
+      "original": "poc003-fixed-policy-canary-v1-proposal.json.v1-no-pull-rejected.txt",
+      "encoded": "042-dd5734028c4d.zlib.b64",
+      "byteCount": 5920,
+      "sha256": "dd5734028c4dd89865e97295c431f4b8386e6ea28cd27cdeef3013b3decf9ff2"
+    },
+    {
+      "original": "poc003-fixed-policy-canary-v1-wsl-launch-failure-independent-review.json",
+      "encoded": "043-de748b8b9d2d.zlib.b64",
+      "byteCount": 3322,
+      "sha256": "de748b8b9d2d96307ed2536ed6bd32806d29799a0c0c3c75238f593a8b03a37a"
+    },
+    {
+      "original": "poc003-fixed-policy-canary-v1-wsl-launch-failure.json",
+      "encoded": "044-342cdd91f36b.zlib.b64",
+      "byteCount": 641,
+      "sha256": "342cdd91f36b629f03f1f3ae257d7358aecd372acb5bb93d9d4d1f21619f0931"
+    },
+    {
+      "original": "poc003-fixed-policy-canary-v2-independent-approval.json",
+      "encoded": "045-a0c44eb3edd8.zlib.b64",
+      "byteCount": 21402,
+      "sha256": "a0c44eb3edd8f60e26ed4103086d708f062c62a742df63d09c29774deba53072"
+    },
+    {
+      "original": "poc003-fixed-policy-canary-v2-proposal.json",
+      "encoded": "046-26562cdc39a0.zlib.b64",
+      "byteCount": 6210,
+      "sha256": "26562cdc39a0025079e48868a87e7d4347767e30e519124b72fa6750c28b5e57"
+    },
+    {
+      "original": "poc003-fixed-policy-canary-v2-results-independent-review.json",
+      "encoded": "047-4487a8ae1a44.zlib.b64",
+      "byteCount": 33068,
+      "sha256": "4487a8ae1a441c5ae3175d71ab8094d062b07052b65a710504e250099dee849c"
+    },
+    {
+      "original": "poc003-fixed-policy-canary-v2-run/00-stderr.raw",
+      "encoded": "048-e3b0c44298fc.zlib.b64",
+      "byteCount": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-fixed-policy-canary-v2-run/00-stdout.raw",
+      "encoded": "049-e0d287c812ff.zlib.b64",
+      "byteCount": 99,
+      "sha256": "e0d287c812ff976f66a7883f77c381323b746f68d4602bb1dc0547ebce739bb0"
+    },
+    {
+      "original": "poc003-fixed-policy-canary-v2-run/01-stderr.raw",
+      "encoded": "050-e3b0c44298fc.zlib.b64",
+      "byteCount": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-fixed-policy-canary-v2-run/01-stdout.raw",
+      "encoded": "051-a2823345bbf3.zlib.b64",
+      "byteCount": 1694,
+      "sha256": "a2823345bbf3f41e38c03f6f5d130692e4a46e19405a5b82c6acac3196d5d6eb"
+    },
+    {
+      "original": "poc003-fixed-policy-canary-v2-run/02-stderr.raw",
+      "encoded": "052-e3b0c44298fc.zlib.b64",
+      "byteCount": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-fixed-policy-canary-v2-run/02-stdout.raw",
+      "encoded": "053-4ee116007ae0.zlib.b64",
+      "byteCount": 49,
+      "sha256": "4ee116007ae00bf2c86ad040e719a37b68c0dd08160d5667bf9458b7a5678566"
+    },
+    {
+      "original": "poc003-fixed-policy-canary-v2-run/03-stderr.raw",
+      "encoded": "054-e3b0c44298fc.zlib.b64",
+      "byteCount": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-fixed-policy-canary-v2-run/03-stdout.raw",
+      "encoded": "055-e3b0c44298fc.zlib.b64",
+      "byteCount": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-fixed-policy-canary-v2-run/04-stderr.raw",
+      "encoded": "056-e3b0c44298fc.zlib.b64",
+      "byteCount": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-fixed-policy-canary-v2-run/04-stdout.raw",
+      "encoded": "057-48154f1ab759.zlib.b64",
+      "byteCount": 65,
+      "sha256": "48154f1ab759347d38a60236487b22f01cf614fcfa0a6afe7b7e81c47c07e78b"
+    },
+    {
+      "original": "poc003-fixed-policy-canary-v2-run/05-stderr.raw",
+      "encoded": "058-e3b0c44298fc.zlib.b64",
+      "byteCount": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-fixed-policy-canary-v2-run/05-stdout.raw",
+      "encoded": "059-23a3d02052a1.zlib.b64",
+      "byteCount": 7250,
+      "sha256": "23a3d02052a12afbac40bf69e0502792506770fe1628b1a91e537b7822c261e3"
+    },
+    {
+      "original": "poc003-fixed-policy-canary-v2-run/06-stderr.raw",
+      "encoded": "060-e3b0c44298fc.zlib.b64",
+      "byteCount": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-fixed-policy-canary-v2-run/06-stdout.raw",
+      "encoded": "061-285ac4f6942d.zlib.b64",
+      "byteCount": 35694,
+      "sha256": "285ac4f6942d1624cd1dc6617faaa9638c075d137d6387043e9ebbff1b1b00ba"
+    },
+    {
+      "original": "poc003-fixed-policy-canary-v2-run/07-stderr.raw",
+      "encoded": "062-e3b0c44298fc.zlib.b64",
+      "byteCount": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-fixed-policy-canary-v2-run/07-stdout.raw",
+      "encoded": "063-9a271f2a916b.zlib.b64",
+      "byteCount": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "original": "poc003-fixed-policy-canary-v2-run/08-stderr.raw",
+      "encoded": "064-e3b0c44298fc.zlib.b64",
+      "byteCount": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-fixed-policy-canary-v2-run/08-stdout.raw",
+      "encoded": "065-285ac4f6942d.zlib.b64",
+      "byteCount": 35694,
+      "sha256": "285ac4f6942d1624cd1dc6617faaa9638c075d137d6387043e9ebbff1b1b00ba"
+    },
+    {
+      "original": "poc003-fixed-policy-canary-v2-run/09-stderr.raw",
+      "encoded": "066-e3b0c44298fc.zlib.b64",
+      "byteCount": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-fixed-policy-canary-v2-run/09-stdout.raw",
+      "encoded": "067-4c8656a9aeaf.zlib.b64",
+      "byteCount": 224,
+      "sha256": "4c8656a9aeafe402bafd17ee16302347142ec94aef3f19032fe8939798b438ee"
+    },
+    {
+      "original": "poc003-fixed-policy-canary-v2-run/approval-original.json",
+      "encoded": "068-a0c44eb3edd8.zlib.b64",
+      "byteCount": 21402,
+      "sha256": "a0c44eb3edd8f60e26ed4103086d708f062c62a742df63d09c29774deba53072"
+    },
+    {
+      "original": "poc003-fixed-policy-canary-v2-run/container-results/duplicate-reference-close/launch/exec-error.raw",
+      "encoded": "069-b70735ada7f7.zlib.b64",
+      "byteCount": 15,
+      "sha256": "b70735ada7f7ab95a14e66412625a360c6b1df1f565597795494f3141e38e932"
+    },
+    {
+      "original": "poc003-fixed-policy-canary-v2-run/container-results/duplicate-reference-close/launch/gate-control-fdinfo.raw",
+      "encoded": "070-08e5c5f1ac38.zlib.b64",
+      "byteCount": 47,
+      "sha256": "08e5c5f1ac38805729c8638d21608b59aecaf92ab8794339a67ec051cd06fa46"
+    },
+    {
+      "original": "poc003-fixed-policy-canary-v2-run/container-results/duplicate-reference-close/launch/gate-exec-error-fdinfo.raw",
+      "encoded": "071-af0590432482.zlib.b64",
+      "byteCount": 47,
+      "sha256": "af0590432482138877a81eb0c3bbc8503e31f4fe62361f63b7e3dca67e821f9e"
+    },
+    {
+      "original": "poc003-fixed-policy-canary-v2-run/container-results/duplicate-reference-close/launch/gate-executable-fdinfo.raw",
+      "encoded": "072-6c021bc14a5a.zlib.b64",
+      "byteCount": 48,
+      "sha256": "6c021bc14a5ad8def8309a8fcebb63f3418050968d8f6c5d9f649a79ec13acda"
+    },
+    {
+      "original": "poc003-fixed-policy-canary-v2-run/container-results/duplicate-reference-close/launch/launch.json",
+      "encoded": "073-13c8c8550fd8.zlib.b64",
+      "byteCount": 3636,
+      "sha256": "13c8c8550fd8897e6e997c5a59db1939c22c9e618afc32de549f56e21cc0cdb0"
+    },
+    {
+      "original": "poc003-fixed-policy-canary-v2-run/container-results/duplicate-reference-close/launch/ready.raw",
+      "encoded": "074-3dfa3fb239f5.zlib.b64",
+      "byteCount": 6,
+      "sha256": "3dfa3fb239f56c778a1e9b33eb31328349edd155a95806dac4378904e88527e5"
+    },
+    {
+      "original": "poc003-fixed-policy-canary-v2-run/container-results/duplicate-reference-close/target.stderr",
+      "encoded": "075-e3b0c44298fc.zlib.b64",
+      "byteCount": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-fixed-policy-canary-v2-run/container-results/duplicate-reference-close/target.stdout",
+      "encoded": "076-e3b0c44298fc.zlib.b64",
+      "byteCount": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-fixed-policy-canary-v2-run/container-results/initial-and-denials/launch/exec-error.raw",
+      "encoded": "077-e3b0c44298fc.zlib.b64",
+      "byteCount": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-fixed-policy-canary-v2-run/container-results/initial-and-denials/launch/gate-control-fdinfo.raw",
+      "encoded": "078-3aff5df5d7c8.zlib.b64",
+      "byteCount": 47,
+      "sha256": "3aff5df5d7c84efeccf0ef103cd118b23402965d8599adf4aa6303167333b0c7"
+    },
+    {
+      "original": "poc003-fixed-policy-canary-v2-run/container-results/initial-and-denials/launch/gate-exec-error-fdinfo.raw",
+      "encoded": "079-2f0113044884.zlib.b64",
+      "byteCount": 47,
+      "sha256": "2f0113044884cef48dcbf0da92832fc0de139dfab229386283f3f0b27d449d7f"
+    },
+    {
+      "original": "poc003-fixed-policy-canary-v2-run/container-results/initial-and-denials/launch/gate-executable-fdinfo.raw",
+      "encoded": "080-6c021bc14a5a.zlib.b64",
+      "byteCount": 48,
+      "sha256": "6c021bc14a5ad8def8309a8fcebb63f3418050968d8f6c5d9f649a79ec13acda"
+    },
+    {
+      "original": "poc003-fixed-policy-canary-v2-run/container-results/initial-and-denials/launch/launch.json",
+      "encoded": "081-f8db765f4e6c.zlib.b64",
+      "byteCount": 4120,
+      "sha256": "f8db765f4e6c68e5e7448b9d3948e5697126d245a1d7960599c1ad61320c4ea2"
+    },
+    {
+      "original": "poc003-fixed-policy-canary-v2-run/container-results/initial-and-denials/launch/ready.raw",
+      "encoded": "082-3dfa3fb239f5.zlib.b64",
+      "byteCount": 6,
+      "sha256": "3dfa3fb239f56c778a1e9b33eb31328349edd155a95806dac4378904e88527e5"
+    },
+    {
+      "original": "poc003-fixed-policy-canary-v2-run/container-results/initial-and-denials/target.stderr",
+      "encoded": "083-e3b0c44298fc.zlib.b64",
+      "byteCount": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-fixed-policy-canary-v2-run/container-results/initial-and-denials/target.stdout",
+      "encoded": "084-802c374ead89.zlib.b64",
+      "byteCount": 202,
+      "sha256": "802c374ead8968c2c99f21104cc3d514099d4e6ea336d559820adea5018e8106"
+    },
+    {
+      "original": "poc003-fixed-policy-canary-v2-run/container-results/no-notification-deadline/launch/exec-error.raw",
+      "encoded": "085-e3b0c44298fc.zlib.b64",
+      "byteCount": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-fixed-policy-canary-v2-run/container-results/no-notification-deadline/launch/gate-control-fdinfo.raw",
+      "encoded": "086-c3f4a5a9ca5e.zlib.b64",
+      "byteCount": 47,
+      "sha256": "c3f4a5a9ca5e790e1453d27962c67ec72b40835c615b810b099c72e5e3ce17ef"
+    },
+    {
+      "original": "poc003-fixed-policy-canary-v2-run/container-results/no-notification-deadline/launch/gate-exec-error-fdinfo.raw",
+      "encoded": "087-2825149e6a05.zlib.b64",
+      "byteCount": 47,
+      "sha256": "2825149e6a05dfb954f3c6f08cbcd6bbb3af8a506689af2d95ff5f22d22eb808"
+    },
+    {
+      "original": "poc003-fixed-policy-canary-v2-run/container-results/no-notification-deadline/launch/gate-executable-fdinfo.raw",
+      "encoded": "088-6c021bc14a5a.zlib.b64",
+      "byteCount": 48,
+      "sha256": "6c021bc14a5ad8def8309a8fcebb63f3418050968d8f6c5d9f649a79ec13acda"
+    },
+    {
+      "original": "poc003-fixed-policy-canary-v2-run/container-results/no-notification-deadline/launch/launch.json",
+      "encoded": "089-e4c78751cd55.zlib.b64",
+      "byteCount": 3605,
+      "sha256": "e4c78751cd55156f08df0aadee79b6ece056a9bfa918b9a844d4bdba743b32eb"
+    },
+    {
+      "original": "poc003-fixed-policy-canary-v2-run/container-results/no-notification-deadline/launch/ready.raw",
+      "encoded": "090-3dfa3fb239f5.zlib.b64",
+      "byteCount": 6,
+      "sha256": "3dfa3fb239f56c778a1e9b33eb31328349edd155a95806dac4378904e88527e5"
+    },
+    {
+      "original": "poc003-fixed-policy-canary-v2-run/container-results/no-notification-deadline/target.stderr",
+      "encoded": "091-e3b0c44298fc.zlib.b64",
+      "byteCount": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-fixed-policy-canary-v2-run/container-results/no-notification-deadline/target.stdout",
+      "encoded": "092-e3b0c44298fc.zlib.b64",
+      "byteCount": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-fixed-policy-canary-v2-run/container-results/results.json",
+      "encoded": "093-05383072eaf6.zlib.b64",
+      "byteCount": 6825,
+      "sha256": "05383072eaf68a23c32967334cb0754018890b65199e0721dc3a79617a1746a5"
+    },
+    {
+      "original": "poc003-fixed-policy-canary-v2-run/container-results/zero-listener-before-go/launch/exec-error.raw",
+      "encoded": "094-b70735ada7f7.zlib.b64",
+      "byteCount": 15,
+      "sha256": "b70735ada7f7ab95a14e66412625a360c6b1df1f565597795494f3141e38e932"
+    },
+    {
+      "original": "poc003-fixed-policy-canary-v2-run/container-results/zero-listener-before-go/launch/gate-control-fdinfo.raw",
+      "encoded": "095-093454e74810.zlib.b64",
+      "byteCount": 47,
+      "sha256": "093454e748100bef6a8134de99a6ed3240808c17394db7b9ee8665d12d7e3038"
+    },
+    {
+      "original": "poc003-fixed-policy-canary-v2-run/container-results/zero-listener-before-go/launch/gate-exec-error-fdinfo.raw",
+      "encoded": "096-f0f876073278.zlib.b64",
+      "byteCount": 47,
+      "sha256": "f0f876073278b695b293ebb1635494211108d09c84147dd0b34e439b5dfb3b2c"
+    },
+    {
+      "original": "poc003-fixed-policy-canary-v2-run/container-results/zero-listener-before-go/launch/gate-executable-fdinfo.raw",
+      "encoded": "097-6c021bc14a5a.zlib.b64",
+      "byteCount": 48,
+      "sha256": "6c021bc14a5ad8def8309a8fcebb63f3418050968d8f6c5d9f649a79ec13acda"
+    },
+    {
+      "original": "poc003-fixed-policy-canary-v2-run/container-results/zero-listener-before-go/launch/launch.json",
+      "encoded": "098-e386a31c1639.zlib.b64",
+      "byteCount": 3634,
+      "sha256": "e386a31c1639aae97c5b5e2ac19c05971ed5cbec2d8f988fdfe28a735d9da88c"
+    },
+    {
+      "original": "poc003-fixed-policy-canary-v2-run/container-results/zero-listener-before-go/launch/ready.raw",
+      "encoded": "099-3dfa3fb239f5.zlib.b64",
+      "byteCount": 6,
+      "sha256": "3dfa3fb239f56c778a1e9b33eb31328349edd155a95806dac4378904e88527e5"
+    },
+    {
+      "original": "poc003-fixed-policy-canary-v2-run/container-results/zero-listener-before-go/target.stderr",
+      "encoded": "100-e3b0c44298fc.zlib.b64",
+      "byteCount": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-fixed-policy-canary-v2-run/container-results/zero-listener-before-go/target.stdout",
+      "encoded": "101-e3b0c44298fc.zlib.b64",
+      "byteCount": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-fixed-policy-canary-v2-run/controller.py",
+      "encoded": "102-459a380386c5.zlib.b64",
+      "byteCount": 14930,
+      "sha256": "459a380386c5839eb74317e0189b68edf1f53aa275068d05d6f573a36793bfb2"
+    },
+    {
+      "original": "poc003-fixed-policy-canary-v2-run/proposal-original.json",
+      "encoded": "103-26562cdc39a0.zlib.b64",
+      "byteCount": 6210,
+      "sha256": "26562cdc39a0025079e48868a87e7d4347767e30e519124b72fa6750c28b5e57"
+    },
+    {
+      "original": "poc003-fixed-policy-canary-v2-run/results.json",
+      "encoded": "104-bb5e0e0e5c68.zlib.b64",
+      "byteCount": 13472,
+      "sha256": "bb5e0e0e5c68622a2404d56dd1e5c172409d5c56b0919bfd3a3c92de79cd5e73"
+    },
+    {
+      "original": "poc003-native-engine-after-boot-20261027/results.json",
+      "encoded": "105-d0dc84f6c209.zlib.b64",
+      "byteCount": 737,
+      "sha256": "d0dc84f6c209bfbf9a28ec63f6bcd8548bce0e08bb1e143ad5b9dad725fcc24b"
+    },
+    {
+      "original": "poc003-native-engine-after-boot-20261027/stderr.raw",
+      "encoded": "106-e3b0c44298fc.zlib.b64",
+      "byteCount": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original": "poc003-native-engine-after-boot-20261027/stdout.raw",
+      "encoded": "107-71c8d6fa359f.zlib.b64",
+      "byteCount": 166,
+      "sha256": "71c8d6fa359feaf5538558efacfafe9d3bb382a423365fc69608975d69047046"
+    },
+    {
+      "original": "poc003-preexec-single-grant-next-method-independent-review.json",
+      "encoded": "108-86732caf4155.zlib.b64",
+      "byteCount": 10215,
+      "sha256": "86732caf41553ab2efa51b75b6eb18a008446b7afe93efb017414deafbee63d1"
+    },
+    {
+      "original": "poc003-preexec-single-grant-next-method.json",
+      "encoded": "109-e00e838cf3bd.zlib.b64",
+      "byteCount": 4163,
+      "sha256": "e00e838cf3bdf26d393917512f11207c61430f8a93fae10785acd73f78d57047"
+    },
+    {
+      "original": "poc003-single-exec-bootstrap-v1-independent-review.json",
+      "encoded": "110-e83efb43f8bf.zlib.b64",
+      "byteCount": 7570,
+      "sha256": "e83efb43f8bf3d5ae79dedc50a84fbfd46e1de72b64b63fbe0efd83e5ce52fcd"
+    },
+    {
+      "original": "poc003-single-exec-filter-v1-before-deadline-fix.py.txt",
+      "encoded": "111-619236ca9c69.zlib.b64",
+      "byteCount": 15784,
+      "sha256": "619236ca9c693c879af1b20abdbad752e1699f3ff371be03ddba2c555cd66c82"
+    },
+    {
+      "original": "poc003-single-exec-helper-v1-independent-review.json",
+      "encoded": "112-e38ffd18d062.zlib.b64",
+      "byteCount": 7706,
+      "sha256": "e38ffd18d0629c09c3358e2966f6ee62bb0d212fdc25db2e7a8a515077fa04b0"
+    },
+    {
+      "original": "poc003-single-exec-helper-v2-independent-review.json",
+      "encoded": "113-9c6d607950f1.zlib.b64",
+      "byteCount": 5723,
+      "sha256": "9c6d607950f1f51e4c017ec35538bfb44d488c63595d2b57d211adfab695607f"
+    },
+    {
+      "original": "poc003-single-exec-static-tests-v1/pytest.raw",
+      "encoded": "114-6a537e2dfd14.zlib.b64",
+      "byteCount": 844,
+      "sha256": "6a537e2dfd140054de6a17084e3a5aa2d55558b2d26243d89f92f1bd664a7bb6"
+    },
+    {
+      "original": "poc003-single-exec-static-tests-v1/results.json",
+      "encoded": "115-df2ec0c08fcc.zlib.b64",
+      "byteCount": 1227,
+      "sha256": "df2ec0c08fcc7c937be9c9adb6f83f5b4b160de88bd6bed0fabb2aac2a5dd226"
+    },
+    {
+      "original": "poc003-single-exec-static-tests-v1/results.xml",
+      "encoded": "116-b346cc322ae0.zlib.b64",
+      "byteCount": 1074,
+      "sha256": "b346cc322ae03d3b1177f5bb7997dafa2ab152c9d7044da0cb8a42451751a329"
+    },
+    {
+      "original": "poc003-single-exec-static-tests-v2/pytest.raw",
+      "encoded": "117-1ba502b0c80d.zlib.b64",
+      "byteCount": 844,
+      "sha256": "1ba502b0c80d6b53c7b0f5f54843b8ec71b4e49fe3b89a271691e2cb62f656a7"
+    },
+    {
+      "original": "poc003-single-exec-static-tests-v2/results.json",
+      "encoded": "118-8b24f5de643e.zlib.b64",
+      "byteCount": 1249,
+      "sha256": "8b24f5de643e41c73694d578307d6fd396b1b97cebb48bac335ac7974b6b1264"
+    },
+    {
+      "original": "poc003-single-exec-static-tests-v2/results.xml",
+      "encoded": "119-f724c1ee2c98.zlib.b64",
+      "byteCount": 1438,
+      "sha256": "f724c1ee2c98db18b57699014f739e1af60cea5c4441b7d0782a685d243ae496"
+    },
+    {
+      "original": "poc003_fixed_policy_canary_v1.c",
+      "encoded": "120-9da72170532b.zlib.b64",
+      "byteCount": 2863,
+      "sha256": "9da72170532bb78f05c3bec2cee6254340cb5aa8803d429763258ab6ac4864f6"
+    },
+    {
+      "original": "poc003_fixed_policy_cli_capture_v1.py.txt",
+      "encoded": "121-a0a4da63a058.zlib.b64",
+      "byteCount": 4059,
+      "sha256": "a0a4da63a05831df0af039a09748c3b83ae8ababbed4dc3ec99c839ac440f46e"
+    },
+    {
+      "original": "poc003_fixed_policy_payload_v1.py",
+      "encoded": "122-f97bd6a652da.zlib.b64",
+      "byteCount": 7510,
+      "sha256": "f97bd6a652da2a5db0d9bcf80ebe8dc9eb1312af6811ae5fc4d17532c3612cb7"
+    },
+    {
+      "original": "prepare_poc003_fixed_exec_component_once.py",
+      "encoded": "123-3bdf0c097891.zlib.b64",
+      "byteCount": 10220,
+      "sha256": "3bdf0c097891a6f8db66d5d80bb7f51c811f282a2aecd622e4a0933ddd6c8e88"
+    },
+    {
+      "original": "prepare_poc003_fixed_policy_canary_v1_once.py",
+      "encoded": "124-c3eb7829b25d.zlib.b64",
+      "byteCount": 5276,
+      "sha256": "c3eb7829b25d3fce1b89ca0c6adcedf96a2f07b880b1d0762696eb04dbb700fb"
+    },
+    {
+      "original": "run_poc003_fixed_caller_static_v1_once.py",
+      "encoded": "125-03eb892a35ad.zlib.b64",
+      "byteCount": 2390,
+      "sha256": "03eb892a35ad54303e9152c59a9a57a98d5487baa18ab55949fdad7ace46f8de"
+    },
+    {
+      "original": "run_poc003_fixed_caller_static_v2_once.py",
+      "encoded": "126-a9cf21a3c9d3.zlib.b64",
+      "byteCount": 2390,
+      "sha256": "a9cf21a3c9d30521dddf032eb883ad5fc96a7d15152141f3a1fb4868d0ac0f46"
+    },
+    {
+      "original": "run_poc003_fixed_caller_static_v3_once.py",
+      "encoded": "127-69c614e82cbf.zlib.b64",
+      "byteCount": 2390,
+      "sha256": "69c614e82cbf41c0ac0dfaec28fd9e9a4df4983d3951d46846a7257e0b9b36b3"
+    },
+    {
+      "original": "run_poc003_fixed_policy_canary_v1_once.py",
+      "encoded": "128-4686f858e542.zlib.b64",
+      "byteCount": 14930,
+      "sha256": "4686f858e5420a56c722f9e24b25c8dca41f3fe2e9fcf6167319af48edf23efa"
+    },
+    {
+      "original": "run_poc003_fixed_policy_canary_v1_once.py.v1-no-pull-rejected.txt",
+      "encoded": "129-f689800cfcd3.zlib.b64",
+      "byteCount": 14267,
+      "sha256": "f689800cfcd3d757638062579df8875540b12c44fc0b30a3862a12319d1cd47a"
+    },
+    {
+      "original": "run_poc003_fixed_policy_canary_v2_once.py",
+      "encoded": "130-459a380386c5.zlib.b64",
+      "byteCount": 14930,
+      "sha256": "459a380386c5839eb74317e0189b68edf1f53aa275068d05d6f573a36793bfb2"
+    }
+  ],
+  "actualWorkingSourcePins": {
+    "owned_epoch.py": "cf170056c5a7f2201e863145522b0433e5911e128ba585d79cef0cb6c5125ccb",
+    "buffer_probe.py": "56933170456c3414f5fc3dfc28bec8c98c1a27273868d5d545c447663a385025",
+    "lab.py": "f359bf7e96b12cba9b476431c5a57f4f082b3cc9e22973087526a02ecaf6509a",
+    "instrumentation/single_exec_filter.py": "26ccbac40fd8d26d893e067576f2849a4b7b1524141bf0d24229257d2fffd0ce",
+    "instrumentation/single_exec_gate.py": "01576f6ba76630a5f96174d6ccc5203c532c054b175b656f6a383701c1304b62",
+    "test_single_exec_filter.py": "970c12080b11b0a5a3f6c827dfc12d1918355dd23ed8936d6934ed6c25af0eb3",
+    "test_owned_epoch_fixed.py": "5f819400247a4351b503f15390c38103297072d88f8878720f45d78a3ee26e56"
+  },
+  "snapshotProvenance": "Actual working code at archive time, bound by prior pure/native test source hashes. Earlier snapshots retain their original labels.",
+  "currentPureTests": 14,
+  "currentWindowsReaderTests": 62,
+  "actualNativeControlCases": 4,
+  "actualCliWaits": 10,
+  "actualCliRawStreams": 20,
+  "actualExportedFiles": 33,
+  "actualNativeExitCodes": [
+    0,
+    71,
+    71,
+    -9
+  ],
+  "controlComponentAccepted": true,
+  "initialNoPullMethodFindingRetained": true,
+  "originalPureFixtureFailuresRetained": true,
+  "oldWslLaunchFailureRetained": true,
+  "originalWslUtf16RawNotLocallyCaptured": true,
+  "windowsDesktopEngineStillTimedOut": true,
+  "nativeEngineActuallyRecovered": true,
+  "noHostServicesRestartedByMethod": true,
+  "labIntegrated": false,
+  "actualAtsMediaRuntimeAccepted": false,
+  "pthreadInternalSyscallTraceObserved": false,
+  "fullMediaDomainAccepted": false,
+  "formalSourceGatesAccepted": false,
+  "qualificationAccepted": false
+}

@@ -1,0 +1,464 @@
+{
+  "kind": "ACTUAL_NATIVE_CACHE_STAGE_EXPORT_UNASSESSED",
+  "stage": "updated",
+  "startedAt": "2026-10-22T14:57:03.834080Z",
+  "atsPid": 679367,
+  "sourceVersion": "changed",
+  "userId": "lab-user-a",
+  "selectedKeys": [
+    {
+      "keyId": 3,
+      "lookupUrl": "http://127.0.0.1:18231/ctx/a9459da427d894a5b78545d7ff0e509f/changed/object.bin-bytes=0-1048575",
+      "observedAt": "2026-10-22T14:57:01Z",
+      "start": 0,
+      "end": 1048575
+    },
+    {
+      "keyId": 4,
+      "lookupUrl": "http://127.0.0.1:18231/ctx/a9459da427d894a5b78545d7ff0e509f/changed/object.bin-bytes=1048576-2097151",
+      "observedAt": "2026-10-22T14:57:01Z",
+      "start": 1048576,
+      "end": 2097151
+    },
+    {
+      "keyId": 5,
+      "lookupUrl": "http://127.0.0.1:18231/ctx/a9459da427d894a5b78545d7ff0e509f/changed/object.bin-bytes=2097152-3145727",
+      "observedAt": "2026-10-22T14:57:01Z",
+      "start": 2097152,
+      "end": 3145727
+    },
+    {
+      "keyId": 6,
+      "lookupUrl": "http://127.0.0.1:18231/ctx/a9459da427d894a5b78545d7ff0e509f/changed/object.bin-bytes=3145728-4194303",
+      "observedAt": "2026-10-22T14:57:01Z",
+      "start": 3145728,
+      "end": 4194303
+    },
+    {
+      "keyId": 7,
+      "lookupUrl": "http://127.0.0.1:18231/ctx/a9459da427d894a5b78545d7ff0e509f/changed/object.bin-bytes=4194304-5242879",
+      "observedAt": "2026-10-22T14:57:01Z",
+      "start": 4194304,
+      "end": 5242879
+    },
+    {
+      "keyId": 8,
+      "lookupUrl": "http://127.0.0.1:18231/ctx/a9459da427d894a5b78545d7ff0e509f/changed/object.bin-bytes=5242880-6291455",
+      "observedAt": "2026-10-22T14:57:01Z",
+      "start": 5242880,
+      "end": 6291455
+    },
+    {
+      "keyId": 9,
+      "lookupUrl": "http://127.0.0.1:18231/ctx/a9459da427d894a5b78545d7ff0e509f/changed/object.bin-bytes=6291456-7340031",
+      "observedAt": "2026-10-22T14:57:01Z",
+      "start": 6291456,
+      "end": 7340031
+    },
+    {
+      "keyId": 10,
+      "lookupUrl": "http://127.0.0.1:18231/ctx/a9459da427d894a5b78545d7ff0e509f/changed/object.bin-bytes=7340032-8388607",
+      "observedAt": "2026-10-22T14:57:01Z",
+      "start": 7340032,
+      "end": 8388607
+    },
+    {
+      "keyId": 11,
+      "lookupUrl": "http://127.0.0.1:18231/ctx/a9459da427d894a5b78545d7ff0e509f/changed/object.bin-bytes=8388608-9437183",
+      "observedAt": "2026-10-22T14:57:01Z",
+      "start": 8388608,
+      "end": 9437183
+    },
+    {
+      "keyId": 12,
+      "lookupUrl": "http://127.0.0.1:18231/ctx/a9459da427d894a5b78545d7ff0e509f/changed/object.bin-bytes=9437184-10485759",
+      "observedAt": "2026-10-22T14:57:01Z",
+      "start": 9437184,
+      "end": 10485759
+    },
+    {
+      "keyId": 13,
+      "lookupUrl": "http://127.0.0.1:18231/ctx/a9459da427d894a5b78545d7ff0e509f/changed/object.bin-bytes=10485760-11534335",
+      "observedAt": "2026-10-22T14:57:01Z",
+      "start": 10485760,
+      "end": 11534335
+    },
+    {
+      "keyId": 14,
+      "lookupUrl": "http://127.0.0.1:18231/ctx/a9459da427d894a5b78545d7ff0e509f/changed/object.bin-bytes=11534336-12582911",
+      "observedAt": "2026-10-22T14:57:01Z",
+      "start": 11534336,
+      "end": 12582911
+    },
+    {
+      "keyId": 15,
+      "lookupUrl": "http://127.0.0.1:18231/ctx/a9459da427d894a5b78545d7ff0e509f/changed/object.bin-bytes=12582912-13631487",
+      "observedAt": "2026-10-22T14:57:01Z",
+      "start": 12582912,
+      "end": 13631487
+    },
+    {
+      "keyId": 16,
+      "lookupUrl": "http://127.0.0.1:18231/ctx/a9459da427d894a5b78545d7ff0e509f/changed/object.bin-bytes=13631488-14680063",
+      "observedAt": "2026-10-22T14:57:01Z",
+      "start": 13631488,
+      "end": 14680063
+    },
+    {
+      "keyId": 17,
+      "lookupUrl": "http://127.0.0.1:18231/ctx/a9459da427d894a5b78545d7ff0e509f/changed/object.bin-bytes=14680064-15728639",
+      "observedAt": "2026-10-22T14:57:01Z",
+      "start": 14680064,
+      "end": 15728639
+    },
+    {
+      "keyId": 18,
+      "lookupUrl": "http://127.0.0.1:18231/ctx/a9459da427d894a5b78545d7ff0e509f/changed/object.bin-bytes=15728640-16777215",
+      "observedAt": "2026-10-22T14:57:01Z",
+      "start": 15728640,
+      "end": 16777215
+    },
+    {
+      "keyId": 19,
+      "lookupUrl": "http://127.0.0.1:18231/ctx/a9459da427d894a5b78545d7ff0e509f/changed/object.bin-bytes=16777216-17825791",
+      "observedAt": "2026-10-22T14:57:01Z",
+      "start": 16777216,
+      "end": 17825791
+    },
+    {
+      "keyId": 20,
+      "lookupUrl": "http://127.0.0.1:18231/ctx/a9459da427d894a5b78545d7ff0e509f/changed/object.bin-bytes=17825792-18874367",
+      "observedAt": "2026-10-22T14:57:01Z",
+      "start": 17825792,
+      "end": 18874367
+    },
+    {
+      "keyId": 21,
+      "lookupUrl": "http://127.0.0.1:18231/ctx/a9459da427d894a5b78545d7ff0e509f/changed/object.bin-bytes=18874368-19922943",
+      "observedAt": "2026-10-22T14:57:01Z",
+      "start": 18874368,
+      "end": 19922943
+    },
+    {
+      "keyId": 22,
+      "lookupUrl": "http://127.0.0.1:18231/ctx/a9459da427d894a5b78545d7ff0e509f/changed/object.bin-bytes=19922944-20971519",
+      "observedAt": "2026-10-22T14:57:01Z",
+      "start": 19922944,
+      "end": 20971519
+    },
+    {
+      "keyId": 23,
+      "lookupUrl": "http://127.0.0.1:18231/ctx/a9459da427d894a5b78545d7ff0e509f/changed/object.bin-bytes=20971520-22020095",
+      "observedAt": "2026-10-22T14:57:01Z",
+      "start": 20971520,
+      "end": 22020095
+    },
+    {
+      "keyId": 24,
+      "lookupUrl": "http://127.0.0.1:18231/ctx/a9459da427d894a5b78545d7ff0e509f/changed/object.bin-bytes=22020096-23068671",
+      "observedAt": "2026-10-22T14:57:01Z",
+      "start": 22020096,
+      "end": 23068671
+    },
+    {
+      "keyId": 25,
+      "lookupUrl": "http://127.0.0.1:18231/ctx/a9459da427d894a5b78545d7ff0e509f/changed/object.bin-bytes=23068672-24117247",
+      "observedAt": "2026-10-22T14:57:01Z",
+      "start": 23068672,
+      "end": 24117247
+    },
+    {
+      "keyId": 26,
+      "lookupUrl": "http://127.0.0.1:18231/ctx/a9459da427d894a5b78545d7ff0e509f/changed/object.bin-bytes=24117248-25165823",
+      "observedAt": "2026-10-22T14:57:01Z",
+      "start": 24117248,
+      "end": 25165823
+    },
+    {
+      "keyId": 27,
+      "lookupUrl": "http://127.0.0.1:18231/ctx/a9459da427d894a5b78545d7ff0e509f/changed/object.bin-bytes=25165824-26214399",
+      "observedAt": "2026-10-22T14:57:01Z",
+      "start": 25165824,
+      "end": 26214399
+    },
+    {
+      "keyId": 28,
+      "lookupUrl": "http://127.0.0.1:18231/ctx/a9459da427d894a5b78545d7ff0e509f/changed/object.bin-bytes=26214400-27262975",
+      "observedAt": "2026-10-22T14:57:01Z",
+      "start": 26214400,
+      "end": 27262975
+    },
+    {
+      "keyId": 29,
+      "lookupUrl": "http://127.0.0.1:18231/ctx/a9459da427d894a5b78545d7ff0e509f/changed/object.bin-bytes=27262976-28311551",
+      "observedAt": "2026-10-22T14:57:01Z",
+      "start": 27262976,
+      "end": 28311551
+    },
+    {
+      "keyId": 30,
+      "lookupUrl": "http://127.0.0.1:18231/ctx/a9459da427d894a5b78545d7ff0e509f/changed/object.bin-bytes=28311552-29360127",
+      "observedAt": "2026-10-22T14:57:01Z",
+      "start": 28311552,
+      "end": 29360127
+    },
+    {
+      "keyId": 31,
+      "lookupUrl": "http://127.0.0.1:18231/ctx/a9459da427d894a5b78545d7ff0e509f/changed/object.bin-bytes=29360128-30408703",
+      "observedAt": "2026-10-22T14:57:01Z",
+      "start": 29360128,
+      "end": 30408703
+    },
+    {
+      "keyId": 32,
+      "lookupUrl": "http://127.0.0.1:18231/ctx/a9459da427d894a5b78545d7ff0e509f/changed/object.bin-bytes=30408704-31457279",
+      "observedAt": "2026-10-22T14:57:01Z",
+      "start": 30408704,
+      "end": 31457279
+    },
+    {
+      "keyId": 33,
+      "lookupUrl": "http://127.0.0.1:18231/ctx/a9459da427d894a5b78545d7ff0e509f/changed/object.bin-bytes=31457280-32505855",
+      "observedAt": "2026-10-22T14:57:01Z",
+      "start": 31457280,
+      "end": 32505855
+    },
+    {
+      "keyId": 34,
+      "lookupUrl": "http://127.0.0.1:18231/ctx/a9459da427d894a5b78545d7ff0e509f/changed/object.bin-bytes=32505856-33554431",
+      "observedAt": "2026-10-22T14:57:01Z",
+      "start": 32505856,
+      "end": 33554431
+    },
+    {
+      "keyId": 35,
+      "lookupUrl": "http://127.0.0.1:18231/ctx/a9459da427d894a5b78545d7ff0e509f/changed/object.bin-bytes=33554432-34603007",
+      "observedAt": "2026-10-22T14:57:01Z",
+      "start": 33554432,
+      "end": 34603007
+    },
+    {
+      "keyId": 36,
+      "lookupUrl": "http://127.0.0.1:18231/ctx/a9459da427d894a5b78545d7ff0e509f/changed/object.bin-bytes=34603008-35651583",
+      "observedAt": "2026-10-22T14:57:01Z",
+      "start": 34603008,
+      "end": 35651583
+    },
+    {
+      "keyId": 37,
+      "lookupUrl": "http://127.0.0.1:18231/ctx/a9459da427d894a5b78545d7ff0e509f/changed/object.bin-bytes=35651584-36700159",
+      "observedAt": "2026-10-22T14:57:01Z",
+      "start": 35651584,
+      "end": 36700159
+    },
+    {
+      "keyId": 38,
+      "lookupUrl": "http://127.0.0.1:18231/ctx/a9459da427d894a5b78545d7ff0e509f/changed/object.bin-bytes=36700160-37748735",
+      "observedAt": "2026-10-22T14:57:01Z",
+      "start": 36700160,
+      "end": 37748735
+    },
+    {
+      "keyId": 39,
+      "lookupUrl": "http://127.0.0.1:18231/ctx/a9459da427d894a5b78545d7ff0e509f/changed/object.bin-bytes=37748736-38797311",
+      "observedAt": "2026-10-22T14:57:01Z",
+      "start": 37748736,
+      "end": 38797311
+    },
+    {
+      "keyId": 40,
+      "lookupUrl": "http://127.0.0.1:18231/ctx/a9459da427d894a5b78545d7ff0e509f/changed/object.bin-bytes=38797312-39845887",
+      "observedAt": "2026-10-22T14:57:01Z",
+      "start": 38797312,
+      "end": 39845887
+    },
+    {
+      "keyId": 41,
+      "lookupUrl": "http://127.0.0.1:18231/ctx/a9459da427d894a5b78545d7ff0e509f/changed/object.bin-bytes=39845888-40894463",
+      "observedAt": "2026-10-22T14:57:01Z",
+      "start": 39845888,
+      "end": 40894463
+    },
+    {
+      "keyId": 42,
+      "lookupUrl": "http://127.0.0.1:18231/ctx/a9459da427d894a5b78545d7ff0e509f/changed/object.bin-bytes=40894464-41943039",
+      "observedAt": "2026-10-22T14:57:01Z",
+      "start": 40894464,
+      "end": 41943039
+    },
+    {
+      "keyId": 43,
+      "lookupUrl": "http://127.0.0.1:18231/ctx/a9459da427d894a5b78545d7ff0e509f/changed/object.bin-bytes=41943040-42991615",
+      "observedAt": "2026-10-22T14:57:01Z",
+      "start": 41943040,
+      "end": 42991615
+    },
+    {
+      "keyId": 44,
+      "lookupUrl": "http://127.0.0.1:18231/ctx/a9459da427d894a5b78545d7ff0e509f/changed/object.bin-bytes=42991616-44040191",
+      "observedAt": "2026-10-22T14:57:01Z",
+      "start": 42991616,
+      "end": 44040191
+    },
+    {
+      "keyId": 45,
+      "lookupUrl": "http://127.0.0.1:18231/ctx/a9459da427d894a5b78545d7ff0e509f/changed/object.bin-bytes=44040192-45088767",
+      "observedAt": "2026-10-22T14:57:01Z",
+      "start": 44040192,
+      "end": 45088767
+    },
+    {
+      "keyId": 46,
+      "lookupUrl": "http://127.0.0.1:18231/ctx/a9459da427d894a5b78545d7ff0e509f/changed/object.bin-bytes=45088768-46137343",
+      "observedAt": "2026-10-22T14:57:01Z",
+      "start": 45088768,
+      "end": 46137343
+    },
+    {
+      "keyId": 47,
+      "lookupUrl": "http://127.0.0.1:18231/ctx/a9459da427d894a5b78545d7ff0e509f/changed/object.bin-bytes=46137344-47185919",
+      "observedAt": "2026-10-22T14:57:01Z",
+      "start": 46137344,
+      "end": 47185919
+    },
+    {
+      "keyId": 48,
+      "lookupUrl": "http://127.0.0.1:18231/ctx/a9459da427d894a5b78545d7ff0e509f/changed/object.bin-bytes=47185920-48234495",
+      "observedAt": "2026-10-22T14:57:01Z",
+      "start": 47185920,
+      "end": 48234495
+    },
+    {
+      "keyId": 49,
+      "lookupUrl": "http://127.0.0.1:18231/ctx/a9459da427d894a5b78545d7ff0e509f/changed/object.bin-bytes=48234496-49283071",
+      "observedAt": "2026-10-22T14:57:01Z",
+      "start": 48234496,
+      "end": 49283071
+    },
+    {
+      "keyId": 50,
+      "lookupUrl": "http://127.0.0.1:18231/ctx/a9459da427d894a5b78545d7ff0e509f/changed/object.bin-bytes=49283072-50331647",
+      "observedAt": "2026-10-22T14:57:01Z",
+      "start": 49283072,
+      "end": 50331647
+    },
+    {
+      "keyId": 51,
+      "lookupUrl": "http://127.0.0.1:18231/ctx/a9459da427d894a5b78545d7ff0e509f/changed/object.bin-bytes=50331648-51380223",
+      "observedAt": "2026-10-22T14:57:01Z",
+      "start": 50331648,
+      "end": 51380223
+    },
+    {
+      "keyId": 52,
+      "lookupUrl": "http://127.0.0.1:18231/ctx/a9459da427d894a5b78545d7ff0e509f/changed/object.bin-bytes=51380224-52428799",
+      "observedAt": "2026-10-22T14:57:01Z",
+      "start": 51380224,
+      "end": 52428799
+    },
+    {
+      "keyId": 53,
+      "lookupUrl": "http://127.0.0.1:18231/ctx/a9459da427d894a5b78545d7ff0e509f/changed/object.bin-bytes=52428800-53477375",
+      "observedAt": "2026-10-22T14:57:01Z",
+      "start": 52428800,
+      "end": 53477375
+    },
+    {
+      "keyId": 54,
+      "lookupUrl": "http://127.0.0.1:18231/ctx/a9459da427d894a5b78545d7ff0e509f/changed/object.bin-bytes=53477376-54525951",
+      "observedAt": "2026-10-22T14:57:02Z",
+      "start": 53477376,
+      "end": 54525951
+    },
+    {
+      "keyId": 55,
+      "lookupUrl": "http://127.0.0.1:18231/ctx/a9459da427d894a5b78545d7ff0e509f/changed/object.bin-bytes=54525952-55574527",
+      "observedAt": "2026-10-22T14:57:02Z",
+      "start": 54525952,
+      "end": 55574527
+    },
+    {
+      "keyId": 56,
+      "lookupUrl": "http://127.0.0.1:18231/ctx/a9459da427d894a5b78545d7ff0e509f/changed/object.bin-bytes=55574528-56623103",
+      "observedAt": "2026-10-22T14:57:02Z",
+      "start": 55574528,
+      "end": 56623103
+    },
+    {
+      "keyId": 57,
+      "lookupUrl": "http://127.0.0.1:18231/ctx/a9459da427d894a5b78545d7ff0e509f/changed/object.bin-bytes=56623104-57671679",
+      "observedAt": "2026-10-22T14:57:02Z",
+      "start": 56623104,
+      "end": 57671679
+    },
+    {
+      "keyId": 58,
+      "lookupUrl": "http://127.0.0.1:18231/ctx/a9459da427d894a5b78545d7ff0e509f/changed/object.bin-bytes=57671680-58720255",
+      "observedAt": "2026-10-22T14:57:02Z",
+      "start": 57671680,
+      "end": 58720255
+    },
+    {
+      "keyId": 59,
+      "lookupUrl": "http://127.0.0.1:18231/ctx/a9459da427d894a5b78545d7ff0e509f/changed/object.bin-bytes=58720256-59768831",
+      "observedAt": "2026-10-22T14:57:02Z",
+      "start": 58720256,
+      "end": 59768831
+    },
+    {
+      "keyId": 60,
+      "lookupUrl": "http://127.0.0.1:18231/ctx/a9459da427d894a5b78545d7ff0e509f/changed/object.bin-bytes=59768832-60817407",
+      "observedAt": "2026-10-22T14:57:02Z",
+      "start": 59768832,
+      "end": 60817407
+    },
+    {
+      "keyId": 61,
+      "lookupUrl": "http://127.0.0.1:18231/ctx/a9459da427d894a5b78545d7ff0e509f/changed/object.bin-bytes=60817408-61865983",
+      "observedAt": "2026-10-22T14:57:02Z",
+      "start": 60817408,
+      "end": 61865983
+    },
+    {
+      "keyId": 62,
+      "lookupUrl": "http://127.0.0.1:18231/ctx/a9459da427d894a5b78545d7ff0e509f/changed/object.bin-bytes=61865984-62914559",
+      "observedAt": "2026-10-22T14:57:02Z",
+      "start": 61865984,
+      "end": 62914559
+    },
+    {
+      "keyId": 63,
+      "lookupUrl": "http://127.0.0.1:18231/ctx/a9459da427d894a5b78545d7ff0e509f/changed/object.bin-bytes=62914560-63963135",
+      "observedAt": "2026-10-22T14:57:02Z",
+      "start": 62914560,
+      "end": 63963135
+    },
+    {
+      "keyId": 64,
+      "lookupUrl": "http://127.0.0.1:18231/ctx/a9459da427d894a5b78545d7ff0e509f/changed/object.bin-bytes=63963136-65011711",
+      "observedAt": "2026-10-22T14:57:02Z",
+      "start": 63963136,
+      "end": 65011711
+    },
+    {
+      "keyId": 65,
+      "lookupUrl": "http://127.0.0.1:18231/ctx/a9459da427d894a5b78545d7ff0e509f/changed/object.bin-bytes=65011712-66060287",
+      "observedAt": "2026-10-22T14:57:02Z",
+      "start": 65011712,
+      "end": 66060287
+    },
+    {
+      "keyId": 66,
+      "lookupUrl": "http://127.0.0.1:18231/ctx/a9459da427d894a5b78545d7ff0e509f/changed/object.bin-bytes=66060288-67108863",
+      "observedAt": "2026-10-22T14:57:02Z",
+      "start": 66060288,
+      "end": 67108863
+    }
+  ],
+  "exports": [],
+  "nativeExportFinished": false,
+  "noKeysObserved": false,
+  "completeLogicalObjectVerified": false,
+  "partialDiscardProven": false,
+  "formalPocAccepted": false
+}

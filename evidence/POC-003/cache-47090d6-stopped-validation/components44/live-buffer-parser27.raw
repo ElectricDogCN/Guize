@@ -1,0 +1,6 @@
+Source Commit: 47090d6f4590565932475fb3fc22e9d464eebbb7
+Command: /home/sur/.cache/guize-takeover/governance-venv/bin/python -B -m pytest -q -p no:cacheprovider poc/POC-03-ats-range/test_live_buffer_probe.py
+...........................                                              [100%]
+27 passed in 0.06s
+
+Exit Code: 0

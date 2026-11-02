@@ -1,0 +1,34 @@
+{
+  "decision": "approved",
+  "approver": "independent-review-agent",
+  "actualApprover": "/root/gz022_planning_independent_review",
+  "approvedAt": "2026-10-22T17:17:56Z",
+  "validFrom": "2026-10-22T17:16:18.076601Z",
+  "validUntil": "2026-10-22T18:01:18.076601Z",
+  "mustFix": [],
+  "testedSource": {
+    "commit": "e1231a80dfab6b30a6fcae800c1184b72299fa14",
+    "tree": "7d603e1aeb99a67c7a5cae4efa11c81b2139cbce"
+  },
+  "proposalSha256": "bc8b02c551c3e4375b50ac74847c5879f8f5f7cdfb48d9daa67c3da6fd990cae",
+  "configSha256": "e5a5a7b57eb4056d8a6ec1cb7e22c966dc4b7668a649268bc9f917310c2caa5d",
+  "executionScope": "ONE_FRESH_INSTRUMENTED_ATS_SANDBOX_THREE_EXPLICIT_LIVE_OBSERVATIONS_AND_TWO_BASE64M_FULL_RESPONSES_ONLY",
+  "oneExecutionOnly": true,
+  "actualSourceCleanVerified": true,
+  "actualInputsRehashed": true,
+  "actualDriversAndRuntimeHashesVerified": true,
+  "directoriesAbsentAndPortsFreeVerified": true,
+  "limits": {
+    "overallSeconds": 240,
+    "cleanupReserveSeconds": 40,
+    "collectorSeconds": 90,
+    "maxResponseBodyBytes": 134479872,
+    "maxRawOutputBytes": 536870912
+  },
+  "fullMediaCoverageProven": false,
+  "threshold8MiBApproved": false,
+  "original15Accepted": false,
+  "qualifiedAccepted": false,
+  "performanceAccepted": false,
+  "integrationApproved": false
+}

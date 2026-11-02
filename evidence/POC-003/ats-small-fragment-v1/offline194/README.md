@@ -1,0 +1,5 @@
+# Small-fragment offline component regression originals
+
+Exact source67f9cf3a24199bf0c99399f15a13ea4f1805a759 completed87 Windows,96 ordinary Linux and11 fixed-image offline tests:194 total,36 actual child waits exit0, no failures/errors/skips. Independent review0d6e4fce6adbb8fd3afd836614a31b77739b9124ffda2812ef240a29c729697b accepts this component scope and the preceding24-file compiler archive. originals.zip contains76 exact raw/results/review files, indexed by size and SHA-256. Source code and original version references remain unchanged.
+
+These regressions use protocol, file, local-loopback and synthetic closed-record fixtures. No ATS process or media matrix ran. The existing new-plugin compile and static dependency check do not prove loading in the actual fixed image. Current whole-source gates/full CI, new runtime control and a newly approved exact full-matrix execution remain required; unchanged8MiB capacity and independent hot-cache revocation are not established. The old2c9 partial result, old approvals/windows and negative reviews are retained. This evidence-only archive grants no experiment, POC completion or V1 acceptance.

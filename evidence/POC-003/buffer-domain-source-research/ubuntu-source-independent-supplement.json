@@ -1,0 +1,24 @@
+{
+  "reviewerRole": "independent-review-agent",
+  "actualReviewer": "/root/gz022_planning_independent_review",
+  "reviewedAt": "2026-10-22T15:35:03Z",
+  "finiteSourceComparisonAccepted": true,
+  "mustFix": [],
+  "actualVerifiedFacts": [
+    "99 selected files match actual source archives by SHA/size and bytes",
+    "Actual archives match DSC SHA256 entries",
+    "11 core sources match official upstream9.2.3 bytes",
+    "8 series patch target headers do not overlap selected core/cache/Slice/CRR paths",
+    "debian/rules does not replace selected allocator paths"
+  ],
+  "dscSha256": "89de90b15a458d4de3580c5c17fa9179d98645399bc80138e866cd444f159127",
+  "receiptSha256": "565827a452285ad7a99a92d862dc833aeccaefc9cd0be4f024aa9d9e01aa208e",
+  "comparisonSha256": "cad6136422d19f13abd18dcc3a648b883f80bea45850ce97dc0cd46c83473511",
+  "pgpSignatureVerified": false,
+  "binaryBitwiseReproduced": false,
+  "measurementDomainApproved": false,
+  "experimentApproved": false,
+  "original15Accepted": false,
+  "qualifiedProfileAccepted": false,
+  "integrationAccepted": false
+}

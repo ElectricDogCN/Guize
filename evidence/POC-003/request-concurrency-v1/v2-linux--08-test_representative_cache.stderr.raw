@@ -1,0 +1,8 @@
+test_complete_larger_object_with_short_final_slice_retains_all_129_keys (__main__.RepresentativeCacheTests.test_complete_larger_object_with_short_final_slice_retains_all_129_keys) ... ok
+test_foreign_user_and_version_cannot_complete_a_large_input (__main__.RepresentativeCacheTests.test_foreign_user_and_version_cannot_complete_a_large_input) ... ok
+test_native_key_capacity_is_still_enforced (__main__.RepresentativeCacheTests.test_native_key_capacity_is_still_enforced) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.005s
+
+OK

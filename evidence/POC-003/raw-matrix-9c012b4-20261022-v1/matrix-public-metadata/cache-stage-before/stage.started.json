@@ -1,0 +1,15 @@
+{
+  "kind": "ACTUAL_NATIVE_CACHE_STAGE_EXPORT_UNASSESSED",
+  "stage": "before",
+  "startedAt": "2026-10-22T14:56:04.780465Z",
+  "atsPid": 678351,
+  "sourceVersion": "base",
+  "userId": "lab-user-a",
+  "selectedKeys": [],
+  "exports": [],
+  "nativeExportFinished": false,
+  "noKeysObserved": true,
+  "completeLogicalObjectVerified": false,
+  "partialDiscardProven": false,
+  "formalPocAccepted": false
+}

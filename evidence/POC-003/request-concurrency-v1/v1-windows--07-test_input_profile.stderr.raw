@@ -1,0 +1,60 @@
+test_collector_streams_real_file_above_original_response_ceiling (__main__.InputProfileTests.test_collector_streams_real_file_above_original_response_ceiling) ... ERROR
+test_collector_uses_declared_aggregate_limit_and_retains_failure_body (__main__.InputProfileTests.test_collector_uses_declared_aggregate_limit_and_retains_failure_body) ... 
+  test_collector_uses_declared_aggregate_limit_and_retains_failure_body (__main__.InputProfileTests.test_collector_uses_declared_aggregate_limit_and_retains_failure_body) (budget=2147483648) ... ERROR
+  test_collector_uses_declared_aggregate_limit_and_retains_failure_body (__main__.InputProfileTests.test_collector_uses_declared_aggregate_limit_and_retains_failure_body) (budget=1073741824) ... ERROR
+test_manifest_hash_duplicate_shape_and_unknown_profile_fail (__main__.InputProfileTests.test_manifest_hash_duplicate_shape_and_unknown_profile_fail) ... ok
+test_names_declared_size_content_hash_and_version_collision_fail (__main__.InputProfileTests.test_names_declared_size_content_hash_and_version_collision_fail) ... ok
+test_prototype_default_pins_and_limits_are_preserved (__main__.InputProfileTests.test_prototype_default_pins_and_limits_are_preserved) ... ok
+test_real_pair_above_legacy_size_is_verified_without_issuing_approval (__main__.InputProfileTests.test_real_pair_above_legacy_size_is_verified_without_issuing_approval) ... ok
+test_representative_resource_bounds_are_explicit (__main__.InputProfileTests.test_representative_resource_bounds_are_explicit) ... ok
+test_shortening_growth_symlink_and_replacement_identity_fail (__main__.InputProfileTests.test_shortening_growth_symlink_and_replacement_identity_fail) ... ok
+test_prepare_caps_real_manifest_read_before_runtime_or_run_creation (__main__.ManifestIngressTests.test_prepare_caps_real_manifest_read_before_runtime_or_run_creation) ... ok
+
+======================================================================
+ERROR: test_collector_streams_real_file_above_original_response_ceiling (__main__.InputProfileTests.test_collector_streams_real_file_above_original_response_ceiling)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc003-feature-actor-import-v1\poc\POC-03-ats-range\test_input_profile.py", line 230, in test_collector_streams_real_file_above_original_response_ceiling
+    row = self.request(collector, path, self.size)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc003-feature-actor-import-v1\poc\POC-03-ats-range\test_input_profile.py", line 223, in request
+    return collector.request('stream', range_header='')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc003-feature-actor-import-v1\poc\POC-03-ats-range\collect.py", line 61, in request
+    self.request_active+=1;self.request_peak=max(self.request_peak,self.request_active)
+    ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Collector' object has no attribute 'request_active'
+
+======================================================================
+ERROR: test_collector_uses_declared_aggregate_limit_and_retains_failure_body (__main__.InputProfileTests.test_collector_uses_declared_aggregate_limit_and_retains_failure_body) (budget=2147483648)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc003-feature-actor-import-v1\poc\POC-03-ats-range\test_input_profile.py", line 246, in test_collector_uses_declared_aggregate_limit_and_retains_failure_body
+    row = self.request(collector, path, 8)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc003-feature-actor-import-v1\poc\POC-03-ats-range\test_input_profile.py", line 223, in request
+    return collector.request('stream', range_header='')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc003-feature-actor-import-v1\poc\POC-03-ats-range\collect.py", line 61, in request
+    self.request_active+=1;self.request_peak=max(self.request_peak,self.request_active)
+    ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Collector' object has no attribute 'request_active'
+
+======================================================================
+ERROR: test_collector_uses_declared_aggregate_limit_and_retains_failure_body (__main__.InputProfileTests.test_collector_uses_declared_aggregate_limit_and_retains_failure_body) (budget=1073741824)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc003-feature-actor-import-v1\poc\POC-03-ats-range\test_input_profile.py", line 250, in test_collector_uses_declared_aggregate_limit_and_retains_failure_body
+    self.request(collector, path, 8)
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc003-feature-actor-import-v1\poc\POC-03-ats-range\test_input_profile.py", line 223, in request
+    return collector.request('stream', range_header='')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc003-feature-actor-import-v1\poc\POC-03-ats-range\collect.py", line 61, in request
+    self.request_active+=1;self.request_peak=max(self.request_peak,self.request_active)
+    ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Collector' object has no attribute 'request_active'
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.376s
+
+FAILED (errors=3)

@@ -1,0 +1,117 @@
+{
+  "reviewedAt": "2026-10-24T21:39:54.418390Z",
+  "actor": "/root/gz022_planning_independent_review",
+  "registeredRole": "independent-review-agent",
+  "task": "OPS-013",
+  "actualCompletionMain": "760f6c5838597d1d66c0a536ecbf440ef5a7dfec",
+  "actualCompletionMainTree": "5ea2807e6f71d2d5ebca4cdbe67b1e1c89b06b24",
+  "actualCompletionMainAccepted": true,
+  "fullCompletionMainCiAccepted": true,
+  "mainCiNumber": 841,
+  "mainCiRunId": 40132898354,
+  "mainCiJobId": 120988222155,
+  "actualTestsPassed": 742,
+  "actualTestSeconds": 1628.73,
+  "testSkipped": 0,
+  "skipAuditAccepted": true,
+  "rawBytes": 289237,
+  "rawSha256": "884b12dce72c3e02016abaaa31097d82b9d980eb44f674cedae1cc9207cf1d34",
+  "officialSavedSnapshotSha256": "15df83ef7b13746f94a3523e2ae7df4d779195bdc0bff52a1dd7ea1035d88044",
+  "priorActualMergeAndNativeSevenReceiptSha256": "dfc43b83e8f8626a633cb8209c426e15c67f67db83f00e96cf12c6fd8574fbc6",
+  "freshOfficialRunUpdatedAt": "2026-10-24T21:36:42Z",
+  "freshOfficialApiRead": {
+    "run": "completed/success/push760",
+    "job": "completed/success",
+    "main": "760f6c5838597d1d66c0a536ecbf440ef5a7dfec",
+    "PR141": "merged/actual760/sourcee445/base43270",
+    "issue137": "closed/completed"
+  },
+  "conditionalWorkflowStepsSkipped": [
+    "Task file validation",
+    "Evidence check",
+    "Evidence integrity check",
+    "Task-branch linkage check",
+    "Scope check"
+  ],
+  "allWorkflowStepsExecuted": false,
+  "canonicalActualMainClean": true,
+  "mustFix": [],
+  "normalTaskCompletionAccepted": true,
+  "normalReservationImplementationReviewCompletionChainAccepted": true,
+  "originalOwnLeaseReleased": true,
+  "actualHighSlotReleased": true,
+  "remainingActiveTasks": [
+    {
+      "taskId": "POC-003",
+      "riskLevel": "medium"
+    },
+    {
+      "taskId": "POC-005",
+      "riskLevel": "medium"
+    }
+  ],
+  "completedImplementationIdentity": {
+    "pullRequest": 139,
+    "actualMerge": "16070d0d0d4c1a4952d2fc6f036dda135f058c8d"
+  },
+  "actualReviewIdentity": {
+    "pullRequest": 140,
+    "actualMerge": "43270da544d9df3da68a45d2eca3e0a2fed2de6e"
+  },
+  "actualCompletionIdentity": {
+    "pullRequest": 141,
+    "actualMerge": "760f6c5838597d1d66c0a536ecbf440ef5a7dfec"
+  },
+  "originalIntentSha256": "4f344a74a47a56ff1c3b0e27c368767e0cb779ebc61e721b263f102b39a83401",
+  "originalContractGitBytesVerified": [
+    {
+      "path": "specs/poc/check_program.py",
+      "bytes": 771065,
+      "sha256": "10be50577718e844566034a7c26dee5eb408055cb2e01a8d5a62524beca9fb89"
+    },
+    {
+      "path": "specs/poc/test_program.py",
+      "bytes": 1118362,
+      "sha256": "1707bce255253176e0c718ef2574d748dbd8890eb4f50a0c6a5f5a47136b1d49"
+    }
+  ],
+  "successorOPS014OriginalMetadataReservationPreparationMayProceed": true,
+  "successorOPS014IssueAndOriginalReservationMayBePreparedUnderExistingAuthorization": true,
+  "successorOPS014ActualReservationAccepted": false,
+  "successorConditions": [
+    "OnlyuniqueOPS014 mayuseimmutableoriginalauthorization; independentlycreateoriginalmetadata-onlyFoundationreservationfromlatestactualacceptedmain withnewIssue/distinctroles/highrisk/newvalidlease/capacity andtwoexactclaims. Do notreuseOPS013Task/leaseorwritebroaderMODGOV/ownershiprights.",
+    "Atactualregistrationreverifyintent/rawdefect/twooldGitblobs/firstparenthistory/base andnormalCompletionprovenance/currentforeignleases/pathconflicts. Newmetadata itselfneedsindependentreview/exactsourcegates/latestCI/normalreservationmerge/actualmainacceptance.",
+    "RealGZ021recoveryfreezeeventmustseparatelybeestablishedandacceptedbeforeanycontractcodechanges. Futuretwofilefixandvalidation,actualfrozenmain andindependentunfreeze remainmandatory. NoPOCqualificationornewexperimentapproved."
+  ],
+  "endedRemoteBranchCleanupConditionallyMayProceed": true,
+  "cleanupHelperReviewed": "cleanup_ops013_ended_remote_branches_once.py",
+  "cleanupScope": [
+    {
+      "pr": 139,
+      "branch": "chore/OPS-013-contract-repair-admission",
+      "expectedTip": "be0a0922b7706d23a390f7e57c1b343b66070e36"
+    },
+    {
+      "pr": 140,
+      "branch": "chore/OPS-013-contract-repair-admission-review-corrected",
+      "expectedTip": "6b8b7999e73a9a5fd7c8cf45bb04a6adee4a7c0d"
+    },
+    {
+      "pr": 141,
+      "branch": "chore/OPS-013-contract-repair-admission-completion",
+      "expectedTip": "e4452c59f875961efcb53c480be8f0833b5c618a"
+    }
+  ],
+  "cleanupConditions": [
+    "FreshofficialPRsclosed/merged/exactheadtipsandactualmainancestryconfirmed; helpermustrecheckremote/currentlocaltipsandcleanmain760atmutationtime.",
+    "DeleteonlythesethreeremoterefsusingexpectedtipCAS; changedtipmuststop. Alreadyabsentisread-onlysuccess. Do notdeleteotherrefs, failed997/596/5e43history, localbranches/workspaces ormain.",
+    "Retainactualcommand/wait/exitraw andafterremoterefs/localtips/mainstate. Thisreceiptisconditionalapprovalunderexistingusercleanupauthorization, notevidencecleanupalreadyexecuted."
+  ],
+  "actualCleanupExecuted": false,
+  "contractRepairImplementationApproved": false,
+  "freezeApproved": false,
+  "newExperimentApproved": false,
+  "old10kQualificationAccepted": false,
+  "fullV1Accepted": false,
+  "reviewerExecution": "Freshread-onlyofficialrun/jobs/main/PR141/Issue137andendedPR139/140, actualCIraw/sourcebinding/canonicalProgramandActive; originalintent/2Gitblobs rechecked. Prioractualmain7acceptedwithouttestrerun. Noauthororremote mutation."
+}

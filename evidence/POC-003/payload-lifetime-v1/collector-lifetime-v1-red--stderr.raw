@@ -1,0 +1,41 @@
+test_incomplete_response_ends_before_control_and_remains_failed (test_payload_lifetime.CollectorLifetimeTests.test_incomplete_response_ends_before_control_and_remains_failed) ... FAIL
+test_response_and_comparison_blocks_end_before_control_and_metadata (test_payload_lifetime.CollectorLifetimeTests.test_response_and_comparison_blocks_end_before_control_and_metadata) ... FAIL
+
+======================================================================
+FAIL: test_incomplete_response_ends_before_control_and_remains_failed (test_payload_lifetime.CollectorLifetimeTests.test_incomplete_response_ends_before_control_and_remains_failed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc003-feature-actor-import-v1\poc\POC-03-ats-range\test_payload_lifetime.py", line 261, in test_incomplete_response_ends_before_control_and_remains_failed
+    row = self.request(incomplete=True)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc003-feature-actor-import-v1\poc\POC-03-ats-range\test_payload_lifetime.py", line 249, in request
+    row = collector.request('stream')
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc003-feature-actor-import-v1\poc\POC-03-ats-range\collect.py", line 104, in request
+    witness=self.control('witness',requestId=rid);seen.append(witness)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc003-feature-actor-import-v1\poc\POC-03-ats-range\test_payload_lifetime.py", line 230, in control
+    self.assertEqual(live(), 0, 'collector control polling retains a media block')
+AssertionError: 1 != 0 : collector control polling retains a media block
+
+======================================================================
+FAIL: test_response_and_comparison_blocks_end_before_control_and_metadata (test_payload_lifetime.CollectorLifetimeTests.test_response_and_comparison_blocks_end_before_control_and_metadata)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc003-feature-actor-import-v1\poc\POC-03-ats-range\test_payload_lifetime.py", line 254, in test_response_and_comparison_blocks_end_before_control_and_metadata
+    row = self.request()
+          ^^^^^^^^^^^^^^
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc003-feature-actor-import-v1\poc\POC-03-ats-range\test_payload_lifetime.py", line 249, in request
+    row = collector.request('stream')
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc003-feature-actor-import-v1\poc\POC-03-ats-range\collect.py", line 83, in request
+    try:block=response.read(1 if row['firstBodyByteAt'] is None else 65536)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\13997\.codex\.chatgpt-projects\g-p-6a8fb34a32e0819190ce70787d532366\.takeover-tools\poc003-feature-actor-import-v1\poc\POC-03-ats-range\test_payload_lifetime.py", line 209, in read
+    self.assertEqual(live(), 0, 'collector next read overlaps the previous block')
+AssertionError: 1 != 0 : collector next read overlaps the previous block
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.010s
+
+FAILED (failures=2)

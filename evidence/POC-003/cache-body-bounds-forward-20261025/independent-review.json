@@ -1,0 +1,39 @@
+{
+  "reviewedAt": "2026-10-24T19:27:36.120599Z",
+  "actor": "/root/gz022_planning_independent_review",
+  "registeredRole": "independent-review-agent",
+  "task": "POC-003",
+  "head": "1cc28415f2f2383b0272a518828d7ee3660f7545",
+  "sourceState": "Uncommitted bounded export-read component; exact file hashes identify reviewed bytes",
+  "files": {
+    "cache_probe.py": "6291f28408c56294f961fcf2756c548a212e7adea673db63de972fed11ee7f9f",
+    "test_cache_body_bounds.py": "5328822c6c71736f683c35e0a4e9517e591da8c1eadfb62446c1e160f0b96d26"
+  },
+  "archiveIndexSha256": "2c2b082cfeb678ff36328eb2591a4c849591aa151615d112fc4e72df9a1a193d",
+  "indexedOriginalsVerified": 13,
+  "componentContentAccepted": true,
+  "mustFix": [],
+  "observations": [
+    "Actual callsite cache_probe192-197 obtains count=end-start+1 from slice_catalogue-selected observed key, not reported export-body size. Catalogue validates alignment, end=min(start+sliceBytes,inputSize)-1 and context/version/input bounds. The expected-source read remains count bounded.",
+    "read_export_body76-87 rejects invalid bound and pre-observed size>count before opening; reads at most count+1; rejects overcount or actual length inconsistent with observed size. It neither truncates oversized native file nor masks an incomplete export as complete.",
+    "Actual exact/short/empty output is retained byte-for-byte on normal read; subsequent exactInputSliceEqual and complete-coverage/report-size checks retain formal-completeness distinction. No HTTP or input substitute becomes native cache provenance.",
+    "Three meaningful regressions cover exact/partial bytes, overlong pre-open rejection and actual append between stat/open with preserved original9bytes. Red unbounded-helper reproduction shows two failures, rather than claiming a production-source regression run; original equivalent unbounded bytes are retained.",
+    "All13 archived originals match source lengths/SHA. Windows3+catalogue4 and nativeUID1000 3+4 actually exit0/wait/OK/no skips; red3 has2failures/exit1. Native receipt identifies exact two reviewed source hashes.",
+    "No ATS/HTTP/ptrace/kernel/resource experiment occurred in these unit receipts. Existing incomplete whole-domain/lifecycle/sample/threshold obligations remain unresolved."
+  ],
+  "acceptedComponentTests": {
+    "windowsGreen": 7,
+    "nativeGreen": 7,
+    "redFailures": 2,
+    "testSkips": 0
+  },
+  "wholeTaskGatesAccepted": false,
+  "wholeSourceAccepted": false,
+  "formalPublicationApproved": false,
+  "wholeMediaDomainApproved": false,
+  "atsExperimentApproved": false,
+  "sampleApproved": false,
+  "numericThresholdApproved": false,
+  "qualificationAccepted": false,
+  "reviewerExecution": "Read-only actual helper/callsite/catalogue/tests, red-green original differences, raw summaries, archive byte comparisons. No tests rerun or author files changed."
+}

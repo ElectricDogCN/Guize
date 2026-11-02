@@ -1,0 +1,464 @@
+checking for a BSD-compatible install... /usr/bin/install -c
+checking whether build environment is sane... yes
+checking for a race-free mkdir -p... /usr/bin/mkdir -p
+checking for gawk... gawk
+checking whether make sets $(MAKE)... yes
+checking whether make supports nested variables... yes
+checking whether UID '1000' is supported by ustar format... yes
+checking whether GID '1000' is supported by ustar format... yes
+checking how to create a ustar tar archive... gnutar
+checking whether to enable maintainer-specific portions of Makefiles... yes
+checking whether make supports nested variables... (cached) yes
+checking for chosen layout... Debian
+checking build system type... x86_64-pc-linux-gnu
+checking host system type... x86_64-pc-linux-gnu
+checking whether to enable debugging... no
+checking whether to enable mime sanity check... no
+checking whether to enable all asserts, a cheaper debug... no
+checking whether to enable event tracker... no
+checking whether to code coverage... no
+checking whether to enable -Werror... no
+checking whether to enable asan... no
+checking whether to enable lsan... no
+checking whether to enable tsan... no
+checking whether to enable LTO... no
+checking whether to enable fast SDK APIs... no
+checking whether to enable CURL... yes
+checking for a sed that does not truncate output... /usr/bin/sed
+checking for curl-config... no
+checking whether to enable diags... yes
+checking whether to enable fips... no
+checking whether to enable regression tests... no
+checking whether to enable expensive unit tests... no
+checking for java... java
+Checking whether to build documentation:
+Will build documentation: no
+checking whether to enable WCCP v2 support... no
+checking whether to enable profiler... no
+checking whether to enable eventfd()... yes
+checking whether to use POSIX capabilities... auto
+checking whether to use hwloc library... no
+checking whether to enable ccache... no
+checking whether to enable hardening of the executables... no
+checking whether to enable TPROXY based transparency... auto
+checking whether to enable experimental plugins... yes
+checking for pkg-config... /usr/bin/pkg-config
+checking pkg-config is at least version 0.9.0... yes
+checking for LIBMAGICKCPP... no
+checking for LIBMAGICKCPP... no
+checking whether to install example plugins... no
+checking whether to install testing tools... no
+checking whether to allow 32-bit builds... no
+checking for cc... cc
+checking whether the C compiler works... yes
+checking for C compiler default output file name... a.out
+checking for suffix of executables... 
+checking whether we are cross compiling... no
+checking for suffix of object files... o
+checking whether the compiler supports GNU C... yes
+checking whether cc accepts -g... yes
+checking for cc option to enable C11 features... none needed
+checking whether cc understands -c and -o together... yes
+checking whether make supports the include directive... yes (GNU style)
+checking dependency style of cc... gcc3
+checking for c++... c++
+checking whether the compiler supports GNU C++... yes
+checking whether c++ accepts -g... yes
+checking for c++ option to enable C++11 features... none needed
+checking dependency style of c++... gcc3
+checking how to run the C preprocessor... cc -E
+checking how to run the C++ preprocessor... c++ -E
+checking dependency style of cc... gcc3
+checking for C compiler vendor... gnu
+checking whether c++ -std=c++17 supports -std=c++17... yes
+checking for ar... ar
+checking the archiver (ar) interface... ar
+checking for gawk... (cached) gawk
+checking for a sed that does not truncate output... (cached) /usr/bin/sed
+checking whether ln -s works... yes
+checking how to print strings... printf
+checking for a sed that does not truncate output... (cached) /usr/bin/sed
+checking for grep that handles long lines and -e... /usr/bin/grep
+checking for egrep... /usr/bin/grep -E
+checking for fgrep... /usr/bin/grep -F
+checking for ld used by cc... /usr/bin/ld
+checking if the linker (/usr/bin/ld) is GNU ld... yes
+checking for BSD- or MS-compatible name lister (nm)... /usr/bin/nm -B
+checking the name lister (/usr/bin/nm -B) interface... BSD nm
+checking the maximum length of command line arguments... 1572864
+checking how to convert x86_64-pc-linux-gnu file names to x86_64-pc-linux-gnu format... func_convert_file_noop
+checking how to convert x86_64-pc-linux-gnu file names to toolchain format... func_convert_file_noop
+checking for /usr/bin/ld option to reload object files... -r
+checking for file... file
+checking for objdump... objdump
+checking how to recognize dependent libraries... pass_all
+checking for dlltool... no
+checking how to associate runtime and link libraries... printf %s\n
+checking for archiver @FILE support... @
+checking for strip... strip
+checking for ranlib... ranlib
+checking command to parse /usr/bin/nm -B output from cc object... ok
+checking for sysroot... no
+checking for a working dd... /usr/bin/dd
+checking how to truncate binary pipes... /usr/bin/dd bs=4096 count=1
+checking for mt... no
+checking if : is a manifest tool... no
+checking for stdio.h... yes
+checking for stdlib.h... yes
+checking for string.h... yes
+checking for inttypes.h... yes
+checking for stdint.h... yes
+checking for strings.h... yes
+checking for sys/stat.h... yes
+checking for sys/types.h... yes
+checking for unistd.h... yes
+checking for dlfcn.h... yes
+checking for objdir... .libs
+checking if cc supports -fno-rtti -fno-exceptions... no
+checking for cc option to produce PIC... -fPIC -DPIC
+checking if cc PIC flag -fPIC -DPIC works... yes
+checking if cc static flag -static works... yes
+checking if cc supports -c -o file.o... yes
+checking if cc supports -c -o file.o... (cached) yes
+checking whether the cc linker (/usr/bin/ld -m elf_x86_64) supports shared libraries... yes
+checking whether -lc should be explicitly linked in... no
+checking dynamic linker characteristics... GNU/Linux ld.so
+checking how to hardcode library paths into programs... immediate
+checking whether stripping libraries is possible... yes
+checking if libtool supports shared libraries... yes
+checking whether to build shared libraries... yes
+checking whether to build static libraries... no
+checking how to run the C++ preprocessor... c++ -E
+checking for ld used by c++... /usr/bin/ld -m elf_x86_64
+checking if the linker (/usr/bin/ld -m elf_x86_64) is GNU ld... yes
+checking whether the c++ linker (/usr/bin/ld -m elf_x86_64) supports shared libraries... yes
+checking for c++ option to produce PIC... -fPIC -DPIC
+checking if c++ PIC flag -fPIC -DPIC works... yes
+checking if c++ static flag -static works... yes
+checking if c++ supports -c -o file.o... yes
+checking if c++ supports -c -o file.o... (cached) yes
+checking whether the c++ linker (/usr/bin/ld -m elf_x86_64) supports shared libraries... yes
+checking dynamic linker characteristics... (cached) GNU/Linux ld.so
+checking how to hardcode library paths into programs... immediate
+checking for rm... rm -f
+checking for cpp... cpp
+checking for ar... (cached) ar
+checking for library containing strerror... none required
+checking for clang-tidy... false
+checking for bison... bison
+checking for flex... flex
+checking for lex output file root... lex.yy
+checking for lex library... none needed
+checking whether yytext is a pointer... yes
+checking for doxygen... no
+checking for perl... /usr/bin/perl
+checking for perl module ExtUtils::MakeMaker... ok
+checking whether to auto-set compiler optimization flags... no
+checking size of void*... 8
+configure: Build for host OS: linux-gnu, arch: x86_64, optimization: linux
+checking for library containing socket... none required
+checking for library containing gethostbyname... none required
+checking for library containing clock_gettime... none required
+checking for library containing dlsym... none required
+checking for library containing pthread_yield... no
+checking for pthread_mutexattr_settype... yes
+checking for res_init in -lresolv... no
+checking for __putlong in -lresolv... yes
+checking for ncursesw via pkg-config... no
+checking for ncursesw via fallback... 
+checking for initscr() with -lncursesw... no
+checking for ncurses via pkg-config... no
+checking for ncurses via fallback... 
+checking for initscr() with -lncurses... no
+checking for Curses library... no
+checking for crypt in -lcrypt... yes
+checking for pkg-config... /usr/bin/pkg-config
+checking whether compiling and linking against OpenSSL works... yes
+checking OpenSSL version... ok
+checking for OpenSSL version 3... yes
+checking for SSL_get_all_async_fds... yes
+checking for ASYNC_init_thread... yes
+checking whether to enable ASYNC job openssl support... yes
+checking for openssl/ssl.h... yes
+checking for openssl/ts.h... yes
+checking for openssl/tls1.h... yes
+checking for SSL_CTX_set_client_hello_cb... yes
+checking whether to enable TLS client hello callback support... yes
+checking for SSL_set0_rbio... yes
+checking whether to enable set rbio... yes
+checking for DH_get_2048_256... yes
+checking whether to enable DH_get_2048_256... yes
+checking for EVP_PKEY_CTX_hkdf_mode... yes
+checking for HKDF_extract... no
+checking whether TLS 1.3 is supported... yes
+checking whether APIs for QUIC are available... no
+checking whether OCSP is supported... yes
+checking for openssl/ssl.h... (cached) yes
+checking for SSL_CTX_set_ciphersuites... yes
+checking whether to enable TLSv1.3 ciphersuites configuration is supported... yes
+checking for SSL_CTX_set_keylog_callback... yes
+checking whether to enable TLS keylogging support... yes
+checking for openssl/ssl.h... (cached) yes
+checking for SSL_set_max_early_data... yes
+checking for OpenSSL early data support... yes
+checking for openssl/ssl.h... (cached) yes
+checking for SSL_CTX_set_tlsext_ticket_key_cb macro... yes
+checking for SSL_CTX_set_tlsext_ticket_key_evp_cb... yes
+checking for SSL_CTX_set_tlsext_ticket_key_cb... no
+checking for session ticket support... yes
+checking for openssl/ssl.h... (cached) yes
+checking for SSL_set1_verify_cert_store macro... yes
+checking for SSL_set1_verify_cert_store... no
+checking for setting verify cert store APIs... yes
+checking for BIO_meth_new... yes
+checking for BIO_sock_non_fatal_error... yes
+checking for CRYPTO_set_mem_functions... yes
+checking for HMAC_CTX_new... yes
+checking for X509_get0_signature... yes
+checking for ERR_get_error_all... yes
+checking for SHA1... yes
+checking for SHA256_Init... yes
+checking for MD5_Init... yes
+checking for SSL_SESSION_dup... yes
+checking for ASN1_STRING_get0_data... yes
+checking for BIO_set_data... yes
+checking for BIO_get_data... yes
+checking for BIO_get_shutdown... yes
+checking for BIO_meth_get_ctrl... yes
+checking for BIO_meth_get_create... yes
+checking for BIO_meth_get_destroy... yes
+checking for EVP_MD_CTX_new... yes
+checking for EVP_MD_CTX_reset... yes
+checking for EVP_MD_CTX_free... yes
+checking for OpenSSL is BoringSSL... no
+checking for JA3 compatible OpenSSL version... yes
+checking for compressBound in -lz... yes
+checking for zlib.h... yes
+checking for lzma location... not found
+checking for clock_gettime... yes
+checking for kqueue... no
+checking for epoll_ctl... yes
+checking for posix_fadvise... yes
+checking for posix_madvise... yes
+checking for posix_fallocate... yes
+checking for inotify_init... yes
+checking for port_create... no
+checking for strlcpy... yes
+checking for strlcat... yes
+checking for sysconf... yes
+checking for sysctlbyname... no
+checking for getpagesize... yes
+checking for getreuid... no
+checking for getresuid... yes
+checking for getresgid... yes
+checking for setreuid... yes
+checking for setresuid... yes
+checking for getpeereid... no
+checking for getpeerucred... no
+checking for strsignal... yes
+checking for psignal... yes
+checking for psiginfo... yes
+checking for accept4... yes
+checking for sys/eventfd.h... yes
+checking for eventfd... yes
+checking for eventfd... (cached) yes
+checking for mcheck.h... yes
+checking for mcheck_pedantic... yes
+checking for malloc_usable_size... yes
+checking for pcre-config... pcre-config
+checking for pcre headers in ... not found
+checking for pcre_exec in -lpcre... yes
+checking for pcre.h... yes
+checking for pcre/pcre.h... no
+checking for brotli/encode.h... no
+checking for BrotliEncoderCreateInstance in -lbrotlienc... no
+checking for LUAJIT... no
+checking for luajit location... not found
+checking for --with-jansson... no
+checking for jansson.h... no
+checking for HMAC in -lcrypto... yes
+checking for --with-cjose... no
+checking for cjose/cjose.h... no
+checking whether to export yaml-cpp headers... no
+checking for hiredis includes in /usr... no
+checking for execinfo.h... yes
+checking for library containing backtrace... none required
+checking whether to use unwind library... no
+configure: Using epoll event interface
+checking for 128bit CAS support... yes
+checking for cap_set_proc in -lcap... yes
+checking whether to enable Linux native AIO... no
+checking for c++ options needed to detect all undeclared functions... none needed
+checking for GeoIP.h... no
+checking for maxminddb.h... no
+checking for opentelemetry/trace/provider.h... no
+checking for a readline compatible library... no
+checking for mysql/mysql.h... no
+checking for mysql_info in -lmysqlclient... no
+checking for kclangc.h... no
+checking for sys/types.h... (cached) yes
+checking for sys/uio.h... yes
+checking for sys/mman.h... yes
+checking for sys/epoll.h... yes
+checking for sys/event.h... no
+checking for sys/param.h... yes
+checking for sys/pset.h... no
+checking for sched.h... yes
+checking for pthread.h... yes
+checking for sys/endian.h... no
+checking for machine/endian.h... no
+checking for endian.h... yes
+checking for sys/sysinfo.h... yes
+checking for sys/systeminfo.h... no
+checking for netinet/in.h... yes
+checking for netinet/in_systm.h... yes
+checking for netinet/tcp.h... yes
+checking for sys/ioctl.h... yes
+checking for sys/byteorder.h... no
+checking for sys/sockio.h... no
+checking for sys/prctl.h... yes
+checking for arpa/nameser.h... yes
+checking for arpa/nameser_compat.h... yes
+checking for execinfo.h... (cached) yes
+checking for netdb.h... yes
+checking for ctype.h... yes
+checking for siginfo.h... no
+checking for malloc.h... yes
+checking for float.h... yes
+checking for libgen.h... yes
+checking for values.h... yes
+checking for alloca.h... yes
+checking for cpio.h... yes
+checking for stropts.h... no
+checking for sys/param.h... (cached) yes
+checking for sys/sysmacros.h... yes
+checking for stdint.h... (cached) yes
+checking for stdbool.h... yes
+checking for sysexits.h... yes
+checking for net/ppp_defs.h... yes
+checking for ifaddrs.h... yes
+checking for readline/readline.h... no
+checking for editline/readline.h... no
+checking for ucred.h... no
+checking for pthread_np.h... no
+checking for sys/statfs.h... yes
+checking for sys/statvfs.h... yes
+checking for sys/disk.h... no
+checking for sys/disklabel.h... no
+checking for sys/mount.h... yes
+checking for linux/hdreg.h... yes
+checking for linux/major.h... yes
+checking for sys/sysctl.h... no
+checking for sys/cpuset.h... no
+checking for sys/mount.h... (cached) yes
+checking for arpa/inet.h... yes
+checking for netinet/ip.h... yes
+checking for netinet/ip_icmp.h... yes
+checking for 1-parameter version of pthread_setname_np()... no
+checking for 2-parameter version of pthread_setname_np()... yes
+checking for 2-parameter version of pthread_set_name_np()... no
+checking pthread_getname_np()... yes
+checking for struct sockaddr.sa_len... no
+checking for struct sockaddr_in.sin_len... no
+checking for struct sockaddr_in6.sin6_len... no
+checking for struct tcp_info.tcpi_data_segs_out... yes
+checking for sys/capability.h... yes
+checking for struct stat.st_mtimespec.tv_nsec... no
+checking for struct stat.st_mtim.tv_nsec... yes
+checking whether to enable transparent proxy... checking for TPROXY sockopt IP_TRANSPARENT... set to 19
+checking for SO_PEERCRED socket option... yes
+checking for SO_MARK socket option... yes
+checking for IP_TOS socket option... yes
+checking IN6_IS_ADDR_UNSPECIFIED macro works... yes
+checking for struct tcp_info... yes
+checking whether to include systemtap tracing support... no
+checking for search.h... yes
+checking for struct hsearch_data... yes
+checking for hcreate_r... yes
+checking for hsearch_r... yes
+checking that generated files are newer than configure... done
+configure: creating ./config.status
+config.status: creating Makefile
+config.status: creating src/Makefile
+config.status: creating configs/Makefile
+config.status: creating configs/body_factory/Makefile
+config.status: creating configs/body_factory/default/Makefile
+config.status: creating configs/records.config.default
+config.status: creating configs/storage.config.default
+config.status: creating doc/Makefile
+config.status: creating doc/ext/local-config.py
+config.status: creating doc/uml/Makefile
+config.status: creating example/Makefile
+config.status: creating example/plugins/Makefile
+config.status: creating example/plugins/c-api/Makefile
+config.status: creating example/plugins/cpp-api/Makefile
+config.status: creating include/Makefile
+config.status: creating include/ts/Makefile
+config.status: creating include/tscpp/api/Makefile
+config.status: creating include/tscpp/util/Makefile
+config.status: creating include/ts/apidefs.h
+config.status: creating include/tscore/ink_config.h
+config.status: creating iocore/Makefile
+config.status: creating iocore/aio/Makefile
+config.status: creating iocore/cache/Makefile
+config.status: creating iocore/dns/Makefile
+config.status: creating iocore/eventsystem/Makefile
+config.status: creating iocore/hostdb/Makefile
+config.status: creating iocore/net/Makefile
+config.status: creating iocore/net/quic/Makefile
+config.status: creating iocore/utils/Makefile
+config.status: creating lib/Makefile
+config.status: creating src/tscpp/api/Makefile
+config.status: creating lib/perl/Makefile
+config.status: creating lib/perl/lib/Apache/TS.pm
+config.status: creating lib/records/Makefile
+config.status: creating src/wccp/Makefile
+config.status: creating lib/fastlz/Makefile
+config.status: creating mgmt/Makefile
+config.status: creating mgmt/api/Makefile
+config.status: creating mgmt/api/include/Makefile
+config.status: creating mgmt/utils/Makefile
+config.status: creating plugins/Makefile
+config.status: creating proxy/Makefile
+config.status: creating proxy/hdrs/Makefile
+config.status: creating proxy/http/Makefile
+config.status: creating proxy/http/remap/Makefile
+config.status: creating proxy/http2/Makefile
+config.status: creating proxy/http3/Makefile
+config.status: creating proxy/logging/Makefile
+config.status: creating proxy/shared/Makefile
+config.status: creating rc/Makefile
+config.status: creating rc/trafficserver
+config.status: creating rc/trafficserver.conf
+config.status: creating rc/trafficserver.service
+config.status: creating rc/trafficserver.xml
+config.status: creating src/tscpp/util/Makefile
+config.status: creating src/tscore/Makefile
+config.status: creating tools/Makefile
+config.status: creating tools/trafficserver.pc
+config.status: creating tools/tsxs
+config.status: creating tests/Makefile
+config.status: creating include/ink_autoconf.h
+config.status: executing depfiles commands
+config.status: executing libtool commands
+configure: Build option summary:
+    CC:                 cc
+    CXX:                c++
+    CPP:                cc -E
+    LD:                 /usr/bin/ld -m elf_x86_64
+    CFLAGS:             -O2 -g0
+    CXXFLAGS:           -O2 -g0
+    CPPFLAGS:           -D_GNU_SOURCE -DOPENSSL_NO_SSL_INTERN -DOPENSSL_API_COMPAT=10002 -DOPENSSL_IS_OPENSSL3
+    LDFLAGS:            
+    AM_CFLAGS:      -std=gnu99 -g -pipe -Wall -Wextra -Wno-ignored-qualifiers -Wno-unused-parameter -Wno-format-truncation -Wno-cast-function-type -Wno-stringop-overflow -feliminate-unused-debug-symbols -fno-strict-aliasing -mcx16
+    AM_CXXFLAGS:    -std=c++17 -g -pipe -Wall -Wextra -Wno-ignored-qualifiers -Wno-unused-parameter -Wno-format-truncation -Wno-cast-function-type -Wno-stringop-overflow -feliminate-unused-debug-symbols -fno-strict-aliasing -Wno-invalid-offsetof -Wno-noexcept-type -Wsuggest-override -mcx16
+    AM_CPPFLAGS:    -Dlinux -D_LARGEFILE64_SOURCE=1 -D_COMPILE64BIT_SOURCE=1 -D_REENTRANT -D__STDC_LIMIT_MACROS=1 -D__STDC_FORMAT_MACROS=1
+    AM_LDFLAGS:     -rdynamic -Wl,--as-needed
+    TS_INCLUDES:        
+    OPENSSL_LDFLAGS:    
+    OPENSSL_INCLUDES:   
+    YAMLCPP_LDFLAGS:    -L${abs_top_builddir}/lib/yamlcpp
+    YAMLCPP_INCLUDES:   -I${abs_top_srcdir}/lib/yamlcpp/include
+    NURAFT_LDFLAGS:     
+    NURAFT_INCLUDES:    
+

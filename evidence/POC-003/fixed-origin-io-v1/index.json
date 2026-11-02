@@ -1,0 +1,708 @@
+{
+  "task": "POC-003",
+  "capturedAt": "2026-10-28T00:21:40.056499+00:00",
+  "parent": "6c152113b9f3185b9462eb717c3a021e184d8941",
+  "sourceState": "Uncommitted component; eight exact current source snapshots",
+  "sourcePins": {
+    "lab.py": {
+      "bytes": 49391,
+      "sha256": "99e7a369f70eeb616d442a43af08a0290f6d16b9dc786a0cfd942810d3103314"
+    },
+    "cache_probe.py": {
+      "bytes": 16894,
+      "sha256": "a2b083dc907a8ece5a20c35ca15838f190a9d8577cdb2514369f4724dbd55b23"
+    },
+    "collect.py": {
+      "bytes": 14804,
+      "sha256": "f43b80321b1760266745c860a4f534e596384b7044d57750779175e82c5dffe1"
+    },
+    "test_payload_lifetime.py": {
+      "bytes": 14136,
+      "sha256": "cf8d828a3629b57bc472b9ccc46734fbf5abb3c3f917efe710b5f224f484eade"
+    },
+    "test_gateway_native.py": {
+      "bytes": 4608,
+      "sha256": "5c3a73a1177a73d93756e410ffd75ce10fe89403586d6ccfbeaaf1db63ad7eec"
+    },
+    "test_request_concurrency.py": {
+      "bytes": 6490,
+      "sha256": "01a5afc0cb63e4a3840e81b019b2adbf9e7f4361b5faf839d812dfa4d27604fa"
+    },
+    "test_input_profile.py": {
+      "bytes": 13011,
+      "sha256": "8ec5c0c2369ead6454b92668c6e22a062a3a47bafb85679325ebb64af4ef025b"
+    },
+    "test_fixed_origin_io.py": {
+      "bytes": 7624,
+      "sha256": "12a9b22a8c7d1ed9b5abda421ef04f5115a113bf4e57b5b106309b868ed931f7"
+    }
+  },
+  "archive": "artifacts.zip",
+  "archiveBytes": 108657,
+  "archiveSha256": "d2e2738bb1ec53a6a0eba881fcae1b1714a7fc8816ae0aed35e233b71db489e2",
+  "encoding": "Standard ZIP/deflate; entries are original byte streams, including CRLF; read without extraction using zipfile.ZipFile.read",
+  "stages": [
+    {
+      "version": "v1",
+      "platform": "windows",
+      "tests": 48,
+      "allRequestedPassed": true,
+      "preimageStatus": "Earlier draft identified by actual receipt hashes; not separately source-qualified or claimed as original source capture"
+    },
+    {
+      "version": "v1",
+      "platform": "linux",
+      "tests": 57,
+      "allRequestedPassed": true,
+      "preimageStatus": "Earlier draft identified by actual receipt hashes; not separately source-qualified or claimed as original source capture"
+    },
+    {
+      "version": "v2",
+      "platform": "windows",
+      "tests": 49,
+      "allRequestedPassed": true,
+      "preimageStatus": "Current exact eight sources included"
+    },
+    {
+      "version": "v2",
+      "platform": "linux",
+      "tests": 58,
+      "allRequestedPassed": true,
+      "preimageStatus": "Current exact eight sources included"
+    }
+  ],
+  "currentWindowsTests": 49,
+  "currentLinuxTests": 58,
+  "atsExecuted": false,
+  "mediaExperimentExecuted": false,
+  "entireSourceQualified": false,
+  "aggregateCapacityProofComplete": false,
+  "experimentApproved": false,
+  "formalPocAccepted": false,
+  "entries": [
+    {
+      "ref": "current/lab.py",
+      "bytes": 49391,
+      "sha256": "99e7a369f70eeb616d442a43af08a0290f6d16b9dc786a0cfd942810d3103314",
+      "provenance": "Exact current working source snapshot"
+    },
+    {
+      "ref": "original/lab.py",
+      "bytes": 48543,
+      "sha256": "3ea0384d14c3507f8cfdab70a9355b61c5709035b3e3d3fb6730cdf14bd134d7",
+      "provenance": "Exact prior Git component source6c15211"
+    },
+    {
+      "ref": "current/cache_probe.py",
+      "bytes": 16894,
+      "sha256": "a2b083dc907a8ece5a20c35ca15838f190a9d8577cdb2514369f4724dbd55b23",
+      "provenance": "Exact current working source snapshot"
+    },
+    {
+      "ref": "original/cache_probe.py",
+      "bytes": 16894,
+      "sha256": "a2b083dc907a8ece5a20c35ca15838f190a9d8577cdb2514369f4724dbd55b23",
+      "provenance": "Exact prior Git component source6c15211"
+    },
+    {
+      "ref": "current/collect.py",
+      "bytes": 14804,
+      "sha256": "f43b80321b1760266745c860a4f534e596384b7044d57750779175e82c5dffe1",
+      "provenance": "Exact current working source snapshot"
+    },
+    {
+      "ref": "original/collect.py",
+      "bytes": 14804,
+      "sha256": "f43b80321b1760266745c860a4f534e596384b7044d57750779175e82c5dffe1",
+      "provenance": "Exact prior Git component source6c15211"
+    },
+    {
+      "ref": "current/test_payload_lifetime.py",
+      "bytes": 14136,
+      "sha256": "cf8d828a3629b57bc472b9ccc46734fbf5abb3c3f917efe710b5f224f484eade",
+      "provenance": "Exact current working source snapshot"
+    },
+    {
+      "ref": "original/test_payload_lifetime.py",
+      "bytes": 13873,
+      "sha256": "2f5cc9a4ee25ff2087d402c0956e9cff40225623aac319d5d8f12773000b4dc2",
+      "provenance": "Exact prior Git component source6c15211"
+    },
+    {
+      "ref": "current/test_gateway_native.py",
+      "bytes": 4608,
+      "sha256": "5c3a73a1177a73d93756e410ffd75ce10fe89403586d6ccfbeaaf1db63ad7eec",
+      "provenance": "Exact current working source snapshot"
+    },
+    {
+      "ref": "original/test_gateway_native.py",
+      "bytes": 4608,
+      "sha256": "5c3a73a1177a73d93756e410ffd75ce10fe89403586d6ccfbeaaf1db63ad7eec",
+      "provenance": "Exact prior Git component source6c15211"
+    },
+    {
+      "ref": "current/test_request_concurrency.py",
+      "bytes": 6490,
+      "sha256": "01a5afc0cb63e4a3840e81b019b2adbf9e7f4361b5faf839d812dfa4d27604fa",
+      "provenance": "Exact current working source snapshot"
+    },
+    {
+      "ref": "original/test_request_concurrency.py",
+      "bytes": 6438,
+      "sha256": "4201206322be396eddfeb8c9dc311dae17308b7b526cbc929e742688df4656cb",
+      "provenance": "Exact prior Git component source6c15211"
+    },
+    {
+      "ref": "current/test_input_profile.py",
+      "bytes": 13011,
+      "sha256": "8ec5c0c2369ead6454b92668c6e22a062a3a47bafb85679325ebb64af4ef025b",
+      "provenance": "Exact current working source snapshot"
+    },
+    {
+      "ref": "original/test_input_profile.py",
+      "bytes": 13011,
+      "sha256": "8ec5c0c2369ead6454b92668c6e22a062a3a47bafb85679325ebb64af4ef025b",
+      "provenance": "Exact prior Git component source6c15211"
+    },
+    {
+      "ref": "current/test_fixed_origin_io.py",
+      "bytes": 7624,
+      "sha256": "12a9b22a8c7d1ed9b5abda421ef04f5115a113bf4e57b5b106309b868ed931f7",
+      "provenance": "Exact current working source snapshot"
+    },
+    {
+      "ref": "v1/windows/01-test_fixed_origin_io.stderr.raw",
+      "bytes": 799,
+      "sha256": "cea9b37a6663b720ae65e8360197f4fffe0f2c90271b5e22db357b1d06ae1539",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v1-windows-checks\\01-test_fixed_origin_io.stderr.raw"
+    },
+    {
+      "ref": "v1/windows/01-test_fixed_origin_io.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v1-windows-checks\\01-test_fixed_origin_io.stdout.raw"
+    },
+    {
+      "ref": "v1/windows/02-test_request_concurrency.stderr.raw",
+      "bytes": 797,
+      "sha256": "eb7940918c7a710aae0d83a1f9cef5b9d494d9cbe3a2d92bbdccd87c652ca1a4",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v1-windows-checks\\02-test_request_concurrency.stderr.raw"
+    },
+    {
+      "ref": "v1/windows/02-test_request_concurrency.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v1-windows-checks\\02-test_request_concurrency.stdout.raw"
+    },
+    {
+      "ref": "v1/windows/03-test_payload_lifetime.stderr.raw",
+      "bytes": 1973,
+      "sha256": "51fc29d531eff745e98bd7eb0f877a44f5830b6269c2089ab537bb7b104915e7",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v1-windows-checks\\03-test_payload_lifetime.stderr.raw"
+    },
+    {
+      "ref": "v1/windows/03-test_payload_lifetime.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v1-windows-checks\\03-test_payload_lifetime.stdout.raw"
+    },
+    {
+      "ref": "v1/windows/04-test_lab.stderr.raw",
+      "bytes": 1181,
+      "sha256": "50c12044993178e6b6f80674343d5984d69955ac99a4e4ec920c36b07ba2ac7e",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v1-windows-checks\\04-test_lab.stderr.raw"
+    },
+    {
+      "ref": "v1/windows/04-test_lab.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v1-windows-checks\\04-test_lab.stdout.raw"
+    },
+    {
+      "ref": "v1/windows/05-test_revocation_binding.stderr.raw",
+      "bytes": 431,
+      "sha256": "60d12af1296d22119f6144d8a4a9402ac042175258788b082df089de4e0f2c3c",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v1-windows-checks\\05-test_revocation_binding.stderr.raw"
+    },
+    {
+      "ref": "v1/windows/05-test_revocation_binding.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v1-windows-checks\\05-test_revocation_binding.stdout.raw"
+    },
+    {
+      "ref": "v1/windows/06-test_cache_body_bounds.stderr.raw",
+      "bytes": 597,
+      "sha256": "852a6ff9dc2bc573204dec0fc03995d23536bc40c3b3b6a83f424cbc1927eaad",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v1-windows-checks\\06-test_cache_body_bounds.stderr.raw"
+    },
+    {
+      "ref": "v1/windows/06-test_cache_body_bounds.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v1-windows-checks\\06-test_cache_body_bounds.stdout.raw"
+    },
+    {
+      "ref": "v1/windows/07-test_cache_probe.stderr.raw",
+      "bytes": 755,
+      "sha256": "573d06854e05b1ae6c6591931cc916cce53a87648d341cb2698d18926e9878a7",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v1-windows-checks\\07-test_cache_probe.stderr.raw"
+    },
+    {
+      "ref": "v1/windows/07-test_cache_probe.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v1-windows-checks\\07-test_cache_probe.stdout.raw"
+    },
+    {
+      "ref": "v1/windows/08-test_input_profile.stderr.raw",
+      "bytes": 1561,
+      "sha256": "538a11903fb56b7678341e5af21319f4c4fa5e8fb71afc64545caf5412db3446",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v1-windows-checks\\08-test_input_profile.stderr.raw"
+    },
+    {
+      "ref": "v1/windows/08-test_input_profile.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v1-windows-checks\\08-test_input_profile.stdout.raw"
+    },
+    {
+      "ref": "v1/windows/09-test_representative_cache.stderr.raw",
+      "bytes": 585,
+      "sha256": "0270bbf56fd973c4df2f0e595df28fed02bb73c169b374bb77c7d4ef6a1d9ffd",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v1-windows-checks\\09-test_representative_cache.stderr.raw"
+    },
+    {
+      "ref": "v1/windows/09-test_representative_cache.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v1-windows-checks\\09-test_representative_cache.stdout.raw"
+    },
+    {
+      "ref": "v1/windows/results.json",
+      "bytes": 9740,
+      "sha256": "06c3245a92a5299b03fbd614e8c099ce4327ed28c9b8221948aab18f2ca3aa05",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v1-windows-checks\\results.json"
+    },
+    {
+      "ref": "v1/linux/01-test_fixed_origin_io.stderr.raw",
+      "bytes": 790,
+      "sha256": "433180899a53781e1c97d13dcfda1f7c6784f9c3a0456e376bbec919ba42a7f6",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v1-linux-checks\\01-test_fixed_origin_io.stderr.raw"
+    },
+    {
+      "ref": "v1/linux/01-test_fixed_origin_io.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v1-linux-checks\\01-test_fixed_origin_io.stdout.raw"
+    },
+    {
+      "ref": "v1/linux/02-test_request_concurrency.stderr.raw",
+      "bytes": 788,
+      "sha256": "06ce58958edc20fb77b135166cd9fd706cb5ec184f95c7f6554ee2e9af201ee5",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v1-linux-checks\\02-test_request_concurrency.stderr.raw"
+    },
+    {
+      "ref": "v1/linux/02-test_request_concurrency.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v1-linux-checks\\02-test_request_concurrency.stdout.raw"
+    },
+    {
+      "ref": "v1/linux/03-test_payload_lifetime.stderr.raw",
+      "bytes": 1957,
+      "sha256": "6a4c6447f91fafa73c45f4db247992404231e208c86c0c5ed8a21a3db375ab34",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v1-linux-checks\\03-test_payload_lifetime.stderr.raw"
+    },
+    {
+      "ref": "v1/linux/03-test_payload_lifetime.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v1-linux-checks\\03-test_payload_lifetime.stdout.raw"
+    },
+    {
+      "ref": "v1/linux/04-test_lab.stderr.raw",
+      "bytes": 1168,
+      "sha256": "8e4e90ca84c03c7bf79704f807e3375d6ffb054289763f11ad18a9054b795b72",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v1-linux-checks\\04-test_lab.stderr.raw"
+    },
+    {
+      "ref": "v1/linux/04-test_lab.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v1-linux-checks\\04-test_lab.stdout.raw"
+    },
+    {
+      "ref": "v1/linux/05-test_revocation_binding.stderr.raw",
+      "bytes": 424,
+      "sha256": "e5ac9c035b0fabd7b4ea1eee828aee34e3fde4488288ef5ab6ada148ccb469e5",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v1-linux-checks\\05-test_revocation_binding.stderr.raw"
+    },
+    {
+      "ref": "v1/linux/05-test_revocation_binding.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v1-linux-checks\\05-test_revocation_binding.stdout.raw"
+    },
+    {
+      "ref": "v1/linux/06-test_cache_body_bounds.stderr.raw",
+      "bytes": 589,
+      "sha256": "6a6bc0bd50d77475c6104b915411eb314fe3a29937dc6a737511b7f61e5d204c",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v1-linux-checks\\06-test_cache_body_bounds.stderr.raw"
+    },
+    {
+      "ref": "v1/linux/06-test_cache_body_bounds.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v1-linux-checks\\06-test_cache_body_bounds.stdout.raw"
+    },
+    {
+      "ref": "v1/linux/07-test_cache_probe.stderr.raw",
+      "bytes": 746,
+      "sha256": "30581f21870bcc615f02d08dd60adc8411ca573b0af5c3763c974cb9f17fa7aa",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v1-linux-checks\\07-test_cache_probe.stderr.raw"
+    },
+    {
+      "ref": "v1/linux/07-test_cache_probe.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v1-linux-checks\\07-test_cache_probe.stdout.raw"
+    },
+    {
+      "ref": "v1/linux/08-test_input_profile.stderr.raw",
+      "bytes": 1547,
+      "sha256": "846fd31db79ad70d2e3e9a9b637f6019b6b8e1151d60d419d0364390ac0ee396",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v1-linux-checks\\08-test_input_profile.stderr.raw"
+    },
+    {
+      "ref": "v1/linux/08-test_input_profile.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v1-linux-checks\\08-test_input_profile.stdout.raw"
+    },
+    {
+      "ref": "v1/linux/09-test_representative_cache.stderr.raw",
+      "bytes": 577,
+      "sha256": "278ed5f320615391c3e65c83243d9475b02ad19ef6829249f77628af1adb3691",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v1-linux-checks\\09-test_representative_cache.stderr.raw"
+    },
+    {
+      "ref": "v1/linux/09-test_representative_cache.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v1-linux-checks\\09-test_representative_cache.stdout.raw"
+    },
+    {
+      "ref": "v1/linux/10-test_gateway_native.stderr.raw",
+      "bytes": 633,
+      "sha256": "9ac63562b8f61c2e35096f20540b31fac60c0830f9b1b98f11f3d8761f18cd23",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v1-linux-checks\\10-test_gateway_native.stderr.raw"
+    },
+    {
+      "ref": "v1/linux/10-test_gateway_native.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v1-linux-checks\\10-test_gateway_native.stdout.raw"
+    },
+    {
+      "ref": "v1/linux/11-test_http_timing_native.stderr.raw",
+      "bytes": 408,
+      "sha256": "d028d8a27df3256582f9f538b5a63669cc6d29f2bcdddead5948c3554ad45e9f",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v1-linux-checks\\11-test_http_timing_native.stderr.raw"
+    },
+    {
+      "ref": "v1/linux/11-test_http_timing_native.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v1-linux-checks\\11-test_http_timing_native.stdout.raw"
+    },
+    {
+      "ref": "v1/linux/12-test_representative_cache_native.stderr.raw",
+      "bytes": 778,
+      "sha256": "ce9359c5d4540fef41d3e4e7f48003b01b2a10fd01357830259f120f4045c10b",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v1-linux-checks\\12-test_representative_cache_native.stderr.raw"
+    },
+    {
+      "ref": "v1/linux/12-test_representative_cache_native.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v1-linux-checks\\12-test_representative_cache_native.stdout.raw"
+    },
+    {
+      "ref": "v1/linux/results.json",
+      "bytes": 12109,
+      "sha256": "25694e06cebf35f9470c4363501188dd6e1d6b69baf4aace3706647166a6731f",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v1-linux-checks\\results.json"
+    },
+    {
+      "ref": "v2/windows/01-test_fixed_origin_io.stderr.raw",
+      "bytes": 975,
+      "sha256": "1455439923dc7a49ca897497a771f387773d4aef462d6bd2c3f2b1ff4105433e",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v2-windows-checks\\01-test_fixed_origin_io.stderr.raw"
+    },
+    {
+      "ref": "v2/windows/01-test_fixed_origin_io.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v2-windows-checks\\01-test_fixed_origin_io.stdout.raw"
+    },
+    {
+      "ref": "v2/windows/02-test_request_concurrency.stderr.raw",
+      "bytes": 797,
+      "sha256": "eb7940918c7a710aae0d83a1f9cef5b9d494d9cbe3a2d92bbdccd87c652ca1a4",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v2-windows-checks\\02-test_request_concurrency.stderr.raw"
+    },
+    {
+      "ref": "v2/windows/02-test_request_concurrency.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v2-windows-checks\\02-test_request_concurrency.stdout.raw"
+    },
+    {
+      "ref": "v2/windows/03-test_payload_lifetime.stderr.raw",
+      "bytes": 1973,
+      "sha256": "59b2d5517f439f3e4e226f351854dbd356c7a4f02a3e1cc92cd5c318367fd54e",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v2-windows-checks\\03-test_payload_lifetime.stderr.raw"
+    },
+    {
+      "ref": "v2/windows/03-test_payload_lifetime.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v2-windows-checks\\03-test_payload_lifetime.stdout.raw"
+    },
+    {
+      "ref": "v2/windows/04-test_lab.stderr.raw",
+      "bytes": 1181,
+      "sha256": "0ade121e63fb24a30195e5bb49ace27a3da771b5b568a2581a659c689d60b738",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v2-windows-checks\\04-test_lab.stderr.raw"
+    },
+    {
+      "ref": "v2/windows/04-test_lab.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v2-windows-checks\\04-test_lab.stdout.raw"
+    },
+    {
+      "ref": "v2/windows/05-test_revocation_binding.stderr.raw",
+      "bytes": 431,
+      "sha256": "60d12af1296d22119f6144d8a4a9402ac042175258788b082df089de4e0f2c3c",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v2-windows-checks\\05-test_revocation_binding.stderr.raw"
+    },
+    {
+      "ref": "v2/windows/05-test_revocation_binding.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v2-windows-checks\\05-test_revocation_binding.stdout.raw"
+    },
+    {
+      "ref": "v2/windows/06-test_cache_body_bounds.stderr.raw",
+      "bytes": 597,
+      "sha256": "852a6ff9dc2bc573204dec0fc03995d23536bc40c3b3b6a83f424cbc1927eaad",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v2-windows-checks\\06-test_cache_body_bounds.stderr.raw"
+    },
+    {
+      "ref": "v2/windows/06-test_cache_body_bounds.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v2-windows-checks\\06-test_cache_body_bounds.stdout.raw"
+    },
+    {
+      "ref": "v2/windows/07-test_cache_probe.stderr.raw",
+      "bytes": 755,
+      "sha256": "69a5206ded54a0b9e342e6cb458357c3a55ff7f4466b5ff5eac5a425f4a8413d",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v2-windows-checks\\07-test_cache_probe.stderr.raw"
+    },
+    {
+      "ref": "v2/windows/07-test_cache_probe.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v2-windows-checks\\07-test_cache_probe.stdout.raw"
+    },
+    {
+      "ref": "v2/windows/08-test_input_profile.stderr.raw",
+      "bytes": 1561,
+      "sha256": "b9cdc44bcd81c4eeba18cf37878e507e0acdac10373a2b35f30e2d5f50a1d6c7",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v2-windows-checks\\08-test_input_profile.stderr.raw"
+    },
+    {
+      "ref": "v2/windows/08-test_input_profile.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v2-windows-checks\\08-test_input_profile.stdout.raw"
+    },
+    {
+      "ref": "v2/windows/09-test_representative_cache.stderr.raw",
+      "bytes": 585,
+      "sha256": "f8f97c82c88a71c524f4b09be06fa11d87d03ad2527afabea89307e0948b0968",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v2-windows-checks\\09-test_representative_cache.stderr.raw"
+    },
+    {
+      "ref": "v2/windows/09-test_representative_cache.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v2-windows-checks\\09-test_representative_cache.stdout.raw"
+    },
+    {
+      "ref": "v2/windows/results.json",
+      "bytes": 9740,
+      "sha256": "f17dd09731561ba19ad6e974cfcc55692e9bb168e566aa449e3a7dd35fc52284",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v2-windows-checks\\results.json"
+    },
+    {
+      "ref": "v2/linux/01-test_fixed_origin_io.stderr.raw",
+      "bytes": 965,
+      "sha256": "00f7bea706506922f844a60e9ae6bc660f52294a26ab3c1be5b3b05ff22e1738",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v2-linux-checks\\01-test_fixed_origin_io.stderr.raw"
+    },
+    {
+      "ref": "v2/linux/01-test_fixed_origin_io.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v2-linux-checks\\01-test_fixed_origin_io.stdout.raw"
+    },
+    {
+      "ref": "v2/linux/02-test_request_concurrency.stderr.raw",
+      "bytes": 788,
+      "sha256": "382de5adb652e94db5baa0e715489b1b3c08930e374efed3ec63d26dcff941dd",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v2-linux-checks\\02-test_request_concurrency.stderr.raw"
+    },
+    {
+      "ref": "v2/linux/02-test_request_concurrency.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v2-linux-checks\\02-test_request_concurrency.stdout.raw"
+    },
+    {
+      "ref": "v2/linux/03-test_payload_lifetime.stderr.raw",
+      "bytes": 1957,
+      "sha256": "220961b8cfc40a274bfa44d516cdc6b24833e46ba5a1601ca5ff871157a7eb34",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v2-linux-checks\\03-test_payload_lifetime.stderr.raw"
+    },
+    {
+      "ref": "v2/linux/03-test_payload_lifetime.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v2-linux-checks\\03-test_payload_lifetime.stdout.raw"
+    },
+    {
+      "ref": "v2/linux/04-test_lab.stderr.raw",
+      "bytes": 1168,
+      "sha256": "8e4e90ca84c03c7bf79704f807e3375d6ffb054289763f11ad18a9054b795b72",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v2-linux-checks\\04-test_lab.stderr.raw"
+    },
+    {
+      "ref": "v2/linux/04-test_lab.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v2-linux-checks\\04-test_lab.stdout.raw"
+    },
+    {
+      "ref": "v2/linux/05-test_revocation_binding.stderr.raw",
+      "bytes": 424,
+      "sha256": "e5ac9c035b0fabd7b4ea1eee828aee34e3fde4488288ef5ab6ada148ccb469e5",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v2-linux-checks\\05-test_revocation_binding.stderr.raw"
+    },
+    {
+      "ref": "v2/linux/05-test_revocation_binding.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v2-linux-checks\\05-test_revocation_binding.stdout.raw"
+    },
+    {
+      "ref": "v2/linux/06-test_cache_body_bounds.stderr.raw",
+      "bytes": 589,
+      "sha256": "c9977d8f1640d4fdb95dac315bd52748064066d63788b18e2619760effbbca9f",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v2-linux-checks\\06-test_cache_body_bounds.stderr.raw"
+    },
+    {
+      "ref": "v2/linux/06-test_cache_body_bounds.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v2-linux-checks\\06-test_cache_body_bounds.stdout.raw"
+    },
+    {
+      "ref": "v2/linux/07-test_cache_probe.stderr.raw",
+      "bytes": 746,
+      "sha256": "5163b9a2c651f06ced124134524ee04f43bb4d6fbf3236ed629b0d22273316d6",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v2-linux-checks\\07-test_cache_probe.stderr.raw"
+    },
+    {
+      "ref": "v2/linux/07-test_cache_probe.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v2-linux-checks\\07-test_cache_probe.stdout.raw"
+    },
+    {
+      "ref": "v2/linux/08-test_input_profile.stderr.raw",
+      "bytes": 1547,
+      "sha256": "062ffdaaed760ab34661c3ae2a82bb9629167ed1744034cc64e4161d6b317e5c",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v2-linux-checks\\08-test_input_profile.stderr.raw"
+    },
+    {
+      "ref": "v2/linux/08-test_input_profile.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v2-linux-checks\\08-test_input_profile.stdout.raw"
+    },
+    {
+      "ref": "v2/linux/09-test_representative_cache.stderr.raw",
+      "bytes": 577,
+      "sha256": "278ed5f320615391c3e65c83243d9475b02ad19ef6829249f77628af1adb3691",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v2-linux-checks\\09-test_representative_cache.stderr.raw"
+    },
+    {
+      "ref": "v2/linux/09-test_representative_cache.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v2-linux-checks\\09-test_representative_cache.stdout.raw"
+    },
+    {
+      "ref": "v2/linux/10-test_gateway_native.stderr.raw",
+      "bytes": 633,
+      "sha256": "9ac63562b8f61c2e35096f20540b31fac60c0830f9b1b98f11f3d8761f18cd23",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v2-linux-checks\\10-test_gateway_native.stderr.raw"
+    },
+    {
+      "ref": "v2/linux/10-test_gateway_native.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v2-linux-checks\\10-test_gateway_native.stdout.raw"
+    },
+    {
+      "ref": "v2/linux/11-test_http_timing_native.stderr.raw",
+      "bytes": 408,
+      "sha256": "d43eb2f888b789d83168c0eb0ec6f950c8e8f5b0dc3ee39449bd05f659e702eb",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v2-linux-checks\\11-test_http_timing_native.stderr.raw"
+    },
+    {
+      "ref": "v2/linux/11-test_http_timing_native.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v2-linux-checks\\11-test_http_timing_native.stdout.raw"
+    },
+    {
+      "ref": "v2/linux/12-test_representative_cache_native.stderr.raw",
+      "bytes": 778,
+      "sha256": "55c40e1599f58a47c1a4c4669de53fce787504fe2997a9203e0ee216e136c1c7",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v2-linux-checks\\12-test_representative_cache_native.stderr.raw"
+    },
+    {
+      "ref": "v2/linux/12-test_representative_cache_native.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v2-linux-checks\\12-test_representative_cache_native.stdout.raw"
+    },
+    {
+      "ref": "v2/linux/results.json",
+      "bytes": 12109,
+      "sha256": "dc49ce09aaae95c54d3aefafcbcacca26c24db3bde6b16509e4e05cd9da86105",
+      "provenance": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-fixed-origin-io-v2-linux-checks\\results.json"
+    },
+    {
+      "ref": "primary-source-notes.json",
+      "bytes": 1142,
+      "sha256": "5f31f600948844f89e9aa0473c77d16595c3ffcc491edd32465cebea71fbd94f",
+      "provenance": "Source-limited interpretation, no runtime execution"
+    }
+  ]
+}

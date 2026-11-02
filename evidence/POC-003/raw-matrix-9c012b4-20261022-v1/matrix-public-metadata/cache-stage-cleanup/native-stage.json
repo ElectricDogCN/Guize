@@ -1,0 +1,17 @@
+{
+  "kind": "ACTUAL_NATIVE_CACHE_STAGE_EXPORT_UNASSESSED",
+  "stage": "cleanup",
+  "startedAt": "2026-10-22T14:57:13.495854Z",
+  "atsPid": 679492,
+  "sourceVersion": "changed",
+  "userId": "lab-user-a",
+  "selectedKeys": [],
+  "exports": [],
+  "nativeExportFinished": false,
+  "noKeysObserved": true,
+  "completeLogicalObjectVerified": false,
+  "partialDiscardProven": false,
+  "formalPocAccepted": false,
+  "finishedAt": "2026-10-22T14:57:13.498368Z",
+  "originJournalUnchangedDuringExport": true
+}
