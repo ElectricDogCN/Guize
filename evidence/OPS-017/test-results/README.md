@@ -1,3 +1,15 @@
+## Current verified implementation; official CI pending
+
+Task OPS-017 / Issue168 / branch `chore/OPS-017-fast-yaml-loaders` / base `d15d8e106aef844992caa183d866e95189a56776`. Coordinator/Implementer/Integrator `/root`; independent Reviewer `/root/gz022_planning_independent_review`; original lease and six registered paths unchanged, integration order13, no shared paths. Actual amendment main B is independently accepted (cab8eb receipt); the bootstrap source exception does not apply here.
+
+Verified code source `02bc9876ab77e4aab5dce61b387df5e82c2658d3` passed current14, compile/static/secret/linkage/spec checks and842 collection (original828 plus prior11 plus3 safety regressions), and the complete same442 related cases in Python3.11.17:442 unique PASSED/JUnit0FES/actual controller wait0/unchanged refs and clean code. The prior fixture latest-code failure is fixed by aligning only its synthetic Task base with its own N registry. Original828 and prior11 assertions remain unchanged; earlier source negatives and exact original bytes remain retained.
+
+One sequential untraced sample of the same4 unchanged case methods passed before and after: 77.58s to 74.94s (observed 3.4% wall reduction); child CPU 80.45s to 78.46s. This small single-pair difference does not establish that official CI fits30 minutes. Complete official current-source and actual performance-code main CI, independent acceptance, normal Review/Completion and capacity release remain pending. Original timeout/runner/frozen5/Program/ledger/intent/foreign metadata remain unchanged.
+
+Exact source/commands/raw/JUnit/controller waits/methods/context and four-case inputs: `ph-safe-loaders-v1/current-validation-source-02bc987.zip` and its byte/SHA index. Only own Evidence may advance after the verified code snapshot; publication-head14 and collection must refresh, and official842 must run on that actual source. Next: independent exact publication review, normal create-only branch/PR, full official source CI, expected-head merge, actual-main own7/full official CI and independent acceptance. No Task completion, capacity release, OPS018 or POC execution is granted. Rollback by withdrawal or ordinary forward correction, retaining all local refs, workspaces, originals and failures.
+
+## Retained prior-stage records
+
 ## Current P/H safe-reader implementation stage
 
 Task OPS-017 / Issue168 / base `d15d8e106aef844992caa183d866e95189a56776` / branch `chore/OPS-017-fast-yaml-loaders` / implementer `/root` / reviewer `/root/gz022_planning_independent_review`. Actual scope-amendment main independently accepted: receipt SHA cab8ebc00bfbdcbc484815627a90fcbf5c8caadcf70a371dd1d6ce63f1a605ab, complete local original workflow/839 and own7 plus official CI922 success. Supplemental scope is now effective; all prior source timeout negatives and the narrow bootstrap source exception retain their historical meaning.

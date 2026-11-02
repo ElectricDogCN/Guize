@@ -31,7 +31,17 @@
       "sha256": "4b8eb74610435f20386cd4997d4d18e865e9fdaa5d8a0236cfb34509869ced59"
     }
   ],
-  "related442RunStillInProgress": true,
   "related442NotAccepted": true,
-  "createdAt": "2026-11-02T04:40:27.631271+00:00"
+  "createdAt": "2026-11-02T04:40:27.631271+00:00",
+  "related442OutcomeNotConsumedAtArchiveCreation": true,
+  "priorFlagWasLastObservedStateNotLiveTerminalEvidence": true,
+  "related442ActualFinalOutcome": {
+    "testcases": 442,
+    "passed": 441,
+    "failures": 1,
+    "errors": 0,
+    "skipped": 0,
+    "exitCode": 1,
+    "finishedAt": "2026-11-02T04:39:59.688105+00:00"
+  }
 }

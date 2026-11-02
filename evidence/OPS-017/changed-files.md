@@ -1,3 +1,36 @@
+# Current complete delta relative to d15d8e106aef844992caa183d866e95189a56776
+
+- `evidence/OPS-017/changed-files.md`
+- `evidence/OPS-017/commands.txt`
+- `evidence/OPS-017/handoff.md`
+- `evidence/OPS-017/ph-safe-loaders-v1/README.md`
+- `evidence/OPS-017/ph-safe-loaders-v1/ba4fe39-fixture-base-failure-index.json`
+- `evidence/OPS-017/ph-safe-loaders-v1/ba4fe39-fixture-base-failure.zip`
+- `evidence/OPS-017/ph-safe-loaders-v1/baseline-main-independent-review.json`
+- `evidence/OPS-017/ph-safe-loaders-v1/commands.txt`
+- `evidence/OPS-017/ph-safe-loaders-v1/current-validation-source-02bc987-index.json`
+- `evidence/OPS-017/ph-safe-loaders-v1/current-validation-source-02bc987.zip`
+- `evidence/OPS-017/ph-safe-loaders-v1/draft-safety/v1/junit.xml`
+- `evidence/OPS-017/ph-safe-loaders-v1/draft-safety/v1/results.json`
+- `evidence/OPS-017/ph-safe-loaders-v1/draft-safety/v1/stderr.raw`
+- `evidence/OPS-017/ph-safe-loaders-v1/draft-safety/v1/stdout.raw`
+- `evidence/OPS-017/ph-safe-loaders-v1/draft-safety/v2/junit.xml`
+- `evidence/OPS-017/ph-safe-loaders-v1/draft-safety/v2/results.json`
+- `evidence/OPS-017/ph-safe-loaders-v1/draft-safety/v2/stderr.raw`
+- `evidence/OPS-017/ph-safe-loaders-v1/draft-safety/v2/stdout.raw`
+- `evidence/OPS-017/ph-safe-loaders-v1/originals-prequalification-index.json`
+- `evidence/OPS-017/ph-safe-loaders-v1/originals-prequalification.zip`
+- `evidence/OPS-017/ph-safe-loaders-v1/stage.json`
+- `evidence/OPS-017/summary.md`
+- `evidence/OPS-017/test-results/README.md`
+- `scripts/check-program-plan-history.py`
+- `scripts/program-planning-revision.py`
+- `specs/coordination/active-work.yaml`
+- `specs/tasks/OPS-017.md`
+- `tests/governance/test_poc_contract_repair_admission.py`
+
+## Retained prior inventories
+
 # Current P/H stage delta relative to d15d8e106aef844992caa183d866e95189a56776
 
 - `evidence/OPS-017/changed-files.md`
