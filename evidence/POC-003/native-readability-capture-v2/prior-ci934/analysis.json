@@ -1,0 +1,85 @@
+{
+  "source": "19ec87a1a5e81146816c6d0ce6bdd164634f11e5",
+  "base": "7e405b61d872761817a0614b3b2fdc46edde9f14",
+  "tree": "9ab03787329e5777df78ffc80bd06835ccc45816",
+  "pullRequest": 182,
+  "run": 41475286753,
+  "runNumber": 934,
+  "attempt": 1,
+  "job": 125379118242,
+  "conclusion": "cancelled",
+  "actualCheckout": "d16d71d70e2e472c02513036ed6c3d192bd60934",
+  "actualCheckoutParents": [
+    "7e405b61d872761817a0614b3b2fdc46edde9f14",
+    "19ec87a1a5e81146816c6d0ce6bdd164634f11e5"
+  ],
+  "actualCheckoutTree": "9ab03787329e5777df78ffc80bd06835ccc45816",
+  "uniquePassed": 842,
+  "remainingOf842": 0,
+  "original828Passed": true,
+  "completeCollected842Passed": true,
+  "observedBadPytestStatuses": {},
+  "pytestSummaries": [
+    [
+      "842",
+      "1760.76"
+    ]
+  ],
+  "stepConclusions": {
+    "success": 19,
+    "cancelled": 1,
+    "skipped": 8
+  },
+  "annotations": [
+    {
+      "path": ".github",
+      "start_line": 1,
+      "end_line": 1,
+      "annotation_level": "failure",
+      "message": "The job has exceeded the maximum execution time of 30m0s",
+      "title": "",
+      "raw_details": ""
+    },
+    {
+      "path": ".github",
+      "start_line": 4,
+      "end_line": 4,
+      "annotation_level": "warning",
+      "message": "Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@11d5960a326750d5838078e36cf38b85af677262, actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/",
+      "title": "",
+      "raw_details": ""
+    },
+    {
+      "path": ".github",
+      "start_line": 14,
+      "end_line": 14,
+      "annotation_level": "failure",
+      "message": "The operation was canceled.",
+      "title": "",
+      "raw_details": ""
+    },
+    {
+      "path": ".github",
+      "start_line": 1,
+      "end_line": 1,
+      "annotation_level": "notice",
+      "message": "\"The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748\"",
+      "title": "",
+      "raw_details": ""
+    }
+  ],
+  "errorLines": [
+    "2026-11-02T16:19:25.0213944Z ##[error]The operation was canceled."
+  ],
+  "pythonLines": [
+    "2026-11-02T15:49:33.8504661Z platform linux -- Python 3.11.17, pytest-8.4.2, pluggy-1.7.0 -- /opt/hostedtoolcache/Python/3.11.17/x64/bin/python"
+  ],
+  "decodedBytes": 325969,
+  "decodedSha256": "e19b36c76b5cc819d645817d7f96d59ab491af833ec07e30e891c800ded798cb",
+  "jobElapsedSeconds": 1828.0,
+  "fullCiAccepted": false,
+  "bootstrapExceptionAccepted": false,
+  "finalSourceAccepted": false,
+  "actualMergeApproved": false,
+  "createdAt": "2026-11-02T16:40:01.059697+00:00"
+}

@@ -85,6 +85,22 @@ def slice_catalogue(rows, cfg, version, user):
     return sorted(found, key=lambda row: row['start'])
 
 
+def select_export_keys(rows, cfg, version, user, requested_slice=None):
+    """Filter observed native keys only; a missing requested key stays missing."""
+    selected = slice_catalogue(rows, cfg, version, user)
+    if requested_slice is None:
+        return selected
+    if (not isinstance(requested_slice, tuple) or len(requested_slice) != 2
+            or any(type(n) is not int for n in requested_slice)):
+        raise ValueError('one exact native Slice interval required')
+    start, end = requested_slice
+    size = cfg['inputs'][version]['sizeBytes']
+    if (not 0 <= start <= end < size or start % cfg['sliceBytes']
+            or end != min(start + cfg['sliceBytes'], size) - 1):
+        raise ValueError('one exact native Slice interval required')
+    return [row for row in selected if (row['start'], row['end']) == requested_slice]
+
+
 def raw_write_all(stream, block):
     """Consume an existing media view without allocating a returned bytes body."""
     offset = 0
@@ -171,11 +187,11 @@ def assemble_export_bodies(paths, destination):
     return count, hasher.hexdigest()
 
 
-def export_stage(run, out, cfg, snapshot, version, user='lab-user-a'):
+def export_stage(run, out, cfg, snapshot, version, user='lab-user-a', *, requested_slice=None):
     output = Path(out)
     existed = output.exists() or output.is_symlink()
     try:
-        return _export_stage(run, out, cfg, snapshot, version, user)
+        return _export_stage(run, out, cfg, snapshot, version, user, requested_slice)
     except Exception as error:
         # Keep the immutable start/raw records and a distinct failure receipt.
         if not existed and output.is_dir() and not output.is_symlink() and not (output / 'stage.failed.json').exists():
@@ -185,7 +201,7 @@ def export_stage(run, out, cfg, snapshot, version, user='lab-user-a'):
         raise
 
 
-def _export_stage(run, out, cfg, snapshot, version, user):
+def _export_stage(run, out, cfg, snapshot, version, user, requested_slice=None):
     """Snapshot only actual key exports; read failures remain unclassified failures."""
     run, out = Path(run), Path(out)
     pid = snapshot['atsPid']
@@ -207,7 +223,7 @@ def _export_stage(run, out, cfg, snapshot, version, user):
         time.sleep(.3)
     else:
         raise TimeoutError('actual observer catalogue did not settle')
-    selected = slice_catalogue(catalogue, cfg, version, user)
+    selected = select_export_keys(catalogue, cfg, version, user, requested_slice)
     _, maximum_exported_bytes = export_bounds(cfg, version)
     (out / 'catalogue.before.jsonl').write_bytes(catalogue_raw)
     before, events = journal(native / 'events.jsonl')
@@ -226,6 +242,8 @@ def _export_stage(run, out, cfg, snapshot, version, user):
                   selectedKeys=selected, exports=[], nativeExportFinished=False,
                   noKeysObserved=not selected, completeLogicalObjectVerified=False,
                   partialDiscardProven=False, formalPocAccepted=False)
+    if requested_slice is not None:
+        report['requestedSlice'] = dict(start=requested_slice[0], end=requested_slice[1])
     write_json(out / 'stage.started.json', report)
     if selected:
         batches = [selected[i:i+128] for i in range(0,len(selected),128)]

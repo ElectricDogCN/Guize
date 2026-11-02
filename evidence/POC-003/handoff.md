@@ -1864,3 +1864,7 @@ After exact snapshot review: commit the real merge, run current15 and required s
 ## 2026-11-02 payload池批量性能候选
 
 原记录与创建基线760不变；本次普通实现从已接受共同main7e405b6承接，角色/root实施、/root/independent_review独审，Task仍in_progress。仅调整命名payload pool增长请求至1，保留原页取整、完整保守计账、冻结协议与8MiB/原21场景。新构建4阶段及三类core ABI控制已实际等待0并获独审；[精确方法、原件和限定](pool-batch-component-v1/README.md)已归档。下一承接：固定Git内容并完成原15项、本源完整官方CI、普通合并及实际main完整CI/7项，随后新common anchor、新批准配置窗口下做原21/26和fresh热缓存撤权。旧M7e原矩阵完整原件保留，其18,960,430B保守容量不能证明8MiB，不移绑新源。未签发Ready/merge、正式POC或任务结项；未生成current profile locator。
+
+## 2026-11-03 原生可读副证前向修正
+
+原19源码CI934虽然842项测试完成，仍因原30分钟时限取消，整项未接受且未合并。定点核实首miss与八cold/slow在旧epoch没有完整原生read证据；现在仅在响应计时之后、clear之前补九个同key有界TSCacheRead副证，保留原HTTP观测、21/101/6/26/12和8MiB。V1误报尝试状态的负面及原件完整保留，V2改为异常时未知，27相关回归零FES并获独审。见[native-readability-capture-v2](native-readability-capture-v2/README.md)。下一步固定新head、完整原15、新head官方完整CI及实际mainCI后，重新固定共同测量源和批准窗口，执行原矩阵及fresh热缓存撤权；当前不授Ready/merge/试验或POC结项。

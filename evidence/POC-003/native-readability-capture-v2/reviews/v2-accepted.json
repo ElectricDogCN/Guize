@@ -1,0 +1,164 @@
+{
+  "schemaVersion": 1,
+  "kind": "POC003_NATIVE_REQUEST_READABILITY_CAPTURE_V2_NARROW_COMPONENT_INDEPENDENT_REVIEW",
+  "taskId": "POC-003",
+  "reviewer": "/root/independent_review",
+  "reviewedAt": "2026-11-02T16:44:40Z",
+  "parent": "19ec87a1a5e81146816c6d0ce6bdd164634f11e5",
+  "scope": "V1 P2 correction, exact three-file V2 source and actual offline27 results only.",
+  "sourcePins": [
+    {
+      "ref": ".takeover-tools\\poc003-pool-batch-performance-v1\\poc\\POC-03-ats-range\\collect.py",
+      "bytes": 24553,
+      "sha256": "a658dd02a05e00af1c99f3c88c0233922c1a8f5219aea082b8bace54ea6e33ce"
+    },
+    {
+      "ref": ".takeover-tools\\poc003-pool-batch-performance-v1\\poc\\POC-03-ats-range\\cache_probe.py",
+      "bytes": 20635,
+      "sha256": "b21a31751dbb84ab95d1629c9637bb898b15fca3c4f5437ab8416af2a6469399"
+    },
+    {
+      "ref": ".takeover-tools\\poc003-pool-batch-performance-v1\\poc\\POC-03-ats-range\\test_request_readability.py",
+      "bytes": 8340,
+      "sha256": "6ddd0c4bfc4011dcae428c9db99340b0c399b2809865ebe21d002dc3d5a920c8"
+    }
+  ],
+  "componentAccepted": true,
+  "relevantResultsAccepted": true,
+  "commitComponentAllowed": true,
+  "componentEvidenceArchivingMayProceed": true,
+  "fixedNewSourcePreparationAllowed": true,
+  "mustFix": [],
+  "priorNegative": {
+    "path": ".takeover-tools/poc003-native-readability-capture-v1-component-independent-review.json",
+    "sha256": "1d5056fa2026f4e6d13d835ff03b92cdc37022ce68fcf02eb0612b585237e837",
+    "preserved": true,
+    "actualV1ThreeSourcePreimagesMatch": true,
+    "V1ResultsRemainAttributedToV1": true
+  },
+  "correction": {
+    "closed": true,
+    "delta": "The sidecar initially distinguishes nativeExportInvoked=false and nativeReadAttempted=false. Immediately before helper invocation it records invoked=true, nativeReadAttempted=null and exact output-directory ref. Only a returned report converts the actual nativeRequests list to true/false. Exception handling leaves native read state unknown, retains output location/error and rethrows.",
+    "newRegression": "Existing TimeoutError fixture now checks invoked=true, read-attempt isNone and output-directory ref. No mock native success or fabricated actual read is introduced.",
+    "cacheProbeByteUnchangedFromAcceptedV1": true,
+    "otherCollectorSourceDeltaLimitedToThisCorrection": true,
+    "allOriginalV1FindingsAndLimitationsReused": true
+  },
+  "actualResults": {
+    "outerTerminalChunk": "bda248",
+    "actualPid": 22600,
+    "actualWaitCompleted": true,
+    "exitCode": 0,
+    "startedAt": "2026-11-02T16:42:42.187444+00:00",
+    "finishedAt": "2026-11-02T16:42:45.464641+00:00",
+    "pytestSeconds": 2.68,
+    "totalCases": 27,
+    "newReadabilityCases": 10,
+    "existingRelatedCases": 17,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "sourceBeforeAfterStable": true,
+    "rawHashesAndJUnitIndependentlyVerified": true,
+    "evidencePins": [
+      {
+        "ref": ".takeover-tools\\poc003-readability-capture-components-v2\\results.json",
+        "bytes": 2065,
+        "sha256": "28c3e3cb7dbf9861e9e66508afb4ee731b70d575b57d688f40b3c364234f2475"
+      },
+      {
+        "ref": ".takeover-tools\\poc003-readability-capture-components-v2\\tests.stdout.raw",
+        "bytes": 271,
+        "sha256": "34467760c604351113d798770608784a5456181d73690e4b64a150f038aac2ba"
+      },
+      {
+        "ref": ".takeover-tools\\poc003-readability-capture-components-v2\\tests.stderr.raw",
+        "bytes": 132,
+        "sha256": "b280c454d6f559e56eb3f5ed39f3ba084b8d1744a3ff7fe016b21ff86dea1aca"
+      },
+      {
+        "ref": ".takeover-tools\\poc003-readability-capture-components-v2\\junit.xml",
+        "bytes": 4392,
+        "sha256": "4d165a6e8bfde50631a94e59b88bb487c44f50db708444631d0a8f464ebff3d3"
+      }
+    ],
+    "meaning": "Actual pure control/provenance and existing filesystem/loopback regressions. It is not an ATS cache-read or full media result."
+  },
+  "componentScope": {
+    "targetedCases": [
+      "miss",
+      "latency_cold",
+      "latency_slow"
+    ],
+    "targetedOriginalMatrixRows": 9,
+    "original21CaseDefinitionUnchanged": true,
+    "originalRequestFunctionDefinitionUnchanged": true,
+    "originalMediaRows": 101,
+    "canonicalLifecycleStages": 6,
+    "nativeEpochs": 26,
+    "clearOperations": 12,
+    "capacity": "The exact same streaming native export/reference path is retained; no whole1MiB Python body is added. Capture occurs after the original _request returns/releases payload views and before the matrix advances. Original initial1MiB digest phase remains separate. Additional native backing/read I/O, Python fixed slots/hash and control work are not excluded from the complete ledger/closed-window8MiB model.",
+    "binding": "Future actual sidecar qualification must bind request+key+version+user+ACL and actual target birth/token/component/journal/closure chain. The local PID before/after comparison and offline fixtures do not by themselves establish actual cache visibility.",
+    "retention": "Archive exact V1 negatives/preimages27 and V2 tested source/results without rewriting. Only the reviewed component may be normally fixed into a new candidate; this receipt does not claim byte correctness of an as-yet-unassembled archive or authorize publication."
+  },
+  "oldSourceCi934": {
+    "source": "19ec87a1a5e81146816c6d0ce6bdd164634f11e5",
+    "run": 41475286753,
+    "attempt": 1,
+    "job": 125379118242,
+    "conclusion": "cancelled",
+    "pytestSummary": "842 passed in1760.76s",
+    "stepConclusions": {
+      "success": 19,
+      "cancelled": 1,
+      "skipped": 8
+    },
+    "officialReason": "The job has exceeded the maximum execution time of30m0s",
+    "decodedBytes": 325969,
+    "decodedSha256": "e19b36c76b5cc819d645817d7f96d59ab491af833ec07e30e891c800ded798cb",
+    "fullCiAccepted": false,
+    "bootstrapExceptionAccepted": false,
+    "actualMergeApproved": false,
+    "evidencePins": [
+      {
+        "ref": ".takeover-tools\\poc003-pool-batch-pr182-source-ci934-final\\run.json",
+        "bytes": 14374,
+        "sha256": "59dd6538ebe06299ccf241fbbf552c123af4dc2a9c10826687874cd00fd37791"
+      },
+      {
+        "ref": ".takeover-tools\\poc003-pool-batch-pr182-source-ci934-final\\jobs.json",
+        "bytes": 8299,
+        "sha256": "aec103377f2b2da25c2c80d91207199e4dbbfd1960a458df03d3c1426b73bb8c"
+      },
+      {
+        "ref": ".takeover-tools\\poc003-pool-batch-pr182-source-ci934-final\\analysis.json",
+        "bytes": 2802,
+        "sha256": "6790b01c642b910a25d192756dcbd5380529b9c4c19dd56e7408370d027c1857"
+      },
+      {
+        "ref": ".takeover-tools\\poc003-pool-batch-pr182-source-ci934-final\\official-check-diagnostics-envelope.json",
+        "bytes": 1792,
+        "sha256": "a64225f9053b19c165646d53df130c41f98c79340f5d75acd30f01b7df5652e2"
+      },
+      {
+        "ref": ".takeover-tools\\poc003-pool-batch-pr182-source-ci934-final\\job-log.connector-decoded.utf8.txt",
+        "bytes": 325969,
+        "sha256": "e19b36c76b5cc819d645817d7f96d59ab491af833ec07e30e891c800ded798cb"
+      }
+    ],
+    "meaning": "Testing part completed, but the whole job and mandatory remaining steps did not. Preserve the original cancellation; do not transfer it or its passed tests into the new head's CI result."
+  },
+  "nextScope": "Prepare exact archive/fixed commit and new-source15 plus full official same-head842 CI. Ordinary integration/main7/full mainCI and independent acceptance remain necessary before a new common-source original matrix/capture or fresh warm-cache revocation. Do not repeat unrelated198 component tests solely for this correction.",
+  "entireSourceQualified": false,
+  "sourcePublicationApproved": false,
+  "fullCiAccepted": false,
+  "actualImplementationMainAccepted": false,
+  "aggregateCapacityProofComplete": false,
+  "eightMiBBoundAccepted": false,
+  "newRuntimeExperimentApproved": false,
+  "newResourceWindowApproved": false,
+  "formalPocAccepted": false,
+  "taskCompleted": false,
+  "readyOrMergeApproved": false,
+  "reviewerActions": "Read existing source preimages/delta and retained raw/JUnit/CI terminal artifacts only. No implementation mutation, test rerun, ATS/native read or container execution."
+}

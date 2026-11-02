@@ -1,0 +1,136 @@
+{
+  "schemaVersion": 1,
+  "kind": "POC003_FIRST_MISS_NATIVE_CACHE_COMPLETION_EVIDENCE_GAP_READONLY_ASSESSMENT",
+  "taskId": "POC-003",
+  "reviewer": "/root/independent_review",
+  "reviewedAt": "2026-11-02T16:13:59Z",
+  "rawSource": "7e405b61d872761817a0614b3b2fdc46edde9f14",
+  "scope": "Only first miss request cf2c1b60a8a54f9598bb9af149d7bcfc and its ATS epoch; no repeat101-body or26-journal audit.",
+  "request": {
+    "requestId": "cf2c1b60a8a54f9598bb9af149d7bcfc",
+    "case": "miss",
+    "epoch": 3,
+    "atsPid": 76,
+    "startTicks": 1836798,
+    "startedAt": "2026-11-02T14:44:31.200777Z",
+    "finishedAt": "2026-11-02T14:44:31.247084Z",
+    "originSettledAt": "2026-11-02T14:44:31.404424Z",
+    "nextClearCompletedAt": "2026-11-02T14:44:33.155521Z",
+    "actualResponse": {
+      "statusCode": 206,
+      "bodyBytes": 8,
+      "bodySha256": "7275a918178823dd3531ca933d3c9ad23249a72a483d270b0034eb9d465ecc15",
+      "transportCompleted": true,
+      "sourceIntervalComparison": true
+    },
+    "actualOrigin": {
+      "requests": 1,
+      "objectReads": 16,
+      "objectReadBytes": 1048576
+    }
+  },
+  "nativeEvidence": {
+    "directory": "work/cache-observer/cache-export-76",
+    "regularFiles": 4,
+    "catalogueKeys": 1,
+    "keyId": 1,
+    "lookupRange": "bytes=0-1048575",
+    "lookupRequestIdMatches": true,
+    "nativeLookupStatus": 0,
+    "statusMeaning": "TS_CACHE_LOOKUP_MISS, enum starts at0 in fixed ATS9.2.3 include/ts/apidefs.h.in:584-587",
+    "requestEventsBytes": 0,
+    "noNativeExportJobOrBodyInDirectory": true,
+    "noSavedWriteCompletionEvent": true,
+    "beforeSnapshot": "Original before/native catalogue observation happened before this miss and found no keys. It is not a post-miss completion witness.",
+    "laterFilledSnapshot": "Actual filled stage belongs to PID130 after the intervening clear. Its native64 exports cannot attest the earlier PID76 cache state.",
+    "epochClosure": "PID76 has accepted actual wait0 and a complete tracked allocation epoch. Allocation/wait success is not cache publication or readability evidence.",
+    "sourceMeaning": "cache_export.cc:67-105 captures TS_HTTP_CACHE_LOOKUP_COMPLETE_HOOK, and:265 registers that hook. That is a lookup outcome, not a cache write-completion hook. Explicit TSCacheRead occurs only through a received bounded export request (line162); this epoch's event journal is empty."
+  },
+  "conclusion": {
+    "firstMissProtectedTransferCompleteSupported": true,
+    "firstMissCacheCompleteTrueSupported": false,
+    "firstMissCacheVisibleTrueSupported": false,
+    "cacheFailureActuallyProven": false,
+    "meaning": "The cache completion/visibility values are unproven for this epoch. Do not infer actual cache failure, set false as a measured fact, or fill true merely to satisfy typed booleans. A correct HTTP/source response and complete1MiB origin read do not establish native cache readability."
+  },
+  "minimalProspectiveCapture": {
+    "directionFeasible": true,
+    "existingNativeApiSufficientInPrinciple": true,
+    "when": "After the first miss finishes and origin/gateway settle, while the same PID/epoch/source/version/user/ACL/key is still live, before the original next clear.",
+    "operation": "One bounded explicit TSCacheRead of the exact recorded key1/lookupURL via existing private native exporter; retain accepted/finished request events, native result, reported object length, actual exported body and its source-Slice hash. Require successful complete read of the1MiB native Slice covering requested bytes0-7; NO_DOC, short export, timeout or read error remains raw failure/unproven.",
+    "artifactForm": "A separate raw per-request readability sidecar. Do not append a seventh canonical lifecycle stage or substitute/relabel the original six stages. Preserve the21 case list and existing media request rows.",
+    "factsToBind": [
+      "Original requestId and native lookupURL/keyId",
+      "Same live PID/startTicks/epoch and component hashes",
+      "No intervening clear/version/ACL/auth-context change",
+      "Native job accepted and terminal result matched, full actual body bytes/hash, exact expected Slice interval",
+      "Before/after independent origin observations show the read-only native cache read did not fetch new source media",
+      "Actual time after response and before clear; do not move the original first-byte or response-finished timestamps"
+    ],
+    "preservedCounts": {
+      "originalCases": 21,
+      "mediaRequestRows": 101,
+      "canonicalCacheStages": 6,
+      "nativeEpochs": 26,
+      "clearOperations": 12
+    },
+    "countsBoundary": "The explicit native export job and any private observation controls are additional instrumentation records, not new media requests or ATS process epochs. Their exact new counts and cost must be declared in the future method and budgets.",
+    "memoryBoundary": "All TSCacheRead/export buffers, native retained pool backing, Python comparison/hash slots, controls and actual request concurrency remain included in the original complete capacity model and unchanged8388608-byte bound. No sampling/baseline exclusion or exemption is introduced.",
+    "semanticBoundary": "A positive read attests that the relevant complete native Slice representation is readable at the observation time. It is not the complete64MiB logical object, a durable physical disk-commit promise, or physical discard. Keep the per-request Slice scope distinct from whole-source logical stage objects.",
+    "notAlreadyCaptured": true,
+    "doesNotRepairOldMResult": true
+  },
+  "sourceChangeAssessment": {
+    "productionAtsBugEstablished": false,
+    "mandatoryNewNativeHookEstablished": false,
+    "necessaryChange": "The next concrete collection method needs a post-miss/pre-clear readability observation if it intends to claim canonical cacheComplete/cacheVisible=true for this first miss. Existing TSCacheRead mechanism can supply the observation; this finding does not itself require a new tracing platform or an ATS write-hook implementation.",
+    "implementationChoice": "Root may prepare an explicit bounded capture integration for independent source/method review; no code mutation is approved here. CI934/current head should remain unchanged by this design assessment."
+  },
+  "evidencePins": [
+    {
+      "ref": "original-matrix/observations/request-cf2c1b60a8a54f9598bb9af149d7bcfc.json",
+      "bytes": 5109,
+      "sha256": "0744acdaa6234b6a8ffee589d2a35c3d177ecbc899e78521704ccddc0c0c8907"
+    },
+    {
+      "ref": "original-matrix/cache-stage-before/stage.json",
+      "bytes": 2573,
+      "sha256": "33eba2660d466e6d3efbf98acac886c8bef86b26086a63b085aca997be12860f"
+    },
+    {
+      "ref": "work/process-epochs/epoch-3/closure.json",
+      "bytes": 2194,
+      "sha256": "fad172ecf165f71642dcf24ce73e7ce6569d28dbbe1859f53f9032b08c7ff466"
+    },
+    {
+      "ref": "work/cache-observer/cache-export-76/cache-ready.json",
+      "bytes": 138,
+      "sha256": "87f32f6be59f969df38f9c3b7716ffaf8246bccfa79aac0848defbb33ea6d051"
+    },
+    {
+      "ref": "work/cache-observer/cache-export-76/events.jsonl",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "ref": "work/cache-observer/cache-export-76/lookup-events.jsonl",
+      "bytes": 237,
+      "sha256": "38930b86fa85247670ea90714eee9a0c131eea8cfbd1bc81d028ec273f9fa101"
+    },
+    {
+      "ref": "work/cache-observer/cache-export-76/lookups.jsonl",
+      "bytes": 154,
+      "sha256": "a5d467c6fa67e01514e937dceea5c702966a81eb4a93193987491d40901b2d09"
+    }
+  ],
+  "mustResolveForCanonicalMiss": [
+    "Actual same-epoch post-miss/pre-clear native complete/readable Slice evidence is absent from the preserved M7e dataset."
+  ],
+  "sourceAcceptanceChanged": false,
+  "ci934Acceptance": false,
+  "aggregateCapacityAccepted": false,
+  "formalPocAccepted": false,
+  "newCaptureExecutionApproved": false,
+  "newResourceOrWindowApproved": false,
+  "reviewerActions": "Read-only target request/control metadata, four native observer files, epoch closure and relevant producer/checker source. No target, observer request, test, build or experiment executed."
+}

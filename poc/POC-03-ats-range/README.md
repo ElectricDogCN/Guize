@@ -68,3 +68,7 @@ The forward consumer uses batches of at most128 keys, preserving the unchanged n
 ## Payload 池按需增长候选（2026-11-02）
 
 命名ioBufAllocator的增长请求改为1，实际批量仍由原页和hugepage规则取整。计账保留全部backing及logical的保守相加，不扣减基线，也不修改8MiB要求。新构建和三类新core ABI控制已接受；完整官方CI与同一原始矩阵下的媒体容量、独立热缓存撤权和正式POC仍待验收。详见[组件证据](../../evidence/POC-003/pool-batch-component-v1/README.md)。
+
+## 清理前的原生可读副证
+
+在已有liveBufferObserver模式下，首miss和每条cold/slow在原HTTP响应计时及settling完成后、下一clear之前，额外读取一个已实际观测的同context Slice key。独立sidecar保留原响应和时钟，不追加媒体HTTP、六阶段或ATS进程；未观测key不构造，NO_DOC/短读/漂移保持未证明，异常中的实际读取状态保持未知。全部新增I/O和内存仍纳入原8MiB界限。此为九条证据缺口的最小捕获，尚需新源正式矩阵实测；详见[组件记录](../../evidence/POC-003/native-readability-capture-v2/README.md)。

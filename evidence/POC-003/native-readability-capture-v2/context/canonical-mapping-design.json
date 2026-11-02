@@ -1,0 +1,128 @@
+{
+  "schemaVersion": 1,
+  "kind": "POC003_CANONICAL_TRANSFER_AND_CACHE_MAPPING_READONLY_DESIGN",
+  "reviewer": "/root/independent_review",
+  "reviewedAt": "2026-11-02T15:55:18Z",
+  "scope": "Assembler/template preparation advice only; unchanged frozen contract, no implementation or experiment approval.",
+  "examinedSource": "19ec87a1a5e81146816c6d0ce6bdd164634f11e5",
+  "rawExampleSource": "7e405b61d872761817a0614b3b2fdc46edde9f14",
+  "rawExamplePriorReviewSha256": "1b408f21abdcccf986ab687b7d828b23f902261179014e3593fe962ec2b429b0",
+  "sourceReferences": [
+    {
+      "file": "specs/poc/check_program.py",
+      "line": 5637,
+      "meaning": "partial_read requires503/zero actual bytes/cacheComplete=false/cacheVisible=false/transferCompleted=false."
+    },
+    {
+      "file": "specs/poc/check_program.py",
+      "line": 5649,
+      "meaning": "Interrupted response must be a correct shorter source prefix with all three completion/visibility flags false; successful protected responses must equal the requested source interval."
+    },
+    {
+      "file": "specs/poc/check_program.py",
+      "line": 5654,
+      "meaning": "Cache status enums are constrained by scenario, but HIT also requires zero actual origin reads and MISS/FILL positive actual origin reads."
+    },
+    {
+      "file": "specs/poc/check_program.py",
+      "line": 5698,
+      "meaning": "Exact six-stage lifecycle; interrupted objects may be empty. If an interrupted object is listed, it must be real retained incomplete invisible source-prefix bytes. Complete-stage objects must match the whole current source hash."
+    },
+    {
+      "file": "specs/poc/program.schema.yaml",
+      "line": 5510,
+      "meaning": "transferCompleted is a boolean; its actual case constraints are supplied by the checker. No requirement to alias raw HTTP transportCompleted."
+    },
+    {
+      "file": "poc/POC-03-ats-range/collect.py",
+      "line": 130,
+      "meaning": "Raw transportCompleted records HTTP body read completion, independently of HTTP status."
+    },
+    {
+      "file": "poc/POC-03-ats-range/cache_probe.py",
+      "line": 346,
+      "meaning": "A complete logical object is actually assembled from native cache-read exports; derivedFrom records keep individual Slice provenance, and nativeSingleEntryClaimed=false."
+    },
+    {
+      "file": "poc/POC-03-ats-range/http_timing.py",
+      "line": 19,
+      "meaning": "Actual first HTTP response byte timestamp is separate from header completion and first protected body byte."
+    }
+  ],
+  "transferMapping": {
+    "rawField": "transportCompleted",
+    "rawMeaning": "Whether the observed HTTP response message completed without truncation/framing/length/persistence failure. A complete503 error response can legitimately be true.",
+    "typedField": "transferCompleted",
+    "proposedExplicitMeaning": "Whether the requested protected source representation/interval was delivered completely and byte-correctly. Document this as a derived semantic field with raw request/body/source refs, not a rename of transportCompleted.",
+    "derivation": "For protected200/206 delivery: require actual transport completion, no read/persistence error, the exact expected HTTP status/Range/If-Range semantics, expected byte count and exact retained source-interval hash. Otherwise false. Compute before comparing to required case outcome; never choose a value because the checker wants it.",
+    "examples": [
+      {
+        "status": 503,
+        "bodyBytes": 0,
+        "rawTransportCompleted": true,
+        "derivedProtectedTransferCompleted": false,
+        "reason": "HTTP error exchange completed; requested protected interval was not delivered."
+      },
+      {
+        "status": 206,
+        "bodyBytes": 4,
+        "expectedIntervalBytes": 8,
+        "rawTransportCompleted": false,
+        "derivedProtectedTransferCompleted": false,
+        "reason": "Correct protected prefix remains incomplete."
+      },
+      {
+        "status": 206,
+        "bodyBytes": 8,
+        "expectedIntervalBytes": 8,
+        "derivedProtectedTransferCompleted": "true only with actual complete HTTP message, exact source bytes and no persistence error"
+      },
+      {
+        "status": 416,
+        "bodyBytes": 0,
+        "derivedProtectedTransferCompleted": false,
+        "reason": "No protected source representation was transferred; preserve actual protocol-completion state separately."
+      }
+    ],
+    "preservation": "Never overwrite raw503 transportCompleted=true or erase exceptions, status, hashes, timestamps or original failed booleans. Schema additionalProperties=false means explanatory/raw provenance belongs in a separate derivation sidecar rather than invented fields in typed records."
+  },
+  "cacheLifecycleMapping": {
+    "stageOrder": [
+      "before",
+      "filled",
+      "interrupted",
+      "recovered",
+      "updated",
+      "cleanup"
+    ],
+    "beforeAndCleanup": "objects=[] only if the native catalogue/export reports actually observed no selected readable test objects in the correct version/user/ACL context. allocatedBytes=0 is retained selected-object byte count, not disk-block occupancy.",
+    "filledRecoveredUpdated": "Use the actual assembled-from-native-cache.bin when completeLogicalObjectVerified is genuinely true, after checking native request/results completion, contiguous full-source coverage, each body hash/range, unchanged origin journal during export and actual assembled whole-source hash. One typed logical object may reference that actual retained file; preserve64 constituent native Slice exports and derivedFrom as provenance. Do not claim it is one physical ATS entry.",
+    "interrupted": "NO_DOC/open_read_failed with no exported file yields objects=[] and allocatedBytes=0. The checker does not require an object in this stage. Do not copy the client's four returned bytes into a cache artifact or fabricate a partial cache object. If a native partial file actually exists in a future run, include it only with actual source-prefix hash/count and complete=false/visible=false.",
+    "allocatedBytes": "Sum the sizes of distinct retained files actually listed in that stage, with no duplicate physical aliases. It is neither cache storage capacity nor the native memory ledger.",
+    "physicalDiscard": "No physical disk erasure or reclaim claim follows from NO_DOC, empty selected export or503. Preserve original partialDiscardProven=false; the frozen checker does not add a physical-discard gate.",
+    "observedIsolationSequence": "Require matching source/version/ACL/user/key and actual interruption→NO_DOC/no readable native object→503 with no protected payload while origin unavailable→restored-origin positive source refetch→correct requested bytes, with no intervening clear or context change. State this as observed unpublished partial isolation and recovery."
+  },
+  "requestCacheFlags": {
+    "cacheCompleteAndVisible": "Do not derive these flags solely from transportCompleted, valid response bytes, expected case name, or a cacheStatus label. Bind them to the actual relevant cache representation/key/context and native readable-object evidence plus observed origin/cache history.",
+    "minimalAssemblerBoundary": "Keep a per-request provenance table: actual key/version/user/ACL, current epoch and prior clear/update, actual cache header, origin witness, source interval equality, and applicable native export/readability observation. Distinguish completion of a Slice/request representation from completeness of the64MiB logical object. If a required true flag lacks evidence at its intended scope/time, emit an unproven/error derivation instead of silently promoting a later stage or changing the definition.",
+    "cacheStatus": "MISS/FILL/HIT/INVALIDATED/PARTIAL must retain the actual facts behind the classification. In particular HIT requires observed zero origin/protected object reads, and recovery must retain positive real refetch evidence. A scenario label alone is insufficient.",
+    "runtimeMustFixEstablishedByThisReview": false,
+    "potentialEvidenceGapNotAProvenRuntimeBug": "The raw collector does not directly provide canonical cacheComplete/cacheVisible fields. An assembler must make the above evidence relation explicit. If a concrete required request cannot be supported by existing observations, identify that exact missing fact before proposing targeted capture; do not invent a new general tracing platform or assume a production change is needed."
+  },
+  "firstByteMapping": "Use raw firstResponseByteAt from the actual HTTP timing wrapper for typed firstByteAt and the approved HTTP response-first-byte latency convention, consistently across four categories and error responses. Preserve firstBodyByteAt and responseHeadersAt as distinct raw values; no synthetic timestamp for zero-body responses and no switching clocks to improve a result.",
+  "minimumPreparationBeforeNewMatrix": [
+    "Freeze a deterministic assembler/template and a provenance-only sidecar that distinguishes transport, protected transfer, logical native object and physical cache storage. Synthetic mapping checks may be designed separately; no code/test execution is authorized by this note.",
+    "Retain original21 case set,101 requests,6 stages,26 epochs,12 clears, original15 measurements, exact thresholds and all failure facts. Unknown/failed mapping remains unaccepted.",
+    "Bind future actual outputs to the newly accepted common testedSource, exact method/input/configuration/sample/resource/window; oldM7e raw data and grants remain historical.",
+    "After actual new full matrix, derive the15 measurements and capacity from that run and run the unchanged frozen qualification. A complete collection or satisfiable schema is not business acceptance.",
+    "Obtain and execute separately approved fresh warm-cache real-CLI revocation on that same final source. Existing denied_user/other_user matrix rows and oldcontrol runs do not substitute."
+  ],
+  "currentSourceCiAccepted": false,
+  "newSourceQualified": false,
+  "rawExamplePromotedToBusinessPass": false,
+  "aggregateCapacityProofAccepted": false,
+  "formalPocAccepted": false,
+  "newRuntimeApproved": false,
+  "newResourceOrWindowApproved": false,
+  "implementationApproved": false
+}

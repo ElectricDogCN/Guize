@@ -1,0 +1,200 @@
+{
+  "kind": "PRECOMMIT_TARGETED_NATIVE_READABILITY_COMPONENT_ARCHIVE_NOT_POC",
+  "assembledAt": "2026-11-02T16:49:19.552Z",
+  "sourceBase": "19ec87a1a5e81146816c6d0ce6bdd164634f11e5",
+  "scope": [
+    "miss",
+    "latency_cold",
+    "latency_slow"
+  ],
+  "plannedNativeJobs": 9,
+  "mediaRequestCountUnchanged": 101,
+  "stageCountUnchanged": 6,
+  "nativeEpochCountUnchanged": 26,
+  "cacheClearCountUnchanged": 12,
+  "allNewIoAndMemoryRemainInOriginal8MiB": true,
+  "originalRawHttpRowsAndClocksNotOverwritten": true,
+  "nativeReadAttemptUnknownOnHelperException": true,
+  "componentV2IndependentAccepted": true,
+  "componentV1NegativePreserved": true,
+  "unitTestsV2": {
+    "passed": 27,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "priorCi934": {
+    "source": "19ec87a1a5e81146816c6d0ce6bdd164634f11e5",
+    "conclusion": "cancelled",
+    "passed": 842,
+    "fullCiAccepted": false,
+    "bootstrapExceptionAccepted": false
+  },
+  "pins": [
+    {
+      "path": "reviews/first-miss-gap.json",
+      "bytes": 8172,
+      "sha256": "6cc51b20d5336aa1117e789c07bfb04479833f7a74f018fd789e79d53e412620",
+      "original": "poc003-first-miss-native-readability-gap-readonly-review-v1.json"
+    },
+    {
+      "path": "reviews/cold-slow-gap.json",
+      "bytes": 10804,
+      "sha256": "ac1e644f33104d1a20c161747988d23d9e34b770544d4fd859cb0886587eac92",
+      "original": "poc003-cold-slow-native-readability-gap-readonly-addendum-v1.json"
+    },
+    {
+      "path": "reviews/v1-negative.json",
+      "bytes": 6383,
+      "sha256": "1d5056fa2026f4e6d13d835ff03b92cdc37022ce68fcf02eb0612b585237e837",
+      "original": "poc003-native-readability-capture-v1-component-independent-review.json"
+    },
+    {
+      "path": "reviews/v2-accepted.json",
+      "bytes": 8198,
+      "sha256": "8c9e1f90dbca2e6e45aeae4cfc19db1fa4a63148290232131b83eddce00c846a",
+      "original": "poc003-native-readability-capture-v2-component-independent-review.json"
+    },
+    {
+      "path": "context/canonical-mapping-design.json",
+      "bytes": 10266,
+      "sha256": "c3abaae352e9e1afaa113d5e4bac7b7de916d48645ba19e1795e7c03e4e112d7",
+      "original": "poc003-canonical-transfer-cache-mapping-readonly-design-v1.json"
+    },
+    {
+      "path": "context/v1-content.json",
+      "bytes": 1193,
+      "sha256": "4a53748c82d7e01d161dd292524da9342cf165e7392ef88a1b07292306c65b0b",
+      "original": "poc003-native-readability-capture-uncommitted-v1.json"
+    },
+    {
+      "path": "context/v1-content.patch",
+      "bytes": 11394,
+      "sha256": "7a7b311a560d2a3897a060f10b1a6618ce3064eee26669d8f9563d3a83476f06",
+      "original": "poc003-native-readability-capture-uncommitted-v1.patch"
+    },
+    {
+      "path": "v1-source/collect.py",
+      "bytes": 24371,
+      "sha256": "c8651cd350935678ff34496dc6fe3922793deb4f1e7ef50ab967e52347e1710c",
+      "original": "poc003-readability-capture-v1-source-retained/collect.py"
+    },
+    {
+      "path": "v2-source/collect.py",
+      "bytes": 24553,
+      "sha256": "a658dd02a05e00af1c99f3c88c0233922c1a8f5219aea082b8bace54ea6e33ce",
+      "original": "current uncommitted actual author source"
+    },
+    {
+      "path": "v1-source/cache_probe.py",
+      "bytes": 20635,
+      "sha256": "b21a31751dbb84ab95d1629c9637bb898b15fca3c4f5437ab8416af2a6469399",
+      "original": "poc003-readability-capture-v1-source-retained/cache_probe.py"
+    },
+    {
+      "path": "v2-source/cache_probe.py",
+      "bytes": 20635,
+      "sha256": "b21a31751dbb84ab95d1629c9637bb898b15fca3c4f5437ab8416af2a6469399",
+      "original": "current uncommitted actual author source"
+    },
+    {
+      "path": "v1-source/test_request_readability.py",
+      "bytes": 8135,
+      "sha256": "7a059dfa7a26a5f8306c3fc326b62df4ae9f792d07d8688bcd764ca457577db3",
+      "original": "poc003-readability-capture-v1-source-retained/test_request_readability.py"
+    },
+    {
+      "path": "v2-source/test_request_readability.py",
+      "bytes": 8340,
+      "sha256": "6ddd0c4bfc4011dcae428c9db99340b0c399b2809865ebe21d002dc3d5a920c8",
+      "original": "current uncommitted actual author source"
+    },
+    {
+      "path": "tests-v1/tests.stdout.raw",
+      "bytes": 271,
+      "sha256": "734cc29f38e73bcdc692b7a22e5165392aeb8af4e5dc3106a66b8e6b7eb3196e",
+      "original": "poc003-readability-capture-components-v1/tests.stdout.raw"
+    },
+    {
+      "path": "tests-v1/tests.stderr.raw",
+      "bytes": 132,
+      "sha256": "b280c454d6f559e56eb3f5ed39f3ba084b8d1744a3ff7fe016b21ff86dea1aca",
+      "original": "poc003-readability-capture-components-v1/tests.stderr.raw"
+    },
+    {
+      "path": "tests-v1/junit.xml",
+      "bytes": 4392,
+      "sha256": "97af5aec819c77103267e226b9186646281caafa85f9c0e863d7db1836c27283",
+      "original": "poc003-readability-capture-components-v1/junit.xml"
+    },
+    {
+      "path": "tests-v1/results.json",
+      "bytes": 1974,
+      "sha256": "f066b48d0093d50020ccf01ec1a2b807064275e7d3c7e35e0b2c8229baa9ea5b",
+      "original": "poc003-readability-capture-components-v1/results.json"
+    },
+    {
+      "path": "tests-v2/tests.stdout.raw",
+      "bytes": 271,
+      "sha256": "34467760c604351113d798770608784a5456181d73690e4b64a150f038aac2ba",
+      "original": "poc003-readability-capture-components-v2/tests.stdout.raw"
+    },
+    {
+      "path": "tests-v2/tests.stderr.raw",
+      "bytes": 132,
+      "sha256": "b280c454d6f559e56eb3f5ed39f3ba084b8d1744a3ff7fe016b21ff86dea1aca",
+      "original": "poc003-readability-capture-components-v2/tests.stderr.raw"
+    },
+    {
+      "path": "tests-v2/junit.xml",
+      "bytes": 4392,
+      "sha256": "4d165a6e8bfde50631a94e59b88bb487c44f50db708444631d0a8f464ebff3d3",
+      "original": "poc003-readability-capture-components-v2/junit.xml"
+    },
+    {
+      "path": "tests-v2/results.json",
+      "bytes": 2065,
+      "sha256": "28c3e3cb7dbf9861e9e66508afb4ee731b70d575b57d688f40b3c364234f2475",
+      "original": "poc003-readability-capture-components-v2/results.json"
+    },
+    {
+      "path": "prior-ci934/analysis.json",
+      "bytes": 2802,
+      "sha256": "6790b01c642b910a25d192756dcbd5380529b9c4c19dd56e7408370d027c1857",
+      "original": "poc003-pool-batch-pr182-source-ci934-final/analysis.json"
+    },
+    {
+      "path": "prior-ci934/run.json",
+      "bytes": 14374,
+      "sha256": "59dd6538ebe06299ccf241fbbf552c123af4dc2a9c10826687874cd00fd37791",
+      "original": "poc003-pool-batch-pr182-source-ci934-final/run.json"
+    },
+    {
+      "path": "prior-ci934/jobs.json",
+      "bytes": 8299,
+      "sha256": "aec103377f2b2da25c2c80d91207199e4dbbfd1960a458df03d3c1426b73bb8c",
+      "original": "poc003-pool-batch-pr182-source-ci934-final/jobs.json"
+    },
+    {
+      "path": "prior-ci934/checkout.json",
+      "bytes": 2805,
+      "sha256": "a60055ad8866221a9a78ea6ca92c5212e5224d3c8196b3a2848444fd334a4832",
+      "original": "poc003-pool-batch-pr182-source-ci934-final/checkout.json"
+    },
+    {
+      "path": "prior-ci934/official-check-diagnostics-envelope.json",
+      "bytes": 1792,
+      "sha256": "a64225f9053b19c165646d53df130c41f98c79340f5d75acd30f01b7df5652e2",
+      "original": "poc003-pool-batch-pr182-source-ci934-final/official-check-diagnostics-envelope.json"
+    },
+    {
+      "path": "prior-ci934/job-log.connector-decoded.utf8.txt",
+      "bytes": 325969,
+      "sha256": "e19b36c76b5cc819d645817d7f96d59ab491af833ec07e30e891c800ded798cb",
+      "original": "poc003-pool-batch-pr182-source-ci934-final/job-log.connector-decoded.utf8.txt"
+    }
+  ],
+  "realAtsOrMediaExperimentExecuted": false,
+  "sourceCiAccepted": false,
+  "formalPocAccepted": false
+}

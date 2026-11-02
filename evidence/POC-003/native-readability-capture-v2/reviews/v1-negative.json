@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "kind": "POC003_NATIVE_REQUEST_READABILITY_CAPTURE_V1_COMPONENT_INDEPENDENT_REVIEW",
+  "reviewer": "/root/independent_review",
+  "reviewedAt": "2026-11-02T16:41:06Z",
+  "taskId": "POC-003",
+  "parent": "19ec87a1a5e81146816c6d0ce6bdd164634f11e5",
+  "sourcePins": {
+    "collect.py": "c8651cd350935678ff34496dc6fe3922793deb4f1e7ef50ab967e52347e1710c",
+    "cache_probe.py": "b21a31751dbb84ab95d1629c9637bb898b15fca3c4f5437ab8416af2a6469399",
+    "test_request_readability.py": "7a059dfa7a26a5f8306c3fc326b62df4ae9f792d07d8688bcd764ca457577db3"
+  },
+  "componentAccepted": false,
+  "relevantResultsAccepted": true,
+  "commitComponentAllowed": false,
+  "mustFix": [
+    {
+      "priority": "P2",
+      "file": "poc/POC-03-ats-range/collect.py",
+      "function": "Collector.capture_readability",
+      "issue": "nativeReadAttempted starts false and is updated only after export_stage returns. export_stage can already publish/accept a native read job and then throw during its wait, native result handling or byte verification. The finally sidecar then falsely retains nativeReadAttempted=false although actual native execution may have begun.",
+      "minimumCorrection": "Record helper invocation before entering export_stage; keep actual native-read-attempt state unknown/null while the helper is in flight or throws unless retained real events prove it. After successful return, set true/false from actual nativeRequests. Preserve the failure/raw files and rethrow without inventing a native execution outcome.",
+      "minimumRegression": "A targeted offline fixture where helper invocation raises after its simulated start must retain invoked=true, actual read state unknown, readableSliceVerified=false and the actual exception. No ATS run is required to exercise this control-flow regression."
+    }
+  ],
+  "acceptedFindings": {
+    "singleSliceSelection": "requested_slice is keyword-only on the public exporter and filters existing observed native keys after the established exact context/version/user parser. It validates one complete configured Slice interval; absent keys remain absent. No unknown native key is constructed.",
+    "trigger": "Only liveBufferObserver diagnostic mode and miss/latency_cold/latency_slow enter capture. Under unchanged original matrix this targets9 rows, without new media HTTP requests, clears or target processes.",
+    "timing": "_request returns after its original HTTP record/body/timestamps and settling observations; synchronous capture completes before original matrix advances to its next clear/request. The original row is not mutated.",
+    "boundaries": "Independent raw sidecar list is separate from the six lifecycle stages; selected key/body/full-source interval equality and native reported length must match. Missing/NO_DOC/short/context drift stays unproven; exceptions remain rejecting.",
+    "budgets": "The existing exporter checks native request/control/byte budget and read deadline. Whole native ledger includes all added TSCacheRead/pool work; no counter/threshold change.",
+    "pythonPayloadCapacity": "The new path uses existing streaming export/reference slots and metadata-only return values. _request body/reference views have been released before capture; initial1MiB input hashes remain before matrix requests. Selecting one Slice does not allocate a whole1MiB bytes object or new unbounded payload slot. The selected1MiB is copied as raw files, not retained as one Python bytes object.",
+    "concurrency": "Collector request_active currently spans its post-response sidecar as well as HTTP work, making its closed peak conservative. Snapshot/control HTTP work remains in the controller's wider admitted-request window. No reduction to existing O/G/C/H/native accounting is justified.",
+    "matrixAndRequestDefinitions": [
+      {
+        "method": "matrix",
+        "sha256": "1a154773b950aa6c7502b127b860656e002bf696e32d5205409564580012c3ae",
+        "unchanged": true
+      },
+      {
+        "method": "_request",
+        "sha256": "c2e5dbb8f047e31f74e12b213ebfe731c8b186b505940261f86146ddbdd6cce4",
+        "unchanged": true
+      }
+    ],
+    "defaultPath": "requested_slice=None retains original whole-stage selection and assembly behavior. The production exporter default budget/parser/partial-I/O handling was not weakened."
+  },
+  "results": {
+    "actualPid": 70888,
+    "actualWaitCompleted": true,
+    "actualExitCode": 0,
+    "totalCases": 27,
+    "newReadabilityCases": 10,
+    "oldRelatedCases": 17,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "sourceFilesBeforeAfterStableByActualReceipt": true,
+    "sourceAttribution": "These actual tests belong to the V1 three source hashes above; they do not validate a later correction.",
+    "scope": "Mocked native-export control/provenance tests and existing related file/protocol regressions. No real ATS/native-read runtime is established.",
+    "evidencePins": [
+      {
+        "ref": ".takeover-tools\\poc003-readability-capture-components-v1\\tests.stdout.raw",
+        "bytes": 271,
+        "sha256": "734cc29f38e73bcdc692b7a22e5165392aeb8af4e5dc3106a66b8e6b7eb3196e"
+      },
+      {
+        "ref": ".takeover-tools\\poc003-readability-capture-components-v1\\tests.stderr.raw",
+        "bytes": 132,
+        "sha256": "b280c454d6f559e56eb3f5ed39f3ba084b8d1744a3ff7fe016b21ff86dea1aca"
+      },
+      {
+        "ref": ".takeover-tools\\poc003-readability-capture-components-v1\\junit.xml",
+        "bytes": 4392,
+        "sha256": "97af5aec819c77103267e226b9186646281caafa85f9c0e863d7db1836c27283"
+      }
+    ]
+  },
+  "limits": [
+    "This is a component source review. No actual native sidecar, same-epoch cache visibility, new source CI or original matrix has been demonstrated by these offline tests.",
+    "Prospective actual sidecar use must ultimately bind PID/startTicks and token to the full owner/launch/closure directory. The local before/report/after atsPid comparison is not by itself a complete epoch identity proof.",
+    "No code was changed or test/target rerun by the independent reviewer. Existing19/CI934 remains separate and is not rebound to the dirty capture overlay."
+  ],
+  "entireSourceQualified": false,
+  "aggregateCapacityProofComplete": false,
+  "eightMiBBoundAccepted": false,
+  "experimentApproved": false,
+  "formalPocAccepted": false,
+  "readyOrMergeApproved": false
+}
