@@ -1,3 +1,7 @@
+## Current source scope-list correction
+
+The first P/H source fa5c182 is not accepted: scope checker declared10 rejected two paths omitted from the own Task allowed list. The Task now lists the already effective six paths. First-source raw/exit1 and exact Windows draft originals are preserved losslessly in ph-safe-loaders-v1/originals-prequalification.zip. Code/test pins remain unchanged; current-source14, related3.11 regressions, comparison and full official source/main CI remain pending.
+
 ## Current P/H safe-reader implementation stage
 
 Task OPS-017 / Issue168 / base `d15d8e106aef844992caa183d866e95189a56776` / branch `chore/OPS-017-fast-yaml-loaders` / implementer `/root` / reviewer `/root/gz022_planning_independent_review`. Actual scope-amendment main independently accepted: receipt SHA cab8ebc00bfbdcbc484815627a90fcbf5c8caadcf70a371dd1d6ce63f1a605ab, complete local original workflow/839 and own7 plus official CI922 success. Supplemental scope is now effective; all prior source timeout negatives and the narrow bootstrap source exception retain their historical meaning.

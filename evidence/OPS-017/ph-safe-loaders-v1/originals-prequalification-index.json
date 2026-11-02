@@ -1,0 +1,175 @@
+{
+  "kind": "LOSSLESS_ORIGINALS_AND_RETAINED_NEGATIVES",
+  "archive": "originals-prequalification.zip",
+  "archiveBytes": 21170,
+  "archiveSha256": "58186cffb98f291b1d903475423a1187ee81ecd7461d19c77c4724fb64d4758b",
+  "items": [
+    {
+      "path": "draft-safety/v1/results.json",
+      "bytes": 719,
+      "sha256": "4b37a703e1fa991392f9d6302c2fc89bc37c43b0b83f33933cc36bf9411d8666"
+    },
+    {
+      "path": "draft-safety/v1/stdout.raw",
+      "bytes": 3497,
+      "sha256": "869628da9d99a2e1056cfe6f9eb9351a08600735175c3ea1b56ba7c2c518e6ef"
+    },
+    {
+      "path": "draft-safety/v1/stderr.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "draft-safety/v1/junit.xml",
+      "bytes": 3520,
+      "sha256": "48c903c454952431371e5a1881325392e34a692f71402bed3692043f20b2f15d"
+    },
+    {
+      "path": "draft-safety/v2/results.json",
+      "bytes": 793,
+      "sha256": "ed92e624bd839bf5e51b5be6419f71d0fa12596f988d85a71ab281c3e16d0588"
+    },
+    {
+      "path": "draft-safety/v2/stdout.raw",
+      "bytes": 267,
+      "sha256": "e5c5a9abb66e64bc3b55f6472b475e9058e816dd806b72a72b56cfec256c0b0d"
+    },
+    {
+      "path": "draft-safety/v2/stderr.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "draft-safety/v2/junit.xml",
+      "bytes": 742,
+      "sha256": "2404445e20569e362438e80b491a0d7e70b92f40a48087c677fffbe9278d58b8"
+    },
+    {
+      "path": "fa5c182-first-source-negative/declared-00.raw",
+      "bytes": 190,
+      "sha256": "6f7b64ff322066e472d1c088638b7e0157b600285d02aa9bc000372c3b2c924e"
+    },
+    {
+      "path": "fa5c182-first-source-negative/declared-01.raw",
+      "bytes": 340,
+      "sha256": "7f4076fbf4a499886df3028b2366d06840618031622343f0c25f76e85322e550"
+    },
+    {
+      "path": "fa5c182-first-source-negative/declared-02.raw",
+      "bytes": 2023,
+      "sha256": "18503111d9ad5eef0864cd4f4dc81977ab560cd6598316505a8f058142b7918e"
+    },
+    {
+      "path": "fa5c182-first-source-negative/declared-03.raw",
+      "bytes": 495,
+      "sha256": "1dcedf03f48e2d5a7c1b034dcb92b03e64b67f4a07830da9bf4739a8f1b98f82"
+    },
+    {
+      "path": "fa5c182-first-source-negative/declared-04.raw",
+      "bytes": 552,
+      "sha256": "02e0f4037def1138380290b090d8561c59a7656d284cb5be3ee26a74c3b679d2"
+    },
+    {
+      "path": "fa5c182-first-source-negative/declared-05.raw",
+      "bytes": 505,
+      "sha256": "24ca23cd5c68ded33344ab8546738a9e65435cbad5d2ff2ddba38b9f24ca18f3"
+    },
+    {
+      "path": "fa5c182-first-source-negative/declared-06.raw",
+      "bytes": 571,
+      "sha256": "5f7ec55c77db7e9cf70bb87887ad2fa19edeeaa43ba9f32f34260d8a8baadb0c"
+    },
+    {
+      "path": "fa5c182-first-source-negative/declared-07.raw",
+      "bytes": 662,
+      "sha256": "cf275473e0c5a95a4fc37a1853328ff8d2b4dc1627794f6c9d45b481ea2a4592"
+    },
+    {
+      "path": "fa5c182-first-source-negative/declared-08.raw",
+      "bytes": 486,
+      "sha256": "715e80d2054762eba56ec75523541906af8e365856ab743560b10fef7398c5be"
+    },
+    {
+      "path": "fa5c182-first-source-negative/declared-09.raw",
+      "bytes": 438,
+      "sha256": "f02e2bd4ad7a5cd20784dc521de1fd954682ffbc79ee14f99da8551c5e580781"
+    },
+    {
+      "path": "fa5c182-first-source-negative/declared-10.raw",
+      "bytes": 1641,
+      "sha256": "34513f9417fafe7627d21ee2736eb3014ca7840a8259e2896336c9521bc3f340"
+    },
+    {
+      "path": "fa5c182-first-source-negative/results.json",
+      "bytes": 8197,
+      "sha256": "c6fc66a66f7d143ac5e59ce026428c75982ad593df385bdf6db3ac841f045b5f"
+    },
+    {
+      "path": "fa5c182-controller/actual-terminal-wait.json",
+      "bytes": 518,
+      "sha256": "361a9f7117c84257e790073c10782f826fcb7953e2ae8bea2120e1c1865f29e3"
+    },
+    {
+      "path": "fa5c182-controller/controller-started.json",
+      "bytes": 89,
+      "sha256": "de5e1055893f36f6d74614236742e6de3a283ccfb4d4168486a697f396532525"
+    },
+    {
+      "path": "fa5c182-controller/controller.stderr.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "fa5c182-controller/controller.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "fa5c182-controller/driver-started.json",
+      "bytes": 748,
+      "sha256": "2218a96839e55fe7c67fc756c557de92656488f82a0965b4739c15d0df66f81d"
+    },
+    {
+      "path": "fa5c182-controller/driver.stderr.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "fa5c182-controller/driver.stdout.raw",
+      "bytes": 623,
+      "sha256": "a0fcdffbd46b86fb0784e072b46d046d657858a74535044e068f8850cee9437b"
+    },
+    {
+      "path": "fa5c182-controller/launch-intent.json",
+      "bytes": 430,
+      "sha256": "31d6208c093264fb535b2cf63eb8e761adeb84462b4bb4f4849f6f39407304e3"
+    },
+    {
+      "path": "fa5c182-controller/launch-result.json",
+      "bytes": 486,
+      "sha256": "5d8fa21019855608f8e8427840360817e1bb5a36a835771d056dd1af8e9a943f"
+    },
+    {
+      "path": "methods/qualify_ops017_ph_fa5c182_once.py",
+      "bytes": 7360,
+      "sha256": "95b1fbbfd5cb79d4aaa0618beaa9f4830df123dea3490128d5ef4795584cc92c"
+    },
+    {
+      "path": "methods/ops017_ph_fa5c182_controller.py",
+      "bytes": 4594,
+      "sha256": "49b659449d1f615f71c798e010d172e4c1534a6e4f8ba5213e12afb33d3f5e8e"
+    },
+    {
+      "path": "methods/ops017-ph-safe-loaders-fa5c182-qualification-context.json",
+      "bytes": 411,
+      "sha256": "1464e628de8828c1053577875baecebaed7afabc0b389f638e86c53a48d6333b"
+    }
+  ],
+  "gitTextViewsMayHaveLFNormalization": true,
+  "authoritativeOriginalBytesAreZipEntries": true,
+  "failedSource": "fa5c18203124afa44834cd8f2487e0ec535a90c8",
+  "failedGate": "declared-10 run-task-scope-gate: old allowed-path Task prose omitted P/H",
+  "failedSourceAccepted": false,
+  "fix": "Own Task allowed-path list synchronized with already effective six registered paths; no checker or scope policy changed",
+  "createdAt": "2026-11-02T04:21:35.998308+00:00"
+}
