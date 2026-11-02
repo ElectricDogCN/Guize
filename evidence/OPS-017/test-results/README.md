@@ -87,3 +87,19 @@ See `scope-amendment-stage-v1/README.md` and the immutable `scope-amendment-v1.j
 Code PR179/source ef63e9dd613d1d87e15777131c821fb6d8bb4034/actual main ed5e4d4ad9d40d85358347760ac90bd1f73b10a7 has separate full official sourceCI923 and actual-main CI924 acceptance, original828 plus14 added cases, and independent actual-main acceptance. Source14 and actual-main7 original raw are pinned in prerequisites. Both official runs have842 unique passing tests and no bad pytest statuses; source28 steps succeeded, main23 succeeded plus the exact5 workflow conditionals skipped. The bootstrap source timeout remains a cancellation under the owner's one bootstrap exception; no performance or lifecycle exception applies. Old failed/cancelled attempts and S2 fixture failure keep their original identities in retained archives/history. No prior result is a result of this new metadata source.
 
 Only Own Program status, Registry/Task phase/role/branch/base and Own Evidence change. Current Task body and literal14, all six claims/code files, frozen5, immutable intent and amendment, ordinary ledger, foreign entries, actors and original lease stay unchanged. Current source14/full842 official CI and independent source/actual-main acceptance are UNEXECUTED. High capacity remains occupied; OPS018/POC experiments and completion remain unapproved. Rollback is a reviewed forward correction retaining all history and raw.
+
+
+## Current normal Completion proposal
+Task OPS-017 / Issue168 closed-completed / branch chore/OPS-017-normal-completion-v5 / actual base 82428752c3debc8aba77a67a10d94bc8ea0f6baa.
+Real nonempty code identity PR179/main ed5e4d4ad9d40d85358347760ac90bd1f73b10a7; accepted Review PR180/source 029cc1c1d9b06db53c1801fb93d04f76e054c9b3/main 82428752c3debc8aba77a67a10d94bc8ea0f6baa.
+Only Own Foundation completed/PR-179/code main, Own Active removal, Task status/role/branch/base and Own Evidence change. Original Task body and14-command recipe preserved; actual Completion14 argv in normal-completion-v5/commands.txt. All 56 prerequisite originals are indexed in normal-completion-v5/index.json and losslessly archived in prerequisites.zip. Current candidate checks/842CI/source and actualmain acceptance UNEXECUTED/PENDING; local completed proposal does not release actual capacity.
+Next: independent exact snapshot review, commit exact accepted bytes, run current14 and full842 CI, independent final source review, fresh expected-head ordinary merge, verify actualmain own7/fullCI/independent acceptance, then release slot and clean exact ended remote refs while preserving every local ref/workspace/original. Only afterward may OPS018 be independently reserved; no frozen-contract changes, new POC experiment or applicability grant here.
+Rollback: withdraw proposal before merge or normal forward correction preserving history; no reset/rebase/force/local deletion.
+
+Status: PASS (accepted prerequisite Review main only)
+Result: SUCCESS (accepted prerequisite Review main only)
+Source Commit: 82428752c3debc8aba77a67a10d94bc8ea0f6baa
+Task: OPS-017
+Real code merge identity: PR179 / ed5e4d4ad9d40d85358347760ac90bd1f73b10a7
+Current Completion14/full842CI/final source/actual Completion main remain UNEXECUTED/PENDING; this PASS records only already accepted prerequisites.
+Evidence: normal-completion-v5/index.json and prerequisites.zip; original integrity log entry ops017-normal-review-v5-8242875-native-main-seven/integrity.raw
