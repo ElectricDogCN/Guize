@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "kind": "POC003_OTHER_USER_NATIVE_READABILITY_GAP_READONLY_ASSESSMENT",
+  "reviewer": "/root/independent_review",
+  "reviewedAt": "2026-11-02T17:12:39Z",
+  "taskId": "POC-003",
+  "rawSource": "7e405b61d872761817a0614b3b2fdc46edde9f14",
+  "scope": "Single other_user request and its original PID130 native catalogue/lookup/export metadata only.",
+  "actual": {
+    "requestId": "1864317109fd49b4bdc2c42b7874d1d7",
+    "case": "other_user",
+    "userId": "lab-user-b",
+    "authorizationContext": "2f8de411b091ee3f646966c30cb7a2e1",
+    "sourceVersion": "base",
+    "epoch": 5,
+    "atsPid": 130,
+    "observedStatus": 206,
+    "observedBodyBytes": 8,
+    "rawTransportCompleted": true,
+    "actualOriginRequests": 1,
+    "nativeKeyId": 65,
+    "nativeLookupStatus": 0,
+    "catalogueCount": 65,
+    "lookupEventCount": 265,
+    "nativeJobCount": 1,
+    "nativeResultCount": 64,
+    "matchedUserBReadResults": []
+  },
+  "finding": "PID130's native key65 is the base-version userB context/Slice0-1048575. Its sole observed lookup for this request isMISS0. The one native export job has64 results for userA and no key65/userB result. The existing native export therefore does not prove complete/readable userB Slice state. Later PID1062 userB activity cannot backprove this earlier epoch. This is an evidence gap, not proof of cache failure.",
+  "cacheCompleteTrueSupported": false,
+  "cacheVisibleTrueSupported": false,
+  "minimalForwardDirection": {
+    "necessaryIfClaimingCanonicalFlags": true,
+    "change": "Add other_user to existing READABILITY_CASES, using the same settled/post-response/pre-clear single observed-key helper with the row's actual user. Retain all current false/unknown/error handling.",
+    "targetRequestCountBefore": 9,
+    "targetRequestCountAfter": 10,
+    "targetCaseNames": [
+      "miss",
+      "other_user",
+      "latency_cold",
+      "latency_slow"
+    ],
+    "minimumRegression": "Extend the existing hook target-selection assertion to other_user and verify same-row userB is passed to requested_slice selection; existing context-filter tests must remain. No ATS run or unrelated198 retest is needed for the code component review.",
+    "countsUnchanged": {
+      "originalCases": 21,
+      "mediaRequests": 101,
+      "lifecycleStages": 6,
+      "nativeEpochs": 26,
+      "clears": 12
+    },
+    "epoch5Budget": "The old actual epoch has one64MiB export job. One additional1MiB single-key job gives2 jobs/65MiB, within the unchanged8-job/16-control/512MiB exporter bounds. The actual helper must still check remaining counts/events/bytes rather than assume this old count.",
+    "capacity": "Every extra native read/backing and Python fixed buffer/hash/control remains included in the actual closed window and original8MiB model. A read-sidecar success is complete relevant Slice readability at observation time, not whole64MiB, physical durability or formal acceptance.",
+    "scopeLimit": "This proves a tenth specific missing witness. It is not a blanket assertion that all other request cacheComplete/cacheVisible values are proven or permission to add a native read to all101 rows."
+  },
+  "evidencePins": [
+    {
+      "ref": "work/cache-observer/cache-export-130/lookups.jsonl",
+      "bytes": 10553,
+      "sha256": "3b56766abf3c92973a9aaafdcd783321efeb82f43550c86b903ff06ccbaeee3b"
+    },
+    {
+      "ref": "work/cache-observer/cache-export-130/lookup-events.jsonl",
+      "bytes": 64282,
+      "sha256": "254f3e9084477ecf591137978d92973af3857e40f1b6581633411d0880bd87a9"
+    },
+    {
+      "ref": "work/cache-observer/cache-export-130/events.jsonl",
+      "bytes": 142,
+      "sha256": "a3189132eb76c15bc927d957895f05e8eefe11eab5ee4232041aec999694cb3f"
+    },
+    {
+      "ref": "work/cache-observer/cache-export-130/request-stage-1919f2bbb21a45e1b187396b/results.jsonl",
+      "bytes": 24021,
+      "sha256": "3015c34e2c244948d3d47a6f35de2c0eb34e6b58f5af9d381a7ccca0e82f18aa"
+    },
+    {
+      "ref": "original-matrix/observations/request-1864317109fd49b4bdc2c42b7874d1d7.json",
+      "bytes": 5126,
+      "sha256": "4c311f90e0962dc0052058463b911104809a5d81ce74790c1e28c974a0a472d5"
+    }
+  ],
+  "v2PathProbeFailures": "Root reported earlier path-mistaken V2/V3 metadata inspections; this review does not use absent-path empty arrays or those failures as evidence. It directly reads actual data/work/cache-observer/cache-export-130 and the matching request observation.",
+  "oldDataRequalified": false,
+  "current6eeOrCi935Requalified": false,
+  "implementationOrCommitApproved": false,
+  "newCaptureExecutionApproved": false,
+  "newResourceWindowApproved": false,
+  "aggregateCapacityAccepted": false,
+  "formalPocAccepted": false,
+  "nextScope": "Prepare the smallest forward code/test/metadata delta, preserve9-target source/CI history, then independently qualify the new fixed source and future method. No current source/grant/data transfer.",
+  "reviewerActions": "Read existing metadata files only; no response body or full ledger reread, no target/test/build/observer request executed."
+}

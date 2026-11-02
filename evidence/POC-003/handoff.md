@@ -1868,3 +1868,7 @@ After exact snapshot review: commit the real merge, run current15 and required s
 ## 2026-11-03 原生可读副证前向修正
 
 原19源码CI934虽然842项测试完成，仍因原30分钟时限取消，整项未接受且未合并。定点核实首miss与八cold/slow在旧epoch没有完整原生read证据；现在仅在响应计时之后、clear之前补九个同key有界TSCacheRead副证，保留原HTTP观测、21/101/6/26/12和8MiB。V1误报尝试状态的负面及原件完整保留，V2改为异常时未知，27相关回归零FES并获独审。见[native-readability-capture-v2](native-readability-capture-v2/README.md)。下一步固定新head、完整原15、新head官方完整CI及实际mainCI后，重新固定共同测量源和批准窗口，执行原矩阵及fresh热缓存撤权；当前不授Ready/merge/试验或POC结项。
+
+## 2026-11-03 另一授权用户定点可读性取证
+
+同一原始矩阵的other_user-B在epoch5/PID130仅有MISS/key65，实际原生导出只含用户A的64项；成功8B响应和后续不同epoch的B命中不能回证该缓存Slice完整可读。将other_user加入已有响应完成后、clear前的同key有界副证；原生选择按实际user/ACL保持隔离。原9个目标前向补为10个，其余原21场景/101请求/6阶段/26闭环/12清理、完整内存口径及8MiB均不变。epoch5由原1job64MiB预期增加1job1MiB，仍逐次检查真实8job/16control/512MiB额度，不代表实际已运行或通过。前一6ee/CI935结果保留，后继固定提交须独立通过本源15及完整官方CI，重新固定实际main后才能申请新矩阵及fresh撤权；任务仍in_progress。

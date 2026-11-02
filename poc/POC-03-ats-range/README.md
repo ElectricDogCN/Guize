@@ -72,3 +72,7 @@ The forward consumer uses batches of at most128 keys, preserving the unchanged n
 ## 清理前的原生可读副证
 
 在已有liveBufferObserver模式下，首miss和每条cold/slow在原HTTP响应计时及settling完成后、下一clear之前，额外读取一个已实际观测的同context Slice key。独立sidecar保留原响应和时钟，不追加媒体HTTP、六阶段或ATS进程；未观测key不构造，NO_DOC/短读/漂移保持未证明，异常中的实际读取状态保持未知。全部新增I/O和内存仍纳入原8MiB界限。此为九条证据缺口的最小捕获，尚需新源正式矩阵实测；详见[组件记录](../../evidence/POC-003/native-readability-capture-v2/README.md)。
+
+## 2026-11-03 另一授权用户定点可读性取证
+
+同一原始矩阵的other_user-B在epoch5/PID130仅有MISS/key65，实际原生导出只含用户A的64项；成功8B响应和后续不同epoch的B命中不能回证该缓存Slice完整可读。将other_user加入已有响应完成后、clear前的同key有界副证；原生选择按实际user/ACL保持隔离。原9个目标前向补为10个，其余原21场景/101请求/6阶段/26闭环/12清理、完整内存口径及8MiB均不变。epoch5由原1job64MiB预期增加1job1MiB，仍逐次检查真实8job/16control/512MiB额度，不代表实际已运行或通过。前一6ee/CI935结果保留，后继固定提交须独立通过本源15及完整官方CI，重新固定实际main后才能申请新矩阵及fresh撤权；任务仍in_progress。

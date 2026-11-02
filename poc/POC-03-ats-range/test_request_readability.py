@@ -21,6 +21,7 @@ class NativeSelectionTests(unittest.TestCase):
     def test_target_read_uses_only_the_observed_same_context_key(self):
         rows=[self.key(1,0),self.key(2,SLICE),self.key(3,0,'bob')]
         self.assertEqual([r['keyId'] for r in select_export_keys(rows,self.cfg(),'base','alice',(0,SLICE-1))],[1])
+        self.assertEqual([r['keyId'] for r in select_export_keys(rows,self.cfg(),'base','bob',(0,SLICE-1))],[3])
         self.assertEqual([r['keyId'] for r in select_export_keys(rows,self.cfg(),'base','alice')],[1,2])
     def test_missing_native_key_is_not_constructed_from_requested_range(self):
         self.assertEqual(select_export_keys([self.key(1,0)],self.cfg(),'base','alice',(SLICE,2*SLICE-1)),[])
@@ -103,9 +104,9 @@ class ReadabilityObservationTests(unittest.TestCase):
         events=[];row={}
         def response(*a):events.append('response-finished');return row
         c._request=response;c.capture_readability=lambda r:events.append('native-proof')
-        for name in ('miss','latency_cold','latency_slow','hit','latency_multi','slice'):
+        for name in ('miss','other_user','latency_cold','latency_slow','hit','latency_multi','slice'):
             events.clear();self.assertIs(c.request(name),row)
-            self.assertEqual(events,['response-finished','native-proof'] if name in ('miss','latency_cold','latency_slow') else ['response-finished'])
+            self.assertEqual(events,['response-finished','native-proof'] if name in ('miss','other_user','latency_cold','latency_slow') else ['response-finished'])
             self.assertEqual(c.request_active,0)
 
 if __name__=='__main__':unittest.main(verbosity=2)

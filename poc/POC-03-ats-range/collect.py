@@ -7,7 +7,7 @@ from lab import CASES,PINNED,context,digest,interval,unique_json,utc,write_json
 
 class NoRedirect(urllib.request.HTTPRedirectHandler):
     def redirect_request(self,*args,**kwargs):raise ValueError('redirect refused')
-READABILITY_CASES = frozenset({'miss', 'latency_cold', 'latency_slow'})
+READABILITY_CASES = frozenset({'miss', 'other_user', 'latency_cold', 'latency_slow'})
 
 class Collector:
     def __init__(self,run,out):

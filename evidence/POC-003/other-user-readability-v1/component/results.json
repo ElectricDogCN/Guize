@@ -1,0 +1,60 @@
+{
+  "kind": "OFFLINE_AND_NATIVE_FILESYSTEM_OTHER_USER_TARGET_COMPONENTS_ONLY",
+  "sourceBase": "6ee3e04cb065f000516259624804ac776146fa46",
+  "workingTreeDeltaUncommitted": true,
+  "sourcePins": {
+    "collect.py": "1b2220a6afd2e4790b17e091048dca7fcf2772c4bbcea6215beccc3700f6fd71",
+    "cache_probe.py": "b21a31751dbb84ab95d1629c9637bb898b15fca3c4f5437ab8416af2a6469399",
+    "test_request_readability.py": "83910665a4dce13dfb3d09060fbdf9e3fd9af2a4523fccde1a8e0492df466b8a"
+  },
+  "argv": [
+    "wsl.exe",
+    "-d",
+    "Ubuntu",
+    "-u",
+    "sur",
+    "--cd",
+    "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-pool-batch-performance-v1/poc/POC-03-ats-range",
+    "--",
+    "env",
+    "LD_LIBRARY_PATH=/home/sur/.cache/guize-takeover/python31117-official-runtime-v1/runtime/lib",
+    "PYTHONDONTWRITEBYTECODE=1",
+    "/home/sur/.cache/guize-takeover/python31117-official-runtime-v1/venv/bin/python",
+    "-B",
+    "-m",
+    "pytest",
+    "-q",
+    "test_request_readability.py",
+    "test_request_window.py",
+    "test_collector_raw_io.py",
+    "test_cache_probe.py",
+    "test_cache_probe_native.py",
+    "--junitxml=/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-readability-other-user-components-v1/junit.xml"
+  ],
+  "startedAt": "2026-11-02T17:13:41.195774+00:00",
+  "realAtsExperimentExecuted": false,
+  "formalPocAccepted": false,
+  "pid": 65412,
+  "actualWaitCompleted": true,
+  "exitCode": 0,
+  "finishedAt": "2026-11-02T17:13:44.503086+00:00",
+  "sourceFilesUnchanged": true,
+  "junit": {
+    "tests": 27,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "tests.stdout.raw": {
+    "bytes": 274,
+    "sha256": "80166056952531466de9a5ad5a673e3aa2bb62ed156b6e077a08c80ff554ee9d"
+  },
+  "tests.stderr.raw": {
+    "bytes": 132,
+    "sha256": "b280c454d6f559e56eb3f5ed39f3ba084b8d1744a3ff7fe016b21ff86dea1aca"
+  },
+  "junit.xml": {
+    "bytes": 4392,
+    "sha256": "15360af82fc077ab38bb799f34b796ecd95076f6339b3eb63a26be17cea113e8"
+  }
+}
