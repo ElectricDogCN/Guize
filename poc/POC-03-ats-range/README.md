@@ -64,3 +64,7 @@ The larger-input profile previously reached the old128-key catalogue cap and128M
 A real failing129-key regression is retained. The first correction passed10 Windows/11 native tests, but independent review rejected it because its simulated producer omitted the actual native128-keys-per-request constraint. That negative review and the earlier fixture-user failure remain recoverable in `evidence/POC-003/representative-cache-forward/` and the forward batch archive.
 
 The forward consumer uses batches of at most128 keys, preserving the unchanged native8-job,16-control and512MiB process budgets. It checks remaining capacity before publishing, binds each batch to its exact accepted/finished events, request and result set, and retains individual raw records plus one whole-stage source/hash verification. Insufficient capacity fails. Current10 Windows/14 native tests pass with no skips; the native file test requires a129-key single request to be refused, then verifies two legal batches of128+1 actual Slice files totaling135,266,287 bytes and the full assembled hash. The producer remains simulated with explicit native boundaries: this is a filesystem/protocol component result, not a real ATS or formal POC result. Originals are in `evidence/POC-003/representative-cache-batches-v2/`.
+
+## Payload 池按需增长候选（2026-11-02）
+
+命名ioBufAllocator的增长请求改为1，实际批量仍由原页和hugepage规则取整。计账保留全部backing及logical的保守相加，不扣减基线，也不修改8MiB要求。新构建和三类新core ABI控制已接受；完整官方CI与同一原始矩阵下的媒体容量、独立热缓存撤权和正式POC仍待验收。详见[组件证据](../../evidence/POC-003/pool-batch-component-v1/README.md)。

@@ -232,3 +232,15 @@
          alignment = ats_hugepage_size();
          newp      = ats_alloc_hugepage(alloc_size);
        }
+--- a/iocore/eventsystem/IOBuffer.cc
++++ b/iocore/eventsystem/IOBuffer.cc
+@@ -48,7 +48,8 @@
+   for (int i = 0; i < DEFAULT_BUFFER_SIZES; i++) {
+     int64_t s = DEFAULT_BUFFER_BASE_SIZE * ((static_cast<int64_t>(1)) << i);
+     int64_t a = DEFAULT_BUFFER_ALIGNMENT;
+-    int n     = i <= default_large_iobuffer_size ? DEFAULT_BUFFER_NUMBER : DEFAULT_HUGE_BUFFER_NUMBER;
++    // Grow payload pools on demand; page rounding remains in ink_freelist_init.
++    int n     = 1;
+     if (s < a) {
+       a = s;
+     }

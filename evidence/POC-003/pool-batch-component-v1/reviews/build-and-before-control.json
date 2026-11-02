@@ -1,0 +1,155 @@
+{
+  "schemaVersion": 1,
+  "kind": "POC003_ACTUAL_POOL_BATCH_BUILD_AND_FINITE_NEW_CORE_CANARY_METHOD_INDEPENDENT_REVIEW",
+  "taskId": "POC-003",
+  "reviewer": "/root/independent_review",
+  "reviewedAt": "2026-11-02T15:19:53Z",
+  "source": "7e405b61d872761817a0614b3b2fdc46edde9f14",
+  "candidate": "Exact dirty two-file payload-pool batch overlay reviewed by 10046073258ca2eeb67e239c51084fba8078be315f5d4ae91263901f979cb9ef; not a qualified new commit.",
+  "mustFix": [],
+  "actualComponentBuildAccepted": true,
+  "staticRuntimeAbiAccepted": false,
+  "canaryMethodAccepted": true,
+  "componentControlExecutionApproved": true,
+  "maximumActualAttempts": 1,
+  "approvedAt": "2026-11-02T15:19:53Z",
+  "validUntil": "2026-11-02T16:19:53Z",
+  "scope": "ONE_ORDINARY_UID1000_SYNTHETIC_NEW_CORE_FREELIST_ROUNDING_RETENTION_AND_JOURNAL_COMPONENT_CHECK_ONLY",
+  "build": {
+    "methodSha256": "efa4fe46fbc4cecb8533b804a4c4b0542f363c8f47981046ae2d6e47d6a1bd1d",
+    "actualSession": 41956,
+    "actualTerminalChunk": "0e8588",
+    "actualExitCode": 0,
+    "receipt": {
+      "path": ".takeover-tools/poc003-pool-batch-ats-build-common7e-v1/receipt.json",
+      "bytes": 54930,
+      "sha256": "770ad0e987a7abc6eaabb37b0ca3275c6c508ca8a583008b613149c374e8bf3e",
+      "exactNativeAndArchiveBytes": true
+    },
+    "sourcePreparationSha256": "b6eca998f8d8e2f8cbf6585c8be413e5cbf739e9a9b54152dde01b02919b108a",
+    "commands": [
+      {
+        "label": "autoreconf",
+        "pid": 56583,
+        "pgid": 56583,
+        "sid": 56583,
+        "startTicks": 1986951,
+        "seconds": 7.0554563449986745,
+        "exitCode": 0,
+        "actualWaitCompleted": true,
+        "timedOut": false
+      },
+      {
+        "label": "configure",
+        "pid": 57434,
+        "pgid": 57434,
+        "sid": 57434,
+        "startTicks": 1987656,
+        "seconds": 43.49845336100043,
+        "exitCode": 0,
+        "actualWaitCompleted": true,
+        "timedOut": false
+      },
+      {
+        "label": "make",
+        "pid": 65668,
+        "pgid": 65668,
+        "sid": 65668,
+        "startTicks": 1992006,
+        "seconds": 258.4241427670022,
+        "exitCode": 0,
+        "actualWaitCompleted": true,
+        "timedOut": false
+      },
+      {
+        "label": "install",
+        "pid": 98477,
+        "pgid": 98477,
+        "sid": 98477,
+        "startTicks": 2017849,
+        "seconds": 5.27748330599934,
+        "exitCode": 0,
+        "actualWaitCompleted": true,
+        "timedOut": false
+      }
+    ],
+    "allEightStageLogsSizeShaAndNativeArchiveBytesVerified": true,
+    "allSevenNativePatchedSourceAfterHashesAndThreeHeadersActuallyVerified": true,
+    "actualManifestEqualsReviewed35aManifest": true,
+    "listedArtifactCount": 245,
+    "listedArtifactByteCount": 19234943,
+    "allListedArtifactSizeShaActuallyVerified": true,
+    "inventoryBoundary": "The native receipt enumerates regular nonsymlink artifacts. Every listed artifact was independently read and checked; Windows UNC traversal was not treated as authoritative evidence of native symlink type or a complete native directory-set scan.",
+    "core": {
+      "file": "usr/lib/trafficserver/libtscore.so.9.2.3",
+      "bytes": 733304,
+      "sha256": "17c1aec20cdc64f12188e6e2acd6daabea42512822594a377bb339c012c58671"
+    },
+    "server": {
+      "file": "usr/bin/traffic_server",
+      "bytes": 7450352,
+      "sha256": "bb5a86bf01e17117751fee5284056cbb99148e7397f27c9b8d98cefc5ccb6387"
+    },
+    "interpretation": "Actual ordinary compile/install accepted. No ATS service, loaded-core runtime ABI, media capacity or performance result follows from these facts. No timeout occurred, so timeout cleanup remains source-reviewed rather than exercised by this build."
+  },
+  "canary": {
+    "method": {
+      "path": ".takeover-tools/check_poc003_pool_batch_new_core_canary_v1_once.py",
+      "bytes": 7992,
+      "sha256": "7a01efad60c24d9759b3caae41fc7813dea7b3cdb9e6f8725fba9a5dedd38566"
+    },
+    "driverSource": {
+      "path": ".takeover-tools/poc003_pool_batch_new_core_canary_v1.cc",
+      "bytes": 3612,
+      "sha256": "8eaaeaea4ad34e9299405b60619f50b69ac81c6ca38c7b2ecafbde2494461265"
+    },
+    "newNativeDirectory": "/home/sur/.cache/guize-takeover/poc003-pool-batch-ats-build-common7e-v1/pool-batch-canary-v1",
+    "newOutputDirectory": ".takeover-tools/poc003-pool-batch-new-core-canary-v1",
+    "bothUniqueDirectoriesAbsentAtReview": true,
+    "launchConditions": [
+      "Execute the exact two method/source pins only once, with the reviewed successful 770ad0... build receipt and exact 17c1ae... core still unchanged at launch. Do not substitute a later build with the same descriptive metadata.",
+      "UID1000 and both unique directories still absent; retain all outputs and failures; no retry under this record.",
+      "Do not overlap a local POC measurement window or use this component check as an ATS service/media run."
+    ],
+    "cases": "Load the exact new core with dlopen; resolve real extern-C freelist and Guize ABI functions; initialize three named pools of type128/8192/65536 with requested chunk1; hold five allocations, return them and perform128 sequential reuse cycles; verify actual chunk/allocation counters, healthy ledger, retained backing plus explicit logical charge and no retained decrease; capture live and successful final durable journal around actual owned PID/startTicks and wait0.",
+    "sourceChecks": [
+      "ink_queue.h wraps the resolved freelist functions in extern C; Guize exports are explicitly extern C and Snapshot layout comes from the exact pinned diagnostic header.",
+      "No synthetic success or mock allocator return is substituted: the native functions are dynamically called from the new core. Page-rounded actual chunk is recorded; it is not presumed to equal one.",
+      "The fixture uses its own synthetic payload bytes only, not source media. Explicit logical acquire/release calls model the existing accounting; they do not test IOBufferData wrapper acquisition wiring.",
+      "The controller checks the completed build metadata, patch/manifest, actual new IOBuffer source hash, core artifact hash and pinned driver/header; it retains actual source/build/core hashes and final core hash."
+    ],
+    "bounds": {
+      "compilerWallSeconds": 60,
+      "driverReadinessWallSeconds": 10,
+      "driverExitWaitSeconds": 10,
+      "driverAddressSpaceBytes": 536870912,
+      "driverCpuSeconds": 10,
+      "driverNoFileLimit": 256,
+      "driverCoreDumpBytes": 0,
+      "driverPerFileSizeLimitBytes": 8388608,
+      "compilerTimeoutCleanup": "Existing unreaped leader-birth anchored TERM/KILL process-group cleanup; timeout always rejects.",
+      "driverFailureCleanup": "Owned direct driver only: kill if still running, actual wait, preserve raw output and failure record."
+    },
+    "fileLimitBoundary": "RLIMIT_FSIZE is a per-file limit, not an aggregate directory quota.",
+    "resultSemantics": "The method keeps componentAccepted=false pending independent result review. Any compile/assertion, missing journal, nonzero actual exit or cleanup failure is a failure retained without retry.",
+    "limitations": [
+      "Manual ink_freelist_init(...,1,...) is not runtime evidence that traffic_server actually invoked init_buffer_allocators with the new requested count. The production source delta is separately read and bound; actual server behavior remains for the future full matrix.",
+      "The canary records actual rounded chunk and retained charge for three classes, not all possible allocator classes, contention or throughput.",
+      "Its initial snapshot may invoke the ledger API; it does not replace the separate zero-API eager-constructor proof.",
+      "The normal live/wait0 path and failure cleanup can be observed only after this approved one execution; none is asserted as already passed here.",
+      "No server helper, gate/filter, network, original media, media matrix or formal POC execution is authorized."
+    ]
+  },
+  "buildRetroactivelyApproved": false,
+  "canaryAlreadyExecuted": false,
+  "sourceQualified": false,
+  "entireSourceQualified": false,
+  "eightMiBBoundAccepted": false,
+  "aggregateCapacityProofComplete": false,
+  "newAtsServiceOrMediaExperimentApproved": false,
+  "resourceSampleWindowApprovalForPoc": false,
+  "formalPocAccepted": false,
+  "readyOrMergeApproved": false,
+  "taskCompleted": false,
+  "reviewerExecution": "Only existing files and recorded build artifacts were read; no new build, probe, test, target process or canary was run by this reviewer."
+}

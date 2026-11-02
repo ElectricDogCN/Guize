@@ -1,0 +1,653 @@
+{
+  "schemaVersion": 1,
+  "kind": "POC003_RECORDED_ORIGINAL_MATRIX_LIMITED_RESULT_INDEPENDENT_REVIEW",
+  "reviewer": "/root/independent_review",
+  "reviewedAt": "2026-11-02T15:08:07Z",
+  "taskId": "POC-003",
+  "source": "7e405b61d872761817a0614b3b2fdc46edde9f14",
+  "tree": "c71fa69757d0a7327ad8be6c646e9b73575a91c1",
+  "scope": "ONE_APPROVED_COMMON_MAIN7E405B6_ORIGINAL21_RAW_MATRIX_AND_RECORDED_CLOSURE_ONLY",
+  "rawMatrixCollectionAccepted": true,
+  "runtimeCollectionClosureAccepted": true,
+  "configurationPrePostAccepted": true,
+  "mustFix": [],
+  "actualExecution": {
+    "containerId": "10c52427f650d935d4035a889c7ebdcd5fee0afa934f1a122ca6d2e6a07af552",
+    "startedAt": "2026-11-02T14:44:24.370068+00:00",
+    "actualStartRequestedAt": "2026-11-02T14:44:25.698842+00:00",
+    "finishedAt": "2026-11-02T14:45:53.202354+00:00",
+    "outerSession": 74979,
+    "outerTerminalChunk": "7310db",
+    "outerExitCode": 0,
+    "nativeWrapperPid": 16684,
+    "actualWaitCompleted": true,
+    "controllerExitCode": 0,
+    "wrapperExitCode": 0,
+    "attachWaitExitCode": 0,
+    "engineWaitExitCode": 0,
+    "finalContainerRunning": false,
+    "finalContainerPid": 0,
+    "externalCleanup": false,
+    "oomKilled": false,
+    "owner": {
+      "pid": 8,
+      "startTicks": 1836502,
+      "actualWaitCompleted": true,
+      "exitCode": 0,
+      "epochs": 26,
+      "closed": 26,
+      "accepted": 26
+    },
+    "freshOfficialAgeAtStartSeconds": 11.613842,
+    "freshResourceAgeAtStartSeconds": 9.659228,
+    "disk": {
+      "files": 1671,
+      "logicalBytes": 1218008828,
+      "nonCacheLogicalBytes": 949573372
+    },
+    "approval": {
+      "sha256": "efa59f229c4448285fc90e3dc94a1a7290b68a3b1e44400703ff973b9c62796b",
+      "maximumActualAttempts": 1,
+      "remainingActualAttempts": 0
+    }
+  },
+  "rawCoverage": {
+    "originalCases": 21,
+    "requestRows": 101,
+    "cacheStages": 6,
+    "clearOperations": 12,
+    "nativeEpochs": 26,
+    "protectedReturnedBodyFilesIndependentlyHashed": 101,
+    "protectedSourceIntervalsEqual": 98,
+    "returnedBodyBytes": 335544556,
+    "collectorCommandsReplaced": false,
+    "profileAndTraceHooksAbsentBeforeClient": true,
+    "cooperativeStopRequested": true,
+    "clientThreadStopped": true,
+    "serveReturnedNormally": true
+  },
+  "derivation": {
+    "kind": "READONLY_REPLAY_OF_RECORDED_MATRIX_NOT_EXPERIMENT",
+    "readerPid": 56302,
+    "pureRecordedDataReplay": true,
+    "producerSource": "media_capacity.py",
+    "producerSha256": "29d88f1d98bc54ae53540b41b6cdb890e9a333800f2a45cd5a6231cccc3aa691",
+    "actualRuntimeBindings": [
+      {
+        "ref": "work/python-runtime-binding.prepare.json",
+        "sha256": "0f0936706a2bf515bbe4adad2f35373bf706bd19e5cf0afdd3256eea643c8b33",
+        "pid": 1,
+        "startTicks": 1836430,
+        "files": 14,
+        "nativeMapped": 9
+      },
+      {
+        "ref": "work/python-runtime-binding.controller.json",
+        "sha256": "18a8f1d506edce865f6dbb64b3b274aafba4f5c58ccf0ea5ea325e8b631c58a7",
+        "pid": 1,
+        "startTicks": 1836430,
+        "files": 14,
+        "nativeMapped": 9
+      },
+      {
+        "ref": "original-matrix/python-runtime-binding.collector.json",
+        "sha256": "99738f98883bc363dd67ccfd3ba88b8e434aa41026615824cd2b66d0dff8218e",
+        "pid": 1,
+        "startTicks": 1836430,
+        "files": 14,
+        "nativeMapped": 9
+      }
+    ],
+    "expectedComponentCount": 18,
+    "expectedComponentSha256": {
+      "/poc/runtime/pkgroot/usr/bin/traffic_server": "d11095d0334e15530a5a4c1b16ce9348ead5fdb547c15950e024b5bbf6dfdd36",
+      "/poc/runtime/pkgroot/usr/lib/trafficserver/libtscore.so.9.2.3": "8fca4f40bcd0762576e36b16acffc69c7d84389f66069c5cf845f7e10d20418f",
+      "/poc/runtime/pkgroot/usr/lib/trafficserver/modules/slice.so": "1f8d3f0af3a1e7f2119a33a6a4ae446931297eebbaf671daf7b5d89ad0729adf",
+      "/poc/runtime/pkgroot/usr/lib/trafficserver/modules/cache_range_requests.so": "62bd3c96066b65fee359367a82861d3908bbb55b768d5ff9472b36938a7922f9",
+      "/poc/runtime/pkgroot/usr/lib/trafficserver/modules/header_rewrite.so": "9dee1bf3062d3a62ed45f6ccdb04efb779e7a63977738713143cce3cfac6e9bf",
+      "/poc/plugins/cache_export.so": "3b4d1797321e7d1837f2ca0e475b1372ed39aeb964276ce33ad590015bbb4775",
+      "/poc/plugins/live_buffer_observer.so": "cf8df39fd71b3d892aa3eb5e46f111957dca6727e2806fb620105a416dc56044",
+      "/runlab/work/etc/records.config": "97a97d021e16fbf3994511ed1bbe4edc81235574f0cdf9f0f7cb861485a82d1b",
+      "/runlab/work/etc/remap.config": "569c24e598a12b1f43af6b273cc57b0571c044594e76bbbb4cc5884609924462",
+      "/runlab/work/etc/plugin.config": "d09905f54f1357c7f952c9b9e919e1fcfb1cab84729e340b6dd8b85e1b69529c",
+      "/runlab/work/etc/storage.config": "ea46c9e3bb375ecd5f256517d84674bb6552bc68809c696a0d0e4ac0bd3f592e",
+      "/runlab/work/etc/lab-guard.conf": "d9b8adcac652dd94f246e6015792867f0599e7a39f4cdb61f5ddf7a098b79c92",
+      "/runlab/work/etc/poc003-empty-ssl-multicert.config": "26a23c890cd362ebece599e29bb629c404a04f64129fefd8f90de9b24e31d066",
+      "/runlab/work/runroot.yaml": "584ce4bb68383bb82d2f2d89d4266078298c7a4a77822d6fcb3d752765849eb1",
+      "/poc/source/poc/POC-03-ats-range/epoch_owner.py": "30b9cfc4b22f297e8dc822c8a15e2f84a4f7f5fbe69cc7ad708abed74e7c8a8e",
+      "/poc/source/poc/POC-03-ats-range/instrumentation/single_exec_gate.py": "01576f6ba76630a5f96174d6ccc5203c532c054b175b656f6a383701c1304b62",
+      "/poc/source/poc/POC-03-ats-range/instrumentation/single_exec_filter.py": "26ccbac40fd8d26d893e067576f2849a4b7b1524141bf0d24229257d2fffd0ce",
+      "/usr/local/bin/python3.12": "0e6475dfda68a9b2d93501449fc47593ca169010e8f4881577b97463fd0c1263"
+    },
+    "serialNative": {
+      "epochCount": 26,
+      "epochs": [
+        {
+          "token": "0",
+          "pid": 9,
+          "startTicks": 1836545,
+          "rawSha256": "1b589ba16d5c20b0ae3fa4fe882d96b7f5b8d1a43bf9feb3af73d437eee89558",
+          "peakBytes": 524288
+        },
+        {
+          "token": "1",
+          "pid": 30,
+          "startTicks": 1836606,
+          "rawSha256": "a79bb6d90098d43ee6500153d7e087d9d04844358be07b98e81e8c9c1bce18b4",
+          "peakBytes": 5246976
+        },
+        {
+          "token": "2",
+          "pid": 50,
+          "startTicks": 1836774,
+          "rawSha256": "442593cf0f400f46e09414dfe6b9c475a5cd49c4093a1a88c20f78ea82f53943",
+          "peakBytes": 4194304
+        },
+        {
+          "token": "3",
+          "pid": 76,
+          "startTicks": 1836798,
+          "rawSha256": "e4ed3b25732f0c525ff7ccfc849ebc2df636df596ddd65b640f1adc872fca263",
+          "peakBytes": 6750208
+        },
+        {
+          "token": "4",
+          "pid": 104,
+          "startTicks": 1837063,
+          "rawSha256": "43ec1238404e66d0c1df23d3d8e8ac2edd33b3444d11c43d7b16d9e8166d1e76",
+          "peakBytes": 4194304
+        },
+        {
+          "token": "5",
+          "pid": 130,
+          "startTicks": 1837088,
+          "rawSha256": "d72d9b0489a1e53130fa5ce5d62043c3ba4716f645bc899806856fcec5e7565e",
+          "peakBytes": 13602816
+        },
+        {
+          "token": "6",
+          "pid": 534,
+          "startTicks": 1839278,
+          "rawSha256": "619bde8203edda747690d6657ca5d77b68fc9a8199162b962a35e4a773cd9265",
+          "peakBytes": 4194304
+        },
+        {
+          "token": "7",
+          "pid": 560,
+          "startTicks": 1839304,
+          "rawSha256": "08fdfc4281aae8b3a6b1d45c1c6c8290f3a6b6ea4590d1a7fbc97151d24a12f1",
+          "peakBytes": 15101952
+        },
+        {
+          "token": "8",
+          "pid": 630,
+          "startTicks": 1841525,
+          "rawSha256": "153480e1333100585c0b792c968c5001153c87001cbb2985d88f3193cd0343d4",
+          "peakBytes": 4194304
+        },
+        {
+          "token": "9",
+          "pid": 656,
+          "startTicks": 1841771,
+          "rawSha256": "168d1d32a0134a32aca31d0a006cc3dce84875056b96f953c84dff72c81e042d",
+          "peakBytes": 6750208
+        },
+        {
+          "token": "10",
+          "pid": 680,
+          "startTicks": 1841972,
+          "rawSha256": "5368fa804d8fd1895621b176d15011f088232ae60977671954d351f663b1cbd0",
+          "peakBytes": 4194304
+        },
+        {
+          "token": "11",
+          "pid": 706,
+          "startTicks": 1842006,
+          "rawSha256": "3c86c0502b9ca95c8805b6559347704994e974a097b6692ea7e2466ed2dab012",
+          "peakBytes": 6750208
+        },
+        {
+          "token": "12",
+          "pid": 730,
+          "startTicks": 1842214,
+          "rawSha256": "f67b9bda9dfa3265be6f4a566180fe4b535fc9af18669255fe7cd0b64be200d4",
+          "peakBytes": 4194304
+        },
+        {
+          "token": "13",
+          "pid": 756,
+          "startTicks": 1842241,
+          "rawSha256": "ea11a3ad0ae32ad6c527ecfdff407fb4fb3dc7813afceb2837b7fc517ff8d142",
+          "peakBytes": 6750208
+        },
+        {
+          "token": "14",
+          "pid": 780,
+          "startTicks": 1842441,
+          "rawSha256": "7647cb609f3cfbe47cf78c72bc315a9369afeb0e6d0a1c754f2f9a6c180e5980",
+          "peakBytes": 4194304
+        },
+        {
+          "token": "15",
+          "pid": 806,
+          "startTicks": 1842472,
+          "rawSha256": "4ccd4c933b73f322ba51f0e3529cf6ecd34b386177a3146b64bff1aeeaff5430",
+          "peakBytes": 6750208
+        },
+        {
+          "token": "16",
+          "pid": 830,
+          "startTicks": 1842677,
+          "rawSha256": "f35b50ff9e445ab72f6d895e94abaf9a26023f299614b057b77a87193c648e44",
+          "peakBytes": 4194304
+        },
+        {
+          "token": "17",
+          "pid": 856,
+          "startTicks": 1842706,
+          "rawSha256": "159a773496c5f9bc02000a4c04117d68f55a3f9812e6ecd00db434dac4b4aeb0",
+          "peakBytes": 6750208
+        },
+        {
+          "token": "18",
+          "pid": 898,
+          "startTicks": 1843027,
+          "rawSha256": "3461d97ef8e71a8fe3aa7a1bfc11733ca83d19e1e773977810c850079795c056",
+          "peakBytes": 4194304
+        },
+        {
+          "token": "19",
+          "pid": 924,
+          "startTicks": 1843058,
+          "rawSha256": "327e0108cd0733fe507d7d88b151d952ed6bbf3c8d072a4a12471d7bc5511b81",
+          "peakBytes": 6750208
+        },
+        {
+          "token": "20",
+          "pid": 967,
+          "startTicks": 1843384,
+          "rawSha256": "9d898b1494b4e065a9db3e3f9ab3e1d51e5475de2adfa7721b9f8d5d0efdbc18",
+          "peakBytes": 4194304
+        },
+        {
+          "token": "21",
+          "pid": 993,
+          "startTicks": 1843415,
+          "rawSha256": "7de19a715c8954a7798d99aabfdf31b8d9b96a1ae889dd4f3d1c82391954870a",
+          "peakBytes": 6750208
+        },
+        {
+          "token": "22",
+          "pid": 1036,
+          "startTicks": 1843734,
+          "rawSha256": "732e51c33f0ea7f27bc97b569ea598fea56ab3deb08715f2daa00a8d09930aa0",
+          "peakBytes": 4194304
+        },
+        {
+          "token": "23",
+          "pid": 1062,
+          "startTicks": 1843765,
+          "rawSha256": "7c12a841735413596ab5c9c8ee5c3eb3ee7ad4075fab3bceb0b7e2bc90fba240",
+          "peakBytes": 15929344
+        },
+        {
+          "token": "24",
+          "pid": 1156,
+          "startTicks": 1844671,
+          "rawSha256": "550ac80d58210c51c9fe1be1e62e5f11f8f94daf5ae43d8eac3de9748951417b",
+          "peakBytes": 4194304
+        },
+        {
+          "token": "25",
+          "pid": 1182,
+          "startTicks": 1844721,
+          "rawSha256": "fabe75a6e616c19eb4eaf79f5505a9b8238f2f163cc2e88d180dfa3d3951c46e",
+          "peakBytes": 5246976
+        }
+      ],
+      "maximumTrackedCapacityBytes": 15929344,
+      "aggregation": "max of complete actual serialized target epochs, conditional on the pinned singleton owner source"
+    },
+    "closedSourceRequestPeaks": {
+      "origin": 1,
+      "gateway": 2,
+      "collector": 2
+    },
+    "broaderHttpAdmissionPeaks": {
+      "origin": 3,
+      "gateway": 2,
+      "collector": 2
+    },
+    "conservativeCapacity": {
+      "terms": {
+        "native": 15929344,
+        "origin": 73729,
+        "gateway": 819220,
+        "collector": 1064984,
+        "synchronousPhase": 1048577,
+        "hash": 24576
+      },
+      "maximumBufferedBytes": 18960430,
+      "sourcePayloadOwnerPeaks": {
+        "origin": 1,
+        "gateway": 2,
+        "collector": 2,
+        "externalRevocation": 0
+      },
+      "sourceAndWindowConditionsRequired": true,
+      "independentAggregateAccepted": false,
+      "formalPocAccepted": false
+    },
+    "broaderHttpAdmissionCapacity": {
+      "terms": {
+        "native": 15929344,
+        "origin": 221187,
+        "gateway": 819220,
+        "collector": 1064984,
+        "synchronousPhase": 1048577,
+        "hash": 32768
+      },
+      "maximumBufferedBytes": 19116080,
+      "sourcePayloadOwnerPeaks": {
+        "origin": 3,
+        "gateway": 2,
+        "collector": 2,
+        "externalRevocation": 0
+      },
+      "sourceAndWindowConditionsRequired": true,
+      "independentAggregateAccepted": false,
+      "formalPocAccepted": false
+    },
+    "criticalNativePeak": {
+      "token": "23",
+      "pid": 1062,
+      "startTicks": 1843765,
+      "rawSha256": "7c12a841735413596ab5c9c8ee5c3eb3ee7ad4075fab3bceb0b7e2bc90fba240",
+      "peakBytes": 15929344,
+      "journalRow": {
+        "kind": "INSTRUMENTED_ATS_DURABLE_PEAK",
+        "schemaVersion": 1,
+        "pid": 1062,
+        "startTicks": 1843765,
+        "sequence": 61,
+        "abiVersion": 1,
+        "generation": 0,
+        "accountingWindow": "process-lifetime",
+        "beforeMonotonicNs": 18441663377873,
+        "peakBytes": 15929344,
+        "currentBytes": 15929344,
+        "currentByKind": [
+          11735040,
+          4194304,
+          0,
+          0
+        ],
+        "acquisitions": [
+          397,
+          1,
+          0,
+          0
+        ],
+        "releases": [
+          338,
+          0,
+          0,
+          0
+        ],
+        "violations": 0,
+        "uncoveredExternalEvents": 0
+      },
+      "positiveKind0GrowthSteps": [
+        4096,
+        8192,
+        24576,
+        28672,
+        32768,
+        36864,
+        65536,
+        131072,
+        262144,
+        524288,
+        1048576,
+        2027520,
+        4194304
+      ]
+    },
+    "interpretation": "Both totals are conservative accounting/model results, not an exact simultaneous live-media lower bound. Native kind0 combines retained pool backing and logical capacities; its growth deltas do not identify individual pool bins. No pool baseline may be subtracted. The unchanged 8388608-byte limit has not been proved."
+  },
+  "partialObservation": {
+    "rawRows": [
+      {
+        "case": "interrupted",
+        "requestId": "ce080cc26fbc418f8591c567b8665612",
+        "startedAt": "2026-11-02T14:44:55.301979Z",
+        "finishedAt": "2026-11-02T14:45:05.414184Z",
+        "statusCode": 206,
+        "bodyBytes": 4,
+        "transportCompleted": false,
+        "sourceVersion": "base",
+        "sourceSha256": "938a8bc3e0a64184f1551bff0c500dc891366ead8f30f8f83753587e763c1c26",
+        "aclVersion": "poc003-common-main7e405b6-original-matrix-acl-v1",
+        "authorizationContext": "821ff785424ba87789af8487fcff5cc8",
+        "requestRange": "bytes=0-7",
+        "bodySha256": "9836d2e53fe5c8db54a54e46a48d4a3db396797483f75ab8718953ca28bd86dc",
+        "originRequests": 1,
+        "objectReads": 1,
+        "objectReadBytes": 4
+      },
+      {
+        "case": "partial_read",
+        "requestId": "4327d19f881142c69c043df967d7aea2",
+        "startedAt": "2026-11-02T14:45:06.850740Z",
+        "finishedAt": "2026-11-02T14:45:06.920185Z",
+        "statusCode": 503,
+        "bodyBytes": 0,
+        "transportCompleted": true,
+        "sourceVersion": "base",
+        "sourceSha256": "938a8bc3e0a64184f1551bff0c500dc891366ead8f30f8f83753587e763c1c26",
+        "aclVersion": "poc003-common-main7e405b6-original-matrix-acl-v1",
+        "authorizationContext": "821ff785424ba87789af8487fcff5cc8",
+        "requestRange": "bytes=0-7",
+        "bodySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "originRequests": 1,
+        "objectReads": 0,
+        "objectReadBytes": 0
+      },
+      {
+        "case": "recovered",
+        "requestId": "b12f2c2ab9d64f2da9875e7486ea1d6d",
+        "startedAt": "2026-11-02T14:45:07.080529Z",
+        "finishedAt": "2026-11-02T14:45:07.267601Z",
+        "statusCode": 206,
+        "bodyBytes": 8,
+        "transportCompleted": true,
+        "sourceVersion": "base",
+        "sourceSha256": "938a8bc3e0a64184f1551bff0c500dc891366ead8f30f8f83753587e763c1c26",
+        "aclVersion": "poc003-common-main7e405b6-original-matrix-acl-v1",
+        "authorizationContext": "821ff785424ba87789af8487fcff5cc8",
+        "requestRange": "bytes=0-7",
+        "bodySha256": "7275a918178823dd3531ca933d3c9ad23249a72a483d270b0034eb9d465ecc15",
+        "originRequests": 1,
+        "objectReads": 16,
+        "objectReadBytes": 1048576
+      }
+    ],
+    "cacheStageCounts": [
+      [
+        "before",
+        0,
+        false
+      ],
+      [
+        "filled",
+        64,
+        false
+      ],
+      [
+        "interrupted",
+        1,
+        false
+      ],
+      [
+        "recovered",
+        64,
+        false
+      ],
+      [
+        "updated",
+        64,
+        false
+      ],
+      [
+        "cleanup",
+        0,
+        false
+      ]
+    ],
+    "actualNativeCacheOpenFailure": "TS_CACHE_ERROR_NO_DOC=-20400; fixed ATS9.2.3 include/ts/apidefs.h.in:598",
+    "observedMeaning": "An interrupted 206 delivered four bytes; the same source/version/ACL and range then returned 503 with zero protected body while origin was unavailable. After restoring the origin without clearing/changing that context, a 206 delivered the requested eight bytes and refetched a full 1MiB slice. The native export reported no complete document.",
+    "logicalUnpublishedPartialIsolationSupported": true,
+    "physicalDiskDiscardProven": false,
+    "typedMeasurementAccepted": false,
+    "transportCaveat": "partial_read.transportCompleted=true records a completed HTTP503 exchange. Preserve that original value. Mapping a distinct protected-transfer completion field requires explicit semantic derivation; do not silently rewrite raw transportCompleted to false.",
+    "frozenScope": "The frozen checker requires failed protected read and nonvisible/noncomplete cache state; it does not add a physical-disk deletion measurement named partialDiscardProven."
+  },
+  "sameRunLatencyObservations": {
+    "samplesMs": {
+      "latency_hot": [
+        8.678407000843436,
+        12.043601000186754,
+        12.489819997426821,
+        14.447290002863156
+      ],
+      "latency_cold": [
+        248.49336199986283,
+        273.7395859985554,
+        297.14624999905936,
+        304.2009729979327
+      ],
+      "latency_slow": [
+        523.6138389991538,
+        550.6252369996218,
+        564.2796159991121,
+        615.1174269980402
+      ],
+      "latency_multi": [
+        8.755557999393204,
+        10.120812999957707,
+        19.958668999606743,
+        125.92341100025806
+      ]
+    },
+    "nearestRankP95Ms": {
+      "latency_hot": 14.447290002863156,
+      "latency_cold": 304.2009729979327,
+      "latency_slow": 615.1174269980402,
+      "latency_multi": 125.92341100025806
+    },
+    "observedOnly": true,
+    "latencyAcceptance": false
+  },
+  "pocQualificationBlockers": [
+    "The conservative 18960430-byte capacity calculation (19116080 using broader HTTP admissions) cannot establish the unchanged 8388608-byte upper bound.",
+    "Canonical 21-case/15-measurement semantic assembly and frozen qualification remain unaccepted; preserve raw failures and HTTP completion semantics.",
+    "A separately authorized fresh warm-cache real-CLI revocation observation on the final tested source remains necessary."
+  ],
+  "minimumNextActions": [
+    "Review the proposed real payload-pool batch reduction against actual ink_freelist rounding and retained-backing accounting; do not alter counters, domain, samples, matrix or limit.",
+    "If a new core is built, bind its exact artifacts and relevant pool/journal/lifetime checks; retain current sources/builds and raw results.",
+    "A changed runtime requires its new fixed source checks/full source CI, ordinary integration/main checks/full main CI and independent acceptance, then fresh common-source inputs/configuration/resource/window approval and the original complete matrix.",
+    "Derive partial logical isolation from the preserved NO_DOC/503/refetch sequence with an explicit typed semantic mapping; do not invent a disk-deletion gate.",
+    "Run the separately approved fresh warm-cache revocation method only on the final qualified source, then assemble the original frozen results."
+  ],
+  "aggregateCapacityProofComplete": false,
+  "eightMiBBoundAccepted": false,
+  "allFifteenMeasurementsAccepted": false,
+  "formalPocAccepted": false,
+  "taskCompleted": false,
+  "newExperimentApproved": false,
+  "newBuildApproved": false,
+  "newResourcesApproved": false,
+  "evidencePins": [
+    {
+      "ref": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-common-main7e405b6-original-matrix-v1\\results.json",
+      "bytes": 86028,
+      "sha256": "a3ce17b1edb321f2c190d07eb28f374dc032da426fbb5b2cbb9569cff839a2c2"
+    },
+    {
+      "ref": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-common-main7e405b6-original-matrix-launch-v1\\results.json",
+      "bytes": 10163,
+      "sha256": "87854c4361eccba437f5760b6c9acb19262938bfdcb2030e04ab6666acc7ee68"
+    },
+    {
+      "ref": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-common-main7e405b6-original-matrix-launch-v1\\native.stdout.raw",
+      "bytes": 279,
+      "sha256": "4c6314fb6ed519f13241f2dc657df248837cbb0591953105e15ab2a4e2754e62"
+    },
+    {
+      "ref": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-common-main7e405b6-original-matrix-launch-v1\\native.stderr.raw",
+      "bytes": 132,
+      "sha256": "b280c454d6f559e56eb3f5ed39f3ba084b8d1744a3ff7fe016b21ff86dea1aca"
+    },
+    {
+      "ref": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-common-main7e405b6-original-matrix-launch-v1\\fresh-official.actual.json",
+      "bytes": 113988,
+      "sha256": "5890de76795df94b6e81b59da5bfa7c4dd5d52b4e6888440a5a89ebe94183e9c"
+    },
+    {
+      "ref": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-common-main7e405b6-original-matrix-launch-v1\\fresh-resource.actual.json",
+      "bytes": 4435,
+      "sha256": "969da83ff4f1b345cc85dc7ea57f487827db2a02695ff00c8cd398f90d839c93"
+    },
+    {
+      "ref": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-common-main7e405b6-original-matrix-launch-v1\\independent-approval.actual.json",
+      "bytes": 17720,
+      "sha256": "efa59f229c4448285fc90e3dc94a1a7290b68a3b1e44400703ff973b9c62796b"
+    },
+    {
+      "ref": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-common-main7e405b6-original-matrix-v1\\start.stdout.raw",
+      "bytes": 149,
+      "sha256": "5eb0fb1508f6caf8c75ec7969e5f867544fb44185a1a8cf79d7fa529360b4235"
+    },
+    {
+      "ref": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-common-main7e405b6-original-matrix-v1\\start.stderr.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "ref": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-common-main7e405b6-original-matrix-v1\\created-inspect.stdout.raw",
+      "bytes": 11264,
+      "sha256": "f27de395ca7276b444704c387525768e902aa0efadee19a21dc5028e47df9910"
+    },
+    {
+      "ref": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-common-main7e405b6-original-matrix-v1\\final-inspect.stdout.raw",
+      "bytes": 11646,
+      "sha256": "9ed389a97e6aa5624ba7848d36235ec0fd28a5cc99c2d4a02599ceb611112b2d"
+    },
+    {
+      "ref": "\\\\wsl.localhost\\Ubuntu\\home\\sur\\.cache\\guize-takeover\\poc003-common-main7e405b6-original-matrix-v1\\data\\original-matrix\\collection.json",
+      "bytes": 2416365,
+      "sha256": "0e942c9223c8ec2ae7fa5dee761b31ccdef11328e8224ee3a4afb4b9db3c4efe"
+    },
+    {
+      "ref": "\\\\wsl.localhost\\Ubuntu\\home\\sur\\.cache\\guize-takeover\\poc003-common-main7e405b6-original-matrix-v1\\data\\work\\media-request-window-closed.json",
+      "bytes": 1413,
+      "sha256": "1cc27f14ed29f5229682709e38c9ecf45e42fc8cb0d9b5b1fbc75bba8a46e36a"
+    },
+    {
+      "ref": "\\\\wsl.localhost\\Ubuntu\\home\\sur\\.cache\\guize-takeover\\poc003-common-main7e405b6-original-matrix-v1\\data\\work\\execution-owner-wait.json",
+      "bytes": 293,
+      "sha256": "3d48eb3198299c1fbaf27fb77321a6728694fe247098718d0c2ba819f17861c4"
+    },
+    {
+      "ref": "\\\\wsl.localhost\\Ubuntu\\home\\sur\\.cache\\guize-takeover\\poc003-common-main7e405b6-original-matrix-v1\\data\\raw-matrix-client.json",
+      "bytes": 2057,
+      "sha256": "1343d68f12425ee620211e151274a5856d17e655715152462c3e5ccdaf486523"
+    }
+  ],
+  "limitations": [
+    "This review replays existing immutable records only and does not authorize rerunning the consumed attempt.",
+    "Actual native journal/owner closure establishes the recorded top-process and fixed single-exec controls; it does not establish an unrelated process family or a future runtime.",
+    "Configuration, source, public runtime binding and actual waits were checked. Private settings/control credentials are retained privately and are neither printed nor copied here."
+  ]
+}

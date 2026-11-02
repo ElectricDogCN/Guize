@@ -1,0 +1,122 @@
+{
+  "schemaVersion": 1,
+  "kind": "POC003_POOL_BATCH_SOURCE_AND_BUILD_METHOD_STATIC_INDEPENDENT_REVIEW",
+  "taskId": "POC-003",
+  "reviewer": "/root/independent_review",
+  "reviewedAt": "2026-11-02T15:10:02Z",
+  "source": "7e405b61d872761817a0614b3b2fdc46edde9f14",
+  "tree": "c71fa69757d0a7327ad8be6c646e9b73575a91c1",
+  "author": ".takeover-tools/poc003-pool-batch-performance-v1",
+  "branch": "chore/POC-003-ats-range",
+  "componentContentAccepted": true,
+  "componentBuildMethodAccepted": true,
+  "limitedOrdinaryCompileScopeAcceptable": true,
+  "mustFix": [],
+  "prospectiveExecutionApprovalIssued": false,
+  "retrospectiveApprovalIssued": false,
+  "executionTiming": "At the 2026-11-02T15:10:02Z read-only check the unique native build root already existed. Root subsequently reported session41956/starta68f91 live. This receipt is a source/method review, not an approval falsely dated before that actual start. No build result is accepted here.",
+  "scope": "Exact two tracked instrumentation input files and the exact V2 ordinary-user compile/install method only; no service, media experiment or performance result.",
+  "physicalPins": [
+    {
+      "path": "poc/POC-03-ats-range/instrumentation/ats-live-buffer-accounting.patch",
+      "bytes": 8840,
+      "sha256": "590f7a4bc9a044cbc6321ae1b1e20462aee681c0b122d6518dc2c1c9fcb072bf"
+    },
+    {
+      "path": "poc/POC-03-ats-range/instrumentation/patch-manifest.json",
+      "bytes": 4671,
+      "sha256": "35a018339cc0bf54a2fc91cf518a787e1ecf1f4a63d9ce91d155b328ba43ef40"
+    },
+    {
+      "path": ".takeover-tools/build_poc003_pool_batch_ats_native_common7e_v2_once.py",
+      "bytes": 9548,
+      "sha256": "efa4fe46fbc4cecb8533b804a4c4b0542f363c8f47981046ae2d6e47d6a1bd1d"
+    },
+    {
+      "path": ".takeover-tools/poc003-pool-batch-performance-code-diff-v1.patch",
+      "bytes": 3105,
+      "sha256": "6cf242565b4127b73401420afada78d72d97130f9acd3c5c2aa9602f8a9ac61a"
+    }
+  ],
+  "sourceFindings": {
+    "actualGitHeadAndBranchVerified": true,
+    "exactTrackedDeltaPaths": 2,
+    "existingSixFileAccountingPatchBytePrefixUnchanged": true,
+    "existingSixManifestFileRecordsUnchanged": true,
+    "allOtherExistingManifestFieldsUnchanged": true,
+    "threeAdditionalHeaderHashesActuallyMatch": true,
+    "additionalNativeFile": {
+      "path": "iocore/eventsystem/IOBuffer.cc",
+      "beforeSha256": "d9e1a686b285208817514be062f484ac0b57670aee00d004b825c6641d5975ec",
+      "afterSha256": "3cca322c0111c68e205a3bc4af7faf4ec7b9e49db7b98d4d9f58d38e1d89db89",
+      "independentlyReconstructedInMemory": true,
+      "change": "Only init_buffer_allocators requested payload backing-pool growth count changes from the original 128/32 selection to 1."
+    },
+    "sourceReferences": [
+      {
+        "path": "iocore/eventsystem/IOBuffer.cc",
+        "line": 46,
+        "meaning": "init_buffer_allocators loops the named ioBufAllocator payload pools; class allocators declared above remain unchanged."
+      },
+      {
+        "path": "include/tscore/Allocator.h",
+        "line": 107,
+        "meaning": "Allocator::re_init forwards requested chunk_size to ink_freelist_madvise_init."
+      },
+      {
+        "path": "src/tscore/ink_queue.cc",
+        "line": 122,
+        "meaning": "ink_freelist_init aligns actual type_size and rounds requested aggregate bytes to page or huge-page size before calculating actual f->chunk_size."
+      },
+      {
+        "path": "src/tscore/ink_queue.cc",
+        "line": 208,
+        "meaning": "The retained backing growth is actual chunk_size*type_size. Existing diagnostic precharge accounts the checked rounded backing and never decrements on logical pool return."
+      }
+    ],
+    "interpretation": "This is a real allocation policy change with potential throughput/allocation-frequency cost, not a measurement-domain change. Requested one is not necessarily one actual element: page/huge-page rounding remains. It may reduce retained preallocation, but static inspection cannot prove a total 8MiB bound or quantify real runtime benefit.",
+    "unchanged": [
+      "All global DEFAULT_BUFFER_NUMBER/HUGE constants and nonpayload class allocator declarations",
+      "Existing retained-plus-logical accounting, acquisition/release ABI, durable journal and sticky invalidation",
+      "Original 8388608-byte acceptance threshold, source samples, Slice size and original matrix"
+    ]
+  },
+  "buildMethod": {
+    "version": 2,
+    "sha256": "efa4fe46fbc4cecb8533b804a4c4b0542f363c8f47981046ae2d6e47d6a1bd1d",
+    "priorUnexecutedV1Sha256": "b9177baf2f7cb3ab9a0ad1fcaf06df73079a7276e019ea5948a8188684cea161",
+    "v1ToV2Delta": "Read manifest bytes once, verify complete 35a018... physical SHA before JSON parsing. No other V1 behavior changed.",
+    "maximumActualAttempts": 1,
+    "uid": 1000,
+    "newNativeRoot": "/home/sur/.cache/guize-takeover/poc003-pool-batch-ats-build-common7e-v1",
+    "newArchive": ".takeover-tools/poc003-pool-batch-ats-build-common7e-v1",
+    "sourceArchiveSha256": "0e323e1c4c01d1506cfd49d4c6935dbebd125b187d9ba72fe909bd6b10d81110",
+    "originalSourcePreparationSha256": "4fdd78a4247ce7d898690351aca4bce5c1f6832a4c38f59ebc31da0663deffd6",
+    "verifiedDesign": [
+      "New ordinary-user destination; old native builds/source trees and archives not modified",
+      "Exact original source archive and exact Ubuntu patch-series rows matched against prior preparation",
+      "All seven pre-patch file hashes, complete manifest hash, native patch hash and three header hashes checked; after-patch file hashes checked",
+      "autoreconf/configure/install 180 seconds each; make -j2 1200 seconds; original build flags/layout retained",
+      "Fresh process session and recorded PID/PGID/SID/startTicks for each compile stage; timeout preserves unreaped leader birth anchor through group TERM/KILL scan and actual leader wait",
+      "Any stage timeout is failure even if a raced exit code becomes zero; nonzero stage stops later stages",
+      "Raw stage logs with byte/hash pins, actual return codes and waits; fresh pkgroot artifact inventory and terminal archive"
+    ],
+    "boundary": "The inherited normal-stage wait semantics are compile-stage facts, not proof of an arbitrary escaped process family. The method does not launch ATS services or media, change host settings, use privileged installation, or authorize a subsequent runtime canary.",
+    "actualBuildCompleted": false,
+    "actualArtifactsAccepted": false
+  },
+  "nextNecessaryEvidence": [
+    "Review actual compile-stage waits, timeouts/cleanup if triggered, exact original archive/patch/header inputs and fresh installed artifacts. A successful compile alone does not establish runtime ABI or capacity.",
+    "Bind new core/server/plugin artifacts, static ELF dependencies and relevant ledger/pool/journal health checks. A bounded actual allocator check should record requested versus actual page-rounded growth, full retained backing charge, reuse and logical return; no baseline subtraction. Such future native execution needs its own concrete method review.",
+    "Use the new source checks and full source CI, ordinary integration/main checks/full main CI and independent acceptance before freezing the new common tested source. Do not carry current M7e's runtime qualification or consumed matrix approval onto changed binaries.",
+    "Run the unchanged complete original matrix under new exact input/configuration/resource/window approval and evaluate all 26 complete native epochs plus closed Python/HTTP/Collector windows, all original response/latency obligations, and fresh warm-cache revocation on the final source.",
+    "Unchanged kernel gate/policy and the prior 198 offline tests keep their original scope. Do not repeat unrelated accepted controls solely to label this compile result."
+  ],
+  "eightMiBBoundAccepted": false,
+  "aggregateCapacityProofComplete": false,
+  "entireSourceQualified": false,
+  "formalPocAccepted": false,
+  "taskCompleted": false,
+  "newRuntimeOrMediaExperimentApproved": false,
+  "readyOrMergeApproved": false
+}

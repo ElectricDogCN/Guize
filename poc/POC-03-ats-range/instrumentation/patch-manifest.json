@@ -30,9 +30,14 @@
       "path": "src/tscore/ink_queue.cc",
       "beforeSha256": "83c38349f8cc56734f74ece47fe515f5b2d80869eaf155adb793b247647fbc8f",
       "afterSha256": "2db32f95c747618a8d370f565d7355d0900c90f6ea092b082a7302eadcf5f621"
+    },
+    {
+      "path": "iocore/eventsystem/IOBuffer.cc",
+      "beforeSha256": "d9e1a686b285208817514be062f484ac0b57670aee00d004b825c6641d5975ec",
+      "afterSha256": "3cca322c0111c68e205a3bc4af7faf4ec7b9e49db7b98d4d9f58d38e1d89db89"
     }
   ],
-  "patchSha256": "283986264c5e166aad94ad537cbeeb460993b531a58caca8c9aa116d423e79f4",
+  "patchSha256": "590f7a4bc9a044cbc6321ae1b1e20462aee681c0b122d6518dc2c1c9fcb072bf",
   "additionalHeaderSha256": "f771476d0e5bb5124577329744128d83a4a0bdf43f1d10f91145e006848dc7fb",
   "observationWindow": "Process-lifetime tracked capacities; each increasing peak fully written/fsynced under the ledger lock before payload acquisition. No reset. Per-process fork/exec reuse and accounting/publication faults fail the diagnostic epoch.",
   "uncoveredExternalEventsInvalidateQualification": true,
@@ -70,5 +75,15 @@
   "initialJournalAtCoreLoadWithExplicitDirectory": true,
   "coreLoadWithoutDirectoryRemainsLazy": true,
   "eagerInitializationUsesSameTranslationUnitOrder": true,
-  "eagerCoreInitializationTested": false
+  "eagerCoreInitializationTested": false,
+  "payloadPoolBatchPolicy": {
+    "requestedElementsPerGrowth": 1,
+    "previousSmallClassElements": 128,
+    "previousLargerClassElements": 32,
+    "scope": "Only named ioBufAllocator payload backing pools; global class allocator constants unchanged.",
+    "pageAndHugePageRounding": "Unchanged ink_freelist_init rounds actual batch; existing checked retained-pool accounting covers actual rounded backing capacity.",
+    "accounting": "Unchanged retained backing plus logical overcount; no baseline subtraction or reset.",
+    "status": "Candidate only. New native build, actual allocation checks, original full matrix and full source/actual-main CI still required.",
+    "maximumBufferedBytesAcceptanceThreshold": 8388608
+  }
 }

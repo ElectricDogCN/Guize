@@ -1,0 +1,2 @@
+READY
+{"actualCases":[{"typeBytes":128,"requestedChunkItems":1,"actualChunkItems":32,"allocatedItems":32,"backingBytes":4096,"returnedCurrentBytes":4096},{"typeBytes":8192,"requestedChunkItems":1,"actualChunkItems":1,"allocatedItems":5,"backingBytes":40960,"returnedCurrentBytes":45056},{"typeBytes":65536,"requestedChunkItems":1,"actualChunkItems":1,"allocatedItems":5,"backingBytes":327680,"returnedCurrentBytes":372736}],"retainedBytes":372736,"peakBytes":700416,"abiHealthy":true,"media8MiBAccepted":false}
