@@ -1,0 +1,31 @@
+{
+  "source": "cb0bc834174bc50ae6d6a1481987c2580df9a9ee",
+  "base": "1b5c68bab02d98f8e11286d80033585090c7af99",
+  "tree": "6088c95b46304a7b33f9d596684dc7f84161dc05",
+  "actualOuterTerminal": {
+    "session": 12397,
+    "chunk": "babcca",
+    "exitCode": 1
+  },
+  "actualCommands": [
+    {
+      "index": 0,
+      "exitCode": 0
+    },
+    {
+      "index": 1,
+      "exitCode": 1
+    }
+  ],
+  "unexecutedRemainingCommands": 12,
+  "reason": "Original Task flat parser needs bare ISO lease; five required scope/handoff sections need bullets",
+  "rawCommitObject": "tree 6088c95b46304a7b33f9d596684dc7f84161dc05\nparent 1b5c68bab02d98f8e11286d80033585090c7af99\nauthor Ruifeng Su <suruifeng@epro-vision.com> 1793663338 +0800\ncommitter Ruifeng Su <suruifeng@epro-vision.com> 1793663338 +0800\n\nchore(OPS-019): reserve controlled external evidence delivery\n\nRefs #185. Evidence: evidence/OPS-019/. Metadata only; no implementation or branch migration.\n",
+  "preservedOriginalRepository": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\ops019-external-evidence-reservation-v1",
+  "preservedBundle": {
+    "ref": "ops019-reservation-v1-cb0bc83-full.bundle",
+    "bytes": 128201445,
+    "sha256": "f55be7dd8fdc77cbe0c37a51c55eea53f84a86c41cb8ff06f39ba2aae89385a2"
+  },
+  "newCandidateCreatedFromActualBaseWithoutRewritingOriginal": true,
+  "sourceOrCheckerChanged": false
+}

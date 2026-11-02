@@ -93,3 +93,46 @@ tasks:
   lease:
     acquiredAt: '2026-10-29T12:12:19Z'
     expiresAt: '2026-11-05T12:12:19Z'
+- taskId: OPS-019
+  issue: 185
+  title: 大媒体证据外部存储与受限工作分支迁移
+  status: reserved
+  riskLevel: high
+  owner: ElectricDogCN
+  coordinator: /root
+  implementer: /root
+  reviewer: /root/independent_review
+  integrator: /root
+  agentRole: coordinator
+  branch: chore/OPS-019-external-evidence-reservation
+  baseBranch: main
+  baseSha: 1b5c68bab02d98f8e11286d80033585090c7af99
+  workPackage: WP-M0-01
+  programPlan: specs/coordination/program-plan.yaml
+  programTaskId: OPS-019
+  programWave: FOUNDATION
+  requirementIds:
+  - REQ-V1-0010
+  moduleIds:
+  - MOD-GOV
+  producesContracts: []
+  consumesContracts:
+  - CONTRACT-PROGRAM-PLAN
+  - CONTRACT-TASK-SPEC
+  - CONTRACT-ACTIVE-WORK
+  coordinationGroup: controlled-evidence-delivery
+  dependsOn:
+  - OPS-017
+  exclusivePaths:
+  - .github/workflows/governance-gate.yml
+  - scripts/check-program-plan-history.py
+  - scripts/check-program-plan-transitions.py
+  - scripts/work-branch-migration.py
+  - tests/governance/test_work_branch_migration.py
+  sharedPaths: []
+  handoffPath: evidence/OPS-019/handoff.md
+  integrationStrategy: merge
+  integrationOrder: 14
+  lease:
+    acquiredAt: '2026-11-02T23:44:30Z'
+    expiresAt: '2026-11-09T23:44:30Z'
