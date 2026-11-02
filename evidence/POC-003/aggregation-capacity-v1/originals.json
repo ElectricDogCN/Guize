@@ -1,0 +1,134 @@
+{
+  "kind": "EXACT_COMPONENT_BUILD_AND_NEGATIVE_PRIOR_RAW_FACTS_NOT_FORMAL_POC",
+  "files": [
+    {
+      "path": "build/autoreconf.stderr.raw",
+      "bytes": 166,
+      "sha256": "5002c921c90648aa3463e612fc813f02d6f1a254e7a1988234e0aa37788057e4",
+      "original": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-aggregation-ats-build-common2e-v1/autoreconf.stderr.raw"
+    },
+    {
+      "path": "build/autoreconf.stdout.raw",
+      "bytes": 409,
+      "sha256": "9a83b0c31f1868d29e87cc8a5675903bfcf4df88fafee50a028472fac339f8ed",
+      "original": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-aggregation-ats-build-common2e-v1/autoreconf.stdout.raw"
+    },
+    {
+      "path": "build/configure.stderr.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-aggregation-ats-build-common2e-v1/configure.stderr.raw"
+    },
+    {
+      "path": "build/configure.stdout.raw",
+      "bytes": 20401,
+      "sha256": "9eace03621b0375b4408e0dd7949ee3523d8ac30861d3328dcd5ceb27cf8f1c5",
+      "original": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-aggregation-ats-build-common2e-v1/configure.stdout.raw"
+    },
+    {
+      "path": "build/install.stderr.raw",
+      "bytes": 3362,
+      "sha256": "41e9048c516c43dba8ebf69cfe1b36cb5344c9ed9ebd27d997a53d40d37675c9",
+      "original": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-aggregation-ats-build-common2e-v1/install.stderr.raw"
+    },
+    {
+      "path": "build/install.stdout.raw",
+      "bytes": 84878,
+      "sha256": "6c321a6fdb149e354abe0d5144141669b67efb30dfbb0ce5146067ff8ea1dc2d",
+      "original": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-aggregation-ats-build-common2e-v1/install.stdout.raw"
+    },
+    {
+      "path": "build/make.stderr.raw",
+      "bytes": 1906,
+      "sha256": "f04050634b2128f6deab510bc55832fe9ec8b1cdec05ea9133b4ad518c3cfa91",
+      "original": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-aggregation-ats-build-common2e-v1/make.stderr.raw"
+    },
+    {
+      "path": "build/make.stdout.raw",
+      "bytes": 45310,
+      "sha256": "38c69a95c6817a080eb582c537535623b6b2a43ce78b1ec1505cff8cbc964125",
+      "original": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-aggregation-ats-build-common2e-v1/make.stdout.raw"
+    },
+    {
+      "path": "build/receipt.json",
+      "bytes": 55928,
+      "sha256": "9995d8a8fe286c9908062d142c61231cd40876980412a815f597fa927de32026",
+      "original": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-aggregation-ats-build-common2e-v1/receipt.json"
+    },
+    {
+      "path": "build/source-preparation.json",
+      "bytes": 1751,
+      "sha256": "fc5389f0390229907792e7126fbefbb8b0cffaf1117a46b0dad140f478b52496",
+      "original": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-aggregation-ats-build-common2e-v1/source-preparation.json"
+    },
+    {
+      "path": "methods/prepare_poc003_aggregation_capacity_source_v1_once.py",
+      "bytes": 4715,
+      "sha256": "e62ca91d078cd69ccde3caf4250973ce19abf30f20131df2b4b1ca1567c192d0",
+      "original": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/prepare_poc003_aggregation_capacity_source_v1_once.py"
+    },
+    {
+      "path": "methods/prepare_poc003_aggregation_capacity_source_v2_once.py",
+      "bytes": 4727,
+      "sha256": "90bc339d74422667ebed1bb3f50b344edfba7ee797684dd178a30ee62df666ce",
+      "original": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/prepare_poc003_aggregation_capacity_source_v2_once.py"
+    },
+    {
+      "path": "methods/build_poc003_aggregation_ats_native_common2e_v1_once.py",
+      "bytes": 9729,
+      "sha256": "aab1f238bcfe6c37aa8d16a03fa65ba8047172a107af48220951347c32016e09",
+      "original": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/build_poc003_aggregation_ats_native_common2e_v1_once.py"
+    },
+    {
+      "path": "source-preparation/results.json",
+      "bytes": 798,
+      "sha256": "8661eaf410fa02eda76bc8bce42adcae32756e29cded8ed959ae175c19882527",
+      "original": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-aggregation-capacity-source-v1/results.json"
+    },
+    {
+      "path": "prior-common-source/main-final-review.json",
+      "bytes": 9785,
+      "sha256": "b8012c4aabc25dc8ed97dd426b7aa4b53d5c5eaf3a207b034f3bd5e0bca16363",
+      "original": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-pool-batch-pr182-final-actual-main-independent-review.json"
+    },
+    {
+      "path": "prior-common-source/raw-run-results.json",
+      "bytes": 86037,
+      "sha256": "f1cb50376cc3da258f826cab49fd53fdeee7dd7898ba4459592aea082ea26729",
+      "original": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-common-main2e8655e-original-matrix-v1/results.json"
+    },
+    {
+      "path": "prior-common-source/raw-launch-results.json",
+      "bytes": 11319,
+      "sha256": "36f6620d4b2ec0e67b030008ec6ed37081196d45ae54e6431b995c46918495b4",
+      "original": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-common-main2e8655e-original-matrix-launch-v1/results.json"
+    },
+    {
+      "path": "prior-common-source/raw-analysis-v2.json",
+      "bytes": 41232,
+      "sha256": "3be73bc9417c86fb521eb8c6aeca232943e90f3b9dfabaf82118459a6b439ce8",
+      "original": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-common-main2e8655e-original-matrix-raw-analysis-v2/results.json"
+    },
+    {
+      "path": "prior-common-source/analyze-raw-v1.py",
+      "bytes": 5106,
+      "sha256": "fb235f2566c6e9981690c34d84e5b329b1c4e9086a22da7ff173cdc81307f617",
+      "original": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/analyze_poc003_common_main2e_original_matrix_raw_v1_once.py"
+    },
+    {
+      "path": "prior-common-source/analyze-raw-v2.py",
+      "bytes": 5489,
+      "sha256": "546c12391353c4245a4e90a46a6d2e2d53960466aec24e4e50c0c3d7ef96e990",
+      "original": "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/analyze_poc003_common_main2e_original_matrix_raw_v2_once.py"
+    }
+  ],
+  "buildCommands": 4,
+  "buildArtifacts": 245,
+  "base": "2e8655e5b6d59261a4d1597d999dd7530875c1c7",
+  "priorRawCompleteConservativeBytes": 11857966,
+  "acceptanceThresholdBytes": 8388608,
+  "priorRawPerformanceAccepted": false,
+  "privateMediaOrSecretConfigArchived": false,
+  "newPerformanceExperimentExecuted": false,
+  "formalPocAccepted": false
+}

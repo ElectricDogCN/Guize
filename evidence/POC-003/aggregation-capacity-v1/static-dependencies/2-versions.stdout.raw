@@ -1,0 +1,17 @@
+
+Version symbols section '.gnu.version' contains 19 entries:
+ Addr: 0x0000000000000732  Offset: 0x00000732  Link: 4 (.dynsym)
+  000:   0 (*local*)       2 (GLIBC_2.2.5)   2 (GLIBC_2.2.5)   2 (GLIBC_2.2.5)
+  004:   3 (GLIBC_2.4)     4 (GLIBCXX_3.4.11)    2 (GLIBC_2.2.5)   5 (GLIBCXX_3.4)
+  008:   5 (GLIBCXX_3.4)   1 (*global*)      1 (*global*)      1 (*global*)   
+  00c:   1 (*global*)      1 (*global*)      1 (*global*)      1 (*global*)   
+  010:   1 (*global*)      1 (*global*)      1 (*global*)   
+
+Version needs section '.gnu.version_r' contains 2 entries:
+ Addr: 0x0000000000000758  Offset: 0x00000758  Link: 5 (.dynstr)
+  000000: Version: 1  File: libstdc++.so.6  Cnt: 2
+  0x0010:   Name: GLIBCXX_3.4  Flags: none  Version: 5
+  0x0020:   Name: GLIBCXX_3.4.11  Flags: none  Version: 4
+  0x0030: Version: 1  File: libc.so.6  Cnt: 2
+  0x0040:   Name: GLIBC_2.4  Flags: none  Version: 3
+  0x0050:   Name: GLIBC_2.2.5  Flags: none  Version: 2

@@ -82,7 +82,21 @@
  
  #include <atomic>
  
-@@ -145,6 +146,7 @@
+@@ -36,9 +37,10 @@
+ #define VOL_MAGIC 0xF1D0F00D
+ #define START_BLOCKS 16 // 8k, STORE_BLOCK_SIZE
+ #define START_POS ((off_t)START_BLOCKS * CACHE_BLOCK_SIZE)
+-#define AGG_SIZE (4 * 1024 * 1024)     // 4MB
+-#define AGG_HIGH_WATER (AGG_SIZE / 2)  // 2MB
+-#define EVACUATION_SIZE (2 * AGG_SIZE) // 8MB
++// Private POC build: bound actual write aggregation; use a fresh cache.
++#define AGG_SIZE (1 * 1024 * 1024)     // 1 MiB
++#define AGG_HIGH_WATER (AGG_SIZE / 2)  // 512 KiB
++#define EVACUATION_SIZE (2 * AGG_SIZE) // 2 MiB
+ #define MAX_VOL_SIZE ((off_t)512 * 1024 * 1024 * 1024 * 1024)
+ #define STORE_BLOCKS_PER_CACHE_BLOCK (STORE_BLOCK_SIZE / CACHE_BLOCK_SIZE)
+ #define MAX_VOL_BLOCKS (MAX_VOL_SIZE / CACHE_BLOCK_SIZE)
+@@ -145,6 +147,7 @@
    Queue<CacheVC, Continuation::Link_link> stat_cache_vcs;
    Queue<CacheVC, Continuation::Link_link> sync;
    char *agg_buffer  = nullptr;
@@ -90,7 +104,7 @@
    int agg_todo_size = 0;
    int agg_buf_pos   = 0;
  
-@@ -270,12 +272,16 @@
+@@ -270,12 +273,16 @@
    Vol() : Continuation(new_ProxyMutex())
    {
      open_dir.mutex = mutex;

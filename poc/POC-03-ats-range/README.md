@@ -76,3 +76,12 @@ The forward consumer uses batches of at most128 keys, preserving the unchanged n
 ## 2026-11-03 另一授权用户定点可读性取证
 
 同一原始矩阵的other_user-B在epoch5/PID130仅有MISS/key65，实际原生导出只含用户A的64项；成功8B响应和后续不同epoch的B命中不能回证该缓存Slice完整可读。将other_user加入已有响应完成后、clear前的同key有界副证；原生选择按实际user/ACL保持隔离。原9个目标前向补为10个，其余原21场景/101请求/6阶段/26闭环/12清理、完整内存口径及8MiB均不变。epoch5由原1job64MiB预期增加1job1MiB，仍逐次检查真实8job/16control/512MiB额度，不代表实际已运行或通过。前一6ee/CI935结果保留，后继固定提交须独立通过本源15及完整官方CI，重新固定实际main后才能申请新矩阵及fresh撤权；任务仍in_progress。
+
+
+## 2026-11-03 聚合写入缓冲容量候选
+
+代码承接已完整接受的共同 main2e8655e（PR182；源CI936及实际主线CI937各完整842、main7和独审通过）。该源原矩阵实际完成21场景/101请求/6阶段/26原生闭环/12清理，完整保守容量11,857,966B仍大于原8MiB；10个同键缓存副证报告可读，实际raw独审另验。旧main7e的18,960,430B与取消CI各按原源保留。
+
+本候选仅在私有ATS构建的P_CacheVol.h把实际AGG_SIZE从4MiB降为1MiB。HIGH_WATER、EVACUATION、RECOVERY、MAX_FRAG仍使用原派生表达式；原DEFAULT_TARGET_FRAGMENT_SIZE=1048576-sizeof(Doc)仍不超过新的最大片段，实验显式target_fragment_size8192不变。Slice1MiB、64MiB原样本、磁盘256MiB及所有原场景/资源/时延/8MiB阈值不变。所有之后的新运行必须创建全新空缓存，禁止打开旧构建/stock缓存，所有旧目录保持原件。
+
+固定1MiB是真实缓冲容量实现改动；计账仍包括全部backing与logical保守相加、直接聚合和恢复，不扣基线或收窄域。实际收益不能按常量差值推定。新构建与精确源15/完整官方源CI、正常合并、实际main7/完整CI及终审通过后，另建共同源输入/配置与前瞻批准窗口，实测原矩阵和独立暖缓存撤权，再做正式15/profile及正常Review/Completion。Task仍in_progress，原创建身份/具体角色/有效租约保持，不生成正式PASS或current locator；恢复采用保留原件的受审前向改动。

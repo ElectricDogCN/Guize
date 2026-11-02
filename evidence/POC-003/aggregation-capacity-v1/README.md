@@ -1,0 +1,11 @@
+# POC-003 聚合容量实现候选
+
+基线为完整接受的共同 main2e8655e；Task 原创建760、具体实施/独审角色、有效租约和in_progress不变。该共同源原21/101/6/26/12矩阵已真实完成，根分析完整保守容量11,857,966B仍超过8MiB，实际raw与10缓存副证独审另验。旧main7e结果和旧CI取消仍按原件保存。
+
+本候选仅将私有测试构建的实际聚合缓冲从4MiB降到1MiB。原派生high-water/evacuation/recovery与最大fragment表达式保持；默认目标fragment仍不超过新上限，lab显式8192字节、Slice1MiB、64MiB原样本、256MiB缓存及冻结数值不变。每次新运行必须用全新空cache，绝不打开旧stock/前构建cache。原完整retained backing加logical保守计账保持，不能直接用常量差值宣称8MiB通过。
+
+此处仅保存新构建原件、方法及旧源负面raw事实。标准上游包与Ubuntu补丁逐项核验，七个补丁目标的before/after及三个头绑定；原-j2和有限等待/真实进程收口保持。vendor树、二进制、私有secret配置与媒体body不提交，原始数据仍保留在记录的私有目录。originals.json给每条实际归档文件大小、SHA及原位置。
+
+source-preparation的V1方法原生解析失败，主体未执行；V2改正字符串语法，实际反向恢复、补丁检查和应用成功。旧raw分析V1因plugins/slice.so映射失败，V2改正内置/外置路径映射后只读重算；这些工具失败不伪称为媒体运行失败，也不回写成成功。
+
+后续精确提交须原15项和完整官方源CI成功，正常合并并实际main7/完整CI独审接受，再建立新共同源包/配置和新事前窗口，执行原矩阵及独立fresh热缓存撤权。正式15/profile、正常Review/Completion和完整V1均待，不产生当前PASS locator。回退采用保留全部旧原件的受审前向改动。

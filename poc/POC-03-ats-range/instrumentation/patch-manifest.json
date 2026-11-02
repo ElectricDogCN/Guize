@@ -14,7 +14,7 @@
     {
       "path": "iocore/cache/P_CacheVol.h",
       "beforeSha256": "582da9160e9fa23fb33a8b8f851daf20523b1b8dec357dd51552736639d09ec5",
-      "afterSha256": "ba06f2298a0f7d38c955d2cd5cb7ed3fb582871a5ca4ecd9bdb487fa1f0a9c7a"
+      "afterSha256": "809ecd0c47d7093da8f5461b7f304ac71c4de04409476eede92ee51bd336dacd"
     },
     {
       "path": "src/tscore/ink_resource.cc",
@@ -37,7 +37,7 @@
       "afterSha256": "3cca322c0111c68e205a3bc4af7faf4ec7b9e49db7b98d4d9f58d38e1d89db89"
     }
   ],
-  "patchSha256": "590f7a4bc9a044cbc6321ae1b1e20462aee681c0b122d6518dc2c1c9fcb072bf",
+  "patchSha256": "16cdccd54050f13d89faee16a95a23fbe1fc7d4a64d98b31777cd2f5eee3855f",
   "additionalHeaderSha256": "f771476d0e5bb5124577329744128d83a4a0bdf43f1d10f91145e006848dc7fb",
   "observationWindow": "Process-lifetime tracked capacities; each increasing peak fully written/fsynced under the ledger lock before payload acquisition. No reset. Per-process fork/exec reuse and accounting/publication faults fail the diagnostic epoch.",
   "uncoveredExternalEventsInvalidateQualification": true,
@@ -84,6 +84,20 @@
     "pageAndHugePageRounding": "Unchanged ink_freelist_init rounds actual batch; existing checked retained-pool accounting covers actual rounded backing capacity.",
     "accounting": "Unchanged retained backing plus logical overcount; no baseline subtraction or reset.",
     "status": "Candidate only. New native build, actual allocation checks, original full matrix and full source/actual-main CI still required.",
+    "maximumBufferedBytesAcceptanceThreshold": 8388608
+  },
+  "aggregationCapacityPolicy": {
+    "bytesPerVolume": 1048576,
+    "previousBytesPerVolume": 4194304,
+    "highWaterBytes": 524288,
+    "evacuationAndRecoveryBytes": 2097152,
+    "scope": "Private task-owned POC build only; every later run uses a fresh empty cache. Never open an existing stock/previous-build cache.",
+    "originalLabTargetFragmentSizeBytes": 8192,
+    "sliceBytes": 1048576,
+    "defaultTargetFragmentExpressionUnchanged": "1048576 - sizeof(Doc)",
+    "maxFragmentExpressionUnchanged": "AGG_SIZE - sizeof(Doc)",
+    "accounting": "Actual allocation and unchanged full retained plus logical accounting. No excluded baseline, changed domain or threshold.",
+    "status": "Source candidate only. Exact build, source/actual-main full CI, new run approval and original full matrix plus separate warm-cache revocation remain required.",
     "maximumBufferedBytesAcceptanceThreshold": 8388608
   }
 }
