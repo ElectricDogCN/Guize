@@ -1,0 +1,115 @@
+{
+  "schemaVersion": 1,
+  "kind": "ACTUAL_ORIGINAL15_RESULT_AND_PROFILE_MATERIALIZATION_INDEPENDENT_REVIEW",
+  "reviewer": "/root/independent_review",
+  "approvedAt": "2026-11-02T22:34:45.264548Z",
+  "scope": "ACTUAL_CURRENT_SOURCE_ORIGINAL15_LOCAL_PROFILE_RESULT_MATERIALIZATION_ONLY",
+  "testedSource": {
+    "commit": "1b5c68bab02d98f8e11286d80033585090c7af99",
+    "tree": "f94ed8da8d83391f2474365af848bf267a0dc8d1"
+  },
+  "evidenceCommit": "5a9d20b545636e379d632c8c64f7d9012053e475",
+  "executionSha256": "194cfc750a10fe591a687995449f9a9b01d90f7e2b34beef8d3040272396243c",
+  "frozenValidationSha256": "a9048b585fbd166f7254c5bbc118cab3bc2c0c18b4456a95a44c9788269f2cb7",
+  "warmReviewSha256": "bde03aed7660962149320f3a7273896c705de2a22b2977879c20c70e1a367fef",
+  "methodSha256": "a25b39e270bf2b27e193566f65235c78ae73ad28c58f0b584bd38584af2a87ea",
+  "proposalSha256": "14a62bfd03dae214e77c90919693a2d4b5577c2ead01882dd7ac355f69e92a3a",
+  "actualOriginal15Accepted": true,
+  "completeOriginalEightMiBBoundAccepted": true,
+  "frozenQualifiedExecutionAccepted": true,
+  "independentFreshWarmCacheRevocationAccepted": true,
+  "localProfileMaterializationApproved": true,
+  "maximumMaterializationAttempts": 1,
+  "mustFix": [],
+  "formalResult": {
+    "schemaVersion": 1,
+    "pocId": "POC-03",
+    "taskId": "POC-003",
+    "status": "pass",
+    "evidencePath": "evidence/POC-003",
+    "executionRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/execution.json",
+    "decision": "pass",
+    "rationale": "The actual immutable-source local-v1 sandbox completed the original 21-case matrix, 101 requests, 6 cache stages, 12 clears and all 26 owned native epochs. All 15 original measurements pass the unchanged frozen execution qualification. Independently rederived conservative simultaneous source-payload capacity is 6205486 bytes, below the unchanged 8388608-byte limit, using complete native journals, closed request peaks and the reviewed fixed-source/runtime model. The independent real warm-cache revocation scenario also passed with the same unexpired grant and no skipped assertion. This approves the measured local result and its profile materialization; evidence-bearing source/main CI, normal Review/Completion and production acceptance remain separate.",
+    "reviewer": "/root/independent_review",
+    "approvedAt": "2026-11-02T22:34:45Z",
+    "approval": "approved"
+  },
+  "actualExecutionSummary": {
+    "caseCount": 21,
+    "httpRows": 101,
+    "cacheStages": 6,
+    "clearOperations": 12,
+    "nativeClosedAcceptedEpochs": 26,
+    "componentPinsPerEpoch": 18,
+    "actualAttachExitCode": 0,
+    "actualEngineExitCode": 0,
+    "actualOwnerExitCode": 0,
+    "externalCleanup": false,
+    "sourcePayloadCapacity": {
+      "terms": {
+        "native": 3174400,
+        "origin": 73729,
+        "gateway": 819220,
+        "collector": 1064984,
+        "synchronousPhase": 1048577,
+        "hash": 24576
+      },
+      "totalBytes": 6205486,
+      "limitBytes": 8388608,
+      "remainingBytes": 2183122,
+      "closedRequestPeaks": {
+        "origin": 1,
+        "gateway": 2,
+        "collector": 2
+      },
+      "scope": "Conservative simultaneously live source-payload backing under this exact source, method, actual runtime bindings and closed window; not whole-process RSS."
+    },
+    "rangeCorrectnessPercent": 100,
+    "originalBooleanMeasurementsPassed": 10,
+    "p95LatencyMilliseconds": {
+      "hot": 8.385,
+      "cold": 68.06,
+      "slowOrigin": 314.684,
+      "multiUser": 31.253999999999998
+    },
+    "runtime": {
+      "bindingRoles": 3,
+      "pid": 1,
+      "startTicks": 4313456,
+      "mappedNativeComponentsPerRole": 9,
+      "immutableProfileSha256": "0830b95ad06d0a108cb474afb4888526f8c2d785644a219efaa194b3a886324e"
+    },
+    "independentVerification": "Reparsed all 26 closed native journals with the exact M media_capacity implementation and 18 pins; independently recomputed closed request peaks and full capacity. Rechecked all 3 retained runtime profile/crypto/maps/device/inode bindings and all 81 accepted warm-archive file hashes (448024 bytes). Reused prior exact body preservation and actual frozen complete validation without rereading 753MB or rerunning media.",
+    "frozenValidation": {
+      "actualPid": 170384,
+      "actualWaitCompleted": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "errorCount": 0,
+      "stdoutBytes": 94,
+      "stdoutSha256": "de4a6443e194ca45a4a66358914ca12db19c61d09862e4c54d73f9cffe946f52"
+    },
+    "committedEvidenceDeltaOwnPaths": 761,
+    "outsideOwnProfileSourceAndFrozenRulesUnchanged": true
+  },
+  "evidencePins": {
+    "originalRunResult": "354a982d62ea9b6c709b9e6bac1a71b17fd91e6b981083cc2c40392ce5d797ee",
+    "originalBeforeRunApproval": "8238d4c06503661da3bc350ac1da37857ec47b8d6f484b4ef168ba5d7ddadfc3",
+    "utcRepresentationReconciliation": "f4d1648e79491fede011844d0f2b362717680996967b7bb3c64688789a7cf145",
+    "captureRepresentationReconciliation": "c25b2a9979b5e3401aff94a14f9ce0eb6553ad0858400f6e78fecb4380f6a866",
+    "assemblyProvenance": "2b9b3e3d8fa84bff9b81bc9ec92198ded9fa1a38247849ebea1b7e32ad5c3edd",
+    "warmRetentionManifest": "61c6fccbc6bcf8d7122c6df012303e8b9e902891ce132689123a47eb36dcf615"
+  },
+  "materializationBoundary": "Exact approved result.json, current local-v1/v1 index.yaml and the method/proposal/approval/frozen-validation originals under Own attempt-005 only. Preserve original before controls, raw records, prior failures and both reconciliation decisions. No Task, Registry or Program edits.",
+  "reviewerReadOnlyCompatibilityNotes": [
+    "The first reviewer runtime-helper replay stopped on Windows missing os.makedev after capacity rederivation succeeded. Native maps/device/inode evidence was then independently verified from retained records using Linux device encoding; no runtime source or actual records were altered.",
+    "A reviewer warm-archive path read initially hit Windows long-path resolution; exact extended paths then verified all 81 originals. These are reviewer read-tool limitations, not experiment failures."
+  ],
+  "newMediaExecutionApproved": false,
+  "futureSourceCiAccepted": false,
+  "futureMainCiAccepted": false,
+  "taskReviewOrCompletionApproved": false,
+  "taskCompleted": false,
+  "formalPocAccepted": false,
+  "productionAccepted": false
+}

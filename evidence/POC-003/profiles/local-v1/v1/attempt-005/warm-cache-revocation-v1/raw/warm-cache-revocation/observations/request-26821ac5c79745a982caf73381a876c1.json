@@ -1,0 +1,163 @@
+{
+  "requestId": "26821ac5c79745a982caf73381a876c1",
+  "case": "revocation",
+  "userId": "lab-user-a",
+  "url": "http://127.0.0.1:18233/media/object.bin",
+  "sourceVersion": "base",
+  "sourceSha256": "938a8bc3e0a64184f1551bff0c500dc891366ead8f30f8f83753587e763c1c26",
+  "aclVersion": "poc003-common-main1b5c68b-original-matrix-acl-v1",
+  "authorizationContext": "a82d3423c46264d5998376ee7bbacacb",
+  "requestRange": "bytes=0-7",
+  "ifRange": "",
+  "bodyRef": "bodies/revocation-26821ac5c79745a982caf73381a876c1.bin",
+  "configuredOriginFault": null,
+  "collectorRetryCount": 0,
+  "statusCode": 206,
+  "responseHeaders": [
+    [
+      "Server",
+      "BaseHTTP/0.6 Python/3.12.15"
+    ],
+    [
+      "Date",
+      "Mon, 02 Nov 2026 22:07:08 GMT"
+    ],
+    [
+      "Content-Type",
+      "application/octet-stream"
+    ],
+    [
+      "Content-Length",
+      "8"
+    ],
+    [
+      "Content-Range",
+      "bytes 0-7/67108864"
+    ],
+    [
+      "ETag",
+      "\"sha256-938a8bc3e0a64184f1551bff0c500dc891366ead8f30f8f83753587e763c1c26\""
+    ],
+    [
+      "Accept-Ranges",
+      "bytes"
+    ],
+    [
+      "Via",
+      "http/1.1 traffic_server (ApacheTrafficServer/9.2.3 [uScMsSfWpSeN:t cCMp sS]), http/1.1 traffic_server (ApacheTrafficServer/9.2.3 [uSc s f p eN:t c  p sS])"
+    ],
+    [
+      "X-Lab-ATS-Cache",
+      "none"
+    ],
+    [
+      "Last-Modified",
+      "Mon, 19 Oct 2026 00:00:00 GMT"
+    ],
+    [
+      "X-Lab-Request-ID",
+      "26821ac5c79745a982caf73381a876c1"
+    ],
+    [
+      "X-Lab-Source-Version",
+      "base"
+    ],
+    [
+      "X-Lab-Cache-Context",
+      "a82d3423c46264d5998376ee7bbacacb"
+    ],
+    [
+      "Connection",
+      "close"
+    ]
+  ],
+  "firstResponseByteAt": "2026-11-02T22:07:08.327495Z",
+  "firstResponseByteLatencyMs": 65.43552299990552,
+  "responseHeadersAt": "2026-11-02T22:07:08.327682Z",
+  "firstBodyByteAt": "2026-11-02T22:07:08.328720Z",
+  "firstBodyByteLatencyMs": 66.65617300313897,
+  "firstBodyChunkAt": "2026-11-02T22:07:08.328734Z",
+  "finishedAt": "2026-11-02T22:07:08.328851Z",
+  "bodyBytes": 8,
+  "clientChunkPeak": 7,
+  "transportCompleted": true,
+  "originObservation": {
+    "requestId": "26821ac5c79745a982caf73381a876c1",
+    "observedAt": "2026-11-02T22:07:08.484834Z",
+    "originRequestCount": 1,
+    "objectReadCount": 16,
+    "objectReadBytes": 1048576,
+    "activeOriginRequests": 0,
+    "originTransactions": [
+      {
+        "originTransactionId": "2a3b0baec377867e",
+        "requestId": "26821ac5c79745a982caf73381a876c1",
+        "startedAt": "2026-11-02T22:07:08.299726Z",
+        "finishedAt": "2026-11-02T22:07:08.301855Z",
+        "path": "/ctx/a82d3423c46264d5998376ee7bbacacb/base/object.bin",
+        "range": "bytes=0-1048575",
+        "ifRange": "",
+        "authorized": true,
+        "objectReadCount": 16,
+        "objectReadBytes": 1048576,
+        "statusCode": 206,
+        "fault": "none",
+        "sourceVersion": "base",
+        "sourceSha256": "938a8bc3e0a64184f1551bff0c500dc891366ead8f30f8f83753587e763c1c26",
+        "transportError": null,
+        "sourceReadMode": "raw-readinto",
+        "sourceBackingCapacityBytes": 65537
+      }
+    ],
+    "gatewayTransactions": [
+      {
+        "requestId": "26821ac5c79745a982caf73381a876c1",
+        "case": "revocation",
+        "startedAt": "2026-11-02T22:07:08.268054Z",
+        "userId": "lab-user-a",
+        "sourceVersion": "base",
+        "aclVersion": "poc003-common-main1b5c68b-original-matrix-acl-v1",
+        "requestRange": "bytes=0-7",
+        "ifRange": "",
+        "atsRequestSent": true,
+        "responseByteCount": 8,
+        "gatewayChunkPeak": 8,
+        "grantObservation": {
+          "grantId": "poc003-grant-lab-user-a",
+          "principalId": "lab-user-a",
+          "validFrom": "2026-11-02T22:07:01.767607Z",
+          "validUntil": "2026-11-02T22:22:06.767607Z",
+          "revokedAt": null,
+          "authorizedAt": "2026-11-02T22:07:08.268176Z",
+          "reason": "allowed"
+        },
+        "cacheContextPath": "/ctx/a82d3423c46264d5998376ee7bbacacb/base/object.bin",
+        "statusCode": 206,
+        "atsResponseHeadersAt": "2026-11-02T22:07:08.327265Z",
+        "atsExpectedBodyBytes": 8,
+        "upstreamReadTimeoutSeconds": 10,
+        "transportCompleted": true,
+        "firstBodyChunkAt": "2026-11-02T22:07:08.327546Z",
+        "finishedAt": "2026-11-02T22:07:08.327565Z"
+      }
+    ]
+  },
+  "startedAt": "2026-11-02T22:07:08.262067Z",
+  "responseHeaderLatencyMs": 65.61276600405108,
+  "clientReadMode": "bounded-readinto",
+  "clientBackingCapacityBytes": 65537,
+  "elapsedMs": 66.77971200406319,
+  "bodySha256": "7275a918178823dd3531ca933d3c9ad23249a72a483d270b0034eb9d465ecc15",
+  "originPollingSettled": true,
+  "originPollingScope": "Only these timestamped snapshots; no assertion about unobserved later I/O.",
+  "comparisonReadMode": "raw-readinto",
+  "comparisonBackingCapacityBytes": 65537,
+  "sourceIntervalComparison": {
+    "expectedStatus": 206,
+    "start": 0,
+    "end": 7,
+    "expectedBytes": 8,
+    "expectedSha256": "7275a918178823dd3531ca933d3c9ad23249a72a483d270b0034eb9d465ecc15",
+    "actualBytesEqual": true
+  }
+}

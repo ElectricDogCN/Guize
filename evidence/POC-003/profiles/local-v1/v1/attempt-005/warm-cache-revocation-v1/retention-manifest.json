@@ -1,0 +1,423 @@
+{
+  "kind": "ACTUAL_ACCEPTED_WARM_SCENARIO_EXACT_RETENTION",
+  "source": "1b5c68bab02d98f8e11286d80033585090c7af99",
+  "scope": "Independent same unexpired grant warm-cache revocation only; not a matrix/8MiB/profile/POC acceptance",
+  "reviewSha256": "bde03aed7660962149320f3a7273896c705de2a22b2977879c20c70e1a367fef",
+  "runSha256": "c13c2798c37de33c9a9fe7c6bc781f4dae62a6138af1c56025bb314a7bc61e82",
+  "files": [
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/raw/warm-cache-revocation/bodies/revocation-000e373a3d4e4fb8aec3801de821f378.bin",
+      "byteCount": 8,
+      "sha256": "7275a918178823dd3531ca933d3c9ad23249a72a483d270b0034eb9d465ecc15"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/raw/warm-cache-revocation/bodies/revocation-26821ac5c79745a982caf73381a876c1.bin",
+      "byteCount": 8,
+      "sha256": "7275a918178823dd3531ca933d3c9ad23249a72a483d270b0034eb9d465ecc15"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/raw/warm-cache-revocation/bodies/revocation-be9452b728d240a08e8768183153e518.bin",
+      "byteCount": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/raw/warm-cache-revocation/collection.json",
+      "byteCount": 40092,
+      "sha256": "b3e5ca18c4bf24ff22f568960d7864a6edd23031a919e020a5f2c657009eec7a"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/raw/warm-cache-revocation/controller-after.native.jsonl",
+      "byteCount": 20567,
+      "sha256": "8b6b50a74dd9cba89e53836c1eb1d9be1c19ea2c071ec270d37971d0471b2b22"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/raw/warm-cache-revocation/controller-before.native.jsonl",
+      "byteCount": 15361,
+      "sha256": "a9f41a1982447c929de060d3b23cd5254662e3227b3a9b6b0a057eacd06315f9"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/raw/warm-cache-revocation/export-after.native.jsonl",
+      "byteCount": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/raw/warm-cache-revocation/export-before.native.jsonl",
+      "byteCount": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/raw/warm-cache-revocation/lookup-after.native.jsonl",
+      "byteCount": 474,
+      "sha256": "bb1a61db2bb9845d663fed0f23878cea3bac431b8a27036f3eed4047165b8b6c"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/raw/warm-cache-revocation/lookup-before.native.jsonl",
+      "byteCount": 474,
+      "sha256": "bb1a61db2bb9845d663fed0f23878cea3bac431b8a27036f3eed4047165b8b6c"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/raw/warm-cache-revocation/observations/0001-snapshot.json",
+      "byteCount": 934,
+      "sha256": "4dab78554890248f7b85fe7a0a3f7c30a615f60d94f1e5e076bf16d78c6eb18d"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/raw/warm-cache-revocation/observations/0002-grant-state.json",
+      "byteCount": 365,
+      "sha256": "41a2374351ffb0c73226026f11c682bd1d6d2b306e101c9717cb724a1fddcb94"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/raw/warm-cache-revocation/observations/0003-witness.json",
+      "byteCount": 2129,
+      "sha256": "a384e2d01b9ddf6e31e96fa0361d634d75019236ae9e2bdfddfdbf21027b1698"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/raw/warm-cache-revocation/observations/0004-witness.json",
+      "byteCount": 2129,
+      "sha256": "764240ee9009ce80cc8a562a08c1b8ce0f01159951d8f41e5f5c7ccac276fce0"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/raw/warm-cache-revocation/observations/0005-witness.json",
+      "byteCount": 2129,
+      "sha256": "c50ebe184f136a05d6255d53758d60fff8648f73f45e5827ba6026bebc89e09b"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/raw/warm-cache-revocation/observations/0006-witness.json",
+      "byteCount": 2129,
+      "sha256": "0e837667b58e1184bef219647ba5e07334d0c1cf162f99cb45cb5b0f88002710"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/raw/warm-cache-revocation/observations/0007-witness.json",
+      "byteCount": 1406,
+      "sha256": "56e0c9c26cb7b61f5140d02b2cfae414f5c7282913aa2e0f4c787501fa64c01d"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/raw/warm-cache-revocation/observations/0008-witness.json",
+      "byteCount": 1406,
+      "sha256": "d94d799232038bfb03acd26d5b795a8fd8b202bc1be91146c5bae7b662fe9f4c"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/raw/warm-cache-revocation/observations/0009-witness.json",
+      "byteCount": 1406,
+      "sha256": "f06ec4284d56bb4416d9a042d1ed359c2de1d12780ccf88ed095c4883e0a847c"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/raw/warm-cache-revocation/observations/0010-witness.json",
+      "byteCount": 1406,
+      "sha256": "e96d4952a4cdbbdc8899c3453cffca4954eece1ccb0882838b92633221631e29"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/raw/warm-cache-revocation/observations/0011-revoke-grant.json",
+      "byteCount": 391,
+      "sha256": "8d00f9a1d16d392847fafdf416a1e5a70a4beba58ef67ad0b690adf03f378074"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/raw/warm-cache-revocation/observations/0012-witness.json",
+      "byteCount": 1157,
+      "sha256": "9e61f86f58a1755f5ce1946f20bb953eea647d829657e864e39346b2ac131985"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/raw/warm-cache-revocation/observations/0013-witness.json",
+      "byteCount": 1157,
+      "sha256": "33e22516adeff4b36eaee4995745e36539d3136b2f3187c10618b57f9f7e884e"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/raw/warm-cache-revocation/observations/0014-witness.json",
+      "byteCount": 1157,
+      "sha256": "48c4659f41abd85927cccce0f0524aecf2977dd0f549085e2648521960179fe4"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/raw/warm-cache-revocation/observations/0015-witness.json",
+      "byteCount": 1157,
+      "sha256": "c45a245c6836de0e5025dfb73d97f1c6f70cf44d0d10808a4f4ef0e373dc34f1"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/raw/warm-cache-revocation/observations/0016-witness.json",
+      "byteCount": 1157,
+      "sha256": "8ee110f6ab7020a82e3f18a411dbdda17e2cae62c11fd5c289897e34c12e776a"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/raw/warm-cache-revocation/observations/0017-witness.json",
+      "byteCount": 262,
+      "sha256": "0e6b146b46d42651e0581e759e5d4b4cb461492ee8fa0825ce91c4edad3f0036"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/raw/warm-cache-revocation/observations/request-000e373a3d4e4fb8aec3801de821f378.json",
+      "byteCount": 4365,
+      "sha256": "5be9f1b0c706a5fe379268e3303466b298e4c02e3b906d2b56f9c706e469136c"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/raw/warm-cache-revocation/observations/request-26821ac5c79745a982caf73381a876c1.json",
+      "byteCount": 5126,
+      "sha256": "052d500426d838358978f851445747515817d23f24bb86aa80fbbc67948c81fe"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/raw/warm-cache-revocation/observations/request-be9452b728d240a08e8768183153e518.json",
+      "byteCount": 2949,
+      "sha256": "d31d629ce19aab509de0db84ef0c7814d816e40893b0123e20920a483577a80d"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/raw/warm-cache-revocation/post-denial-control.body.bin",
+      "byteCount": 8,
+      "sha256": "7275a918178823dd3531ca933d3c9ad23249a72a483d270b0034eb9d465ecc15"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/raw/warm-cache-revocation/python-runtime-binding.collector.json",
+      "byteCount": 32100,
+      "sha256": "5ffe4b8daf9fd54ec9417b6fcc9556d8b0fdc755fa02a7ea6e4e541c8540c3a5"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/raw/warm-cache-revocation/revocation-result.json",
+      "byteCount": 12007,
+      "sha256": "fd094f62f56c4b1ef54ed8fbfab9f209e6a92ccf46a0cb28cbdbd7db6e5ddd5b"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/raw/before-environment.json",
+      "byteCount": 16078,
+      "sha256": "ca9bee2ec65a9713ccbc8d92a83c3ab01af3106173b6f0b242422de7a055c539"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/raw/warm-cache-revocation-client.json",
+      "byteCount": 14803,
+      "sha256": "525f7ece52a0dab32755963747fa1ffac7081f2f8a4ff6027d08c83fc115bf1f"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/raw/revocation-cli.stdout.raw",
+      "byteCount": 89,
+      "sha256": "d6594988af7a3c4636627b9fdbe002414942bb0ce3a101b5a3bbd1c4a314ece4"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/raw/revocation-cli.stderr.raw",
+      "byteCount": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/raw/work/execution-owner-wait.json",
+      "byteCount": 290,
+      "sha256": "04b0a087da4c2228692d0e97b8923234c1d2e5e4ba5e9a634b54c57dc8d6bc1d"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/raw/work/python-runtime-binding.prepare.json",
+      "byteCount": 30864,
+      "sha256": "d222429e9eb7fd998ac801bef01518857df507309ac0304b406548ded725b54f"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/raw/work/python-runtime-binding.controller.json",
+      "byteCount": 30814,
+      "sha256": "5209daa7e696bfecba486e7e6edf0447a904f66eb587a5ff17f344e557ed140d"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/raw/work/process-epochs/epoch-0/closure.json",
+      "byteCount": 2178,
+      "sha256": "730ea4c33e4e5e87a31584cc576e119bc22d55be2f253069fda52b9d70c58429"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/raw/work/process-epochs/epoch-0/finished/durable-peaks.raw",
+      "byteCount": 1074,
+      "sha256": "476fedb93398dfc2eea704ebdb4535ef4ac434d5be45828787d685c774d743fd"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/raw/work/process-epochs/epoch-0/journal/peak-9-4425188.jsonl",
+      "byteCount": 1074,
+      "sha256": "476fedb93398dfc2eea704ebdb4535ef4ac434d5be45828787d685c774d743fd"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/raw/work/process-epochs/epoch-0/launch/exec-error.raw",
+      "byteCount": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/raw/work/process-epochs/epoch-0/launch/gate-control-fdinfo.raw",
+      "byteCount": 47,
+      "sha256": "983b72bdaf6bad6efa93f0676223bb6947b82cf2ecd8aee5dff9e607d5a58761"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/raw/work/process-epochs/epoch-0/launch/gate-exec-error-fdinfo.raw",
+      "byteCount": 47,
+      "sha256": "6a5bd19a83c2b04aade73861b49a550428b9f96250349f662a3813c3f786566e"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/raw/work/process-epochs/epoch-0/launch/gate-executable-fdinfo.raw",
+      "byteCount": 55,
+      "sha256": "76a07d9777d56ec91863bbe8b17f1996597173d0e71c53ff425d762dc44739b8"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/raw/work/process-epochs/epoch-0/launch/launch.json",
+      "byteCount": 10761,
+      "sha256": "021f54cd4af7735a5d53407ab07033dbfe10e51fa5cfbd5d00f03c38fddfe177"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/raw/work/process-epochs/epoch-0/launch/ready.raw",
+      "byteCount": 6,
+      "sha256": "3dfa3fb239f56c778a1e9b33eb31328349edd155a95806dac4378904e88527e5"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/raw/work/process-epochs/epoch-1/closure.json",
+      "byteCount": 2196,
+      "sha256": "c587aaa313807a25919067affc0e881c77e49ab033d06868baa1b8bc9051390e"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/raw/work/process-epochs/epoch-1/finished/durable-peaks.raw",
+      "byteCount": 13094,
+      "sha256": "3a71017b9962278598b017fd6b496a80b569bbb54ae8d7f9cd1bb94ce7f0135c"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/raw/work/process-epochs/epoch-1/journal/peak-30-4425213.jsonl",
+      "byteCount": 13094,
+      "sha256": "3a71017b9962278598b017fd6b496a80b569bbb54ae8d7f9cd1bb94ce7f0135c"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/raw/work/process-epochs/epoch-1/launch/exec-error.raw",
+      "byteCount": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/raw/work/process-epochs/epoch-1/launch/gate-control-fdinfo.raw",
+      "byteCount": 47,
+      "sha256": "27d32346ae93714c56147fca94cd2836c6b1dcf07cb454e58ca8f120ab0f1900"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/raw/work/process-epochs/epoch-1/launch/gate-exec-error-fdinfo.raw",
+      "byteCount": 47,
+      "sha256": "081f387a06aaa1cc607ddc7e5ae299813106e4dd8f308d2a4a98f9f54cf7aa82"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/raw/work/process-epochs/epoch-1/launch/gate-executable-fdinfo.raw",
+      "byteCount": 55,
+      "sha256": "76a07d9777d56ec91863bbe8b17f1996597173d0e71c53ff425d762dc44739b8"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/raw/work/process-epochs/epoch-1/launch/launch.json",
+      "byteCount": 11095,
+      "sha256": "031d4c996542d33b1b555b886fb59ddf020dff4ccfea99ddd30aa862c6316517"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/raw/work/process-epochs/epoch-1/launch/ready.raw",
+      "byteCount": 6,
+      "sha256": "3dfa3fb239f56c778a1e9b33eb31328349edd155a95806dac4378904e88527e5"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/raw/work/cache-observer/cache-export-30/cache-ready.json",
+      "byteCount": 138,
+      "sha256": "7267fc4a4f76f515246b9edb34cf3cb7db73967dc7fd46f26fa50ca3d856a11c"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/raw/work/cache-observer/cache-export-30/events.jsonl",
+      "byteCount": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/raw/work/cache-observer/cache-export-30/lookup-events.jsonl",
+      "byteCount": 711,
+      "sha256": "1c799150b93a8006ade1a15ceeb2179fac4cea34cad71a8178f4418f0cc56672"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/raw/work/cache-observer/cache-export-30/lookups.jsonl",
+      "byteCount": 154,
+      "sha256": "6ebe3a98bc72b4a7503b6bfcc540fe956022dd3f8d60dc7e6a0798f5276e5d4e"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/raw/work/cache-observer/cache-export-9/events.jsonl",
+      "byteCount": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/raw/work/cache-observer/cache-export-9/lookup-events.jsonl",
+      "byteCount": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/raw/work/cache-observer/cache-export-9/lookups.jsonl",
+      "byteCount": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/raw/work/cache-observer/live-buffer-30.jsonl",
+      "byteCount": 7378,
+      "sha256": "54afc861ec41c244e0cde1d76c5b183294decf6c4e81985ff09bceac38884390"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/raw/work/cache-observer/live-buffer-9.jsonl",
+      "byteCount": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/actual-run-result.json",
+      "byteCount": 48349,
+      "sha256": "c13c2798c37de33c9a9fe7c6bc781f4dae62a6138af1c56025bb314a7bc61e82"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/independent-result-review.json",
+      "byteCount": 4119,
+      "sha256": "bde03aed7660962149320f3a7273896c705de2a22b2977879c20c70e1a367fef"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/before-controls/changed-sample-approval.json",
+      "byteCount": 405,
+      "sha256": "74a760431d9aed6e8558b1b060ca6caa49c65096d6e0845fc6578dafe5171037"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/before-controls/independent-approval.json",
+      "byteCount": 9915,
+      "sha256": "fc6a102c30faab2a5126491491eea9933fadc364b26c02dfcdb16e0ac3305b7b"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/before-controls/resource-booking.json",
+      "byteCount": 464,
+      "sha256": "cf50b459bde0c5ca58e165a3e3496fe1c11ac805ac95cbee076864157e4ad62b"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/before-controls/resource-configuration.json",
+      "byteCount": 3673,
+      "sha256": "457688de6d811021efabca08ec1e1db59258609912d883d770b76a5b9a04937a"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/before-controls/sample-approval.json",
+      "byteCount": 405,
+      "sha256": "548ec5965c0f3e12ae25919992ba426eed1caf9c2857c0e153f40a6acd460714"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/tools/poc003_common_main1b5c68b_fresh_warm_cache_revocation_entry_v2.py",
+      "byteCount": 14436,
+      "sha256": "469b68c95225fbf93aa1275c610ed8f2b163243e1ece330f9803c6cf5f54f241"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/tools/run_poc003_common_main1b5c68b_fresh_warm_cache_revocation_v2.py",
+      "byteCount": 21035,
+      "sha256": "69307706e38f2c5f96a84d369a6d761a64a0c6e239f39ef8fc948873f6bb8d1b"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/tools/launch_poc003_approved_common_main1b5c68b_fresh_warm_cache_revocation_v2.py",
+      "byteCount": 13170,
+      "sha256": "48eb439084e12cf06fc1596fcbf799b4e89339ac39dc10cb35899074cccde5a9"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/tools/poc003_common_main7e405b6_revocation_failure_records_v1.py",
+      "byteCount": 3145,
+      "sha256": "c56cccaae950f4e3b3c1a6238d155f4c82ea9eef8ed02af47bb10d547f0ad3a8"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/tools/poc003-common-main1b5c68b-fresh-warm-cache-revocation-proposal-v1.json",
+      "byteCount": 10642,
+      "sha256": "954f777980a07467bfa0435ad318b3179e1d6d2e6909370af6cb76c6a749769c"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/tools/poc003-common-main1b5c68b-fresh-warm-cache-revocation-method-independent-review-v1.json",
+      "byteCount": 2626,
+      "sha256": "bce4d0290ab2cf26849e23d56bc6903b87f1b9f80aa0d8348e34a8364c4944fe"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/tools/archive-method.py",
+      "byteCount": 4029,
+      "sha256": "e66ad8e9aa71e305b548aced839a8e1294f6b713908b9c4fb7c741aad7518099"
+    }
+  ],
+  "totalBytes": 448024,
+  "actualScenarioPassed": true,
+  "actualScenarioCount": 1,
+  "skippedAssertions": 0,
+  "originalsUnchanged": true,
+  "privateSettingsPublished": false,
+  "newMediaExecuted": false,
+  "formalPocAccepted": false,
+  "retainedAt": "2026-11-02T22:29:43.220368+00:00"
+}

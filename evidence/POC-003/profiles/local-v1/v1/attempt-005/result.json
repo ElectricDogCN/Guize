@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "pocId": "POC-03",
+  "taskId": "POC-003",
+  "status": "pass",
+  "evidencePath": "evidence/POC-003",
+  "executionRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/execution.json",
+  "decision": "pass",
+  "rationale": "The actual immutable-source local-v1 sandbox completed the original 21-case matrix, 101 requests, 6 cache stages, 12 clears and all 26 owned native epochs. All 15 original measurements pass the unchanged frozen execution qualification. Independently rederived conservative simultaneous source-payload capacity is 6205486 bytes, below the unchanged 8388608-byte limit, using complete native journals, closed request peaks and the reviewed fixed-source/runtime model. The independent real warm-cache revocation scenario also passed with the same unexpired grant and no skipped assertion. This approves the measured local result and its profile materialization; evidence-bearing source/main CI, normal Review/Completion and production acceptance remain separate.",
+  "reviewer": "/root/independent_review",
+  "approvedAt": "2026-11-02T22:34:45Z",
+  "approval": "approved"
+}

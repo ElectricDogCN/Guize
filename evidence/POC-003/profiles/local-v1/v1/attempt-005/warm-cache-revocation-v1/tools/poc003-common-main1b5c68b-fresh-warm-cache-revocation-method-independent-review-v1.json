@@ -1,0 +1,26 @@
+{
+  "reviewer": "/root/independent_review",
+  "reviewedAt": "2026-11-02T22:00:30Z",
+  "kind": "PROSPECTIVE_INDEPENDENT_FRESH_WARM_CACHE_REVOCATION_METHOD_REVIEW",
+  "source": "1b5c68bab02d98f8e11286d80033585090c7af99",
+  "tree": "f94ed8da8d83391f2474365af848bf267a0dc8d1",
+  "methodPreparationAccepted": true,
+  "mustFix": [],
+  "scope": "OWNED_PID1_COMMON_MAIN1B5C68B_FRESH_WARM_CACHE_REVOCATION_ONLY",
+  "exactPins": {
+    "proposal": "954f777980a07467bfa0435ad318b3179e1d6d2e6909370af6cb76c6a749769c",
+    "entry": "469b68c95225fbf93aa1275c610ed8f2b163243e1ece330f9803c6cf5f54f241",
+    "supervisor": "69307706e38f2c5f96a84d369a6d761a64a0c6e239f39ef8fc948873f6bb8d1b",
+    "launcher": "48eb439084e12cf06fc1596fcbf799b4e89339ac39dc10cb35899074cccde5a9",
+    "mandatoryRealCLI": "987608f169b25327231f0dc64bf41c571f1ab0f1b924bbe66b567cc7fa701457",
+    "collector": "1b2220a6afd2e4790b17e091048dca7fcf2772c4bbcea6215beccc3700f6fd71"
+  },
+  "acceptedMethod": "Fresh private PID1 lab/owner before HTTP/client threads, real pinned mandatory CLI owned by a bounded Popen and actual wait, existing nine assertion chain, separate post-denial privileged control proving the old same-context cache bytes remain a nativeHIT with zero origin reads. No clear/restart allowed in the denial window. Original actual CLI, source and assertions remain unchanged; namespace shutdown is cooperative.",
+  "ownershipAndBudgets": "Owner retains ATS target/listener/native wait custody; verify_config+start are the two required actual closed native epochs. The separate Python CLI is a real bounded client child, not a fabricated ATS Popen. Same cached image/UID1000/caps0/NNP/private namespaces/no network publishing/RO mounts and shared840+900s/stat guards retain their existing limited semantics. Actual warm entry override is independently hash-checked while original bootstrap/config remain immutable.",
+  "predecessor": "Actual M full-matrix result354a982… reports engine/attach real0, stoppedPid0, no external cleanup and26accepted closures. This closes the namespace prerequisite only; formal15/8MiB outcome is not adopted here. Root must also finish competing heavy postprocessing before starting warm and hold the same physical performance-domain lock.",
+  "scopeBoundary": "Separate fresh warm-cache revocation security test, one scenario and zero skipped assertions; neither denied_user nor the matrix's static grant observations substitute for it. No original15/8MiB/profile/POC result is granted.",
+  "actualWarmResultAccepted": false,
+  "actualFifteenAccepted": false,
+  "eightMiBBoundProven": false,
+  "formalPocAccepted": false
+}

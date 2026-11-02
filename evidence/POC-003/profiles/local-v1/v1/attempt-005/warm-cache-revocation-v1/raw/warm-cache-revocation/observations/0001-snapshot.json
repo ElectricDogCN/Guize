@@ -1,0 +1,34 @@
+{
+  "stage": "revocation-preflight",
+  "observedAt": "2026-11-02T22:07:08.259419Z",
+  "sourceVersion": "base",
+  "atsPid": 30,
+  "cacheFiles": [
+    {
+      "name": "cache.db",
+      "logicalBytes": 268435456,
+      "allocatedBytes": 368640
+    }
+  ],
+  "nativeCacheReady": {
+    "atsPid": 30,
+    "observedAt": "2026-11-02T22:07:07Z",
+    "cacheReady": true,
+    "httpCacheReady": true,
+    "nativeApi": "TSCacheReady+TSCacheDataTypeReady"
+  },
+  "allocatedDiskBytes": 368640,
+  "canonicalCacheObjectExported": false,
+  "activeOriginRequests": 0,
+  "activeGatewayRequests": 0,
+  "originRequestCount": 0,
+  "originObjectReadBytes": 0,
+  "requestConcurrency": {
+    "kind": "SYNCHRONOUS_REQUEST_INTERVAL_HIGH_WATER_NOT_MEMORY_SAMPLING",
+    "scope": "Controller initialization through this lock-held snapshot; not a closed full-run claim",
+    "activeOrigin": 0,
+    "peakOrigin": 0,
+    "activeGateway": 0,
+    "peakGateway": 0
+  }
+}

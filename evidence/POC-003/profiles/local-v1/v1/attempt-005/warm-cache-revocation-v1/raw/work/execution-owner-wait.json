@@ -1,0 +1,15 @@
+{
+  "ownerBirth": {
+    "pid": 8,
+    "startTicks": 4425155
+  },
+  "ownerExitCode": 0,
+  "actualOwnerWaitCompleted": true,
+  "targetClosureSummary": {
+    "epochCount": 2,
+    "closedEpochCount": 2,
+    "acceptedCount": 2,
+    "allAccepted": true,
+    "closureRoot": "process-epochs"
+  }
+}
