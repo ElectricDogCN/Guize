@@ -11,3 +11,7 @@ Only five existing P/H safe read sites, own regression fixture stability and saf
 Source `fa5c18203124afa44834cd8f2487e0ec535a90c8` passed declared checks 0 through9 but failed declared10 because the own Task allowed-path prose retained the bootstrap four-path list. Its controller truly waited exit1. Only the own Task list/prose is synchronized with the already accepted six-path scope; all checker behavior remains. No source/full-CI acceptance is claimed.
 
 The `draft-safety/` Git text files are LF-normalized views under repository attributes. Exact original Windows stdout/JUnit bytes, the first native source failure, controller wait and methods are retained losslessly in `originals-prequalification.zip` with byte/SHA inventory `originals-prequalification-index.json`; external originals remain unchanged.
+
+## New fixture base correction
+
+Source ba4fe39 passed all current14 and collected842, but its442 related run found the new latest-code authority case failing. Independent single-case reproduction truly exited1: immutable N Task front retains earlier base a556, while the fixture sets its registry base to N76be. The fixture now explicitly aligns only its baseSha with cls.base. No production check or test assertion is relaxed. Exact failure/reproduction originals and method: ba4fe39-fixture-base-failure.zip plus its index. The existing related run remains a negative/incomplete context until its own terminal result; no passing composite is constructed.

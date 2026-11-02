@@ -66,6 +66,7 @@ class TestProspectiveScopeAmendment(unittest.TestCase):
         # even when the real checkout has moved to a later base or phase.
         baseline=cls.git(cls.fixture,'show',cls.base+':specs/tasks/OPS-017.md')
         front=baseline.split('---',2)[1]
+        front=re.sub(r'^baseSha:.*$','baseSha: '+cls.base,front,flags=re.M)
         body=(ROOT/'specs/tasks/OPS-017.md').read_text(encoding='utf-8').split('---',2)[2]
         text='---'+front+'---'+body
         text=re.sub(r'^workBranch:.*$','workBranch: chore/OPS-017-fixture-amendment',text,flags=re.M)
