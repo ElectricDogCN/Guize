@@ -1,0 +1,266 @@
+{
+  "taskId": "OPS-017",
+  "phase": "normalReview",
+  "base": "ed5e4d4ad9d40d85358347760ac90bd1f73b10a7",
+  "parent": "ed5e4d4ad9d40d85358347760ac90bd1f73b10a7",
+  "branch": "chore/OPS-017-normal-review-v5",
+  "actualAcceptedCodeMain": "ed5e4d4ad9d40d85358347760ac90bd1f73b10a7",
+  "codeSource": "ef63e9dd613d1d87e15777131c821fb6d8bb4034",
+  "codePr": 179,
+  "sourceCiRun": 41395413207,
+  "sourceCiAttempt": 1,
+  "sourceCiJob": 125115562242,
+  "expectedFullGovernanceCases": 842,
+  "codePins": {
+    "AGENTS.md": "b86a91cfc015f5f1c9613115d22db6e67b9906a177a084509b6c84546400b46c",
+    "scripts/poc-contract-repair-admission.py": "d5e3e99849c6d6da0ce7f6b32adb5050110223784682bbe886dcdd7ec1674dff",
+    "scripts/check-program-lifecycle-guards.py": "0a4b366a06c7f71d6ad0417e4a44e2e43dcbf0c908286fb83c9abce9d46c4396",
+    "tests/governance/test_poc_contract_repair_admission.py": "41e82647aa6caae3683264dac3c459922ac3e9e7ccbb986263489234492ef139",
+    "scripts/program-planning-revision.py": "ed2421fcee9b06c67fa7bff09fd63aa4034d40af21966b3cdbff1c7a6ddbcb2f",
+    "scripts/check-program-plan-history.py": "925fe025e56e2eebeeb07bd4c08c1a3e228eddf12370b8459b3b310d583d721d"
+  },
+  "historicalTaskCommands": [
+    [
+      "git",
+      "diff",
+      "--check",
+      "22ab6a0668da2d64a016fccef2c3b5a634638a24...HEAD"
+    ],
+    [
+      "python",
+      "scripts/check-task-file.py",
+      "--task",
+      "OPS-017"
+    ],
+    [
+      "python",
+      "scripts/check-schemas.py"
+    ],
+    [
+      "python",
+      "scripts/check-program-plan-integrity.py",
+      "--base-ref",
+      "22ab6a0668da2d64a016fccef2c3b5a634638a24"
+    ],
+    [
+      "python",
+      "scripts/check-program-plan-history.py",
+      "--base-ref",
+      "22ab6a0668da2d64a016fccef2c3b5a634638a24",
+      "--head-ref",
+      "HEAD",
+      "--task",
+      "OPS-017",
+      "--branch-name",
+      "chore/OPS-017-source-compatibility-admission-reservation"
+    ],
+    [
+      "python",
+      "scripts/check-program-plan-transitions.py",
+      "--base-ref",
+      "22ab6a0668da2d64a016fccef2c3b5a634638a24",
+      "--head-ref",
+      "HEAD",
+      "--task",
+      "OPS-017",
+      "--branch-name",
+      "chore/OPS-017-source-compatibility-admission-reservation"
+    ],
+    [
+      "python",
+      "scripts/check-program-lifecycle-guards.py",
+      "--base-ref",
+      "22ab6a0668da2d64a016fccef2c3b5a634638a24",
+      "--head-ref",
+      "HEAD",
+      "--task",
+      "OPS-017",
+      "--branch-name",
+      "chore/OPS-017-source-compatibility-admission-reservation"
+    ],
+    [
+      "python",
+      "scripts/run-program-lifecycle-gate.py",
+      "--base-ref",
+      "22ab6a0668da2d64a016fccef2c3b5a634638a24",
+      "--head-ref",
+      "HEAD",
+      "--task",
+      "OPS-017",
+      "--branch-name",
+      "chore/OPS-017-source-compatibility-admission-reservation"
+    ],
+    [
+      "python",
+      "scripts/run-agent-coordination-gate.py",
+      "--base-ref",
+      "22ab6a0668da2d64a016fccef2c3b5a634638a24",
+      "--head-ref",
+      "HEAD",
+      "--task",
+      "OPS-017",
+      "--branch-name",
+      "chore/OPS-017-source-compatibility-admission-reservation"
+    ],
+    [
+      "python",
+      "scripts/check-program-plan-finalization.py",
+      "--base-ref",
+      "22ab6a0668da2d64a016fccef2c3b5a634638a24",
+      "--head-ref",
+      "HEAD",
+      "--task",
+      "OPS-017"
+    ],
+    [
+      "python",
+      "scripts/run-task-scope-gate.py",
+      "--task",
+      "OPS-017",
+      "--base",
+      "22ab6a0668da2d64a016fccef2c3b5a634638a24"
+    ],
+    [
+      "python",
+      "scripts/check-evidence.py",
+      "--task",
+      "OPS-017"
+    ],
+    [
+      "python",
+      "scripts/check-project-readiness.py"
+    ],
+    [
+      "python",
+      "scripts/check-markdown.py"
+    ]
+  ],
+  "currentSourceCommands": [
+    [
+      "git",
+      "diff",
+      "--check",
+      "ed5e4d4ad9d40d85358347760ac90bd1f73b10a7...HEAD"
+    ],
+    [
+      "python",
+      "scripts/check-task-file.py",
+      "--task",
+      "OPS-017"
+    ],
+    [
+      "python",
+      "scripts/check-schemas.py"
+    ],
+    [
+      "python",
+      "scripts/check-program-plan-integrity.py",
+      "--base-ref",
+      "ed5e4d4ad9d40d85358347760ac90bd1f73b10a7"
+    ],
+    [
+      "python",
+      "scripts/check-program-plan-history.py",
+      "--base-ref",
+      "ed5e4d4ad9d40d85358347760ac90bd1f73b10a7",
+      "--head-ref",
+      "HEAD",
+      "--task",
+      "OPS-017",
+      "--branch-name",
+      "chore/OPS-017-normal-review-v5"
+    ],
+    [
+      "python",
+      "scripts/check-program-plan-transitions.py",
+      "--base-ref",
+      "ed5e4d4ad9d40d85358347760ac90bd1f73b10a7",
+      "--head-ref",
+      "HEAD",
+      "--task",
+      "OPS-017",
+      "--branch-name",
+      "chore/OPS-017-normal-review-v5"
+    ],
+    [
+      "python",
+      "scripts/check-program-lifecycle-guards.py",
+      "--base-ref",
+      "ed5e4d4ad9d40d85358347760ac90bd1f73b10a7",
+      "--head-ref",
+      "HEAD",
+      "--task",
+      "OPS-017",
+      "--branch-name",
+      "chore/OPS-017-normal-review-v5"
+    ],
+    [
+      "python",
+      "scripts/run-program-lifecycle-gate.py",
+      "--base-ref",
+      "ed5e4d4ad9d40d85358347760ac90bd1f73b10a7",
+      "--head-ref",
+      "HEAD",
+      "--task",
+      "OPS-017",
+      "--branch-name",
+      "chore/OPS-017-normal-review-v5"
+    ],
+    [
+      "python",
+      "scripts/run-agent-coordination-gate.py",
+      "--base-ref",
+      "ed5e4d4ad9d40d85358347760ac90bd1f73b10a7",
+      "--head-ref",
+      "HEAD",
+      "--task",
+      "OPS-017",
+      "--branch-name",
+      "chore/OPS-017-normal-review-v5"
+    ],
+    [
+      "python",
+      "scripts/check-program-plan-finalization.py",
+      "--base-ref",
+      "ed5e4d4ad9d40d85358347760ac90bd1f73b10a7",
+      "--head-ref",
+      "HEAD",
+      "--task",
+      "OPS-017"
+    ],
+    [
+      "python",
+      "scripts/run-task-scope-gate.py",
+      "--task",
+      "OPS-017",
+      "--base",
+      "ed5e4d4ad9d40d85358347760ac90bd1f73b10a7"
+    ],
+    [
+      "python",
+      "scripts/check-evidence.py",
+      "--task",
+      "OPS-017"
+    ],
+    [
+      "python",
+      "scripts/check-project-readiness.py"
+    ],
+    [
+      "python",
+      "scripts/check-markdown.py"
+    ]
+  ],
+  "metadataOnly": true,
+  "originalTaskBodyAnd14Preserved": true,
+  "currentSourceChecksPassed": false,
+  "fullCiAccepted": false,
+  "normalCompletionMayStart": false,
+  "highCapacityReleased": false,
+  "experimentApproved": false,
+  "originalLease": {
+    "acquiredAt": "2026-10-29T09:16:44Z",
+    "expiresAt": "2026-11-05T09:16:44Z"
+  },
+  "createdAt": "2026-11-02T06:46:32.110628+00:00"
+}

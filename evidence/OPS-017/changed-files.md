@@ -220,3 +220,20 @@ Parent delta:
 ## Prospective scope amendment2026-11-02
 
 See `scope-amendment-stage-v1/README.md` and the immutable `scope-amendment-v1.json`. Actual source/main qualification remains pending. Original828 assertions are retained;11new Git regressions cover staged scope and its historical protection. P/H and all five frozen targets are unchanged.
+
+
+## New normal Review complete prospective inventory
+Base: ed5e4d4ad9d40d85358347760ac90bd1f73b10a7
+Branch: chore/OPS-017-normal-review-v5
+- evidence/OPS-017/changed-files.md
+- evidence/OPS-017/commands.txt
+- evidence/OPS-017/handoff.md
+- evidence/OPS-017/normal-review-v5/README.md
+- evidence/OPS-017/normal-review-v5/context.json
+- evidence/OPS-017/normal-review-v5/index.json
+- evidence/OPS-017/normal-review-v5/prerequisites.zip
+- evidence/OPS-017/summary.md
+- evidence/OPS-017/test-results/README.md
+- specs/coordination/active-work.yaml
+- specs/coordination/program-plan.yaml
+- specs/tasks/OPS-017.md
