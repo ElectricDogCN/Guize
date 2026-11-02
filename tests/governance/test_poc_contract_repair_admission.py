@@ -1,5 +1,6 @@
 """Real Git histories prove bounded repair admission and preserve existing denial."""
 import copy
+import json
 from datetime import datetime, timedelta, timezone
 import importlib.util
 import os
@@ -18,6 +19,197 @@ SPEC = importlib.util.spec_from_file_location('poc_repair_test',ROOT/'scripts/po
 PROOF = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(PROOF)
 RESERVATION_MAIN = '3eb9bb69b4fb1df85a359750b73356b953429540'
+
+
+class TestProspectiveScopeAmendment(unittest.TestCase):
+    """Synthetic real Git merges exercise scope; none certify production CI."""
+    @staticmethod
+    def git(root, *args):
+        return subprocess.check_output(['git','-C',str(root),*args],stderr=subprocess.STDOUT).decode().strip()
+
+    @classmethod
+    def commit_at(cls, root, message, seconds):
+        cls.git(root,'add','.')
+        at=(cls.recorded+timedelta(seconds=seconds)).isoformat()
+        subprocess.run(['git','-C',str(root),'commit','--quiet','-m',message],check=True,capture_output=True,
+                       env=dict(os.environ,GIT_AUTHOR_DATE=at,GIT_COMMITTER_DATE=at))
+        return cls.git(root,'rev-parse','HEAD')
+
+    @classmethod
+    def merge_at(cls, root, source, message, seconds):
+        at=(cls.recorded+timedelta(seconds=seconds)).isoformat()
+        subprocess.run(['git','-C',str(root),'merge','--quiet','--no-ff','-m',message,source],check=True,capture_output=True,
+                       env=dict(os.environ,GIT_AUTHOR_DATE=at,GIT_COMMITTER_DATE=at))
+        return cls.git(root,'rev-parse','HEAD')
+
+    @classmethod
+    def setUpClass(cls):
+        cls.temporary=tempfile.TemporaryDirectory(prefix='guize-scope-amendment-fixture-')
+        cls.fixture=Path(cls.temporary.name,'repo')
+        subprocess.run(['git','clone','--local','--quiet',str(ROOT),str(cls.fixture)],check=True,capture_output=True)
+        cls.git(cls.fixture,'config','user.name','Scope amendment fixture')
+        cls.git(cls.fixture,'config','user.email','fixture@example.invalid')
+        cls.git(cls.fixture,'config','core.autocrlf','false')
+        cls.base=PROOF.SCOPE_AMENDMENT_BASE
+        cls.record=(ROOT/PROOF.SCOPE_AMENDMENT).read_bytes()
+        cls.recorded=datetime.fromisoformat(json.loads(cls.record)['approvalEvidence']['recordedAt'])
+        cls.git(cls.fixture,'checkout','-B','main',cls.base)
+        cls.git(cls.fixture,'update-ref','refs/remotes/origin/main',cls.base)
+        cls.git(cls.fixture,'switch','-c','chore/OPS-017-fixture-amendment')
+        (cls.fixture/PROOF.SCOPE_AMENDMENT).write_bytes(cls.record)
+        active=yaml.safe_load((cls.fixture/PROOF.ACTIVE).read_bytes())
+        own=next(x for x in active['tasks'] if x['taskId']=='OPS-017')
+        own.update(baseSha=cls.base,branch='chore/OPS-017-fixture-amendment',
+                   exclusivePaths=sorted(PROOF.SOURCE_COMPATIBILITY.claims|PROOF.SCOPE_SUPPLEMENT))
+        (cls.fixture/PROOF.ACTIVE).write_text(yaml.safe_dump(active,sort_keys=False,allow_unicode=True),encoding='utf-8')
+        text=(ROOT/'specs/tasks/OPS-017.md').read_text(encoding='utf-8')
+        text=re.sub(r'^workBranch:.*$','workBranch: chore/OPS-017-fixture-amendment',text,flags=re.M)
+        (cls.fixture/'specs/tasks/OPS-017.md').write_text(text,encoding='utf-8')
+        with (cls.fixture/'AGENTS.md').open('a',encoding='utf-8') as f:f.write('\nSynthetic scope protocol implementation.\n')
+        cls.source=cls.commit_at(cls.fixture,'OPS-017 fixture scope declaration (#2991)',2)
+        cls.git(cls.fixture,'switch','main')
+        cls.integrated=cls.merge_at(cls.fixture,cls.source,'OPS-017 fixture scope main (#2991)',3)
+        cls.git(cls.fixture,'update-ref','refs/remotes/origin/main',cls.integrated)
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.temporary.cleanup()
+
+    def setUp(self):
+        self.working=tempfile.TemporaryDirectory(prefix='guize-scope-amendment-case-')
+        self.addCleanup(self.working.cleanup)
+        self.repo=Path(self.working.name,'repo')
+        subprocess.run(['git','clone','--local','--quiet',str(self.fixture),str(self.repo)],check=True,capture_output=True)
+        self.git(self.repo,'config','user.name','Scope amendment case')
+        self.git(self.repo,'config','user.email','fixture@example.invalid')
+        self.git(self.repo,'config','core.autocrlf','false')
+        self.git(self.repo,'update-ref','refs/remotes/origin/main',self.integrated)
+
+    def unadmit(self, head):
+        self.git(self.repo,'checkout','--detach',head)
+        self.git(self.repo,'update-ref','refs/heads/main',self.base)
+        self.git(self.repo,'update-ref','refs/remotes/origin/main',self.base)
+
+    def supplemental_write(self, seconds=10):
+        with (self.repo/'scripts/program-planning-revision.py').open('a',encoding='utf-8') as f:f.write('\n# Synthetic separately scoped implementation.\n')
+        return self.commit_at(self.repo,'OPS-017 fixture supplemental implementation (#2992)',seconds)
+
+    def test_declaration_does_not_grant_write_before_main(self):
+        self.unadmit(self.source)
+        PROOF.audit_scope_amendment(str(self.repo),self.base,self.source)
+        changed=self.supplemental_write()
+        with self.assertRaisesRegex(PROOF.AdmissionError,'previously integrated amendment main'):
+            PROOF.audit_scope_amendment(str(self.repo),self.base,changed)
+
+    def test_side_or_virtual_merge_does_not_grant_scope(self):
+        self.unadmit(self.integrated)
+        self.assertIsNone(PROOF.scope_integration(str(self.repo),self.integrated))
+        changed=self.supplemental_write()
+        with self.assertRaisesRegex(PROOF.AdmissionError,'previously integrated amendment main'):
+            PROOF.audit_scope_amendment(str(self.repo),self.base,changed)
+
+    def test_canonical_integration_admits_later_registered_write(self):
+        self.assertEqual(PROOF.scope_integration(str(self.repo),self.integrated),self.integrated)
+        changed=self.supplemental_write()
+        PROOF.audit_scope_amendment(str(self.repo),self.integrated,changed)
+        self.assertEqual(self.git(self.repo,'show',changed+':'+PROOF.SOURCE_COMPATIBILITY.intent),
+                         self.git(self.repo,'show',self.base+':'+PROOF.SOURCE_COMPATIBILITY.intent))
+
+    def test_scope_record_edit_restore_in_introduced_history_rejected(self):
+        (self.repo/PROOF.SCOPE_AMENDMENT).write_bytes(self.record+b' ')
+        self.commit_at(self.repo,'OPS-017 fixture invalid scope record',10)
+        (self.repo/PROOF.SCOPE_AMENDMENT).write_bytes(self.record)
+        restored=self.commit_at(self.repo,'OPS-017 fixture restore scope record',11)
+        with self.assertRaisesRegex(PROOF.AdmissionError,'approved immutable record'):
+            PROOF.audit_scope_amendment(str(self.repo),self.integrated,restored)
+
+    def test_ph_edit_restore_before_integration_rejected(self):
+        self.unadmit(self.source)
+        path=self.repo/'scripts/program-planning-revision.py';raw=path.read_bytes()
+        self.supplemental_write()
+        path.write_bytes(raw);restored=self.commit_at(self.repo,'OPS-017 fixture restore premature code',11)
+        with self.assertRaisesRegex(PROOF.AdmissionError,'previously integrated amendment main'):
+            PROOF.audit_scope_amendment(str(self.repo),self.base,restored)
+
+    def test_late_scope_record_introduction_rejected(self):
+        self.unadmit(self.base)
+        (self.repo/'evidence/OPS-017/unrelated-fixture.txt').write_text('fixture\n',encoding='utf-8')
+        self.commit_at(self.repo,'OPS-017 fixture intervening source',10)
+        (self.repo/PROOF.SCOPE_AMENDMENT).write_bytes(self.record)
+        late=self.commit_at(self.repo,'OPS-017 fixture late declaration',11)
+        with self.assertRaisesRegex(PROOF.AdmissionError,'late or on another baseline'):
+            PROOF.audit_scope_amendment(str(self.repo),self.base,late)
+
+    def test_unrecorded_extended_declaration_denied(self):
+        self.unadmit(self.base)
+        active=yaml.safe_load((self.repo/PROOF.ACTIVE).read_bytes())
+        next(x for x in active['tasks'] if x['taskId']=='OPS-017')['exclusivePaths']=sorted(PROOF.SOURCE_COMPATIBILITY.claims|PROOF.SCOPE_SUPPLEMENT)
+        (self.repo/PROOF.ACTIVE).write_text(yaml.safe_dump(active,sort_keys=False),encoding='utf-8')
+        bad=self.commit_at(self.repo,'OPS-017 fixture unrecorded extension',10)
+        with self.assertRaisesRegex(PROOF.AdmissionError,'exact declared paths'):
+            PROOF.audit_scope_amendment(str(self.repo),self.base,bad)
+
+    def complete_authority_fixture(self):
+        branch='chore/OPS-017-fixture-performance'
+        self.git(self.repo,'switch','-c',branch)
+        TestBoundPocContractRepair.lifecycle(self.repo,'OPS-017','in_progress','implementer',self.integrated,branch)
+        source=self.supplemental_write()
+        self.git(self.repo,'switch','main')
+        code=self.merge_at(self.repo,source,'OPS-017 fixture latest performance code (#2992)',11)
+        self.git(self.repo,'update-ref','refs/remotes/origin/main',code)
+        branch='chore/OPS-017-fixture-review'
+        self.git(self.repo,'switch','-c',branch)
+        TestBoundPocContractRepair.lifecycle(self.repo,'OPS-017','review','reviewer',code,branch)
+        source=self.commit_at(self.repo,'OPS-017 fixture independent Review (#2993)',12)
+        self.git(self.repo,'switch','main')
+        review=self.merge_at(self.repo,source,'OPS-017 fixture Review main (#2993)',13)
+        self.git(self.repo,'update-ref','refs/remotes/origin/main',review)
+        branch='chore/OPS-017-fixture-completion'
+        self.git(self.repo,'switch','-c',branch)
+        TestBoundPocContractRepair.lifecycle(self.repo,'OPS-017','completed','integrator',review,branch)
+        active=yaml.safe_load((self.repo/PROOF.ACTIVE).read_bytes());active['tasks']=[x for x in active['tasks'] if x['taskId']!='OPS-017']
+        plan=yaml.safe_load((self.repo/PROOF.PLAN).read_bytes());next(x for x in plan['foundationTasks'] if x['taskId']=='OPS-017').update(status='completed',completionRef='PR-2992',mergeCommit=code)
+        TestBoundPocContractRepair.write(self.repo,PROOF.ACTIVE,active)
+        TestBoundPocContractRepair.write(self.repo,PROOF.PLAN,plan)
+        source=self.commit_at(self.repo,'OPS-017 fixture normal Completion (#2994)',14)
+        self.git(self.repo,'switch','main')
+        completed=self.merge_at(self.repo,source,'OPS-017 fixture Completion main (#2994)',15)
+        self.git(self.repo,'update-ref','refs/remotes/origin/main',completed)
+        return completed,code
+
+    def test_normal_completed_authority_uses_latest_ph_only_code_identity(self):
+        completed,code=self.complete_authority_fixture()
+        intent,_=PROOF.authority(str(self.repo),completed,successor='OPS-018')
+        self.assertEqual(set(intent['authorityClaims']),set(PROOF.SOURCE_COMPATIBILITY.claims))
+        self.assertFalse(PROOF.SOURCE_COMPATIBILITY.claims & set(self.git(self.repo,'diff','--name-only',code+'^1',code).splitlines()))
+
+    def test_authority_rejects_record_deleted_after_amended_implementation(self):
+        completed,_=self.complete_authority_fixture()
+        (self.repo/PROOF.SCOPE_AMENDMENT).unlink()
+        removed=self.commit_at(self.repo,'OPS-017 fixture delete scope proof after Completion',20)
+        self.git(self.repo,'update-ref','refs/remotes/origin/main',removed)
+        with self.assertRaisesRegex(PROOF.AdmissionError,'cannot be removed'):
+            PROOF.authority(str(self.repo),removed,successor='OPS-018')
+
+    def test_no_task_lifecycle_rejects_record_deletion(self):
+        (self.repo/PROOF.SCOPE_AMENDMENT).unlink()
+        removed=self.commit_at(self.repo,'OPS-017 fixture delete scope proof',20)
+        result=subprocess.run([sys.executable,str(ROOT/'scripts/check-program-lifecycle-guards.py'),
+            '--repo-root',str(self.repo),'--base-ref',self.integrated,'--head-ref',removed,
+            '--branch-name','chore/OPS-017-fixture-amendment'],capture_output=True,text=True)
+        self.assertNotEqual(result.returncode,0)
+        self.assertIn('Scope amendment cannot be removed',result.stdout+result.stderr)
+
+    def test_clean_main_import_into_old_peer_does_not_become_local_write(self):
+        # The old peer first parent has no amendment. Only automatic paths
+        # imported from already canonical main may cross this boundary.
+        self.git(self.repo,'checkout','-b','chore/POC-005-fixture-old-peer',self.base)
+        path=self.repo/'evidence/POC-005/scope-import-fixture.txt'
+        path.write_text('independent peer fixture\n',encoding='utf-8')
+        peer=self.commit_at(self.repo,'POC-005 fixture independent peer work',10)
+        imported=self.merge_at(self.repo,self.integrated,'POC-005 fixture clean accepted main import',11)
+        PROOF.audit_scope_amendment(str(self.repo),peer,imported)
+        self.assertEqual((self.repo/PROOF.SCOPE_AMENDMENT).read_bytes(),self.record)
 
 
 class TestBoundPocContractRepair(unittest.TestCase):

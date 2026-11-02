@@ -155,3 +155,8 @@ Parent delta:
 - evidence/OPS-017/test-results/README.md
 - scripts/check-program-lifecycle-guards.py
 - tests/governance/test_poc_contract_repair_admission.py
+
+
+## Prospective scope amendment2026-11-02
+
+See `scope-amendment-stage-v1/README.md` and the immutable `scope-amendment-v1.json`. Actual source/main qualification remains pending. Original828 assertions are retained;11new Git regressions cover staged scope and its historical protection. P/H and all five frozen targets are unchanged.
