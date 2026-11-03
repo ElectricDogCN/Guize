@@ -14,3 +14,11 @@ Original private source cb0bc834174bc50ae6d6a1481987c2580df9a9ee actually passed
 
 # Current implementation activation
 Base 7d82fb61f434f57bb97cb9d80f4613cee3be2721; branch chore/OPS-019-controlled-lfs-delivery; in_progress/implementer; original lease and fiveclaims unchanged. Exact code and tests pending; no migration or experiment.
+
+
+# Normal Review preparation
+Base 02997ddaee951e054a5ce106e0566847f546d8cd; branch chore/OPS-019-controlled-lfs-review; review/reviewer. Implementation acceptance is source-bound; this metadata source still requires its own complete checks and CI. Original lease/claims/actors unchanged.
+
+
+## Retrievable prerequisite evidence repair
+Valid PR188 P1 PRRT_kwDOTgCQ3c6y-g5B blocked merge before any API merge. The unchanged code acceptance now has a committed lossless small ZIP, per-entry index and verification/retrieval instructions under review-v1/. All 12 direct pins and recursive small pinned records plus actual raw outputs are included. Original CI946/source a8ae2472033c41c674e9761a79b695540575c189 remains successful only for that source; current archive repair source14/867 CI and source/actual-main independent acceptance remain UNEXECUTED/PENDING. No code, Task/Program/Registry, scope, lease, actors, POC or original acceptance bytes changed.

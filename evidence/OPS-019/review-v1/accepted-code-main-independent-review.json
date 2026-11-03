@@ -1,0 +1,146 @@
+{
+  "schemaVersion": 1,
+  "kind": "independent_final_actual_implementation_main_review",
+  "taskId": "OPS-019",
+  "reviewer": "/root/independent_review",
+  "reviewedAt": "2026-11-03T03:48:09Z",
+  "actualMain": "02997ddaee951e054a5ce106e0566847f546d8cd",
+  "source": "3459ded7edd0623908d869cf1d57507896065f16",
+  "base": "7d82fb61f434f57bb97cb9d80f4613cee3be2721",
+  "tree": "3a8d79f2db5abfe25403fb1ff2e8630225119eee",
+  "actualImplementationMainAccepted": true,
+  "fullMainCiAccepted": true,
+  "ownMainSevenAccepted": true,
+  "mustFix": [],
+  "bootstrapExceptionAccepted": false,
+  "normalReviewPreparationMayStart": true,
+  "normalReviewPreparationMethodSha256": "43404e3099c2162f9dddd284273d713d42b091c51f71a9bd00d7d282a4426be9",
+  "scope": "OPS019_ACTUAL_REGISTERED_CODE_MAIN_ACCEPTANCE_AND_NORMAL_REVIEW_PREPARATION_ONLY",
+  "ci": {
+    "run": 41570975867,
+    "job": 125703524256,
+    "attempt": 1,
+    "event": "push",
+    "uniquePassed": 867,
+    "original842Plus25Exact": true,
+    "failedErroredSkippedXfailXpass": 0,
+    "pytestSeconds": 1709.54,
+    "jobSeconds": 1793,
+    "workflowTimeoutMinutes": 30,
+    "runnerLabels": [
+      "ubuntu-latest"
+    ],
+    "python": "3.11.17",
+    "successSteps": 23,
+    "totalSteps": 28,
+    "originalConditionalSkippedSteps": [
+      "Task file validation",
+      "Evidence check",
+      "Evidence integrity check",
+      "Task-branch linkage check",
+      "Scope check"
+    ],
+    "skipAuditSucceeded": true,
+    "actualCheckout": "02997ddaee951e054a5ce106e0566847f546d8cd",
+    "checkoutIdentityProof": "Exact checkout git log -1 --format=%H command followed by actual main SHA; a later origin/main resolution repeats that SHA without invalidating checkout identity.",
+    "orderedParents": [
+      "7d82fb61f434f57bb97cb9d80f4613cee3be2721",
+      "3459ded7edd0623908d869cf1d57507896065f16"
+    ],
+    "remoteLfsFetchAndActualRootProbeAccepted": true,
+    "logRepresentation": "Connector-decoded UTF8; no claim of HTTP archive or separately downloaded cloud JUnit."
+  },
+  "postMergeFacts": {
+    "ordinaryExpectedHeadMergeAccepted": true,
+    "canonicalCleanExactActualMain": true,
+    "canonicalFastForwardActualWaitAllZero": true,
+    "localReferenceCountBeforeAndAfter": 135,
+    "allOther132ReferencesUnchanged": true,
+    "recoveryBundle": {
+      "path": "ops019-implementation-pr187-actual-main-02997dd-full.bundle",
+      "bytes": 129706328,
+      "sha256": "2334328c68eaaf2f8daaa6782894f2b3338d5e34a0b97cd75146a1e84bcbe328",
+      "hashNotRepeatedInThisReview": true
+    },
+    "independentNativeSeven": {
+      "all7RawSizeShaSourceAndActualWaitZeroVerified": true,
+      "cleanBeforeEqualsAfter": true,
+      "localLfsRecoveryIsNotRemoteDownloadProof": true
+    }
+  },
+  "remainingConditions": [
+    "Normal Review remains a new metadata candidate requiring independent review, original14 and its own complete source/main CI; prepare only by the exact reviewed method after fresh canonical/remote identity and clean-state checks.",
+    "Normal Completion and capacity release, a separately independently approved immutable prospective migration record committed beforehand in the permitted normal lifecycle, and fresh exact migration proof remain required.",
+    "Ended reservation remote cleanup is separate: only the reviewed exact target with new under120-second official facts, zero active Registry references, expected-old single deletion and preservation of all local refs/worktrees/recovery.",
+    "Prior CI943 cancellation, audit parser failure and all historical POC results remain unchanged; none is transferred to a new source or upgraded by this acceptance."
+  ],
+  "normalReviewAccepted": false,
+  "normalCompletionAccepted": false,
+  "authorityNormalCompletionAccepted": false,
+  "taskCompleted": false,
+  "capacityReleased": false,
+  "actualMigrationApproved": false,
+  "newPocResourcesOrExperimentApproved": false,
+  "evidencePins": [
+    {
+      "path": "ops019-implementation-pr187-source-final-independent-review.json",
+      "bytes": 6231,
+      "sha256": "e2967c7772f8aec2fb0bc1a157d78d1a5373a90294ccbbae6912b6f1191639ed"
+    },
+    {
+      "path": "ops019-implementation-pr187-merge-api-result-v1.json",
+      "bytes": 266,
+      "sha256": "3e8db2f33b66a1f66d5a9b6891bcd2cad3984c3d7454896870e2616bc247f5a4"
+    },
+    {
+      "path": "ops019-implementation-pr187-final-merge-preflight-result.json",
+      "bytes": 695,
+      "sha256": "db76d7e34e2e71bde8e0dc106acfa5170760cf5d4c2bb14b89f37b3cbf453ca0"
+    },
+    {
+      "path": "ops019-implementation-pr187-actual-main-primary-commit.json",
+      "bytes": 2927,
+      "sha256": "ec9baf411b8017710572ce68b973acfd23d65214c3ec6f6980d582e30a2fecc2"
+    },
+    {
+      "path": "ops019-implementation-pr187-actual-main-candidate.json",
+      "bytes": 830,
+      "sha256": "e2e89277e4f41678082e9a221d50223317f91f3b494aaee627fd39de55d5f428"
+    },
+    {
+      "path": "ops019-implementation-pr187-02997dd-canonical-main/results.json",
+      "bytes": 34868,
+      "sha256": "756fe43e71a0afd0d72a45c1ad4bee77c7756de5a6b2841ec64e434747e131a8"
+    },
+    {
+      "path": "ops019-implementation-pr187-02997dd-native-main-seven/results.json",
+      "bytes": 33297,
+      "sha256": "67a2159fe0d07cb0c519ef044f005797ad8eee0faa0b080458b85e301c45b21e"
+    },
+    {
+      "path": "ops019-implementation-pr187-main-ci945-final/run.json",
+      "bytes": 13682,
+      "sha256": "df05479dc3b7d17e5164c08ff24f9e255ee4bb6d8852718ae0b297a38212067b"
+    },
+    {
+      "path": "ops019-implementation-pr187-main-ci945-final/jobs.json",
+      "bytes": 8276,
+      "sha256": "78ba8a44d8e364b3760cd87f790166616e63092714f4508834fc7fe1acb0e7fe"
+    },
+    {
+      "path": "ops019-implementation-pr187-main-ci945-final/checkout.json",
+      "bytes": 2927,
+      "sha256": "ec9baf411b8017710572ce68b973acfd23d65214c3ec6f6980d582e30a2fecc2"
+    },
+    {
+      "path": "ops019-implementation-pr187-main-ci945-final/capture.json",
+      "bytes": 934,
+      "sha256": "18080c84e4a7e18cf93d6ea1019343cb7a2e3f2ad5641d09dae2a2d06e6dc49f"
+    },
+    {
+      "path": "ops019-implementation-pr187-main-ci945-final/job-log.connector-decoded.utf8.txt",
+      "bytes": 336832,
+      "sha256": "3964750e3ec83252a27f598eb2229923564153561cf39ba5b5943d67cc292d0e"
+    }
+  ]
+}

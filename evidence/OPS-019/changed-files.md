@@ -24,3 +24,15 @@
 - `specs/coordination/active-work.yaml`
 - `specs/coordination/program-plan.yaml`
 - `specs/tasks/OPS-019.md`
+
+
+## Retrievable evidence forward repair
+- evidence/OPS-019/changed-files.md
+- evidence/OPS-019/commands.txt
+- evidence/OPS-019/handoff.md
+- evidence/OPS-019/review-v1/README.md
+- evidence/OPS-019/review-v1/accepted-code-main-evidence-index.json
+- evidence/OPS-019/review-v1/accepted-code-main-evidence.zip
+- evidence/OPS-019/review-v1/verify-accepted-code-main-evidence.py
+- evidence/OPS-019/summary.md
+- evidence/OPS-019/test-results/README.md
