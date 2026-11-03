@@ -26,7 +26,8 @@ class Graph:
 
     def git(self, *args, env=None):
         result = subprocess.run(['git', '-c', 'core.longpaths=true', '-C', str(self.repo), *args],
-                                capture_output=True, env=env)
+                                capture_output=True,
+                                env=dict(os.environ if env is None else env, GIT_LFS_SKIP_SMUDGE='1'))
         assert result.returncode == 0, result.stdout.decode(errors='replace')+result.stderr.decode(errors='replace')
         return result.stdout.decode().strip()
 
@@ -327,3 +328,58 @@ def test_authority_rejects_side_intent_rewrite_restored_before_treesame_merge(gr
     assert PROOF.blob(str(graph.repo), head, PROOF.INTENT) == original
     with pytest.raises(PROOF.MigrationError, match='rewritten on a source edge'):
         PROOF.authority(str(graph.repo), head)
+
+
+@pytest.mark.parametrize('mutation', ['valid', 'malformed-task', 'missing-handoff', 'registry-drift'])
+def test_sparse_historical_task_keeps_real_validation(tmp_path, mutation):
+    graph = clone(ROOT, tmp_path/'snapshot-source', PROOF.REGISTRATION)
+    entry = PROOF.rows(graph.read(PROOF.ACTIVE))[PROOF.OWNER]
+    if mutation == 'malformed-task':
+        target = 'specs/tasks/OPS-019.md'
+        graph.write(target, (graph.repo/target).read_bytes().replace(b'schemaVersion: 2', b'schemaVersion: 99'))
+    elif mutation == 'missing-handoff':
+        graph.git('rm', 'evidence/OPS-019/handoff.md')
+    elif mutation == 'registry-drift':
+        # The real linkage validator must reject this proposed entry against
+        # the actual historical Task, even though the physical checkout is small.
+        entry = dict(entry, reviewer='/root/not-the-registered-reviewer')
+    head = PROOF.REGISTRATION if mutation in {'valid', 'registry-drift'} else graph.commit('Invalid historical Task input')
+    history = PROOF.history_module()
+    errors = []
+    history.historical_task_snapshot(str(graph.repo), head, PROOF.OWNER, entry, 'OPS019 real snapshot', errors)
+    if mutation == 'valid':
+        assert errors == []
+    else:
+        assert errors
+        expected = {'malformed-task': 'schemaVersion', 'missing-handoff': 'handoffPath',
+                    'registry-drift': 'does not match'}[mutation]
+        assert expected in '\n'.join(errors)
+
+
+def test_other_task_snapshot_stays_dense(tmp_path):
+    repo = tmp_path/'dense-source'
+    repo.mkdir()
+    def git_at(directory, *args):
+        result = subprocess.run(['git', '-C', str(directory), *args], capture_output=True,
+                                env=dict(os.environ, GIT_LFS_SKIP_SMUDGE='1'))
+        assert result.returncode == 0, result.stderr.decode()
+        return result.stdout.decode().strip()
+    git_at(repo, 'init', '--quiet')
+    git_at(repo, 'config', 'user.name', 'Dense snapshot fixture')
+    git_at(repo, 'config', 'user.email', 'fixture@example.invalid')
+    evidence = repo/'evidence/OTHER/unrelated.txt'
+    evidence.parent.mkdir(parents=True)
+    evidence.write_text('must remain in every other task snapshot\n', encoding='utf-8')
+    git_at(repo, 'add', '.')
+    git_at(repo, 'commit', '--quiet', '-m', 'Original dense snapshot input')
+    head = git_at(repo, 'rev-parse', 'HEAD')
+    snapshot = tmp_path/'dense-snapshot'
+    git_at(repo, 'clone', '--shared', '--no-checkout', '--quiet', str(repo), str(snapshot))
+    history = PROOF.history_module()
+    result = history.checkout_task_snapshot(str(snapshot), head, 'OPS-017')
+    assert result.returncode == 0
+    assert git_at(snapshot, 'rev-parse', 'HEAD') == head
+    assert (snapshot/'evidence/OTHER/unrelated.txt').read_bytes() == evidence.read_bytes()
+    sparse = subprocess.run(['git', '-C', str(snapshot), 'config', '--get', 'core.sparseCheckout'],
+                            capture_output=True)
+    assert sparse.returncode == 1
