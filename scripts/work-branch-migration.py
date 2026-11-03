@@ -209,7 +209,7 @@ def verify_retired_graph(root, ref):
                 == [expected.encode()], 'Retired-delivery commit parent differs')
 
 
-def authority(root, admitted):
+def authority(root, admitted, *, source_before=None):
     canonical = chain(root, admitted)
     require(REGISTRATION in canonical and parents(root, REGISTRATION) == [BASE, RESERVATION_SOURCE],
             'Migration requires the original actual main reservation')
@@ -265,6 +265,9 @@ def authority(root, admitted):
                     and prior_live.get('reviewer') == registered['reviewer']
                     and prior_live.get('agentRole') in {'reviewer', 'integrator'},
                     'Migration authority Completion requires a preceding independent admitted main Review')
+            if source_before is not None:
+                require(ancestor(root, node, source_before),
+                        'Migration source must follow the actual admitted authority Completion')
             errors = []
             module.validate_foundations(root, document(root, prior, PLAN), document(root, node, PLAN),
                 document(root, prior, ACTIVE), document(root, node, ACTIVE),
@@ -450,7 +453,7 @@ def validate_range(root, before, after, admitted=None):
     if branch_pair(root, before, after):
         transaction_shape(root, before, after)
     complete_ancestry(root, after)
-    implementation, completion = authority(root, admitted)
+    implementation, completion = authority(root, admitted, source_before=parents(root, edits[0])[0])
     # Scan the complete reachable lineage after the fixed original reservation,
     # so an accepted old event cannot be consumed a second time on another side.
     events = {}
