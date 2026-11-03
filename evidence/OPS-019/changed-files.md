@@ -36,3 +36,20 @@
 - evidence/OPS-019/review-v1/verify-accepted-code-main-evidence.py
 - evidence/OPS-019/summary.md
 - evidence/OPS-019/test-results/README.md
+
+
+## Prospective normal Completion inventory
+- evidence/OPS-019/changed-files.md
+- evidence/OPS-019/commands.txt
+- evidence/OPS-019/completion-v1/README.md
+- evidence/OPS-019/completion-v1/commands.txt
+- evidence/OPS-019/completion-v1/context.json
+- evidence/OPS-019/completion-v1/index.json
+- evidence/OPS-019/completion-v1/prerequisites.zip
+- evidence/OPS-019/handoff.md
+- evidence/OPS-019/implementation-v1/migration-approval.json
+- evidence/OPS-019/summary.md
+- evidence/OPS-019/test-results/README.md
+- specs/coordination/active-work.yaml
+- specs/coordination/program-plan.yaml
+- specs/tasks/OPS-019.md

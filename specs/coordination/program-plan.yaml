@@ -101,9 +101,9 @@ foundationTasks:
     mergeCommit: ed5e4d4ad9d40d85358347760ac90bd1f73b10a7
   - taskId: OPS-019
     title: 大媒体证据外部存储与受限工作分支迁移
-    status: review
-    completionRef: ISSUE-185
-    mergeCommit: null
+    status: completed
+    completionRef: PR-187
+    mergeCommit: 02997ddaee951e054a5ce106e0566847f546d8cd
 waves:
   - {id: W1, order: 1, name: "需求与 POC 计划", maxConcurrent: 2, maxHighRisk: 1}
   - {id: W2, order: 2, name: "OpenAPI + 独立 POC", maxConcurrent: 3, maxHighRisk: 1}

@@ -1,0 +1,14 @@
+git diff --check daede2ac652f03d05fcdf22c40504edde07067ac...HEAD
+python scripts/check-task-file.py --task OPS-019
+python scripts/check-schemas.py
+python scripts/check-program-plan-integrity.py --base-ref daede2ac652f03d05fcdf22c40504edde07067ac
+python scripts/check-program-plan-history.py --base-ref daede2ac652f03d05fcdf22c40504edde07067ac --head-ref HEAD --task OPS-019 --branch-name chore/OPS-019-controlled-lfs-completion
+python scripts/check-program-plan-transitions.py --base-ref daede2ac652f03d05fcdf22c40504edde07067ac --head-ref HEAD --task OPS-019 --branch-name chore/OPS-019-controlled-lfs-completion
+python scripts/check-program-lifecycle-guards.py --base-ref daede2ac652f03d05fcdf22c40504edde07067ac --head-ref HEAD --task OPS-019 --branch-name chore/OPS-019-controlled-lfs-completion
+python scripts/run-program-lifecycle-gate.py --base-ref daede2ac652f03d05fcdf22c40504edde07067ac --head-ref HEAD --task OPS-019 --branch-name chore/OPS-019-controlled-lfs-completion
+python scripts/run-agent-coordination-gate.py --base-ref daede2ac652f03d05fcdf22c40504edde07067ac --head-ref HEAD --task OPS-019 --branch-name chore/OPS-019-controlled-lfs-completion
+python scripts/check-program-plan-finalization.py --base-ref daede2ac652f03d05fcdf22c40504edde07067ac --head-ref HEAD --task OPS-019
+python scripts/run-task-scope-gate.py --task OPS-019 --base daede2ac652f03d05fcdf22c40504edde07067ac
+python scripts/check-evidence.py --task OPS-019
+python scripts/check-project-readiness.py
+python scripts/check-markdown.py
