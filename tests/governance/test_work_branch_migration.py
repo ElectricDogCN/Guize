@@ -98,8 +98,15 @@ def clone(source, destination, ref):
     graph.git('config', 'user.name', 'Migration fixture')
     graph.git('config', 'user.email', 'fixture@example.invalid')
     graph.git('config', 'core.autocrlf', 'false')
-    graph.git('checkout', '--quiet', '-b', 'migration-fixture-main', ref,
-              env=dict(os.environ, GIT_LFS_SKIP_SMUDGE='1'))
+    existing = subprocess.run(['git', '-C', str(destination), 'rev-parse', '--verify',
+                               'refs/heads/migration-fixture-main'], capture_output=True)
+    if existing.returncode == 0:
+        assert existing.stdout.decode().strip() == graph.git('rev-parse', ref)
+        graph.git('checkout', '--quiet', 'migration-fixture-main',
+                  env=dict(os.environ, GIT_LFS_SKIP_SMUDGE='1'))
+    else:
+        graph.git('checkout', '--quiet', '-b', 'migration-fixture-main', ref,
+                  env=dict(os.environ, GIT_LFS_SKIP_SMUDGE='1'))
     return Graph(destination)
 
 
@@ -242,3 +249,60 @@ def test_no_branch_change_does_not_load_authority(graph, monkeypatch):
     graph.write('evidence/POC-003/unrelated-small-note.txt', 'ordinary own evidence\n')
     head = graph.commit('POC-003 ordinary own evidence')
     assert PROOF.validate_range(str(graph.repo), graph.base, head) == {}
+
+
+@pytest.mark.parametrize('side_review', [False, True])
+def test_rejects_completion_without_preceding_admitted_review(graph, completed, side_review):
+    _, _, implementation = completed
+    graph.git('checkout', '--detach', implementation)
+    graph.git('checkout', '-b', 'direct-completion-main')
+    graph.git('checkout', '-b', 'unadmitted-completion-source')
+    if side_review:
+        graph.lifecycle('review', 'reviewer', implementation)
+        graph.approval(implementation)
+        graph.commit('OPS-019 Review only on unadmitted side branch')
+    graph.lifecycle('completed', 'integrator', implementation)
+    plan = graph.read(PROOF.PLAN)
+    PROOF.rows(plan, 'foundationTasks')[PROOF.OWNER].update(
+        mergeCommit=implementation, completionRef='PR-9001')
+    graph.dump(PROOF.PLAN, plan)
+    active = graph.read(PROOF.ACTIVE)
+    active['tasks'] = [row for row in active['tasks'] if row['taskId'] != PROOF.OWNER]
+    graph.dump(PROOF.ACTIVE, active)
+    graph.commit('OPS-019 direct Completion candidate')
+    graph.git('checkout', 'direct-completion-main')
+    head = graph.merge('unadmitted-completion-source', 'OPS-019 direct actual Completion (#9005)')
+    with pytest.raises(PROOF.MigrationError, match='preceding independent admitted main Review'):
+        PROOF.authority(str(graph.repo), head)
+
+
+def test_rejects_migration_from_unadmitted_completion_source(graph):
+    source = PROOF.parents(str(graph.repo), graph.base)[1]
+    graph.git('checkout', '--detach', source)
+    graph.git('checkout', '-b', PROOF.NEW)
+    head = graph.migrate()
+    with pytest.raises(PROOF.MigrationError, match='actual admitted authority Completion'):
+        PROOF.validate_range(str(graph.repo), source, head, graph.base)
+
+
+@pytest.mark.parametrize('protected', [PROOF.INTENT, PROOF.GRAPH, PROOF.APPROVAL])
+def test_protected_metadata_rewrite_restore_rejected_without_branch_edit(graph, protected, monkeypatch):
+    original = (graph.repo/protected).read_bytes()
+    graph.write(protected, b'{}\n')
+    graph.commit('Invalid protected metadata rewrite')
+    graph.write(protected, original)
+    head = graph.commit('Restoration cannot conceal invalid earlier edge')
+    def forbidden(*args):
+        raise AssertionError('protected metadata check should not perform a full authority audit')
+    monkeypatch.setattr(PROOF, 'authority', forbidden)
+    with pytest.raises(PROOF.MigrationError, match='[Pp]rotected'):
+        PROOF.validate_range(str(graph.repo), graph.base, head)
+
+
+def test_pointer_and_corrupted_data_are_not_hydrated_evidence(tmp_path):
+    graph = clone(ROOT, tmp_path/'probe-repo', 'HEAD')
+    with pytest.raises(PROOF.MigrationError, match='not hydrated'):
+        PROOF.verify_probe(str(graph.repo))
+    graph.write(PROOF.PROBE, b'wrong materialized bytes')
+    with pytest.raises(PROOF.MigrationError, match='not hydrated'):
+        PROOF.verify_probe(str(graph.repo))

@@ -236,6 +236,7 @@ def authority(root, admitted):
             and CLAIMS <= changed(root, REGISTRATION, implementation),
             'Migration authority lacks its complete nonempty registered implementation')
     finished = None
+    reviewed = False
     module = history_module()
     # The unchanged normal Foundation validator proves original reservation,
     # every source edge, independent Review, implementation PR identity and
@@ -243,8 +244,24 @@ def authority(root, admitted):
     for index, node in enumerate(canonical[canonical.index(REGISTRATION):]):
         state = rows(document(root, node, PLAN), 'foundationTasks').get(OWNER, {})
         require(blob(root, node, INTENT) == original, 'Migration intent changed in admitted history')
+        if state.get('status') in {'review', 'integration'} and ancestor(root, implementation, node):
+            live = rows(document(root, node, ACTIVE)).get(OWNER, {})
+            require(live.get('implementer') == registered['implementer']
+                    and live.get('reviewer') == registered['reviewer']
+                    and live.get('agentRole') in {'reviewer', 'integrator'},
+                    'Migration authority lacks an independent admitted main Review')
+            reviewed = True
         if state.get('status') == 'completed' and finished is None:
-            prior = parents(root, node)[0]
+            graph = parents(root, node)
+            require(len(graph) == 2, 'Migration authority Completion must be an ordinary actual main merge')
+            prior = graph[0]
+            prior_state = rows(document(root, prior, PLAN), 'foundationTasks').get(OWNER, {})
+            prior_live = rows(document(root, prior, ACTIVE)).get(OWNER, {})
+            require(reviewed and prior_state.get('status') in {'review', 'integration'}
+                    and prior_live.get('implementer') == registered['implementer']
+                    and prior_live.get('reviewer') == registered['reviewer']
+                    and prior_live.get('agentRole') in {'reviewer', 'integrator'},
+                    'Migration authority Completion requires a preceding independent admitted main Review')
             errors = []
             module.validate_foundations(root, document(root, prior, PLAN), document(root, node, PLAN),
                 document(root, prior, ACTIVE), document(root, node, ACTIVE),
@@ -261,7 +278,7 @@ def authority(root, admitted):
     for node in git(root, 'rev-list', REGISTRATION+'..'+admitted, '--', INTENT).decode().split():
         require(blob(root, node, INTENT) == original, 'Migration intent was rewritten on a source edge')
     verify_retired_graph(root, implementation)
-    return implementation
+    return implementation, finished
 
 
 def unique_json(raw):
@@ -276,7 +293,9 @@ def unique_json(raw):
     return value
 
 
-def approved_transaction(root, before, after, admitted, implementation):
+def approved_transaction(root, before, after, admitted, implementation, completion):
+    require(ancestor(root, completion, before),
+            "Migration source must follow the actual admitted authority Completion")
     left = rows(document(root, before, ACTIVE)).get(TARGET)
     right = rows(document(root, after, ACTIVE)).get(TARGET)
     require(left is not None and right is not None and left['branch'] == OLD and right['branch'] == NEW
@@ -356,7 +375,7 @@ def approved_transaction(root, before, after, admitted, implementation):
             require(updated.startswith(original) and len(updated) > len(original),
                     'Migration handoff must append to original bytes')
         else:
-            require(path.startswith(PREFIX) and blob(root, admitted, path, missing=True) is None
+            require(path.startswith(PREFIX) and blob(root, completion, path, missing=True) is None
                     and mode_blob(root, after, path)[0] == '100644',
                     'Migration contains code, media, old evidence or unrelated files')
     return FIELDS
@@ -377,18 +396,45 @@ def branch_pair(root, before, after):
 def validate_range(root, before, after, admitted=None):
     before, after = resolve(root, before), resolve(root, after)
     admitted = resolve(root, admitted or before)
-    # Path-limited history still sees change-then-restore source edges.
+    # Path-limited history sees protected Evidence rewrites and branch
+    # change-then-restore without auditing unrelated full Foundation histories.
     candidates = git(root, 'rev-list', '--full-history', '--reverse', before+'..'+after,
-                     '--', ACTIVE, TASK).decode().split()
+                     '--', ACTIVE, TASK, INTENT, GRAPH, APPROVAL).decode().split()
     edits = []
     for node in candidates:
         graph = parents(root, node)
-        if graph and branch_pair(root, graph[0], node):
+        if not graph:
+            continue
+        paths = changed(root, graph[0], node)
+        for path, digest in ((INTENT, INTENT_SHA256), (GRAPH, GRAPH_SHA256)):
+            if path not in paths:
+                continue
+            current = blob(root, node, path, missing=True)
+            require(current is not None and mode_blob(root, node, path)[0] == '100644'
+                    and hashlib.sha256(current).hexdigest() == digest,
+                    'Protected migration intent or graph was rewritten, deleted or chmodded')
+        if APPROVAL in paths:
+            previous = blob(root, graph[0], APPROVAL, missing=True)
+            current = blob(root, node, APPROVAL, missing=True)
+            require(current is not None and mode_blob(root, node, APPROVAL)[0] == '100644',
+                    'Protected migration approval was deleted or chmodded')
+            if previous is not None:
+                require(current == previous and mode_blob(root, graph[0], APPROVAL)[0] == '100644',
+                        'Protected migration approval was rewritten')
+            elif not any(blob(root, side, APPROVAL, missing=True) == current for side in graph[1:]):
+                state = rows(document(root, node, PLAN), 'foundationTasks').get(OWNER, {})
+                live = rows(document(root, node, ACTIVE)).get(OWNER, {})
+                require(state.get('status') in {'review', 'integration'}
+                        and live.get('agentRole') in {'reviewer', 'integrator'}
+                        and live.get('reviewer') == '/root/independent_review'
+                        and live.get('implementer') == '/root',
+                        'Conditional approval must originate in normal independent Review/Completion')
+        if branch_pair(root, graph[0], node):
             edits.append(node)
     if not edits:
         return {}
     complete_ancestry(root, after)
-    implementation = authority(root, admitted)
+    implementation, completion = authority(root, admitted)
     # Scan the complete reachable lineage after the fixed original reservation,
     # so an accepted old event cannot be consumed a second time on another side.
     events = {}
@@ -401,23 +447,23 @@ def validate_range(root, before, after, admitted=None):
         require(branch_pair(root, graph[0], node) == (OLD, NEW),
                 'Migration branch change is not the declared one-way pair')
         if len(graph) == 1:
-            approved_transaction(root, graph[0], node, admitted, implementation)
+            approved_transaction(root, graph[0], node, admitted, implementation, completion)
             events[node] = node
         else:
             require(len(graph) == 2 and graph[0] not in (node, graph[1])
                     and resolve(root, graph[0]) == graph[0],
                     'Migration requires an ordinary two-parent merge')
             incoming = [event for event in events if ancestor(root, event, graph[1])]
-            require(len(incoming) == 1 and ancestor(root, admitted, graph[1])
+            require(len(incoming) == 1 and ancestor(root, completion, graph[1])
                     and blob(root, graph[1], ACTIVE) == blob(root, node, ACTIVE)
                     and blob(root, graph[1], TASK) == blob(root, node, TASK)
                     and git(root, 'diff', '--name-only', graph[1], node) == b'',
                     'Migration merge must import the exact single qualified source tree')
-            approved_transaction(root, graph[0], node, admitted, implementation)
+            approved_transaction(root, graph[0], node, admitted, implementation, completion)
     require(len(events) == 1, 'Migration has more than one source transaction')
     # Net permission is granted only to the exact metadata-only transaction.
     if branch_pair(root, before, after):
-        approved_transaction(root, before, after, admitted, implementation)
+        approved_transaction(root, before, after, admitted, implementation, completion)
         return {TARGET: FIELDS}
     return {}
 
