@@ -55,6 +55,7 @@ assert PLANNING_SPEC and PLANNING_SPEC.loader
 PLANNING_SPEC.loader.exec_module(PLANNING)
 
 ACTORS = TRANSITIONS.ACTORS
+MIGRATION = TRANSITIONS.MIGRATION
 
 PLAN = "specs/coordination/program-plan.yaml"
 ACTIVE = "specs/coordination/active-work.yaml"
@@ -1296,6 +1297,8 @@ def historical_post_metadata(root: str, previous: str, node: str, task_id: str, 
                         errors.append("Foreign actor edit has no prospective amendment proof module")
                     else:
                         mutable.update(ACTORS.checked_edge(root, previous, node, peer, errors, admitted=admitted_base or previous))
+                if peer not in foundations and entry.get("branch") != current[peer].get("branch") and MIGRATION is not None:
+                    mutable.update(MIGRATION.checked_edge(root, previous, node, peer, errors, admitted=admitted_base or previous))
                 if peer in foundations:
                     mutable.update({"branch", "exclusivePaths", "sharedPaths"})
                 if {key: value for key, value in entry.items() if key not in mutable} != {key: value for key, value in current[peer].items() if key not in mutable}:
@@ -1733,6 +1736,7 @@ def main() -> int:
         return 1
 
     TRANSITIONS.check_actor_range(root, args.base_ref, args.head_ref, errors)
+    TRANSITIONS.check_work_branch_range(root, args.base_ref, args.head_ref, errors)
 
     planning = PLANNING.classifier(
         root, args.base_ref, args.head_ref, base_plan, current_plan, errors,
