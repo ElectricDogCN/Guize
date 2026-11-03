@@ -101,7 +101,7 @@ foundationTasks:
     mergeCommit: ed5e4d4ad9d40d85358347760ac90bd1f73b10a7
   - taskId: OPS-019
     title: 大媒体证据外部存储与受限工作分支迁移
-    status: in_progress
+    status: review
     completionRef: ISSUE-185
     mergeCommit: null
 waves:

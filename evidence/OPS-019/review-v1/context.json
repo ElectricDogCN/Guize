@@ -1,0 +1,26 @@
+{
+  "kind": "OPS019_NORMAL_REVIEW_METADATA_PREPARATION",
+  "base": "02997ddaee951e054a5ce106e0566847f546d8cd",
+  "source": "3459ded7edd0623908d869cf1d57507896065f16",
+  "branch": "chore/OPS-019-controlled-lfs-review",
+  "acceptedImplementationMainReviewSha256": "470399eb24c80ad7b2de24736799b86c00a38a3ca6c9241a8cc569cf9169908a",
+  "claims": [
+    ".github/workflows/governance-gate.yml",
+    "scripts/check-program-plan-history.py",
+    "scripts/check-program-plan-transitions.py",
+    "scripts/work-branch-migration.py",
+    "tests/governance/test_work_branch_migration.py"
+  ],
+  "lease": {
+    "acquiredAt": "2026-11-02T23:44:30Z",
+    "expiresAt": "2026-11-09T23:44:30Z"
+  },
+  "status": "review",
+  "agentRole": "reviewer",
+  "sourceGatePassed": false,
+  "fullReviewCiAccepted": false,
+  "taskCompleted": false,
+  "actualPocMigrationApproved": false,
+  "conditionalMigrationApprovalCreated": false,
+  "createdAt": "2026-11-03T04:03:11.800853+00:00"
+}

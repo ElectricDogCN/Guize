@@ -14,3 +14,7 @@ Original private source cb0bc834174bc50ae6d6a1481987c2580df9a9ee actually passed
 
 # Current implementation activation
 Base 7d82fb61f434f57bb97cb9d80f4613cee3be2721; branch chore/OPS-019-controlled-lfs-delivery; in_progress/implementer; original lease and fiveclaims unchanged. Exact code and tests pending; no migration or experiment.
+
+
+# Normal Review preparation
+Base 02997ddaee951e054a5ce106e0566847f546d8cd; branch chore/OPS-019-controlled-lfs-review; review/reviewer. Implementation acceptance is source-bound; this metadata source still requires its own complete checks and CI. Original lease/claims/actors unchanged.
