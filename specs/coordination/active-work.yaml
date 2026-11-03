@@ -96,17 +96,17 @@ tasks:
 - taskId: OPS-019
   issue: 185
   title: 大媒体证据外部存储与受限工作分支迁移
-  status: reserved
+  status: in_progress
   riskLevel: high
   owner: ElectricDogCN
   coordinator: /root
   implementer: /root
   reviewer: /root/independent_review
   integrator: /root
-  agentRole: coordinator
-  branch: chore/OPS-019-external-evidence-reservation
+  agentRole: implementer
+  branch: chore/OPS-019-controlled-lfs-delivery
   baseBranch: main
-  baseSha: 1b5c68bab02d98f8e11286d80033585090c7af99
+  baseSha: 7d82fb61f434f57bb97cb9d80f4613cee3be2721
   workPackage: WP-M0-01
   programPlan: specs/coordination/program-plan.yaml
   programTaskId: OPS-019
