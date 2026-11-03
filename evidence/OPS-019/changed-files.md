@@ -53,3 +53,20 @@
 - specs/coordination/active-work.yaml
 - specs/coordination/program-plan.yaml
 - specs/tasks/OPS-019.md
+
+
+## Structured prerequisite markers forward repair
+- evidence/OPS-019/changed-files.md
+- evidence/OPS-019/commands.txt
+- evidence/OPS-019/completion-v1/failed-first-source/00.raw
+- evidence/OPS-019/completion-v1/failed-first-source/01.raw
+- evidence/OPS-019/completion-v1/failed-first-source/02.raw
+- evidence/OPS-019/completion-v1/failed-first-source/03.raw
+- evidence/OPS-019/completion-v1/failed-first-source/04.raw
+- evidence/OPS-019/completion-v1/failed-first-source/05.raw
+- evidence/OPS-019/completion-v1/failed-first-source/06.raw
+- evidence/OPS-019/completion-v1/failed-first-source/README.md
+- evidence/OPS-019/completion-v1/failed-first-source/results.json
+- evidence/OPS-019/handoff.md
+- evidence/OPS-019/summary.md
+- evidence/OPS-019/test-results/README.md

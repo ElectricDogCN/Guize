@@ -1,0 +1,10 @@
+Source Commit: a67129c9e591657f921c23613706ca96e2e7ed1d
+Command: python scripts/check-program-lifecycle-guards.py --base-ref daede2ac652f03d05fcdf22c40504edde07067ac --head-ref HEAD --task OPS-019 --branch-name chore/OPS-019-controlled-lfs-completion
+{"status": "FAIL", "message": "Completion task OPS-019 commands.txt has no executed command"}
+{"status": "FAIL", "message": "Completion task OPS-019 commands.txt has no successful exit code"}
+{"status": "FAIL", "message": "Completion task OPS-019 commands.txt has no explicit PASS result"}
+{"status": "FAIL", "message": "Completion task OPS-019 test results have no explicit PASS status"}
+{"status": "FAIL", "message": "Completion Evidence evidence/OPS-019/summary.md has no explicit completed/pass status"}
+{"status": "FAIL", "message": "Completion Evidence evidence/OPS-019/handoff.md has no explicit completed/pass status"}
+
+Exit Code: 1
