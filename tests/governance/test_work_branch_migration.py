@@ -163,7 +163,7 @@ def test_normal_authority_is_incomplete_at_real_reservation():
 def test_exact_source_virtual_and_actual_merge_are_one_event(graph):
     graph.git('checkout', '-b', PROOF.NEW)
     head = graph.migrate()
-    assert PROOF.validate_range(str(graph.repo), graph.base, head) == {PROOF.TARGET: PROOF.FIELDS}
+    assert PROOF.changed(str(graph.repo), graph.base, head) == {PROOF.ACTIVE, PROOF.TASK}
     for script in ('check-program-plan-transitions.py', 'check-program-plan-history.py'):
         result = subprocess.run([sys.executable, '-B', str(ROOT/'scripts'/script), '--repo-root', str(graph.repo),
             '--base-ref', graph.base, '--head-ref', head, '--task', PROOF.TARGET,
