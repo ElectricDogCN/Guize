@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "kind": "conditional_prospective_work_branch_migration",
+  "authorityTaskId": "OPS-019",
+  "taskId": "POC-003",
+  "reservation": "7d82fb61f434f57bb97cb9d80f4613cee3be2721",
+  "implementationCommit": "02997ddaee951e054a5ce106e0566847f546d8cd",
+  "intentSha256": "6a563cd81331c9ebc6141e12f1b678b9e97a808daeb816d5b2c4794abbc9cec4",
+  "oldBranch": "chore/POC-003-ats-range",
+  "newBranch": "chore/POC-003-qualified-lfs-evidence-v1",
+  "originalCreationBase": "760f6c5838597d1d66c0a536ecbf440ef5a7dfec",
+  "oldUnmergedCandidate": "3564346d2bdfbd80f2f705ae3dd4f7ba79103cb6",
+  "beforeRegistrySha256": "4c0ebe76fbd6a0a4fbd1106f8a126f03daf0f78d8d80d80305df194674de33f7",
+  "beforeTaskSha256": "04b4a6c86f4573bf8e2798be739925a45be786c60b84591e10e402d5bbfb22f7",
+  "reviewer": "/root/independent_review",
+  "approvedAt": "2026-11-03T06:22:00Z",
+  "decision": "approved",
+  "condition": "normal_authority_completion_full_ci_capacity_release_and_fresh_main"
+}
