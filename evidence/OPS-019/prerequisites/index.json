@@ -1,0 +1,21 @@
+{
+  "base": "1b5c68bab02d98f8e11286d80033585090c7af99",
+  "records": [
+    {
+      "path": "poc003-profile-pr184-large-artifact-contract-independent-assessment-v1.json",
+      "bytes": 6132,
+      "sha256": "cadb30f3e9d208eed3f5f93eff17d8e2ce39ab12162088d775ccff0454469237"
+    },
+    {
+      "path": "poc003-profile-large-artifact-lfs-integration-route-readonly-v2.json",
+      "bytes": 5674,
+      "sha256": "a38638bf6f40ef9156775615f8205c5fbef40de548b2fd8084ba6b0f917f9dad"
+    },
+    {
+      "path": "poc003-profile-pr184-3564346-final-source-independent-review.json",
+      "bytes": 5660,
+      "sha256": "2db9feaef175eafec5b2e642bd21aace74e4655c825170b9811d24816e561ee5"
+    }
+  ],
+  "archive": "artifacts.zip"
+}

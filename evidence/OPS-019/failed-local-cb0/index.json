@@ -1,0 +1,37 @@
+{
+  "source": "cb0bc834174bc50ae6d6a1481987c2580df9a9ee",
+  "base": "1b5c68bab02d98f8e11286d80033585090c7af99",
+  "archive": "originals.zip",
+  "records": [
+    {
+      "path": "original-task.md",
+      "bytes": 5870,
+      "sha256": "822a4f7fa0d1d8ae6f8fb7bf787d74b9b3f616de320c875d49487f9592fb5809"
+    },
+    {
+      "path": "source14-results.json",
+      "bytes": 4593,
+      "sha256": "750d7f94010bb63df17bbee801e9cde4cca0a4a17071f4b3c9da16d4c217ed52"
+    },
+    {
+      "path": "00.raw",
+      "bytes": 144,
+      "sha256": "4e3133f1022886169d7cb52d9f28afd4554e389080f2279c477a5ab0db552d17"
+    },
+    {
+      "path": "01.raw",
+      "bytes": 693,
+      "sha256": "946cf223371df6958fa927c4a969e0b104a6ac32abcab71109f8958f25d9f8b8"
+    },
+    {
+      "path": "precommit-candidate.json",
+      "bytes": 4433,
+      "sha256": "9fb9feb10f021fab41fa36586d070d1cd6dd41cd3844165fd34ba09994715c55"
+    },
+    {
+      "path": "precommit-independent-review.json",
+      "bytes": 9294,
+      "sha256": "f13735536dd53a2d05845c08a0c8d03cec8ec911cbfa735c787b15bd3d18e823"
+    }
+  ]
+}
