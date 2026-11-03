@@ -100,7 +100,7 @@ def clone(source, destination, ref):
     graph.git('config', 'core.autocrlf', 'false')
     # Keep every Git object and ref. Only omit unrelated historical media
     # from fixture worktrees; real P/H CLIs still prove the complete history.
-    graph.git('sparse-checkout', 'set', '--no-cone', '/scripts/', '/specs/',
+    graph.git('sparse-checkout', 'set', '--no-cone', '/scripts/', '/specs/', '/tests/',
               '/rules/', '/.github/', '/docs/', '/evidence/OPS-019/',
               '/evidence/POC-003/', '/evidence/POC-005/handoff.md',
               '/.gitattributes', '/.gitignore', '/README.md',
