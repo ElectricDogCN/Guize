@@ -235,6 +235,9 @@ def authority(root, admitted):
             and CLAIMS.intersection(changed(root, parents(root, implementation)[0], implementation))
             and CLAIMS <= changed(root, REGISTRATION, implementation),
             'Migration authority lacks its complete nonempty registered implementation')
+    # Inspect side histories too, including an edit followed by a restoration.
+    for node in git(root, 'rev-list', '--full-history', REGISTRATION+'..'+admitted, '--', INTENT).decode().split():
+        require(blob(root, node, INTENT) == original, 'Migration intent was rewritten on a source edge')
     finished = None
     reviewed = False
     module = history_module()
@@ -274,9 +277,6 @@ def authority(root, admitted):
             require(state == completed and OWNER not in rows(document(root, node, ACTIVE)),
                     'Completed migration authority identity or released capacity changed')
     require(finished is not None, 'Migration authority has no actual main Completion')
-    # Inspect side histories too, including an edit followed by a restoration.
-    for node in git(root, 'rev-list', REGISTRATION+'..'+admitted, '--', INTENT).decode().split():
-        require(blob(root, node, INTENT) == original, 'Migration intent was rewritten on a source edge')
     verify_retired_graph(root, implementation)
     return implementation, finished
 
@@ -393,6 +393,17 @@ def branch_pair(root, before, after):
     return a[TARGET]['branch'], b[TARGET]['branch']
 
 
+def transaction_shape(root, before, after):
+    require(branch_pair(root, before, after) == (OLD, NEW),
+            'Migration branch change is not the declared one-way pair')
+    require(blob(root, after, ACTIVE) == registry_replacement(blob(root, before, ACTIVE))
+            and blob(root, after, TASK) == task_replacement(blob(root, before, TASK)),
+            'Migration changed other Task or Registry bytes, roles, lease or claims')
+    allowed = {ACTIVE, TASK, 'evidence/POC-003/handoff.md'}
+    require(all(path in allowed or path.startswith(PREFIX) for path in changed(root, before, after)),
+            'Migration contains code, media or unrelated changes')
+
+
 def validate_range(root, before, after, admitted=None):
     before, after = resolve(root, before), resolve(root, after)
     admitted = resolve(root, admitted or before)
@@ -433,6 +444,11 @@ def validate_range(root, before, after, admitted=None):
             edits.append(node)
     if not edits:
         return {}
+    for node in edits:
+        require(branch_pair(root, parents(root, node)[0], node) == (OLD, NEW),
+                'Migration branch change is not the declared one-way pair')
+    if branch_pair(root, before, after):
+        transaction_shape(root, before, after)
     complete_ancestry(root, after)
     implementation, completion = authority(root, admitted)
     # Scan the complete reachable lineage after the fixed original reservation,

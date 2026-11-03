@@ -306,3 +306,17 @@ def test_pointer_and_corrupted_data_are_not_hydrated_evidence(tmp_path):
     graph.write(PROOF.PROBE, b'wrong materialized bytes')
     with pytest.raises(PROOF.MigrationError, match='not hydrated'):
         PROOF.verify_probe(str(graph.repo))
+
+
+def test_authority_rejects_side_intent_rewrite_restored_before_treesame_merge(graph):
+    graph.git('checkout', '-b', 'invalid-intent-side')
+    original = (graph.repo/PROOF.INTENT).read_bytes()
+    graph.write(PROOF.INTENT, b'{}\n')
+    graph.commit('Invalid original intent side rewrite')
+    graph.write(PROOF.INTENT, original)
+    graph.commit('Restore original intent before merge')
+    graph.git('checkout', 'migration-fixture-main')
+    head = graph.merge('invalid-intent-side', 'TREESAME intent side import')
+    assert PROOF.blob(str(graph.repo), head, PROOF.INTENT) == original
+    with pytest.raises(PROOF.MigrationError, match='rewritten on a source edge'):
+        PROOF.authority(str(graph.repo), head)
