@@ -55,6 +55,7 @@ assert PLANNING_SPEC and PLANNING_SPEC.loader
 PLANNING_SPEC.loader.exec_module(PLANNING)
 
 ACTORS = TRANSITIONS.ACTORS
+MIGRATION = TRANSITIONS.MIGRATION
 
 PLAN = "specs/coordination/program-plan.yaml"
 ACTIVE = "specs/coordination/active-work.yaml"
@@ -784,6 +785,31 @@ def historical_capacity(root: str, task_id: str, registry: dict[str, Any], polic
     errors.append(f"{label} exceeds historical active/high capacity limits")
 
 
+def checkout_task_snapshot(snapshot: str, commit: str, task_id: str) -> subprocess.CompletedProcess[str]:
+    """Materialize only OPS-019's metadata-checker inputs, with full Git history.
+
+    These two callers read Task/Program/Registry and the canonical own
+    handoff directory, not media payloads. Real LFS bytes remain mandatory in
+    the independent probe test and source/main CI. Other tasks, merge
+    reconstruction and recovery retain their original dense checkout.
+    """
+    if task_id != "OPS-019":
+        return git(snapshot, "checkout", "--detach", "--quiet", commit)
+    environment = dict(os.environ, GIT_LFS_SKIP_SMUDGE="1")
+    def metadata_git(*arguments: str) -> subprocess.CompletedProcess[str]:
+        return subprocess.run(["git", *arguments], cwd=snapshot, env=environment,
+                              capture_output=True, text=True, check=False)
+    prepared = metadata_git(
+        "sparse-checkout", "set", "--no-cone",
+        "/scripts/", "/specs/", "/rules/", "/.github/", "/docs/", "/tests/",
+        "/evidence/OPS-019/", "/AGENTS.md", "/.gitattributes", "/.gitignore",
+        "/README.md", "/requirements-governance.txt", "/Makefile",
+    )
+    if prepared.returncode != 0:
+        return prepared
+    return metadata_git("checkout", "--detach", "--quiet", commit)
+
+
 def historical_task_snapshot(root: str, commit: str, task_id: str, entry: dict[str, Any], label: str, errors: list[str]) -> None:
     key = (root, commit, task_id, json.dumps(entry, sort_keys=True))
     if key in VALIDATED_TASK_SNAPSHOTS:
@@ -793,7 +819,7 @@ def historical_task_snapshot(root: str, commit: str, task_id: str, entry: dict[s
         with tempfile.TemporaryDirectory(prefix="guize-foundation-task-") as temporary:
             snapshot = os.path.join(temporary, "snapshot")
             clone = git(root, "clone", "--shared", "--no-checkout", "--quiet", "--", root, snapshot)
-            checkout = git(snapshot, "checkout", "--detach", "--quiet", commit) if clone.returncode == 0 else None
+            checkout = checkout_task_snapshot(snapshot, commit, task_id) if clone.returncode == 0 else None
             if not checkout or checkout.returncode != 0 or resolve_ref(snapshot, "HEAD") != commit:
                 errors.append(f"{label} cannot reconstruct Task Spec snapshot")
                 return
@@ -984,7 +1010,7 @@ def foundation_reservation(
         with tempfile.TemporaryDirectory(prefix="guize-foundation-task-") as temporary:
             snapshot = os.path.join(temporary, "snapshot")
             clone = git(root, "clone", "--shared", "--no-checkout", "--quiet", "--", root, snapshot)
-            checkout = git(snapshot, "checkout", "--detach", "--quiet", commit) if clone.returncode == 0 else None
+            checkout = checkout_task_snapshot(snapshot, commit, task_id) if clone.returncode == 0 else None
             if not checkout or checkout.returncode != 0 or resolve_ref(snapshot, "HEAD") != commit:
                 errors.append(f"Foundation {task_id} cannot reconstruct original Task Spec snapshot")
             else:
@@ -1296,6 +1322,8 @@ def historical_post_metadata(root: str, previous: str, node: str, task_id: str, 
                         errors.append("Foreign actor edit has no prospective amendment proof module")
                     else:
                         mutable.update(ACTORS.checked_edge(root, previous, node, peer, errors, admitted=admitted_base or previous))
+                if peer not in foundations and entry.get("branch") != current[peer].get("branch") and MIGRATION is not None:
+                    mutable.update(MIGRATION.checked_edge(root, previous, node, peer, errors, admitted=admitted_base or previous))
                 if peer in foundations:
                     mutable.update({"branch", "exclusivePaths", "sharedPaths"})
                 if {key: value for key, value in entry.items() if key not in mutable} != {key: value for key, value in current[peer].items() if key not in mutable}:
@@ -1733,6 +1761,7 @@ def main() -> int:
         return 1
 
     TRANSITIONS.check_actor_range(root, args.base_ref, args.head_ref, errors)
+    TRANSITIONS.check_work_branch_range(root, args.base_ref, args.head_ref, errors)
 
     planning = PLANNING.classifier(
         root, args.base_ref, args.head_ref, base_plan, current_plan, errors,

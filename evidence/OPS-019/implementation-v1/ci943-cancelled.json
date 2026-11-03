@@ -1,0 +1,23 @@
+{
+  "source": "2e6ef2d3fc07d1c91aaf99db7071e92efd354dfc",
+  "run": 41562699788,
+  "job": 125676768277,
+  "attempt": 1,
+  "conclusion": "cancelled",
+  "passedBeforeCancellation": 832,
+  "originalCasesPassed": 830,
+  "newCasesPassed": 2,
+  "reportedFailuresErrorsSkipped": 0,
+  "completeSuiteAccepted": false,
+  "skipAuditCompleted": false,
+  "mergeApproved": false,
+  "log": {
+    "externalPath": ".takeover-tools/ops019-implementation-pr187-source-ci943-cancelled/job-log.connector-decoded.utf8.txt",
+    "bytes": 321710,
+    "sha256": "4a89fb59fd7f239171f17fdf0785da8746a7a54730a92449712db00cad010645"
+  },
+  "change": "Only OPS019 metadata validation snapshots use smaller physical materialization; normal validators/history and all assertions retained; new malformed Task/handoff/Registry/default-dense regressions required",
+  "bootstrapExceptionApplied": false,
+  "timeoutMinutes": 30,
+  "runnerUnchanged": true
+}

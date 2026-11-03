@@ -46,6 +46,15 @@ if os.path.isfile(os.path.join(os.path.dirname(__file__), "reservation-role-amen
     ACTORS = importlib.util.module_from_spec(ACTORS_SPEC)
     ACTORS_SPEC.loader.exec_module(ACTORS)
 
+# Optional only for older fixture snapshots; absence grants no branch exception.
+MIGRATION = None
+_migration_path = os.path.join(os.path.dirname(__file__), "work-branch-migration.py")
+if os.path.isfile(_migration_path):
+    _migration_spec = importlib.util.spec_from_file_location("guize_transition_work_branch", _migration_path)
+    assert _migration_spec and _migration_spec.loader
+    MIGRATION = importlib.util.module_from_spec(_migration_spec)
+    _migration_spec.loader.exec_module(MIGRATION)
+
 PLAN = "specs/coordination/program-plan.yaml"
 ACTIVE = "specs/coordination/active-work.yaml"
 LEDGER = "specs/coordination/task-completions.yaml"
@@ -785,6 +794,13 @@ def validate_recorded_reservation_commit(
 
 
 
+def check_work_branch_range(root: str, before: str, after: str, errors: list[str]) -> dict:
+    if MIGRATION is not None:
+        return MIGRATION.checked_range(root, before, after, errors)
+    # No module means no permission; existing stable Registry checks stay strict.
+    return {}
+
+
 def check_actor_range(root: str, before: str, after: str, errors: list[str]) -> dict:
     if ACTORS is not None:
         return ACTORS.checked_range(root, before, after, errors)
@@ -840,6 +856,8 @@ def main() -> int:
         return 1
 
     actor_amendments = check_actor_range(root, args.base_ref, args.head_ref, errors)
+    for target, fields in check_work_branch_range(root, args.base_ref, args.head_ref, errors).items():
+        actor_amendments[target] = actor_amendments.get(target, frozenset()) | fields
     validate_active_program_scope(current_plan, current_active, errors)
     validate_wave_activation(current_plan, errors)
     RECOVERY.validate_frozen_changes(root, args.base_ref, args.head_ref, errors)

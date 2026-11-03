@@ -1,0 +1,26 @@
+{
+  "kind": "OPS019_DECLARED_IMPLEMENTATION_ACTIVATION_ONLY",
+  "base": "7d82fb61f434f57bb97cb9d80f4613cee3be2721",
+  "branch": "chore/OPS-019-controlled-lfs-delivery",
+  "originalReservationParent": "1b5c68bab02d98f8e11286d80033585090c7af99",
+  "originalReservationSource": "3dfa21260d9fdd449a99c47b277c0d99f52c7c47",
+  "acceptedReservationReviewSha256": "f2a440236cd73e24d186116a1ef90aa99ba342f8eb19501e094287e28f03f17c",
+  "claims": [
+    ".github/workflows/governance-gate.yml",
+    "scripts/check-program-plan-history.py",
+    "scripts/check-program-plan-transitions.py",
+    "scripts/work-branch-migration.py",
+    "tests/governance/test_work_branch_migration.py"
+  ],
+  "lease": {
+    "acquiredAt": "2026-11-02T23:44:30Z",
+    "expiresAt": "2026-11-09T23:44:30Z"
+  },
+  "status": "in_progress",
+  "agentRole": "implementer",
+  "sourceImplementationStarted": false,
+  "sourceGatePassed": false,
+  "fullCiAccepted": false,
+  "pocBranchMigrationApproved": false,
+  "createdAt": "2026-11-03T01:05:37.607400+00:00"
+}
