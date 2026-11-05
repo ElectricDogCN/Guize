@@ -1,0 +1,5 @@
+Source Commit: a67129c9e591657f921c23613706ca96e2e7ed1d
+Command: python scripts/check-program-plan-history.py --base-ref daede2ac652f03d05fcdf22c40504edde07067ac --head-ref HEAD --task OPS-019 --branch-name chore/OPS-019-controlled-lfs-completion
+{"status": "PASS", "message": "Program Plan history transitions are valid", "details": {"baseRef": "daede2ac652f03d05fcdf22c40504edde07067ac", "headRef": "HEAD", "completionRecords": 5, "auditedOwnerCapacityFailures": []}}
+
+Exit Code: 0

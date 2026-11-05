@@ -36,3 +36,37 @@
 - evidence/OPS-019/review-v1/verify-accepted-code-main-evidence.py
 - evidence/OPS-019/summary.md
 - evidence/OPS-019/test-results/README.md
+
+
+## Prospective normal Completion inventory
+- evidence/OPS-019/changed-files.md
+- evidence/OPS-019/commands.txt
+- evidence/OPS-019/completion-v1/README.md
+- evidence/OPS-019/completion-v1/commands.txt
+- evidence/OPS-019/completion-v1/context.json
+- evidence/OPS-019/completion-v1/index.json
+- evidence/OPS-019/completion-v1/prerequisites.zip
+- evidence/OPS-019/handoff.md
+- evidence/OPS-019/implementation-v1/migration-approval.json
+- evidence/OPS-019/summary.md
+- evidence/OPS-019/test-results/README.md
+- specs/coordination/active-work.yaml
+- specs/coordination/program-plan.yaml
+- specs/tasks/OPS-019.md
+
+
+## Structured prerequisite markers forward repair
+- evidence/OPS-019/changed-files.md
+- evidence/OPS-019/commands.txt
+- evidence/OPS-019/completion-v1/failed-first-source/00.raw
+- evidence/OPS-019/completion-v1/failed-first-source/01.raw
+- evidence/OPS-019/completion-v1/failed-first-source/02.raw
+- evidence/OPS-019/completion-v1/failed-first-source/03.raw
+- evidence/OPS-019/completion-v1/failed-first-source/04.raw
+- evidence/OPS-019/completion-v1/failed-first-source/05.raw
+- evidence/OPS-019/completion-v1/failed-first-source/06.raw
+- evidence/OPS-019/completion-v1/failed-first-source/README.md
+- evidence/OPS-019/completion-v1/failed-first-source/results.json
+- evidence/OPS-019/handoff.md
+- evidence/OPS-019/summary.md
+- evidence/OPS-019/test-results/README.md

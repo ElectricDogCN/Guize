@@ -1,0 +1,156 @@
+{
+  "source": "a67129c9e591657f921c23613706ca96e2e7ed1d",
+  "base": "daede2ac652f03d05fcdf22c40504edde07067ac",
+  "branch": "chore/OPS-019-controlled-lfs-completion",
+  "before": {
+    "source": "a67129c9e591657f921c23613706ca96e2e7ed1d",
+    "tree": "e59dfe07e5e501556e694ba05ced98110ea3d09b",
+    "branch": "chore/OPS-019-controlled-lfs-completion",
+    "main": "daede2ac652f03d05fcdf22c40504edde07067ac",
+    "originMain": "daede2ac652f03d05fcdf22c40504edde07067ac",
+    "status": ""
+  },
+  "commands": [
+    {
+      "argv": [
+        "git",
+        "diff",
+        "--check",
+        "daede2ac652f03d05fcdf22c40504edde07067ac...HEAD"
+      ],
+      "raw": "00.raw",
+      "startedAt": "2026-11-03T06:36:32.035488+00:00",
+      "pid": 239801,
+      "exitCode": 0,
+      "actualWaitCompleted": true,
+      "elapsedNs": 14885144,
+      "bytes": 144,
+      "sha256": "49242900d999f93e4485e3b32047210255fbfe1750f672a15d30e43413cab82e"
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/check-task-file.py",
+        "--task",
+        "OPS-019"
+      ],
+      "raw": "01.raw",
+      "startedAt": "2026-11-03T06:36:32.054535+00:00",
+      "pid": 239802,
+      "exitCode": 0,
+      "actualWaitCompleted": true,
+      "elapsedNs": 150876644,
+      "bytes": 283,
+      "sha256": "01c193932d86c02d640bcfb587297e887c311620bf5495962c529dab4d604919"
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/check-schemas.py"
+      ],
+      "raw": "02.raw",
+      "startedAt": "2026-11-03T06:36:32.210032+00:00",
+      "pid": 239803,
+      "exitCode": 0,
+      "actualWaitCompleted": true,
+      "elapsedNs": 4599763042,
+      "bytes": 1882,
+      "sha256": "2e9b10dce08613f24ce15b04b61e3a0b8bcbb8ecf31efd98532a43bdb8237bd0"
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/check-program-plan-integrity.py",
+        "--base-ref",
+        "daede2ac652f03d05fcdf22c40504edde07067ac"
+      ],
+      "raw": "03.raw",
+      "startedAt": "2026-11-03T06:36:36.813960+00:00",
+      "pid": 239804,
+      "exitCode": 0,
+      "actualWaitCompleted": true,
+      "elapsedNs": 1375099626,
+      "bytes": 419,
+      "sha256": "47b43916c46e776e8d75342d24f348e2ed193b4b6b0944af73f4548a453305fc"
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/check-program-plan-history.py",
+        "--base-ref",
+        "daede2ac652f03d05fcdf22c40504edde07067ac",
+        "--head-ref",
+        "HEAD",
+        "--task",
+        "OPS-019",
+        "--branch-name",
+        "chore/OPS-019-controlled-lfs-completion"
+      ],
+      "raw": "04.raw",
+      "startedAt": "2026-11-03T06:36:38.192320+00:00",
+      "pid": 240080,
+      "exitCode": 0,
+      "actualWaitCompleted": true,
+      "elapsedNs": 12923817017,
+      "bytes": 484,
+      "sha256": "b5e6012f311c7acc2d011e2b0474b2ec4e952899f75f59153ad30af7303b552d"
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/check-program-plan-transitions.py",
+        "--base-ref",
+        "daede2ac652f03d05fcdf22c40504edde07067ac",
+        "--head-ref",
+        "HEAD",
+        "--task",
+        "OPS-019",
+        "--branch-name",
+        "chore/OPS-019-controlled-lfs-completion"
+      ],
+      "raw": "05.raw",
+      "startedAt": "2026-11-03T06:36:51.119995+00:00",
+      "pid": 241620,
+      "exitCode": 0,
+      "actualWaitCompleted": true,
+      "elapsedNs": 1536828518,
+      "bytes": 437,
+      "sha256": "4454520598013948a085eff7c154b2e022546f262dbdef426762c3a2fab44708"
+    },
+    {
+      "argv": [
+        "python",
+        "scripts/check-program-lifecycle-guards.py",
+        "--base-ref",
+        "daede2ac652f03d05fcdf22c40504edde07067ac",
+        "--head-ref",
+        "HEAD",
+        "--task",
+        "OPS-019",
+        "--branch-name",
+        "chore/OPS-019-controlled-lfs-completion"
+      ],
+      "raw": "06.raw",
+      "startedAt": "2026-11-03T06:36:52.661051+00:00",
+      "pid": 241783,
+      "exitCode": 1,
+      "actualWaitCompleted": true,
+      "elapsedNs": 1155929913,
+      "bytes": 892,
+      "sha256": "d325e79b83db2b48b0d0f983366698bf1b0059ef0ba03f80d98cd17ca37e5174"
+    }
+  ],
+  "startedAt": "2026-11-03T06:36:32.030803+00:00",
+  "declared14Passed": false,
+  "fullCiAccepted": false,
+  "actualMigrationApproved": false,
+  "after": {
+    "source": "a67129c9e591657f921c23613706ca96e2e7ed1d",
+    "tree": "e59dfe07e5e501556e694ba05ced98110ea3d09b",
+    "branch": "chore/OPS-019-controlled-lfs-completion",
+    "main": "daede2ac652f03d05fcdf22c40504edde07067ac",
+    "originMain": "daede2ac652f03d05fcdf22c40504edde07067ac",
+    "status": ""
+  },
+  "failedCommandIndex": 6
+}
