@@ -93,3 +93,43 @@ tasks:
   lease:
     acquiredAt: '2026-11-05T12:05:19Z'
     expiresAt: '2026-11-12T12:05:19Z'
+- taskId: OPS-020
+  issue: 191
+  title: POC003受限干净工作分支恢复
+  status: reserved
+  riskLevel: high
+  owner: ElectricDogCN
+  coordinator: /root
+  implementer: /root
+  reviewer: /root/independent_review
+  integrator: /root
+  agentRole: coordinator
+  branch: chore/OPS-020-blocked-recovery-reservation
+  baseBranch: main
+  baseSha: 251fac61809ed4b209c4fc7a71dee41ba4061db6
+  workPackage: WP-M0-01
+  programPlan: specs/coordination/program-plan.yaml
+  programTaskId: OPS-020
+  programWave: FOUNDATION
+  requirementIds:
+  - REQ-V1-0010
+  moduleIds:
+  - MOD-GOV
+  producesContracts: []
+  consumesContracts:
+  - CONTRACT-PROGRAM-PLAN
+  - CONTRACT-TASK-SPEC
+  - CONTRACT-ACTIVE-WORK
+  coordinationGroup: bounded-work-branch-recovery
+  dependsOn:
+  - OPS-019
+  exclusivePaths:
+  - scripts/work-branch-migration.py
+  - tests/governance/test_work_branch_migration.py
+  sharedPaths: []
+  handoffPath: evidence/OPS-020/handoff.md
+  integrationStrategy: merge
+  integrationOrder: 15
+  lease:
+    acquiredAt: '2026-11-05T13:07:45Z'
+    expiresAt: '2026-11-12T13:07:45Z'
