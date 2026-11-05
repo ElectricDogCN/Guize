@@ -383,3 +383,414 @@ def test_other_task_snapshot_stays_dense(tmp_path):
     sparse = subprocess.run(['git', '-C', str(snapshot), 'config', '--get', 'core.sparseCheckout'],
                             capture_output=True)
     assert sparse.returncode == 1
+
+
+class RecoveryGraph(Graph):
+    """The second authority starts from its real, separately admitted reservation."""
+    def lifecycle(self, status, role, base):
+        plan, active = self.read(PROOF.PLAN), self.read(PROOF.ACTIVE)
+        next(row for row in plan['foundationTasks'] if row['taskId'] == PROOF.RECOVERY_OWNER)['status'] = status
+        next(row for row in active['tasks'] if row['taskId'] == PROOF.RECOVERY_OWNER).update(
+            status=status, agentRole=role, baseSha=base, branch='chore/OPS-020-fixture')
+        self.dump(PROOF.PLAN, plan)
+        self.dump(PROOF.ACTIVE, active)
+        target = 'specs/tasks/OPS-020.md'
+        raw = (self.repo/target).read_text(encoding='utf-8')
+        for key, value in dict(status=status, agentRole=role, baseSha=base,
+                               workBranch='chore/OPS-020-fixture').items():
+            raw = re.sub(r'^'+key+r':.*$', key+': '+value, raw, count=1, flags=re.M)
+        self.write(target, raw)
+
+    def approval_record(self, implementation):
+        before = PROOF.rows(self.read(PROOF.ACTIVE))[PROOF.TARGET]
+        return dict(schemaVersion=1, kind='conditional_prospective_blocked_work_branch_recovery',
+            authorityTaskId=PROOF.RECOVERY_OWNER, taskId=PROOF.TARGET,
+            reservation=PROOF.RECOVERY_REGISTRATION, implementationCommit=implementation,
+            intentSha256=PROOF.RECOVERY_INTENT_SHA256, oldBranch=PROOF.OLD,
+            newBranch=PROOF.RECOVERY_NEW, originalCreationBase=PROOF.CREATION,
+            oldUnmergedCandidate=PROOF.RETIRED[0],
+            beforeRegistrySha256=hashlib.sha256(json.dumps(before, sort_keys=True,
+                separators=(',', ':'), ensure_ascii=False).encode()).hexdigest(),
+            beforeTaskSha256=hashlib.sha256((self.repo/PROOF.TASK).read_bytes()).hexdigest(),
+            reviewer='/root/independent_review', approvedAt=(self.clock+timedelta(seconds=1)).isoformat(),
+            decision='approved',
+            condition='normal_authority_completion_full_ci_capacity_release_and_fresh_main')
+
+    def recover(self):
+        for path, replace in ((PROOF.ACTIVE, PROOF.recovery_registry_replacement),
+                              (PROOF.TASK, PROOF.recovery_task_replacement),
+                              (PROOF.PLAN, PROOF.recovery_program_replacement)):
+            self.write(path, replace((self.repo/path).read_bytes()))
+        handoff = 'evidence/POC-003/handoff.md'
+        self.write(handoff, (self.repo/handoff).read_bytes()+b'\n\nFixture exact blocked recovery.\n')
+        self.write(PROOF.RECOVERY_PREFIX+'README.md', '# Exact metadata recovery fixture\n')
+        return self.commit('POC-003 exact prospective blocked recovery')
+
+
+def recovery_clone(source, destination, ref):
+    result = clone(source, destination, ref)
+    assert result.git('config', '--bool', '--get', 'core.sparseCheckoutCone') == 'false'
+    result.git('sparse-checkout', 'add', '/evidence/OPS-020/', '/poc/POC-03-ats-range/')
+    return RecoveryGraph(destination)
+
+
+def build_recovery_authority(destination, approval, approval_companion=False):
+    graph = recovery_clone(ROOT, destination, PROOF.RECOVERY_REGISTRATION)
+    existing = subprocess.run(['git', '-C', str(graph.repo), 'rev-parse', '--verify', 'refs/heads/main'],
+                              capture_output=True)
+    if existing.returncode == 0:
+        # CI push checkouts inherit the current real main, which can be later
+        # than the fixed reservation. Preserve it inside this new fixture;
+        # construct the synthetic proof on a separate main starting at R.
+        backup = subprocess.run(['git', '-C', str(graph.repo), 'rev-parse', '--verify',
+                                 'refs/heads/recovery-inherited-main'], capture_output=True)
+        assert backup.returncode != 0
+        graph.git('branch', '-m', 'main', 'recovery-inherited-main')
+        assert graph.git('rev-parse', 'recovery-inherited-main') == existing.stdout.decode().strip()
+    graph.git('branch', 'main', PROOF.RECOVERY_REGISTRATION)
+    graph.git('checkout', 'main')
+    graph.git('checkout', '-b', 'recovery-implementation')
+    graph.lifecycle('in_progress', 'implementer', PROOF.RECOVERY_REGISTRATION)
+    graph.commit('OPS-020 fixture activation')
+    for path in PROOF.RECOVERY_CLAIMS:
+        graph.write(path, (ROOT/path).read_bytes())
+    graph.commit('OPS-020 nonempty registered implementation (#9101)')
+    graph.git('checkout', 'main')
+    implementation = graph.merge('recovery-implementation', 'OPS-020 implementation (#9101)')
+    graph.git('checkout', '-b', 'recovery-review')
+    graph.lifecycle('review', 'reviewer', implementation)
+    graph.commit('OPS-020 independent normal Review (#9102)')
+    graph.git('checkout', 'main')
+    review = graph.merge('recovery-review', 'OPS-020 admitted independent Review (#9102)')
+    graph.git('checkout', '-b', 'recovery-completion')
+    if approval:
+        graph.write(PROOF.RECOVERY_APPROVAL, json.dumps(graph.approval_record(implementation), indent=2)+'\n')
+        if approval_companion:
+            graph.write('evidence/OPS-020/invalid-approval-companion.md', '# Unapproved creator companion\n')
+        graph.commit('OPS-020 separate preceding independent conditional approval')
+    graph.lifecycle('completed', 'integrator', review)
+    plan, active = graph.read(PROOF.PLAN), graph.read(PROOF.ACTIVE)
+    next(row for row in plan['foundationTasks'] if row['taskId'] == PROOF.RECOVERY_OWNER).update(
+        completionRef='PR-9101', mergeCommit=implementation)
+    active['tasks'] = [row for row in active['tasks'] if row['taskId'] != PROOF.RECOVERY_OWNER]
+    graph.dump(PROOF.PLAN, plan)
+    graph.dump(PROOF.ACTIVE, active)
+    completion_source = graph.commit('OPS-020 normal Completion (#9103)')
+    graph.git('checkout', 'main')
+    base = graph.merge('recovery-completion', 'OPS-020 ordinary Completion (#9103)')
+    graph.base, graph.implementation, graph.review = base, implementation, review
+    graph.completion_source = completion_source
+    return graph
+
+
+@pytest.fixture(scope='module')
+def recovery_completed(tmp_path_factory):
+    return build_recovery_authority(tmp_path_factory.mktemp('blocked-recovery-authority')/'repo', True)
+
+
+@pytest.fixture(scope='module')
+def recovery_unapproved(tmp_path_factory):
+    return build_recovery_authority(tmp_path_factory.mktemp('blocked-recovery-unapproved')/'repo', False)
+
+
+RECOVERY_TEMPLATE_ENV_BEFORE = os.environ.get('GIT_TEMPLATE_DIR')
+
+
+@pytest.fixture
+def recovery_metadata_clone_template(tmp_path, monkeypatch):
+    """Materialize only real metadata inputs in newly created proof clones.
+
+    This controls disposable test clone inputs, not the production H function.
+    The checker, exact Git objects/refs, HEAD and all authority checks remain
+    real. Original legacy tests and the actual ROOT binary probe stay outside
+    this function-scoped environment.
+    """
+    template = tmp_path/'metadata-clone-template'
+    (template/'info').mkdir(parents=True)
+    (template/'config').write_text('[core]\n\tsparseCheckout = true\n\tsparseCheckoutCone = false\n', encoding='utf-8')
+    patterns = ['/scripts/', '/specs/', '/rules/', '/.github/', '/docs/', '/tests/',
+                '/evidence/OPS-020/', '/AGENTS.md', '/.gitattributes', '/.gitignore',
+                '/README.md', '/requirements-governance.txt', '/Makefile']
+    (template/'info/sparse-checkout').write_text('\n'.join(patterns)+'\n', encoding='utf-8')
+    assert {p.relative_to(template).as_posix() for p in template.rglob('*') if p.is_file()} == {'config', 'info/sparse-checkout'}
+    monkeypatch.setenv('GIT_TEMPLATE_DIR', str(template))
+    yield template
+
+
+@pytest.fixture
+def recovery_graph(recovery_completed, tmp_path, recovery_metadata_clone_template):
+    graph = recovery_clone(recovery_completed.repo, tmp_path/'repo', recovery_completed.base)
+    graph.base, graph.implementation = recovery_completed.base, recovery_completed.implementation
+    return graph
+
+
+def test_blocked_recovery_requires_its_new_completed_authority():
+    with pytest.raises(PROOF.MigrationError, match='normally complete and release'):
+        PROOF.authority(str(ROOT), PROOF.RECOVERY_REGISTRATION, _recovery=True)
+
+
+def test_blocked_recovery_source_virtual_and_actual_merge_are_one_event(recovery_graph):
+    graph = recovery_graph
+    graph.git('checkout', '-b', PROOF.RECOVERY_NEW)
+    head = graph.recover()
+    expected = {PROOF.TARGET: PROOF.FIELDS}
+    assert PROOF.validate_range(str(graph.repo), graph.base, head) == expected
+    graph.git('checkout', '-b', 'recovery-virtual', graph.base)
+    virtual = graph.merge(PROOF.RECOVERY_NEW, 'POC-003 virtual ordinary merge')
+    graph.git('checkout', 'main')
+    actual = graph.merge(PROOF.RECOVERY_NEW, 'POC-003 actual ordinary merge (#9104)')
+    for ref in (head, virtual, actual):
+        assert PROOF.validate_range(str(graph.repo), graph.base, ref) == expected
+        for script in ('check-program-plan-transitions.py', 'check-program-plan-history.py'):
+            result = subprocess.run([sys.executable, '-B', str(ROOT/'scripts'/script), '--repo-root', str(graph.repo),
+                '--base-ref', graph.base, '--head-ref', ref, '--task', PROOF.TARGET,
+                '--branch-name', PROOF.RECOVERY_NEW], capture_output=True, text=True)
+            assert result.returncode == 0, result.stdout+result.stderr
+
+
+@pytest.mark.parametrize('mutation', ['lease', 'actor', 'creation', 'role', 'task-body', 'foreign', 'code', 'oversized-readme'])
+def test_blocked_recovery_rejects_unapproved_fields(recovery_graph, mutation):
+    graph = recovery_graph
+    graph.git('checkout', '-b', PROOF.RECOVERY_NEW)
+    graph.recover()
+    if mutation in {'lease', 'actor', 'creation', 'role'}:
+        active = graph.read(PROOF.ACTIVE)
+        row = PROOF.rows(active)[PROOF.TARGET]
+        if mutation == 'lease':
+            row['lease']['expiresAt'] = '2099-01-01T00:00:00Z'
+        elif mutation == 'actor':
+            row['reviewer'] = '/root'
+        elif mutation == 'creation':
+            row['baseSha'] = '0'*40
+        else:
+            row['agentRole'] = 'reviewer'
+        graph.dump(PROOF.ACTIVE, active)
+    elif mutation == 'task-body':
+        graph.write(PROOF.TASK, (graph.repo/PROOF.TASK).read_bytes()+b'\nChanged original body.\n')
+    elif mutation == 'foreign':
+        path = 'specs/tasks/POC-005.md'
+        graph.write(path, (graph.repo/path).read_bytes()+b'\nForeign change.\n')
+    elif mutation == 'code':
+        graph.write('poc/POC-03-ats-range/unapproved.py', '# forbidden recovery code\n')
+    else:
+        graph.write(PROOF.RECOVERY_PREFIX+'README.md', 'x'*8193)
+    head = graph.commit('Unapproved recovery companion change')
+    if mutation == 'code':
+        assert 'poc/POC-03-ats-range/unapproved.py' in PROOF.changed(str(graph.repo), graph.base, head)
+    with pytest.raises(PROOF.MigrationError):
+        PROOF.validate_range(str(graph.repo), graph.base, head)
+
+
+@pytest.mark.parametrize('grant', ['legacy-only', 'private-only'])
+def test_old_or_private_grants_cannot_authorize_blocked_recovery(recovery_unapproved, tmp_path, grant):
+    graph = recovery_clone(recovery_unapproved.repo, tmp_path/'repo', recovery_unapproved.base)
+    if grant == 'legacy-only':
+        assert PROOF.blob(str(graph.repo), recovery_unapproved.base, PROOF.APPROVAL)
+    else:
+        (tmp_path/'private-approval.json').write_text(json.dumps(graph.approval_record(recovery_unapproved.implementation)), encoding='utf-8')
+    graph.git('checkout', '-b', PROOF.RECOVERY_NEW)
+    head = graph.recover()
+    with pytest.raises(PROOF.MigrationError):
+        PROOF.validate_range(str(graph.repo), recovery_unapproved.base, head)
+
+
+def test_recovery_approval_cannot_be_created_after_completion(recovery_unapproved, tmp_path):
+    graph = recovery_clone(recovery_unapproved.repo, tmp_path/'repo', recovery_unapproved.base)
+    graph.write(PROOF.RECOVERY_APPROVAL, json.dumps(graph.approval_record(recovery_unapproved.implementation))+'\n')
+    graph.commit('Late approval after authority Completion')
+    graph.git('checkout', '-b', PROOF.RECOVERY_NEW)
+    head = graph.recover()
+    with pytest.raises(PROOF.MigrationError):
+        PROOF.validate_range(str(graph.repo), recovery_unapproved.base, head)
+
+
+@pytest.mark.parametrize('path', [PROOF.RECOVERY_INTENT, PROOF.RECOVERY_APPROVAL])
+def test_recovery_protected_rewrite_restore_rejected_without_branch_change(recovery_graph, path):
+    original = (recovery_graph.repo/path).read_bytes()
+    recovery_graph.write(path, b'{}\n')
+    recovery_graph.commit('Protected recovery side edit')
+    recovery_graph.write(path, original)
+    head = recovery_graph.commit('Restore protected recovery metadata')
+    with pytest.raises(PROOF.MigrationError):
+        PROOF.validate_range(str(recovery_graph.repo), recovery_graph.base, head)
+
+
+def test_recovery_restore_and_second_transaction_are_rejected(recovery_graph):
+    graph = recovery_graph
+    graph.git('checkout', '-b', PROOF.RECOVERY_NEW)
+    graph.recover()
+    for path in (PROOF.ACTIVE, PROOF.TASK, PROOF.PLAN):
+        graph.write(path, PROOF.blob(str(graph.repo), graph.base, path))
+    graph.commit('Unapproved restoration of blocked tuple')
+    head = graph.recover()
+    with pytest.raises(PROOF.MigrationError):
+        PROOF.validate_range(str(graph.repo), graph.base, head)
+
+
+@pytest.mark.parametrize('late', ['source', 'merge'])
+def test_recovery_source_and_actual_merge_must_precede_poc_lease_expiry(recovery_graph, late):
+    graph = recovery_graph
+    expires = PROOF.instant(PROOF.rows(graph.read(PROOF.ACTIVE))[PROOF.TARGET]['lease']['expiresAt'])
+    graph.git('checkout', '-b', PROOF.RECOVERY_NEW)
+    if late == 'source':
+        graph.clock = expires
+    head = graph.recover()
+    if late == 'merge':
+        graph.git('checkout', 'main')
+        graph.clock = expires
+        head = graph.merge(PROOF.RECOVERY_NEW, 'Recovery merge after lease expiry')
+    with pytest.raises(PROOF.MigrationError):
+        PROOF.validate_range(str(graph.repo), graph.base, head)
+
+
+@pytest.mark.parametrize('kind', ['squash', 'wrong-tree'])
+def test_recovery_integration_requires_ordinary_exact_tree_merge(recovery_graph, kind):
+    graph = recovery_graph
+    graph.git('checkout', '-b', PROOF.RECOVERY_NEW)
+    graph.recover()
+    graph.git('checkout', 'main')
+    if kind == 'squash':
+        graph.git('merge', '--squash', PROOF.RECOVERY_NEW)
+    else:
+        graph.git('merge', '--no-ff', '--no-commit', PROOF.RECOVERY_NEW)
+        graph.write(PROOF.RECOVERY_PREFIX+'README.md', '# Different actual merge tree\n')
+    head = graph.commit('Forbidden recovery integration form')
+    with pytest.raises(PROOF.MigrationError):
+        PROOF.validate_range(str(graph.repo), graph.base, head)
+
+
+def test_recovery_cannot_start_from_unadmitted_completion_source(recovery_completed, tmp_path):
+    graph = recovery_clone(recovery_completed.repo, tmp_path/'repo', recovery_completed.completion_source)
+    graph.git('checkout', '-b', PROOF.RECOVERY_NEW)
+    head = graph.recover()
+    with pytest.raises(PROOF.MigrationError, match='source must follow'):
+        PROOF.validate_range(str(graph.repo), recovery_completed.completion_source, head, recovery_completed.base)
+
+
+@pytest.mark.parametrize('field,value', [('kind', 'conditional_prospective_work_branch_migration'),
+                                       ('authorityTaskId', 'OPS-019'), ('unexpectedPermission', True)])
+def test_recovery_grant_kind_owner_and_field_set_are_exact(recovery_graph, field, value):
+    record = json.loads((recovery_graph.repo/PROOF.RECOVERY_APPROVAL).read_bytes())
+    record[field] = value
+    with pytest.raises(PROOF.MigrationError):
+        PROOF.recovery_approval_record(str(recovery_graph.repo), json.dumps(record).encode())
+
+
+def test_recovery_rejects_the_retired_large_media_ancestry(recovery_graph):
+    import base64
+    graph = recovery_graph
+    graph.git('checkout', '-b', PROOF.RECOVERY_NEW)
+    source = graph.recover()
+    retired = json.loads((ROOT/PROOF.GRAPH).read_bytes())
+    for entry in retired['nodes']:
+        result = subprocess.run(['git', '-C', str(graph.repo), 'hash-object', '-t', 'commit', '-w', '--stdin'],
+            input=base64.b64decode(entry['rawBase64']), capture_output=True)
+        assert result.returncode == 0 and result.stdout.decode().strip() == entry['sha']
+    head = graph.git('commit-tree', graph.git('rev-parse', source+'^{tree}'), '-p', source,
+                     '-p', PROOF.RETIRED[0], '-m', 'Retired large-media parent', env=graph.environment())
+    with pytest.raises(PROOF.MigrationError, match='large-delivery ancestor'):
+        PROOF.validate_range(str(graph.repo), graph.base, head)
+
+
+def test_recovery_rejects_approval_edit_restore_in_already_admitted_side_history(recovery_graph):
+    graph = recovery_graph
+    original = (graph.repo/PROOF.RECOVERY_APPROVAL).read_bytes()
+    graph.git('checkout', '-b', 'hidden-approval-edit')
+    graph.write(PROOF.RECOVERY_APPROVAL, b'{}\n')
+    graph.commit('Side edit of previously admitted approval')
+    graph.write(PROOF.RECOVERY_APPROVAL, original)
+    restored = graph.commit('Restore exact approval bytes on side branch')
+    graph.git('checkout', 'main')
+    admitted = graph.merge('hidden-approval-edit', 'Admit TREESAME side history')
+    assert graph.git('rev-parse', admitted+'^{tree}') == graph.git('rev-parse', graph.base+'^{tree}')
+    assert graph.git('rev-parse', admitted+'^{tree}') == graph.git('rev-parse', restored+'^{tree}')
+    graph.git('checkout', '-b', PROOF.RECOVERY_NEW)
+    head = graph.recover()
+    with pytest.raises(PROOF.MigrationError):
+        PROOF.validate_range(str(graph.repo), admitted, head, admitted)
+
+
+def test_recovery_rechecks_previously_admitted_approval_creator_scope(tmp_path):
+    graph = build_recovery_authority(tmp_path/'repo', True, approval_companion=True)
+    graph.git('checkout', '-b', PROOF.RECOVERY_NEW)
+    head = graph.recover()
+    with pytest.raises(PROOF.MigrationError, match='separate preceding normal Review approval commit'):
+        PROOF.validate_range(str(graph.repo), graph.base, head)
+
+
+def test_recovery_reused_snapshot_cache_revalidates_changed_entry_and_commit(recovery_graph, monkeypatch):
+    graph = recovery_graph
+    root = str(graph.repo)
+    module = PROOF.recovery_history_module(str(graph.repo.resolve()))
+    entry = PROOF.rows(PROOF.document(root, PROOF.RECOVERY_REGISTRATION, PROOF.ACTIVE))[PROOF.RECOVERY_OWNER]
+    calls = []
+    original = module.checkout_task_snapshot
+    def checkout(snapshot, commit, task_id):
+        calls.append((commit, task_id))
+        result = original(snapshot, commit, task_id)
+        assert result.returncode == 0
+        assert graph.git('-C', snapshot, 'rev-parse', 'HEAD') == commit
+        assert graph.git('-C', snapshot, 'rev-parse', '--is-shallow-repository') == 'false'
+        assert Path(snapshot, 'specs/tasks/OPS-020.md').is_file()
+        assert Path(snapshot, 'evidence/OPS-020/handoff.md').is_file()
+        assert not Path(snapshot, 'evidence/POC-005/profiles').exists()
+        return result
+    monkeypatch.setattr(module, 'checkout_task_snapshot', checkout)
+    for _ in range(2):
+        errors = []
+        module.historical_task_snapshot(root, PROOF.RECOVERY_REGISTRATION, PROOF.RECOVERY_OWNER,
+                                        entry, 'Valid registered snapshot', errors)
+        assert errors == []
+    assert len(calls) == 1
+    errors = []
+    module.historical_task_snapshot(root, PROOF.RECOVERY_REGISTRATION, PROOF.RECOVERY_OWNER,
+                                    dict(entry, reviewer='/root'), 'Changed entry', errors)
+    assert errors and len(calls) == 2
+    graph.git('checkout', '-b', 'invalid-new-snapshot', PROOF.RECOVERY_REGISTRATION)
+    path = 'specs/tasks/OPS-020.md'
+    raw = (graph.repo/path).read_bytes()
+    assert raw.count(b'agentRole: coordinator') == 1
+    graph.write(path, raw.replace(b'agentRole: coordinator', b'agentRole: implementer'))
+    invalid = graph.commit('Invalid Task role at a different immutable commit')
+    errors = []
+    module.historical_task_snapshot(root, invalid, PROOF.RECOVERY_OWNER, entry,
+                                    'Changed commit', errors)
+    assert errors and len(calls) == 3
+
+
+@pytest.mark.parametrize('registration_object', ['absent', 'not-an-ancestor'])
+def test_copied_completed_recovery_records_cannot_authorize_an_unregistered_lineage(recovery_completed, tmp_path, registration_object):
+    repo = tmp_path/'unrelated'
+    repo.mkdir()
+    subprocess.run(['git', 'init', '--quiet', str(repo)], check=True)
+    graph = RecoveryGraph.__new__(RecoveryGraph)
+    graph.repo = repo
+    graph.clock = PROOF.commit_time(str(recovery_completed.repo), recovery_completed.base)+timedelta(seconds=30)
+    graph.git('config', 'user.name', 'Unrelated history fixture')
+    graph.git('config', 'user.email', 'fixture@example.invalid')
+    for path in (PROOF.ACTIVE, PROOF.PLAN, PROOF.LEDGER, PROOF.TASK,
+                 'specs/tasks/OPS-020.md', 'evidence/POC-003/handoff.md',
+                 PROOF.RECOVERY_INTENT, PROOF.RECOVERY_APPROVAL):
+        graph.write(path, PROOF.blob(str(recovery_completed.repo), recovery_completed.base, path))
+    before = graph.commit('Inert copied completed records without their authority history')
+    if registration_object == 'not-an-ancestor':
+        objects = Path(graph.git('-C', str(ROOT), 'rev-parse', '--git-path', 'objects'))
+        if not objects.is_absolute():
+            objects = ROOT/objects
+        assert objects.is_dir()
+        alternate = repo/'.git/objects/info/alternates'
+        alternate.write_text(str(objects.resolve())+'\n', encoding='utf-8')
+        assert PROOF.resolve(str(repo), PROOF.RECOVERY_REGISTRATION) == PROOF.RECOVERY_REGISTRATION
+        assert not PROOF.ancestor(str(repo), PROOF.RECOVERY_REGISTRATION, before)
+    else:
+        assert PROOF.git(str(repo), 'rev-parse', '--verify', PROOF.RECOVERY_REGISTRATION+'^{commit}', missing=True) is None
+    graph.git('checkout', '-b', PROOF.RECOVERY_NEW)
+    head = graph.recover()
+    errors = []
+    assert PROOF.checked_range(str(repo), before, head, errors) == {}
+    assert errors
+
+
+def test_recovery_fixture_environment_restored_and_actual_root_probe_preserved():
+    assert os.environ.get('GIT_TEMPLATE_DIR') == RECOVERY_TEMPLATE_ENV_BEFORE
+    assert PROOF.verify_probe(str(ROOT))

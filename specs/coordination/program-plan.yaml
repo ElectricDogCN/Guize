@@ -106,7 +106,7 @@ foundationTasks:
     mergeCommit: 02997ddaee951e054a5ce106e0566847f546d8cd
   - taskId: OPS-020
     title: POC003受限干净工作分支恢复
-    status: reserved
+    status: in_progress
     completionRef: ISSUE-191
     mergeCommit: null
 waves:
