@@ -14,12 +14,14 @@ import copy
 import importlib.util
 import io
 import json
+import locale
 import os
 import re
 import subprocess
 import sys
 import tempfile
 from datetime import datetime, timedelta, timezone
+from contextvars import ContextVar
 from functools import lru_cache
 from typing import Any
 
@@ -67,6 +69,7 @@ PROGRAM_SCHEMA = "specs/coordination/program-plan.schema.yaml"
 AUDITED_OWNER_CAPACITY_FAILURES: dict[str, dict[str, Any]] = {}
 VALIDATED_TASK_SNAPSHOTS: set[tuple[str, str, str, str]] = set()
 PR_REF_RE = re.compile(r"^PR-([0-9]+)$")
+_HISTORY_BLOB_READER: ContextVar[Any] = ContextVar("guize_history_blob_reader", default=None)
 
 
 def parse_args() -> argparse.Namespace:
@@ -86,7 +89,202 @@ def emit(status: str, message: str, details: Any | None = None) -> None:
     print(json.dumps(payload, ensure_ascii=False))
 
 
+class _HistoryBlobReader:
+    """Own one live transport at a time; never retain a Git result or judgment."""
+
+    def __init__(self, root: str):
+        self.root = os.path.abspath(root)
+        self.environment = self.git_environment()
+        self.common: str | None = None
+        self.location: tuple[Any, ...] | None = None
+        self.config_paths: tuple[str, ...] | None = None
+        self.config_bytes: tuple[bytes | None, ...] | None = None
+        self.process: subprocess.Popen[bytes] | None = None
+        self.stderr: Any = None
+        self.disabled = False
+
+    @staticmethod
+    def git_environment() -> tuple[tuple[str, str], ...]:
+        # PATH, HOME, XDG and locale can change the next fresh Git invocation.
+        # Keep this context only in memory; never persist environment values.
+        return tuple(sorted(os.environ.items()))
+
+    def read_config_files(self) -> tuple[bytes | None, ...]:
+        values = []
+        for path in self.config_paths:
+            try:
+                with open(path, "rb") as config:
+                    values.append(config.read())
+            except FileNotFoundError:
+                values.append(None)
+        return tuple(values)
+
+    def unchanged_config(self) -> bool:
+        if self.config_paths is None:
+            paths = [os.path.join(self.common, "config")]
+            for variable in ("GIT_CONFIG_SYSTEM", "GIT_CONFIG_GLOBAL"):
+                result = subprocess.run(["git", "var", variable], cwd=self.root,
+                                        capture_output=True, text=True, check=False)
+                if result.returncode or result.stderr:
+                    return False
+                paths.extend(os.path.abspath(os.path.join(self.root, path))
+                             for path in result.stdout.splitlines() if path)
+            result = subprocess.run(["git", "rev-parse", "--absolute-git-dir"], cwd=self.root,
+                                    capture_output=True, text=True, check=False)
+            if result.returncode or result.stderr or len(result.stdout.splitlines()) != 1:
+                return False
+            paths.append(os.path.join(result.stdout.strip(), "config.worktree"))
+            self.config_paths = tuple(sorted(set(paths)))
+            before = self.read_config_files()
+            result = subprocess.run(["git", "config", "--null", "--list", "--includes"], cwd=self.root,
+                                    capture_output=True, text=True, check=False)
+            if result.returncode or result.stderr or before != self.read_config_files():
+                return False
+            # Includes can become active or appear later. Leave all include
+            # resolution to a fresh Git process instead of caching that graph.
+            keys = [entry.split("\n", 1)[0].lower() for entry in result.stdout.split("\0")]
+            if any(key == "include.path" or key.startswith("includeif.") for key in keys):
+                return False
+            self.config_bytes = before
+        return self.read_config_files() == self.config_bytes
+
+    def git_location(self) -> tuple[Any, ...]:
+        root = os.stat(self.root)
+        common = os.stat(self.common)
+        entry = os.path.join(self.root, ".git")
+        info = os.lstat(entry)
+        if os.path.islink(entry):
+            pointer = os.readlink(entry)
+        elif os.path.isdir(entry):
+            pointer = None
+        else:
+            with open(entry, "rb") as gitfile:
+                pointer = gitfile.read()
+        return (root.st_dev, root.st_ino, common.st_dev, common.st_ino,
+                info.st_dev, info.st_ino, info.st_mode, pointer)
+
+    def original_object_semantics(self) -> bool:
+        if self.git_environment() != self.environment or os.environ.get("GIT_NAMESPACE"):
+            return False
+        if os.environ.get("GIT_REPLACE_REF_BASE", "refs/replace/") not in {"refs/replace", "refs/replace/"}:
+            return False
+        if self.common is None:
+            if not os.path.exists(os.path.join(self.root, ".git")):
+                return False
+            info = subprocess.run(["git", "rev-parse", "--git-common-dir"], cwd=self.root,
+                                  capture_output=True, text=True, check=False)
+            if info.returncode or info.stderr or not info.stdout.strip() or len(info.stdout.splitlines()) != 1:
+                return False
+            self.common = os.path.abspath(os.path.join(self.root, info.stdout.strip()))
+        try:
+            location = self.git_location()
+            if self.location is None:
+                self.location = location
+            elif location != self.location:
+                return False
+            if not self.unchanged_config():
+                return False
+            if any(os.path.exists(os.path.join(self.common, path)) for path in ("info/grafts", "reftable")):
+                return False
+            try:
+                with os.scandir(os.path.join(self.common, "refs/replace")) as entries:
+                    if next(entries, None) is not None:
+                        return False
+            except FileNotFoundError:
+                pass
+            try:
+                with open(os.path.join(self.common, "packed-refs"), "rb") as packed:
+                    if b" refs/replace/" in packed.read():
+                        return False
+            except FileNotFoundError:
+                pass
+        except OSError:
+            return False
+        return True
+
+    def close(self) -> None:
+        if self.process is not None:
+            try:
+                self.process.stdin.close()
+            except (OSError, ValueError):
+                pass
+            try:
+                self.process.stdout.close()
+            except (OSError, ValueError):
+                pass
+            self.process.wait()
+            self.process = None
+        if self.stderr is not None:
+            self.stderr.close()
+            self.stderr = None
+
+    def show(self, root: str, arguments: tuple[str, ...]) -> subprocess.CompletedProcess[str] | None:
+        if self.disabled or os.path.abspath(root) != self.root or len(arguments) != 2 or arguments[0] != "show":
+            return None
+        expression = arguments[1]
+        if not isinstance(expression, str) or not re.fullmatch(r"[0-9a-f]{40}:[A-Za-z0-9_./-]+", expression):
+            return None
+        try:
+            # A long-lived Git process can cache replacement mappings. Never
+            # use that mapping if any mutable replacement/graft state exists.
+            if not self.original_object_semantics():
+                self.close()
+                self.disabled = True
+                return None
+            if self.process is None:
+                self.stderr = tempfile.TemporaryFile()
+                try:
+                    self.process = subprocess.Popen(["git", "cat-file", "--batch"], cwd=self.root,
+                                                    stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=self.stderr)
+                except (OSError, ValueError):
+                    self.stderr.close()
+                    self.stderr = None
+                    raise
+            process = self.process
+            process.stdin.write(expression.encode("ascii") + b"\n")
+            process.stdin.flush()
+            parts = process.stdout.readline().rstrip(b"\n").split()
+            if len(parts) == 2 and parts[-1] in {b"missing", b"ambiguous"}:
+                self.close()
+                return None
+            if len(parts) != 3 or not re.fullmatch(rb"[0-9a-f]{40}", parts[0]) or not parts[2].isdigit():
+                raise ValueError("Invalid Git batch header")
+            size = int(parts[2])
+            data = process.stdout.read(size)
+            if len(data) != size or process.stdout.read(1) != b"\n":
+                raise ValueError("Incomplete Git batch object")
+            if parts[1] != b"blob":
+                self.close()
+                return None
+            if os.fstat(self.stderr.fileno()).st_size or not self.original_object_semantics():
+                self.close()
+                self.disabled = True
+                return None
+            text = data.decode(locale.getpreferredencoding(False)).replace("\r\n", "\n").replace("\r", "\n")
+            return subprocess.CompletedProcess(["git", *arguments], 0, text, "")
+        except (OSError, ValueError):
+            self.close()
+            self.disabled = True
+            return None
+
+
+@contextlib.contextmanager
+def _history_blob_session(root: str):
+    reader = _HistoryBlobReader(root)
+    token = _HISTORY_BLOB_READER.set(reader)
+    try:
+        yield reader
+    finally:
+        _HISTORY_BLOB_READER.reset(token)
+        reader.close()
+
+
 def git(root: str, *arguments: str) -> subprocess.CompletedProcess[str]:
+    reader = _HISTORY_BLOB_READER.get()
+    if reader is not None:
+        result = reader.show(root, arguments)
+        if result is not None:
+            return result
     return subprocess.run(
         ["git", *arguments], cwd=root, capture_output=True, text=True, check=False
     )
@@ -1624,6 +1822,27 @@ def foundation_preflight_needed(root: str, task_id: str, base_ref: str, head_ref
 
 
 def validate_foundations(
+    root: str,
+    base_plan: dict[str, Any],
+    current_plan: dict[str, Any],
+    base_active: dict[str, Any],
+    current_active: dict[str, Any],
+    base_ledger: dict[str, Any],
+    current_ledger: dict[str, Any],
+    base_ref: str,
+    head_ref: str,
+    branch_name: str,
+    errors: list[str],
+    *,
+    task_hint: str = "",
+) -> None:
+    with _history_blob_session(root):
+        _validate_foundations(root, base_plan, current_plan, base_active, current_active,
+                              base_ledger, current_ledger, base_ref, head_ref, branch_name,
+                              errors, task_hint=task_hint)
+
+
+def _validate_foundations(
     root: str,
     base_plan: dict[str, Any],
     current_plan: dict[str, Any],

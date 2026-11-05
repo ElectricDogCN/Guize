@@ -59,3 +59,17 @@
 - evidence/OPS-020/summary.md
 - evidence/OPS-020/test-results/README.md
 - specs/tasks/OPS-020.md
+
+
+## Child N2
+- scripts/check-program-plan-history.py
+- tests/governance/test_work_branch_migration.py
+- evidence/OPS-020/history-data-performance-v2/implementation-context.json
+- evidence/OPS-020/history-data-performance-v2/validation.zip
+- evidence/OPS-020/history-data-performance-v2/validation-index.json
+
+
+## Corrected N2 additional evidence
+- evidence/OPS-020/history-data-performance-v2/context-fix-implementation-context.json
+- evidence/OPS-020/history-data-performance-v2/context-fix-validation.zip
+- evidence/OPS-020/history-data-performance-v2/context-fix-validation-index.json
