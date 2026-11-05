@@ -1,0 +1,36 @@
+{
+  "kind": "prospective_own_blocked_state_lease_maintenance",
+  "taskId": "POC-005",
+  "decidedAt": "2026-11-05T12:05:19Z",
+  "decisionActor": "/root",
+  "immediateGitBase": "c27e2045867170cb0a86cfc553342ca8a28aff78",
+  "lastFullyAcceptedAnchor": "d53323fe77f1fa4a0d6155a391435754eee2e491",
+  "immediateBaseOrdinaryMerged": true,
+  "immediateBaseSourceCiAccepted": true,
+  "immediateBaseOwnSevenPassed": true,
+  "immediateBaseFullMainCiAccepted": false,
+  "immediateBaseAuthorityAcceptance": "pending separate complete CI952 and independent actual-main acceptance",
+  "originalLease": {
+    "acquiredAt": "2026-10-29T12:12:19Z",
+    "expiresAt": "2026-11-05T12:12:19Z"
+  },
+  "proposedLease": {
+    "acquiredAt": "2026-11-05T12:05:19Z",
+    "expiresAt": "2026-11-12T12:05:19Z"
+  },
+  "proposedStatus": "blocked",
+  "proposedAgentRole": "coordinator",
+  "registeredWorkBranchUnchanged": "chore/POC-005-metadata-scale",
+  "creationBaseUnchanged": "746e23e582501fa08380c3f3301bdc1774902f7c",
+  "blocker": "Old source qualification does not cover current governance changes; controlled LFS delivery, current source qualification, fresh isolated OpenList and full fixture/resource admission remain unaccepted.",
+  "blockerOwner": "/root",
+  "unblockCondition": "Accept this ordinary maintenance on actual main, then independently review current-source/LFS and fresh resource/service admission and resume by the registered ordinary branch with full original validation.",
+  "continuityClaimed": false,
+  "oldLeaseAlreadyExpiredAtProposal": false,
+  "gapPolicy": "No implementation, service start, fixture reuse or performance experiment before actual renewed authority and separate admissions. Do not infer continuous authority from proposal time.",
+  "effectiveAuthority": "Pending exact-candidate review, original15, full867 source CI, ordinary merge, actual-main7/full CI and independent final acceptance",
+  "historicalResultsRelabeled": false,
+  "sourceOrFixtureReuseApproved": false,
+  "experimentApproved": false,
+  "newLeaseAccepted": false
+}
