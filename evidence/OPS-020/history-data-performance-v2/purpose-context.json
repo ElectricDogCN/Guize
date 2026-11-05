@@ -1,0 +1,25 @@
+{
+  "kind": "OPS020_PROSPECTIVE_EXISTING_H_PURPOSE_AMENDMENT_M2",
+  "parent": "f1cfbef4e63bb4a85548a74e57510d156f262721",
+  "base": "f71f85027e8ad64b8e6d0a3d08a39ca9596d0323",
+  "branch": "chore/OPS-020-history-data-performance",
+  "claims": [
+    "scripts/work-branch-migration.py",
+    "tests/governance/test_work_branch_migration.py",
+    "scripts/check-program-plan-history.py"
+  ],
+  "newScopePaths": [],
+  "registryChanged": false,
+  "lease": {
+    "acquiredAt": "2026-11-05T13:07:45Z",
+    "expiresAt": "2026-11-12T13:07:45Z"
+  },
+  "originalIntentSha256": "3442ac687f2fda7071b467082ffccdff2e677847c9323198cf64a7fbdc41b51d",
+  "source961Cancelled": true,
+  "unchangedRetryRequested": false,
+  "gitResultCachingAllowed": false,
+  "authorityCachingAllowed": false,
+  "productionBatchCodeWritten": false,
+  "fullCiAccepted": false,
+  "createdAt": "2026-11-05T20:15:06.708937+00:00"
+}

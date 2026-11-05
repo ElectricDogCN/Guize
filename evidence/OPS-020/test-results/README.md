@@ -14,3 +14,7 @@ Prospective metadata M b14aa06c53f39c3e2a188a526ec2b63b3d1000df already committe
 
 ## Actual targeted precommit validation
 Python3.11.17/UID1000 actually ran the four new parser regressions:4passed/56 deliberately deselected/1.72s. Exact H/test SHA and candidate/HEAD/index before==after preserved in parser-validation.zip/index (6 unchanged inputs). First wrapper failed before pytest because Linux Git LFS was absent from PATH;0 tests executed, and that preparation failure remains separately recorded. The successful targeted method claims only exact candidate bytes/HEAD/index, not a whole-worktree or complete source15 check. All60 and full902 remain unexecuted for a committed N.
+
+
+## Prospective H Git transport purpose M2
+Parent f1cfbef4e63bb4a85548a74e57510d156f262721; same IP3claims/lease/actors/Registry/base/branch. CI961 cancelled873/902, no summary, fullraw/annotation retained, notaccepted/merged or retried. M2 only declares the tightly scoped process-reuse purpose before any H change; fresh per-request object reads and ordinary fallback preserve all original judgments. Observational4055 equality/18 protocol boundaries are prototypes, not sourceCI success. Read complete indexed evidence under history-data-performance-v2/. Next: independent exact M2 review/commit, N2 implementation/regressions, exactsource15/fulloriginal902+new and actualmainCI/independent acceptance. No POC action or capacityrelease.

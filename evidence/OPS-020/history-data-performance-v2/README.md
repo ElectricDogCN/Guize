@@ -1,0 +1,7 @@
+# Prospective M2 scoped Git transport purpose
+
+This metadata amendment precedes actual H writes. N/f1cfbef and CI961 remain cancelled/unaccepted despite873 observedPASS. The lossless ZIP/index preserves complete official negative facts, native profiles, always-return-original observational comparison4055 and18 isolated protocol boundaries. Prototype timings are paired/warm and do not predict full CI budget or grant authority.
+
+Only a single validate_foundations call may own a lazy Git batch reader; each eligible immutableOID metadata blob is actually requested, no values/permissions/errors are retained. HEAD/symbolic refs, unusual paths, missing/tree, replacements/grafts/reftable, stderr and protocol/process errors use original command behavior; ownership closes viaEOF and realwait on return/exception/nested exit. No flags suppress replacement/filter semantics. Encoding/universal newline and CompletedProcess/caller errors must remain. Replacement guards must inspect current common Git directory, including linked worktrees, before and after queries. Malformed/dead process fallback and late replacement mutation need actual regressions.
+
+N2 is not written. Same3claims/actors/lease/base/branch, originalR/intent/902/60 prefixes, frozen5 and30minute workflow remain; no newproject/bootstrap/exception or POC action. Exact new-source15/full inventory/sourceCI/main7+CI and independent normalReview/Completion remain required.

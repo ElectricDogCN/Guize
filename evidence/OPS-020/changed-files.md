@@ -46,3 +46,16 @@
 ## Targeted parser proof
 - evidence/OPS-020/history-data-performance-v1/parser-validation.zip
 - evidence/OPS-020/history-data-performance-v1/parser-validation-index.json
+
+
+## Prospective purpose M2
+- evidence/OPS-020/changed-files.md
+- evidence/OPS-020/commands.txt
+- evidence/OPS-020/handoff.md
+- evidence/OPS-020/history-data-performance-v2/README.md
+- evidence/OPS-020/history-data-performance-v2/artifacts.zip
+- evidence/OPS-020/history-data-performance-v2/index.json
+- evidence/OPS-020/history-data-performance-v2/purpose-context.json
+- evidence/OPS-020/summary.md
+- evidence/OPS-020/test-results/README.md
+- specs/tasks/OPS-020.md
