@@ -1,0 +1,75 @@
+{
+  "kind": "unaltered_primary_failure_and_separate_draft_archive",
+  "files": {
+    "official-ci958/check-run-annotations-receipt.json": {
+      "bytes": 380,
+      "sha256": "39227b95f0ed0619e083a8ee7f55faa18909d35747310e2dc4b9985cb9117767"
+    },
+    "official-ci958/check-run-annotations.official-direct.json": {
+      "bytes": 1944,
+      "sha256": "16622d730fe7da3bc896addec04c0206d92233e46b57196fd0b6856fefaaf45d"
+    },
+    "official-ci958/checkout.json": {
+      "bytes": 2602,
+      "sha256": "62fcb994ea8b194a6c4107d36c591f6271babee5a20bd683f5fd6efc006973b9"
+    },
+    "official-ci958/job-log.official-direct-download.utf8.txt": {
+      "bytes": 493017,
+      "sha256": "922f376c72f2cd73527f20f7e17b209c4e7ea053fcc71351cb27d0e9e3747bef"
+    },
+    "official-ci958/jobs.json": {
+      "bytes": 5571,
+      "sha256": "7b98b68fba439766eb1c830beff1a79da5b584d34d9194d0ca0922a07697dd7f"
+    },
+    "official-ci958/official-direct-download-authenticated-result.json": {
+      "bytes": 803,
+      "sha256": "a889331ebb5086940aec97eac3f963b9b42573e8e7c43e777e0a9463f0fe3466"
+    },
+    "official-ci958/official-http-acquisition-manifest.json": {
+      "bytes": 1132,
+      "sha256": "2c314ef0600776d46d8def044b71ae299a649532507c050365352c970a6a9d24"
+    },
+    "official-ci958/run.json": {
+      "bytes": 12987,
+      "sha256": "1ff4943a9ee9ae1bda7fcae80158f642b7483360e8c29819d2739ff6d5d81ff6"
+    },
+    "draft-v4/pytest.raw": {
+      "bytes": 2717,
+      "sha256": "2fe0233db4fde773d7de776ce5c2c9d0545988a1219ebf9ece9ef4d72e5d2d6e"
+    },
+    "draft-v4/junit.xml": {
+      "bytes": 9035,
+      "sha256": "b1a80840f7a93ea9d6762e0567708d21cad219941230e13c423b45c72bfc901b"
+    },
+    "draft-v4/results.json": {
+      "bytes": 1301,
+      "sha256": "e4237dea5d8c463d7a6b66e264f5e012d799ef2588c5b6cc57c75ee5e81be7ae"
+    },
+    "profile/implementation-S.raw": {
+      "bytes": 485,
+      "sha256": "90ab4c763364802881f8fc862e6496769d87958d29ce0e36e62afa8a3250b444"
+    },
+    "profile/recovery-authority.pstats": {
+      "bytes": 232730,
+      "sha256": "51c660428f53958b7d45fb5b65cc6358585ed296b5b9825d54570238e24f7131"
+    },
+    "profile/registration-R.raw": {
+      "bytes": 485,
+      "sha256": "6256c39bedbec19eb1c27554ad2d74f01c6d1d3e86f97b87ce9416d17314f61b"
+    },
+    "profile/results.json": {
+      "bytes": 10122,
+      "sha256": "af04ec74aeb314e4adb8b716f14ebf75c829db9ea57f8db763508b5d8a40f5b7"
+    },
+    "review/ops020-blocked-recovery-draft-v4-static-independent-review.json": {
+      "bytes": 2763,
+      "sha256": "b5cfa82b68d44db84ab3052e84d44f09d906132f59fce0df8b3f83ddb9e2e80d"
+    },
+    "derived/ci958-pass-gap-comparison.json": {
+      "bytes": 5855,
+      "sha256": "dd7e25ed948095bae1b35dd8769a9c25a5134493312cf6167542fe7d13a06006"
+    }
+  },
+  "archive": "artifacts.zip",
+  "archiveSha256": "4b9aa9eb05f57bd8fec2b1522f1b3ed28876aa7130e620f13dabec8f70970d1a"
+}

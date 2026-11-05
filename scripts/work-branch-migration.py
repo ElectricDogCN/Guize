@@ -789,6 +789,13 @@ def _validate_recovery_range(root, before, after, admitted, edits):
 def validate_range(root, before, after, admitted=None):
     before, after = resolve(root, before), resolve(root, after)
     admitted = resolve(root, admitted or before)
+    registration = git(root, 'rev-parse', '--verify', RECOVERY_REGISTRATION+'^{commit}', missing=True)
+    if registration is None or not ancestor(root, RECOVERY_REGISTRATION, after):
+        # Copied records and a reachable object outside this lineage cannot
+        # establish the new authority. Preserve every original legacy check;
+        # in particular, its exact one-way pair cannot admit RECOVERY_NEW.
+        edits = migration_edits(root, before, after)
+        return _validate_legacy_range(root, before, after, admitted, edits)
     left = rows(document(root, before, ACTIVE)).get(TARGET, {})
     right = rows(document(root, after, ACTIVE)).get(TARGET, {})
     if left.get('branch') != right.get('branch') and RECOVERY_NEW in (left.get('branch'), right.get('branch')):

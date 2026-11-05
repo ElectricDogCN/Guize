@@ -429,7 +429,8 @@ class RecoveryGraph(Graph):
 
 def recovery_clone(source, destination, ref):
     result = clone(source, destination, ref)
-    result.git('sparse-checkout', 'add', '--no-cone', '/evidence/OPS-020/', '/poc/POC-03-ats-range/')
+    assert result.git('config', '--bool', '--get', 'core.sparseCheckoutCone') == 'false'
+    result.git('sparse-checkout', 'add', '/evidence/OPS-020/', '/poc/POC-03-ats-range/')
     return RecoveryGraph(destination)
 
 
@@ -492,8 +493,32 @@ def recovery_unapproved(tmp_path_factory):
     return build_recovery_authority(tmp_path_factory.mktemp('blocked-recovery-unapproved')/'repo', False)
 
 
+RECOVERY_TEMPLATE_ENV_BEFORE = os.environ.get('GIT_TEMPLATE_DIR')
+
+
 @pytest.fixture
-def recovery_graph(recovery_completed, tmp_path):
+def recovery_metadata_clone_template(tmp_path, monkeypatch):
+    """Materialize only real metadata inputs in newly created proof clones.
+
+    This controls disposable test clone inputs, not the production H function.
+    The checker, exact Git objects/refs, HEAD and all authority checks remain
+    real. Original legacy tests and the actual ROOT binary probe stay outside
+    this function-scoped environment.
+    """
+    template = tmp_path/'metadata-clone-template'
+    (template/'info').mkdir(parents=True)
+    (template/'config').write_text('[core]\n\tsparseCheckout = true\n\tsparseCheckoutCone = false\n', encoding='utf-8')
+    patterns = ['/scripts/', '/specs/', '/rules/', '/.github/', '/docs/', '/tests/',
+                '/evidence/OPS-020/', '/AGENTS.md', '/.gitattributes', '/.gitignore',
+                '/README.md', '/requirements-governance.txt', '/Makefile']
+    (template/'info/sparse-checkout').write_text('\n'.join(patterns)+'\n', encoding='utf-8')
+    assert {p.relative_to(template).as_posix() for p in template.rglob('*') if p.is_file()} == {'config', 'info/sparse-checkout'}
+    monkeypatch.setenv('GIT_TEMPLATE_DIR', str(template))
+    yield template
+
+
+@pytest.fixture
+def recovery_graph(recovery_completed, tmp_path, recovery_metadata_clone_template):
     graph = recovery_clone(recovery_completed.repo, tmp_path/'repo', recovery_completed.base)
     graph.base, graph.implementation = recovery_completed.base, recovery_completed.implementation
     return graph
@@ -702,7 +727,14 @@ def test_recovery_reused_snapshot_cache_revalidates_changed_entry_and_commit(rec
     original = module.checkout_task_snapshot
     def checkout(snapshot, commit, task_id):
         calls.append((commit, task_id))
-        return original(snapshot, commit, task_id)
+        result = original(snapshot, commit, task_id)
+        assert result.returncode == 0
+        assert graph.git('-C', snapshot, 'rev-parse', 'HEAD') == commit
+        assert graph.git('-C', snapshot, 'rev-parse', '--is-shallow-repository') == 'false'
+        assert Path(snapshot, 'specs/tasks/OPS-020.md').is_file()
+        assert Path(snapshot, 'evidence/OPS-020/handoff.md').is_file()
+        assert not Path(snapshot, 'evidence/POC-005/profiles').exists()
+        return result
     monkeypatch.setattr(module, 'checkout_task_snapshot', checkout)
     for _ in range(2):
         errors = []
@@ -724,3 +756,41 @@ def test_recovery_reused_snapshot_cache_revalidates_changed_entry_and_commit(rec
     module.historical_task_snapshot(root, invalid, PROOF.RECOVERY_OWNER, entry,
                                     'Changed commit', errors)
     assert errors and len(calls) == 3
+
+
+@pytest.mark.parametrize('registration_object', ['absent', 'not-an-ancestor'])
+def test_copied_completed_recovery_records_cannot_authorize_an_unregistered_lineage(recovery_completed, tmp_path, registration_object):
+    repo = tmp_path/'unrelated'
+    repo.mkdir()
+    subprocess.run(['git', 'init', '--quiet', str(repo)], check=True)
+    graph = RecoveryGraph.__new__(RecoveryGraph)
+    graph.repo = repo
+    graph.clock = PROOF.commit_time(str(recovery_completed.repo), recovery_completed.base)+timedelta(seconds=30)
+    graph.git('config', 'user.name', 'Unrelated history fixture')
+    graph.git('config', 'user.email', 'fixture@example.invalid')
+    for path in (PROOF.ACTIVE, PROOF.PLAN, PROOF.LEDGER, PROOF.TASK,
+                 'specs/tasks/OPS-020.md', 'evidence/POC-003/handoff.md',
+                 PROOF.RECOVERY_INTENT, PROOF.RECOVERY_APPROVAL):
+        graph.write(path, PROOF.blob(str(recovery_completed.repo), recovery_completed.base, path))
+    before = graph.commit('Inert copied completed records without their authority history')
+    if registration_object == 'not-an-ancestor':
+        objects = Path(graph.git('-C', str(ROOT), 'rev-parse', '--git-path', 'objects'))
+        if not objects.is_absolute():
+            objects = ROOT/objects
+        assert objects.is_dir()
+        alternate = repo/'.git/objects/info/alternates'
+        alternate.write_text(str(objects.resolve())+'\n', encoding='utf-8')
+        assert PROOF.resolve(str(repo), PROOF.RECOVERY_REGISTRATION) == PROOF.RECOVERY_REGISTRATION
+        assert not PROOF.ancestor(str(repo), PROOF.RECOVERY_REGISTRATION, before)
+    else:
+        assert PROOF.git(str(repo), 'rev-parse', '--verify', PROOF.RECOVERY_REGISTRATION+'^{commit}', missing=True) is None
+    graph.git('checkout', '-b', PROOF.RECOVERY_NEW)
+    head = graph.recover()
+    errors = []
+    assert PROOF.checked_range(str(repo), before, head, errors) == {}
+    assert errors
+
+
+def test_recovery_fixture_environment_restored_and_actual_root_probe_preserved():
+    assert os.environ.get('GIT_TEMPLATE_DIR') == RECOVERY_TEMPLATE_ENV_BEFORE
+    assert PROOF.verify_probe(str(ROOT))
