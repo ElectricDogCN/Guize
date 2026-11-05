@@ -21,3 +21,17 @@
 - `specs/coordination/active-work.yaml`
 - `specs/coordination/program-plan.yaml`
 - `specs/tasks/OPS-020.md`
+
+
+## Prospective scope M
+- evidence/OPS-020/changed-files.md
+- evidence/OPS-020/commands.txt
+- evidence/OPS-020/handoff.md
+- evidence/OPS-020/history-data-performance-v1/README.md
+- evidence/OPS-020/history-data-performance-v1/artifacts.zip
+- evidence/OPS-020/history-data-performance-v1/index.json
+- evidence/OPS-020/history-data-performance-v1/scope-context.json
+- evidence/OPS-020/summary.md
+- evidence/OPS-020/test-results/README.md
+- specs/coordination/active-work.yaml
+- specs/tasks/OPS-020.md

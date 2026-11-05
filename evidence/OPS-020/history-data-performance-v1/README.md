@@ -1,0 +1,5 @@
+# Prospective OPS020 history-data performance scope
+
+M reserves the single H path before child N writes code. Two original main CI960 cancellations, exact full logs/annotations, native unchanged-case profiles and the data-only microbenchmark remain in the lossless ZIP/index with per-member names/bytes/SHA256. All recursively pinned small prerequisites are included, plus the original raw pstats. Read ZIP entries without executing payloads. The data prototype is not checker/full-CI acceptance.
+
+N is not yet written: only bounded successful YAML parse data reuse with a fresh deep copy per caller is planned. Git, refs, authority, leases, schema/errors and real Task snapshots still run; no Git-result/permission caching or sparse/default changes. Original registration/intent, claims2 historical record, old867 assertions/25 prefix, frozen5 and original30m remain. New regression cases and complete source/main CI plus independent acceptance are mandatory. No Review, new APP, capacity release or POC experiment is granted.
