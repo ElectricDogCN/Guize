@@ -1,0 +1,46 @@
+{
+  "archive": "parent-ci952-attempt1.zip",
+  "records": [
+    {
+      "path": "run.json",
+      "bytes": 12350,
+      "sha256": "1d9a3fc83de29c024df4381b9185a71c21ffcc0e81ceb4bde0721e37a1fa1bb3"
+    },
+    {
+      "path": "jobs.json",
+      "bytes": 5530,
+      "sha256": "e6a8190b13fb5b2e8533139008a38f735cfa89c910b48fe6ef3f126155280e55"
+    },
+    {
+      "path": "checkout.json",
+      "bytes": 2714,
+      "sha256": "70906f4e6c5349899f93667815c86e0c20dad5b2af91add67f103fa92fa41071"
+    },
+    {
+      "path": "job-log.official-direct-download.utf8.txt",
+      "bytes": 332910,
+      "sha256": "de88f13b1b0cbaa829653fed5d0ac6a29c3e73dab01a7d3b65877800b0e545fb"
+    },
+    {
+      "path": "official-direct-download-authenticated-result.json",
+      "bytes": 751,
+      "sha256": "b31d23de19626bb2d34faa13a3982f0aa1ad50f7e61f21e0f51803f711cb66cd"
+    },
+    {
+      "path": "check-run.official-http.json",
+      "bytes": 3065,
+      "sha256": "64bd5d786d5d534c7ad3ccacffc78542f7656ada12da4ffce80eccbdcc92151f"
+    },
+    {
+      "path": "check-run-annotations.official-http.json",
+      "bytes": 1641,
+      "sha256": "5107ee767d4f63e81e3311b92520d3f2a54341fe6bbc9128c70e8e5a92417790"
+    },
+    {
+      "path": "derived-incomplete-attempt-analysis.json",
+      "bytes": 732,
+      "sha256": "6fe0d91477222b1c5f1d0918b9ae8cb5b00a1eaad3ee9bdb4131e0ca58f96a51"
+    }
+  ],
+  "scope": "Complete exact listed first-attempt raw/metadata and labelled derived analysis; no attempt2 or candidate CI pass claimed"
+}

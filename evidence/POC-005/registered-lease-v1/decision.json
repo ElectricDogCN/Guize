@@ -1,0 +1,43 @@
+{
+  "kind": "forward_registered_branch_lease_only_maintenance",
+  "taskId": "POC-005",
+  "decidedAt": "2026-11-05T12:24:49.498890+00:00",
+  "actor": "/root",
+  "immediateGitBase": "c27e2045867170cb0a86cfc553342ca8a28aff78",
+  "lastFullyAcceptedAnchor": "d53323fe77f1fa4a0d6155a391435754eee2e491",
+  "parentSource": "e2164b4e88109ef6fadb4c2c454612da37f9ef9c",
+  "registeredWorkBranch": "chore/POC-005-metadata-scale",
+  "expectedOldRemoteTip": "246bc11cbf711c8e750bbbb1d465c315060d8d88",
+  "precedingBlockedProposal": "evidence/POC-005/blocked-lease-v1/decision.json",
+  "precedingProposalPreserved": true,
+  "precedingProposalSupersededAsUnmergedMaintenanceStrategy": true,
+  "reason": "Current source/LFS delivery, isolated service and fixture admission are remaining preparation work. The original registered branch is a clean main ancestor and can fast-forward normally. in_progress accurately records this work without an unnecessary blocked-main then resumption-main lifecycle.",
+  "remainingPrerequisites": "Current-source qualification, exact controlled evidence hydration, fresh isolated OpenList/fixture and resource admission; preserve any real external blocker rather than claiming it solved.",
+  "proposedLease": {
+    "acquiredAt": "2026-11-05T12:05:19Z",
+    "expiresAt": "2026-11-12T12:05:19Z"
+  },
+  "oldLease": {
+    "acquiredAt": "2026-10-29T12:12:19Z",
+    "expiresAt": "2026-11-05T12:12:19Z"
+  },
+  "leaseAcceptedOnMain": false,
+  "continuityClaimed": false,
+  "authorityGap": "The old lease expired at 2026-11-05T12:12:19Z before renewed actual-main acceptance. No implementation, resource reuse, service start or experiment was admitted during this gap. Metadata correction and its validations alone are being prepared.",
+  "formalStateAfterAcceptance": "in_progress/implementer on the original registered branch",
+  "netMetadataFields": [
+    "Registry.POC-005.lease",
+    "Task.POC-005.leaseExpiresAt"
+  ],
+  "originalCreationBodyActorsClaimsUnchanged": true,
+  "oldResultsRelabeled": false,
+  "oldSource953QualificationReused": false,
+  "baseMainCi": {
+    "run": 42021693198,
+    "attempt1": "cancelled with official30m timeout; exact867 tests passed but fullCI not accepted",
+    "attempt2": "single unchanged retry in_progress; entire independent run required"
+  },
+  "resourceOrExperimentApproved": false,
+  "sourceOrFixtureReuseApproved": false,
+  "effectiveAuthority": "Pending new exact candidate review, original15, full867 sourceCI, ordinary merge, actual-main7/fullCI and independent acceptance"
+}
