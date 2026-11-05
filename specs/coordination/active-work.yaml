@@ -91,5 +91,5 @@ tasks:
   integrationStrategy: merge
   integrationOrder: 3
   lease:
-    acquiredAt: '2026-10-29T12:12:19Z'
-    expiresAt: '2026-11-05T12:12:19Z'
+    acquiredAt: '2026-11-05T12:05:19Z'
+    expiresAt: '2026-11-12T12:05:19Z'
