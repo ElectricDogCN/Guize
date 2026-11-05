@@ -96,17 +96,17 @@ tasks:
 - taskId: OPS-020
   issue: 191
   title: POC003受限干净工作分支恢复
-  status: reserved
+  status: in_progress
   riskLevel: high
   owner: ElectricDogCN
   coordinator: /root
   implementer: /root
   reviewer: /root/independent_review
   integrator: /root
-  agentRole: coordinator
-  branch: chore/OPS-020-blocked-recovery-reservation
+  agentRole: implementer
+  branch: chore/OPS-020-blocked-recovery-implementation
   baseBranch: main
-  baseSha: 251fac61809ed4b209c4fc7a71dee41ba4061db6
+  baseSha: 08ee4bc4dc3030cc86f420cc0956a0ab5146c379
   workPackage: WP-M0-01
   programPlan: specs/coordination/program-plan.yaml
   programTaskId: OPS-020

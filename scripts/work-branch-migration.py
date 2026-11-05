@@ -7,6 +7,7 @@ proofs run only when this exact task's work branch changes.
 from __future__ import annotations
 
 import base64
+from functools import lru_cache
 from datetime import datetime, timedelta, timezone
 import hashlib
 import importlib.util
@@ -52,6 +53,22 @@ PREFIX = 'evidence/POC-003/work-branch-migration-v1/'
 PROBE = 'evidence/OPS-019/implementation-v1/lfs-probe.bin'
 PROBE_BYTES = bytes((index * 73 + 19) % 256 for index in range(4096))
 PROBE_SHA256 = hashlib.sha256(PROBE_BYTES).hexdigest()
+
+# A separate, original registration is required for the blocked tuple. The
+# expired OPS-019 approval is retained exclusively for its original route.
+RECOVERY_OWNER = 'OPS-020'
+RECOVERY_REGISTRATION = '08ee4bc4dc3030cc86f420cc0956a0ab5146c379'
+RECOVERY_RESERVATION_PARENT = '251fac61809ed4b209c4fc7a71dee41ba4061db6'
+RECOVERY_RESERVATION_SOURCE = 'e9f72d781236f359de63032da68136ce25ada5d7'
+RECOVERY_INTENT = 'evidence/OPS-020/recovery-intent.json'
+RECOVERY_INTENT_SHA256 = '3442ac687f2fda7071b467082ffccdff2e677847c9323198cf64a7fbdc41b51d'
+RECOVERY_APPROVAL = 'evidence/OPS-020/implementation-v1/recovery-approval.json'
+RECOVERY_NEW = 'chore/POC-003-qualified-lfs-evidence-v2'
+RECOVERY_PREFIX = 'evidence/POC-003/work-branch-recovery-v2/'
+RECOVERY_CLAIMS = frozenset({
+    'scripts/work-branch-migration.py',
+    'tests/governance/test_work_branch_migration.py',
+})
 
 
 class MigrationError(ValueError):
@@ -175,6 +192,16 @@ def history_module():
     return module
 
 
+@lru_cache(maxsize=8)
+def recovery_history_module(root):
+    """Reuse H's existing successful immutable snapshot cache per real root.
+
+    Every authority call still runs the complete normal Foundation proof.
+    No permission, exception, failure or authority result is cached here.
+    """
+    return history_module()
+
+
 def complete_ancestry(root, after):
     require(git(root, 'rev-parse', '--is-shallow-repository').strip() == b'false',
             'Migration cannot use shallow history')
@@ -209,46 +236,55 @@ def verify_retired_graph(root, ref):
                 == [expected.encode()], 'Retired-delivery commit parent differs')
 
 
-def authority(root, admitted, *, source_before=None):
+def authority(root, admitted, *, source_before=None, _recovery=False):
+    if _recovery:
+        owner, registration = RECOVERY_OWNER, RECOVERY_REGISTRATION
+        reservation_parent, reservation_source = RECOVERY_RESERVATION_PARENT, RECOVERY_RESERVATION_SOURCE
+        intent_path, intent_sha256, claims = RECOVERY_INTENT, RECOVERY_INTENT_SHA256, RECOVERY_CLAIMS
+    else:
+        owner, registration = OWNER, REGISTRATION
+        reservation_parent, reservation_source = BASE, RESERVATION_SOURCE
+        intent_path, intent_sha256, claims = INTENT, INTENT_SHA256, CLAIMS
+    authority_task = 'specs/tasks/'+owner+'.md'
     canonical = chain(root, admitted)
-    require(REGISTRATION in canonical and parents(root, REGISTRATION) == [BASE, RESERVATION_SOURCE],
+    require(registration in canonical and parents(root, registration) == [reservation_parent, reservation_source],
             'Migration requires the original actual main reservation')
-    original = blob(root, REGISTRATION, INTENT)
-    require(hashlib.sha256(original).hexdigest() == INTENT_SHA256,
+    original = blob(root, registration, intent_path)
+    require(hashlib.sha256(original).hexdigest() == intent_sha256,
             'Original migration intent differs')
     intent = json.loads(original)
-    require(set(intent['authorityClaims']) == CLAIMS and intent['authorityTaskId'] == OWNER,
+    require(set(intent['authorityClaims']) == claims and intent['authorityTaskId'] == owner,
             'Migration intent scope differs')
-    registered = rows(document(root, REGISTRATION, ACTIVE))[OWNER]
+    registered = rows(document(root, registration, ACTIVE))[owner]
     require(registered['status'] == 'reserved' and registered['moduleIds'] == ['MOD-GOV']
-            and registered['riskLevel'] == 'high' and set(registered['exclusivePaths']) == CLAIMS
+            and registered['riskLevel'] == 'high' and set(registered['exclusivePaths']) == claims
             and registered['sharedPaths'] == [] and registered['implementer'] == '/root'
             and registered['reviewer'] == '/root/independent_review',
             'Migration mechanism lacks its exact independent reservation')
     plan = document(root, admitted, PLAN)
-    completed = rows(plan, 'foundationTasks').get(OWNER, {})
+    completed = rows(plan, 'foundationTasks').get(owner, {})
     require(plan['status'] == 'active' and completed.get('status') == 'completed'
-            and OWNER not in rows(document(root, admitted, ACTIVE)),
+            and owner not in rows(document(root, admitted, ACTIVE)),
             'Migration authority must normally complete and release capacity first')
     implementation = completed.get('mergeCommit', '')
-    require(implementation in canonical and canonical.index(implementation) > canonical.index(REGISTRATION)
-            and CLAIMS.intersection(changed(root, parents(root, implementation)[0], implementation))
-            and CLAIMS <= changed(root, REGISTRATION, implementation),
+    require(implementation in canonical and canonical.index(implementation) > canonical.index(registration)
+            and claims.intersection(changed(root, parents(root, implementation)[0], implementation))
+            and claims <= changed(root, registration, implementation),
             'Migration authority lacks its complete nonempty registered implementation')
     # Inspect side histories too, including an edit followed by a restoration.
-    for node in git(root, 'rev-list', '--full-history', REGISTRATION+'..'+admitted, '--', INTENT).decode().split():
-        require(blob(root, node, INTENT) == original, 'Migration intent was rewritten on a source edge')
+    for node in git(root, 'rev-list', '--full-history', registration+'..'+admitted, '--', intent_path).decode().split():
+        require(blob(root, node, intent_path) == original, 'Migration intent was rewritten on a source edge')
     finished = None
     reviewed = False
-    module = history_module()
+    module = recovery_history_module(str(Path(root).resolve())) if _recovery else history_module()
     # The unchanged normal Foundation validator proves original reservation,
     # every source edge, independent Review, implementation PR identity and
     # metadata-only normal Completion. A completed label is not authority.
-    for index, node in enumerate(canonical[canonical.index(REGISTRATION):]):
-        state = rows(document(root, node, PLAN), 'foundationTasks').get(OWNER, {})
-        require(blob(root, node, INTENT) == original, 'Migration intent changed in admitted history')
+    for index, node in enumerate(canonical[canonical.index(registration):]):
+        state = rows(document(root, node, PLAN), 'foundationTasks').get(owner, {})
+        require(blob(root, node, intent_path) == original, 'Migration intent changed in admitted history')
         if state.get('status') in {'review', 'integration'} and ancestor(root, implementation, node):
-            live = rows(document(root, node, ACTIVE)).get(OWNER, {})
+            live = rows(document(root, node, ACTIVE)).get(owner, {})
             require(live.get('implementer') == registered['implementer']
                     and live.get('reviewer') == registered['reviewer']
                     and live.get('agentRole') in {'reviewer', 'integrator'},
@@ -258,8 +294,8 @@ def authority(root, admitted, *, source_before=None):
             graph = parents(root, node)
             require(len(graph) == 2, 'Migration authority Completion must be an ordinary actual main merge')
             prior = graph[0]
-            prior_state = rows(document(root, prior, PLAN), 'foundationTasks').get(OWNER, {})
-            prior_live = rows(document(root, prior, ACTIVE)).get(OWNER, {})
+            prior_state = rows(document(root, prior, PLAN), 'foundationTasks').get(owner, {})
+            prior_live = rows(document(root, prior, ACTIVE)).get(owner, {})
             require(reviewed and prior_state.get('status') in {'review', 'integration'}
                     and prior_live.get('implementer') == registered['implementer']
                     and prior_live.get('reviewer') == registered['reviewer']
@@ -272,12 +308,12 @@ def authority(root, admitted, *, source_before=None):
             module.validate_foundations(root, document(root, prior, PLAN), document(root, node, PLAN),
                 document(root, prior, ACTIVE), document(root, node, ACTIVE),
                 document(root, prior, LEDGER), document(root, node, LEDGER),
-                prior, node, front(blob(root, node, 'specs/tasks/OPS-019.md'))['workBranch'],
-                errors, task_hint=OWNER)
+                prior, node, front(blob(root, node, authority_task))['workBranch'],
+                errors, task_hint=owner)
             require(not errors, 'Normal migration authority rejected: '+'; '.join(errors))
             finished = node
         if finished is not None:
-            require(state == completed and OWNER not in rows(document(root, node, ACTIVE)),
+            require(state == completed and owner not in rows(document(root, node, ACTIVE)),
                     'Completed migration authority identity or released capacity changed')
     require(finished is not None, 'Migration authority has no actual main Completion')
     verify_retired_graph(root, implementation)
@@ -407,9 +443,7 @@ def transaction_shape(root, before, after):
             'Migration contains code, media or unrelated changes')
 
 
-def validate_range(root, before, after, admitted=None):
-    before, after = resolve(root, before), resolve(root, after)
-    admitted = resolve(root, admitted or before)
+def migration_edits(root, before, after):
     # Path-limited history sees protected Evidence rewrites and branch
     # change-then-restore without auditing unrelated full Foundation histories.
     candidates = git(root, 'rev-list', '--full-history', '--reverse', before+'..'+after,
@@ -445,6 +479,10 @@ def validate_range(root, before, after, admitted=None):
                         'Conditional approval must originate in normal independent Review/Completion')
         if branch_pair(root, graph[0], node):
             edits.append(node)
+    return edits
+
+
+def _validate_legacy_range(root, before, after, admitted, edits):
     if not edits:
         return {}
     for node in edits:
@@ -485,6 +523,283 @@ def validate_range(root, before, after, admitted=None):
         approved_transaction(root, before, after, admitted, implementation, completion)
         return {TARGET: FIELDS}
     return {}
+
+
+def recovery_registry_replacement(raw):
+    starts = list(re.finditer(rb'^- taskId: POC-003(?=\r?$)', raw, re.M))
+    require(len(starts) == 1, 'Recovery Registry target must be unique')
+    start = starts[0].start()
+    following = re.search(rb'^- taskId:', raw[starts[0].end():], re.M)
+    end = starts[0].end()+following.start() if following else len(raw)
+    row = scalar(raw[start:end], 'branch', OLD, RECOVERY_NEW, b'  ')
+    row = scalar(row, 'status', 'blocked', 'in_progress', b'  ')
+    row = scalar(row, 'agentRole', 'coordinator', 'implementer', b'  ')
+    return raw[:start]+row+raw[end:]
+
+
+def recovery_task_replacement(raw):
+    parts = raw.split(b'---', 2)
+    front(raw)
+    value = scalar(parts[1], 'workBranch', OLD, RECOVERY_NEW)
+    value = scalar(value, 'status', 'blocked', 'in_progress')
+    value = scalar(value, 'agentRole', 'coordinator', 'implementer')
+    return b'---'+value+b'---'+parts[2]
+
+
+def recovery_program_replacement(raw):
+    """Change two scalar spans; preserve every other byte and YAML layout."""
+    text = raw.decode('utf-8')
+    root = yaml.compose(text, Loader=yaml.SafeLoader)
+    def field(node, key):
+        require(isinstance(node, yaml.nodes.MappingNode), 'Recovery Program requires mappings')
+        found = [value for name, value in node.value if name.value == key]
+        require(len(found) == 1, 'Recovery Program field missing or duplicated: '+key)
+        return found[0]
+    replacements = []
+    for section, key, identity in [('tasks', 'taskId', TARGET), ('pocs', 'pocId', 'POC-03')]:
+        sequence = field(root, section)
+        require(isinstance(sequence, yaml.nodes.SequenceNode), 'Recovery Program requires lists')
+        matched = [row for row in sequence.value if field(row, key).value == identity]
+        require(len(matched) == 1, 'Recovery Program target missing or duplicated')
+        value = field(matched[0], 'status')
+        require(isinstance(value, yaml.nodes.ScalarNode) and value.value == 'blocked'
+                and value.style in (None, "'", '"'), 'Recovery Program target must be blocked')
+        quote = value.style or ''
+        require(matched[0].start_mark.index <= value.start_mark.index < value.end_mark.index
+                <= matched[0].end_mark.index
+                and text[value.start_mark.index:value.end_mark.index] == quote+'blocked'+quote,
+                'Recovery Program status must be an owned literal scalar')
+        replacements.append((value.start_mark.index, value.end_mark.index,
+                             quote+'in_progress'+quote))
+    for start, end, replacement in sorted(replacements, reverse=True):
+        text = text[:start]+replacement+text[end:]
+    original = yaml.safe_load(raw)
+    expected = dict(original)
+    expected['tasks'] = [dict(row, status='in_progress') if row['taskId'] == TARGET else row
+                         for row in original['tasks']]
+    expected['pocs'] = [dict(row, status='in_progress') if row['pocId'] == 'POC-03' else row
+                        for row in original['pocs']]
+    require(yaml.safe_load(text) == expected, 'Recovery Program changed foreign values or aliases')
+    return text.encode('utf-8')
+
+
+def recovery_approval_record(root, raw):
+    record = unique_json(raw)
+    keys = {'schemaVersion', 'kind', 'authorityTaskId', 'taskId', 'reservation',
+        'implementationCommit', 'intentSha256', 'oldBranch', 'newBranch', 'originalCreationBase',
+        'oldUnmergedCandidate', 'beforeRegistrySha256', 'beforeTaskSha256', 'reviewer',
+        'approvedAt', 'decision', 'condition'}
+    intent = unique_json(blob(root, RECOVERY_REGISTRATION, RECOVERY_INTENT))
+    require(hashlib.sha256(blob(root, RECOVERY_REGISTRATION, RECOVERY_INTENT)).hexdigest()
+            == RECOVERY_INTENT_SHA256, 'Original recovery intent differs')
+    target = intent['migration']
+    require(set(record) == keys and type(record['schemaVersion']) is int
+            and record['schemaVersion'] == 1
+            and record['kind'] == 'conditional_prospective_blocked_work_branch_recovery'
+            and record['authorityTaskId'] == RECOVERY_OWNER and record['taskId'] == TARGET
+            and record['reservation'] == RECOVERY_REGISTRATION
+            and record['intentSha256'] == RECOVERY_INTENT_SHA256
+            and record['oldBranch'] == OLD and record['newBranch'] == RECOVERY_NEW
+            and record['originalCreationBase'] == CREATION and record['oldUnmergedCandidate'] == RETIRED[0]
+            and record['beforeRegistrySha256'] == target['beforeRegistrySha256']
+            and record['beforeTaskSha256'] == target['beforeTaskSha256']
+            and record['reviewer'] == target['beforeRegistry']['reviewer'] == '/root/independent_review'
+            and record['decision'] == 'approved'
+            and record['condition'] == 'normal_authority_completion_full_ci_capacity_release_and_fresh_main'
+            and isinstance(record['implementationCommit'], str)
+            and re.fullmatch('[0-9a-f]{40}', record['implementationCommit'])
+            and isinstance(record['approvedAt'], str),
+            'Recovery approval does not bind the original independent transaction')
+    instant(record['approvedAt'])
+    return record
+
+
+def audit_recovery_metadata(root, before, after):
+    nodes = git(root, 'rev-list', '--full-history', '--reverse', before+'..'+after,
+                '--', RECOVERY_INTENT, RECOVERY_APPROVAL).decode().split()
+    for node in nodes:
+        graph = parents(root, node)
+        if not graph:
+            continue
+        paths = changed(root, graph[0], node)
+        if RECOVERY_INTENT in paths:
+            raw = blob(root, node, RECOVERY_INTENT, missing=True)
+            require(raw is not None and mode_blob(root, node, RECOVERY_INTENT)[0] == '100644'
+                    and hashlib.sha256(raw).hexdigest() == RECOVERY_INTENT_SHA256,
+                    'Protected recovery intent was rewritten, deleted or chmodded')
+        if RECOVERY_APPROVAL in paths:
+            previous = blob(root, graph[0], RECOVERY_APPROVAL, missing=True)
+            current = blob(root, node, RECOVERY_APPROVAL, missing=True)
+            require(current is not None and mode_blob(root, node, RECOVERY_APPROVAL)[0] == '100644',
+                    'Protected recovery approval was deleted or chmodded')
+            recovery_approval_record(root, current)
+            if previous is not None:
+                require(current == previous, 'Protected recovery approval was rewritten')
+            elif not any(blob(root, side, RECOVERY_APPROVAL, missing=True) == current for side in graph[1:]):
+                state = rows(document(root, node, PLAN), 'foundationTasks').get(RECOVERY_OWNER, {})
+                live = rows(document(root, node, ACTIVE)).get(RECOVERY_OWNER, {})
+                previous_state = rows(document(root, graph[0], PLAN), 'foundationTasks').get(RECOVERY_OWNER, {})
+                previous_live = rows(document(root, graph[0], ACTIVE)).get(RECOVERY_OWNER, {})
+                require(state.get('status') in {'review', 'integration'}
+                        and live.get('agentRole') in {'reviewer', 'integrator'}
+                        and previous_state.get('status') in {'review', 'integration'}
+                        and previous_live.get('agentRole') in {'reviewer', 'integrator'}
+                        and live.get('reviewer') == '/root/independent_review'
+                        and live.get('implementer') == '/root'
+                        and previous_live.get('reviewer') == '/root/independent_review'
+                        and previous_live.get('implementer') == '/root'
+                        and len(graph) == 1 and paths == {RECOVERY_APPROVAL},
+                        'Recovery approval needs a separate preceding normal Review approval commit')
+
+
+def recovery_shape(root, before, after):
+    """Necessary metadata conditions only; this never grants permission."""
+    left = rows(document(root, before, ACTIVE)).get(TARGET)
+    right = rows(document(root, after, ACTIVE)).get(TARGET)
+    require(left and right and left['branch'] == OLD and right['branch'] == RECOVERY_NEW
+            and left['status'] == 'blocked' and right['status'] == 'in_progress'
+            and left['agentRole'] == 'coordinator' and right['agentRole'] == 'implementer'
+            and left['baseSha'] == right['baseSha'] == CREATION
+            and left['integrationStrategy'] == 'merge' and left['implementer'] != left['reviewer'],
+            'Recovery is only the declared blocked POC-003 tuple')
+    for path, replacement in ((ACTIVE, recovery_registry_replacement),
+                              (TASK, recovery_task_replacement),
+                              (PLAN, recovery_program_replacement)):
+        require(blob(root, after, path) == replacement(blob(root, before, path)),
+                'Recovery changed other metadata bytes: '+path)
+        require(mode_blob(root, before, path)[0] == mode_blob(root, after, path)[0] == '100644',
+                'Recovery metadata mode changed')
+    require(blob(root, before, LEDGER) == blob(root, after, LEDGER)
+            and document(root, before, PLAN)['status'] == 'active', 'Frozen or ledger-changing recovery forbidden')
+    handoff, readme = 'evidence/POC-003/handoff.md', RECOVERY_PREFIX+'README.md'
+    require(changed(root, before, after) == {ACTIVE, TASK, PLAN, handoff, readme},
+            'Recovery must be the exact five metadata/evidence paths')
+    original, updated = blob(root, before, handoff), blob(root, after, handoff)
+    require(updated.startswith(original) and len(updated) > len(original)
+            and mode_blob(root, before, handoff)[0] == mode_blob(root, after, handoff)[0] == '100644',
+            'Recovery handoff must append to original bytes')
+    require(mode_blob(root, after, readme)[0] == '100644'
+            and 0 < len(blob(root, after, readme)) <= 8192,
+            'Recovery README must be a new bounded metadata record')
+    acquired, expires = (instant(left['lease'][key]) for key in ('acquiredAt', 'expiresAt'))
+    require(acquired <= commit_time(root, after) < expires
+            and 0 < (expires-acquired).total_seconds() <= 168*3600,
+            'Recovery historical source/merge lease is invalid')
+    return left
+
+
+def recovery_transaction(root, before, after, admitted, implementation, completion):
+    require(ancestor(root, completion, before), 'Recovery source must follow actual authority Completion')
+    left = recovery_shape(root, before, after)
+    raw = blob(root, before, RECOVERY_APPROVAL)
+    record = recovery_approval_record(root, raw)
+    require(record['implementationCommit'] == implementation
+            and record['beforeRegistrySha256'] == hashlib.sha256(json.dumps(left, sort_keys=True,
+                separators=(',', ':'), ensure_ascii=False).encode()).hexdigest()
+            and record['beforeTaskSha256'] == hashlib.sha256(blob(root, before, TASK)).hexdigest(),
+            'Recovery approval does not match the current before tuple')
+    canonical = chain(root, admitted)
+    creators = []
+    for node in git(root, 'rev-list', '--full-history', '--reverse', RECOVERY_REGISTRATION+'..'+before,
+                    '--', RECOVERY_APPROVAL).decode().split():
+        graph = parents(root, node)
+        previous = blob(root, graph[0], RECOVERY_APPROVAL, missing=True)
+        current = blob(root, node, RECOVERY_APPROVAL, missing=True)
+        require(current == raw and mode_blob(root, node, RECOVERY_APPROVAL)[0] == '100644',
+                'Committed recovery approval was rewritten, deleted or chmodded')
+        if previous is None and not any(blob(root, side, RECOVERY_APPROVAL, missing=True) == raw for side in graph[1:]):
+            creators.append(node)
+    require(len(creators) == 1, 'Recovery approval needs one preceding creator commit')
+    creator = creators[0]
+    creator_parents = parents(root, creator)
+    require(creator != after and ancestor(root, creator, before)
+            and any(ancestor(root, creator, node) for node in canonical)
+            and len(creator_parents) == 1 and creator_parents[0] in canonical
+            and rows(document(root, creator, PLAN), 'foundationTasks')[RECOVERY_OWNER]['status'] in {'review', 'integration'}
+            and rows(document(root, creator, ACTIVE))[RECOVERY_OWNER]['agentRole'] in {'reviewer', 'integrator'}
+            and ancestor(root, implementation, creator)
+            and blob(root, admitted, RECOVERY_APPROVAL) == blob(root, after, RECOVERY_APPROVAL) == raw
+            and mode_blob(root, admitted, RECOVERY_APPROVAL)[0] == '100644',
+            'Recovery approval must precede recovery on normally admitted Review/Completion')
+    when = instant(record['approvedAt'])
+    acquired, expires = (instant(left['lease'][key]) for key in ('acquiredAt', 'expiresAt'))
+    require(commit_time(root, implementation) <= when < commit_time(root, creator)+timedelta(seconds=1)
+            and acquired <= when < expires and acquired <= commit_time(root, after) < expires
+            and 0 < (expires-acquired).total_seconds() <= 168*3600,
+            'Recovery approval or historical source/merge lease is invalid')
+    require(blob(root, completion, RECOVERY_PREFIX+'README.md', missing=True) is None,
+            'Recovery README must be new after authority Completion')
+    return FIELDS
+
+
+def _validate_recovery_range(root, before, after, admitted, edits):
+    # A merge whose tree restores the original approval can hide side edits
+    # from Git's simplified path history. Recheck the whole admitted proof,
+    # including creator shape, rather than trusting only this call's range.
+    audit_recovery_metadata(root, RECOVERY_REGISTRATION, after)
+    if not ancestor(root, admitted, after):
+        audit_recovery_metadata(root, RECOVERY_REGISTRATION, admitted)
+    if branch_pair(root, before, after) == (OLD, RECOVERY_NEW):
+        left = recovery_shape(root, before, after)
+        record = recovery_approval_record(root, blob(root, before, RECOVERY_APPROVAL))
+        require(record['beforeRegistrySha256'] == hashlib.sha256(json.dumps(left, sort_keys=True,
+                    separators=(',', ':'), ensure_ascii=False).encode()).hexdigest()
+                and record['beforeTaskSha256'] == hashlib.sha256(blob(root, before, TASK)).hexdigest(),
+                'Recovery approval does not match the current before tuple')
+    for node in edits:
+        require(branch_pair(root, parents(root, node)[0], node) == (OLD, RECOVERY_NEW),
+                'Recovery branch change is not the declared one-way pair')
+    complete_ancestry(root, after)
+    implementation, completion = authority(root, admitted,
+        source_before=parents(root, edits[0])[0], _recovery=True)
+    main_nodes = set()
+    for reference in ('refs/heads/main', 'refs/remotes/origin/main'):
+        head = git(root, 'rev-parse', '--verify', reference+'^{commit}', missing=True)
+        if head:
+            main_nodes.update(chain(root, head.decode().strip()))
+    require(main_nodes, 'Recovery requires a main reference for integration history')
+    events = {}
+    nodes = git(root, 'rev-list', '--full-history', '--topo-order', '--reverse',
+                RECOVERY_REGISTRATION+'..'+after, '--', ACTIVE, TASK).decode().split()
+    for node in nodes:
+        graph = parents(root, node)
+        if not graph or not branch_pair(root, graph[0], node):
+            continue
+        require(branch_pair(root, graph[0], node) == (OLD, RECOVERY_NEW),
+                'Recovery branch change is not the declared one-way pair')
+        require(node not in main_nodes or len(graph) == 2,
+                'Recovery integration on main requires an ordinary two-parent merge')
+        if len(graph) == 1:
+            recovery_transaction(root, graph[0], node, admitted, implementation, completion)
+            events[node] = node
+        else:
+            require(len(graph) == 2, 'Recovery requires an ordinary two-parent merge')
+            incoming = [event for event in events if ancestor(root, event, graph[1])]
+            require(len(incoming) == 1 and ancestor(root, completion, graph[1])
+                    and git(root, 'diff', '--name-only', graph[1], node) == b'',
+                    'Recovery merge must import the exact single qualified source tree')
+            recovery_transaction(root, graph[0], node, admitted, implementation, completion)
+    require(len(events) == 1, 'Recovery has more than one source transaction')
+    if branch_pair(root, before, after):
+        recovery_transaction(root, before, after, admitted, implementation, completion)
+        return {TARGET: FIELDS}
+    return {}
+
+
+def validate_range(root, before, after, admitted=None):
+    before, after = resolve(root, before), resolve(root, after)
+    admitted = resolve(root, admitted or before)
+    left = rows(document(root, before, ACTIVE)).get(TARGET, {})
+    right = rows(document(root, after, ACTIVE)).get(TARGET, {})
+    if left.get('branch') != right.get('branch') and RECOVERY_NEW in (left.get('branch'), right.get('branch')):
+        # Reject a known retired ancestor before path-history traversal needs
+        # any of its intentionally unimported historical large-media trees.
+        complete_ancestry(root, after)
+    audit_recovery_metadata(root, before, after)
+    edits = migration_edits(root, before, after)
+    if any(RECOVERY_NEW in branch_pair(root, parents(root, node)[0], node) for node in edits):
+        return _validate_recovery_range(root, before, after, admitted, edits)
+    return _validate_legacy_range(root, before, after, admitted, edits)
 
 
 def checked_range(root, before, after, errors, *, admitted=None):

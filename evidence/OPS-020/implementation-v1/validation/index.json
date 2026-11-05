@@ -1,0 +1,56 @@
+{
+  "kind": "actual_uncommitted_draft_validation_not_official_ci",
+  "base": "08ee4bc4dc3030cc86f420cc0956a0ab5146c379",
+  "archive": "artifacts.zip",
+  "archiveSha256": "8e1dcc32f3c076f4ee1da6162dca8247961878e0e7a4584a3d4f41a888a5e5ef",
+  "files": {
+    "v2/pytest.raw": {
+      "bytes": 10873,
+      "sha256": "71e219b7a3b2ee4119506182a536266d37585b6b3df7e76bcdc2f8229a9b2434"
+    },
+    "v2/junit.xml": {
+      "bytes": 17029,
+      "sha256": "0fa2d62afc5d5b25c6c9cfc73b0d5dda5478d3c7954a4d9938c6945121832595"
+    },
+    "v2/results.json": {
+      "bytes": 1955,
+      "sha256": "b4078596825ac0708782de990c30535c81b60f2de2b136d14c901a477882b52a"
+    },
+    "v3/pytest.raw": {
+      "bytes": 2756,
+      "sha256": "be285c4c79e52c5e7e310193453bffcd5a4d97e01806ebf9afb9a6f1927528bb"
+    },
+    "v3/junit.xml": {
+      "bytes": 8515,
+      "sha256": "53364e28df930638e34a3acd05e9736bcc4da94b5dcf41e7aa4aa0cdee64e394"
+    },
+    "v3/results.json": {
+      "bytes": 1953,
+      "sha256": "49a6150c0a6d3b94de67e664b0fcee834fe9ba358c0222294086eda5588c2731"
+    },
+    "reviews/ops020-blocked-recovery-draft-v3-static-independent-review.json": {
+      "bytes": 2959,
+      "sha256": "9aed2380b1a1c487b6ef1ef1ed63a41c3033e847ab56cd4e3ee6325a12bc0d8d"
+    },
+    "reviews/ops020-blocked-recovery-draft-v1-independent-review.json": {
+      "bytes": 3817,
+      "sha256": "097c7a2db61af4b7384d652bbeb63a8221f5821ce66fb093c71e49d67eb51957"
+    },
+    "reviews/ops020-blocked-recovery-draft-v2-p1-static-independent-review.json": {
+      "bytes": 2276,
+      "sha256": "acdf2e9eafa62d64b9bb553392f494f48eb1cffd5008444874908c8cc383526b"
+    },
+    "preparation/ops020-draft-migration-v1-preparation-terminated.json": {
+      "bytes": 356,
+      "sha256": "8db6e67ee532ca9add4ab2107d37ca304b5cd01fe5f9a588c190d08b58176be6"
+    },
+    "fixture-context/ops020-fixture-main-context-forward-correction.json": {
+      "bytes": 608,
+      "sha256": "138df0d3a435636c7023a75832fe9f32b9566ae0439adc489f07d4b326238549"
+    },
+    "fixture-context/later-main-results.json": {
+      "bytes": 669,
+      "sha256": "c460d1522936d6df8f8c7d3ee6b61c43449406bf32062aacc9b097789914bb4f"
+    }
+  }
+}
