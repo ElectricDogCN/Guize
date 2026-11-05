@@ -1,0 +1,45 @@
+{
+  "kind": "exact_targeted_precommit_parser_validation",
+  "parent": "b14aa06c53f39c3e2a188a526ec2b63b3d1000df",
+  "hSha256": "0ea0e650ee74def0bcee701f4e3e95c2fcac0c09a193635fc90fbf66822e7094",
+  "testSha256": "79dc739f8f2d591a8113a0074993df791920a5e12aea7d1f97219bc8ae5522ae",
+  "archive": "parser-validation.zip",
+  "archiveBytes": 5413,
+  "archiveSha256": "a4de296999c31fd0af4477b0a0a5da22a8cea267e874954dfb187c10cde18443",
+  "entries": [
+    {
+      "path": "ops020-history-data-performance-v1-precommit-parser-tests-v2/junit.xml",
+      "bytes": 852,
+      "sha256": "5b2725d76a193f1bf25af59a0143efa0d7edf1682b3eb585da5d6985a52ede03"
+    },
+    {
+      "path": "ops020-history-data-performance-v1-precommit-parser-tests-v2/pytest.raw",
+      "bytes": 305,
+      "sha256": "e3cfd8cc128728a129c10b89a9f504361c48e68463149ac0b36b875c71be86e8"
+    },
+    {
+      "path": "ops020-history-data-performance-v1-precommit-parser-tests-v2/results.json",
+      "bytes": 3693,
+      "sha256": "1104221bf96a6640c00af651e32339ba3d12c209b4fdf57f6a3a8725b50abd30"
+    },
+    {
+      "path": "ops020-history-data-precommit-parser-v1-preparation-failure.json",
+      "bytes": 705,
+      "sha256": "62510eae47640962769e233f6512dd82b8f21616520ff47752daebc7441a001a"
+    },
+    {
+      "path": "verify_ops020_history_data_parser_precommit_v1_once.py",
+      "bytes": 1910,
+      "sha256": "113b32cc7d1d5d3d7863aee02855e0a904c3cf6eb0cd2a5074132de44627e018"
+    },
+    {
+      "path": "verify_ops020_history_data_parser_precommit_v2_once.py",
+      "bytes": 2059,
+      "sha256": "be14bdbb3b1f3d350e0c8d1c32a86304ae5b13fe97e5aff06a1b9274ed1d38d3"
+    }
+  ],
+  "targetedPassed": 4,
+  "otherCasesDeselected": 56,
+  "fullSource15Passed": false,
+  "fullCiAccepted": false
+}

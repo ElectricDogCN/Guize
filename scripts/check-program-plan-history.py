@@ -112,11 +112,19 @@ def read_ref(root: str, ref: str, path: str) -> str | None:
     return result.stdout if result.returncode == 0 else None
 
 
+@lru_cache(maxsize=64)
+def _parsed_yaml_text(text: str) -> Any:
+    """Reuse parsed data only; malformed YAML exceptions are never cached."""
+    return yaml.load(text, Loader=getattr(yaml, "CSafeLoader", yaml.SafeLoader))
+
+
 def load_yaml_text(text: str | None) -> Any | None:
     if text is None:
         return None
     try:
-        return yaml.load(text, Loader=getattr(yaml, "CSafeLoader", yaml.SafeLoader))
+        # Validation and fresh Git reads stay outside this data-only cache.
+        # Each caller owns its complete mutable value, including YAML aliases.
+        return copy.deepcopy(_parsed_yaml_text(text))
     except yaml.YAMLError:
         return None
 

@@ -794,3 +794,76 @@ def test_copied_completed_recovery_records_cannot_authorize_an_unregistered_line
 def test_recovery_fixture_environment_restored_and_actual_root_probe_preserved():
     assert os.environ.get('GIT_TEMPLATE_DIR') == RECOVERY_TEMPLATE_ENV_BEFORE
     assert PROOF.verify_probe(str(ROOT))
+
+
+
+def test_history_yaml_data_cache_isolates_nested_values_and_aliases(monkeypatch):
+    module = PROOF.history_module()
+    parse = module.yaml.load
+    calls = []
+    def observed(text, **options):
+        calls.append(text)
+        return parse(text, **options)
+    monkeypatch.setattr(module.yaml, 'load', observed)
+    text = 'primary: &same {status: in_progress, claims: [one, two]}\nsecondary: *same\n'
+    first = module.load_yaml_text(text)
+    second = module.load_yaml_text(text)
+    assert first == second and first is not second
+    assert first['primary'] is first['secondary']
+    assert second['primary'] is second['secondary']
+    first['primary']['claims'].append('caller-only')
+    assert first['secondary']['claims'] == ['one', 'two', 'caller-only']
+    assert second['primary']['claims'] == ['one', 'two']
+    assert module.load_yaml_text(text)['primary']['claims'] == ['one', 'two']
+    assert calls == [text]
+
+
+def test_history_yaml_data_cache_preserves_live_worktree_and_symbolic_ref_reads(tmp_path):
+    module = PROOF.history_module()
+    repo = tmp_path/'yaml-history';repo.mkdir()
+    def git(*args):
+        result = subprocess.run(['git', '-C', str(repo), *args], capture_output=True, text=True)
+        assert result.returncode == 0, result.stderr
+        return result.stdout.strip()
+    git('init', '--quiet', '-b', 'main')
+    git('config', 'user.name', 'YAML data fixture')
+    git('config', 'user.email', 'yaml-fixture@example.invalid')
+    git('config', 'commit.gpgsign', 'false')
+    file = repo/'metadata.yaml'
+    file.write_text('value: original\n', encoding='utf-8')
+    git('add', 'metadata.yaml');git('commit', '--quiet', '-m', 'Original metadata')
+    original = git('rev-parse', 'HEAD')
+    assert module.load_ref(str(repo), 'HEAD', 'metadata.yaml') == {'value': 'original'}
+    file.write_text('value: changed\n', encoding='utf-8')
+    assert module.load_current(str(repo), 'metadata.yaml') == {'value': 'changed'}
+    assert module.load_ref(str(repo), 'HEAD', 'metadata.yaml') == {'value': 'original'}
+    git('add', 'metadata.yaml');git('commit', '--quiet', '-m', 'Changed metadata')
+    assert module.load_ref(str(repo), 'HEAD', 'metadata.yaml') == {'value': 'changed'}
+    assert module.load_ref(str(repo), original, 'metadata.yaml') == {'value': 'original'}
+
+
+def test_history_yaml_data_cache_reparses_errors_and_preserves_none(monkeypatch):
+    module = PROOF.history_module()
+    parse = module.yaml.load
+    calls = []
+    def observed(text, **options):
+        calls.append(text)
+        return parse(text, **options)
+    monkeypatch.setattr(module.yaml, 'load', observed)
+    assert module.load_yaml_text(None) is None and calls == []
+    for _ in range(2):
+        assert module.load_yaml_text('[') is None
+    assert calls == ['[', '[']
+    for _ in range(2):
+        assert module.load_yaml_text('null\n') is None
+    assert calls == ['[', '[', 'null\n']
+
+
+def test_history_yaml_data_cache_has_bounded_residency():
+    module = PROOF.history_module()
+    for number in range(65):
+        assert module.load_yaml_text('item: '+str(number)) == {'item': number}
+    info = module._parsed_yaml_text.cache_info()
+    assert info.maxsize == info.currsize == 64
+    assert module.load_yaml_text('item: 0') == {'item': 0}
+    assert module._parsed_yaml_text.cache_info().misses == info.misses+1

@@ -35,3 +35,14 @@
 - evidence/OPS-020/test-results/README.md
 - specs/coordination/active-work.yaml
 - specs/tasks/OPS-020.md
+
+
+## Child implementation N
+- scripts/check-program-plan-history.py
+- tests/governance/test_work_branch_migration.py
+- evidence/OPS-020/history-data-performance-v1/implementation-context.json
+
+
+## Targeted parser proof
+- evidence/OPS-020/history-data-performance-v1/parser-validation.zip
+- evidence/OPS-020/history-data-performance-v1/parser-validation-index.json
