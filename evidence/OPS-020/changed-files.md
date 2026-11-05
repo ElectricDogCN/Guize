@@ -73,3 +73,20 @@
 - evidence/OPS-020/history-data-performance-v2/context-fix-implementation-context.json
 - evidence/OPS-020/history-data-performance-v2/context-fix-validation.zip
 - evidence/OPS-020/history-data-performance-v2/context-fix-validation-index.json
+
+
+## Normal Review metadata
+- evidence/OPS-020/changed-files.md
+- evidence/OPS-020/commands.txt
+- evidence/OPS-020/handoff.md
+- evidence/OPS-020/review-v2/README.md
+- evidence/OPS-020/review-v2/accepted-code-main-evidence-index.json
+- evidence/OPS-020/review-v2/accepted-code-main-evidence.zip
+- evidence/OPS-020/review-v2/accepted-code-main-independent-review.json
+- evidence/OPS-020/review-v2/context.json
+- evidence/OPS-020/review-v2/verify-accepted-code-main-evidence.py
+- evidence/OPS-020/summary.md
+- evidence/OPS-020/test-results/README.md
+- specs/coordination/active-work.yaml
+- specs/coordination/program-plan.yaml
+- specs/tasks/OPS-020.md

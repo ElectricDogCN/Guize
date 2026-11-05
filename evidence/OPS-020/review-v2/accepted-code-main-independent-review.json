@@ -1,0 +1,201 @@
+{
+  "kind": "OPS020_PR196_ACTUAL_CODE_MAIN_FINAL_INDEPENDENT_REVIEW",
+  "reviewer": "/root/independent_review",
+  "reviewedAt": "2026-11-05T21:57:59.055561Z",
+  "actualMain": "da4d4a4e4fa14edd1603961880b24b12eede776d",
+  "source": "a2e933ced1abb7fff7694569049881c9e7ca3661",
+  "base": "f71f85027e8ad64b8e6d0a3d08a39ca9596d0323",
+  "tree": "5cf15c271e233b8cab3455285479f8104ead71bc",
+  "orderedParents": [
+    "f71f85027e8ad64b8e6d0a3d08a39ca9596d0323",
+    "a2e933ced1abb7fff7694569049881c9e7ca3661"
+  ],
+  "implementationCommit": "da4d4a4e4fa14edd1603961880b24b12eede776d",
+  "completionRef": "https://github.com/ElectricDogCN/Guize/pull/196",
+  "actualImplementationMainAccepted": true,
+  "fullMainCiAccepted": true,
+  "actualMainSevenAccepted": true,
+  "ownMainSevenAccepted": true,
+  "normalReviewPreparationAllowed": true,
+  "mustFix": [],
+  "ci": {
+    "source": "a2e933ced1abb7fff7694569049881c9e7ca3661",
+    "base": "f71f85027e8ad64b8e6d0a3d08a39ca9596d0323",
+    "tree": "5cf15c271e233b8cab3455285479f8104ead71bc",
+    "phase": "main",
+    "pullRequest": 196,
+    "run": 42112960077,
+    "runNumber": 963,
+    "job": 127545053949,
+    "attempt": 1,
+    "conclusion": "success",
+    "uniquePassed": 927,
+    "original902Plus25Exact": true,
+    "failedErroredSkippedXfailXpass": 0,
+    "actualCheckout": "da4d4a4e4fa14edd1603961880b24b12eede776d",
+    "orderedParents": [
+      "f71f85027e8ad64b8e6d0a3d08a39ca9596d0323",
+      "a2e933ced1abb7fff7694569049881c9e7ca3661"
+    ],
+    "successSteps": 23,
+    "conditionalSkippedSteps": [
+      "Evidence check",
+      "Evidence integrity check",
+      "Scope check",
+      "Task file validation",
+      "Task-branch linkage check"
+    ],
+    "totalSteps": 28,
+    "pytestSeconds": 1515.9,
+    "jobSeconds": 1600.0,
+    "realLfsFetchAndHydratedProbePassed": true,
+    "skipAuditSucceeded": true,
+    "logBytes": 354994,
+    "logSha256": "5b87706646a7ec5cf630599e524303649bec287c916b412a9c3e45cd57d080ab",
+    "logFile": "job-log.official-direct-download.utf8.txt",
+    "directOfficialHttpLogDownloaded": true,
+    "decodedConnectorUtf8": false,
+    "authoritativeLogAcquisition": "direct unmodified official HTTP job log",
+    "originalHttpArchiveDownloaded": false,
+    "separateCloudJunitDownloaded": false
+  },
+  "acceptanceScope": "ACTUAL_CODE_MAIN_AND_NORMAL_REVIEW_METADATA_PREPARATION_ONLY",
+  "observations": [
+    "Actual PR196 ordinary merge, primary checkout and canonical Git HEAD agree on da4d4a4e4fa14edd1603961880b24b12eede776d, ordered parents [A,N2], and the exact accepted source tree. Canonical main is clean.",
+    "Independently parsed complete unmodified official HTTP main963 job log and primary run/jobs/checkout: exactly 927 unique PASSED nodes equal to pinned original902 plus25, no failure/error/test-skip/xfail/xpass, complete 1515.9-second pytest summary, successful skip audit and real LFS fetch/hydrated ROOT probe. All twenty-eight original named steps completed with twenty-three success and only the five original push-conditional skips; wall time 1600 seconds under unchanged thirty minutes.",
+    "Separate native Python3.11.17 actual-main clone has seven actual PID/wait-zero records, each raw file matches its size/hash and exit-zero terminator, and complete before/after state is identical with exact actual HEAD/parents/tree and clean main.",
+    "Canonical integration records actual-zero repository-local LFS setup/fetch/FF/full-bundle commands. All 135 reference names remain and all other references are unchanged. Full recovery bundle size/hash agree across integration/native/candidate records; this review records that existing bundle metadata without rehashing the large carrier.",
+    "Exact source962 acceptance remains separately retained. Earlier actual A timeout attempts and source961 timeout remain negative history; they are not relabeled or combined with this successful actual main run. This acceptance permits normal Review preparation only, with latest implementation identity da4d4a4 and PR196."
+  ],
+  "recoveryBundleMetadata": {
+    "path": "ops020-history-io-pr196-actual-main-da4d4a4-full.bundle",
+    "bytes": 134270137,
+    "sha256": "ec69370ec90509fa37f322664f42edad948403fded1a9ade2acb751e44a305bd",
+    "rehashPerformedByThisReview": false
+  },
+  "bootstrapExceptionAccepted": false,
+  "normalReviewMainAccepted": false,
+  "normalCompletionAccepted": false,
+  "conditionalApprovalAccepted": false,
+  "pocRecoveryApproved": false,
+  "newResourcesOrExperimentApproved": false,
+  "remoteCleanupApproved": false,
+  "taskCompleted": false,
+  "evidencePins": [
+    {
+      "path": "ops020-history-io-pr196-source-final-independent-review.json",
+      "bytes": 8417,
+      "sha256": "f9121b978fe4098b2a1fe771fd25e40f92de4db22d143527017d40df70cceea2"
+    },
+    {
+      "path": "ops020-history-io-pr196-actual-main-candidate.json",
+      "bytes": 826,
+      "sha256": "0c90731562b8a39c2968091731eadb3901b9c809dde6f60b6063193bc1e83967"
+    },
+    {
+      "path": "ops020-history-io-pr196-merge-api-result.json",
+      "bytes": 266,
+      "sha256": "ec2f27d9c035ab3922a638def0dcf368a618caf5d39250cd635b164fe030d6e4"
+    },
+    {
+      "path": "ops020-history-io-pr196-final-merge-preflight-result.json",
+      "bytes": 695,
+      "sha256": "9ce8cb24554ed2b6dfa27c05f20f835aea53168b85b4c2cea1448408e2242da0"
+    },
+    {
+      "path": "ops020-history-io-pr196-da4d4a4-canonical-main/results.json",
+      "bytes": 34859,
+      "sha256": "91ec2a864369713afa48c9083c62e64a4e751feed77e235557acfa35998a8626"
+    },
+    {
+      "path": "ops020-history-io-pr196-da4d4a4-native-main-seven/results.json",
+      "bytes": 33273,
+      "sha256": "77fb75b44212d768b1e35a0c455fe8a430d34a4dd18f1da0a58316385e3de6a0"
+    },
+    {
+      "path": "ops020-history-io-v2-expected927-ci-cases.json",
+      "bytes": 123326,
+      "sha256": "0409bd745aabd3b81542f88c47838da163dbe5ffafeb2be9307f9197a0704652"
+    },
+    {
+      "path": "integrate_ops020_history_io_pr196_canonical_main_once.py",
+      "bytes": 4861,
+      "sha256": "adaaa3e1a678ae5fb6cd9cad2226ba3d9ba5ed00e61c3280694c86dfa380f16e"
+    },
+    {
+      "path": "verify_ops020_history_io_pr196_actual_main_seven_once.py",
+      "bytes": 5419,
+      "sha256": "1bb03ccaa5cc5788bfba5dc9dfab99cc085fbec054a4a4012d209b911a5dcc29"
+    },
+    {
+      "path": "ops020-history-io-pr196-main-ci963-final/run.json",
+      "bytes": 12630,
+      "sha256": "88e3cb39d17d1abf6ed295d29e0caca6d55a0ecdc7a3576f8b21817dad2bb20b"
+    },
+    {
+      "path": "ops020-history-io-pr196-main-ci963-final/jobs.json",
+      "bytes": 5526,
+      "sha256": "9b20d44bd8df4e20d228843031e90a00bd1d233295b40801a2c37a10fcbbc649"
+    },
+    {
+      "path": "ops020-history-io-pr196-main-ci963-final/checkout.json",
+      "bytes": 3234,
+      "sha256": "ffb85ed53cc57b4542c59eb834db9e56afa547ad0dcc70cd447d138b26b5e4b9"
+    },
+    {
+      "path": "ops020-history-io-pr196-main-ci963-final/capture.json",
+      "bytes": 1334,
+      "sha256": "74070ef3f7ec15c3c9ccaf93992387127d5db9cb8e94f794f379714f2c44f895"
+    },
+    {
+      "path": "ops020-history-io-pr196-main-ci963-final/job-log.official-direct-download.utf8.txt",
+      "bytes": 354994,
+      "sha256": "5b87706646a7ec5cf630599e524303649bec287c916b412a9c3e45cd57d080ab"
+    },
+    {
+      "path": "ops020-history-io-pr196-main-ci963-final/official-direct-download-authenticated-result.json",
+      "bytes": 799,
+      "sha256": "99d5abdd10e6912fd4924d89e7966f56ea86245e574a0114f3f85353e037aef7"
+    },
+    {
+      "path": "ops020-history-io-pr196-main-ci963-final/official-http-acquisition-manifest.json",
+      "bytes": 1132,
+      "sha256": "123cd860a7026fd3426c1beb6abffadb93305454747ecb1aebc7d8915b786400"
+    },
+    {
+      "path": "ops020-history-io-pr196-da4d4a4-native-main-seven/integrity.raw",
+      "bytes": 495,
+      "sha256": "53a068ad53b001bb2576dca617d193a88e30ef6d2d3ba1a4452b5e3eefe7b450"
+    },
+    {
+      "path": "ops020-history-io-pr196-da4d4a4-native-main-seven/history.raw",
+      "bytes": 563,
+      "sha256": "4f3af812cbcd188b03fd572276f8c1d14b57369b801d6392e3ab4aa43d09f94f"
+    },
+    {
+      "path": "ops020-history-io-pr196-da4d4a4-native-main-seven/transitions.raw",
+      "bytes": 475,
+      "sha256": "f4587757cb1c8af19b92d284ab055866b2ecc4d7e831975d28d470fb7082b250"
+    },
+    {
+      "path": "ops020-history-io-pr196-da4d4a4-native-main-seven/finalization.raw",
+      "bytes": 454,
+      "sha256": "106c91567e62fd2242331477b1e9dc8b336e03635058c258328ef1f169232237"
+    },
+    {
+      "path": "ops020-history-io-pr196-da4d4a4-native-main-seven/raw-lifecycle.raw",
+      "bytes": 546,
+      "sha256": "485f4a30bafaf15954dc2d8b7ef6bb4cd20118b799c25bc2dd75feac40befc0b"
+    },
+    {
+      "path": "ops020-history-io-pr196-da4d4a4-native-main-seven/coordination.raw",
+      "bytes": 357,
+      "sha256": "30dad204f75016791470881bc2691bfed41852c7b68d09201071136a16bc8a24"
+    },
+    {
+      "path": "ops020-history-io-pr196-da4d4a4-native-main-seven/poc-protocol.raw",
+      "bytes": 393,
+      "sha256": "bf4781b6b213485306f048053360fecd549f3a345f45bdfbad342bbc75270dab"
+    }
+  ]
+}

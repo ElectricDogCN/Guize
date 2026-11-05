@@ -1,0 +1,24 @@
+{
+  "kind": "OPS020_NORMAL_REVIEW_METADATA_PREPARATION",
+  "base": "da4d4a4e4fa14edd1603961880b24b12eede776d",
+  "source": "a2e933ced1abb7fff7694569049881c9e7ca3661",
+  "branch": "chore/OPS-020-normal-review",
+  "acceptedImplementationMainReviewSha256": "ca66c0e67abb3979f87b5b9e26489c32cdca4c784c1001b0b3e860fe0e85dd54",
+  "claims": [
+    "scripts/work-branch-migration.py",
+    "tests/governance/test_work_branch_migration.py",
+    "scripts/check-program-plan-history.py"
+  ],
+  "lease": {
+    "acquiredAt": "2026-11-05T13:07:45Z",
+    "expiresAt": "2026-11-12T13:07:45Z"
+  },
+  "status": "review",
+  "agentRole": "reviewer",
+  "sourceGatePassed": false,
+  "fullReviewCiAccepted": false,
+  "taskCompleted": false,
+  "actualPocMigrationApproved": false,
+  "conditionalMigrationApprovalCreated": false,
+  "createdAt": "2026-11-05T22:00:08.500335+00:00"
+}
