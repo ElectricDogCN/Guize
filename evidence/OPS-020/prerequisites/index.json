@@ -1,0 +1,102 @@
+{
+  "base": "251fac61809ed4b209c4fc7a71dee41ba4061db6",
+  "records": [
+    {
+      "path": "poc003-historical-m1b5-post-governance-source-boundary-readonly-independent-review.json",
+      "bytes": 7312,
+      "sha256": "54bf7dc2860e5e74c2d9b93b8f857f426b5b472d4b3bcc1f322c85e39552f61f"
+    },
+    {
+      "path": "ops019-implementation-final3459-expected867-ci-cases.json",
+      "bytes": 225415,
+      "sha256": "0d15283b4b0ba2a80e9725274d8e5124641c3bf6c017db48d08c1dfe01df1050"
+    },
+    {
+      "path": "poc005-registered-ip-lease-v1-main-ci-initial-run.json",
+      "bytes": 12327,
+      "sha256": "474b2c27c0bb7d6fdcf71f12e8e098222efb4341a1a085088c3816a8fd76a072"
+    },
+    {
+      "path": "poc005-registered-ip-lease-v1-source-ci-final/run.json",
+      "bytes": 12902,
+      "sha256": "d888817195d05f64d2785b212f058860cb733fb6df92ad1809690405a0224992"
+    },
+    {
+      "path": "poc005-registered-ip-lease-v1-source-ci-final/jobs.json",
+      "bytes": 5550,
+      "sha256": "5ea6381fa7fa4f675e94804905c4b81854b083c004ed3e2b2ca056c739923fed"
+    },
+    {
+      "path": "poc005-registered-ip-lease-v1-source-ci-final/checkout.json",
+      "bytes": 2602,
+      "sha256": "8c6c771559764db04108e48ff2ede31a36342ae88d6f04c48cc6396ae1589c9c"
+    },
+    {
+      "path": "poc005-registered-ip-lease-v1-source-ci-final/capture.json",
+      "bytes": 1201,
+      "sha256": "56b3ebf9a416ebe7b0dde90d5a40d0aae99647e6729397af2a00cb5fcbad735e"
+    },
+    {
+      "path": "poc005-registered-ip-lease-v1-source-ci-final/job-log.official-direct-download.utf8.txt",
+      "bytes": 343893,
+      "sha256": "f8ec1a24cdbd667af20e0c1cfb63cf849c330aedb3258fa8fc26a9f37ffb9d91"
+    },
+    {
+      "path": "poc005-registered-ip-lease-v1-source-ci-final/official-direct-download-authenticated-result.json",
+      "bytes": 799,
+      "sha256": "ad31e830bbcd7d10e8e49e3294f223e5ee496dd4d799667e218de34dbb5d74d6"
+    },
+    {
+      "path": "poc005-registered-ip-lease-v1-251fac6-native-main-seven/results.json",
+      "bytes": 33281,
+      "sha256": "fab06177ca2a8ebbfc1e96a64a634926c980260f6e7256aa6b64af976f573d36"
+    },
+    {
+      "path": "poc005-registered-ip-lease-v1-251fac6-native-main-seven/integrity.raw",
+      "bytes": 495,
+      "sha256": "703909e76b95fd598a6bbd04f99bb16015e1e7b16bb9392d5ec50bc948a1e280"
+    },
+    {
+      "path": "poc005-registered-ip-lease-v1-251fac6-native-main-seven/history.raw",
+      "bytes": 563,
+      "sha256": "4018dcc32c6515332d080c493f7e7a3d5bbe228f0a6701aea240c35c9a7e919e"
+    },
+    {
+      "path": "poc005-registered-ip-lease-v1-251fac6-native-main-seven/transitions.raw",
+      "bytes": 475,
+      "sha256": "b74b4bc9f03cd4a970d72469729c05873b5ce7fc54b4122daccaa1cb2a7b8758"
+    },
+    {
+      "path": "poc005-registered-ip-lease-v1-251fac6-native-main-seven/finalization.raw",
+      "bytes": 454,
+      "sha256": "8f73e116cd16e296c9baedacaef39e4be9c9b492de83c9807ffdf68185484e1b"
+    },
+    {
+      "path": "poc005-registered-ip-lease-v1-251fac6-native-main-seven/raw-lifecycle.raw",
+      "bytes": 546,
+      "sha256": "85c4807aac063d6abab70e6ecdc27fc830a063e7ff4a973c6a20777cabfb9948"
+    },
+    {
+      "path": "poc005-registered-ip-lease-v1-251fac6-native-main-seven/coordination.raw",
+      "bytes": 346,
+      "sha256": "cb411913733bc3237948f5a00348e6b33754ba143a52e93c7cacc70f57ff4ca3"
+    },
+    {
+      "path": "poc005-registered-ip-lease-v1-251fac6-native-main-seven/poc-protocol.raw",
+      "bytes": 399,
+      "sha256": "d6f9fd80178bbd3a2698e58cf50e35f632077c459668e478997b3998fe86ec87"
+    }
+  ],
+  "archive": "artifacts.zip",
+  "baseSourceReviewSha256": "2beb1e2dd5aad727a6fa87a84e9dca817082be294a369859641b8eb9dd5b056d",
+  "lastFullyAcceptedAnchor": "d53323fe77f1fa4a0d6155a391435754eee2e491",
+  "baseMainPushFinalAcceptancePending": true,
+  "baseMainPushRun": 42032121410,
+  "immediateBaseCommitUrl": "https://github.com/ElectricDogCN/Guize/commit/251fac61809ed4b209c4fc7a71dee41ba4061db6",
+  "officialCiUrls": [
+    "https://github.com/ElectricDogCN/Guize/actions/runs/42028140687",
+    "https://github.com/ElectricDogCN/Guize/actions/runs/42032121410"
+  ],
+  "acceptanceCertificateIncluded": false,
+  "scope": "Exact listed raw CI/main-seven and diagnostic primitives only. Source approval certificate is referenced by identity, not copied or claimed recursively retrievable. Parent push955/final acceptance remain pending, and OPS020 cannot merge until parent955 and its own full sourceCI both succeed. Full recovery bundle remains local and is not in this packet."
+}

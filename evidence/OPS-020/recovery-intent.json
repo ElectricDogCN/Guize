@@ -1,0 +1,111 @@
+{
+  "schemaVersion": 1,
+  "kind": "bounded_blocked_work_branch_recovery_intent",
+  "authorityTaskId": "OPS-020",
+  "reservationParent": "251fac61809ed4b209c4fc7a71dee41ba4061db6",
+  "issue": 191,
+  "authorityClaims": [
+    "scripts/work-branch-migration.py",
+    "tests/governance/test_work_branch_migration.py"
+  ],
+  "migration": {
+    "taskId": "POC-003",
+    "oldBranch": "chore/POC-003-ats-range",
+    "newBranch": "chore/POC-003-qualified-lfs-evidence-v2",
+    "beforeStatus": "blocked",
+    "afterStatus": "in_progress",
+    "beforeAgentRole": "coordinator",
+    "afterAgentRole": "implementer",
+    "originalCreationBase": "760f6c5838597d1d66c0a536ecbf440ef5a7dfec",
+    "beforeRegistry": {
+      "taskId": "POC-003",
+      "issue": 131,
+      "title": "ATS Range/Slice、大文件与权限缓存键",
+      "status": "blocked",
+      "riskLevel": "medium",
+      "owner": "ElectricDogCN",
+      "coordinator": "program-coordinator-agent",
+      "implementer": "/root",
+      "reviewer": "/root/independent_review",
+      "integrator": "integration-agent",
+      "agentRole": "coordinator",
+      "branch": "chore/POC-003-ats-range",
+      "baseBranch": "main",
+      "baseSha": "760f6c5838597d1d66c0a536ecbf440ef5a7dfec",
+      "workPackage": "WP-M0-POC-03",
+      "programPlan": "specs/coordination/program-plan.yaml",
+      "programTaskId": "POC-003",
+      "programWave": "W2",
+      "requirementIds": [
+        "REQ-V1-0003",
+        "REQ-V1-0008"
+      ],
+      "moduleIds": [
+        "MOD-EDGE",
+        "MOD-IAM"
+      ],
+      "producesContracts": [
+        "POC-03-EVIDENCE"
+      ],
+      "consumesContracts": [
+        "POC-PROTOCOL-V1"
+      ],
+      "coordinationGroup": "poc-results",
+      "dependsOn": [
+        "GZ-010"
+      ],
+      "exclusivePaths": [
+        "poc/POC-03-ats-range/**",
+        "evidence/POC-003/**"
+      ],
+      "sharedPaths": [
+        "adr/**",
+        "specs/poc/results-index.yaml"
+      ],
+      "handoffPath": "evidence/POC-003/handoff.md",
+      "integrationStrategy": "merge",
+      "integrationOrder": 2,
+      "lease": {
+        "acquiredAt": "2026-11-05T11:03:12Z",
+        "expiresAt": "2026-11-12T11:03:12Z"
+      }
+    },
+    "beforeRegistrySha256": "52274bee2fb35226dbbaa309b70d201b8bbb8f0fdbaf047989861fc0969e0374",
+    "beforeTaskSha256": "e34be7d42899abe0cc18000401499a38cb00b49e3fbc8aa8428ba47441451528",
+    "maximumTransactions": 1,
+    "excludedFatAncestors": [
+      "3564346d2bdfbd80f2f705ae3dd4f7ba79103cb6",
+      "deda108d1cbba2ce17e0aaf66213337e2cc88ac9",
+      "5a9d20b545636e379d632c8c64f7d9012053e475",
+      "e72d32b170a209aa55e3fde620ff38d3b4ccee22"
+    ],
+    "preserveActorsLeaseClaimsBodyAndCreationBase": true,
+    "preserveIntegrationStrategy": "merge"
+  },
+  "interfacesUnchanged": [
+    "checked_range",
+    "checked_edge"
+  ],
+  "onlyAdditionalPermission": {
+    "POC-003": [
+      "branch"
+    ]
+  },
+  "requiresIndependentPrecedingNormalReviewApproval": true,
+  "requiresActualNormalCompletionAndCapacityRelease": true,
+  "sourceAndMergeMustPrecedeExactPocLeaseExpiry": true,
+  "oldOps019IntentAndApprovalImmutable": true,
+  "oldGrantReusable": false,
+  "frozenFiveUnchanged": [
+    "specs/poc/program.schema.yaml",
+    "specs/poc/program.yaml",
+    "specs/poc/check_program.py",
+    "specs/poc/test_program.py",
+    "docs/18-testing-and-acceptance.md"
+  ],
+  "current867AssertionsPreserved": true,
+  "ciExceptionGranted": false,
+  "experimentApproved": false,
+  "historicalResultsRebound": false,
+  "historicalRawOrGitRewriteAllowed": false
+}
