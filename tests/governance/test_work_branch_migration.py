@@ -794,3 +794,332 @@ def test_copied_completed_recovery_records_cannot_authorize_an_unregistered_line
 def test_recovery_fixture_environment_restored_and_actual_root_probe_preserved():
     assert os.environ.get('GIT_TEMPLATE_DIR') == RECOVERY_TEMPLATE_ENV_BEFORE
     assert PROOF.verify_probe(str(ROOT))
+
+
+
+def test_history_yaml_data_cache_isolates_nested_values_and_aliases(monkeypatch):
+    module = PROOF.history_module()
+    parse = module.yaml.load
+    calls = []
+    def observed(text, **options):
+        calls.append(text)
+        return parse(text, **options)
+    monkeypatch.setattr(module.yaml, 'load', observed)
+    text = 'primary: &same {status: in_progress, claims: [one, two]}\nsecondary: *same\n'
+    first = module.load_yaml_text(text)
+    second = module.load_yaml_text(text)
+    assert first == second and first is not second
+    assert first['primary'] is first['secondary']
+    assert second['primary'] is second['secondary']
+    first['primary']['claims'].append('caller-only')
+    assert first['secondary']['claims'] == ['one', 'two', 'caller-only']
+    assert second['primary']['claims'] == ['one', 'two']
+    assert module.load_yaml_text(text)['primary']['claims'] == ['one', 'two']
+    assert calls == [text]
+
+
+def test_history_yaml_data_cache_preserves_live_worktree_and_symbolic_ref_reads(tmp_path):
+    module = PROOF.history_module()
+    repo = tmp_path/'yaml-history';repo.mkdir()
+    def git(*args):
+        result = subprocess.run(['git', '-C', str(repo), *args], capture_output=True, text=True)
+        assert result.returncode == 0, result.stderr
+        return result.stdout.strip()
+    git('init', '--quiet', '-b', 'main')
+    git('config', 'user.name', 'YAML data fixture')
+    git('config', 'user.email', 'yaml-fixture@example.invalid')
+    git('config', 'commit.gpgsign', 'false')
+    file = repo/'metadata.yaml'
+    file.write_text('value: original\n', encoding='utf-8')
+    git('add', 'metadata.yaml');git('commit', '--quiet', '-m', 'Original metadata')
+    original = git('rev-parse', 'HEAD')
+    assert module.load_ref(str(repo), 'HEAD', 'metadata.yaml') == {'value': 'original'}
+    file.write_text('value: changed\n', encoding='utf-8')
+    assert module.load_current(str(repo), 'metadata.yaml') == {'value': 'changed'}
+    assert module.load_ref(str(repo), 'HEAD', 'metadata.yaml') == {'value': 'original'}
+    git('add', 'metadata.yaml');git('commit', '--quiet', '-m', 'Changed metadata')
+    assert module.load_ref(str(repo), 'HEAD', 'metadata.yaml') == {'value': 'changed'}
+    assert module.load_ref(str(repo), original, 'metadata.yaml') == {'value': 'original'}
+
+
+def test_history_yaml_data_cache_reparses_errors_and_preserves_none(monkeypatch):
+    module = PROOF.history_module()
+    parse = module.yaml.load
+    calls = []
+    def observed(text, **options):
+        calls.append(text)
+        return parse(text, **options)
+    monkeypatch.setattr(module.yaml, 'load', observed)
+    assert module.load_yaml_text(None) is None and calls == []
+    for _ in range(2):
+        assert module.load_yaml_text('[') is None
+    assert calls == ['[', '[']
+    for _ in range(2):
+        assert module.load_yaml_text('null\n') is None
+    assert calls == ['[', '[', 'null\n']
+
+
+def test_history_yaml_data_cache_has_bounded_residency():
+    module = PROOF.history_module()
+    for number in range(65):
+        assert module.load_yaml_text('item: '+str(number)) == {'item': number}
+    info = module._parsed_yaml_text.cache_info()
+    assert info.maxsize == info.currsize == 64
+    assert module.load_yaml_text('item: 0') == {'item': 0}
+    assert module._parsed_yaml_text.cache_info().misses == info.misses+1
+
+
+@pytest.fixture
+def history_blob_repo(tmp_path):
+    repo = tmp_path/'history-blob';repo.mkdir()
+    def git(*args, input=None):
+        result = subprocess.run(['git', '-C', str(repo), *args], input=input, capture_output=True)
+        assert result.returncode == 0, result.stderr.decode(errors='replace')
+        return result.stdout.decode().strip()
+    git('init', '--quiet', '-b', 'main')
+    git('config', 'user.name', 'History blob fixture')
+    git('config', 'user.email', 'blob-fixture@example.invalid')
+    git('config', 'commit.gpgsign', 'false')
+    git('config', 'core.autocrlf', 'false')
+    (repo/'dir').mkdir()
+    (repo/'metadata.yaml').write_bytes('title: 归泽\nvalue: original\n'.encode('utf-8'))
+    (repo/'dir/child.yaml').write_bytes(b'item: child\n')
+    git('add', '.');git('commit', '--quiet', '-m', 'Initial blob metadata')
+    return repo, git, git('rev-parse', 'HEAD')
+
+
+def assert_history_blob_show_equal(module, repo, expression):
+    expected = subprocess.run(['git', 'show', expression], cwd=repo, capture_output=True, text=True)
+    actual = module.git(str(repo), 'show', expression)
+    assert (actual.args, actual.returncode, actual.stdout, actual.stderr) == (expected.args, expected.returncode, expected.stdout, expected.stderr)
+    return actual
+
+
+@pytest.mark.parametrize('payload', [b'', 'title: 归泽\n'.encode('utf-8'), b'a: one\r\nb: two\r\n', b'a: one\rb: two\r'])
+def test_history_git_blob_content_and_newline_equivalence(history_blob_repo, payload):
+    repo, git, _ = history_blob_repo
+    (repo/'metadata.yaml').write_bytes(payload)
+    git('add', '.');git('commit', '--quiet', '-m', 'Concrete blob bytes')
+    head = git('rev-parse', 'HEAD');module = PROOF.history_module()
+    with module._history_blob_session(str(repo)) as reader:
+        assert_history_blob_show_equal(module, repo, head+':metadata.yaml')
+        process = reader.process
+        assert process is not None and process.poll() is None
+    assert process.poll() == 0 and reader.process is None and reader.stderr is None
+    assert module._HISTORY_BLOB_READER.get() is None
+
+
+def test_history_git_blob_symbolic_refs_and_new_objects_stay_fresh(history_blob_repo):
+    repo, git, original = history_blob_repo;module = PROOF.history_module()
+    with module._history_blob_session(str(repo)) as reader:
+        assert_history_blob_show_equal(module, repo, original+':metadata.yaml')
+        process = reader.process
+        assert process is not None
+        (repo/'metadata.yaml').write_text('value: changed\n', encoding='utf-8')
+        git('add', '.');git('commit', '--quiet', '-m', 'New object during batch lifetime')
+        changed = git('rev-parse', 'HEAD')
+        assert assert_history_blob_show_equal(module, repo, 'HEAD:metadata.yaml').stdout == 'value: changed\n'
+        assert assert_history_blob_show_equal(module, repo, changed+':metadata.yaml').stdout == 'value: changed\n'
+        assert_history_blob_show_equal(module, repo, original+':metadata.yaml')
+    assert process.poll() == 0
+
+
+@pytest.mark.parametrize('path', ['absent.yaml', 'dir'])
+def test_history_git_blob_missing_and_tree_fallback_reaps_and_can_resume(history_blob_repo, path):
+    repo, _, head = history_blob_repo;module = PROOF.history_module()
+    with module._history_blob_session(str(repo)) as reader:
+        assert_history_blob_show_equal(module, repo, head+':metadata.yaml')
+        first = reader.process
+        assert_history_blob_show_equal(module, repo, head+':'+path)
+        assert first.poll() == 0 and reader.process is None
+        assert_history_blob_show_equal(module, repo, head+':metadata.yaml')
+        second = reader.process
+        assert second is not None and second.pid != first.pid
+    assert second.poll() == 0
+
+
+def test_history_git_blob_replacement_mutation_uses_original_semantics(history_blob_repo):
+    repo, git, head = history_blob_repo;module = PROOF.history_module()
+    old = git('rev-parse', head+':metadata.yaml')
+    replacement = git('hash-object', '-w', '--stdin', input=b'value: replaced\n')
+    with module._history_blob_session(str(repo)) as reader:
+        assert_history_blob_show_equal(module, repo, head+':metadata.yaml')
+        process = reader.process
+        git('replace', old, replacement)
+        assert assert_history_blob_show_equal(module, repo, head+':metadata.yaml').stdout == 'value: replaced\n'
+        assert process.poll() == 0 and reader.process is None
+        git('pack-refs', '--all')
+        assert_history_blob_show_equal(module, repo, head+':metadata.yaml')
+        changed = git('hash-object', '-w', '--stdin', input=b'value: replacement-changed\n')
+        git('update-ref', 'refs/replace/'+old, changed)
+        assert assert_history_blob_show_equal(module, repo, head+':metadata.yaml').stdout == 'value: replacement-changed\n'
+        git('replace', '-d', old)
+        assert_history_blob_show_equal(module, repo, head+':metadata.yaml')
+    assert module._HISTORY_BLOB_READER.get() is None
+
+
+def test_history_git_blob_linked_worktree_checks_shared_replacements(history_blob_repo, tmp_path):
+    repo, git, head = history_blob_repo;linked = tmp_path/'linked'
+    git('worktree', 'add', '--quiet', '--detach', str(linked), head)
+    module = PROOF.history_module();old = git('rev-parse', head+':metadata.yaml')
+    replacement = git('hash-object', '-w', '--stdin', input=b'value: shared-replacement\n')
+    with module._history_blob_session(str(linked)) as reader:
+        assert_history_blob_show_equal(module, linked, head+':metadata.yaml')
+        process = reader.process
+        git('replace', old, replacement)
+        assert assert_history_blob_show_equal(module, linked, head+':metadata.yaml').stdout == 'value: shared-replacement\n'
+        assert process.poll() == 0
+        git('replace', '-d', old)
+    assert module._HISTORY_BLOB_READER.get() is None
+
+
+@pytest.mark.parametrize('fault', ['owned-eof', 'malformed-header'])
+def test_history_git_blob_transport_failure_falls_back_after_owned_wait(history_blob_repo, monkeypatch, fault):
+    repo, _, head = history_blob_repo;module = PROOF.history_module()
+    if fault == 'malformed-header':
+        original = module.subprocess.Popen
+        children = []
+        def malformed(argv, *args, **kwargs):
+            if argv == ['git', 'cat-file', '--batch']:
+                argv = [sys.executable, '-c', 'import sys; sys.stdin.readline(); print("invalid header", flush=True)']
+                child = original(argv, *args, **kwargs);children.append(child);return child
+            return original(argv, *args, **kwargs)
+        monkeypatch.setattr(module.subprocess, 'Popen', malformed)
+    with module._history_blob_session(str(repo)) as reader:
+        if fault == 'owned-eof':
+            assert_history_blob_show_equal(module, repo, head+':metadata.yaml')
+            process = reader.process
+            process.stdin.close();process.wait()
+        assert_history_blob_show_equal(module, repo, head+':metadata.yaml')
+        assert reader.process is None and reader.stderr is None and reader.disabled
+        if fault == 'malformed-header':
+            assert len(children) == 1 and children[0].poll() == 0
+        else:
+            assert process.poll() == 0
+
+
+def test_history_git_blob_nested_exception_restores_context_and_closes_owned_children(history_blob_repo):
+    repo, _, head = history_blob_repo;module = PROOF.history_module()
+    with module._history_blob_session(str(repo)) as outer:
+        assert_history_blob_show_equal(module, repo, head+':metadata.yaml')
+        first = outer.process
+        with pytest.raises(RuntimeError, match='controlled body failure'):
+            with module._history_blob_session(str(repo)) as inner:
+                assert_history_blob_show_equal(module, repo, head+':metadata.yaml')
+                second = inner.process
+                raise RuntimeError('controlled body failure')
+        assert second.poll() == 0 and module._HISTORY_BLOB_READER.get() is outer
+        assert_history_blob_show_equal(module, repo, head+':metadata.yaml')
+        assert outer.process is first
+    assert first.poll() == 0 and module._HISTORY_BLOB_READER.get() is None
+
+
+def test_history_git_blob_stderr_and_environment_changes_preserve_original_fallback(history_blob_repo, monkeypatch):
+    repo, git, head = history_blob_repo;module = PROOF.history_module()
+    git('config', 'advice.graftFileDeprecated', 'true')
+    with module._history_blob_session(str(repo)) as reader:
+        assert_history_blob_show_equal(module, repo, head+':metadata.yaml')
+        process = reader.process
+        monkeypatch.setenv('GIT_OPTIONAL_LOCKS', '0')
+        assert_history_blob_show_equal(module, repo, head+':metadata.yaml')
+        assert process.poll() == 0 and reader.disabled
+    with module._history_blob_session(str(repo)) as reader:
+        assert_history_blob_show_equal(module, repo, head+':metadata.yaml')
+        process = reader.process
+        (repo/'.git/info/grafts').write_text(head+'\n', encoding='utf-8')
+        result = assert_history_blob_show_equal(module, repo, head+':metadata.yaml')
+        assert result.stderr and process.poll() == 0 and reader.disabled
+
+
+def test_history_git_blob_changed_worktree_gitfile_uses_current_repository(history_blob_repo, tmp_path):
+    repo, git, head = history_blob_repo;linked = tmp_path/'redirected-linked'
+    git('worktree', 'add', '--quiet', '--detach', str(linked), head)
+    other = tmp_path/'other-repository';other.mkdir()
+    subprocess.run(['git', '-C', str(other), 'init', '--quiet', '-b', 'main'], check=True)
+    module = PROOF.history_module()
+    with module._history_blob_session(str(linked)) as reader:
+        assert_history_blob_show_equal(module, linked, head+':metadata.yaml')
+        process = reader.process
+        (linked/'.git').write_text('gitdir: '+str(other/'.git')+'\n', encoding='utf-8')
+        actual = assert_history_blob_show_equal(module, linked, head+':metadata.yaml')
+        assert actual.returncode != 0 and process.poll() == 0 and reader.disabled
+
+
+def test_history_git_blob_path_change_uses_current_executable(history_blob_repo, tmp_path, monkeypatch):
+    repo, _, head = history_blob_repo;module = PROOF.history_module()
+    directory = tmp_path/'new-git-entry';directory.mkdir()
+    if os.name != 'nt':
+        wrapper = directory/'git'
+        wrapper.write_text('#!/bin/sh\nprintf "changed-entry-sentinel\\n" >&2\nexit 128\n', encoding='utf-8')
+        wrapper.chmod(0o755)
+    with module._history_blob_session(str(repo)) as reader:
+        assert_history_blob_show_equal(module, repo, head+':metadata.yaml')
+        process = reader.process
+        monkeypatch.setenv('PATH', str(directory)+os.pathsep+os.environ['PATH'])
+        result = assert_history_blob_show_equal(module, repo, head+':metadata.yaml')
+        if os.name != 'nt':
+            assert result.returncode == 128 and result.stderr == 'changed-entry-sentinel\n'
+        assert process.poll() == 0 and reader.disabled
+
+
+@pytest.mark.parametrize('variable', ['HOME', 'XDG_CONFIG_HOME', 'LC_ALL'])
+def test_history_git_blob_non_git_environment_change_reaps_and_falls_back(history_blob_repo, tmp_path, monkeypatch, variable):
+    repo, _, head = history_blob_repo;module = PROOF.history_module()
+    with module._history_blob_session(str(repo)) as reader:
+        assert_history_blob_show_equal(module, repo, head+':metadata.yaml')
+        process = reader.process
+        monkeypatch.setenv(variable, 'C' if variable == 'LC_ALL' else str(tmp_path/'new-home'))
+        assert_history_blob_show_equal(module, repo, head+':metadata.yaml')
+        assert process.poll() == 0 and reader.disabled
+
+
+@pytest.mark.parametrize('kind', ['local-version', 'global-existing', 'global-created', 'system-created', 'worktree-created'])
+def test_history_git_blob_configuration_mutation_uses_fresh_error(history_blob_repo, tmp_path, monkeypatch, kind):
+    repo, git, head = history_blob_repo;module = PROOF.history_module()
+    if kind.startswith('global') or kind == 'system-created':
+        target = tmp_path/'isolated-config'
+        variable = 'GIT_CONFIG_SYSTEM' if kind == 'system-created' else 'GIT_CONFIG_GLOBAL'
+        monkeypatch.setenv(variable, str(target))
+        if kind == 'global-existing':
+            target.write_text('[fixture]\nvalue = initial\n', encoding='utf-8')
+    elif kind == 'worktree-created':
+        git('config', 'extensions.worktreeConfig', 'true')
+        linked = tmp_path/'config-linked';git('worktree', 'add', '--quiet', '--detach', str(linked), head)
+        repo = linked
+        gitdir = subprocess.check_output(['git', '-C', str(repo), 'rev-parse', '--absolute-git-dir']).decode().strip()
+        target = Path(gitdir)/'config.worktree'
+    else:
+        target = repo/'.git/config'
+    saved = target.read_bytes() if target.exists() else None
+    try:
+        with module._history_blob_session(str(repo)) as reader:
+            assert_history_blob_show_equal(module, repo, head+':metadata.yaml')
+            process = reader.process
+            assert process is not None
+            if kind == 'local-version':
+                target.write_bytes(saved.replace(b'repositoryformatversion = 0', b'repositoryformatversion = 999'))
+                assert target.read_bytes() != saved
+            else:
+                target.write_bytes(b'[broken\n')
+            result = assert_history_blob_show_equal(module, repo, head+':metadata.yaml')
+            assert result.returncode != 0 and result.stderr
+            assert process.poll() == 0 and reader.disabled
+    finally:
+        if saved is None:
+            target.unlink(missing_ok=True)
+        else:
+            target.write_bytes(saved)
+
+
+@pytest.mark.parametrize('conditional', [False, True])
+def test_history_git_blob_config_includes_always_use_original_resolution(history_blob_repo, tmp_path, conditional):
+    repo, git, head = history_blob_repo;module = PROOF.history_module()
+    included = tmp_path/'not-yet-existing-config'
+    key = 'includeIf.gitdir:/never-matches/.path' if conditional else 'include.path'
+    git('config', key, str(included))
+    with module._history_blob_session(str(repo)) as reader:
+        assert_history_blob_show_equal(module, repo, head+':metadata.yaml')
+        assert reader.disabled and reader.process is None
+        included.write_bytes(b'[broken\n')
+        result = assert_history_blob_show_equal(module, repo, head+':metadata.yaml')
+        assert bool(result.returncode) is (not conditional)

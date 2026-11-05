@@ -1,0 +1,26 @@
+{
+  "kind": "OPS020_SCOPED_FRESH_GIT_BLOB_TRANSPORT_N2_PRECOMMIT",
+  "parent": "a9685b4f39f8e50701e38fb13b06d51b5c390e0a",
+  "base": "f71f85027e8ad64b8e6d0a3d08a39ca9596d0323",
+  "branch": "chore/OPS-020-history-data-performance",
+  "claims": [
+    "scripts/work-branch-migration.py",
+    "tests/governance/test_work_branch_migration.py",
+    "scripts/check-program-plan-history.py"
+  ],
+  "actualPurposeM2Committed": true,
+  "gitValuesCached": false,
+  "authorityDecisionsCached": false,
+  "originalValidationBodyAstPreserved": true,
+  "publicValidationSignaturePreserved": true,
+  "original60FileBytePrefix": 45374,
+  "original60FileBytePrefixPreserved": true,
+  "hSha256": "45b9ebc7a70e752e27a50bcf1219f573c4fe04fb20febe9d044abed999df880d",
+  "testSha256": "d5f20ae65390e7dbaf5de56ecfed871fff612705debcc0f2e0f7b36a04e29dbb",
+  "targeted14Passed": true,
+  "expectedModuleCases": 74,
+  "expectedFullCases": 916,
+  "fullSource15Passed": false,
+  "fullCiAccepted": false,
+  "createdAt": "2026-11-05T20:32:26.676476+00:00"
+}

@@ -1,0 +1,50 @@
+{
+  "archive": "context-fix-validation.zip",
+  "archiveBytes": 44195,
+  "archiveSha256": "7c38e89b839eede30c667615748c25f133534fb23356134aa805721a0ffc4d35",
+  "entries": [
+    {
+      "path": "ops020-history-io-v2-n2-precommit-independent-review.json",
+      "bytes": 6266,
+      "sha256": "fc664c3d53c9d0301e2e1ec12835c176ca490ccdd3b9fa4fdb418372732b70b8"
+    },
+    {
+      "path": "ops020-history-io-v2-n2-precommit.json",
+      "bytes": 3775,
+      "sha256": "69ebb408fc473a5e3a1d250219962eac9e19e1f1bd8a1f6fd80cf2c83b7af398"
+    },
+    {
+      "path": "ops020-history-io-v2-n2-targeted-context-fix/junit.xml",
+      "bytes": 4330,
+      "sha256": "db07f20aaa7f2ae423b6c3d8ce62c8ce3b962347e8a60b3c1bea8cfa6f94b9d8"
+    },
+    {
+      "path": "ops020-history-io-v2-n2-targeted-context-fix/pytest.raw",
+      "bytes": 290,
+      "sha256": "5224a61ea9c6906b8ab215e2c5249a5e57526677ca3e2530bd2506810648e731"
+    },
+    {
+      "path": "ops020-history-io-v2-n2-targeted-context-fix/results.json",
+      "bytes": 1993,
+      "sha256": "56dcbde17b27c321f1d8d6fb3b35299f9c8c2d584ab068a2b94350b93d9516cf"
+    },
+    {
+      "path": "rejected14-candidate/scripts/check-program-plan-history.py",
+      "bytes": 116655,
+      "sha256": "45b9ebc7a70e752e27a50bcf1219f573c4fe04fb20febe9d044abed999df880d"
+    },
+    {
+      "path": "rejected14-candidate/tests/governance/test_work_branch_migration.py",
+      "bytes": 55384,
+      "sha256": "d5f20ae65390e7dbaf5de56ecfed871fff612705debcc0f2e0f7b36a04e29dbb"
+    },
+    {
+      "path": "verify_ops020_history_io_n2_context_fix_precommit_once.py",
+      "bytes": 1990,
+      "sha256": "8a4c1c764aefcf71e80895e5e0e2f16ef7b3c8ce0c4b754b3921dee95c965b4e"
+    }
+  ],
+  "targeted25Passed": true,
+  "original60Deselected": true,
+  "prior14CandidateRejected": true
+}

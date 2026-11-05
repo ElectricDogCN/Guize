@@ -104,9 +104,9 @@ tasks:
   reviewer: /root/independent_review
   integrator: /root
   agentRole: implementer
-  branch: chore/OPS-020-blocked-recovery-implementation
+  branch: chore/OPS-020-history-data-performance
   baseBranch: main
-  baseSha: 08ee4bc4dc3030cc86f420cc0956a0ab5146c379
+  baseSha: f71f85027e8ad64b8e6d0a3d08a39ca9596d0323
   workPackage: WP-M0-01
   programPlan: specs/coordination/program-plan.yaml
   programTaskId: OPS-020
@@ -126,6 +126,7 @@ tasks:
   exclusivePaths:
   - scripts/work-branch-migration.py
   - tests/governance/test_work_branch_migration.py
+  - scripts/check-program-plan-history.py
   sharedPaths: []
   handoffPath: evidence/OPS-020/handoff.md
   integrationStrategy: merge

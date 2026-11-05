@@ -1,0 +1,52 @@
+{
+  "archive": "validation.zip",
+  "archiveBytes": 6696,
+  "archiveSha256": "24b868b4380e0f5c66c6eac3426b13a8489d6911c66debe7e9b5fb1388749fd5",
+  "entries": [
+    {
+      "path": "ops020-history-io-v2-n2-targeted-first/junit.xml",
+      "bytes": 2361,
+      "sha256": "97f7a6a65113e9e6a4f938000323afd3f2f3a2d03be444dbfcb3d83bdb271dfb"
+    },
+    {
+      "path": "ops020-history-io-v2-n2-targeted-first/pytest.raw",
+      "bytes": 284,
+      "sha256": "da2f169825b5926b2f631b24aa3aea5df034159eb127537d22769c234aa6da00"
+    },
+    {
+      "path": "ops020-history-io-v2-n2-targeted-first/results.json",
+      "bytes": 1987,
+      "sha256": "348c6aafcc1d860354b4a00d82be67101b2181f2a65230d5baa46c32949b2f64"
+    },
+    {
+      "path": "ops020-history-io-v2-n2-targeted-second/junit.xml",
+      "bytes": 2520,
+      "sha256": "7c5eae3d41117ae7cfae55c3e60283058d2ba1f9f4dcfbbe8bf078881c9bf350"
+    },
+    {
+      "path": "ops020-history-io-v2-n2-targeted-second/pytest.raw",
+      "bytes": 285,
+      "sha256": "032e7187942a1e7a4c11a569bfed256520fdb78a6f796a67ee8970ed79a1cd30"
+    },
+    {
+      "path": "ops020-history-io-v2-n2-targeted-second/results.json",
+      "bytes": 1988,
+      "sha256": "a0f9e11a02e5446c3e91a7dd56a8a3d0a7d543bc9e67b2c34960f1c496a0fdec"
+    },
+    {
+      "path": "verify_ops020_history_io_n2_precommit_once.py",
+      "bytes": 1984,
+      "sha256": "7ff37fca8b1ab0b9c69e72ece8c6d747ac9e0bc70acb503489d78d85c9dd21b6"
+    },
+    {
+      "path": "verify_ops020_history_io_n2_precommit_second_once.py",
+      "bytes": 1985,
+      "sha256": "9f0fbaad07614e565cd3c8f54b0285fbc149857d998f2d200a4e4e705fe4a293"
+    }
+  ],
+  "currentTargetedPassed": 14,
+  "other60Deselected": true,
+  "prior13BoundOnlyToEarlierBytes": true,
+  "fullSource15Passed": false,
+  "fullCiAccepted": false
+}

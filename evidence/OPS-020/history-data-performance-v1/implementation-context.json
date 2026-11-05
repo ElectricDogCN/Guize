@@ -1,0 +1,19 @@
+{
+  "kind": "OPS020_MINIMAL_HISTORY_YAML_DATA_CACHE_N_PREPARATION",
+  "base": "f71f85027e8ad64b8e6d0a3d08a39ca9596d0323",
+  "parent": "b14aa06c53f39c3e2a188a526ec2b63b3d1000df",
+  "branch": "chore/OPS-020-history-data-performance",
+  "authorityDecisionsCached": false,
+  "gitResultsCached": false,
+  "parseErrorsCached": false,
+  "independentCallerCopies": true,
+  "originalTestBytesPrefix": 42027,
+  "original25BytePrefixPreserved": true,
+  "expectedModuleCases": 60,
+  "expectedFullCases": 902,
+  "hSha256": "0ea0e650ee74def0bcee701f4e3e95c2fcac0c09a193635fc90fbf66822e7094",
+  "testSha256": "79dc739f8f2d591a8113a0074993df791920a5e12aea7d1f97219bc8ae5522ae",
+  "currentSourceChecksPassed": false,
+  "fullCiAccepted": false,
+  "createdAt": "2026-11-05T19:01:06.700085+00:00"
+}
