@@ -1,0 +1,112 @@
+[
+  {
+    "path": "ops019-implementation-final3459-expected867-ci-cases.json",
+    "bytes": 225415,
+    "sha256": "0d15283b4b0ba2a80e9725274d8e5124641c3bf6c017db48d08c1dfe01df1050"
+  },
+  {
+    "path": "ops019-normal-completion-v2-d53323f-native-main-seven/coordination.raw",
+    "bytes": 346,
+    "sha256": "8ad3c587b87a185ec7f80056ce3fdd1030e26bdca05cd9dd9a520cc48e209548"
+  },
+  {
+    "path": "ops019-normal-completion-v2-d53323f-native-main-seven/finalization.raw",
+    "bytes": 454,
+    "sha256": "3d5ef71c8f844c2b8f90b8ffe532e3a3b66da58de82217f5ff6339a194a9c698"
+  },
+  {
+    "path": "ops019-normal-completion-v2-d53323f-native-main-seven/history.raw",
+    "bytes": 563,
+    "sha256": "4f523a80179d1613c68da72a8347f23ee008a6cfd5fe00f72acf1370d28ee179"
+  },
+  {
+    "path": "ops019-normal-completion-v2-d53323f-native-main-seven/integrity.raw",
+    "bytes": 495,
+    "sha256": "55586e824b2d4e64b41658901c78b92e556bfb7d1be82fcd6a509563c3dbc977"
+  },
+  {
+    "path": "ops019-normal-completion-v2-d53323f-native-main-seven/poc-protocol.raw",
+    "bytes": 397,
+    "sha256": "3a10a6bb30c812fe745f85f9342df0a76cd9d293b4192784c5570d18190c561f"
+  },
+  {
+    "path": "ops019-normal-completion-v2-d53323f-native-main-seven/raw-lifecycle.raw",
+    "bytes": 546,
+    "sha256": "0ee7ad6260d0b4a7a07bf867078c1de17a76995390e88629ea7a6f64f78c4cb4"
+  },
+  {
+    "path": "ops019-normal-completion-v2-d53323f-native-main-seven/results.json",
+    "bytes": 33277,
+    "sha256": "d7d1215ba34defbfdf8dbffcd8888cab38dca8c4173690b55b0069775e671d50"
+  },
+  {
+    "path": "ops019-normal-completion-v2-d53323f-native-main-seven/transitions.raw",
+    "bytes": 475,
+    "sha256": "00cf1f5994ce52b653a19088bf5d3a6495ec854db8e7cf931fb4999d65a850f8"
+  },
+  {
+    "path": "ops019-normal-completion-v2-main-ci-final/capture.json",
+    "bytes": 1334,
+    "sha256": "ce15615f46fb246729342282452325a017665f869bcd352f290404cb89b30311"
+  },
+  {
+    "path": "ops019-normal-completion-v2-main-ci-final/checkout.json",
+    "bytes": 2909,
+    "sha256": "788a65a7be8856068a4a5de94e0a57c2d269664c4928bd025870c2c24fa765d6"
+  },
+  {
+    "path": "ops019-normal-completion-v2-main-ci-final/job-log.official-direct-download.utf8.txt",
+    "bytes": 335656,
+    "sha256": "8cc23eaf7e0db5bb1f53122d30ad835b276c6ba8114f7bb3b9d82ceab9c2dfb8"
+  },
+  {
+    "path": "ops019-normal-completion-v2-main-ci-final/jobs.json",
+    "bytes": 5526,
+    "sha256": "95d512f6f4eb4d87d30052531b9bd8cb6e6218fa5cdaf13a8770c38fc4efbcea"
+  },
+  {
+    "path": "ops019-normal-completion-v2-main-ci-final/official-direct-download-authenticated-result.json",
+    "bytes": 751,
+    "sha256": "edf864aa8812c37ab27c6206a69ce58bbb35e9122712b81feb07e8d1becce44c"
+  },
+  {
+    "path": "ops019-normal-completion-v2-main-ci-final/run.json",
+    "bytes": 12344,
+    "sha256": "e1b78acdfa4981c84fa3f710dbb53c585399d9cedd01923a617d19d394f0c585"
+  },
+  {
+    "path": "ops019-normal-completion-v2-source-ci-final/capture.json",
+    "bytes": 1124,
+    "sha256": "6d141c9c1c7ddab1f8cb174c71221b45365da5e6e1224f0e1a25d462ccaca54e"
+  },
+  {
+    "path": "ops019-normal-completion-v2-source-ci-final/checkout.json",
+    "bytes": 2805,
+    "sha256": "37b8f007c6bb972b601204b53b45986b2c1479af995a1f990759eb21b00de6ca"
+  },
+  {
+    "path": "ops019-normal-completion-v2-source-ci-final/job-log.official-direct-download.utf8.txt",
+    "bytes": 343751,
+    "sha256": "cf11285b98b312c9430278b715054b966e7efae674d6c21fc5ba5e1430b00e0e"
+  },
+  {
+    "path": "ops019-normal-completion-v2-source-ci-final/jobs.json",
+    "bytes": 8311,
+    "sha256": "0d0f7c33ab4afada6bbeed0fe7167946b979a1ed0e64d7aebaa2b7eac62e3521"
+  },
+  {
+    "path": "ops019-normal-completion-v2-source-ci-final/official-direct-download-authenticated-result.json",
+    "bytes": 698,
+    "sha256": "689d20cc0bde2e74293ef4fca2230eb62981fc8a4c8ac1d5b54db71e0ab8c3eb"
+  },
+  {
+    "path": "ops019-normal-completion-v2-source-ci-final/run.json",
+    "bytes": 14563,
+    "sha256": "c859eed2cf9e2b13cc0d0e231c019341729cccbfb94c509adeb076f88c6c3eb7"
+  },
+  {
+    "path": "poc003-clean-lfs-migration-v1-probe-index-cache-repair.json",
+    "bytes": 1046,
+    "sha256": "668082fb03af694c14478baa08cc9372f3769b50b18febadf3a22756420d904a"
+  }
+]

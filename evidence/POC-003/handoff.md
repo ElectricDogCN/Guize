@@ -1881,3 +1881,12 @@ After exact snapshot review: commit the real merge, run current15 and required s
 本候选仅在私有ATS构建的P_CacheVol.h把实际AGG_SIZE从4MiB降为1MiB。HIGH_WATER、EVACUATION、RECOVERY、MAX_FRAG仍使用原派生表达式；原DEFAULT_TARGET_FRAGMENT_SIZE=1048576-sizeof(Doc)仍不超过新的最大片段，实验显式target_fragment_size8192不变。Slice1MiB、64MiB原样本、磁盘256MiB及所有原场景/资源/时延/8MiB阈值不变。所有之后的新运行必须创建全新空缓存，禁止打开旧构建/stock缓存，所有旧目录保持原件。
 
 固定1MiB是真实缓冲容量实现改动；计账仍包括全部backing与logical保守相加、直接聚合和恢复，不扣基线或收窄域。实际收益不能按常量差值推定。新构建与精确源15/完整官方源CI、正常合并、实际main7/完整CI及终审通过后，另建共同源输入/配置与前瞻批准窗口，实测原矩阵和独立暖缓存撤权，再做正式15/profile及正常Review/Completion。Task仍in_progress，原创建身份/具体角色/有效租约保持，不生成正式PASS或current locator；恢复采用保留原件的受审前向改动。
+
+
+## Blocked-state prospective lease maintenance 2026-11-05T11:03:12Z
+
+Task POC-003 / Issue #131. Metadata delivery branch chore/POC-003-blocked-lease-20261105; accepted target base d53323fe77f1fa4a0d6155a391435754eee2e491. Original registered feature branch chore/POC-003-ats-range and creation base are unchanged. Actual decision actor /root under existing user delegation; stored coordinator/implementer/reviewer/integrator identities remain unchanged.
+
+Proposed state blocked/coordinator, proposed lease 2026-11-05T11:03:12Z to 2026-11-12T11:03:12Z. The failed migration prepare and real index cache repair are recorded in blocked-lease-v2/. The old approval is preserved and cannot be consumed against this changed tuple. Original Task body and historical recipes remain byte-identical; commands.json explicitly substitutes the current metadata base/branch for all fifteen original gate families. All candidate checks/exit codes, complete official CI, independent review and actual-main acceptance are pending. No implementation, migration or experiment is authorized by this proposal.
+
+Shared code/ADR/results-index: unchanged; integrationOrder2 retained. Rollback: withdraw before merge or use a reviewed ordinary forward metadata correction; preserve every local ref, raw result and workspace. The next role reviews the exact delta and full checks; then a separate legal clean-branch recovery proposal is required.

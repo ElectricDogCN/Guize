@@ -1,0 +1,33 @@
+{
+  "kind": "prospective_own_blocked_state_lease_maintenance",
+  "taskId": "POC-003",
+  "issue": 131,
+  "decidedAt": "2026-11-05T11:03:12Z",
+  "decisionActor": "/root",
+  "authority": "User delegated project decisions, normal review/merge and ended remote cleanup; original Registry actor identities are unchanged",
+  "acceptedBase": "d53323fe77f1fa4a0d6155a391435754eee2e491",
+  "acceptedBaseReviewSha256": "ae318405a9ef1b55fdb8b74c300c4eb318852bd815a576a1a428a6f3b1468c1a",
+  "originalLease": {
+    "acquiredAt": "2026-10-29T11:01:07Z",
+    "expiresAt": "2026-11-05T11:01:07Z"
+  },
+  "proposedLease": {
+    "acquiredAt": "2026-11-05T11:03:12Z",
+    "expiresAt": "2026-11-12T11:03:12Z"
+  },
+  "proposedStatus": "blocked",
+  "proposedAgentRole": "coordinator",
+  "registeredWorkBranchUnchanged": "chore/POC-003-ats-range",
+  "creationBaseUnchanged": "760f6c5838597d1d66c0a536ecbf440ef5a7dfec",
+  "reason": "The one-shot clean migration preparation failed before metadata writes. Its LFS index cache mismatch was corrected without changing content. The old conditional migration window cannot accommodate the required complete official CI; clean-branch recovery needs a separately reviewed legal route.",
+  "originalMigrationPreparationStillFailed": true,
+  "originalConditionalApprovalUnchanged": true,
+  "originalConditionalApprovalReusableAfterThisMaintenance": false,
+  "effectiveAuthority": "Pending ordinary source15/full official CI, independent review, ordinary merge, actual-main7/full CI and final acceptance",
+  "continuityClaimed": false,
+  "oldLeaseAlreadyExpiredAtProposal": true,
+  "gapPolicy": "Record any interval between old expiry and actual renewed acceptance honestly; no implementation or experiments during the gap",
+  "migrationApproved": false,
+  "experimentApproved": false,
+  "sourceCommitted": false
+}
