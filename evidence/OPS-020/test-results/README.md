@@ -26,3 +26,7 @@ Actual purpose M2 a9685b4f39f8e50701e38fb13b06d51b5c390e0a precedes H write. The
 
 ## N2 context invalidation correction (supersedes preparation14)
 Independent review rejected the preceding14-case candidate for non-GIT environment and live repository config invalidation gaps. No commit/publication occurred for that candidate; its exact code, manifest and refusal remain archived. Current transport compares complete environment in memory only and watches actual Git-reported system/global roots plus common/local and actual-worktree config bytes, including absent files, before and after each query. Any include/includeIf configuration or unsupported root discovery uses original Git resolution; no custom include parser or authority cache. New exact targeted25 passed/old60 deselected/7.58s, zero failure/error/skips. Original validate_foundations body AST/signature and entire old60 file prefix remain unchanged. Prior13/14 results describe only prior bytes. Current full source15/all85, actual inventory927=old902+25, full official source/mainCI and normalReview/Completion remain PENDING. No POC action.
+
+
+# Normal Review preparation
+Base da4d4a4e4fa14edd1603961880b24b12eede776d; branch chore/OPS-020-normal-review; review/reviewer. Implementation acceptance is source-bound; this metadata source still requires its own complete checks and CI. Original lease/claims/actors unchanged.
