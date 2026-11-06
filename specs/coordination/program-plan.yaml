@@ -111,9 +111,9 @@ foundationTasks:
     mergeCommit: 7d193039aeaea04575130b7134da857dcaaa018f
   - taskId: OPS-021
     title: 降低历史任务快照物化开销并保持完整治理判定
-    status: review
-    completionRef: ISSUE-201
-    mergeCommit: null
+    status: completed
+    completionRef: PR-203
+    mergeCommit: c675529b9cdb72159da477774f2b0602f98c4b0a
 waves:
   - {id: W1, order: 1, name: "需求与 POC 计划", maxConcurrent: 2, maxHighRisk: 1}
   - {id: W2, order: 2, name: "OpenAPI + 独立 POC", maxConcurrent: 3, maxHighRisk: 1}
