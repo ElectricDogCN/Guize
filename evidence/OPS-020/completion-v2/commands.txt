@@ -1,0 +1,15 @@
+git diff --check 7d193039aeaea04575130b7134da857dcaaa018f...HEAD
+python scripts/check-task-file.py --task OPS-020
+python scripts/check-schemas.py
+python scripts/check-program-plan-integrity.py --base-ref 7d193039aeaea04575130b7134da857dcaaa018f
+python scripts/check-program-plan-history.py --base-ref 7d193039aeaea04575130b7134da857dcaaa018f --head-ref HEAD --task OPS-020 --branch-name chore/OPS-020-normal-completion-v2
+python scripts/check-program-plan-transitions.py --base-ref 7d193039aeaea04575130b7134da857dcaaa018f --head-ref HEAD --task OPS-020 --branch-name chore/OPS-020-normal-completion-v2
+python scripts/check-program-lifecycle-guards.py --base-ref 7d193039aeaea04575130b7134da857dcaaa018f --head-ref HEAD --task OPS-020 --branch-name chore/OPS-020-normal-completion-v2
+python scripts/run-program-lifecycle-gate.py --base-ref 7d193039aeaea04575130b7134da857dcaaa018f --head-ref HEAD --task OPS-020 --branch-name chore/OPS-020-normal-completion-v2
+python scripts/run-agent-coordination-gate.py --base-ref 7d193039aeaea04575130b7134da857dcaaa018f --head-ref HEAD --task OPS-020 --branch-name chore/OPS-020-normal-completion-v2
+python scripts/check-program-plan-finalization.py --base-ref 7d193039aeaea04575130b7134da857dcaaa018f --head-ref HEAD --task OPS-020
+python scripts/run-task-scope-gate.py --task OPS-020 --base 7d193039aeaea04575130b7134da857dcaaa018f
+python scripts/check-evidence.py --task OPS-020
+python scripts/check-project-readiness.py
+python scripts/check-markdown.py
+python -B -m pytest -q tests/governance/test_work_branch_migration.py
