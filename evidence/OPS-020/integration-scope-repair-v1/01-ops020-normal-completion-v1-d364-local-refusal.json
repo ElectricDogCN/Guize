@@ -1,0 +1,47 @@
+{
+  "kind": "OPS020_COMPLETION_D364_LOCAL_SOURCE_REFUSAL",
+  "recordedAt": "2026-11-06T00:50:26.192274+00:00",
+  "source": "d36430c87ebc58e1e76b75d9b8b272b0a272ef47",
+  "base": "99714cabedd9196d0eeeb31653faaaf17211f74c",
+  "session": 96945,
+  "terminalExitCode": 1,
+  "actualWaitCompleted": true,
+  "passedCommands": 4,
+  "failedCommandIndex": 4,
+  "remaining10CommandsNotExecuted": true,
+  "declared15Passed": false,
+  "published": false,
+  "officialCiRunCreated": false,
+  "actualCapacityReleased": false,
+  "actualRecoveryApproved": false,
+  "mustPreserveOriginalCandidateAndApproval": true,
+  "evidencePins": [
+    {
+      "path": "ops020-normal-completion-v1-native-source15/00.raw",
+      "bytes": 144,
+      "sha256": "20dbe303053a5bb03c3d124d965611f3cdea4e56a9dad1cd12fe26faedd5bd98"
+    },
+    {
+      "path": "ops020-normal-completion-v1-native-source15/01.raw",
+      "bytes": 279,
+      "sha256": "befb505f2f0bd70c62e0cad7f620847840acb9993c682af4798aac85b84a2c7e"
+    },
+    {
+      "path": "ops020-normal-completion-v1-native-source15/02.raw",
+      "bytes": 1882,
+      "sha256": "16e182c397266b0560fcf20da53e810efb6544b7044a06296d21737c6de455e7"
+    },
+    {
+      "path": "ops020-normal-completion-v1-native-source15/03.raw",
+      "bytes": 419,
+      "sha256": "afc31bb08727a6fd3e398efe3f2f364d2cd0856a5b99456a902bf8cfae0435ec"
+    },
+    {
+      "path": "ops020-normal-completion-v1-native-source15/04.raw",
+      "bytes": 367,
+      "sha256": "7f18527e893085d96d7240ff571ea2af8449c2d63dee0736c6d5efe47945540b"
+    }
+  ],
+  "failedMessage": "Foundation OPS-020 working node changed paths outside its prior registered scope",
+  "diagnosisPending": true
+}

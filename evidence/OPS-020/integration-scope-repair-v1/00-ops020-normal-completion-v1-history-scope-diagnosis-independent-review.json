@@ -1,0 +1,264 @@
+{
+  "kind": "OPS020_FAILED_COMPLETION_HISTORICAL_SCOPE_DIAGNOSIS_AND_FORWARD_ROUTE",
+  "reviewer": "/root/independent_review",
+  "reviewedAt": "2026-11-06T00:54:35.813041Z",
+  "failedSource": "d36430c87ebc58e1e76b75d9b8b272b0a272ef47",
+  "failedCreator": "bcf9db18dd29453b034a7b859858302169861303",
+  "admittedBase": "99714cabedd9196d0eeeb31653faaaf17211f74c",
+  "claimedImplementation": "da4d4a4e4fa14edd1603961880b24b12eede776d",
+  "integrationForwardRouteSupported": true,
+  "metadataPurposePreparationAllowed": true,
+  "mustFix": [],
+  "scope": "READONLY_DIAGNOSIS_AND_UNCOMMITTED_OWN_INTEGRATION_PURPOSE_PREPARATION_ONLY",
+  "observedFailure": {
+    "checkIndex": 4,
+    "actualExitCode": 1,
+    "actualWaitCompleted": true,
+    "priorChecksPassed": 4,
+    "laterChecksNotExecuted": 10,
+    "module85Executed": false,
+    "message": "Foundation OPS-020 working node changed paths outside its prior registered scope",
+    "offendingNode": "da4d4a4e4fa14edd1603961880b24b12eede776d",
+    "offendingFirstParent": "f71f85027e8ad64b8e6d0a3d08a39ca9596d0323",
+    "offendingPath": "scripts/check-program-plan-history.py"
+  },
+  "exactIntroducedNodeComparison": [
+    {
+      "node": "b14aa06c53f39c3e2a188a526ec2b63b3d1000df",
+      "prior": "f71f85027e8ad64b8e6d0a3d08a39ca9596d0323",
+      "priorClaims": [
+        "scripts/work-branch-migration.py",
+        "tests/governance/test_work_branch_migration.py"
+      ],
+      "work": [],
+      "outsidePriorClaims": [],
+      "approvedSynchronizationParents": []
+    },
+    {
+      "node": "f1cfbef4e63bb4a85548a74e57510d156f262721",
+      "prior": "b14aa06c53f39c3e2a188a526ec2b63b3d1000df",
+      "priorClaims": [
+        "scripts/work-branch-migration.py",
+        "tests/governance/test_work_branch_migration.py",
+        "scripts/check-program-plan-history.py"
+      ],
+      "work": [
+        "scripts/check-program-plan-history.py",
+        "tests/governance/test_work_branch_migration.py"
+      ],
+      "outsidePriorClaims": [],
+      "approvedSynchronizationParents": []
+    },
+    {
+      "node": "a9685b4f39f8e50701e38fb13b06d51b5c390e0a",
+      "prior": "f1cfbef4e63bb4a85548a74e57510d156f262721",
+      "priorClaims": [
+        "scripts/work-branch-migration.py",
+        "tests/governance/test_work_branch_migration.py",
+        "scripts/check-program-plan-history.py"
+      ],
+      "work": [],
+      "outsidePriorClaims": [],
+      "approvedSynchronizationParents": []
+    },
+    {
+      "node": "a2e933ced1abb7fff7694569049881c9e7ca3661",
+      "prior": "a9685b4f39f8e50701e38fb13b06d51b5c390e0a",
+      "priorClaims": [
+        "scripts/work-branch-migration.py",
+        "tests/governance/test_work_branch_migration.py",
+        "scripts/check-program-plan-history.py"
+      ],
+      "work": [
+        "scripts/check-program-plan-history.py",
+        "tests/governance/test_work_branch_migration.py"
+      ],
+      "outsidePriorClaims": [],
+      "approvedSynchronizationParents": []
+    },
+    {
+      "node": "da4d4a4e4fa14edd1603961880b24b12eede776d",
+      "prior": "f71f85027e8ad64b8e6d0a3d08a39ca9596d0323",
+      "priorClaims": [
+        "scripts/work-branch-migration.py",
+        "tests/governance/test_work_branch_migration.py"
+      ],
+      "work": [
+        "scripts/check-program-plan-history.py",
+        "tests/governance/test_work_branch_migration.py"
+      ],
+      "outsidePriorClaims": [
+        "scripts/check-program-plan-history.py"
+      ],
+      "approvedSynchronizationParents": []
+    }
+  ],
+  "causalExplanation": [
+    "Completion enters _validate_foundations1903-1920 and calls foundation_implementation1917 on the correct ordinary Code merge da4. The prior Code/Review active preflight1868-1875 used foundation_post_implementation, so their complete CI acceptance does not establish this previously unexercised Completion proof.",
+    "For two-parent da4, H1328-1329 chooses its first parent A as implementation base. H1379/1390 enumerate M,N,M2,N2 AND da4 itself. Both genuine source work nodes have preceding three-claim registrations; the two scope/purpose nodes are metadata-only.",
+    "At da4 aggregate merge, H1391 uses first parent A whose historical registration has only original two claims. H1431-1437 applies that two-claim scope to the aggregate net H/test import and rejects only H. H797-799 excludes N2 as an approved synchronization input because N2 is not an ancestor of A; clean_imports is empty.",
+    "The historical union at H1371-1375 permits aggregate classification but H1585-1586 explicitly says it does not authorize working nodes. Simply replacing prior scope with a historical union would weaken the guard. Adding current metadata cannot retroactively change A, and binding Completion to N2 or skipping da4 is not a legitimate repair."
+  ],
+  "forwardRoute": [
+    "Prepare a NEW isolated author from fully accepted997, preserving failed bcf9/d364/APP0db2 and all refs/raw/bundles. Reopen/synchronize existing Issue191 for this concrete corrective work as appropriate; no new governance task/claim or bootstrap exception is needed.",
+    "Prepare only Own Program/Registry/Task/Evidence purpose metadata for explicit review-to-integration/integrator, same three already-admitted claims, exact997 base/new branch, same actors/lease/foreign tuples and no APP. Obtain exact independent precommit acceptance and ordinary metadata-purpose commit BEFORE any H implementation write. This receipt authorizes preparation only, not that commit.",
+    "Within those claims, prepare the smallest H proof repair plus meaningful real-Git regressions in the existing test file. Keep original intent, all original assertions, frozen five, public interfaces and runner/thirty-minute limits. Independently review latest exact code, run declared15/full85-plus-new cases and complete original927-plus-new official source/main CI/actual7, then final actual integration-code acceptance.",
+    "Existing normal authority explicitly accepts independently reviewed admitted integration/integrator. After the new real code is accepted, bind Completion identity to its latest actual code merge/new PR, not old da4 or an unmerged source. New source independent Review is required; old997 acceptance is not a review of the new code.",
+    "Create a NEW independent exact17-key APP on a later clean Completion lineage from the newly accepted integration main, preserving integration/integrator on both creator sides. Old APP0db2 remains immutable and unusable for the changed code identity; do not import/rewrite/reuse its failed creator. Normal Completion then requires its fresh source/main/fullCI/actual7/final acceptance before capacity release or separately reviewed POC recovery."
+  ],
+  "formalSupport": [
+    {
+      "file": "scripts/check-program-plan-transitions.py",
+      "lines": [
+        64,
+        69,
+        543,
+        546
+      ],
+      "meaning": "review-to-integration is an existing legal active transition; Foundation branch/scope metadata remains governed"
+    },
+    {
+      "file": "scripts/check-program-plan-history.py",
+      "lines": [
+        1688,
+        1709
+      ],
+      "meaning": "actual working changes need admitted AND prior registered scope and implementer/integrator role"
+    },
+    {
+      "file": "scripts/work-branch-migration.py",
+      "lines": [
+        286,
+        303,
+        643,
+        652
+      ],
+      "meaning": "normal authority and separate APP creator allow admitted review OR integration with exact independent actors"
+    },
+    {
+      "file": "scripts/check-program-lifecycle-guards.py",
+      "lines": [
+        90,
+        92,
+        1155,
+        1159
+      ],
+      "meaning": "integration is implementation/Completion-base state"
+    },
+    {
+      "file": "docs/25-multi-agent-collaboration-protocol.md",
+      "lines": [
+        104,
+        108,
+        110,
+        117,
+        337,
+        342
+      ],
+      "meaning": "latest head must have independent review and full gates; explicit new reviewed corrective commits, not silent premerge behavior changes"
+    }
+  ],
+  "minimumRepairDesignConstraints": [
+    "Distinguish a proven ordinary same-task aggregate merge import from fresh unauthorized work at that merge; retain per-real-source-node contemporaneous scope/lease/role checks and full side-history inspection.",
+    "Any allowed imported H path must be proved from authenticated source work preceded by metadata-only registration and exact merge blob/mode/clean-import provenance. Do not authorize same-node claim-and-write, late-claim laundering, foreign source, conflict-resolution/new merge blobs or unchecked side histories.",
+    "Include a real full Completion positive with two-claim main, preceding metadata three-claim source, later code and ordinary merge, plus negatives for same-node/late scope, unauthorized side work and new merge resolution bytes. Keep ordinary implementation identity and old failures intact."
+  ],
+  "diagnosisDoesNotApproveConcreteRepair": true,
+  "hWritesAllowed": false,
+  "productionFixApproved": false,
+  "failedSourceQualificationAccepted": false,
+  "publicationApproved": false,
+  "actualMergeApproved": false,
+  "normalCompletionAccepted": false,
+  "actualCapacityReleased": false,
+  "actualMigrationApproved": false,
+  "newResourcesOrExperimentApproved": false,
+  "taskCompleted": false,
+  "evidencePins": [
+    {
+      "path": "ops020-normal-completion-v1-current-candidate.json",
+      "bytes": 4350,
+      "sha256": "f5c719fd850520904eb14407fed9b20e157b8c8628effbef621654ec6b71024f"
+    },
+    {
+      "path": "ops020-normal-completion-v1-native-source15/results.json",
+      "bytes": 14824,
+      "sha256": "160a2a3a27809d897793e45721dbaa36ff3e2b98eb8bb140cafdbcc5367bc875"
+    },
+    {
+      "path": "ops020-normal-completion-v1-native-source15/00.raw",
+      "bytes": 144,
+      "sha256": "20dbe303053a5bb03c3d124d965611f3cdea4e56a9dad1cd12fe26faedd5bd98"
+    },
+    {
+      "path": "ops020-normal-completion-v1-native-source15/01.raw",
+      "bytes": 279,
+      "sha256": "befb505f2f0bd70c62e0cad7f620847840acb9993c682af4798aac85b84a2c7e"
+    },
+    {
+      "path": "ops020-normal-completion-v1-native-source15/02.raw",
+      "bytes": 1882,
+      "sha256": "16e182c397266b0560fcf20da53e810efb6544b7044a06296d21737c6de455e7"
+    },
+    {
+      "path": "ops020-normal-completion-v1-native-source15/03.raw",
+      "bytes": 419,
+      "sha256": "afc31bb08727a6fd3e398efe3f2f364d2cd0856a5b99456a902bf8cfae0435ec"
+    },
+    {
+      "path": "ops020-normal-completion-v1-native-source15/04.raw",
+      "bytes": 367,
+      "sha256": "7f18527e893085d96d7240ff571ea2af8449c2d63dee0736c6d5efe47945540b"
+    },
+    {
+      "path": "ops020-normal-completion-v1-approval-creator-commit.json",
+      "bytes": 490,
+      "sha256": "d64701ad3a7dfff57e72f2fc94296eddda9a21427974ad73a8a30333beff26f9"
+    },
+    {
+      "path": "ops020-normal-completion-v1-recovery-approval.json",
+      "bytes": 981,
+      "sha256": "0db2b22f0195c50d70b27fdf1a562f59f82ef176601036e0d94fdaebf893aaee"
+    },
+    {
+      "path": "ops020-normal-completion-v1-prospective-approval-independent-review.json",
+      "bytes": 6559,
+      "sha256": "1a797cc550b4e32d90d55da670a857a0389d8ebf2e00083cd6e51f214b644e98"
+    },
+    {
+      "path": "ops020-normal-review-pr197-final-actual-main-independent-review.json",
+      "bytes": 10566,
+      "sha256": "d1b4ffb6ac4f8fc3924cf195546dc26231f2ab26cecaf580d29e9196a11d583a"
+    },
+    {
+      "path": "ops020-history-io-pr196-final-actual-main-independent-review.json",
+      "bytes": 9089,
+      "sha256": "ca66c0e67abb3979f87b5b9e26489c32cdca4c784c1001b0b3e860fe0e85dd54"
+    },
+    {
+      "path": "ops020-normal-review-v2/scripts/check-program-plan-history.py",
+      "bytes": 119157,
+      "sha256": "8e03bb02f28cde4e2c7531ed48bece864d9d207f071f3c98dec2816014d35ff4"
+    },
+    {
+      "path": "ops020-normal-review-v2/scripts/check-program-plan-transitions.py",
+      "bytes": 39855,
+      "sha256": "83aff2c326de65621bb695d5ec7d87a7d8278ead6f044c3ab4d10eef9611dae4"
+    },
+    {
+      "path": "ops020-normal-review-v2/scripts/check-program-lifecycle-guards.py",
+      "bytes": 57602,
+      "sha256": "0a4b366a06c7f71d6ad0417e4a44e2e43dcbf0c908286fb83c9abce9d46c4396"
+    },
+    {
+      "path": "ops020-normal-review-v2/scripts/work-branch-migration.py",
+      "bytes": 47249,
+      "sha256": "3d2d94150de92eea3b451c8cc38900748625d808c7572f33cbe6d4284947994b"
+    },
+    {
+      "path": "ops020-normal-review-v2/docs/25-multi-agent-collaboration-protocol.md",
+      "bytes": 13806,
+      "sha256": "0ebfb37a067fc7bab004d1c4662b1b1505fbb34b349a1afdaac2aac8ecd75fe1"
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+Source Commit: d36430c87ebc58e1e76b75d9b8b272b0a272ef47
+Command: python scripts/check-program-plan-history.py --base-ref 99714cabedd9196d0eeeb31653faaaf17211f74c --head-ref HEAD --task OPS-020 --branch-name chore/OPS-020-normal-completion
+{"status": "FAIL", "message": "Foundation OPS-020 working node changed paths outside its prior registered scope"}
+
+Exit Code: 1
