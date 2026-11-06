@@ -19,3 +19,20 @@
 - `specs/coordination/program-plan.yaml`
 - `specs/tasks/OPS-020.md`
 - `tests/governance/test_work_branch_migration.py`
+
+
+## Normal Completion inventory
+- evidence/OPS-020/changed-files.md
+- evidence/OPS-020/commands.txt
+- evidence/OPS-020/completion-v2/README.md
+- evidence/OPS-020/completion-v2/commands.txt
+- evidence/OPS-020/completion-v2/context.json
+- evidence/OPS-020/completion-v2/index.json
+- evidence/OPS-020/completion-v2/prerequisites.zip
+- evidence/OPS-020/handoff.md
+- evidence/OPS-020/implementation-v1/recovery-approval.json
+- evidence/OPS-020/summary.md
+- evidence/OPS-020/test-results/README.md
+- specs/coordination/active-work.yaml
+- specs/coordination/program-plan.yaml
+- specs/tasks/OPS-020.md

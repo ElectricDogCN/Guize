@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "kind": "conditional_prospective_blocked_work_branch_recovery",
+  "authorityTaskId": "OPS-020",
+  "taskId": "POC-003",
+  "reservation": "08ee4bc4dc3030cc86f420cc0956a0ab5146c379",
+  "implementationCommit": "7d193039aeaea04575130b7134da857dcaaa018f",
+  "intentSha256": "3442ac687f2fda7071b467082ffccdff2e677847c9323198cf64a7fbdc41b51d",
+  "oldBranch": "chore/POC-003-ats-range",
+  "newBranch": "chore/POC-003-qualified-lfs-evidence-v2",
+  "originalCreationBase": "760f6c5838597d1d66c0a536ecbf440ef5a7dfec",
+  "oldUnmergedCandidate": "3564346d2bdfbd80f2f705ae3dd4f7ba79103cb6",
+  "beforeRegistrySha256": "52274bee2fb35226dbbaa309b70d201b8bbb8f0fdbaf047989861fc0969e0374",
+  "beforeTaskSha256": "e34be7d42899abe0cc18000401499a38cb00b49e3fbc8aa8428ba47441451528",
+  "reviewer": "/root/independent_review",
+  "approvedAt": "2026-11-06T02:15:53Z",
+  "decision": "approved",
+  "condition": "normal_authority_completion_full_ci_capacity_release_and_fresh_main"
+}

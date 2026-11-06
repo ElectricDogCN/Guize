@@ -13,3 +13,16 @@ python scripts/check-evidence.py --task OPS-020
 python scripts/check-project-readiness.py
 python scripts/check-markdown.py
 python -B -m pytest -q tests/governance/test_work_branch_migration.py
+
+
+## Accepted prerequisite Integration main execution (prerequisite scope only)
+Task: OPS-020
+Implementation merge: 7d193039aeaea04575130b7134da857dcaaa018f (PR198)
+Status: PASS (accepted prerequisite Integration main only)
+Result: PASS (accepted prerequisite Integration main only)
+Source Commit: 7d193039aeaea04575130b7134da857dcaaa018f
+Command: /home/sur/.cache/guize-takeover/python31117-official-runtime-v1/venv/bin/python -B scripts/check-program-plan-integrity.py --base-ref 99714cabedd9196d0eeeb31653faaaf17211f74c
+Exit Code: 0
+Raw artifact: completion-v2/prerequisites.zip :: ops020-integration-pr198-7d19303-native-main-seven/integrity.raw
+Raw SHA-256: e86069177164895b40d0b0439254cdeceb249bc65d4e1c1b3f76b7b33bd68f07
+These executed markers belong only to accepted Integration main7d19303/CI967/native7. They do not claim current Completion source checks or CI. Body/claims/lease/actors/code/frozen/foreign remain; current source15/all91/full933 plus actualCompletionmain7/full933/finalindep remain pending. New APP-only creator fe7eb907f3eaf520fb9f240423447645213d9eca is conditional; actual migration and actual capacity release are not approved by this proposal.
