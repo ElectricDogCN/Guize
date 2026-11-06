@@ -111,7 +111,7 @@ foundationTasks:
     mergeCommit: 7d193039aeaea04575130b7134da857dcaaa018f
   - taskId: OPS-021
     title: 降低历史任务快照物化开销并保持完整治理判定
-    status: reserved
+    status: in_progress
     completionRef: ISSUE-201
     mergeCommit: null
 waves:

@@ -1,0 +1,39 @@
+{
+  "kind": "ORIGINAL91_LOCAL_WORKING_SNAPSHOT_RESULTS",
+  "records": [
+    {
+      "path": "ops021-implementation-v1-native-working-original91-v2/results.json",
+      "bytes": 34765,
+      "sha256": "4df77ee1c0cb837694ece45574ead16793c0c109c643684f86ca1e333f7c2916"
+    },
+    {
+      "path": "ops021-implementation-v1-native-working-original91-v2/original91.raw",
+      "bytes": 880,
+      "sha256": "bfea927947dc75461fb31469d28da217680c6be4a3a721c5225a061aac6f2209"
+    },
+    {
+      "path": "ops021-implementation-v1-native-working-original91-v2/original91.xml",
+      "bytes": 14860,
+      "sha256": "f90ae07190f71c5820d88403815f08e1e130c762e1ae2f48442b1bc9d7689441"
+    },
+    {
+      "path": "test_ops021_native_working_original91_once.py",
+      "bytes": 3489,
+      "sha256": "86ff3cad6187e1a54ffad3bffcdc25758b1041ba20eee1115824b03de761a817"
+    }
+  ],
+  "archive": "original91-artifacts.zip",
+  "archiveBytes": 11587,
+  "archiveSha256": "9a7a0acb19a36caf925a2d8607d30905e78c958d710216fbab75784ce2acda6d",
+  "workingSnapshot": "ops021-implementation-v1-working-candidate-v2.json",
+  "workingSnapshotSha256": "5730965d82fa26402df0358edc878952c041f4ff47b9b203fab5f2775292a47b",
+  "workingInputPayloadArchive": "artifacts.zip",
+  "workingInputPayloadPrefix": "working-inputs-v2/",
+  "testCases": 91,
+  "failedErroredSkipped": 0,
+  "elapsedSeconds": 241.66526664399862,
+  "actualWaitCompleted": true,
+  "exitCode": 0,
+  "sourceCommitted": false,
+  "fullCiAccepted": false
+}

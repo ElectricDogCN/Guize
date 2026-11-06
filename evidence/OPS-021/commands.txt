@@ -1,15 +1,15 @@
-# Planned original14; UNEXECUTED
-git diff --check fb2dad9be24e37773bfcb7ea1f40c7c26b553f7c...HEAD
+# Planned implementation stage; no execution claim
+git diff --check 0b973f13cd0e26158348b4f052139a25f2967725...HEAD
 python scripts/check-task-file.py --task OPS-021
 python scripts/check-schemas.py
-python scripts/check-program-plan-integrity.py --base-ref fb2dad9be24e37773bfcb7ea1f40c7c26b553f7c
-python scripts/check-program-plan-history.py --base-ref fb2dad9be24e37773bfcb7ea1f40c7c26b553f7c --head-ref HEAD --task OPS-021 --branch-name chore/OPS-021-metadata-snapshot-reservation
-python scripts/check-program-plan-transitions.py --base-ref fb2dad9be24e37773bfcb7ea1f40c7c26b553f7c --head-ref HEAD --task OPS-021 --branch-name chore/OPS-021-metadata-snapshot-reservation
-python scripts/check-program-lifecycle-guards.py --base-ref fb2dad9be24e37773bfcb7ea1f40c7c26b553f7c --head-ref HEAD --task OPS-021 --branch-name chore/OPS-021-metadata-snapshot-reservation
-python scripts/run-program-lifecycle-gate.py --base-ref fb2dad9be24e37773bfcb7ea1f40c7c26b553f7c --head-ref HEAD --task OPS-021 --branch-name chore/OPS-021-metadata-snapshot-reservation
-python scripts/run-agent-coordination-gate.py --base-ref fb2dad9be24e37773bfcb7ea1f40c7c26b553f7c --head-ref HEAD --task OPS-021 --branch-name chore/OPS-021-metadata-snapshot-reservation
-python scripts/check-program-plan-finalization.py --base-ref fb2dad9be24e37773bfcb7ea1f40c7c26b553f7c --head-ref HEAD --task OPS-021
-python scripts/run-task-scope-gate.py --task OPS-021 --base fb2dad9be24e37773bfcb7ea1f40c7c26b553f7c
+python scripts/check-program-plan-integrity.py --base-ref 0b973f13cd0e26158348b4f052139a25f2967725
+python scripts/check-program-plan-history.py --base-ref 0b973f13cd0e26158348b4f052139a25f2967725 --head-ref HEAD --task OPS-021 --branch-name chore/OPS-021-metadata-snapshot
+python scripts/check-program-plan-transitions.py --base-ref 0b973f13cd0e26158348b4f052139a25f2967725 --head-ref HEAD --task OPS-021 --branch-name chore/OPS-021-metadata-snapshot
+python scripts/check-program-lifecycle-guards.py --base-ref 0b973f13cd0e26158348b4f052139a25f2967725 --head-ref HEAD --task OPS-021 --branch-name chore/OPS-021-metadata-snapshot
+python scripts/run-program-lifecycle-gate.py --base-ref 0b973f13cd0e26158348b4f052139a25f2967725 --head-ref HEAD --task OPS-021 --branch-name chore/OPS-021-metadata-snapshot
+python scripts/run-agent-coordination-gate.py --base-ref 0b973f13cd0e26158348b4f052139a25f2967725 --head-ref HEAD --task OPS-021 --branch-name chore/OPS-021-metadata-snapshot
+python scripts/check-program-plan-finalization.py --base-ref 0b973f13cd0e26158348b4f052139a25f2967725 --head-ref HEAD --task OPS-021
+python scripts/run-task-scope-gate.py --task OPS-021 --base 0b973f13cd0e26158348b4f052139a25f2967725
 python scripts/check-evidence.py --task OPS-021
 python scripts/check-project-readiness.py
 python scripts/check-markdown.py

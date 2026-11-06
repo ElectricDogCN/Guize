@@ -1,0 +1,24 @@
+{
+  "kind": "BOUNDED_METADATA_MATERIALIZATION_ONLY",
+  "taskId": "OPS-021",
+  "parent": "0b973f13cd0e26158348b4f052139a25f2967725",
+  "originalClaims": [
+    "scripts/check-program-plan-history.py",
+    "tests/governance/test_historical_task_snapshot.py"
+  ],
+  "existingOptimizedTask": "OPS-019",
+  "additionalAuditedTasks": [
+    "OPS-020",
+    "OPS-021"
+  ],
+  "unknownShapesRetainDenseCheckout": true,
+  "originalCheckersAndValidationCacheUnchanged": true,
+  "scope": "Only checkout_task_snapshot and its two existing metadata consumers; all permissions/lifecycle/leases/approved histories/frozen contracts unchanged.",
+  "parentFinalReceiptSha256": "e7cb7b6876dd9adb37199417aa7e7d6efeb6622206a0a8f25917a23d5a2104ed",
+  "parentAcceptanceCertificateIncluded": false,
+  "fullCiAccepted": false,
+  "experimentApproved": false,
+  "implementationWrittenAtPurposePreparation": false,
+  "testsExecutedAtPurposePreparation": false,
+  "recordMeaning": "Prospective purpose prepared before code writes; current local outcomes are in local-verification/index.json. Full source/main CI and normal Review/Completion remain pending."
+}
