@@ -1,15 +1,15 @@
-# Planned original14; UNEXECUTED
-git diff --check 9a8b9acc58442ee2f47b678d16905dfd5be5c674...HEAD
+# Planned implementation stage; UNEXECUTED
+git diff --check 6d9ec2bb1637cb9b602d04f0b9d9efe9a5d77ccc...HEAD
 python scripts/check-task-file.py --task OPS-022
 python scripts/check-schemas.py
-python scripts/check-program-plan-integrity.py --base-ref 9a8b9acc58442ee2f47b678d16905dfd5be5c674
-python scripts/check-program-plan-history.py --base-ref 9a8b9acc58442ee2f47b678d16905dfd5be5c674 --head-ref HEAD --task OPS-022 --branch-name chore/OPS-022-historical-read-cost-reservation
-python scripts/check-program-plan-transitions.py --base-ref 9a8b9acc58442ee2f47b678d16905dfd5be5c674 --head-ref HEAD --task OPS-022 --branch-name chore/OPS-022-historical-read-cost-reservation
-python scripts/check-program-lifecycle-guards.py --base-ref 9a8b9acc58442ee2f47b678d16905dfd5be5c674 --head-ref HEAD --task OPS-022 --branch-name chore/OPS-022-historical-read-cost-reservation
-python scripts/run-program-lifecycle-gate.py --base-ref 9a8b9acc58442ee2f47b678d16905dfd5be5c674 --head-ref HEAD --task OPS-022 --branch-name chore/OPS-022-historical-read-cost-reservation
-python scripts/run-agent-coordination-gate.py --base-ref 9a8b9acc58442ee2f47b678d16905dfd5be5c674 --head-ref HEAD --task OPS-022 --branch-name chore/OPS-022-historical-read-cost-reservation
-python scripts/check-program-plan-finalization.py --base-ref 9a8b9acc58442ee2f47b678d16905dfd5be5c674 --head-ref HEAD --task OPS-022
-python scripts/run-task-scope-gate.py --task OPS-022 --base 9a8b9acc58442ee2f47b678d16905dfd5be5c674
+python scripts/check-program-plan-integrity.py --base-ref 6d9ec2bb1637cb9b602d04f0b9d9efe9a5d77ccc
+python scripts/check-program-plan-history.py --base-ref 6d9ec2bb1637cb9b602d04f0b9d9efe9a5d77ccc --head-ref HEAD --task OPS-022 --branch-name chore/OPS-022-historical-read-cost
+python scripts/check-program-plan-transitions.py --base-ref 6d9ec2bb1637cb9b602d04f0b9d9efe9a5d77ccc --head-ref HEAD --task OPS-022 --branch-name chore/OPS-022-historical-read-cost
+python scripts/check-program-lifecycle-guards.py --base-ref 6d9ec2bb1637cb9b602d04f0b9d9efe9a5d77ccc --head-ref HEAD --task OPS-022 --branch-name chore/OPS-022-historical-read-cost
+python scripts/run-program-lifecycle-gate.py --base-ref 6d9ec2bb1637cb9b602d04f0b9d9efe9a5d77ccc --head-ref HEAD --task OPS-022 --branch-name chore/OPS-022-historical-read-cost
+python scripts/run-agent-coordination-gate.py --base-ref 6d9ec2bb1637cb9b602d04f0b9d9efe9a5d77ccc --head-ref HEAD --task OPS-022 --branch-name chore/OPS-022-historical-read-cost
+python scripts/check-program-plan-finalization.py --base-ref 6d9ec2bb1637cb9b602d04f0b9d9efe9a5d77ccc --head-ref HEAD --task OPS-022
+python scripts/run-task-scope-gate.py --task OPS-022 --base 6d9ec2bb1637cb9b602d04f0b9d9efe9a5d77ccc
 python scripts/check-evidence.py --task OPS-022
 python scripts/check-project-readiness.py
 python scripts/check-markdown.py

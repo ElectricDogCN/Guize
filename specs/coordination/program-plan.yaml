@@ -116,7 +116,7 @@ foundationTasks:
     mergeCommit: c675529b9cdb72159da477774f2b0602f98c4b0a
   - taskId: OPS-022
     title: 减少历史校验重复祖先查询和元数据检出
-    status: reserved
+    status: in_progress
     completionRef: ISSUE-206
     mergeCommit: null
 waves:
