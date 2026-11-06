@@ -994,60 +994,58 @@ def historical_capacity(root: str, task_id: str, registry: dict[str, Any], polic
 def checkout_task_snapshot(snapshot: str, commit: str, task_id: str) -> subprocess.CompletedProcess[str]:
     """Materialize audited Foundation metadata inputs, with full Git history.
 
-    These two callers read Task/Program/Registry and the canonical own
-    handoff directory, not media payloads. OPS-019 keeps its existing path;
-    OPS-020/021 additionally require their canonical historical input shape.
-    Unproved shapes and other tasks retain the dense checkout. Real LFS bytes
-    remain mandatory in the independent probe test and source/main CI. Merge
-    reconstruction and recovery are unchanged.
+    The two real validators consume the canonical Task, Program, Registry and
+    handoff. Prove those four ordinary, unfiltered inputs before narrowing the
+    worktree. Unproved OPS-019 keeps its original bounded path; unproved other
+    tasks keep their original dense path. Git history, validation and real LFS
+    requirements outside these metadata snapshots remain unchanged.
     """
-    if task_id not in {"OPS-019", "OPS-020", "OPS-021"}:
+    if task_id not in {"OPS-019", "OPS-020", "OPS-021", "OPS-022"}:
         return git(snapshot, "checkout", "--detach", "--quiet", commit)
-    if task_id != "OPS-019":
-        task_path = f"{TASK_DIR}/{task_id}.md"
-        evidence = f"evidence/{task_id}"
-        inputs = {task_path, PLAN, ACTIVE, f"{evidence}/handoff.md"}
-        try:
-            front, _ = parse_front_matter(read_ref(snapshot, commit, task_path))
-            plan = load_ref(snapshot, commit, PLAN)
-            foundations = plan.get("foundationTasks") if isinstance(plan, dict) else None
-            canonical = (
-                front.get("id") == task_id and front.get("schemaVersion") == 2
-                and front.get("wave") == "FOUNDATION"
-                and front.get("evidencePath") == evidence
-                and front.get("handoffPath") == f"{evidence}/handoff.md"
-                and isinstance(foundations, list)
-                and sum(isinstance(row, dict) and row.get("taskId") == task_id
-                        for row in foundations) == 1
-            )
-            modes = git(snapshot, "ls-tree", commit, "--", *sorted(inputs))
-            expected_modes = {
-                line.split("\t", 1)[1]: line.split()[0]
-                for line in modes.stdout.splitlines() if "\t" in line
-            }
-            attributes = git(snapshot, "check-attr", "--source=" + commit,
-                             "filter", "--", *sorted(inputs))
-            canonical = (
-                canonical and modes.returncode == 0
-                and expected_modes == {path: "100644" for path in inputs}
-                and attributes.returncode == 0
-                and set(attributes.stdout.splitlines())
-                == {f"{path}: filter: unspecified" for path in inputs}
-            )
-        except (OSError, UnicodeError):
-            canonical = False
-        if not canonical:
-            return git(snapshot, "checkout", "--detach", "--quiet", commit)
+    task_path = f"{TASK_DIR}/{task_id}.md"
+    evidence = f"evidence/{task_id}"
+    inputs = {task_path, PLAN, ACTIVE, f"{evidence}/handoff.md"}
+    try:
+        front, _ = parse_front_matter(read_ref(snapshot, commit, task_path))
+        plan = load_ref(snapshot, commit, PLAN)
+        foundations = plan.get("foundationTasks") if isinstance(plan, dict) else None
+        canonical = (
+            front.get("id") == task_id and front.get("schemaVersion") == 2
+            and front.get("wave") == "FOUNDATION"
+            and front.get("evidencePath") == evidence
+            and front.get("handoffPath") == f"{evidence}/handoff.md"
+            and isinstance(foundations, list)
+            and sum(isinstance(row, dict) and row.get("taskId") == task_id
+                    for row in foundations) == 1
+        )
+        modes = git(snapshot, "ls-tree", commit, "--", *sorted(inputs))
+        expected_modes = {
+            line.split("\t", 1)[1]: line.split()[0]
+            for line in modes.stdout.splitlines() if "\t" in line
+        }
+        attributes = git(snapshot, "check-attr", "--source=" + commit,
+                         "filter", "--", *sorted(inputs))
+        canonical = (
+            canonical and modes.returncode == 0
+            and expected_modes == {path: "100644" for path in inputs}
+            and attributes.returncode == 0
+            and set(attributes.stdout.splitlines())
+            == {f"{path}: filter: unspecified" for path in inputs}
+        )
+    except (OSError, UnicodeError):
+        canonical = False
+    if not canonical and task_id != "OPS-019":
+        return git(snapshot, "checkout", "--detach", "--quiet", commit)
     environment = dict(os.environ, GIT_LFS_SKIP_SMUDGE="1")
     def metadata_git(*arguments: str) -> subprocess.CompletedProcess[str]:
         return subprocess.run(["git", *arguments], cwd=snapshot, env=environment,
                               capture_output=True, text=True, check=False)
-    prepared = metadata_git(
-        "sparse-checkout", "set", "--no-cone",
+    patterns = ["/" + path for path in sorted(inputs)] if canonical else [
         "/scripts/", "/specs/", "/rules/", "/.github/", "/docs/", "/tests/",
         f"/evidence/{task_id}/", "/AGENTS.md", "/.gitattributes", "/.gitignore",
         "/README.md", "/requirements-governance.txt", "/Makefile",
-    )
+    ]
+    prepared = metadata_git("sparse-checkout", "set", "--no-cone", *patterns)
     if prepared.returncode != 0:
         return prepared
     return metadata_git("checkout", "--detach", "--quiet", commit)

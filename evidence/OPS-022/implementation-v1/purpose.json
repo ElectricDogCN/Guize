@@ -1,0 +1,18 @@
+{
+  "kind": "EQUIVALENT_HISTORY_READ_COST_OPTIMIZATION",
+  "taskId": "OPS-022",
+  "parent": "6d9ec2bb1637cb9b602d04f0b9d9efe9a5d77ccc",
+  "registeredClaims": [
+    "scripts/check-program-plan-history.py",
+    "scripts/work-branch-migration.py",
+    "tests/governance/test_historical_read_cost.py"
+  ],
+  "parentFinalReceiptSha256": "5f42ab35a1dfe63db64e5a04f76769b3c60866aede926c9ab53e296e1c095531",
+  "sourceCopyQualified": true,
+  "fullCiAccepted": false,
+  "experimentApproved": false,
+  "restrictions": "No permission/result cache, no original test edits, no workflow/runner/pin/budget or frozen-contract changes.",
+  "implementationWrittenAtPurposePreparation": false,
+  "testsExecutedAtPurposePreparation": false,
+  "recordMeaning": "Prospective purpose predates code. Current local outcomes are in local-verification/index.json; complete source/main CI and normal Review/Completion remain pending."
+}

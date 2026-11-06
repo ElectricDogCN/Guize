@@ -1,0 +1,370 @@
+{
+  "kind": "LOCAL_REGISTERED_WORKING_INPUTS_AND_REAL_EXECUTIONS",
+  "parentMain": "6d9ec2bb1637cb9b602d04f0b9d9efe9a5d77ccc",
+  "parentFinalReceiptSha256": "5f42ab35a1dfe63db64e5a04f76769b3c60866aede926c9ab53e296e1c095531",
+  "privateAcceptanceCertificateIncluded": false,
+  "archive": "artifacts.zip",
+  "archiveBytes": 578441,
+  "archiveSha256": "a5a966e035492f4a8af2a997293393851096f49d0c696dee0c453cc66395fe69",
+  "records": [
+    {
+      "path": "ops022-implementation-v1-working-candidate-v1.json",
+      "bytes": 3438,
+      "sha256": "945f3fbcdac5e9cb8afb6b4f345a1eb907c1a03e61cba3843757e2d145b775c1"
+    },
+    {
+      "path": "ops022-implementation-v1-native-working-tests-v1/results.json",
+      "bytes": 34007,
+      "sha256": "f9c4f2baaaacc039d5c7297d1bbf5ac36f1d24485aaa27d2d7f5d029ef10e2cd"
+    },
+    {
+      "path": "ops022-implementation-v1-native-working-tests-v1/new-tests.raw",
+      "bytes": 1768,
+      "sha256": "81a3e2db6dc446cba3ed77b4d80c93907b133a0f746f9b5b3a5ad6871aa7a898"
+    },
+    {
+      "path": "ops022-implementation-v1-native-working-tests-v1/new-tests.xml",
+      "bytes": 1089,
+      "sha256": "50438f422130f8dae9eb6db1498e10c69827614a3d49b07530614fa32eec422f"
+    },
+    {
+      "path": "working-inputs-v1/evidence/OPS-022/commands.txt",
+      "bytes": 1539,
+      "sha256": "0ff926092a44b3ed163dc907a6be90fda14384364e71eefaab0725f224ad2b77"
+    },
+    {
+      "path": "working-inputs-v1/evidence/OPS-022/handoff.md",
+      "bytes": 1764,
+      "sha256": "3a113ab104aa4322dff178e45a7aa7d5e199b060883f0a6a6074cbaed34e5042"
+    },
+    {
+      "path": "working-inputs-v1/evidence/OPS-022/implementation-v1/commands.txt",
+      "bytes": 1533,
+      "sha256": "3cf5ffcab9bbb7dabfc4c6d29c5c8109dd9e1adc31f94998063549ccaf2bb3a2"
+    },
+    {
+      "path": "working-inputs-v1/evidence/OPS-022/implementation-v1/design.md",
+      "bytes": 1600,
+      "sha256": "4ec7207c1f7a24b2b8c155e5b2c3e2a647d81848bd1cf01010508522a36bb8ad"
+    },
+    {
+      "path": "working-inputs-v1/evidence/OPS-022/implementation-v1/purpose.json",
+      "bytes": 681,
+      "sha256": "3036634b141184584368e604b704b06364fb1b702f1a965964f9cf45b4007b41"
+    },
+    {
+      "path": "working-inputs-v1/evidence/OPS-022/summary.md",
+      "bytes": 1764,
+      "sha256": "3a113ab104aa4322dff178e45a7aa7d5e199b060883f0a6a6074cbaed34e5042"
+    },
+    {
+      "path": "working-inputs-v1/scripts/check-program-plan-history.py",
+      "bytes": 121990,
+      "sha256": "278ede5be08d5bba45c0c0e0398b2e3160b823755c90bc09e35b6b0660719283"
+    },
+    {
+      "path": "working-inputs-v1/scripts/work-branch-migration.py",
+      "bytes": 47501,
+      "sha256": "824089b9b27937d80d08f6f11d46ec4cac069c363d01202d4b2c0f950ff43735"
+    },
+    {
+      "path": "working-inputs-v1/specs/coordination/active-work.yaml",
+      "bytes": 3431,
+      "sha256": "e03f7ee902e212e69e77f662e5b3cf74ff923f2a70b0723c529e8b8bc789e816"
+    },
+    {
+      "path": "working-inputs-v1/specs/coordination/program-plan.yaml",
+      "bytes": 66487,
+      "sha256": "f64f1e7d3ed1f9e689a20f8faf4b40b9b507374bb34df85c62503d0dd05becf9"
+    },
+    {
+      "path": "working-inputs-v1/specs/tasks/OPS-022.md",
+      "bytes": 7954,
+      "sha256": "2feeaf515dc8b631879780b9ff45dcf395c1c0a3ed61f65fa9eed80122510056"
+    },
+    {
+      "path": "working-inputs-v1/tests/governance/test_historical_read_cost.py",
+      "bytes": 8246,
+      "sha256": "471b9040a1e3cbd50d328e84123a254e13fc045956cde353525b817520abcb0b"
+    },
+    {
+      "path": "ops022-implementation-v1-working-candidate-v2.json",
+      "bytes": 3438,
+      "sha256": "6ea47b7bd1072366a00405774dee6fe2d19ddcbd1cb7bb8fd64cd49db5971941"
+    },
+    {
+      "path": "ops022-implementation-v1-native-working-tests-v2/results.json",
+      "bytes": 34007,
+      "sha256": "aac60d8d05445c621c13aa934122278f8c11805779143869bf50c88548461c13"
+    },
+    {
+      "path": "ops022-implementation-v1-native-working-tests-v2/new-tests.raw",
+      "bytes": 5788,
+      "sha256": "ceb60a60f612c7fb247c3da58f2a52cc6a651cbb0bb5d0f890e80e5548e775f0"
+    },
+    {
+      "path": "ops022-implementation-v1-native-working-tests-v2/new-tests.xml",
+      "bytes": 11751,
+      "sha256": "f7ca163c94e6273d04df551270fc2c3052bbed3f9e4c67a7ee3ba59bccfd49fd"
+    },
+    {
+      "path": "working-inputs-v2/evidence/OPS-022/commands.txt",
+      "bytes": 1539,
+      "sha256": "0ff926092a44b3ed163dc907a6be90fda14384364e71eefaab0725f224ad2b77"
+    },
+    {
+      "path": "working-inputs-v2/evidence/OPS-022/handoff.md",
+      "bytes": 1764,
+      "sha256": "3a113ab104aa4322dff178e45a7aa7d5e199b060883f0a6a6074cbaed34e5042"
+    },
+    {
+      "path": "working-inputs-v2/evidence/OPS-022/implementation-v1/commands.txt",
+      "bytes": 1533,
+      "sha256": "3cf5ffcab9bbb7dabfc4c6d29c5c8109dd9e1adc31f94998063549ccaf2bb3a2"
+    },
+    {
+      "path": "working-inputs-v2/evidence/OPS-022/implementation-v1/design.md",
+      "bytes": 1600,
+      "sha256": "4ec7207c1f7a24b2b8c155e5b2c3e2a647d81848bd1cf01010508522a36bb8ad"
+    },
+    {
+      "path": "working-inputs-v2/evidence/OPS-022/implementation-v1/purpose.json",
+      "bytes": 681,
+      "sha256": "3036634b141184584368e604b704b06364fb1b702f1a965964f9cf45b4007b41"
+    },
+    {
+      "path": "working-inputs-v2/evidence/OPS-022/summary.md",
+      "bytes": 1764,
+      "sha256": "3a113ab104aa4322dff178e45a7aa7d5e199b060883f0a6a6074cbaed34e5042"
+    },
+    {
+      "path": "working-inputs-v2/scripts/check-program-plan-history.py",
+      "bytes": 121990,
+      "sha256": "278ede5be08d5bba45c0c0e0398b2e3160b823755c90bc09e35b6b0660719283"
+    },
+    {
+      "path": "working-inputs-v2/scripts/work-branch-migration.py",
+      "bytes": 47501,
+      "sha256": "824089b9b27937d80d08f6f11d46ec4cac069c363d01202d4b2c0f950ff43735"
+    },
+    {
+      "path": "working-inputs-v2/specs/coordination/active-work.yaml",
+      "bytes": 3431,
+      "sha256": "e03f7ee902e212e69e77f662e5b3cf74ff923f2a70b0723c529e8b8bc789e816"
+    },
+    {
+      "path": "working-inputs-v2/specs/coordination/program-plan.yaml",
+      "bytes": 66487,
+      "sha256": "f64f1e7d3ed1f9e689a20f8faf4b40b9b507374bb34df85c62503d0dd05becf9"
+    },
+    {
+      "path": "working-inputs-v2/specs/tasks/OPS-022.md",
+      "bytes": 7954,
+      "sha256": "2feeaf515dc8b631879780b9ff45dcf395c1c0a3ed61f65fa9eed80122510056"
+    },
+    {
+      "path": "working-inputs-v2/tests/governance/test_historical_read_cost.py",
+      "bytes": 8576,
+      "sha256": "422e738cc436e3ada79f1673f354396a65ff786eae25d406b011e8e697797d0b"
+    },
+    {
+      "path": "ops022-implementation-v1-working-candidate-v3.json",
+      "bytes": 3438,
+      "sha256": "e66a2d91edce0d808426d84ee9f33bb2bfe1d07c1e5ffb9e424838a1276b7c22"
+    },
+    {
+      "path": "ops022-implementation-v1-native-working-tests-v3/results.json",
+      "bytes": 34058,
+      "sha256": "9bc2adeaedafb84092021af152ded8337b5c2aa024eed5b1630da941c23d7bf6"
+    },
+    {
+      "path": "ops022-implementation-v1-native-working-tests-v3/new-tests.raw",
+      "bytes": 776,
+      "sha256": "6d8d877b0448a670d5be474002aad3907f8e787981cba0f7ed371fab80363ec1"
+    },
+    {
+      "path": "ops022-implementation-v1-native-working-tests-v3/new-tests.xml",
+      "bytes": 6489,
+      "sha256": "e5fcaa38d0fbf4c504d74722702b7f41139c2bdddd702134509307a47dbdec61"
+    },
+    {
+      "path": "working-inputs-v3/evidence/OPS-022/commands.txt",
+      "bytes": 1539,
+      "sha256": "0ff926092a44b3ed163dc907a6be90fda14384364e71eefaab0725f224ad2b77"
+    },
+    {
+      "path": "working-inputs-v3/evidence/OPS-022/handoff.md",
+      "bytes": 1764,
+      "sha256": "3a113ab104aa4322dff178e45a7aa7d5e199b060883f0a6a6074cbaed34e5042"
+    },
+    {
+      "path": "working-inputs-v3/evidence/OPS-022/implementation-v1/commands.txt",
+      "bytes": 1533,
+      "sha256": "3cf5ffcab9bbb7dabfc4c6d29c5c8109dd9e1adc31f94998063549ccaf2bb3a2"
+    },
+    {
+      "path": "working-inputs-v3/evidence/OPS-022/implementation-v1/design.md",
+      "bytes": 1600,
+      "sha256": "4ec7207c1f7a24b2b8c155e5b2c3e2a647d81848bd1cf01010508522a36bb8ad"
+    },
+    {
+      "path": "working-inputs-v3/evidence/OPS-022/implementation-v1/purpose.json",
+      "bytes": 681,
+      "sha256": "3036634b141184584368e604b704b06364fb1b702f1a965964f9cf45b4007b41"
+    },
+    {
+      "path": "working-inputs-v3/evidence/OPS-022/summary.md",
+      "bytes": 1764,
+      "sha256": "3a113ab104aa4322dff178e45a7aa7d5e199b060883f0a6a6074cbaed34e5042"
+    },
+    {
+      "path": "working-inputs-v3/scripts/check-program-plan-history.py",
+      "bytes": 121990,
+      "sha256": "278ede5be08d5bba45c0c0e0398b2e3160b823755c90bc09e35b6b0660719283"
+    },
+    {
+      "path": "working-inputs-v3/scripts/work-branch-migration.py",
+      "bytes": 47501,
+      "sha256": "824089b9b27937d80d08f6f11d46ec4cac069c363d01202d4b2c0f950ff43735"
+    },
+    {
+      "path": "working-inputs-v3/specs/coordination/active-work.yaml",
+      "bytes": 3431,
+      "sha256": "e03f7ee902e212e69e77f662e5b3cf74ff923f2a70b0723c529e8b8bc789e816"
+    },
+    {
+      "path": "working-inputs-v3/specs/coordination/program-plan.yaml",
+      "bytes": 66487,
+      "sha256": "f64f1e7d3ed1f9e689a20f8faf4b40b9b507374bb34df85c62503d0dd05becf9"
+    },
+    {
+      "path": "working-inputs-v3/specs/tasks/OPS-022.md",
+      "bytes": 7954,
+      "sha256": "2feeaf515dc8b631879780b9ff45dcf395c1c0a3ed61f65fa9eed80122510056"
+    },
+    {
+      "path": "working-inputs-v3/tests/governance/test_historical_read_cost.py",
+      "bytes": 8590,
+      "sha256": "0355121b8f9ce7f60ae3c9af63216ca91778ca6b01ece342f0919785070234f4"
+    },
+    {
+      "path": "ops022-implementation-v1-fixed-fixture-profile-v3/results.json",
+      "bytes": 130070,
+      "sha256": "9ec535cbc75d4f46192ef20403d5f0b4aadeb64e46bd4be325314a7846f86db0"
+    },
+    {
+      "path": "ops022-implementation-v1-fixed-fixture-profile-v3/history-child.raw",
+      "bytes": 1156,
+      "sha256": "0005ae1a09680f54f17cfee8f54cf2806ddb6f49ebd2db3fb6ed492faf717a1f"
+    },
+    {
+      "path": "ops022-implementation-v1-fixed-fixture-profile-v3/history-child.pstats",
+      "bytes": 344770,
+      "sha256": "819a90c0131d90cef6acd48ceb58672a8aeb9e1052d3b5556ae4a46de26635b7"
+    },
+    {
+      "path": "ops022-implementation-v1-fixed-fixture-profile-v3/method.actual.py",
+      "bytes": 4768,
+      "sha256": "4e2f64763212aedf62fdf5c24a077f464323d85d0a96bdd532196f843de98fe2"
+    },
+    {
+      "path": "ops022-implementation-v1-fixed-fixture-profile-v4/results.json",
+      "bytes": 130324,
+      "sha256": "25081dc07fa9ae574bcf1c73a8295a38c5c75c11b1321844af3440a264790b46"
+    },
+    {
+      "path": "ops022-implementation-v1-fixed-fixture-profile-v4/history-child.raw",
+      "bytes": 1156,
+      "sha256": "611a562d10402b69d8f6c98d431fe0cd8aaa3de902d37a5ad4767d935cdf3d11"
+    },
+    {
+      "path": "ops022-implementation-v1-fixed-fixture-profile-v4/history-child.pstats",
+      "bytes": 344546,
+      "sha256": "22b33e9d6eb3c2731c8d960d50a25e0c0d6bf0483986c822fcf4802507484d61"
+    },
+    {
+      "path": "ops022-implementation-v1-fixed-fixture-profile-v4/method.actual.py",
+      "bytes": 4768,
+      "sha256": "d195deb099f715f24de4e6dbb3e1fd48e784871848d3bcbdc0d5adfa182cfff0"
+    },
+    {
+      "path": "methods/ops022-implementation-v1-profile-v3-method-argument-correction.json",
+      "bytes": 501,
+      "sha256": "c2b3063b0afef7899e2a7d404c31f7e47acdc2b3775b4e07576b2fb37509cba7"
+    },
+    {
+      "path": "methods/test_ops022_native_working_candidate_once.py",
+      "bytes": 5646,
+      "sha256": "77b822de5502d162300d8dacc2c1796e50fd9a52d7e6277db1db5f211b927fb0"
+    },
+    {
+      "path": "methods/snapshot_ops022_implementation_working_candidate_once.py",
+      "bytes": 3455,
+      "sha256": "557b4d6d512df120886c92904bc97ab7f50d76b55bb2a8126a0be597f741d384"
+    },
+    {
+      "path": "methods/profile_ops022_fixed_original_fixture_v3_once.py",
+      "bytes": 4768,
+      "sha256": "4e2f64763212aedf62fdf5c24a077f464323d85d0a96bdd532196f843de98fe2"
+    },
+    {
+      "path": "methods/profile_ops022_fixed_original_fixture_v4_once.py",
+      "bytes": 4768,
+      "sha256": "d195deb099f715f24de4e6dbb3e1fd48e784871848d3bcbdc0d5adfa182cfff0"
+    },
+    {
+      "path": "methods/package_ops022_implementation_precommit_evidence_v1_once.py",
+      "bytes": 8281,
+      "sha256": "e2fe53aa19e90bef14271d874c954041ff9bdf3785efdb03960e73e917cd066d"
+    },
+    {
+      "path": "poc003-ci979-fixed-original-fixture-v1-increment.bundle",
+      "bytes": 29370,
+      "sha256": "36a0e705dc69807c88ee906c8beae0340cd7ae7dd7d342ea1b35638c91c5a617"
+    }
+  ],
+  "newTests": {
+    "version": "v3",
+    "count": 39,
+    "failedErroredSkipped": 0,
+    "actualWaitExitCode": 0,
+    "elapsedSeconds": 29.325630575003743
+  },
+  "failedTestAttempts": [
+    {
+      "version": "v1",
+      "collectionErrors": 1,
+      "accepted": false,
+      "reason": "Sibling test helper import incompatible with collection mode; explicit file module loading added."
+    },
+    {
+      "version": "v2",
+      "passed": 38,
+      "failed": 1,
+      "accepted": false,
+      "reason": "New legacy019 fallback fixture incorrectly put its alternative handoff outside Own bounded directory. Corrected fixture remains inside Own evidence; all original tests and new assertions retained."
+    }
+  ],
+  "instrumentedLocalComparison": {
+    "baselineSeconds": 14.478479933997733,
+    "newSeconds": 10.85641642799601,
+    "fixedFixture": "bb573f2b681be889a7a769b16370d6e3ed52b978",
+    "originalBranchArgument": "chore/POC-003-qualified-lfs-evidence-v2",
+    "snapshotSha256": "e66a2d91edce0d808426d84ee9f33bb2bfe1d07c1e5ffb9e424838a1276b7c22",
+    "checkerUncommitted": true,
+    "originalArgvPreservedExceptCheckerAndOutputPaths": true
+  },
+  "excludedComparison": {
+    "version": "v3",
+    "actualExitCode": 0,
+    "reason": "Diagnostic method accidentally changed branch argument to v3; raw retained, no same-argv performance claim."
+  },
+  "baselinePrimitiveArchive": "../../prerequisites/artifacts.zip",
+  "completeGitRestorationBundleIncluded": false,
+  "restorationNote": "Exact fixture increment is delivered. Full accepted registration bundle retained locally; not recursively embedded.",
+  "sourceCommitted": false,
+  "fullOfficialCiAccepted": false,
+  "wholeCiPerformanceBudgetProved": false,
+  "pocexperimentApproved": false,
+  "createdAt": "2026-11-06T18:11:11.027788+00:00"
+}

@@ -133,6 +133,12 @@ def ancestor(root, before, after):
     return result.returncode == 0
 
 
+def creator_in_history(root, creator, canonical):
+    # Every node in the complete first-parent chain reaches its final OID.
+    # Use this same resolved chain, preserving moving-ref and empty semantics.
+    return bool(canonical) and ancestor(root, creator, canonical[-1])
+
+
 def mode_blob(root, ref, path):
     raw = git(root, 'ls-tree', '-z', ref, '--', path)
     if not raw:
@@ -391,7 +397,7 @@ def approved_transaction(root, before, after, admitted, implementation, completi
     require(len(creators) == 1, 'Migration approval lacks one preceding creator commit')
     creator = creators[0]
     require(ancestor(root, creator, before) and creator != after
-            and any(ancestor(root, creator, node) for node in canonical)
+            and creator_in_history(root, creator, canonical)
             and rows(document(root, creator, PLAN), 'foundationTasks')[OWNER]['status'] in {'review', 'integration'}
             and rows(document(root, creator, ACTIVE))[OWNER]['agentRole'] in {'reviewer', 'integrator'}
             and ancestor(root, implementation, creator),
@@ -713,7 +719,7 @@ def recovery_transaction(root, before, after, admitted, implementation, completi
     creator = creators[0]
     creator_parents = parents(root, creator)
     require(creator != after and ancestor(root, creator, before)
-            and any(ancestor(root, creator, node) for node in canonical)
+            and creator_in_history(root, creator, canonical)
             and len(creator_parents) == 1 and creator_parents[0] in canonical
             and rows(document(root, creator, PLAN), 'foundationTasks')[RECOVERY_OWNER]['status'] in {'review', 'integration'}
             and rows(document(root, creator, ACTIVE))[RECOVERY_OWNER]['agentRole'] in {'reviewer', 'integrator'}
