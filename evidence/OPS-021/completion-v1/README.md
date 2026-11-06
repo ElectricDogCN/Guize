@@ -1,0 +1,3 @@
+# Normal OPS-021 Completion preparation
+
+Own Program/Task completed metadata and removal of its Registry entry are proposed on accepted actual Review main 27b2d8eb404954dcf0be39adb8d824e5639b487a. Code merge PR203/c675529 is the completion reference. All original Task body/lease/actors/claims, foreign records, Code bytes, ledger, APP and frozen/workflow remain unchanged. Actual capacity is released only after this Completion source14/112/full954, ordinary merge, actualmain7/full954 and final independent acceptance. Commands below are UNEXECUTED current-stage mappings; no POC experiment is approved.
