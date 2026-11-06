@@ -56,3 +56,21 @@ Independent review rejected the preceding14-case candidate for non-GIT environme
 
 # Normal Review preparation
 Base da4d4a4e4fa14edd1603961880b24b12eede776d; branch chore/OPS-020-normal-review; review/reviewer. Implementation acceptance is source-bound; this metadata source still requires its own complete checks and CI. Original lease/claims/actors unchanged.
+
+
+# 当前正常集成修订用途（代码尚未修改）
+
+未发布的Completion d36430c在原生源检查04失败，未执行后十项，未创建PR或官方CI；该候选、APP-only creator bcf9及原批准0db2保留原身份。主线997仍为最后完整接受基线。独立诊断确认：Code实际merge da4作为working node复检时仅取第一父A的旧两claims，误拒侧支b14已前瞻登记并在N/N2实施的H路径。现按既有合法review→integration进入integrator阶段，先单独登记此用途，未新增claim、租约、任务或引导例外。
+
+仅在本用途独立审查并普通提交后，才修改现有claim scripts/check-program-plan-history.py及tests/governance/test_work_branch_migration.py。最小修复须证明每个source节点在其真实前置登记内、自动合并的精确mode/blob与侧父贡献一致；不得直接用历史claims并集授权工作，不得放行同提交新增claim、未注册源工作、冲突解决或新写入、foreign工作、失效租约、追溯授权。新增真实Git正反回归保留原927断言和原85项字节前缀。冻结五、P/H其他校验、workflow/pins/runner/30分钟、两个POC tuple、旧批准与intent、普通完成账本保持。
+
+最新代码必须获独立Review、全部既定源检查、完整官方源CI和实际main7及完整push CI接受，才能以新的实际Code身份准备正常integration→Completion。新条件批准另起源绑定新CodeActual；不沿用未合入的bcf9/d364结论，不提前释放容量、恢复POC或运行实验。
+
+
+## 当前最小集成修复候选
+
+Purpose 2619ef4已在写H前普通提交。现仅H的foundation_implementation最终actualmerge范围判定增加受限处理：每个source节点继续用其真实前置登记/lease/role验证；只有已逐节点通过的侧父、无既存错误，且现有自动合并重建的stage0精确mode/blob一致，才作为导入。历史claims并集不授权工作；同提交补登记、未登记及撤回过的源工作、合并新内容或模式仍被拒。
+
+原生Python3.11.17/UID1000隔离未提交probe：旧H的合法提前登记正例真实复现历史范围错误（1 failed/90 deselected/5.11s），修复候选六个真实Git正反用例全部通过（6 passed/85 deselected/16.43s）。失败和通过各有原始输出及JUnit，绑定精确H/test字节，原85项完整字节前缀保持。此为定向probe，不是当前提交的source15、全模块91或完整官方933通过。诊断及递归pins、已接受997/da4前提和原失败d364原件可从diagnosis-and-probe.zip根目录按index.json精确取回；只校验字节，不执行归档内容。大Git恢复包保留本地。
+
+当前仍integration/integrator/high1；最新代码须具体独立Review、精确source15/全91、完整官方933=原927+6源及实际main7/完整push933接受，才准备新的APP与正常Completion。未合入bcf/d364/0db2保持原失败历史，不沿用其批准结论；两个POC完整验证和容量释放均未授予。

@@ -1,0 +1,37 @@
+{
+  "kind": "OPS020_PROSPECTIVE_NORMAL_INTEGRATION_SCOPE_REPAIR",
+  "base": "99714cabedd9196d0eeeb31653faaaf17211f74c",
+  "branch": "chore/OPS-020-integration-history-scope",
+  "codeWritten": false,
+  "claimsUnchanged": [
+    "scripts/work-branch-migration.py",
+    "tests/governance/test_work_branch_migration.py",
+    "scripts/check-program-plan-history.py"
+  ],
+  "diagnosisSha256": "3e26fba0729ab09f79a4dfcce7d19e584399dcd2f6f2ba38c870cd279902494f",
+  "evidencePins": [
+    {
+      "path": "00-ops020-normal-completion-v1-history-scope-diagnosis-independent-review.json",
+      "bytes": 12628,
+      "sha256": "3e26fba0729ab09f79a4dfcce7d19e584399dcd2f6f2ba38c870cd279902494f"
+    },
+    {
+      "path": "01-ops020-normal-completion-v1-d364-local-refusal.json",
+      "bytes": 1672,
+      "sha256": "d89cb5188a42cd23f8e7c38514a4c250e2d007e9ff8a34e228b45ccffa166f46"
+    },
+    {
+      "path": "02-04.raw",
+      "bytes": 367,
+      "sha256": "7f18527e893085d96d7240ff571ea2af8449c2d63dee0736c6d5efe47945540b"
+    },
+    {
+      "path": "03-failed-source-after.json",
+      "bytes": 12231,
+      "sha256": "42e6f2dc1a2e55ffcb9ef6bc98926d96aca22fdcef5f4a1bf6f37ea6c8090521"
+    }
+  ],
+  "actualCapacityReleased": false,
+  "actualRecoveryApproved": false,
+  "oldCandidateUnpublished": true
+}

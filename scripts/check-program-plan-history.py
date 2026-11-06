@@ -1387,7 +1387,9 @@ def foundation_implementation(root: str, task_id: str, commit: str, reservation:
             errors.append(f"Foundation {task_id} cannot read working history before refreshed baseline")
             return
         early_nodes = earlier.stdout.split()
+    audited_nodes: set[str] = set()
     for node in [*early_nodes, *nodes.stdout.split()]:
+        node_error_start = len(errors)
         previous = resolve_ref(root, f"{node}^1")
         node_paths = RECOVERY.changed_paths(root, previous, node) if previous else None
         if node_paths is None:
@@ -1423,6 +1425,8 @@ def foundation_implementation(root: str, task_id: str, commit: str, reservation:
             if {key: value for key, value in node_entry.items() if key not in mutable} != stable:
                 errors.append(f"Foundation {task_id} changed stable identity in implementation history at {node}")
         if not working:
+            if len(errors) == node_error_start:
+                audited_nodes.add(node)
             continue
         historical_registration_context(root, previous, node, task_id, before_registry, reservation, policy, f"Foundation {task_id} working node prior registration at {node}", errors)
         if len(before_entries) != 1:
@@ -1433,8 +1437,18 @@ def foundation_implementation(root: str, task_id: str, commit: str, reservation:
             node_implementation = {path for path in node_paths if path not in {PLAN, ACTIVE, task_path} and not path.startswith(f"evidence/{task_id}/")}
             if not RECOVERY.foundation_claims_valid(root, task_id, before_entries[0], node_ownership, previous, observed_ref=node):
                 errors.append(f"Foundation {task_id} working node has invalid prior governance claims")
-            elif any(not any(RECOVERY.matches_path(path, str(claim)) for claim in node_claims) for path in node_implementation):
-                errors.append(f"Foundation {task_id} working node changed paths outside its prior registered scope")
+            else:
+                unexpected = {path for path in node_implementation if not any(RECOVERY.matches_path(path, str(claim)) for claim in node_claims)}
+                if unexpected and node == commit and not errors:
+                    # Source nodes still prove each contemporaneous prior
+                    # registration above. Only the final implementation merge
+                    # may import their already-audited automatic stage-0 result.
+                    # Historical claim unions never authorize source work;
+                    # conflicts and new merge bytes/modes remain task work.
+                    audited_incoming = [side for side in parents[1:] if side in audited_nodes]
+                    unexpected -= clean_synchronization_paths(root, node, unexpected, audited_incoming)
+                if unexpected:
+                    errors.append(f"Foundation {task_id} working node changed paths outside its prior registered scope")
         if len(node_entries) != 1:
             errors.append(f"Foundation {task_id} working node has no registered lifecycle documents")
             continue
@@ -1444,6 +1458,8 @@ def foundation_implementation(root: str, task_id: str, commit: str, reservation:
             historical_lifecycle_binding(root, node, task_id, node_entry, errors)
         if node_entry.get("agentRole") not in {"implementer", "integrator"}:
             errors.append(f"Foundation {task_id} working node requires implementer or integrator role")
+        if len(errors) == node_error_start:
+            audited_nodes.add(node)
 
 
 def foundation_review_targets(root: str, task_id: str, implementation: str, base_ref: str, valid_implementation: bool, errors: list[str]) -> None:
