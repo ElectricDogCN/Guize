@@ -1,0 +1,3 @@
+# Normal OPS-022 Review preparation
+
+Only own lifecycle fields/Own Evidence change on actual accepted Code main f028aba48efdda261eb864b803b740ccaff3f91c. Original Task body/lease/actors/claims, foreign records, Code bytes and frozen/workflow are unchanged. Source commands are the original14 mapped to this real base/branch in commands.txt, followed by exact unchanged993 inventory and complete official993. Code bytes are unchanged; all151 related tests already passed on Code and remain included in the mandatory full official Review CI; all this Review source execution is UNEXECUTED. Normal Review actualmain7/full993/final acceptance precede normal Completion and capacity release. No private approval certificate or POC permission is copied.

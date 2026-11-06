@@ -1,0 +1,26 @@
+{
+  "kind": "NORMAL_COMPLETION_METADATA_ONLY",
+  "base": "44c171293b3ecba5889bdc203eaff3388255c0f8",
+  "codeMain": "f028aba48efdda261eb864b803b740ccaff3f91c",
+  "codePullRequest": 208,
+  "reviewSource": "ec460700c2114a82157d4939e62a468cc2d497cd",
+  "reviewPullRequest": 209,
+  "branch": "chore/OPS-022-normal-completion",
+  "claims": [
+    "scripts/check-program-plan-history.py",
+    "scripts/work-branch-migration.py",
+    "tests/governance/test_historical_read_cost.py"
+  ],
+  "lease": {
+    "acquiredAt": "2026-11-06T16:08:53Z",
+    "expiresAt": "2026-11-13T16:08:53Z"
+  },
+  "parentReviewFinalReceiptSha256": "06562799a0dbd59c4ff4a04d35bc7d13bd631484549bbc380a0da7742554d48c",
+  "issueClosureSha256": "b6be401208b3a60d9cc76eee2e139abd3a8d0d3ad6ae6c58cfb09017a759a982",
+  "parentAcceptanceCertificateIncluded": false,
+  "sourceGatePassed": false,
+  "fullCiAccepted": false,
+  "taskCompletedOnActualMain": false,
+  "actualCapacityReleased": false,
+  "experimentApproved": false
+}

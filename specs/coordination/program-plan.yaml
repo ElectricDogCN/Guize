@@ -114,6 +114,11 @@ foundationTasks:
     status: completed
     completionRef: PR-203
     mergeCommit: c675529b9cdb72159da477774f2b0602f98c4b0a
+  - taskId: OPS-022
+    title: 减少历史校验重复祖先查询和元数据检出
+    status: completed
+    completionRef: PR-208
+    mergeCommit: f028aba48efdda261eb864b803b740ccaff3f91c
 waves:
   - {id: W1, order: 1, name: "需求与 POC 计划", maxConcurrent: 2, maxHighRisk: 1}
   - {id: W2, order: 2, name: "OpenAPI + 独立 POC", maxConcurrent: 3, maxHighRisk: 1}

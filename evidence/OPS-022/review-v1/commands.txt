@@ -1,0 +1,15 @@
+# Planned mapped original14; UNEXECUTED
+git diff --check f028aba48efdda261eb864b803b740ccaff3f91c...HEAD
+python scripts/check-task-file.py --task OPS-022
+python scripts/check-schemas.py
+python scripts/check-program-plan-integrity.py --base-ref f028aba48efdda261eb864b803b740ccaff3f91c
+python scripts/check-program-plan-history.py --base-ref f028aba48efdda261eb864b803b740ccaff3f91c --head-ref HEAD --task OPS-022 --branch-name chore/OPS-022-normal-review
+python scripts/check-program-plan-transitions.py --base-ref f028aba48efdda261eb864b803b740ccaff3f91c --head-ref HEAD --task OPS-022 --branch-name chore/OPS-022-normal-review
+python scripts/check-program-lifecycle-guards.py --base-ref f028aba48efdda261eb864b803b740ccaff3f91c --head-ref HEAD --task OPS-022 --branch-name chore/OPS-022-normal-review
+python scripts/run-program-lifecycle-gate.py --base-ref f028aba48efdda261eb864b803b740ccaff3f91c --head-ref HEAD --task OPS-022 --branch-name chore/OPS-022-normal-review
+python scripts/run-agent-coordination-gate.py --base-ref f028aba48efdda261eb864b803b740ccaff3f91c --head-ref HEAD --task OPS-022 --branch-name chore/OPS-022-normal-review
+python scripts/check-program-plan-finalization.py --base-ref f028aba48efdda261eb864b803b740ccaff3f91c --head-ref HEAD --task OPS-022
+python scripts/run-task-scope-gate.py --task OPS-022 --base f028aba48efdda261eb864b803b740ccaff3f91c
+python scripts/check-evidence.py --task OPS-022
+python scripts/check-project-readiness.py
+python scripts/check-markdown.py
