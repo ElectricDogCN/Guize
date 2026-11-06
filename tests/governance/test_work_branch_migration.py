@@ -1123,3 +1123,61 @@ def test_history_git_blob_config_includes_always_use_original_resolution(history
         included.write_bytes(b'[broken\n')
         result = assert_history_blob_show_equal(module, repo, head+':metadata.yaml')
         assert bool(result.returncode) is (not conditional)
+
+
+
+@pytest.mark.parametrize('scenario', [
+    'separate-prior-registration', 'same-commit-claim', 'unclaimed-source',
+    'new-merge-bytes', 'new-merge-mode', 'reverted-unclaimed-source',
+])
+def test_history_implementation_merge_keeps_source_scope_and_exact_automatic_import(tmp_path, scenario):
+    # Reuse the real canonical Foundation fixture, without collecting or
+    # replacing its original assertions. All ref changes are in this fixture.
+    spec = importlib.util.spec_from_file_location('bounded_merge_history_fixture',
+        ROOT/'tests/governance/test_program_plan_history.py')
+    fixture_module = importlib.util.module_from_spec(spec);spec.loader.exec_module(fixture_module)
+    fixture = fixture_module.TestProgramPlanHistory()
+    repo = tmp_path/'history';repo.mkdir()
+    original = fixture.commit;points = {}
+    def git(*argv, check=True):
+        result = subprocess.run(['git', '-C', str(repo), *argv], capture_output=True, text=True)
+        if check:
+            assert result.returncode == 0, result.stdout+result.stderr
+        return result
+    def commit(root, message, timestamp=None):
+        if message == 'GZ-014 repair (#22)' and scenario == 'reverted-unclaimed-source':
+            fixture.write_text(root, 'backend/unclaimed.py', '# transient unclaimed work\n')
+            original(root, 'GZ-014 unclaimed source before restoring tip (#22)', timestamp)
+            (repo/'backend/unclaimed.py').unlink()
+        source = original(root, message, timestamp)
+        if message == 'GZ-014 activation (#21)':
+            points['activation'] = source
+        if message == 'GZ-014 repair (#22)':
+            points['source'] = source
+            git('checkout', '--detach', points['activation'])
+            git('merge', '--no-ff', '--no-commit', source)
+            if scenario == 'new-merge-bytes':
+                fixture.write_text(root, 'scripts/new-repair.py', '# merge introduced different bytes\n')
+            if scenario == 'new-merge-mode':
+                git('config', 'core.filemode', 'false')
+                git('update-index', '--chmod=+x', 'scripts/new-repair.py')
+            merged = original(root, 'GZ-014 actual implementation merge (#22)', timestamp)
+            git('checkout', '-B', 'main', merged)
+            points['merge'] = merged
+            return merged
+        return source
+    fixture.commit = commit
+    mode = {'same-commit-claim': 'same_commit_scope_expansion',
+            'unclaimed-source': 'implementation_unclaimed_path'}.get(scenario, 'separate_scope_amendment')
+    sources = fixture.create_foundation_completion(str(repo), mode)
+    assert sources['implementation'] == points['merge']
+    assert git('show', '-s', '--format=%P', points['merge']).stdout.split() == [points['activation'], points['source']]
+    before = (git('for-each-ref', '--format=%(refname) %(objectname)').stdout, git('status', '--porcelain=v1').stdout)
+    actual = fixture._run_checker(str(repo), 'GZ-014', 'chore/GZ-014-completion')
+    assert before == (git('for-each-ref', '--format=%(refname) %(objectname)').stdout, git('status', '--porcelain=v1').stdout)
+    if scenario == 'separate-prior-registration':
+        assert actual.returncode == 0, actual.stdout+actual.stderr
+        assert json.loads(actual.stdout)['status'] == 'PASS'
+    else:
+        assert actual.returncode == 1, actual.stdout+actual.stderr
+        assert 'working node changed paths outside its prior registered scope' in actual.stdout
