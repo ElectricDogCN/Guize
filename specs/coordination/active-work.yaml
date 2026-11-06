@@ -93,3 +93,44 @@ tasks:
   lease:
     acquiredAt: '2026-11-05T12:05:19Z'
     expiresAt: '2026-11-12T12:05:19Z'
+- taskId: OPS-022
+  issue: 206
+  title: 减少历史校验重复祖先查询和元数据检出
+  status: reserved
+  riskLevel: high
+  owner: ElectricDogCN
+  coordinator: /root
+  implementer: /root
+  reviewer: /root/independent_review
+  integrator: /root
+  agentRole: coordinator
+  branch: chore/OPS-022-historical-read-cost-reservation
+  baseBranch: main
+  baseSha: 9a8b9acc58442ee2f47b678d16905dfd5be5c674
+  workPackage: WP-M0-01
+  programPlan: specs/coordination/program-plan.yaml
+  programTaskId: OPS-022
+  programWave: FOUNDATION
+  requirementIds:
+  - REQ-V1-0010
+  moduleIds:
+  - MOD-GOV
+  producesContracts: []
+  consumesContracts:
+  - CONTRACT-PROGRAM-PLAN
+  - CONTRACT-TASK-SPEC
+  - CONTRACT-ACTIVE-WORK
+  coordinationGroup: historical-read-cost
+  dependsOn:
+  - OPS-021
+  exclusivePaths:
+  - scripts/check-program-plan-history.py
+  - scripts/work-branch-migration.py
+  - tests/governance/test_historical_read_cost.py
+  sharedPaths: []
+  handoffPath: evidence/OPS-022/handoff.md
+  integrationStrategy: merge
+  integrationOrder: 17
+  lease:
+    acquiredAt: '2026-11-06T16:08:53Z'
+    expiresAt: '2026-11-13T16:08:53Z'
