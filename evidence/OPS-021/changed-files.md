@@ -1,0 +1,22 @@
+# OPS-021 reservation inventory
+
+- `evidence/OPS-021/api-samples/README.md`
+- `evidence/OPS-021/assumptions.md`
+- `evidence/OPS-021/changed-files.md`
+- `evidence/OPS-021/commands.txt`
+- `evidence/OPS-021/follow-ups.md`
+- `evidence/OPS-021/handoff.md`
+- `evidence/OPS-021/migration-report/README.md`
+- `evidence/OPS-021/performance/README.md`
+- `evidence/OPS-021/prerequisites/artifacts.zip`
+- `evidence/OPS-021/prerequisites/index.json`
+- `evidence/OPS-021/risks.md`
+- `evidence/OPS-021/rollback-verification/README.md`
+- `evidence/OPS-021/scope.md`
+- `evidence/OPS-021/screenshots/README.md`
+- `evidence/OPS-021/security/README.md`
+- `evidence/OPS-021/summary.md`
+- `evidence/OPS-021/test-results/README.md`
+- `specs/coordination/active-work.yaml`
+- `specs/coordination/program-plan.yaml`
+- `specs/tasks/OPS-021.md`

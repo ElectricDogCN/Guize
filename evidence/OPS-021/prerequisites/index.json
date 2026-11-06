@@ -1,0 +1,181 @@
+{
+  "base": "fb2dad9be24e37773bfcb7ea1f40c7c26b553f7c",
+  "records": [
+    {
+      "path": "poc003-ci970-original-context-pair-profile-v1/fixed-historical-metadata-accepted-C.pstats",
+      "bytes": 453775,
+      "sha256": "87087e9c59cfdbb71ebf2b87943bb27d2ad8c22024f93bef2012c2a97eaf7122"
+    },
+    {
+      "path": "poc003-ci970-original-context-pair-profile-v1/fixed-historical-metadata-accepted-C.raw",
+      "bytes": 1426,
+      "sha256": "9046175449d71a4099c6a9fe00b1adabd2b5a49818ec5e4326eeffc0d6d6154c"
+    },
+    {
+      "path": "poc003-ci970-original-context-pair-profile-v1/fixed-historical-metadata-accepted-C.xml",
+      "bytes": 403,
+      "sha256": "77d698b37a838a052b62bc8214acc1a0a3a97898173f4be399e71695ffc24e07"
+    },
+    {
+      "path": "poc003-ci970-original-context-pair-profile-v1/fixed-historical-metadata-ci970-virtual.pstats",
+      "bytes": 453874,
+      "sha256": "23e79d54b1f749599af348f4677ff8c11f5289c68d3bae40c73f62e7079548b0"
+    },
+    {
+      "path": "poc003-ci970-original-context-pair-profile-v1/fixed-historical-metadata-ci970-virtual.raw",
+      "bytes": 1435,
+      "sha256": "9a7fca3c115de3a1a951c5986419b6d03d685bad9439856066b50378a2999516"
+    },
+    {
+      "path": "poc003-ci970-original-context-pair-profile-v1/fixed-historical-metadata-ci970-virtual.xml",
+      "bytes": 403,
+      "sha256": "7efc3f3c778837c76cb05d6aac19cea55f71ab487e11e86fd8bbddaaaa800c92"
+    },
+    {
+      "path": "poc003-ci970-original-context-pair-profile-v1/real-current-transitions-accepted-C.pstats",
+      "bytes": 425765,
+      "sha256": "79c9f3b6e19c6627a66b3d28415519de863d5192abe8bfa4d40232b1740b6cd0"
+    },
+    {
+      "path": "poc003-ci970-original-context-pair-profile-v1/real-current-transitions-accepted-C.raw",
+      "bytes": 1272,
+      "sha256": "bbe78a7227ced1d6ca054b8377225062602ed09fdf5ee27149a32fced483a640"
+    },
+    {
+      "path": "poc003-ci970-original-context-pair-profile-v1/real-current-transitions-accepted-C.xml",
+      "bytes": 394,
+      "sha256": "03a2d15b8293ed6b3336ca1cd9bd2cb086f270b6b7f8ab29764acbeb196a8cf3"
+    },
+    {
+      "path": "poc003-ci970-original-context-pair-profile-v1/real-current-transitions-ci970-virtual.pstats",
+      "bytes": 425780,
+      "sha256": "b94ce89c97a1951e3db7335b2ea05a8cab8414a8928281cf72f54c135f7c7c6a"
+    },
+    {
+      "path": "poc003-ci970-original-context-pair-profile-v1/real-current-transitions-ci970-virtual.raw",
+      "bytes": 1293,
+      "sha256": "b1971fa3a6f02e15be66c1a5b99fbe0a260f4d8b90494f7b7e31c91992b13246"
+    },
+    {
+      "path": "poc003-ci970-original-context-pair-profile-v1/real-current-transitions-ci970-virtual.xml",
+      "bytes": 396,
+      "sha256": "533f0d4a161f69ef84199a3106254ceb5fc15e374ec40837a459cec49769ecf8"
+    },
+    {
+      "path": "poc003-ci970-original-context-pair-profile-v1/results.json",
+      "bytes": 154673,
+      "sha256": "29ff6230c03c076929e6594f965a3af14198185b2bb7fa387809b6032d8d2914"
+    },
+    {
+      "path": "poc003-ci970-transition-child-profile-v1/results.json",
+      "bytes": 144860,
+      "sha256": "72576782e3dfaf2e9f3e919affdafedd827001cf99d2c70ca6f38c03fb387294"
+    },
+    {
+      "path": "poc003-ci970-transition-child-profile-v1/transition-child.pstats",
+      "bytes": 350793,
+      "sha256": "f4c13f6339d5ca8a3a6038979fbdf9c9cec1700bc0a580ffe0c6bf496f29a011"
+    },
+    {
+      "path": "poc003-ci970-transition-child-profile-v1/transition-child.raw",
+      "bytes": 827,
+      "sha256": "a2eac090ac876aadc291e3b2cbb62e23ddef5e48556697eede12893063407311"
+    },
+    {
+      "path": "poc003-recovery-pr200-ci970-attempt2-timeout-annotations-official-default-route.json",
+      "bytes": 1643,
+      "sha256": "79e03bd811590c0b14eb5b53f1fe4806be1ada0d92f104edabe5e72ba86671a7"
+    },
+    {
+      "path": "poc003-recovery-pr200-ci970-timeout-annotations-official-default-route.json",
+      "bytes": 1643,
+      "sha256": "4417300c3adbeeed056231e1f8cec2d9fad1df4604ae4b6e7ec68896c01358cc"
+    },
+    {
+      "path": "poc003-recovery-pr200-source-ci970-attempt1-cancelled/checkout.json",
+      "bytes": 2602,
+      "sha256": "4abfcf3513338a3beefee304e8863ad89d9d6310345a10a2398f51e78a8a5c3c"
+    },
+    {
+      "path": "poc003-recovery-pr200-source-ci970-attempt1-cancelled/job-log.connector-decoded.utf8.txt",
+      "bytes": 305042,
+      "sha256": "a0ff15c8cac7062cd61afa13be0fe9b9f63b75cc6adfdcf30abcf2f6f7602847"
+    },
+    {
+      "path": "poc003-recovery-pr200-source-ci970-attempt1-cancelled/jobs.json",
+      "bytes": 5565,
+      "sha256": "1516c662f46a12a149452e3a6b28ffabd6d8ef5e74022b9768feed8b4002f2c8"
+    },
+    {
+      "path": "poc003-recovery-pr200-source-ci970-attempt1-cancelled/negative-analysis.json",
+      "bytes": 45099,
+      "sha256": "52e48ae5809906d9357db25488baa1053638dfb0daba8dbe6f82ba6c9adfa03f"
+    },
+    {
+      "path": "poc003-recovery-pr200-source-ci970-attempt1-cancelled/official-connector-acquisition-result.json",
+      "bytes": 1396,
+      "sha256": "9789b9b56e1aa4825abbb91be45076219ec6044263882baeee34dd1f34f7916e"
+    },
+    {
+      "path": "poc003-recovery-pr200-source-ci970-attempt1-cancelled/run.json",
+      "bytes": 12859,
+      "sha256": "df09f2a3c0cbb1925acc2393c57a3b741207a35768e570c6c5b7fe2d423ea151"
+    },
+    {
+      "path": "poc003-recovery-pr200-source-ci970-attempt2-cancelled/checkout.json",
+      "bytes": 2602,
+      "sha256": "4abfcf3513338a3beefee304e8863ad89d9d6310345a10a2398f51e78a8a5c3c"
+    },
+    {
+      "path": "poc003-recovery-pr200-source-ci970-attempt2-cancelled/job-log.connector-decoded.utf8.txt",
+      "bytes": 320673,
+      "sha256": "047b797d9fe10d9eb7b56061ef5e16b9c68eca319755f404ffc8f70f23a704c7"
+    },
+    {
+      "path": "poc003-recovery-pr200-source-ci970-attempt2-cancelled/jobs.json",
+      "bytes": 5565,
+      "sha256": "a27711d7028bcbbefac1269f16dc8fed127e6c5a45ba19d06f94ba3223d14837"
+    },
+    {
+      "path": "poc003-recovery-pr200-source-ci970-attempt2-cancelled/negative-analysis.json",
+      "bytes": 32948,
+      "sha256": "6958a7f651df37b5ec426f274a09cafc148bfcae52d2deaaeda69f3bf6505337"
+    },
+    {
+      "path": "poc003-recovery-pr200-source-ci970-attempt2-cancelled/official-connector-acquisition-result.json",
+      "bytes": 1421,
+      "sha256": "53180809cb897513609b998306618e2cb63200b44555bb2448f7873a9a02df07"
+    },
+    {
+      "path": "poc003-recovery-pr200-source-ci970-attempt2-cancelled/run.json",
+      "bytes": 12941,
+      "sha256": "50c857bd25846f0121b62fc926c25e7dd7fa3539fbc87799c5fc7824a2402dfe"
+    },
+    {
+      "path": "profile_poc003_ci970_original_context_pair_v1_once.py",
+      "bytes": 7823,
+      "sha256": "3079c29aa627724a546abe581f9d681c1c230d805db9c572691a7d3aa8ca6bb0"
+    },
+    {
+      "path": "profile_poc003_ci970_transition_child_v1_once.py",
+      "bytes": 3847,
+      "sha256": "5cfd041c87076d503b2166ad402e08bc260692ca8d092978b634e7dffbd6b9f3"
+    }
+  ],
+  "archive": "artifacts.zip",
+  "archiveBytes": 974402,
+  "archiveSha256": "b47e391ea9470fec9d464ed3ff7fa3f90f3e2acd467e4c6bf308a87e4eab7bec",
+  "officialCiUrls": [
+    "https://github.com/ElectricDogCN/Guize/actions/runs/42151241732",
+    "https://github.com/ElectricDogCN/Guize/actions/runs/42155334988",
+    "https://github.com/ElectricDogCN/Guize/actions/runs/42165695533/attempts/1",
+    "https://github.com/ElectricDogCN/Guize/actions/runs/42165695533/attempts/2"
+  ],
+  "parentFinalReceiptSha256": "6a2a28bf1687c68ec0a3a5e550871df980c96d38c830619a9f4251fb02531d70",
+  "rawDiagnosticOnly": true,
+  "ownCiAccepted": false,
+  "pocexperimentApproved": false,
+  "acceptanceCertificateIncluded": false,
+  "parentAcceptance": "External independent precondition, referenced by receipt SHA and public parent/source/main CI identity only. Private acceptance certificate is not copied into this archive and recursive retrievability is not claimed.",
+  "diagnosticPrimitives": "All paired four subprocess raw/XML/pstats, child raw/pstats/results and both exact execution methods are included. These diagnostics are not CI acceptance or whole-job latency proof."
+}
