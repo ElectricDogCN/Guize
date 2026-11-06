@@ -1,0 +1,33 @@
+# Planned implementation stage; no execution claim
+git diff --check 0b973f13cd0e26158348b4f052139a25f2967725...HEAD
+python scripts/check-task-file.py --task OPS-021
+python scripts/check-schemas.py
+python scripts/check-program-plan-integrity.py --base-ref 0b973f13cd0e26158348b4f052139a25f2967725
+python scripts/check-program-plan-history.py --base-ref 0b973f13cd0e26158348b4f052139a25f2967725 --head-ref HEAD --task OPS-021 --branch-name chore/OPS-021-metadata-snapshot
+python scripts/check-program-plan-transitions.py --base-ref 0b973f13cd0e26158348b4f052139a25f2967725 --head-ref HEAD --task OPS-021 --branch-name chore/OPS-021-metadata-snapshot
+python scripts/check-program-lifecycle-guards.py --base-ref 0b973f13cd0e26158348b4f052139a25f2967725 --head-ref HEAD --task OPS-021 --branch-name chore/OPS-021-metadata-snapshot
+python scripts/run-program-lifecycle-gate.py --base-ref 0b973f13cd0e26158348b4f052139a25f2967725 --head-ref HEAD --task OPS-021 --branch-name chore/OPS-021-metadata-snapshot
+python scripts/run-agent-coordination-gate.py --base-ref 0b973f13cd0e26158348b4f052139a25f2967725 --head-ref HEAD --task OPS-021 --branch-name chore/OPS-021-metadata-snapshot
+python scripts/check-program-plan-finalization.py --base-ref 0b973f13cd0e26158348b4f052139a25f2967725 --head-ref HEAD --task OPS-021
+python scripts/run-task-scope-gate.py --task OPS-021 --base 0b973f13cd0e26158348b4f052139a25f2967725
+python scripts/check-evidence.py --task OPS-021
+python scripts/check-project-readiness.py
+python scripts/check-markdown.py
+
+
+# Normal OPS-021 Completion preparation
+
+Own Program/Task completed metadata and removal of its Registry entry are proposed on accepted actual Review main 27b2d8eb404954dcf0be39adb8d824e5639b487a. Code merge PR203/c675529 is the completion reference. All original Task body/lease/actors/claims, foreign records, Code bytes, ledger, APP and frozen/workflow remain unchanged. Actual capacity is released only after this Completion source14/112/full954, ordinary merge, actualmain7/full954 and final independent acceptance. Commands below are UNEXECUTED current-stage mappings; no POC experiment is approved.
+
+
+## Accepted prerequisite Review main execution only
+Task: OPS-021
+Implementation merge: c675529b9cdb72159da477774f2b0602f98c4b0a (PR203)
+Status: PASS (accepted prerequisite Review main only)
+Result: PASS (accepted prerequisite Review main only)
+Source Commit: 27b2d8eb404954dcf0be39adb8d824e5639b487a
+Command: /home/sur/.cache/guize-takeover/python31117-official-runtime-v1/venv/bin/python -B scripts/check-program-plan-integrity.py --base-ref c675529b9cdb72159da477774f2b0602f98c4b0a
+Exit Code: 0
+Raw artifact: completion-v1/primitives.zip :: ops021-normal-review-v1-27b2d8e-native-main-seven/integrity.raw
+Raw SHA-256: 089a32229a54bdc240f9d4d52e614e45d10787efdc017f7543f216131ca138ad
+These executed markers describe only the accepted prerequisite Review main. Current Completion source14/112/full954 and actual-main7/full954 are UNEXECUTED. Actual capacity release and POC experiments remain unapproved.

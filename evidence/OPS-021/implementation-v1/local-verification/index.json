@@ -1,0 +1,247 @@
+{
+  "kind": "LOCAL_WORKING_INPUTS_AND_EXECUTION_PRIMITIVES",
+  "records": [
+    {
+      "path": "ops021-implementation-v1-working-candidate-v1.json",
+      "bytes": 3802,
+      "sha256": "d4b88c23a702f99654454d6e13ef99c1cb0e5c732c2f6b0f152798656f45f851"
+    },
+    {
+      "path": "ops021-implementation-v1-native-working-tests-v1/results.json",
+      "bytes": 34701,
+      "sha256": "a34beb6fd131318e51d9036c79009ff91df90d62bc10ccd7c0a0fad3e8f41176"
+    },
+    {
+      "path": "ops021-implementation-v1-native-working-tests-v1/new-tests.raw",
+      "bytes": 6346,
+      "sha256": "fa3f1f2828e01241230a3a160204450e7df2dbc3e28886c15d81494e62fea3b8"
+    },
+    {
+      "path": "ops021-implementation-v1-native-working-tests-v1/new-tests.xml",
+      "bytes": 10096,
+      "sha256": "0cb11989fae5c1eed0f8476df6e24e6b960957198a116fd80e87f966ee4c30a5"
+    },
+    {
+      "path": "working-inputs-v1/evidence/OPS-021/commands.txt",
+      "bytes": 1532,
+      "sha256": "6657370d4d807319779b4bba9b5f1ae5a62beec9f88624a4534180911a8946c2"
+    },
+    {
+      "path": "working-inputs-v1/evidence/OPS-021/handoff.md",
+      "bytes": 1733,
+      "sha256": "0b676481292087a4ceb057ad3edfb140cc1be4655de314061346f5f1213f4a95"
+    },
+    {
+      "path": "working-inputs-v1/evidence/OPS-021/implementation-v1/audit-historical-inputs-original-method.py",
+      "bytes": 2911,
+      "sha256": "200b4c202d121eea66cd327585f5dd1e89b131441afb946713a446ef6a810c76"
+    },
+    {
+      "path": "working-inputs-v1/evidence/OPS-021/implementation-v1/commands.txt",
+      "bytes": 1537,
+      "sha256": "297dbcc77c522a6fbaa6bc78511553ad7f9d58aa1d6c164c9dcb766939f33983"
+    },
+    {
+      "path": "working-inputs-v1/evidence/OPS-021/implementation-v1/design.md",
+      "bytes": 4412,
+      "sha256": "ff14f0d766c51bce4ba86476f43027ec612cdc8a4bb33e6fd66d63410f2e7785"
+    },
+    {
+      "path": "working-inputs-v1/evidence/OPS-021/implementation-v1/historical-input-shapes.json",
+      "bytes": 8501,
+      "sha256": "51a225536d37b15e3eee40528795b0110666abd45432382faa9e1476a863f385"
+    },
+    {
+      "path": "working-inputs-v1/evidence/OPS-021/implementation-v1/purpose.json",
+      "bytes": 889,
+      "sha256": "4da8d58300f9bda225f1414133369eb2f34d34df11741acf7fa8a8e2cf3ef493"
+    },
+    {
+      "path": "working-inputs-v1/evidence/OPS-021/summary.md",
+      "bytes": 1733,
+      "sha256": "0b676481292087a4ceb057ad3edfb140cc1be4655de314061346f5f1213f4a95"
+    },
+    {
+      "path": "working-inputs-v1/scripts/check-program-plan-history.py",
+      "bytes": 122085,
+      "sha256": "3c18c0b50f0a7a0df7f8cb6c7490f0bc6a042ad201f3c0c25710579dd091db83"
+    },
+    {
+      "path": "working-inputs-v1/specs/coordination/active-work.yaml",
+      "bytes": 3412,
+      "sha256": "b4e1ee134687e1dc6d11411c671ac103e573e09bc82aaa2e479f098382479ac8"
+    },
+    {
+      "path": "working-inputs-v1/specs/coordination/program-plan.yaml",
+      "bytes": 66295,
+      "sha256": "13d7a4b730d8addf8d500f35c432909f8a8a43f24413ddd498289883414a2d4a"
+    },
+    {
+      "path": "working-inputs-v1/specs/tasks/OPS-021.md",
+      "bytes": 6946,
+      "sha256": "3f05e22bad0f3053db0eb3cdfb05ff1da7ce2d2648082ebabc77095d99d6cc5b"
+    },
+    {
+      "path": "working-inputs-v1/tests/governance/test_historical_task_snapshot.py",
+      "bytes": 13097,
+      "sha256": "b876d0eb16f535dc1955c6cdec597fe7cc9e533aff6d7904970417bb26b0131b"
+    },
+    {
+      "path": "ops021-implementation-v1-working-candidate-v2.json",
+      "bytes": 3802,
+      "sha256": "5730965d82fa26402df0358edc878952c041f4ff47b9b203fab5f2775292a47b"
+    },
+    {
+      "path": "ops021-implementation-v1-native-working-tests-v2/results.json",
+      "bytes": 34751,
+      "sha256": "78e29cd99172d89f3f01dc177c3946e49817ee2097d50cd204eac16056abf452"
+    },
+    {
+      "path": "ops021-implementation-v1-native-working-tests-v2/new-tests.raw",
+      "bytes": 780,
+      "sha256": "e3348a137ff3ccc344563024336e435a7902bc7d6d80d1d182d91b0c5593a895"
+    },
+    {
+      "path": "ops021-implementation-v1-native-working-tests-v2/new-tests.xml",
+      "bytes": 3729,
+      "sha256": "f187f5e1be7727c4ab86a5457b04eb918d6147b61852a8212c6039ebb88cd12a"
+    },
+    {
+      "path": "working-inputs-v2/evidence/OPS-021/commands.txt",
+      "bytes": 1532,
+      "sha256": "6657370d4d807319779b4bba9b5f1ae5a62beec9f88624a4534180911a8946c2"
+    },
+    {
+      "path": "working-inputs-v2/evidence/OPS-021/handoff.md",
+      "bytes": 1733,
+      "sha256": "0b676481292087a4ceb057ad3edfb140cc1be4655de314061346f5f1213f4a95"
+    },
+    {
+      "path": "working-inputs-v2/evidence/OPS-021/implementation-v1/audit-historical-inputs-original-method.py",
+      "bytes": 2911,
+      "sha256": "200b4c202d121eea66cd327585f5dd1e89b131441afb946713a446ef6a810c76"
+    },
+    {
+      "path": "working-inputs-v2/evidence/OPS-021/implementation-v1/commands.txt",
+      "bytes": 1537,
+      "sha256": "297dbcc77c522a6fbaa6bc78511553ad7f9d58aa1d6c164c9dcb766939f33983"
+    },
+    {
+      "path": "working-inputs-v2/evidence/OPS-021/implementation-v1/design.md",
+      "bytes": 4412,
+      "sha256": "ff14f0d766c51bce4ba86476f43027ec612cdc8a4bb33e6fd66d63410f2e7785"
+    },
+    {
+      "path": "working-inputs-v2/evidence/OPS-021/implementation-v1/historical-input-shapes.json",
+      "bytes": 8501,
+      "sha256": "51a225536d37b15e3eee40528795b0110666abd45432382faa9e1476a863f385"
+    },
+    {
+      "path": "working-inputs-v2/evidence/OPS-021/implementation-v1/purpose.json",
+      "bytes": 889,
+      "sha256": "4da8d58300f9bda225f1414133369eb2f34d34df11741acf7fa8a8e2cf3ef493"
+    },
+    {
+      "path": "working-inputs-v2/evidence/OPS-021/summary.md",
+      "bytes": 1733,
+      "sha256": "0b676481292087a4ceb057ad3edfb140cc1be4655de314061346f5f1213f4a95"
+    },
+    {
+      "path": "working-inputs-v2/scripts/check-program-plan-history.py",
+      "bytes": 122085,
+      "sha256": "3c18c0b50f0a7a0df7f8cb6c7490f0bc6a042ad201f3c0c25710579dd091db83"
+    },
+    {
+      "path": "working-inputs-v2/specs/coordination/active-work.yaml",
+      "bytes": 3412,
+      "sha256": "b4e1ee134687e1dc6d11411c671ac103e573e09bc82aaa2e479f098382479ac8"
+    },
+    {
+      "path": "working-inputs-v2/specs/coordination/program-plan.yaml",
+      "bytes": 66295,
+      "sha256": "13d7a4b730d8addf8d500f35c432909f8a8a43f24413ddd498289883414a2d4a"
+    },
+    {
+      "path": "working-inputs-v2/specs/tasks/OPS-021.md",
+      "bytes": 6946,
+      "sha256": "3f05e22bad0f3053db0eb3cdfb05ff1da7ce2d2648082ebabc77095d99d6cc5b"
+    },
+    {
+      "path": "working-inputs-v2/tests/governance/test_historical_task_snapshot.py",
+      "bytes": 13530,
+      "sha256": "f4f32ecd375b1b59369cf7fced61d00ae22873f07684ae8b9b696afdba4b5728"
+    },
+    {
+      "path": "ops021-bounded-snapshot-fixed67-instrumented-profile-v1/results.json",
+      "bytes": 164752,
+      "sha256": "54686f9c08ea8e19a04083d7fb20a9e11e8877f12895d4f89a9fb1ad14312189"
+    },
+    {
+      "path": "ops021-bounded-snapshot-fixed67-instrumented-profile-v1/transition-child.raw",
+      "bytes": 1003,
+      "sha256": "170b55ac533fdb344abb7273c1105d1071d2fd7e332fb66dc9e3eaa455325aaf"
+    },
+    {
+      "path": "ops021-bounded-snapshot-fixed67-instrumented-profile-v1/transition-child.pstats",
+      "bytes": 351696,
+      "sha256": "911bb1cab3a662ad38a6195ae41f177428bb5c1f40fdefd3c931588c5493cffc"
+    },
+    {
+      "path": "methods/test_ops021_native_working_candidate_once.py",
+      "bytes": 5650,
+      "sha256": "bc80ee15a86ecd60127efb5dd38c85bd88bf42216b2031a523e7b92e0fc75693"
+    },
+    {
+      "path": "methods/profile_ops021_bounded_snapshot_same_historical_context_once.py",
+      "bytes": 6630,
+      "sha256": "daab37def137e5ff8e3c44d50f753da189adb2d0c1a7d1db673bc3eaf08a4769"
+    },
+    {
+      "path": "methods/snapshot_ops021_implementation_working_candidate_once.py",
+      "bytes": 2929,
+      "sha256": "6cdfd4cb4f9b8e6245dade97aa8522d45fc078764c05ce4d2a94e81ce750d5d1"
+    },
+    {
+      "path": "poc003-ci970-virtual-67bd-context-increment.bundle",
+      "bytes": 3775,
+      "sha256": "09dac7f2b59025806e3a97bf9670e91b3e91123cd4d442574792795982729d0d"
+    }
+  ],
+  "archive": "artifacts.zip",
+  "archiveBytes": 310706,
+  "archiveSha256": "acc72383bfd2e058eb05947bee5c6e27d9322819cfe80b5803f2711c96464951",
+  "parentMain": "0b973f13cd0e26158348b4f052139a25f2967725",
+  "parentFinalReceiptSha256": "e7cb7b6876dd9adb37199417aa7e7d6efeb6622206a0a8f25917a23d5a2104ed",
+  "parentAcceptanceCertificateIncluded": false,
+  "baselinePrimitives": "../../prerequisites/artifacts.zip",
+  "baselinePrimitivesSha256": "b47e391ea9470fec9d464ed3ff7fa3f90f3e2acd467e4c6bf308a87e4eab7bec",
+  "newTests": {
+    "version": "v2",
+    "count": 21,
+    "failedErroredSkipped": 0,
+    "pytestSeconds": 16.75,
+    "actualChildElapsedSeconds": 17.510994565000146
+  },
+  "failedFirstTests": {
+    "version": "v1",
+    "passed": 19,
+    "failed": 2,
+    "accepted": false,
+    "reason": "Missing Program schema in full reservation fixture and non-normalized incidental temporary YAML error path. Both corrected in v2; original failed snapshot/files/raw/XML retained."
+  },
+  "instrumentedLocalComparison": {
+    "baselineSeconds": 74.10697930999959,
+    "newSeconds": 16.801262876999317,
+    "oldContext": "67bd11a7ac504f76083ebd584498654e73f13382",
+    "checkerWorkingSnapshotSha256": "5730965d82fa26402df0358edc878952c041f4ff47b9b203fab5f2775292a47b",
+    "checkerUncommitted": true,
+    "allSurroundingScriptsMatchHistoricalContext": true
+  },
+  "completeGitRestorationBundleIncluded": false,
+  "gitRestorationNote": "Full registration recovery bundle is locally retained, not delivered in this small packet. Tiny exact67 increment and explicit refs/context records are provided; no recursive whole-workspace restoration claim.",
+  "cloudCiAccepted": false,
+  "sourceCommitted": false,
+  "officialPerformanceBudgetProved": false,
+  "pocexperimentApproved": false,
+  "createdAt": "2026-11-06T08:48:25.076551+00:00"
+}
