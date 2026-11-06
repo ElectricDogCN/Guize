@@ -96,17 +96,17 @@ tasks:
 - taskId: OPS-022
   issue: 206
   title: 减少历史校验重复祖先查询和元数据检出
-  status: in_progress
+  status: review
   riskLevel: high
   owner: ElectricDogCN
   coordinator: /root
   implementer: /root
   reviewer: /root/independent_review
   integrator: /root
-  agentRole: implementer
-  branch: chore/OPS-022-historical-read-cost
+  agentRole: reviewer
+  branch: chore/OPS-022-normal-review
   baseBranch: main
-  baseSha: 6d9ec2bb1637cb9b602d04f0b9d9efe9a5d77ccc
+  baseSha: f028aba48efdda261eb864b803b740ccaff3f91c
   workPackage: WP-M0-01
   programPlan: specs/coordination/program-plan.yaml
   programTaskId: OPS-022

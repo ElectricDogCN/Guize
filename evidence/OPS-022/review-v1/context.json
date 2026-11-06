@@ -1,0 +1,23 @@
+{
+  "kind": "NORMAL_REVIEW_METADATA_ONLY",
+  "base": "f028aba48efdda261eb864b803b740ccaff3f91c",
+  "codeSource": "6e9c19cea4abb300a314114570e62f089c56ae23",
+  "codePullRequest": 208,
+  "branch": "chore/OPS-022-normal-review",
+  "claims": [
+    "scripts/check-program-plan-history.py",
+    "scripts/work-branch-migration.py",
+    "tests/governance/test_historical_read_cost.py"
+  ],
+  "lease": {
+    "acquiredAt": "2026-11-06T16:08:53Z",
+    "expiresAt": "2026-11-13T16:08:53Z"
+  },
+  "parentCodeFinalReceiptSha256": "a2d28b34bdfe3779ac236c82adf26b2f704c7e22d3a7ba75a542eeb18705efb2",
+  "parentAcceptanceCertificateIncluded": false,
+  "sourceGatePassed": false,
+  "fullCiAccepted": false,
+  "taskCompleted": false,
+  "actualCapacityReleased": false,
+  "experimentApproved": false
+}
