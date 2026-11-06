@@ -1,0 +1,237 @@
+{
+  "kind": "READONLY_HISTORICAL_INPUT_SHAPES_ONLY",
+  "source": "70f75afd303356c54a8969fa73e4d065cc4079f1",
+  "base": "fb2dad9be24e37773bfcb7ea1f40c7c26b553f7c",
+  "observedAt": "2026-11-06T07:17:44.697975+00:00",
+  "rows": [
+    {
+      "task": "OPS-020",
+      "commit": "e9f72d781236f359de63032da68136ce25ada5d7",
+      "id": "OPS-020",
+      "evidencePath": "evidence/OPS-020",
+      "handoffPath": "evidence/OPS-020/handoff.md",
+      "modes": {
+        "evidence/OPS-020/handoff.md": "100644",
+        "specs/coordination/active-work.yaml": "100644",
+        "specs/coordination/program-plan.yaml": "100644",
+        "specs/tasks/OPS-020.md": "100644"
+      },
+      "canonicalRegularMetadataShape": true
+    },
+    {
+      "task": "OPS-020",
+      "commit": "08ee4bc4dc3030cc86f420cc0956a0ab5146c379",
+      "id": "OPS-020",
+      "evidencePath": "evidence/OPS-020",
+      "handoffPath": "evidence/OPS-020/handoff.md",
+      "modes": {
+        "evidence/OPS-020/handoff.md": "100644",
+        "specs/coordination/active-work.yaml": "100644",
+        "specs/coordination/program-plan.yaml": "100644",
+        "specs/tasks/OPS-020.md": "100644"
+      },
+      "canonicalRegularMetadataShape": true
+    },
+    {
+      "task": "OPS-020",
+      "commit": "654524e908c8e0c47e620c7c0396420fb502ad5d",
+      "id": "OPS-020",
+      "evidencePath": "evidence/OPS-020",
+      "handoffPath": "evidence/OPS-020/handoff.md",
+      "modes": {
+        "evidence/OPS-020/handoff.md": "100644",
+        "specs/coordination/active-work.yaml": "100644",
+        "specs/coordination/program-plan.yaml": "100644",
+        "specs/tasks/OPS-020.md": "100644"
+      },
+      "canonicalRegularMetadataShape": true
+    },
+    {
+      "task": "OPS-020",
+      "commit": "36d1dde02ab3232525b0ef17ab15f14302e33601",
+      "id": "OPS-020",
+      "evidencePath": "evidence/OPS-020",
+      "handoffPath": "evidence/OPS-020/handoff.md",
+      "modes": {
+        "evidence/OPS-020/handoff.md": "100644",
+        "specs/coordination/active-work.yaml": "100644",
+        "specs/coordination/program-plan.yaml": "100644",
+        "specs/tasks/OPS-020.md": "100644"
+      },
+      "canonicalRegularMetadataShape": true
+    },
+    {
+      "task": "OPS-020",
+      "commit": "f71f85027e8ad64b8e6d0a3d08a39ca9596d0323",
+      "id": "OPS-020",
+      "evidencePath": "evidence/OPS-020",
+      "handoffPath": "evidence/OPS-020/handoff.md",
+      "modes": {
+        "evidence/OPS-020/handoff.md": "100644",
+        "specs/coordination/active-work.yaml": "100644",
+        "specs/coordination/program-plan.yaml": "100644",
+        "specs/tasks/OPS-020.md": "100644"
+      },
+      "canonicalRegularMetadataShape": true
+    },
+    {
+      "task": "OPS-020",
+      "commit": "b14aa06c53f39c3e2a188a526ec2b63b3d1000df",
+      "id": "OPS-020",
+      "evidencePath": "evidence/OPS-020",
+      "handoffPath": "evidence/OPS-020/handoff.md",
+      "modes": {
+        "evidence/OPS-020/handoff.md": "100644",
+        "specs/coordination/active-work.yaml": "100644",
+        "specs/coordination/program-plan.yaml": "100644",
+        "specs/tasks/OPS-020.md": "100644"
+      },
+      "canonicalRegularMetadataShape": true
+    },
+    {
+      "task": "OPS-020",
+      "commit": "a9685b4f39f8e50701e38fb13b06d51b5c390e0a",
+      "id": "OPS-020",
+      "evidencePath": "evidence/OPS-020",
+      "handoffPath": "evidence/OPS-020/handoff.md",
+      "modes": {
+        "evidence/OPS-020/handoff.md": "100644",
+        "specs/coordination/active-work.yaml": "100644",
+        "specs/coordination/program-plan.yaml": "100644",
+        "specs/tasks/OPS-020.md": "100644"
+      },
+      "canonicalRegularMetadataShape": true
+    },
+    {
+      "task": "OPS-020",
+      "commit": "da4d4a4e4fa14edd1603961880b24b12eede776d",
+      "id": "OPS-020",
+      "evidencePath": "evidence/OPS-020",
+      "handoffPath": "evidence/OPS-020/handoff.md",
+      "modes": {
+        "evidence/OPS-020/handoff.md": "100644",
+        "specs/coordination/active-work.yaml": "100644",
+        "specs/coordination/program-plan.yaml": "100644",
+        "specs/tasks/OPS-020.md": "100644"
+      },
+      "canonicalRegularMetadataShape": true
+    },
+    {
+      "task": "OPS-020",
+      "commit": "a8a348203300bfa12b72328877b9a0e563e09d28",
+      "id": "OPS-020",
+      "evidencePath": "evidence/OPS-020",
+      "handoffPath": "evidence/OPS-020/handoff.md",
+      "modes": {
+        "evidence/OPS-020/handoff.md": "100644",
+        "specs/coordination/active-work.yaml": "100644",
+        "specs/coordination/program-plan.yaml": "100644",
+        "specs/tasks/OPS-020.md": "100644"
+      },
+      "canonicalRegularMetadataShape": true
+    },
+    {
+      "task": "OPS-020",
+      "commit": "99714cabedd9196d0eeeb31653faaaf17211f74c",
+      "id": "OPS-020",
+      "evidencePath": "evidence/OPS-020",
+      "handoffPath": "evidence/OPS-020/handoff.md",
+      "modes": {
+        "evidence/OPS-020/handoff.md": "100644",
+        "specs/coordination/active-work.yaml": "100644",
+        "specs/coordination/program-plan.yaml": "100644",
+        "specs/tasks/OPS-020.md": "100644"
+      },
+      "canonicalRegularMetadataShape": true
+    },
+    {
+      "task": "OPS-020",
+      "commit": "2619ef4b7c12693370cde29a40b759d0eacdfaff",
+      "id": "OPS-020",
+      "evidencePath": "evidence/OPS-020",
+      "handoffPath": "evidence/OPS-020/handoff.md",
+      "modes": {
+        "evidence/OPS-020/handoff.md": "100644",
+        "specs/coordination/active-work.yaml": "100644",
+        "specs/coordination/program-plan.yaml": "100644",
+        "specs/tasks/OPS-020.md": "100644"
+      },
+      "canonicalRegularMetadataShape": true
+    },
+    {
+      "task": "OPS-020",
+      "commit": "8cb551dac2f6931e2501d8c7dbeb575ff0c37a9f",
+      "id": "OPS-020",
+      "evidencePath": "evidence/OPS-020",
+      "handoffPath": "evidence/OPS-020/handoff.md",
+      "modes": {
+        "evidence/OPS-020/handoff.md": "100644",
+        "specs/coordination/active-work.yaml": "100644",
+        "specs/coordination/program-plan.yaml": "100644",
+        "specs/tasks/OPS-020.md": "100644"
+      },
+      "canonicalRegularMetadataShape": true
+    },
+    {
+      "task": "OPS-020",
+      "commit": "7d193039aeaea04575130b7134da857dcaaa018f",
+      "id": "OPS-020",
+      "evidencePath": "evidence/OPS-020",
+      "handoffPath": "evidence/OPS-020/handoff.md",
+      "modes": {
+        "evidence/OPS-020/handoff.md": "100644",
+        "specs/coordination/active-work.yaml": "100644",
+        "specs/coordination/program-plan.yaml": "100644",
+        "specs/tasks/OPS-020.md": "100644"
+      },
+      "canonicalRegularMetadataShape": true
+    },
+    {
+      "task": "OPS-020",
+      "commit": "7c89b0d009e1c4512d42ade4fad9082583372beb",
+      "id": "OPS-020",
+      "evidencePath": "evidence/OPS-020",
+      "handoffPath": "evidence/OPS-020/handoff.md",
+      "modes": {
+        "evidence/OPS-020/handoff.md": "100644",
+        "specs/coordination/active-work.yaml": "100644",
+        "specs/coordination/program-plan.yaml": "100644",
+        "specs/tasks/OPS-020.md": "100644"
+      },
+      "canonicalRegularMetadataShape": true
+    },
+    {
+      "task": "OPS-020",
+      "commit": "fb2dad9be24e37773bfcb7ea1f40c7c26b553f7c",
+      "id": "OPS-020",
+      "evidencePath": "evidence/OPS-020",
+      "handoffPath": "evidence/OPS-020/handoff.md",
+      "modes": {
+        "evidence/OPS-020/handoff.md": "100644",
+        "specs/coordination/active-work.yaml": "100644",
+        "specs/coordination/program-plan.yaml": "100644",
+        "specs/tasks/OPS-020.md": "100644"
+      },
+      "canonicalRegularMetadataShape": true
+    },
+    {
+      "task": "OPS-021",
+      "commit": "70f75afd303356c54a8969fa73e4d065cc4079f1",
+      "id": "OPS-021",
+      "evidencePath": "evidence/OPS-021",
+      "handoffPath": "evidence/OPS-021/handoff.md",
+      "modes": {
+        "evidence/OPS-021/handoff.md": "100644",
+        "specs/coordination/active-work.yaml": "100644",
+        "specs/coordination/program-plan.yaml": "100644",
+        "specs/tasks/OPS-021.md": "100644"
+      },
+      "canonicalRegularMetadataShape": true
+    }
+  ],
+  "contextUnchanged": true,
+  "productionChanged": false,
+  "testsRun": false,
+  "implementationAllowed": false,
+  "note": "This inventory supports future bounded OPS020/OPS021 metadata materialization design. It neither validates arbitrary future snapshots nor replaces cold negative equivalence tests or normal registration acceptance. Unproven task IDs/shapes retain the original dense path."
+}
