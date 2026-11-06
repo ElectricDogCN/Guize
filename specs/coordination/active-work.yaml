@@ -96,17 +96,17 @@ tasks:
 - taskId: OPS-021
   issue: 201
   title: 降低历史任务快照物化开销并保持完整治理判定
-  status: in_progress
+  status: review
   riskLevel: high
   owner: ElectricDogCN
   coordinator: /root
   implementer: /root
   reviewer: /root/independent_review
   integrator: /root
-  agentRole: implementer
-  branch: chore/OPS-021-metadata-snapshot
+  agentRole: reviewer
+  branch: chore/OPS-021-normal-review
   baseBranch: main
-  baseSha: 0b973f13cd0e26158348b4f052139a25f2967725
+  baseSha: c675529b9cdb72159da477774f2b0602f98c4b0a
   workPackage: WP-M0-01
   programPlan: specs/coordination/program-plan.yaml
   programTaskId: OPS-021
