@@ -96,17 +96,17 @@ tasks:
 - taskId: OPS-023
   issue: 211
   title: 减少相同 Program 结构的重复校验成本
-  status: reserved
+  status: in_progress
   riskLevel: high
   owner: ElectricDogCN
   coordinator: /root
   implementer: /root
   reviewer: /root/independent_review
   integrator: /root
-  agentRole: coordinator
-  branch: chore/OPS-023-program-schema-cost-reservation
+  agentRole: implementer
+  branch: chore/OPS-023-program-schema-cost
   baseBranch: main
-  baseSha: 693586d8ae25c4c2a0654aa7a9cb449c58eba8ce
+  baseSha: 0d540a3241f6ba9681081d03b6206158444dce67
   workPackage: WP-M0-01
   programPlan: specs/coordination/program-plan.yaml
   programTaskId: OPS-023

@@ -1,0 +1,67 @@
+{
+  "kind": "PROSPECTIVE_DELEGATED_PROJECT_DECISION",
+  "taskId": "OPS-023",
+  "issue": 211,
+  "reservationPullRequest": 212,
+  "decisionScope": "LOCAL_IMPLEMENTATION_START_ONLY",
+  "decision": "Allow one local implementation start after exact independent scope review and a separate first Own activation metadata commit; no remote action or release authorized by this decision.",
+  "delegatedDecisionMaker": "/root",
+  "notANewSpecificUserApprovalClaim": true,
+  "priorTaskRule": "候选自有完整官方源CI/独审/正常合并、实际登记主线七项与完整CI终验后，才另起实现",
+  "taskHistoryPreserved": true,
+  "priorRuleChange": "Only the additional start prerequisite of full official CI on the already normally merged actual registration is prospectively adjusted for this one task/actor. It is not marked passed or replaced by the source result.",
+  "actualReservationMain": "0d540a3241f6ba9681081d03b6206158444dce67",
+  "reservationSource": "98b67a3362bc5c1ce297024597d68fca92b83b1b",
+  "reservationBase": "693586d8ae25c4c2a0654aa7a9cb449c58eba8ce",
+  "lastFullyAcceptedAnchor": "217155606313f59751af81d5c699f880af2d03e3",
+  "reservationSourceFullCiRun": 42327452741,
+  "reservationSourceWholeTests": 993,
+  "actualReservationSevenPassed": true,
+  "actualReservationMainAccepted": false,
+  "parent989Accepted": false,
+  "exhaustedActualMainRuns": [
+    42318944129,
+    42329805506
+  ],
+  "sameShaExtraAttemptsAllowed": false,
+  "implementationBranch": "chore/OPS-023-program-schema-cost",
+  "registeredClaims": [
+    "scripts/check-program-plan-history.py",
+    "tests/governance/test_program_schema_cache.py"
+  ],
+  "lease": {
+    "acquiredAt": "2026-11-07T01:58:31Z",
+    "expiresAt": "2026-11-14T01:58:31Z"
+  },
+  "maximumLocalImplementationStarts": 1,
+  "requiredOrdering": [
+    "Independent review of this exact decision and activation-only method",
+    "Fresh official actual main/merged PR/open issue and original lease; verify unchanged normal registration",
+    "Commit only Own activation metadata and this decision before either implementation claim changes",
+    "Implement the registered two paths only, fresh date-time and authorization checks retained",
+    "Normal independent reviews and complete official source and actual-main CI for Code, Review and Completion before acceptance/cleanup"
+  ],
+  "codeReviewCompletionFullOfficialSourceAndActualMainCiRequired": true,
+  "original993AndExistingTestsUnchanged": true,
+  "originalWorkflowRunnerPinsThirtyMinutesUnchanged": true,
+  "frozenFilesUnchanged": true,
+  "formalClosureOrCapacityReleaseApproved": false,
+  "newMergeBootstrapGranted": false,
+  "actualRecoveryMainAccepted": false,
+  "experimentApproved": false,
+  "officialPublicContext": [
+    "https://github.com/ElectricDogCN/Guize/pull/212",
+    "https://github.com/ElectricDogCN/Guize/actions/runs/42327452741",
+    "https://github.com/ElectricDogCN/Guize/actions/runs/42329805506",
+    "https://github.com/ElectricDogCN/Guize/actions/runs/42318944129"
+  ],
+  "independentForwardOptionsSha256": "e9f19a60006683e0757af7a380510af1c2d54abe93a3792142b4881ee16ece32",
+  "createdAt": "2026-11-07T04:00:43.183589+00:00",
+  "exactDelegatedDecisionSha256": "15c163dbe6e814af6a9914d95870f2b4bc80143a4f260a5985663c85cfe34fc8",
+  "independentScopeReviewSha256": "6b2d0ad67e08304de3ef13f953ded169c0529fbfbe33ea34bfec6de363412529",
+  "recordedBeforeCode": true,
+  "productionCodeChangedAtPreparation": false,
+  "certificateContextOnly": true,
+  "recursivePrivateEvidencePinsClaimed": false,
+  "existingUserAuthoritySummarized": "Standing delegated project decision authority; current user instruction to proceed without repeat confirmation."
+}
