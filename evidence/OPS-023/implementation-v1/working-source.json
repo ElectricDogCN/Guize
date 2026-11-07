@@ -1,0 +1,45 @@
+{
+  "base": "0d540a3241f6ba9681081d03b6206158444dce67",
+  "activationCommitBeforeCode": "d22d94be820a056cb130fac89ab5998b18990638",
+  "files": [
+    {
+      "path": "scripts/check-program-plan-history.py",
+      "bytes": 126754,
+      "sha256": "859b12496b09ab79e5e372c10307347dbc64c62d11902753c3973e86851f3d85"
+    },
+    {
+      "path": "tests/governance/test_program_schema_cache.py",
+      "bytes": 13264,
+      "sha256": "7e5d63426974300e5badd1e82274697576e84a8ded6bc54d2c0d51d3c55620b3"
+    }
+  ],
+  "nativeSelectedCasesPassed": 34,
+  "previousNativeOutcomes": [
+    {
+      "version": 1,
+      "passed": 24,
+      "failed": 6
+    },
+    {
+      "version": 2,
+      "passed": 31,
+      "failed": 1
+    },
+    {
+      "version": 3,
+      "passed": 32,
+      "failed": 0
+    }
+  ],
+  "schemaBoolIntegerCounterexamplesReproducedBeforeFix": true,
+  "fixedFixture": {
+    "head": "bb573f2b681be889a7a769b16370d6e3ed52b978",
+    "carrierSha256": "36a0e705dc69807c88ee906c8beae0340cd7ae7dd7d342ea1b35638c91c5a617",
+    "sameOriginalArgs": true,
+    "beforeSeconds": 10.41093235500739,
+    "afterSeconds": 10.155969059007475,
+    "bothActualExitZero": true,
+    "instrumented": true
+  },
+  "officialSourceAndActualCodeCiAccepted": false
+}

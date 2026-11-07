@@ -1,4 +1,4 @@
-# Exact implementation stage recipe; UNEXECUTED
+# Planned exact committed-Code14; UNEXECUTED
 git diff --check 0d540a3241f6ba9681081d03b6206158444dce67...HEAD
 python scripts/check-task-file.py --task OPS-023
 python scripts/check-schemas.py

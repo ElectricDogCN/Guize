@@ -8,3 +8,16 @@ Only own reserved metadata; two exact implementation claims, no source/test impl
 ## First implementation activation, no code
 
 OPS-023 / Issue211; latest actual base 0d540a3241f6ba9681081d03b6206158444dce67, two registered implementation claims, same lease and order18. Own activation records the delegated local-start-only decision before either code path changes. Reservation source990 and actual seven passed; actual reservation CI991 remains failed twice and last fully accepted anchor remains 217155606313f59751af81d5c699f880af2d03e3. No new merge bootstrap or POC permission. Next: commit this exact Own metadata first, then implement only the two claims. All original14, original993 plus new regressions, full official source and actual-main CI, independent Code/Review/Completion and normal merge remain required.
+
+
+## Registered working Code evidence
+
+# OPS-023 registered implementation working evidence
+
+The delegated local-start decision was recorded in first Own metadata commit d22d94be820a056cb130fac89ab5998b18990638 before either code claim changed. Actual registration main 0d540a3241f6ba9681081d03b6206158444dce67 still has incomplete CI991; source990 and actual seven retain their separate passed identities. No old failure is relabelled, no extra merge bootstrap or POC permission is granted.
+
+The two registered paths are the H checker and new test_program_schema_cache.py. Only exact known standard Schema/value structure successes are reused, with fresh actual recovery.frozenAt checks and normal authority/liveness/scope/history checks. Original993, all existing tests, frozen five, workflow/runner/pins/30-minute setting and Task body remain unchanged.
+
+The final working snapshot passed all34 selected native tests (31 new and3 existing). Initial24/6 and31/1 failures, corrected32/0 run, independent bool/int counterexample reproduction, and final34/0 results are archived separately and hashed in validation-index.json. The original positive fixed history fixture bb573f2 was unchanged for both actual H calls: instrumented current-base10.410932s and registered-working10.155969s, both real exit0. Historical registration context cumulative profile changed2.344288s to1.855587s. These local observations do not guarantee whole official CI performance.
+
+Final Code commit/source14/full official source1024 and actual-code-main seven/full1024 are UNEXECUTED. After independent exact candidate review, ordinary commit and same-byte original14/ordered993+31, publish a normal Code PR; full official source/actual main and independent Review remain mandatory. Then normal Review and Completion, each with complete gates, before closure and cleanup. All raw evidence and local refs retained.

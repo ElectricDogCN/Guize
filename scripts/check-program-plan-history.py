@@ -11,10 +11,12 @@ from __future__ import annotations
 import argparse
 import contextlib
 import copy
+import hashlib
 import importlib.util
 import io
 import json
 import locale
+import math
 import os
 import re
 import subprocess
@@ -22,6 +24,7 @@ import sys
 import tempfile
 from datetime import datetime, timedelta, timezone
 from contextvars import ContextVar
+from collections import OrderedDict
 from functools import lru_cache
 from typing import Any
 
@@ -70,6 +73,14 @@ AUDITED_OWNER_CAPACITY_FAILURES: dict[str, dict[str, Any]] = {}
 VALIDATED_TASK_SNAPSHOTS: set[tuple[str, str, str, str]] = set()
 PR_REF_RE = re.compile(r"^PR-([0-9]+)$")
 _HISTORY_BLOB_READER: ContextVar[Any] = ContextVar("guize_history_blob_reader", default=None)
+_PROGRAM_SCHEMA_TEXT_SHA256 = "06778d02cf0be4abb4edd2aa382df3056c863e7be31b0589573ddc9792116c6f"
+_PROGRAM_STRUCTURE_LIMIT = 64
+_PROGRAM_STRUCTURE_SUCCESSES: OrderedDict[tuple[str, str], None] = OrderedDict()
+_PROGRAM_VALIDATOR = jsonschema.Draft202012Validator
+_PROGRAM_VALIDATORS = dict(_PROGRAM_VALIDATOR.VALIDATORS)
+_PROGRAM_TYPE_CHECKER = _PROGRAM_VALIDATOR.TYPE_CHECKER
+_PROGRAM_ITER_ERRORS = _PROGRAM_VALIDATOR.iter_errors
+_PROGRAM_EVOLVE = _PROGRAM_VALIDATOR.evolve
 
 
 def parse_args() -> argparse.Namespace:
@@ -342,9 +353,9 @@ def checked_schema_text(text: str, validator: type) -> None:
     validator.check_schema(load_yaml_text(text))
 
 
-def snapshot_validator(root: str, ref: str, path: str, missing: str) -> Any:
+def snapshot_validator(root: str, ref: str, path: str, missing: str, *, with_source_text: bool = False) -> Any:
     # Read once: even a moving ref must bind parsing and the cache key to the
-    # same actual Schema. Documents and reference resolution are never cached.
+    # same actual Schema. Always construct a fresh validator and resolver.
     text = read_ref(root, ref, path)
     schema = load_yaml_text(text)
     if not isinstance(schema, dict):
@@ -352,7 +363,101 @@ def snapshot_validator(root: str, ref: str, path: str, missing: str) -> Any:
     validator = jsonschema.validators.validator_for(schema)
     checked_schema_text(text, validator)
     # Keep a fresh validator and FormatChecker for every historical document.
-    return validator(schema, format_checker=jsonschema.FormatChecker())
+    value = validator(schema, format_checker=jsonschema.FormatChecker())
+    return (value, text) if with_source_text else value
+
+
+def _program_json_key(document: Any) -> str | None:
+    """Expand plain shared values without mutation; bound expansion and reject cycles."""
+    pending = [(document, False)]
+    active: set[int] = set()
+    nodes = characters = 0
+    while pending:
+        value, leaving = pending.pop()
+        if leaving:
+            active.remove(id(value))
+            continue
+        nodes += 1
+        if nodes > 20000:
+            return None
+        kind = type(value)
+        if kind in (dict, list):
+            if len(value) > 20000 - nodes:
+                return None
+            identity = id(value)
+            if identity in active:
+                return None
+            active.add(identity)
+            pending.append((value, True))
+            if kind is dict:
+                if any(type(key) is not str for key in value):
+                    return None
+                characters += sum(len(key) for key in value)
+                pending.extend((item, False) for item in value.values())
+            else:
+                pending.extend((item, False) for item in value)
+        elif kind is str:
+            characters += len(value)
+        elif kind is float:
+            if not math.isfinite(value):
+                return None
+        elif kind not in (int, bool, type(None)):
+            return None
+        if characters > 262144:
+            return None
+    try:
+        encoded = json.dumps(document, sort_keys=True, separators=(",", ":"),
+                             ensure_ascii=False, allow_nan=False)
+        return encoded if len(encoded.encode("utf-8")) <= 262144 else None
+    except (TypeError, ValueError, OverflowError, RecursionError, UnicodeError):
+        return None
+
+
+def _program_schema_matches_text(schema: Any, source_text: str) -> bool:
+    # Python equality merges True/1 and False/0. Keep JSON's type identities.
+    expected = _program_json_key(_parsed_yaml_text(source_text))
+    return expected is not None and _program_json_key(schema) == expected
+
+
+def program_schema_failures(validator: Any, source_text: str, program: Any) -> list[Any]:
+    """Reuse exact successful structure only, never formats or admission decisions.
+
+    This one known schema has one format at recovery.frozenAt. A hit still runs
+    that real subschema with this call's fresh FormatChecker. Unknown schemas,
+    validators and documents retain the original complete validation path.
+    """
+    eligible = (
+        type(validator) is _PROGRAM_VALIDATOR
+        and _PROGRAM_VALIDATOR.VALIDATORS == _PROGRAM_VALIDATORS
+        and _PROGRAM_VALIDATOR.TYPE_CHECKER is _PROGRAM_TYPE_CHECKER
+        and _PROGRAM_VALIDATOR.iter_errors is _PROGRAM_ITER_ERRORS
+        and _PROGRAM_VALIDATOR.evolve is _PROGRAM_EVOLVE
+        and type(validator.format_checker) is jsonschema.FormatChecker
+        and type(source_text) is str
+        and hashlib.sha256(source_text.encode("utf-8", errors="surrogatepass")).hexdigest() == _PROGRAM_SCHEMA_TEXT_SHA256
+        and _program_schema_matches_text(validator.schema, source_text)
+        and type(program) is dict and program.get("status") == "active"
+    )
+    encoded = _program_json_key(program) if eligible else None
+    if encoded is None:
+        return list(validator.iter_errors(program))
+    key = (source_text, encoded)
+    if key in _PROGRAM_STRUCTURE_SUCCESSES:
+        failures = []
+        if "recovery" in program:
+            schema = validator.schema["properties"]["recovery"]["properties"]["frozenAt"]
+            failures = list(validator.evolve(schema=schema).iter_errors(program["recovery"]["frozenAt"]))
+        if failures:
+            _PROGRAM_STRUCTURE_SUCCESSES.pop(key, None)
+        else:
+            _PROGRAM_STRUCTURE_SUCCESSES.move_to_end(key)
+        return failures
+    failures = list(validator.iter_errors(program))
+    if not failures:
+        _PROGRAM_STRUCTURE_SUCCESSES[key] = None
+        while len(_PROGRAM_STRUCTURE_SUCCESSES) > _PROGRAM_STRUCTURE_LIMIT:
+            _PROGRAM_STRUCTURE_SUCCESSES.popitem(last=False)
+    return failures
 
 
 def parse_front_matter(text: str | None) -> tuple[dict[str, Any], str]:
@@ -762,8 +867,9 @@ def historical_registration_context(root: str, snapshot: str, observation: str, 
             errors.append(f"{label} has forbidden historical lifecycle transition {transition[0]} -> {transition[1]}")
     program = load_ref(root, snapshot, PLAN)
     try:
-        validator = snapshot_validator(root, snapshot, PROGRAM_SCHEMA, "Applicable Program schema is missing")
-        failures = list(validator.iter_errors(program))
+        validator, schema_text = snapshot_validator(root, snapshot, PROGRAM_SCHEMA, "Applicable Program schema is missing",
+                                                   with_source_text=True)
+        failures = program_schema_failures(validator, schema_text, program)
         for failure in failures:
             errors.append(f"{label} Program schema violation: {failure.message}")
         if not isinstance(program, dict) or failures:
