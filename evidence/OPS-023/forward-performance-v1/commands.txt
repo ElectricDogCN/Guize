@@ -1,0 +1,15 @@
+# Planned original14 mapped to actual target; UNEXECUTED
+git diff --check 62a5a35581429ca56dc4d4dbbb7eabb9bc12d46c...HEAD
+python scripts/check-task-file.py --task OPS-023
+python scripts/check-schemas.py
+python scripts/check-program-plan-integrity.py --base-ref 62a5a35581429ca56dc4d4dbbb7eabb9bc12d46c
+python scripts/check-program-plan-history.py --base-ref 62a5a35581429ca56dc4d4dbbb7eabb9bc12d46c --head-ref HEAD --task OPS-023 --branch-name chore/OPS-023-program-schema-cost
+python scripts/check-program-plan-transitions.py --base-ref 62a5a35581429ca56dc4d4dbbb7eabb9bc12d46c --head-ref HEAD --task OPS-023 --branch-name chore/OPS-023-program-schema-cost
+python scripts/check-program-lifecycle-guards.py --base-ref 62a5a35581429ca56dc4d4dbbb7eabb9bc12d46c --head-ref HEAD --task OPS-023 --branch-name chore/OPS-023-program-schema-cost
+python scripts/run-program-lifecycle-gate.py --base-ref 62a5a35581429ca56dc4d4dbbb7eabb9bc12d46c --head-ref HEAD --task OPS-023 --branch-name chore/OPS-023-program-schema-cost
+python scripts/run-agent-coordination-gate.py --base-ref 62a5a35581429ca56dc4d4dbbb7eabb9bc12d46c --head-ref HEAD --task OPS-023 --branch-name chore/OPS-023-program-schema-cost
+python scripts/check-program-plan-finalization.py --base-ref 62a5a35581429ca56dc4d4dbbb7eabb9bc12d46c --head-ref HEAD --task OPS-023
+python scripts/run-task-scope-gate.py --task OPS-023 --base 62a5a35581429ca56dc4d4dbbb7eabb9bc12d46c
+python scripts/check-evidence.py --task OPS-023
+python scripts/check-project-readiness.py
+python scripts/check-markdown.py

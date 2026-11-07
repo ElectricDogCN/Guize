@@ -1,0 +1,105 @@
+{
+  "archive": "validation.zip",
+  "archiveSha256": "63e78ff9fd3018ebec43ee169fb6ec9796d22b248322cf46179a15c65a026bb5",
+  "records": [
+    {
+      "path": "final/results.json",
+      "bytes": 39755,
+      "sha256": "3315d6bf62236738da06d113bd2108efbd88d0d88d4870d32b4e0822b090451f"
+    },
+    {
+      "path": "final/pytest.raw",
+      "bytes": 283,
+      "sha256": "b79e99f5456e6ba9972e351d543b9aa86e7797b1473950ef012227cc2ca1d257"
+    },
+    {
+      "path": "final/pytest.xml",
+      "bytes": 5668,
+      "sha256": "7355eb7bee4888004d71070bca6ce101b5de1b005c87309fdb572827cc630261"
+    },
+    {
+      "path": "final/fixed-fixture.raw",
+      "bytes": 259,
+      "sha256": "e820def4f2d6aef226e6caaa526bfc6c9403d692d4c2f084132762a62e92ffbc"
+    },
+    {
+      "path": "final/original12.raw",
+      "bytes": 287,
+      "sha256": "7f49051162088deed0de33604f5f3af65cd47e1ba93a59719818bcf83025db96"
+    },
+    {
+      "path": "final/original12.xml",
+      "bytes": 2164,
+      "sha256": "e301259be877ac0b0a2a9150ddc2dcfe2c8d3834ab16eed0dc2b99dfe406d1a5"
+    },
+    {
+      "path": "comparison/results.json",
+      "bytes": 53434,
+      "sha256": "243ad37cccc0ba40cc7f6c513b75e5b8522b87a2dd73f6ed0708bf8ce0536ebd"
+    },
+    {
+      "path": "comparison/00-baseline-fixed-fixture.raw",
+      "bytes": 259,
+      "sha256": "e820def4f2d6aef226e6caaa526bfc6c9403d692d4c2f084132762a62e92ffbc"
+    },
+    {
+      "path": "comparison/01-baseline-original12.raw",
+      "bytes": 278,
+      "sha256": "068689c204f6fd8f5662cdf54d5cc22982bc587162b8c105274290315aaee768"
+    },
+    {
+      "path": "comparison/02-prototype-fixed-fixture.raw",
+      "bytes": 259,
+      "sha256": "e820def4f2d6aef226e6caaa526bfc6c9403d692d4c2f084132762a62e92ffbc"
+    },
+    {
+      "path": "comparison/03-prototype-original12.raw",
+      "bytes": 278,
+      "sha256": "27797d889a71a59db9557196772a27fc186bd9616bdc51bdb0dccd11ae4d228d"
+    },
+    {
+      "path": "comparison/04-prototype-fixed-fixture.raw",
+      "bytes": 259,
+      "sha256": "e820def4f2d6aef226e6caaa526bfc6c9403d692d4c2f084132762a62e92ffbc"
+    },
+    {
+      "path": "comparison/05-prototype-original12.raw",
+      "bytes": 278,
+      "sha256": "8fca65418408b36e7928d7174d4f7eadaf111974c1643da7872de4118419d61c"
+    },
+    {
+      "path": "comparison/06-baseline-fixed-fixture.raw",
+      "bytes": 259,
+      "sha256": "e820def4f2d6aef226e6caaa526bfc6c9403d692d4c2f084132762a62e92ffbc"
+    },
+    {
+      "path": "comparison/07-baseline-original12.raw",
+      "bytes": 278,
+      "sha256": "f104ea64412cd49c91f5b43622f39de6f12b3095542c242dbc1d69feb373954c"
+    },
+    {
+      "path": "comparison/tests-0.xml",
+      "bytes": 2164,
+      "sha256": "f23533ef2b7379712fc1d694599d7a74d29cc308b2d3198172a286725efe7241"
+    },
+    {
+      "path": "comparison/tests-1.xml",
+      "bytes": 2164,
+      "sha256": "754224bd3565aea2b3d6de94b2f02d812ac7718dd85dd24fd90a84ce76f0cdd0"
+    },
+    {
+      "path": "comparison/tests-2.xml",
+      "bytes": 2164,
+      "sha256": "673bed046b587b6bf6f0a312eec9b0f29a1de9a0651cb82745c62e2e40e9329e"
+    },
+    {
+      "path": "comparison/tests-3.xml",
+      "bytes": 2164,
+      "sha256": "cdbeff7c164740f6fb5aaaea17611195fcc3ee9b3d292a50cbf8d1b08c932545"
+    }
+  ],
+  "sourceCI": "https://github.com/ElectricDogCN/Guize/actions/runs/42340536312",
+  "cancelledMainCI": "https://github.com/ElectricDogCN/Guize/actions/runs/42342466641",
+  "currentStageExecuted": false,
+  "privateAcceptanceCertificateIncluded": false
+}

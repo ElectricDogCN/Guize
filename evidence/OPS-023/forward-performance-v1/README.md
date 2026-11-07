@@ -1,0 +1,7 @@
+# OPS-023 forward performance repair
+
+Actual base `62a5a35581429ca56dc4d4dbbb7eabb9bc12d46c` contains the first Code merge PR #213, but its [official main run #993](https://github.com/ElectricDogCN/Guize/actions/runs/42342466641) timed out twice (971/53 and 1011/13). Both outcomes remain cancelled. There is no third same-source attempt or POC admission. The new source refreshes only the Own Task/Registry base and retains the same branch, roles, claims, lease and original Task body.
+
+The exact legacy GZ-014 Task validator still executes on each eligible historical checkout. In the ordinary direct History CLI context, the bridge runs the same pinned Task and planning code in fresh local namespaces, binds the original loader's effective planning code, and uses the original subprocess for errors, changed inputs to the loader, unusual interpreter or encoding contexts, and other tasks. The checkout, LFS, Task Registry binding, original Program/Schema path and all authority checks remain.
+
+On the physical two-pair diagnostic comparison, twelve existing history cases took 43.43/43.43s at the base and 39.08/39.61s at the loader-bound prototype. On the final encoding-guard bytes, the same twelve passed in 38.95s and the fixed fixture output matched. All 34 focused cases passed, retaining the prior 31 byte for byte. See `validation.zip` for raw outputs and `validation-index.json` for member identities. These local samples do not guarantee official CI speed. The 14 current source checks and full official source and actual-main CI are pending.
