@@ -121,9 +121,9 @@ foundationTasks:
     mergeCommit: f028aba48efdda261eb864b803b740ccaff3f91c
   - taskId: OPS-023
     title: 减少相同 Program 结构的重复校验成本
-    status: review
-    completionRef: ISSUE-211
-    mergeCommit: null
+    status: completed
+    completionRef: PR-214
+    mergeCommit: fb4c786571508f7a43474ebf52c32a162c809023
 waves:
   - {id: W1, order: 1, name: "需求与 POC 计划", maxConcurrent: 2, maxHighRisk: 1}
   - {id: W2, order: 2, name: "OpenAPI + 独立 POC", maxConcurrent: 3, maxHighRisk: 1}
