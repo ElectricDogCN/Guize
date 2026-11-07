@@ -9,15 +9,15 @@ tasks:
 - taskId: POC-003
   issue: 131
   title: ATS Range/Slice、大文件与权限缓存键
-  status: blocked
+  status: in_progress
   riskLevel: medium
   owner: ElectricDogCN
   coordinator: program-coordinator-agent
   implementer: /root
   reviewer: /root/independent_review
   integrator: integration-agent
-  agentRole: coordinator
-  branch: chore/POC-003-ats-range
+  agentRole: implementer
+  branch: chore/POC-003-qualified-lfs-evidence-v2
   baseBranch: main
   baseSha: 760f6c5838597d1d66c0a536ecbf440ef5a7dfec
   workPackage: WP-M0-POC-03

@@ -1890,3 +1890,10 @@ Task POC-003 / Issue #131. Metadata delivery branch chore/POC-003-blocked-lease-
 Proposed state blocked/coordinator, proposed lease 2026-11-05T11:03:12Z to 2026-11-12T11:03:12Z. The failed migration prepare and real index cache repair are recorded in blocked-lease-v2/. The old approval is preserved and cannot be consumed against this changed tuple. Original Task body and historical recipes remain byte-identical; commands.json explicitly substitutes the current metadata base/branch for all fifteen original gate families. All candidate checks/exit codes, complete official CI, independent review and actual-main acceptance are pending. No implementation, migration or experiment is authorized by this proposal.
 
 Shared code/ADR/results-index: unchanged; integrationOrder2 retained. Rollback: withdraw before merge or use a reviewed ordinary forward metadata correction; preserve every local ref, raw result and workspace. The next role reviews the exact delta and full checks; then a separate legal clean-branch recovery proposal is required.
+
+
+## Prospective exact blocked work-branch recovery v2
+Authority Completion PR199 / fb2dad9be24e37773bfcb7ea1f40c7c26b553f7c; implemented Code PR198 / 7d193039aeaea04575130b7134da857dcaaa018f.
+New committed conditional approval 3b4562d85701d8482fff7ac0ce190ca0a81d12f8128b5932f349c4215c83396e in APP-only creator fe7eb907f3eaf520fb9f240423447645213d9eca.
+chore/POC-003-ats-range -> chore/POC-003-qualified-lfs-evidence-v2; blocked/coordinator -> in_progress/implementer under the existing lease, creation 760f6c5838597d1d66c0a536ecbf440ef5a7dfec, actors and claims. This proposal changes only the five admitted metadata/evidence paths. Original handoff, code, frozen contracts and every legacy result remain source-bound.
+No POC media experiment, current-source qualification, new full21 run or completion is claimed. Exact-source guards, full official933, independent review, ordinary actual merge/main7/full933/final acceptance remain required before the recovered branch is admitted. OldPR184/fat source/local refs and raw media remain preserved.
