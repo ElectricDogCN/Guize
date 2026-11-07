@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "kind": "range_cache_lifecycle",
+  "configurationRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/resource-configuration.json",
+  "inputSamples": [
+    {
+      "id": "SAMPLE-RANGE-LARGEFILE",
+      "immutableId": "sha256:938a8bc3e0a64184f1551bff0c500dc891366ead8f30f8f83753587e763c1c26",
+      "checksum": "sha256:938a8bc3e0a64184f1551bff0c500dc891366ead8f30f8f83753587e763c1c26"
+    }
+  ],
+  "inputSampleId": "SAMPLE-RANGE-LARGEFILE",
+  "subjectVersion": "{\"atsVersionObservation\":\"Traffic Server 9.2.3 Nov  3 2026 03:29:25 localhost\\ntraffic_server: using root directory '/usr'\\nApache Traffic Server - traffic_server - 9.2.3 - (build # 110303 on Nov  3 2026 at 03:29:25)\",\"atsVersionObservationScope\":\"Actual prior host --version of the copied package; container ABI and executable mappings are separately verified by owned epochs\",\"python\":\"3.12.15 (main, Oct  6 2026, 02:02:22) [GCC 14.2.0]\"}",
+  "acceptanceProfile": {
+    "id": "local-v1",
+    "version": 1,
+    "bindingRevision": 1,
+    "scope": "LOCAL_FULL_V1"
+  },
+  "assetId": "poc003-common-main1b5c68b-original-matrix-object",
+  "aclVersion": "poc003-common-main1b5c68b-original-matrix-acl-v1",
+  "stages": [
+    {
+      "stage": "before",
+      "observedAt": "2026-11-02T21:47:53.938633Z",
+      "allocatedBytes": 0,
+      "objects": []
+    },
+    {
+      "stage": "filled",
+      "observedAt": "2026-11-02T21:48:06.667860Z",
+      "allocatedBytes": 67108864,
+      "objects": [
+        {
+          "sourceVersion": "base",
+          "artifactRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/original-matrix/cache-stage-filled/assembled-from-native-cache.bin",
+          "sha256": "sha256:938a8bc3e0a64184f1551bff0c500dc891366ead8f30f8f83753587e763c1c26",
+          "byteCount": 67108864,
+          "complete": true,
+          "visible": true
+        }
+      ]
+    },
+    {
+      "stage": "interrupted",
+      "observedAt": "2026-11-02T21:48:31.720685Z",
+      "allocatedBytes": 0,
+      "objects": []
+    },
+    {
+      "stage": "recovered",
+      "observedAt": "2026-11-02T21:48:34.927932Z",
+      "allocatedBytes": 67108864,
+      "objects": [
+        {
+          "sourceVersion": "base",
+          "artifactRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/original-matrix/cache-stage-recovered/assembled-from-native-cache.bin",
+          "sha256": "sha256:938a8bc3e0a64184f1551bff0c500dc891366ead8f30f8f83753587e763c1c26",
+          "byteCount": 67108864,
+          "complete": true,
+          "visible": true
+        }
+      ]
+    },
+    {
+      "stage": "updated",
+      "observedAt": "2026-11-02T21:49:11.285264Z",
+      "allocatedBytes": 67108864,
+      "objects": [
+        {
+          "sourceVersion": "changed",
+          "artifactRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/original-matrix/cache-stage-updated/assembled-from-native-cache.bin",
+          "sha256": "sha256:643d769e1b5120a7c52d63df3d266f67a4177050180858480feb4e686e2fdda1",
+          "byteCount": 67108864,
+          "complete": true,
+          "visible": true
+        }
+      ]
+    },
+    {
+      "stage": "cleanup",
+      "observedAt": "2026-11-02T21:49:14.708982Z",
+      "allocatedBytes": 0,
+      "objects": []
+    }
+  ]
+}

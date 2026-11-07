@@ -1,0 +1,99 @@
+{
+  "action": "owned-epoch-closed",
+  "label": "verify-config",
+  "pid": 9,
+  "epochRef": "process-epochs/epoch-0",
+  "accepted": true,
+  "trackedEpoch": {
+    "kind": "TRACKED_ALLOCATION_PEAK_PREFIX_NOT_MEDIA_QUALIFICATION",
+    "recordCount": 3,
+    "rawEnd": 1074,
+    "trailingBytes": 0,
+    "rawSha256": "476fedb93398dfc2eea704ebdb4535ef4ac434d5be45828787d685c774d743fd",
+    "first": {
+      "kind": "INSTRUMENTED_ATS_DURABLE_PEAK",
+      "schemaVersion": 1,
+      "pid": 9,
+      "startTicks": 4425188,
+      "sequence": 0,
+      "abiVersion": 1,
+      "generation": 0,
+      "accountingWindow": "process-lifetime",
+      "beforeMonotonicNs": 44252035902387,
+      "peakBytes": 0,
+      "currentBytes": 0,
+      "currentByKind": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "acquisitions": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "releases": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "violations": 0,
+      "uncoveredExternalEvents": 0
+    },
+    "last": {
+      "kind": "INSTRUMENTED_ATS_DURABLE_PEAK",
+      "schemaVersion": 1,
+      "pid": 9,
+      "startTicks": 4425188,
+      "sequence": 2,
+      "abiVersion": 1,
+      "generation": 0,
+      "accountingWindow": "process-lifetime",
+      "beforeMonotonicNs": 44252068989662,
+      "peakBytes": 32768,
+      "currentBytes": 32768,
+      "currentByKind": [
+        32768,
+        0,
+        0,
+        0
+      ],
+      "acquisitions": [
+        2,
+        0,
+        0,
+        0
+      ],
+      "releases": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "violations": 0,
+      "uncoveredExternalEvents": 0
+    },
+    "maximumObservedTrackedCapacityBytes": 32768,
+    "completeTrackedProcessEpoch": true,
+    "fullMediaBufferBoundProven": false,
+    "process": {
+      "pid": 9,
+      "startTicks": 4425188
+    },
+    "exitCode": 0,
+    "waitCompleted": true,
+    "rawBytes": 1074,
+    "journalDevice": 2128,
+    "journalInode": 2289048,
+    "rawFile": "durable-peaks.raw"
+  },
+  "error": null,
+  "exitCode": 0,
+  "actualWaitCompleted": true,
+  "allDescendantsCovered": false,
+  "noSubsequentExecProven": false,
+  "fullMediaBufferBoundProven": false
+}

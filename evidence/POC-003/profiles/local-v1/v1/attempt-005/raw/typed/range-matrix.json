@@ -1,0 +1,496 @@
+{
+  "schemaVersion": 1,
+  "kind": "range_matrix_report",
+  "configurationRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/resource-configuration.json",
+  "inputSamples": [
+    {
+      "id": "SAMPLE-RANGE-LARGEFILE",
+      "immutableId": "sha256:938a8bc3e0a64184f1551bff0c500dc891366ead8f30f8f83753587e763c1c26",
+      "checksum": "sha256:938a8bc3e0a64184f1551bff0c500dc891366ead8f30f8f83753587e763c1c26"
+    }
+  ],
+  "inputSampleId": "SAMPLE-RANGE-LARGEFILE",
+  "subjectVersion": "{\"atsVersionObservation\":\"Traffic Server 9.2.3 Nov  3 2026 03:29:25 localhost\\ntraffic_server: using root directory '/usr'\\nApache Traffic Server - traffic_server - 9.2.3 - (build # 110303 on Nov  3 2026 at 03:29:25)\",\"atsVersionObservationScope\":\"Actual prior host --version of the copied package; container ABI and executable mappings are separately verified by owned epochs\",\"python\":\"3.12.15 (main, Oct  6 2026, 02:02:22) [GCC 14.2.0]\"}",
+  "acceptanceProfile": {
+    "id": "local-v1",
+    "version": 1,
+    "bindingRevision": 1,
+    "scope": "LOCAL_FULL_V1"
+  },
+  "assetId": "poc003-common-main1b5c68b-original-matrix-object",
+  "aclVersion": "poc003-common-main1b5c68b-original-matrix-acl-v1",
+  "sourceUpdateRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/typed/source-update.json",
+  "cacheLifecycleRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/typed/cache-lifecycle.json",
+  "cases": [
+    {
+      "case": "denied_user",
+      "witnessRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/typed/case-denied_user.json"
+    },
+    {
+      "case": "fill",
+      "witnessRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/typed/case-fill.json"
+    },
+    {
+      "case": "hit",
+      "witnessRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/typed/case-hit.json"
+    },
+    {
+      "case": "if_match",
+      "witnessRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/typed/case-if_match.json"
+    },
+    {
+      "case": "if_stale",
+      "witnessRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/typed/case-if_stale.json"
+    },
+    {
+      "case": "interrupted",
+      "witnessRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/typed/case-interrupted.json"
+    },
+    {
+      "case": "latency_cold",
+      "witnessRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/typed/case-latency_cold.json"
+    },
+    {
+      "case": "latency_hot",
+      "witnessRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/typed/case-latency_hot.json"
+    },
+    {
+      "case": "latency_multi",
+      "witnessRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/typed/case-latency_multi.json"
+    },
+    {
+      "case": "latency_slow",
+      "witnessRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/typed/case-latency_slow.json"
+    },
+    {
+      "case": "miss",
+      "witnessRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/typed/case-miss.json"
+    },
+    {
+      "case": "other_user",
+      "witnessRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/typed/case-other_user.json"
+    },
+    {
+      "case": "partial_read",
+      "witnessRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/typed/case-partial_read.json"
+    },
+    {
+      "case": "range_end",
+      "witnessRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/typed/case-range_end.json"
+    },
+    {
+      "case": "range_middle",
+      "witnessRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/typed/case-range_middle.json"
+    },
+    {
+      "case": "range_start",
+      "witnessRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/typed/case-range_start.json"
+    },
+    {
+      "case": "recovered",
+      "witnessRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/typed/case-recovered.json"
+    },
+    {
+      "case": "stream",
+      "witnessRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/typed/case-stream.json"
+    },
+    {
+      "case": "suffix",
+      "witnessRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/typed/case-suffix.json"
+    },
+    {
+      "case": "unsatisfiable",
+      "witnessRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/typed/case-unsatisfiable.json"
+    },
+    {
+      "case": "updated",
+      "witnessRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/typed/case-updated.json"
+    }
+  ],
+  "slices": [
+    {
+      "start": 0,
+      "end": 1048575,
+      "sha256": "sha256:94099c2608d07a5f566c4aea0717970cd0968d1680ed2f3e4b0a828fd23b7ebb",
+      "artifactRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/original-matrix/cache-stage-filled/key-1.body"
+    },
+    {
+      "start": 1048576,
+      "end": 2097151,
+      "sha256": "sha256:1db27ac565cd52f2f419aee8896c612b5857936e392a0442fc126e3e0d9af720",
+      "artifactRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/original-matrix/cache-stage-filled/key-3.body"
+    },
+    {
+      "start": 2097152,
+      "end": 3145727,
+      "sha256": "sha256:2a4665562f55350328132aa6b7710bba4fe6428bb590f1a41c5c10a6990a269c",
+      "artifactRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/original-matrix/cache-stage-filled/key-4.body"
+    },
+    {
+      "start": 3145728,
+      "end": 4194303,
+      "sha256": "sha256:a5402c54bcb38c4fb706ad4f70d38277ead85775dfdb5ffc91ce7f01fb85d30e",
+      "artifactRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/original-matrix/cache-stage-filled/key-5.body"
+    },
+    {
+      "start": 4194304,
+      "end": 5242879,
+      "sha256": "sha256:9b3b2e1926259c1208cb4f01d002c6eba9d64f119842b70fedcfed5cb3f04225",
+      "artifactRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/original-matrix/cache-stage-filled/key-6.body"
+    },
+    {
+      "start": 5242880,
+      "end": 6291455,
+      "sha256": "sha256:71db121b301a015c1655aafe10825ee74190ff99bf23fa8e1a52de209158215c",
+      "artifactRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/original-matrix/cache-stage-filled/key-7.body"
+    },
+    {
+      "start": 6291456,
+      "end": 7340031,
+      "sha256": "sha256:78d42398cb264f30439a9554f1d55fafa88690777be506efb6274126b931d36c",
+      "artifactRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/original-matrix/cache-stage-filled/key-8.body"
+    },
+    {
+      "start": 7340032,
+      "end": 8388607,
+      "sha256": "sha256:588dfad424c39b79650709ae5b543ec79964bf24e936b153bafc255459bc2636",
+      "artifactRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/original-matrix/cache-stage-filled/key-9.body"
+    },
+    {
+      "start": 8388608,
+      "end": 9437183,
+      "sha256": "sha256:52d5b1655a6e25ba441b31364aafe51f41fff3d145b936b1e20dfa8d6fd3cd79",
+      "artifactRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/original-matrix/cache-stage-filled/key-10.body"
+    },
+    {
+      "start": 9437184,
+      "end": 10485759,
+      "sha256": "sha256:04b9cccd1813b3f6f00013d828d0b332bb082e3733b2d837bd6e86745eff69b5",
+      "artifactRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/original-matrix/cache-stage-filled/key-11.body"
+    },
+    {
+      "start": 10485760,
+      "end": 11534335,
+      "sha256": "sha256:b4d41b171b07774b6c5679110851422322b81cf4997e9a45fc479b42deb761bb",
+      "artifactRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/original-matrix/cache-stage-filled/key-12.body"
+    },
+    {
+      "start": 11534336,
+      "end": 12582911,
+      "sha256": "sha256:3cb6211312179770cffe8205e8745ec808a373cd8d946546d903eaf773ff0e4f",
+      "artifactRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/original-matrix/cache-stage-filled/key-13.body"
+    },
+    {
+      "start": 12582912,
+      "end": 13631487,
+      "sha256": "sha256:4b16b27964c1e9f51412a49e5774817481f361a1bbc887dc32eba04362ce25e7",
+      "artifactRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/original-matrix/cache-stage-filled/key-14.body"
+    },
+    {
+      "start": 13631488,
+      "end": 14680063,
+      "sha256": "sha256:104bd1e02da47610b9e6a8c0af0338e49deddd36fe6762e31d90eedf349a06d6",
+      "artifactRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/original-matrix/cache-stage-filled/key-15.body"
+    },
+    {
+      "start": 14680064,
+      "end": 15728639,
+      "sha256": "sha256:b1e686c5e77a91241bc17fa456cce79720fae83a291855c620ed4902a9ecc1a9",
+      "artifactRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/original-matrix/cache-stage-filled/key-16.body"
+    },
+    {
+      "start": 15728640,
+      "end": 16777215,
+      "sha256": "sha256:f7069bfd598631575efd166d090c439cca339ab8797896e37cf45c417ef4e00c",
+      "artifactRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/original-matrix/cache-stage-filled/key-17.body"
+    },
+    {
+      "start": 16777216,
+      "end": 17825791,
+      "sha256": "sha256:023d637516685b58c5a115f7c8496b97ccf19b3a03c1c7aace640f44592ec5e7",
+      "artifactRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/original-matrix/cache-stage-filled/key-18.body"
+    },
+    {
+      "start": 17825792,
+      "end": 18874367,
+      "sha256": "sha256:d80ac1ecf9a6f981c9cdf9bf4a73acbb79819cc311768efaef2e708ada1e5186",
+      "artifactRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/original-matrix/cache-stage-filled/key-19.body"
+    },
+    {
+      "start": 18874368,
+      "end": 19922943,
+      "sha256": "sha256:a68f0efc9abe2e4efdd4a79f3f59ecce17b6c88558bbe08220328820616e13ab",
+      "artifactRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/original-matrix/cache-stage-filled/key-20.body"
+    },
+    {
+      "start": 19922944,
+      "end": 20971519,
+      "sha256": "sha256:68b98fa5493129f6957fb4da3f1e86444e050e795bc6b88f7c27ee5b3b553f42",
+      "artifactRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/original-matrix/cache-stage-filled/key-21.body"
+    },
+    {
+      "start": 20971520,
+      "end": 22020095,
+      "sha256": "sha256:0d6e89a7db8ded832645a97e98fad07f85bc78ba972337790e01ff31f0e85453",
+      "artifactRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/original-matrix/cache-stage-filled/key-22.body"
+    },
+    {
+      "start": 22020096,
+      "end": 23068671,
+      "sha256": "sha256:1d64a546024eec13e2a30bc0d86bd2b4f45c3d01421a7e5fee9c38bafb78c625",
+      "artifactRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/original-matrix/cache-stage-filled/key-23.body"
+    },
+    {
+      "start": 23068672,
+      "end": 24117247,
+      "sha256": "sha256:076a8c95e9738e09c50031f70a1b7844f8bdc5ee2631694471424ab3e0274768",
+      "artifactRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/original-matrix/cache-stage-filled/key-24.body"
+    },
+    {
+      "start": 24117248,
+      "end": 25165823,
+      "sha256": "sha256:df2d446e227d83739d739ec8f132ae8b9ded4380afae479db3fca277570e4f5e",
+      "artifactRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/original-matrix/cache-stage-filled/key-25.body"
+    },
+    {
+      "start": 25165824,
+      "end": 26214399,
+      "sha256": "sha256:36d6f2656feb58a52e1782824698f76d1e1fac195787dc414fc9a75b0a0ae511",
+      "artifactRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/original-matrix/cache-stage-filled/key-26.body"
+    },
+    {
+      "start": 26214400,
+      "end": 27262975,
+      "sha256": "sha256:4d74c54aa79f6d14cc1e32eccdcf3c9f23ce7ccaedb63da5fc65253f4cbbe728",
+      "artifactRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/original-matrix/cache-stage-filled/key-27.body"
+    },
+    {
+      "start": 27262976,
+      "end": 28311551,
+      "sha256": "sha256:a61390b64d33a4252b124b6c7b4dccdab0612aa4617b48f0fa3190016c1eadc2",
+      "artifactRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/original-matrix/cache-stage-filled/key-28.body"
+    },
+    {
+      "start": 28311552,
+      "end": 29360127,
+      "sha256": "sha256:0b99aef80d10f2c827cc5e9f1e107e75ba18c2bfad0c2e92800dc66a0fb82e51",
+      "artifactRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/original-matrix/cache-stage-filled/key-29.body"
+    },
+    {
+      "start": 29360128,
+      "end": 30408703,
+      "sha256": "sha256:87a88ee41672134c669be1f8891e047ccd9bc69e9eb70708d54fdfdd58c0c5f6",
+      "artifactRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/original-matrix/cache-stage-filled/key-30.body"
+    },
+    {
+      "start": 30408704,
+      "end": 31457279,
+      "sha256": "sha256:51b986e6d86d03196813b9cc387ccf0835049432ea63b7dc216cd692039d5eaa",
+      "artifactRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/original-matrix/cache-stage-filled/key-31.body"
+    },
+    {
+      "start": 31457280,
+      "end": 32505855,
+      "sha256": "sha256:afac07b8999530ed789a783758b874aa698e7fd79bd5897898ceb9f7d3cd2a2c",
+      "artifactRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/original-matrix/cache-stage-filled/key-32.body"
+    },
+    {
+      "start": 32505856,
+      "end": 33554431,
+      "sha256": "sha256:0be978a712c07fc658111e5078d3d03c8a80ab8fa3f9541bd0c19be0dd79d39b",
+      "artifactRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/original-matrix/cache-stage-filled/key-33.body"
+    },
+    {
+      "start": 33554432,
+      "end": 34603007,
+      "sha256": "sha256:161393fa6650bbc770e93e13b7d01ee2a00df42101de48c6dea2ebfd136deb42",
+      "artifactRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/original-matrix/cache-stage-filled/key-34.body"
+    },
+    {
+      "start": 34603008,
+      "end": 35651583,
+      "sha256": "sha256:67adfd1a4719fdb9d647194214a3abccf3eb9ac66ff973a70c42d66cd26caecd",
+      "artifactRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/original-matrix/cache-stage-filled/key-35.body"
+    },
+    {
+      "start": 35651584,
+      "end": 36700159,
+      "sha256": "sha256:9852870eba4e3d697703abc53f39a95eaa0baa0ab704ba5ce734fda2ddae1e65",
+      "artifactRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/original-matrix/cache-stage-filled/key-36.body"
+    },
+    {
+      "start": 36700160,
+      "end": 37748735,
+      "sha256": "sha256:7227b9c80bc664a2e64424704841389fd66a8bb6136bd56a45b608b804f32db0",
+      "artifactRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/original-matrix/cache-stage-filled/key-37.body"
+    },
+    {
+      "start": 37748736,
+      "end": 38797311,
+      "sha256": "sha256:3ca33e3a3ee086d61bd9a6ff750edc1c845fef65f0c283a1fa06f91fe955fbed",
+      "artifactRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/original-matrix/cache-stage-filled/key-38.body"
+    },
+    {
+      "start": 38797312,
+      "end": 39845887,
+      "sha256": "sha256:9eccbde4671fb636eac91571d9322e94b7211f6e6270139af681895d664dfd66",
+      "artifactRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/original-matrix/cache-stage-filled/key-39.body"
+    },
+    {
+      "start": 39845888,
+      "end": 40894463,
+      "sha256": "sha256:7457fe1c78212bfa055b4fe860f40236eb59e67a9f92f5d2b83af1e185ea3041",
+      "artifactRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/original-matrix/cache-stage-filled/key-40.body"
+    },
+    {
+      "start": 40894464,
+      "end": 41943039,
+      "sha256": "sha256:b0c1f05c1bb0a3be323f98d66da457125b91b7979a962fa0e3607319e2305021",
+      "artifactRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/original-matrix/cache-stage-filled/key-41.body"
+    },
+    {
+      "start": 41943040,
+      "end": 42991615,
+      "sha256": "sha256:d67767a72781cca44994a4bd430247b93511dac00a8ed52ceec6cebcad81e4af",
+      "artifactRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/original-matrix/cache-stage-filled/key-42.body"
+    },
+    {
+      "start": 42991616,
+      "end": 44040191,
+      "sha256": "sha256:09926cd31145034b526cccabf61ece3ebe2c22e0a5b79984e5f4174dba484bb0",
+      "artifactRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/original-matrix/cache-stage-filled/key-43.body"
+    },
+    {
+      "start": 44040192,
+      "end": 45088767,
+      "sha256": "sha256:d15c6b368aa12f13b62c35eb08c0262741cc04ff757826def214f2750c5a8f88",
+      "artifactRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/original-matrix/cache-stage-filled/key-44.body"
+    },
+    {
+      "start": 45088768,
+      "end": 46137343,
+      "sha256": "sha256:2dacf81cc4d061387ad1d0f532f3f4d9dec11e7997ccc9ecfa9ad76abbb7b35a",
+      "artifactRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/original-matrix/cache-stage-filled/key-45.body"
+    },
+    {
+      "start": 46137344,
+      "end": 47185919,
+      "sha256": "sha256:dfafdb1eb9c171e749abb507d0f649c08c1a98afc7feb18db683d190eaace0ca",
+      "artifactRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/original-matrix/cache-stage-filled/key-46.body"
+    },
+    {
+      "start": 47185920,
+      "end": 48234495,
+      "sha256": "sha256:10df51c5332653f4ba267cca7a88f228b03bd047399c22e7eb15356f2f0f3331",
+      "artifactRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/original-matrix/cache-stage-filled/key-47.body"
+    },
+    {
+      "start": 48234496,
+      "end": 49283071,
+      "sha256": "sha256:44010e383e8d479affb24830fca83eac15579425391ca081cb44b2c993e79479",
+      "artifactRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/original-matrix/cache-stage-filled/key-48.body"
+    },
+    {
+      "start": 49283072,
+      "end": 50331647,
+      "sha256": "sha256:f0a98871748dc1bb2f90219e54c596940c5c040fdb85a50b4666e7cc7cf60399",
+      "artifactRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/original-matrix/cache-stage-filled/key-49.body"
+    },
+    {
+      "start": 50331648,
+      "end": 51380223,
+      "sha256": "sha256:680c9a2156bff9dafb8cf3c6359cd2e0508fbdb12ef39c814187c45c23f81b89",
+      "artifactRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/original-matrix/cache-stage-filled/key-50.body"
+    },
+    {
+      "start": 51380224,
+      "end": 52428799,
+      "sha256": "sha256:786cb3ea18054207fdbc5ea9241e7b8481cbced1af05c808f70d241ec374b9aa",
+      "artifactRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/original-matrix/cache-stage-filled/key-51.body"
+    },
+    {
+      "start": 52428800,
+      "end": 53477375,
+      "sha256": "sha256:8135fef022e723d8b1c738f79ca9d403d927410f7a6ac09a82bfbe4bd8346c3a",
+      "artifactRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/original-matrix/cache-stage-filled/key-52.body"
+    },
+    {
+      "start": 53477376,
+      "end": 54525951,
+      "sha256": "sha256:667a5a7a2b639b3e59de23acabd688ae4790127a4d6084e8932364739b656456",
+      "artifactRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/original-matrix/cache-stage-filled/key-53.body"
+    },
+    {
+      "start": 54525952,
+      "end": 55574527,
+      "sha256": "sha256:eb8fccdaa048582c6a1bb334bea7e191298705c02ae9752abc8ea5d2d2d37816",
+      "artifactRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/original-matrix/cache-stage-filled/key-54.body"
+    },
+    {
+      "start": 55574528,
+      "end": 56623103,
+      "sha256": "sha256:a107289e5dec105aae55d9c58c070ce1050fe40282e6544f417b5e7079bf8978",
+      "artifactRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/original-matrix/cache-stage-filled/key-55.body"
+    },
+    {
+      "start": 56623104,
+      "end": 57671679,
+      "sha256": "sha256:950e88bcf625026255bf1866126cdd85e4d744bc0ae771580a47afc9b2af0055",
+      "artifactRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/original-matrix/cache-stage-filled/key-56.body"
+    },
+    {
+      "start": 57671680,
+      "end": 58720255,
+      "sha256": "sha256:5cce87022c10edcebe0440b092cee205feb4e0673285b7d2f932b1adda9ebaf2",
+      "artifactRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/original-matrix/cache-stage-filled/key-57.body"
+    },
+    {
+      "start": 58720256,
+      "end": 59768831,
+      "sha256": "sha256:4ce0a11bc83fd46877f6f442ef9ed37a14849c501f62adf78f66a2a35fe90fa7",
+      "artifactRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/original-matrix/cache-stage-filled/key-58.body"
+    },
+    {
+      "start": 59768832,
+      "end": 60817407,
+      "sha256": "sha256:d6dea8e2620fd3eee80ab81e853cea3fe8b41e7d8a1be4bb3ae0248eef0dc0cc",
+      "artifactRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/original-matrix/cache-stage-filled/key-59.body"
+    },
+    {
+      "start": 60817408,
+      "end": 61865983,
+      "sha256": "sha256:384a5162a1b2d1c07889515266779058741e7b0b60c3dd21e36a93357f357cd4",
+      "artifactRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/original-matrix/cache-stage-filled/key-60.body"
+    },
+    {
+      "start": 61865984,
+      "end": 62914559,
+      "sha256": "sha256:d64fce0edfb0f8764ae9d0285eae54047dab2082fd16cc526d1196a3343691dd",
+      "artifactRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/original-matrix/cache-stage-filled/key-61.body"
+    },
+    {
+      "start": 62914560,
+      "end": 63963135,
+      "sha256": "sha256:9c484f3e63b0e99d905d82e17dac0988ab5462955cd50c421a4a895086851b9c",
+      "artifactRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/original-matrix/cache-stage-filled/key-62.body"
+    },
+    {
+      "start": 63963136,
+      "end": 65011711,
+      "sha256": "sha256:3ecfdb930ee907faf9c2f56a39939d702fd4762899dab115031aaf22f8ea50cf",
+      "artifactRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/original-matrix/cache-stage-filled/key-63.body"
+    },
+    {
+      "start": 65011712,
+      "end": 66060287,
+      "sha256": "sha256:b59f655b313ded2250a4e0b0f5d336c82074a4026e279c8775448e884720f7d8",
+      "artifactRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/original-matrix/cache-stage-filled/key-64.body"
+    },
+    {
+      "start": 66060288,
+      "end": 67108863,
+      "sha256": "sha256:86fdcd78f88d9e49a540eab77bfae920f0677a8e90bc6e8038c05ea502cc76f2",
+      "artifactRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/original-matrix/cache-stage-filled/key-2.body"
+    }
+  ]
+}

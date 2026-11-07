@@ -1,0 +1,24 @@
+{
+  "kind": "ACTUAL_TEN_RETAINED_H_METADATA_TESTS_NOT_MEDIA_OR_NEW_MAIN_QUALIFICATION",
+  "pid": 167235,
+  "actualWaitCompleted": true,
+  "exitCode": 0,
+  "startedAt": "2026-11-02T21:36:27.735463+00:00",
+  "finishedAt": "2026-11-02T21:36:27.956400+00:00",
+  "testSha256": "377cc08cd541b4cfe59b379d0d472a3ae7a75b725a0fb4f4f59835bdecf3feb2",
+  "assemblerSha256": "2f3a736da501bdf965b87221eb772dfd0449df89de7d70118fca834780cd7df6",
+  "logs": [
+    {
+      "file": "stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "stderr.raw",
+      "bytes": 1223,
+      "sha256": "8aa06b8848631091cc7e5efc04e5f0d93f21c7653e19d51b451e11fb04c97631"
+    }
+  ],
+  "newExperimentExecuted": false,
+  "formalPocAccepted": false
+}

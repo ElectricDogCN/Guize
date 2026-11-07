@@ -1,0 +1,50 @@
+{
+  "reviewer": "/root/independent_review",
+  "reviewedAt": "2026-11-02T21:44:41Z",
+  "kind": "PROSPECTIVE_COMPLETE_ORIGINAL15_METHOD_STATIC_REVIEW",
+  "source": "1b5c68bab02d98f8e11286d80033585090c7af99",
+  "tree": "f94ed8da8d83391f2474365af848bf267a0dc8d1",
+  "methodPreparationAccepted": true,
+  "mustFix": [],
+  "scope": "COMMON_MAIN1B5C68B_FULL_ORIGINAL15_MATRIX_AND_CANONICAL_ASSEMBLY",
+  "exactPins": {
+    "assemblerV7": "fb9110f8b2b12a6a24b070d33c65b77a7705076b96114f4fb09cf5ae18eb8b2f",
+    "supervisorV4": "5dea5d30a496899c1db3ab285230619c58fe112a9163c2ff41ab6e0d4dc96c33",
+    "launcherV4": "d42a135c9b142fa6f5d36fbdb4d7fc464bb67377a4e50a7932c0d9553cb52c58",
+    "proposalV5": "d2f728d45b97d753d14c161c69128832e3bb898c919bf168989a71caabff4f6a",
+    "entry": "1da32fc7549f9e8bd7369158874e67c2a9144bfcf826fc907e7577588293dfd9",
+    "runtimeAuthentication": "6368b0b8d6bc0ac05440498be7645732602aa28af0ea972bdef49991798baf10",
+    "nativeAssociationV3": "ed431101228320babfce057619d5680a06c4e8da658c35b79b80eca7687cf7a9"
+  },
+  "closedFindings": [
+    "Actually called source/rules now compare byte-for-byte with immutable M before imports and validation.",
+    "Actual private credential scanning rejects selected original/generated disclosures without redacted replacements.",
+    "Before profile template binds sorted exact15 IDs, common scope and exact assembler/supervisor/launcher pins; generated executionWindow uses literalZ.",
+    "Existing prepare/controller/collector runtime originals now bind profile/native maps/crypto route and samePID1 birth/current window; retained pointers are consumed and originals preserved.",
+    "Native request/sidecar/stage/provenance PIDs now join authenticated26 token/birth mappings; actual observations require odd-token start service epochs. Empty helper observer directories remain unused, not request proof."
+  ],
+  "relevantComponentResults": {
+    "sourceAndSecretNegatives": {
+      "cases": 5,
+      "pid": 166817,
+      "actualWaitCompleted": true,
+      "exitCode": 0,
+      "resultSha256": "0f5baf16174192baa87a5d970cf3102ce0c88ea0132d65847eea2a8a167e6e73"
+    },
+    "runtimeAndAssociation": {
+      "cases": 10,
+      "pid": 167235,
+      "actualWaitCompleted": true,
+      "exitCode": 0,
+      "resultSha256": "65cf52e0fee0f5694d759ccc73e3401b5e163893ece0493a19045c055eb37c21",
+      "stderrSha256": "8aa06b8848631091cc7e5efc04e5f0d93f21c7653e19d51b451e11fb04c97631"
+    },
+    "meaning": "Synthetic/source checks and retained H metadata replay only. They do not authenticate an unexecuted M run or transplant H historical raw into formal results."
+  },
+  "preservedConstraints": "Original21 cases/101 requests/64 slices/6 stages/26 closed epochs/12 clears/10 bounded sidecars;8MiB/retry0/64MiBpair/1MiBSlice/four latency samples/two users. Original frozen checker/schema/threshold/source remain unchanged. No new typed-domain prerequisite.",
+  "futureSequence": "Only a separate real prospective five-control/run approval can authorize the new run. After actual closure, retain originals and failures, assemble under Own profile prefix, track/commit referenced Own evidence as the frozen qualified-source guard requires, and run unchanged frozen validation plus original CLI. Independent fresh warm-cache revocation and independent result/profile acceptance remain separate.",
+  "actualRunAccepted": false,
+  "actualFifteenAccepted": false,
+  "eightMiBBoundProven": false,
+  "formalPocAccepted": false
+}

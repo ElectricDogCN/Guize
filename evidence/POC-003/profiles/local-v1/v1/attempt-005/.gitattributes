@@ -1,0 +1,3 @@
+* -text whitespace=cr-at-eol
+*.bin binary
+*.body binary

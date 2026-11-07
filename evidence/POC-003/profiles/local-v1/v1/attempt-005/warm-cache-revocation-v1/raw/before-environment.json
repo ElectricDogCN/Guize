@@ -1,0 +1,139 @@
+{
+  "kind": "ACTUAL_BEFORE_WORKLOAD_ENVIRONMENT_OBSERVATION_ONLY",
+  "capturedStartedAt": "2026-11-02T22:07:06.642545Z",
+  "capturedFinishedAt": "2026-11-02T22:07:06.643274Z",
+  "startedMonotonicNs": 44251329998005,
+  "finishedMonotonicNs": 44251330903633,
+  "environmentCaptured": {
+    "host_os": {
+      "isolation": "Observed process namespace; parent Docker identity is independently captured",
+      "osRelease": "PRETTY_NAME=\"Debian GNU/Linux 13 (trixie)\"\nNAME=\"Debian GNU/Linux\"\nVERSION_ID=\"13\"\nVERSION=\"13 (trixie)\"\nVERSION_CODENAME=trixie\nDEBIAN_VERSION_FULL=13.7\nID=debian\nHOME_URL=\"https://www.debian.org/\"\nSUPPORT_URL=\"https://www.debian.org/support\"\nBUG_REPORT_URL=\"https://bugs.debian.org/\"\n",
+      "uid": 1000,
+      "pid": 1
+    },
+    "kernel": {
+      "sysname": "Linux",
+      "nodename": "0750068e5171",
+      "release": "6.18.54.1-microsoft-standard-WSL2",
+      "version": "#1 SMP PREEMPT_DYNAMIC Tue Oct  6 19:13:07 UTC 2026",
+      "machine": "x86_64"
+    },
+    "cpu": {
+      "model": "AMD Ryzen 7 8845H w/ Radeon 780M Graphics",
+      "visibleLogicalCount": 16,
+      "quota": "100000",
+      "period": "100000"
+    },
+    "memory": {
+      "cgroupLimit": "536870912",
+      "swapLimit": "0"
+    },
+    "gpu": {
+      "exposedDevicePaths": [],
+      "scope": "Observed mapped device paths; physical-host GPU inventory is outside this cache test"
+    },
+    "driver": {
+      "cacheWorkload": "CPU-only ATS Range/Slice",
+      "gpuDevicePathsObserved": []
+    },
+    "runtime": {
+      "python": "3.12.15 (main, Oct  6 2026, 02:02:22) [GCC 14.2.0]",
+      "implementation": "cpython",
+      "executable": "/usr/local/bin/python3"
+    },
+    "tool_versions": {
+      "python": "3.12.15 (main, Oct  6 2026, 02:02:22) [GCC 14.2.0]",
+      "atsVersionObservation": "Traffic Server 9.2.3 Nov  3 2026 03:29:25 localhost\ntraffic_server: using root directory '/usr'\nApache Traffic Server - traffic_server - 9.2.3 - (build # 110303 on Nov  3 2026 at 03:29:25)",
+      "atsVersionObservationScope": "Actual prior host --version of the copied package; container ABI and executable mappings are separately verified by owned epochs"
+    },
+    "network_profile": {
+      "observedInterfaces": [
+        "lo"
+      ],
+      "plannedLoopbackListenerPorts": [
+        18231,
+        18232,
+        18233
+      ],
+      "scope": "Interfaces observed before listeners; listener binding is attested later by the original ready callback"
+    },
+    "storage_profile": {
+      "workspace": "/runlab",
+      "availableBytes": 938551693312,
+      "packageReadOnly": true,
+      "workspaceReadOnly": false,
+      "plannedCacheBytes": 268435456,
+      "scope": "Actual filesystem observations; monitored workspace budgets are not filesystem quotas"
+    }
+  },
+  "rawObservations": {
+    "os": {
+      "path": "/usr/lib/os-release",
+      "text": "PRETTY_NAME=\"Debian GNU/Linux 13 (trixie)\"\nNAME=\"Debian GNU/Linux\"\nVERSION_ID=\"13\"\nVERSION=\"13 (trixie)\"\nVERSION_CODENAME=trixie\nDEBIAN_VERSION_FULL=13.7\nID=debian\nHOME_URL=\"https://www.debian.org/\"\nSUPPORT_URL=\"https://www.debian.org/support\"\nBUG_REPORT_URL=\"https://bugs.debian.org/\"\n",
+      "prefixOnly": false,
+      "observedByteCount": 286,
+      "observedBytesSha256": "e249e69c32d81350fdd6b05ac5575255f14e380ba14b8454acea14e49f088bfa"
+    },
+    "cpu": {
+      "path": "/proc/cpuinfo",
+      "text": "processor\t: 0\nvendor_id\t: AuthenticAMD\ncpu family\t: 25\nmodel\t\t: 117\nmodel name\t: AMD Ryzen 7 8845H w/ Radeon 780M Graphics\nstepping\t: 2\nmicrocode\t: 0xffffffff\ncpu MHz\t\t: 3792.940\ncache size\t: 1024 KB\nphysical id\t: 0\nsiblings\t: 16\ncore id\t\t: 0\ncpu cores\t: 8\napicid\t\t: 0\ninitial apicid\t: 0\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 13\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology tsc_reliable nonstop_tsc cpuid extd_apicid tsc_known_freq pni pclmulqdq ssse3 fma cx16 sse4_1 sse4_2 movbe popcnt aes xsave avx f16c rdrand hypervisor lahf_lm cmp_legacy cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw topoext perfctr_core ssbd ibrs ibpb stibp vmmcall fsgsbase bmi1 avx2 smep bmi2 erms invpcid avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves avx512_bf16 clzero xsaveerptr arat avx512vbmi umip avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid fsrm\nbugs\t\t: sysret_ss_attrs null_seg spectre_v1 spectre_v2 spec_store_bypass srso ibpb_no_ret spectre_v2_user tsa\nbogomips\t: 7585.88\nTLB size\t: 3584 4K pages\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 48 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 1\nvendor_id\t: AuthenticAMD\ncpu family\t: 25\nmodel\t\t: 117\nmodel name\t: AMD Ryzen 7 8845H w/ Radeon 780M Graphics\nstepping\t: 2\nmicrocode\t: 0xffffffff\ncpu MHz\t\t: 3792.940\ncache size\t: 1024 KB\nphysical id\t: 0\nsiblings\t: 16\ncore id\t\t: 0\ncpu cores\t: 8\napicid\t\t: 1\ninitial apicid\t: 1\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 13\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology tsc_reliable nonstop_tsc cpuid extd_apicid tsc_known_freq pni pclmulqdq ssse3 fma cx16 sse4_1 sse4_2 movbe popcnt aes xsave avx f16c rdrand hypervisor lahf_lm cmp_legacy cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw topoext perfctr_core ssbd ibrs ibpb stibp vmmcall fsgsbase bmi1 avx2 smep bmi2 erms invpcid avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves avx512_bf16 clzero xsaveerptr arat avx512vbmi umip avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid fsrm\nbugs\t\t: sysret_ss_attrs null_seg spectre_v1 spectre_v2 spec_store_bypass srso ibpb_no_ret spectre_v2_user tsa\nbogomips\t: 7585.88\nTLB size\t: 3584 4K pages\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 48 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 2\nvendor_id\t: AuthenticAMD\ncpu family\t: 25\nmodel\t\t: 117\nmodel name\t: AMD Ryzen 7 8845H w/ Radeon 780M Graphics\nstepping\t: 2\nmicrocode\t: 0xffffffff\ncpu MHz\t\t: 3792.940\ncache size\t: 1024 KB\nphysical id\t: 0\nsiblings\t: 16\ncore id\t\t: 1\ncpu cores\t: 8\napicid\t\t: 2\ninitial apicid\t: 2\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 13\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology tsc_reliable nonstop_tsc cpuid extd_apicid tsc_known_freq pni pclmulqdq ssse3 fma cx16 sse4_1 sse4_2 movbe popcnt aes xsave avx f16c rdrand hypervisor lahf_lm cmp_legacy cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw topoext perfctr_core ssbd ibrs ibpb stibp vmmcall fsgsbase bmi1 avx2 smep bmi2 erms invpcid avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves avx512_bf16 clzero xsaveerptr arat avx512vbmi umip avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid fsrm\nbugs\t\t: sysret_ss_attrs null_seg spectre_v1 spectre_v2 spec_store_bypass srso ibpb_no_ret spectre_v2_user tsa\nbogomips\t: 7585.88\nTLB size\t: 3584 4K pages\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 48 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 3\nvendor_id\t: AuthenticAMD\ncpu family\t: 25\nmodel\t\t: 117\nmodel name\t: AMD Ryzen 7 8845H w/ Radeon 780M Graphics\nstepping\t: 2\nmicrocode\t: 0xffffffff\ncpu MHz\t\t: 3792.940\ncache size\t: 1024 KB\nphysical id\t: 0\nsiblings\t: 16\ncore id\t\t: 1\ncpu cores\t: 8\napicid\t\t: 3\ninitial apicid\t: 3\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 13\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology tsc_reliable nonstop_tsc cpuid extd_apicid tsc_known_freq pni pclmulqdq ssse3 fma cx16 sse4_1 sse4_2 movbe popcnt aes xsave avx f16c rdrand hypervisor lahf_lm cmp_legacy cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw topoext perfctr_core ssbd ibrs ibpb stibp vmmcall fsgsbase bmi1 avx2 smep bmi2 erms invpcid avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves avx512_bf16 clzero xsaveerptr arat avx512vbmi umip avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid fsrm\nbugs\t\t: sysret_ss_attrs null_seg spectre_v1 spectre_v2 spec_store_bypass srso ibpb_no_ret spectre_v2_user tsa\nbogomips\t: 7585.88\nTLB size\t: 3584 4K pages\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 48 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 4\nvendor_id\t: AuthenticAMD\ncpu family\t: 25\nmodel\t\t: 117\nmodel name\t: AMD Ryzen 7 8845H w/ Radeon 780M Graphics\nstepping\t: 2\nmicrocode\t: 0xffffffff\ncpu MHz\t\t: 3792.940\ncache size\t: 1024 KB\nphysical id\t: 0\nsiblings\t: 16\ncore id\t\t: 2\ncpu cores\t: 8\napicid\t\t: 4\ninitial apicid\t: 4\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 13\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology tsc_reliable nonstop_tsc cpuid extd_apicid tsc_known_freq pni pclmulqdq ssse3 fma cx16 sse4_1 sse4_2 movbe popcnt aes xsave avx f16c rdrand hypervisor lahf_lm cmp_legacy cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw topoext perfctr_core ssbd ibrs ibpb stibp vmmcall fsgsbase bmi1 avx2 smep bmi2 erms invpcid avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves avx512_bf16 clzero xsaveerptr arat avx512vbmi umip avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid fsrm\nbugs\t\t: sysret_ss_attrs null_seg spectre_v1 spectre_v2 spec_store_bypass srso ibpb_no_ret spectre_v2_user tsa\nbogomips\t: 7585.88\nTLB size\t: 3584 4K pages\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 48 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 5\nvendor_id\t: AuthenticAMD\ncpu family\t: 25\nmodel\t\t: 117\nmodel name\t: AMD Ryzen 7 8845H w/ Radeon 780M Graphics\nstepping\t: 2\nmicrocode\t: 0xffffffff\ncpu MHz\t\t: 3792.940\ncache size\t: 1024 KB\nphysical id\t: 0\nsiblings\t: 16\ncore id\t\t: 2\ncpu cores\t: 8\napicid\t\t: 5\ninitial apicid\t: 5\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 13\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology tsc_reliable nonstop_tsc cpuid extd_apicid tsc_known_freq pni pclmulqdq ssse3 fma cx16 sse4_1 sse4_2 movbe popcnt aes xsave avx f16c rdrand hypervisor lahf_lm cmp_legacy cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw topoext perfctr_core ssbd ibrs ibpb stibp vmmcall fsgsbase bmi1 avx2 smep bmi2 erms invpcid avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves avx512_bf16 clzero xsaveerptr arat avx512vbmi umip avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid fsrm\nbugs\t\t: sysret_ss_attrs null_seg spectre_v1 spectre_v2 spec_store_bypass srso ibpb_no_ret spectre_v2_user tsa\nbogomips\t: 7585.88\nTLB size\t: 3584 4K pages\nclflush size\t: 64\ncache_alignmen",
+      "prefixOnly": true,
+      "observedByteCount": 8192,
+      "observedBytesSha256": "4ab4cf6b7c2597dbe6bcf2f70d33eb9c0b35fc7ea1afb329891b2bdf80c34fc3"
+    },
+    "status": {
+      "path": "/proc/self/status",
+      "text": "Name:\tpython3\nUmask:\t0022\nState:\tR (running)\nTgid:\t1\nNgid:\t0\nPid:\t1\nPPid:\t0\nTracerPid:\t0\nUid:\t1000\t1000\t1000\t1000\nGid:\t1000\t1000\t1000\t1000\nFDSize:\t64\nGroups:\t1000 \nNStgid:\t1\nNSpid:\t1\nNSpgid:\t1\nNSsid:\t1\nKthread:\t0\nVmPeak:\t   38952 kB\nVmSize:\t   38952 kB\nVmLck:\t       0 kB\nVmPin:\t       0 kB\nVmHWM:\t   31404 kB\nVmRSS:\t   31404 kB\nRssAnon:\t   19760 kB\nRssFile:\t   11644 kB\nRssShmem:\t       0 kB\nVmData:\t   20564 kB\nVmStk:\t     132 kB\nVmExe:\t       4 kB\nVmLib:\t    9956 kB\nVmPTE:\t     120 kB\nVmSwap:\t       0 kB\nHugetlbPages:\t       0 kB\nCoreDumping:\t0\nTHP_enabled:\t1\nuntag_mask:\t0xffffffffffffffff\nThreads:\t1\nSigQ:\t2/62497\nSigPnd:\t0000000000000000\nShdPnd:\t0000000000000000\nSigBlk:\t0000000000000000\nSigIgn:\t0000000001001000\nSigCgt:\t0000000000000002\nCapInh:\t0000000000000000\nCapPrm:\t0000000000000000\nCapEff:\t0000000000000000\nCapBnd:\t0000000000000000\nCapAmb:\t0000000000000000\nNoNewPrivs:\t1\nSeccomp:\t2\nSeccomp_filters:\t2\nSpeculation_Store_Bypass:\tthread vulnerable\nSpeculationIndirectBranch:\tconditional enabled\nCpus_allowed:\tffff\nCpus_allowed_list:\t0-15\nMems_allowed:\t00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000001\nMems_allowed_list:\t0\nvoluntary_ctxt_switches:\t22\nnonvoluntary_ctxt_switches:\t2\n",
+      "prefixOnly": false,
+      "observedByteCount": 1430,
+      "observedBytesSha256": "58910da577737e1493e3d6d02c8fe5c3ee75a33396f220c8b382468cd5b56521"
+    },
+    "stat": {
+      "path": "/proc/self/stat",
+      "text": "1 (python3) R 0 1 1 0 -1 4194560 7687 0 4 0 29 2 0 0 20 0 1 0 4425099 39886848 7813 18446744073709551615 98118458949632 98118458949973 140732873609808 0 0 0 0 16781312 2 0 0 0 17 15 0 0 0 0 0 98118458961328 98118458961944 98118505984000 140732873612864 140732873612914 140732873612914 140732873613281 0\n",
+      "prefixOnly": false,
+      "observedByteCount": 303,
+      "observedBytesSha256": "00579bf03206c012b097ff352bed916ab69cf8552827d821252dafd0fa37e2ad"
+    },
+    "cpuLimit": {
+      "path": "/sys/fs/cgroup/cpu.max",
+      "text": "100000 100000\n",
+      "prefixOnly": false,
+      "observedByteCount": 14,
+      "observedBytesSha256": "261369fa24cb11ef3776980c85360401b9cdc7cf51aaa7a27e7acad94d662607"
+    },
+    "memoryLimit": {
+      "path": "/sys/fs/cgroup/memory.max",
+      "text": "536870912\n",
+      "prefixOnly": false,
+      "observedByteCount": 10,
+      "observedBytesSha256": "0be2ad7435fd88ddcce418aa053f6e472d9f792fc972f4211202bdba076bb4c7"
+    },
+    "swapLimit": {
+      "path": "/sys/fs/cgroup/memory.swap.max",
+      "text": "0\n",
+      "prefixOnly": false,
+      "observedByteCount": 2,
+      "observedBytesSha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    "pidLimit": {
+      "path": "/sys/fs/cgroup/pids.max",
+      "text": "64\n",
+      "prefixOnly": false,
+      "observedByteCount": 3,
+      "observedBytesSha256": "913f5d1da2feaf4deeccc9e55cbb350a20f12b3f507e87be85dbb77fdd3cb9bc"
+    },
+    "atsVersion": {
+      "path": "/configuration/current-host-version.stdout.raw",
+      "text": "Traffic Server 9.2.3 Nov  3 2026 03:29:25 localhost\ntraffic_server: using root directory '/usr'\nApache Traffic Server - traffic_server - 9.2.3 - (build # 110303 on Nov  3 2026 at 03:29:25)\n",
+      "prefixOnly": false,
+      "observedByteCount": 189,
+      "observedBytesSha256": "ec7d08e99591c2aaa01216c76d4ad9cbf33f5b5958ed0c1cf2389877b136fa4a"
+    }
+  },
+  "atsProgramInvoked": false,
+  "atsServiceStarted": false,
+  "mediaRequestsStarted": false,
+  "actualExecutionQualificationAccepted": false,
+  "formalPocAccepted": false
+}
