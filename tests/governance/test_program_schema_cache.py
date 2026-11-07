@@ -258,3 +258,97 @@ def test_warm_structure_does_not_cache_real_historical_entry_authority(sample,ma
     # original-path errors instead of assuming every layer uses our label.
     monkeypatch.setattr(h,'_PROGRAM_SCHEMA_TEXT_SHA256','force-original-validation')
     assert check(changed,'warm current registration')==errors
+
+
+@pytest.fixture
+def historical_task_cli(tmp_path, sample, monkeypatch):
+    h, _, _, _ = sample
+    snapshot = tmp_path / "snapshot"
+    scripts = tmp_path / "validator"
+    scripts.mkdir()
+    for name in ("check-task-file.py", "program-planning-revision.py"):
+        (scripts / name).write_bytes((ROOT / "scripts" / name).read_bytes())
+    for name in ("specs/tasks/GZ-014.md", h.PLAN, "evidence/GZ-014/handoff.md"):
+        target = snapshot / name
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_bytes((ROOT / name).read_bytes())
+    monkeypatch.setattr(h, "__file__", str(scripts / "check-program-plan-history.py"))
+    return h, snapshot, scripts
+
+
+def _legacy_task_child(h, snapshot, scripts):
+    return h.subprocess.run(
+        [sys.executable, str(scripts / "check-task-file.py"), "--repo-root", str(snapshot), "--task", "GZ-014"],
+        cwd=snapshot, capture_output=True, text=True, check=False,
+    )
+
+
+def test_known_task_validator_matches_cli_and_rechecks_invalid_plan(historical_task_cli, monkeypatch):
+    h, snapshot, scripts = historical_task_cli
+    script = str(scripts / "check-task-file.py")
+    expected = _legacy_task_child(h, snapshot, scripts)
+    assert expected.returncode == 0 and not expected.stderr
+    assert h._known_task_file_output(script, str(snapshot), "GZ-014") == expected.stdout
+    (snapshot / h.PLAN).write_text("foundationTasks: [\n", encoding="utf-8")
+    rejected = _legacy_task_child(h, snapshot, scripts)
+    assert rejected.returncode == 1 and "Program scope" in rejected.stdout
+    assert h._known_task_file_output(script, str(snapshot), "GZ-014") is None
+    monkeypatch.setattr(h, "_ordinary_task_file_context", lambda _: True)
+    actual = h._run_historical_task_file(str(snapshot), "GZ-014")
+    assert (actual.returncode, actual.stdout, actual.stderr) == (rejected.returncode, rejected.stdout, rejected.stderr)
+
+
+def test_known_task_validator_declines_different_effective_planning_bytecode(historical_task_cli, monkeypatch):
+    import os
+    import py_compile
+
+    h, snapshot, scripts = historical_task_cli
+    planning = scripts / "program-planning-revision.py"
+    original = planning.read_bytes()
+    sibling = scripts / "different_planning.py"
+    marker = b"raise RuntimeError('different loaded planning code')\n#"
+    sibling.write_bytes(marker + b" " * (len(original) - len(marker)))
+    stamp = planning.stat()
+    os.utime(sibling, ns=(stamp.st_atime_ns, stamp.st_mtime_ns))
+    bytecode = importlib.util.cache_from_source(str(planning))
+    py_compile.compile(str(sibling), cfile=bytecode, dfile=str(planning), doraise=True)
+    assert planning.read_bytes() == original
+    expected = _legacy_task_child(h, snapshot, scripts)
+    assert expected.returncode == 1 and "different loaded planning code" in expected.stdout
+    assert h._known_task_file_output(str(scripts / "check-task-file.py"), str(snapshot), "GZ-014") is None
+    monkeypatch.setattr(h, "_ordinary_task_file_context", lambda _: True)
+    actual = h._run_historical_task_file(str(snapshot), "GZ-014")
+    assert (actual.returncode, actual.stdout, actual.stderr) == (expected.returncode, expected.stdout, expected.stderr)
+
+
+def test_known_task_validator_falls_back_for_changed_code_and_nondefault_context(historical_task_cli, monkeypatch):
+    import shutil
+
+    h, snapshot, scripts = historical_task_cli
+    planning = scripts / "program-planning-revision.py"
+    original = planning.read_bytes()
+    planning.write_bytes(original + b"\n# a different source version\n")
+    expected = _legacy_task_child(h, snapshot, scripts)
+    assert expected.returncode == 0
+    assert h._known_task_file_output(str(scripts / "check-task-file.py"), str(snapshot), "GZ-014") is None
+    monkeypatch.setattr(h, "__name__", "__main__")
+    monkeypatch.setattr(sys, "argv", [h.__file__])
+    monkeypatch.setattr(sys, "path", [str(scripts), *sys.path[1:]])
+    monkeypatch.setenv("PYTHONPATH", str(snapshot))
+    def unexpected_fast_path(*_):
+        pytest.fail("nondefault import context must use the original child")
+    monkeypatch.setattr(h, "_known_task_file_output", unexpected_fast_path)
+    actual = h._run_historical_task_file(str(snapshot), "GZ-014")
+    assert (actual.returncode, actual.stdout, actual.stderr) == (expected.returncode, expected.stdout, expected.stderr)
+
+    planning.write_bytes(original)
+    unicode_snapshot = snapshot.with_name("snapshot-é")
+    shutil.copytree(snapshot, unicode_snapshot)
+    monkeypatch.delenv("PYTHONPATH")
+    # An explicit child encoding may reject a successful report path. Keep
+    # the real subprocess result rather than treating StringIO as equivalent.
+    monkeypatch.setenv("PYTHONIOENCODING", "ascii:strict")
+    rejected = _legacy_task_child(h, unicode_snapshot, scripts)
+    assert rejected.returncode != 0 and "UnicodeEncodeError" in rejected.stderr
+    actual = h._run_historical_task_file(str(unicode_snapshot), "GZ-014")
+    assert (actual.returncode, actual.stdout, actual.stderr) == (rejected.returncode, rejected.stdout, rejected.stderr)
