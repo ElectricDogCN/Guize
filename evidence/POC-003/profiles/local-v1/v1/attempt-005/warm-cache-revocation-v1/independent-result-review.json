@@ -1,0 +1,102 @@
+{
+  "reviewer": "/root/independent_review",
+  "reviewedAt": "2026-11-02T22:18:13Z",
+  "kind": "ACTUAL_FRESH_REAL_WARM_CACHE_REVOCATION_RESULT_REVIEW",
+  "source": "1b5c68bab02d98f8e11286d80033585090c7af99",
+  "tree": "f94ed8da8d83391f2474365af848bf267a0dc8d1",
+  "warmCacheRevocationAccepted": true,
+  "mandatoryRealScenarioAccepted": true,
+  "mustFix": [],
+  "scope": "OWNED_PID1_COMMON_MAIN1B5C68B_FRESH_WARM_CACHE_REVOCATION_ONLY",
+  "actualResult": {
+    "realCliSha256": "987608f169b25327231f0dc64bf41c571f1ab0f1b924bbe66b567cc7fa701457",
+    "actualCliPid": 49,
+    "actualCliWaitCompleted": true,
+    "actualCliExitCode": 0,
+    "status": "PASS",
+    "executedScenarios": 1,
+    "skippedAssertions": 0,
+    "atsPid": 30,
+    "atsStartTicks": 4425213,
+    "actualOwnerPid": 8,
+    "actualOwnerWaitCompleted": true,
+    "ownerExitCode": 0,
+    "closedNativeEpochs": 2,
+    "nativeRoleSequence": [
+      "verify_config",
+      "start"
+    ],
+    "allEighteenComponentPinsAccepted": true,
+    "attachedCliWaitCompleted": true,
+    "attachedCliExitCode": 0,
+    "engineWaitCompleted": true,
+    "engineExitCode": 0,
+    "finalStoppedPid": 0,
+    "oomKilled": false,
+    "externalCleanup": [],
+    "finishedAt": "2026-11-02T22:07:11.400157+00:00",
+    "sourceAndOriginalCopiedConfigurationUnchanged": true
+  },
+  "securityEvidence": {
+    "sameGrantAndOriginalExpiry": true,
+    "revokedAt": "2026-11-02T22:07:08.663031Z",
+    "originalValidUntil": "2026-11-02T22:22:06.767607Z",
+    "sameProtectedURLRangeVersionAndAuthorizationContext": true,
+    "warmStatus": 206,
+    "warmBytes": 8,
+    "warmNativeHitFresh": true,
+    "warmOriginReads": 0,
+    "deniedStatus": 403,
+    "deniedProtectedBytes": 0,
+    "deniedAtsRequestSent": false,
+    "denialReason": "revoked",
+    "deniedOriginReads": 0,
+    "lookupAndExportSnapshotsByteIdenticalDuringDenial": true,
+    "noClearOrRestartDuringDenial": true,
+    "postDenialSeparatePrivilegedStatus": 206,
+    "postDenialSameCachedBytes": 8,
+    "postDenialSameNativeSliceHitFresh": true,
+    "postDenialOriginReads": 0,
+    "actualSourcePrefixCompared": true
+  },
+  "evidencePins": [
+    {
+      "path": "poc003-common-main1b5c68b-fresh-warm-cache-revocation-approval-v1/independent-approval.json",
+      "bytes": 9915,
+      "sha256": "fc6a102c30faab2a5126491491eea9933fadc364b26c02dfcdb16e0ac3305b7b"
+    },
+    {
+      "path": "poc003-common-main1b5c68b-fresh-warm-cache-revocation-v1/results.json",
+      "bytes": 48349,
+      "sha256": "c13c2798c37de33c9a9fe7c6bc781f4dae62a6138af1c56025bb314a7bc61e82"
+    },
+    {
+      "path": "private-data/warm-cache-revocation/revocation-result.json",
+      "bytes": 12007,
+      "sha256": "fd094f62f56c4b1ef54ed8fbfab9f209e6a92ccf46a0cb28cbdbd7db6e5ddd5b"
+    },
+    {
+      "path": "poc003-common-main1b5c68b-fresh-warm-cache-revocation-independent-derivation-v1.json",
+      "bytes": 2997,
+      "sha256": "e270cca5be9a75da0524dbb8fd72508ee9746cd3badbec8b3dee5985b6657bfe"
+    },
+    {
+      "path": "private-data/revocation-cli.stdout.raw",
+      "bytes": 89,
+      "sha256": "d6594988af7a3c4636627b9fdbe002414942bb0ce3a101b5a3bbd1c4a314ece4"
+    },
+    {
+      "path": "private-data/revocation-cli.stderr.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "limits": "Accepted as the separate original mandatory real warm-cache revocation scenario on this exact source/package/image only. The post-denial control intentionally proves old cache bytes still exist; no physical-erasure claim. Not a substitute for full original15 validation,8MiB proof,current profile acceptance or normal Task Review/Completion. No media rerun occurred in review; only small retained snapshots,journals and8-byte source/control payloads were read. The prior review-script POSIX/Windows path assertion failure remains recorded in the independent derivation.",
+  "remainingActualAttempts": 0,
+  "originalMatrixAccepted": false,
+  "actualFifteenAccepted": false,
+  "eightMiBBoundProven": false,
+  "profileAccepted": false,
+  "taskCompleted": false,
+  "formalPocAccepted": false
+}

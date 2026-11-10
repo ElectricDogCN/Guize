@@ -1,0 +1,14 @@
+{
+  "kind": "ACTUAL_POST_VALIDATION_TIMEOUT_NOT_MEDIA_FAILURE_OR_PASS",
+  "toolChunk": "c6c494",
+  "session": 35367,
+  "exitCode": 1,
+  "timeoutSeconds": 300,
+  "childKillAndWaitPerformedByMethod": true,
+  "stdoutBytes": 0,
+  "stderrBytes": 0,
+  "ownedHeavyMethodsAfterwards": [],
+  "ownedProcessCheckChunk": "9d50df",
+  "newMediaRun": false,
+  "formalPocAccepted": false
+}

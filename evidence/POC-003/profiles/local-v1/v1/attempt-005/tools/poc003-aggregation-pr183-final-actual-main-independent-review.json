@@ -1,0 +1,120 @@
+{
+  "reviewer": "/root/independent_review",
+  "reviewedAt": "2026-11-02T20:50:18Z",
+  "kind": "POC003_AGGREGATION_IMPLEMENTATION_ACTUAL_MAIN_FINAL_REVIEW",
+  "actualMain": "1b5c68bab02d98f8e11286d80033585090c7af99",
+  "source": "34223eb00edde06c1a0fda03b6e88f70bca6f279",
+  "base": "2e8655e5b6d59261a4d1597d999dd7530875c1c7",
+  "tree": "f94ed8da8d83391f2474365af848bf267a0dc8d1",
+  "actualImplementationMainAccepted": true,
+  "fullMainCiAccepted": true,
+  "ownMainSevenAccepted": true,
+  "mustFix": [],
+  "scope": "Actual ordinary implementation-code main and common source acceptance only; POC-003 remains in_progress.",
+  "ci": {
+    "run": 41519161343,
+    "attempt": 1,
+    "job": 125530405561,
+    "conclusion": "success",
+    "startedAt": "2026-11-02T20:26:13Z",
+    "completedAt": "2026-11-02T20:44:55Z",
+    "jobSeconds": 1122,
+    "timeoutMinutes": 30,
+    "uniquePassed": 842,
+    "original828Plus14Exact": true,
+    "pytestSeconds": 1055.79,
+    "totalSteps": 28,
+    "successSteps": 23,
+    "originalMainConditionalSkips": [
+      "Task file validation",
+      "Evidence check",
+      "Evidence integrity check",
+      "Task-branch linkage check",
+      "Scope check"
+    ],
+    "testFailedErroredSkippedXfailXpass": 0,
+    "skipAuditAccepted": true,
+    "actualGeneratedJUnit": true,
+    "actualCheckout": "1b5c68bab02d98f8e11286d80033585090c7af99",
+    "python": "3.11.17",
+    "runnerLabels": [
+      "ubuntu-latest"
+    ],
+    "actualImage": "ubuntu24/20261025.353",
+    "notice": "Node20 actions forced to Node24; warning only. Complete decoded log retained; no original HTTP log bytes or direct JUnit XML claimed."
+  },
+  "actualMainFacts": {
+    "orderedParents": [
+      "2e8655e5b6d59261a4d1597d999dd7530875c1c7",
+      "34223eb00edde06c1a0fda03b6e88f70bca6f279"
+    ],
+    "canonicalClean": true,
+    "sevenActualWaitZero": true,
+    "sevenBeforeEqualsAfter": true,
+    "sevenRuntime": "Private UID1000 Python3.11.17 independent no-alternates native clone",
+    "pr183ClosedMerged": true,
+    "issues131And132Open": true,
+    "latestOnlyCurrentHeadRun": 41519161343,
+    "freshOfficialAt": "2026-11-02T20:49:42Z",
+    "taskStatus": "in_progress",
+    "taskCreationBase": "760f6c5838597d1d66c0a536ecbf440ef5a7dfec",
+    "actors": [
+      "/root",
+      "/root/independent_review"
+    ],
+    "leaseExpiresAt": "2026-11-05T11:01:07Z",
+    "recoveryBundle": {
+      "bytes": 129655622,
+      "sha256": "767d6ddfdd0c6a12613ff4d84b553a3c1561e42b39ce1211fe337d991a2c4075"
+    },
+    "sourceCI938AndSourceFinalRemainSeparatelyBound": true
+  },
+  "evidencePins": [
+    {
+      "path": "poc003-aggregation-pr183-34223eb-final-source-independent-review.json",
+      "bytes": 4935,
+      "sha256": "d6b736e1231ce4695e1c81734ea3ce7f657cdfc1d56079270bc932c7b27762bd"
+    },
+    {
+      "path": "poc003-aggregation-pr183-merge-api-result-v1.json",
+      "bytes": 266,
+      "sha256": "329ca670d770a7d67ef6a3244f06ce8b8a67eb74da42b018b73588e56811902e"
+    },
+    {
+      "path": "poc003-aggregation-pr183-actual-main-candidate.json",
+      "bytes": 827,
+      "sha256": "ec70044e3e5a627db11c8ccde583c52073720c96f5c3ee6ecef14e3b80a00768"
+    },
+    {
+      "path": "poc003-aggregation-code-1b5c68b-native-main-seven/results.json",
+      "bytes": 33291,
+      "sha256": "d594d2509c184edfe81050175b324d411e3955cfdb90ae8ae14ce6cdc2c2cd7b"
+    },
+    {
+      "path": "poc003-aggregation-pr183-main-ci939-independent-capture-v1/job-log.connector-decoded.utf8.txt",
+      "bytes": 326414,
+      "sha256": "e7902173c902510525c91bec0f889291436a61b538f38c952d982c60d1b28275"
+    },
+    {
+      "path": "poc003-aggregation-pr183-main-ci939-independent-capture-v1/analysis.json",
+      "bytes": 2967,
+      "sha256": "5faa0e2486f73592467aebfc8da50aff3529bf84d528680461a8422e83807228"
+    },
+    {
+      "path": "poc003-aggregation-pr183-main-ci939-independent-capture-v1/capture.json",
+      "bytes": 1628,
+      "sha256": "8f9360ee600f6bef416c4a5f30343e496c218de92683c2b2436a4b149be4b3a3"
+    },
+    {
+      "path": "poc003-aggregation-pr183-main-ci939-independent-capture-v1/final-main-official-observation.json",
+      "bytes": 40003,
+      "sha256": "6e24d4ec65ce11cace040aa40fc8a04a5c4fe0aafb0e633b00f3b27796898705"
+    }
+  ],
+  "limits": "Source/build/static dependency scopes remain unchanged. New AGG geometry is not an8MiB or image-runtime result. Historical H raw failed-bound and all earlier failure records remain intact. Any input copy, new host metadata control, configuration, samples/resources/window, original21/26 matrix or fresh warm-cache revocation needs its own exact applicable prospective authorization.",
+  "newResourcesOrExperimentApproved": false,
+  "eightMiBBoundProven": false,
+  "formalMeasurementsAccepted": false,
+  "taskCompleted": false,
+  "formalPocAccepted": false
+}
