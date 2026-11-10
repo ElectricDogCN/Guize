@@ -35,3 +35,12 @@ On the physical two-pair diagnostic comparison, twelve existing history cases to
 # Normal OPS-023 Review preparation
 
 Only own lifecycle fields/Own Evidence change on actual accepted Code main fb4c786571508f7a43474ebf52c32a162c809023. Original Task body/lease/actors/claims, foreign records, Code bytes and frozen/workflow are unchanged. Source commands are the original14 mapped to this real base/branch in commands.txt, followed by exact unchanged1027 inventory and complete official1027. Code bytes are unchanged; the prior1024 and three forward regressions must all pass on Code and remain included in the mandatory full official Review CI; all this Review source execution is UNEXECUTED. Normal Review actualmain7/full1027/final acceptance precede normal Completion and capacity release. No private approval certificate or POC permission is copied.
+
+
+# OPS-023 集成阶段修订用途
+
+精确结项 PR #216 的官方 CI #998 两次触及 30 分钟上限。两次记录均保留。本次从已接受的 Review 主线进入集成角色，先单独提交本用途，再在现有两条登记路径内进行代码修正。
+
+精确 Linux 对照中，原历史检查耗时 49.65 秒，其中七次完整检出耗时 39.94 秒。临时诊断只投影六个已核实历史提交中的 Task、Program、Registry 和 handoff，每项都验证普通文件模式、无过滤器和工作区字节与 Git blob 一致。相同门禁耗时 3.56 秒并输出逐字节相同的结果。
+
+后续实现须严格限定已验证输入，保留未知、缺失、过滤、非普通文件和无法证明等情况的原完整检出。真实 Task、Registry、角色、租约、准入及历史校验均须继续执行。新代码必须独立审查并通过完整官方源 CI 与实际主线 CI，之后才按新的实际实现提交办理结项。

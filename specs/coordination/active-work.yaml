@@ -96,17 +96,17 @@ tasks:
 - taskId: OPS-023
   issue: 211
   title: 减少相同 Program 结构的重复校验成本
-  status: review
+  status: integration
   riskLevel: high
   owner: ElectricDogCN
   coordinator: /root
   implementer: /root
   reviewer: /root/independent_review
   integrator: /root
-  agentRole: reviewer
-  branch: chore/OPS-023-normal-review
+  agentRole: integrator
+  branch: chore/OPS-023-snapshot-io-integration
   baseBranch: main
-  baseSha: fb4c786571508f7a43474ebf52c32a162c809023
+  baseSha: 46eccb0011723433156918f37e3b1bb15dab2b26
   workPackage: WP-M0-01
   programPlan: specs/coordination/program-plan.yaml
   programTaskId: OPS-023
