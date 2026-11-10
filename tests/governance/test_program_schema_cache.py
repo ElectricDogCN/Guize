@@ -3,6 +3,8 @@ import copy
 from datetime import datetime,timedelta,timezone
 import importlib.util
 import itertools
+import os
+import subprocess
 import sys
 from pathlib import Path
 
@@ -22,6 +24,116 @@ def load(path,prefix):
 
 SNAPSHOTS=load(ROOT/'tests/governance/test_historical_task_snapshot.py','program_structure_fixtures_')
 make_history=SNAPSHOTS.make_history
+
+
+def ops023_fixture(make_history, monkeypatch, mutation=None):
+    root, commit, entry = make_history("OPS-023", mutation=mutation)
+    # The tiny fixture uses explicit configuration overrides when writing its
+    # history. The production projection only accepts the ordinary Git view.
+    monkeypatch.delenv("GIT_CONFIG_GLOBAL", raising=False)
+    monkeypatch.delenv("GIT_CONFIG_NOSYSTEM", raising=False)
+    history = load(ROOT / "scripts/check-program-plan-history.py", "ops023_snapshot_")
+    tree = SNAPSHOTS.git(root, "rev-parse", commit + "^{tree}")
+    monkeypatch.setattr(history, "_OPS023_SNAPSHOT_TREES", {commit: tree})
+    monkeypatch.setattr(history, "_ops023_snapshot_validators_match", lambda: True)
+    return history, root, commit, entry
+
+
+def test_ops023_projection_still_runs_both_validators_and_rejects_same_tree_other_oid(make_history, monkeypatch, tmp_path):
+    history, root, commit, entry = ops023_fixture(make_history, monkeypatch)
+    calls = []
+    original_task = history._run_historical_task_file
+    original_registry = history.TASK_LINK.validate_task_registry
+
+    def task(snapshot, task_id):
+        calls.append(("task", Path(snapshot)))
+        return original_task(snapshot, task_id)
+
+    def registry(snapshot, task_id, registry_entry, errors):
+        calls.append(("registry", Path(snapshot)))
+        return original_registry(snapshot, task_id, registry_entry, errors)
+
+    monkeypatch.setattr(history, "_run_historical_task_file", task)
+    monkeypatch.setattr(history.TASK_LINK, "validate_task_registry", registry)
+    errors = []
+    history.historical_task_snapshot(str(root), commit, "OPS-023", entry, "historical fixture", errors)
+    assert errors == [] and [(kind, path.name) for kind, path in calls] == [
+        ("task", "pinned-snapshot"), ("registry", "pinned-snapshot")]
+    SNAPSHOTS.git(root, "commit", "--allow-empty", "-m", "Different immutable commit with the same tree")
+    other = SNAPSHOTS.git(root, "rev-parse", "HEAD")
+    assert other != commit and SNAPSHOTS.git(root, "rev-parse", "HEAD^{tree}") == history._OPS023_SNAPSHOT_TREES[commit]
+    for i, (revision, task_id) in enumerate(((other, "OPS-023"), (commit[:12], "OPS-023"), (commit, "OPS-999"))):
+        temporary = tmp_path / ("unknown-" + str(i))
+        temporary.mkdir()
+        snapshot, result = history._checkout_task_workspace(str(root), str(temporary), revision, task_id)
+        assert result.returncode == 0 and Path(snapshot).name == "snapshot"
+        assert (Path(snapshot) / "payload/unrelated.bin").is_file()
+        assert not (temporary / "pinned-snapshot").exists()
+
+
+@pytest.mark.parametrize("shape", ["filter", "mode", "missing", "replacement", "validator", "tree", "attr-command", "bytes", "config-env", "trial-hook"])
+def test_ops023_unproved_inputs_use_the_original_dense_checkout(make_history, monkeypatch, tmp_path, shape):
+    def mutate(root, task, entry):
+        if shape == "filter":
+            (root / ".gitattributes").write_text("specs/tasks/OPS-023.md filter=unproved\n", encoding="utf-8")
+        elif shape == "mode":
+            task.chmod(0o755)
+            SNAPSHOTS.git(root, "add", "--chmod=+x", str(task.relative_to(root)))
+        elif shape == "missing":
+            (root / entry["handoffPath"]).unlink()
+
+    history, root, commit, _ = ops023_fixture(make_history, monkeypatch, mutate)
+    if shape == "replacement":
+        (root / "payload/unrelated.bin").write_text("replacement\n", encoding="utf-8")
+        SNAPSHOTS.git(root, "add", "payload/unrelated.bin")
+        SNAPSHOTS.git(root, "commit", "-m", "Replacement tree")
+        SNAPSHOTS.git(root, "replace", commit, "HEAD")
+    elif shape == "validator":
+        monkeypatch.setattr(history, "_ops023_snapshot_validators_match", lambda: False)
+    elif shape == "tree":
+        monkeypatch.setitem(history._OPS023_SNAPSHOT_TREES, commit, "0" * 40)
+    elif shape == "config-env":
+        monkeypatch.setenv("GIT_CONFIG_COUNT", "0")
+    elif shape in {"attr-command", "bytes", "trial-hook"}:
+        original = subprocess.run
+
+        def execute(argv, *args, **kwargs):
+            if shape == "attr-command" and argv[1] == "check-attr":
+                raise subprocess.CalledProcessError(129, argv)
+            result = original(argv, *args, **kwargs)
+            if shape == "trial-hook" and argv[1] == "clone" and Path(argv[-1]).name == "pinned-snapshot":
+                (Path(argv[-1]) / ".git/hooks/post-index-change").write_bytes(b"#!/bin/sh\nexit 0\n")
+            if shape == "bytes" and argv[1] == "checkout" and Path(kwargs["cwd"]).name == "pinned-snapshot":
+                path = Path(kwargs["cwd"]) / "specs/tasks/OPS-023.md"
+                path.write_bytes(path.read_bytes() + b"\n")
+            return result
+
+        monkeypatch.setattr(subprocess, "run", execute)
+    snapshot, result = history._checkout_task_workspace(str(root), str(tmp_path), commit, "OPS-023")
+    assert result.returncode == 0 and Path(snapshot).name == "snapshot"
+    assert (Path(snapshot) / "payload/unrelated.bin").is_file()
+
+
+def test_ops023_failed_sparse_trial_cannot_mask_dense_failure(make_history, monkeypatch, tmp_path):
+    history, root, commit, _ = ops023_fixture(make_history, monkeypatch)
+    original = subprocess.run
+    monkeypatch.setenv("GIT_LFS_SKIP_SMUDGE", "caller-setting")
+    dense_error = subprocess.CompletedProcess([], 19, "original stdout", "original stderr")
+
+    def execute(argv, *args, **kwargs):
+        if argv[1] == "sparse-checkout":
+            original(argv, *args, **kwargs)
+            raise subprocess.CalledProcessError(1, argv)
+        if argv[1] == "checkout" and Path(kwargs["cwd"]).name == "snapshot":
+            assert "env" not in kwargs and os.environ["GIT_LFS_SKIP_SMUDGE"] == "caller-setting"
+            assert not (Path(kwargs["cwd"]) / ".git/info/sparse-checkout").exists()
+            return dense_error
+        return original(argv, *args, **kwargs)
+
+    monkeypatch.setattr(subprocess, "run", execute)
+    snapshot, result = history._checkout_task_workspace(str(root), str(tmp_path), commit, "OPS-023")
+    assert Path(snapshot).name == "snapshot" and result is dense_error
+    assert (tmp_path / "pinned-snapshot/.git/info/sparse-checkout").exists()
 
 
 @pytest.fixture

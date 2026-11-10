@@ -1,0 +1,21 @@
+{
+  "kind": "actual_exact_completion_history_gate_diagnostic_comparison",
+  "source": "2581920e4d28262e02764573b69e9bf5b5b8d56b",
+  "base": "46eccb0011723433156918f37e3b1bb15dab2b26",
+  "tree": "8d7bf00886efacd75eb83613aeca433783f3e7d3",
+  "denseSeconds": 49.646678931,
+  "projectionSeconds": 3.557062029,
+  "denseCheckoutSeconds": 39.944651103,
+  "projectionCheckoutSeconds": 0.588129123,
+  "actualDenseExitCode": 0,
+  "actualProjectionExitCode": 0,
+  "sameOutputBytes": true,
+  "onlySixExactHistoricalCommits": true,
+  "originalSevenCheckoutsCompared": true,
+  "repositoryChanged": false,
+  "denseResultSha256": "d62b7413fe4763a003fd343459964117cf91ce7f403b4ff2c69059b46ac31a3f",
+  "projectionResultSha256": "a74bb1188061be98292f8f897bf8c02fa2d4c63b8d38ed5ef17ab3f9321d9f77",
+  "officialCiOutcomeChanged": false,
+  "officialCiAccepted": false,
+  "limitations": "The exact local history gate only. The complete official CI, including the pytest stage that timed out, has not been run on a repair. This measures a valid optimization opportunity, not the sole cause of the timeout."
+}

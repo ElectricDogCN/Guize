@@ -121,7 +121,7 @@ foundationTasks:
     mergeCommit: f028aba48efdda261eb864b803b740ccaff3f91c
   - taskId: OPS-023
     title: 减少相同 Program 结构的重复校验成本
-    status: review
+    status: integration
     completionRef: ISSUE-211
     mergeCommit: null
 waves:

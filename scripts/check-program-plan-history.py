@@ -20,6 +20,7 @@ import marshal
 import math
 import os
 import re
+import stat
 import subprocess
 import sys
 import tempfile
@@ -1243,6 +1244,124 @@ def _run_historical_task_file(snapshot: str, task_id: str) -> subprocess.Complet
     return subprocess.run(argv, cwd=snapshot, capture_output=True, text=True, check=False)
 
 
+# These six commits were compared against the original dense checkout. Their
+# trees bind the four ordinary inputs; a different commit with the same tree
+# has not been admitted to this path.
+_OPS023_SNAPSHOT_TREES = {
+    "0d540a3241f6ba9681081d03b6206158444dce67": "8d98d80f94e63469ef4e9b9807397eea6124a0f3",
+    "62a5a35581429ca56dc4d4dbbb7eabb9bc12d46c": "f7a3a76f5ea044b23376386a5ca572e75fa1b341",
+    "fb4c786571508f7a43474ebf52c32a162c809023": "f43d927bd7321b29cb479194e33d649c264ac409",
+    "0c3d7ed4e65bcb8a1f341eaa68fe415f2cb0037b": "f43d927bd7321b29cb479194e33d649c264ac409",
+    "46eccb0011723433156918f37e3b1bb15dab2b26": "517c0efcec473e0e187f2c8c86717f1802d6fbe4",
+    "5287eb17cf423fd6abaa483949aba86d559449fc": "517c0efcec473e0e187f2c8c86717f1802d6fbe4",
+}
+_OPS023_SNAPSHOT_INPUTS = (ACTIVE, PLAN, f"{TASK_DIR}/OPS-023.md", "evidence/OPS-023/handoff.md")
+
+
+def _ops023_snapshot_validators_match() -> bool:
+    scripts = os.path.dirname(os.path.abspath(__file__))
+    if not _ordinary_task_file_context(scripts):
+        return False
+    pins = {
+        "check-task-file.py": _TASK_FILE_CODE_SHA256,
+        "program-planning-revision.py": _TASK_FILE_PLANNING_SHA256,
+        "check-schemas.py": "a8009c1ddd7f0b4e0a34d62615665ec0df8b3118ff903487910701ca04255d94",
+    }
+    for name, expected in pins.items():
+        path = os.path.join(scripts, name)
+        with open(path, "rb") as handle:
+            source = handle.read()
+        if hashlib.sha256(source).hexdigest() != expected:
+            return False
+        if name == "check-task-file.py":
+            continue  # This script executes directly in the original child.
+        spec = importlib.util.spec_from_file_location("snapshot_validator_probe", path)
+        effective = spec.loader.get_code(spec.name) if spec and spec.loader else None
+        compiled = compile(source, path, "exec", dont_inherit=True)
+        if effective is None or marshal.dumps(effective, 2) != marshal.dumps(compiled, 2):
+            return False
+        if name == "check-schemas.py":
+            registry_code = next(code for code in compiled.co_consts
+                                 if getattr(code, "co_name", None) == "validate_task_registry")
+            if marshal.dumps(TASK_LINK.validate_task_registry.__code__, 2) != marshal.dumps(registry_code, 2):
+                return False
+    return True
+
+
+def _try_ops023_snapshot(root: str, temporary: str, commit: str) -> tuple[str, subprocess.CompletedProcess[str]] | None:
+    tree = _OPS023_SNAPSHOT_TREES[commit]
+    overrides = {"GIT_DIR", "GIT_WORK_TREE", "GIT_COMMON_DIR", "GIT_INDEX_FILE", "GIT_NAMESPACE",
+                 "GIT_REPLACE_REF_BASE", "GIT_GRAFT_FILE", "GIT_OBJECT_DIRECTORY",
+                 "GIT_ALTERNATE_OBJECT_DIRECTORIES", "GIT_SHALLOW_FILE", "GIT_TEMPLATE_DIR"}
+    if overrides.intersection(os.environ) or any(key.startswith("GIT_CONFIG") for key in os.environ):
+        return None
+    if not _ops023_snapshot_validators_match():
+        return None
+
+    def read_git(directory, *args, env=None):
+        return subprocess.run(["git", *args], cwd=directory, env=env, capture_output=True, check=True).stdout
+
+    revision = commit + "^{tree}"
+
+    def ordinary_git_view(directory):
+        grafts = read_git(directory, "rev-parse", "--path-format=absolute", "--git-path", "info/grafts").strip()
+        return (read_git(directory, "rev-parse", "--is-shallow-repository").strip() == b"false"
+                and not read_git(directory, "for-each-ref", "--format=%(refname)", "refs/replace/").strip()
+                and not os.path.lexists(os.fsdecode(grafts))
+                and read_git(directory, "rev-parse", revision).strip() == tree.encode()
+                and read_git(directory, "--no-replace-objects", "rev-parse", revision).strip() == tree.encode())
+
+    if not ordinary_git_view(root) or git(root, "config", "--get", "init.templateDir").returncode != 1:
+        return None
+
+    trial = os.path.join(temporary, "pinned-snapshot")
+    read_git(root, "clone", "--shared", "--no-checkout", "--quiet", "--", root, trial)
+    if (not ordinary_git_view(trial)
+            or any(git(trial, "config", "--get", key).returncode != 1
+                   for key in ("init.templateDir", "core.hooksPath", "core.fsmonitor"))
+            or any(os.path.lexists(os.path.join(trial, ".git", "hooks", hook))
+                   for hook in ("post-checkout", "post-index-change"))):
+        return None
+    paths = _OPS023_SNAPSHOT_INPUTS
+    modes = read_git(trial, "ls-tree", commit, "--", *paths).decode().splitlines()
+    if {line.split("\t", 1)[1]: line.split()[0] for line in modes} != {path: "100644" for path in paths}:
+        return None
+    attrs = read_git(trial, "check-attr", "--source=" + commit, "filter", "--", *paths).decode().splitlines()
+    if set(attrs) != {f"{path}: filter: unspecified" for path in paths}:
+        return None
+    blobs = {path: read_git(trial, "--no-replace-objects", "show", commit + ":" + path) for path in paths}
+    env = dict(os.environ, GIT_LFS_SKIP_SMUDGE="1")
+    read_git(trial, "sparse-checkout", "set", "--no-cone", *("/" + path for path in paths), env=env)
+    checkout = subprocess.run(["git", "checkout", "--detach", "--quiet", commit], cwd=trial,
+                              env=env, capture_output=True, text=True, check=False)
+    if checkout.returncode or read_git(trial, "rev-parse", "HEAD").strip() != commit.encode():
+        return None
+    for path, blob in blobs.items():
+        materialized = os.path.join(trial, path)
+        if not stat.S_ISREG(os.lstat(materialized).st_mode):
+            return None
+        with open(materialized, "rb") as handle:
+            if handle.read() != blob:
+                return None
+    return trial, checkout
+
+
+def _checkout_task_workspace(root: str, temporary: str, commit: str,
+                             task_id: str) -> tuple[str, subprocess.CompletedProcess[str] | None]:
+    if task_id == "OPS-023" and commit in _OPS023_SNAPSHOT_TREES:
+        try:
+            trial = _try_ops023_snapshot(root, temporary, commit)
+            if trial is not None:
+                return trial
+        except (OSError, ValueError, IndexError, StopIteration, subprocess.CalledProcessError):
+            pass
+        # The failed trial owns a different clone. The original checkout keeps
+        # its original config, index, filters, arguments and error reporting.
+    snapshot = os.path.join(temporary, "snapshot")
+    clone = git(root, "clone", "--shared", "--no-checkout", "--quiet", "--", root, snapshot)
+    return snapshot, checkout_task_snapshot(snapshot, commit, task_id) if clone.returncode == 0 else None
+
+
 def historical_task_snapshot(root: str, commit: str, task_id: str, entry: dict[str, Any], label: str, errors: list[str]) -> None:
     key = (root, commit, task_id, json.dumps(entry, sort_keys=True))
     if key in VALIDATED_TASK_SNAPSHOTS:
@@ -1250,9 +1369,7 @@ def historical_task_snapshot(root: str, commit: str, task_id: str, entry: dict[s
     initial_errors = len(errors)
     try:
         with tempfile.TemporaryDirectory(prefix="guize-foundation-task-") as temporary:
-            snapshot = os.path.join(temporary, "snapshot")
-            clone = git(root, "clone", "--shared", "--no-checkout", "--quiet", "--", root, snapshot)
-            checkout = checkout_task_snapshot(snapshot, commit, task_id) if clone.returncode == 0 else None
+            snapshot, checkout = _checkout_task_workspace(root, temporary, commit, task_id)
             if not checkout or checkout.returncode != 0 or resolve_ref(snapshot, "HEAD") != commit:
                 errors.append(f"{label} cannot reconstruct Task Spec snapshot")
                 return
@@ -1441,9 +1558,7 @@ def foundation_reservation(
         errors.append(f"Foundation {task_id} original reservation Task Spec lease is invalid: {exc}")
     try:
         with tempfile.TemporaryDirectory(prefix="guize-foundation-task-") as temporary:
-            snapshot = os.path.join(temporary, "snapshot")
-            clone = git(root, "clone", "--shared", "--no-checkout", "--quiet", "--", root, snapshot)
-            checkout = checkout_task_snapshot(snapshot, commit, task_id) if clone.returncode == 0 else None
+            snapshot, checkout = _checkout_task_workspace(root, temporary, commit, task_id)
             if not checkout or checkout.returncode != 0 or resolve_ref(snapshot, "HEAD") != commit:
                 errors.append(f"Foundation {task_id} cannot reconstruct original Task Spec snapshot")
             else:
