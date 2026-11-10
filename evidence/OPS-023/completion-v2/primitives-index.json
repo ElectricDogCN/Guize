@@ -1,0 +1,341 @@
+{
+  "archive": "primitives.zip",
+  "records": [
+    {
+      "path": "ops023-snapshot-io-integration-expected-ci-cases.json",
+      "bytes": 135643,
+      "sha256": "226fc0bbe08f35ae9b64e412d2a055658dbb44686005a12de3183ab4458a6058"
+    },
+    {
+      "path": "ops023-normal-completion-v2-issue211-closed-completed-official.json",
+      "bytes": 6773,
+      "sha256": "14e635fcf37de835d7b92d67fcb22740effe6e70e915ac8cf955eca8753bb88c"
+    },
+    {
+      "path": "ops023-snapshot-io-integration-source-ci-42818104601-attempt2/run.json",
+      "bytes": 12870,
+      "sha256": "74ba956b2e84ca71e85af0e996752e52a282a0265fa65e82b8ae96c33dcc93a3"
+    },
+    {
+      "path": "ops023-snapshot-io-integration-source-ci-42818104601-attempt2/jobs.json",
+      "bytes": 5559,
+      "sha256": "1802a631c630b3ce3ca89bc0f9d6a7558dcfee1fc53af3e57fab74c09d4858f8"
+    },
+    {
+      "path": "ops023-snapshot-io-integration-source-ci-42818104601-attempt2/checkout.json",
+      "bytes": 2602,
+      "sha256": "e745adc37c54136e740cf46a22d7dc97c9ed86656c6bac8003587f66ef438da5"
+    },
+    {
+      "path": "ops023-snapshot-io-integration-source-ci-42818104601-attempt2/official-direct-download-authenticated-result.json",
+      "bytes": 553,
+      "sha256": "b9534d0be06e58942497f6a28e3e55fdd530f1b43aed0d73df183e2695d3dbc5"
+    },
+    {
+      "path": "ops023-snapshot-io-integration-source-ci-42818104601-attempt2/job-log.official-direct-download.utf8.txt",
+      "bytes": 399006,
+      "sha256": "92a65dc40d81c440b7d76552d0602be2a992095dccdd6369e63d75c70e912c75"
+    },
+    {
+      "path": "ops023-snapshot-io-integration-source-ci-42818104601-attempt2/capture.json",
+      "bytes": 1203,
+      "sha256": "b9d09d5682159a0685089b3331510976008cef142eabceef22d1eb5adf8a711f"
+    },
+    {
+      "path": "ops023-snapshot-io-integration-main-ci-42828751267-attempt1/run.json",
+      "bytes": 12404,
+      "sha256": "de1403d7c515d92372e58e868e8b1fd245f8699a4f35f6944c929d5a288d3091"
+    },
+    {
+      "path": "ops023-snapshot-io-integration-main-ci-42828751267-attempt1/jobs.json",
+      "bytes": 5526,
+      "sha256": "c23251f9419e5292a913d62b29b1a1dcc28b03b78dd336f53c055b2d608362f9"
+    },
+    {
+      "path": "ops023-snapshot-io-integration-main-ci-42828751267-attempt1/checkout.json",
+      "bytes": 2830,
+      "sha256": "f83a5c9fac028918cec7f38695e52eef942cf9e79d46450172fe15ada193a554"
+    },
+    {
+      "path": "ops023-snapshot-io-integration-main-ci-42828751267-attempt1/official-direct-download-authenticated-result.json",
+      "bytes": 553,
+      "sha256": "70e19649061de1f5e271427ecd8338e7fdf3d2192b3ebfb7ee70ba8e79c04997"
+    },
+    {
+      "path": "ops023-snapshot-io-integration-main-ci-42828751267-attempt1/job-log.official-direct-download.utf8.txt",
+      "bytes": 390084,
+      "sha256": "d715de85dd764e45c75d63b92247f9c92ee741f3da3e8bec1ab9af8de00e7130"
+    },
+    {
+      "path": "ops023-snapshot-io-integration-main-ci-42828751267-attempt1/capture.json",
+      "bytes": 1338,
+      "sha256": "77c1033dbddb0da00296bb5d5d4d3a15c3548a2d3c6299b68a78f8bf0776a731"
+    },
+    {
+      "path": "ops023-snapshot-io-integration-source-ci-42818104601-attempt1/run.json",
+      "bytes": 12790,
+      "sha256": "f81d7be8cda31a0a19cd8564add4432a16226585c3bf725e4ae3a6b74d9263c8"
+    },
+    {
+      "path": "ops023-snapshot-io-integration-source-ci-42818104601-attempt1/jobs.json",
+      "bytes": 5563,
+      "sha256": "a67d8aab16e6a5ffe1356a2af21af73d68f66fc0d7b6cd6857bbd77f7ed7ad37"
+    },
+    {
+      "path": "ops023-snapshot-io-integration-source-ci-42818104601-attempt1/checkout.json",
+      "bytes": 2602,
+      "sha256": "e745adc37c54136e740cf46a22d7dc97c9ed86656c6bac8003587f66ef438da5"
+    },
+    {
+      "path": "ops023-snapshot-io-integration-source-ci-42818104601-attempt1/official-direct-download-authenticated-result.json",
+      "bytes": 555,
+      "sha256": "f5b3789d422954536a80524131e043e68afe220119fbbb86bea6f6b734b20850"
+    },
+    {
+      "path": "ops023-snapshot-io-integration-source-ci-42818104601-attempt1/job-log.official-direct-download.utf8.txt",
+      "bytes": 370897,
+      "sha256": "25dc71609d55647d4c118f8dc0f765727356dd8d27cf960c96f62ffa1f2f6956"
+    },
+    {
+      "path": "ops023-snapshot-io-integration-source-ci-42818104601-attempt1/negative-analysis.json",
+      "bytes": 3649,
+      "sha256": "78a7a123896504e8fb65b2a2d5c8e603196d88c81eb5f5020343799cecc40373"
+    },
+    {
+      "path": "ops023-snapshot-io-integration-source-ci-42818104601-attempt1/annotations.raw.json",
+      "bytes": 1643,
+      "sha256": "ded75ef9a485606a96f4d8ca2431621cbef3abd7db3c84d55463d2d01e457da7"
+    },
+    {
+      "path": "ops023-normal-completion-v1-source-ci998-attempt1-cancelled/run.json",
+      "bytes": 12858,
+      "sha256": "c4979713d31c8a2cde6d0a702f87913120b3eb9a647ba544041243e1fea0f7db"
+    },
+    {
+      "path": "ops023-normal-completion-v1-source-ci998-attempt1-cancelled/jobs.json",
+      "bytes": 5557,
+      "sha256": "80ed0ea1f05c6ea31b2ac5cc55a631e4f6d66d3c647384b15ca1bd8263318191"
+    },
+    {
+      "path": "ops023-normal-completion-v1-source-ci998-attempt1-cancelled/checkout.json",
+      "bytes": 2602,
+      "sha256": "13344a511243a504f5fcc882c1522ea2f420eccc6ab1efe0812e50d2c35aeedb"
+    },
+    {
+      "path": "ops023-normal-completion-v1-source-ci998-attempt1-cancelled/official-connector-acquisition-result.json",
+      "bytes": 1213,
+      "sha256": "ad945f26ba79624b5d5d750287e292520e7a4a86c2d2ce0746ddff24f51278f3"
+    },
+    {
+      "path": "ops023-normal-completion-v1-source-ci998-attempt1-cancelled/job-log.connector-decoded.utf8.txt",
+      "bytes": 367455,
+      "sha256": "4b0b738c4c4305abdd4f5a68121e0a32851911c81457eb908187a5ced356f2bf"
+    },
+    {
+      "path": "ops023-normal-completion-v1-source-ci998-attempt1-cancelled/negative-analysis.json",
+      "bytes": 11173,
+      "sha256": "223e5031f8c89eea6157395557593dcff18cda1f0ac08acca35a87aa3840b591"
+    },
+    {
+      "path": "ops023-completion-source998-attempt1-official-annotations.raw.json",
+      "bytes": 1643,
+      "sha256": "2db773ec51c7deb402e05842ab8dd6d95ed8ced0357f7764ecc5fe32ac3829bb"
+    },
+    {
+      "path": "ops023-completion-source998-attempt1-official-annotations-observation.json",
+      "bytes": 4051,
+      "sha256": "db0f5f4670933becfd720768df078bb6ec8518d247f82ffa854a8a331ec1a967"
+    },
+    {
+      "path": "ops023-normal-completion-v1-source-ci998-attempt2-cancelled/run.json",
+      "bytes": 12940,
+      "sha256": "29ab7198c30974fa3fcb9ad91c5c347a8bc75934069bd6d2c95efa66a2c71455"
+    },
+    {
+      "path": "ops023-normal-completion-v1-source-ci998-attempt2-cancelled/jobs.json",
+      "bytes": 5557,
+      "sha256": "0d7ee4dcbf3bd3806801d31e6be00d1d84f0c041d20855457a234a4331c2b729"
+    },
+    {
+      "path": "ops023-normal-completion-v1-source-ci998-attempt2-cancelled/checkout.json",
+      "bytes": 2602,
+      "sha256": "13344a511243a504f5fcc882c1522ea2f420eccc6ab1efe0812e50d2c35aeedb"
+    },
+    {
+      "path": "ops023-normal-completion-v1-source-ci998-attempt2-cancelled/official-connector-acquisition-result.json",
+      "bytes": 1213,
+      "sha256": "d9437b923a86315fdf7c374d65a1e32e7564a9f70278e89f45b5149b498cf557"
+    },
+    {
+      "path": "ops023-normal-completion-v1-source-ci998-attempt2-cancelled/job-log.connector-decoded.utf8.txt",
+      "bytes": 368530,
+      "sha256": "613117411cb22276ba08cbf229eda62398d822ad8979251e331ebedf2a6d56c3"
+    },
+    {
+      "path": "ops023-normal-completion-v1-source-ci998-attempt2-cancelled/negative-analysis.json",
+      "bytes": 10299,
+      "sha256": "ad78d107488ecb5757ccd1f28f5af1d83ec3444e300080e2668e553df5529511"
+    },
+    {
+      "path": "ops023-completion-source998-attempt2-official-annotations.raw.json",
+      "bytes": 1643,
+      "sha256": "6858d5c8f228ab7fa612850ce359a7c5ea46c304f4f2b6cc35bc2719fc281f15"
+    },
+    {
+      "path": "ops023-completion-source998-attempt2-official-annotations-observation.json",
+      "bytes": 4051,
+      "sha256": "acbdacf8d7e6e6841d248a148896acd8f7dabbc9cee1bc9d16748eca19992b77"
+    },
+    {
+      "path": "ops023-snapshot-io-integration-6033c9c-native-main-seven/results.json",
+      "bytes": 5657,
+      "sha256": "b67fd33860ac1bf6415b1ee882e6cde83d7060ac22ddec42e54e42909d96cc1a",
+      "originalBytes": 33284,
+      "originalSha256": "9c42bc1d8cfb44b2a311d17a4489f09f9f2c3e62edee64132e27eb02ee291eb7",
+      "localIdentityProjection": true
+    },
+    {
+      "path": "ops023-snapshot-io-integration-6033c9c-native-main-seven/integrity.raw",
+      "bytes": 481,
+      "sha256": "19c66347c95d3b53aa0cf3b36691777974ad7d1949d39e26927effc793392a7f",
+      "originalBytes": 495,
+      "originalSha256": "4f5e0246ce2909f21dba528dc47a10323e9713afbe7db17afc273c094abb3e00",
+      "localIdentityProjection": true
+    },
+    {
+      "path": "ops023-snapshot-io-integration-6033c9c-native-main-seven/history.raw",
+      "bytes": 549,
+      "sha256": "5f8690a740326e7e4077fb82aa0e293f787451084de0de5333ddc88db4e1044f",
+      "originalBytes": 563,
+      "originalSha256": "59b4e0722d599012b3d884a50e7993cf0d611186df4928c17746393c8cec8e41",
+      "localIdentityProjection": true
+    },
+    {
+      "path": "ops023-snapshot-io-integration-6033c9c-native-main-seven/transitions.raw",
+      "bytes": 461,
+      "sha256": "93150adf8479b55fc02ee3f0c345923239be92027b89c54d753c1c8a1a729a0e",
+      "originalBytes": 475,
+      "originalSha256": "497768305c6bd6239dd13c8c6e648b4c3b1bc08c16cc49e5b55d8cdcb878330c",
+      "localIdentityProjection": true
+    },
+    {
+      "path": "ops023-snapshot-io-integration-6033c9c-native-main-seven/finalization.raw",
+      "bytes": 440,
+      "sha256": "f04f0b4ed25f79478cdc1e0d4c199e84468755b66488f9b0f3fce98779ca9438",
+      "originalBytes": 454,
+      "originalSha256": "8f099b55c94fb4434ab253b02b0d0d930ad128bf26fbb70dfdade95582db0246",
+      "localIdentityProjection": true
+    },
+    {
+      "path": "ops023-snapshot-io-integration-6033c9c-native-main-seven/raw-lifecycle.raw",
+      "bytes": 531,
+      "sha256": "950f388a7afd9069d00a6f55183042a2d786d52accb09bb73b253fc2a85a0147",
+      "originalBytes": 545,
+      "originalSha256": "cf0176ee54f4053dd963f57a89ed692fca2c0950f5fef50d687f1176f869a7ad",
+      "localIdentityProjection": true
+    },
+    {
+      "path": "ops023-snapshot-io-integration-6033c9c-native-main-seven/coordination.raw",
+      "bytes": 343,
+      "sha256": "59b41ff8b942a5893d01e4461617df899b264bfe3c824ff24ca57ea6f0bb641d",
+      "originalBytes": 357,
+      "originalSha256": "bf5bb7c460e01026086ab10965fc798d11ba499466ee08c19d27225f101d9664",
+      "localIdentityProjection": true
+    },
+    {
+      "path": "ops023-snapshot-io-integration-6033c9c-native-main-seven/poc-protocol.raw",
+      "bytes": 372,
+      "sha256": "9634d8c7cdc6689d26335f1292354b38b2b6cb80c930cb968bc3a9ad7e8bca65",
+      "originalBytes": 400,
+      "originalSha256": "a8499acf1e71545bf8fc7c03109d79a317f7315e8bcdeedb65b80c8a41fcc86f",
+      "localIdentityProjection": true
+    },
+    {
+      "path": "ops023-snapshot-io-integration-native-source14/results.json",
+      "bytes": 8134,
+      "sha256": "ab1352ec3f0fd8b5dbad6034fe92fac22e11c5e259e8c1f6b8313b1dde1166a6",
+      "originalBytes": 8148,
+      "originalSha256": "0e8d23ae40252b12137b4b831b0e8753c05a0a9fd4e0d4771ecf7b7b25093573",
+      "localIdentityProjection": true
+    },
+    {
+      "path": "ops023-snapshot-io-integration-native-source14/00.raw",
+      "bytes": 144,
+      "sha256": "4399724dece151817455aef82b415c9673ff01a4d090bd636dd66a40601446c8"
+    },
+    {
+      "path": "ops023-snapshot-io-integration-native-source14/01.raw",
+      "bytes": 272,
+      "sha256": "8bcb02ef64867ee9918cfd4cdae31f62aeed5bd55f3ed8ea915e36db7e41f127",
+      "originalBytes": 286,
+      "originalSha256": "95847878fd82ad5783990de39e0c28f3efebb4989e0d46ebade727ee55f558c9",
+      "localIdentityProjection": true
+    },
+    {
+      "path": "ops023-snapshot-io-integration-native-source14/02.raw",
+      "bytes": 1947,
+      "sha256": "3bffc1617f560ff3321a729de9a9c1de04e025f5d563da749172bf61ec5336c9"
+    },
+    {
+      "path": "ops023-snapshot-io-integration-native-source14/03.raw",
+      "bytes": 419,
+      "sha256": "3e769a8f90f326154edc28aa366c02f3189ea104086a3d0e97a0a5105d65f5d9"
+    },
+    {
+      "path": "ops023-snapshot-io-integration-native-source14/04.raw",
+      "bytes": 482,
+      "sha256": "c1d1a672dbe1ef0cf1999d6f286b179867d95c59e22d4e04955463ad1f4dfb75"
+    },
+    {
+      "path": "ops023-snapshot-io-integration-native-source14/05.raw",
+      "bytes": 435,
+      "sha256": "11cd38714a9a9814eb4e2533b67d85b8898b5b525fd8d21b2d907d2550cfb1ff"
+    },
+    {
+      "path": "ops023-snapshot-io-integration-native-source14/06.raw",
+      "bytes": 500,
+      "sha256": "4db32cbe7d39eec81be4451a520f6f0f6d38e6413a8071ffd58256fefba387f4"
+    },
+    {
+      "path": "ops023-snapshot-io-integration-native-source14/07.raw",
+      "bytes": 591,
+      "sha256": "94a78d3e8c71eeec357fe127355db551c5ac51023ca03c72528a3a403f1a511f"
+    },
+    {
+      "path": "ops023-snapshot-io-integration-native-source14/08.raw",
+      "bytes": 416,
+      "sha256": "7a64b1d5b8ed1b72e70fea7ca3804e8c904035eaf5b1b08295c726c0bfebe1dd"
+    },
+    {
+      "path": "ops023-snapshot-io-integration-native-source14/09.raw",
+      "bytes": 362,
+      "sha256": "3055494bf39599612aff6a0d2c4cd103fb89935421c9afdf16eeec2e5d2c57a5"
+    },
+    {
+      "path": "ops023-snapshot-io-integration-native-source14/10.raw",
+      "bytes": 735,
+      "sha256": "3c8e2de10d491d740490487e8a3858bd9997da10efebcb8e4a5ded1cbd6ae1a1"
+    },
+    {
+      "path": "ops023-snapshot-io-integration-native-source14/11.raw",
+      "bytes": 307,
+      "sha256": "f4a1b04a97ce65437d2a4813884adcb0fbac531865bfac9c1a539f76deb7a164"
+    },
+    {
+      "path": "ops023-snapshot-io-integration-native-source14/12.raw",
+      "bytes": 660,
+      "sha256": "759e435eaacb06dce9bd24ed040afeec72f8999f14917f7e1f94d598ddc97925"
+    },
+    {
+      "path": "ops023-snapshot-io-integration-native-source14/13.raw",
+      "bytes": 164,
+      "sha256": "a89cd8d2593938542e50550e7311c1b09309f3e8751b8ca599170bb579f9e774"
+    }
+  ],
+  "archiveBytes": 371567,
+  "archiveSha256": "5fb8fc3f55735a56980cf4431a35a7d620a1ef46c3425c2ea2a8ad743fa1841b",
+  "acceptanceCertificateIncluded": false,
+  "parentFinalReceiptSha256": "50594af6c33d3a4a9aabb96e19ffb7200feb06f83ab0f5b91f787bc7cbc0bedd",
+  "noRecursivePrivateCertificateClaim": true,
+  "archivePolicy": "Official records byte-identical. Native diagnostic paths aliased and local reference names omitted; original digests retained."
+}

@@ -1,0 +1,7 @@
+# Normal OPS-023 Completion preparation
+
+Own Program/Task completed metadata and removal of its Registry entry are proposed on accepted actual Integration main 6033c9cf7fa76df65713151145da04f719bb6e04. Code merge PR217 and its actual merge is the completion reference. All original Task body/lease/actors/claims, foreign records, Code bytes, ledger, APP and frozen/workflow remain unchanged. Actual capacity is released only after this Completion source14/full1039, ordinary merge, actualmain7/full1039 and final independent acceptance. Commands below are UNEXECUTED current-stage mappings; no POC experiment is approved.
+
+The earlier normal Review [PR215](https://github.com/ElectricDogCN/Guize/pull/215) and its accepted [actual main CI #997 attempt 2](https://github.com/ElectricDogCN/Guize/actions/runs/42359593400/attempts/2) retain their history. The earlier Completion [PR216](https://github.com/ElectricDogCN/Guize/pull/216) was not merged. Its [CI #998](https://github.com/ElectricDogCN/Guize/actions/runs/42364519549) attempts recorded 956 passes / 71 unconfirmed and 964 passes / 63 unconfirmed, respectively, and both were cancelled. The archive preserves both original attempt records separately. No third attempt was run.
+
+Official GitHub records in the archive retain their original bytes. Published local diagnostics use a workspace alias and omit local reference names. The index records both digests for each changed member.
