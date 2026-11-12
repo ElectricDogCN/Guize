@@ -155,3 +155,47 @@ def test_pytest_execution_preserves_auditable_results(tmp_path, outcome, request
         str(ROOT / 'tests/governance/allowed-skips.txt'),
     ], cwd=tmp_path, capture_output=True, text=True, timeout=30)
     assert audit.returncode == 0, audit.stdout + audit.stderr
+
+
+def test_ci_plugin_unavailability_does_not_succeed_serially(tmp_path):
+    import shutil
+
+    fixture = tmp_path / 'strict-ci'
+    relative = 'tests/governance/test_ci_parallel_execution.py'
+    for name in (
+        relative,
+        '.github/workflows/governance-gate.yml',
+        'scripts/check-pytest-skips.py',
+        'tests/governance/allowed-skips.txt',
+    ):
+        target = fixture / name
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(ROOT / name, target)
+        assert target.read_bytes() == (ROOT / name).read_bytes()
+
+    environment = os.environ.copy()
+    environment.update(GITHUB_ACTIONS='true', PYTEST_DISABLE_PLUGIN_AUTOLOAD='1')
+    environment.pop('PYTEST_ADDOPTS', None)
+    environment.pop('PYTEST_PLUGINS', None)
+    report = fixture / 'strict-ci-junit.xml'
+    result = subprocess.run([
+        sys.executable, '-m', 'pytest', relative, '-q',
+        '-k', 'test_pytest_execution_preserves_auditable_results',
+        '--junitxml=' + str(report), '-p', 'no:cacheprovider',
+    ], cwd=fixture, env=environment, capture_output=True, text=True, timeout=90)
+    output = result.stdout + result.stderr
+    assert result.returncode == 1 and report.is_file(), output
+    root = ET.parse(report).getroot()
+    cases = list(root.iter('testcase'))
+    assert len(cases) == 3 and {case.get('name') for case in cases} == {
+        'test_pytest_execution_preserves_auditable_results[' + outcome + ']'
+        for outcome in ('success', 'assertion_failure', 'process_crash')
+    }, output
+    assert len(list(root.iter('failure'))) == 3, output
+    assert not list(root.iter('error')) and not list(root.iter('skipped')), output
+    if importlib.util.find_spec('xdist') is None:
+        assert 'CI and outer workers require the declared xdist dependency' in output
+    else:
+        assert 'unrecognized arguments:' in output, output
+        for option in ('-n 2', '--dist loadfile', '--max-worker-restart=0'):
+            assert option in output, output

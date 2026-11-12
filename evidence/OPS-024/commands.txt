@@ -1,15 +1,15 @@
-# Normal Review original14 recipe; UNEXECUTED
-git diff --check 58a348f22da2e300b198f75aef61f44e8f5c4939...HEAD
+# Normal Integration original14 recipe; UNEXECUTED
+git diff --check 7da348246380e733b20d96ceb81a05cd85763e37...HEAD
 python scripts/check-task-file.py --task OPS-024
 python scripts/check-schemas.py
-python scripts/check-program-plan-integrity.py --base-ref 58a348f22da2e300b198f75aef61f44e8f5c4939
-python scripts/check-program-plan-history.py --base-ref 58a348f22da2e300b198f75aef61f44e8f5c4939 --head-ref HEAD --task OPS-024 --branch-name chore/OPS-024-normal-review
-python scripts/check-program-plan-transitions.py --base-ref 58a348f22da2e300b198f75aef61f44e8f5c4939 --head-ref HEAD --task OPS-024 --branch-name chore/OPS-024-normal-review
-python scripts/check-program-lifecycle-guards.py --base-ref 58a348f22da2e300b198f75aef61f44e8f5c4939 --head-ref HEAD --task OPS-024 --branch-name chore/OPS-024-normal-review
-python scripts/run-program-lifecycle-gate.py --base-ref 58a348f22da2e300b198f75aef61f44e8f5c4939 --head-ref HEAD --task OPS-024 --branch-name chore/OPS-024-normal-review
-python scripts/run-agent-coordination-gate.py --base-ref 58a348f22da2e300b198f75aef61f44e8f5c4939 --head-ref HEAD --task OPS-024 --branch-name chore/OPS-024-normal-review
-python scripts/check-program-plan-finalization.py --base-ref 58a348f22da2e300b198f75aef61f44e8f5c4939 --head-ref HEAD --task OPS-024
-python scripts/run-task-scope-gate.py --task OPS-024 --base 58a348f22da2e300b198f75aef61f44e8f5c4939
+python scripts/check-program-plan-integrity.py --base-ref 7da348246380e733b20d96ceb81a05cd85763e37
+python scripts/check-program-plan-history.py --base-ref 7da348246380e733b20d96ceb81a05cd85763e37 --head-ref HEAD --task OPS-024 --branch-name chore/OPS-024-normal-integration
+python scripts/check-program-plan-transitions.py --base-ref 7da348246380e733b20d96ceb81a05cd85763e37 --head-ref HEAD --task OPS-024 --branch-name chore/OPS-024-normal-integration
+python scripts/check-program-lifecycle-guards.py --base-ref 7da348246380e733b20d96ceb81a05cd85763e37 --head-ref HEAD --task OPS-024 --branch-name chore/OPS-024-normal-integration
+python scripts/run-program-lifecycle-gate.py --base-ref 7da348246380e733b20d96ceb81a05cd85763e37 --head-ref HEAD --task OPS-024 --branch-name chore/OPS-024-normal-integration
+python scripts/run-agent-coordination-gate.py --base-ref 7da348246380e733b20d96ceb81a05cd85763e37 --head-ref HEAD --task OPS-024 --branch-name chore/OPS-024-normal-integration
+python scripts/check-program-plan-finalization.py --base-ref 7da348246380e733b20d96ceb81a05cd85763e37 --head-ref HEAD --task OPS-024
+python scripts/run-task-scope-gate.py --task OPS-024 --base 7da348246380e733b20d96ceb81a05cd85763e37
 python scripts/check-evidence.py --task OPS-024
 python scripts/check-project-readiness.py
 python scripts/check-markdown.py

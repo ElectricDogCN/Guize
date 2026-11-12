@@ -1,0 +1,27 @@
+{
+  "kind": "NORMAL_INTEGRATION_METADATA_ONLY",
+  "base": "7da348246380e733b20d96ceb81a05cd85763e37",
+  "branch": "chore/OPS-024-normal-integration",
+  "codeSource": "515aa82bf05ef4a0e956acfe4480915903daca6d",
+  "codeMain": "58a348f22da2e300b198f75aef61f44e8f5c4939",
+  "reviewMain": "7da348246380e733b20d96ceb81a05cd85763e37",
+  "codePullRequest": 225,
+  "claims": [
+    ".github/workflows/governance-gate.yml",
+    "tests/governance/test_ci_parallel_execution.py"
+  ],
+  "lease": {
+    "acquiredAt": "2026-11-12T12:45:12Z",
+    "expiresAt": "2026-11-19T12:45:12Z"
+  },
+  "parentReviewAcceptanceSha256": "088b4e9f3204ed48335cd8b2961d2aa87411cae1696768c38ff7e7a9265757a0",
+  "parentReviewBundleSha256": "33c463f70838042a8bca0b22d5858022c3cd183abd1a73430dabf02d6047de19",
+  "parentReviewMainAccepted": true,
+  "parentAcceptanceCertificateIncluded": false,
+  "privateNativeRawIncluded": false,
+  "sourceGatePassed": false,
+  "fullCiAccepted": false,
+  "taskCompleted": false,
+  "capacityReleased": false,
+  "pocExperimentsApproved": false
+}
