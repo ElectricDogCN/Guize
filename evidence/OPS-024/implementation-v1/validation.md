@@ -33,3 +33,28 @@ two existing paths into separate bullets. No new claim or checker change is
 introduced. The failed raw execution is retained; commands 11–13, collection
 and full-suite execution had not run for that source. The corrected fixed
 source must rerun the complete original fourteen checks and all 1,043 tests.
+
+PR225 review identified a local setup defect: only CI installs xdist, while the
+existing local requirements support serial `make governance-test` / `make verify`.
+A clean Python3.11.17 environment with only the original requirements actually
+reproduced three failures at source be8135b (four collected, three failures,
+zero skips), so CI1011 success does not authorize merging that source.
+
+The execution regressions now support both real local serial pytest and real
+CI parallel pytest. Only a local environment with no xdist and no actual outer
+worker may remove the exact five known xdist option tokens. CI and outer workers
+require xdist; plugin/CLI failures never trigger fallback. Actual pytest config
+identifies the mode. Local serial checks exercise all four bounded cases, one
+real pytest PID and an independently crashed owned child with observed exit91;
+CI keeps the actual xdist-worker crash. Both paths require real failure/JUnit
+and skip audit. All four new test cases remain collected and execute without
+skips. Root requirements, Makefile, ownership and workflow are unchanged by
+this compatibility fix. New fixed-source minimal-environment make verification,
+full fourteen/full1043 parallel validation and official source/main CI remain
+required; old-source results are not transferred.
+
+Working targeted validation now passes all four cases in both the clean
+original-requirements environment (real serial) and installed-xdist strict-CI
+environment (real parallel), zero skipped. Separate negative probes confirm
+CI without xdist and an installed-but-disabled plugin each remain real errors
+(four collected, three failures, zero skips); neither falls back to serial.
