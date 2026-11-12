@@ -113,7 +113,8 @@ class ControlledFixtureMap:
             provider_at = provider_time.astimezone(timezone.utc).isoformat().replace("+00:00", "Z")
             first, last = (datetime.fromisoformat(observation[k].replace("Z", "+00:00"))
                            for k in ("startedAt", "endedAt"))
-            if (first.tzinfo is None or last.tzinfo is None or first >= last
+            # UTC samples can share a tick; elapsed time is measured monotonically.
+            if (first.tzinfo is None or last.tzinfo is None or first > last
                     or observation["monotonicEndNs"] <= observation["monotonicStartNs"]):
                 raise ValueError()
         except (KeyError, TypeError, ValueError, OverflowError):
