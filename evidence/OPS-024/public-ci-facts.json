@@ -1,0 +1,37 @@
+{
+  "taskId": "OPS-024",
+  "actualBase": "194e1d29c0b4f4f761615a27925af74b01b3d25c",
+  "actualBaseFullCiAccepted": false,
+  "lastFullyAcceptedAnchor": "c55d1e9145bee9bf773ad1946b36366dff37601a",
+  "lastAcceptedMainCi": "https://github.com/ElectricDogCN/Guize/actions/runs/43206671645",
+  "sourcePr": "https://github.com/ElectricDogCN/Guize/pull/219",
+  "source": "4fb22681d6c530d7cffc37f2cf2472ed8abd2f07",
+  "run": "https://github.com/ElectricDogCN/Guize/actions/runs/43173411829",
+  "fullCiAccepted": false,
+  "attempts": [
+    {
+      "attempt": 1,
+      "job": 131031844477,
+      "conclusion": "cancelled",
+      "observedPassed": 1039,
+      "pytestSummarySeconds": 1764.13
+    },
+    {
+      "attempt": 2,
+      "job": 131047514799,
+      "conclusion": "cancelled",
+      "observedPassed": 1039,
+      "pytestSummarySeconds": 1744.62
+    }
+  ],
+  "thirdSameSourceRetryAllowed": false,
+  "ownReservationCi": "UNEXECUTED",
+  "parallelImplementation": "UNEXECUTED",
+  "previousRegistrationSource": "7ab12ae189c29d78276c69a8873473cd171334fd",
+  "previousRegistrationPr": 221,
+  "previousRegistrationCi": 43194052677,
+  "previousRegistrationCiAccepted": false,
+  "previousRegistrationThirdAttemptAllowed": false,
+  "currentActualMainCi": 43219725170,
+  "currentActualMainCiAccepted": false
+}

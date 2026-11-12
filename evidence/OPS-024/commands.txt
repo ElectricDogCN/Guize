@@ -1,0 +1,16 @@
+# OPS-024 command / exit code record
+# Preparation only: every command exit code UNEXECUTED.
+git diff --check 194e1d29c0b4f4f761615a27925af74b01b3d25c...HEAD
+python scripts/check-task-file.py --task OPS-024
+python scripts/check-schemas.py
+python scripts/check-program-plan-integrity.py --base-ref 194e1d29c0b4f4f761615a27925af74b01b3d25c
+python scripts/check-program-plan-history.py --base-ref 194e1d29c0b4f4f761615a27925af74b01b3d25c --head-ref HEAD --task OPS-024 --branch-name chore/OPS-024-ci-parallelism-reservation-v2
+python scripts/check-program-plan-transitions.py --base-ref 194e1d29c0b4f4f761615a27925af74b01b3d25c --head-ref HEAD --task OPS-024 --branch-name chore/OPS-024-ci-parallelism-reservation-v2
+python scripts/check-program-lifecycle-guards.py --base-ref 194e1d29c0b4f4f761615a27925af74b01b3d25c --head-ref HEAD --task OPS-024 --branch-name chore/OPS-024-ci-parallelism-reservation-v2
+python scripts/run-program-lifecycle-gate.py --base-ref 194e1d29c0b4f4f761615a27925af74b01b3d25c --head-ref HEAD --task OPS-024 --branch-name chore/OPS-024-ci-parallelism-reservation-v2
+python scripts/run-agent-coordination-gate.py --base-ref 194e1d29c0b4f4f761615a27925af74b01b3d25c --head-ref HEAD --task OPS-024 --branch-name chore/OPS-024-ci-parallelism-reservation-v2
+python scripts/check-program-plan-finalization.py --base-ref 194e1d29c0b4f4f761615a27925af74b01b3d25c --head-ref HEAD --task OPS-024
+python scripts/run-task-scope-gate.py --task OPS-024 --base 194e1d29c0b4f4f761615a27925af74b01b3d25c
+python scripts/check-evidence.py --task OPS-024
+python scripts/check-project-readiness.py
+python scripts/check-markdown.py
