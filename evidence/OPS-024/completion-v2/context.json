@@ -1,0 +1,26 @@
+{
+  "kind": "NORMAL_COMPLETION_METADATA_ONLY",
+  "base": "addcd094aa5da342dd77e841c98cfb1ec432c2d0",
+  "branch": "chore/OPS-024-normal-completion-v2",
+  "codeSource": "fe5e4c4ebdf275f65e76f396b024d0e2acae4894",
+  "codeMain": "addcd094aa5da342dd77e841c98cfb1ec432c2d0",
+  "codePullRequest": 227,
+  "claims": [
+    ".github/workflows/governance-gate.yml",
+    "tests/governance/test_ci_parallel_execution.py"
+  ],
+  "lease": {
+    "acquiredAt": "2026-11-12T12:45:12Z",
+    "expiresAt": "2026-11-19T12:45:12Z"
+  },
+  "parentIntegrationAcceptanceSha256": "2b242fbc7041700e4bae8b228cb1f299ee2d231b71f2aded89300253e7472636",
+  "parentIntegrationBundleSha256": "a4ad43d6a0c0e671e1e884b733781d7c06ce931164b45c9a2447cc20b4cff569",
+  "parentIntegrationMainAccepted": true,
+  "parentAcceptanceCertificateIncluded": false,
+  "privateNativeRawIncluded": false,
+  "sourceGatePassed": false,
+  "fullCiAccepted": false,
+  "taskCompleted": false,
+  "capacityReleased": false,
+  "pocExperimentsApproved": false
+}
