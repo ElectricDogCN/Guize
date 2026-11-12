@@ -1,0 +1,33 @@
+{
+  "taskId": "POC-003",
+  "issue": 131,
+  "kind": "prospective-own-blocked-coordinator-lease-maintenance",
+  "decidedAt": "2026-11-12T10:18:10Z",
+  "decisionActor": "/root",
+  "authority": "Existing user delegation of project decisions and normal review/merge; original Registry actors are preserved, not relabelled.",
+  "base": "659c7ad28af040e449eb5e6700682b52ec401056",
+  "branch": "chore/POC-003-lease-renewal-20261112",
+  "originalLease": {
+    "acquiredAt": "2026-11-05T11:03:12Z",
+    "expiresAt": "2026-11-12T11:03:12Z"
+  },
+  "proposedLease": {
+    "acquiredAt": "2026-11-12T10:18:10Z",
+    "expiresAt": "2026-11-19T10:18:10Z"
+  },
+  "priorStatus": "in_progress",
+  "priorAgentRole": "implementer",
+  "proposedStatus": "blocked",
+  "proposedAgentRole": "coordinator",
+  "registeredBranchUnchanged": "chore/POC-003-qualified-lfs-evidence-v2",
+  "creationBaseUnchanged": "760f6c5838597d1d66c0a536ecbf440ef5a7dfec",
+  "sourceChecks": "UNEXECUTED",
+  "fullOfficialCiAccepted": false,
+  "renewedAuthorityAccepted": false,
+  "experimentApproved": false,
+  "oldExperimentWindowExtended": false,
+  "oldPublicationRejectionOverridden": false,
+  "continuityClaimed": false,
+  "gapPolicy": "Any interval after old expiry and before actual-main complete CI/independent acceptance is recorded as a gap. No implementation or experiments during that interval.",
+  "reason": "Formal evidence publication remains subject to separate explicit authorization. Pause implementation/experiments while maintaining only prospective blocked coordination; original evidence and acceptance limits remain."
+}
