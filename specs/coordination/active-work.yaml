@@ -93,3 +93,43 @@ tasks:
   lease:
     acquiredAt: '2026-11-05T12:05:19Z'
     expiresAt: '2026-11-12T12:05:19Z'
+- taskId: OPS-024
+  issue: 220
+  title: 完整治理测试按文件双进程执行
+  status: reserved
+  riskLevel: high
+  owner: ElectricDogCN
+  coordinator: /root
+  implementer: /root
+  reviewer: /root/gz022_planning_independent_review
+  integrator: /root
+  agentRole: coordinator
+  branch: chore/OPS-024-ci-parallelism-reservation
+  baseBranch: main
+  baseSha: 659c7ad28af040e449eb5e6700682b52ec401056
+  workPackage: WP-M0-01
+  programPlan: specs/coordination/program-plan.yaml
+  programTaskId: OPS-024
+  programWave: FOUNDATION
+  requirementIds:
+  - REQ-V1-0010
+  moduleIds:
+  - MOD-GOV
+  producesContracts: []
+  consumesContracts:
+  - CONTRACT-PROGRAM-PLAN
+  - CONTRACT-TASK-SPEC
+  - CONTRACT-ACTIVE-WORK
+  coordinationGroup: ci-complete-execution
+  dependsOn:
+  - OPS-023
+  exclusivePaths:
+  - .github/workflows/governance-gate.yml
+  - tests/governance/test_ci_parallel_execution.py
+  sharedPaths: []
+  handoffPath: evidence/OPS-024/handoff.md
+  integrationStrategy: merge
+  integrationOrder: 19
+  lease:
+    acquiredAt: '2026-11-12T09:34:30Z'
+    expiresAt: '2026-11-19T09:34:30Z'

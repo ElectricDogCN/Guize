@@ -1,0 +1,28 @@
+{
+  "taskId": "OPS-024",
+  "acceptedBase": "659c7ad28af040e449eb5e6700682b52ec401056",
+  "acceptedMainCi": "https://github.com/ElectricDogCN/Guize/actions/runs/42841049588",
+  "sourcePr": "https://github.com/ElectricDogCN/Guize/pull/219",
+  "source": "4fb22681d6c530d7cffc37f2cf2472ed8abd2f07",
+  "run": "https://github.com/ElectricDogCN/Guize/actions/runs/43173411829",
+  "fullCiAccepted": false,
+  "attempts": [
+    {
+      "attempt": 1,
+      "job": 131031844477,
+      "conclusion": "cancelled",
+      "observedPassed": 1039,
+      "pytestSummarySeconds": 1764.13
+    },
+    {
+      "attempt": 2,
+      "job": 131047514799,
+      "conclusion": "cancelled",
+      "observedPassed": 1039,
+      "pytestSummarySeconds": 1744.62
+    }
+  ],
+  "thirdSameSourceRetryAllowed": false,
+  "ownReservationCi": "UNEXECUTED",
+  "parallelImplementation": "UNEXECUTED"
+}
