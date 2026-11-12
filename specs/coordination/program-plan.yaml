@@ -126,7 +126,7 @@ foundationTasks:
     mergeCommit: 6033c9cf7fa76df65713151145da04f719bb6e04
   - taskId: OPS-024
     title: 完整治理测试按文件双进程执行
-    status: review
+    status: integration
     completionRef: ISSUE-220
     mergeCommit: null
 waves:

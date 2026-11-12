@@ -1,0 +1,47 @@
+{
+  "kind": "REGISTERED_FORWARD_INTEGRATION_PURPOSE",
+  "taskId": "OPS-024",
+  "base": "7da348246380e733b20d96ceb81a05cd85763e37",
+  "branch": "chore/OPS-024-normal-integration",
+  "recordedAt": "2026-11-12T19:03:15.715990+00:00",
+  "priorCodePullRequest": 225,
+  "priorCodeSource": "515aa82bf05ef4a0e956acfe4480915903daca6d",
+  "priorCodeMain": "58a348f22da2e300b198f75aef61f44e8f5c4939",
+  "failedCompletionSource": "48989c12046831862617c7f71c8a7c252f8e6b45",
+  "failedCommandIndex": 3,
+  "failedCommandExitCode": 1,
+  "failure": "Original Code merge message lacks the exact OPS-024 identifier required by unchanged completed-Foundation validation.",
+  "failureRawSha256": "6631038b71583f2dd90474ef33094572427a5f079e30cc28a35fab4d39960a45",
+  "failureOriginalRetainedPrivately": true,
+  "failedCompletionPublished": false,
+  "scope": [
+    ".github/workflows/governance-gate.yml",
+    "tests/governance/test_ci_parallel_execution.py"
+  ],
+  "metadataPurposeOnly": true,
+  "implementationTouched": false,
+  "plannedAddedCaseId": "tests/governance/test_ci_parallel_execution.py::test_ci_plugin_unavailability_does_not_succeed_serially",
+  "plannedTotalTests": 1044,
+  "original1039PlusFourMustRemain": true,
+  "plannedBehavior": "Copy the real original module and workflow/skip dependencies to an isolated fixture; force actual CI with plugin auto-load disabled and select only the three original runtime cases. Require real exit1, exact three JUnit failures, zero skips and the actual dependency/CLI-unavailability reason. No fake package/config or empty collection may stand in for failure.",
+  "mergeRequirements": [
+    "Normal nonempty registered Code, independent review and complete official source/main CI.",
+    "Explicit actual merge message must identify OPS-024 and the true new PR number; independently verify the original commit identity check before Completion.",
+    "Future Completion must use the latest accepted nonempty Code PR and actual merge, preserving old225/515/58a as history."
+  ],
+  "fullFreshValidationPending": [
+    "original14",
+    "minimal-original-make-verify1044",
+    "strict-two-worker1044",
+    "official-source1044-all28",
+    "actual-main7",
+    "official-main1044-all-applicable",
+    "independent-acceptance"
+  ],
+  "historyRewriteApproved": false,
+  "checkerChangesApproved": false,
+  "bootstrapExceptionApproved": false,
+  "taskCompleted": false,
+  "capacityReleased": false,
+  "pocExecutionApproved": false
+}
