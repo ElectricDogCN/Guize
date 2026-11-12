@@ -24,3 +24,12 @@ the four new cases, actual two-worker full execution, complete official source
 and actual-main CI, independent Code Review, and normal Review/Completion.
 Original cancelled runs remain cancelled. No POC result or old performance
 qualification is transferred by this change.
+
+The first fixed-source native validation at `030fcd8` passed commands 00–09,
+then command 10 rejected five Own Evidence paths. The Task already included
+Evidence in its allowed scope, but combined it with the Task path in one bullet;
+the existing scope reader recognizes one leading path per bullet. Split those
+two existing paths into separate bullets. No new claim or checker change is
+introduced. The failed raw execution is retained; commands 11–13, collection
+and full-suite execution had not run for that source. The corrected fixed
+source must rerun the complete original fourteen checks and all 1,043 tests.
