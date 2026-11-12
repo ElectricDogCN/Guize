@@ -96,17 +96,17 @@ tasks:
 - taskId: OPS-024
   issue: 220
   title: 完整治理测试按文件双进程执行
-  status: in_progress
+  status: review
   riskLevel: high
   owner: ElectricDogCN
   coordinator: /root
   implementer: /root
   reviewer: /root/gz022_planning_independent_review
   integrator: /root
-  agentRole: implementer
-  branch: chore/OPS-024-ci-parallelism
+  agentRole: reviewer
+  branch: chore/OPS-024-normal-review
   baseBranch: main
-  baseSha: 439c2c33685dfae9d3893d852bf4044bcfc7e193
+  baseSha: 58a348f22da2e300b198f75aef61f44e8f5c4939
   workPackage: WP-M0-01
   programPlan: specs/coordination/program-plan.yaml
   programTaskId: OPS-024
