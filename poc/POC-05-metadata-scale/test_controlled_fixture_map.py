@@ -180,6 +180,27 @@ class FixtureMapTests(unittest.TestCase):
             with self.subTest(mode=mode), self.assertRaises(ScanError):
                 self.mapping.bind_page("mutated-" + str(number), page)
 
+    def test_equal_utc_requires_strictly_increasing_monotonic_clock(self):
+        page = self.one_page()
+        observation = page["observation"]
+        observation.update(startedAt="2026-01-01T00:00:00Z", endedAt="2026-01-01T00:00:00Z",
+                           monotonicStartNs=100, monotonicEndNs=101)
+        for run_id, changes in (
+                ("reverse-wall", dict(endedAt="2025-12-31T23:59:59Z")),
+                ("zero-monotonic", dict(monotonicEndNs=100)),
+                ("reverse-monotonic", dict(monotonicEndNs=99))):
+            self.mapping.begin_run(run_id)
+            invalid = dict(page, observation=dict(observation, **changes))
+            with self.subTest(run_id=run_id), self.assertRaisesRegex(
+                    ScanError, "ACTUAL_PROVIDER_DATE_AND_REQUEST_CLOCK_REQUIRED"):
+                self.mapping.bind_page(run_id, invalid)
+            self.assertEqual(self.mapping.state(run_id)["objects"], 0)
+        self.mapping.begin_run("equal-wall")
+        bound = self.mapping.bind_page("equal-wall", page)
+        self.assertEqual(bound["header"]["requestedAt"], observation["startedAt"])
+        self.assertEqual(bound["header"]["finishedAt"], observation["endedAt"])
+        self.assertEqual(self.mapping.state("equal-wall")["objects"], 2)
+
     def test_cursor_replay_reused_run_and_export_before_completion_fail(self):
         self.mapping.begin_run("cursor")
         page = self.one_page()
