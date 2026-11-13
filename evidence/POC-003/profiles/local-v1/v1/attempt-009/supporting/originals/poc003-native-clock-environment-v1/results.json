@@ -1,0 +1,82 @@
+{
+  "kind": "BOUNDED_REVERSIBLE_NATIVE_CLOCK_TEST_ENVIRONMENT",
+  "ready": false,
+  "commands": [
+    {
+      "label": "before-running-ids",
+      "pid": 88188,
+      "exitCode": 0,
+      "actualWaitCompleted": true
+    },
+    {
+      "label": "before-all-cids",
+      "pid": 47896,
+      "exitCode": 0,
+      "actualWaitCompleted": true
+    },
+    {
+      "label": "before-ntp-state",
+      "pid": 62604,
+      "exitCode": 0,
+      "actualWaitCompleted": true
+    },
+    {
+      "label": "stop-idle-desktop",
+      "pid": 22772,
+      "exitCode": 0,
+      "actualWaitCompleted": true
+    },
+    {
+      "label": "temporarily-stop-extra-ntp",
+      "pid": 45972,
+      "exitCode": 0,
+      "actualWaitCompleted": true
+    },
+    {
+      "label": "native-clock-observation",
+      "pid": 87792,
+      "exitCode": 0,
+      "actualWaitCompleted": true
+    },
+    {
+      "label": "restore-ntp",
+      "pid": 86248,
+      "exitCode": 0,
+      "actualWaitCompleted": true
+    },
+    {
+      "label": "restored-ntp-state",
+      "pid": 26800,
+      "exitCode": 0,
+      "actualWaitCompleted": true
+    },
+    {
+      "label": "restore-desktop",
+      "pid": 25820,
+      "exitCode": 0,
+      "actualWaitCompleted": true
+    },
+    {
+      "label": "restored-all-cids",
+      "pid": 72512,
+      "exitCode": 0,
+      "actualWaitCompleted": true
+    }
+  ],
+  "desktopRestored": true,
+  "ntpRestored": true,
+  "maximumReservationSeconds": 1800,
+  "globalConfigurationChanged": false,
+  "systemTimeSet": false,
+  "oldDataDeleted": false,
+  "readyAt": "2026-11-13T00:51:33.209142Z",
+  "reservationExpiresAt": "2026-11-13T01:20:26.444142Z",
+  "nativeOwnerPid": 89304,
+  "existingDesktopContainerCount": 30,
+  "clockSamples": 1788,
+  "clockOffsetRangeNs": 32120,
+  "nativeOwnerWaitCompleted": true,
+  "nativeOwnerExitCode": 0,
+  "allOriginalDesktopContainerIdsPreserved": true,
+  "finishedAt": "2026-11-13T01:11:46.723194Z"
+}

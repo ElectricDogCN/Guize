@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 1,
+  "kind": "INDEPENDENT_ACTUAL_FINITE_SYNTHETIC_PAIR_PREPARATION_REVIEW",
+  "reviewer": "/root/independent_review",
+  "reviewedAt": "2026-11-12T23:05:24.425484+00:00",
+  "source": "de8ad3f21df1578eac80e98d798f7adbcdb07d82",
+  "tree": "ce6f3e09ec72b88ddabf49e75d41b4159e36fdb9",
+  "syntheticPairPreparationAccepted": true,
+  "fullPhysicalRereadAccepted": true,
+  "methodSha256": "c5e3846b685111f60225de13b18692d097672bb7eab57777adb3871acbbe395d",
+  "preparationResultSha256": "e5ed7a673dfe9bc8683817fb3687cb322a318ddea1e002152cfb1cd4e8f4f602",
+  "approvalSha256": "e66bb9d840298bdcf793eed2b9a13c3faae4ffaa1920ca7fb85a556e3e63c1f5",
+  "executedWithinApprovedWindow": true,
+  "logicalBytes": 134217728,
+  "manifest": {
+    "bytes": 433,
+    "sha256": "1b78399afaca4fa33e39ab735208d52399387c8dcc5d8e7cb9ab3c2cc0cb0ae7",
+    "kind": "poc003-representative-pair-v1"
+  },
+  "files": [
+    {
+      "file": "guize-fresh-de8ad3f-base-64m-v1.bin",
+      "sha256": "9a30d2bb1a4f1eabcb41baa5b6518628411ba8ac668fc1e7085983261aa5f419",
+      "sizeBytes": 67108864,
+      "fullPhysicalReread": true,
+      "bytesWritten": 67108864
+    },
+    {
+      "file": "guize-fresh-de8ad3f-changed-64m-v1.bin",
+      "sha256": "e96b1d42cc9568a40f8577164f131ab001227e0a409c0b267c41101e08c5a103",
+      "sizeBytes": 67108864,
+      "fullPhysicalReread": true,
+      "bytesWritten": 67108864
+    }
+  ],
+  "independentPhysicalVerification": {
+    "actualWaitCompleted": true,
+    "exitCode": 0,
+    "toolChunk": "b3fb40",
+    "completeBytesRead": 134217728,
+    "fdIdentityAndSizeAndMtimeUnchanged": true,
+    "regularFiles": true,
+    "fileModes": "0444",
+    "directoryMode": "0555",
+    "descriptors": [
+      {
+        "file": "guize-fresh-de8ad3f-base-64m-v1.bin",
+        "dev": 2096,
+        "ino": 45691,
+        "mtimeNs": 1794524566907965923
+      },
+      {
+        "file": "guize-fresh-de8ad3f-changed-64m-v1.bin",
+        "dev": 2096,
+        "ino": 45692,
+        "mtimeNs": 1794524567171965924
+      }
+    ]
+  },
+  "pairDistinct": true,
+  "oldPrototypeHashesExcluded": true,
+  "sampleSuitabilityApproved": false,
+  "sampleApproved": false,
+  "experimentApproved": false,
+  "publicationApproved": false,
+  "atsServiceExecutionApproved": false,
+  "oldD3PublicationApproved": false,
+  "mustFix": [],
+  "evidencePins": [
+    {
+      "ref": ".takeover-tools/poc003-fresh-synthetic-pair-preparation-v1/results.json",
+      "bytes": 1320,
+      "sha256": "e5ed7a673dfe9bc8683817fb3687cb322a318ddea1e002152cfb1cd4e8f4f602"
+    },
+    {
+      "ref": ".takeover-tools/poc003-fresh-synthetic-pair-preparation-approval-v1.json",
+      "bytes": 1721,
+      "sha256": "e66bb9d840298bdcf793eed2b9a13c3faae4ffaa1920ca7fb85a556e3e63c1f5"
+    },
+    {
+      "ref": ".takeover-tools/prepare_poc003_fresh_synthetic_pair_v1.py",
+      "bytes": 5007,
+      "sha256": "c5e3846b685111f60225de13b18692d097672bb7eab57777adb3871acbbe395d"
+    },
+    {
+      "ref": ".takeover-tools/poc003-post-completion228-resume-v1-final-source-independent-review.json",
+      "bytes": 10061,
+      "sha256": "bd5201a0948fe51655574f959f79bdf6076921ab41c3887dd456726d099366a0"
+    }
+  ]
+}

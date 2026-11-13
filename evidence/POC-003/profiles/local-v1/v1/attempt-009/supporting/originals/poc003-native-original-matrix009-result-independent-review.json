@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "kind": "INDEPENDENT_ACTUAL_NATIVE_MATRIX009_RAW_COLLECTION_REVIEW_NOT_FORMAL_POC",
+  "reviewer": "/root/independent_review",
+  "reviewedAt": "2026-11-13T01:11:18.781498Z",
+  "source": "de8ad3f21df1578eac80e98d798f7adbcdb07d82",
+  "tree": "ce6f3e09ec72b88ddabf49e75d41b4159e36fdb9",
+  "rawMatrixCollectionAccepted": true,
+  "matrixRunSha256": "df73847d5ce8c190b61ba24a12c7f60ed948bdb451b2019b9d54b4611874b620",
+  "matrixApprovalSha256": "d9b939ec36738d56534a7688eaede804fe41d75f319cd91bedb49609058f71c3",
+  "methodSha256": "f93c138f50371fe0bfe2c66aec6cb693c9cc7fe991083b987764ba56cfc442bb",
+  "actualStartedAt": "2026-11-13T01:00:54.586066Z",
+  "actualFinishedAt": "2026-11-13T01:02:17.374884Z",
+  "collection": {
+    "bytes": 2435769,
+    "sha256": "82e862dd02c94b25c1da26c8dd390c9d3357d8e3af35ba0a3f7ef333e0524d8f"
+  },
+  "verification": {
+    "all21CasesCollected": true,
+    "responseBodiesPhysicallyVerified": 101,
+    "responseBodyBytes": 335544556,
+    "cacheStages": 6,
+    "acceptedOwnedClosures": 26,
+    "closureJournalsPhysicallyHashVerified": 26,
+    "clearEpochs": 12,
+    "commandOutputPairsPhysicallyVerified": 7,
+    "attachedAndEngineActualWaitCompleted": true,
+    "attachedAndEngineExitCode": 0,
+    "terminalPid": 0,
+    "externalCleanup": false,
+    "originalFiveBeforeBytesVerified": true,
+    "actualWorkloadCoveredByOriginalWindow": true,
+    "expectedToolVersionsEqualActualBeforeCapture": true,
+    "sourceBeforeEqualsAfter": true,
+    "derivedTemplateBytesUnchanged": true,
+    "gatewayAndOriginChronologyViolations": [],
+    "initialResultRepoVerifiedCleanAtR": true,
+    "initialAttempt009VerifiedAbsent": true
+  },
+  "actualFifteenAccepted": false,
+  "eightMiBBoundProven": false,
+  "formalPocAccepted": false,
+  "publicationApproved": false,
+  "oldD3PublicationApproved": false,
+  "environmentRollbackAccepted": false,
+  "prior008Disposition": "Retained without edits, chronology failure remains ineligible for formal derivation; no cross-run result combination authorized.",
+  "mustFix": [],
+  "evidencePins": [
+    {
+      "ref": ".takeover-tools/poc003-native-original-matrix009-approval-v1/approval.json",
+      "bytes": 16099,
+      "sha256": "d9b939ec36738d56534a7688eaede804fe41d75f319cd91bedb49609058f71c3"
+    },
+    {
+      "ref": ".takeover-tools/run_poc003_native_original_matrix009_v1.py",
+      "bytes": 28285,
+      "sha256": "f93c138f50371fe0bfe2c66aec6cb693c9cc7fe991083b987764ba56cfc442bb"
+    },
+    {
+      "ref": ".takeover-tools/poc003_native_execution_assembler009_v1.py",
+      "bytes": 24663,
+      "sha256": "002834ea1b67103187b1424c7092a71c791cd8f41400961236e2d6f7e8e108b8"
+    }
+  ],
+  "nativeEvidencePins": [
+    {
+      "path": "/tmp/guize-poc003-de8ad3f-v1/original-matrix-supervision-v3/results.json",
+      "bytes": 86408,
+      "sha256": "df73847d5ce8c190b61ba24a12c7f60ed948bdb451b2019b9d54b4611874b620"
+    },
+    {
+      "path": "/tmp/guize-poc003-de8ad3f-v1/original-matrix-v3/data/original-matrix/collection.json",
+      "bytes": 2435769,
+      "sha256": "82e862dd02c94b25c1da26c8dd390c9d3357d8e3af35ba0a3f7ef333e0524d8f"
+    }
+  ]
+}

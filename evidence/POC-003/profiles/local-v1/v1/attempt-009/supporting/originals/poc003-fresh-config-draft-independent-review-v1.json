@@ -1,0 +1,96 @@
+{
+  "schemaVersion": 1,
+  "reviewer": "/root/independent_review",
+  "reviewedAt": "2026-11-12T23:21:45.825620+00:00",
+  "source": "de8ad3f21df1578eac80e98d798f7adbcdb07d82",
+  "tree": "ce6f3e09ec72b88ddabf49e75d41b4159e36fdb9",
+  "mustFix": [],
+  "runtimeCompatibilityAccepted": false,
+  "sampleSuitabilityApproved": false,
+  "atsServiceExecutionApproved": false,
+  "mediaExecutionApproved": false,
+  "experimentApproved": false,
+  "publicationApproved": false,
+  "oldD3PublicationApproved": false,
+  "kind": "INDEPENDENT_UNAPPROVED_FRESH_CONFIGURATION_DRAFT_REVIEW",
+  "configurationDraftAccepted": true,
+  "staticEntrypointDeltaAccepted": true,
+  "configurationManifestSha256": "704c83508b73d01f03177ce07857190e60b1f8c1277dd1345262e75dcba2910b",
+  "packageManifestSha256": "9406b969f4d22e2dc6ee1e4e1aaed19d179672c20c74f2d1a89571bead0e9b44",
+  "configurationFiles": [
+    {
+      "path": "config.json",
+      "bytes": 1505,
+      "sha256": "31fe475a2dc025848d9bc7dec36e3d3280f622ef77788395070c99e5215ceee4"
+    },
+    {
+      "path": "matrix-entry.py",
+      "bytes": 14727,
+      "sha256": "35642d5d3896bd1c47d64a43a3e70c7a2934382294b0d2669d8c26ed2f2d08cb"
+    },
+    {
+      "path": "compatibility-entry.py",
+      "bytes": 9490,
+      "sha256": "16e27ae0ceb0e62751942d4b9951b5f76ceb4b43cb1c789ea68afb761f759e1e"
+    },
+    {
+      "path": "current-runtime-version.stdout.raw",
+      "bytes": 205,
+      "sha256": "9b57951541178a59355b4d171202e75892eb59e8bb5df2982b0b65dd2b5f845e"
+    }
+  ],
+  "numericControls": {
+    "originPort": 18231,
+    "atsPort": 18232,
+    "entryPort": 18233,
+    "sliceBytes": 1048576,
+    "minimumInputBytes": 67108864,
+    "maximumBufferedBytes": 8388608,
+    "cacheMiB": 256,
+    "chunkBytes": 65536,
+    "maximumRetries": 0,
+    "slowOriginDelayMs": 250,
+    "slowOriginBandwidthBytesPerSecond": 1048576,
+    "faultAfterBytes": 4,
+    "latencySampleCount": 4,
+    "concurrentUsers": 2,
+    "maximumRunSeconds": 900,
+    "maximumOriginRequests": 2048,
+    "maximumCollectionBytes": 1073741824
+  },
+  "originalMatrixAndCollectionLogicPreserved": true,
+  "compatibilityEntryBytesUnchanged": true,
+  "matrixDelta": "Only current version observation basename, truthful version observation scope, and fixed-source qualification comment; exact transformed bytes compared to original entry.",
+  "actualRuntimePathCompatibleWithFrozenLabLoader": true,
+  "executionApproved": false,
+  "configurationExecutionApproved": false,
+  "resourceOrWindowApproved": false,
+  "labPrepareExecuted": false,
+  "evidencePins": [
+    {
+      "ref": ".takeover-tools/poc003-fresh-config-draft-v1/results.json",
+      "bytes": 2050,
+      "sha256": "0ff2cd26cfe3049535d846ef5c1061e0cbb387a52e3e997370ed744f9f06cd7d"
+    },
+    {
+      "ref": ".takeover-tools/prepare_poc003_fresh_config_draft_once.py",
+      "bytes": 5553,
+      "sha256": "715b1d1524624229b1fd90460e9223706b04629a933b26daff5de45600f7a2f9"
+    },
+    {
+      "ref": ".takeover-tools/poc003_full_original_matrix_before_env_entry_v1.py",
+      "bytes": 14690,
+      "sha256": "1da32fc7549f9e8bd7369158874e67c2a9144bfcf826fc907e7577588293dfd9"
+    },
+    {
+      "ref": ".takeover-tools/poc003_small_fragment_compatibility_entry_v2.py",
+      "bytes": 9490,
+      "sha256": "16e27ae0ceb0e62751942d4b9951b5f76ceb4b43cb1c789ea68afb761f759e1e"
+    },
+    {
+      "ref": ".takeover-tools/poc003-fresh-runtime-package-version-result-independent-review-v1.json",
+      "bytes": 3801,
+      "sha256": "d69b69d956a0fb995421caddfc2d81b37c90935a75015651078237c9f056dcfd"
+    }
+  ]
+}

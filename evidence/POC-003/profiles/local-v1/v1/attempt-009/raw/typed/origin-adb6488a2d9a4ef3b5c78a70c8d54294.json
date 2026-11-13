@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "kind": "range_origin_access_observation",
+  "configurationRef": "evidence/POC-003/profiles/local-v1/v1/attempt-009/resource-configuration.json",
+  "case": "range_end",
+  "assetId": "guize-fresh-de8ad3f-v1-object",
+  "requestId": "adb6488a2d9a4ef3b5c78a70c8d54294",
+  "userId": "lab-user-a",
+  "requestRange": "bytes=67108856-67108863",
+  "ifRange": "",
+  "sourceVersion": "base",
+  "aclVersion": "guize-fresh-de8ad3f-v1-acl",
+  "requestURL": "http://127.0.0.1:18233/media/object.bin",
+  "sourceSha256": "sha256:9a30d2bb1a4f1eabcb41baa5b6518628411ba8ac668fc1e7085983261aa5f419",
+  "startedAt": "2026-11-13T01:01:05.264397Z",
+  "finishedAt": "2026-11-13T01:01:05.286971Z",
+  "originRequestCount": 1,
+  "objectReadCount": 16
+}

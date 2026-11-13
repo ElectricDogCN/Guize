@@ -1,0 +1,243 @@
+[
+    {
+        "Id": "ac5eba6738b3f8f5f49ae9e3c49151e5726cadbedc5fb7676a194b32e7917537",
+        "Created": "2026-11-12T22:41:50.682586566Z",
+        "Path": "/bin/sh",
+        "Args": [
+            "/control/poc003_fresh_neutral_build_setup_v1.sh"
+        ],
+        "State": {
+            "Status": "exited",
+            "Running": false,
+            "Paused": false,
+            "Restarting": false,
+            "OOMKilled": false,
+            "Dead": false,
+            "Pid": 0,
+            "ExitCode": 0,
+            "Error": "",
+            "StartedAt": "2026-11-12T22:41:50.866218688Z",
+            "FinishedAt": "2026-11-12T22:53:23.403324484Z"
+        },
+        "Image": "sha256:7da97f743f397971f35dd21cd2d19a7da070a150e0cfa3eda559e71891ec7533",
+        "ResolvConfPath": "/var/lib/docker/containers/ac5eba6738b3f8f5f49ae9e3c49151e5726cadbedc5fb7676a194b32e7917537/resolv.conf",
+        "HostnamePath": "/var/lib/docker/containers/ac5eba6738b3f8f5f49ae9e3c49151e5726cadbedc5fb7676a194b32e7917537/hostname",
+        "HostsPath": "/var/lib/docker/containers/ac5eba6738b3f8f5f49ae9e3c49151e5726cadbedc5fb7676a194b32e7917537/hosts",
+        "LogPath": "",
+        "Name": "/guize-poc003-build-de8ad3f-v1",
+        "RestartCount": 0,
+        "Driver": "overlay2",
+        "Platform": "linux",
+        "MountLabel": "",
+        "ProcessLabel": "",
+        "AppArmorProfile": "",
+        "ExecIDs": null,
+        "HostConfig": {
+            "Binds": null,
+            "ContainerIDFile": "",
+            "LogConfig": {
+                "Type": "none",
+                "Config": {}
+            },
+            "NetworkMode": "bridge",
+            "PortBindings": {},
+            "RestartPolicy": {
+                "Name": "no",
+                "MaximumRetryCount": 0
+            },
+            "AutoRemove": false,
+            "VolumeDriver": "",
+            "VolumesFrom": null,
+            "ConsoleSize": [
+                0,
+                0
+            ],
+            "CapAdd": [
+                "CAP_AUDIT_WRITE",
+                "CAP_CHOWN",
+                "CAP_DAC_OVERRIDE",
+                "CAP_FOWNER",
+                "CAP_FSETID",
+                "CAP_KILL",
+                "CAP_SETFCAP",
+                "CAP_SETGID",
+                "CAP_SETUID"
+            ],
+            "CapDrop": [
+                "ALL"
+            ],
+            "CgroupnsMode": "private",
+            "Dns": null,
+            "DnsOptions": [],
+            "DnsSearch": [],
+            "ExtraHosts": null,
+            "GroupAdd": null,
+            "IpcMode": "private",
+            "Cgroup": "",
+            "Links": null,
+            "OomScoreAdj": 0,
+            "PidMode": "",
+            "Privileged": false,
+            "PublishAllPorts": false,
+            "ReadonlyRootfs": false,
+            "SecurityOpt": [
+                "no-new-privileges"
+            ],
+            "UTSMode": "",
+            "UsernsMode": "",
+            "ShmSize": 67108864,
+            "Runtime": "runc",
+            "Isolation": "",
+            "CpuShares": 0,
+            "Memory": 3221225472,
+            "NanoCpus": 2000000000,
+            "CgroupParent": "",
+            "BlkioWeight": 0,
+            "BlkioWeightDevice": [],
+            "BlkioDeviceReadBps": [],
+            "BlkioDeviceWriteBps": [],
+            "BlkioDeviceReadIOps": [],
+            "BlkioDeviceWriteIOps": [],
+            "CpuPeriod": 0,
+            "CpuQuota": 0,
+            "CpuRealtimePeriod": 0,
+            "CpuRealtimeRuntime": 0,
+            "CpusetCpus": "",
+            "CpusetMems": "",
+            "Devices": [],
+            "DeviceCgroupRules": null,
+            "DeviceRequests": null,
+            "MemoryReservation": 0,
+            "MemorySwap": 3221225472,
+            "MemorySwappiness": null,
+            "OomKillDisable": null,
+            "PidsLimit": 256,
+            "Ulimits": [
+                {
+                    "Name": "core",
+                    "Hard": 0,
+                    "Soft": 0
+                },
+                {
+                    "Name": "nofile",
+                    "Hard": 1024,
+                    "Soft": 1024
+                }
+            ],
+            "CpuCount": 0,
+            "CpuPercent": 0,
+            "IOMaximumIOps": 0,
+            "IOMaximumBandwidth": 0,
+            "Mounts": [
+                {
+                    "Type": "bind",
+                    "Source": "/tmp/guize-poc003-de8ad3f-v1/inputs",
+                    "Target": "/inputs",
+                    "ReadOnly": true
+                },
+                {
+                    "Type": "bind",
+                    "Source": "/tmp/guize-poc003-de8ad3f-v1/control",
+                    "Target": "/control",
+                    "ReadOnly": true
+                },
+                {
+                    "Type": "bind",
+                    "Source": "/tmp/guize-poc003-de8ad3f-v1/work",
+                    "Target": "/workspace"
+                }
+            ],
+            "MaskedPaths": [
+                "/proc/acpi",
+                "/proc/asound",
+                "/proc/interrupts",
+                "/proc/kcore",
+                "/proc/keys",
+                "/proc/latency_stats",
+                "/proc/sched_debug",
+                "/proc/scsi",
+                "/proc/timer_list",
+                "/proc/timer_stats",
+                "/sys/devices/virtual/powercap",
+                "/sys/firmware"
+            ],
+            "ReadonlyPaths": [
+                "/proc/bus",
+                "/proc/fs",
+                "/proc/irq",
+                "/proc/sys",
+                "/proc/sysrq-trigger"
+            ]
+        },
+        "GraphDriver": {
+            "Data": {
+                "ID": "ac5eba6738b3f8f5f49ae9e3c49151e5726cadbedc5fb7676a194b32e7917537",
+                "LowerDir": "/var/lib/docker/overlay2/83de57db1eb5e1a7af46fd41a184a480ab7793e478a965e164cb3d9e3de5791d-init/diff:/var/lib/docker/overlay2/e3c821c548065dcf3e5eb279bdf1194339bb716f99a508c74f3760fff47f78f3/diff",
+                "MergedDir": "/var/lib/docker/overlay2/83de57db1eb5e1a7af46fd41a184a480ab7793e478a965e164cb3d9e3de5791d/merged",
+                "UpperDir": "/var/lib/docker/overlay2/83de57db1eb5e1a7af46fd41a184a480ab7793e478a965e164cb3d9e3de5791d/diff",
+                "WorkDir": "/var/lib/docker/overlay2/83de57db1eb5e1a7af46fd41a184a480ab7793e478a965e164cb3d9e3de5791d/work"
+            },
+            "Name": "overlay2"
+        },
+        "Mounts": [
+            {
+                "Type": "bind",
+                "Source": "/tmp/guize-poc003-de8ad3f-v1/control",
+                "Destination": "/control",
+                "Mode": "",
+                "RW": false,
+                "Propagation": "rprivate"
+            },
+            {
+                "Type": "bind",
+                "Source": "/tmp/guize-poc003-de8ad3f-v1/inputs",
+                "Destination": "/inputs",
+                "Mode": "",
+                "RW": false,
+                "Propagation": "rprivate"
+            },
+            {
+                "Type": "bind",
+                "Source": "/tmp/guize-poc003-de8ad3f-v1/work",
+                "Destination": "/workspace",
+                "Mode": "",
+                "RW": true,
+                "Propagation": "rprivate"
+            }
+        ],
+        "Config": {
+            "Hostname": "guize-poc003-build-de8ad3f",
+            "Domainname": "",
+            "User": "0:0",
+            "AttachStdin": false,
+            "AttachStdout": true,
+            "AttachStderr": true,
+            "Tty": false,
+            "OpenStdin": false,
+            "StdinOnce": false,
+            "Env": [
+                "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+            ],
+            "Cmd": [
+                "/bin/sh",
+                "/control/poc003_fresh_neutral_build_setup_v1.sh"
+            ],
+            "Image": "docker.io/library/ubuntu@sha256:77eb101c607d6e3d4f5ad0c8a02c2136c689b98aba1f359e6502ba517e5c57ec",
+            "Volumes": null,
+            "WorkingDir": "",
+            "Entrypoint": null,
+            "Labels": {
+                "desktop.docker.io/wsl-distro": "Ubuntu",
+                "guize.poc003.fresh-build-method": "5df3029f5868177b38e0ab11efc05666e0e50e1d451491b4c6722ca50c26a52a",
+                "guize.poc003.source": "de8ad3f21df1578eac80e98d798f7adbcdb07d82",
+                "org.opencontainers.image.version": "24.04"
+            }
+        },
+        "NetworkSettings": {
+            "SandboxID": "",
+            "SandboxKey": "",
+            "Ports": {},
+            "Networks": {}
+        }
+    }
+]

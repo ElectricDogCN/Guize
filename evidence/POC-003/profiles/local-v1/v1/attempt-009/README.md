@@ -1,0 +1,17 @@
+# POC-003 local-v1 attempt-009
+
+Tested source: de8ad3f21df1578eac80e98d798f7adbcdb07d82 (tree ce6f3e09ec72b88ddabf49e75d41b4159e36fdb9). Result-delivery commits are distinct from that actual tested source.
+
+The original 21 cases, 101 requests, six cache stages, 26 owned closed epochs and original 8MiB limit were retained. All original 15 measurements passed the unchanged frozen validator. Complete media capacity: 6,205,486 bytes. Independent result review is preserved under supporting/originals; original as-produced unassessed flags remain unchanged.
+
+The separate fresh warm-cache revocation evidence retains its original ab5d approval and execution window under supporting/warm-supervision and supporting/warm-runtime. It is not part of the matrix-009 execution window. The revoked, still-unexpired grant returned HTTP403 with zero protected body and no ATS/origin access; a later independent privileged request proved the same cache remained warm.
+
+Earlier source-entry pin and missing-library failures, invalid before-record semantics, and the actual UTC rollback in attempt-008 remain preserved locally. Attempt-008 was rejected by the original derivation; no observation or timestamp was changed to rescue it. The attempt-009 environment used a separate official Docker 29.8.0 test engine while Desktop and the extra WSL NTP client were temporarily paused. The 45-second readiness observation had no realtime rollback or offset step over 1ms; the actual matrix chronology also passed. Both services and all 30 prior Desktop container identities were restored, and the task daemon and owner actually waited to exit zero. This is a bounded testing workaround, not a claim that the Desktop clock defect is permanently repaired.
+
+## Reproduction material
+
+The original matrix/supervision commands, exact configuration, immutable inputs, build receipts, Ubuntu source archives, caller/derivation methods, complete selected raw evidence and independent reviews are retained here. Every relocated regular file is byte-identical; supporting/original-byte-map.json maps its original local context to this delivery. Host credential-bearing settings and guard files remain private, as required by the original publication prohibition. The denied old d3 packet is not included or authorized.
+
+supporting/runtime-package-regular-files.zip carries the actual P2 regular files except the two duplicate 64MiB input payloads. Extract the regular files, copy inputs/base.bin and inputs/changed.bin into the two fixture paths recorded by runtime-transport-index.json, recreate the eight relative symlinks from the original package manifest, restore the archived executable/read-only modes, and verify every declared size/SHA and the exact member set before use. This transport does not claim to be a complete native-filesystem backup. The original complete native package remains retained locally.
+
+Execute only with a new registered task context, independent sample/profile/resource approval and fresh window; archived approval and environment snapshots are historical facts and cannot authorize replay. Use the fixed runtime image df18428df8a0f9189c84e7424d214b4c50092af1f9dca5842a00c41c39bda316, the original pinned source and exact recorded container flags. No production, full-V1, task Completion or final integration acceptance is granted by this local profile result; the final source and actual main still require full official CI and independent acceptance.

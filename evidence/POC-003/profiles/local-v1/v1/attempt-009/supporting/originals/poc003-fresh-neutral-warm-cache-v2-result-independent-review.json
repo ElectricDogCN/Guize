@@ -1,0 +1,104 @@
+{
+  "schemaVersion": 1,
+  "kind": "INDEPENDENT_ACTUAL_FROZEN_UTC_ADMITTED_R_SECOND_WINDOW_WARM_REVOCATION_REVIEW",
+  "reviewer": "/root/independent_review",
+  "reviewedAt": "2026-11-13T00:18:17.860911Z",
+  "source": "de8ad3f21df1578eac80e98d798f7adbcdb07d82",
+  "tree": "ce6f3e09ec72b88ddabf49e75d41b4159e36fdb9",
+  "canonicalPrefix": "evidence/POC-003/profiles/local-v1/v1/attempt-008",
+  "warmCacheRevocationAccepted": true,
+  "warmRunSha256": "f4e200d9b49d63f92a10af34f18ebe37d1edc59ea427a223b662dea6c339c453",
+  "warmRunBytes": 48058,
+  "warmApprovalSha256": "ab5d534e4bd73cffbd0b646df9c8002f61e2e36fff45ac681e4576b0192da372",
+  "scenarioReport": {
+    "bytes": 11897,
+    "sha256": "8363fd1dfeded562893f917fb01d6a143fcfb235dc50f9a3ae3573e8332fff97",
+    "executedScenarios": 1,
+    "skippedAssertions": 0,
+    "status": "PASS"
+  },
+  "startedAt": "2026-11-13T00:15:40.607610+00:00",
+  "finishedAt": "2026-11-13T00:15:47.644802+00:00",
+  "matrixFinishedBeforeWarm": true,
+  "hookFreeClientAndActualTestWaitVerified": true,
+  "actualTestExitCode": 0,
+  "sameGrantUnexpiredAtRevocation": true,
+  "revokedAt": "2026-11-13T00:15:45.118247Z",
+  "deniedRequestStartedAt": "2026-11-13T00:15:45.118893Z",
+  "grantValidUntil": "2026-11-13T00:35:43.445268Z",
+  "warmHitStatus": 206,
+  "warmHitOriginReads": 0,
+  "deniedStatus": 403,
+  "deniedProtectedBodyBytes": 0,
+  "noDeniedATSForwardVerified": true,
+  "deniedOriginRequests": 0,
+  "deniedOriginReads": 0,
+  "deniedCacheNonAccessBasis": "Denied request rejected by Gateway before any ATS forwarding.",
+  "separatePostDenialPrivilegedControl": {
+    "status": 206,
+    "bytes": 8,
+    "originRequests": 0,
+    "originReads": 0,
+    "sameOwnedATSBirthVerified": true
+  },
+  "acceptedOwnedEpochCount": 2,
+  "allEpochWaitsAndHealthyRawJournalsVerified": true,
+  "actualOwnerWaitCompleted": true,
+  "ownerExitCode": 0,
+  "attachedWaitCompleted": true,
+  "engineWaitCompleted": true,
+  "attachedExitCode": 0,
+  "engineExitCode": 0,
+  "containerId": "2040e4ea57bbba838f7809769cd353dc7d8733a631c5baed057e9d5cb9c43d25",
+  "finalContainerState": {
+    "status": "exited",
+    "pid": 0,
+    "exitCode": 0
+  },
+  "externalCleanup": [],
+  "sourceContextUnchanged": true,
+  "immutablePackageVerifiedBeforeAndAfter": true,
+  "allFiveActualAuthorityPinsVerified": true,
+  "beforeAuthorityFrozenUtcAccepted": true,
+  "resourceConfigurationRecorded": true,
+  "actualBeforeToolVersionsEqualProspective": true,
+  "readOnlyReviewToolChunk": "4999be",
+  "fullOriginalFifteenAccepted": false,
+  "eightMiBBoundProven": false,
+  "formalPocAccepted": false,
+  "publicationApproved": false,
+  "oldD3PublicationApproved": false,
+  "mustFix": [],
+  "evidencePins": [
+    {
+      "ref": ".takeover-tools/run_poc003_fresh_neutral_warm_cache_v3.py",
+      "bytes": 26727,
+      "sha256": "16bde975b9b1fb3e7aed240a11f48a076bf2f57009d82a9dd36abc10b407ce81"
+    },
+    {
+      "ref": ".takeover-tools/poc003_fresh_neutral_warm_cache_entry_v1.py",
+      "bytes": 14461,
+      "sha256": "8c0fe6c15f6ca3ac22cf1fea05156d14b7137cd9fbc84991e80d3607f21b0636"
+    },
+    {
+      "ref": ".takeover-tools/poc003-fresh-neutral-warm-cache-approval-v2/approval.json",
+      "bytes": 14820,
+      "sha256": "ab5d534e4bd73cffbd0b646df9c8002f61e2e36fff45ac681e4576b0192da372"
+    },
+    {
+      "ref": ".takeover-tools/poc003-fresh-neutral-original-matrix-v2-result-independent-review.json",
+      "bytes": 3107,
+      "sha256": "857772f710440c36344f29210fe05bcca2f043473284d8ab7520508eb515ffe2"
+    },
+    {
+      "ref": ".takeover-tools/poc003-fresh-neutral-compatibility-v3-result-independent-review.json",
+      "bytes": 3095,
+      "sha256": "a3023b51011f46e52606dcb427a45937115e6e9a9d779935e64a287ba5d692cc"
+    },
+    {
+      "ref": ".takeover-tools/poc003-fresh-runtime-supplement-package-v2-independent-review.json",
+      "bytes": 3239,
+      "sha256": "eedee4e2ed8ee102d7861520ed273f5b7ebbaa92b556528fd5506054b8c73b4b"
+    }
+  ]
+}

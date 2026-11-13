@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "pocId": "POC-03",
+  "taskId": "POC-003",
+  "sampleId": "SAMPLE-RANGE-LARGEFILE",
+  "immutableId": "guize-fresh-de8ad3f-v1-changed-64m",
+  "checksum": "sha256:e96b1d42cc9568a40f8577164f131ab001227e0a409c0b267c41101e08c5a103",
+  "decision": "approved",
+  "approver": "/root/independent_review",
+  "approvedAt": "2026-11-13T00:14:31.426082Z"
+}

@@ -1,0 +1,316 @@
+[
+    {
+        "Id": "2040e4ea57bbba838f7809769cd353dc7d8733a631c5baed057e9d5cb9c43d25",
+        "Created": "2026-11-13T00:15:42.698486169Z",
+        "Path": "/usr/local/bin/python3",
+        "Args": [
+            "-B",
+            "/configuration/entry.py"
+        ],
+        "State": {
+            "Status": "created",
+            "Running": false,
+            "Paused": false,
+            "Restarting": false,
+            "OOMKilled": false,
+            "Dead": false,
+            "Pid": 0,
+            "ExitCode": 0,
+            "Error": "",
+            "StartedAt": "0001-01-01T00:00:00Z",
+            "FinishedAt": "0001-01-01T00:00:00Z"
+        },
+        "Image": "sha256:df18428df8a0f9189c84e7424d214b4c50092af1f9dca5842a00c41c39bda316",
+        "ResolvConfPath": "",
+        "HostnamePath": "",
+        "HostsPath": "",
+        "LogPath": "",
+        "Name": "/guize-poc003-warm-de8ad3f-v2",
+        "RestartCount": 0,
+        "Driver": "overlay2",
+        "Platform": "linux",
+        "MountLabel": "",
+        "ProcessLabel": "",
+        "AppArmorProfile": "",
+        "ExecIDs": null,
+        "HostConfig": {
+            "Binds": null,
+            "ContainerIDFile": "",
+            "LogConfig": {
+                "Type": "none",
+                "Config": {}
+            },
+            "NetworkMode": "none",
+            "PortBindings": {},
+            "RestartPolicy": {
+                "Name": "no",
+                "MaximumRetryCount": 0
+            },
+            "AutoRemove": false,
+            "VolumeDriver": "",
+            "VolumesFrom": null,
+            "ConsoleSize": [
+                0,
+                0
+            ],
+            "CapAdd": null,
+            "CapDrop": [
+                "ALL"
+            ],
+            "CgroupnsMode": "private",
+            "Dns": null,
+            "DnsOptions": [],
+            "DnsSearch": [],
+            "ExtraHosts": null,
+            "GroupAdd": null,
+            "IpcMode": "private",
+            "Cgroup": "",
+            "Links": null,
+            "OomScoreAdj": 0,
+            "PidMode": "",
+            "Privileged": false,
+            "PublishAllPorts": false,
+            "ReadonlyRootfs": true,
+            "SecurityOpt": [
+                "no-new-privileges"
+            ],
+            "UTSMode": "",
+            "UsernsMode": "",
+            "ShmSize": 67108864,
+            "Runtime": "runc",
+            "Isolation": "",
+            "CpuShares": 0,
+            "Memory": 536870912,
+            "NanoCpus": 1000000000,
+            "CgroupParent": "",
+            "BlkioWeight": 0,
+            "BlkioWeightDevice": [],
+            "BlkioDeviceReadBps": [],
+            "BlkioDeviceWriteBps": [],
+            "BlkioDeviceReadIOps": [],
+            "BlkioDeviceWriteIOps": [],
+            "CpuPeriod": 0,
+            "CpuQuota": 0,
+            "CpuRealtimePeriod": 0,
+            "CpuRealtimeRuntime": 0,
+            "CpusetCpus": "",
+            "CpusetMems": "",
+            "Devices": [],
+            "DeviceCgroupRules": null,
+            "DeviceRequests": null,
+            "MemoryReservation": 0,
+            "MemorySwap": 536870912,
+            "MemorySwappiness": null,
+            "OomKillDisable": false,
+            "PidsLimit": 64,
+            "Ulimits": [
+                {
+                    "Name": "nofile",
+                    "Hard": 256,
+                    "Soft": 256
+                }
+            ],
+            "CpuCount": 0,
+            "CpuPercent": 0,
+            "IOMaximumIOps": 0,
+            "IOMaximumBandwidth": 0,
+            "Mounts": [
+                {
+                    "Type": "bind",
+                    "Source": "/tmp/guize-poc003-de8ad3f-v1/runtime-package-v2",
+                    "Target": "/poc",
+                    "ReadOnly": true
+                },
+                {
+                    "Type": "bind",
+                    "Source": "/tmp/guize-poc003-de8ad3f-v1/warm-cache-v2/configuration",
+                    "Target": "/configuration",
+                    "ReadOnly": true
+                },
+                {
+                    "Type": "bind",
+                    "Source": "/tmp/guize-poc003-de8ad3f-v1/warm-cache-v2/ats-etc-template",
+                    "Target": "/poc/runtime/pkgroot/etc/trafficserver",
+                    "ReadOnly": true
+                },
+                {
+                    "Type": "bind",
+                    "Source": "/tmp/guize-poc003-de8ad3f-v1/runtime-package-v2/identity/passwd",
+                    "Target": "/etc/passwd",
+                    "ReadOnly": true
+                },
+                {
+                    "Type": "bind",
+                    "Source": "/tmp/guize-poc003-de8ad3f-v1/runtime-package-v2/identity/group",
+                    "Target": "/etc/group",
+                    "ReadOnly": true
+                },
+                {
+                    "Type": "bind",
+                    "Source": "/tmp/guize-poc003-de8ad3f-v1/runtime-package-v2/identity/home",
+                    "Target": "/home/poc",
+                    "ReadOnly": true
+                },
+                {
+                    "Type": "bind",
+                    "Source": "/tmp/guize-poc003-de8ad3f-v1/warm-cache-v2/data",
+                    "Target": "/runlab"
+                }
+            ],
+            "MaskedPaths": [
+                "/proc/acpi",
+                "/proc/asound",
+                "/proc/interrupts",
+                "/proc/kcore",
+                "/proc/keys",
+                "/proc/latency_stats",
+                "/proc/sched_debug",
+                "/proc/scsi",
+                "/proc/timer_list",
+                "/proc/timer_stats",
+                "/sys/devices/virtual/powercap",
+                "/sys/firmware"
+            ],
+            "ReadonlyPaths": [
+                "/proc/bus",
+                "/proc/fs",
+                "/proc/irq",
+                "/proc/sys",
+                "/proc/sysrq-trigger"
+            ]
+        },
+        "GraphDriver": {
+            "Data": {
+                "ID": "2040e4ea57bbba838f7809769cd353dc7d8733a631c5baed057e9d5cb9c43d25",
+                "LowerDir": "/var/lib/docker/overlay2/ffa0ed5894af6efd5179710d3f2008be8ba9fcd0df9e4de97099f35196f317eb-init/diff:/var/lib/docker/overlay2/64242233d0fbd9bc838d7f63838241f1d8068ac22660777e25517f0fb19cc1cf/diff:/var/lib/docker/overlay2/eff38588b415881ed2b1943bacd034383aaa557346c398cb9cce854a14f23ac8/diff:/var/lib/docker/overlay2/805ccfeb3a1223cb07b4397cf8f30dc0fd3ec7eec35c82ec475ece7cad8fa80d/diff:/var/lib/docker/overlay2/95412298f45e0dcfd37a7651223d8c134fd2ff339bdb9b1278a3d58b587f0a0a/diff",
+                "MergedDir": "/var/lib/docker/overlay2/ffa0ed5894af6efd5179710d3f2008be8ba9fcd0df9e4de97099f35196f317eb/merged",
+                "UpperDir": "/var/lib/docker/overlay2/ffa0ed5894af6efd5179710d3f2008be8ba9fcd0df9e4de97099f35196f317eb/diff",
+                "WorkDir": "/var/lib/docker/overlay2/ffa0ed5894af6efd5179710d3f2008be8ba9fcd0df9e4de97099f35196f317eb/work"
+            },
+            "Name": "overlay2"
+        },
+        "Mounts": [
+            {
+                "Type": "bind",
+                "Source": "/tmp/guize-poc003-de8ad3f-v1/warm-cache-v2/configuration",
+                "Destination": "/configuration",
+                "Mode": "",
+                "RW": false,
+                "Propagation": "rprivate"
+            },
+            {
+                "Type": "bind",
+                "Source": "/tmp/guize-poc003-de8ad3f-v1/runtime-package-v2",
+                "Destination": "/poc",
+                "Mode": "",
+                "RW": false,
+                "Propagation": "rprivate"
+            },
+            {
+                "Type": "bind",
+                "Source": "/tmp/guize-poc003-de8ad3f-v1/warm-cache-v2/data",
+                "Destination": "/runlab",
+                "Mode": "",
+                "RW": true,
+                "Propagation": "rprivate"
+            },
+            {
+                "Type": "bind",
+                "Source": "/tmp/guize-poc003-de8ad3f-v1/runtime-package-v2/identity/group",
+                "Destination": "/etc/group",
+                "Mode": "",
+                "RW": false,
+                "Propagation": "rprivate"
+            },
+            {
+                "Type": "bind",
+                "Source": "/tmp/guize-poc003-de8ad3f-v1/runtime-package-v2/identity/passwd",
+                "Destination": "/etc/passwd",
+                "Mode": "",
+                "RW": false,
+                "Propagation": "rprivate"
+            },
+            {
+                "Type": "bind",
+                "Source": "/tmp/guize-poc003-de8ad3f-v1/runtime-package-v2/identity/home",
+                "Destination": "/home/poc",
+                "Mode": "",
+                "RW": false,
+                "Propagation": "rprivate"
+            },
+            {
+                "Type": "bind",
+                "Source": "/tmp/guize-poc003-de8ad3f-v1/warm-cache-v2/ats-etc-template",
+                "Destination": "/poc/runtime/pkgroot/etc/trafficserver",
+                "Mode": "",
+                "RW": false,
+                "Propagation": "rprivate"
+            }
+        ],
+        "Config": {
+            "Hostname": "guize-poc003-warm-de8ad3f-v2",
+            "Domainname": "",
+            "User": "1000:1000",
+            "AttachStdin": false,
+            "AttachStdout": true,
+            "AttachStderr": true,
+            "Tty": false,
+            "OpenStdin": false,
+            "StdinOnce": false,
+            "Env": [
+                "HOME=/home/poc",
+                "USER=poc",
+                "LOGNAME=poc",
+                "PYTHONDONTWRITEBYTECODE=1",
+                "PYTHONNOUSERSITE=1",
+                "LC_ALL=C.UTF-8",
+                "PYTHONCOERCECLOCALE=0",
+                "PATH=/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+                "LANG=C.UTF-8",
+                "GPG_KEY=7169605F62C751356D054A26A821E680E5FA6305",
+                "PYTHON_VERSION=3.12.15",
+                "PYTHON_SHA256=c2c4321961fab0fb999d66e0cecf521c2ab3994c7992873ea99e306c1094fd5a"
+            ],
+            "Cmd": [
+                "-B",
+                "/configuration/entry.py"
+            ],
+            "Image": "sha256:df18428df8a0f9189c84e7424d214b4c50092af1f9dca5842a00c41c39bda316",
+            "Volumes": null,
+            "WorkingDir": "/runlab",
+            "Entrypoint": [
+                "/usr/local/bin/python3"
+            ],
+            "Labels": {
+                "desktop.docker.io/wsl-distro": "Ubuntu",
+                "guize.poc003.fresh-neutral-warm-method": "16bde975b9b1fb3e7aed240a11f48a076bf2f57009d82a9dd36abc10b407ce81",
+                "guize.poc003.source": "de8ad3f21df1578eac80e98d798f7adbcdb07d82"
+            },
+            "StopSignal": "SIGINT"
+        },
+        "NetworkSettings": {
+            "SandboxID": "",
+            "SandboxKey": "",
+            "Ports": {},
+            "Networks": {
+                "none": {
+                    "IPAMConfig": null,
+                    "Links": null,
+                    "Aliases": null,
+                    "DriverOpts": null,
+                    "GwPriority": 0,
+                    "NetworkID": "",
+                    "EndpointID": "",
+                    "Gateway": "",
+                    "IPAddress": "",
+                    "MacAddress": "",
+                    "IPPrefixLen": 0,
+                    "IPv6Gateway": "",
+                    "GlobalIPv6Address": "",
+                    "GlobalIPv6PrefixLen": 0,
+                    "DNSNames": null
+                }
+            }
+        }
+    }
+]

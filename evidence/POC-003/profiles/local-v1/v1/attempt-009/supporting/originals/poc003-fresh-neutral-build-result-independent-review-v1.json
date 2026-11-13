@@ -1,0 +1,125 @@
+{
+  "schemaVersion": 1,
+  "kind": "INDEPENDENT_ACTUAL_FRESH_NEUTRAL_BUILD_RESULT_REVIEW",
+  "reviewer": "/root/independent_review",
+  "reviewedAt": "2026-11-12T23:02:00.908872+00:00",
+  "source": "de8ad3f21df1578eac80e98d798f7adbcdb07d82",
+  "tree": "ce6f3e09ec72b88ddabf49e75d41b4159e36fdb9",
+  "freshNeutralBuildAccepted": true,
+  "buildResultAccepted": true,
+  "allThreeBuildsCompleted": true,
+  "allOwnedCommandsWaitedAndClosed": true,
+  "sourceContextUnchanged": true,
+  "buildExecutionResultSha256": "7a207718b187bc7b0e032fe98bf5f193cf10d4df18f6c91f1c23b798baebf8e6",
+  "buildExecutionApprovalSha256": "8fb9a82316e6936c684615bdcd70709f616c8494f6902b5107ac9a1e74d37f1e",
+  "sourceQualificationReviewSha256": "bd5201a0948fe51655574f959f79bdf6076921ab41c3887dd456726d099366a0",
+  "containerId": "ac5eba6738b3f8f5f49ae9e3c49151e5726cadbedc5fb7676a194b32e7917537",
+  "actualIdentity": {
+    "uid": 1000,
+    "user": "ubuntu",
+    "hostname": "guize-poc003-build-de8ad3f",
+    "home": "/home/ubuntu"
+  },
+  "containerFinalState": {
+    "status": "exited",
+    "pid": 0,
+    "exitCode": 0
+  },
+  "networkDisconnectedBeforeCompile": true,
+  "onlyLoopbackVerifiedByPinnedBuilder": true,
+  "sourceFileCount": 74,
+  "ubuntuPatchCount": 8,
+  "ownedCommandCount": 16,
+  "packageRegularFileCount": 256,
+  "instrumentationManifestSha256": "80c2cc37a6a6ed36738be20eef1e3efa59e69780f3549562ceee7e7a115f0010",
+  "aggregationBytes": 1048576,
+  "payloadPoolGrowth": 1,
+  "capacityAcceptanceThresholdBytes": 8388608,
+  "artifactIdentities": {
+    "core-build/receipt.json": {
+      "bytes": 77065,
+      "sha256": "d356417486760d47c8e28e032aab8f610b5acaf7e09a0ea3e9f514d0f000fd22"
+    },
+    "runtime/pkgroot/usr/bin/traffic_server": {
+      "bytes": 7445704,
+      "sha256": "a27e4cf68e9d7ad86202bc6522007379cd68a275a05448d42f22864b9ec43f71"
+    },
+    "exporter/receipt.json": {
+      "bytes": 1058,
+      "sha256": "65ff4213eeb6ea19254fbc247029fdf1075dd1f2a7044a35520f8691f30b3927"
+    },
+    "exporter/cache_export.so": {
+      "bytes": 254272,
+      "sha256": "3b4d1797321e7d1837f2ca0e475b1372ed39aeb964276ce33ad590015bbb4775"
+    },
+    "live-observer/receipt.json": {
+      "bytes": 1579,
+      "sha256": "83433420ae8f8ec98144b45b5faf40f39a96e742fdd1e23e5e186e5de19125e4"
+    },
+    "live-observer/live_buffer_observer.so": {
+      "bytes": 50064,
+      "sha256": "cf8df39fd71b3d892aa3eb5e46f111957dca6727e2806fb620105a416dc56044"
+    },
+    "source-preparation.json": {
+      "bytes": 1627,
+      "sha256": "79fddb27af75b3b4a694f8bb690ef0d7cda506833c5b2d0beda14f63ad4bca1d"
+    }
+  },
+  "archiveVerification": {
+    "memberCount": 573,
+    "indexedMembersVerified": true,
+    "archiveBytes": 8077115,
+    "archiveSha256": "e8eadf83f125c0cf073a521eb6becb49e72fa1bc24d8b1659c4827a3d60d8b7c",
+    "regularOriginalBytes": 23015701,
+    "additionalSymlinkMetadataBytes": 1415,
+    "symlinkCount": 8,
+    "wholeNativeFilesystemRecoveryClaimed": false
+  },
+  "maximumObservedWritableLogicalBytes": 937755391,
+  "maximumObservedWorkFileCount": 7613,
+  "filesystemQuotaClaimed": false,
+  "runtimeCompatibilityAccepted": false,
+  "sampleApproved": false,
+  "experimentApproved": false,
+  "pocAccepted": false,
+  "publicationApproved": false,
+  "oldD3PublicationApproved": false,
+  "mustFix": [],
+  "evidencePins": [
+    {
+      "ref": ".takeover-tools/poc003-fresh-neutral-build-execution-v2/results.json",
+      "bytes": 94897,
+      "sha256": "7a207718b187bc7b0e032fe98bf5f193cf10d4df18f6c91f1c23b798baebf8e6"
+    },
+    {
+      "ref": ".takeover-tools/poc003-fresh-neutral-build-completed-archive-v1/index.json",
+      "bytes": 104356,
+      "sha256": "d544cc77d7f282b1ae03abc0fffbf89bb149ce841c61bbd1955d6c16723e8833"
+    },
+    {
+      "ref": ".takeover-tools/poc003-fresh-neutral-build-completed-archive-v1/originals.zip",
+      "bytes": 8077115,
+      "sha256": "e8eadf83f125c0cf073a521eb6becb49e72fa1bc24d8b1659c4827a3d60d8b7c"
+    },
+    {
+      "ref": ".takeover-tools/poc003-fresh-neutral-build-execution-approval-v1.json",
+      "bytes": 2308,
+      "sha256": "8fb9a82316e6936c684615bdcd70709f616c8494f6902b5107ac9a1e74d37f1e"
+    },
+    {
+      "ref": ".takeover-tools/poc003-fresh-neutral-build-input-manifest-v1.json",
+      "bytes": 16951,
+      "sha256": "6e83fd3da35784439e40a85e99e6de35e05de1799226db52c5c0a7d63f8b0a3a"
+    },
+    {
+      "ref": ".takeover-tools/poc003-fresh-neutral-build-preparation-v2/results.json",
+      "bytes": 2266,
+      "sha256": "3ac40c922abb224131eeafa6ad81ee94e16c13d323191a3c8a15d97556358552"
+    },
+    {
+      "ref": ".takeover-tools/poc003-post-completion228-resume-v1-final-source-independent-review.json",
+      "bytes": 10061,
+      "sha256": "bd5201a0948fe51655574f959f79bdf6076921ab41c3887dd456726d099366a0"
+    }
+  ]
+}
