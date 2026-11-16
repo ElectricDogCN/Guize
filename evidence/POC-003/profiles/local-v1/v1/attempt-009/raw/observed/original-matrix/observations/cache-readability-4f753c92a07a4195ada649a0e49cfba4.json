@@ -1,0 +1,157 @@
+{
+  "kind": "POST_RESPONSE_NATIVE_SLICE_READABILITY_UNASSESSED",
+  "requestId": "4f753c92a07a4195ada649a0e49cfba4",
+  "httpObservationRef": "observations/request-4f753c92a07a4195ada649a0e49cfba4.json",
+  "startedAt": "2026-11-13T01:01:06.859784Z",
+  "originalRequestStartedAt": "2026-11-13T01:01:06.641548Z",
+  "originalRequestFinishedAt": "2026-11-13T01:01:06.648586Z",
+  "sourceVersion": "base",
+  "sourceSha256": "9a30d2bb1a4f1eabcb41baa5b6518628411ba8ac668fc1e7085983261aa5f419",
+  "userId": "lab-user-b",
+  "aclVersion": "guize-fresh-de8ad3f-v1-acl",
+  "requestRange": "bytes=0-7",
+  "nativeExportInvoked": true,
+  "nativeReadAttempted": true,
+  "readableSliceVerified": true,
+  "formalPocAccepted": false,
+  "responseEligible": true,
+  "cacheContextPath": "/ctx/f4d059df254e046ba4e185c438de38fd/base/object.bin",
+  "controllerSnapshotBefore": {
+    "stage": "request-readability-before-4f753c92a07a4195ada649a0e49cfba4",
+    "observedAt": "2026-11-13T01:01:06.860563Z",
+    "sourceVersion": "base",
+    "atsPid": 132,
+    "cacheFiles": [
+      {
+        "name": "cache.db",
+        "logicalBytes": 268435456,
+        "allocatedBytes": 72945664
+      }
+    ],
+    "nativeCacheReady": {
+      "atsPid": 132,
+      "observedAt": "2026-11-13T01:01:04Z",
+      "cacheReady": true,
+      "httpCacheReady": true,
+      "nativeApi": "TSCacheReady+TSCacheDataTypeReady"
+    },
+    "allocatedDiskBytes": 72945664,
+    "canonicalCacheObjectExported": false,
+    "activeOriginRequests": 0,
+    "activeGatewayRequests": 0,
+    "originRequestCount": 66,
+    "originObjectReadBytes": 69206016,
+    "requestConcurrency": {
+      "kind": "SYNCHRONOUS_REQUEST_INTERVAL_HIGH_WATER_NOT_MEMORY_SAMPLING",
+      "scope": "Controller initialization through this lock-held snapshot; not a closed full-run claim",
+      "activeOrigin": 0,
+      "peakOrigin": 1,
+      "activeGateway": 0,
+      "peakGateway": 1
+    }
+  },
+  "exportOutputDirectory": "cache-readability-4f753c92a07a4195ada649a0e49cfba4",
+  "exportReportRef": "cache-readability-4f753c92a07a4195ada649a0e49cfba4/native-stage.json",
+  "nativeExport": {
+    "kind": "ACTUAL_NATIVE_CACHE_STAGE_EXPORT_UNASSESSED",
+    "stage": "request-readability-before-4f753c92a07a4195ada649a0e49cfba4",
+    "startedAt": "2026-11-13T01:01:07.764604Z",
+    "atsPid": 132,
+    "sourceVersion": "base",
+    "userId": "lab-user-b",
+    "selectedKeys": [
+      {
+        "keyId": 65,
+        "lookupUrl": "http://127.0.0.1:18231/ctx/f4d059df254e046ba4e185c438de38fd/base/object.bin-bytes=0-1048575",
+        "observedAt": "2026-11-13T01:01:06Z",
+        "start": 0,
+        "end": 1048575
+      }
+    ],
+    "exports": [
+      {
+        "keyId": 65,
+        "lookupUrl": "http://127.0.0.1:18231/ctx/f4d059df254e046ba4e185c438de38fd/base/object.bin-bytes=0-1048575",
+        "status": "exported",
+        "reason": "cache_body_eos",
+        "reportedObjectBytes": 1048576,
+        "exportedBytes": 1048576,
+        "startedAt": "2026-11-13T01:01:07Z",
+        "completedAt": "2026-11-13T01:01:08Z",
+        "file": "key-65.body",
+        "cacheReadOnly": true,
+        "formalQualificationClaimed": false,
+        "start": 0,
+        "end": 1048575,
+        "actualBytes": 1048576,
+        "actualSha256": "cf35df09522f7b528932b0fdc01cb8baba6167f267e9c46203847c308a7045cd",
+        "exactInputSliceEqual": true
+      }
+    ],
+    "nativeExportFinished": true,
+    "noKeysObserved": false,
+    "completeLogicalObjectVerified": false,
+    "partialDiscardProven": false,
+    "formalPocAccepted": false,
+    "requestedSlice": {
+      "start": 0,
+      "end": 1048575
+    },
+    "nativeBudget": {
+      "priorAcceptedJobs": 0,
+      "priorControls": 0,
+      "priorExportedBytes": 0,
+      "plannedJobs": 1,
+      "plannedExportBytes": 1048576,
+      "priorResults": []
+    },
+    "nativeRequests": [
+      {
+        "requestId": "stage-ca74820e199f412b94d7677b",
+        "keyIds": [
+          65
+        ],
+        "rawDirectory": "."
+      }
+    ],
+    "finishedAt": "2026-11-13T01:01:08.073337Z",
+    "originJournalUnchangedDuringExport": true
+  },
+  "controllerSnapshotAfter": {
+    "stage": "request-readability-after-4f753c92a07a4195ada649a0e49cfba4",
+    "observedAt": "2026-11-13T01:01:08.074611Z",
+    "sourceVersion": "base",
+    "atsPid": 132,
+    "cacheFiles": [
+      {
+        "name": "cache.db",
+        "logicalBytes": 268435456,
+        "allocatedBytes": 72945664
+      }
+    ],
+    "nativeCacheReady": {
+      "atsPid": 132,
+      "observedAt": "2026-11-13T01:01:04Z",
+      "cacheReady": true,
+      "httpCacheReady": true,
+      "nativeApi": "TSCacheReady+TSCacheDataTypeReady"
+    },
+    "allocatedDiskBytes": 72945664,
+    "canonicalCacheObjectExported": false,
+    "activeOriginRequests": 0,
+    "activeGatewayRequests": 0,
+    "originRequestCount": 66,
+    "originObjectReadBytes": 69206016,
+    "requestConcurrency": {
+      "kind": "SYNCHRONOUS_REQUEST_INTERVAL_HIGH_WATER_NOT_MEMORY_SAMPLING",
+      "scope": "Controller initialization through this lock-held snapshot; not a closed full-run claim",
+      "activeOrigin": 0,
+      "peakOrigin": 1,
+      "activeGateway": 0,
+      "peakGateway": 1
+    }
+  },
+  "sameContextAndOriginUnchanged": true,
+  "logicalWholeObjectVerified": false,
+  "finishedAt": "2026-11-13T01:01:08.075318Z"
+}

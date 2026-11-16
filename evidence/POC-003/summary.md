@@ -1,3 +1,9 @@
+## Current version boundary candidate - POC-003
+
+Status: IN_PROGRESS. Historical R/attempt009 PASS remains preserved. Accepted implementation main: 8baa23ce4c622aba308a5a82a1ff55e5316c36bb (PR229; full sourceCI1022 and mainCI1023/1044 plus actual-main seven/independent acceptance). The proposed current locator withdrawal preserves its exact233B original under profile-history/local-v1-attempt009-retired-v1; current-profile qualification is absent in this candidate and must not be reported PASS. All original result/execution/input/raw/approvals and their timestamps remain unchanged. Required-profile validation must actually fail until new source-specific qualification.
+
+The local Completion attempt stopped at a real conflicting status gate; its originals are retained. Own Evidence withdrawal precedes a separately registered nonfrozen governance repair; this candidate changes no checker, runtime, Program/Registry/Ledger/Task or frozen catalogue. Task remains active and Issue131 has been reopened. Full original source checks, official source/main CI and independent actual-main acceptance remain required; retirement integration and final task completion are pending. Earlier implementation descriptions below are historical.
+
 ## Current source-gate correction: immutable raw archives
 
 Source8eae8a7 reached only its first declared gate, unchanged git diff --check against accepted main22. It actually exited2 on captured raw stderr/CRLF receipts in payload-lifetime-v1 and request-concurrency-v1; the other fourteen commands were not executed. Original output and context are preserved at source-8eae8a7-stopped-validation/index.json.
@@ -235,3 +241,8 @@ Genuine ordinary merge is pending with ordered parents feature 9ab4613bf221687a4
 OPS017's exact normal Completion/main acceptance and complete source/main CI originals are archived as prerequisites. The current staged POC003 source has not run its own15/full842CI and is not approved for publication, merge, new resources or experiment. No current local-v1 locator exists in either parent, so none is retired or fabricated. Old observations, failures and inputs remain in their original contexts.
 
 After exact snapshot review: commit the real merge, run current15 and required source checks, independently review fixed source, obtain full842 official sourceCI before ordinary code integration and separate actual-main own7/full842 acceptance. Keep task in_progress. Integrate both POC net implementations before approving a common immutable testedSource and independent non-overlapping host windows, original21matrix/26closure, new current result and subsequent normal lifecycle. No prior profile is rebound. Rollback uses retained original author/bundle/refs and reviewed forward changes; no reset/rebase/force/raw or DB deletion.
+
+
+## Normal resume after accepted OPS024 Completion
+
+Accepted integration base a3a57bade4dd3b25cd417d2cb5e0e3d1e14d792c is imported by an ordinary fast-forward of the existing registered branch. Only Own blocked/coordinator to in_progress/implementer state and current Evidence are prepared. Creation base, all actors, claims, order2 and valid lease remain unchanged. Current-source original15, exact1044 inventory, full official CI and independent acceptance are pending. The rejected old d3 packet stays unpublished; no old result or execution/publication approval transfers. A wholly new synthetic isolated experiment requires its own prospective source/input/resource/window approval.

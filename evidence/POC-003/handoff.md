@@ -1,3 +1,9 @@
+## Current version boundary candidate - POC-003
+
+Status: IN_PROGRESS. Historical R/attempt009 PASS remains preserved. Accepted implementation main: 8baa23ce4c622aba308a5a82a1ff55e5316c36bb (PR229; full sourceCI1022 and mainCI1023/1044 plus actual-main seven/independent acceptance). The proposed current locator withdrawal preserves its exact233B original under profile-history/local-v1-attempt009-retired-v1; current-profile qualification is absent in this candidate and must not be reported PASS. All original result/execution/input/raw/approvals and their timestamps remain unchanged. Required-profile validation must actually fail until new source-specific qualification.
+
+The local Completion attempt stopped at a real conflicting status gate; its originals are retained. Own Evidence withdrawal precedes a separately registered nonfrozen governance repair; this candidate changes no checker, runtime, Program/Registry/Ledger/Task or frozen catalogue. Task remains active and Issue131 has been reopened. Full original source checks, official source/main CI and independent actual-main acceptance remain required; retirement integration and final task completion are pending. Earlier implementation descriptions below are historical.
+
 ## Current source-gate correction: immutable raw archives
 
 Source8eae8a7 reached only its first declared gate, unchanged git diff --check against accepted main22. It actually exited2 on captured raw stderr/CRLF receipts in payload-lifetime-v1 and request-concurrency-v1; the other fourteen commands were not executed. Original output and context are preserved at source-8eae8a7-stopped-validation/index.json.
@@ -1897,3 +1903,15 @@ Authority Completion PR199 / fb2dad9be24e37773bfcb7ea1f40c7c26b553f7c; implement
 New committed conditional approval 3b4562d85701d8482fff7ac0ce190ca0a81d12f8128b5932f349c4215c83396e in APP-only creator fe7eb907f3eaf520fb9f240423447645213d9eca.
 chore/POC-003-ats-range -> chore/POC-003-qualified-lfs-evidence-v2; blocked/coordinator -> in_progress/implementer under the existing lease, creation 760f6c5838597d1d66c0a536ecbf440ef5a7dfec, actors and claims. This proposal changes only the five admitted metadata/evidence paths. Original handoff, code, frozen contracts and every legacy result remain source-bound.
 No POC media experiment, current-source qualification, new full21 run or completion is claimed. Exact-source guards, full official933, independent review, ordinary actual merge/main7/full933/final acceptance remain required before the recovered branch is admitted. OldPR184/fat source/local refs and raw media remain preserved.
+
+
+## Prospective lease renewal 2026-11-12T10:18:10Z
+
+POC-003 / Issue #131; metadata branch `chore/POC-003-lease-renewal-20261112`, actual base `659c7ad28af040e449eb5e6700682b52ec401056`. The new coordination decision is by /root under standing user authority, without changing historical Registry actor identities. Proposed lease 2026-11-12T10:18:10Z to 2026-11-19T10:18:10Z. Own Program Task/POC statuses and Registry/Task status/agentRole become blocked/coordinator with a prospective lease. Original code, Task body, registered branch, creation base, actor identities, claims, thresholds and results remain.
+
+See blocked-lease-20261112/decision.json and commands.json for the actual prospective decision and full fifteen substituted checks. Exact candidate commit is its containing Git commit. All commands/exit codes and full source CI, merge, actual-main seven/full CI and independent acceptance are PENDING. Existing evidence remains historical; this lease does not extend experimental windows or override publication restrictions. No continuous-authority claim; any expired interval blocks implementation and experiments. No shared code/ADR/result-index change; integrationOrder 2 retained. Rollback is withdrawal before merge or ordinary forward correction, preserving every local ref and raw artifact. Next Reviewer verifies exact metadata and full source CI; Integrator uses ordinary merge and complete actual-main checks before accepting new authority.
+
+
+## Normal resume after accepted OPS024 Completion
+
+Accepted integration base a3a57bade4dd3b25cd417d2cb5e0e3d1e14d792c is imported by an ordinary fast-forward of the existing registered branch. Only Own blocked/coordinator to in_progress/implementer state and current Evidence are prepared. Creation base, all actors, claims, order2 and valid lease remain unchanged. Current-source original15, exact1044 inventory, full official CI and independent acceptance are pending. The rejected old d3 packet stays unpublished; no old result or execution/publication approval transfers. A wholly new synthetic isolated experiment requires its own prospective source/input/resource/window approval.

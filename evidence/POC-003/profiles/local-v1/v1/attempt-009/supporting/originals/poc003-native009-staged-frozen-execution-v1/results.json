@@ -1,0 +1,32 @@
+{
+  "kind": "ACTUAL_NORMAL_STAGING_AND_FROZEN_EXECUTION_VALIDATION",
+  "source": "de8ad3f21df1578eac80e98d798f7adbcdb07d82",
+  "commands": [
+    {
+      "label": "normal-git-add",
+      "pid": 26563,
+      "exitCode": 0,
+      "actualWaitCompleted": true
+    },
+    {
+      "label": "staged-diff-check",
+      "pid": 26610,
+      "exitCode": 0,
+      "actualWaitCompleted": true
+    },
+    {
+      "label": "frozen-execution",
+      "pid": 26611,
+      "exitCode": 0,
+      "actualWaitCompleted": true
+    }
+  ],
+  "commitCreated": false,
+  "published": false,
+  "frozenExecution": {
+    "frozenExecutionErrors": [],
+    "fullQualificationValidated": true,
+    "formalPocAccepted": false
+  },
+  "frozenExecutionAccepted": true
+}

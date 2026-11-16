@@ -71,3 +71,25 @@ python scripts/run-task-scope-gate.py --task POC-005 --base 0d8c6f43a8c3d7794c32
 python scripts/check-evidence.py --task POC-005
 python specs/poc/check_program.py --task POC-005 --base-ref 0d8c6f43a8c3d7794c32b350c5cbb58c0c17d583
 python scripts/check-markdown.py
+
+
+## Normal resume after accepted OPS-025
+
+The original registered branch normally imports accepted actual OPS-025 Completion main d7a0cdde46225a0418027866f9d0531ed3495188 with previous source 4fb22681d6c530d7cffc37f2cf2472ed8abd2f07 as its first parent. Both the clock repair and the prospective lease handoff are retained. Only Own blocked/coordinator state is resumed to in_progress/implementer; original creation base, actors, claims, order3 and current valid lease remain unchanged. The two clock repair files retain their exact old source bytes. Previous CI1003 two timeouts remain unaccepted; this new source needs all original15, exact1059 inventory, Windows components, full official CI and independent acceptance. Historical experiments and the rejected d3 packet remain unchanged and confer no new source/profile or publication qualification. No current local-v1 index is created; future performance requires fresh source/input/resource/window approval.
+
+Current original15 recipe; NOT YET EXECUTED:
+git diff --check d7a0cdde46225a0418027866f9d0531ed3495188...HEAD
+python scripts/check-task-file.py --task POC-005
+python scripts/check-project-readiness.py
+python scripts/check-schemas.py
+python scripts/check-program-plan-integrity.py --base-ref d7a0cdde46225a0418027866f9d0531ed3495188
+python scripts/check-program-plan-history.py --base-ref d7a0cdde46225a0418027866f9d0531ed3495188 --head-ref HEAD --task POC-005 --branch-name chore/POC-005-metadata-scale
+python scripts/check-program-plan-transitions.py --base-ref d7a0cdde46225a0418027866f9d0531ed3495188 --head-ref HEAD --task POC-005 --branch-name chore/POC-005-metadata-scale
+python scripts/check-program-plan-finalization.py --base-ref d7a0cdde46225a0418027866f9d0531ed3495188 --head-ref HEAD --task POC-005
+python scripts/check-program-lifecycle-guards.py --base-ref d7a0cdde46225a0418027866f9d0531ed3495188 --head-ref HEAD --task POC-005 --branch-name chore/POC-005-metadata-scale
+python scripts/run-program-lifecycle-gate.py --base-ref d7a0cdde46225a0418027866f9d0531ed3495188 --head-ref HEAD --task POC-005 --branch-name chore/POC-005-metadata-scale
+python scripts/run-agent-coordination-gate.py --base-ref d7a0cdde46225a0418027866f9d0531ed3495188 --head-ref HEAD --task POC-005 --branch-name chore/POC-005-metadata-scale
+python scripts/run-task-scope-gate.py --task POC-005 --base d7a0cdde46225a0418027866f9d0531ed3495188
+python scripts/check-evidence.py --task POC-005
+python specs/poc/check_program.py --task POC-005 --base-ref d7a0cdde46225a0418027866f9d0531ed3495188
+python scripts/check-markdown.py

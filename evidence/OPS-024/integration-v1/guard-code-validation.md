@@ -1,0 +1,9 @@
+# OPS-024 registered strict-CI guard candidate
+
+Purpose commit 6cc0add64b6b1b1b517fa3124ef58ffe33b7db1f precedes this Code change; the original transition checker actually exited0 with a PASS result. Its outer wrapper expected the wrong literal and failed after that real success; original raw and wrapper failure remain retained and a separate exact-result parse records acceptance, without rerunning or changing the checker.
+
+Only one black-box regression is added to the existing test claim. The whole previous file is an exact byte prefix, preserving original1039 and the four accepted additional cases; workflow, requirements and all checker bytes are unchanged. The case copies real inputs, forces CI with real plugin auto-loading disabled, selects only the original three runtime cases and asserts actual exit1/exact three JUnit failures/no skips and the proper missing-dependency or unsupported-xdist-option cause. It does not fake a package or config, and excludes itself to prevent recursion.
+
+The five cases really passed with original minimal dependencies (no xdist) and with explicit two-worker execution under strict CI. Each execution has real PID/wait0/JUnit5/0FES and exact test SHA cf1810b3b63d9ea65fb167eead20c0b2fbbbe7d2248d2a0b340ae75e6d17b60a. These are working-tree checks based on the purpose commit, not complete new-source qualification. Exact new-source original14, unchanged minimal make verify/full1044, strict two-worker/full1044, source and actual-main official CI and independent acceptance remain pending.
+
+The future actual nonempty Code merge must explicitly identify OPS-024 and the true new PR number, and pass the original commit identity check before Completion. Old489/225/515/58a and every raw failure remain historical originals; capacity and POC execution remain unreleased.

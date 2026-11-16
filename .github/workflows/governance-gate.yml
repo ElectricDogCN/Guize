@@ -50,7 +50,7 @@ jobs:
         run: |
           set -euo pipefail
           python -m pip install --upgrade pip
-          pip install -r requirements-governance.txt
+          pip install -r requirements-governance.txt pytest-xdist==3.8.0
           echo "--- Installed packages ---"
           pip freeze | grep -E 'pytest|PyYAML|jsonschema'
 
@@ -210,7 +210,7 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p /tmp/test-results
-          python -m pytest tests/governance/ -v -ra --junitxml=/tmp/test-results/governance-junit.xml
+          python -m pytest tests/governance/ -v -ra --junitxml=/tmp/test-results/governance-junit.xml -n 2 --dist loadfile --max-worker-restart=0
 
       - name: Skip audit
         id: skip-audit

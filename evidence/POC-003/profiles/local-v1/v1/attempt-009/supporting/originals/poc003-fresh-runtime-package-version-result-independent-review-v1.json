@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 1,
+  "reviewer": "/root/independent_review",
+  "reviewedAt": "2026-11-12T23:21:45.825620+00:00",
+  "source": "de8ad3f21df1578eac80e98d798f7adbcdb07d82",
+  "tree": "ce6f3e09ec72b88ddabf49e75d41b4159e36fdb9",
+  "mustFix": [],
+  "runtimeCompatibilityAccepted": false,
+  "sampleSuitabilityApproved": false,
+  "atsServiceExecutionApproved": false,
+  "mediaExecutionApproved": false,
+  "experimentApproved": false,
+  "publicationApproved": false,
+  "oldD3PublicationApproved": false,
+  "kind": "INDEPENDENT_ACTUAL_FRESH_RUNTIME_PACKAGE_AND_VERSION_ONLY_RESULT_REVIEW",
+  "runtimePackagePreparationAccepted": true,
+  "versionOnlyProbeAccepted": true,
+  "actualPreparedPackageAccepted": true,
+  "preparationResultSha256": "63ab3302798ad958b4bc33a817d8eea4d5cb5f5d4d7a42d9508bf705ce169272",
+  "methodSha256": "61ed0be038a78aaf3a9916306fbb8606f2c09cfdf58700dcc4087d87558a7137",
+  "packageManifestSha256": "9406b969f4d22e2dc6ee1e4e1aaed19d179672c20c74f2d1a89571bead0e9b44",
+  "packageRegularLogicalBytes": 156294915,
+  "packageEntryCount": 355,
+  "regularFileCount": 347,
+  "internalRelativeSymlinkCount": 8,
+  "allEntryPhysicalHashesVerified": true,
+  "exactPackageMemberSetVerified": true,
+  "readonlyPackageVerified": true,
+  "physicalVerificationToolChunk": "c2eb30",
+  "actualVersion": "9.2.3",
+  "versionStdoutSha256": "9b57951541178a59355b4d171202e75892eb59e8bb5df2982b0b65dd2b5f845e",
+  "versionContainerId": "ea5f1cafb8ec6ed449de24d8b2ffd204fbe5d54407c2ca436179963372f7b57a",
+  "versionContainerState": {
+    "status": "exited",
+    "pid": 0,
+    "exitCode": 0
+  },
+  "actualCommandWaitsAndRawHashesVerified": true,
+  "executedWithinApprovedWindow": true,
+  "versionScope": "One current binary --version invocation in fixed cached image, network none, read-only mounts, UID1000 neutral identity; no service or media.",
+  "evidencePins": [
+    {
+      "ref": ".takeover-tools/poc003-fresh-runtime-package-version-preparation-v1/results.json",
+      "bytes": 5928,
+      "sha256": "63ab3302798ad958b4bc33a817d8eea4d5cb5f5d4d7a42d9508bf705ce169272"
+    },
+    {
+      "ref": ".takeover-tools/poc003-fresh-runtime-package-version-preparation-approval-v1.json",
+      "bytes": 3007,
+      "sha256": "2e9f296dcbd1359e3a6754b6908ec784faf796b32f3fdf5ce71eff26721108c8"
+    },
+    {
+      "ref": ".takeover-tools/prepare_poc003_fresh_runtime_package_version_v1.py",
+      "bytes": 15616,
+      "sha256": "61ed0be038a78aaf3a9916306fbb8606f2c09cfdf58700dcc4087d87558a7137"
+    },
+    {
+      "ref": ".takeover-tools/poc003-fresh-neutral-build-result-independent-review-v1.json",
+      "bytes": 4761,
+      "sha256": "41946e2acc5717abe3920e37f45b3ccd6b233ecd03c9f945da4a2bac6f791602"
+    },
+    {
+      "ref": ".takeover-tools/poc003-fresh-synthetic-pair-result-independent-review-v1.json",
+      "bytes": 3154,
+      "sha256": "ce2701d7de52e9bd1d13bdc4460b829b857b7b57ba4b8da966bb673e9fd27e0f"
+    },
+    {
+      "ref": ".takeover-tools/poc003-fresh-runtime-package-version-preparation-v1/version.stdout.raw",
+      "bytes": 205,
+      "sha256": "9b57951541178a59355b4d171202e75892eb59e8bb5df2982b0b65dd2b5f845e"
+    },
+    {
+      "ref": ".takeover-tools/poc003-fresh-runtime-package-version-preparation-v1/version.stderr.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "ref": ".takeover-tools/poc003-fresh-runtime-package-version-preparation-v1/terminal.stdout.raw",
+      "bytes": 10525,
+      "sha256": "120d7b33e365c7162166c3a4993ba26db6f37d9c7ea0d3fa6f59a43cd1b211ea"
+    },
+    {
+      "ref": ".takeover-tools/poc003-fresh-runtime-package-version-preparation-v1/cleanup-inspect.stdout.raw",
+      "bytes": 10525,
+      "sha256": "120d7b33e365c7162166c3a4993ba26db6f37d9c7ea0d3fa6f59a43cd1b211ea"
+    }
+  ]
+}

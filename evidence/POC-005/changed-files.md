@@ -28695,3 +28695,8 @@ Accepted integration base: `22ab6a0668da2d64a016fccef2c3b5a634638a24`. Creation 
 - evidence/POC-005/profiles/local-v1/v1/index.yaml
 - evidence/POC-005/summary.md
 - evidence/POC-005/test-results/README.md
+
+
+## Normal resume after accepted OPS-025
+
+The original registered branch normally imports accepted actual OPS-025 Completion main d7a0cdde46225a0418027866f9d0531ed3495188 with previous source 4fb22681d6c530d7cffc37f2cf2472ed8abd2f07 as its first parent. Both the clock repair and the prospective lease handoff are retained. Only Own blocked/coordinator state is resumed to in_progress/implementer; original creation base, actors, claims, order3 and current valid lease remain unchanged. The two clock repair files retain their exact old source bytes. Previous CI1003 two timeouts remain unaccepted; this new source needs all original15, exact1059 inventory, Windows components, full official CI and independent acceptance. Historical experiments and the rejected d3 packet remain unchanged and confer no new source/profile or publication qualification. No current local-v1 index is created; future performance requires fresh source/input/resource/window approval.

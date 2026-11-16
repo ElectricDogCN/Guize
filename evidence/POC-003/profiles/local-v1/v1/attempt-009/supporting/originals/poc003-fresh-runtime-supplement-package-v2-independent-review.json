@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "kind": "INDEPENDENT_ACTUAL_BASELINE_PACKAGE_PLUS_OBSERVED_DEPENDENCY_REVIEW",
+  "reviewer": "/root/independent_review",
+  "reviewedAt": "2026-11-12T23:48:08.122870+00:00",
+  "source": "de8ad3f21df1578eac80e98d798f7adbcdb07d82",
+  "tree": "ce6f3e09ec72b88ddabf49e75d41b4159e36fdb9",
+  "runtimeSupplementPackageAccepted": true,
+  "packageManifestSha256": "8690aeadbbd27299e34ea3d4827e630c6f6f4b839e11a8d7606232ffe603f04f",
+  "parentPackageManifestSha256": "9406b969f4d22e2dc6ee1e4e1aaed19d179672c20c74f2d1a89571bead0e9b44",
+  "configurationSourcePackageManifestSha256": "9406b969f4d22e2dc6ee1e4e1aaed19d179672c20c74f2d1a89571bead0e9b44",
+  "configurationManifestSha256": "704c83508b73d01f03177ce07857190e60b1f8c1277dd1345262e75dcba2910b",
+  "entryCount": 357,
+  "regularLogicalBytes": 156319530,
+  "baselineEntryCount": 355,
+  "baselineEntriesAndBytesUnchanged": true,
+  "symlinkCount": 8,
+  "allPhysicalEntryHashesAndExactSetVerified": true,
+  "readonlyPackageVerified": true,
+  "addedPaths": [
+    "dependencies/libmaxminddb.so.0",
+    "receipts/maxmind-dependency-acquisition.original.json"
+  ],
+  "dependency": {
+    "bytes": 22520,
+    "sha256": "1d5dccc962dc80967d2fe62a7d9254eb99b2ab885587e1f160b76b1c87d44833",
+    "soname": "libmaxminddb.so.0",
+    "needed": [
+      "libc.so.6"
+    ],
+    "requiredBy": "header_rewrite.so",
+    "sourceBuildContainer": "ac5eba6738b3f8f5f49ae9e3c49151e5726cadbedc5fb7676a194b32e7917537",
+    "sourceBuildImage": "sha256:7da97f743f397971f35dd21cd2d19a7da070a150e0cfa3eda559e71891ec7533",
+    "containerStateBeforeAfterUnchanged": true,
+    "containerState": "exited",
+    "containerPid": 0,
+    "containerExitCode": 0
+  },
+  "acquisitionReceipt": {
+    "bytes": 2095,
+    "sha256": "7d331037d27f511939341548dd877866b6d5ba40da833ec7f691776a9a852ffa"
+  },
+  "physicalVerificationToolChunk": "a9e622",
+  "containerExecutionApproved": false,
+  "runtimeCompatibilityAccepted": false,
+  "sampleSuitabilityApproved": false,
+  "matrixExecutionApproved": false,
+  "warmExecutionApproved": false,
+  "experimentApproved": false,
+  "publicationApproved": false,
+  "oldD3PublicationApproved": false,
+  "mustFix": [],
+  "evidencePins": [
+    {
+      "ref": ".takeover-tools/poc003-fresh-runtime-dependency-package-v2/results.json",
+      "bytes": 717,
+      "sha256": "662fdeeae05210fbfa179587f0cba828dd22fe61dde9430bb39d11200ed4a66d"
+    },
+    {
+      "ref": ".takeover-tools/observe_copy_poc003_fresh_maxmind_dependency_once.py",
+      "bytes": 2115,
+      "sha256": "728ba361bf83d52986ed830287eb435c14d5c47a54483fa67b03a696fbbd3281"
+    },
+    {
+      "ref": ".takeover-tools/prepare_poc003_fresh_runtime_dependency_package_v2_once.py",
+      "bytes": 4002,
+      "sha256": "da3c41a1e6ba3459378b85f2af559dcce533aa7c65c6c2dcc34d20ceb35c2c85"
+    },
+    {
+      "ref": ".takeover-tools/poc003-fresh-runtime-package-version-result-independent-review-v1.json",
+      "bytes": 3801,
+      "sha256": "d69b69d956a0fb995421caddfc2d81b37c90935a75015651078237c9f056dcfd"
+    },
+    {
+      "ref": ".takeover-tools/poc003-fresh-neutral-build-result-independent-review-v1.json",
+      "bytes": 4761,
+      "sha256": "41946e2acc5717abe3920e37f45b3ccd6b233ecd03c9f945da4a2bac6f791602"
+    }
+  ]
+}

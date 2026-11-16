@@ -1,0 +1,20 @@
+# OPS-025 changed-files.md
+
+OPS-025 / Issue#231 / base 9dcf7e6b9f7f3a8debee8da2183f4deeaf7ec584 / branch chore/OPS-025-poc-completion-mirror-reservation. Roles: /root coordinator/implementer/integrator; /root/gz022_planning_independent_review independent reviewer. MOD-GOV/high; lease 2026-11-16T07:19:31Z to 2026-11-23T07:19:31Z; group poc-completion-status/order20.
+
+Only own Foundation/Registry additions, Task and Evidence. No code/test/frozen file changed. Inspect actual diff against declared base.
+
+
+## Normal implementation
+
+Code changes: `scripts/check-program-plan-history.py` and new `tests/governance/test_poc_completion_plan_mirror.py`. Own phase metadata and Evidence remain within the registered task. Frozen files, original1044 tests, workflow, requirements and Makefile are unchanged.
+
+
+## Normal Review
+
+Only Own lifecycle metadata and Evidence change in this phase; scripts, tests, frozen files, workflow, requirements, Makefile, Completion Ledger and all foreign rows remain byte-identical to accepted Code main.
+
+
+## Normal Completion
+
+Only Own Foundation/Task completed metadata, removal of the Own Active row and Own Evidence change. The accepted Code identity is preserved; code, tests, frozen files, workflow, requirements, Makefile, ledger and foreign records are unchanged.

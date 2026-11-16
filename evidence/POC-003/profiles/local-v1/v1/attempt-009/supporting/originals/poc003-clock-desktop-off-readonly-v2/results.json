@@ -1,0 +1,22 @@
+{
+  "kind": "ACTUAL_BOUNDED_REALTIME_MONOTONIC_CLOCK_DIAGNOSTIC",
+  "stage": "desktop-off",
+  "observedAt": "2026-11-13T00:39:00.333031Z",
+  "actualMonotonicDurationNs": 45026030764,
+  "samples": 1790,
+  "offsetRangeNs": 5287296550,
+  "offsetDiscontinuitiesOver1ms": [
+    {
+      "index": 1483,
+      "monotonicNs": 19111443124545,
+      "realtimeNs": 1794530332610402603,
+      "realtimeDeltaNs": 5312393500,
+      "monotonicDeltaNs": 25122299,
+      "offsetDeltaNs": 5287271201
+    }
+  ],
+  "backwardsRealtimeSamples": [],
+  "serviceOrTimeSettingsChanged": false,
+  "mediaOrAtsExecuted": false,
+  "experimentApproved": false
+}

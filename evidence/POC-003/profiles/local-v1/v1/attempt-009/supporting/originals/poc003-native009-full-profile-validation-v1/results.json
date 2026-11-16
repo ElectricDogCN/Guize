@@ -1,0 +1,38 @@
+{
+  "kind": "ACTUAL_VERBATIM_SIGNED_PROFILE_MATERIALIZATION_AND_FULL_FROZEN_CHECK",
+  "records": [
+    {
+      "path": "evidence/POC-003/profiles/local-v1/v1/attempt-009/result.yaml",
+      "bytes": 1148,
+      "sha256": "1024c872a839f25f4963817542731a74be42f82547895b29b9d6bd3c82ca545f"
+    },
+    {
+      "path": "evidence/POC-003/profiles/local-v1/v1/index.yaml",
+      "bytes": 233,
+      "sha256": "7f4575ce0a1f23a81ff25a703796c1394d78d9ce72c00f2e3179263bf2a4e69a"
+    }
+  ],
+  "commands": [
+    {
+      "label": "normal-git-add",
+      "pid": 28118,
+      "exitCode": 0,
+      "actualWaitCompleted": true
+    },
+    {
+      "label": "staged-diff-check",
+      "pid": 28139,
+      "exitCode": 0,
+      "actualWaitCompleted": true
+    },
+    {
+      "label": "frozen-full-profile",
+      "pid": 28140,
+      "exitCode": 0,
+      "actualWaitCompleted": true
+    }
+  ],
+  "commitCreated": false,
+  "published": false,
+  "fullFrozenProfileAccepted": true
+}

@@ -1,0 +1,33 @@
+{
+  "taskId": "POC-005",
+  "issue": 132,
+  "kind": "prospective-own-blocked-coordinator-lease-maintenance",
+  "decidedAt": "2026-11-12T11:11:30Z",
+  "decisionActor": "/root",
+  "authority": "Existing user delegation of project decisions and normal review/merge; original Registry actors are preserved, not relabelled.",
+  "base": "c55d1e9145bee9bf773ad1946b36366dff37601a",
+  "branch": "chore/POC-005-lease-renewal-20261112",
+  "originalLease": {
+    "acquiredAt": "2026-11-05T12:05:19Z",
+    "expiresAt": "2026-11-12T12:05:19Z"
+  },
+  "proposedLease": {
+    "acquiredAt": "2026-11-12T11:11:30Z",
+    "expiresAt": "2026-11-19T11:11:30Z"
+  },
+  "priorStatus": "in_progress",
+  "priorAgentRole": "implementer",
+  "proposedStatus": "blocked",
+  "proposedAgentRole": "coordinator",
+  "registeredBranchUnchanged": "chore/POC-005-metadata-scale",
+  "creationBaseUnchanged": "746e23e582501fa08380c3f3301bdc1774902f7c",
+  "sourceChecks": "UNEXECUTED",
+  "fullOfficialCiAccepted": false,
+  "renewedAuthorityAccepted": false,
+  "experimentApproved": false,
+  "oldExperimentWindowExtended": false,
+  "oldPublicationRejectionOverridden": false,
+  "continuityClaimed": false,
+  "gapPolicy": "Any interval after old expiry and before actual-main complete CI/independent acceptance is recorded as a gap. No implementation or experiments during that interval.",
+  "reason": "Clock repair PR #219 remains unaccepted after two official CI1003 timeouts. Pause implementation/experiments while maintaining only prospective blocked coordination; original evidence and acceptance limits remain."
+}

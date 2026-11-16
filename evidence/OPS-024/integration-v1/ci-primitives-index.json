@@ -1,0 +1,86 @@
+{
+  "archive": "ci-primitives.zip",
+  "archiveBytes": 156929,
+  "archiveSha256": "7b83e219af249b442cb8fdcedd14ad46a56825b820c7ca13e87c14e29b54b650",
+  "records": [
+    {
+      "path": "source/run.json",
+      "bytes": 14420,
+      "sha256": "870c80b3b594e02342ab9df0b60bcb862b4b8792dbce2b7e26c22fafb91b090e"
+    },
+    {
+      "path": "source/jobs.json",
+      "bytes": 8299,
+      "sha256": "68995863633deabe907baa021494d03e527060f56e21c51bcb91859bf0fbcdd0"
+    },
+    {
+      "path": "source/checkout.json",
+      "bytes": 2805,
+      "sha256": "1212ae1d067cce0f2ddd65906605c3437d37bfa381a2ac3d29c6f42596fdd372"
+    },
+    {
+      "path": "source/official-connector-acquisition-result.json",
+      "bytes": 1163,
+      "sha256": "0ade310037b923760b41252b195504c721ee8839cf4a66e8a10e9ca7fa4c16d2"
+    },
+    {
+      "path": "source/job-log.connector-decoded.utf8.txt",
+      "bytes": 566184,
+      "sha256": "d98a3547d62357ec6e68cc2dbc65872fc4dc59485340324cecf9cb63eb2b6667"
+    },
+    {
+      "path": "source/capture.json",
+      "bytes": 1349,
+      "sha256": "3dfb450b2e05bc6f6c4f08fbe1b1b3bafc2c39d204fa5b6b25ee573d1e9d1b5d"
+    },
+    {
+      "path": "main/run.json",
+      "bytes": 13663,
+      "sha256": "9904a20c6c6d0e0c0ba75f38f8109d66937bb7c683bd7d92a199ab45abe2ea82"
+    },
+    {
+      "path": "main/jobs.json",
+      "bytes": 8276,
+      "sha256": "8daa17566219d7d1615f6c5a2555158b151336dffe51fbbe8d375a5629813580"
+    },
+    {
+      "path": "main/checkout.json",
+      "bytes": 2891,
+      "sha256": "15c15d66818514e4f2294b518a4ff45cb6a00dd85282f0fc55e80b3918d5515e"
+    },
+    {
+      "path": "main/official-connector-acquisition-result.json",
+      "bytes": 1163,
+      "sha256": "fd6c77abfbaf468938a6b01ced2281d7e0b19b9089c0c2b8d4419bb2c02a9568"
+    },
+    {
+      "path": "main/job-log.connector-decoded.utf8.txt",
+      "bytes": 558048,
+      "sha256": "d8ed62c4a379f88553114b1834a2bb90e382e6ffd15c01c0f89c927ec8d064c0"
+    },
+    {
+      "path": "main/capture.json",
+      "bytes": 1483,
+      "sha256": "17d742130a2eb23766c13d66aaa5939dc18e9a0e2e869ae57b5c851ef3001ab4"
+    }
+  ],
+  "officialCiUrls": {
+    "source": "https://github.com/ElectricDogCN/Guize/actions/runs/43275672522",
+    "main": "https://github.com/ElectricDogCN/Guize/actions/runs/43278896486"
+  },
+  "contents": "Public official CI primitives only",
+  "originalHttpBytesClaimed": false,
+  "nativeRawIncluded": false,
+  "privateAcceptanceCertificateIncluded": false,
+  "nativeOriginalsRetainedForIndependentReview": true,
+  "nativeEvidence": {
+    "source": "515aa82bf05ef4a0e956acfe4480915903daca6d",
+    "original14ExitZero": true,
+    "minimalMakeVerifyPassed": 1043,
+    "strictParallelPassed": 1043,
+    "minimalMakeRawSha256": "b3809e76c064c0e71bc86365a67f4b6db8b1175f333c35fbc44badcf2a2d229d",
+    "parallelRawSha256": "a18d9cfe2478b0e6c7c65433c26439e45aa92fb11d1ba1091d45e779bb19e670",
+    "junitSha256": "922bad64e7540bfdec31a398809a337d7d25833a2f21ee82e8847186feafe1bb",
+    "skipAuditExitZero": true
+  }
+}

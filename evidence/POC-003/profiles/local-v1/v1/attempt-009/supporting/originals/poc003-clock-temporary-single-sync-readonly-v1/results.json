@@ -1,0 +1,31 @@
+{
+  "kind": "ACTUAL_BOUNDED_REALTIME_MONOTONIC_CLOCK_DIAGNOSTIC",
+  "stage": "temporary-single-sync",
+  "observedAt": "2026-11-13T00:29:14.330624Z",
+  "actualMonotonicDurationNs": 35013430768,
+  "samples": 1392,
+  "offsetRangeNs": 2664436452,
+  "offsetDiscontinuitiesOver1ms": [
+    {
+      "index": 320,
+      "monotonicNs": 18568644645320,
+      "realtimeNs": 1794529727367196804,
+      "realtimeDeltaNs": -2639293089,
+      "monotonicDeltaNs": 25140939,
+      "offsetDeltaNs": -2664434028
+    }
+  ],
+  "backwardsRealtimeSamples": [
+    {
+      "index": 320,
+      "monotonicNs": 18568644645320,
+      "realtimeNs": 1794529727367196804,
+      "realtimeDeltaNs": -2639293089,
+      "monotonicDeltaNs": 25140939,
+      "offsetDeltaNs": -2664434028
+    }
+  ],
+  "serviceOrTimeSettingsChanged": false,
+  "mediaOrAtsExecuted": false,
+  "experimentApproved": false
+}

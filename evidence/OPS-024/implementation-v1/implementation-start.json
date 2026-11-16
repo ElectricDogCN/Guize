@@ -1,0 +1,30 @@
+{
+  "taskId": "OPS-024",
+  "issue": 220,
+  "actualAcceptedReservationMain": "439c2c33685dfae9d3893d852bf4044bcfc7e193",
+  "implementationBranch": "chore/OPS-024-ci-parallelism",
+  "registeredClaims": [
+    ".github/workflows/governance-gate.yml",
+    "tests/governance/test_ci_parallel_execution.py"
+  ],
+  "lease": {
+    "acquiredAt": "2026-11-12T12:45:12Z",
+    "expiresAt": "2026-11-19T12:45:12Z"
+  },
+  "integrationOrder": 19,
+  "normalRegistrationAccepted": true,
+  "bootstrapException": false,
+  "firstOwnActivationOnly": true,
+  "productionCodeChanged": false,
+  "sourceCi": {
+    "run": 43223794425,
+    "attempt": 2,
+    "original1039Passed": true
+  },
+  "actualMainCi": {
+    "run": 43234910684,
+    "attempt": 1,
+    "original1039Passed": true
+  },
+  "independentAcceptanceSha256": "77a2230a3969f339ed48cf64e69d5e43dd819c865cba54bf6b4804ddbe44106c"
+}

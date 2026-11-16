@@ -1,0 +1,22 @@
+{
+  "taskId": "OPS-025",
+  "issue": 231,
+  "actualAcceptedReservationMain": "3dad52dc22b67a4cea3d0a8db9ba880d11b28e9b",
+  "implementationBranch": "chore/OPS-025-poc-completion-mirror",
+  "registeredClaims": [
+    "scripts/check-program-plan-history.py",
+    "tests/governance/test_poc_completion_plan_mirror.py"
+  ],
+  "lease": {
+    "acquiredAt": "2026-11-16T07:19:31Z",
+    "expiresAt": "2026-11-23T07:19:31Z"
+  },
+  "integrationOrder": 20,
+  "normalRegistrationAccepted": true,
+  "bootstrapException": false,
+  "firstOwnActivationOnly": true,
+  "productionCodeChanged": false,
+  "sourceCi": 43827231608,
+  "actualMainCi": 43830590025,
+  "independentAcceptanceSha256": "c0c187005ff94fa67b81f7cf3dab50f14be02e60b7a72b6e8467504c720863c4"
+}

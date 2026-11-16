@@ -1,0 +1,31 @@
+{
+  "taskId": "OPS-025",
+  "issue": 231,
+  "base": "3dad52dc22b67a4cea3d0a8db9ba880d11b28e9b",
+  "activationCommit": "5299be0675f75d5152fcb86976e196fa79169c1f",
+  "codeIntroducedAt": "ac63294d5147f6f3454dcdb304988cf799f7aaba",
+  "branch": "chore/OPS-025-poc-completion-mirror",
+  "codePaths": [
+    "scripts/check-program-plan-history.py",
+    "tests/governance/test_poc_completion_plan_mirror.py"
+  ],
+  "behavior": "Validate the required Own POC mirror, normalize only its status in a comparison copy, then retain the original strict Plan comparison.",
+  "original1044FilesAndAssertionsUnchanged": true,
+  "newRegressionCases": 15,
+  "priorCodeSourceChecks": {
+    "source": "ac63294d5147f6f3454dcdb304988cf799f7aaba",
+    "declared14Passed": true,
+    "collectedCases": 1059,
+    "original1044OrderedProjectionUnchanged": true,
+    "executedNewCases": 15,
+    "failedErroredSkipped": 0,
+    "newRegressionLogSha256": "39d1ddb098b9327ef839a56b9a35ff8352c999fc46574d95863a6f6fee86cf1f",
+    "newRegressionJunitSha256": "94d4bebfcd296bb033a1b367ffda40de3baefcfbed24eb3323e1d6bc3b1748c7"
+  },
+  "forwardSourceValidationPending": true,
+  "oldResultsTransferred": false,
+  "fullNative1059Pending": true,
+  "officialSourceAndActualMainCiPending": true,
+  "taskCompleted": false,
+  "currentPoc003Qualification": "absent"
+}
