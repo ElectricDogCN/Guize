@@ -1,0 +1,19 @@
+{
+  "kind": "PROSPECTIVE_CURRENT_LOCATOR_RETIREMENT_NOT_NEW_QUALIFICATION",
+  "testedSource": "de8ad3f21df1578eac80e98d798f7adbcdb07d82",
+  "testedTree": "ce6f3e09ec72b88ddabf49e75d41b4159e36fdb9",
+  "acceptedResultDeliverySource": "f8737ecbfe08291fdaf7c3503a345bcae4d15251",
+  "acceptedCodeMain": "8baa23ce4c622aba308a5a82a1ff55e5316c36bb",
+  "historicalResult": "pass",
+  "originalIndex": "evidence/POC-003/profiles/local-v1/v1/index.yaml",
+  "archivedIndex": "evidence/POC-003/profile-history/local-v1-attempt009-retired-v1/index.original.yaml",
+  "originalIndexBytes": 233,
+  "originalIndexSha256": "7f4575ce0a1f23a81ff25a703796c1394d78d9ce72c00f2e3179263bf2a4e69a",
+  "selectedResult": "evidence/POC-003/profiles/local-v1/v1/attempt-009/result.yaml",
+  "selectedResultSha256": "1024c872a839f25f4963817542731a74be42f82547895b29b9d6bd3c82ca545f",
+  "currentQualification": "absent in candidate; proposed withdrawal not yet integrated",
+  "newCurrentProfileAccepted": false,
+  "oldApprovalsTransferred": false,
+  "reason": "Forward version-bound withdrawal before a separately registered nonfrozen Completion mirror repair and later POC005 clock fix; whole-source qualification cannot be transferred to evolved code.",
+  "preparedAt": "2026-11-16T05:22:21.936185Z"
+}
