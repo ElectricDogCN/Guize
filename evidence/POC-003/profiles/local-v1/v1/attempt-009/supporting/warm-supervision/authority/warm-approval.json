@@ -1,0 +1,342 @@
+{
+  "schemaVersion": 1,
+  "kind": "PROSPECTIVE_FRESH_NEUTRAL_R_SECOND_WINDOW_INDEPENDENT_WARM_CACHE_REVOCATION_ONLY",
+  "approvedBy": "/root/independent_review",
+  "reviewer": "/root/independent_review",
+  "approvedAt": "2026-11-13T00:14:31.426082Z",
+  "validFrom": "2026-11-13T00:14:31.426082Z",
+  "validUntil": "2026-11-13T00:44:31.426082Z",
+  "source": "de8ad3f21df1578eac80e98d798f7adbcdb07d82",
+  "base": "a3a57bade4dd3b25cd417d2cb5e0e3d1e14d792c",
+  "tree": "ce6f3e09ec72b88ddabf49e75d41b4159e36fdb9",
+  "testedSource": {
+    "commit": "de8ad3f21df1578eac80e98d798f7adbcdb07d82",
+    "tree": "ce6f3e09ec72b88ddabf49e75d41b4159e36fdb9"
+  },
+  "scope": "FRESH_NEUTRAL_SOURCE_R_INDEPENDENT_WARM_CACHE_REVOCATION_ONLY",
+  "fullOriginalMatrixExecutionApproved": false,
+  "windowApproved": true,
+  "sampleApplicabilityApproved": true,
+  "resourceConfigurationApproved": true,
+  "resourceBookingApproved": true,
+  "maximumActualAttempts": 1,
+  "actualStartMinimumRemainingSeconds": 900,
+  "methodSha256": "16bde975b9b1fb3e7aed240a11f48a076bf2f57009d82a9dd36abc10b407ce81",
+  "entrySha256": "8c0fe6c15f6ca3ac22cf1fea05156d14b7137cd9fbc84991e80d3607f21b0636",
+  "diagnosticHelperSha256": "c56cccaae950f4e3b3c1a6238d155f4c82ea9eef8ed02af47bb10d547f0ad3a8",
+  "diskGuardMethodSha256": "b2a992db574b68a92a6535c34438c511654f2095d7aab89a8197e35d787e3c35",
+  "resourceObserverMethodSha256": "f2c7d4ae7dc30268c98087a561f3127fce86c4bb49357693f558b94cffe60a41",
+  "compatibilityReviewFile": "poc003-fresh-neutral-compatibility-v3-result-independent-review.json",
+  "compatibilityReviewSha256": "a3023b51011f46e52606dcb427a45937115e6e9a9d779935e64a287ba5d692cc",
+  "runtimeSupplementReviewFile": "poc003-fresh-runtime-supplement-package-v2-independent-review.json",
+  "runtimeSupplementReviewSha256": "eedee4e2ed8ee102d7861520ed273f5b7ebbaa92b556528fd5506054b8c73b4b",
+  "packageManifestSha256": "8690aeadbbd27299e34ea3d4827e630c6f6f4b839e11a8d7606232ffe603f04f",
+  "configurationManifestSha256": "704c83508b73d01f03177ce07857190e60b1f8c1277dd1345262e75dcba2910b",
+  "inputLogicalBytes": 156319530,
+  "canonicalPrefix": "evidence/POC-003/profiles/local-v1/v1/attempt-008",
+  "acceptanceProfile": {
+    "id": "local-v1",
+    "version": 1,
+    "bindingRevision": 1,
+    "scope": "LOCAL_FULL_V1"
+  },
+  "measurementIds": [
+    "ats_slice_behavior",
+    "cache_disk_observation",
+    "cache_hit_observation",
+    "cache_key_isolation",
+    "etag_semantics",
+    "if_range_semantics",
+    "large_file_streaming",
+    "origin_interruption_recovery",
+    "partial_cache_integrity",
+    "range_cold_cache_latency",
+    "range_correctness",
+    "range_hot_cache_latency",
+    "range_multi_user_latency",
+    "range_slow_origin_latency",
+    "source_update_invalidation"
+  ],
+  "rangeMatrixPolicy": {
+    "assetId": "guize-fresh-de8ad3f-v1-object",
+    "aclVersion": "guize-fresh-de8ad3f-v1-acl",
+    "baseVersion": "base",
+    "updatedVersion": "changed",
+    "updatedInputRef": "evidence/POC-003/profiles/local-v1/v1/attempt-008/inputs/changed.bin",
+    "updatedInputSha256": "sha256:e96b1d42cc9568a40f8577164f131ab001227e0a409c0b267c41101e08c5a103",
+    "entryURL": "http://127.0.0.1:18233/media/object.bin",
+    "authorizedUsers": [
+      "lab-user-a",
+      "lab-user-b"
+    ],
+    "deniedUser": "lab-denied-user",
+    "sliceBytes": 1048576,
+    "minimumInputBytes": 67108864,
+    "maximumBufferedBytes": 8388608,
+    "maximumRetries": 0,
+    "slowOriginDelayMs": 250,
+    "slowOriginBandwidthBytesPerSecond": 1048576,
+    "concurrentUsers": 2,
+    "latencySampleCount": 4,
+    "percentileMethod": "nearest-rank-p95",
+    "baseETag": "\"sha256-9a30d2bb1a4f1eabcb41baa5b6518628411ba8ac668fc1e7085983261aa5f419\"",
+    "updatedETag": "\"sha256-e96b1d42cc9568a40f8577164f131ab001227e0a409c0b267c41101e08c5a103\""
+  },
+  "expectedToolVersions": {
+    "python": "3.12.15 (main, Oct  6 2026, 02:02:22) [GCC 14.2.0]",
+    "atsVersionObservation": "Traffic Server 9.2.3 Nov 12 2026 22:51:47 localhost\ntraffic_server: using root directory '/poc/runtime/pkgroot'\nApache Traffic Server - traffic_server - 9.2.3 - (build # 111222 on Nov 12 2026 at 22:51:47)",
+    "atsVersionObservationScope": "Actual fresh-binary version command in the same fixed runtime image before workload; owned epochs separately prove current executable mappings and ABI"
+  },
+  "subjectVersion": "{\"atsVersionObservation\":\"Traffic Server 9.2.3 Nov 12 2026 22:51:47 localhost\\ntraffic_server: using root directory '/poc/runtime/pkgroot'\\nApache Traffic Server - traffic_server - 9.2.3 - (build # 111222 on Nov 12 2026 at 22:51:47)\",\"atsVersionObservationScope\":\"Actual fresh-binary version command in the same fixed runtime image before workload; owned epochs separately prove current executable mappings and ABI\",\"python\":\"3.12.15 (main, Oct  6 2026, 02:02:22) [GCC 14.2.0]\"}",
+  "beforeControlFiles": {
+    "profile-configuration.json": {
+      "bytes": 1022,
+      "sha256": "6c00e74ad0d27325eab5f8d92a81dbb4c71681fa9934ce3599c6dfd02385aead"
+    },
+    "resource-configuration.json": {
+      "bytes": 4979,
+      "sha256": "4dc61bbbe4aafa2e25b353b80dad8f20e23d39893ccd5bfc13ad238fff157652"
+    },
+    "resource-booking.json": {
+      "bytes": 467,
+      "sha256": "e1603aef2b68e86f7ab3bf002270afc03e7ef4c50fd3ad4f9dbe2bf1b8793c41"
+    },
+    "sample-approval.json": {
+      "bytes": 365,
+      "sha256": "f3b5e387c9f2c352027c6bc3648d5ede8aabefd4dd9e32d4c319716809f9a61c"
+    },
+    "changed-sample-approval.json": {
+      "bytes": 368,
+      "sha256": "6f77301cdf7d08a4b7925043a3981a528bf465c69d758e2928ea91ccc3b8723d"
+    }
+  },
+  "ordinarySchemasValidated": true,
+  "schemaValidation": {
+    "actualValidator": "jsonschema.Draft202012Validator with FormatChecker",
+    "validatedRecordCount": 5,
+    "rangeMatrixPolicyValidated": true,
+    "programSchemaSha256": "74b5218c3e8b126727ddb15b9830240e9ee0b5a1eb73558c2f6ae138e70934d7",
+    "sampleApprovalSchemaSha256": "7d350ce1d6df57e6ba8fd5a37c689c10bb74ebb2519473fa3aaf400cd23aa194"
+  },
+  "resourceEnvelope": {
+    "imageId": "sha256:df18428df8a0f9189c84e7424d214b4c50092af1f9dca5842a00c41c39bda316",
+    "containerName": "guize-poc003-warm-de8ad3f-v2",
+    "privateRoot": "/tmp/guize-poc003-de8ad3f-v1/warm-cache-v2",
+    "outputDirectory": "warm-cache-supervision-v2",
+    "uid": 1000,
+    "gid": 1000,
+    "cpuCount": 1,
+    "memoryBytes": 536870912,
+    "memorySwapBytes": 536870912,
+    "pidsLimit": 64,
+    "nofileSoft": 256,
+    "nofileHard": 256,
+    "capsDrop": [
+      "ALL"
+    ],
+    "noNewPrivileges": true,
+    "requireBuiltinSeccomp": true,
+    "readonlyRoot": true,
+    "network": "Docker network mode none: isolated loopback only, without host or external networking",
+    "privatePidIpcCgroup": true,
+    "init": false,
+    "autoRemove": false,
+    "logDriver": "Docker logging driver none: host supervisor retains original attached stdout and stderr",
+    "normalRunSeconds": 840,
+    "sharedRunAndCleanupSeconds": 900,
+    "internalLabSeconds": 900,
+    "writableLogicalBytesLimit": 2147483648,
+    "nonCacheLogicalBytesLimit": 1879048192,
+    "individualNonCacheFileBytesLimit": 134217728,
+    "writableFileCountLimit": 5000,
+    "attachedOutputBytesPerStreamLimit": 16777216,
+    "diskEnforcement": "Active stat guard, not a filesystem quota; preserve overshoot/failure facts and stop only the identified owned container.",
+    "hostname": "guize-poc003-warm-de8ad3f-v2",
+    "home": "/home/poc",
+    "independentCleanupGraceSeconds": 60
+  },
+  "freshOfficialFile": "poc003-fresh-warm-v2-start-official.json",
+  "freshResourceFile": "poc003-fresh-warm-v2-start-resources-v1/results.json",
+  "freshOfficialAndResourcesRequiredWithinSeconds": 120,
+  "exclusivePerformanceLockRequired": true,
+  "poc005OrOtherPerformanceOverlapAllowed": false,
+  "maximumExecutionSeconds": 840,
+  "independentCleanupGraceSeconds": 60,
+  "canonicalAssemblyExecutionApproved": false,
+  "warmCacheRevocationExecutionApproved": true,
+  "actualRunAccepted": false,
+  "actualFifteenAccepted": false,
+  "eightMiBBoundProven": false,
+  "formalPocAccepted": false,
+  "publicationApproved": false,
+  "oldD3PublicationApproved": false,
+  "mustFix": [],
+  "evidencePins": [
+    {
+      "ref": ".takeover-tools/run_poc003_fresh_neutral_warm_cache_v3.py",
+      "bytes": 26727,
+      "sha256": "16bde975b9b1fb3e7aed240a11f48a076bf2f57009d82a9dd36abc10b407ce81"
+    },
+    {
+      "ref": ".takeover-tools/poc003_fresh_neutral_warm_cache_entry_v1.py",
+      "bytes": 14461,
+      "sha256": "8c0fe6c15f6ca3ac22cf1fea05156d14b7137cd9fbc84991e80d3607f21b0636"
+    },
+    {
+      "ref": ".takeover-tools/poc003-fresh-neutral-original-matrix-v2-result-independent-review.json",
+      "bytes": 3107,
+      "sha256": "857772f710440c36344f29210fe05bcca2f043473284d8ab7520508eb515ffe2"
+    },
+    {
+      "ref": ".takeover-tools/poc003_common_main7e405b6_revocation_failure_records_v1.py",
+      "bytes": 3145,
+      "sha256": "c56cccaae950f4e3b3c1a6238d155f4c82ea9eef8ed02af47bb10d547f0ad3a8"
+    },
+    {
+      "ref": ".takeover-tools/poc003_disk_guard_atomic_publication_v1.py",
+      "bytes": 2457,
+      "sha256": "b2a992db574b68a92a6535c34438c511654f2095d7aab89a8197e35d787e3c35"
+    },
+    {
+      "ref": ".takeover-tools/observe_poc003_fresh_matrix_warm_v2_resources_readonly.py",
+      "bytes": 3380,
+      "sha256": "f2c7d4ae7dc30268c98087a561f3127fce86c4bb49357693f558b94cffe60a41"
+    },
+    {
+      "ref": ".takeover-tools/poc003-fresh-neutral-compatibility-v3-result-independent-review.json",
+      "bytes": 3095,
+      "sha256": "a3023b51011f46e52606dcb427a45937115e6e9a9d779935e64a287ba5d692cc"
+    },
+    {
+      "ref": ".takeover-tools/poc003-fresh-runtime-supplement-package-v2-independent-review.json",
+      "bytes": 3239,
+      "sha256": "eedee4e2ed8ee102d7861520ed273f5b7ebbaa92b556528fd5506054b8c73b4b"
+    },
+    {
+      "ref": ".takeover-tools/poc003-fresh-config-draft-independent-review-v1.json",
+      "bytes": 3543,
+      "sha256": "4618153efdd900d4a9bcdcfce1a13dc4403e8e548f002ecfec9fc57e5db5c521"
+    },
+    {
+      "ref": ".takeover-tools/poc003-fresh-synthetic-pair-result-independent-review-v1.json",
+      "bytes": 3154,
+      "sha256": "ce2701d7de52e9bd1d13bdc4460b829b857b7b57ba4b8da966bb673e9fd27e0f"
+    },
+    {
+      "ref": ".takeover-tools/poc003-post-completion228-resume-v1-final-source-independent-review.json",
+      "bytes": 10061,
+      "sha256": "bd5201a0948fe51655574f959f79bdf6076921ab41c3887dd456726d099366a0"
+    },
+    {
+      "ref": ".takeover-tools/poc003-fresh-neutral-original-matrix-approval-v2-final/approval.json",
+      "bytes": 13665,
+      "sha256": "ff668a4e359f0327c7ccd71cfb2146908181d83727414d2162008a4b33620c6e"
+    }
+  ],
+  "previousWindowFormalQualificationAccepted": false,
+  "previousWindowDisposition": "Prior original-matrix-v1 and warm-cache-v1 observations and original +00:00 documents remain unchanged. They do not satisfy frozen formal authority UTC admission and are not rebound to this new window.",
+  "frozenSemanticValidation": {
+    "checkerRef": "specs/poc/check_program.py",
+    "checkerSha256": "ee53ccf38e80095fd77ded709aa5dba7808d011a6346e864cd1a9f6482be8cc8",
+    "functionsActuallyInvoked": [
+      "valid_utc_timestamp",
+      "utc",
+      "recorded",
+      "secret_scan"
+    ],
+    "beforeUtcFields": [
+      {
+        "file": "profile-configuration.json",
+        "field": "approvedAt",
+        "value": "2026-11-13T00:14:31.426082Z",
+        "frozenUtcAccepted": true
+      },
+      {
+        "file": "resource-configuration.json",
+        "field": "approvedAt",
+        "value": "2026-11-13T00:14:31.426082Z",
+        "frozenUtcAccepted": true
+      },
+      {
+        "file": "resource-configuration.json",
+        "field": "validFrom",
+        "value": "2026-11-13T00:14:31.426082Z",
+        "frozenUtcAccepted": true
+      },
+      {
+        "file": "resource-configuration.json",
+        "field": "validUntil",
+        "value": "2026-11-13T00:44:31.426082Z",
+        "frozenUtcAccepted": true
+      },
+      {
+        "file": "resource-booking.json",
+        "field": "approvedAt",
+        "value": "2026-11-13T00:14:31.426082Z",
+        "frozenUtcAccepted": true
+      },
+      {
+        "file": "resource-booking.json",
+        "field": "validFrom",
+        "value": "2026-11-13T00:14:31.426082Z",
+        "frozenUtcAccepted": true
+      },
+      {
+        "file": "resource-booking.json",
+        "field": "validUntil",
+        "value": "2026-11-13T00:44:31.426082Z",
+        "frozenUtcAccepted": true
+      },
+      {
+        "file": "sample-approval.json",
+        "field": "approvedAt",
+        "value": "2026-11-13T00:14:31.426082Z",
+        "frozenUtcAccepted": true
+      },
+      {
+        "file": "changed-sample-approval.json",
+        "field": "approvedAt",
+        "value": "2026-11-13T00:14:31.426082Z",
+        "frozenUtcAccepted": true
+      }
+    ],
+    "allBeforeUtcFieldsAccepted": true,
+    "resourceConfigurationRecursivelyRecorded": true,
+    "secretScanErrors": [],
+    "profileMeasurementIdsExactlyMatchCurrentPlan": true,
+    "rangeMatrixPolicySchemaValidated": true,
+    "currentConfigNumericValuesUnchanged": true,
+    "resourceValidityCoversProspectiveGrantWindow": true,
+    "grantUtcFieldsAccepted": true,
+    "actualInternalLabMaximumSeconds": 900,
+    "outerRunMaximumSeconds": 840,
+    "independentCleanupGraceSeconds": 60,
+    "resourceEnvelopeMatchesActualCurrentConfig": true
+  },
+  "freshWarmCacheRevocationExecutionApproved": true,
+  "expectedWarm": {
+    "executedScenarios": 1,
+    "skippedAssertions": 0,
+    "acceptedOwnedEpochs": 2,
+    "deniedStatus": 403,
+    "deniedProtectedBodyBytes": 0,
+    "deniedForwardedRequests": 0,
+    "deniedCacheReads": 0,
+    "deniedOriginReads": 0,
+    "independentPostDenialAllowedHitRequired": true
+  },
+  "profileMeasurementIdsAreBindingContextOnly": true,
+  "profileApprovalScope": "Original15 IDs retained for source/profile binding only. This grant permits only the separate mandatory warm-cache revocation CLI, without matrix rerun.",
+  "predecessorMatrixTerminalRequired": true,
+  "predecessorMatrixTerminalVerified": true,
+  "predecessorMatrixResultReviewFile": "poc003-fresh-neutral-original-matrix-v2-result-independent-review.json",
+  "predecessorMatrixResultReviewSha256": "857772f710440c36344f29210fe05bcca2f043473284d8ab7520508eb515ffe2",
+  "predecessorMatrixRunSha256": "b8d7106665a0282cea79ac0305f5c15c221c003b076592ec96a027b584fffa2b",
+  "predecessorMatrixAuthoritySha256": "ff668a4e359f0327c7ccd71cfb2146908181d83727414d2162008a4b33620c6e",
+  "predecessorMatrixFinishedAt": "2026-11-13T00:11:11.991554+00:00",
+  "predecessorMatrixPerformanceLockMustBeReleased": true,
+  "concurrentMatrixExecutionAllowed": false,
+  "matrixExecutionApproved": false,
+  "actualWarmAccepted": false,
+  "fullOriginal15QualificationApproved": false
+}

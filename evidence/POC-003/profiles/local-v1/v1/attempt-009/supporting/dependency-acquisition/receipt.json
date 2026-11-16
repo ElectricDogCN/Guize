@@ -1,0 +1,70 @@
+{
+  "kind": "ACTUAL_READONLY_MISSING_DEPENDENCY_ACQUISITION",
+  "source": "de8ad3f21df1578eac80e98d798f7adbcdb07d82",
+  "observedAt": "2026-11-12T23:44:21.668697+00:00",
+  "buildContainerId": "ac5eba6738b3f8f5f49ae9e3c49151e5726cadbedc5fb7676a194b32e7917537",
+  "buildImage": "sha256:7da97f743f397971f35dd21cd2d19a7da070a150e0cfa3eda559e71891ec7533",
+  "sourcePath": "/usr/lib/x86_64-linux-gnu/libmaxminddb.so.0",
+  "targetFile": "libmaxminddb.so.0",
+  "bytes": 22520,
+  "sha256": "1d5dccc962dc80967d2fe62a7d9254eb99b2ab885587e1f160b76b1c87d44833",
+  "commands": [
+    {
+      "label": "before-inspect",
+      "argv": [
+        "docker",
+        "container",
+        "inspect",
+        "ac5eba6738b3f8f5f49ae9e3c49151e5726cadbedc5fb7676a194b32e7917537"
+      ],
+      "exitCode": 0,
+      "actualWaitCompleted": true
+    },
+    {
+      "label": "copy",
+      "argv": [
+        "docker",
+        "cp",
+        "-L",
+        "ac5eba6738b3f8f5f49ae9e3c49151e5726cadbedc5fb7676a194b32e7917537:/usr/lib/x86_64-linux-gnu/libmaxminddb.so.0",
+        "/tmp/guize-poc003-de8ad3f-v1/maxmind-dependency-original-v1/libmaxminddb.so.0"
+      ],
+      "exitCode": 0,
+      "actualWaitCompleted": true
+    },
+    {
+      "label": "dependency-dynamic-section",
+      "argv": [
+        "readelf",
+        "-d",
+        "/tmp/guize-poc003-de8ad3f-v1/maxmind-dependency-original-v1/libmaxminddb.so.0"
+      ],
+      "exitCode": 0,
+      "actualWaitCompleted": true
+    },
+    {
+      "label": "header-rewrite-dynamic-section",
+      "argv": [
+        "readelf",
+        "-d",
+        "/tmp/guize-poc003-de8ad3f-v1/runtime-package-v1/runtime/pkgroot/usr/lib/trafficserver/modules/header_rewrite.so"
+      ],
+      "exitCode": 0,
+      "actualWaitCompleted": true
+    },
+    {
+      "label": "after-inspect",
+      "argv": [
+        "docker",
+        "container",
+        "inspect",
+        "ac5eba6738b3f8f5f49ae9e3c49151e5726cadbedc5fb7676a194b32e7917537"
+      ],
+      "exitCode": 0,
+      "actualWaitCompleted": true
+    }
+  ],
+  "containerExecuted": false,
+  "serviceStarted": false,
+  "mediaStarted": false
+}

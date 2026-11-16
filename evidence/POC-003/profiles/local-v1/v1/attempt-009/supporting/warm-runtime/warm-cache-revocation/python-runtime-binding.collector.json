@@ -1,0 +1,208 @@
+{
+  "kind": "ACTUAL_COMPONENT_BYTE_BINDING_NOT_AGGREGATE_MEMORY",
+  "profileId": "cpython31215-linux-x86_64-plain-http-fixed-image-v2",
+  "baseImageReference": "sha256:df18428df8a0f9189c84e7424d214b4c50092af1f9dca5842a00c41c39bda316",
+  "identity": {
+    "version": "3.12.15 (main, Oct  6 2026, 02:02:22) [GCC 14.2.0]",
+    "implementation": "CPython",
+    "cacheTag": "cpython-312",
+    "machine": "x86_64",
+    "pointerBytes": 8,
+    "byteOrder": "little",
+    "openssl": "OpenSSL 3.5.7 9 Jun 2026",
+    "ioDefaultBufferBytes": 8192,
+    "hashBackend": "_hashlib.HASH",
+    "hashName": "sha256",
+    "hashBlockBytes": 64,
+    "hashDigestBytes": 32
+  },
+  "files": {
+    "http.client": {
+      "path": "/usr/local/lib/python3.12/http/client.py",
+      "bytes": 59574,
+      "sha256": "c2c0694155837d72fc710a4138e5d1e53ae1a652b117a2e23a5b1b0db527a0f9",
+      "device": 131,
+      "inode": 1805601
+    },
+    "socket": {
+      "path": "/usr/local/lib/python3.12/socket.py",
+      "bytes": 37815,
+      "sha256": "7d4d4c66e6f4bcc961ab462c4f08002ca97def8713a4be1c7373bdbd970a5274",
+      "device": 131,
+      "inode": 1816709
+    },
+    "socketserver": {
+      "path": "/usr/local/lib/python3.12/socketserver.py",
+      "bytes": 28065,
+      "sha256": "ecbbe1a633801460399a8f10b39007aa0e13cdbdad507e39414000f097b769b5",
+      "device": 131,
+      "inode": 1816713
+    },
+    "_socket": {
+      "path": "/usr/local/lib/python3.12/lib-dynload/_socket.cpython-312-x86_64-linux-gnu.so",
+      "bytes": 104152,
+      "sha256": "3eac65ca6bd75987f0aea2ad7fe43b6354a544f57117f1c2f716cf862f7d26ea",
+      "device": 131,
+      "inode": 1807740
+    },
+    "_hashlib": {
+      "path": "/usr/local/lib/python3.12/lib-dynload/_hashlib.cpython-312-x86_64-linux-gnu.so",
+      "bytes": 64184,
+      "sha256": "fb0751d9c1d28f82f27bff1901df75dc598b5d456316fe4f491e89d65d464d87",
+      "device": 131,
+      "inode": 1807421
+    },
+    "_ssl": {
+      "path": "/usr/local/lib/python3.12/lib-dynload/_ssl.cpython-312-x86_64-linux-gnu.so",
+      "bytes": 212992,
+      "sha256": "6891800dbb9144863d3e1fbcf812694035533c6872a29575f857d5163a8b5c7e",
+      "device": 131,
+      "inode": 1807750
+    },
+    "ctypes": {
+      "path": "/usr/local/lib/python3.12/ctypes/__init__.py",
+      "bytes": 18210,
+      "sha256": "e0db1242e78267cba0124ee9fe5963b72d1c8a1832bb51a88abcf012a9cbce76",
+      "device": 131,
+      "inode": 1804433
+    },
+    "_ctypes": {
+      "path": "/usr/local/lib/python3.12/lib-dynload/_ctypes.cpython-312-x86_64-linux-gnu.so",
+      "bytes": 129536,
+      "sha256": "c4e932d98dd779c09aee18533e04b5c6e5b6214878f3bc0ba867e5559fa5d5d1",
+      "device": 131,
+      "inode": 1807314
+    },
+    "interpreter": {
+      "path": "/usr/local/bin/python3.12",
+      "bytes": 14472,
+      "sha256": "0e6475dfda68a9b2d93501449fc47593ca169010e8f4881577b97463fd0c1263",
+      "device": 131,
+      "inode": 1802345
+    },
+    "libpython3.12.so.1.0": {
+      "path": "/usr/local/lib/libpython3.12.so.1.0",
+      "bytes": 6630672,
+      "sha256": "eb1599eecbe4002798fdcec98d0f4d85dab01afaaa8db89b39c5d30abdb9f5aa",
+      "device": 131,
+      "inode": 1803787
+    },
+    "libcrypto.so.3": {
+      "path": "/usr/lib/x86_64-linux-gnu/libcrypto.so.3",
+      "bytes": 6521408,
+      "sha256": "8ae56f0a9481280a68c19f59809cd242a07a91ad7142944d21a878221992244b",
+      "device": 131,
+      "inode": 329394
+    },
+    "libc.so.6": {
+      "path": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+      "bytes": 1995216,
+      "sha256": "9792e3cbb541c8f44c7acf5f14f4022ea62998ecc787d326bed4d8b6547dfd92",
+      "device": 131,
+      "inode": 329362
+    },
+    "libffi.so.8": {
+      "path": "/usr/lib/x86_64-linux-gnu/libffi.so.8.1.4",
+      "bytes": 47576,
+      "sha256": "922024ec5a23f7de1095b1cff2f6cbfb377b5d58cd51fd0ec2e8fe35427653e2",
+      "device": 131,
+      "inode": 1802283
+    },
+    "openssl.cnf": {
+      "path": "/etc/ssl/openssl.cnf",
+      "bytes": 12411,
+      "sha256": "a65a2cb9f4ee8ffdc7ef4f0ac600c0bdafb95b7b1ab457188ac610a62f5ad6b3",
+      "device": 131,
+      "inode": 1800628
+    }
+  },
+  "crypto": {
+    "opensslInfo": {
+      "configDir": "/usr/lib/ssl",
+      "engineDir": "/usr/lib/x86_64-linux-gnu/engines-3",
+      "moduleDir": "/usr/lib/x86_64-linux-gnu/ossl-modules"
+    },
+    "configuration": {
+      "path": "/etc/ssl/openssl.cnf",
+      "bytes": 12411,
+      "sha256": "a65a2cb9f4ee8ffdc7ef4f0ac600c0bdafb95b7b1ab457188ac610a62f5ad6b3",
+      "activeIncludeCount": 0
+    },
+    "algorithm": {
+      "name": "SHA256",
+      "nid": 672,
+      "provider": "default",
+      "fipsDefaultEnabled": 0,
+      "defaultDigestEnginePresent": false,
+      "names": "SHA2-256:SHA-256:SHA256:2.16.840.1.101.3.4.2.1",
+      "properties": "provider=default",
+      "noCache": 0,
+      "functions": {
+        "1": {
+          "libraryPath": "/usr/lib/x86_64-linux-gnu/libcrypto.so.3",
+          "offsetHex": "0x41cd80"
+        },
+        "3": {
+          "libraryPath": "/usr/lib/x86_64-linux-gnu/libcrypto.so.3",
+          "offsetHex": "0x3a48c0"
+        },
+        "4": {
+          "libraryPath": "/usr/lib/x86_64-linux-gnu/libcrypto.so.3",
+          "offsetHex": "0x41cfc0"
+        },
+        "6": {
+          "libraryPath": "/usr/lib/x86_64-linux-gnu/libcrypto.so.3",
+          "offsetHex": "0x41cbe0"
+        },
+        "7": {
+          "libraryPath": "/usr/lib/x86_64-linux-gnu/libcrypto.so.3",
+          "offsetHex": "0x41c720"
+        },
+        "15": {
+          "libraryPath": "/usr/lib/x86_64-linux-gnu/libcrypto.so.3",
+          "offsetHex": "0x41d2f0"
+        },
+        "8": {
+          "libraryPath": "/usr/lib/x86_64-linux-gnu/libcrypto.so.3",
+          "offsetHex": "0x41c570"
+        },
+        "11": {
+          "libraryPath": "/usr/lib/x86_64-linux-gnu/libcrypto.so.3",
+          "offsetHex": "0x47a690"
+        },
+        "2": {
+          "libraryPath": "/usr/lib/x86_64-linux-gnu/libcrypto.so.3",
+          "offsetHex": "0x41cf90"
+        }
+      }
+    },
+    "resolvedMemcpy": {
+      "libraryPath": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+      "offsetHex": "0x17b800",
+      "libcVersion": "2.41"
+    },
+    "semantics": "Public global-context metadata plus fixed initialization/source binding; no existing HASH object introspection"
+  },
+  "actualMappedNativeComponents": [
+    "_ctypes",
+    "_hashlib",
+    "_socket",
+    "_ssl",
+    "interpreter",
+    "libc.so.6",
+    "libcrypto.so.3",
+    "libffi.so.8",
+    "libpython3.12.so.1.0"
+  ],
+  "mapsSha256": "6215033fec978b580466622698786fbd77215efdda2d5c48768654ed2bff0ade",
+  "mapsRaw": "59e53b765000-59e53b766000 r--p 00000000 00:83 1802345                    /usr/local/bin/python3.12\n59e53b766000-59e53b767000 r-xp 00001000 00:83 1802345                    /usr/local/bin/python3.12\n59e53b767000-59e53b768000 r--p 00002000 00:83 1802345                    /usr/local/bin/python3.12\n59e53b768000-59e53b769000 r--p 00002000 00:83 1802345                    /usr/local/bin/python3.12\n59e53b769000-59e53b76a000 rw-p 00003000 00:83 1802345                    /usr/local/bin/python3.12\n59e545ffe000-59e54698f000 rw-p 00000000 00:00 0                          [heap]\n7e0305fe1000-7e0305fe3000 r--p 00000000 00:83 1802283                    /usr/lib/x86_64-linux-gnu/libffi.so.8.1.4\n7e0305fe3000-7e0305fea000 r-xp 00002000 00:83 1802283                    /usr/lib/x86_64-linux-gnu/libffi.so.8.1.4\n7e0305fea000-7e0305fec000 r--p 00009000 00:83 1802283                    /usr/lib/x86_64-linux-gnu/libffi.so.8.1.4\n7e0305fec000-7e0305fed000 r--p 0000a000 00:83 1802283                    /usr/lib/x86_64-linux-gnu/libffi.so.8.1.4\n7e0305fed000-7e0305fee000 rw-p 0000b000 00:83 1802283                    /usr/lib/x86_64-linux-gnu/libffi.so.8.1.4\n7e0305fee000-7e0305ff4000 r--p 00000000 00:83 1807314                    /usr/local/lib/python3.12/lib-dynload/_ctypes.cpython-312-x86_64-linux-gnu.so\n7e0305ff4000-7e0306004000 r-xp 00006000 00:83 1807314                    /usr/local/lib/python3.12/lib-dynload/_ctypes.cpython-312-x86_64-linux-gnu.so\n7e0306004000-7e030600a000 r--p 00016000 00:83 1807314                    /usr/local/lib/python3.12/lib-dynload/_ctypes.cpython-312-x86_64-linux-gnu.so\n7e030600a000-7e030600b000 r--p 0001b000 00:83 1807314                    /usr/local/lib/python3.12/lib-dynload/_ctypes.cpython-312-x86_64-linux-gnu.so\n7e030600b000-7e030600f000 rw-p 0001c000 00:83 1807314                    /usr/local/lib/python3.12/lib-dynload/_ctypes.cpython-312-x86_64-linux-gnu.so\n7e030600f000-7e0306010000 r--p 00000000 00:83 1807614                    /usr/local/lib/python3.12/lib-dynload/_opcode.cpython-312-x86_64-linux-gnu.so\n7e0306010000-7e0306011000 r-xp 00001000 00:83 1807614                    /usr/local/lib/python3.12/lib-dynload/_opcode.cpython-312-x86_64-linux-gnu.so\n7e0306011000-7e0306012000 r--p 00002000 00:83 1807614                    /usr/local/lib/python3.12/lib-dynload/_opcode.cpython-312-x86_64-linux-gnu.so\n7e0306012000-7e0306013000 r--p 00002000 00:83 1807614                    /usr/local/lib/python3.12/lib-dynload/_opcode.cpython-312-x86_64-linux-gnu.so\n7e0306013000-7e0306014000 rw-p 00003000 00:83 1807614                    /usr/local/lib/python3.12/lib-dynload/_opcode.cpython-312-x86_64-linux-gnu.so\n7e0306014000-7e0306114000 rw-p 00000000 00:00 0 \n7e0306114000-7e0306116000 r--p 00000000 00:83 1807656                    /usr/local/lib/python3.12/lib-dynload/_posixsubprocess.cpython-312-x86_64-linux-gnu.so\n7e0306116000-7e0306119000 r-xp 00002000 00:83 1807656                    /usr/local/lib/python3.12/lib-dynload/_posixsubprocess.cpython-312-x86_64-linux-gnu.so\n7e0306119000-7e030611a000 r--p 00005000 00:83 1807656                    /usr/local/lib/python3.12/lib-dynload/_posixsubprocess.cpython-312-x86_64-linux-gnu.so\n7e030611a000-7e030611b000 r--p 00005000 00:83 1807656                    /usr/local/lib/python3.12/lib-dynload/_posixsubprocess.cpython-312-x86_64-linux-gnu.so\n7e030611b000-7e030611c000 rw-p 00006000 00:83 1807656                    /usr/local/lib/python3.12/lib-dynload/_posixsubprocess.cpython-312-x86_64-linux-gnu.so\n7e030611c000-7e030611d000 r--p 00000000 00:83 1808102                    /usr/local/lib/python3.12/lib-dynload/fcntl.cpython-312-x86_64-linux-gnu.so\n7e030611d000-7e030611f000 r-xp 00001000 00:83 1808102                    /usr/local/lib/python3.12/lib-dynload/fcntl.cpython-312-x86_64-linux-gnu.so\n7e030611f000-7e0306121000 r--p 00003000 00:83 1808102                    /usr/local/lib/python3.12/lib-dynload/fcntl.cpython-312-x86_64-linux-gnu.so\n7e0306121000-7e0306122000 r--p 00004000 00:83 1808102                    /usr/local/lib/python3.12/lib-dynload/fcntl.cpython-312-x86_64-linux-gnu.so\n7e0306122000-7e0306123000 rw-p 00005000 00:83 1808102                    /usr/local/lib/python3.12/lib-dynload/fcntl.cpython-312-x86_64-linux-gnu.so\n7e0306123000-7e0306223000 rw-p 00000000 00:00 0 \n7e0306223000-7e0306227000 r--p 00000000 00:83 329418                     /usr/lib/x86_64-linux-gnu/liblzma.so.5.8.1\n7e0306227000-7e0306246000 r-xp 00004000 00:83 329418                     /usr/lib/x86_64-linux-gnu/liblzma.so.5.8.1\n7e0306246000-7e0306252000 r--p 00023000 00:83 329418                     /usr/lib/x86_64-linux-gnu/liblzma.so.5.8.1\n7e0306252000-7e0306253000 r--p 0002f000 00:83 329418                     /usr/lib/x86_64-linux-gnu/liblzma.so.5.8.1\n7e0306253000-7e0306254000 rw-p 00030000 00:83 329418                     /usr/lib/x86_64-linux-gnu/liblzma.so.5.8.1\n7e0306254000-7e0306257000 r--p 00000000 00:83 1807509                    /usr/local/lib/python3.12/lib-dynload/_lzma.cpython-312-x86_64-linux-gnu.so\n7e0306257000-7e030625b000 r-xp 00003000 00:83 1807509                    /usr/local/lib/python3.12/lib-dynload/_lzma.cpython-312-x86_64-linux-gnu.so\n7e030625b000-7e030625e000 r--p 00007000 00:83 1807509                    /usr/local/lib/python3.12/lib-dynload/_lzma.cpython-312-x86_64-linux-gnu.so\n7e030625e000-7e030625f000 r--p 00009000 00:83 1807509                    /usr/local/lib/python3.12/lib-dynload/_lzma.cpython-312-x86_64-linux-gnu.so\n7e030625f000-7e0306260000 rw-p 0000a000 00:83 1807509                    /usr/local/lib/python3.12/lib-dynload/_lzma.cpython-312-x86_64-linux-gnu.so\n7e0306260000-7e0306262000 r--p 00000000 00:83 329332                     /usr/lib/x86_64-linux-gnu/libbz2.so.1.0.4\n7e0306262000-7e030626f000 r-xp 00002000 00:83 329332                     /usr/lib/x86_64-linux-gnu/libbz2.so.1.0.4\n7e030626f000-7e0306271000 r--p 0000f000 00:83 329332                     /usr/lib/x86_64-linux-gnu/libbz2.so.1.0.4\n7e0306271000-7e0306272000 r--p 00010000 00:83 329332                     /usr/lib/x86_64-linux-gnu/libbz2.so.1.0.4\n7e0306272000-7e0306273000 rw-p 00011000 00:83 329332                     /usr/lib/x86_64-linux-gnu/libbz2.so.1.0.4\n7e0306273000-7e0306275000 r--p 00000000 00:83 1807045                    /usr/local/lib/python3.12/lib-dynload/_bz2.cpython-312-x86_64-linux-gnu.so\n7e0306275000-7e0306277000 r-xp 00002000 00:83 1807045                    /usr/local/lib/python3.12/lib-dynload/_bz2.cpython-312-x86_64-linux-gnu.so\n7e0306277000-7e0306279000 r--p 00004000 00:83 1807045                    /usr/local/lib/python3.12/lib-dynload/_bz2.cpython-312-x86_64-linux-gnu.so\n7e0306279000-7e030627a000 r--p 00005000 00:83 1807045                    /usr/local/lib/python3.12/lib-dynload/_bz2.cpython-312-x86_64-linux-gnu.so\n7e030627a000-7e030627b000 rw-p 00006000 00:83 1807045                    /usr/local/lib/python3.12/lib-dynload/_bz2.cpython-312-x86_64-linux-gnu.so\n7e030627b000-7e030627e000 r--p 00000000 00:83 1808268                    /usr/local/lib/python3.12/lib-dynload/zlib.cpython-312-x86_64-linux-gnu.so\n7e030627e000-7e0306283000 r-xp 00003000 00:83 1808268                    /usr/local/lib/python3.12/lib-dynload/zlib.cpython-312-x86_64-linux-gnu.so\n7e0306283000-7e0306286000 r--p 00008000 00:83 1808268                    /usr/local/lib/python3.12/lib-dynload/zlib.cpython-312-x86_64-linux-gnu.so\n7e0306286000-7e0306287000 r--p 0000a000 00:83 1808268                    /usr/local/lib/python3.12/lib-dynload/zlib.cpython-312-x86_64-linux-gnu.so\n7e0306287000-7e0306288000 rw-p 0000b000 00:83 1808268                    /usr/local/lib/python3.12/lib-dynload/zlib.cpython-312-x86_64-linux-gnu.so\n7e0306288000-7e0306488000 rw-p 00000000 00:00 0 \n7e0306488000-7e030648a000 r--p 00000000 00:83 329470                     /usr/lib/x86_64-linux-gnu/libuuid.so.1.3.0\n7e030648a000-7e030648f000 r-xp 00002000 00:83 329470                     /usr/lib/x86_64-linux-gnu/libuuid.so.1.3.0\n7e030648f000-7e0306490000 r--p 00007000 00:83 329470                     /usr/lib/x86_64-linux-gnu/libuuid.so.1.3.0\n7e0306490000-7e0306491000 r--p 00008000 00:83 329470                     /usr/lib/x86_64-linux-gnu/libuuid.so.1.3.0\n7e0306491000-7e0306492000 rw-p 00009000 00:83 329470                     /usr/lib/x86_64-linux-gnu/libuuid.so.1.3.0\n7e0306492000-7e0306493000 r--p 00000000 00:83 1807974                    /usr/local/lib/python3.12/lib-dynload/_uuid.cpython-312-x86_64-linux-gnu.so\n7e0306493000-7e0306494000 r-xp 00001000 00:83 1807974                    /usr/local/lib/python3.12/lib-dynload/_uuid.cpython-312-x86_64-linux-gnu.so\n7e0306494000-7e0306495000 r--p 00002000 00:83 1807974                    /usr/local/lib/python3.12/lib-dynload/_uuid.cpython-312-x86_64-linux-gnu.so\n7e0306495000-7e0306496000 r--p 00002000 00:83 1807974                    /usr/local/lib/python3.12/lib-dynload/_uuid.cpython-312-x86_64-linux-gnu.so\n7e0306496000-7e0306497000 rw-p 00003000 00:83 1807974                    /usr/local/lib/python3.12/lib-dynload/_uuid.cpython-312-x86_64-linux-gnu.so\n7e0306497000-7e0306499000 r--p 00000000 00:83 1807432                    /usr/local/lib/python3.12/lib-dynload/_json.cpython-312-x86_64-linux-gnu.so\n7e0306499000-7e030649e000 r-xp 00002000 00:83 1807432                    /usr/local/lib/python3.12/lib-dynload/_json.cpython-312-x86_64-linux-gnu.so\n7e030649e000-7e03064a0000 r--p 00007000 00:83 1807432                    /usr/local/lib/python3.12/lib-dynload/_json.cpython-312-x86_64-linux-gnu.so\n7e03064a0000-7e03064a1000 r--p 00008000 00:83 1807432                    /usr/local/lib/python3.12/lib-dynload/_json.cpython-312-x86_64-linux-gnu.so\n7e03064a1000-7e03064a2000 rw-p 00009000 00:83 1807432                    /usr/local/lib/python3.12/lib-dynload/_json.cpython-312-x86_64-linux-gnu.so\n7e03064a2000-7e03064c5000 r--p 00000000 00:83 329456                     /usr/lib/x86_64-linux-gnu/libssl.so.3\n7e03064c5000-7e0306570000 r-xp 00023000 00:83 329456                     /usr/lib/x86_64-linux-gnu/libssl.so.3\n7e0306570000-7e03065a3000 r--p 000ce000 00:83 329456                     /usr/lib/x86_64-linux-gnu/libssl.so.3\n7e03065a3000-7e03065ae000 r--p 00100000 00:83 329456                     /usr/lib/x86_64-linux-gnu/libssl.so.3\n7e03065ae000-7e03065b2000 rw-p 0010b000 00:83 329456                     /usr/lib/x86_64-linux-gnu/libssl.so.3\n7e03065b2000-7e03065c4000 r--p 00000000 00:83 1807750                    /usr/local/lib/python3.12/lib-dynload/_ssl.cpython-312-x86_64-linux-gnu.so\n7e03065c4000-7e03065cf000 r-xp 00012000 00:83 1807750                    /usr/local/lib/python3.12/lib-dynload/_ssl.cpython-312-x86_64-linux-gnu.so\n7e03065cf000-7e03065dd000 r--p 0001d000 00:83 1807750                    /usr/local/lib/python3.12/lib-dynload/_ssl.cpython-312-x86_64-linux-gnu.so\n7e03065dd000-7e03065de000 r--p 0002a000 00:83 1807750                    /usr/local/lib/python3.12/lib-dynload/_ssl.cpython-312-x86_64-linux-gnu.so\n7e03065de000-7e03065e7000 rw-p 0002b000 00:83 1807750                    /usr/local/lib/python3.12/lib-dynload/_ssl.cpython-312-x86_64-linux-gnu.so\n7e03065e7000-7e03066e7000 rw-p 00000000 00:00 0 \n7e03066e7000-7e03066ec000 r--p 00000000 00:83 1807330                    /usr/local/lib/python3.12/lib-dynload/_datetime.cpython-312-x86_64-linux-gnu.so\n7e03066ec000-7e03066f9000 r-xp 00005000 00:83 1807330                    /usr/local/lib/python3.12/lib-dynload/_datetime.cpython-312-x86_64-linux-gnu.so\n7e03066f9000-7e03066fe000 r--p 00012000 00:83 1807330                    /usr/local/lib/python3.12/lib-dynload/_datetime.cpython-312-x86_64-linux-gnu.so\n7e03066fe000-7e03066ff000 r--p 00017000 00:83 1807330                    /usr/local/lib/python3.12/lib-dynload/_datetime.cpython-312-x86_64-linux-gnu.so\n7e03066ff000-7e0306702000 rw-p 00018000 00:83 1807330                    /usr/local/lib/python3.12/lib-dynload/_datetime.cpython-312-x86_64-linux-gnu.so\n7e0306702000-7e0306706000 r--p 00000000 00:83 1808053                    /usr/local/lib/python3.12/lib-dynload/array.cpython-312-x86_64-linux-gnu.so\n7e0306706000-7e030670d000 r-xp 00004000 00:83 1808053                    /usr/local/lib/python3.12/lib-dynload/array.cpython-312-x86_64-linux-gnu.so\n7e030670d000-7e0306711000 r--p 0000b000 00:83 1808053                    /usr/local/lib/python3.12/lib-dynload/array.cpython-312-x86_64-linux-gnu.so\n7e0306711000-7e0306712000 r--p 0000f000 00:83 1808053                    /usr/local/lib/python3.12/lib-dynload/array.cpython-312-x86_64-linux-gnu.so\n7e0306712000-7e0306713000 rw-p 00010000 00:83 1808053                    /usr/local/lib/python3.12/lib-dynload/array.cpython-312-x86_64-linux-gnu.so\n7e0306713000-7e0306715000 r--p 00000000 00:83 1808214                    /usr/local/lib/python3.12/lib-dynload/select.cpython-312-x86_64-linux-gnu.so\n7e0306715000-7e0306718000 r-xp 00002000 00:83 1808214                    /usr/local/lib/python3.12/lib-dynload/select.cpython-312-x86_64-linux-gnu.so\n7e0306718000-7e030671a000 r--p 00005000 00:83 1808214                    /usr/local/lib/python3.12/lib-dynload/select.cpython-312-x86_64-linux-gnu.so\n7e030671a000-7e030671b000 r--p 00006000 00:83 1808214                    /usr/local/lib/python3.12/lib-dynload/select.cpython-312-x86_64-linux-gnu.so\n7e030671b000-7e030671c000 rw-p 00007000 00:83 1808214                    /usr/local/lib/python3.12/lib-dynload/select.cpython-312-x86_64-linux-gnu.so\n7e030671c000-7e0306720000 r--p 00000000 00:83 1807740                    /usr/local/lib/python3.12/lib-dynload/_socket.cpython-312-x86_64-linux-gnu.so\n7e0306720000-7e030672b000 r-xp 00004000 00:83 1807740                    /usr/local/lib/python3.12/lib-dynload/_socket.cpython-312-x86_64-linux-gnu.so\n7e030672b000-7e0306734000 r--p 0000f000 00:83 1807740                    /usr/local/lib/python3.12/lib-dynload/_socket.cpython-312-x86_64-linux-gnu.so\n7e0306734000-7e0306735000 r--p 00017000 00:83 1807740                    /usr/local/lib/python3.12/lib-dynload/_socket.cpython-312-x86_64-linux-gnu.so\n7e0306735000-7e0306736000 rw-p 00018000 00:83 1807740                    /usr/local/lib/python3.12/lib-dynload/_socket.cpython-312-x86_64-linux-gnu.so\n7e0306736000-7e0306738000 r--p 00000000 00:83 1807734                    /usr/local/lib/python3.12/lib-dynload/_sha2.cpython-312-x86_64-linux-gnu.so\n7e0306738000-7e0306746000 r-xp 00002000 00:83 1807734                    /usr/local/lib/python3.12/lib-dynload/_sha2.cpython-312-x86_64-linux-gnu.so\n7e0306746000-7e0306748000 r--p 00010000 00:83 1807734                    /usr/local/lib/python3.12/lib-dynload/_sha2.cpython-312-x86_64-linux-gnu.so\n7e0306748000-7e0306749000 r--p 00011000 00:83 1807734                    /usr/local/lib/python3.12/lib-dynload/_sha2.cpython-312-x86_64-linux-gnu.so\n7e0306749000-7e030674a000 rw-p 00012000 00:83 1807734                    /usr/local/lib/python3.12/lib-dynload/_sha2.cpython-312-x86_64-linux-gnu.so\n7e030674a000-7e030674c000 r--p 00000000 00:83 1807667                    /usr/local/lib/python3.12/lib-dynload/_random.cpython-312-x86_64-linux-gnu.so\n7e030674c000-7e030674e000 r-xp 00002000 00:83 1807667                    /usr/local/lib/python3.12/lib-dynload/_random.cpython-312-x86_64-linux-gnu.so\n7e030674e000-7e030674f000 r--p 00004000 00:83 1807667                    /usr/local/lib/python3.12/lib-dynload/_random.cpython-312-x86_64-linux-gnu.so\n7e030674f000-7e0306750000 r--p 00004000 00:83 1807667                    /usr/local/lib/python3.12/lib-dynload/_random.cpython-312-x86_64-linux-gnu.so\n7e0306750000-7e0306751000 rw-p 00005000 00:83 1807667                    /usr/local/lib/python3.12/lib-dynload/_random.cpython-312-x86_64-linux-gnu.so\n7e0306751000-7e0306753000 r--p 00000000 00:83 1807043                    /usr/local/lib/python3.12/lib-dynload/_bisect.cpython-312-x86_64-linux-gnu.so\n7e0306753000-7e0306755000 r-xp 00002000 00:83 1807043                    /usr/local/lib/python3.12/lib-dynload/_bisect.cpython-312-x86_64-linux-gnu.so\n7e0306755000-7e0306756000 r--p 00004000 00:83 1807043                    /usr/local/lib/python3.12/lib-dynload/_bisect.cpython-312-x86_64-linux-gnu.so\n7e0306756000-7e0306757000 r--p 00004000 00:83 1807043                    /usr/local/lib/python3.12/lib-dynload/_bisect.cpython-312-x86_64-linux-gnu.so\n7e0306757000-7e0306758000 rw-p 00005000 00:83 1807043                    /usr/local/lib/python3.12/lib-dynload/_bisect.cpython-312-x86_64-linux-gnu.so\n7e0306758000-7e030675b000 r--p 00000000 00:83 1808117                    /usr/local/lib/python3.12/lib-dynload/math.cpython-312-x86_64-linux-gnu.so\n7e030675b000-7e0306763000 r-xp 00003000 00:83 1808117                    /usr/local/lib/python3.12/lib-dynload/math.cpython-312-x86_64-linux-gnu.so\n7e0306763000-7e0306768000 r--p 0000b000 00:83 1808117                    /usr/local/lib/python3.12/lib-dynload/math.cpython-312-x86_64-linux-gnu.so\n7e0306768000-7e0306769000 r--p 0000f000 00:83 1808117                    /usr/local/lib/python3.12/lib-dynload/math.cpython-312-x86_64-linux-gnu.so\n7e0306769000-7e030676a000 rw-p 00010000 00:83 1808117                    /usr/local/lib/python3.12/lib-dynload/math.cpython-312-x86_64-linux-gnu.so\n7e030676a000-7e030676d000 r--p 00000000 00:83 1807785                    /usr/local/lib/python3.12/lib-dynload/_struct.cpython-312-x86_64-linux-gnu.so\n7e030676d000-7e0306772000 r-xp 00003000 00:83 1807785                    /usr/local/lib/python3.12/lib-dynload/_struct.cpython-312-x86_64-linux-gnu.so\n7e0306772000-7e0306775000 r--p 00008000 00:83 1807785                    /usr/local/lib/python3.12/lib-dynload/_struct.cpython-312-x86_64-linux-gnu.so\n7e0306775000-7e0306776000 r--p 0000b000 00:83 1807785                    /usr/local/lib/python3.12/lib-dynload/_struct.cpython-312-x86_64-linux-gnu.so\n7e0306776000-7e0306777000 rw-p 0000c000 00:83 1807785                    /usr/local/lib/python3.12/lib-dynload/_struct.cpython-312-x86_64-linux-gnu.so\n7e0306777000-7e0306779000 r--p 00000000 00:83 1808086                    /usr/local/lib/python3.12/lib-dynload/binascii.cpython-312-x86_64-linux-gnu.so\n7e0306779000-7e030677c000 r-xp 00002000 00:83 1808086                    /usr/local/lib/python3.12/lib-dynload/binascii.cpython-312-x86_64-linux-gnu.so\n7e030677c000-7e030677e000 r--p 00005000 00:83 1808086                    /usr/local/lib/python3.12/lib-dynload/binascii.cpython-312-x86_64-linux-gnu.so\n7e030677e000-7e030677f000 r--p 00006000 00:83 1808086                    /usr/local/lib/python3.12/lib-dynload/binascii.cpython-312-x86_64-linux-gnu.so\n7e030677f000-7e0306780000 rw-p 00007000 00:83 1808086                    /usr/local/lib/python3.12/lib-dynload/binascii.cpython-312-x86_64-linux-gnu.so\n7e0306780000-7e0306782000 r--p 00000000 00:83 1807044                    /usr/local/lib/python3.12/lib-dynload/_blake2.cpython-312-x86_64-linux-gnu.so\n7e0306782000-7e0306789000 r-xp 00002000 00:83 1807044                    /usr/local/lib/python3.12/lib-dynload/_blake2.cpython-312-x86_64-linux-gnu.so\n7e0306789000-7e030678b000 r--p 00009000 00:83 1807044                    /usr/local/lib/python3.12/lib-dynload/_blake2.cpython-312-x86_64-linux-gnu.so\n7e030678b000-7e030678c000 r--p 0000a000 00:83 1807044                    /usr/local/lib/python3.12/lib-dynload/_blake2.cpython-312-x86_64-linux-gnu.so\n7e030678c000-7e030678d000 rw-p 0000b000 00:83 1807044                    /usr/local/lib/python3.12/lib-dynload/_blake2.cpython-312-x86_64-linux-gnu.so\n7e030678d000-7e0306792000 r--p 00000000 00:83 329476                     /usr/lib/x86_64-linux-gnu/libzstd.so.1.5.7\n7e0306792000-7e0306841000 r-xp 00005000 00:83 329476                     /usr/lib/x86_64-linux-gnu/libzstd.so.1.5.7\n7e0306841000-7e0306855000 r--p 000b4000 00:83 329476                     /usr/lib/x86_64-linux-gnu/libzstd.so.1.5.7\n7e0306855000-7e0306856000 r--p 000c8000 00:83 329476                     /usr/lib/x86_64-linux-gnu/libzstd.so.1.5.7\n7e0306856000-7e0306857000 rw-p 000c9000 00:83 329476                     /usr/lib/x86_64-linux-gnu/libzstd.so.1.5.7\n7e0306857000-7e030685a000 r--p 00000000 00:83 329474                     /usr/lib/x86_64-linux-gnu/libz.so.1.3.1\n7e030685a000-7e030686e000 r-xp 00003000 00:83 329474                     /usr/lib/x86_64-linux-gnu/libz.so.1.3.1\n7e030686e000-7e0306875000 r--p 00017000 00:83 329474                     /usr/lib/x86_64-linux-gnu/libz.so.1.3.1\n7e0306875000-7e0306876000 r--p 0001d000 00:83 329474                     /usr/lib/x86_64-linux-gnu/libz.so.1.3.1\n7e0306876000-7e0306877000 rw-p 0001e000 00:83 329474                     /usr/lib/x86_64-linux-gnu/libz.so.1.3.1\n7e0306877000-7e030696e000 r--p 00000000 00:83 329394                     /usr/lib/x86_64-linux-gnu/libcrypto.so.3\n7e030696e000-7e0306cf2000 r-xp 000f7000 00:83 329394                     /usr/lib/x86_64-linux-gnu/libcrypto.so.3\n7e0306cf2000-7e0306e29000 r--p 0047b000 00:83 329394                     /usr/lib/x86_64-linux-gnu/libcrypto.so.3\n7e0306e29000-7e0306eac000 r--p 005b2000 00:83 329394                     /usr/lib/x86_64-linux-gnu/libcrypto.so.3\n7e0306eac000-7e0306eaf000 rw-p 00635000 00:83 329394                     /usr/lib/x86_64-linux-gnu/libcrypto.so.3\n7e0306eaf000-7e0306eb2000 rw-p 00000000 00:00 0 \n7e0306eb4000-7e0306eb8000 r--p 00000000 00:83 1807421                    /usr/local/lib/python3.12/lib-dynload/_hashlib.cpython-312-x86_64-linux-gnu.so\n7e0306eb8000-7e0306ebe000 r-xp 00004000 00:83 1807421                    /usr/local/lib/python3.12/lib-dynload/_hashlib.cpython-312-x86_64-linux-gnu.so\n7e0306ebe000-7e0306ec2000 r--p 0000a000 00:83 1807421                    /usr/local/lib/python3.12/lib-dynload/_hashlib.cpython-312-x86_64-linux-gnu.so\n7e0306ec2000-7e0306ec3000 r--p 0000d000 00:83 1807421                    /usr/local/lib/python3.12/lib-dynload/_hashlib.cpython-312-x86_64-linux-gnu.so\n7e0306ec3000-7e0306ec5000 rw-p 0000e000 00:83 1807421                    /usr/local/lib/python3.12/lib-dynload/_hashlib.cpython-312-x86_64-linux-gnu.so\n7e0306ec5000-7e030732b000 rw-p 00000000 00:00 0 \n7e030732b000-7e0307332000 r--s 00000000 00:83 329267                     /usr/lib/x86_64-linux-gnu/gconv/gconv-modules.cache\n7e0307332000-7e030738c000 r--p 00000000 00:83 273020                     /usr/lib/locale/C.utf8/LC_CTYPE\n7e030738c000-7e030738e000 rw-p 00000000 00:00 0 \n7e030738e000-7e030739f000 r--p 00000000 00:83 329419                     /usr/lib/x86_64-linux-gnu/libm.so.6\n7e030739f000-7e030741c000 r-xp 00011000 00:83 329419                     /usr/lib/x86_64-linux-gnu/libm.so.6\n7e030741c000-7e030747c000 r--p 0008e000 00:83 329419                     /usr/lib/x86_64-linux-gnu/libm.so.6\n7e030747c000-7e030747d000 r--p 000ed000 00:83 329419                     /usr/lib/x86_64-linux-gnu/libm.so.6\n7e030747d000-7e030747e000 rw-p 000ee000 00:83 329419                     /usr/lib/x86_64-linux-gnu/libm.so.6\n7e030747e000-7e03074a6000 r--p 00000000 00:83 329362                     /usr/lib/x86_64-linux-gnu/libc.so.6\n7e03074a6000-7e0307609000 r-xp 00028000 00:83 329362                     /usr/lib/x86_64-linux-gnu/libc.so.6\n7e0307609000-7e030765f000 r--p 0018b000 00:83 329362                     /usr/lib/x86_64-linux-gnu/libc.so.6\n7e030765f000-7e0307663000 r--p 001e0000 00:83 329362                     /usr/lib/x86_64-linux-gnu/libc.so.6\n7e0307663000-7e0307665000 rw-p 001e4000 00:83 329362                     /usr/lib/x86_64-linux-gnu/libc.so.6\n7e0307665000-7e0307673000 rw-p 00000000 00:00 0 \n7e0307673000-7e0307674000 rw-p 00000000 00:00 0 \n7e0307674000-7e0307774000 r--p 00000000 00:83 1803787                    /usr/local/lib/libpython3.12.so.1.0\n7e0307774000-7e0307993000 r-xp 00100000 00:83 1803787                    /usr/local/lib/libpython3.12.so.1.0\n7e0307993000-7e0307ae2000 r--p 0031f000 00:83 1803787                    /usr/local/lib/libpython3.12.so.1.0\n7e0307ae2000-7e0307b59000 r--p 0046d000 00:83 1803787                    /usr/local/lib/libpython3.12.so.1.0\n7e0307b59000-7e0307cc8000 rw-p 004e4000 00:83 1803787                    /usr/local/lib/libpython3.12.so.1.0\n7e0307cc8000-7e0307ccb000 rw-p 00000000 00:00 0 \n7e0307ccb000-7e0307ccf000 r--p 00000000 00:00 0                          [vvar]\n7e0307ccf000-7e0307cd1000 r--p 00000000 00:00 0                          [vvar_vclock]\n7e0307cd1000-7e0307cd3000 r-xp 00000000 00:00 0                          [vdso]\n7e0307cd3000-7e0307cd4000 r--p 00000000 00:83 329276                     /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2\n7e0307cd4000-7e0307cfc000 r-xp 00001000 00:83 329276                     /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2\n7e0307cfc000-7e0307d07000 r--p 00029000 00:83 329276                     /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2\n7e0307d07000-7e0307d09000 r--p 00034000 00:83 329276                     /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2\n7e0307d09000-7e0307d0a000 rw-p 00036000 00:83 329276                     /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2\n7e0307d0a000-7e0307d0b000 rw-p 00000000 00:00 0 \n7fff5df7c000-7fff5df9d000 rw-p 00000000 00:00 0                          [stack]\n",
+  "uid": 1000,
+  "pid": 49,
+  "componentBytesBound": true,
+  "processStartTicks": 1785974,
+  "observedAt": "2026-11-13T00:15:44.728941Z",
+  "aggregateCapacityProofComplete": false,
+  "sourceQualified": false,
+  "formalPocAccepted": false,
+  "profileSha256": "0830b95ad06d0a108cb474afb4888526f8c2d785644a219efaa194b3a886324e"
+}

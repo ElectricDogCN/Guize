@@ -1,0 +1,101 @@
+{
+  "schemaVersion": 1,
+  "kind": "PROSPECTIVE_NATIVE_MATRIX009_EXISTING_RAW_RECORD_ASSEMBLY_ONLY",
+  "approvedBy": "/root/independent_review",
+  "reviewer": "/root/independent_review",
+  "approvedAt": "2026-11-13T01:11:18.781498Z",
+  "validFrom": "2026-11-13T01:11:18.781498Z",
+  "validUntil": "2026-11-13T01:41:18.781498Z",
+  "source": "de8ad3f21df1578eac80e98d798f7adbcdb07d82",
+  "tree": "ce6f3e09ec72b88ddabf49e75d41b4159e36fdb9",
+  "recordAssemblyApproved": true,
+  "maximumActualAttempts": 1,
+  "assemblerSha256": "002834ea1b67103187b1424c7092a71c791cd8f41400961236e2d6f7e8e108b8",
+  "matrixApprovalSha256": "d9b939ec36738d56534a7688eaede804fe41d75f319cd91bedb49609058f71c3",
+  "matrixRunSha256": "df73847d5ce8c190b61ba24a12c7f60ed948bdb451b2019b9d54b4611874b620",
+  "matrixResultReview": {
+    "file": "poc003-native-original-matrix009-result-independent-review.json",
+    "sha256": "ada58d85b3a6c323c8369dc149446ceab14083ebe82e49c500ae7ed7d3e05781",
+    "acceptedField": "rawMatrixCollectionAccepted"
+  },
+  "compatibilityReview": {
+    "file": "poc003-fresh-neutral-compatibility-v3-result-independent-review.json",
+    "sha256": "a3023b51011f46e52606dcb427a45937115e6e9a9d779935e64a287ba5d692cc",
+    "acceptedField": "controlCompatibilityAccepted"
+  },
+  "warmResultReview": {
+    "file": "poc003-fresh-neutral-warm-cache-v2-result-independent-review.json",
+    "sha256": "493fea7e7db10e37ee5d129974aa23cdfb0789f1fbcde3c238d745ed3371f667",
+    "acceptedField": "warmCacheRevocationAccepted"
+  },
+  "canonicalPrefix": "evidence/POC-003/profiles/local-v1/v1/attempt-009",
+  "targetResultRepo": "/tmp/guize-poc003-de8ad3f-v1/result-repo-v1",
+  "initialHeadRequired": "de8ad3f21df1578eac80e98d798f7adbcdb07d82",
+  "initialBranchRequired": "chore/POC-003-qualified-lfs-evidence-v2",
+  "initialRepoVerifiedClean": true,
+  "initialTargetVerifiedAbsent": true,
+  "scope": "Only read exact completed native matrix009 raw, its original five prospective before records, immutable P2 and qualified R source; derive and write Own attempt-009 in the fixed separate local result checkout. No service, probe, media, branch operation or publication.",
+  "preserveOriginalBeforeAuthorityBytes": true,
+  "originalBeforeAuthorityFrozenZRequired": true,
+  "preserveActualExperimentWindow": true,
+  "postRunTimestampReconciliationAllowed": false,
+  "oldWindowRawReuseAllowed": false,
+  "oldD3ReuseAllowed": false,
+  "canonicalRawRetentionMaximumBytes": 2147483648,
+  "originalEightMiBThresholdBytes": 8388608,
+  "originalMeasurementCount": 15,
+  "typedRecordCount": 57,
+  "actualOwnedEpochCount": 26,
+  "frozenRecordValidationAllowed": true,
+  "commitApproved": false,
+  "probeExecutionApproved": false,
+  "serviceExecutionApproved": false,
+  "mediaExecutionApproved": false,
+  "matrixExecutionApproved": false,
+  "warmExecutionApproved": false,
+  "formalResultPassApproved": false,
+  "formalPocAccepted": false,
+  "publicationApproved": false,
+  "oldD3PublicationApproved": false,
+  "mustFix": [],
+  "evidencePins": [
+    {
+      "ref": ".takeover-tools/poc003_native_execution_assembler009_v1.py",
+      "bytes": 24663,
+      "sha256": "002834ea1b67103187b1424c7092a71c791cd8f41400961236e2d6f7e8e108b8"
+    },
+    {
+      "ref": ".takeover-tools/poc003-native-original-matrix009-result-independent-review.json",
+      "bytes": 3131,
+      "sha256": "ada58d85b3a6c323c8369dc149446ceab14083ebe82e49c500ae7ed7d3e05781"
+    },
+    {
+      "ref": ".takeover-tools/poc003-fresh-neutral-compatibility-v3-result-independent-review.json",
+      "bytes": 3095,
+      "sha256": "a3023b51011f46e52606dcb427a45937115e6e9a9d779935e64a287ba5d692cc"
+    },
+    {
+      "ref": ".takeover-tools/poc003-fresh-neutral-warm-cache-v2-result-independent-review.json",
+      "bytes": 3938,
+      "sha256": "493fea7e7db10e37ee5d129974aa23cdfb0789f1fbcde3c238d745ed3371f667"
+    },
+    {
+      "ref": ".takeover-tools/poc003-native-original-matrix009-approval-v1/approval.json",
+      "bytes": 16099,
+      "sha256": "d9b939ec36738d56534a7688eaede804fe41d75f319cd91bedb49609058f71c3"
+    },
+    {
+      "ref": ".takeover-tools/poc003-fresh-neutral-warm-cache-approval-v2/approval.json",
+      "bytes": 14820,
+      "sha256": "ab5d534e4bd73cffbd0b646df9c8002f61e2e36fff45ac681e4576b0192da372"
+    },
+    {
+      "ref": ".takeover-tools/poc003-fresh-runtime-supplement-package-v2-independent-review.json",
+      "bytes": 3239,
+      "sha256": "eedee4e2ed8ee102d7861520ed273f5b7ebbaa92b556528fd5506054b8c73b4b"
+    }
+  ],
+  "retainedWarmAuthorityDisposition": "Independent warm493fea remains under its original ab5d before/window; no re-execution, timestamp transfer or inclusion in the matrix009 execution window.",
+  "priorAssemblyDisposition": "Attempt008 17d728 grant was consumed and failed; its partial originals remain preserved. It grants no authority for attempt009.",
+  "frozenValidationPrerequisite": "Referenced evidence must be normally staged/tracked before the frozen qualified-source validator is run; no bypass of tracked-evidence checks is authorized."
+}

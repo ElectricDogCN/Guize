@@ -1,0 +1,92 @@
+{
+  "requestId": "5a75c67fb6e649e5ad329902f8096e7f",
+  "case": "revocation",
+  "userId": "lab-user-a",
+  "url": "http://127.0.0.1:18233/media/object.bin",
+  "sourceVersion": "base",
+  "sourceSha256": "9a30d2bb1a4f1eabcb41baa5b6518628411ba8ac668fc1e7085983261aa5f419",
+  "aclVersion": "guize-fresh-de8ad3f-v1-acl",
+  "authorizationContext": "c958fb55415248c5f2f2247db7e41e0c",
+  "requestRange": "bytes=0-7",
+  "ifRange": "",
+  "bodyRef": "bodies/revocation-5a75c67fb6e649e5ad329902f8096e7f.bin",
+  "configuredOriginFault": null,
+  "collectorRetryCount": 0,
+  "statusCode": 403,
+  "responseHeaders": [
+    [
+      "Server",
+      "BaseHTTP/0.6 Python/3.12.15"
+    ],
+    [
+      "Date",
+      "Fri, 13 Nov 2026 00:15:45 GMT"
+    ],
+    [
+      "Content-Length",
+      "0"
+    ],
+    [
+      "Cache-Control",
+      "no-store"
+    ],
+    [
+      "Connection",
+      "close"
+    ]
+  ],
+  "firstResponseByteAt": "2026-11-13T00:15:45.123361Z",
+  "firstResponseByteLatencyMs": 4.470645999390399,
+  "responseHeadersAt": "2026-11-13T00:15:45.123477Z",
+  "firstBodyByteAt": null,
+  "firstBodyByteLatencyMs": null,
+  "firstBodyChunkAt": null,
+  "finishedAt": "2026-11-13T00:15:45.123600Z",
+  "bodyBytes": 0,
+  "clientChunkPeak": 0,
+  "transportCompleted": true,
+  "originObservation": {
+    "requestId": "5a75c67fb6e649e5ad329902f8096e7f",
+    "observedAt": "2026-11-13T00:15:45.280555Z",
+    "originRequestCount": 0,
+    "objectReadCount": 0,
+    "objectReadBytes": 0,
+    "activeOriginRequests": 0,
+    "originTransactions": [],
+    "gatewayTransactions": [
+      {
+        "requestId": "5a75c67fb6e649e5ad329902f8096e7f",
+        "case": "revocation",
+        "startedAt": "2026-11-13T00:15:45.123205Z",
+        "userId": "lab-user-a",
+        "sourceVersion": "base",
+        "aclVersion": "guize-fresh-de8ad3f-v1-acl",
+        "requestRange": "bytes=0-7",
+        "ifRange": "",
+        "atsRequestSent": false,
+        "responseByteCount": 0,
+        "gatewayChunkPeak": 0,
+        "grantObservation": {
+          "grantId": "poc003-grant-lab-user-a",
+          "principalId": "lab-user-a",
+          "validFrom": "2026-11-13T00:15:38.445268Z",
+          "validUntil": "2026-11-13T00:35:43.445268Z",
+          "revokedAt": "2026-11-13T00:15:45.118247Z",
+          "authorizedAt": "2026-11-13T00:15:45.123240Z",
+          "reason": "revoked"
+        },
+        "statusCode": 403,
+        "denialReason": "revoked",
+        "finishedAt": "2026-11-13T00:15:45.123355Z"
+      }
+    ]
+  },
+  "startedAt": "2026-11-13T00:15:45.118893Z",
+  "responseHeaderLatencyMs": 4.580705000989838,
+  "clientReadMode": "bounded-readinto",
+  "clientBackingCapacityBytes": 65537,
+  "elapsedMs": 4.705397001089295,
+  "bodySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "originPollingSettled": true,
+  "originPollingScope": "Only these timestamped snapshots; no assertion about unobserved later I/O."
+}

@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "kind": "INDEPENDENT_ACTUAL_FRESH_R_HOOK_FREE_COMPATIBILITY_RESULT_REVIEW",
+  "reviewer": "/root/independent_review",
+  "reviewedAt": "2026-11-12T23:51:17.082508+00:00",
+  "source": "de8ad3f21df1578eac80e98d798f7adbcdb07d82",
+  "tree": "ce6f3e09ec72b88ddabf49e75d41b4159e36fdb9",
+  "controlCompatibilityAccepted": true,
+  "runtimeResult": {
+    "bytes": 28776,
+    "sha256": "403f3e9230564bf789d1a6d34cb8b6d4ac8a4b2e2189cd56952a09a60223e8fb",
+    "nativeRef": "/tmp/guize-poc003-de8ad3f-v1/compatibility-supervision-v3/results.json"
+  },
+  "methodSha256": "5b9fc8679d97a2babba29dd4573168dc56c980eb6a5cd115d6f2e1c504fbccdc",
+  "entrySha256": "061d57a19d8d87a55b8c80c981b2193da5cbf2fe596a59f19dc077db0dcf7fd5",
+  "packageManifestSha256": "8690aeadbbd27299e34ea3d4827e630c6f6f4b839e11a8d7606232ffe603f04f",
+  "configurationManifestSha256": "704c83508b73d01f03177ce07857190e60b1f8c1277dd1345262e75dcba2910b",
+  "containerId": "e4c8d13a190a80ac2cb5f8690a9b970a078c1dd7ce68e0b73e3f3006c484ff2e",
+  "startedAt": "2026-11-12T23:49:03.739626+00:00",
+  "finishedAt": "2026-11-12T23:49:13.807379+00:00",
+  "controlCount": 7,
+  "allExactResponseHashesVerified": true,
+  "actualOwnerWaitCompleted": true,
+  "ownerExitCode": 0,
+  "acceptedOwnedEpochCount": 4,
+  "healthyJournalRawHashesVerified": true,
+  "trackedEpochExitCodes": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "actualDistinctRestartBirthsVerified": true,
+  "hookFreeClientVerified": true,
+  "attachedCliWaitCompleted": true,
+  "attachedCliExitCode": 0,
+  "engineWaitCompleted": true,
+  "engineExitCode": 0,
+  "finalContainerState": {
+    "status": "exited",
+    "pid": 0,
+    "exitCode": 0
+  },
+  "externalCleanup": [],
+  "sourceContextUnchanged": true,
+  "immutablePackageVerifiedBeforeAndAfter": true,
+  "previousV1AndV2FailuresRetained": true,
+  "readOnlyReviewToolChunks": [
+    "070bbc",
+    "f47a69"
+  ],
+  "fullMatrixAccepted": false,
+  "warmAccepted": false,
+  "formalPocAccepted": false,
+  "publicationApproved": false,
+  "oldD3PublicationApproved": false,
+  "mustFix": [],
+  "evidencePins": [
+    {
+      "ref": ".takeover-tools/run_poc003_fresh_neutral_compatibility_v3.py",
+      "bytes": 25844,
+      "sha256": "5b9fc8679d97a2babba29dd4573168dc56c980eb6a5cd115d6f2e1c504fbccdc"
+    },
+    {
+      "ref": ".takeover-tools/poc003_fresh_neutral_compatibility_entry_v2.py",
+      "bytes": 9490,
+      "sha256": "061d57a19d8d87a55b8c80c981b2193da5cbf2fe596a59f19dc077db0dcf7fd5"
+    },
+    {
+      "ref": ".takeover-tools/poc003-fresh-neutral-compatibility-approval-v3/approval.json",
+      "bytes": 6364,
+      "sha256": "f139fb3c118f6a2e6f43f1f6dd353d4d5a7d354031f8ea885d393245d2f03ec7"
+    },
+    {
+      "ref": ".takeover-tools/poc003-fresh-runtime-supplement-package-v2-independent-review.json",
+      "bytes": 3239,
+      "sha256": "eedee4e2ed8ee102d7861520ed273f5b7ebbaa92b556528fd5506054b8c73b4b"
+    },
+    {
+      "ref": ".takeover-tools/poc003-fresh-config-draft-independent-review-v1.json",
+      "bytes": 3543,
+      "sha256": "4618153efdd900d4a9bcdcfce1a13dc4403e8e548f002ecfec9fc57e5db5c521"
+    }
+  ]
+}

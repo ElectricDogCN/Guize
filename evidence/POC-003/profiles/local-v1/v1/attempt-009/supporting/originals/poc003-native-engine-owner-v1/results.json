@@ -1,0 +1,122 @@
+{
+  "kind": "ACTUAL_OWNED_TASK_ONLY_NATIVE_ENGINE",
+  "ready": false,
+  "commands": [
+    {
+      "label": "version",
+      "exitCode": 0,
+      "actualWaitCompleted": true
+    },
+    {
+      "label": "security",
+      "exitCode": 0,
+      "actualWaitCompleted": true
+    },
+    {
+      "label": "load-fixed-image",
+      "exitCode": 0,
+      "actualWaitCompleted": true
+    },
+    {
+      "label": "fixed-image",
+      "exitCode": 0,
+      "actualWaitCompleted": true
+    }
+  ],
+  "daemonArgv": [
+    "/tmp/guize-poc003-de8ad3f-v1/native-engine-v1/bin/dockerd",
+    "--config-file",
+    "/tmp/guize-poc003-de8ad3f-v1/native-engine-v1/daemon.json",
+    "--data-root",
+    "/tmp/guize-poc003-de8ad3f-v1/native-engine-v1/data",
+    "--exec-root",
+    "/tmp/guize-poc003-de8ad3f-v1/native-engine-v1/exec",
+    "--pidfile",
+    "/tmp/guize-poc003-de8ad3f-v1/native-engine-v1/daemon.pid",
+    "--host",
+    "unix:///tmp/guize-poc003-de8ad3f-v1/native-engine-v1/docker.sock",
+    "--storage-driver",
+    "vfs",
+    "--bridge=none",
+    "--iptables=false",
+    "--ip6tables=false",
+    "--ip-forward=false",
+    "--ip-masq=false",
+    "--userland-proxy=false",
+    "--exec-opt",
+    "native.cgroupdriver=cgroupfs",
+    "--containerd-namespace",
+    "guize-poc003",
+    "--containerd-plugins-namespace",
+    "guize-poc003-plugins"
+  ],
+  "globalConfigurationChanged": false,
+  "networkTcpListenerCreated": false,
+  "systemTimeSet": false,
+  "dataRetained": true,
+  "daemonPid": 22716,
+  "daemonStartTicks": "1979373",
+  "version": {
+    "Platform": {
+      "Name": "Docker Engine - Community"
+    },
+    "Version": "29.8.0",
+    "ApiVersion": "1.56",
+    "MinAPIVersion": "1.40",
+    "Os": "linux",
+    "Arch": "amd64",
+    "Components": [
+      {
+        "Name": "Engine",
+        "Version": "29.8.0",
+        "Details": {
+          "ApiVersion": "1.56",
+          "Arch": "amd64",
+          "BuildTime": "Thu Sep  3 21:53:16 2026",
+          "Experimental": "false",
+          "GitCommit": "3ce5872",
+          "GoVersion": "go1.26.8",
+          "KernelVersion": "6.18.58.1-microsoft-standard-WSL2",
+          "MinAPIVersion": "1.40",
+          "Module": "github.com/moby/moby/v2",
+          "ModuleVersion": "v2.0.0+unknown",
+          "Os": "linux"
+        }
+      },
+      {
+        "Name": "containerd",
+        "Version": "v2.3.4",
+        "Details": {
+          "GitCommit": "db8809540e1a7a9da5d518876894933ff55692ab"
+        }
+      },
+      {
+        "Name": "runc",
+        "Version": "1.5.1",
+        "Details": {
+          "GitCommit": "v1.5.1-0-g8f2685a"
+        }
+      },
+      {
+        "Name": "docker-init",
+        "Version": "0.19.0",
+        "Details": {
+          "GitCommit": "de40ad0"
+        }
+      }
+    ],
+    "GitCommit": "3ce5872",
+    "GoVersion": "go1.26.8",
+    "KernelVersion": "6.18.58.1-microsoft-standard-WSL2",
+    "BuildTime": "2026-09-03T21:53:16.000000000+00:00"
+  },
+  "securityOptions": [
+    "name=seccomp,profile=builtin",
+    "name=cgroupns"
+  ],
+  "imageId": "sha256:df18428df8a0f9189c84e7424d214b4c50092af1f9dca5842a00c41c39bda316",
+  "readyAt": "2026-11-13T00:50:46.424045Z",
+  "daemonActualWaitCompleted": true,
+  "daemonExitCode": 0,
+  "finishedAt": "2026-11-13T01:11:30.643364Z"
+}

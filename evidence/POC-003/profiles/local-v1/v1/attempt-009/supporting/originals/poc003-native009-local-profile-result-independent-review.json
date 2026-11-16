@@ -1,0 +1,178 @@
+{
+  "schemaVersion": 1,
+  "kind": "INDEPENDENT_ACTUAL_NATIVE009_LOCAL_FULL_PROFILE_RESULT_ACCEPTANCE",
+  "reviewer": "/root/independent_review",
+  "approvedAt": "2026-11-13T01:27:36Z",
+  "source": "de8ad3f21df1578eac80e98d798f7adbcdb07d82",
+  "tree": "ce6f3e09ec72b88ddabf49e75d41b4159e36fdb9",
+  "canonicalPrefix": "evidence/POC-003/profiles/local-v1/v1/attempt-009",
+  "fullOriginalFifteenAccepted": true,
+  "completeConservativeCapacityAccepted": true,
+  "localProfileResultAccepted": true,
+  "warmCacheRevocationAccepted": true,
+  "independentAggregateAccepted": true,
+  "maximumBufferedBytes": 6205486,
+  "maximumPermittedBufferedBytes": 8388608,
+  "capacityTerms": {
+    "native": 3174400,
+    "origin": 73729,
+    "gateway": 819220,
+    "collector": 1064984,
+    "synchronousPhase": 1048577,
+    "hash": 24576
+  },
+  "sourcePayloadOwnerPeaks": {
+    "origin": 1,
+    "gateway": 2,
+    "collector": 2,
+    "externalRevocation": 0
+  },
+  "qualificationScope": "Exact source R, neutral P2, immutable inputs/config and independently approved native009 execution window; separate warm evidence retains its own authority and window. LOCAL_FULL_V1 profile only.",
+  "actualFifteen": {
+    "range_correctness": 100.0,
+    "etag_semantics": true,
+    "if_range_semantics": true,
+    "ats_slice_behavior": true,
+    "source_update_invalidation": true,
+    "origin_interruption_recovery": true,
+    "partial_cache_integrity": true,
+    "cache_hit_observation": true,
+    "cache_disk_observation": true,
+    "cache_key_isolation": true,
+    "large_file_streaming": true,
+    "range_hot_cache_latency": 7.17,
+    "range_cold_cache_latency": 54.882,
+    "range_slow_origin_latency": 305.44100000000003,
+    "range_multi_user_latency": 34.684
+  },
+  "independentFrozenExecutionValidation": {
+    "actualWaitCompleted": true,
+    "exitCode": 0,
+    "sessionId": 57038,
+    "terminalToolChunk": "9ce518",
+    "methodSha256": "002834ea1b67103187b1424c7092a71c791cd8f41400961236e2d6f7e8e108b8",
+    "frozenCheckerSha256": "ee53ccf38e80095fd77ded709aa5dba7808d011a6346e864cd1a9f6482be8cc8",
+    "errors": [],
+    "fullQualificationValidated": true,
+    "formalPocAccepted": false
+  },
+  "actualNativeEpochCount": 26,
+  "typedRecordCount": 57,
+  "rawArtifactCount": 709,
+  "rawArtifactBytes": 618265150,
+  "originalAsProducedFlagsPreserved": true,
+  "environmentRestorationAccepted": true,
+  "actualEnvironmentRestoration": {
+    "nativeOwnerActualWaitCompleted": true,
+    "nativeOwnerExitCode": 0,
+    "daemonActualWaitCompleted": true,
+    "daemonExitCode": 0,
+    "ntpRestoredActive": true,
+    "desktopRestored": true,
+    "originalDesktopContainerIdsRetained": 30,
+    "beforeAndAfterContainerIdSetsEqual": true,
+    "daemonFinishedAt": "2026-11-13T01:11:30.643364Z",
+    "guardFinishedAt": "2026-11-13T01:11:46.723194Z",
+    "generalStartupCancellationSafetyProven": false
+  },
+  "approvedRecords": {
+    "result": {
+      "path": "poc003-native009-approved-local-profile-records-v1/result.yaml",
+      "bytes": 1148,
+      "sha256": "1024c872a839f25f4963817542731a74be42f82547895b29b9d6bd3c82ca545f"
+    },
+    "index": {
+      "path": "poc003-native009-approved-local-profile-records-v1/index.yaml",
+      "bytes": 233,
+      "sha256": "7f4575ce0a1f23a81ff25a703796c1394d78d9ce72c00f2e3179263bf2a4e69a"
+    }
+  },
+  "materializationTargets": {
+    "result": "evidence/POC-003/profiles/local-v1/v1/attempt-009/result.yaml",
+    "index": "evidence/POC-003/profiles/local-v1/v1/index.yaml"
+  },
+  "minimalDeliveryDecision": {
+    "codeEvidenceMayContain": "Only Own attempt-009 and its local profile index; preserve Task/Program/Registry state and root handoff/global results-index bytes in this evidence-only source.",
+    "independentTechnicalReviewRequired": true,
+    "normalCodeSourceFull1044CiRequired": true,
+    "normalCodeMergeAndActualMainSevenFullCiRequired": true,
+    "standaloneMetadataReviewPullRequestRequired": false,
+    "reason": "Task POC-003 requires normal Review and Completion but does not require a separate metadata Review PR. AGENTS17.2/17.5/17.7 still require independent review, current admitted base and passing gates. H.validate_regular_completion accepts a prior active state, and frozen qualified_lifecycle_delta_paths explicitly authenticates active-to-completed with exact own removal, stable Task, accepted implementation merge identity, append-only ledger and structured completion evidence.",
+    "laterCompletionCandidateMustBeSeparatelyReviewed": true,
+    "completionMustReferenceActualAcceptedImplementationMerge": true,
+    "normalCompletionSourceAndMainFullCiAndSevenRequired": true
+  },
+  "formalPocAccepted": false,
+  "productionOrFullV1Accepted": false,
+  "sourcePublicationApproved": false,
+  "sourceMergeApproved": false,
+  "actualResultMainAccepted": false,
+  "taskCompleted": false,
+  "actualCapacityReleased": false,
+  "oldD3PublicationApproved": false,
+  "mustFix": [],
+  "evidencePins": [
+    {
+      "path": "poc003-native-original-matrix009-result-independent-review.json",
+      "bytes": 3131,
+      "sha256": "ada58d85b3a6c323c8369dc149446ceab14083ebe82e49c500ae7ed7d3e05781"
+    },
+    {
+      "path": "poc003-native-record-assembly009-approval-v1.json",
+      "bytes": 5036,
+      "sha256": "6c284020df1d24a673023dea1d071e927062a62e4878e0f3ac047ad95b0535f6"
+    },
+    {
+      "path": "poc003-native-original-matrix009-approval-v1/approval.json",
+      "bytes": 16099,
+      "sha256": "d9b939ec36738d56534a7688eaede804fe41d75f319cd91bedb49609058f71c3"
+    },
+    {
+      "path": "poc003_native_execution_assembler009_v1.py",
+      "bytes": 24663,
+      "sha256": "002834ea1b67103187b1424c7092a71c791cd8f41400961236e2d6f7e8e108b8"
+    },
+    {
+      "path": "poc003-native009-staged-frozen-execution-v1/results.json",
+      "bytes": 729,
+      "sha256": "20daa52a443d5751547964c125933269fe6a42bef02ea9e78791882b5972516c"
+    },
+    {
+      "path": "poc003-native009-staged-frozen-execution-v1/frozen-execution.stdout.raw",
+      "bytes": 94,
+      "sha256": "de4a6443e194ca45a4a66358914ca12db19c61d09862e4c54d73f9cffe946f52"
+    },
+    {
+      "path": "poc003-fresh-neutral-warm-cache-v2-result-independent-review.json",
+      "bytes": 3938,
+      "sha256": "493fea7e7db10e37ee5d129974aa23cdfb0789f1fbcde3c238d745ed3371f667"
+    },
+    {
+      "path": "poc003-fresh-neutral-warm-cache-approval-v2/approval.json",
+      "bytes": 14820,
+      "sha256": "ab5d534e4bd73cffbd0b646df9c8002f61e2e36fff45ac681e4576b0192da372"
+    },
+    {
+      "path": "poc003-native-clock-environment-v1/results.json",
+      "bytes": 1995,
+      "sha256": "90ab8b03fc4764b82b53568ef60f2367d5544f58411f2ea4de196d5740dec12a"
+    },
+    {
+      "path": "poc003-native-engine-owner-v1/results.json",
+      "bytes": 3226,
+      "sha256": "dadaae0e155dbffbe17c0ea51de45ed3e49c746c77042fa291cf8f5eeab15619"
+    }
+  ],
+  "nativeEvidencePins": [
+    {
+      "path": "/tmp/guize-poc003-de8ad3f-v1/result-repo-v1/evidence/POC-003/profiles/local-v1/v1/attempt-009/execution.json",
+      "bytes": 328633,
+      "sha256": "77689da94cdfaadf48973a0efa074f184de72d568619d94ea8ac22c6ea7b4c87"
+    },
+    {
+      "path": "/tmp/guize-poc003-de8ad3f-v1/result-repo-v1/evidence/POC-003/profiles/local-v1/v1/attempt-009/assembly-provenance.json",
+      "bytes": 13768,
+      "sha256": "5c19ba0ffaab0511dec955daaa2db8c4644ce03d517a23dc9ae7a6e8f3b34679"
+    }
+  ]
+}

@@ -2676,3 +2676,10 @@ Only ten OwnEvidence handoff paths authored after genuine automatic merge; origi
 - evidence/POC-003/main98-staged-code-v1/prerequisites.zip
 - evidence/POC-003/summary.md
 - evidence/POC-003/test-results/README.md
+
+
+## Normal resume after accepted OPS024 Completion
+
+Accepted integration base a3a57bade4dd3b25cd417d2cb5e0e3d1e14d792c is imported by an ordinary fast-forward of the existing registered branch. Only Own blocked/coordinator to in_progress/implementer state and current Evidence are prepared. Creation base, all actors, claims, order2 and valid lease remain unchanged. Current-source original15, exact1044 inventory, full official CI and independent acceptance are pending. The rejected old d3 packet stays unpublished; no old result or execution/publication approval transfers. A wholly new synthetic isolated experiment requires its own prospective source/input/resource/window approval.
+
+Own resume paths: Program, Registry, Task, current context and existing summary/handoff/commands/test-results/inventory only.

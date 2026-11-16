@@ -1,0 +1,13 @@
+{
+  "kind": "ACTUAL_BOUNDED_REALTIME_MONOTONIC_CLOCK_DIAGNOSTIC",
+  "stage": "native-engine",
+  "observedAt": "2026-11-13T00:51:31.689713Z",
+  "actualMonotonicDurationNs": 45013684141,
+  "samples": 1788,
+  "offsetRangeNs": 32120,
+  "offsetDiscontinuitiesOver1ms": [],
+  "backwardsRealtimeSamples": [],
+  "serviceOrTimeSettingsChanged": false,
+  "mediaOrAtsExecuted": false,
+  "experimentApproved": false
+}

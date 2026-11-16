@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "kind": "range_origin_access_observation",
+  "configurationRef": "evidence/POC-003/profiles/local-v1/v1/attempt-009/resource-configuration.json",
+  "case": "latency_slow",
+  "assetId": "guize-fresh-de8ad3f-v1-object",
+  "requestId": "54e68f6a5c484fc8ae7746aa41a288dc",
+  "userId": "lab-user-a",
+  "requestRange": "bytes=0-7",
+  "ifRange": "",
+  "sourceVersion": "base",
+  "aclVersion": "guize-fresh-de8ad3f-v1-acl",
+  "requestURL": "http://127.0.0.1:18233/media/object.bin",
+  "sourceSha256": "sha256:9a30d2bb1a4f1eabcb41baa5b6518628411ba8ac668fc1e7085983261aa5f419",
+  "startedAt": "2026-11-13T01:01:53.980241Z",
+  "finishedAt": "2026-11-13T01:01:54.283643Z",
+  "originRequestCount": 1,
+  "objectReadCount": 16,
+  "cachePurgedAt": "2026-11-13T01:01:53.977406Z"
+}

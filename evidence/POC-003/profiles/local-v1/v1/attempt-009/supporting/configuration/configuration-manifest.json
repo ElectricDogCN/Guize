@@ -1,0 +1,57 @@
+{
+  "kind": "UNAPPROVED_NEW_NEUTRAL_RUNTIME_DESCRIPTORS_ONLY",
+  "source": "de8ad3f21df1578eac80e98d798f7adbcdb07d82",
+  "tree": "ce6f3e09ec72b88ddabf49e75d41b4159e36fdb9",
+  "packageManifestSha256": "9406b969f4d22e2dc6ee1e4e1aaed19d179672c20c74f2d1a89571bead0e9b44",
+  "numericControls": {
+    "originPort": 18231,
+    "atsPort": 18232,
+    "entryPort": 18233,
+    "sliceBytes": 1048576,
+    "minimumInputBytes": 67108864,
+    "maximumBufferedBytes": 8388608,
+    "cacheMiB": 256,
+    "chunkBytes": 65536,
+    "maximumRetries": 0,
+    "slowOriginDelayMs": 250,
+    "slowOriginBandwidthBytesPerSecond": 1048576,
+    "faultAfterBytes": 4,
+    "latencySampleCount": 4,
+    "concurrentUsers": 2,
+    "maximumRunSeconds": 900,
+    "maximumOriginRequests": 2048,
+    "maximumCollectionBytes": 1073741824
+  },
+  "files": [
+    {
+      "path": "config.json",
+      "bytes": 1505,
+      "sha256": "31fe475a2dc025848d9bc7dec36e3d3280f622ef77788395070c99e5215ceee4"
+    },
+    {
+      "path": "matrix-entry.py",
+      "bytes": 14727,
+      "sha256": "35642d5d3896bd1c47d64a43a3e70c7a2934382294b0d2669d8c26ed2f2d08cb"
+    },
+    {
+      "path": "compatibility-entry.py",
+      "bytes": 9490,
+      "sha256": "16e27ae0ceb0e62751942d4b9951b5f76ceb4b43cb1c789ea68afb761f759e1e"
+    },
+    {
+      "path": "current-runtime-version.stdout.raw",
+      "bytes": 205,
+      "sha256": "9b57951541178a59355b4d171202e75892eb59e8bb5df2982b0b65dd2b5f845e"
+    }
+  ],
+  "matrixMethodChanges": [
+    "Actual fresh fixed-image binary version observation path and truthful scope text only; all original collection/readiness code unchanged"
+  ],
+  "compatibilityEntryBytesUnchanged": true,
+  "labPrepareExecuted": false,
+  "atsServiceStarted": false,
+  "mediaRequestsExecuted": false,
+  "sourceOrSampleApprovalTransferred": false,
+  "executionApproved": false,
+  "createdAt": "2026-11-12T23:17:44.362614+00:00"
+}

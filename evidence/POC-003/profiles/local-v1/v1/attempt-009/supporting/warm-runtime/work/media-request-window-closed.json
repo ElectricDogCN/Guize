@@ -1,0 +1,47 @@
+{
+  "kind": "CLOSED_CONTROLLER_REQUEST_WINDOW_NOT_AGGREGATE_MEMORY",
+  "startedAt": "2026-11-13T00:15:43.474093Z",
+  "closedAt": "2026-11-13T00:15:47.304070Z",
+  "closed": true,
+  "httpRequestWindows": [
+    {
+      "kind": "ACTUAL_OWNED_HTTP_REQUEST_THREAD_WINDOW",
+      "startedAt": "2026-11-13T00:15:44.433640Z",
+      "closedAt": "2026-11-13T00:15:45.785706Z",
+      "closed": true,
+      "admitted": 20,
+      "finished": 20,
+      "active": 0,
+      "peak": 1,
+      "listenerPort": 18233
+    },
+    {
+      "kind": "ACTUAL_OWNED_HTTP_REQUEST_THREAD_WINDOW",
+      "startedAt": "2026-11-13T00:15:43.991258Z",
+      "closedAt": "2026-11-13T00:15:46.265435Z",
+      "closed": true,
+      "admitted": 1,
+      "finished": 1,
+      "active": 0,
+      "peak": 1,
+      "listenerPort": 18231
+    }
+  ],
+  "requestConcurrency": {
+    "kind": "SYNCHRONOUS_REQUEST_INTERVAL_HIGH_WATER_NOT_MEMORY_SAMPLING",
+    "scope": "Controller initialization through closed owned HTTP workers and ATS teardown",
+    "activeOrigin": 0,
+    "peakOrigin": 1,
+    "activeGateway": 0,
+    "peakGateway": 1
+  },
+  "sourceQualified": false,
+  "aggregateCapacityProofComplete": false,
+  "formalPocAccepted": false,
+  "pythonRuntimeBinding": {
+    "ref": "python-runtime-binding.controller.json",
+    "sha256": "92ce2c8d725c5ac6b06e7e4ef49fba1d01d287bbe4339ee949335921e0d54d26",
+    "pid": 1,
+    "processStartTicks": 1785824
+  }
+}

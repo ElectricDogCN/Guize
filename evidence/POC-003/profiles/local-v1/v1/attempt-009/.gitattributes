@@ -1,0 +1,10 @@
+* -text
+*.body filter=lfs diff=lfs merge=lfs -text
+*.bin filter=lfs diff=lfs merge=lfs -text
+*.so filter=lfs diff=lfs merge=lfs -text
+*.raw -text -diff
+*.zip filter=lfs diff=lfs merge=lfs -text
+*.xz filter=lfs diff=lfs merge=lfs -text
+*.so.* filter=lfs diff=lfs merge=lfs -text
+supporting/originals/poc003-fresh-neutral-build-input-manifest-v1.json -text whitespace=cr-at-eol
+supporting/originals/poc003-native-clock-environment-v1/results.json -text whitespace=cr-at-eol
