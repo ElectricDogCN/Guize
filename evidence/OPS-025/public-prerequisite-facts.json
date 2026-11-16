@@ -1,0 +1,16 @@
+{
+  "taskId": "OPS-025",
+  "acceptedRetirementMain": "9dcf7e6b9f7f3a8debee8da2183f4deeaf7ec584",
+  "retirementSource": "5636e97d9d38f2dfc6d15b980996ea07aaa00da4",
+  "retirementPr": 230,
+  "historicalExperimentPassPreserved": true,
+  "currentPoc003ProfileAbsent": true,
+  "ownReservationChecks": "UNEXECUTED",
+  "implementation": "UNEXECUTED",
+  "claims": [
+    "scripts/check-program-plan-history.py",
+    "tests/governance/test_poc_completion_plan_mirror.py"
+  ],
+  "old1044AndFrozenUnchanged": true,
+  "exceptionGranted": false
+}
