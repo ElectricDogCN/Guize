@@ -93,3 +93,29 @@ python scripts/run-task-scope-gate.py --task POC-005 --base d7a0cdde46225a041802
 python scripts/check-evidence.py --task POC-005
 python specs/poc/check_program.py --task POC-005 --base-ref d7a0cdde46225a0418027866f9d0531ed3495188
 python scripts/check-markdown.py
+
+
+## Linux entry-clock repair on accepted POC-005 main
+
+The accepted code/resume base is abe35a8686e752201ca431f0d5d3915d1b1c2cdd (PR219). Its source and actual-main official CI each passed all1059; actual-main seven and independent acceptance passed. The earlier Windows request-UTC repair remains unchanged. This new purpose remains inside the registered POC-005 runtime/test claims; creation base, actors, lease, statuses and order3 remain unchanged.
+
+The Linux entry currently captures a single cold bracket, which can fail the unchanged2000ns bound before work. Existing Windows entry and ordinary Clock markers already use32 actual brackets. The intended Linux repair captures exactly32 real brackets once at earliest entry, selects solely the smallest bracket width with stable first tie, and preserves all readings and the chosen index on success and ClockFailure. It never selects by pass/fail or replenishes samples. Original Clock.marker still rejects uncertainty outside0..2000ns or residual above1000000ns, even if another reading would pass. Linux approved-exec entry remains distinct from OS birth; Windows supplied-entry semantics stay intact.
+
+Only native_scan_runtime.py and test_native_clock.py are proposed runtime/test edits. Two new meaningful regressions cover a wide cold first reading followed by a precise one, and retained all-wide or minimum-width drifting failures. The intended Windows suite becomes149 while all147 original cases remain. New committed-source original15, ordered1059 inventory, Windows149, a source-bound fresh-process entry diagnostic and complete official source/main1059 with independent acceptance remain pending. No frozen file, governance assertion, threshold, CI worker/runner/pin/step/30-minute cap, old failure or retry allowance changes. No new physical fixture, service, resource window, performance run, current profile, Task completion or V1 acceptance is granted.
+
+New actual-source original15; NOT YET EXECUTED:
+git diff --check abe35a8686e752201ca431f0d5d3915d1b1c2cdd...HEAD
+python scripts/check-task-file.py --task POC-005
+python scripts/check-project-readiness.py
+python scripts/check-schemas.py
+python scripts/check-program-plan-integrity.py --base-ref abe35a8686e752201ca431f0d5d3915d1b1c2cdd
+python scripts/check-program-plan-history.py --base-ref abe35a8686e752201ca431f0d5d3915d1b1c2cdd --head-ref HEAD --task POC-005 --branch-name chore/POC-005-metadata-scale
+python scripts/check-program-plan-transitions.py --base-ref abe35a8686e752201ca431f0d5d3915d1b1c2cdd --head-ref HEAD --task POC-005 --branch-name chore/POC-005-metadata-scale
+python scripts/check-program-plan-finalization.py --base-ref abe35a8686e752201ca431f0d5d3915d1b1c2cdd --head-ref HEAD --task POC-005
+python scripts/check-program-lifecycle-guards.py --base-ref abe35a8686e752201ca431f0d5d3915d1b1c2cdd --head-ref HEAD --task POC-005 --branch-name chore/POC-005-metadata-scale
+python scripts/run-program-lifecycle-gate.py --base-ref abe35a8686e752201ca431f0d5d3915d1b1c2cdd --head-ref HEAD --task POC-005 --branch-name chore/POC-005-metadata-scale
+python scripts/run-agent-coordination-gate.py --base-ref abe35a8686e752201ca431f0d5d3915d1b1c2cdd --head-ref HEAD --task POC-005 --branch-name chore/POC-005-metadata-scale
+python scripts/run-task-scope-gate.py --task POC-005 --base abe35a8686e752201ca431f0d5d3915d1b1c2cdd
+python scripts/check-evidence.py --task POC-005
+python specs/poc/check_program.py --task POC-005 --base-ref abe35a8686e752201ca431f0d5d3915d1b1c2cdd
+python scripts/check-markdown.py

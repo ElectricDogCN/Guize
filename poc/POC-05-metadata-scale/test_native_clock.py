@@ -7,6 +7,7 @@ from unittest.mock import patch
 from metadata_scan import ScanError
 from native_scan_control import NativeRun
 from native_scan_protocol import Clock
+from native_scan_runtime import _entry_marker
 
 
 class ClockEvidenceTests(unittest.TestCase):
@@ -49,6 +50,45 @@ class ClockEvidenceTests(unittest.TestCase):
         self.assertEqual(raw['samples'][raw['chosen']]['afterNs']-raw['samples'][raw['chosen']]['beforeNs'],3000)
         self.assertEqual(raw['residualNs'],0)
         self.assertFalse(raw['accepted'])
+
+    def test_entry_keeps_cold_wide_read_and_chooses_only_by_bracket_width(self):
+        clock = self.clock()
+        samples = []
+        for index in range(32):
+            before = clock.mono + 10000000 + index * 10000
+            width = 4000 if index == 0 else 100 if index == 1 else 200
+            samples.append(dict(beforeNs=before, afterNs=before + width,
+                                wallNs=clock.wall + before - clock.mono + width // 2))
+        original = copy.deepcopy(samples)
+        event = _entry_marker(clock, samples)
+        self.assertEqual(event['chosenClockSample'], 1)
+        self.assertEqual(event['clockSamples'], original)
+        self.assertEqual(samples, original)
+        self.assertEqual(event['monotonicNs'], samples[1]['beforeNs'] + 50)
+        self.assertEqual(event['directWallNs'], samples[1]['wallNs'])
+        self.assertEqual(event['observedAt'], clock.mapped_utc(event['monotonicNs']))
+
+    def test_entry_failures_retain_all_reads_without_finding_a_passing_sample(self):
+        for drifting in (False, True):
+            with self.subTest(drifting=drifting):
+                clock = self.clock()
+                samples = []
+                for index in range(32):
+                    before = clock.mono + 10000000 + index * 10000
+                    width = (100 if index == 0 else 200) if drifting else 3000
+                    wall = clock.wall + before - clock.mono + width // 2
+                    if drifting and index == 0:
+                        wall += 2000001
+                    samples.append(dict(beforeNs=before, afterNs=before + width, wallNs=wall))
+                original = copy.deepcopy(samples)
+                expected = 'WALL_CLOCK_CHANGED' if drifting else 'CLOCK_SAMPLE_UNCERTAINTY'
+                with self.assertRaisesRegex(ScanError, expected) as failure:
+                    _entry_marker(clock, samples)
+                self.assertEqual(failure.exception.observation['samples'], original)
+                self.assertEqual(failure.exception.observation['chosen'], 0)
+                self.assertEqual(failure.exception.observation['directWallNs'], samples[0]['wallNs'])
+                self.assertFalse(failure.exception.observation['accepted'])
+                self.assertEqual(samples, original)
 
     def test_child_failure_reaches_controller_without_becoming_state_mismatch(self):
         run=object.__new__(NativeRun)
