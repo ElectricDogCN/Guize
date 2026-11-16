@@ -1,3 +1,9 @@
+## Current version boundary candidate - POC-003
+
+Status: IN_PROGRESS. Historical R/attempt009 PASS remains preserved. Accepted implementation main: 8baa23ce4c622aba308a5a82a1ff55e5316c36bb (PR229; full sourceCI1022 and mainCI1023/1044 plus actual-main seven/independent acceptance). The proposed current locator withdrawal preserves its exact233B original under profile-history/local-v1-attempt009-retired-v1; current-profile qualification is absent in this candidate and must not be reported PASS. All original result/execution/input/raw/approvals and their timestamps remain unchanged. Required-profile validation must actually fail until new source-specific qualification.
+
+The local Completion attempt stopped at a real conflicting status gate; its originals are retained. Own Evidence withdrawal precedes a separately registered nonfrozen governance repair; this candidate changes no checker, runtime, Program/Registry/Ledger/Task or frozen catalogue. Task remains active and Issue131 has been reopened. Full original source checks, official source/main CI and independent actual-main acceptance remain required; retirement integration and final task completion are pending. Earlier implementation descriptions below are historical.
+
 ## Current source-gate correction: immutable raw archives
 
 Source8eae8a7 reached only its first declared gate, unchanged git diff --check against accepted main22. It actually exited2 on captured raw stderr/CRLF receipts in payload-lifetime-v1 and request-concurrency-v1; the other fourteen commands were not executed. Original output and context are preserved at source-8eae8a7-stopped-validation/index.json.
