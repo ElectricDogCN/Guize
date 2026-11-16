@@ -1,0 +1,20 @@
+{
+  "kind": "NORMAL_REGISTERED_BRANCH_MERGE_AND_RESUME",
+  "incomingMain": "d7a0cdde46225a0418027866f9d0531ed3495188",
+  "previousSource": "4fb22681d6c530d7cffc37f2cf2472ed8abd2f07",
+  "creationBase": "746e23e582501fa08380c3f3301bdc1774902f7c",
+  "registeredBranch": "chore/POC-005-metadata-scale",
+  "expectedCommitParents": [
+    "4fb22681d6c530d7cffc37f2cf2472ed8abd2f07",
+    "d7a0cdde46225a0418027866f9d0531ed3495188"
+  ],
+  "parentCompletionFinalReceiptSha256": "51befd81896f9ef6a81e375e6d41872cc2e1e349b30af97305246aab233ef9d3",
+  "originalClockRepairBytesPreserved": true,
+  "priorTwoCiTimeoutsRetained": true,
+  "unchangedThirdRetryAllowed": false,
+  "historicalResultsTransferred": false,
+  "currentProfileMissing": true,
+  "sourceQualified": false,
+  "fullCiAccepted": false,
+  "experimentApproved": false
+}
