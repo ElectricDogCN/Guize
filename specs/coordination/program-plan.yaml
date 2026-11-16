@@ -131,7 +131,7 @@ foundationTasks:
     mergeCommit: addcd094aa5da342dd77e841c98cfb1ec432c2d0
   - taskId: OPS-025
     title: 普通 POC 结项状态镜像的严格一致性修复
-    status: reserved
+    status: in_progress
     completionRef: ISSUE-231
     mergeCommit: null
 waves:

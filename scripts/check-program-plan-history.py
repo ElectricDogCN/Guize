@@ -690,6 +690,25 @@ def only_plan_target_changed(
     return base_copy == current_copy
 
 
+def only_regular_completion_status_changed(
+    base_plan: dict[str, Any], current_plan: dict[str, Any], task_id: str
+) -> bool:
+    """Admit the required Own POC mirror without widening other Plan changes."""
+    if not TRANSITIONS.validate_poc_mirror(
+        base_plan, current_plan, task_id, "completed"
+    ):
+        return False
+    comparison = copy.deepcopy(current_plan)
+    own_poc = mapping(comparison.get("pocs")).get(task_id)
+    if own_poc is not None:
+        # Normalize only the already-validated mirror in the comparison copy.
+        # Keep the original lists and all other root fields for the strict check.
+        own_poc["status"] = mapping(base_plan.get("pocs"))[task_id].get("status")
+    return only_plan_target_changed(
+        base_plan, comparison, "tasks", task_id, {"status"}
+    )
+
+
 def validate_reservation_snapshot(
     root: str, record: dict[str, Any], errors: list[str]
 ) -> None:
@@ -752,8 +771,8 @@ def validate_regular_completion(
     if not before or not after or before.get("status") not in ACTIVE_STATES or after.get("status") != "completed":
         errors.append(f"Completion task {task_id} has an invalid Program status transition")
         return
-    if not only_plan_target_changed(
-        base_plan, current_plan, "tasks", task_id, {"status"}
+    if not only_regular_completion_status_changed(
+        base_plan, current_plan, task_id
     ):
         errors.append(f"Completion task {task_id} may only change its Program status")
     prior_entries = [
