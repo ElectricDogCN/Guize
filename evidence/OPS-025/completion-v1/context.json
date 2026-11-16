@@ -1,0 +1,27 @@
+{
+  "kind": "NORMAL_COMPLETION_FROM_ACCEPTED_REVIEW_METADATA_ONLY",
+  "taskId": "OPS-025",
+  "issue": 231,
+  "base": "10acda732c5583b984f3688bfe6f0c8431ec7bac",
+  "branch": "chore/OPS-025-normal-completion",
+  "codePullRequest": 233,
+  "codeSource": "d46435021716599be9de7a73620ebd9bdc608ae4",
+  "codeMain": "82718c1e6b08396c67deeff7ca7f8adfbdd5b077",
+  "reviewSource": "93f76bb4b3dd892e54d1d672c3a5580d445ab05c",
+  "reviewMain": "10acda732c5583b984f3688bfe6f0c8431ec7bac",
+  "parentReviewFinalReceiptSha256": "a5be891f6a0e8bee4815ea4ceaeb6d9fffa951ad38ea378176b8ed275ae87b88",
+  "claims": [
+    "scripts/check-program-plan-history.py",
+    "tests/governance/test_poc_completion_plan_mirror.py"
+  ],
+  "priorLease": {
+    "acquiredAt": "2026-11-16T07:19:31Z",
+    "expiresAt": "2026-11-23T07:19:31Z"
+  },
+  "codeBytesUnchanged": true,
+  "originalTaskBodyUnchanged": true,
+  "completionSourceValidationPending": true,
+  "taskCompleted": false,
+  "capacityReleased": false,
+  "pocExperimentsApproved": false
+}

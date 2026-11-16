@@ -1,0 +1,54 @@
+{
+  "contents": "Public preceding Review CI references only; private native raw and certificates remain retained for independent review",
+  "officialCi": [
+    {
+      "phase": "source",
+      "url": "https://github.com/ElectricDogCN/Guize/actions/runs/43848813370",
+      "run": 43848813370,
+      "job": 133235750683,
+      "attempt": 1,
+      "source": "93f76bb4b3dd892e54d1d672c3a5580d445ab05c",
+      "actualCheckout": "e04787668ebe5035930bb9273bd341c9ed483651",
+      "tree": "09d2c09b2871629fb70c728f9febef0ce55e7c5e",
+      "orderedParents": [
+        "82718c1e6b08396c67deeff7ca7f8adfbdd5b077",
+        "93f76bb4b3dd892e54d1d672c3a5580d445ab05c"
+      ],
+      "passed": 1059,
+      "failedErroredSkippedXfailXpass": 0,
+      "successSteps": 28,
+      "conditionalSkippedSteps": [],
+      "logSha256": "ab7ab520ad666980a664d6c27d49d759fb15b12a0a02413f1b9c380206034629",
+      "originalHttpBytesClaimed": false,
+      "separateCloudJunitClaimed": false
+    },
+    {
+      "phase": "main",
+      "url": "https://github.com/ElectricDogCN/Guize/actions/runs/43852786441",
+      "run": 43852786441,
+      "job": 133249345610,
+      "attempt": 1,
+      "source": "93f76bb4b3dd892e54d1d672c3a5580d445ab05c",
+      "actualCheckout": "10acda732c5583b984f3688bfe6f0c8431ec7bac",
+      "tree": "09d2c09b2871629fb70c728f9febef0ce55e7c5e",
+      "orderedParents": [
+        "82718c1e6b08396c67deeff7ca7f8adfbdd5b077",
+        "93f76bb4b3dd892e54d1d672c3a5580d445ab05c"
+      ],
+      "passed": 1059,
+      "failedErroredSkippedXfailXpass": 0,
+      "successSteps": 23,
+      "conditionalSkippedSteps": [
+        "Evidence check",
+        "Evidence integrity check",
+        "Scope check",
+        "Task file validation",
+        "Task-branch linkage check"
+      ],
+      "logSha256": "46e47ff221c97668eb62c43124d78cb922f7a03e70ca59aced750843685af515",
+      "originalHttpBytesClaimed": false,
+      "separateCloudJunitClaimed": false
+    }
+  ],
+  "acceptedReviewMainSeven": true
+}

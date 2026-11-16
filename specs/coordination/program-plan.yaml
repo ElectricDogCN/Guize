@@ -131,9 +131,9 @@ foundationTasks:
     mergeCommit: addcd094aa5da342dd77e841c98cfb1ec432c2d0
   - taskId: OPS-025
     title: 普通 POC 结项状态镜像的严格一致性修复
-    status: review
-    completionRef: ISSUE-231
-    mergeCommit: null
+    status: completed
+    completionRef: PR-233
+    mergeCommit: 82718c1e6b08396c67deeff7ca7f8adfbdd5b077
 waves:
   - {id: W1, order: 1, name: "需求与 POC 计划", maxConcurrent: 2, maxHighRisk: 1}
   - {id: W2, order: 2, name: "OpenAPI + 独立 POC", maxConcurrent: 3, maxHighRisk: 1}
