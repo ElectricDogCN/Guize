@@ -1,15 +1,15 @@
-# OPS-025 original14 recipe. Every exit is UNEXECUTED at preparation.
-git diff --check 9dcf7e6b9f7f3a8debee8da2183f4deeaf7ec584...HEAD
+# Exact normal implementation phase recipe; UNEXECUTED
+git diff --check 3dad52dc22b67a4cea3d0a8db9ba880d11b28e9b...HEAD
 python scripts/check-task-file.py --task OPS-025
 python scripts/check-schemas.py
-python scripts/check-program-plan-integrity.py --base-ref 9dcf7e6b9f7f3a8debee8da2183f4deeaf7ec584
-python scripts/check-program-plan-history.py --base-ref 9dcf7e6b9f7f3a8debee8da2183f4deeaf7ec584 --head-ref HEAD --task OPS-025 --branch-name chore/OPS-025-poc-completion-mirror-reservation
-python scripts/check-program-plan-transitions.py --base-ref 9dcf7e6b9f7f3a8debee8da2183f4deeaf7ec584 --head-ref HEAD --task OPS-025 --branch-name chore/OPS-025-poc-completion-mirror-reservation
-python scripts/check-program-lifecycle-guards.py --base-ref 9dcf7e6b9f7f3a8debee8da2183f4deeaf7ec584 --head-ref HEAD --task OPS-025 --branch-name chore/OPS-025-poc-completion-mirror-reservation
-python scripts/run-program-lifecycle-gate.py --base-ref 9dcf7e6b9f7f3a8debee8da2183f4deeaf7ec584 --head-ref HEAD --task OPS-025 --branch-name chore/OPS-025-poc-completion-mirror-reservation
-python scripts/run-agent-coordination-gate.py --base-ref 9dcf7e6b9f7f3a8debee8da2183f4deeaf7ec584 --head-ref HEAD --task OPS-025 --branch-name chore/OPS-025-poc-completion-mirror-reservation
-python scripts/check-program-plan-finalization.py --base-ref 9dcf7e6b9f7f3a8debee8da2183f4deeaf7ec584 --head-ref HEAD --task OPS-025
-python scripts/run-task-scope-gate.py --task OPS-025 --base 9dcf7e6b9f7f3a8debee8da2183f4deeaf7ec584
+python scripts/check-program-plan-integrity.py --base-ref 3dad52dc22b67a4cea3d0a8db9ba880d11b28e9b
+python scripts/check-program-plan-history.py --base-ref 3dad52dc22b67a4cea3d0a8db9ba880d11b28e9b --head-ref HEAD --task OPS-025 --branch-name chore/OPS-025-poc-completion-mirror
+python scripts/check-program-plan-transitions.py --base-ref 3dad52dc22b67a4cea3d0a8db9ba880d11b28e9b --head-ref HEAD --task OPS-025 --branch-name chore/OPS-025-poc-completion-mirror
+python scripts/check-program-lifecycle-guards.py --base-ref 3dad52dc22b67a4cea3d0a8db9ba880d11b28e9b --head-ref HEAD --task OPS-025 --branch-name chore/OPS-025-poc-completion-mirror
+python scripts/run-program-lifecycle-gate.py --base-ref 3dad52dc22b67a4cea3d0a8db9ba880d11b28e9b --head-ref HEAD --task OPS-025 --branch-name chore/OPS-025-poc-completion-mirror
+python scripts/run-agent-coordination-gate.py --base-ref 3dad52dc22b67a4cea3d0a8db9ba880d11b28e9b --head-ref HEAD --task OPS-025 --branch-name chore/OPS-025-poc-completion-mirror
+python scripts/check-program-plan-finalization.py --base-ref 3dad52dc22b67a4cea3d0a8db9ba880d11b28e9b --head-ref HEAD --task OPS-025
+python scripts/run-task-scope-gate.py --task OPS-025 --base 3dad52dc22b67a4cea3d0a8db9ba880d11b28e9b
 python scripts/check-evidence.py --task OPS-025
 python scripts/check-project-readiness.py
 python scripts/check-markdown.py
