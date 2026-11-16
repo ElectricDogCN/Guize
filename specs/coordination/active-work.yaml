@@ -96,17 +96,17 @@ tasks:
 - taskId: OPS-025
   issue: 231
   title: 普通 POC 结项状态镜像的严格一致性修复
-  status: in_progress
+  status: review
   riskLevel: high
   owner: ElectricDogCN
   coordinator: /root
   implementer: /root
   reviewer: /root/gz022_planning_independent_review
   integrator: /root
-  agentRole: implementer
-  branch: chore/OPS-025-poc-completion-mirror
+  agentRole: reviewer
+  branch: chore/OPS-025-normal-review
   baseBranch: main
-  baseSha: 3dad52dc22b67a4cea3d0a8db9ba880d11b28e9b
+  baseSha: 82718c1e6b08396c67deeff7ca7f8adfbdd5b077
   workPackage: WP-M0-01
   programPlan: specs/coordination/program-plan.yaml
   programTaskId: OPS-025
