@@ -2,7 +2,12 @@
 from __future__ import annotations
 
 import time
-ENTRY_MONO_NS, ENTRY_WALL_NS, ENTRY_AFTER_NS = time.monotonic_ns(), time.time_ns(), time.monotonic_ns()
+ENTRY_CLOCK_SAMPLES = []
+for _entry_index in range(32):
+    _entry_before = time.monotonic_ns()
+    _entry_wall = time.time_ns()
+    _entry_after = time.monotonic_ns()
+    ENTRY_CLOCK_SAMPLES.append(dict(beforeNs=_entry_before, wallNs=_entry_wall, afterNs=_entry_after))
 
 import argparse
 import base64
@@ -18,6 +23,18 @@ from metadata_scan import MAX_PAGE_BYTES, MAX_PAGE_RECORDS, ScanError, canonical
 from native_memory import parse_status
 from native_scan_protocol import (Clock, ClockFailure, ControlReader, actual_argv, argv_sha, check_sources,
                                   decode, descriptor, emit, process_identity as native_identity, read_json, scoped, utc)
+
+
+def _entry_marker(clock, samples):
+    chosen = min(range(len(samples)), key=lambda index: samples[index]['afterNs'] - samples[index]['beforeNs'])
+    sample = samples[chosen]
+    try:
+        marker = clock.marker('process_start', tick=sample['beforeNs'], wall=sample['wallNs'], after_tick=sample['afterNs'])
+    except ClockFailure as failure:
+        failure.observation.update(samples=samples, chosen=chosen)
+        raise
+    marker.update(clockSamples=samples, chosenClockSample=chosen)
+    return marker
 
 
 def require_linux():
@@ -93,7 +110,7 @@ class Worker:
         self.args, self.reader, self.clock = args, control_reader or ControlReader(), Clock()
         self.root = self.cfg["artifactRoot"]
         if entry_sample is None:
-            self.start = self.clock.marker("process_start", tick=ENTRY_MONO_NS, wall=ENTRY_WALL_NS, after_tick=ENTRY_AFTER_NS)
+            self.start = _entry_marker(self.clock, ENTRY_CLOCK_SAMPLES)
         else:
             self.start = self.clock.marker('process_start', tick=entry_sample['beforeNs'], wall=entry_sample['wallNs'], after_tick=entry_sample['afterNs'])
             self.start['nativeClockSample'] = entry_sample

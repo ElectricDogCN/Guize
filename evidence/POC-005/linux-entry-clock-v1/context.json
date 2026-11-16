@@ -1,0 +1,20 @@
+{
+  "kind": "PROSPECTIVE_LINUX_ENTRY_CLOCK_REPAIR_PURPOSE",
+  "taskId": "POC-005",
+  "issue": 132,
+  "base": "abe35a8686e752201ca431f0d5d3915d1b1c2cdd",
+  "branch": "chore/POC-005-metadata-scale",
+  "previousPublicSource": "3942c22e94cf4801cbbc21df1f73f26bf42107e9",
+  "acceptedCodePullRequest": 219,
+  "sourceCi": "https://github.com/ElectricDogCN/Guize/actions/runs/43944801706",
+  "mainCi": "https://github.com/ElectricDogCN/Guize/actions/runs/43948857972",
+  "fixedEntrySamples": 32,
+  "maximumChosenUncertaintyNs": 2000,
+  "maximumWallResidualNs": 1000000,
+  "preserveAllReadingsOnSuccessAndFailure": true,
+  "selectByUncertaintyOnly": true,
+  "sourceQualified": false,
+  "resourcesPrepared": false,
+  "experimentApproved": false,
+  "taskCompleted": false
+}
