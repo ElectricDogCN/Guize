@@ -1,0 +1,28 @@
+{
+  "kind": "NORMAL_REVIEW_METADATA_ONLY",
+  "taskId": "OPS-025",
+  "issue": 231,
+  "base": "82718c1e6b08396c67deeff7ca7f8adfbdd5b077",
+  "branch": "chore/OPS-025-normal-review",
+  "codeSource": "d46435021716599be9de7a73620ebd9bdc608ae4",
+  "codeMain": "82718c1e6b08396c67deeff7ca7f8adfbdd5b077",
+  "codePullRequest": 233,
+  "claims": [
+    "scripts/check-program-plan-history.py",
+    "tests/governance/test_poc_completion_plan_mirror.py"
+  ],
+  "lease": {
+    "acquiredAt": "2026-11-16T07:19:31Z",
+    "expiresAt": "2026-11-23T07:19:31Z"
+  },
+  "parentCodeAcceptanceSha256": "580045d94571764a2a1765d07ac9879822eb865f49441c53f280a5e17b3b2c6d",
+  "parentCodeBundleSha256": "1189751b99cb00db056e5e5248bf6d51e9176d6abad115af2fc18f23a314ea45",
+  "parentCodeMainAccepted": true,
+  "codeBytesUnchanged": true,
+  "originalTaskBodyUnchanged": true,
+  "sourceGatePassed": false,
+  "fullCiAccepted": false,
+  "taskCompleted": false,
+  "capacityReleased": false,
+  "pocExperimentsApproved": false
+}
