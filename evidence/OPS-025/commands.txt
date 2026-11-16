@@ -13,3 +13,6 @@ python scripts/run-task-scope-gate.py --task OPS-025 --base 3dad52dc22b67a4cea3d
 python scripts/check-evidence.py --task OPS-025
 python scripts/check-project-readiness.py
 python scripts/check-markdown.py
+
+# Additional fixed-source code gate, pending:
+# python -m pytest -v -n 2 --dist loadfile --max-worker-restart=0 -p no:cacheprovider tests/governance
