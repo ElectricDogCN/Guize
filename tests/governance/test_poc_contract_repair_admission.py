@@ -1503,6 +1503,8 @@ class TestPerformanceRepairAdmission(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
+        # Metadata fixtures also spawn historical clone/checkouts through PROOF.
+        cls.enterClassContext(mock.patch.dict(os.environ,GIT_LFS_SKIP_SMUDGE='1'))
         cls.temporary=tempfile.TemporaryDirectory(prefix='guize-performance-admission-')
         cls.fixture=Path(cls.temporary.name,'fixture');cls.clone(ROOT,cls.fixture,cls.reservation)
         own=PROOF.entry_at(str(cls.fixture),cls.reservation,'OPS-026')
