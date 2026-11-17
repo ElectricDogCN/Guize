@@ -96,17 +96,17 @@ tasks:
 - taskId: OPS-026
   issue: 237
   title: 为百万文件证据验收器的等价性能修复建立精确准入
-  status: reserved
+  status: in_progress
   riskLevel: high
   owner: ElectricDogCN
   coordinator: /root
   implementer: /root
   reviewer: /root/gz022_planning_independent_review
   integrator: /root
-  agentRole: coordinator
-  branch: chore/OPS-026-poc-validator-performance-admission
+  agentRole: implementer
+  branch: chore/OPS-026-poc-validator-performance-authority
   baseBranch: main
-  baseSha: 81348fd9d67539e177c3f793422d5ba0104a0e9a
+  baseSha: 13e73a99d4a60c2d573179dd1631fb94b095d056
   workPackage: WP-M0-01
   programPlan: specs/coordination/program-plan.yaml
   programTaskId: OPS-026

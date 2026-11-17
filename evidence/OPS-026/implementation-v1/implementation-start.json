@@ -1,0 +1,24 @@
+{
+  "taskId": "OPS-026",
+  "issue": 237,
+  "actualAcceptedReservationMain": "13e73a99d4a60c2d573179dd1631fb94b095d056",
+  "implementationBranch": "chore/OPS-026-poc-validator-performance-authority",
+  "registeredClaims": [
+    "AGENTS.md",
+    "scripts/poc-contract-repair-admission.py",
+    "scripts/check-program-lifecycle-guards.py",
+    "tests/governance/test_poc_contract_repair_admission.py"
+  ],
+  "lease": {
+    "acquiredAt": "2026-11-17T04:39:28Z",
+    "expiresAt": "2026-11-24T04:39:28Z"
+  },
+  "integrationOrder": 21,
+  "normalRegistrationAccepted": true,
+  "sourceCi": 44020836937,
+  "actualMainCi": 44024437211,
+  "independentAcceptanceSha256": "e5aa77f3405b32f9d7260702a2e648decae215c9852f5f2d5570404118b042a3",
+  "ownMetadataActivationOnly": true,
+  "implementationTouched": false,
+  "bootstrapException": false
+}
