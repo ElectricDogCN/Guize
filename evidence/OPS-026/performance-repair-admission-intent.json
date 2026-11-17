@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "kind": "one_equivalent_poc_validator_performance_repair_authorization_intent",
+  "authorityTaskId": "OPS-026",
+  "successorTaskId": "OPS-027",
+  "reservationParent": "81348fd9d67539e177c3f793422d5ba0104a0e9a",
+  "issue": 237,
+  "authorityClaims": [
+    "AGENTS.md",
+    "scripts/poc-contract-repair-admission.py",
+    "scripts/check-program-lifecycle-guards.py",
+    "tests/governance/test_poc_contract_repair_admission.py"
+  ],
+  "repairPaths": [
+    "specs/poc/check_program.py",
+    "specs/poc/test_program.py"
+  ],
+  "originalAuthorityRewriteAllowed": false,
+  "repairRequiresIndependentReservation": true,
+  "repairRequiresActualFreezeVerificationAndIndependentThaw": true,
+  "historicalExecutionRebindingAllowed": false,
+  "thresholdsProductionPlatformAndFullCiUnchanged": true,
+  "requiredSemantics": "equivalent bounded reuse of normalized string keys and sensitive-key classification; original str(key), value is not False, sensitive terms and boundaries, recursive traversal, value scanning and diagnostics unchanged; never cache validation, file, approval or permission results",
+  "compatibilityMigrationGuaranteed": false,
+  "historicalAttemptQualificationGuaranteed": false,
+  "targetParentBindings": [
+    {
+      "path": "specs/poc/check_program.py",
+      "gitBlob": "aed3f7501fdd00452bedff80464300510ba4293e",
+      "sha256": "ee53ccf38e80095fd77ded709aa5dba7808d011a6346e864cd1a9f6482be8cc8"
+    },
+    {
+      "path": "specs/poc/test_program.py",
+      "gitBlob": "69bffbed29020f9b4f79480959d0d4fb76a4b72a",
+      "sha256": "ae2bda2b9ad50578d56dd3b72b08d7054f16172dc1ea88a57447ff1b22bc2c79"
+    }
+  ]
+}

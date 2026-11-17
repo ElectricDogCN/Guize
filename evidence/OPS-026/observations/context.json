@@ -1,0 +1,10 @@
+{
+  "taskId": "OPS-026",
+  "source": "81348fd9d67539e177c3f793422d5ba0104a0e9a",
+  "diagnosticOnly": true,
+  "qualificationAccepted": false,
+  "fullValidationExitCode": 1,
+  "outerWaitTimeoutSeconds": 1800,
+  "actualFullValidationSeconds": 1968.358519,
+  "checkerSha256": "ee53ccf38e80095fd77ded709aa5dba7808d011a6346e864cd1a9f6482be8cc8"
+}

@@ -1,0 +1,5 @@
+Validation Context Commit: deb439f69adf73ab1397486ab1162b3593bb569c
+Tested Runtime Commit: 81348fd9d67539e177c3f793422d5ba0104a0e9a
+Command: /usr/local/bin/python3.11 /work/Guize-attempt022/evidence/POC-005/profiles/local-v1/v1/attempt-022/tools/validate_poc005_attempt022_full_execution_v1.py --root /work/poc005-attempt022-validation-deb439f --output-dir /work/poc005-attempt022-complete-frozen-validation-v1
+execution record POC-005: empty/placeholder environment values ['driver', 'memory']
+Exit Code: 1
