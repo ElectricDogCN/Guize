@@ -12,3 +12,10 @@ NEEDS_REVIEW. Metadata-only reservation; implementation and official CI UNEXECUT
 实现仅增加精确026→027性能修复准入：原父两目标真实Git OID/SHA、完整正常权威生命周期、所有canonical/source观察历史及metadata-only/net-empty改后恢复保护、新意图metadata入口、真实前置GZ021冻结及独立解冻。SOURCE默认行为和原014缺陷路径、017范围修订保持；不扩policy平台、ownership、H/P、五冻结文件或CI/runner/30分钟。原1059及断言保全，追加必要真实Git正反回归。当前十四命令已更新为本阶段实际base/branch，尚未执行。
 
 以下保留原始登记背景及同一任务范围；登记历史和intent原字节仍在Git中，后继027、结项、容量释放和POC新资格仍待各自真实验收。
+
+
+## Current scoped implementation
+
+OPS-026 now implements only its original four claims. Full original intent, lifecycle, original-parent blob binding, observed metadata history, complete pre-admission target graph and separate frozen-code requirements are enforced for the exact new 026→027 identity. Legacy grants, five frozen files, workflow, dependencies, thresholds and 30-minute budget remain unchanged.
+
+The focused 87-case uncommitted probe passed with zero failures/errors/skips. All original test bytes remain a prefix, and the target-side edit/restore counterexample is retained. See implementation-v1/review-notes.md and focused-probe-summary.json. Final fixed-source original14/full1070 and complete official source/main CI are still UNEXECUTED. The next Reviewer checks this exact staged code, then the fixed source is tested and published only under the normal gates. No task completion or POC qualification is claimed.

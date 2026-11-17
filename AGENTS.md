@@ -381,6 +381,8 @@ Integrator 必须确认依赖已合并、最新 HEAD 的 Gate 成功、Review Th
 
 2026-11-02负责人明确批准一次前瞻范围/权限协议修订，绑定 `evidence/OPS-017/scope-amendment-v1.json` 的固定原件、真实父基线76be38c及独立审查。原意图和修订前四claims历史仍按原规则；Registry/Task可声明原四条及P/H两条新增范围，但引导源全部历史边仍禁止P/H修改，包括改后恢复。只有独立接受的真实first-parent修订main已进入后继admittedBase且为写入父祖先后，新增两路径才可写；观测head、PR虚拟merge和侧分支不授予权限。最终非空代码身份按当时生效的声明范围认证，原四路径累计实现、正常Review/Completion和容量释放保持。首次治理修订PR及其实际main可使用这次已批准的精确CI超时引导例外，但各自必须有独立Python3.11全部原CI检查、原828项及新增回归零失败/错误/跳过、真实云端结果和独立接受，取消仍记录为取消。该例外不延伸到P/H性能代码或结项，其完整官方源及实际主线CI必须成功；五个冻结目标、原828断言、30分钟和runner不变。
 
+独立的前瞻性能修复准入绑定 OPS-026 原始登记主线13e73a99d4a60c2d573179dd1631fb94b095d056中的 performance-repair-admission-intent.json（SHA256 1dedeb0167cf4f62bdca8de6c5f66f86764e10e6ecd7300964cdb4006543bac2）。只有真实原父81348fd的两目标Git OID/SHA、四条治理claims的完整正常实现、独立Review、Completion及容量释放经完整历史核验后，才允许新OPS-027独立预留 specs/poc/check_program.py 与 specs/poc/test_program.py。原意图及其观察历史、metadata-only和改后恢复范围均受保护；编号、侧分支、晚补声明或已释放身份不授权限。后继只能等价减少重复键计算，保留原敏感词、边界、str(key)、value is not False、递归/值检查与告警，有限缓存不得保存文件、批准、权限或校验结论。实际两文件代码写入仍须真实GZ-021冻结事件、完整验证及独立解冻；原014/017/018授权、原测试/阈值/规模/平台与30分钟不变，无CI引导例外，不重绑定022或任何历史结果。
+
 Program status=frozen 是执行准入阻断状态。恢复任务在 recovery 记录中声明 taskId、具体原因、受影响的 completed Tasks、冻结时主线 sourceCommit、UTC frozenAt 和本任务 verificationPath。冻结转换仅允许自己的 Task/Evidence、Program 恢复元数据与自己的 Lease；不能改变既有任务状态、完成账本、政策或业务实现。
 
 冻结后普通任务不得预留、启动、继续实现、完成或以解冻同一 PR 启动。旧活动快照可保留；普通任务仅可通过严格 metadata-only blocked/cancel 收口。已登记的 MOD-GOV 恢复 Foundation 可在已声明路径内修复。主线无 --task 的检查同样必须执行。

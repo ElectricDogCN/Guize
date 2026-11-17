@@ -1460,3 +1460,248 @@ class TestSourceCompatibilityRepairAdmission(unittest.TestCase):
             '--branch-name','chore/OPS-017-fixture-evidence-correction'],capture_output=True,text=True,encoding='utf-8')
         self.assertNotEqual(result.returncode,0,result.stdout+result.stderr)
         self.assertIn('Authorization intent changed after registration',result.stdout+result.stderr)
+
+
+class TestPerformanceRepairAdmission(unittest.TestCase):
+    """Real Git attack histories for the separate 026→027 grant, never POC evidence."""
+    write = staticmethod(TestBoundPocContractRepair.write)
+    commit = classmethod(TestBoundPocContractRepair.commit.__func__)
+    front_fields = staticmethod(TestBoundPocContractRepair.front_fields)
+    lifecycle = classmethod(TestBoundPocContractRepair.lifecycle.__func__)
+    authority_timestamp = classmethod(TestBoundPocContractRepair.authority_timestamp.__func__)
+    reservation = '13e73a99d4a60c2d573179dd1631fb94b095d056'
+
+    @classmethod
+    def git(cls, root, *args):
+        # These graph fixtures require metadata, not unrelated historical media.
+        return subprocess.check_output(['git','-C',str(root),*args],stderr=subprocess.STDOUT,
+            env=dict(os.environ,GIT_LFS_SKIP_SMUDGE='1')).decode().strip()
+
+    @classmethod
+    def clone(cls, source, target, checkout):
+        subprocess.run(['git','clone','--local','--no-checkout','--quiet',str(source),str(target)],
+            check=True,capture_output=True,env=dict(os.environ,GIT_LFS_SKIP_SMUDGE='1'))
+        cls.git(target,'sparse-checkout','set','--no-cone','/*','!/evidence/POC-003/','!/evidence/POC-005/')
+        cls.git(target,'checkout','--detach',checkout)
+        for key,value in [('user.email','fixture@example.invalid'),('user.name','Performance admission fixture'),('core.autocrlf','false')]:
+            cls.git(target,'config',key,value)
+
+    @classmethod
+    def complete_authority(cls, root, code, *, review=True):
+        seconds=int(cls.git(root,'show','-s','--format=%ct',code))-int(cls.authority_registered_at.timestamp())
+        previous=code
+        if review:
+            cls.lifecycle(root,'OPS-026','review','reviewer',code,'chore/OPS-026-fixture-review')
+            previous=cls.commit(root,'OPS-026 fixture independent Review (#3032)',timestamp=cls.authority_timestamp(seconds+1))
+        cls.lifecycle(root,'OPS-026','completed','integrator',previous,'chore/OPS-026-fixture-completion')
+        plan=yaml.safe_load(Path(root,PROOF.PLAN).read_bytes())
+        next(x for x in plan['foundationTasks'] if x['taskId']=='OPS-026').update(completionRef='PR-3031',mergeCommit=code)
+        active=yaml.safe_load(Path(root,PROOF.ACTIVE).read_bytes())
+        active['tasks']=[x for x in active['tasks'] if x['taskId']!='OPS-026']
+        cls.write(root,PROOF.PLAN,plan);cls.write(root,PROOF.ACTIVE,active)
+        return cls.commit(root,'OPS-026 fixture normal Completion (#3033)',timestamp=cls.authority_timestamp(seconds+(2 if review else 1)))
+
+    @classmethod
+    def setUpClass(cls):
+        cls.temporary=tempfile.TemporaryDirectory(prefix='guize-performance-admission-')
+        cls.fixture=Path(cls.temporary.name,'fixture');cls.clone(ROOT,cls.fixture,cls.reservation)
+        own=PROOF.entry_at(str(cls.fixture),cls.reservation,'OPS-026')
+        cls.authority_registered_at=datetime.fromtimestamp(int(cls.git(cls.fixture,'show','-s','--format=%ct',cls.reservation)),timezone.utc)
+        cls.authority_acquired_at=datetime.fromisoformat(own['lease']['acquiredAt'].replace('Z','+00:00'))
+        cls.authority_expires_at=datetime.fromisoformat(own['lease']['expiresAt'].replace('Z','+00:00'))
+        cls.lifecycle(cls.fixture,'OPS-026','in_progress','implementer',cls.reservation,'chore/OPS-026-fixture-code')
+        cls.activation=cls.commit(cls.fixture,'OPS-026 fixture separate purpose activation',timestamp=cls.authority_timestamp(1))
+        for name in sorted(PROOF.PERFORMANCE.claims):
+            # The default CLI must run the actual grant implementation too.
+            Path(cls.fixture,name).write_bytes((ROOT/name).read_bytes())
+        cls.code=cls.commit(cls.fixture,'OPS-026 fixture complete four-claim code (#3031)',timestamp=cls.authority_timestamp(2))
+        cls.completed=cls.complete_authority(cls.fixture,cls.code)
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.temporary.cleanup()
+
+    def setUp(self):
+        self.working=tempfile.TemporaryDirectory(prefix='guize-performance-case-');self.addCleanup(self.working.cleanup)
+        self.repo=Path(self.working.name,'repo');self.clone(self.fixture,self.repo,self.completed)
+        own=PROOF.entry_at(str(self.repo),self.reservation,'OPS-026');now=datetime.now(timezone.utc).replace(microsecond=0)
+        utc=lambda value:value.isoformat().replace('+00:00','Z')
+        self.entry=copy.deepcopy(own)
+        self.entry.update(taskId='OPS-027',programTaskId='OPS-027',issue=3034,title='Fixture equivalent validator repair',
+            branch='chore/OPS-027-fixture-repair',baseSha=self.completed,dependsOn=['OPS-026'],integrationOrder=22,
+            handoffPath='evidence/OPS-027/handoff.md',exclusivePaths=sorted(PROOF.PERFORMANCE.paths),
+            lease=dict(acquiredAt=utc(now-timedelta(minutes=1)),expiresAt=utc(now+timedelta(days=1))))
+
+    def claims(self, *, base=None, entry=None, observed=None):
+        return PROOF.prove_claims(str(self.repo),'OPS-027',entry or self.entry,base or self.completed,observed_ref=observed)
+
+    def register(self):
+        plan=yaml.safe_load(Path(self.repo,PROOF.PLAN).read_bytes())
+        plan['foundationTasks'].append(dict(taskId='OPS-027',title=self.entry['title'],status='reserved',completionRef='ISSUE-3034',mergeCommit=None))
+        active=yaml.safe_load(Path(self.repo,PROOF.ACTIVE).read_bytes());active['tasks'].append(self.entry)
+        self.write(self.repo,PROOF.PLAN,plan);self.write(self.repo,PROOF.ACTIVE,active)
+        front,body=Path(self.repo,'specs/tasks/OPS-026.md').read_text(encoding='utf8')[4:].split('\n---\n',1)
+        front=self.front_fields(front,dict(id='OPS-027',titleZh=self.entry['title'],status='reserved',issue=3034,
+            agentRole='coordinator',baseSha=self.entry['baseSha'],workBranch=self.entry['branch'],evidencePath='evidence/OPS-027',
+            programTaskId='OPS-027',dependsOn='OPS-026',handoffPath='evidence/OPS-027/handoff.md',integrationOrder=22,
+            leaseExpiresAt=self.entry['lease']['expiresAt']))
+        start=body.index('## 独占写范围\n');end=body.index('\n## ',start+4)
+        body=body[:start]+'## 独占写范围\n\n'+''.join('- '+chr(96)+name+chr(96)+'\n' for name in sorted(PROOF.PERFORMANCE.paths))+body[end:]
+        self.write(self.repo,'specs/tasks/OPS-027.md','---\n'+front+'\n---\n'+body)
+        self.write(self.repo,'evidence/OPS-027/handoff.md','# Synthetic fixture handoff only\n')
+        return self.commit(self.repo,'OPS-027 fixture independent reservation (#3034)')
+
+    def test_complete_authority_admits_only_exact_two_and_keeps_old_routes(self):
+        self.assertEqual(self.claims(),PROOF.PERFORMANCE.paths)
+        registration=self.register();self.assertEqual(self.claims(base=registration),PROOF.PERFORMANCE.paths)
+        self.assertEqual(PROOF.contract('OPS-014').paths,frozenset(PROOF.REPAIR_PATHS))
+        self.assertEqual(len(PROOF.contract('OPS-018').paths),5)
+        with self.assertRaises(PROOF.AdmissionError):PROOF.contract('OPS-028')
+
+    def test_unregistered_unfinished_unreviewed_or_unreleased_authority_is_denied(self):
+        for base in (PROOF.parent(str(self.repo),self.reservation),self.reservation,self.activation,self.code):
+            with self.subTest(base=base),self.assertRaises(PROOF.AdmissionError):
+                self.claims(base=base,entry=dict(self.entry,baseSha=base))
+        self.git(self.repo,'checkout','--detach',self.code)
+        bad=self.complete_authority(self.repo,self.code,review=False)
+        with self.assertRaises(PROOF.AdmissionError):self.claims(base=bad,entry=dict(self.entry,baseSha=bad))
+        self.git(self.repo,'checkout','--detach',self.completed)
+        active=yaml.safe_load(Path(self.repo,PROOF.ACTIVE).read_bytes())
+        active['tasks'].append(PROOF.entry_at(str(self.repo),self.reservation,'OPS-026'))
+        self.write(self.repo,PROOF.ACTIVE,active);bad=self.commit(self.repo,'Fixture completed authority retains active capacity')
+        with self.assertRaises(PROOF.AdmissionError):self.claims(base=bad,entry=dict(self.entry,baseSha=bad))
+
+    def test_parent_target_bindings_require_real_oids_digests_and_unique_paths(self):
+        preceding=PROOF.parent(str(self.repo),self.reservation)
+        intent=json.loads(PROOF.blob(str(self.repo),self.reservation,PROOF.PERFORMANCE.intent))
+        self.assertEqual(len(PROOF.approved_paths(str(self.repo),preceding,intent,PROOF.PERFORMANCE)),2)
+        for kind in ('oid','digest','duplicate','path','parent','kind','issue','semantics','weakened_guard'):
+            value=copy.deepcopy(intent)
+            if kind=='oid':value['targetParentBindings'][0]['gitBlob']='0'*40
+            elif kind=='digest':value['targetParentBindings'][0]['sha256']='0'*64
+            elif kind=='duplicate':value['targetParentBindings'][1]=copy.deepcopy(value['targetParentBindings'][0])
+            elif kind=='path':value['targetParentBindings'][0]['path']='AGENTS.md'
+            elif kind=='parent':value['reservationParent']=self.reservation
+            elif kind=='kind':value['kind']='one_versioned_poc_source_compatibility_repair_authorization_intent'
+            elif kind=='issue':value['issue']=168
+            elif kind=='semantics':value['requiredSemantics']='allow arbitrary checker changes'
+            else:value['repairRequiresActualFreezeVerificationAndIndependentThaw']=False
+            with self.subTest(kind=kind),self.assertRaises(PROOF.AdmissionError):
+                PROOF.approved_paths(str(self.repo),preceding,value,PROOF.PERFORMANCE)
+
+    def test_pre_successor_metadata_intent_edit_restore_fails_no_task_guard(self):
+        path=Path(self.repo,PROOF.PERFORMANCE.intent);raw=path.read_bytes()
+        path.write_bytes(raw+b'\n');self.commit(self.repo,'OPS-026 fixture original intent attack')
+        path.write_bytes(raw);restored=self.commit(self.repo,'OPS-026 fixture restore does not erase attack')
+        self.assertEqual(self.git(self.repo,'rev-parse',restored+'^{tree}'),self.git(self.repo,'rev-parse',self.completed+'^{tree}'))
+        result=subprocess.run([sys.executable,'-B',str(ROOT/'scripts/check-program-lifecycle-guards.py'),
+            '--repo-root',str(self.repo),'--base-ref',self.completed,'--head-ref',restored,'--branch-name','main'],
+            capture_output=True,text=True,encoding='utf8')
+        self.assertNotEqual(result.returncode,0,result.stdout+result.stderr)
+        self.assertIn('Authorization intent changed after registration',result.stdout+result.stderr)
+
+    def test_target_edit_restore_before_successor_admission_is_rejected(self):
+        path=Path(self.repo,'specs/poc/check_program.py');raw=path.read_bytes()
+        path.write_bytes(raw+b'\n# Premature target change.\n');self.commit(self.repo,'Fixture target changed before admission')
+        path.write_bytes(raw);restored=self.commit(self.repo,'Fixture target restored before admission')
+        self.entry['baseSha']=restored;registration=self.register()
+        with self.assertRaisesRegex(PROOF.AdmissionError,'frozen repair target before admission'):self.claims(base=registration)
+
+    def test_successor_metadata_and_side_branch_net_empty_attacks_are_rejected(self):
+        registration=self.register();raw=Path(self.repo,PROOF.PERFORMANCE.intent).read_bytes()
+        for side in (False,True):
+            self.git(self.repo,'checkout','--detach',registration)
+            if side:self.git(self.repo,'switch','-c','fixture-intent-side')
+            path=Path(self.repo,PROOF.PERFORMANCE.intent)
+            path.write_bytes(raw+b'\n');self.commit(self.repo,'Fixture observed intent attack')
+            path.write_bytes(raw);restored=self.commit(self.repo,'Fixture observed restoration')
+            if side:
+                self.git(self.repo,'checkout','--detach',registration)
+                self.git(self.repo,'merge','--no-ff','--no-edit',restored);restored=self.git(self.repo,'rev-parse','HEAD')
+            self.assertEqual(self.git(self.repo,'rev-parse',restored+'^{tree}'),self.git(self.repo,'rev-parse',registration+'^{tree}'))
+            errors=[];PROOF.validate_repair_changes(str(self.repo),registration,restored,'OPS-027',set(),errors)
+            self.assertTrue(errors,side)
+            self.assertIn('intent',str(errors))
+
+    def test_side_branch_target_edit_restore_before_admission_is_rejected(self):
+        target='specs/poc/check_program.py'
+        for kind in ('bytes','mode'):
+            self.git(self.repo,'checkout','--detach',self.completed)
+            self.git(self.repo,'switch','-c','fixture-target-side-'+kind)
+            path=Path(self.repo,target);raw=path.read_bytes()
+            if kind=='bytes':
+                path.write_bytes(raw+b'\n# Unadmitted side target change.\n')
+                self.commit(self.repo,'Fixture side target changed before successor admission')
+                path.write_bytes(raw)
+                restored=self.commit(self.repo,'Fixture side target restored before merge')
+            else:
+                mode=self.git(self.repo,'ls-tree',self.completed,'--',target).split()[0]
+                self.git(self.repo,'update-index','--chmod='+('-x' if mode=='100755' else '+x'),target)
+                self.git(self.repo,'commit','--quiet','-m','Fixture side target mode changed')
+                self.git(self.repo,'update-index','--chmod='+('+x' if mode=='100755' else '-x'),target)
+                self.git(self.repo,'commit','--quiet','-m','Fixture side target mode restored')
+                restored=self.git(self.repo,'rev-parse','HEAD')
+            self.git(self.repo,'checkout','--detach',self.completed)
+            self.git(self.repo,'merge','--no-ff','--no-edit',restored)
+            actual=self.git(self.repo,'rev-parse','HEAD')
+            self.assertEqual(self.git(self.repo,'rev-parse',actual+'^{tree}'),
+                             self.git(self.repo,'rev-parse',self.completed+'^{tree}'))
+            self.entry['baseSha']=actual;registration=self.register()
+            with self.subTest(kind=kind),self.assertRaises(PROOF.AdmissionError):
+                self.claims(base=registration)
+
+    def test_code_requires_preceding_correct_completed_producer_freeze(self):
+        registration=self.register();path=Path(self.repo,'specs/poc/check_program.py')
+        for mode in ('absent','wrong_owner','wrong_producer','valid'):
+            self.git(self.repo,'checkout','--detach',registration)
+            before=registration
+            if mode!='absent':
+                plan=yaml.safe_load(Path(self.repo,PROOF.PLAN).read_bytes())
+                plan.update(status='frozen',recovery=dict(taskId='OPS-026' if mode=='wrong_owner' else 'OPS-027',
+                    reason='Synthetic exact performance contract repair',affectedTasks=['GZ-020'] if mode=='wrong_producer' else ['GZ-021'],
+                    sourceCommit=self.completed,frozenAt=(datetime.now(timezone.utc)-timedelta(seconds=1)).isoformat().replace('+00:00','Z'),
+                    verificationPath='evidence/OPS-027/recovery-proof.json'))
+                self.write(self.repo,PROOF.PLAN,plan);before=self.commit(self.repo,'OPS-027 fixture preceding metadata freeze')
+            self.lifecycle(self.repo,'OPS-027','in_progress','implementer',before,self.entry['branch'])
+            activation=self.commit(self.repo,'OPS-027 fixture separate activation')
+            with path.open('ab') as stream:stream.write(b'\n# Synthetic contract code after activation.\n')
+            code=self.commit(self.repo,'OPS-027 fixture target implementation (#3035)')
+            errors=[];PROOF.validate_repair_changes(str(self.repo),activation,code,'OPS-027',{'specs/poc/check_program.py'},errors)
+            with self.subTest(mode=mode):
+                if mode=='valid':
+                    self.assertEqual(errors,[])
+                    self.git(self.repo,'checkout','--detach',before)
+                    self.git(self.repo,'merge','--no-ff','-m','OPS-027 fixture actual main integration (#3035)',code)
+                    actual=self.git(self.repo,'rev-parse','HEAD')
+                    self.git(self.repo,'update-ref','refs/heads/main',actual)
+                    self.git(self.repo,'update-ref','refs/remotes/origin/main',actual)
+                    result=subprocess.run([sys.executable,'-B',str(self.repo/'scripts/check-program-lifecycle-guards.py'),
+                        '--repo-root',str(self.repo),'--base-ref',before,'--head-ref',actual,'--branch-name','main'],
+                        capture_output=True,text=True,encoding='utf8')
+                    self.assertEqual(result.returncode,0,result.stdout+result.stderr)
+                else:self.assertTrue(errors)
+
+    def test_current_actor_lease_scope_and_capacity_are_live(self):
+        for kind in ('actor','lease','scope'):
+            entry=copy.deepcopy(self.entry)
+            if kind=='actor':entry['reviewer']=entry['implementer']
+            elif kind=='lease':entry['lease']['expiresAt']=(datetime.now(timezone.utc)-timedelta(seconds=2)).isoformat().replace('+00:00','Z')
+            else:entry['exclusivePaths']=['AGENTS.md']
+            with self.subTest(kind=kind),self.assertRaises(PROOF.AdmissionError):self.claims(entry=entry)
+        active=yaml.safe_load(Path(self.repo,PROOF.ACTIVE).read_bytes())
+        occupied=PROOF.entry_at(str(self.repo),self.reservation,'OPS-026');occupied.update(taskId='OPS-099',programTaskId='OPS-099')
+        active['tasks'].append(occupied);self.write(self.repo,PROOF.ACTIVE,active)
+        over=self.commit(self.repo,'Fixture foreign high-risk capacity still occupied')
+        with self.assertRaises(PROOF.AdmissionError):self.claims(base=over,entry=dict(self.entry,baseSha=over))
+
+    def test_released_successor_cannot_reacquire_scope(self):
+        self.register();active=yaml.safe_load(Path(self.repo,PROOF.ACTIVE).read_bytes())
+        active['tasks']=[x for x in active['tasks'] if x['taskId']!='OPS-027'];self.write(self.repo,PROOF.ACTIVE,active)
+        released=self.commit(self.repo,'Fixture successor entry released')
+        with self.assertRaisesRegex(PROOF.AdmissionError,'Released repair identity'):self.claims(base=released)
+
+    def test_metadata_only_activation_is_not_complete_authority_code(self):
+        plan=yaml.safe_load(Path(self.repo,PROOF.PLAN).read_bytes())
+        next(x for x in plan['foundationTasks'] if x['taskId']=='OPS-026')['mergeCommit']=self.activation
+        self.write(self.repo,PROOF.PLAN,plan);bad=self.commit(self.repo,'Fixture metadata activation cannot be code identity')
+        with self.assertRaises(PROOF.AdmissionError):self.claims(base=bad,entry=dict(self.entry,baseSha=bad))
