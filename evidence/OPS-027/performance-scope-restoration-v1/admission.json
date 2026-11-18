@@ -1,0 +1,17 @@
+{
+  "kind": "METADATA_ONLY_EXACT_P_SCOPE_RESTORATION_CANDIDATE",
+  "taskId": "OPS-027",
+  "actualAcceptedGovMain": "8452579b58370d80fba50fb035350e87eb68bbfb",
+  "independentGovMainReceiptSha256": "418a2537d190e743b2cffd882a2d34f08ace52c26ac7956a6e3cab9c801444fd",
+  "claims": [
+    "specs/poc/check_program.py",
+    "specs/poc/test_program.py"
+  ],
+  "status": "in_progress",
+  "agentRole": "implementer",
+  "govReentryAllowed": false,
+  "performanceCodeTouched": false,
+  "newFreezeAccepted": false,
+  "performanceQualified": false,
+  "pocQualified": false
+}
