@@ -104,9 +104,9 @@ tasks:
   reviewer: /root/gz022_planning_independent_review
   integrator: /root
   agentRole: implementer
-  branch: chore/OPS-027-governance-prerequisite
+  branch: chore/OPS-027-performance-scope-restoration
   baseBranch: main
-  baseSha: cf44f62f5141e62b5c13902809429aabe069ec51
+  baseSha: 8452579b58370d80fba50fb035350e87eb68bbfb
   workPackage: WP-M0-01
   programPlan: specs/coordination/program-plan.yaml
   programTaskId: OPS-027
@@ -124,10 +124,8 @@ tasks:
   dependsOn:
   - OPS-026
   exclusivePaths:
-  - AGENTS.md
-  - scripts/poc-contract-repair-admission.py
-  - tests/governance/test_poc_contract_repair_admission.py
-  - tests/governance/test_program_schema_cache.py
+  - specs/poc/check_program.py
+  - specs/poc/test_program.py
   sharedPaths: []
   handoffPath: evidence/OPS-027/handoff.md
   integrationStrategy: merge

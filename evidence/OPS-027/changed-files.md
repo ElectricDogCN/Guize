@@ -1,13 +1,9 @@
-# OPS-027 governance implementation files relative to activation
+# OPS-027 exact P scope restoration metadata
 
-- `AGENTS.md`
 - `evidence/OPS-027/changed-files.md`
 - `evidence/OPS-027/commands.txt`
-- `evidence/OPS-027/governance-implementation-v1/development-checks.json`
 - `evidence/OPS-027/handoff.md`
+- `evidence/OPS-027/performance-scope-restoration-v1/admission.json`
 - `evidence/OPS-027/summary.md`
-- `evidence/OPS-027/test-results/README.md`
-- `scripts/poc-contract-repair-admission.py`
+- `specs/coordination/active-work.yaml`
 - `specs/tasks/OPS-027.md`
-- `tests/governance/test_poc_contract_repair_admission.py`
-- `tests/governance/test_program_schema_cache.py`
