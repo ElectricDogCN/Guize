@@ -1,0 +1,66 @@
+{
+  "contents": "References and digests of already public official CI; no private native raw or acceptance certificate attached",
+  "officialCi": [
+    {
+      "phase": "source",
+      "url": "https://github.com/ElectricDogCN/Guize/actions/runs/44077410578",
+      "run": 44077410578,
+      "job": 134018897456,
+      "attempt": 1,
+      "source": "be098c1fb02cb6e8da66edc62dea70e3dbb1f5f5",
+      "actualCheckout": "afaa99502d6dfb2109653883187d487bc30e040d",
+      "tree": "519563272c31302a9905d9e1549a8851c2ab554a",
+      "orderedParents": [
+        "13e73a99d4a60c2d573179dd1631fb94b095d056",
+        "be098c1fb02cb6e8da66edc62dea70e3dbb1f5f5"
+      ],
+      "passed": 1070,
+      "original1059Preserved": true,
+      "newRegressions": 11,
+      "failedErroredSkippedXfailXpass": 0,
+      "successSteps": 28,
+      "conditionalSkippedSteps": [],
+      "logSha256": "e19b4bd53ed91a259ea793007eb75a8fbb9522a5400519b3b7d7d511938b3da9",
+      "originalHttpBytesClaimed": false,
+      "separateCloudJunitClaimed": false
+    },
+    {
+      "phase": "main",
+      "url": "https://github.com/ElectricDogCN/Guize/actions/runs/44256942693",
+      "run": 44256942693,
+      "job": 134640789755,
+      "attempt": 1,
+      "source": "be098c1fb02cb6e8da66edc62dea70e3dbb1f5f5",
+      "actualCheckout": "c7f557366e67f16e2855b87b9fbf4e7078cbb3e0",
+      "tree": "519563272c31302a9905d9e1549a8851c2ab554a",
+      "orderedParents": [
+        "13e73a99d4a60c2d573179dd1631fb94b095d056",
+        "be098c1fb02cb6e8da66edc62dea70e3dbb1f5f5"
+      ],
+      "passed": 1070,
+      "original1059Preserved": true,
+      "newRegressions": 11,
+      "failedErroredSkippedXfailXpass": 0,
+      "successSteps": 23,
+      "conditionalSkippedSteps": [
+        "Evidence check",
+        "Evidence integrity check",
+        "Scope check",
+        "Task file validation",
+        "Task-branch linkage check"
+      ],
+      "logSha256": "1ce5144d130ff7f48dd3398360bee207bb261d2f89d1e1970763185b8a6ebf8e",
+      "originalHttpBytesClaimed": false,
+      "separateCloudJunitClaimed": false
+    }
+  ],
+  "nativeSourceSpecificSummary": {
+    "source": "be098c1fb02cb6e8da66edc62dea70e3dbb1f5f5",
+    "passed": 1070,
+    "failedErroredSkipped": 0,
+    "rawSha256": "bf49d81173b68f49d1c2f5fb12613129553bdbfc4245412fb68bbd40f051170e",
+    "junitSha256": "6a9f31ce203cb30e47858de1697f2dc489160a1a1ccdb506f64852effa2a7bf0"
+  },
+  "actualMainSevenAccepted": true,
+  "currentReviewSourceValidationPending": true
+}
