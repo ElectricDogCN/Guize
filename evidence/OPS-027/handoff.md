@@ -1,16 +1,29 @@
-## 当前两P范围恢复候选
+# OPS-027 freeze-v2 handoff
 
-实际治理代码主线8452579b58370d80fba50fb035350e87eb68bbfb已完整官方源/主线1078、原七项及独立终验接受。本候选仅metadata恢复原026意图中的精确两P claims，保持in_progress/implementer及同一actors/lease/order22/3-1容量，Program原字节不变。四Gov文件、五冻结文件、原intent/manifest不变，Gov阶段不得重入。此恢复须完整正常源/实际主线CI及独审，之后另建新真实GZ021冻结；本候选不写P代码、不建立冻结、不重绑定历史POC资格。
+Status: NEEDS_REVIEW; Task in_progress / implementer. Issue #242. Branch chore/OPS-027-gz021-performance-freeze-v2. Base/parent 658761ad282296934061778a7a57c5ba66926a25. Candidate commit: UNCOMMITTED, exact source SHA must be recorded by the subsequent commit receipt; this handoff does not claim an unknown SHA or accepted source/main.
 
-## 当前治理代码候选
+Coordinator /root; Implementer /root; independent Reviewer /root/gz022_planning_independent_review; Integrator /root; Owner ElectricDogCN. dependsOn OPS-026; coordinationGroup poc-validator-performance; integrationOrder 22; sharedPaths=[]; exact P2 claims specs/poc/check_program.py and specs/poc/test_program.py; same actors/lease and 3 active / 1 high capacity remain.
 
-实际范围主线cf44f62f5141e62b5c13902809429aabe069ec51及正常IP激活b377e4ba672e8c8e6b34dfc9fbe8546ff0a5411a已独立接受。本候选仅实现已登记四Gov路径：固定真实active样本、精确连续治理阶段历史认证、真实DAG及冻结对象保护、恢复P2前置与完整正反回归。开发匹配v4测试54项全部通过；完整收集1078项，原1070项同序保留，新8项按原loadfile分组分为7项快回归及1项完整路径。这是未提交工作树开发诊断，不是固定源或官方CI资格。固定提交上的原14项、完整官方源及实际主线CI、独立技术审查仍须通过。原026 intent、固定前置manifest、五冻结文件、policy、原断言、CI/2workers/loadfile/30分钟保持。Task保持in_progress/implementer；P2恢复、新真实GZ021冻结、性能代码、解冻及POC资格均未发生。
+## Actual files and contracts
 
-OPS-027 NEEDS_REVIEW. Metadata-only intrinsic MOD-GOV prerequisite scope: four exact Gov paths; P2 completely absent from this stage claims and unchanged. Original 026 intent and all five frozen files remain unchanged. PR244/1050 remain closed/unmerged/FAIL. No new source/main validation, Gov code, P code, experiment or qualification is approved.
+The exact nine metadata files are indexed in changed-files.md: Program status/recovery; Own active-work branch/base; Task OPS-027; summary.md, handoff.md, commands.txt, changed-files.md, test-results/README.md, freeze-v2/context.json. No code changes. Preserve CONTRACT-PROGRAM-PLAN, CONTRACT-TASK-SPEC and CONTRACT-ACTIVE-WORK under their unchanged current schemas; original OPS-026 intent SHA256 1dedeb0167cf4f62bdca8de6c5f66f86764e10e6ecd7300964cdb4006543bac2 and immutable governance manifest SHA256 d1fbd5e8661ae13d36809ccab0894b07467806b192aa1621763bcc9bc2ea61b1 remain original. Gov4, frozen5, workflow/platform/30 minutes and all original tests stay unchanged.
 
-Review the exact metadata and immutable prospective manifest. After normal exact-source14/1070/full officialCI, expected-head merge, actual-main7/fullCI and independent acceptance, separately activate Gov code within only four declared paths. Gov technical PR review retains IP/implementer. Restore exact P2 only after the new rule real main qualifies; require a new actual GZ021 freeze before any P write. Final lifecycle Review/Completion remain pending.
+## Evidence and actual test state
 
+Evidence root evidence/OPS-027; freeze-v2/context.json records this proposal and predecessor provenance. commands.txt contains all fourteen exact source verification commands; each is UNEXECUTED on this uncommitted candidate, exitCode=N/A. The new ordered1078 collection, complete official source CI, actual frozen-main seven and complete official main CI are also UNEXECUTED / NOT_ACCEPTED. Subsequent fixed-source receipts must bind actual source/main SHA, commands, real exits and logs; no future result is asserted here.
 
-## 当前治理前置实施用途
+Only the accepted predecessor main 658761ad282296934061778a7a57c5ba66926a25 is qualified: PR247 source CI1055 https://github.com/ElectricDogCN/Guize/actions/runs/44354779212 and actual-main CI1056 https://github.com/ElectricDogCN/Guize/actions/runs/44359817503 passed 1078; original actual-main seven and independent final acceptance were obtained. Those predecessor results do not qualify this new proposal.
 
-实际范围登记主线 cf44f62f5141e62b5c13902809429aabe069ec51 已通过七项原始检查、完整官方CI1052及独立终验。本提交只将自身激活为in_progress/implementer，保持四Gov claims、全部角色、租约、order22、原始026 intent及不可变前置声明。须此真实转换原14项和原1070项清单通过并经独立审查后，才修改已登记四Gov路径。治理源及实际主线须完整官方CI和技术独审；本阶段保持IP，不提前生命周期Review。随后另行metadata恢复精确两P范围、建立新真实GZ021冻结、等价性能修复及独立解冻。
+## Failures, limits and rollback
+
+Closed unmerged PR244 / 47e8d8af66b55c820804647ecc807bf2a0c92375 / failed CI1050 (1036 passed,34 errors) remain failed and are never reused. New recovery sourceCommit is the exact base above, affectedTasks=[GZ-021], verificationPath=evidence/OPS-027/performance-recovery-v2/proof.json. That future proof is absent; no placeholder PASS, P implementation or current POC qualification exists. Ordinary work cannot start/continue/complete during the accepted freeze.
+
+Before merge, reject/close this metadata proposal and retain the accepted active base; preserve the candidate and failure history. After an actual freeze is accepted, do not blindly revert Program or alter historical results: repair within the registered scope, validate the actual repaired frozen main, archive real evidence and obtain independent metadata-only thaw under AGENTS17.8. Record any failed command as failed.
+
+## Exact next role actions
+
+Reviewer checks this exact nine-file candidate and guarded commit/source14 methods. Integrator commits only that accepted metadata tree normally, records actual source SHA in the local source receipt, executes all original fourteen commands and ordered1078 collection on that exact source, and obtains independent publication review before create-only publication and a normal Ready PR. Complete unchanged official source CI and final independent source review precede normal merge. Then execute original seven on actual frozen main, complete unchanged official main CI and obtain independent final acceptance. Only then prepare a distinct normally reviewed Own metadata implementation purpose; P code remains unwritten until it is accepted. Performance repair, full standalone POC and frozen-event validation, separate independent thaw and normal Review/Completion remain subsequent work.
+
+## Forward correction after actual local failure
+
+Source cddd4444f052b5df1c777e73576c150c97fc5ce9: original14 commands 00-09 actually exited0; command10 Task Scope actually exited1 because the combined Task/Evidence bullet exposed only the first path to the unchanged parser. Commands11-13 and ordered1078 collection were NOT_EXECUTED. Retain the failed source and complete original raw/results; no publication occurred. This correction only separates those two already declared paths into independent bullets. Its new source SHA is unknown until normal forward commit; all14/1078 and official source/main results for that new source are UNEXECUTED / NOT_ACCEPTED, and earlier partial successes do not transfer.
