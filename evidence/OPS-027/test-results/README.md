@@ -1,3 +1,3 @@
-# OPS-027
+# OPS-027 freeze validation
 
-UNEXECUTED. Metadata-only reservation; no result or code authority claimed.
+Prior accepted registration is not qualification of this new source. All freeze-source checks and CI are UNEXECUTED.

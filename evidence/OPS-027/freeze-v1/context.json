@@ -1,0 +1,88 @@
+{
+  "kind": "SEPARATE_METADATA_ONLY_GZ021_FREEZE_PROPOSAL",
+  "taskId": "OPS-027",
+  "issue": 242,
+  "base": "9e17626241fd1c6a6aae9d7493060b30eaa18560",
+  "branch": "chore/OPS-027-gz021-validator-freeze",
+  "recovery": {
+    "taskId": "OPS-027",
+    "reason": "\u5df2\u5b8c\u6210GZ-021\u7684\u767e\u4e07\u6587\u4ef6\u8bc1\u636e\u9a8c\u6536\u4e2d\u91cd\u590d\u5b57\u7b26\u4e32\u952e\u8ba1\u7b97\u4e3a\u5df2\u89c2\u6d4bCPU\u70ed\u70b9\uff1b\u539f022\u4ecd\u56e0driver/memory\u7a7a\u503c\u62d2\u7edd\u4e14\u5916\u5c4230\u5206\u949f\u8d85\u65f6\u4fdd\u7559\u3002\u6309026\u539f\u59cb\u51c6\u5165\u4ec5\u7b49\u4ef7\u4f18\u5316\u4e24\u76ee\u6807\uff0c\u771f\u5b9e\u4fee\u590d\u5b8c\u6574\u9a8c\u8bc1\u540e\u72ec\u7acb\u89e3\u51bb\uff0c\u4e0d\u66f4\u6539\u539f\u5224\u65ad\u3001\u89c4\u6a21\u6216\u8d44\u683c\u3002",
+    "affectedTasks": [
+      "GZ-021"
+    ],
+    "sourceCommit": "9e17626241fd1c6a6aae9d7493060b30eaa18560",
+    "frozenAt": "2026-11-18T11:53:08Z",
+    "verificationPath": "evidence/OPS-027/recovery-proof.json"
+  },
+  "entry": {
+    "taskId": "OPS-027",
+    "issue": 242,
+    "title": "\u767e\u4e07\u6587\u4ef6\u9a8c\u6536\u5668\u91cd\u590d\u952e\u5904\u7406\u7684\u7b49\u4ef7\u6709\u754c\u590d\u7528",
+    "status": "reserved",
+    "riskLevel": "high",
+    "owner": "ElectricDogCN",
+    "coordinator": "/root",
+    "implementer": "/root",
+    "reviewer": "/root/gz022_planning_independent_review",
+    "integrator": "/root",
+    "agentRole": "coordinator",
+    "branch": "chore/OPS-027-gz021-validator-freeze",
+    "baseBranch": "main",
+    "baseSha": "9e17626241fd1c6a6aae9d7493060b30eaa18560",
+    "workPackage": "WP-M0-01",
+    "programPlan": "specs/coordination/program-plan.yaml",
+    "programTaskId": "OPS-027",
+    "programWave": "FOUNDATION",
+    "requirementIds": [
+      "REQ-V1-0010"
+    ],
+    "moduleIds": [
+      "MOD-GOV"
+    ],
+    "producesContracts": [],
+    "consumesContracts": [
+      "CONTRACT-PROGRAM-PLAN",
+      "CONTRACT-TASK-SPEC",
+      "CONTRACT-ACTIVE-WORK"
+    ],
+    "coordinationGroup": "poc-validator-performance",
+    "dependsOn": [
+      "OPS-026"
+    ],
+    "exclusivePaths": [
+      "specs/poc/check_program.py",
+      "specs/poc/test_program.py"
+    ],
+    "sharedPaths": [],
+    "handoffPath": "evidence/OPS-027/handoff.md",
+    "integrationStrategy": "merge",
+    "integrationOrder": 22,
+    "lease": {
+      "acquiredAt": "2026-11-18T10:31:23Z",
+      "expiresAt": "2026-11-25T10:31:23Z"
+    }
+  },
+  "claims": [
+    "specs/poc/check_program.py",
+    "specs/poc/test_program.py"
+  ],
+  "lease": {
+    "acquiredAt": "2026-11-18T10:31:23Z",
+    "expiresAt": "2026-11-25T10:31:23Z"
+  },
+  "producerStatus": "completed",
+  "priorReservationPr": 243,
+  "priorReservationSource": "852c9a2671d08e71bfd26c9433670931fd0757e4",
+  "priorReservationMain": "9e17626241fd1c6a6aae9d7493060b30eaa18560",
+  "priorSourceCi": "https://github.com/ElectricDogCN/Guize/actions/runs/44288627669",
+  "priorMainCi": "https://github.com/ElectricDogCN/Guize/actions/runs/44293846208",
+  "priorMainFinalReceiptSha256": "cc261612ede56f5465142b8cdc9f943799fdd0dc843fe5612951133b50b60f67",
+  "metadataOnly": true,
+  "leaseRenewed": false,
+  "sourceValidationExecuted": false,
+  "fullCiAccepted": false,
+  "actualFrozenMainAccepted": false,
+  "implementationApproved": false,
+  "experimentApproved": false,
+  "qualificationAccepted": false
+}

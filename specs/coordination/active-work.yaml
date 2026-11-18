@@ -104,9 +104,9 @@ tasks:
   reviewer: /root/gz022_planning_independent_review
   integrator: /root
   agentRole: coordinator
-  branch: chore/OPS-027-validator-key-reuse-reservation
+  branch: chore/OPS-027-gz021-validator-freeze
   baseBranch: main
-  baseSha: fd00bbd152495f7623545a7ab583ec458e42af6a
+  baseSha: 9e17626241fd1c6a6aae9d7493060b30eaa18560
   workPackage: WP-M0-01
   programPlan: specs/coordination/program-plan.yaml
   programTaskId: OPS-027

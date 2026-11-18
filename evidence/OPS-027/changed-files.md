@@ -1,5 +1,13 @@
-# OPS-027
+# OPS-027 separate freeze metadata inventory
 
-# Own metadata only
+- `evidence/OPS-027/changed-files.md`
+- `evidence/OPS-027/commands.txt`
+- `evidence/OPS-027/freeze-v1/context.json`
+- `evidence/OPS-027/handoff.md`
+- `evidence/OPS-027/summary.md`
+- `evidence/OPS-027/test-results/README.md`
+- `specs/coordination/active-work.yaml`
+- `specs/coordination/program-plan.yaml`
+- `specs/tasks/OPS-027.md`
 
-Only append Own Foundation and Active row, add specs/tasks/OPS-027.md and evidence/OPS-027/**. All code, frozen paths, foreign rows, policy, ledger, workflow, dependencies and Makefile unchanged.
+No code, original target, foreign identity, policy, ledger, dependency or workflow changed.

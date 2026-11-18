@@ -1,15 +1,15 @@
 $schema: program-plan.schema.yaml
 schemaVersion: 1
 planId: GUIZE-V1-PROGRAM
-status: active
+status: frozen
 recovery:
-  taskId: OPS-014
-  reason: 已完成GZ-021的metadata profiling合同错误要求supported/unsatisfiable的416诊断正文为空；真实授权OpenList响应33字节与之冲突，按原OPS-013授权执行精确两文件修复并完整验证后另行解冻。
+  taskId: OPS-027
+  reason: 已完成GZ-021的百万文件证据验收中重复字符串键计算为已观测CPU热点；原022仍因driver/memory空值拒绝且外层30分钟超时保留。按026原始准入仅等价优化两目标，真实修复完整验证后独立解冻，不更改原判断、规模或资格。
   affectedTasks:
   - GZ-021
-  sourceCommit: 36b986a65e23671d0b08134d1c4163833a59fbd7
-  frozenAt: '2026-10-24T23:24:58Z'
-  verificationPath: evidence/OPS-014/recovery-proof.json
+  sourceCommit: 9e17626241fd1c6a6aae9d7493060b30eaa18560
+  frozenAt: '2026-11-18T11:53:08Z'
+  verificationPath: evidence/OPS-027/recovery-proof.json
 baseline: GZ-014
 sourceOfTruth: specs/coordination/program-plan.yaml
 authority:

@@ -1,5 +1,5 @@
-NEEDS_REVIEW. Only independent reserved metadata for OPS-027; code, freeze, experiments and all current checks UNEXECUTED.
+OPS-027 NEEDS_REVIEW. Metadata-only real GZ-021 freeze proposal; base 9e17626241fd1c6a6aae9d7493060b30eaa18560; branch chore/OPS-027-gz021-validator-freeze.
 
-Base fd00bbd152495f7623545a7ab583ec458e42af6a; branch chore/OPS-027-validator-key-reuse-reservation; Issue242; roles and exact two claims are bound in reservation-context.json. Original 026 intent and two target bindings remain unchanged. Completed producer acceptance is a prerequisite, not this source qualification.
+Accepted reservation is prerequisite only. This candidate has no accepted source, CI or actual frozen main. Own identity remains reserved/coordinator and original lease/claims/roles/capacity remain unchanged. No code, performance result, historical qualification or POC experiment is approved.
 
-Next: independent review of this exact metadata, ordinary commit, actual source14/1070 collection and complete official source/main CI plus actual-main seven. No code until separately accepted real GZ-021 freeze; no historical POC rebinding.
+Next independent reviewer: exact Own metadata, event, original intent and target bytes. Next integrator: source14/full1070 officialCI, fresh expected-head merge, actual-main7/fullCI and independent final acceptance. Only then prepare a separate metadata activation. recovery-proof.json is a future actual repaired-main validation path, not a placeholder PASS.
