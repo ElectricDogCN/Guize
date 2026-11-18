@@ -1,0 +1,49 @@
+{
+  "taskId": "OPS-026",
+  "metadataPurposeCommit": "3cbfd581ef04dd69e8c76ab7b729f66f0a002266",
+  "codeInputPins": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "d0de4f013605594ee85ad5eaa0c57b4d4c526fac6db37c1c413c48d14ed2f17f"
+    },
+    {
+      "path": "scripts/check-program-lifecycle-guards.py",
+      "sha256": "2dd1254160c0725a546183f07a96c710a7ca01de01bf0d1c7d70f6d369f6da92"
+    },
+    {
+      "path": "scripts/poc-contract-repair-admission.py",
+      "sha256": "d294eb5259493885f22a845f3a62c98c7c8af8cf6c92e3844d92bb26df09a78b"
+    },
+    {
+      "path": "tests/governance/test_poc_contract_repair_admission.py",
+      "sha256": "f43363eb63c3cdfda03197c5512d44acc5057745ae29f692206c50c60bd230dc"
+    }
+  ],
+  "executionKind": "uncommitted four-claim focused regression probe",
+  "pythonVersion": "3.11.17",
+  "platform": "Ubuntu WSL2",
+  "selection": "tests/governance/test_poc_contract_repair_admission.py",
+  "actualWaitCompleted": true,
+  "exitCode": 0,
+  "junitCases": 87,
+  "failedErroredSkipped": 0,
+  "oldTestBytesPreserved": true,
+  "rawOutputSha256": "c2992598c277cc04b54da63280e5a11b5096566ddab1d8b9c6996d61d1469578",
+  "junitSha256": "33fc3675973d4b915ef1cf6f8656d4f3ecfc2fc2beef2667156a3f30bf3a725c",
+  "sourceContextUnchanged": true,
+  "fixedSourceQualification": false,
+  "fullOfficialCiAccepted": false,
+  "counterexample": {
+    "kind": "side branch target edit and restore before successor admission",
+    "actualExitCode": 1,
+    "junitCases": 1,
+    "expectedFailure": "AdmissionError not raised",
+    "rawOutputSha256": "9771eff83fd50fbfd01d32db182befb7e0be9e7ca6fa8714449d2e0905e2baf1",
+    "junitSha256": "0f50017b22edb6900d85ceef97c6c2d14f95bc1fe13be61544226fc6298fecf1"
+  },
+  "requiredFullInventory": {
+    "original": 1059,
+    "additional": 11,
+    "total": 1070
+  }
+}

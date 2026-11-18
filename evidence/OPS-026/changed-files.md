@@ -1,5 +1,18 @@
-# OPS-026 changed-files.md
+# OPS-026 current implementation changed files
 
-OPS-026 / Issue237 / base 81348fd9d67539e177c3f793422d5ba0104a0e9a / branch chore/OPS-026-poc-validator-performance-admission. MOD-GOV/high, independent Reviewer /root/gz022_planning_independent_review; lease 2026-11-17T04:39:28Z to 2026-11-24T04:39:28Z.
+Against accepted reservation main 13e73a99d4a60c2d573179dd1631fb94b095d056. Only four code claims and Own metadata/Evidence.
 
-Only Own Foundation/Registry additions, Task, immutable intent and Evidence. No implementation or protected target changed.
+- AGENTS.md
+- evidence/OPS-026/changed-files.md
+- evidence/OPS-026/commands.txt
+- evidence/OPS-026/handoff.md
+- evidence/OPS-026/implementation-v1/focused-probe-summary.json
+- evidence/OPS-026/implementation-v1/implementation-start.json
+- evidence/OPS-026/implementation-v1/review-notes.md
+- evidence/OPS-026/summary.md
+- scripts/check-program-lifecycle-guards.py
+- scripts/poc-contract-repair-admission.py
+- specs/coordination/active-work.yaml
+- specs/coordination/program-plan.yaml
+- specs/tasks/OPS-026.md
+- tests/governance/test_poc_contract_repair_admission.py

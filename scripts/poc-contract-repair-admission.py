@@ -58,6 +58,19 @@ SOURCE_COMPATIBILITY = RepairContract(
                'specs/poc/check_program.py', 'specs/poc/test_program.py',
                'docs/18-testing-and-acceptance.md'}))
 
+PERFORMANCE = RepairContract(
+    'OPS-026', 'OPS-027', 'evidence/OPS-026/performance-repair-admission-intent.json',
+    '1dedeb0167cf4f62bdca8de6c5f66f86764e10e6ecd7300964cdb4006543bac2',
+    frozenset({'AGENTS.md', 'scripts/poc-contract-repair-admission.py',
+               'scripts/check-program-lifecycle-guards.py',
+               'tests/governance/test_poc_contract_repair_admission.py'}),
+    frozenset({'specs/poc/check_program.py', 'specs/poc/test_program.py'}))
+
+PERFORMANCE_SEMANTICS = (
+    'equivalent bounded reuse of normalized string keys and sensitive-key classification; '
+    'original str(key), value is not False, sensitive terms and boundaries, recursive traversal, '
+    'value scanning and diagnostics unchanged; never cache validation, file, approval or permission results')
+
 # A separately approved, prospective amendment. The original intent and its
 # four claims retain their original meaning at every preceding snapshot.
 SCOPE_AMENDMENT = 'evidence/OPS-017/scope-amendment-v1.json'
@@ -73,6 +86,8 @@ def contract(task_id: str) -> RepairContract:
                               frozenset(AUTHORITY_CLAIMS), frozenset(REPAIR_PATHS))
     if task_id == SOURCE_COMPATIBILITY.successor:
         return SOURCE_COMPATIBILITY
+    if task_id == PERFORMANCE.successor:
+        return PERFORMANCE
     raise AdmissionError('No declared repair for this identity')
 
 
@@ -84,6 +99,46 @@ def approved_paths(root: str, preceding: str, intent: dict[str, Any],
                 and {p['path'] for p in successor['paths']} == selected.paths,
                 'Authorization declares another repair')
         return successor['paths']
+    if selected.successor == PERFORMANCE.successor:
+        require(intent.get('schemaVersion') == 1
+                and intent.get('kind') == 'one_equivalent_poc_validator_performance_repair_authorization_intent'
+                and intent.get('authorityTaskId') == selected.authority
+                and intent.get('successorTaskId') == selected.successor
+                and intent.get('reservationParent') == preceding
+                and intent.get('issue') == 237,
+                'Performance repair intent identity is not parent-bound')
+        for field, expected in [('authorityClaims', selected.claims), ('repairPaths', selected.paths)]:
+            value = intent.get(field)
+            require(isinstance(value, list) and len(value) == len(expected) and set(value) == expected,
+                    'Performance repair intent has different exact paths')
+        for field in ('repairRequiresIndependentReservation',
+                      'repairRequiresActualFreezeVerificationAndIndependentThaw',
+                      'thresholdsProductionPlatformAndFullCiUnchanged'):
+            require(intent.get(field) is True, 'Performance repair intent requires '+field)
+        for field in ('originalAuthorityRewriteAllowed', 'historicalExecutionRebindingAllowed',
+                      'compatibilityMigrationGuaranteed', 'historicalAttemptQualificationGuaranteed'):
+            require(intent.get(field) is False, 'Performance repair intent forbids '+field)
+        require(intent.get('requiredSemantics') == PERFORMANCE_SEMANTICS,
+                'Performance repair intent has different semantics')
+        bindings = intent.get('targetParentBindings')
+        require(isinstance(bindings, list) and len(bindings) == len(selected.paths)
+                and all(isinstance(item, dict) and set(item) == {'path', 'gitBlob', 'sha256'}
+                        for item in bindings)
+                and {item['path'] for item in bindings} == selected.paths,
+                'Performance repair requires exact, unique original target bindings')
+        records = []
+        for item in bindings:
+            path = item['path']
+            identity = git(root, 'ls-tree', preceding, '--', path).decode().split()
+            require(len(identity) == 4 and identity[0] in {'100644', '100755'}
+                    and identity[1] == 'blob' and identity[3] == path
+                    and identity[2] == item['gitBlob'],
+                    'Performance repair original target is not its actual regular Git blob')
+            raw = blob(root, preceding, path)
+            digest = hashlib.sha256(raw).hexdigest()
+            require(digest == item['sha256'], 'Performance repair original target digest differs')
+            records.append(dict(path=path, bytes=len(raw), gitBlobSha256=digest))
+        return records
     require(intent.get('schemaVersion') == 1
             and intent.get('kind') == 'one_versioned_poc_source_compatibility_repair_authorization_intent'
             and intent.get('authorityTaskId') == selected.authority
@@ -398,9 +453,10 @@ def audit_scope_amendment(root: str, before: str, after: str) -> None:
                            set(SOURCE_COMPATIBILITY.claims) | set(SCOPE_SUPPLEMENT),observed,historical=True)
 
 
-def audit_source_authority_intent(root: str, base: str, observation: str) -> None:
+def audit_source_authority_intent(root: str, base: str, observation: str,
+                                 *, selected: RepairContract | None = None) -> None:
     """Protect the registered original even while its authority is implementing."""
-    selected = SOURCE_COMPATIBILITY
+    selected = SOURCE_COMPATIBILITY if selected is None else selected
     exists = lambda ref: subprocess.run(
         ['git','-C',str(root),'cat-file','-e',ref+':'+selected.intent],capture_output=True).returncode == 0
     admitted = exists(base)
@@ -431,20 +487,29 @@ def audit_source_authority_intent(root: str, base: str, observation: str) -> Non
                 and first.get('agentRole') == 'coordinator' and first.get('baseSha') == previous
                 and hashlib.sha256(blob(root,node,selected.intent)).hexdigest() == selected.digest,
                 'Authorization intent changed after registration')
-    audit_scope_amendment(root,base,observation)
+    if selected.successor == SOURCE_COMPATIBILITY.successor:
+        audit_scope_amendment(root,base,observation)
 
 
-def validate_source_authority_intent(root: str, before: str, after: str, errors: list[str]) -> None:
+def validate_source_authority_intent(root: str, before: str, after: str, errors: list[str],
+                                     *, selected: RepairContract | None = None) -> None:
     try:
-        audit_source_authority_intent(root,resolve(root,before),resolve(root,after))
+        if selected is None:
+            audit_source_authority_intent(root,resolve(root,before),resolve(root,after))
+        else:
+            audit_source_authority_intent(root,resolve(root,before),resolve(root,after),selected=selected)
     except (AdmissionError,KeyError,TypeError,ValueError,OSError,yaml.YAMLError) as exc:
         errors.append('Bound POC authority intent audit rejected: '+str(exc))
 
 
-def source_protected_ref(root: str, base: str, observation: str) -> str:
+def source_protected_ref(root: str, base: str, observation: str,
+                         *, selected: RepairContract | None = None) -> str:
     """Use admitted main history for a peer's proven, automatic main import."""
-    selected = SOURCE_COMPATIBILITY
-    audit_source_authority_intent(root,base,observation)
+    if selected is None:
+        selected = SOURCE_COMPATIBILITY
+        audit_source_authority_intent(root,base,observation)
+    else:
+        audit_source_authority_intent(root,base,observation,selected=selected)
     admitted = introduction(root,chain(root,base),selected.successor)
     observed = introduction(root,chain(root,observation),selected.successor)
     if admitted is None or (observed is not None and admitted[0] == observed[0]):
@@ -490,6 +555,20 @@ def validate_entry(entry: dict[str, Any], task_id: str, paths: set[str], when: d
             and (acquired < when+timedelta(seconds=1) if historical else acquired <= when)
             and when < expires and 0 < (expires-acquired).total_seconds() <= 168*3600,
             'Repair lease is invalid at the actual observation')
+
+
+def _audit_performance_target_history(root: str, preceding: str, admitted: str) -> None:
+    """Keep both original targets intact on every imported pre-admission edge."""
+    paths = sorted(PERFORMANCE.paths)
+    expected = git(root,'ls-tree',preceding,'--',*paths)
+    records = git(root,'rev-list','--full-history','--parents','--reverse',
+                  preceding+'..'+admitted,'--',*paths).decode().splitlines()
+    for record in records:
+        node = record.split()[0]
+        # Git's path-filtered display may rewrite parents; use the real edge.
+        for ref in (parent(root,node), node):
+            require(git(root,'ls-tree',ref,'--',*paths) == expected,
+                    'Performance repair target changed in original admission history')
 
 
 def validate_capacity(root: str, base: str, entry: dict[str, Any], *, successor: str = SUCCESSOR) -> None:
@@ -625,7 +704,8 @@ def _authority(root: str, base: str, *, protected_through: str | None = None,
     raw = blob(root, registration, INTENT)
     require(hashlib.sha256(raw).hexdigest() == INTENT_SHA256, 'Original authorization intent differs')
     intent = json.loads(raw)
-    require((SUCCESSOR == SOURCE_COMPATIBILITY.successor or intent.get('kind') == 'one_poc_contract_repair_authorization_intent')
+    require((SUCCESSOR in {SOURCE_COMPATIBILITY.successor, PERFORMANCE.successor}
+             or intent.get('kind') == 'one_poc_contract_repair_authorization_intent')
             and intent.get('authorityTaskId') == AUTHORITY
             and intent.get('reservationParent') == preceding,
             'Authorization intent is not parent-bound')
@@ -637,7 +717,7 @@ def _authority(root: str, base: str, *, protected_through: str | None = None,
     require(metadata <= changed(root,preceding,registration)
             and all(p in metadata or p.startswith('evidence/'+AUTHORITY+'/')
                     for p in changed(root,preceding,registration)), 'Authority reservation contains implementation')
-    defect = intent['defect'] if SUCCESSOR != SOURCE_COMPATIBILITY.successor else None
+    defect = intent['defect'] if SUCCESSOR not in {SOURCE_COMPATIBILITY.successor, PERFORMANCE.successor} else None
     defect_fields = [('sourceObservationRef','sourceObservationSha256'),
                      ('actualExecutionReviewRef','actualExecutionReviewSha256'),
                      ('responseRef','responseSha256')] if defect is not None else []
@@ -700,7 +780,7 @@ def _authority(root: str, base: str, *, protected_through: str | None = None,
     front,_ = history.parse_front_matter(blob(root,finish,'specs/tasks/'+AUTHORITY+'.md').decode())
     _normal_foundation_edge(root,before,finish,str(front.get('workBranch') or ''),errors,selected=selected)
     require(not errors, 'Normal authority Foundation history rejected: '+'; '.join(errors))
-    if SUCCESSOR == SOURCE_COMPATIBILITY.successor:
+    if SUCCESSOR in {SOURCE_COMPATIBILITY.successor, PERFORMANCE.successor}:
         implementation_paths = declared_authority_paths(root,implementation,selected)
         require(AUTHORITY_CLAIMS <= changed(root, preceding, implementation)
                 and bool(implementation_paths.intersection(changed(root, parent(root, implementation), implementation))),
@@ -743,6 +823,10 @@ def _authority(root: str, base: str, *, protected_through: str | None = None,
             for record in records:
                 require(blob(root,node,record['path']) == blob(root,preceding,record['path']),
                         'Source compatibility authority changed an approved contract frozen repair target before admission')
+    if SUCCESSOR == PERFORMANCE.successor:
+        # The original admitted base stays fixed. Lawful successor writes
+        # after its separate freeze are outside this historical interval.
+        _audit_performance_target_history(root,preceding,base)
     return intent, registration
 
 
@@ -794,9 +878,11 @@ def prove_claims(root: str, task_id: str, entry: dict[str, Any], base_ref: str,
                 'Repair original Task does not bind its exact registration: '+'; '.join(errors))
         require(bool(blob(root,registration,'evidence/'+task_id+'/handoff.md').strip()),
                 'Repair original handoff is missing')
-    protected = observed_ref if task_id == SOURCE_COMPATIBILITY.successor and observed_ref is not None else base
+    protected = observed_ref if task_id in {SOURCE_COMPATIBILITY.successor, PERFORMANCE.successor} and observed_ref is not None else base
     if task_id == SOURCE_COMPATIBILITY.successor and observed_ref is not None:
         protected = source_protected_ref(root,base,resolve(root,observed_ref))
+    elif task_id == PERFORMANCE.successor and observed_ref is not None:
+        protected = source_protected_ref(root,base,resolve(root,observed_ref),selected=selected)
     intent, authority_registration = authority(root,admission_base,protected_through=protected,successor=task_id)
     require(blob(root,base,INTENT) == blob(root,admission_base,INTENT), 'Current authority intent changed')
     for record in approved_paths(root,parent(root,authority_registration),intent,selected):
@@ -814,7 +900,7 @@ def prove_claims(root: str, task_id: str, entry: dict[str, Any], base_ref: str,
 
 def authenticated_claims(root: str | None, task_id: str, entry: dict[str, Any], base_ref: str,
                          *, observed_ref: str | None = None) -> set[str]:
-    if not root or task_id not in {SUCCESSOR, SOURCE_COMPATIBILITY.successor}:
+    if not root or task_id not in {SUCCESSOR, SOURCE_COMPATIBILITY.successor, PERFORMANCE.successor}:
         return set()
     try:
         return prove_claims(root,task_id,entry,base_ref,observed_ref=observed_ref)
@@ -831,10 +917,13 @@ def validate_repair_changes(root: str, before: str, after: str, task_id: str,
         except (AdmissionError,KeyError,TypeError,ValueError,OSError,yaml.YAMLError) as exc:
             errors.append('Prospective authority scope amendment rejected: '+str(exc))
         return
-    if task_id not in {SUCCESSOR, SOURCE_COMPATIBILITY.successor}:
+    if task_id == PERFORMANCE.authority:
+        validate_source_authority_intent(root,before,after,errors,selected=PERFORMANCE)
+        return
+    if task_id not in {SUCCESSOR, SOURCE_COMPATIBILITY.successor, PERFORMANCE.successor}:
         return
     selected = contract(task_id)
-    if task_id == SOURCE_COMPATIBILITY.successor:
+    if task_id in {SOURCE_COMPATIBILITY.successor, PERFORMANCE.successor}:
         # Authority Evidence is also protected on metadata-only changes, on a
         # net-empty edit/restore range and when Completion removes the entry.
         # The original successor admission base must never move to this tip.
@@ -845,7 +934,9 @@ def validate_repair_changes(root: str, before: str, after: str, task_id: str,
             if original is None:
                 original = introduction(root, chain(root, observation), task_id)
             require(original is not None, 'Source compatibility repair has no original canonical reservation')
-            protected = source_protected_ref(root,admitted,observation)
+            protected = (source_protected_ref(root,admitted,observation)
+                         if task_id == SOURCE_COMPATIBILITY.successor else
+                         source_protected_ref(root,admitted,observation,selected=selected))
             authority(root, parent(root, original[0]), protected_through=protected, successor=task_id)
         except (AdmissionError,KeyError,TypeError,ValueError,OSError,yaml.YAMLError) as exc:
             errors.append('Bound POC contract authority audit rejected: '+str(exc))
