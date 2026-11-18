@@ -1,15 +1,15 @@
-# Reservation original14 recipe; Exit Code: UNEXECUTED
-git diff --check fd00bbd152495f7623545a7ab583ec458e42af6a...HEAD
+# OPS-027 Gov prerequisite scope commands. Exit Code: UNEXECUTED for every command.
+git diff --check 9e17626241fd1c6a6aae9d7493060b30eaa18560...HEAD
 python scripts/check-task-file.py --task OPS-027
 python scripts/check-schemas.py
-python scripts/check-program-plan-integrity.py --base-ref fd00bbd152495f7623545a7ab583ec458e42af6a
-python scripts/check-program-plan-history.py --base-ref fd00bbd152495f7623545a7ab583ec458e42af6a --head-ref HEAD --task OPS-027 --branch-name chore/OPS-027-validator-key-reuse-reservation
-python scripts/check-program-plan-transitions.py --base-ref fd00bbd152495f7623545a7ab583ec458e42af6a --head-ref HEAD --task OPS-027 --branch-name chore/OPS-027-validator-key-reuse-reservation
-python scripts/check-program-lifecycle-guards.py --base-ref fd00bbd152495f7623545a7ab583ec458e42af6a --head-ref HEAD --task OPS-027 --branch-name chore/OPS-027-validator-key-reuse-reservation
-python scripts/run-program-lifecycle-gate.py --base-ref fd00bbd152495f7623545a7ab583ec458e42af6a --head-ref HEAD --task OPS-027 --branch-name chore/OPS-027-validator-key-reuse-reservation
-python scripts/run-agent-coordination-gate.py --base-ref fd00bbd152495f7623545a7ab583ec458e42af6a --head-ref HEAD --task OPS-027 --branch-name chore/OPS-027-validator-key-reuse-reservation
-python scripts/check-program-plan-finalization.py --base-ref fd00bbd152495f7623545a7ab583ec458e42af6a --head-ref HEAD --task OPS-027
-python scripts/run-task-scope-gate.py --task OPS-027 --base fd00bbd152495f7623545a7ab583ec458e42af6a
+python scripts/check-program-plan-integrity.py --base-ref 9e17626241fd1c6a6aae9d7493060b30eaa18560
+python scripts/check-program-plan-history.py --base-ref 9e17626241fd1c6a6aae9d7493060b30eaa18560 --head-ref HEAD --task OPS-027 --branch-name chore/OPS-027-governance-prelude-reservation
+python scripts/check-program-plan-transitions.py --base-ref 9e17626241fd1c6a6aae9d7493060b30eaa18560 --head-ref HEAD --task OPS-027 --branch-name chore/OPS-027-governance-prelude-reservation
+python scripts/check-program-lifecycle-guards.py --base-ref 9e17626241fd1c6a6aae9d7493060b30eaa18560 --head-ref HEAD --task OPS-027 --branch-name chore/OPS-027-governance-prelude-reservation
+python scripts/run-program-lifecycle-gate.py --base-ref 9e17626241fd1c6a6aae9d7493060b30eaa18560 --head-ref HEAD --task OPS-027 --branch-name chore/OPS-027-governance-prelude-reservation
+python scripts/run-agent-coordination-gate.py --base-ref 9e17626241fd1c6a6aae9d7493060b30eaa18560 --head-ref HEAD --task OPS-027 --branch-name chore/OPS-027-governance-prelude-reservation
+python scripts/check-program-plan-finalization.py --base-ref 9e17626241fd1c6a6aae9d7493060b30eaa18560 --head-ref HEAD --task OPS-027
+python scripts/run-task-scope-gate.py --task OPS-027 --base 9e17626241fd1c6a6aae9d7493060b30eaa18560
 python scripts/check-evidence.py --task OPS-027
 python scripts/check-project-readiness.py
 python scripts/check-markdown.py

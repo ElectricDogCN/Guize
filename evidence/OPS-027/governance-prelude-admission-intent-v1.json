@@ -1,0 +1,206 @@
+{
+  "schemaVersion": 1,
+  "kind": "one_forward_intrinsic_governance_prelude_for_ops027",
+  "taskId": "OPS-027",
+  "issue": 242,
+  "createdAt": "2026-11-18T12:52:46Z",
+  "scopeRegistrationParent": "9e17626241fd1c6a6aae9d7493060b30eaa18560",
+  "proposedBranch": "chore/OPS-027-governance-prelude-reservation",
+  "ownerDecision": {
+    "owner": "ElectricDogCN",
+    "decisionBy": "/root acting under delegated project decision authority",
+    "delegation": "全权授权，所有决策由你来决定不需要询问",
+    "scope": "Only this prospective four-path governance prerequisite; no CI exception or performance-scope expansion",
+    "independentReviewRequired": true,
+    "exactManifestDirectHumanApprovalClaimed": false
+  },
+  "originalReservation": {
+    "source": "852c9a2671d08e71bfd26c9433670931fd0757e4",
+    "actualMain": "9e17626241fd1c6a6aae9d7493060b30eaa18560",
+    "admissionParent": "fd00bbd152495f7623545a7ab583ec458e42af6a",
+    "branch": "chore/OPS-027-validator-key-reuse-reservation"
+  },
+  "originalAuthority": {
+    "path": "evidence/OPS-026/performance-repair-admission-intent.json",
+    "sha256": "1dedeb0167cf4f62bdca8de6c5f66f86764e10e6ecd7300964cdb4006543bac2",
+    "rewriteAllowed": false
+  },
+  "failedFreeze": {
+    "pullRequest": 244,
+    "state": "closed",
+    "merged": false,
+    "source": "47e8d8af66b55c820804647ecc807bf2a0c92375",
+    "base": "9e17626241fd1c6a6aae9d7493060b30eaa18560",
+    "run": 44300746228,
+    "job": 134789509860,
+    "attempt": 1,
+    "conclusion": "failure",
+    "passed": 1036,
+    "errors": 34,
+    "decodedUtf8Bytes": 630621,
+    "decodedUtf8Sha256": "c73d7273382f0b6a384512a423a282a36c4d08abb3d932df0f92650b4a82f80e",
+    "historicalPassRebindingAllowed": false
+  },
+  "governancePaths": [
+    "AGENTS.md",
+    "scripts/poc-contract-repair-admission.py",
+    "tests/governance/test_poc_contract_repair_admission.py",
+    "tests/governance/test_program_schema_cache.py"
+  ],
+  "performanceRepairPaths": [
+    "specs/poc/check_program.py",
+    "specs/poc/test_program.py"
+  ],
+  "governanceParentBindings": [
+    {
+      "path": "AGENTS.md",
+      "mode": "100644",
+      "type": "blob",
+      "gitBlob": "022b01e2fe740bbce0c71ddfbd5b312910ff6645",
+      "sha256": "d0de4f013605594ee85ad5eaa0c57b4d4c526fac6db37c1c413c48d14ed2f17f",
+      "bytes": 19020
+    },
+    {
+      "path": "scripts/poc-contract-repair-admission.py",
+      "mode": "100644",
+      "type": "blob",
+      "gitBlob": "b55574fa905fe2c41c23333cbc3e184b8a030291",
+      "sha256": "d294eb5259493885f22a845f3a62c98c7c8af8cf6c92e3844d92bb26df09a78b",
+      "bytes": 56533
+    },
+    {
+      "path": "tests/governance/test_poc_contract_repair_admission.py",
+      "mode": "100644",
+      "type": "blob",
+      "gitBlob": "1157c7625140c36b22f4717f5c2ab2d34a561419",
+      "sha256": "04e54d0968e93f9696f2923e5ab51147159dd9f18449b06da174352950160c82",
+      "bytes": 114523
+    },
+    {
+      "path": "tests/governance/test_program_schema_cache.py",
+      "mode": "100644",
+      "type": "blob",
+      "gitBlob": "9c67e42e74b0870e3aba40d5946ec38f5d14eff5",
+      "sha256": "007fd1b9a75734ad21bc70362e625a758a53a2cf13106defbec44d5cfad2d040",
+      "bytes": 24587
+    }
+  ],
+  "protectedFrozenParentBindings": [
+    {
+      "path": "specs/poc/program.schema.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "gitBlob": "81071def6615928ef484cd94949341696c4922aa",
+      "sha256": "74b5218c3e8b126727ddb15b9830240e9ee0b5a1eb73558c2f6ae138e70934d7",
+      "bytes": 553310
+    },
+    {
+      "path": "specs/poc/program.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "gitBlob": "039a6b06a800726bebc1c1822a8988243c11bdcb",
+      "sha256": "4b155984d793fd0b990003826af2ef94ffc2f14e3dc31fb07a6fe437863e02e2",
+      "bytes": 3618
+    },
+    {
+      "path": "specs/poc/check_program.py",
+      "mode": "100644",
+      "type": "blob",
+      "gitBlob": "aed3f7501fdd00452bedff80464300510ba4293e",
+      "sha256": "ee53ccf38e80095fd77ded709aa5dba7808d011a6346e864cd1a9f6482be8cc8",
+      "bytes": 771092
+    },
+    {
+      "path": "specs/poc/test_program.py",
+      "mode": "100644",
+      "type": "blob",
+      "gitBlob": "69bffbed29020f9b4f79480959d0d4fb76a4b72a",
+      "sha256": "ae2bda2b9ad50578d56dd3b72b08d7054f16172dc1ea88a57447ff1b22bc2c79",
+      "bytes": 1128264
+    },
+    {
+      "path": "docs/18-testing-and-acceptance.md",
+      "mode": "100644",
+      "type": "blob",
+      "gitBlob": "e4a9a2f446c67bfecc092951348891b4ebf80cd3",
+      "sha256": "5e74b1955ded3377a8f4947382a3987dab15de6c8390bd2b514ba43b6c5804ad",
+      "bytes": 7931
+    }
+  ],
+  "unchangedIdentity": {
+    "owner": "ElectricDogCN",
+    "coordinator": "/root",
+    "implementer": "/root",
+    "reviewer": "/root/gz022_planning_independent_review",
+    "integrator": "/root",
+    "riskLevel": "high",
+    "moduleIds": [
+      "MOD-GOV"
+    ],
+    "lease": {
+      "acquiredAt": "2026-11-18T10:31:23Z",
+      "expiresAt": "2026-11-25T10:31:23Z"
+    },
+    "dependsOn": [
+      "OPS-026"
+    ],
+    "integrationOrder": 22,
+    "coordinationGroup": "poc-validator-performance"
+  },
+  "prerequisites": {
+    "actualScopeMain": "PENDING; derive from real first-parent metadata integration and bind in a separate accepted receipt, never rewrite this manifest",
+    "govCodeBeforeAcceptedScopeMain": false,
+    "governanceStageMustBeSingleContinuous": true,
+    "normalModuleOwnershipAndHistoricalScopesRequired": true,
+    "allImportedGraphFrozenTargetsModeOidShaUnchanged": true
+  },
+  "fixtureRepair": {
+    "path": "tests/governance/test_program_schema_cache.py",
+    "sampleSource": "9e17626241fd1c6a6aae9d7493060b30eaa18560",
+    "kind": "Read a pinned genuine active plus nonempty recovery sample independent of the live Program state",
+    "originalAssertionAndAll34CasesPreserved": true,
+    "existingFrozenNegativeCasePreserved": true,
+    "productionReadPathUnchanged": true
+  },
+  "returnToPerformance": {
+    "actualAcceptedNewRuleMainRequired": true,
+    "completeOfficialGovSourceAndMainCiRequired": true,
+    "independentTechnicalReviewRequired": true,
+    "govReviewMeans": "Technical source/PR and actual-main acceptance, not a lifecycle transition to review",
+    "taskRemainsInProgressImplementerDuringGovTechnicalReview": true,
+    "claimRestorationMetadataOnly": true,
+    "restoredClaimsExactly": [
+      "specs/poc/check_program.py",
+      "specs/poc/test_program.py"
+    ],
+    "noGovReentryAfterRestoration": true,
+    "newRealGz021FreezeRequired": true,
+    "ordinaryFinalLifecycleReviewAfterPerformanceValidationAndThaw": true
+  },
+  "forbidden": {
+    "arbitrarySupersets": true,
+    "unregisteredOrLateManifest": true,
+    "unprovedSideBranches": true,
+    "historyOmissions": true,
+    "editRestoreFrozenTargets": true,
+    "old014017018AuthorityReinterpretation": true,
+    "testDeletionOrRelaxedAssertions": true,
+    "ciBootstrapException": true,
+    "permissionApprovalOrValidationResultCaching": true
+  },
+  "limits": {
+    "maxActiveTasks": 3,
+    "maxHighRiskTasks": 1,
+    "leaseMaxHours": 168,
+    "officialCiTimeoutMinutes": 30,
+    "workflowRunnerPinsDependenciesAndMakefileUnchanged": true,
+    "allOriginal1070GovernanceCasesPreserved": true
+  },
+  "metadataOnly": true,
+  "sourceCommitted": false,
+  "published": false,
+  "scopeMainAccepted": false,
+  "govImplementationApproved": false,
+  "performanceImplementationApproved": false,
+  "experimentApproved": false
+}

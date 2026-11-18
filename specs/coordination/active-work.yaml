@@ -104,9 +104,9 @@ tasks:
   reviewer: /root/gz022_planning_independent_review
   integrator: /root
   agentRole: coordinator
-  branch: chore/OPS-027-validator-key-reuse-reservation
+  branch: chore/OPS-027-governance-prelude-reservation
   baseBranch: main
-  baseSha: fd00bbd152495f7623545a7ab583ec458e42af6a
+  baseSha: 9e17626241fd1c6a6aae9d7493060b30eaa18560
   workPackage: WP-M0-01
   programPlan: specs/coordination/program-plan.yaml
   programTaskId: OPS-027
@@ -124,8 +124,10 @@ tasks:
   dependsOn:
   - OPS-026
   exclusivePaths:
-  - specs/poc/check_program.py
-  - specs/poc/test_program.py
+  - AGENTS.md
+  - scripts/poc-contract-repair-admission.py
+  - tests/governance/test_poc_contract_repair_admission.py
+  - tests/governance/test_program_schema_cache.py
   sharedPaths: []
   handoffPath: evidence/OPS-027/handoff.md
   integrationStrategy: merge
