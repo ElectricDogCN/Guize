@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 1,
+  "kind": "DIRTY_TWO_P_TARGETED_DEVELOPMENT_DIAGNOSTIC",
+  "baseCommit": "6252910a5cf01d87b94e3e15125cb817ff529070",
+  "fixedSourceQualification": false,
+  "performanceImplementationAccepted": false,
+  "fullCiAccepted": false,
+  "actualWaitCompleted": true,
+  "exitCode": 0,
+  "pytestPassed": 16,
+  "newSemanticCases": 11,
+  "originalSecretRegressionCases": 5,
+  "originalStandaloneCasesRetained": 211,
+  "originalTestBytesAndAstRetained": true,
+  "elapsedSeconds": 77.66880796000623,
+  "logBytes": 1183,
+  "logSha256": "a51fc6572c9043bd003b5ec61e8b9fea4a37d76480afdd13356a78ae5400312e",
+  "junit": {
+    "bytes": 2550,
+    "sha256": "48846c3855ef1f2d983cbaa802f267704e46b4a6c7d03fc1c12b00ca44cd1832",
+    "cases": 16,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0
+  },
+  "codePins": [
+    {
+      "path": "specs/poc/check_program.py",
+      "beforeSha256": "ee53ccf38e80095fd77ded709aa5dba7808d011a6346e864cd1a9f6482be8cc8",
+      "bytes": 772770,
+      "sha256": "690a8d7c2c3e2f6819467957f7306cf0bd9e600e11db0116d2547d200a65ae2e"
+    },
+    {
+      "path": "specs/poc/test_program.py",
+      "beforeSha256": "ae2bda2b9ad50578d56dd3b72b08d7054f16172dc1ea88a57447ff1b22bc2c79",
+      "bytes": 1141151,
+      "sha256": "974b28f68070b4513d9301dfd31bb31a69b0729ffee1d9a17a63b16794d44749"
+    }
+  ],
+  "rawLogPublished": false,
+  "completeOriginalStandaloneExecutionPending": true,
+  "requiredFixedSourceAndActualRepairMainCases": 222,
+  "priorOfficialMain1058AttemptsRemainCancelled": true,
+  "commandRecipe": [
+    "python",
+    "-B",
+    "-m",
+    "pytest",
+    "-q",
+    "-p",
+    "no:cacheprovider",
+    "--color=no",
+    "specs/poc/test_program.py::TestEquivalentKeyReuse",
+    "specs/poc/test_program.py::TestPocProgram::test_46_compound_secret_key_rejected",
+    "specs/poc/test_program.py::TestPocProgram::test_47_compound_auth_token_key_rejected",
+    "specs/poc/test_program.py::TestPocProgram::test_48_secret_value_rejected",
+    "specs/poc/test_program.py::TestPocProgram::test_131_separator_secret_keys_cannot_enter_qualified_configuration",
+    "specs/poc/test_program.py::TestPocProgram::test_152_canonical_secret_reference_preserves_plaintext_guards",
+    "--junitxml=<private-development-output>/targeted.xml"
+  ],
+  "commandRecipePortable": true,
+  "actualCommandRecordedInPrivateRawLog": true
+}

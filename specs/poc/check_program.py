@@ -22,6 +22,7 @@ import tempfile
 import urllib.parse
 import zlib
 from datetime import datetime, timezone
+from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
@@ -6592,20 +6593,71 @@ def validate_schema(value: Any, schema: Any, label: str, errors: list[str]) -> N
         errors.append(f"{label} schema validation failed: {exc}")
 
 
-def normalize_key(key: Any) -> str:
-    text = str(key)
+_STRING_KEY_CACHE_CAPACITY = 4096
+_STRING_KEY_CACHE_MAX_LENGTH = 1024
+_SENSITIVE_CONTEXT_MAX_TERMS = 64
+_SENSITIVE_CONTEXT_MAX_TERM_LENGTH = 128
+_SENSITIVE_CONTEXT_MAX_TEXT_LENGTH = 4096
+
+
+def _normalize_key_text(text: str) -> str:
     text = re.sub(r"([a-z0-9])([A-Z])", r"\1_\2", text)
     return re.sub(r'[^a-z0-9]+','_',text.lower()).strip('_')
+
+
+_normalize_key_text_cached = lru_cache(maxsize=_STRING_KEY_CACHE_CAPACITY)(
+    _normalize_key_text
+)
+
+
+def normalize_key(key: Any) -> str:
+    # Conversion remains live: original key objects never enter a cache.
+    text = str(key)
+    if type(text) is str and len(text) <= _STRING_KEY_CACHE_MAX_LENGTH:
+        return _normalize_key_text_cached(text)
+    return _normalize_key_text(text)
+
+
+def _sensitive_key_match(normalized: str, terms: Any) -> bool:
+    return any(
+        re.search(rf"(?:^|_){re.escape(term)}(?:_|$)", normalized)
+        for term in terms
+    )
+
+
+_sensitive_key_match_cached = lru_cache(maxsize=_STRING_KEY_CACHE_CAPACITY)(
+    _sensitive_key_match
+)
+
+
+def _sensitive_terms_snapshot(terms: Any) -> tuple[str, ...] | None:
+    # Custom iterables retain the original lazy, short-circuiting traversal.
+    if type(terms) is not set or len(terms) > _SENSITIVE_CONTEXT_MAX_TERMS:
+        return None
+    snapshot = tuple(terms)
+    total = 0
+    for term in snapshot:
+        if type(term) is not str:
+            return None
+        length = len(term)
+        if length > _SENSITIVE_CONTEXT_MAX_TERM_LENGTH:
+            return None
+        total += length
+        if total > _SENSITIVE_CONTEXT_MAX_TEXT_LENGTH:
+            return None
+    return snapshot
 
 
 def secret_key(key: Any, value: Any) -> bool:
     normalized = normalize_key(key)
     if normalized in SAFE_KEYS:
         return value is not False
-    return any(
-        re.search(rf"(?:^|_){re.escape(term)}(?:_|$)", normalized)
-        for term in SENSITIVE
-    )
+    terms = SENSITIVE
+    if type(normalized) is str and len(normalized) <= _STRING_KEY_CACHE_MAX_LENGTH:
+        snapshot = _sensitive_terms_snapshot(terms)
+        if snapshot is not None:
+            return _sensitive_key_match_cached(normalized, snapshot)
+    return _sensitive_key_match(normalized, terms)
 
 
 def secret_scan(value: Any, path: str, errors: list[str]) -> None:
