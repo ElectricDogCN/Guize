@@ -1,0 +1,44 @@
+{
+  "taskId": "OPS-027",
+  "issue": 242,
+  "verifiedActualFreezeEventMain": "afe89504b0e118790986331061dde873ceb1e325",
+  "actualFreezeMainFullyAccepted": false,
+  "fullMainCiAccepted": false,
+  "acceptedFreezeSource": "1b80669efc9769ca5f889be751080d34ff031855",
+  "branch": "chore/OPS-027-validator-key-reuse-implementation",
+  "base": "afe89504b0e118790986331061dde873ceb1e325",
+  "recovery": {
+    "taskId": "OPS-027",
+    "reason": "\u767e\u4e07\u6587\u4ef6\u9a8c\u6536\u5df2\u89c2\u6d4b\u91cd\u590d\u5b57\u7b26\u4e32\u952e\u8ba1\u7b97CPU\u70ed\u70b9\uff1b\u4ec5\u6309026\u539f\u610f\u56fe\u7b49\u4ef7\u4f18\u5316\u4e24P\u3002\u65b0\u4e8b\u4ef6\u4e0d\u590d\u7528\u5173\u95ed\u672a\u5408\u5e76PR244/47e\u6216\u5931\u8d251050\uff0c\u4e0d\u6539driver/memory\u5fc5\u9700\u9879\u3001\u89c4\u6a21\u3001\u9608\u503c\u3001\u539f\u7ed3\u679c\u6216\u5b8c\u6574CI\u4e49\u52a1\uff1b\u5b9e\u9645\u4fee\u590d\u5b8c\u6574\u9a8c\u8bc1\u540e\u72ec\u7acb\u89e3\u51bb\u3002",
+    "affectedTasks": [
+      "GZ-021"
+    ],
+    "sourceCommit": "658761ad282296934061778a7a57c5ba66926a25",
+    "frozenAt": "2026-11-18T18:10:05Z",
+    "verificationPath": "evidence/OPS-027/performance-recovery-v2/proof.json"
+  },
+  "claims": [
+    "specs/poc/check_program.py",
+    "specs/poc/test_program.py"
+  ],
+  "independentFreezeEventPreparationReceiptSha256": "8169ccef87a883c5731c44bd9ba7ffc509b78ecc01f2209e763b192406db1316",
+  "sourceCi": "https://github.com/ElectricDogCN/Guize/actions/runs/44371744017",
+  "mainCi": "https://github.com/ElectricDogCN/Guize/actions/runs/44375966387",
+  "mainCiQualified": false,
+  "cancelledMainCiAttempts": [
+    {
+      "attempt": 1,
+      "job": 135055101651,
+      "conclusion": "cancelled"
+    },
+    {
+      "attempt": 2,
+      "job": 135076248610,
+      "conclusion": "cancelled"
+    }
+  ],
+  "metadataPurposeOnly": true,
+  "performanceCodeTouched": false,
+  "purposeSourceAccepted": false,
+  "pocQualified": false
+}
