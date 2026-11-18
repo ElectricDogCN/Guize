@@ -136,7 +136,7 @@ foundationTasks:
     mergeCommit: 82718c1e6b08396c67deeff7ca7f8adfbdd5b077
   - taskId: OPS-026
     title: 为百万文件证据验收器的等价性能修复建立精确准入
-    status: in_progress
+    status: review
     completionRef: ISSUE-237
     mergeCommit: null
 waves:

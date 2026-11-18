@@ -1,15 +1,15 @@
-# OPS-026 current implementation command recipe. Exit code: UNEXECUTED.
-git diff --check 13e73a99d4a60c2d573179dd1631fb94b095d056...HEAD
+# Normal Review original14 phase recipe; UNEXECUTED
+git diff --check c7f557366e67f16e2855b87b9fbf4e7078cbb3e0...HEAD
 python scripts/check-task-file.py --task OPS-026
 python scripts/check-schemas.py
-python scripts/check-program-plan-integrity.py --base-ref 13e73a99d4a60c2d573179dd1631fb94b095d056
-python scripts/check-program-plan-history.py --base-ref 13e73a99d4a60c2d573179dd1631fb94b095d056 --head-ref HEAD --task OPS-026 --branch-name chore/OPS-026-poc-validator-performance-authority
-python scripts/check-program-plan-transitions.py --base-ref 13e73a99d4a60c2d573179dd1631fb94b095d056 --head-ref HEAD --task OPS-026 --branch-name chore/OPS-026-poc-validator-performance-authority
-python scripts/check-program-lifecycle-guards.py --base-ref 13e73a99d4a60c2d573179dd1631fb94b095d056 --head-ref HEAD --task OPS-026 --branch-name chore/OPS-026-poc-validator-performance-authority
-python scripts/run-program-lifecycle-gate.py --base-ref 13e73a99d4a60c2d573179dd1631fb94b095d056 --head-ref HEAD --task OPS-026 --branch-name chore/OPS-026-poc-validator-performance-authority
-python scripts/run-agent-coordination-gate.py --base-ref 13e73a99d4a60c2d573179dd1631fb94b095d056 --head-ref HEAD --task OPS-026 --branch-name chore/OPS-026-poc-validator-performance-authority
-python scripts/check-program-plan-finalization.py --base-ref 13e73a99d4a60c2d573179dd1631fb94b095d056 --head-ref HEAD --task OPS-026
-python scripts/run-task-scope-gate.py --task OPS-026 --base 13e73a99d4a60c2d573179dd1631fb94b095d056
+python scripts/check-program-plan-integrity.py --base-ref c7f557366e67f16e2855b87b9fbf4e7078cbb3e0
+python scripts/check-program-plan-history.py --base-ref c7f557366e67f16e2855b87b9fbf4e7078cbb3e0 --head-ref HEAD --task OPS-026 --branch-name chore/OPS-026-normal-review
+python scripts/check-program-plan-transitions.py --base-ref c7f557366e67f16e2855b87b9fbf4e7078cbb3e0 --head-ref HEAD --task OPS-026 --branch-name chore/OPS-026-normal-review
+python scripts/check-program-lifecycle-guards.py --base-ref c7f557366e67f16e2855b87b9fbf4e7078cbb3e0 --head-ref HEAD --task OPS-026 --branch-name chore/OPS-026-normal-review
+python scripts/run-program-lifecycle-gate.py --base-ref c7f557366e67f16e2855b87b9fbf4e7078cbb3e0 --head-ref HEAD --task OPS-026 --branch-name chore/OPS-026-normal-review
+python scripts/run-agent-coordination-gate.py --base-ref c7f557366e67f16e2855b87b9fbf4e7078cbb3e0 --head-ref HEAD --task OPS-026 --branch-name chore/OPS-026-normal-review
+python scripts/check-program-plan-finalization.py --base-ref c7f557366e67f16e2855b87b9fbf4e7078cbb3e0 --head-ref HEAD --task OPS-026
+python scripts/run-task-scope-gate.py --task OPS-026 --base c7f557366e67f16e2855b87b9fbf4e7078cbb3e0
 python scripts/check-evidence.py --task OPS-026
 python scripts/check-project-readiness.py
 python scripts/check-markdown.py

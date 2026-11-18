@@ -1,0 +1,30 @@
+{
+  "kind": "NORMAL_REVIEW_METADATA_ONLY",
+  "taskId": "OPS-026",
+  "issue": 237,
+  "base": "c7f557366e67f16e2855b87b9fbf4e7078cbb3e0",
+  "branch": "chore/OPS-026-normal-review",
+  "codeSource": "be098c1fb02cb6e8da66edc62dea70e3dbb1f5f5",
+  "codeMain": "c7f557366e67f16e2855b87b9fbf4e7078cbb3e0",
+  "codePullRequest": 239,
+  "claims": [
+    "AGENTS.md",
+    "scripts/poc-contract-repair-admission.py",
+    "scripts/check-program-lifecycle-guards.py",
+    "tests/governance/test_poc_contract_repair_admission.py"
+  ],
+  "lease": {
+    "acquiredAt": "2026-11-17T04:39:28Z",
+    "expiresAt": "2026-11-24T04:39:28Z"
+  },
+  "parentCodeAcceptanceSha256": "12b4c366903bf099aa3c7806d1c2dae7118096fe379c25176c6c2cceaeffe68d",
+  "parentCodeBundleSha256": "7da5c506045e0da3f075147bf8cce99ed76a11ad0d0c022deb0e6550a5ddee21",
+  "parentCodeMainAccepted": true,
+  "codeBytesUnchanged": true,
+  "originalTaskBodyUnchanged": true,
+  "sourceGatePassed": false,
+  "fullCiAccepted": false,
+  "taskCompleted": false,
+  "capacityReleased": false,
+  "pocExperimentsApproved": false
+}
