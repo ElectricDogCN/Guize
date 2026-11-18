@@ -1,0 +1,16 @@
+{
+  "taskId": "OPS-027",
+  "issue": 242,
+  "acceptedActualScopeMain": "cf44f62f5141e62b5c13902809429aabe069ec51",
+  "branch": "chore/OPS-027-governance-prerequisite",
+  "claims": [
+    "AGENTS.md",
+    "scripts/poc-contract-repair-admission.py",
+    "tests/governance/test_poc_contract_repair_admission.py",
+    "tests/governance/test_program_schema_cache.py"
+  ],
+  "independentMainReceiptSha256": "27998cd8079b0314b4b739ac0bafafcd74d091517128314f6b79928e94206bdd",
+  "ownMetadataActivationOnly": true,
+  "govCodeTouched": false,
+  "performanceCodeTouched": false
+}

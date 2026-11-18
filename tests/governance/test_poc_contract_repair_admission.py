@@ -1707,3 +1707,186 @@ class TestPerformanceRepairAdmission(unittest.TestCase):
         next(x for x in plan['foundationTasks'] if x['taskId']=='OPS-026')['mergeCommit']=self.activation
         self.write(self.repo,PROOF.PLAN,plan);bad=self.commit(self.repo,'Fixture metadata activation cannot be code identity')
         with self.assertRaises(PROOF.AdmissionError):self.claims(base=bad,entry=dict(self.entry,baseSha=bad))
+
+
+class _PerformanceGovernanceFixture:
+    """Real histories rooted at the accepted A; no fake approval or anchor override."""
+    git=classmethod(TestPerformanceRepairAdmission.git.__func__)
+    clone=classmethod(TestPerformanceRepairAdmission.clone.__func__)
+    write=staticmethod(TestBoundPocContractRepair.write)
+    commit=classmethod(TestBoundPocContractRepair.commit.__func__)
+    front_fields=staticmethod(TestBoundPocContractRepair.front_fields)
+    lifecycle=classmethod(TestBoundPocContractRepair.lifecycle.__func__)
+
+    @classmethod
+    def setUpClass(cls):
+        cls.enterClassContext(mock.patch.dict(os.environ,GIT_LFS_SKIP_SMUDGE='1'))
+        cls.temporary=tempfile.TemporaryDirectory(prefix='guize-gov-prelude-')
+        cls.fixture=Path(cls.temporary.name,'fixture')
+        cls.clone(ROOT,cls.fixture,PROOF.GOVERNANCE_SCOPE_MAIN)
+        for ref in ('refs/heads/main','refs/remotes/origin/main'):
+            cls.git(cls.fixture,'update-ref',ref,PROOF.GOVERNANCE_SCOPE_MAIN)
+        active=yaml.safe_load(Path(cls.fixture,PROOF.ACTIVE).read_bytes())
+        own=next(x for x in active['tasks'] if x['taskId']=='OPS-027')
+        now=datetime.now(timezone.utc).replace(microsecond=0)
+        utc=lambda x:x.isoformat().replace('+00:00','Z')
+        own['lease']=dict(acquiredAt=utc(now-timedelta(minutes=1)),expiresAt=utc(now+timedelta(days=1)))
+        cls.write(cls.fixture,PROOF.ACTIVE,active)
+        cls.lifecycle(cls.fixture,'OPS-027','in_progress','implementer',PROOF.GOVERNANCE_SCOPE_MAIN,'chore/OPS-027-fixture-gov')
+        cls.working=cls.commit(cls.fixture,'OPS-027 fixture normal Gov activation')
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.temporary.cleanup()
+
+    def setUp(self):
+        self.temporary_case=tempfile.TemporaryDirectory(prefix='guize-gov-case-')
+        self.addCleanup(self.temporary_case.cleanup)
+        self.repo=Path(self.temporary_case.name,'repo')
+        self.clone(self.fixture,self.repo,self.working)
+
+    def audit(self,head,base=None):
+        return PROOF.audit_performance_governance_phase(str(self.repo),base or PROOF.GOVERNANCE_SCOPE_MAIN,head)
+
+    def code(self,*,integrated=True,activation=True):
+        if not activation:self.git(self.repo,'checkout','--detach',PROOF.GOVERNANCE_SCOPE_MAIN)
+        for path in sorted(PROOF.GOVERNANCE_PATHS):
+            Path(self.repo,path).write_bytes((ROOT/path).read_bytes())
+        source=self.commit(self.repo,'OPS-027 fixture four-path Gov code (#3090)')
+        if not integrated:return source
+        self.git(self.repo,'checkout','--detach',PROOF.GOVERNANCE_SCOPE_MAIN)
+        self.git(self.repo,'merge','--no-ff','-m','OPS-027 fixture actual Gov main (#3090)',source)
+        main=self.git(self.repo,'rev-parse','HEAD')
+        for ref in ('refs/heads/main','refs/remotes/origin/main'):self.git(self.repo,'update-ref',ref,main)
+        return main
+
+    def restore(self,base):
+        self.lifecycle(self.repo,'OPS-027','in_progress','implementer',base,'chore/OPS-027-fixture-performance')
+        active=yaml.safe_load(Path(self.repo,PROOF.ACTIVE).read_bytes())
+        own=next(x for x in active['tasks'] if x['taskId']=='OPS-027')
+        own['exclusivePaths']=sorted(PROOF.PERFORMANCE.paths);self.write(self.repo,PROOF.ACTIVE,active)
+        path=Path(self.repo,'specs/tasks/OPS-027.md');text=path.read_text(encoding='utf8')
+        start=text.index('## 独占写范围\n');end=text.index('\n## ',start+4)
+        text=text[:start]+'## 独占写范围\n\n'+''.join('- `'+p+'`\n' for p in sorted(PROOF.PERFORMANCE.paths))+text[end:]
+        self.write(self.repo,'specs/tasks/OPS-027.md',text)
+        return self.commit(self.repo,'OPS-027 fixture separate metadata P scope restoration')
+
+    def mutate_restore(self,path):
+        original=Path(self.repo,path).read_bytes()
+        Path(self.repo,path).write_bytes(original+b'\n# Synthetic forbidden intermediate change\n')
+        self.commit(self.repo,'OPS-027 fixture intermediate attack')
+        Path(self.repo,path).write_bytes(original)
+        return self.commit(self.repo,'OPS-027 fixture restore cannot erase attack')
+
+
+
+class TestPerformanceGovernancePrelude(_PerformanceGovernanceFixture,unittest.TestCase):
+    def test_real_gov_history_does_not_grant_current_p_claims(self):
+        source=self.code(integrated=False)
+        self.assertIn(source,self.audit(source))
+        entry=PROOF.entry_at(str(self.repo),source,'OPS-027')
+        self.assertEqual(PROOF.authenticated_claims(str(self.repo),'OPS-027',entry,PROOF.GOVERNANCE_SCOPE_MAIN,observed_ref=source),set())
+        forged=dict(entry,exclusivePaths=sorted(PROOF.PERFORMANCE.paths))
+        self.assertEqual(PROOF.authenticated_claims(str(self.repo),'OPS-027',forged,PROOF.GOVERNANCE_SCOPE_MAIN,observed_ref=source),set())
+        old=PROOF.entry_at(str(self.repo),PROOF.GOVERNANCE_SCOPE_PARENT,'OPS-027')
+        self.assertEqual(PROOF.authenticated_claims(str(self.repo),'OPS-027',old,PROOF.GOVERNANCE_SCOPE_PARENT,observed_ref=source),set())
+        self.assertEqual(PROOF.authenticated_claims(str(self.repo),'OPS-027',old,PROOF.GOVERNANCE_SCOPE_PARENT),set())
+        self.git(self.repo,'rm','--cached',PROOF.GOVERNANCE_MANIFEST)
+        tree=self.git(self.repo,'write-tree')
+        self.git(self.repo,'restore','--source=HEAD','--staged','--',PROOF.GOVERNANCE_MANIFEST)
+        absent=self.git(self.repo,'commit-tree',tree,'-p',PROOF.GOVERNANCE_SCOPE_PARENT,'-m','OPS-027 fixture Gov without manifest')
+        with self.assertRaises(PROOF.AdmissionError):self.audit(absent,PROOF.GOVERNANCE_SCOPE_PARENT)
+        original_tree=self.git(self.repo,'rev-parse',PROOF.GOVERNANCE_SCOPE_PARENT+'^{tree}')
+        restored=self.git(self.repo,'commit-tree',original_tree,'-p',absent,'-m','OPS-027 fixture erase unregistered Gov scope')
+        with self.assertRaises(PROOF.AdmissionError):self.audit(restored,PROOF.GOVERNANCE_SCOPE_PARENT)
+
+    def test_manifest_and_each_frozen_target_edit_restore_are_visible(self):
+        for path in [PROOF.GOVERNANCE_MANIFEST,*sorted(PROOF.SOURCE_COMPATIBILITY.paths)]:
+            with self.subTest(path=path):
+                self.git(self.repo,'checkout','--detach',self.working)
+                bad=self.mutate_restore(path)
+                with self.assertRaises(PROOF.AdmissionError):self.audit(bad)
+
+    def test_frozen_mode_edit_restore_is_visible(self):
+        path='specs/poc/check_program.py'
+        self.git(self.repo,'update-index','--chmod=+x',path)
+        self.git(self.repo,'commit','--quiet','-m','OPS-027 fixture forbidden mode change')
+        self.git(self.repo,'update-index','--chmod=-x',path)
+        self.git(self.repo,'commit','--quiet','-m','OPS-027 fixture restore mode')
+        with self.assertRaises(PROOF.AdmissionError):self.audit(self.git(self.repo,'rev-parse','HEAD'))
+
+    def test_code_before_activation_and_restore_before_actual_main_are_denied(self):
+        with self.assertRaises(PROOF.AdmissionError):self.audit(self.code(activation=False))
+        self.git(self.repo,'checkout','--detach',self.working)
+        source=self.code(integrated=False)
+        for ref in ('refs/heads/main','refs/remotes/origin/main'):self.git(self.repo,'update-ref',ref,PROOF.GOVERNANCE_SCOPE_MAIN)
+        with self.assertRaises(PROOF.AdmissionError):self.audit(self.restore(source))
+
+    def test_treesame_side_import_and_missing_actual_anchor_are_denied(self):
+        for path in (PROOF.GOVERNANCE_MANIFEST,'specs/poc/check_program.py'):
+            self.git(self.repo,'checkout','--detach',self.working)
+            bad=self.mutate_restore(path)
+            self.git(self.repo,'checkout','--detach',self.working)
+            self.git(self.repo,'merge','--no-ff','-s','ours','-m','OPS-027 fixture treesame side import',bad)
+            with self.subTest(path=path),self.assertRaises(PROOF.AdmissionError):self.audit(self.git(self.repo,'rev-parse','HEAD'))
+        counterfeit=self.git(self.repo,'commit-tree',PROOF.GOVERNANCE_SCOPE_TREE,'-p',PROOF.GOVERNANCE_SCOPE_PARENT,
+            '-m','OPS-027 fixture same tree without real A')
+        with self.assertRaises(PROOF.AdmissionError):self.audit(counterfeit)
+        early_tree=self.git(self.repo,'rev-parse',self.working+'^{tree}')
+        early=self.git(self.repo,'commit-tree',early_tree,'-p',PROOF.GOVERNANCE_SCOPE_SOURCE,
+            '-m','OPS-027 fixture activation before actual A')
+        self.git(self.repo,'checkout','--detach',PROOF.GOVERNANCE_SCOPE_MAIN)
+        self.git(self.repo,'merge','--no-ff','-m','OPS-027 fixture import premature activation',early)
+        with self.assertRaises(PROOF.AdmissionError):self.audit(self.git(self.repo,'rev-parse','HEAD'))
+        self.git(self.repo,'checkout','--detach',self.working)
+        self.code()
+        with Path(self.repo,'AGENTS.md').open('a',encoding='utf8') as stream:stream.write('\nSynthetic extra merge resolution.\n')
+        self.git(self.repo,'add','AGENTS.md');self.git(self.repo,'commit','--amend','--no-edit','--quiet')
+        with self.assertRaises(PROOF.AdmissionError):self.audit(self.git(self.repo,'rev-parse','HEAD'))
+        self.git(self.repo,'update-ref','refs/remotes/origin/main',PROOF.GOVERNANCE_SCOPE_PARENT)
+        self.git(self.repo,'update-ref','refs/heads/main',PROOF.GOVERNANCE_SCOPE_PARENT)
+        with self.assertRaises(PROOF.AdmissionError):self.audit(self.working)
+
+    def test_reentry_and_metadata_only_manifest_attack_are_denied(self):
+        main=self.code();restored=self.restore(main)
+        active=yaml.safe_load(Path(self.repo,PROOF.ACTIVE).read_bytes())
+        next(x for x in active['tasks'] if x['taskId']=='OPS-027')['exclusivePaths']=sorted(PROOF.GOVERNANCE_PATHS)
+        self.write(self.repo,PROOF.ACTIVE,active)
+        reentry=self.commit(self.repo,'OPS-027 fixture forbidden Gov reentry')
+        with self.assertRaises(PROOF.AdmissionError):self.audit(reentry,main)
+        for path in sorted(PROOF.GOVERNANCE_PATHS):
+            self.git(self.repo,'checkout','--detach',restored)
+            bad=self.mutate_restore(path)
+            with self.subTest(path=path),self.assertRaises(PROOF.AdmissionError):self.audit(bad,main)
+            self.git(self.repo,'checkout','--detach',restored)
+            self.git(self.repo,'merge','--no-ff','-s','ours','-m','OPS-027 fixture post-restoration side attack',bad)
+            with self.assertRaises(PROOF.AdmissionError):self.audit(self.git(self.repo,'rev-parse','HEAD'),main)
+        for kind in ('lease','capacity','task'):
+            self.git(self.repo,'checkout','--detach',restored)
+            active=yaml.safe_load(Path(self.repo,PROOF.ACTIVE).read_bytes())
+            own=next(x for x in active['tasks'] if x['taskId']=='OPS-027')
+            if kind=='lease':own['lease']['expiresAt']=(datetime.now(timezone.utc)-timedelta(seconds=1)).isoformat().replace('+00:00','Z')
+            elif kind=='capacity':active['tasks'].append(dict(own,taskId='OPS-099',programTaskId='OPS-099'))
+            else:
+                path=Path(self.repo,'specs/tasks/OPS-027.md')
+                path.write_text(path.read_text().replace('workBranch: chore/OPS-027-fixture-performance','workBranch: chore/OPS-027-false-task'),encoding='utf8')
+            self.write(self.repo,PROOF.ACTIVE,active)
+            self.git(self.repo,'add','.');self.git(self.repo,'commit','--amend','--no-edit','--quiet')
+            with self.subTest(kind=kind),self.assertRaises(PROOF.AdmissionError):self.audit(self.git(self.repo,'rev-parse','HEAD'),main)
+        self.git(self.repo,'checkout','--detach',self.working)
+        bad=self.mutate_restore(PROOF.GOVERNANCE_MANIFEST)
+        errors=[];PROOF.validate_repair_changes(str(self.repo),self.working,bad,'OPS-027',set(),errors)
+        self.assertTrue(any('Gov manifest' in error for error in errors),errors)
+
+    def test_live_identity_lease_and_capacity_are_not_cached(self):
+        for kind in ('role','lease','capacity','policy'):
+            self.git(self.repo,'checkout','--detach',self.working)
+            active=yaml.safe_load(Path(self.repo,PROOF.ACTIVE).read_bytes())
+            own=next(x for x in active['tasks'] if x['taskId']=='OPS-027')
+            if kind=='role':own['reviewer']=own['implementer']
+            elif kind=='lease':own['lease']['expiresAt']=(datetime.now(timezone.utc)-timedelta(seconds=2)).isoformat().replace('+00:00','Z')
+            elif kind=='capacity':active['tasks'].append(dict(own,taskId='OPS-099',programTaskId='OPS-099'))
+            else:active['policy'].update(maxActiveTasks=4,maxHighRiskTasks=2)
+            self.write(self.repo,PROOF.ACTIVE,active)
+            bad=self.commit(self.repo,'OPS-027 fixture live '+kind+' attack')
+            with self.subTest(kind=kind),self.assertRaises(PROOF.AdmissionError):self.audit(bad)

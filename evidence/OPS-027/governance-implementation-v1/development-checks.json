@@ -1,0 +1,181 @@
+{
+  "kind": "DIRTY_WORKTREE_DEVELOPMENT_OBSERVATIONS_ONLY",
+  "taskId": "OPS-027",
+  "currentVersion": "v4",
+  "observations": {
+    "v1": {
+      "base": "b377e4ba672e8c8e6b34dfc9fbe8546ff0a5411a",
+      "pins": [
+        {
+          "path": "AGENTS.md",
+          "bytes": 20389,
+          "sha256": "b86c793df8a3539f284d238f4e046ce386e8eb8503ccbd1f328bc748ccd486ac"
+        },
+        {
+          "path": "scripts/poc-contract-repair-admission.py",
+          "bytes": 68671,
+          "sha256": "030317db50b1e45c0605c428af9532f172257258b6dffc8d206a6349998c47f2"
+        },
+        {
+          "path": "tests/governance/test_poc_contract_repair_admission.py",
+          "bytes": 125112,
+          "sha256": "056e7bc401172d8cddd06a1b2c88c4aee01b0dd47dff7a41991953612a6ceeeb"
+        },
+        {
+          "path": "tests/governance/test_program_schema_cache.py",
+          "bytes": 24712,
+          "sha256": "ae6135344466efcb63fac1cd26f6407d728a7a0db092a14363f0f1e0d2011043"
+        }
+      ],
+      "actualWaitCompleted": true,
+      "exitCode": 0,
+      "cases": 54,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "rawBytes": 795,
+      "rawSha256": "d54baeb17f2d132b684fec12efa9f28481b3d505fa104410f0718e9aa537bed3",
+      "junitSha256": "b1abfeb0d1dc57ec0ca72ba71a2282cfd1e1a11513b70b7dfb9a99c76a1be1f9",
+      "startedAt": "2026-11-18T14:41:55.414720+00:00",
+      "finishedAt": "2026-11-18T14:46:17.484411+00:00",
+      "fixedSourceQualification": false
+    },
+    "v2": {
+      "base": "b377e4ba672e8c8e6b34dfc9fbe8546ff0a5411a",
+      "pins": [
+        {
+          "path": "AGENTS.md",
+          "bytes": 20389,
+          "sha256": "b86c793df8a3539f284d238f4e046ce386e8eb8503ccbd1f328bc748ccd486ac"
+        },
+        {
+          "path": "scripts/poc-contract-repair-admission.py",
+          "bytes": 70598,
+          "sha256": "a85d608e38886aec6ccad340f69341f9a47022e5df030d5b29073cdfac1aad62"
+        },
+        {
+          "path": "tests/governance/test_poc_contract_repair_admission.py",
+          "bytes": 129762,
+          "sha256": "11603e6ebb6298c92d3bd65989d037f9037b8059acaf3e2c9df13e5d37e23e37"
+        },
+        {
+          "path": "tests/governance/test_program_schema_cache.py",
+          "bytes": 24712,
+          "sha256": "ae6135344466efcb63fac1cd26f6407d728a7a0db092a14363f0f1e0d2011043"
+        }
+      ],
+      "actualWaitCompleted": true,
+      "exitCode": 1,
+      "cases": 54,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0,
+      "rawBytes": 2562,
+      "rawSha256": "9d9b3d74cf056cd9cc5f985dfbc8684c53d110d7b9f4454343e8cfcc5eff4dc0",
+      "junitSha256": "4ebab306caf489ddeec4e902d1cd491e2ec0f8a691d494f314b5e7479a342de9",
+      "startedAt": "2026-11-18T14:55:10.587449+00:00",
+      "finishedAt": "2026-11-18T14:57:06.032918+00:00",
+      "fixedSourceQualification": false
+    },
+    "v3": {
+      "base": "b377e4ba672e8c8e6b34dfc9fbe8546ff0a5411a",
+      "pins": [
+        {
+          "path": "AGENTS.md",
+          "bytes": 20389,
+          "sha256": "b86c793df8a3539f284d238f4e046ce386e8eb8503ccbd1f328bc748ccd486ac"
+        },
+        {
+          "path": "scripts/poc-contract-repair-admission.py",
+          "bytes": 71633,
+          "sha256": "ae7831e44b72a91be0b0b2dc934f2a97222fb03e840dcd30d3d14c44715c7e44"
+        },
+        {
+          "path": "tests/governance/test_poc_contract_repair_admission.py",
+          "bytes": 130397,
+          "sha256": "7e8d70e0f3b3df430aa444c143747f9cfc88020ca14785d19b1691b5126cabf3"
+        },
+        {
+          "path": "tests/governance/test_program_schema_cache.py",
+          "bytes": 24712,
+          "sha256": "ae6135344466efcb63fac1cd26f6407d728a7a0db092a14363f0f1e0d2011043"
+        }
+      ],
+      "actualWaitCompleted": true,
+      "exitCode": 0,
+      "cases": 54,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "rawBytes": 795,
+      "rawSha256": "af2acc379aa4797010232b5ea0cc47ad53d1198b0e56b2a2e2d6a72f88e58496",
+      "junitSha256": "e8a24ab613c780e413ca1077d4376bfdc9181dc06d3999b87c973918815f4231",
+      "startedAt": "2026-11-18T14:59:42.687829+00:00",
+      "finishedAt": "2026-11-18T15:04:56.139236+00:00",
+      "fixedSourceQualification": false
+    },
+    "v4": {
+      "base": "b377e4ba672e8c8e6b34dfc9fbe8546ff0a5411a",
+      "pins": [
+        {
+          "path": "AGENTS.md",
+          "bytes": 20389,
+          "sha256": "b86c793df8a3539f284d238f4e046ce386e8eb8503ccbd1f328bc748ccd486ac"
+        },
+        {
+          "path": "scripts/poc-contract-repair-admission.py",
+          "bytes": 71633,
+          "sha256": "ae7831e44b72a91be0b0b2dc934f2a97222fb03e840dcd30d3d14c44715c7e44"
+        },
+        {
+          "path": "tests/governance/test_poc_contract_repair_admission.py",
+          "bytes": 127263,
+          "sha256": "61f6f50355a3770646ca767dc467f014c4b55f0b7f39efa266306fe0907233cf"
+        },
+        {
+          "path": "tests/governance/test_program_schema_cache.py",
+          "bytes": 28677,
+          "sha256": "cd6a1cf69af9b40f37930824066bf12d886de5f0fbac4a8c5c9484df23cc14a4"
+        }
+      ],
+      "actualWaitCompleted": true,
+      "exitCode": 0,
+      "cases": 54,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "rawBytes": 795,
+      "rawSha256": "717e1f53148be033778a32d293bd2c8afaed2d7144e48358ccdfd8fe15bfd5a8",
+      "junitSha256": "9e7de9c7004a720fcfba5b34a1be55442f33d20b60cf51a01bc2490a5b1be9f5",
+      "startedAt": "2026-11-18T15:08:18.260139+00:00",
+      "finishedAt": "2026-11-18T15:13:30.721832+00:00",
+      "fixedSourceQualification": false
+    }
+  },
+  "collection": {
+    "total": 1078,
+    "original1070OrderedPreserved": true,
+    "newCases": [
+      "tests/governance/test_poc_contract_repair_admission.py::TestPerformanceGovernancePrelude::test_code_before_activation_and_restore_before_actual_main_are_denied",
+      "tests/governance/test_poc_contract_repair_admission.py::TestPerformanceGovernancePrelude::test_frozen_mode_edit_restore_is_visible",
+      "tests/governance/test_poc_contract_repair_admission.py::TestPerformanceGovernancePrelude::test_live_identity_lease_and_capacity_are_not_cached",
+      "tests/governance/test_poc_contract_repair_admission.py::TestPerformanceGovernancePrelude::test_manifest_and_each_frozen_target_edit_restore_are_visible",
+      "tests/governance/test_poc_contract_repair_admission.py::TestPerformanceGovernancePrelude::test_real_gov_history_does_not_grant_current_p_claims",
+      "tests/governance/test_poc_contract_repair_admission.py::TestPerformanceGovernancePrelude::test_reentry_and_metadata_only_manifest_attack_are_denied",
+      "tests/governance/test_poc_contract_repair_admission.py::TestPerformanceGovernancePrelude::test_treesame_side_import_and_missing_actual_anchor_are_denied",
+      "tests/governance/test_program_schema_cache.py::TestPerformanceGovernanceRoundTrip::test_real_restoration_preserves_outer_authority_and_no_task_freeze_gate"
+    ],
+    "sha256": "5d46011c34b0d4dacad91846e5918c908c3694d5cd7d957aab55080f99d8f7ee"
+  },
+  "reproductionCommand": "python -m pytest tests/governance/test_poc_contract_repair_admission.py::TestPerformanceGovernancePrelude tests/governance/test_program_schema_cache.py -q -ra --junitxml=/tmp/ops027-development-junit.xml",
+  "v2Failure": "Live lifecycle caller omitted observed_ref, so the old Gov base was mistaken for the actual restored P checkout. Retained as failure.",
+  "rawPublished": false,
+  "rawRetentionGuaranteed": false,
+  "officialSourceCiAccepted": false,
+  "officialMainCiAccepted": false,
+  "govTechnicalReviewAccepted": false,
+  "pScopeRestored": false,
+  "newFreezeAccepted": false,
+  "performanceCodeTouched": false,
+  "taskCompleted": false
+}
