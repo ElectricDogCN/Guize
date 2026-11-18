@@ -21,3 +21,8 @@ Against accepted reservation main 13e73a99d4a60c2d573179dd1631fb94b095d056. Only
 ## Normal Review
 
 Only Own lifecycle metadata and Evidence change in this phase; scripts, tests, frozen files, workflow, requirements, Makefile, Completion Ledger and all foreign rows remain byte-identical to accepted Code main.
+
+
+## Normal Completion
+
+Only Own Foundation/Task completed metadata, removal of the Own Active row and Own Evidence change. The accepted Code identity is preserved; code, tests, frozen files, workflow, requirements, Makefile, ledger and foreign records are unchanged.

@@ -1,0 +1,91 @@
+{
+  "contents": "Complete official Review CI references with decoded digests, commands, reading times and explicit retention limits; no local CI raw archive claimed. Native raw and certificates remain retained for independent review",
+  "officialCi": [
+    {
+      "phase": "source",
+      "url": "https://github.com/ElectricDogCN/Guize/actions/runs/44262227489",
+      "jobUrl": "https://github.com/ElectricDogCN/Guize/actions/runs/44262227489/job/134658076414",
+      "logUrl": "https://api.github.com/repos/ElectricDogCN/Guize/actions/jobs/134658076414/logs",
+      "run": 44262227489,
+      "job": 134658076414,
+      "attempt": 1,
+      "source": "766d5fa53086f520a343e04f07645e6b264a5318",
+      "actualCheckout": "8e09c015facc1c11c4a2a551200249a923be50e0",
+      "tree": "8b8b0bdf261f18b514e8cb241f3a0f83f7c1ef60",
+      "orderedParents": [
+        "c7f557366e67f16e2855b87b9fbf4e7078cbb3e0",
+        "766d5fa53086f520a343e04f07645e6b264a5318"
+      ],
+      "passed": 1070,
+      "failedErroredSkippedXfailXpass": 0,
+      "successSteps": 28,
+      "conditionalSkippedSteps": [],
+      "decodedUtf8Bytes": 581115,
+      "decodedUtf8Sha256": "b8866752afb78d0fef35342c5ffd9edddee3906f84958cc949577259395c1e78",
+      "readingTime": "2026-11-18T08:17:04.709Z",
+      "commands": {
+        "governanceTests": "python -m pytest tests/governance/ -v -ra --junitxml=/tmp/test-results/governance-junit.xml -n 2 --dist loadfile --max-worker-restart=0",
+        "skipAudit": "python scripts/check-pytest-skips.py /tmp/test-results/governance-junit.xml tests/governance/allowed-skips.txt",
+        "workflowUrl": "https://github.com/ElectricDogCN/Guize/blob/766d5fa53086f520a343e04f07645e6b264a5318/.github/workflows/governance-gate.yml"
+      },
+      "retention": {
+        "provider": "GitHub Actions",
+        "availableAsOf": "2026-11-18T08:18:20.709Z",
+        "expiresAt": null,
+        "logRetentionDays": null,
+        "futureRetentionVerified": false,
+        "permanentAvailabilityClaimed": false,
+        "note": "Official complete log was directly readable at observation. Provider expiry is not verified; this record is a reference and verification result, not a retained raw log or permanent archive."
+      },
+      "completeLogSavedLocally": false,
+      "originalHttpBytesClaimed": false,
+      "separateCloudJunitClaimed": false
+    },
+    {
+      "phase": "main",
+      "url": "https://github.com/ElectricDogCN/Guize/actions/runs/44267239092",
+      "jobUrl": "https://github.com/ElectricDogCN/Guize/actions/runs/44267239092/job/134674692227",
+      "logUrl": "https://api.github.com/repos/ElectricDogCN/Guize/actions/jobs/134674692227/logs",
+      "run": 44267239092,
+      "job": 134674692227,
+      "attempt": 1,
+      "source": "766d5fa53086f520a343e04f07645e6b264a5318",
+      "actualCheckout": "ac2b2c0ee0e56284a1acd7c5fb97429f898ef68a",
+      "tree": "8b8b0bdf261f18b514e8cb241f3a0f83f7c1ef60",
+      "orderedParents": [
+        "c7f557366e67f16e2855b87b9fbf4e7078cbb3e0",
+        "766d5fa53086f520a343e04f07645e6b264a5318"
+      ],
+      "passed": 1070,
+      "failedErroredSkippedXfailXpass": 0,
+      "successSteps": 23,
+      "conditionalSkippedSteps": [
+        "Evidence check",
+        "Evidence integrity check",
+        "Scope check",
+        "Task file validation",
+        "Task-branch linkage check"
+      ],
+      "decodedUtf8Bytes": 572692,
+      "decodedUtf8Sha256": "5806980bb06334a77e978a17a6cf212c4a225ad19b833cf2bc8230ea0c7e437c",
+      "readingTime": "2026-11-18T08:45:26.987Z",
+      "commands": {
+        "governanceTests": "python -m pytest tests/governance/ -v -ra --junitxml=/tmp/test-results/governance-junit.xml -n 2 --dist loadfile --max-worker-restart=0",
+        "skipAudit": "python scripts/check-pytest-skips.py /tmp/test-results/governance-junit.xml tests/governance/allowed-skips.txt",
+        "workflowUrl": "https://github.com/ElectricDogCN/Guize/blob/ac2b2c0ee0e56284a1acd7c5fb97429f898ef68a/.github/workflows/governance-gate.yml"
+      },
+      "retention": {
+        "provider": "GitHub Actions",
+        "expiresAt": null,
+        "logRetentionDays": null,
+        "futureRetentionVerified": false,
+        "permanentAvailabilityClaimed": false,
+        "note": "Complete official raw log was directly readable at observation; expiry is unverified. This is a reference/verification record, not a local raw archive."
+      },
+      "completeLogSavedLocally": false,
+      "originalHttpBytesClaimed": false,
+      "separateCloudJunitClaimed": false
+    }
+  ],
+  "acceptedReviewMainSeven": true
+}
