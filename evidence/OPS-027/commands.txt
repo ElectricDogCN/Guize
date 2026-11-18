@@ -1,4 +1,4 @@
-# OPS-027 current governance activation recipe. Exit code: UNEXECUTED.
+# OPS-027 fixed Gov implementation: the following original fourteen checks are UNEXECUTED on the not-yet-created code commit.
 git diff --check cf44f62f5141e62b5c13902809429aabe069ec51...HEAD
 python scripts/check-task-file.py --task OPS-027
 python scripts/check-schemas.py

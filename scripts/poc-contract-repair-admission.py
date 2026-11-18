@@ -79,6 +79,17 @@ SCOPE_AMENDMENT_BASE = '76be38c26dea26669819f142c572e69aac84c32b'
 SCOPE_SUPPLEMENT = frozenset({'scripts/program-planning-revision.py',
                               'scripts/check-program-plan-history.py'})
 
+# One real, independently accepted metadata integration. These are provenance
+# inputs, never an observation-head override or a cached permission decision.
+GOVERNANCE_SCOPE_MAIN = 'cf44f62f5141e62b5c13902809429aabe069ec51'
+GOVERNANCE_SCOPE_SOURCE = '52d3ecf207ecec1b349b7ff3d4fb274e05aff3db'
+GOVERNANCE_SCOPE_PARENT = '9e17626241fd1c6a6aae9d7493060b30eaa18560'
+GOVERNANCE_SCOPE_TREE = '931a06e694b74beef589295bb11cdf407c9b27ed'
+GOVERNANCE_MANIFEST = 'evidence/OPS-027/governance-prelude-admission-intent-v1.json'
+GOVERNANCE_MANIFEST_SHA256 = 'd1fbd5e8661ae13d36809ccab0894b07467806b192aa1621763bcc9bc2ea61b1'
+GOVERNANCE_PATHS = frozenset({'AGENTS.md','scripts/poc-contract-repair-admission.py',
+    'tests/governance/test_poc_contract_repair_admission.py','tests/governance/test_program_schema_cache.py'})
+
 
 def contract(task_id: str) -> RepairContract:
     if task_id == SUCCESSOR:
@@ -520,6 +531,8 @@ def source_protected_ref(root: str, base: str, observation: str,
     history = history_module()
     task_paths = {task:'specs/tasks/'+task+'.md' for task in (selected.authority,selected.successor)}
     fixed = set(selected.claims) | set(selected.paths) | {selected.intent,*task_paths.values()}
+    if selected.successor == PERFORMANCE.successor:
+        fixed |= set(GOVERNANCE_PATHS) | {GOVERNANCE_MANIFEST}
     for node in git(root,'rev-list','--reverse',base+'..'+observation).decode().split():
         previous = parent(root,node)
         paths = changed(root,previous,node)
@@ -582,6 +595,179 @@ def validate_capacity(root: str, base: str, entry: dict[str, Any], *, successor:
     errors: list[str] = []
     history_module().historical_conflicts(successor,entry,registry,'Bound POC repair',errors)
     require(not errors, 'Repair overlaps another actual lease: '+'; '.join(errors))
+
+
+def audit_performance_governance_phase(root: str, base: str, observation: str) -> set[str]:
+    """Authenticate historical Gov facts, without granting either P claim.
+
+    Full authority and ordinary lifecycle/scope gates remain separate. Nothing
+    here accepts CI or Review flags from Evidence. Source/main qualification is
+    an additional external integration requirement, as in the original grant.
+    """
+    base,observation=resolve(root,base),resolve(root,observation)
+    record=lambda ref:git(root,'ls-tree',ref,'--',GOVERNANCE_MANIFEST)
+    touched=git(root,'rev-list','--full-history',base+'..'+observation,'--',GOVERNANCE_MANIFEST)
+    if not record(base) and not record(observation) and not touched:
+        # Claims cannot hide this phase by omitting/deleting its manifest,
+        # including an intermediate expansion later restored at a merge tip.
+        candidates={base,observation}
+        candidates.update(git(root,'rev-list','--full-history','--reverse',base+'..'+observation,'--',ACTIVE).decode().split())
+        entries=[entry_at(root,node,PERFORMANCE.successor) for node in candidates]
+        if all(entry is None or (set(entry.get('exclusivePaths') or [])==set(PERFORMANCE.paths)
+                                and entry.get('sharedPaths')==[]) for entry in entries):
+            return set()  # Genuine original exact-two history keeps its meaning.
+    require(_immutable_git_view(root) is not None,'Gov phase requires an ordinary immutable Git view')
+    canonical=scope_canonical_ref(root)
+    require(canonical is not None and GOVERNANCE_SCOPE_MAIN in chain(root,canonical),
+            'Gov phase requires its actual canonical scope main')
+    parents=lambda ref:git(root,'show','-s','--format=%P',ref).decode().split()
+    ancestor=lambda a,b:subprocess.run(['git','-C',str(root),'merge-base','--is-ancestor',a,b],capture_output=True).returncode==0
+    require(parents(GOVERNANCE_SCOPE_MAIN)==[GOVERNANCE_SCOPE_PARENT,GOVERNANCE_SCOPE_SOURCE]
+            and parent(root,GOVERNANCE_SCOPE_SOURCE)==GOVERNANCE_SCOPE_PARENT
+            and git(root,'rev-parse',GOVERNANCE_SCOPE_MAIN+'^{tree}').decode().strip()==GOVERNANCE_SCOPE_TREE
+            and git(root,'rev-parse',GOVERNANCE_SCOPE_SOURCE+'^{tree}').decode().strip()==GOVERNANCE_SCOPE_TREE,
+            'Gov phase scope integration differs from its fixed real graph')
+    require(observation==GOVERNANCE_SCOPE_SOURCE or ancestor(GOVERNANCE_SCOPE_MAIN,observation),
+            'Gov phase cannot originate on a late or unadmitted side branch')
+    raw=blob(root,GOVERNANCE_SCOPE_SOURCE,GOVERNANCE_MANIFEST)
+    require(hashlib.sha256(raw).hexdigest()==GOVERNANCE_MANIFEST_SHA256,
+            'Gov phase manifest differs from its fixed original')
+    intent=json.loads(raw)
+    frozen=set(SOURCE_COMPATIBILITY.paths)
+    require(set(intent['governancePaths'])==set(GOVERNANCE_PATHS)
+            and set(x['path'] for x in intent['protectedFrozenParentBindings'])==frozen,
+            'Gov phase fixed path bindings differ')
+    for pin in intent['protectedFrozenParentBindings']:
+        value=blob(root,GOVERNANCE_SCOPE_PARENT,pin['path'])
+        require(len(value)==pin['bytes'] and hashlib.sha256(value).hexdigest()==pin['sha256'],
+                'Gov phase original frozen bytes differ')
+    objects=lambda ref,paths:git(root,'ls-tree',ref,'--',*sorted(paths))
+    frozen_objects=objects(GOVERNANCE_SCOPE_PARENT,frozen)
+    manifest_object=record(GOVERNANCE_SCOPE_SOURCE)
+    original_intent=objects(GOVERNANCE_SCOPE_PARENT,{PERFORMANCE.intent})
+    task='OPS-027';task_path='specs/tasks/'+task+'.md';prefix='evidence/'+task+'/'
+    metadata={PLAN,ACTIVE,task_path}
+    allowed=lambda paths:all(p in metadata or p.startswith(prefix) for p in paths)
+    fixed=entry_at(root,GOVERNANCE_SCOPE_MAIN,task)
+    require(fixed is not None and fixed['status']=='reserved' and fixed['agentRole']=='coordinator'
+            and fixed['baseSha']==GOVERNANCE_SCOPE_PARENT,
+            'Gov phase did not start from its exact reserved scope')
+    require(allowed(changed(root,GOVERNANCE_SCOPE_PARENT,GOVERNANCE_SCOPE_SOURCE))
+            and blob(root,GOVERNANCE_SCOPE_SOURCE,PLAN)==blob(root,GOVERNANCE_SCOPE_PARENT,PLAN)
+            and objects(GOVERNANCE_SCOPE_SOURCE,GOVERNANCE_PATHS|frozen)==objects(GOVERNANCE_SCOPE_PARENT,GOVERNANCE_PATHS|frozen),
+            'Gov scope registration contains implementation')
+    policy=document(root,GOVERNANCE_SCOPE_MAIN,ACTIVE)['policy']
+    mutable={'status','agentRole','branch','baseSha','lease','exclusivePaths'}
+    stable=lambda entry:{k:v for k,v in entry.items() if k not in mutable}
+    history=history_module()
+    canonical_nodes=set(chain(root,canonical))
+    gov_nodes=set();gov_work=set();restoration=None
+
+    def entry_facts(node,own,claims):
+        moment=datetime.fromtimestamp(int(git(root,'show','-s','--format=%ct',node)),timezone.utc)
+        validate_entry(own,task,set(claims),moment,historical=True)
+        require(document(root,node,ACTIVE)['policy']==policy,'Gov phase changed capacity policy')
+        validate_capacity(root,node,own,successor=task)
+        front,body=history.parse_front_matter(blob(root,node,task_path).decode())
+        errors=[];history.stable_spec_matches(task,own,front,body,errors,reservation=own['status']=='reserved')
+        require(not errors and front.get('status')==own['status'] and front.get('agentRole')==own['agentRole']
+                and front.get('workBranch')==own['branch'] and front.get('baseSha')==own['baseSha'],
+                'Gov phase Task differs from its registered state: '+'; '.join(errors))
+
+    def clean_merge(node,ps):
+        if len(ps)!=2:
+            return False
+        result=subprocess.run(['git','-C',str(root),'merge-tree','--write-tree',*ps],capture_output=True)
+        return result.returncode==0 and result.stdout.decode().splitlines()[0]==git(root,'rev-parse',node+'^{tree}').decode().strip()
+
+    def integrated_code(before):
+        for node in chain(root,before):
+            if node not in canonical_nodes or not ancestor(GOVERNANCE_SCOPE_MAIN,node) or node==GOVERNANCE_SCOPE_MAIN:
+                continue
+            entry=entry_at(root,node,task);ps=parents(node)
+            if (entry and set(entry.get('exclusivePaths') or [])==set(GOVERNANCE_PATHS)
+                    and entry.get('status')=='in_progress' and entry.get('agentRole')=='implementer'
+                    and len(ps)==2 and clean_merge(node,ps)
+                    and GOVERNANCE_PATHS<=changed(root,GOVERNANCE_SCOPE_MAIN,node)
+                    and GOVERNANCE_PATHS.intersection(changed(root,ps[0],node))):
+                return True
+        return False
+
+    nodes=git(root,'rev-list','--topo-order','--reverse',GOVERNANCE_SCOPE_PARENT+'..'+observation).decode().split()
+    for node in nodes:
+        ps=parents(node);previous=ps[0];paths=changed(root,previous,node)
+        own=entry_at(root,node,task);old=entry_at(root,previous,task)
+        plan=document(root,node,PLAN)
+        own_changed=(own!=old or blob(root,node,task_path)!=blob(root,previous,task_path)
+            or rows(plan.get('foundationTasks')).get(task)!=rows(document(root,previous,PLAN).get('foundationTasks')).get(task)
+            or any(p.startswith(prefix) for p in paths)) if own is not None and old is not None else own!=old
+        if not record(node):
+            # An older peer may have no 027 yet. Its ordinary history and clean
+            # import are still audited by source_protected_ref/normal gates.
+            require(not record(previous) and not own_changed and not paths.intersection(GOVERNANCE_PATHS|frozen),
+                    'Gov manifest missing in introduced local history')
+            continue
+        require(record(node)==manifest_object,'Gov manifest was changed or restored in history')
+        require(objects(node,{PERFORMANCE.intent})==original_intent,
+                'Gov phase changed the original authority intent')
+        if own is None:
+            require(restoration is not None and ancestor(restoration,node),
+                    'Gov identity disappeared before restoration')
+            continue  # Normal Completion/released-identity checks still apply.
+        claims=set(own.get('exclusivePaths') or [])
+        require(stable(own)==stable(fixed),'Gov phase stable identity changed')
+        if claims==set(GOVERNANCE_PATHS):
+            require(node==GOVERNANCE_SCOPE_SOURCE or ancestor(GOVERNANCE_SCOPE_MAIN,node),
+                    'Gov activation metadata requires its already integrated actual scope main')
+            require(restoration is None or not ancestor(restoration,node),'Gov phase cannot reenter after restoration')
+            require(plan.get('status')=='active','Gov prerequisite requires an active Program')
+            entry_facts(node,own,GOVERNANCE_PATHS)
+            require((own['status'],own['agentRole']) in {('reserved','coordinator'),('in_progress','implementer')},
+                    'Gov technical review cannot change the task lifecycle')
+            require(objects(node,frozen)==frozen_objects,'Gov phase changed or restored a frozen target')
+            gov_nodes.add(node)
+            if own_changed or paths.intersection(GOVERNANCE_PATHS):
+                gov_work.add(node)
+            if paths.intersection(GOVERNANCE_PATHS):
+                preceding_work=bool(old and set(old.get('exclusivePaths') or [])==set(GOVERNANCE_PATHS)
+                    and old.get('status')=='in_progress' and old.get('agentRole')=='implementer'
+                    and ancestor(GOVERNANCE_SCOPE_MAIN,previous))
+                incoming_work=bool(len(ps)==2 and entry_at(root,ps[1],task)
+                    and ps[1] in gov_nodes and entry_at(root,ps[1],task).get('status')=='in_progress')
+                require(preceding_work or (incoming_work and clean_merge(node,ps)),
+                        'Gov implementation requires a preceding working registration')
+                require(all(p in GOVERNANCE_PATHS or p in metadata or p.startswith(prefix) for p in paths),
+                        'Gov implementation includes undeclared paths')
+            if len(ps)>1 and (own_changed or paths.intersection(GOVERNANCE_PATHS)):
+                require(node==GOVERNANCE_SCOPE_MAIN or clean_merge(node,ps),'Gov merge has an unproved resolution')
+        elif claims==set(PERFORMANCE.paths):
+            entry_facts(node,own,PERFORMANCE.paths)
+            gov_changes=paths.intersection(GOVERNANCE_PATHS)
+            if gov_changes:
+                incoming=history.approved_synchronization_parents(root,node,canonical)
+                imports=history.clean_synchronization_paths(root,node,gov_changes,incoming) if incoming else set()
+                require(not own_changed and gov_changes<=imports,
+                        'Restored P scope cannot continue Gov writes or hide a side-branch edit')
+            if old is not None and set(old.get('exclusivePaths') or [])==set(GOVERNANCE_PATHS):
+                imported=bool(restoration and len(ps)==2 and ancestor(restoration,ps[1]) and clean_merge(node,ps))
+                if not imported:
+                    require(restoration is None and len(ps)==1 and allowed(paths),
+                            'P scope restoration must be one metadata-only edge')
+                    require((own.get('status'),own.get('agentRole'))==('in_progress','implementer')
+                            and (old.get('status'),old.get('agentRole'))==('in_progress','implementer')
+                            and plan.get('status')=='active' and integrated_code(previous),
+                            'P scope restoration requires previously integrated nonempty Gov code')
+                    restoration=node
+                require(objects(node,frozen)==frozen_objects,'P scope restoration changed a frozen target')
+            else:
+                require(restoration is not None and ancestor(restoration,node),
+                        'P scope lacks the authenticated Gov restoration')
+        else:
+            raise AdmissionError('Gov phase claims must be exactly four Gov or restored two P paths')
+    if restoration is not None:
+        require(all(ancestor(node,parent(root,restoration)) for node in gov_work),
+                'Gov work was introduced outside the closed continuous phase')
+    return gov_nodes
 
 
 _AUDIT_SESSION = ContextVar('bound_repair_audit_session', default=None)
@@ -839,6 +1025,33 @@ def prove_claims(root: str, task_id: str, entry: dict[str, Any], base_ref: str,
     when = datetime.fromtimestamp(int(git(root,'show','-s','--format=%ct',observed_ref)),timezone.utc) if observed_ref else datetime.now(timezone.utc)
     validate_entry(entry,task_id,REPAIR_PATHS,when,historical=observed_ref is not None)
     base = resolve(root,base_ref)
+    if task_id == PERFORMANCE.successor and observed_ref is None:
+        # The live lifecycle caller supplies no observation argument. Bind it
+        # to its real committed checkout, rather than treating its old target
+        # base as the current phase. Uncommitted prospective P entries deny.
+        head=resolve(root,'HEAD')
+        if (git(root,'ls-tree',base,'--',GOVERNANCE_MANIFEST)
+                or git(root,'ls-tree',head,'--',GOVERNANCE_MANIFEST)):
+            require(entry_at(root,head,task_id)==entry,
+                    'Current P entry must equal its actual committed checkout')
+            require(subprocess.run(['git','-C',str(root),'merge-base','--is-ancestor',base,head],capture_output=True).returncode==0,
+                    'Current P checkout does not descend from its admitted base')
+            observed_ref=head
+    protected = observed_ref if task_id in {SOURCE_COMPATIBILITY.successor, PERFORMANCE.successor} and observed_ref is not None else base
+    if task_id == SOURCE_COMPATIBILITY.successor and observed_ref is not None:
+        protected = source_protected_ref(root,base,resolve(root,observed_ref))
+    elif task_id == PERFORMANCE.successor and observed_ref is not None:
+        protected = source_protected_ref(root,base,resolve(root,observed_ref),selected=selected)
+    gov_nodes = audit_performance_governance_phase(root,base,protected) if task_id == PERFORMANCE.successor else set()
+    if gov_nodes:
+        # Historical P declarations retain their meaning only at their real
+        # historical observations, never as permission observed in Gov scope.
+        endpoints=[entry_at(root,ref,task_id) for ref in dict.fromkeys((base,protected))]
+        observed_entry=entry_at(root,protected,task_id)
+        require(observed_entry is not None and set(observed_entry.get('exclusivePaths') or [])==set(REPAIR_PATHS)
+                and any(actual==entry and set(actual.get('exclusivePaths') or [])==set(REPAIR_PATHS)
+                    for actual in endpoints if actual is not None),
+                'Current P permission requires its committed metadata restoration')
     original = introduction(root,chain(root,base),task_id)
     if original is None:
         require(entry.get('status') == 'reserved' and entry.get('agentRole') == 'coordinator'
@@ -863,7 +1076,8 @@ def prove_claims(root: str, task_id: str, entry: dict[str, Any], base_ref: str,
             historical = entry_at(root,node,task_id)
             require(historical is not None, 'Repair lease disappeared before its working state')
             moment = datetime.fromtimestamp(int(git(root,'show','-s','--format=%ct',node)),timezone.utc)
-            validate_entry(historical,task_id,REPAIR_PATHS,moment,historical=True)
+            historical_paths = set(GOVERNANCE_PATHS) if node in gov_nodes else REPAIR_PATHS
+            validate_entry(historical,task_id,historical_paths,moment,historical=True)
             require(all(historical.get(k) == reserved.get(k) for k in
                         ('owner','coordinator','implementer','reviewer','integrator','issue','dependsOn')),
                     'Repair stable identity changed in its history')
@@ -878,11 +1092,6 @@ def prove_claims(root: str, task_id: str, entry: dict[str, Any], base_ref: str,
                 'Repair original Task does not bind its exact registration: '+'; '.join(errors))
         require(bool(blob(root,registration,'evidence/'+task_id+'/handoff.md').strip()),
                 'Repair original handoff is missing')
-    protected = observed_ref if task_id in {SOURCE_COMPATIBILITY.successor, PERFORMANCE.successor} and observed_ref is not None else base
-    if task_id == SOURCE_COMPATIBILITY.successor and observed_ref is not None:
-        protected = source_protected_ref(root,base,resolve(root,observed_ref))
-    elif task_id == PERFORMANCE.successor and observed_ref is not None:
-        protected = source_protected_ref(root,base,resolve(root,observed_ref),selected=selected)
     intent, authority_registration = authority(root,admission_base,protected_through=protected,successor=task_id)
     require(blob(root,base,INTENT) == blob(root,admission_base,INTENT), 'Current authority intent changed')
     for record in approved_paths(root,parent(root,authority_registration),intent,selected):
@@ -937,6 +1146,8 @@ def validate_repair_changes(root: str, before: str, after: str, task_id: str,
             protected = (source_protected_ref(root,admitted,observation)
                          if task_id == SOURCE_COMPATIBILITY.successor else
                          source_protected_ref(root,admitted,observation,selected=selected))
+            if task_id == PERFORMANCE.successor:
+                audit_performance_governance_phase(root,admitted,protected)
             authority(root, parent(root, original[0]), protected_through=protected, successor=task_id)
         except (AdmissionError,KeyError,TypeError,ValueError,OSError,yaml.YAMLError) as exc:
             errors.append('Bound POC contract authority audit rejected: '+str(exc))

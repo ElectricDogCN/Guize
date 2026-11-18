@@ -141,7 +141,8 @@ def sample():
     h=load(ROOT/'scripts/check-program-plan-history.py','program_structure_')
     text=(ROOT/h.PROGRAM_SCHEMA).read_text(encoding='utf-8')
     schema=yaml.safe_load(text)
-    program=h.load_current(str(ROOT),h.PLAN)
+    # A unit-test sample has a fixed active state even while the live plan is frozen.
+    program=h.load_ref(str(ROOT),'9e17626241fd1c6a6aae9d7493060b30eaa18560',h.PLAN)
     assert program['status']=='active' and program['recovery']['frozenAt']
     def validator(checker=None,definition=None):
         return h.jsonschema.Draft202012Validator(
@@ -464,3 +465,54 @@ def test_known_task_validator_falls_back_for_changed_code_and_nondefault_context
     assert rejected.returncode != 0 and "UnicodeEncodeError" in rejected.stderr
     actual = h._run_historical_task_file(str(unicode_snapshot), "GZ-014")
     assert (actual.returncode, actual.stdout, actual.stderr) == (rejected.returncode, rejected.stdout, rejected.stderr)
+
+
+# Keep the real round-trip integration on a separate existing loadfile worker.
+# All old assertions and the original CI command/worker count remain unchanged.
+import unittest
+
+GOVERNANCE_TEST_FIXTURES=load(ROOT/'tests/governance/test_poc_contract_repair_admission.py','governance_roundtrip_fixtures_')
+PROOF=GOVERNANCE_TEST_FIXTURES.PROOF
+
+
+class TestPerformanceGovernanceRoundTrip(GOVERNANCE_TEST_FIXTURES._PerformanceGovernanceFixture,unittest.TestCase):
+    def test_real_restoration_preserves_outer_authority_and_no_task_freeze_gate(self):
+        main=self.code();restored=self.restore(main)
+        facts=self.audit(restored,main);self.assertIn(main,facts)
+        # The actual no-task CLI traverses the complete outer authority plus
+        # metadata-only guard. Avoid repeating that expensive proof separately.
+        argv=[sys.executable,'-B',str(self.repo/'scripts/check-program-lifecycle-guards.py'),
+            '--repo-root',str(self.repo),'--base-ref',main,'--head-ref',restored,'--branch-name','chore/OPS-027-fixture-performance']
+        result=subprocess.run(argv,capture_output=True,text=True,encoding='utf8')
+        self.assertEqual(result.returncode,0,result.stdout+result.stderr)
+        self.lifecycle(self.repo,'OPS-027','in_progress','implementer',restored,'chore/OPS-027-fixture-performance')
+        self.commit(self.repo,'OPS-027 fixture unfrozen P purpose with exact current base')
+        with Path(self.repo,'specs/poc/check_program.py').open('ab') as stream:
+            stream.write(b'\n# Synthetic unfrozen P write\n')
+        bad=self.commit(self.repo,'OPS-027 fixture P write without new actual freeze')
+        blocked=list(argv);blocked[blocked.index('--base-ref')+1]=restored;blocked[blocked.index('--head-ref')+1]=bad
+        result=subprocess.run(blocked,capture_output=True,text=True,encoding='utf8')
+        self.assertNotEqual(result.returncode,0,result.stdout+result.stderr)
+        self.assertIn('preceding unchanged frozen recovery event',result.stdout+result.stderr)
+        self.git(self.repo,'checkout','--detach',main)
+        self.git(self.repo,'merge','--no-ff','-m','OPS-027 fixture actual restoration main',restored)
+        restored_main=self.git(self.repo,'rev-parse','HEAD')
+        for ref in ('refs/heads/main','refs/remotes/origin/main'):self.git(self.repo,'update-ref',ref,restored_main)
+        plan=yaml.safe_load(Path(self.repo,PROOF.PLAN).read_bytes())
+        plan.update(status='frozen',recovery=dict(taskId='OPS-027',reason='Synthetic fresh actual GZ021 freeze after Gov restoration',
+            affectedTasks=['GZ-021'],sourceCommit=restored_main,
+            frozenAt=datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace('+00:00','Z'),
+            verificationPath='evidence/OPS-027/recovery-proof.json'))
+        self.write(self.repo,PROOF.PLAN,plan);proposal=self.commit(self.repo,'OPS-027 fixture new freeze proposal')
+        self.git(self.repo,'checkout','--detach',restored_main)
+        self.git(self.repo,'merge','--no-ff','-m','OPS-027 fixture new actual freeze main',proposal)
+        frozen=self.git(self.repo,'rev-parse','HEAD')
+        for ref in ('refs/heads/main','refs/remotes/origin/main'):self.git(self.repo,'update-ref',ref,frozen)
+        self.lifecycle(self.repo,'OPS-027','in_progress','implementer',frozen,'chore/OPS-027-fixture-performance')
+        self.commit(self.repo,'OPS-027 fixture distinct frozen P purpose')
+        with Path(self.repo,'specs/poc/check_program.py').open('ab') as stream:
+            stream.write(b'\n# Synthetic lawful P code after real new freeze\n')
+        code=self.commit(self.repo,'OPS-027 fixture lawful P implementation after Gov stage')
+        allowed=list(argv);allowed[allowed.index('--base-ref')+1]=frozen;allowed[allowed.index('--head-ref')+1]=code
+        result=subprocess.run(allowed,capture_output=True,text=True,encoding='utf8')
+        self.assertEqual(result.returncode,0,result.stdout+result.stderr)
