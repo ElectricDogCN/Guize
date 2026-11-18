@@ -1,0 +1,35 @@
+{
+  "kind": "NEW_METADATA_ONLY_GZ021_FREEZE_PROPOSAL_V2",
+  "taskId": "OPS-027",
+  "issue": 242,
+  "base": "658761ad282296934061778a7a57c5ba66926a25",
+  "branch": "chore/OPS-027-gz021-performance-freeze-v2",
+  "recovery": {
+    "taskId": "OPS-027",
+    "reason": "百万文件验收已观测重复字符串键计算CPU热点；仅按026原意图等价优化两P。新事件不复用关闭未合并PR244/47e或失败1050，不改driver/memory必需项、规模、阈值、原结果或完整CI义务；实际修复完整验证后独立解冻。",
+    "affectedTasks": [
+      "GZ-021"
+    ],
+    "sourceCommit": "658761ad282296934061778a7a57c5ba66926a25",
+    "frozenAt": "2026-11-18T18:10:05Z",
+    "verificationPath": "evidence/OPS-027/performance-recovery-v2/proof.json"
+  },
+  "priorRestorationSource": "4664f86bb1d16caa32e396176985979dbd109d82",
+  "priorRestorationMain": "658761ad282296934061778a7a57c5ba66926a25",
+  "acceptedRestorationReceiptSha256": "8e7e35e10fe778b705e7ba36331d8a8c936ad312e30e1a982acd7e62f8b2d9b7",
+  "priorSourceCi": "https://github.com/ElectricDogCN/Guize/actions/runs/44354779212",
+  "priorMainCi": "https://github.com/ElectricDogCN/Guize/actions/runs/44359817503",
+  "oldFailedFreeze": {
+    "source": "47e8d8af66b55c820804647ecc807bf2a0c92375",
+    "pr": 244,
+    "merged": false,
+    "ci": 1050,
+    "conclusion": "failure",
+    "reused": false
+  },
+  "currentSourceAccepted": false,
+  "currentMainAccepted": false,
+  "performanceCodeTouched": false,
+  "pocQualified": false,
+  "taskCompleted": false
+}

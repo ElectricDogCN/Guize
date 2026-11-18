@@ -1,5 +1,5 @@
-# OPS-027 当前治理代码验证
+# OPS-027 freeze-v2 validation
 
-Status: DEVELOPMENT_ONLY_PASS
+Status: UNEXECUTED
 
-匹配v4工作树的54项专项测试全部通过。原1070项同序保留，新增8项；收集总数1078。详情见 ../governance-implementation-v1/development-checks.json。v2的1项失败原样保留。尚未取得固定代码提交、完整官方源或实际主线CI资格。
+Prior restoration acceptance does not qualify this new source or frozen main. Complete original1070+8=1078 source and actual-main CI, original fourteen/seven and independent review remain required. No P code or new POC result is accepted.

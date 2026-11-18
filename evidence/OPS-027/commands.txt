@@ -1,15 +1,15 @@
-# OPS-027 P scope metadata restoration. Fixed-source checks UNEXECUTED.
-git diff --check 8452579b58370d80fba50fb035350e87eb68bbfb...HEAD
+# OPS-027 freeze-v2 original14 recipe. Fixed-source checks UNEXECUTED.
+git diff --check 658761ad282296934061778a7a57c5ba66926a25...HEAD
 python scripts/check-task-file.py --task OPS-027
 python scripts/check-schemas.py
-python scripts/check-program-plan-integrity.py --base-ref 8452579b58370d80fba50fb035350e87eb68bbfb
-python scripts/check-program-plan-history.py --base-ref 8452579b58370d80fba50fb035350e87eb68bbfb --head-ref HEAD --task OPS-027 --branch-name chore/OPS-027-performance-scope-restoration
-python scripts/check-program-plan-transitions.py --base-ref 8452579b58370d80fba50fb035350e87eb68bbfb --head-ref HEAD --task OPS-027 --branch-name chore/OPS-027-performance-scope-restoration
-python scripts/check-program-lifecycle-guards.py --base-ref 8452579b58370d80fba50fb035350e87eb68bbfb --head-ref HEAD --task OPS-027 --branch-name chore/OPS-027-performance-scope-restoration
-python scripts/run-program-lifecycle-gate.py --base-ref 8452579b58370d80fba50fb035350e87eb68bbfb --head-ref HEAD --task OPS-027 --branch-name chore/OPS-027-performance-scope-restoration
-python scripts/run-agent-coordination-gate.py --base-ref 8452579b58370d80fba50fb035350e87eb68bbfb --head-ref HEAD --task OPS-027 --branch-name chore/OPS-027-performance-scope-restoration
-python scripts/check-program-plan-finalization.py --base-ref 8452579b58370d80fba50fb035350e87eb68bbfb --head-ref HEAD --task OPS-027
-python scripts/run-task-scope-gate.py --task OPS-027 --base 8452579b58370d80fba50fb035350e87eb68bbfb
+python scripts/check-program-plan-integrity.py --base-ref 658761ad282296934061778a7a57c5ba66926a25
+python scripts/check-program-plan-history.py --base-ref 658761ad282296934061778a7a57c5ba66926a25 --head-ref HEAD --task OPS-027 --branch-name chore/OPS-027-gz021-performance-freeze-v2
+python scripts/check-program-plan-transitions.py --base-ref 658761ad282296934061778a7a57c5ba66926a25 --head-ref HEAD --task OPS-027 --branch-name chore/OPS-027-gz021-performance-freeze-v2
+python scripts/check-program-lifecycle-guards.py --base-ref 658761ad282296934061778a7a57c5ba66926a25 --head-ref HEAD --task OPS-027 --branch-name chore/OPS-027-gz021-performance-freeze-v2
+python scripts/run-program-lifecycle-gate.py --base-ref 658761ad282296934061778a7a57c5ba66926a25 --head-ref HEAD --task OPS-027 --branch-name chore/OPS-027-gz021-performance-freeze-v2
+python scripts/run-agent-coordination-gate.py --base-ref 658761ad282296934061778a7a57c5ba66926a25 --head-ref HEAD --task OPS-027 --branch-name chore/OPS-027-gz021-performance-freeze-v2
+python scripts/check-program-plan-finalization.py --base-ref 658761ad282296934061778a7a57c5ba66926a25 --head-ref HEAD --task OPS-027
+python scripts/run-task-scope-gate.py --task OPS-027 --base 658761ad282296934061778a7a57c5ba66926a25
 python scripts/check-evidence.py --task OPS-027
 python scripts/check-project-readiness.py
 python scripts/check-markdown.py
