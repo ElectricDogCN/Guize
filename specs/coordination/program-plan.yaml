@@ -136,9 +136,9 @@ foundationTasks:
     mergeCommit: 82718c1e6b08396c67deeff7ca7f8adfbdd5b077
   - taskId: OPS-026
     title: 为百万文件证据验收器的等价性能修复建立精确准入
-    status: review
-    completionRef: ISSUE-237
-    mergeCommit: null
+    status: completed
+    completionRef: PR-239
+    mergeCommit: c7f557366e67f16e2855b87b9fbf4e7078cbb3e0
 waves:
   - {id: W1, order: 1, name: "需求与 POC 计划", maxConcurrent: 2, maxHighRisk: 1}
   - {id: W2, order: 2, name: "OpenAPI + 独立 POC", maxConcurrent: 3, maxHighRisk: 1}

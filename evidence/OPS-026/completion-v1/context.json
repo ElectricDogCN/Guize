@@ -1,0 +1,29 @@
+{
+  "kind": "NORMAL_COMPLETION_FROM_ACCEPTED_REVIEW_METADATA_ONLY",
+  "taskId": "OPS-026",
+  "issue": 237,
+  "base": "ac2b2c0ee0e56284a1acd7c5fb97429f898ef68a",
+  "branch": "chore/OPS-026-normal-completion",
+  "codePullRequest": 239,
+  "codeSource": "be098c1fb02cb6e8da66edc62dea70e3dbb1f5f5",
+  "codeMain": "c7f557366e67f16e2855b87b9fbf4e7078cbb3e0",
+  "reviewSource": "766d5fa53086f520a343e04f07645e6b264a5318",
+  "reviewMain": "ac2b2c0ee0e56284a1acd7c5fb97429f898ef68a",
+  "parentReviewFinalReceiptSha256": "5b6f4a0b785d39671c04fd63fd0bd5a8c33df01054c8a9c93c211ff0641b4acd",
+  "claims": [
+    "AGENTS.md",
+    "scripts/poc-contract-repair-admission.py",
+    "scripts/check-program-lifecycle-guards.py",
+    "tests/governance/test_poc_contract_repair_admission.py"
+  ],
+  "priorLease": {
+    "acquiredAt": "2026-11-17T04:39:28Z",
+    "expiresAt": "2026-11-24T04:39:28Z"
+  },
+  "codeBytesUnchanged": true,
+  "originalTaskBodyUnchanged": true,
+  "completionSourceValidationPending": true,
+  "taskCompleted": false,
+  "capacityReleased": false,
+  "pocExperimentsApproved": false
+}
