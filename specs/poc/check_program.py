@@ -1059,9 +1059,12 @@ def valid_local_origin(value,schemes):
         if port is not None and not 1<=port<=65535 or re.fullmatch(r'(?:[A-Za-z0-9.-]+|\[[0-9a-fA-F:]+\])(?::[0-9]+)?',origin.netloc) is None:return False
         if ':' in host:
             address=ipaddress.IPv6Address(host)
-            if host!=address.compressed:return False
+            mapped=address.ipv4_mapped
+            # URI policy requires full-hex canonical text, independent of mapped-address display changes.
+            canonical=(f'::ffff:{int(mapped)>>16:x}:{int(mapped)&0xffff:x}' if mapped is not None else address.compressed)
+            if host!=canonical:return False
             # Mapped literals inherit the IPv4 boundary; link-local and transition addresses never qualify.
-            if address.ipv4_mapped is not None:address=address.ipv4_mapped
+            if mapped is not None:address=mapped
             else:return address==ipaddress.IPv6Address('::1') or address in ipaddress.IPv6Network('fc00::/7')
         elif re.fullmatch(r'[0-9]+(?:\.[0-9]+){3}',host):
             address=ipaddress.IPv4Address(host)

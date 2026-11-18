@@ -10725,5 +10725,49 @@ class TestEquivalentKeyReuse(unittest.TestCase):
         self.assertEqual(actual, expected)
 
 
+
+class TestMappedOriginCanonicalCompatibility(unittest.TestCase):
+    def test_mapped_origin_whitelist_boundaries_and_uri_forms(self):
+        accepted = ('::ffff:7f00:0', '::ffff:7fff:ffff', '::ffff:a00:0',
+                    '::ffff:aff:ffff', '::ffff:ac10:0', '::ffff:ac1f:ffff',
+                    '::ffff:c0a8:0', '::ffff:c0a8:ffff')
+        rejected = ('::ffff:7eff:ffff', '::ffff:8000:0', '::ffff:9ff:ffff',
+                    '::ffff:b00:0', '::ffff:ac0f:ffff', '::ffff:ac20:0',
+                    '::ffff:c0a7:ffff', '::ffff:c0a9:0', '::ffff:0:0',
+                    '::ffff:a9fe:1', '::ffff:808:808', '::ffff:e000:1',
+                    '::ffff:0a00:0', '0:0:0:0:0:ffff:a00:0', '::ffff:10.0.0.0')
+        with mock.patch('socket.getaddrinfo', side_effect=AssertionError('must not resolve DNS')):
+            for host in accepted:
+                with self.subTest(host=host):
+                    self.assertTrue(CHECK.valid_local_origin('https://[' + host + ']:443', {'https'}))
+            for host in rejected:
+                with self.subTest(host=host):
+                    self.assertFalse(CHECK.valid_local_origin('https://[' + host + ']', {'https'}))
+            for suffix in (':0', ':65536', ':', ':fixture', '/path', '?q=1', '#part', '%25zone'):
+                with self.subTest(suffix=suffix):
+                    self.assertFalse(CHECK.valid_local_origin('https://[::ffff:a00:1]' + suffix, {'https'}))
+            self.assertFalse(CHECK.valid_local_origin('https://user@[::ffff:a00:1]', {'https'}))
+            self.assertFalse(CHECK.valid_local_origin('http://[::ffff:a00:1]', {'https'}))
+
+    def test_mapped_policy_is_independent_of_display_rendering(self):
+        import ipaddress
+        original = ipaddress.IPv6Address.compressed
+
+        def no_mapped_display(address):
+            if address.ipv4_mapped is not None:
+                raise AssertionError('mapped URI canonicalization must not depend on display rendering')
+            return original.fget(address)
+
+        with mock.patch.object(ipaddress.IPv6Address, 'compressed', property(no_mapped_display)):
+            self.assertTrue(CHECK.valid_local_origin('https://[::ffff:7f00:1]', {'https'}))
+            self.assertTrue(CHECK.valid_local_origin('https://[::ffff:c0a8:101]', {'https'}))
+            self.assertFalse(CHECK.valid_local_origin('https://[::ffff:808:808]', {'https'}))
+            self.assertFalse(CHECK.valid_local_origin('https://[::ffff:7f00:0001]', {'https'}))
+            self.assertTrue(CHECK.valid_local_origin('https://[::1]', {'https'}))
+            self.assertTrue(CHECK.valid_local_origin('https://[fd12:3456::1]', {'https'}))
+            self.assertFalse(CHECK.valid_local_origin('https://[0:0:0:0:0:0:0:1]', {'https'}))
+            self.assertFalse(CHECK.valid_local_origin('https://[fe80::1]', {'https'}))
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

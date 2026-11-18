@@ -1,3 +1,8 @@
+<!-- Development-only diagnostic: original151 + two new compatibility cases + eleven key-reuse cases =14, actual zeroFES. Fixed-source/full224 and official1078 still pending. See evidence/OPS-027/local-origin-compatibility-v1/development-diagnostic.json. -->
+# Current minimal origin compatibility code candidate
+
+Metadata source 1868291c2eb04755469efd9b8bf2e31b4cee22ed original14/1078 and independent transition receipt 375e3bf4ce3f3c6caf477ab9ace98fe0244536bafaf9ae0ac085257e97548630 accepted before P writes. Exact code/source SHA unknown until ordinary commit. Only mapped canonical rendering and2appended tests; all222 original assertions remain. Dirty targeted/fixed224/source-main1078 results UNEXECUTED; exit N/A. Follow complete original duties in historical handoff below. No permission for publication/merge/cleanup/POC by this local candidate.
+
 # OPS-027 bounded compatibility supplement handoff
 
 Task OPS-027 / Issue242 / branch chore/OPS-027-validator-key-reuse-implementation / baseF afe89504b0e118790986331061dde873ceb1e325 / parentfailed994 994314e90b232f890d749c95328e18239e2df870. Current own-metadata candidate uncommitted; source SHA unknown until ordinary commit. Status in_progress, agentRole implementer; Coordinator/Implementer/Integrator /root; independent Reviewer /root/gz022_planning_independent_review; Owner ElectricDogCN. ExactP2, original leases, group poc-validator-performance/order22, 3active1high remain unchanged. No shared paths or identity migration.
