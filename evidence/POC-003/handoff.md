@@ -1915,3 +1915,8 @@ See blocked-lease-20261112/decision.json and commands.json for the actual prospe
 ## Normal resume after accepted OPS024 Completion
 
 Accepted integration base a3a57bade4dd3b25cd417d2cb5e0e3d1e14d792c is imported by an ordinary fast-forward of the existing registered branch. Only Own blocked/coordinator to in_progress/implementer state and current Evidence are prepared. Creation base, all actors, claims, order2 and valid lease remain unchanged. Current-source original15, exact1044 inventory, full official CI and independent acceptance are pending. The rejected old d3 packet stays unpublished; no old result or execution/publication approval transfers. A wholly new synthetic isolated experiment requires its own prospective source/input/resource/window approval.
+
+
+## Frozen Program lease maintenance 2026-11-19T10:00:37Z
+
+Program execution remains frozen under OPS-027. Existing ATS validation must stay on hold while the freeze evidence and thaw are resolved. The proposed coordination lease runs from `2026-11-19T10:00:37Z` to `2026-11-26T10:00:37Z`. See [decision and verification commands](freeze-lease-20261119.json). Any gap after the old lease expires remains an actual maintenance gap. The proposal leaves all experiment inputs, raw results and registered implementation references in place. Verification, merge and actual main acceptance are pending.
