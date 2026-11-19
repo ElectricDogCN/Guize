@@ -1,0 +1,20 @@
+{
+  "kind": "DIRTY_TWO_P_WORKTREE_REGRESSIONS_ONLY",
+  "uncommittedWorkingTreeOnly": true,
+  "base": "1868291c2eb04755469efd9b8bf2e31b4cee22ed",
+  "targetedCases": 14,
+  "exitCode": 0,
+  "actualWaitCompleted": true,
+  "elapsedSeconds": 83.9135657200095,
+  "rawSha256": "6d5aa63794fe157b47555678a8bc357cce30237cbfe74cdbb6ebea8671f2df51",
+  "junit": {
+    "bytes": 2362,
+    "sha256": "ed5845920adbc36a6d61508fd762c4c75640603dcacbe9bab608137c68a18907",
+    "cases": 14,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0
+  },
+  "fixedSourceQualification": false,
+  "fullCiAccepted": false
+}

@@ -1,15 +1,15 @@
-# OPS-027 freeze-v2 original14 recipe. Fixed-source checks UNEXECUTED.
-git diff --check 658761ad282296934061778a7a57c5ba66926a25...HEAD
+# Normal Own performance purpose. All new-source exits UNEXECUTED.
+git diff --check afe89504b0e118790986331061dde873ceb1e325...HEAD
 python scripts/check-task-file.py --task OPS-027
 python scripts/check-schemas.py
-python scripts/check-program-plan-integrity.py --base-ref 658761ad282296934061778a7a57c5ba66926a25
-python scripts/check-program-plan-history.py --base-ref 658761ad282296934061778a7a57c5ba66926a25 --head-ref HEAD --task OPS-027 --branch-name chore/OPS-027-gz021-performance-freeze-v2
-python scripts/check-program-plan-transitions.py --base-ref 658761ad282296934061778a7a57c5ba66926a25 --head-ref HEAD --task OPS-027 --branch-name chore/OPS-027-gz021-performance-freeze-v2
-python scripts/check-program-lifecycle-guards.py --base-ref 658761ad282296934061778a7a57c5ba66926a25 --head-ref HEAD --task OPS-027 --branch-name chore/OPS-027-gz021-performance-freeze-v2
-python scripts/run-program-lifecycle-gate.py --base-ref 658761ad282296934061778a7a57c5ba66926a25 --head-ref HEAD --task OPS-027 --branch-name chore/OPS-027-gz021-performance-freeze-v2
-python scripts/run-agent-coordination-gate.py --base-ref 658761ad282296934061778a7a57c5ba66926a25 --head-ref HEAD --task OPS-027 --branch-name chore/OPS-027-gz021-performance-freeze-v2
-python scripts/check-program-plan-finalization.py --base-ref 658761ad282296934061778a7a57c5ba66926a25 --head-ref HEAD --task OPS-027
-python scripts/run-task-scope-gate.py --task OPS-027 --base 658761ad282296934061778a7a57c5ba66926a25
+python scripts/check-program-plan-integrity.py --base-ref afe89504b0e118790986331061dde873ceb1e325
+python scripts/check-program-plan-history.py --base-ref afe89504b0e118790986331061dde873ceb1e325 --head-ref HEAD --task OPS-027 --branch-name chore/OPS-027-validator-key-reuse-implementation
+python scripts/check-program-plan-transitions.py --base-ref afe89504b0e118790986331061dde873ceb1e325 --head-ref HEAD --task OPS-027 --branch-name chore/OPS-027-validator-key-reuse-implementation
+python scripts/check-program-lifecycle-guards.py --base-ref afe89504b0e118790986331061dde873ceb1e325 --head-ref HEAD --task OPS-027 --branch-name chore/OPS-027-validator-key-reuse-implementation
+python scripts/run-program-lifecycle-gate.py --base-ref afe89504b0e118790986331061dde873ceb1e325 --head-ref HEAD --task OPS-027 --branch-name chore/OPS-027-validator-key-reuse-implementation
+python scripts/run-agent-coordination-gate.py --base-ref afe89504b0e118790986331061dde873ceb1e325 --head-ref HEAD --task OPS-027 --branch-name chore/OPS-027-validator-key-reuse-implementation
+python scripts/check-program-plan-finalization.py --base-ref afe89504b0e118790986331061dde873ceb1e325 --head-ref HEAD --task OPS-027
+python scripts/run-task-scope-gate.py --task OPS-027 --base afe89504b0e118790986331061dde873ceb1e325
 python scripts/check-evidence.py --task OPS-027
 python scripts/check-project-readiness.py
 python scripts/check-markdown.py

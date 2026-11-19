@@ -10434,5 +10434,340 @@ class TestPocProgram(unittest.TestCase):
         finally:temp.cleanup()
 
 
+class TestEquivalentKeyReuse(unittest.TestCase):
+    """Compare against the original algorithm, including live and lazy inputs."""
+
+    def setUp(self):
+        safe, sensitive = CHECK.SAFE_KEYS, CHECK.SENSITIVE
+        self.addCleanup(setattr, CHECK, 'SAFE_KEYS', safe)
+        self.addCleanup(setattr, CHECK, 'SENSITIVE', sensitive)
+        self.addCleanup(CHECK._normalize_key_text_cached.cache_clear)
+        self.addCleanup(CHECK._sensitive_key_match_cached.cache_clear)
+        CHECK.SAFE_KEYS, CHECK.SENSITIVE = set(safe), set(sensitive)
+        CHECK._normalize_key_text_cached.cache_clear()
+        CHECK._sensitive_key_match_cached.cache_clear()
+
+    @staticmethod
+    def oracle_normalize(key):
+        import re
+        text = str(key)
+        text = re.sub(r"([a-z0-9])([A-Z])", r"\1_\2", text)
+        return re.sub(r'[^a-z0-9]+', '_', text.lower()).strip('_')
+
+    @classmethod
+    def oracle_secret(cls, key, value):
+        import re
+        normalized = cls.oracle_normalize(key)
+        if normalized in CHECK.SAFE_KEYS:
+            return value is not False
+        return any(
+            re.search(rf"(?:^|_){re.escape(term)}(?:_|$)", normalized)
+            for term in CHECK.SENSITIVE
+        )
+
+    @staticmethod
+    def outcome(function, *args):
+        try:
+            return ('value', function(*args))
+        except Exception as exc:
+            return ('error', type(exc), str(exc))
+
+    def test_original_oracle_grid_preserves_boundaries_unicode_and_values(self):
+        keys = [None, False, 0, 42, '', '_', 'myPassword', 'mypassword',
+                'productionApiKeyValue', 'authTokenValue', 'credentialReference',
+                'credentialsStored', 'credentials_stored_in_repository',
+                'TOKEN', 'x-token.y', '令牌Token', 'ÉPassword', 'Straße',
+                'a' * 1024, 'a' * 1025 + '_token']
+        for term in CHECK.SENSITIVE:
+            keys.extend((term, 'prefix_' + term + '_suffix', 'x' + term + 'x'))
+        for key in keys:
+            self.assertEqual(CHECK.normalize_key(key), self.oracle_normalize(key))
+            for value in (False, True, 0, 1, None, '', [], {}):
+                with self.subTest(key=key, value=value):
+                    self.assertEqual(CHECK.secret_key(key, value), self.oracle_secret(key, value))
+
+    def test_safe_membership_and_identity_value_test_are_always_live(self):
+        key = 'credentialsStored'
+        for value in (False, True, 0, None, [], {}):
+            self.assertIs(CHECK.secret_key(key, value), value is not False)
+        CHECK.SAFE_KEYS.clear()
+        self.assertEqual(CHECK.secret_key(key, False), self.oracle_secret(key, False))
+        CHECK.SAFE_KEYS.add('credentials_stored')
+        self.assertFalse(CHECK.secret_key(key, False))
+
+        class OpaqueValue:
+            def __bool__(self):
+                raise AssertionError('truth conversion is not allowed')
+
+            def __eq__(self, other):
+                raise AssertionError('value equality is not allowed')
+
+        self.assertTrue(CHECK.secret_key(key, OpaqueValue()))
+        calls = []
+
+        class Membership:
+            def __contains__(self, item):
+                calls.append(item)
+                return False
+
+        CHECK.SAFE_KEYS = Membership()
+        for _ in range(4):
+            self.assertTrue(CHECK.secret_key('token', False))
+        self.assertEqual(calls, ['token'] * 4)
+
+    def test_sensitive_set_mutation_and_replacement_change_cached_context(self):
+        CHECK.SENSITIVE = {'token'}
+        for expected in (False, True, False):
+            self.assertEqual(CHECK.secret_key('customSecret', None), expected)
+            self.assertEqual(CHECK.secret_key('customSecret', None), self.oracle_secret('customSecret', None))
+            if expected:
+                CHECK.SENSITIVE.remove('secret')
+            else:
+                CHECK.SENSITIVE.add('secret')
+        CHECK.SENSITIVE = {'custom'}
+        self.assertTrue(CHECK.secret_key('customSecret', None))
+        CHECK.SENSITIVE = set()
+        self.assertFalse(CHECK.secret_key('customSecret', None))
+        CHECK.SENSITIVE = {''}
+        self.assertEqual(CHECK.secret_key('_', None), self.oracle_secret('_', None))
+
+    def test_original_keys_and_values_are_never_retained_or_hashed(self):
+        import gc
+        import weakref
+
+        class Key:
+            calls = 0
+
+            def __hash__(self):
+                raise AssertionError('original key must not be hashed')
+
+            def __str__(self):
+                self.calls += 1
+                return 'token'
+
+        class Value:
+            pass
+
+        key, value = Key(), Value()
+        for _ in range(3):
+            self.assertTrue(CHECK.secret_key(key, value))
+        self.assertEqual(key.calls, 3)
+        key_ref, value_ref = weakref.ref(key), weakref.ref(value)
+        del key, value
+        gc.collect()
+        self.assertIsNone(key_ref())
+        self.assertIsNone(value_ref())
+
+    def test_str_conversion_side_effects_and_exceptions_are_fresh(self):
+        class ChangingKey:
+            def __init__(self):
+                self.calls = 0
+
+            def __str__(self):
+                self.calls += 1
+                return 'token' if self.calls % 2 else 'plain'
+
+        key = ChangingKey()
+        self.assertEqual([CHECK.secret_key(key, None) for _ in range(4)], [True, False, True, False])
+        self.assertEqual(key.calls, 4)
+
+        class BrokenKey:
+            calls = 0
+
+            def __str__(self):
+                self.calls += 1
+                raise ValueError('fresh conversion error')
+
+        broken = BrokenKey()
+        for function in (CHECK.normalize_key, lambda k: CHECK.secret_key(k, None)):
+            with self.assertRaisesRegex(ValueError, 'fresh conversion error'):
+                function(broken)
+        self.assertEqual(broken.calls, 2)
+
+    def test_unusual_string_types_use_original_uncached_operations(self):
+        import warnings
+
+        class Text(str):
+            __hash__ = None
+
+        class Key:
+            def __str__(self):
+                return Text('authToken')
+
+        with warnings.catch_warnings():
+            warnings.simplefilter('ignore', DeprecationWarning)
+            text = str(Key())
+            before = CHECK._normalize_key_text_cached.cache_info()
+            self.assertEqual(CHECK.normalize_key(Key()), self.oracle_normalize(Key()))
+            if type(text) is not str:
+                self.assertEqual(CHECK._normalize_key_text_cached.cache_info(), before)
+        CHECK.SAFE_KEYS = ()
+        before = CHECK._sensitive_key_match_cached.cache_info()
+        with mock.patch.object(CHECK, 'normalize_key', return_value=Text('token')) as normalize:
+            for _ in range(3):
+                self.assertTrue(CHECK.secret_key('ignored', None))
+            self.assertEqual(normalize.call_count, 3)
+        self.assertEqual(CHECK._sensitive_key_match_cached.cache_info(), before)
+
+    def test_custom_iterables_keep_short_circuit_order_and_exceptions(self):
+        def run(function, key, subclass):
+            trace = []
+
+            def items():
+                trace.append('token')
+                yield 'token'
+                trace.append('unreached-or-error')
+                raise LookupError('original iterator error')
+
+            class Terms(set):
+                def __iter__(self):
+                    return items()
+
+            CHECK.SENSITIVE = Terms() if subclass else items()
+            return self.outcome(function, key, None), trace
+
+        for subclass in (False, True):
+            for key in ('api_token', 'plain'):
+                self.assertEqual(run(CHECK.secret_key, key, subclass),
+                                 run(self.oracle_secret, key, subclass))
+        CHECK.SENSITIVE = {'token', 42}
+        self.assertEqual(self.outcome(CHECK.secret_key, 'plain', None),
+                         self.outcome(self.oracle_secret, 'plain', None))
+
+    def test_large_contexts_and_long_keys_do_not_grow_caches(self):
+        contexts = [set('term_' + str(i) for i in range(65)) | {'token'},
+                    {'x' * 129, 'token'},
+                    {'x' * 120 + str(i) for i in range(40)} | {'token'},
+                    ['token'], {'token': True}]
+        for terms in contexts:
+            CHECK.SENSITIVE = terms
+            before = CHECK._sensitive_key_match_cached.cache_info()
+            self.assertEqual(CHECK.secret_key('token', False), self.oracle_secret('token', False))
+            self.assertEqual(CHECK._sensitive_key_match_cached.cache_info(), before)
+        CHECK.SENSITIVE = {'token'}
+        key = 'a' * 1025 + '_token'
+        before = (CHECK._normalize_key_text_cached.cache_info(), CHECK._sensitive_key_match_cached.cache_info())
+        self.assertEqual(CHECK.secret_key(key, None), self.oracle_secret(key, None))
+        self.assertEqual((CHECK._normalize_key_text_cached.cache_info(), CHECK._sensitive_key_match_cached.cache_info()), before)
+
+    def test_both_pure_caches_stay_bounded_across_keys_and_contexts(self):
+        for number in range(4352):
+            self.assertFalse(CHECK.secret_key('opaque_' + str(number), None))
+        for key in ('opaque_0', 'opaque_2048', 'opaque_4351'):
+            self.assertEqual(CHECK.secret_key(key, None), self.oracle_secret(key, None))
+        for number in range(4352):
+            CHECK.SENSITIVE = {'term_' + str(number)}
+            self.assertFalse(CHECK.secret_key('opaque', None))
+        for cache in (CHECK._normalize_key_text_cached, CHECK._sensitive_key_match_cached):
+            self.assertEqual(cache.cache_info().maxsize, 4096)
+            self.assertLessEqual(cache.cache_info().currsize, 4096)
+
+    def test_reuse_removes_regex_work_without_caching_live_conversion(self):
+        calls, membership = [], []
+
+        class Key:
+            def __str__(self):
+                calls.append('str')
+                return 'apiToken'
+
+        class SafeMembership:
+            def __contains__(self, key):
+                membership.append(key)
+                return False
+
+        CHECK.SAFE_KEYS = SafeMembership()
+        expected = self.oracle_secret('apiToken', False)
+        membership.clear()
+        with mock.patch.object(CHECK.re, 'sub', wraps=CHECK.re.sub) as sub:
+            with mock.patch.object(CHECK.re, 'search', wraps=CHECK.re.search) as search:
+                self.assertEqual(CHECK.secret_key(Key(), False), expected)
+                first = sub.call_count, search.call_count
+                self.assertEqual(first[0], 2)
+                self.assertGreater(first[1], 0)
+                for value in (None, 0, True, [], {}, False, 1, '', 2, None):
+                    self.assertEqual(CHECK.secret_key(Key(), value), expected)
+                self.assertEqual((sub.call_count, search.call_count), first)
+        self.assertEqual(calls, ['str'] * 11)
+        self.assertEqual(membership, ['api_token'] * 11)
+
+    def test_recursive_scan_preserves_diagnostic_text_and_order(self):
+        import re
+        patterns = [re.compile(r'glpat-[A-Za-z0-9_-]{8,}'), re.compile(r'sk-[A-Za-z0-9_-]{12,}'),
+                    re.compile(r'AKIA[0-9A-Z]{16}'),
+                    re.compile(r'-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----'),
+                    re.compile(r'(?i)\b(?:password|passwd|token|api[_-]?key|secret)\s*[:=]\s*\S+')]
+
+        def oracle_scan(value, path, errors):
+            if isinstance(value, dict):
+                for key, item in value.items():
+                    if key == 'credentialReference':
+                        if not isinstance(item, str) or len(item) > 74 or re.fullmatch(r'secretref_[A-Za-z0-9_-]{1,64}', item) is None:
+                            errors.append(f'invalid canonical Secret reference at {path}/{key}')
+                    elif self.oracle_secret(key, item):
+                        errors.append(f'secret-like key forbidden at {path}/{key}')
+                    oracle_scan(item, f'{path}/{key}', errors)
+            elif isinstance(value, list):
+                for index, item in enumerate(value):
+                    oracle_scan(item, f'{path}/{index}', errors)
+            elif isinstance(value, str) and any(pattern.search(value) for pattern in patterns):
+                errors.append(f'secret-like value forbidden at {path}')
+
+        value = {'credentials_stored': {'authToken': 'sk-' + 'x' * 16},
+                 'items': [{'credentialReference': 'secretref_fixture01'},
+                           {'credentialReference': {'password': 'opaque'}},
+                           {'credential-reference': False},
+                           'password' + '=' + 'fixture-only'],
+                 'credentials_stored_in_repository': False}
+        expected, actual = [], []
+        oracle_scan(value, 'fixture', expected)
+        CHECK.secret_scan(value, 'fixture', actual)
+        self.assertTrue(expected)
+        self.assertEqual(actual, expected)
+
+
+
+class TestMappedOriginCanonicalCompatibility(unittest.TestCase):
+    def test_mapped_origin_whitelist_boundaries_and_uri_forms(self):
+        accepted = ('::ffff:7f00:0', '::ffff:7fff:ffff', '::ffff:a00:0',
+                    '::ffff:aff:ffff', '::ffff:ac10:0', '::ffff:ac1f:ffff',
+                    '::ffff:c0a8:0', '::ffff:c0a8:ffff')
+        rejected = ('::ffff:7eff:ffff', '::ffff:8000:0', '::ffff:9ff:ffff',
+                    '::ffff:b00:0', '::ffff:ac0f:ffff', '::ffff:ac20:0',
+                    '::ffff:c0a7:ffff', '::ffff:c0a9:0', '::ffff:0:0',
+                    '::ffff:a9fe:1', '::ffff:808:808', '::ffff:e000:1',
+                    '::ffff:0a00:0', '0:0:0:0:0:ffff:a00:0', '::ffff:10.0.0.0')
+        with mock.patch('socket.getaddrinfo', side_effect=AssertionError('must not resolve DNS')):
+            for host in accepted:
+                with self.subTest(host=host):
+                    self.assertTrue(CHECK.valid_local_origin('https://[' + host + ']:443', {'https'}))
+            for host in rejected:
+                with self.subTest(host=host):
+                    self.assertFalse(CHECK.valid_local_origin('https://[' + host + ']', {'https'}))
+            for suffix in (':0', ':65536', ':', ':fixture', '/path', '?q=1', '#part', '%25zone'):
+                with self.subTest(suffix=suffix):
+                    self.assertFalse(CHECK.valid_local_origin('https://[::ffff:a00:1]' + suffix, {'https'}))
+            self.assertFalse(CHECK.valid_local_origin('https://user@[::ffff:a00:1]', {'https'}))
+            self.assertFalse(CHECK.valid_local_origin('http://[::ffff:a00:1]', {'https'}))
+
+    def test_mapped_policy_is_independent_of_display_rendering(self):
+        import ipaddress
+        original = ipaddress.IPv6Address.compressed
+
+        def no_mapped_display(address):
+            if address.ipv4_mapped is not None:
+                raise AssertionError('mapped URI canonicalization must not depend on display rendering')
+            return original.fget(address)
+
+        with mock.patch.object(ipaddress.IPv6Address, 'compressed', property(no_mapped_display)):
+            self.assertTrue(CHECK.valid_local_origin('https://[::ffff:7f00:1]', {'https'}))
+            self.assertTrue(CHECK.valid_local_origin('https://[::ffff:c0a8:101]', {'https'}))
+            self.assertFalse(CHECK.valid_local_origin('https://[::ffff:808:808]', {'https'}))
+            self.assertFalse(CHECK.valid_local_origin('https://[::ffff:7f00:0001]', {'https'}))
+            self.assertTrue(CHECK.valid_local_origin('https://[::1]', {'https'}))
+            self.assertTrue(CHECK.valid_local_origin('https://[fd12:3456::1]', {'https'}))
+            self.assertFalse(CHECK.valid_local_origin('https://[0:0:0:0:0:0:0:1]', {'https'}))
+            self.assertFalse(CHECK.valid_local_origin('https://[fe80::1]', {'https'}))
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

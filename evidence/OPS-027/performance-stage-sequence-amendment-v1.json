@@ -1,0 +1,103 @@
+{
+  "schemaVersion": 1,
+  "kind": "FORWARD_OWN_TASK_EXECUTION_ORDER_AMENDMENT_CANDIDATE_V1",
+  "taskId": "OPS-027",
+  "issue": 242,
+  "decisionOwner": "ElectricDogCN",
+  "decisionDelegate": "/root",
+  "delegatedUserInstruction": "\u5168\u6743\u6388\u6743\uff0c\u6240\u6709\u51b3\u7b56\u7531\u4f60\u6765\u51b3\u5b9a\u4e0d\u9700\u8981\u8be2\u95ee",
+  "directHumanExactAmendmentApprovalClaimed": false,
+  "recordedAt": "2026-11-18T20:20:21.951Z",
+  "base": "afe89504b0e118790986331061dde873ceb1e325",
+  "currentTaskSequenceReferences": [
+    "specs/tasks/OPS-027.md:56",
+    "specs/tasks/OPS-027.md:77",
+    "specs/tasks/OPS-027.md:90"
+  ],
+  "hardOriginalAuthorityReferences": [
+    "AGENTS.md:384",
+    "AGENTS.md:386",
+    "AGENTS.md:394",
+    "AGENTS.md:396",
+    "evidence/OPS-026/performance-repair-admission-intent.json",
+    "scripts/poc-contract-repair-admission.py:1162"
+  ],
+  "originalIntentSha256": "1dedeb0167cf4f62bdca8de6c5f66f86764e10e6ecd7300964cdb4006543bac2",
+  "facts": {
+    "actualFreezeMain": "afe89504b0e118790986331061dde873ceb1e325",
+    "parents": [
+      "658761ad282296934061778a7a57c5ba66926a25",
+      "1b80669efc9769ca5f889be751080d34ff031855"
+    ],
+    "tree": "951b27a41efb7ce57e8c15d5e705638ab9745406",
+    "sourceFullOfficialCi": {
+      "run": 44371744017,
+      "attempt": 1,
+      "job": 135040063360,
+      "uniquePassed": 1078,
+      "stepsSuccess": 28,
+      "jobSeconds": 1153
+    },
+    "actualMainOriginalSevenAllRealExitZero": true,
+    "mainOfficialCiAttempts": [
+      {
+        "run": 44375966387,
+        "attempt": 1,
+        "job": 135055101651,
+        "conclusion": "cancelled",
+        "reason": "original 30-minute timeout",
+        "observedPassed": 1067
+      },
+      {
+        "run": 44375966387,
+        "attempt": 2,
+        "job": 135076248610,
+        "conclusion": "cancelled",
+        "reason": "original 30-minute timeout",
+        "observedPassed": 1067
+      }
+    ],
+    "actualFreezeMainFullyAccepted": false,
+    "mainCiAccepted": false
+  },
+  "unchanged": [
+    "AGENTS",
+    "original026intent",
+    "immutableGovManifest",
+    "Gov4",
+    "Program frozen/recovery event",
+    "all original assertions/tests/thresholds/scale/platform/runner/actions/deps/worker count/loadfile/30 minutes",
+    "same IP/implementer/P2/actors/lease/3-1 capacity",
+    "all historical failure data and results"
+  ],
+  "qualificationRules": {
+    "neverConvertEither1058CancellationToPass": true,
+    "neverClaimOldFMainFullCiAccepted": true,
+    "neverRebindAnyOldPocPass": true,
+    "unknownPurposeOrPCodeNotApproved": true,
+    "endedStageCleanupDeferredUntilSuccessfulActualRepairMainIndependentAcceptance": true
+  },
+  "decision": "DELEGATED_COORDINATOR_FORWARD_TASK_ORDER_AMENDMENT",
+  "independentPreparationReceiptSha256": "8169ccef87a883c5731c44bd9ba7ffc509b78ecc01f2209e763b192406db1316",
+  "purposeSourceAccepted": false,
+  "performanceCodeWriteApproved": false,
+  "forwardTaskOrderChange": {
+    "scope": "Own Task/Evidence and normal Own branch/base only; Program/recovery/code/claims/actors/leases unchanged",
+    "removeOnlyAddedPhaseOrdering": "The task-created prerequisite that the intermediate freeze-metadata actual main must itself have a green full push CI before the already registered task can prepare its separate performance implementation purpose.",
+    "retainActualFreezeVerification": true,
+    "requireIndependentActualEventVerificationBeforePurposeCommit": true,
+    "requireNormalMetadataPurposeCommitBeforePWrites": true,
+    "requireOriginal14AndOrdered1078OnPurpose": true,
+    "requireIndependentExactPurposeTransitionAcceptanceBeforePWrites": true,
+    "permitOnlyOriginalEquivalentBoundedP2": [
+      "specs/poc/check_program.py",
+      "specs/poc/test_program.py"
+    ],
+    "requireCompleteUnchangedOfficialPerformanceSourceCiBeforeMerge": true,
+    "requireCompleteUnchangedOfficialActualRepairMainCiBeforeFreezeValidationOrThaw": true,
+    "requireOriginalDirectFrozenValidationAndFullGovernanceMakeVerifyWithRealLogsAndNonemptyZeroFesJunit": true,
+    "requireIndependentSeparateMetadataOnlyThaw": true,
+    "requireNormalReviewCompletionAndFullOfficialSourceActualMainCi": true
+  },
+  "decisionStatus": "OWNER_DECIDED_CANDIDATE_AWAITING_EXACT_INDEPENDENT_REVIEW"
+}

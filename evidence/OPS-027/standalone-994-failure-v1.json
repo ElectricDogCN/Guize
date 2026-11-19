@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "kind": "DERIVED_PORTABLE_SUMMARY_OF_PRESERVED_FIXED_SOURCE_FAILURE",
+  "source": "994314e90b232f890d749c95328e18239e2df870",
+  "base": "afe89504b0e118790986331061dde873ceb1e325",
+  "sourceChecks14Passed": true,
+  "governanceCollected": 1078,
+  "standaloneCollected": 222,
+  "original211OrderedPreserved": true,
+  "raw": {
+    "raw": "standalone-poc.raw",
+    "startedAt": "2026-11-18T21:09:00.384748+00:00",
+    "timeoutSeconds": 7200,
+    "pid": 13562,
+    "actualWaitCompleted": true,
+    "exitCode": 2,
+    "elapsedSeconds": 2469.6672901789934,
+    "bytes": 11025,
+    "sha256": "c65d93f933f06d9be775112f1f0ca8a8e49b3b7e81a94c09000ef16e2b3df4e4"
+  },
+  "partialJUnit": {
+    "bytes": 11381,
+    "sha256": "f31502e53b1f164cb4d646b16064cd9b6abe20617f21d17a3a8431e9b9966d8b",
+    "qualification": false
+  },
+  "observedSummary": {
+    "passed": 68,
+    "failed": 1,
+    "completeSuite": false,
+    "failedTest": "TestPocProgram::test_151_local_tls_origins_validate_semantic_host_and_port",
+    "firstFailedPositive": "[::ffff:7f00:1]"
+  },
+  "interruption": {
+    "reason": "Stop after observed assertion failure to diagnose; no qualification possible",
+    "nativeExitCode": 2,
+    "ownedProcessGroup": 13562,
+    "actualWaitCompleted": true
+  },
+  "host": {
+    "actualWaitCompleted": true,
+    "exitCode": 1,
+    "additionalHarnessError": "partial interrupt JUnit synthetic testcase lacks classname; KeyError in post-run summary, original native raw and exit2 saved"
+  },
+  "oldAndNewFunctionUnchanged": true,
+  "diagnosis": "Existing canonical host comparison assumes mapped IPv6 compressed rendering is pure hexadecimal. Official CPython 3.11.17 and 3.11.18 use mixed IPv4 decimal rendering. Both original freeze and new source reject the same original positive case.",
+  "officialSources": [
+    "https://raw.githubusercontent.com/python/cpython/v3.11.17/Lib/ipaddress.py",
+    "https://raw.githubusercontent.com/python/cpython/v3.11.18/Lib/ipaddress.py"
+  ],
+  "allQualificationFlags": false,
+  "portableCommandRecipe": [
+    "python",
+    "-B",
+    "-m",
+    "pytest",
+    "-v",
+    "-ra",
+    "-p",
+    "no:cacheprovider",
+    "--color=no",
+    "specs/poc/test_program.py",
+    "--junitxml=<private-output>/standalone-poc.xml"
+  ],
+  "commandRepresentation": "Portable recipe only; placeholder output is not the actual executed argv",
+  "actualCommandRecordedInPrivateRaw": true,
+  "privateCaptureSha256": "cf991a0a4adbcad17e6412bbdce8071570f2f760fc4dc4ccfab9986545c2c233"
+}

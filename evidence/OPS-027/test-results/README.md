@@ -1,5 +1,2 @@
-# OPS-027 freeze-v2 validation
-
-Status: UNEXECUTED
-
-Prior restoration acceptance does not qualify this new source or frozen main. Complete original1070+8=1078 source and actual-main CI, original fourteen/seven and independent review remain required. No P code or new POC result is accepted.
+<!-- Development-only diagnostic: original151 + two new compatibility cases + eleven key-reuse cases =14, actual zeroFES. Fixed-source/full224 and official1078 still pending. See evidence/OPS-027/local-origin-compatibility-v1/development-diagnostic.json. -->
+NEEDS_REVIEW. Minimal compatibility code candidate after fixed metadata14+independent transition. Original222+2=224; targeted/fixedsource/fullsuite official1078/source+main UNEXECUTED, exit N/A. Failed994 nativeexit2,partialJUnit,1058 cancellations unchanged. Full original30min/freezevalidation/thaw obligations remain.

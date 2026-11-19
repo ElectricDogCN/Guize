@@ -1,3 +1,2 @@
-OPS-027 NEEDS_REVIEW. New metadata-only GZ-021 freeze-v2 proposal from accepted restoration main 658761ad282296934061778a7a57c5ba66926a25.
-
-Only Program status/recovery and Own branch/base/Task/Evidence change. IP/implementer, exact P2 and all actors/leases/capacity stay unchanged. This new source, official CI and actual frozen main are not accepted yet; no P code, placeholder verification PASS or POC qualification exists. Closed unmerged PR244/failed1050 is retained and never reused.
+<!-- Development-only diagnostic: original151 + two new compatibility cases + eleven key-reuse cases =14, actual zeroFES. Fixed-source/full224 and official1078 still pending. See evidence/OPS-027/local-origin-compatibility-v1/development-diagnostic.json. -->
+OPS-027 NEEDS_REVIEW. Minimal mapped IPv6 fullhex canonical compatibility code after independently accepted prospective Own metadata 1868291c2eb04755469efd9b8bf2e31b4cee22ed. Original222 tests retained;2new tests,224 total. Development/fixedsource/fullCI results UNEXECUTED. Original994 failed/interrupted and1058 cancellations retained. No public source/main/thaw/currentPOC qualification.

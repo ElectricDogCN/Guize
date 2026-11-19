@@ -104,9 +104,9 @@ tasks:
   reviewer: /root/gz022_planning_independent_review
   integrator: /root
   agentRole: implementer
-  branch: chore/OPS-027-gz021-performance-freeze-v2
+  branch: chore/OPS-027-validator-key-reuse-implementation
   baseBranch: main
-  baseSha: 658761ad282296934061778a7a57c5ba66926a25
+  baseSha: afe89504b0e118790986331061dde873ceb1e325
   workPackage: WP-M0-01
   programPlan: specs/coordination/program-plan.yaml
   programTaskId: OPS-027
