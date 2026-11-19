@@ -1,0 +1,149 @@
+{
+  "taskId": "POC-003",
+  "issue": 131,
+  "base": "ba5f5a086cecc2a595b16f4e34da0cd85d60e237",
+  "branch": "chore/POC-003-freeze-lease-20261119",
+  "decidedAt": "2026-11-19T10:00:37Z",
+  "decisionActor": "/root",
+  "reason": "Program execution remains frozen under OPS-027. Existing ATS validation must stay on hold while the freeze evidence and thaw are resolved.",
+  "oldLease": {
+    "acquiredAt": "2026-11-12T10:18:10Z",
+    "expiresAt": "2026-11-19T10:18:10Z"
+  },
+  "proposedLease": {
+    "acquiredAt": "2026-11-19T10:00:37Z",
+    "expiresAt": "2026-11-26T10:00:37Z"
+  },
+  "statusFrom": "in_progress",
+  "statusTo": "blocked",
+  "agentRoleFrom": "implementer",
+  "agentRoleTo": "coordinator",
+  "unlockCondition": "Accept the actual separate Program thaw and then complete ordinary POC-003 reactivation and validation.",
+  "commands": [
+    [
+      "git",
+      "diff",
+      "--check",
+      "ba5f5a086cecc2a595b16f4e34da0cd85d60e237...HEAD"
+    ],
+    [
+      "python",
+      "scripts/check-task-file.py",
+      "--task",
+      "POC-003"
+    ],
+    [
+      "python",
+      "scripts/check-project-readiness.py"
+    ],
+    [
+      "python",
+      "scripts/check-schemas.py"
+    ],
+    [
+      "python",
+      "scripts/check-program-plan-integrity.py",
+      "--base-ref",
+      "ba5f5a086cecc2a595b16f4e34da0cd85d60e237"
+    ],
+    [
+      "python",
+      "scripts/check-program-plan-history.py",
+      "--base-ref",
+      "ba5f5a086cecc2a595b16f4e34da0cd85d60e237",
+      "--head-ref",
+      "HEAD",
+      "--task",
+      "POC-003",
+      "--branch-name",
+      "chore/POC-003-freeze-lease-20261119"
+    ],
+    [
+      "python",
+      "scripts/check-program-plan-transitions.py",
+      "--base-ref",
+      "ba5f5a086cecc2a595b16f4e34da0cd85d60e237",
+      "--head-ref",
+      "HEAD",
+      "--task",
+      "POC-003",
+      "--branch-name",
+      "chore/POC-003-freeze-lease-20261119"
+    ],
+    [
+      "python",
+      "scripts/check-program-plan-finalization.py",
+      "--base-ref",
+      "ba5f5a086cecc2a595b16f4e34da0cd85d60e237",
+      "--head-ref",
+      "HEAD",
+      "--task",
+      "POC-003"
+    ],
+    [
+      "python",
+      "scripts/check-program-lifecycle-guards.py",
+      "--base-ref",
+      "ba5f5a086cecc2a595b16f4e34da0cd85d60e237",
+      "--head-ref",
+      "HEAD",
+      "--task",
+      "POC-003",
+      "--branch-name",
+      "chore/POC-003-freeze-lease-20261119"
+    ],
+    [
+      "python",
+      "scripts/run-program-lifecycle-gate.py",
+      "--base-ref",
+      "ba5f5a086cecc2a595b16f4e34da0cd85d60e237",
+      "--head-ref",
+      "HEAD",
+      "--task",
+      "POC-003",
+      "--branch-name",
+      "chore/POC-003-freeze-lease-20261119"
+    ],
+    [
+      "python",
+      "scripts/run-agent-coordination-gate.py",
+      "--base-ref",
+      "ba5f5a086cecc2a595b16f4e34da0cd85d60e237",
+      "--head-ref",
+      "HEAD",
+      "--task",
+      "POC-003",
+      "--branch-name",
+      "chore/POC-003-freeze-lease-20261119"
+    ],
+    [
+      "python",
+      "scripts/run-task-scope-gate.py",
+      "--task",
+      "POC-003",
+      "--base",
+      "ba5f5a086cecc2a595b16f4e34da0cd85d60e237"
+    ],
+    [
+      "python",
+      "scripts/check-evidence.py",
+      "--task",
+      "POC-003"
+    ],
+    [
+      "python",
+      "specs/poc/check_program.py",
+      "--task",
+      "POC-003",
+      "--base-ref",
+      "ba5f5a086cecc2a595b16f4e34da0cd85d60e237"
+    ],
+    [
+      "python",
+      "scripts/check-markdown.py"
+    ]
+  ],
+  "continuousAuthorityClaimed": false,
+  "qualificationClaimed": false,
+  "officialCi": "pending"
+}
