@@ -1,0 +1,5 @@
+Source Commit: ba5f5a086cecc2a595b16f4e34da0cd85d60e237
+Command: python scripts/run-agent-coordination-gate.py --base-ref afe89504b0e118790986331061dde873ceb1e325 --head-ref ba5f5a086cecc2a595b16f4e34da0cd85d60e237 --task OPS-027 --branch-name chore/OPS-027-validator-key-reuse-implementation
+{"status": "PASS", "message": "Agent coordination valid: 3 active tasks, 1 high/critical", "details": {"activeTaskIds": ["OPS-027", "POC-003", "POC-005"]}}
+
+Exit Code: 0

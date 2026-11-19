@@ -1,0 +1,6 @@
+Source Commit: ba5f5a086cecc2a595b16f4e34da0cd85d60e237
+Command: python scripts/run-program-lifecycle-gate.py --base-ref afe89504b0e118790986331061dde873ceb1e325 --head-ref ba5f5a086cecc2a595b16f4e34da0cd85d60e237 --task OPS-027 --branch-name chore/OPS-027-validator-key-reuse-implementation
+{"status": "PASS", "message": "Program lifecycle scope, Foundation ownership, rename and Evidence guards passed", "details": {"affectedTaskIds": ["OPS-027"], "changedPathCount": 15, "baseRef": "afe89504b0e118790986331061dde873ceb1e325"}}
+{"status": "PASS", "message": "Exact lifecycle diff and Completion Issue verification passed"}
+
+Exit Code: 0

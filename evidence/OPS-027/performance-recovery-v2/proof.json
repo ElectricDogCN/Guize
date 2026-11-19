@@ -1,0 +1,39 @@
+{
+  "taskId": "OPS-027",
+  "frozenSourceCommit": "658761ad282296934061778a7a57c5ba66926a25",
+  "validatedCommit": "ba5f5a086cecc2a595b16f4e34da0cd85d60e237",
+  "commands": {
+    "programIntegrity": {
+      "command": "python scripts/check-program-plan-integrity.py --base-ref afe89504b0e118790986331061dde873ceb1e325",
+      "exitCode": 0,
+      "logPath": "evidence/OPS-027/performance-recovery-v2/programIntegrity.txt",
+      "sha256": "2c22d69483b8ce90d1a22f39c318c2672ecd3dd98b6e864038559f762a02aff7"
+    },
+    "lifecycle": {
+      "command": "python scripts/run-program-lifecycle-gate.py --base-ref afe89504b0e118790986331061dde873ceb1e325 --head-ref ba5f5a086cecc2a595b16f4e34da0cd85d60e237 --task OPS-027 --branch-name chore/OPS-027-validator-key-reuse-implementation",
+      "exitCode": 0,
+      "logPath": "evidence/OPS-027/performance-recovery-v2/lifecycle.txt",
+      "sha256": "13d2d35ef6ebaef0a5517890d180c469dbc5660d582476dbd18f8bc9e42ced1e"
+    },
+    "coordination": {
+      "command": "python scripts/run-agent-coordination-gate.py --base-ref afe89504b0e118790986331061dde873ceb1e325 --head-ref ba5f5a086cecc2a595b16f4e34da0cd85d60e237 --task OPS-027 --branch-name chore/OPS-027-validator-key-reuse-implementation",
+      "exitCode": 0,
+      "logPath": "evidence/OPS-027/performance-recovery-v2/coordination.txt",
+      "sha256": "96d6a5c2c3fbde5d0af39bfbdec70fb6fe275aca0e707e5147a6d23b6a088f70"
+    },
+    "governance": {
+      "command": "python -m pytest tests/governance -q --junitxml=evidence/OPS-027/performance-recovery-v2/governance.xml",
+      "exitCode": 0,
+      "logPath": "evidence/OPS-027/performance-recovery-v2/governance.txt",
+      "sha256": "39066d084ac7c4bc3fca2c98a3c30061ed632994e678567da8dc0265e0ff4388"
+    },
+    "verify": {
+      "command": "make verify TASK=OPS-027 BASE=afe89504b0e118790986331061dde873ceb1e325 HEAD_REF=ba5f5a086cecc2a595b16f4e34da0cd85d60e237 BRANCH=chore/OPS-027-validator-key-reuse-implementation",
+      "exitCode": 0,
+      "logPath": "evidence/OPS-027/performance-recovery-v2/verify.txt",
+      "sha256": "29062c3ea2058af9688c1d8cc29ca7ea4dc4941f01e211fd63d84092a9c7d3f4"
+    }
+  },
+  "junitPath": "evidence/OPS-027/performance-recovery-v2/governance.xml",
+  "junitSha256": "6f7eb838bdecd40e4d66d431566b5d750f52d69a22231b09815dce38fa0aa465"
+}
