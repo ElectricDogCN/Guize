@@ -1,0 +1,6 @@
+Source Commit: 77911e903039d412760d14d5f03f0f65ce0d1e5c
+Command: python scripts/run-program-lifecycle-gate.py --base-ref 00028760e9971e367ec67fae2cebba9f06e6f470 --head-ref 77911e903039d412760d14d5f03f0f65ce0d1e5c --task OPS-027 --branch-name chore/OPS-027-rebased-freeze-archive
+{"status": "PASS", "message": "Program lifecycle scope, Foundation ownership, rename and Evidence guards passed", "details": {"affectedTaskIds": ["OPS-027"], "changedPathCount": 3, "baseRef": "00028760e9971e367ec67fae2cebba9f06e6f470"}}
+{"status": "PASS", "message": "Exact lifecycle diff and Completion Issue verification passed"}
+
+Exit Code: 0

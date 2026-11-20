@@ -18,3 +18,8 @@ Real freezeF remains afe89504b0e118790986331061dde873ceb1e325; accepted source10
 Next: independent exact seven-file metadata review, ordinary private commit, original14 and unchanged1078 inventory, independent transition acceptance. Only then minimal compatibility code and focused regressions; fixed new source and actual repair main original222+new fully zeroFES, complete official1078 source/main under30min and independent review. Real frozen verification uses direct checkers/fullgovernance/makeverify and source-bound raw/JUnit, then ownEvidence archive and separate independent metadata-only thaw. Normal Review/Completion follows, then new POC005/003 complete verification. Cleanup deferred until complete actualrepairmainCI and independent acceptance.
 
 Rollback/limits: retain frozenF and all failures; if scope or tests fail, stop affected code and repair forward under accepted scope. Do not blind thaw, downgrade lifecycle, delete original tests, switch standard library or treat public GitHub owner COMMENT as platform APPROVED.
+
+
+## Freeze evidence target-base refresh 2026-11-19T11:28:37Z
+
+Target `00028760e9971e367ec67fae2cebba9f06e6f470`. Branch `chore/OPS-027-rebased-freeze-archive`. Issue #242. PR #250 remains closed without merge after CI 1061 rejected its stale task base. OPS-027 refreshes its own base and branch so the next fixed source can run the original five frozen checks. The new proof must name that actual tested source and retain original logs and JUnit. Evidence-only additions follow the validated source. Source and main CI for the archive, separate thaw, and OPS-027 completion are pending. The earlier original evidence remains historical.
