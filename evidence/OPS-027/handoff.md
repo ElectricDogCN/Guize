@@ -23,3 +23,7 @@ Rollback/limits: retain frozenF and all failures; if scope or tests fail, stop a
 ## Freeze evidence target-base refresh 2026-11-19T11:28:37Z
 
 Target `00028760e9971e367ec67fae2cebba9f06e6f470`. Branch `chore/OPS-027-rebased-freeze-archive`. Issue #242. PR #250 remains closed without merge after CI 1061 rejected its stale task base. OPS-027 refreshes its own base and branch so the next fixed source can run the original five frozen checks. The new proof must name that actual tested source and retain original logs and JUnit. Evidence-only additions follow the validated source. Source and main CI for the archive, separate thaw, and OPS-027 completion are pending. The earlier original evidence remains historical.
+
+## Frozen recovery thaw candidate
+
+The actual archive main `3388d765e6d7de8f8f54c8744cd872c596e9cbf3` passed the local main checks and full official workflow `44669077730`. The archive retains the independently verified repair proof and its validated ancestor `77911e903039d412760d14d5f03f0f65ce0d1e5c`. This candidate changes the Program to active and refreshes the Task and Registry branch/base bindings. The approved recovery descriptor and blocked POC states are preserved. After thaw integration, OPS-027 proceeds to its normal independent Review and Completion. The new history optimization remains planned in #254.
