@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "kind": "range_origin_access_observation",
+  "configurationRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/resource-configuration.json",
+  "case": "updated",
+  "assetId": "poc003-common-main1b5c68b-original-matrix-object",
+  "requestId": "beaf7c8484514fcc932a2ab461a635d0",
+  "userId": "lab-user-a",
+  "requestRange": "bytes=0-7",
+  "ifRange": "",
+  "sourceVersion": "changed",
+  "aclVersion": "poc003-common-main1b5c68b-original-matrix-acl-v1",
+  "requestURL": "http://127.0.0.1:18233/media/object.bin",
+  "sourceSha256": "sha256:643d769e1b5120a7c52d63df3d266f67a4177050180858480feb4e686e2fdda1",
+  "startedAt": "2026-11-02T21:49:07.046460Z",
+  "finishedAt": "2026-11-02T21:49:07.053695Z",
+  "originRequestCount": 1,
+  "objectReadCount": 16
+}

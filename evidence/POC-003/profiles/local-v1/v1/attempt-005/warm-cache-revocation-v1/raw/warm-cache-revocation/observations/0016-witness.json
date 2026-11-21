@@ -1,0 +1,36 @@
+{
+  "requestId": "be9452b728d240a08e8768183153e518",
+  "observedAt": "2026-11-02T22:07:08.828069Z",
+  "originRequestCount": 0,
+  "objectReadCount": 0,
+  "objectReadBytes": 0,
+  "activeOriginRequests": 0,
+  "originTransactions": [],
+  "gatewayTransactions": [
+    {
+      "requestId": "be9452b728d240a08e8768183153e518",
+      "case": "revocation",
+      "startedAt": "2026-11-02T22:07:08.668216Z",
+      "userId": "lab-user-a",
+      "sourceVersion": "base",
+      "aclVersion": "poc003-common-main1b5c68b-original-matrix-acl-v1",
+      "requestRange": "bytes=0-7",
+      "ifRange": "",
+      "atsRequestSent": false,
+      "responseByteCount": 0,
+      "gatewayChunkPeak": 0,
+      "grantObservation": {
+        "grantId": "poc003-grant-lab-user-a",
+        "principalId": "lab-user-a",
+        "validFrom": "2026-11-02T22:07:01.767607Z",
+        "validUntil": "2026-11-02T22:22:06.767607Z",
+        "revokedAt": "2026-11-02T22:07:08.663031Z",
+        "authorizedAt": "2026-11-02T22:07:08.668258Z",
+        "reason": "revoked"
+      },
+      "statusCode": 403,
+      "denialReason": "revoked",
+      "finishedAt": "2026-11-02T22:07:08.668438Z"
+    }
+  ]
+}

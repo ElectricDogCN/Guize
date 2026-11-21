@@ -1,0 +1,204 @@
+{
+  "schemaVersion": 1,
+  "kind": "PROSPECTIVE_NEW_COMMON_MAIN_COMPLETE_ORIGINAL15_EXECUTION_APPROVAL",
+  "approvedBy": "/root/independent_review",
+  "reviewer": "/root/independent_review",
+  "approvedAt": "2026-11-02T21:47:14.318029Z",
+  "fullOriginalMatrixExecutionApproved": true,
+  "windowApproved": true,
+  "sampleApplicabilityApproved": true,
+  "resourceConfigurationApproved": true,
+  "resourceBookingApproved": true,
+  "source": "1b5c68bab02d98f8e11286d80033585090c7af99",
+  "tree": "f94ed8da8d83391f2474365af848bf267a0dc8d1",
+  "testedSource": {
+    "commit": "1b5c68bab02d98f8e11286d80033585090c7af99",
+    "tree": "f94ed8da8d83391f2474365af848bf267a0dc8d1"
+  },
+  "canonicalMain": "1b5c68bab02d98f8e11286d80033585090c7af99",
+  "qualificationBase": "7e405b61d872761817a0614b3b2fdc46edde9f14",
+  "originalCreationBase": "760f6c5838597d1d66c0a536ecbf440ef5a7dfec",
+  "scope": "COMMON_MAIN1B5C68B_FULL_ORIGINAL15_MATRIX_AND_CANONICAL_ASSEMBLY",
+  "maximumActualAttempts": 1,
+  "validFrom": "2026-11-02T21:47:14.318029Z",
+  "validUntil": "2026-11-02T23:21:46.989Z",
+  "actualStartMustFollowThisApproval": true,
+  "actualStartMinimumRemainingSeconds": 900,
+  "mustFix": [],
+  "methodSha256": "5dea5d30a496899c1db3ab285230619c58fe112a9163c2ff41ab6e0d4dc96c33",
+  "entrySha256": "1da32fc7549f9e8bd7369158874e67c2a9144bfcf826fc907e7577588293dfd9",
+  "launcherSha256": "d42a135c9b142fa6f5d36fbdb4d7fc464bb67377a4e50a7932c0d9553cb52c58",
+  "assemblerSha256": "fb9110f8b2b12a6a24b070d33c65b77a7705076b96114f4fb09cf5ae18eb8b2f",
+  "proposalSha256": "d2f728d45b97d753d14c161c69128832e3bb898c919bf168989a71caabff4f6a",
+  "packageManifestSha256": "3e61a9136fecfc6ca5ed2e61f920ffaafd12573028647efaeb2b3812be37d42d",
+  "configurationManifestSha256": "aa6a55d3579766e88ff37770a388224c26c6d7fbb6b98bf08ecdbb368e411901",
+  "inputReviewSha256": "4bb0191d76f6ca534678a54bfdfc6a4a8b630ca578763f451ae24b946e021a2c",
+  "configurationReviewSha256": "7d9da5ada8127145486ba5d499b3e214958990f4c3f1e9579b45294a30ed9fe2",
+  "qualificationReviewSha256": "91e03433b09c0bf2bea535061b67419ef27946bee7371dc64ad9905422e28915",
+  "canonicalMainAcceptanceReview": "poc003-aggregation-pr183-final-actual-main-independent-review.json",
+  "canonicalMainAcceptanceReviewSha256": "91e03433b09c0bf2bea535061b67419ef27946bee7371dc64ad9905422e28915",
+  "diagnosticHelperSha256": "b8f6fd4ac7f6156e404e706fa0dd95598935658532256c64a447b6fbefad3e01",
+  "inputLogicalBytes": 155319162,
+  "canonicalPrefix": "evidence/POC-003/profiles/local-v1/v1/attempt-005",
+  "acceptanceProfile": {
+    "id": "local-v1",
+    "version": 1,
+    "bindingRevision": 1,
+    "scope": "LOCAL_FULL_V1"
+  },
+  "expectedToolVersions": {
+    "python": "3.12.15 (main, Oct  6 2026, 02:02:22) [GCC 14.2.0]",
+    "atsVersionObservation": "Traffic Server 9.2.3 Nov  3 2026 03:29:25 localhost\ntraffic_server: using root directory '/usr'\nApache Traffic Server - traffic_server - 9.2.3 - (build # 110303 on Nov  3 2026 at 03:29:25)",
+    "atsVersionObservationScope": "Actual prior host --version of the copied package; container ABI and executable mappings are separately verified by owned epochs"
+  },
+  "subjectVersion": "{\"atsVersionObservation\":\"Traffic Server 9.2.3 Nov  3 2026 03:29:25 localhost\\ntraffic_server: using root directory '/usr'\\nApache Traffic Server - traffic_server - 9.2.3 - (build # 110303 on Nov  3 2026 at 03:29:25)\",\"atsVersionObservationScope\":\"Actual prior host --version of the copied package; container ABI and executable mappings are separately verified by owned epochs\",\"python\":\"3.12.15 (main, Oct  6 2026, 02:02:22) [GCC 14.2.0]\"}",
+  "beforeControlFiles": {
+    "profile-configuration.json": {
+      "bytes": 1022,
+      "sha256": "64d2e326ef8a406bc6350fb344bf2c51740f9ea7034d8d7c0dd9c1abf77fac80"
+    },
+    "resource-configuration.json": {
+      "bytes": 3510,
+      "sha256": "486680e87495ae85576a84804500cbfdcc5e947557fa44372b477368c6dbc2a7"
+    },
+    "resource-booking.json": {
+      "bytes": 464,
+      "sha256": "6c3a823b0e2fd97337580b6d28d8ba36e5a0d98f52b655af5a214d43f3fdaf0c"
+    },
+    "sample-approval.json": {
+      "bytes": 405,
+      "sha256": "43430433ce46fb74ce08f14cb2284314cb3b7ae684b13aa7486ebef33480a48a"
+    },
+    "changed-sample-approval.json": {
+      "bytes": 405,
+      "sha256": "58f9bc0c4d85d3678b53c4d702d4b73aef45e80f1d96387754c58bb08dd3ef6f"
+    }
+  },
+  "ordinaryRecords": [
+    {
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-common-main1b5c68b-full-original-matrix-approval-v1\\profile-configuration.json",
+      "canonicalRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/profile-configuration.json",
+      "byteCount": 1022,
+      "sha256": "64d2e326ef8a406bc6350fb344bf2c51740f9ea7034d8d7c0dd9c1abf77fac80",
+      "schemaValidated": true,
+      "schemaRef": "specs/poc/program.schema.yaml#/$defs/profileConfiguration"
+    },
+    {
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-common-main1b5c68b-full-original-matrix-approval-v1\\resource-configuration.json",
+      "canonicalRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/resource-configuration.json",
+      "byteCount": 3510,
+      "sha256": "486680e87495ae85576a84804500cbfdcc5e947557fa44372b477368c6dbc2a7",
+      "schemaValidated": true,
+      "schemaRef": "specs/poc/program.schema.yaml#/$defs/resourceConfiguration"
+    },
+    {
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-common-main1b5c68b-full-original-matrix-approval-v1\\resource-booking.json",
+      "canonicalRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/resource-booking.json",
+      "byteCount": 464,
+      "sha256": "6c3a823b0e2fd97337580b6d28d8ba36e5a0d98f52b655af5a214d43f3fdaf0c",
+      "schemaValidated": true,
+      "schemaRef": "specs/poc/program.schema.yaml#/$defs/resourceBooking"
+    },
+    {
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-common-main1b5c68b-full-original-matrix-approval-v1\\sample-approval.json",
+      "canonicalRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/sample-approval.json",
+      "byteCount": 405,
+      "sha256": "43430433ce46fb74ce08f14cb2284314cb3b7ae684b13aa7486ebef33480a48a",
+      "schemaValidated": true,
+      "schemaRef": "specs/poc/sample-approval.schema.yaml"
+    },
+    {
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-common-main1b5c68b-full-original-matrix-approval-v1\\changed-sample-approval.json",
+      "canonicalRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/changed-sample-approval.json",
+      "byteCount": 405,
+      "sha256": "58f9bc0c4d85d3678b53c4d702d4b73aef45e80f1d96387754c58bb08dd3ef6f",
+      "schemaValidated": true,
+      "schemaRef": "specs/poc/sample-approval.schema.yaml"
+    }
+  ],
+  "ordinarySchemasValidated": true,
+  "schemaValidation": {
+    "actualValidator": "jsonschema.Draft202012Validator with FormatChecker",
+    "validatedRecordCount": 5,
+    "rangeMatrixPolicyValidated": true,
+    "programSchemaSha256": "74b5218c3e8b126727ddb15b9830240e9ee0b5a1eb73558c2f6ae138e70934d7",
+    "sampleApprovalSchemaSha256": "7d350ce1d6df57e6ba8fd5a37c689c10bb74ebb2519473fa3aaf400cd23aa194"
+  },
+  "methodForwardReview": {
+    "path": "poc003-common-main1b5c68b-full-original-matrix-method-independent-review-v1.json",
+    "bytes": 3472,
+    "sha256": "7b3c6814c38d5ff6c83e5e78c0e3009fd2a618f3fb00c526eb8bf9af64da63a8"
+  },
+  "resourceDecision": {
+    "sourceInitialObservation": {
+      "path": ".takeover-tools/poc003-common-main1b5c68b-full-original-matrix-initial-resources-v1/results.json",
+      "bytes": 4449,
+      "sha256": "4727cfbfe72b352471f724edcdd8bf8688c4caace842e8c0f8e18869803c41c5"
+    },
+    "approvedEnvelope": {
+      "imageId": "sha256:df18428df8a0f9189c84e7424d214b4c50092af1f9dca5842a00c41c39bda316",
+      "containerName": "guize-poc003-common-main1b5c68b-full-original-matrix-v1",
+      "privateRoot": "/home/sur/.cache/guize-takeover/poc003-common-main1b5c68b-full-original-matrix-v1",
+      "outputDirectory": "poc003-common-main1b5c68b-full-original-matrix-v1",
+      "uid": 1000,
+      "gid": 1000,
+      "cpuCount": 1,
+      "memoryBytes": 536870912,
+      "memorySwapBytes": 536870912,
+      "pidsLimit": 64,
+      "nofileSoft": 256,
+      "nofileHard": 256,
+      "capsDrop": [
+        "ALL"
+      ],
+      "noNewPrivileges": true,
+      "requireBuiltinSeccomp": true,
+      "readonlyRoot": true,
+      "network": "none",
+      "privatePidIpcCgroup": true,
+      "init": false,
+      "autoRemove": false,
+      "logDriver": "none",
+      "normalRunSeconds": 840,
+      "sharedRunAndCleanupSeconds": 900,
+      "internalLabSeconds": 600,
+      "writableLogicalBytesLimit": 2147483648,
+      "nonCacheLogicalBytesLimit": 1879048192,
+      "individualNonCacheFileBytesLimit": 134217728,
+      "writableFileCountLimit": 5000,
+      "attachedOutputBytesPerStreamLimit": 16777216,
+      "diskEnforcement": "Active stat guard, not a filesystem quota; preserve overshoot/failure facts and stop only the identified owned container."
+    },
+    "freshActualObservationRequiredBeforeStart": true,
+    "sharedPerformanceLock": "/home/sur/.cache/guize-takeover/guize-performance-domain.lock",
+    "concurrentP5HeavyPreparationBuildOrMeasurementPermitted": false,
+    "oldContainersInputsAndRawMustRemain": true
+  },
+  "sampleDecision": "New independent applicability adoption of the exact two64MiB Golden sources for this sourceM original21-case ATS byteRange workload.64MiB exceeds the1MiBSlice and8MiB buffer acceptance threshold; not representative approval for unrelated production/media domains. No old sample/resource execution grant transfers.",
+  "numericConfigurationDecision": "Original8MiB/retry0/64MiBpair/1MiBSlice/64KiBchunk/4samples/2users/250ms-1MiBps/256MiBcache and original15 unchanged.8MiB is a measured exit condition, not a preaccepted outcome.",
+  "expectedMatrix": {
+    "cases": 21,
+    "requests": 101,
+    "primary": 33,
+    "nativeSlices": 64,
+    "stages": 6,
+    "nativeEpochs": 26,
+    "clears": 12,
+    "nativeReadbacks": 10,
+    "originalMeasurements": 15
+  },
+  "requiredBeforeStart": [
+    "Independent before-run five signed ordinary controls plus exact method/entry/launcher/assembler/package/configuration bindings; all real actors and approval time",
+    "Fresh real primary GitHub main/PR183/PR134/PR136/issues and source/lease/resource checks before launch",
+    "New empty cache and no deliberately concurrent local P5 performance/build or million-file preparation; common descriptor lock",
+    "Before-workload actual namespace capture; all26 owned closures and18 immutable components; original8MiB/retry0/64MiB pair/1MiB Slice/four samples/two users unchanged",
+    "Retain real source/body/cache/journals, exclude credential-bearing private settings, commit Own profile files before frozen qualified source check",
+    "Full frozen validate_execution status pass is required, then original CLI and separately fresh real warm-cache revocation; assembly alone does not mark POC/Task/V1 complete"
+  ],
+  "decisionBoundary": "One new empty-private-cache run and exact canonical assembly under the full newM scope. Preserve failure facts and stop on any unmet before guard. Actual15/8MiB outcome, independent fresh warm-cache revocation, profile/result acceptance and POC/Task completion are not granted.",
+  "actualRunAccepted": false,
+  "actualFifteenAccepted": false,
+  "eightMiBBoundProven": false,
+  "warmCacheRevocationExecutionApproved": false,
+  "formalPocAccepted": false
+}

@@ -1,0 +1,348 @@
+{
+  "kind": "OWNED_TOP_PROCESS_EPOCH_NOT_FAMILY_PROOF",
+  "targetCommand": [
+    "/poc/runtime/pkgroot/usr/bin/traffic_server",
+    "--run-root=/runlab/work",
+    "-n",
+    "2"
+  ],
+  "targetExecAttestedByNativeJournal": true,
+  "completeTrackedProcessEpoch": true,
+  "allDescendantsCovered": false,
+  "noSubsequentExecProven": false,
+  "fullMediaBufferBoundProven": false,
+  "startedAtUnixNs": 1793656118417783514,
+  "state": "completed",
+  "fixedSingleExecRequested": true,
+  "componentsBeforeExec": {
+    "/poc/runtime/pkgroot/usr/bin/traffic_server": {
+      "sha256": "876ce08955e456b3235b1e21bc020bedc8478231f68f9228046b5281109874c5",
+      "bytes": 7450352,
+      "device": 2128,
+      "inode": 2236833
+    },
+    "/poc/runtime/pkgroot/usr/lib/trafficserver/libtscore.so.9.2.3": {
+      "sha256": "a1efc2bf5e4ab078193f6daabe329fbecee84b4e64d4ea2db1b180e4b394374b",
+      "bytes": 733304,
+      "device": 2128,
+      "inode": 2236843
+    },
+    "/poc/runtime/pkgroot/usr/lib/trafficserver/modules/slice.so": {
+      "sha256": "1f8d3f0af3a1e7f2119a33a6a4ae446931297eebbaf671daf7b5d89ad0729adf",
+      "bytes": 82152,
+      "device": 2128,
+      "inode": 2236971
+    },
+    "/poc/runtime/pkgroot/usr/lib/trafficserver/modules/cache_range_requests.so": {
+      "sha256": "62bd3c96066b65fee359367a82861d3908bbb55b768d5ff9472b36938a7922f9",
+      "bytes": 27512,
+      "device": 2128,
+      "inode": 2236941
+    },
+    "/poc/runtime/pkgroot/usr/lib/trafficserver/modules/header_rewrite.so": {
+      "sha256": "9dee1bf3062d3a62ed45f6ccdb04efb779e7a63977738713143cce3cfac6e9bf",
+      "bytes": 283224,
+      "device": 2128,
+      "inode": 2236970
+    },
+    "/poc/plugins/cache_export.so": {
+      "sha256": "3b4d1797321e7d1837f2ca0e475b1372ed39aeb964276ce33ad590015bbb4775",
+      "bytes": 254272,
+      "device": 2128,
+      "inode": 2237066
+    },
+    "/poc/plugins/live_buffer_observer.so": {
+      "sha256": "cf8df39fd71b3d892aa3eb5e46f111957dca6727e2806fb620105a416dc56044",
+      "bytes": 50064,
+      "device": 2128,
+      "inode": 2237067
+    },
+    "/runlab/work/etc/records.config": {
+      "sha256": "97a97d021e16fbf3994511ed1bbe4edc81235574f0cdf9f0f7cb861485a82d1b",
+      "bytes": 11195,
+      "device": 2128,
+      "inode": 2286908
+    },
+    "/runlab/work/etc/remap.config": {
+      "sha256": "569c24e598a12b1f43af6b273cc57b0571c044594e76bbbb4cc5884609924462",
+      "bytes": 147,
+      "device": 2128,
+      "inode": 2286904
+    },
+    "/runlab/work/etc/plugin.config": {
+      "sha256": "d09905f54f1357c7f952c9b9e919e1fcfb1cab84729e340b6dd8b85e1b69529c",
+      "bytes": 172,
+      "device": 2128,
+      "inode": 2286905
+    },
+    "/runlab/work/etc/storage.config": {
+      "sha256": "ea46c9e3bb375ecd5f256517d84674bb6552bc68809c696a0d0e4ac0bd3f592e",
+      "bytes": 24,
+      "device": 2128,
+      "inode": 2286903
+    },
+    "/runlab/work/etc/lab-guard.conf": {
+      "sha256": "d3729e956cf2c3c08c96946b1934ff89dee74cb935834a0cff751b8f24927922",
+      "bytes": 224,
+      "device": 2128,
+      "inode": 2286913
+    },
+    "/runlab/work/etc/poc003-empty-ssl-multicert.config": {
+      "sha256": "26a23c890cd362ebece599e29bb629c404a04f64129fefd8f90de9b24e31d066",
+      "bytes": 67,
+      "device": 2128,
+      "inode": 2286912
+    },
+    "/runlab/work/runroot.yaml": {
+      "sha256": "584ce4bb68383bb82d2f2d89d4266078298c7a4a77822d6fcb3d752765849eb1",
+      "bytes": 499,
+      "device": 2128,
+      "inode": 2286914
+    },
+    "/poc/source/poc/POC-03-ats-range/epoch_owner.py": {
+      "sha256": "30b9cfc4b22f297e8dc822c8a15e2f84a4f7f5fbe69cc7ad708abed74e7c8a8e",
+      "bytes": 26029,
+      "device": 2128,
+      "inode": 2236716
+    },
+    "/poc/source/poc/POC-03-ats-range/instrumentation/single_exec_gate.py": {
+      "sha256": "01576f6ba76630a5f96174d6ccc5203c532c054b175b656f6a383701c1304b62",
+      "bytes": 4948,
+      "device": 2128,
+      "inode": 2236735
+    },
+    "/poc/source/poc/POC-03-ats-range/instrumentation/single_exec_filter.py": {
+      "sha256": "26ccbac40fd8d26d893e067576f2849a4b7b1524141bf0d24229257d2fffd0ce",
+      "bytes": 16268,
+      "device": 2128,
+      "inode": 2236734
+    },
+    "/usr/local/bin/python3.12": {
+      "sha256": "0e6475dfda68a9b2d93501449fc47593ca169010e8f4881577b97463fd0c1263",
+      "bytes": 14472,
+      "device": 189,
+      "inode": 1802345
+    }
+  },
+  "targetExecutable": {
+    "sha256": "876ce08955e456b3235b1e21bc020bedc8478231f68f9228046b5281109874c5",
+    "bytes": 7450352,
+    "device": 2128,
+    "inode": 2236833,
+    "openedDescriptor": 8,
+    "mtimeNs": 1793652724294588848,
+    "ctimeNs": 1793652724296002825
+  },
+  "gateArgv": [
+    "/usr/local/bin/python3.12",
+    "-I",
+    "-S",
+    "-B",
+    "/poc/source/poc/POC-03-ats-range/instrumentation/single_exec_gate.py",
+    "8",
+    "9",
+    "12",
+    "14",
+    "8",
+    "16",
+    "[\"/poc/runtime/pkgroot/usr/bin/traffic_server\", \"--run-root=/runlab/work\", \"-n\", \"2\"]",
+    "26ccbac40fd8d26d893e067576f2849a4b7b1524141bf0d24229257d2fffd0ce"
+  ],
+  "gateSourceSha256": "01576f6ba76630a5f96174d6ccc5203c532c054b175b656f6a383701c1304b62",
+  "pid": 660,
+  "parentExecErrorWriterClosed": true,
+  "ready.raw": {
+    "bytes": 6,
+    "sha256": "3dfa3fb239f56c778a1e9b33eb31328349edd155a95806dac4378904e88527e5",
+    "eof": false
+  },
+  "fixedGateDescriptorSet": [
+    0,
+    1,
+    2,
+    8,
+    9,
+    14
+  ],
+  "listenerSenderClosed": true,
+  "launchIdentity": {
+    "pid": 660,
+    "startTicks": 4318045,
+    "executable": "/usr/local/bin/python3.12",
+    "executableDevice": 189,
+    "executableInode": 1802345,
+    "argv": [
+      "/usr/local/bin/python3.12",
+      "-I",
+      "-S",
+      "-B",
+      "/poc/source/poc/POC-03-ats-range/instrumentation/single_exec_gate.py",
+      "8",
+      "9",
+      "12",
+      "14",
+      "8",
+      "16",
+      "[\"/poc/runtime/pkgroot/usr/bin/traffic_server\", \"--run-root=/runlab/work\", \"-n\", \"2\"]",
+      "26ccbac40fd8d26d893e067576f2849a4b7b1524141bf0d24229257d2fffd0ce"
+    ],
+    "allocatorOverridesAbsent": true
+  },
+  "inheritedTargetDescriptorVerified": true,
+  "childDescriptorsCloexecVerified": true,
+  "journalAbsentBeforeGo": true,
+  "goMonotonicNs": 43180574275498,
+  "singleExecHandoff": {
+    "grantAttempted": true,
+    "continueSent": true,
+    "listenerClosed": true,
+    "notification": {
+      "id": 17437283472868023154,
+      "pid": 660,
+      "number": 322,
+      "arch": 3221225534,
+      "args": [
+        8,
+        139729296517948,
+        139729291242320,
+        139729291671472,
+        4096,
+        1
+      ]
+    }
+  },
+  "exec-error.raw": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "eof": true
+  },
+  "execErrorPipeEOF": true,
+  "execErrorPipeClosedWithoutMessage": true,
+  "actualTargetIdentity": {
+    "pid": 660,
+    "startTicks": 4318045,
+    "executable": "/poc/runtime/pkgroot/usr/bin/traffic_server",
+    "executableDevice": 2128,
+    "executableInode": 2236833,
+    "argv": [
+      "/poc/runtime/pkgroot/usr/bin/traffic_server",
+      "--run-root=/runlab/work",
+      "-n",
+      "2"
+    ],
+    "allocatorOverridesAbsent": true
+  },
+  "exitCode": 0,
+  "waitCompleted": true,
+  "componentsAfterExit": {
+    "/poc/runtime/pkgroot/usr/bin/traffic_server": {
+      "sha256": "876ce08955e456b3235b1e21bc020bedc8478231f68f9228046b5281109874c5",
+      "bytes": 7450352,
+      "device": 2128,
+      "inode": 2236833
+    },
+    "/poc/runtime/pkgroot/usr/lib/trafficserver/libtscore.so.9.2.3": {
+      "sha256": "a1efc2bf5e4ab078193f6daabe329fbecee84b4e64d4ea2db1b180e4b394374b",
+      "bytes": 733304,
+      "device": 2128,
+      "inode": 2236843
+    },
+    "/poc/runtime/pkgroot/usr/lib/trafficserver/modules/slice.so": {
+      "sha256": "1f8d3f0af3a1e7f2119a33a6a4ae446931297eebbaf671daf7b5d89ad0729adf",
+      "bytes": 82152,
+      "device": 2128,
+      "inode": 2236971
+    },
+    "/poc/runtime/pkgroot/usr/lib/trafficserver/modules/cache_range_requests.so": {
+      "sha256": "62bd3c96066b65fee359367a82861d3908bbb55b768d5ff9472b36938a7922f9",
+      "bytes": 27512,
+      "device": 2128,
+      "inode": 2236941
+    },
+    "/poc/runtime/pkgroot/usr/lib/trafficserver/modules/header_rewrite.so": {
+      "sha256": "9dee1bf3062d3a62ed45f6ccdb04efb779e7a63977738713143cce3cfac6e9bf",
+      "bytes": 283224,
+      "device": 2128,
+      "inode": 2236970
+    },
+    "/poc/plugins/cache_export.so": {
+      "sha256": "3b4d1797321e7d1837f2ca0e475b1372ed39aeb964276ce33ad590015bbb4775",
+      "bytes": 254272,
+      "device": 2128,
+      "inode": 2237066
+    },
+    "/poc/plugins/live_buffer_observer.so": {
+      "sha256": "cf8df39fd71b3d892aa3eb5e46f111957dca6727e2806fb620105a416dc56044",
+      "bytes": 50064,
+      "device": 2128,
+      "inode": 2237067
+    },
+    "/runlab/work/etc/records.config": {
+      "sha256": "97a97d021e16fbf3994511ed1bbe4edc81235574f0cdf9f0f7cb861485a82d1b",
+      "bytes": 11195,
+      "device": 2128,
+      "inode": 2286908
+    },
+    "/runlab/work/etc/remap.config": {
+      "sha256": "569c24e598a12b1f43af6b273cc57b0571c044594e76bbbb4cc5884609924462",
+      "bytes": 147,
+      "device": 2128,
+      "inode": 2286904
+    },
+    "/runlab/work/etc/plugin.config": {
+      "sha256": "d09905f54f1357c7f952c9b9e919e1fcfb1cab84729e340b6dd8b85e1b69529c",
+      "bytes": 172,
+      "device": 2128,
+      "inode": 2286905
+    },
+    "/runlab/work/etc/storage.config": {
+      "sha256": "ea46c9e3bb375ecd5f256517d84674bb6552bc68809c696a0d0e4ac0bd3f592e",
+      "bytes": 24,
+      "device": 2128,
+      "inode": 2286903
+    },
+    "/runlab/work/etc/lab-guard.conf": {
+      "sha256": "d3729e956cf2c3c08c96946b1934ff89dee74cb935834a0cff751b8f24927922",
+      "bytes": 224,
+      "device": 2128,
+      "inode": 2286913
+    },
+    "/runlab/work/etc/poc003-empty-ssl-multicert.config": {
+      "sha256": "26a23c890cd362ebece599e29bb629c404a04f64129fefd8f90de9b24e31d066",
+      "bytes": 67,
+      "device": 2128,
+      "inode": 2286912
+    },
+    "/runlab/work/runroot.yaml": {
+      "sha256": "584ce4bb68383bb82d2f2d89d4266078298c7a4a77822d6fcb3d752765849eb1",
+      "bytes": 499,
+      "device": 2128,
+      "inode": 2286914
+    },
+    "/poc/source/poc/POC-03-ats-range/epoch_owner.py": {
+      "sha256": "30b9cfc4b22f297e8dc822c8a15e2f84a4f7f5fbe69cc7ad708abed74e7c8a8e",
+      "bytes": 26029,
+      "device": 2128,
+      "inode": 2236716
+    },
+    "/poc/source/poc/POC-03-ats-range/instrumentation/single_exec_gate.py": {
+      "sha256": "01576f6ba76630a5f96174d6ccc5203c532c054b175b656f6a383701c1304b62",
+      "bytes": 4948,
+      "device": 2128,
+      "inode": 2236735
+    },
+    "/poc/source/poc/POC-03-ats-range/instrumentation/single_exec_filter.py": {
+      "sha256": "26ccbac40fd8d26d893e067576f2849a4b7b1524141bf0d24229257d2fffd0ce",
+      "bytes": 16268,
+      "device": 2128,
+      "inode": 2236734
+    },
+    "/usr/local/bin/python3.12": {
+      "sha256": "0e6475dfda68a9b2d93501449fc47593ca169010e8f4881577b97463fd0c1263",
+      "bytes": 14472,
+      "device": 189,
+      "inode": 1802345
+    }
+  },
+  "journalSha256": "06e326cbbd1f876ace5b72137099db03375c25163dd10dc8ef9231dfa565cb52"
+}

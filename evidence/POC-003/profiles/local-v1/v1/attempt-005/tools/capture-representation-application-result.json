@@ -1,0 +1,13 @@
+{
+  "kind": "ACTUAL_POST_RUN_CANONICAL_CAPTURE_VIEW_APPLICATION",
+  "sourceEvidenceCommit": "e72d32b170a209aa55e3fde620ff38d3b4ccee22",
+  "methodReviewSha256": "c25b2a9979b5e3401aff94a14f9ce0eb6553ad0858400f6e78fecb4380f6a866",
+  "changedNativeMediaDescriptors": 202,
+  "allRawReferencesAndHashesAndBytesUnchanged": true,
+  "allOriginal15AndWindowUnchanged": true,
+  "originalFilesRetained": true,
+  "originalRunAndBeforeAuthorityUnchanged": true,
+  "appliedAt": "2026-11-02T22:25:59.156172+00:00",
+  "newMediaExecuted": false,
+  "formalPocAccepted": false
+}

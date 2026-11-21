@@ -1,0 +1,71 @@
+{
+  "kind": "ACTUAL_CAPTURE_VIEW_NATIVE_CLEAN_FROZEN_VALIDATION",
+  "evidenceCommit": "5a9d20b545636e379d632c8c64f7d9012053e475",
+  "testedSource": "1b5c68bab02d98f8e11286d80033585090c7af99",
+  "path": "/home/sur/.cache/guize-takeover/poc003-attempt005-qualified-native-e72d32b-v1",
+  "commands": [
+    {
+      "label": "fetch",
+      "argv": [
+        "git",
+        "-C",
+        "/home/sur/.cache/guize-takeover/poc003-attempt005-qualified-native-e72d32b-v1",
+        "fetch",
+        "--quiet",
+        "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-attempt005-capture-view-v1-incremental.bundle",
+        "HEAD"
+      ],
+      "pid": 170327,
+      "actualWaitCompleted": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "startedAt": "2026-11-02T22:27:35.575641+00:00",
+      "finishedAt": "2026-11-02T22:27:35.695805+00:00",
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "forward-only",
+      "argv": [
+        "git",
+        "-C",
+        "/home/sur/.cache/guize-takeover/poc003-attempt005-qualified-native-e72d32b-v1",
+        "merge",
+        "--ff-only",
+        "FETCH_HEAD"
+      ],
+      "pid": 170340,
+      "actualWaitCompleted": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "startedAt": "2026-11-02T22:27:35.705947+00:00",
+      "finishedAt": "2026-11-02T22:27:35.827646+00:00",
+      "stdoutSha256": "11763ca5e8eeba481cc67806c5139be5292e6700ce56e28c365ce9610b62f9ce",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "frozen-execution",
+      "argv": [
+        "/home/sur/.cache/guize-takeover/python31117-official-runtime-v1/venv/bin/python",
+        "-B",
+        "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003_full_execution_assembler_v8.py",
+        "--repo",
+        "/home/sur/.cache/guize-takeover/poc003-attempt005-qualified-native-e72d32b-v1",
+        "--validate"
+      ],
+      "pid": 170384,
+      "actualWaitCompleted": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "startedAt": "2026-11-02T22:27:35.912563+00:00",
+      "finishedAt": "2026-11-02T22:29:12.664439+00:00",
+      "stdoutSha256": "de4a6443e194ca45a4a66358914ca12db19c61d09862e4c54d73f9cffe946f52",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "clean": true,
+  "allSourceCodeAndFrozenRulesUnchanged": true,
+  "mediaRerun": false,
+  "fullQualifiedExecutionValidated": true,
+  "formalPocAccepted": false
+}

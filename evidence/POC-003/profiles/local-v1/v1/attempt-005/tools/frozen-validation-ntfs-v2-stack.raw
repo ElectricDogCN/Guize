@@ -1,0 +1,11 @@
+Timeout (0:01:00)!
+Thread 0x000070478f407b80 (most recent call first):
+  File "<frozen posixpath>", line 457 in _joinrealpath
+  File "<frozen posixpath>", line 413 in realpath
+  File "/home/sur/.cache/guize-takeover/python31117-official-runtime-v1/runtime/lib/python3.11/pathlib.py", line 993 in resolve
+  File "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-pool-batch-performance-v1/specs/poc/check_program.py", line 6728 in existing_ref
+  File "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-pool-batch-performance-v1/specs/poc/check_program.py", line 1103 in <listcomp>
+  File "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-pool-batch-performance-v1/specs/poc/check_program.py", line 1103 in validate_qualified_inputs
+  File "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003-pool-batch-performance-v1/specs/poc/check_program.py", line 6939 in validate_execution
+  File "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/poc003_full_execution_assembler_v8.py", line 213 in validate
+  File "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/validate_poc003_attempt005_frozen_execution_v2_once.py", line 13 in <module>

@@ -1,0 +1,63 @@
+{
+  "reviewer": "/root/independent_review",
+  "reviewedAt": "2026-11-02T20:56:06Z",
+  "kind": "ACTUAL_FINITE_INPUT_MATERIALIZATION_RESULT_REVIEW",
+  "source": "1b5c68bab02d98f8e11286d80033585090c7af99",
+  "tree": "f94ed8da8d83391f2474365af848bf267a0dc8d1",
+  "inputMaterializationAccepted": true,
+  "mustFix": [],
+  "manifest": {
+    "path": "/home/sur/.cache/guize-takeover/poc003-common-main1b5c68b-inputs-v1/package-manifest.json",
+    "bytes": 138994,
+    "sha256": "3e61a9136fecfc6ca5ed2e61f920ffaafd12573028647efaeb2b3812be37d42d",
+    "regularFiles": 349,
+    "symlinks": 8,
+    "regularLogicalBytes": 155319162,
+    "maximumLogicalBytes": 268435456
+  },
+  "binding": {
+    "actualMainReviewSha256": "91e03433b09c0bf2bea535061b67419ef27946bee7371dc64ad9905422e28915",
+    "copyPermitSha256": "5294078777f4aa7d0f03b6b0ec97f298f6258e773a1972854d1af7569140f111",
+    "methodSha256": "24b78587b032caee47deb3bc382b8c1011b0e81ac2fd6e982086100e5645f8ce",
+    "freshGuardSha256": "cc5b02adb9f495aecc393f41050c1324f1eccd3aef4953182a4a5160b90f4845",
+    "freshGuardAt": "2026-11-02T20:51:28.481Z",
+    "windowsGitActualPid": 38252,
+    "windowsGitWaitZero": true,
+    "canonicalBeforeEqualsAfterClean": true
+  },
+  "verifiedScope": "Exact349 regular/8 internal relative-link native path set, sizes, UID1000 and immutable directory/file modes. Manifest74selected-source pins match qualified342 candidate;245new package artifacts match build9995 receipt metadata. Actual unchanged copy method individually verified source/destination SHA during copying. Independent review rehashed101small non-package/non-fixture files, not the two64MiB fixtures or245build contents again. Original Golden/dependency/identity/plugin provenance remains bounded to the existing pins; historical17c receipts are not newa1ef runtime proof.",
+  "evidencePins": [
+    {
+      "path": "poc003-common-main1b5c68b-input-package-v1/results.json",
+      "bytes": 1065,
+      "sha256": "04a6c03f04d8a0a2a7c25b4df7625dd75d8a75c87f43d1546febc5d390608b8f"
+    },
+    {
+      "path": "poc003-common-main1b5c68b-input-package-native-stat-independent-v1/results.json",
+      "bytes": 623,
+      "sha256": "b1d50f4dc50578f7e54b4cad3296e902c04eb91ba02ef16ce60f837cdc6c6016"
+    },
+    {
+      "path": "poc003-common-main1b5c68b-input-package-native-stat-independent-v1/stdout.raw",
+      "bytes": 457,
+      "sha256": "93594f1370c7b0e437580a531fc7aa4bb685d0c776aa7f353563276243e43a53"
+    }
+  ],
+  "nativeReadOnlyObservation": {
+    "pid": 51728,
+    "actualWaitCompleted": true,
+    "exitCode": 0,
+    "directories": 34,
+    "nativeLinksAndModesAccepted": true,
+    "notInferredFromUNCProjection": true,
+    "outerDisplayFailure": "After childwait0 and saved raw/results, printing decoded WSL stderr through GBK caused outer1; separate outer-display-failure.json preserves it. Native observer was not rerun."
+  },
+  "sourceUnchanged": true,
+  "containerOrATSStarted": false,
+  "actualImageCompatibilityAccepted": false,
+  "hostVersionControlApproved": false,
+  "derivedConfigurationApproved": false,
+  "resourceOrSampleOrWindowApproved": false,
+  "eightMiBBoundProven": false,
+  "formalPocAccepted": false
+}

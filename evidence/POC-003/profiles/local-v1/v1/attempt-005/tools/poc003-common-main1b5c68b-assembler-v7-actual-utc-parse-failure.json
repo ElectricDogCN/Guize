@@ -1,0 +1,20 @@
+{
+  "kind": "ACTUAL_DISPLAYED_NATIVE_ASSEMBLER_FAILURE_REFERENCE_NOT_RECONSTRUCTED_RAW",
+  "source": {
+    "path": ".takeover-tools/poc003_full_execution_assembler_v7.py",
+    "bytes": 20384,
+    "sha256": "fb9110f8b2b12a6a24b070d33c65b77a7705076b96114f4fb09cf5ae18eb8b2f"
+  },
+  "toolChunk": "366fdc",
+  "nativeSession": 83481,
+  "exitCode": 1,
+  "failedBeforeOwnProfileCreation": true,
+  "error": "poc003_canonical_derivation_v3.Unproven: actual UTC observation required",
+  "actualRunEndRetained": "2026-11-02T21:49:17.214089+00:00",
+  "runResult": {
+    "path": ".takeover-tools/poc003-common-main1b5c68b-full-original-matrix-v1/results.json",
+    "bytes": 86382,
+    "sha256": "354a982d62ea9b6c709b9e6bac1a71b17fd91e6b981083cc2c40392ce5d797ee"
+  },
+  "newMediaRerun": false
+}

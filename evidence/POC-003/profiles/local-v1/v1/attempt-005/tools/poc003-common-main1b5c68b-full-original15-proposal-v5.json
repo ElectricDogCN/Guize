@@ -1,0 +1,360 @@
+{
+  "kind": "PROSPECTIVE_FULL_ORIGINAL15_MATRIX_AND_CANONICAL_ASSEMBLY_NOT_APPROVAL",
+  "preparedAt": "2026-11-02T21:36:54.631Z",
+  "taskId": "POC-003",
+  "pocId": "POC-03",
+  "executor": "/root",
+  "reviewer": "/root/independent_review",
+  "scope": "COMMON_MAIN1B5C68B_FULL_ORIGINAL15_MATRIX_AND_CANONICAL_ASSEMBLY",
+  "testedSource": {
+    "commit": "1b5c68bab02d98f8e11286d80033585090c7af99",
+    "tree": "f94ed8da8d83391f2474365af848bf267a0dc8d1"
+  },
+  "canonicalPrefix": "evidence/POC-003/profiles/local-v1/v1/attempt-005",
+  "qualificationBase": "7e405b61d872761817a0614b3b2fdc46edde9f14",
+  "originalCreationBase": "760f6c5838597d1d66c0a536ecbf440ef5a7dfec",
+  "proposedWindow": {
+    "validFrom": "2026-11-02T21:21:46.989Z",
+    "validUntil": "2026-11-02T23:21:46.989Z"
+  },
+  "expectedToolVersions": {
+    "python": "3.12.15 (main, Oct  6 2026, 02:02:22) [GCC 14.2.0]",
+    "atsVersionObservation": "Traffic Server 9.2.3 Nov  3 2026 03:29:25 localhost\ntraffic_server: using root directory '/usr'\nApache Traffic Server - traffic_server - 9.2.3 - (build # 110303 on Nov  3 2026 at 03:29:25)",
+    "atsVersionObservationScope": "Actual prior host --version of the copied package; container ABI and executable mappings are separately verified by owned epochs"
+  },
+  "subjectVersion": "{\"atsVersionObservation\":\"Traffic Server 9.2.3 Nov  3 2026 03:29:25 localhost\\ntraffic_server: using root directory '/usr'\\nApache Traffic Server - traffic_server - 9.2.3 - (build # 110303 on Nov  3 2026 at 03:29:25)\",\"atsVersionObservationScope\":\"Actual prior host --version of the copied package; container ABI and executable mappings are separately verified by owned epochs\",\"python\":\"3.12.15 (main, Oct  6 2026, 02:02:22) [GCC 14.2.0]\"}",
+  "rangeMatrixPolicy": {
+    "assetId": "poc003-common-main1b5c68b-original-matrix-object",
+    "aclVersion": "poc003-common-main1b5c68b-original-matrix-acl-v1",
+    "baseVersion": "base",
+    "updatedVersion": "changed",
+    "updatedInputRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/inputs/changed.bin",
+    "updatedInputSha256": "sha256:643d769e1b5120a7c52d63df3d266f67a4177050180858480feb4e686e2fdda1",
+    "entryURL": "http://127.0.0.1:18233/media/object.bin",
+    "authorizedUsers": [
+      "lab-user-a",
+      "lab-user-b"
+    ],
+    "deniedUser": "lab-denied-user",
+    "sliceBytes": 1048576,
+    "minimumInputBytes": 67108864,
+    "maximumBufferedBytes": 8388608,
+    "maximumRetries": 0,
+    "slowOriginDelayMs": 250,
+    "slowOriginBandwidthBytesPerSecond": 1048576,
+    "concurrentUsers": 2,
+    "latencySampleCount": 4,
+    "percentileMethod": "nearest-rank-p95",
+    "baseETag": "\"sha256-938a8bc3e0a64184f1551bff0c500dc891366ead8f30f8f83753587e763c1c26\"",
+    "updatedETag": "\"sha256-643d769e1b5120a7c52d63df3d266f67a4177050180858480feb4e686e2fdda1\""
+  },
+  "resourceEnvelope": {
+    "imageId": "sha256:df18428df8a0f9189c84e7424d214b4c50092af1f9dca5842a00c41c39bda316",
+    "containerName": "guize-poc003-common-main1b5c68b-full-original-matrix-v1",
+    "privateRoot": "/home/sur/.cache/guize-takeover/poc003-common-main1b5c68b-full-original-matrix-v1",
+    "outputDirectory": "poc003-common-main1b5c68b-full-original-matrix-v1",
+    "uid": 1000,
+    "gid": 1000,
+    "cpuCount": 1,
+    "memoryBytes": 536870912,
+    "memorySwapBytes": 536870912,
+    "pidsLimit": 64,
+    "nofileSoft": 256,
+    "nofileHard": 256,
+    "capsDrop": [
+      "ALL"
+    ],
+    "noNewPrivileges": true,
+    "requireBuiltinSeccomp": true,
+    "readonlyRoot": true,
+    "network": "none",
+    "privatePidIpcCgroup": true,
+    "init": false,
+    "autoRemove": false,
+    "logDriver": "none",
+    "normalRunSeconds": 840,
+    "sharedRunAndCleanupSeconds": 900,
+    "internalLabSeconds": 600,
+    "writableLogicalBytesLimit": 2147483648,
+    "nonCacheLogicalBytesLimit": 1879048192,
+    "individualNonCacheFileBytesLimit": 134217728,
+    "writableFileCountLimit": 5000,
+    "attachedOutputBytesPerStreamLimit": 16777216,
+    "diskEnforcement": "Active stat guard, not a filesystem quota; preserve overshoot/failure facts and stop only the identified owned container."
+  },
+  "method": {
+    "path": ".takeover-tools/run_poc003_common_main1b5c68b_full_original_matrix_v4.py",
+    "bytes": 23006,
+    "sha256": "5dea5d30a496899c1db3ab285230619c58fe112a9163c2ff41ab6e0d4dc96c33"
+  },
+  "launcher": {
+    "path": ".takeover-tools/launch_poc003_approved_common_main1b5c68b_full_original_matrix_v4.py",
+    "bytes": 12801,
+    "sha256": "d42a135c9b142fa6f5d36fbdb4d7fc464bb67377a4e50a7932c0d9553cb52c58"
+  },
+  "entry": {
+    "path": ".takeover-tools/poc003_full_original_matrix_before_env_entry_v1.py",
+    "bytes": 14690,
+    "sha256": "1da32fc7549f9e8bd7369158874e67c2a9144bfcf826fc907e7577588293dfd9"
+  },
+  "assembler": {
+    "path": ".takeover-tools/poc003_full_execution_assembler_v7.py",
+    "bytes": 20384,
+    "sha256": "fb9110f8b2b12a6a24b070d33c65b77a7705076b96114f4fb09cf5ae18eb8b2f"
+  },
+  "reviews": [
+    {
+      "path": ".takeover-tools/poc003-aggregation-pr183-final-actual-main-independent-review.json",
+      "bytes": 4797,
+      "sha256": "91e03433b09c0bf2bea535061b67419ef27946bee7371dc64ad9905422e28915"
+    },
+    {
+      "path": ".takeover-tools/poc003-common-main1b5c68b-input-package-v1-independent-review.json",
+      "bytes": 3168,
+      "sha256": "4bb0191d76f6ca534678a54bfdfc6a4a8b630ca578763f451ae24b946e021a2c"
+    },
+    {
+      "path": ".takeover-tools/poc003-common-main1b5c68b-host-version-result-independent-review.json",
+      "bytes": 2078,
+      "sha256": "264fbb2b93c0e5519ebcfab5536ac497eda9db18949c3ded81a85530145b006b"
+    },
+    {
+      "path": ".takeover-tools/poc003-before-environment-components-v2-independent-review.json",
+      "bytes": 2306,
+      "sha256": "5d573717769d86c9a08e5f8e7aaaae7598c29636dc9a0e515251d086e3a6f578"
+    },
+    {
+      "path": ".takeover-tools/poc003-common-main1b5c68b-full-original-matrix-config-v1-independent-review.json",
+      "bytes": 3839,
+      "sha256": "7d9da5ada8127145486ba5d499b3e214958990f4c3f1e9579b45294a30ed9fe2"
+    }
+  ],
+  "initialResources": {
+    "path": ".takeover-tools/poc003-common-main1b5c68b-full-original-matrix-initial-resources-v1/results.json",
+    "bytes": 4449,
+    "sha256": "4727cfbfe72b352471f724edcdd8bf8688c4caace842e8c0f8e18869803c41c5"
+  },
+  "beforeControlTemplates": {
+    "profile-configuration.json": {
+      "schemaVersion": 2,
+      "pocId": "POC-03",
+      "taskId": "POC-003",
+      "acceptanceProfile": {
+        "id": "local-v1",
+        "version": 1,
+        "bindingRevision": 1,
+        "scope": "LOCAL_FULL_V1"
+      },
+      "resourceIds": [
+        "RES-ATS-SANDBOX"
+      ],
+      "measurementIds": [
+        "ats_slice_behavior",
+        "cache_disk_observation",
+        "cache_hit_observation",
+        "cache_key_isolation",
+        "etag_semantics",
+        "if_range_semantics",
+        "large_file_streaming",
+        "origin_interruption_recovery",
+        "partial_cache_integrity",
+        "range_cold_cache_latency",
+        "range_correctness",
+        "range_hot_cache_latency",
+        "range_multi_user_latency",
+        "range_slow_origin_latency",
+        "source_update_invalidation"
+      ],
+      "testedSource": {
+        "commit": "1b5c68bab02d98f8e11286d80033585090c7af99",
+        "tree": "f94ed8da8d83391f2474365af848bf267a0dc8d1"
+      },
+      "numericDomainReviewRefs": {},
+      "decision": "pending",
+      "approvedBy": null,
+      "approvedAt": null,
+      "capturedSettings": {}
+    },
+    "resource-configuration.json": {
+      "schemaVersion": 2,
+      "pocId": "POC-03",
+      "taskId": "POC-003",
+      "acceptanceProfile": {
+        "id": "local-v1",
+        "version": 1,
+        "bindingRevision": 1,
+        "scope": "LOCAL_FULL_V1"
+      },
+      "approvedAt": null,
+      "approvedBy": null,
+      "kind": "resource_configuration",
+      "resourceId": "RES-ATS-SANDBOX",
+      "status": "pending",
+      "validFrom": null,
+      "validUntil": null,
+      "configuration": {
+        "approvalScope": "COMMON_MAIN1B5C68B_FULL_ORIGINAL15_MATRIX_AND_CANONICAL_ASSEMBLY",
+        "fullOriginal15QualificationApproved": false,
+        "testedSource": {
+          "commit": "1b5c68bab02d98f8e11286d80033585090c7af99",
+          "tree": "f94ed8da8d83391f2474365af848bf267a0dc8d1"
+        },
+        "canonicalPrefix": "evidence/POC-003/profiles/local-v1/v1/attempt-005",
+        "resourceEnvelope": {
+          "imageId": "sha256:df18428df8a0f9189c84e7424d214b4c50092af1f9dca5842a00c41c39bda316",
+          "containerName": "guize-poc003-common-main1b5c68b-full-original-matrix-v1",
+          "privateRoot": "/home/sur/.cache/guize-takeover/poc003-common-main1b5c68b-full-original-matrix-v1",
+          "outputDirectory": "poc003-common-main1b5c68b-full-original-matrix-v1",
+          "uid": 1000,
+          "gid": 1000,
+          "cpuCount": 1,
+          "memoryBytes": 536870912,
+          "memorySwapBytes": 536870912,
+          "pidsLimit": 64,
+          "nofileSoft": 256,
+          "nofileHard": 256,
+          "capsDrop": [
+            "ALL"
+          ],
+          "noNewPrivileges": true,
+          "requireBuiltinSeccomp": true,
+          "readonlyRoot": true,
+          "network": "none",
+          "privatePidIpcCgroup": true,
+          "init": false,
+          "autoRemove": false,
+          "logDriver": "none",
+          "normalRunSeconds": 840,
+          "sharedRunAndCleanupSeconds": 900,
+          "internalLabSeconds": 600,
+          "writableLogicalBytesLimit": 2147483648,
+          "nonCacheLogicalBytesLimit": 1879048192,
+          "individualNonCacheFileBytesLimit": 134217728,
+          "writableFileCountLimit": 5000,
+          "attachedOutputBytesPerStreamLimit": 16777216,
+          "diskEnforcement": "Active stat guard, not a filesystem quota; preserve overshoot/failure facts and stop only the identified owned container."
+        },
+        "rangeMatrixPolicy": {
+          "assetId": "poc003-common-main1b5c68b-original-matrix-object",
+          "aclVersion": "poc003-common-main1b5c68b-original-matrix-acl-v1",
+          "baseVersion": "base",
+          "updatedVersion": "changed",
+          "updatedInputRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/inputs/changed.bin",
+          "updatedInputSha256": "sha256:643d769e1b5120a7c52d63df3d266f67a4177050180858480feb4e686e2fdda1",
+          "entryURL": "http://127.0.0.1:18233/media/object.bin",
+          "authorizedUsers": [
+            "lab-user-a",
+            "lab-user-b"
+          ],
+          "deniedUser": "lab-denied-user",
+          "sliceBytes": 1048576,
+          "minimumInputBytes": 67108864,
+          "maximumBufferedBytes": 8388608,
+          "maximumRetries": 0,
+          "slowOriginDelayMs": 250,
+          "slowOriginBandwidthBytesPerSecond": 1048576,
+          "concurrentUsers": 2,
+          "latencySampleCount": 4,
+          "percentileMethod": "nearest-rank-p95",
+          "baseETag": "\"sha256-938a8bc3e0a64184f1551bff0c500dc891366ead8f30f8f83753587e763c1c26\"",
+          "updatedETag": "\"sha256-643d769e1b5120a7c52d63df3d266f67a4177050180858480feb4e686e2fdda1\""
+        },
+        "changedInputApprovalRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/changed-sample-approval.json",
+        "privateSettingsPublicationProhibited": true
+      }
+    },
+    "resource-booking.json": {
+      "schemaVersion": 2,
+      "pocId": "POC-03",
+      "taskId": "POC-003",
+      "acceptanceProfile": {
+        "id": "local-v1",
+        "version": 1,
+        "bindingRevision": 1,
+        "scope": "LOCAL_FULL_V1"
+      },
+      "approvedAt": null,
+      "approvedBy": null,
+      "kind": "resource_booking",
+      "resourceId": "RES-ATS-SANDBOX",
+      "status": "pending",
+      "validFrom": null,
+      "validUntil": null
+    },
+    "sample-approval.json": {
+      "schemaVersion": 1,
+      "pocId": "POC-03",
+      "taskId": "POC-003",
+      "sampleId": "SAMPLE-RANGE-LARGEFILE",
+      "immutableId": "sha256:938a8bc3e0a64184f1551bff0c500dc891366ead8f30f8f83753587e763c1c26",
+      "checksum": "sha256:938a8bc3e0a64184f1551bff0c500dc891366ead8f30f8f83753587e763c1c26",
+      "decision": "pending",
+      "approver": null,
+      "approvedAt": null
+    },
+    "changed-sample-approval.json": {
+      "schemaVersion": 1,
+      "pocId": "POC-03",
+      "taskId": "POC-003",
+      "sampleId": "SAMPLE-RANGE-LARGEFILE",
+      "immutableId": "sha256:643d769e1b5120a7c52d63df3d266f67a4177050180858480feb4e686e2fdda1",
+      "checksum": "sha256:643d769e1b5120a7c52d63df3d266f67a4177050180858480feb4e686e2fdda1",
+      "decision": "pending",
+      "approver": null,
+      "approvedAt": null
+    }
+  },
+  "expectedMatrix": {
+    "cases": 21,
+    "requests": 101,
+    "primary": 33,
+    "nativeSlices": 64,
+    "stages": 6,
+    "nativeEpochs": 26,
+    "clears": 12,
+    "nativeReadbacks": 10,
+    "originalMeasurements": 15
+  },
+  "bufferInterpretation": {
+    "domain": "Reviewed simultaneously live userspace source-payload storage in ATS/native and Origin/Gateway/Collector/export paths; not process RSS or disk allocation.",
+    "sourceConstantBytes": {
+      "origin": 73729,
+      "gateway": 409610,
+      "collector": 532492,
+      "synchronousPhase": 1048577,
+      "hashPerOwner": 4096
+    },
+    "nativeCoverage": "All26 actual successful serialized target closures, complete immutable component bindings and full durable journals; no four-epoch surrogate.",
+    "aggregation": "Conservative sum of independent complete owner peaks plus native max under reviewed serialization; no retained-pool baseline subtraction.",
+    "actualAggregateAccepted": false,
+    "actualMaximumBufferedBytes": null,
+    "sourceAndEnvironmentAssumptions": "Exact source/code/immutable image, crypto initialization/dispatch and complete closed request/owner windows remain mandatory."
+  },
+  "qualificationRequirements": [
+    "Independent before-run five signed ordinary controls plus exact method/entry/launcher/assembler/package/configuration bindings; all real actors and approval time",
+    "Fresh real primary GitHub main/PR183/PR134/PR136/issues and source/lease/resource checks before launch",
+    "New empty cache and no deliberately concurrent local P5 performance/build or million-file preparation; common descriptor lock",
+    "Before-workload actual namespace capture; all26 owned closures and18 immutable components; original8MiB/retry0/64MiB pair/1MiB Slice/four samples/two users unchanged",
+    "Retain real source/body/cache/journals, exclude credential-bearing private settings, commit Own profile files before frozen qualified source check",
+    "Full frozen validate_execution status pass is required, then original CLI and separately fresh real warm-cache revocation; assembly alone does not mark POC/Task/V1 complete"
+  ],
+  "executionApproved": false,
+  "formalPocAccepted": false,
+  "componentAuthentication": [
+    {
+      "path": ".takeover-tools/poc003_runtime_binding_authentication_v1.py",
+      "bytes": 4340,
+      "sha256": "6368b0b8d6bc0ac05440498be7645732602aa28af0ea972bdef49991798baf10"
+    },
+    {
+      "path": ".takeover-tools/poc003_native_epoch_association_v3.py",
+      "bytes": 2031,
+      "sha256": "ed431101228320babfce057619d5680a06c4e8da658c35b79b80eca7687cf7a9"
+    },
+    {
+      "path": ".takeover-tools/poc003-runtime-native-authentication-components-v3/results.json",
+      "bytes": 797,
+      "sha256": "65cf52e0fee0f5694d759ccc73e3401b5e163893ece0493a19045c055eb37c21"
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "kind": "range_request_observation",
+  "configurationRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/resource-configuration.json",
+  "inputSamples": [
+    {
+      "id": "SAMPLE-RANGE-LARGEFILE",
+      "immutableId": "sha256:938a8bc3e0a64184f1551bff0c500dc891366ead8f30f8f83753587e763c1c26",
+      "checksum": "sha256:938a8bc3e0a64184f1551bff0c500dc891366ead8f30f8f83753587e763c1c26"
+    }
+  ],
+  "inputSampleId": "SAMPLE-RANGE-LARGEFILE",
+  "subjectVersion": "{\"atsVersionObservation\":\"Traffic Server 9.2.3 Nov  3 2026 03:29:25 localhost\\ntraffic_server: using root directory '/usr'\\nApache Traffic Server - traffic_server - 9.2.3 - (build # 110303 on Nov  3 2026 at 03:29:25)\",\"atsVersionObservationScope\":\"Actual prior host --version of the copied package; container ABI and executable mappings are separately verified by owned epochs\",\"python\":\"3.12.15 (main, Oct  6 2026, 02:02:22) [GCC 14.2.0]\"}",
+  "acceptanceProfile": {
+    "id": "local-v1",
+    "version": 1,
+    "bindingRevision": 1,
+    "scope": "LOCAL_FULL_V1"
+  },
+  "assetId": "poc003-common-main1b5c68b-original-matrix-object",
+  "aclVersion": "poc003-common-main1b5c68b-original-matrix-acl-v1",
+  "case": "hit",
+  "requests": [
+    {
+      "requestId": "18779bad4f464ad5a557b372de8453eb",
+      "originAccessRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/typed/origin-18779bad4f464ad5a557b372de8453eb.json",
+      "startedAt": "2026-11-02T21:47:57.174695Z",
+      "firstByteAt": "2026-11-02T21:47:57.191300Z",
+      "finishedAt": "2026-11-02T21:47:57.191970Z",
+      "sourceVersion": "base",
+      "sourceSha256": "sha256:938a8bc3e0a64184f1551bff0c500dc891366ead8f30f8f83753587e763c1c26",
+      "requestURL": "http://127.0.0.1:18233/media/object.bin",
+      "aclVersion": "poc003-common-main1b5c68b-original-matrix-acl-v1",
+      "userId": "lab-user-a",
+      "cacheKey": "[\"poc003-common-main1b5c68b-original-matrix-object\",\"base\",\"938a8bc3e0a64184f1551bff0c500dc891366ead8f30f8f83753587e763c1c26\",\"poc003-common-main1b5c68b-original-matrix-acl-v1\",\"lab-user-a\",\"/ctx/a82d3423c46264d5998376ee7bbacacb/base/object.bin\"]",
+      "requestRange": "bytes=0-7",
+      "ifRange": "",
+      "statusCode": 206,
+      "etag": "\"sha256-938a8bc3e0a64184f1551bff0c500dc891366ead8f30f8f83753587e763c1c26\"",
+      "contentRange": "bytes 0-7/67108864",
+      "responseBodyRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/raw/original-matrix/bodies/hit-18779bad4f464ad5a557b372de8453eb.bin",
+      "responseSha256": "sha256:7275a918178823dd3531ca933d3c9ad23249a72a483d270b0034eb9d465ecc15",
+      "responseByteCount": 8,
+      "cacheComplete": true,
+      "cacheVisible": true,
+      "transferCompleted": true,
+      "maximumBufferedBytes": 6205486,
+      "retryCount": 0,
+      "cacheStatus": "HIT",
+      "cachePurged": false,
+      "originDelayMs": 250,
+      "originBandwidthBytesPerSecond": 1048576,
+      "concurrentUsers": 1
+    }
+  ]
+}

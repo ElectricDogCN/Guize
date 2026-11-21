@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 2,
+  "pocId": "POC-03",
+  "taskId": "POC-003",
+  "acceptanceProfile": {
+    "id": "local-v1",
+    "version": 1,
+    "bindingRevision": 1,
+    "scope": "LOCAL_FULL_V1"
+  },
+  "approvedAt": "2026-11-02T22:02:04.976228Z",
+  "approvedBy": "/root/independent_review",
+  "kind": "resource_configuration",
+  "resourceId": "RES-ATS-SANDBOX",
+  "status": "approved",
+  "validFrom": "2026-11-02T22:02:04.976228Z",
+  "validUntil": "2026-11-02T23:21:46.989Z",
+  "configuration": {
+    "approvalScope": "OWNED_PID1_COMMON_MAIN1B5C68B_FRESH_WARM_CACHE_REVOCATION_ONLY",
+    "testedSource": {
+      "commit": "1b5c68bab02d98f8e11286d80033585090c7af99",
+      "tree": "f94ed8da8d83391f2474365af848bf267a0dc8d1"
+    },
+    "resourceEnvelope": {
+      "imageId": "sha256:df18428df8a0f9189c84e7424d214b4c50092af1f9dca5842a00c41c39bda316",
+      "containerName": "guize-poc003-common-main1b5c68b-fresh-warm-cache-revocation-v1",
+      "privateRoot": "/home/sur/.cache/guize-takeover/poc003-common-main1b5c68b-fresh-warm-cache-revocation-v1",
+      "outputDirectory": "poc003-common-main1b5c68b-fresh-warm-cache-revocation-v1",
+      "uid": 1000,
+      "gid": 1000,
+      "cpuCount": 1,
+      "memoryBytes": 536870912,
+      "memorySwapBytes": 536870912,
+      "pidsLimit": 64,
+      "nofileSoft": 256,
+      "nofileHard": 256,
+      "capsDrop": [
+        "ALL"
+      ],
+      "noNewPrivileges": true,
+      "requireBuiltinSeccomp": true,
+      "readonlyRoot": true,
+      "network": "none",
+      "privatePidIpcCgroup": true,
+      "init": false,
+      "autoRemove": false,
+      "logDriver": "none",
+      "normalRunSeconds": 840,
+      "sharedRunAndCleanupSeconds": 900,
+      "internalLabSeconds": 600,
+      "writableLogicalBytesLimit": 2147483648,
+      "nonCacheLogicalBytesLimit": 1879048192,
+      "individualNonCacheFileBytesLimit": 134217728,
+      "writableFileCountLimit": 5000,
+      "attachedOutputBytesPerStreamLimit": 16777216,
+      "diskEnforcement": "Active stat guard, not a filesystem quota; preserve overshoot/failure facts and stop only the identified owned container."
+    },
+    "mandatoryTestFile": "poc/POC-03-ats-range/test_warm_cache_revocation.py",
+    "mandatoryTestSha256": "987608f169b25327231f0dc64bf41c571f1ab0f1b924bbe66b567cc7fa701457",
+    "fullOriginal15QualificationApproved": false,
+    "scopeMeaning": "A separate fresh original mandatory real warm-cache revocation CLI only; matrix denied_user or static grant checks are not substitutes",
+    "rangeMatrixPolicy": {
+      "assetId": "poc003-common-main1b5c68b-original-matrix-object",
+      "aclVersion": "poc003-common-main1b5c68b-original-matrix-acl-v1",
+      "baseVersion": "base",
+      "updatedVersion": "changed",
+      "updatedInputRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/inputs/changed.bin",
+      "updatedInputSha256": "sha256:643d769e1b5120a7c52d63df3d266f67a4177050180858480feb4e686e2fdda1",
+      "entryURL": "http://127.0.0.1:18233/media/object.bin",
+      "authorizedUsers": [
+        "lab-user-a",
+        "lab-user-b"
+      ],
+      "deniedUser": "lab-denied-user",
+      "sliceBytes": 1048576,
+      "minimumInputBytes": 67108864,
+      "maximumBufferedBytes": 8388608,
+      "maximumRetries": 0,
+      "slowOriginDelayMs": 250,
+      "slowOriginBandwidthBytesPerSecond": 1048576,
+      "concurrentUsers": 2,
+      "latencySampleCount": 4,
+      "percentileMethod": "nearest-rank-p95",
+      "baseETag": "\"sha256-938a8bc3e0a64184f1551bff0c500dc891366ead8f30f8f83753587e763c1c26\"",
+      "updatedETag": "\"sha256-643d769e1b5120a7c52d63df3d266f67a4177050180858480feb4e686e2fdda1\""
+    },
+    "privateSettingsPublicationProhibited": true
+  }
+}

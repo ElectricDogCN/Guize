@@ -1,0 +1,10 @@
+schemaVersion: 2
+pocId: POC-03
+pocTaskId: POC-003
+ownerTask: POC-003
+acceptanceProfile:
+  id: local-v1
+  version: 1
+  bindingRevision: 1
+  scope: LOCAL_FULL_V1
+resultRef: evidence/POC-003/profiles/local-v1/v1/attempt-005/result.json

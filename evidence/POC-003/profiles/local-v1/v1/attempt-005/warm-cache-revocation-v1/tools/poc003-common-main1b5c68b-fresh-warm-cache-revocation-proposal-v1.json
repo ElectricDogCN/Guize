@@ -1,0 +1,255 @@
+{
+  "kind": "PROSPECTIVE_FRESH_REAL_WARM_CACHE_REVOCATION_NOT_APPROVAL",
+  "preparedAt": "2026-11-02T21:37:51.949Z",
+  "taskId": "POC-003",
+  "pocId": "POC-03",
+  "issue": 131,
+  "executor": "/root",
+  "reviewer": "/root/independent_review",
+  "scope": "OWNED_PID1_COMMON_MAIN1B5C68B_FRESH_WARM_CACHE_REVOCATION_ONLY",
+  "testedSource": {
+    "commit": "1b5c68bab02d98f8e11286d80033585090c7af99",
+    "tree": "f94ed8da8d83391f2474365af848bf267a0dc8d1"
+  },
+  "qualificationBase": "7e405b61d872761817a0614b3b2fdc46edde9f14",
+  "originalCreationBase": "760f6c5838597d1d66c0a536ecbf440ef5a7dfec",
+  "proposedWindow": {
+    "validFrom": "2026-11-02T21:37:51.949Z",
+    "validUntil": "2026-11-03T01:37:51.949Z"
+  },
+  "method": {
+    "path": ".takeover-tools/run_poc003_common_main1b5c68b_fresh_warm_cache_revocation_v2.py",
+    "bytes": 21035,
+    "sha256": "69307706e38f2c5f96a84d369a6d761a64a0c6e239f39ef8fc948873f6bb8d1b"
+  },
+  "launcher": {
+    "path": ".takeover-tools/launch_poc003_approved_common_main1b5c68b_fresh_warm_cache_revocation_v2.py",
+    "bytes": 13170,
+    "sha256": "48eb439084e12cf06fc1596fcbf799b4e89339ac39dc10cb35899074cccde5a9"
+  },
+  "entry": {
+    "path": ".takeover-tools/poc003_common_main1b5c68b_fresh_warm_cache_revocation_entry_v2.py",
+    "bytes": 14436,
+    "sha256": "469b68c95225fbf93aa1275c610ed8f2b163243e1ece330f9803c6cf5f54f241"
+  },
+  "diagnosticHelper": {
+    "path": ".takeover-tools/poc003_common_main7e405b6_revocation_failure_records_v1.py",
+    "bytes": 3145,
+    "sha256": "c56cccaae950f4e3b3c1a6238d155f4c82ea9eef8ed02af47bb10d547f0ad3a8"
+  },
+  "currentCollectorSha256": "1b2220a6afd2e4790b17e091048dca7fcf2772c4bbcea6215beccc3700f6fd71",
+  "mandatoryTestSha256": "987608f169b25327231f0dc64bf41c571f1ab0f1b924bbe66b567cc7fa701457",
+  "sourceAndPackageReviews": [
+    {
+      "path": ".takeover-tools/poc003-aggregation-pr183-final-actual-main-independent-review.json",
+      "bytes": 4797,
+      "sha256": "91e03433b09c0bf2bea535061b67419ef27946bee7371dc64ad9905422e28915"
+    },
+    {
+      "path": ".takeover-tools/poc003-common-main1b5c68b-input-package-v1-independent-review.json",
+      "bytes": 3168,
+      "sha256": "4bb0191d76f6ca534678a54bfdfc6a4a8b630ca578763f451ae24b946e021a2c"
+    },
+    {
+      "path": ".takeover-tools/poc003-common-main1b5c68b-host-version-result-independent-review.json",
+      "bytes": 2078,
+      "sha256": "264fbb2b93c0e5519ebcfab5536ac497eda9db18949c3ded81a85530145b006b"
+    },
+    {
+      "path": ".takeover-tools/poc003-before-environment-components-v2-independent-review.json",
+      "bytes": 2306,
+      "sha256": "5d573717769d86c9a08e5f8e7aaaae7598c29636dc9a0e515251d086e3a6f578"
+    },
+    {
+      "path": ".takeover-tools/poc003-common-main1b5c68b-full-original-matrix-config-v1-independent-review.json",
+      "bytes": 3839,
+      "sha256": "7d9da5ada8127145486ba5d499b3e214958990f4c3f1e9579b45294a30ed9fe2"
+    }
+  ],
+  "initialResourceObservation": {
+    "path": ".takeover-tools/poc003-common-main1b5c68b-fresh-warm-cache-revocation-initial-resources-v1/results.json",
+    "bytes": 4463,
+    "sha256": "aaed340f740593e7ab8d1d18be8df1529c540590a153d2771239d57861cdac53"
+  },
+  "resourceEnvelope": {
+    "imageId": "sha256:df18428df8a0f9189c84e7424d214b4c50092af1f9dca5842a00c41c39bda316",
+    "containerName": "guize-poc003-common-main1b5c68b-fresh-warm-cache-revocation-v1",
+    "privateRoot": "/home/sur/.cache/guize-takeover/poc003-common-main1b5c68b-fresh-warm-cache-revocation-v1",
+    "outputDirectory": "poc003-common-main1b5c68b-fresh-warm-cache-revocation-v1",
+    "uid": 1000,
+    "gid": 1000,
+    "cpuCount": 1,
+    "memoryBytes": 536870912,
+    "memorySwapBytes": 536870912,
+    "pidsLimit": 64,
+    "nofileSoft": 256,
+    "nofileHard": 256,
+    "capsDrop": [
+      "ALL"
+    ],
+    "noNewPrivileges": true,
+    "requireBuiltinSeccomp": true,
+    "readonlyRoot": true,
+    "network": "none",
+    "privatePidIpcCgroup": true,
+    "init": false,
+    "autoRemove": false,
+    "logDriver": "none",
+    "normalRunSeconds": 840,
+    "sharedRunAndCleanupSeconds": 900,
+    "internalLabSeconds": 600,
+    "writableLogicalBytesLimit": 2147483648,
+    "nonCacheLogicalBytesLimit": 1879048192,
+    "individualNonCacheFileBytesLimit": 134217728,
+    "writableFileCountLimit": 5000,
+    "attachedOutputBytesPerStreamLimit": 16777216,
+    "diskEnforcement": "Active stat guard, not a filesystem quota; preserve overshoot/failure facts and stop only the identified owned container."
+  },
+  "beforeControlTemplates": {
+    "resource-configuration.json": {
+      "schemaVersion": 2,
+      "pocId": "POC-03",
+      "taskId": "POC-003",
+      "acceptanceProfile": {
+        "id": "local-v1",
+        "version": 1,
+        "bindingRevision": 1,
+        "scope": "LOCAL_FULL_V1"
+      },
+      "approvedAt": null,
+      "approvedBy": null,
+      "kind": "resource_configuration",
+      "resourceId": "RES-ATS-SANDBOX",
+      "status": "pending",
+      "validFrom": null,
+      "validUntil": null,
+      "configuration": {
+        "approvalScope": "OWNED_PID1_COMMON_MAIN1B5C68B_FRESH_WARM_CACHE_REVOCATION_ONLY",
+        "testedSource": {
+          "commit": "1b5c68bab02d98f8e11286d80033585090c7af99",
+          "tree": "f94ed8da8d83391f2474365af848bf267a0dc8d1"
+        },
+        "resourceEnvelope": {
+          "imageId": "sha256:df18428df8a0f9189c84e7424d214b4c50092af1f9dca5842a00c41c39bda316",
+          "containerName": "guize-poc003-common-main1b5c68b-fresh-warm-cache-revocation-v1",
+          "privateRoot": "/home/sur/.cache/guize-takeover/poc003-common-main1b5c68b-fresh-warm-cache-revocation-v1",
+          "outputDirectory": "poc003-common-main1b5c68b-fresh-warm-cache-revocation-v1",
+          "uid": 1000,
+          "gid": 1000,
+          "cpuCount": 1,
+          "memoryBytes": 536870912,
+          "memorySwapBytes": 536870912,
+          "pidsLimit": 64,
+          "nofileSoft": 256,
+          "nofileHard": 256,
+          "capsDrop": [
+            "ALL"
+          ],
+          "noNewPrivileges": true,
+          "requireBuiltinSeccomp": true,
+          "readonlyRoot": true,
+          "network": "none",
+          "privatePidIpcCgroup": true,
+          "init": false,
+          "autoRemove": false,
+          "logDriver": "none",
+          "normalRunSeconds": 840,
+          "sharedRunAndCleanupSeconds": 900,
+          "internalLabSeconds": 600,
+          "writableLogicalBytesLimit": 2147483648,
+          "nonCacheLogicalBytesLimit": 1879048192,
+          "individualNonCacheFileBytesLimit": 134217728,
+          "writableFileCountLimit": 5000,
+          "attachedOutputBytesPerStreamLimit": 16777216,
+          "diskEnforcement": "Active stat guard, not a filesystem quota; preserve overshoot/failure facts and stop only the identified owned container."
+        },
+        "mandatoryTestFile": "poc/POC-03-ats-range/test_warm_cache_revocation.py",
+        "mandatoryTestSha256": "987608f169b25327231f0dc64bf41c571f1ab0f1b924bbe66b567cc7fa701457",
+        "fullOriginal15QualificationApproved": false,
+        "scopeMeaning": "A separate fresh original mandatory real warm-cache revocation CLI only; matrix denied_user or static grant checks are not substitutes",
+        "rangeMatrixPolicy": {
+          "assetId": "poc003-common-main1b5c68b-original-matrix-object",
+          "aclVersion": "poc003-common-main1b5c68b-original-matrix-acl-v1",
+          "baseVersion": "base",
+          "updatedVersion": "changed",
+          "updatedInputRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/inputs/changed.bin",
+          "updatedInputSha256": "sha256:643d769e1b5120a7c52d63df3d266f67a4177050180858480feb4e686e2fdda1",
+          "entryURL": "http://127.0.0.1:18233/media/object.bin",
+          "authorizedUsers": [
+            "lab-user-a",
+            "lab-user-b"
+          ],
+          "deniedUser": "lab-denied-user",
+          "sliceBytes": 1048576,
+          "minimumInputBytes": 67108864,
+          "maximumBufferedBytes": 8388608,
+          "maximumRetries": 0,
+          "slowOriginDelayMs": 250,
+          "slowOriginBandwidthBytesPerSecond": 1048576,
+          "concurrentUsers": 2,
+          "latencySampleCount": 4,
+          "percentileMethod": "nearest-rank-p95",
+          "baseETag": "\"sha256-938a8bc3e0a64184f1551bff0c500dc891366ead8f30f8f83753587e763c1c26\"",
+          "updatedETag": "\"sha256-643d769e1b5120a7c52d63df3d266f67a4177050180858480feb4e686e2fdda1\""
+        },
+        "privateSettingsPublicationProhibited": true
+      }
+    },
+    "resource-booking.json": {
+      "schemaVersion": 2,
+      "pocId": "POC-03",
+      "taskId": "POC-003",
+      "acceptanceProfile": {
+        "id": "local-v1",
+        "version": 1,
+        "bindingRevision": 1,
+        "scope": "LOCAL_FULL_V1"
+      },
+      "approvedAt": null,
+      "approvedBy": null,
+      "kind": "resource_booking",
+      "resourceId": "RES-ATS-SANDBOX",
+      "status": "pending",
+      "validFrom": null,
+      "validUntil": null
+    },
+    "sample-approval.json": {
+      "schemaVersion": 1,
+      "pocId": "POC-03",
+      "taskId": "POC-003",
+      "sampleId": "SAMPLE-RANGE-LARGEFILE",
+      "immutableId": "sha256:938a8bc3e0a64184f1551bff0c500dc891366ead8f30f8f83753587e763c1c26",
+      "checksum": "sha256:938a8bc3e0a64184f1551bff0c500dc891366ead8f30f8f83753587e763c1c26",
+      "decision": "pending",
+      "approver": null,
+      "approvedAt": null
+    },
+    "changed-sample-approval.json": {
+      "schemaVersion": 1,
+      "pocId": "POC-03",
+      "taskId": "POC-003",
+      "sampleId": "SAMPLE-RANGE-LARGEFILE",
+      "immutableId": "sha256:643d769e1b5120a7c52d63df3d266f67a4177050180858480feb4e686e2fdda1",
+      "checksum": "sha256:643d769e1b5120a7c52d63df3d266f67a4177050180858480feb4e686e2fdda1",
+      "decision": "pending",
+      "approver": null,
+      "approvedAt": null
+    }
+  },
+  "expectedNativeEpochs": 2,
+  "expectedNativeRoles": [
+    "verify_config",
+    "start"
+  ],
+  "mandatoryScenarios": 1,
+  "skippedAssertionsAllowed": 0,
+  "additionalConditions": [
+    "New independent exact source/package/config/method/entry/window and four ordinary before records",
+    "Run serially after newM matrix has fully closed and before POC005 heavy preparation; same physical domain flock",
+    "New target/cache/private credentials; no old cache/PID/DB or grant reused",
+    "Actual fixed real mandatory CLI must exit0/statusPASS/scenario1/skip0; no denied_user or offline mock substitution",
+    "Retain independent actual report/owner wait/both targetclosures and real before capture; no full15/formalPOC/8MiB conclusion from this security run alone"
+  ],
+  "executionApproved": false,
+  "formalPocAccepted": false
+}

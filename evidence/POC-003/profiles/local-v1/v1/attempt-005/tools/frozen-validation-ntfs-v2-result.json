@@ -1,0 +1,37 @@
+{
+  "kind": "ACTUAL_UNCHANGED_FROZEN_POSTVALIDATION_AFTER_TIMEOUT",
+  "startedAt": "2026-11-02T22:09:24.137476+00:00",
+  "argv": [
+    "/home/sur/.cache/guize-takeover/python31117-official-runtime-v1/venv/bin/python",
+    "-B",
+    "/mnt/c/Users/13997/.codex/.chatgpt-projects/g-p-6a8fb34a32e0819190ce70787d532366/.takeover-tools/validate_poc003_attempt005_frozen_execution_v2_once.py",
+    "--child"
+  ],
+  "maximumPostValidationSeconds": 900,
+  "mediaWorkloadRerun": false,
+  "frozenSourceChanged": false,
+  "originalCiTimeoutUnchanged": true,
+  "actualWaitCompleted": true,
+  "formalPocAccepted": false,
+  "pid": 169753,
+  "exitCode": -2,
+  "timedOut": false,
+  "finishedAt": "2026-11-02T22:11:19.881738+00:00",
+  "logs": [
+    {
+      "file": "stdout.raw",
+      "bytes": 104,
+      "sha256": "dc03ee26f1c77d619002aedc88dd996280ed3a99ca2408ab9bb18f89936ceafe"
+    },
+    {
+      "file": "stderr.raw",
+      "bytes": 3165,
+      "sha256": "7cdd589df256a43a855e0ac31ca2d1055779300fa680591f8a81110ff7322fe6"
+    },
+    {
+      "file": "periodic-python-stack.raw",
+      "bytes": 1441,
+      "sha256": "9238c7d913dffc77ace6750f019661407961d50a564e4c8aecafc69f9da64f87"
+    }
+  ]
+}

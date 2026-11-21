@@ -1,0 +1,116 @@
+{
+  "kind": "EXACT_METHOD_AND_ACTUAL_REVIEW_ARCHIVE_NOT_NEW_APPROVAL",
+  "files": [
+    {
+      "path": ".takeover-tools/poc003_full_execution_assembler_v7.py",
+      "bytes": 20384,
+      "sha256": "fb9110f8b2b12a6a24b070d33c65b77a7705076b96114f4fb09cf5ae18eb8b2f"
+    },
+    {
+      "path": ".takeover-tools/poc003_full_execution_assembler_v8.py",
+      "bytes": 22177,
+      "sha256": "645c26ffdd70887c39a4a21d08a8943a8e9d63c7890e555cc1da8a1f6d091e43"
+    },
+    {
+      "path": ".takeover-tools/poc003_typed_record_assembly_v2.py",
+      "bytes": 4935,
+      "sha256": "1e8d327dec99d7889eda3f1ebc8eea5ef87903703ca85926249e0d25fa19bd45"
+    },
+    {
+      "path": ".takeover-tools/poc003_request_cache_decisions_v2.py",
+      "bytes": 9540,
+      "sha256": "4b8a187fe0ff4d6826d58c3906fc206a13535a7f02ab5add43ee20fc0e3ebcdf"
+    },
+    {
+      "path": ".takeover-tools/poc003_canonical_record_materializer_v1.py",
+      "bytes": 11392,
+      "sha256": "b088bb13f425a65beb5f75cd98a4210c92edbd19b92a29017ed342212228ae5e"
+    },
+    {
+      "path": ".takeover-tools/poc003_canonical_derivation_v3.py",
+      "bytes": 8440,
+      "sha256": "1566bd295b53f6a4386c3527ee3d5edec978ff32ce26a1731d5822d747a6b2c9"
+    },
+    {
+      "path": ".takeover-tools/poc003_request_cache_provenance_v2.py",
+      "bytes": 10061,
+      "sha256": "167c1712170eb53cb0aed47f75ac27502a7f27dc9b255fc414fc5e9eb9e1bc56"
+    },
+    {
+      "path": ".takeover-tools/poc003_diagnostic_metric_conditions_v1.py",
+      "bytes": 10338,
+      "sha256": "58bdded9ebc4e319e5ac39797e0944f21c6dda70f1cfd9fe7458bc895429f789"
+    },
+    {
+      "path": ".takeover-tools/poc003_runtime_binding_authentication_v1.py",
+      "bytes": 4340,
+      "sha256": "6368b0b8d6bc0ac05440498be7645732602aa28af0ea972bdef49991798baf10"
+    },
+    {
+      "path": ".takeover-tools/poc003_native_epoch_association_v3.py",
+      "bytes": 2031,
+      "sha256": "ed431101228320babfce057619d5680a06c4e8da658c35b79b80eca7687cf7a9"
+    },
+    {
+      "path": ".takeover-tools/poc003_before_environment_capture_v2.py",
+      "bytes": 5611,
+      "sha256": "3ce40a5dedb5c44290bfe4b10badbfe76f29d71d60bfcaefe7e1ff24578c285c"
+    },
+    {
+      "path": ".takeover-tools/poc003_full_original_matrix_before_env_entry_v1.py",
+      "bytes": 14690,
+      "sha256": "1da32fc7549f9e8bd7369158874e67c2a9144bfcf826fc907e7577588293dfd9"
+    },
+    {
+      "path": ".takeover-tools/run_poc003_common_main1b5c68b_full_original_matrix_v4.py",
+      "bytes": 23006,
+      "sha256": "5dea5d30a496899c1db3ab285230619c58fe112a9163c2ff41ab6e0d4dc96c33"
+    },
+    {
+      "path": ".takeover-tools/launch_poc003_approved_common_main1b5c68b_full_original_matrix_v4.py",
+      "bytes": 12801,
+      "sha256": "d42a135c9b142fa6f5d36fbdb4d7fc464bb67377a4e50a7932c0d9553cb52c58"
+    },
+    {
+      "path": ".takeover-tools/poc003_matrix_failure_records_v2.py",
+      "bytes": 3131,
+      "sha256": "b8f6fd4ac7f6156e404e706fa0dd95598935658532256c64a447b6fbefad3e01"
+    },
+    {
+      "path": ".takeover-tools/poc003-common-main1b5c68b-full-original-matrix-method-independent-review-v1.json",
+      "bytes": 3472,
+      "sha256": "7b3c6814c38d5ff6c83e5e78c0e3009fd2a618f3fb00c526eb8bf9af64da63a8"
+    },
+    {
+      "path": ".takeover-tools/poc003-common-main1b5c68b-assembler-v8-utc-reconciliation-independent-review.json",
+      "bytes": 1847,
+      "sha256": "f4d1648e79491fede011844d0f2b362717680996967b7bb3c64688789a7cf145"
+    },
+    {
+      "path": ".takeover-tools/poc003-common-main1b5c68b-full-original15-proposal-v5.json",
+      "bytes": 15455,
+      "sha256": "d2f728d45b97d753d14c161c69128832e3bb898c919bf168989a71caabff4f6a"
+    },
+    {
+      "path": ".takeover-tools/poc003-aggregation-pr183-final-actual-main-independent-review.json",
+      "bytes": 4797,
+      "sha256": "91e03433b09c0bf2bea535061b67419ef27946bee7371dc64ad9905422e28915"
+    },
+    {
+      "path": ".takeover-tools/poc003-common-main1b5c68b-input-package-v1-independent-review.json",
+      "bytes": 3168,
+      "sha256": "4bb0191d76f6ca534678a54bfdfc6a4a8b630ca578763f451ae24b946e021a2c"
+    },
+    {
+      "path": ".takeover-tools/poc003-common-main1b5c68b-full-original-matrix-config-v1-independent-review.json",
+      "bytes": 3839,
+      "sha256": "7d9da5ada8127145486ba5d499b3e214958990f4c3f1e9579b45294a30ed9fe2"
+    },
+    {
+      "path": ".takeover-tools/poc003-common-main1b5c68b-assembler-v7-actual-utc-parse-failure.json",
+      "bytes": 781,
+      "sha256": "608a4b0976f023674f6d13b70759ee9e73f24f96f59fb9ea4db1fa70992d7a98"
+    }
+  ],
+  "formalPocAccepted": false
+}

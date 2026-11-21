@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "kind": "POST_RUN_CAPTURED_FACT_REPRESENTATION_RECONCILIATION_REVIEW",
+  "reviewer": "/root/independent_review",
+  "approvedAt": "2026-11-02T22:25:24.845135Z",
+  "capturedFactRepresentationReconciliationApproved": true,
+  "mustFix": [],
+  "scope": "CAPTURED_ZERO_DEVICE_DOCKER_ENUM_AND_NATIVE_MEDIA_TYPES_ONLY",
+  "sourceEvidenceCommit": "e72d32b170a209aa55e3fde620ff38d3b4ccee22",
+  "testedSource": "1b5c68bab02d98f8e11286d80033585090c7af99",
+  "methodSha256": "ab78c2eba0bb8c86d94f9b01df7152ee2fcf80a2a148bca97bfd932c14d8370a",
+  "proposalSha256": "74bd3f20216222da85f39befabf4654bccec68d72f160a5b1659385a592e2aa4",
+  "originalExecutionSha256": "fa6f90355e1cc93db71cfc631c58b7f8a0aad564581e690cf1ab6794ba7096d4",
+  "originalResourceSha256": "486680e87495ae85576a84804500cbfdcc5e947557fa44372b477368c6dbc2a7",
+  "targetExecutionSha256": "194cfc750a10fe591a687995449f9a9b01d90f7e2b34beef8d3040272396243c",
+  "targetResourceSha256": "fa9e6407a646c78c0da32c6bb64b2e7f7479b0db4ac0e8e995c14b0d316742ed",
+  "actualRunResultSha256": "354a982d62ea9b6c709b9e6bac1a71b17fd91e6b981083cc2c40392ce5d797ee",
+  "originalBeforeEnvironmentSha256": "bcbe927c1fec248f10ea1a7a89e2072f0a2bc58f063cf68a5f8ba57757537626",
+  "originalRunApprovalSha256": "8238d4c06503661da3bc350ac1da37857ec47b8d6f484b4ef168ba5d7ddadfc3",
+  "maximumActualApplications": 1,
+  "verified": {
+    "authorHeadAndClean": true,
+    "originalFrozenValidation": {
+      "actualPid": 169972,
+      "actualWaitCompleted": true,
+      "exitCode": 1,
+      "timedOut": false,
+      "errorCount": 204,
+      "resourceRecordedErrors": 1,
+      "nativeMediaUtf8Errors": 202,
+      "emptyObservedDeviceErrors": 1
+    },
+    "mediaClassificationCount": 202,
+    "exactFailedArtifactIndexAndProducerPatternMatch": true,
+    "rawArtifactCount": 709,
+    "allArtifactReferencesByteCountsAndSha256Unchanged": true,
+    "measurementValuesAndExecutionWindowAndTestedSourceUnchanged": true,
+    "resourceDelta": "Only two descriptive Docker enum labels and explicitly post-produced provenance; original before decision/time retained and hash referenced.",
+    "deviceDelta": "Observed namespace device-path lists are empty; canonical count zero and scope text reference unchanged original capture, without claiming host physical inventory.",
+    "producerReferences": [
+      "poc/POC-03-ats-range/cache_export.cc:124",
+      "poc/POC-03-ats-range/cache_export.cc:220"
+    ],
+    "numericSerializationNote": "range_correctness actual serializes as 100 instead of 100.0; the JSON numeric value is identical, without measurement recalculation.",
+    "newArchiveDestinationsAbsent": true
+  },
+  "preservationRequirements": [
+    "Retain e72 commit, original five before controls, run approval, actual run/raw and all original frozen validation failures unchanged.",
+    "Apply only the exact hash-bound canonical views; retain original execution/resource files and this actual post-run decision.",
+    "After the forward archive change, run the unchanged frozen validator and required source checks; this review does not assert their future outcome."
+  ],
+  "newMediaExecutionApproved": false,
+  "beforeApprovalRetroactivelyChanged": false,
+  "frozenValidatorAccepted": false,
+  "fullProfileAccepted": false,
+  "formalPocAccepted": false,
+  "taskCompleted": false
+}

@@ -1,0 +1,75 @@
+{
+  "kind": "PROSPECTIVE_RESULT_AND_PROFILE_INDEX_MATERIALIZATION_NOT_APPROVAL",
+  "preparedAt": "2026-11-02T22:32:31.661Z",
+  "testedSource": {
+    "commit": "1b5c68bab02d98f8e11286d80033585090c7af99",
+    "tree": "f94ed8da8d83391f2474365af848bf267a0dc8d1"
+  },
+  "evidenceCommit": "5a9d20b545636e379d632c8c64f7d9012053e475",
+  "executionRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/execution.json",
+  "executionSha256": "194cfc750a10fe591a687995449f9a9b01d90f7e2b34beef8d3040272396243c",
+  "actualFrozenValidation": {
+    "path": ".takeover-tools/poc003-attempt005-native-clean-validation-v2/results.json",
+    "bytes": 2731,
+    "sha256": "a9048b585fbd166f7254c5bbc118cab3bc2c0c18b4456a95a44c9788269f2cb7"
+  },
+  "actualFrozenStdout": {
+    "path": ".takeover-tools/poc003-attempt005-native-clean-validation-v2/frozen-execution.stdout.raw",
+    "bytes": 94,
+    "sha256": "de4a6443e194ca45a4a66358914ca12db19c61d09862e4c54d73f9cffe946f52"
+  },
+  "actualWarmReview": {
+    "path": ".takeover-tools/poc003-common-main1b5c68b-fresh-warm-cache-revocation-result-independent-review.json",
+    "bytes": 4119,
+    "sha256": "bde03aed7660962149320f3a7273896c705de2a22b2977879c20c70e1a367fef"
+  },
+  "capacityBytes": 6205486,
+  "originalCapacityLimitBytes": 8388608,
+  "originalMeasurementIds": [
+    "range_correctness",
+    "etag_semantics",
+    "if_range_semantics",
+    "ats_slice_behavior",
+    "source_update_invalidation",
+    "origin_interruption_recovery",
+    "partial_cache_integrity",
+    "cache_hit_observation",
+    "cache_disk_observation",
+    "cache_key_isolation",
+    "large_file_streaming",
+    "range_hot_cache_latency",
+    "range_cold_cache_latency",
+    "range_slow_origin_latency",
+    "range_multi_user_latency"
+  ],
+  "resultTemplate": {
+    "schemaVersion": 1,
+    "pocId": "POC-03",
+    "taskId": "POC-003",
+    "status": "pass",
+    "evidencePath": "evidence/POC-003",
+    "executionRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/execution.json",
+    "decision": "pass",
+    "rationale": "The actual fixed-source local-v1 original21-case matrix completed101 requests, all26 native process epochs,64 Slice bodies and6 cache stages. All original15 observations pass unchanged frozen execution qualification, complete conservative retained source-payload capacity is6205486B within the original8388608B limit, and a separate real same-unexpired-grant warm-cache revocation scenario passed with no skipped assertion. This accepts only the measured local sandbox and immutable testedSource; full official source/main CI, normal Review/Completion and fullV1/production acceptance remain separate.",
+    "reviewer": null,
+    "approvedAt": null,
+    "approval": "pending"
+  },
+  "indexTemplate": {
+    "schemaVersion": 2,
+    "pocId": "POC-03",
+    "pocTaskId": "POC-003",
+    "ownerTask": "POC-003",
+    "acceptanceProfile": {
+      "id": "local-v1",
+      "version": 1,
+      "bindingRevision": 1,
+      "scope": "LOCAL_FULL_V1"
+    },
+    "resultRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/result.json"
+  },
+  "indexRef": "evidence/POC-003/profiles/local-v1/v1/index.yaml",
+  "materializationApproved": false,
+  "normalTaskReviewOrCompletionApproved": false,
+  "officialCiPresumed": false
+}

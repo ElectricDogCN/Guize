@@ -1,0 +1,182 @@
+{
+  "schemaVersion": 1,
+  "kind": "PROSPECTIVE_SEPARATE_FRESH_REAL_WARM_CACHE_REVOCATION_APPROVAL",
+  "approvedBy": "/root/independent_review",
+  "reviewer": "/root/independent_review",
+  "approvedAt": "2026-11-02T22:02:04.976228Z",
+  "warmCacheRevocationExecutionApproved": true,
+  "windowApproved": true,
+  "sampleApplicabilityApproved": true,
+  "resourceConfigurationApproved": true,
+  "resourceBookingApproved": true,
+  "source": "1b5c68bab02d98f8e11286d80033585090c7af99",
+  "tree": "f94ed8da8d83391f2474365af848bf267a0dc8d1",
+  "testedSource": {
+    "commit": "1b5c68bab02d98f8e11286d80033585090c7af99",
+    "tree": "f94ed8da8d83391f2474365af848bf267a0dc8d1"
+  },
+  "canonicalMain": "1b5c68bab02d98f8e11286d80033585090c7af99",
+  "qualificationBase": "7e405b61d872761817a0614b3b2fdc46edde9f14",
+  "originalCreationBase": "760f6c5838597d1d66c0a536ecbf440ef5a7dfec",
+  "scope": "OWNED_PID1_COMMON_MAIN1B5C68B_FRESH_WARM_CACHE_REVOCATION_ONLY",
+  "maximumActualAttempts": 1,
+  "validFrom": "2026-11-02T22:02:04.976228Z",
+  "validUntil": "2026-11-02T23:21:46.989Z",
+  "actualStartMustFollowThisApproval": true,
+  "actualStartMinimumRemainingSeconds": 900,
+  "mustFix": [],
+  "methodSha256": "69307706e38f2c5f96a84d369a6d761a64a0c6e239f39ef8fc948873f6bb8d1b",
+  "entrySha256": "469b68c95225fbf93aa1275c610ed8f2b163243e1ece330f9803c6cf5f54f241",
+  "launcherSha256": "48eb439084e12cf06fc1596fcbf799b4e89339ac39dc10cb35899074cccde5a9",
+  "proposalSha256": "954f777980a07467bfa0435ad318b3179e1d6d2e6909370af6cb76c6a749769c",
+  "packageManifestSha256": "3e61a9136fecfc6ca5ed2e61f920ffaafd12573028647efaeb2b3812be37d42d",
+  "configurationManifestSha256": "aa6a55d3579766e88ff37770a388224c26c6d7fbb6b98bf08ecdbb368e411901",
+  "inputReviewSha256": "4bb0191d76f6ca534678a54bfdfc6a4a8b630ca578763f451ae24b946e021a2c",
+  "configurationReviewSha256": "7d9da5ada8127145486ba5d499b3e214958990f4c3f1e9579b45294a30ed9fe2",
+  "qualificationReviewSha256": "91e03433b09c0bf2bea535061b67419ef27946bee7371dc64ad9905422e28915",
+  "canonicalMainAcceptanceReview": "poc003-aggregation-pr183-final-actual-main-independent-review.json",
+  "canonicalMainAcceptanceReviewSha256": "91e03433b09c0bf2bea535061b67419ef27946bee7371dc64ad9905422e28915",
+  "diagnosticHelperSha256": "c56cccaae950f4e3b3c1a6238d155f4c82ea9eef8ed02af47bb10d547f0ad3a8",
+  "inputLogicalBytes": 155319162,
+  "canonicalPrefix": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1",
+  "acceptanceProfile": {
+    "id": "local-v1",
+    "version": 1,
+    "bindingRevision": 1,
+    "scope": "LOCAL_FULL_V1"
+  },
+  "beforeControlFiles": {
+    "resource-configuration.json": {
+      "bytes": 3673,
+      "sha256": "457688de6d811021efabca08ec1e1db59258609912d883d770b76a5b9a04937a"
+    },
+    "resource-booking.json": {
+      "bytes": 464,
+      "sha256": "cf50b459bde0c5ca58e165a3e3496fe1c11ac805ac95cbee076864157e4ad62b"
+    },
+    "sample-approval.json": {
+      "bytes": 405,
+      "sha256": "548ec5965c0f3e12ae25919992ba426eed1caf9c2857c0e153f40a6acd460714"
+    },
+    "changed-sample-approval.json": {
+      "bytes": 405,
+      "sha256": "74a760431d9aed6e8558b1b060ca6caa49c65096d6e0845fc6578dafe5171037"
+    }
+  },
+  "ordinaryRecords": [
+    {
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-common-main1b5c68b-fresh-warm-cache-revocation-approval-v1\\resource-configuration.json",
+      "canonicalRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/resource-configuration.json",
+      "byteCount": 3673,
+      "sha256": "457688de6d811021efabca08ec1e1db59258609912d883d770b76a5b9a04937a",
+      "schemaValidated": true,
+      "schemaRef": "specs/poc/program.schema.yaml#/$defs/resourceConfiguration"
+    },
+    {
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-common-main1b5c68b-fresh-warm-cache-revocation-approval-v1\\resource-booking.json",
+      "canonicalRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/resource-booking.json",
+      "byteCount": 464,
+      "sha256": "cf50b459bde0c5ca58e165a3e3496fe1c11ac805ac95cbee076864157e4ad62b",
+      "schemaValidated": true,
+      "schemaRef": "specs/poc/program.schema.yaml#/$defs/resourceBooking"
+    },
+    {
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-common-main1b5c68b-fresh-warm-cache-revocation-approval-v1\\sample-approval.json",
+      "canonicalRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/sample-approval.json",
+      "byteCount": 405,
+      "sha256": "548ec5965c0f3e12ae25919992ba426eed1caf9c2857c0e153f40a6acd460714",
+      "schemaValidated": true,
+      "schemaRef": "specs/poc/sample-approval.schema.yaml"
+    },
+    {
+      "path": "C:\\Users\\13997\\.codex\\.chatgpt-projects\\g-p-6a8fb34a32e0819190ce70787d532366\\.takeover-tools\\poc003-common-main1b5c68b-fresh-warm-cache-revocation-approval-v1\\changed-sample-approval.json",
+      "canonicalRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/warm-cache-revocation-v1/changed-sample-approval.json",
+      "byteCount": 405,
+      "sha256": "74a760431d9aed6e8558b1b060ca6caa49c65096d6e0845fc6578dafe5171037",
+      "schemaValidated": true,
+      "schemaRef": "specs/poc/sample-approval.schema.yaml"
+    }
+  ],
+  "ordinarySchemasValidated": true,
+  "schemaValidation": {
+    "actualValidator": "jsonschema.Draft202012Validator with FormatChecker",
+    "validatedRecordCount": 4,
+    "programSchemaSha256": "74b5218c3e8b126727ddb15b9830240e9ee0b5a1eb73558c2f6ae138e70934d7",
+    "sampleApprovalSchemaSha256": "7d350ce1d6df57e6ba8fd5a37c689c10bb74ebb2519473fa3aaf400cd23aa194"
+  },
+  "mandatoryTestSha256": "987608f169b25327231f0dc64bf41c571f1ab0f1b924bbe66b567cc7fa701457",
+  "currentCollectorSha256": "1b2220a6afd2e4790b17e091048dca7fcf2772c4bbcea6215beccc3700f6fd71",
+  "expectedNativeEpochs": 2,
+  "expectedNativeRoles": [
+    "verify_config",
+    "start"
+  ],
+  "mandatoryScenarios": 1,
+  "skippedAssertionsAllowed": 0,
+  "methodForwardReview": {
+    "path": "poc003-common-main1b5c68b-fresh-warm-cache-revocation-method-independent-review-v1.json",
+    "bytes": 2626,
+    "sha256": "bce4d0290ab2cf26849e23d56bc6903b87f1b9f80aa0d8348e34a8364c4944fe"
+  },
+  "predecessorMatrix": {
+    "resultSha256": "354a982d62ea9b6c709b9e6bac1a71b17fd91e6b981083cc2c40392ce5d797ee",
+    "namespaceActualTerminalObserved": true,
+    "ownerAnd26Closed": true,
+    "businessOutcomeOrEightMiBNotAdoptedByThisApproval": true
+  },
+  "resourceDecision": {
+    "initialObservation": {
+      "path": ".takeover-tools/poc003-common-main1b5c68b-fresh-warm-cache-revocation-initial-resources-v1/results.json",
+      "bytes": 4463,
+      "sha256": "aaed340f740593e7ab8d1d18be8df1529c540590a153d2771239d57861cdac53"
+    },
+    "approvedEnvelope": {
+      "imageId": "sha256:df18428df8a0f9189c84e7424d214b4c50092af1f9dca5842a00c41c39bda316",
+      "containerName": "guize-poc003-common-main1b5c68b-fresh-warm-cache-revocation-v1",
+      "privateRoot": "/home/sur/.cache/guize-takeover/poc003-common-main1b5c68b-fresh-warm-cache-revocation-v1",
+      "outputDirectory": "poc003-common-main1b5c68b-fresh-warm-cache-revocation-v1",
+      "uid": 1000,
+      "gid": 1000,
+      "cpuCount": 1,
+      "memoryBytes": 536870912,
+      "memorySwapBytes": 536870912,
+      "pidsLimit": 64,
+      "nofileSoft": 256,
+      "nofileHard": 256,
+      "capsDrop": [
+        "ALL"
+      ],
+      "noNewPrivileges": true,
+      "requireBuiltinSeccomp": true,
+      "readonlyRoot": true,
+      "network": "none",
+      "privatePidIpcCgroup": true,
+      "init": false,
+      "autoRemove": false,
+      "logDriver": "none",
+      "normalRunSeconds": 840,
+      "sharedRunAndCleanupSeconds": 900,
+      "internalLabSeconds": 600,
+      "writableLogicalBytesLimit": 2147483648,
+      "nonCacheLogicalBytesLimit": 1879048192,
+      "individualNonCacheFileBytesLimit": 134217728,
+      "writableFileCountLimit": 5000,
+      "attachedOutputBytesPerStreamLimit": 16777216,
+      "diskEnforcement": "Active stat guard, not a filesystem quota; preserve overshoot/failure facts and stop only the identified owned container."
+    },
+    "sharedPerformanceLock": "/home/sur/.cache/guize-takeover/guize-performance-domain.lock",
+    "freshActualObservationRequiredBeforeStart": true
+  },
+  "requiredBeforeStart": [
+    "Fresh<=120s real official main/PR183/PR134/PR136/issues plus native source/role/lease/resource observations; all exact pins and independent ordinary records must remain unchanged.",
+    "Exact prior matrix namespace must stay terminal; finish any competing local heavy assembly/validation/Git IO before warm. No P5 heavy preparation/build/test/measurement may overlap; same physical-domain flock must be exclusive.",
+    "New uniquely named private cache/CID/output only; retain all old stopped containers/packages/raw. At actual start leave at least900s. No root/unconfined/network/host setting fallback."
+  ],
+  "sampleDecision": "Fresh applicability adoption of exact original two64MiB inputs under M. Mandatory scenario actually uses fresh base; changed companion remains an approved unchanged package input, not a claim it was exercised by this one scenario.",
+  "decisionBoundary": "One fresh original real CLI revocation scenario only, all original assertions/actual wait/native lookup snapshots and independent post-denial privileged HIT control required. No matrix denied_user/static grant substitute and no original15/8MiB/profile/POC conclusion. Any actual failure consumes the single attempt; preserve unknown and failed outcomes.",
+  "fullOriginal15QualificationApproved": false,
+  "fullOriginalMatrixExecutionApproved": false,
+  "actualWarmResultAccepted": false,
+  "eightMiBBoundProven": false,
+  "formalPocAccepted": false
+}

@@ -1,0 +1,17 @@
+{
+  "kind": "ACTUAL_INDEPENDENTLY_APPROVED_LOCAL_PROFILE_MATERIALIZATION",
+  "testedSource": {
+    "commit": "1b5c68bab02d98f8e11286d80033585090c7af99",
+    "tree": "f94ed8da8d83391f2474365af848bf267a0dc8d1"
+  },
+  "executionSha256": "194cfc750a10fe591a687995449f9a9b01d90f7e2b34beef8d3040272396243c",
+  "reviewSha256": "193e4237a81f05191c7fc0eebab4b74ad325ac80ba252077b91a5751a09d0cdd",
+  "resultRef": "evidence/POC-003/profiles/local-v1/v1/attempt-005/result.json",
+  "resultSha256": "57a99b6f0ce5b5c79356f657e8bde21ec6dab24e8998466881cceacbe99a53a0",
+  "profileIndexRef": "evidence/POC-003/profiles/local-v1/v1/index.yaml",
+  "profileIndexSha256": "fe08f5e7c0724e126cd3c7071b08637a3bf5d6903522ba8edb6928bbc1b5dd26",
+  "normalReviewAndOfficialCiStillRequired": true,
+  "taskCompleted": false,
+  "fullV1Accepted": false,
+  "producedAt": "2026-11-02T22:35:04.809564+00:00"
+}
