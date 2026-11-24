@@ -1,0 +1,5 @@
+Source Commit: 5a0d76e94d6a1ddebb2a34fab5be26f7afe5824c
+Command: python scripts/run-agent-coordination-gate.py --base-ref 6484ad8c96615930aee74ec1088a82c93d83dea4 --head-ref 5a0d76e94d6a1ddebb2a34fab5be26f7afe5824c --task OPS-027 --branch-name chore/OPS-027-ci-recovery-proof
+{"status": "PASS", "message": "Agent coordination valid: 3 active tasks, 1 high/critical", "details": {"activeTaskIds": ["OPS-027", "POC-003", "POC-005"]}}
+
+Exit Code: 0

@@ -1,39 +1,39 @@
 {
   "taskId": "OPS-027",
   "frozenSourceCommit": "658761ad282296934061778a7a57c5ba66926a25",
-  "validatedCommit": "77911e903039d412760d14d5f03f0f65ce0d1e5c",
+  "validatedCommit": "5a0d76e94d6a1ddebb2a34fab5be26f7afe5824c",
   "commands": {
     "programIntegrity": {
-      "command": "python scripts/check-program-plan-integrity.py --base-ref 00028760e9971e367ec67fae2cebba9f06e6f470",
+      "command": "python scripts/check-program-plan-integrity.py --base-ref 6484ad8c96615930aee74ec1088a82c93d83dea4",
       "exitCode": 0,
-      "logPath": "evidence/OPS-027/performance-recovery-v2/programIntegrity.txt",
-      "sha256": "e1c691ce0013008c9f0c8402f5b0ac22f4eab187dc538b31c10b4a9c338525c9"
+      "logPath": "evidence/OPS-027/performance-recovery-v2/ci-recovery-5a0d76e94d6a/programIntegrity.txt",
+      "sha256": "e76afd3cf924c3a24acc51d7f28463fc3b5f54b75918afa13550caf533f8a288"
     },
     "lifecycle": {
-      "command": "python scripts/run-program-lifecycle-gate.py --base-ref 00028760e9971e367ec67fae2cebba9f06e6f470 --head-ref 77911e903039d412760d14d5f03f0f65ce0d1e5c --task OPS-027 --branch-name chore/OPS-027-rebased-freeze-archive",
+      "command": "python scripts/run-program-lifecycle-gate.py --base-ref 6484ad8c96615930aee74ec1088a82c93d83dea4 --head-ref 5a0d76e94d6a1ddebb2a34fab5be26f7afe5824c --task OPS-027 --branch-name chore/OPS-027-ci-recovery-proof",
       "exitCode": 0,
-      "logPath": "evidence/OPS-027/performance-recovery-v2/lifecycle.txt",
-      "sha256": "696a63a1da5a3a649c72e6c27e6ef9f7fce1d0bf68d23f451c0afacc3ae4b376"
+      "logPath": "evidence/OPS-027/performance-recovery-v2/ci-recovery-5a0d76e94d6a/lifecycle.txt",
+      "sha256": "4592d44329c61df6ba7ee4a101f6c6389180c3f39c144c4a8331060d4782dca1"
     },
     "coordination": {
-      "command": "python scripts/run-agent-coordination-gate.py --base-ref 00028760e9971e367ec67fae2cebba9f06e6f470 --head-ref 77911e903039d412760d14d5f03f0f65ce0d1e5c --task OPS-027 --branch-name chore/OPS-027-rebased-freeze-archive",
+      "command": "python scripts/run-agent-coordination-gate.py --base-ref 6484ad8c96615930aee74ec1088a82c93d83dea4 --head-ref 5a0d76e94d6a1ddebb2a34fab5be26f7afe5824c --task OPS-027 --branch-name chore/OPS-027-ci-recovery-proof",
       "exitCode": 0,
-      "logPath": "evidence/OPS-027/performance-recovery-v2/coordination.txt",
-      "sha256": "e3d3d190e89ce551062eb1f6af51277e0877d925571c57a68a6298a60e1aabc9"
+      "logPath": "evidence/OPS-027/performance-recovery-v2/ci-recovery-5a0d76e94d6a/coordination.txt",
+      "sha256": "ca7047a2103a3ea7a1934556e585f8ae70fe599cf07c46118f0c52cb3afc7f14"
     },
     "governance": {
-      "command": "python -m pytest tests/governance -q --junitxml=evidence/OPS-027/performance-recovery-v2/governance.xml",
+      "command": "python -m pytest tests/governance -q --junitxml=evidence/OPS-027/performance-recovery-v2/ci-recovery-5a0d76e94d6a/governance.xml",
       "exitCode": 0,
-      "logPath": "evidence/OPS-027/performance-recovery-v2/governance.txt",
-      "sha256": "22b87a20f8951cd38239817870a63aec856e721b04ddad502e92cc521a5ebfa4"
+      "logPath": "evidence/OPS-027/performance-recovery-v2/ci-recovery-5a0d76e94d6a/governance.txt",
+      "sha256": "80db48a317d1131b62e89ed385025e76bf0777f5655d0387bb9e341a0f9d6f24"
     },
     "verify": {
-      "command": "make verify TASK=OPS-027 BASE=00028760e9971e367ec67fae2cebba9f06e6f470 HEAD_REF=77911e903039d412760d14d5f03f0f65ce0d1e5c BRANCH=chore/OPS-027-rebased-freeze-archive",
+      "command": "make verify TASK=OPS-027 BASE=6484ad8c96615930aee74ec1088a82c93d83dea4 HEAD_REF=5a0d76e94d6a1ddebb2a34fab5be26f7afe5824c BRANCH=chore/OPS-027-ci-recovery-proof",
       "exitCode": 0,
-      "logPath": "evidence/OPS-027/performance-recovery-v2/verify.txt",
-      "sha256": "2d6a8bc168c16b806be3f0df2f44733cfa1c25bb4167e471046a4221cfedb9cc"
+      "logPath": "evidence/OPS-027/performance-recovery-v2/ci-recovery-5a0d76e94d6a/verify.txt",
+      "sha256": "2acd85ab9cf05e5fa0d8d8e7982d75453160497c056854bef3afcb29d7c0fb82"
     }
   },
-  "junitPath": "evidence/OPS-027/performance-recovery-v2/governance.xml",
-  "junitSha256": "3e4c7f63cf220ff84cf8b524bc5f66379c590df3c91e024a605ea5f0391cf1de"
+  "junitPath": "evidence/OPS-027/performance-recovery-v2/ci-recovery-5a0d76e94d6a/governance.xml",
+  "junitSha256": "d3ea64d53ecfaef0313d3e43cac99cc988573444d1ec6f1aaab1be5cf0026180"
 }
