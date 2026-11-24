@@ -90,6 +90,99 @@ GOVERNANCE_MANIFEST_SHA256 = 'd1fbd5e8661ae13d36809ccab0894b07467806b192aa162176
 GOVERNANCE_PATHS = frozenset({'AGENTS.md','scripts/poc-contract-repair-admission.py',
     'tests/governance/test_poc_contract_repair_admission.py','tests/governance/test_program_schema_cache.py'})
 
+CI_RECOVERY_BASE = '3388d765e6d7de8f8f54c8744cd872c596e9cbf3'
+CI_RECOVERY_INTENT = 'evidence/OPS-027/ci-recovery-admission-intent-v1.json'
+CI_RECOVERY_SHA256 = '16fa9f327f313a6e3a62f059bed3b8c6fa66e2aff710bfa71eaac43bf23fa418'
+
+
+def audit_ci_recovery(root: str, observation: str) -> tuple[set[str], set[str]]:
+    """Authenticate the one approved post-prelude CI registration and its implementation."""
+    record = git(root, 'ls-tree', observation, '--', CI_RECOVERY_INTENT).split()
+    if not record:
+        return set(), set()
+    require(record[:2] == [b'100644', b'blob'], 'CI recovery approval must be an ordinary file')
+    require(_immutable_git_view(root) is not None, 'CI recovery requires an immutable Git view')
+    raw = blob(root, observation, CI_RECOVERY_INTENT)
+    require(hashlib.sha256(raw).hexdigest() == CI_RECOVERY_SHA256, 'CI recovery approval changed')
+    intent = json.loads(raw)
+    base, task = CI_RECOVERY_BASE, PERFORMANCE.successor
+    require(intent['base'] == base and intent['taskId'] == task, 'CI recovery approval identity differs')
+    ancestors = git(root, 'rev-list', '--ancestry-path', '--topo-order', '--reverse',
+                    base + '..' + observation).decode().split()
+    require(bool(ancestors), 'CI recovery must descend from the approved frozen main')
+
+    def parents(node):
+        return git(root, 'show', '-s', '--format=%P', node).decode().split()
+
+    def tree(node):
+        return git(root, 'rev-parse', node + '^{tree}').strip()
+
+    def verify_registry(node, expected):
+        registry = document(root, node, ACTIVE)
+        rows_on_base = original_registry['tasks']
+        expected_rows = [expected if row['taskId'] == task else row for row in rows_on_base]
+        require(registry == dict(original_registry, tasks=expected_rows), 'CI recovery changed unrelated Registry fields')
+        when = datetime.fromtimestamp(int(git(root, 'show', '-s', '--format=%ct', node)), timezone.utc)
+        validate_entry(expected, task, set(expected['exclusivePaths']), when, historical=True)
+        validate_capacity(root, node, expected, successor=task)
+
+    original_registry = document(root, base, ACTIVE)
+    original = entry_at(root, base, task)
+    require(original is not None and (original['status'], original['agentRole']) == ('in_progress', 'implementer'),
+            'CI recovery requires the existing implementing owner')
+    registration = ancestors[0]
+    metadata = set(intent['metadataPaths'])
+    code = set(intent['implementationPaths'])
+    require(parents(registration) == [base] and changed(root, base, registration) == metadata
+            and blob(root, registration, CI_RECOVERY_INTENT) == raw,
+            'CI recovery requires the exact preceding metadata registration')
+    entry = dict(original, exclusivePaths=intent['implementationPaths'], branch=intent['branch'], baseSha=base)
+    verify_registry(registration, entry)
+    accepted = {registration}
+    if observation == registration:
+        return accepted, code
+
+    require(len(ancestors) >= 2, 'CI recovery implementation is missing')
+    implementation = ancestors[1]
+    require(parents(implementation) == [registration] and changed(root, registration, implementation) == code,
+            'CI recovery implementation did not use its exact approved scope')
+    for item in intent['ciFiles']:
+        identity = git(root, 'ls-tree', implementation, '--', item['path']).decode().split()
+        require(identity[:3] == [item['mode'], 'blob', item['gitBlob']],
+                'CI recovery differs from the approved CI candidate: ' + item['path'])
+    accepted.add(implementation)
+    if observation == implementation:
+        return accepted, code
+
+    require(len(ancestors) >= 3, 'CI recovery integration is missing')
+    integrated = ancestors[2]
+    require(parents(integrated) == [base, implementation] and tree(integrated) == tree(implementation),
+            'CI recovery integration differs from the independently reviewed source tree')
+    accepted.add(integrated)
+    if observation == integrated:
+        return accepted, code  # The exact PR merge tree is also checked before integration.
+
+    canonical = scope_canonical_ref(root)
+    require(canonical is not None and integrated in chain(root, canonical),
+            'Only actual first-parent main may admit CI recovery follow-up work')
+    closed: set[str] = set()
+    for node in ancestors[3:]:
+        previous, *incoming = parents(node)
+        require(git(root, 'ls-tree', node, '--', CI_RECOVERY_INTENT).split() == record,
+                'CI recovery approval changed along its history')
+        old_entry = entry_at(root, previous, task)
+        if not old_entry or set(old_entry['exclusivePaths']) != code:
+            continue
+        restored = entry_at(root, node, task)
+        require(restored is not None and set(restored['exclusivePaths']) == PERFORMANCE.paths,
+                'The CI recovery phase permits only its separately reviewed scope restoration')
+        verify_registry(node, dict(original, baseSha=integrated, branch='chore/OPS-027-ci-recovery-close'))
+        require(previous == integrated and changed(root, previous, node) == metadata - {CI_RECOVERY_INTENT}
+                and (not incoming or len(incoming) == 1 and incoming[0] in closed and tree(node) == tree(incoming[0])),
+                'CI recovery scope restoration must use its exact metadata-only edge')
+        closed.add(node)
+    return accepted, code
+
 
 def contract(task_id: str) -> RepairContract:
     if task_id == SUCCESSOR:
@@ -694,7 +787,10 @@ def audit_performance_governance_phase(root: str, base: str, observation: str) -
         return False
 
     nodes=git(root,'rev-list','--topo-order','--reverse',GOVERNANCE_SCOPE_PARENT+'..'+observation).decode().split()
+    ci_nodes, _ = audit_ci_recovery(root, observation)
     for node in nodes:
+        if node in ci_nodes:
+            continue  # The bounded new event cannot reopen the old governance prelude.
         ps=parents(node);previous=ps[0];paths=changed(root,previous,node)
         own=entry_at(root,node,task);old=entry_at(root,previous,task)
         plan=document(root,node,PLAN)
@@ -1023,6 +1119,19 @@ def prove_claims(root: str, task_id: str, entry: dict[str, Any], base_ref: str,
     AUTHORITY, SUCCESSOR, INTENT, _, _, REPAIR_PATHS = selected
     require(task_id == SUCCESSOR, 'No declared repair for this identity')
     when = datetime.fromtimestamp(int(git(root,'show','-s','--format=%ct',observed_ref)),timezone.utc) if observed_ref else datetime.now(timezone.utc)
+    if task_id == PERFORMANCE.successor and set(entry.get('exclusivePaths') or []) != REPAIR_PATHS:
+        observation = resolve(root, observed_ref or 'HEAD')
+        ci_nodes, ci_paths = audit_ci_recovery(root, observation)
+        if observation in ci_nodes:
+            validate_entry(entry, task_id, ci_paths, when, historical=observed_ref is not None)
+            require(entry_at(root, observation, task_id) == entry, 'CI recovery claims differ from their observed registration')
+            base = resolve(root, base_ref)
+            require(base == CI_RECOVERY_BASE or (base in ci_nodes and subprocess.run(
+                ['git', '-C', str(root), 'merge-base', '--is-ancestor', base, observation],
+                capture_output=True).returncode == 0), 'CI recovery requires its approved base or registered ancestor')
+            prove_claims(root, task_id, entry_at(root, CI_RECOVERY_BASE, task_id), CI_RECOVERY_BASE,
+                         observed_ref=CI_RECOVERY_BASE)
+            return ci_paths
     validate_entry(entry,task_id,REPAIR_PATHS,when,historical=observed_ref is not None)
     base = resolve(root,base_ref)
     if task_id == PERFORMANCE.successor and observed_ref is None:
@@ -1043,6 +1152,7 @@ def prove_claims(root: str, task_id: str, entry: dict[str, Any], base_ref: str,
     elif task_id == PERFORMANCE.successor and observed_ref is not None:
         protected = source_protected_ref(root,base,resolve(root,observed_ref),selected=selected)
     gov_nodes = audit_performance_governance_phase(root,base,protected) if task_id == PERFORMANCE.successor else set()
+    ci_nodes, ci_paths = audit_ci_recovery(root, protected) if task_id == PERFORMANCE.successor else (set(), set())
     if gov_nodes:
         # Historical P declarations retain their meaning only at their real
         # historical observations, never as permission observed in Gov scope.
@@ -1076,7 +1186,7 @@ def prove_claims(root: str, task_id: str, entry: dict[str, Any], base_ref: str,
             historical = entry_at(root,node,task_id)
             require(historical is not None, 'Repair lease disappeared before its working state')
             moment = datetime.fromtimestamp(int(git(root,'show','-s','--format=%ct',node)),timezone.utc)
-            historical_paths = set(GOVERNANCE_PATHS) if node in gov_nodes else REPAIR_PATHS
+            historical_paths = ci_paths if node in ci_nodes else set(GOVERNANCE_PATHS) if node in gov_nodes else REPAIR_PATHS
             validate_entry(historical,task_id,historical_paths,moment,historical=True)
             require(all(historical.get(k) == reserved.get(k) for k in
                         ('owner','coordinator','implementer','reviewer','integrator','issue','dependsOn')),

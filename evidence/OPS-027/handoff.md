@@ -23,3 +23,8 @@ Rollback/limits: retain frozenF and all failures; if scope or tests fail, stop a
 ## Freeze evidence target-base refresh 2026-11-19T11:28:37Z
 
 Target `00028760e9971e367ec67fae2cebba9f06e6f470`. Branch `chore/OPS-027-rebased-freeze-archive`. Issue #242. PR #250 remains closed without merge after CI 1061 rejected its stale task base. OPS-027 refreshes its own base and branch so the next fixed source can run the original five frozen checks. The new proof must name that actual tested source and retain original logs and JUnit. Evidence-only additions follow the validated source. Source and main CI for the archive, separate thaw, and OPS-027 completion are pending. The earlier original evidence remains historical.
+
+
+## Single CI recovery bootstrap under Issue #257
+
+Task OPS-027 retains the same Coordinator, Implementer, independent Reviewer, Integrator and lease. The approved proposal binds frozen main 3388d765e6d7de8f8f54c8744cd872c596e9cbf3 and the unchanged GZ-021 recovery event. This first edge records the exact CI maintenance scope. Before integration, the fixed source must pass all original 1,078 tests and the full official workflow within the existing 30-minute per-job limits. Verify actual main separately. Close the CI phase before regenerating the recovery proof and updating PR #255.

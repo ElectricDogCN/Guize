@@ -1,5 +1,6 @@
 """Real Git histories prove bounded repair admission and preserve existing denial."""
 import copy
+import hashlib
 import json
 from datetime import datetime, timedelta, timezone
 import importlib.util
@@ -1695,6 +1696,70 @@ class TestPerformanceRepairAdmission(unittest.TestCase):
         active['tasks'].append(occupied);self.write(self.repo,PROOF.ACTIVE,active)
         over=self.commit(self.repo,'Fixture foreign high-risk capacity still occupied')
         with self.assertRaises(PROOF.AdmissionError):self.claims(base=over,entry=dict(self.entry,baseSha=over))
+        self.verify_single_ci_recovery_edge()
+
+    def verify_single_ci_recovery_edge(self):
+        root = Path(self.temporary.name, 'ci-bootstrap')
+        root.mkdir()
+        self.git(root, 'init', '--quiet')
+        self.git(root, 'config', 'user.email', 'fixture@example.invalid')
+        self.git(root, 'config', 'user.name', 'CI recovery fixture')
+        self.git(root, 'config', 'core.autocrlf', 'false')
+        branch = 'chore/OPS-027-ci-recovery-bootstrap'
+        code = root / 'approved-ci.txt'
+        code.write_bytes(b'approved CI bytes\n')
+        approved_blob = self.git(root, 'hash-object', str(code))
+        code.unlink()
+        owner = dict(self.entry, status='in_progress', agentRole='implementer')
+        registry = {'policy': {'maxActiveTasks': 3, 'maxHighRiskTasks': 1}, 'tasks': [owner]}
+        self.write(root, PROOF.ACTIVE, registry)
+        baseline = self.commit(root, 'Fixture frozen owner')
+        intent = root / PROOF.CI_RECOVERY_INTENT
+        intent.parent.mkdir(parents=True, exist_ok=True)
+        raw = json.dumps({
+            'base': baseline, 'taskId': 'OPS-027', 'branch': branch,
+            'metadataPaths': [PROOF.ACTIVE, PROOF.CI_RECOVERY_INTENT],
+            'implementationPaths': [code.name],
+            'ciFiles': [{'path': code.name, 'mode': '100644', 'gitBlob': approved_blob}],
+        }).encode()
+        intent.write_bytes(raw)
+        working = dict(owner, branch=branch, baseSha=baseline, exclusivePaths=[code.name])
+        self.write(root, PROOF.ACTIVE, dict(registry, tasks=[working]))
+        registration = self.commit(root, 'Fixture exact CI metadata')
+        with mock.patch.multiple(PROOF, CI_RECOVERY_BASE=baseline, CI_RECOVERY_SHA256=hashlib.sha256(raw).hexdigest()):
+            code.write_bytes(b'unapproved CI bytes\n')
+            wrong = self.commit(root, 'Fixture changed CI bytes')
+            with self.assertRaisesRegex(PROOF.AdmissionError, 'approved CI candidate'):
+                PROOF.audit_ci_recovery(str(root), wrong)
+            self.git(root, 'checkout', '--detach', registration)
+            code.write_bytes(b'approved CI bytes\n')
+            implementation = self.commit(root, 'Fixture fixed CI implementation')
+            self.assertEqual(PROOF.audit_ci_recovery(str(root), implementation),
+                             ({registration, implementation}, {code.name}))
+            self.git(root, 'checkout', '--detach', baseline)
+            self.git(root, 'merge', '--no-ff', '--no-edit', implementation)
+            integration = self.git(root, 'rev-parse', 'HEAD')
+            self.assertEqual(PROOF.audit_ci_recovery(str(root), integration)[0],
+                             {registration, implementation, integration})
+            intent.write_bytes(raw + b'\n')
+            tampered = self.commit(root, 'Fixture changed approval')
+            with self.assertRaisesRegex(PROOF.AdmissionError, 'approval changed'):
+                PROOF.audit_ci_recovery(str(root), tampered)
+            intent.write_bytes(raw)
+            reverted = self.commit(root, 'Fixture restored approval after editing it')
+            self.git(root, 'update-ref', 'refs/remotes/origin/main', integration)
+            with self.assertRaisesRegex(PROOF.AdmissionError, 'approval changed along its history'):
+                PROOF.audit_ci_recovery(str(root), reverted)
+            self.git(root, 'checkout', '--detach', integration)
+            restored = dict(owner, baseSha=integration, branch='chore/OPS-027-ci-recovery-close')
+            self.write(root, PROOF.ACTIVE, dict(registry, tasks=[restored]))
+            close = self.commit(root, 'Fixture returned to the original POC scope')
+            self.git(root, 'update-ref', 'refs/remotes/origin/main', baseline)
+            with self.assertRaisesRegex(PROOF.AdmissionError, 'actual first-parent main'):
+                PROOF.audit_ci_recovery(str(root), close)
+            self.git(root, 'update-ref', 'refs/remotes/origin/main', integration)
+            self.assertEqual(PROOF.audit_ci_recovery(str(root), close)[0],
+                             {registration, implementation, integration})
 
     def test_released_successor_cannot_reacquire_scope(self):
         self.register();active=yaml.safe_load(Path(self.repo,PROOF.ACTIVE).read_bytes())
