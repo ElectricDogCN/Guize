@@ -28,3 +28,9 @@ Target `00028760e9971e367ec67fae2cebba9f06e6f470`. Branch `chore/OPS-027-rebased
 ## Single CI recovery bootstrap under Issue #257
 
 Task OPS-027 retains the same Coordinator, Implementer, independent Reviewer, Integrator and lease. The approved proposal binds frozen main 3388d765e6d7de8f8f54c8744cd872c596e9cbf3 and the unchanged GZ-021 recovery event. This first edge records the exact CI maintenance scope. Before integration, the fixed source must pass all original 1,078 tests and the full official workflow within the existing 30-minute per-job limits. Verify actual main separately. Close the CI phase before regenerating the recovery proof and updating PR #255.
+
+## CI 维护阶段退出
+
+引导 PR #259 以普通双父合并接入冻结主线 `aa0716c610d5fc2537f2792b2321cc319139de6c`。固定源和实际主线的官方验证分别为 [源 CI](https://github.com/ElectricDogCN/Guize/actions/runs/45317486971) 和 [主线 CI](https://github.com/ElectricDogCN/Guize/actions/runs/45319346188)，两轮均完整执行原 1,078 项且未超出每作业 30 分钟。实际主线另外通过七项本地检查，源复核记录见 [PR 审查](https://github.com/ElectricDogCN/Guize/pull/259#pullrequestreview-6033199865)。
+
+此提交恢复 OPS-027 原有两个 POC 合同文件的登记范围，保留同一身份、角色、租约和顺序。只刷新本任务的 Task、Registry 和本记录。GZ-021 的冻结事件、程序计划和 POC 状态继续按实际主线执行。后续在已经恢复范围的实际冻结主线重新验证恢复证明，单独归档后再办理解冻和结项。
