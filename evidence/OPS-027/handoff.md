@@ -52,3 +52,9 @@ Task OPS-027 retains the same Coordinator, Implementer, independent Reviewer, In
 实现合并 `ba5f5a086cecc2a595b16f4e34da0cd85d60e237`（PR #249）。当前基线 `93eb6e99955404ec1ece78041bd73fa0355b5d80` 的前置阶段已通过独立审查、七项本地检查及完整官方 [源验证](https://github.com/ElectricDogCN/Guize/actions/runs/45342264511)、[主线验证](https://github.com/ElectricDogCN/Guize/actions/runs/45344539699)。本候选需要自身的完整官方源验证和实际主线验收。
 
 原实现的[固定源 CI](https://github.com/ElectricDogCN/Guize/actions/runs/44445532521)和[实际主线 CI](https://github.com/ElectricDogCN/Guize/actions/runs/44449302925)均已独立验证通过 1,078 项，实际实现主线的 224 项 POC 校验器用例亦全部通过。归档 PR #261 保留本次冻结恢复五项验证原件。
+
+## Review 范围声明校正
+
+同一 Review 中的 Program 变更只有 `foundationTasks` 中 OPS-027 的 `in_progress` → `review`。Task 显式列出这个文件和允许修改的状态行。Program 和协调门禁仍独立核验实际基线、历史、生命周期、登记和其他任务的状态。Scope 仍检查完整变更文件清单。独占范围仍为原两个 POC 校验器文件，本次没有改动这两个文件。
+
+[#263 首轮](https://github.com/ElectricDogCN/Guize/actions/runs/45351875083/attempts/1) 的三个分片共通过原 1,078 项。治理作业的 Program 检查用时 12 分 52 秒，Agent 协调用时 13 分 01 秒，随后 Scope 在 30 分钟上限处取消。校正后须对新固定提交重新运行 14 项本地检查、完整官方 CI 和独立审查。
