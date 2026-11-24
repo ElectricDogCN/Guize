@@ -141,7 +141,7 @@ foundationTasks:
     mergeCommit: c7f557366e67f16e2855b87b9fbf4e7078cbb3e0
   - taskId: OPS-027
     title: 百万文件验收器重复键处理的等价有界复用
-    status: in_progress
+    status: review
     completionRef: ISSUE-242
     mergeCommit: null
 waves:
