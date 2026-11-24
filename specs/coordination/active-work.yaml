@@ -104,9 +104,9 @@ tasks:
   reviewer: /root/gz022_planning_independent_review
   integrator: /root
   agentRole: integrator
-  branch: chore/OPS-027-completion-history-binding-v3
+  branch: chore/OPS-027-completion-history-binding-close
   baseBranch: main
-  baseSha: 26525880ab05799ea4bf88c888fe52f0e0e93b46
+  baseSha: 5d4bfd1e70fbe9e161a64cbaabfe561044161ded
   workPackage: WP-M0-01
   programPlan: specs/coordination/program-plan.yaml
   programTaskId: OPS-027
@@ -124,11 +124,8 @@ tasks:
   dependsOn:
   - OPS-026
   exclusivePaths:
-  - AGENTS.md
-  - scripts/check-program-plan-history.py
-  - scripts/poc-contract-repair-admission.py
-  - tests/governance/test_program_plan_history.py
-  - tests/governance/test_poc_contract_repair_admission.py
+  - specs/poc/check_program.py
+  - specs/poc/test_program.py
   sharedPaths: []
   handoffPath: evidence/OPS-027/handoff.md
   integrationStrategy: merge

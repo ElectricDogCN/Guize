@@ -62,3 +62,12 @@ Task OPS-027 retains the same Coordinator, Implementer, independent Reviewer, In
 ## 正式 Review 之后的历史认证修正
 
 固定 main 26525880 的两种结项候选在本地历史检查分别被拒绝。按本目录的 ci-completion-binding-intent-v1.json 和公开的独立范围决定进入 integration。没有修改或重跑原两 POC 合同文件。本轮仍须完整官方源及实际主线 CI 及独立审查。此前的 Review、技术验证、CI 修复和解冻均保留各自证据。
+
+## 历史认证修正完成与登记范围恢复
+
+[#268](https://github.com/ElectricDogCN/Guize/pull/268) 的固定源 `f526a1caa30520f1e7987c6ab758b8ca58f74a8b` 和实际主线 `5d4bfd1e70fbe9e161a64cbaabfe561044161ded` 均完成全部 1,081 项官方测试及独立审查。原 1,078 项完整保留。
+
+- [固定源官方 CI](https://github.com/ElectricDogCN/Guize/actions/runs/45410004703)
+- [实际主线官方 CI](https://github.com/ElectricDogCN/Guize/actions/runs/45413642714)
+
+本候选仅恢复原两路径登记。保持 integration 状态与原租约。此前 #249 与 #259 的实际实现和证据继续保留。
