@@ -8,6 +8,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 from datetime import datetime, timedelta, timezone
 
 import yaml
@@ -2167,6 +2168,24 @@ class TestProgramPlanHistory(unittest.TestCase):
 
     def test_foundation_accepts_registered_implementation_merge(self):
         self.accept_foundation_history("valid_implementation_merge")
+
+    def test_ordinary_implementation_keeps_the_working_observation(self):
+        with tempfile.TemporaryDirectory() as root:
+            commits = self.create_foundation_completion(root, 'valid_implementation_merge')
+            spec = importlib.util.spec_from_file_location('ordinary_history_observation', SCRIPT)
+            history = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(history)
+            implemented = commits['implementation']
+            previous = history.resolve_ref(root, implemented + '^1')
+            errors = []
+            with patch.object(history.RECOVERY, 'foundation_claims_valid',
+                              wraps=history.RECOVERY.foundation_claims_valid) as claims:
+                history.foundation_implementation(root, 'GZ-014', implemented, commits['reservation'], errors)
+            self.assertEqual(errors, [])
+            observations = [call.kwargs['observed_ref'] for call in claims.call_args_list
+                            if call.args[4] == previous]
+            self.assertTrue(observations)
+            self.assertEqual(set(observations), {implemented})
 
     def test_foundation_rejects_original_exclusive_claim_conflict(self):
         self.reject_foundation_history("original_exclusive_conflict", "original reservation claims conflict with active task")

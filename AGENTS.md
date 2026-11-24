@@ -389,6 +389,8 @@ Program status=frozen 是执行准入阻断状态。恢复任务在 recovery 记
 
 OPS-027 在 `3388d765e6d7de8f8f54c8744cd872c596e9cbf3` 的实际冻结主线上获准一次独立 CI 维护引导，依据 `evidence/OPS-027/ci-recovery-admission-intent-v1.json` 的固定批准原件。保留同一恢复负责人、有效租约、独立角色和 3/1 容量。引导 PR 的第一提交只登记批准的范围，第二提交只实施固定原件中的九条精确文件，并按真实 Git 父关系、原件散列和六条 CI Git 字节核验。之前两个 POC 路径在 CI 维护期间暂停写入。源 PR 和实际合并主线均须完整官方 CI 成功、独立审核，保留原 1,078 项和每作业 30 分钟上限。实际主线接受后单独以仅元数据的范围恢复退出本阶段，再在新冻结主线生成独立解冻证明。
 
+OPS-027 的历史实现认证修正依据 [#257 的负责人决定](https://github.com/ElectricDogCN/Guize/issues/257#issuecomment-7130671341)、[后继范围决定](https://github.com/ElectricDogCN/Guize/issues/257#issuecomment-7132289566) 和 `evidence/OPS-027/ci-completion-binding-intent-v1.json`。只允许在已通过正式审查的实际主线 `26525880ab05799ea4bf88c888fe52f0e0e93b46` 使用该决定。先单独登记、进入 integration 并保留原角色分工、租约与 3/1 容量，再于固定的五条治理路径修正历史认证。对经过认证的合入分别验证真实第一父提交的登记、来源提交的先登记后修改及精确无冲突合并。结项必须引用最新审查通过的自身实现。实际主线接受后单独仅以元数据恢复原两路径，维护权限到此结束。原两次维护决定、五个冻结对象、全部原 1,078 项测试和每作业 30 分钟上限继续生效，完整官方源与实际主线 CI 和独立审查均必需。
+
 冻结后普通任务不得预留、启动、继续实现、完成或以解冻同一 PR 启动。旧活动快照可保留；普通任务仅可通过严格 metadata-only blocked/cancel 收口。已登记的 MOD-GOV 恢复 Foundation 可在已声明路径内修复。主线无 --task 的检查同样必须执行。
 
 治理恢复同样必须先登记后实现；冻结期间不豁免登记的范围、独立角色、租约或并发上限。无任务参数的代码 diff 必须推导实际登记的修复任务，纯 Program/Registry policy diff 不能绕开稳定身份检查。

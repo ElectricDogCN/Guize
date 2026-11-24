@@ -1726,7 +1726,8 @@ def foundation_implementation(root: str, task_id: str, commit: str, reservation:
     ownership = load_ref(root, base, RECOVERY.OWNERSHIP)
     claims = list(entry.get("exclusivePaths") or [])
     legacy = RECOVERY.FOUNDATION_SCOPE_EXCEPTIONS.get(task_id, ())
-    if not RECOVERY.foundation_claims_valid(root, task_id, entry, ownership, base, observed_ref=commit):
+    registered_parent = RECOVERY.repair_module().registered_merge_parent(root, task_id, commit)
+    if not RECOVERY.foundation_claims_valid(root, task_id, entry, ownership, base, observed_ref=registered_parent or commit):
         errors.append(f"Foundation {task_id} claimed implementation has invalid historical governance claims")
         return
     historical_claims = set(claims)
@@ -1789,14 +1790,15 @@ def foundation_implementation(root: str, task_id: str, commit: str, reservation:
             if len(errors) == node_error_start:
                 audited_nodes.add(node)
             continue
-        historical_registration_context(root, previous, node, task_id, before_registry, reservation, policy, f"Foundation {task_id} working node prior registration at {node}", errors)
+        prior_observation = registered_parent if node == commit and registered_parent else node
+        historical_registration_context(root, previous, prior_observation, task_id, before_registry, reservation, policy, f"Foundation {task_id} working node prior registration at {node}", errors)
         if len(before_entries) != 1:
             errors.append(f"Foundation {task_id} working node has no prior registered lease")
         else:
             node_claims = list(before_entries[0].get("exclusivePaths") or [])
             node_ownership = load_ref(root, previous, RECOVERY.OWNERSHIP)
             node_implementation = {path for path in node_paths if path not in {PLAN, ACTIVE, task_path} and not path.startswith(f"evidence/{task_id}/")}
-            if not RECOVERY.foundation_claims_valid(root, task_id, before_entries[0], node_ownership, previous, observed_ref=node):
+            if not RECOVERY.foundation_claims_valid(root, task_id, before_entries[0], node_ownership, previous, observed_ref=prior_observation):
                 errors.append(f"Foundation {task_id} working node has invalid prior governance claims")
             else:
                 unexpected = {path for path in node_implementation if not any(RECOVERY.matches_path(path, str(claim)) for claim in node_claims)}
@@ -2005,6 +2007,13 @@ def foundation_post_implementation(root: str, task_id: str, implementation: str,
         return
     main_nodes = set(main_history.stdout.split())
     validated_nodes: set[str] = set()
+    repair_admission = RECOVERY.repair_module()
+    binding_nodes, binding_paths = (set(), set())
+    if allow_registered_work and task_id == repair_admission.PERFORMANCE.successor:
+        try:
+            binding_nodes, binding_paths = repair_admission.audit_completion_binding(root, base_ref)
+        except (repair_admission.AdmissionError, OSError, TypeError, ValueError, KeyError, yaml.YAMLError) as exc:
+            errors.append(f"Foundation {task_id} completion binding rejected: {exc}")
     for node in nodes.stdout.split():
         parent = resolve_ref(root, f"{node}^1")
         paths = RECOVERY.changed_paths(root, parent, node) if parent else None
@@ -2066,7 +2075,16 @@ def foundation_post_implementation(root: str, task_id: str, implementation: str,
                 # This PR may introduce own work only under both the admitted
                 # claim and the node's prior registration. Foreign work needs
                 # a proven synchronization, not merely another task's claim.
-                unexpected = {path for path in code_paths - imports if not all(any(RECOVERY.matches_path(path, str(claim)) for claim in claims_at_ref) for claims_at_ref in (prior_claims, admitted_claims))}
+                # The certified source registration is the only scope addition
+                # allowed to override the admitted-base claims. The real or
+                # preview integration separately proves its exact merge tree.
+                working_claims = binding_paths if node in binding_nodes else admitted_claims
+                previous_claims = prior_claims
+                if node in binding_nodes and repair_admission.registered_merge_parent(
+                    root, task_id, node, candidate_base=trusted_base
+                ):
+                    previous_claims = binding_paths
+                unexpected = {path for path in code_paths - imports if not all(any(RECOVERY.matches_path(path, str(claim)) for claim in claims_at_ref) for claims_at_ref in (previous_claims, working_claims))}
             else:
                 unexpected = {path for path in code_paths - imports if not any(RECOVERY.matches_path(path, str(claim)) for claim in prior_claims) and (own_delta or not (historical_peer_path(root, parent, task_id, path) or historical_peer_metadata_path(root, node, task_id, path)))}
             if unexpected:
@@ -2077,7 +2095,10 @@ def foundation_post_implementation(root: str, task_id: str, implementation: str,
             elif own_work - imports:
                 if not registered_node or not is_ancestor(root, reservation, parent):
                     errors.append(f"Foundation {task_id} preflight working node must descend from original reservation at {node}")
-                historical_registration_context(root, parent, node, task_id, prior_registry, reservation, policy, f"Foundation {task_id} preflight prior registration at {node}", errors, approved_base=trusted_base)
+                prior_observation = repair_admission.registered_merge_parent(
+                    root, task_id, node, candidate_base=trusted_base
+                ) or node
+                historical_registration_context(root, parent, prior_observation, task_id, prior_registry, reservation, policy, f"Foundation {task_id} preflight prior registration at {node}", errors, approved_base=trusted_base)
                 node_registry = load_ref(root, node, ACTIVE)
                 node_entries = [item for item in (node_registry or {}).get("tasks", []) if isinstance(item, dict) and item.get("taskId") == task_id]
                 if len(node_entries) == 1:

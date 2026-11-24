@@ -94,6 +94,136 @@ CI_RECOVERY_BASE = '3388d765e6d7de8f8f54c8744cd872c596e9cbf3'
 CI_RECOVERY_INTENT = 'evidence/OPS-027/ci-recovery-admission-intent-v1.json'
 CI_RECOVERY_SHA256 = '16fa9f327f313a6e3a62f059bed3b8c6fa66e2aff710bfa71eaac43bf23fa418'
 
+COMPLETION_BINDING_BASE = '26525880ab05799ea4bf88c888fe52f0e0e93b46'
+COMPLETION_BINDING_REGISTRATION = '403db7053a29eaabba840ae3403637cf3ea7c3e4'
+COMPLETION_BINDING_INTENT = 'evidence/OPS-027/ci-completion-binding-intent-v1.json'
+COMPLETION_BINDING_DIGEST = 'b80e3e1fc4d745155b6a018e7c7564e23dcd498393dfebf0541582fd65610735'
+
+
+def audit_completion_binding(root: str, observation: str) -> tuple[set[str], set[str]]:
+    """Prove the approved registration, its one implementation and its closure."""
+    record = git(root, 'ls-tree', observation, '--', COMPLETION_BINDING_INTENT)
+    if not record:
+        return set(), set()
+    observation = resolve(root, observation)
+    require(record.split()[:2] == [b'100644', b'blob'] and _immutable_git_view(root) is not None,
+            'Completion binding requires an ordinary decision file and immutable Git history')
+    raw = blob(root, observation, COMPLETION_BINDING_INTENT)
+    require(hashlib.sha256(raw).hexdigest() == COMPLETION_BINDING_DIGEST,
+            'Completion binding approval changed')
+    intent = json.loads(raw)
+    base, task = COMPLETION_BINDING_BASE, PERFORMANCE.successor
+    registration = COMPLETION_BINDING_REGISTRATION
+    require(intent['base'] == base and intent['taskId'] == task,
+            'Completion binding approval identity differs')
+    nodes = git(root, 'rev-list', '--ancestry-path', '--topo-order', '--reverse',
+                base + '..' + observation).decode().split()
+    require(bool(nodes) and nodes[0] == registration, 'Completion binding requires its fixed first registration')
+    metadata, code = set(intent['metadataPaths']), set(intent['implementationPaths'])
+    protected = intent['protectedPaths']
+    original_registry = document(root, base, ACTIVE)
+    original_entry = entry_at(root, base, task)
+    require(original_entry is not None and original_entry['status'] == 'review'
+            and original_entry['agentRole'] == 'reviewer'
+            and set(original_entry['exclusivePaths']) == PERFORMANCE.paths,
+            'Completion binding requires the reviewed task and its original claims')
+
+    def parents(node):
+        return git(root, 'show', '-s', '--format=%P', node).decode().split()
+
+    def tree(node):
+        return git(root, 'rev-parse', node + '^{tree}').strip()
+
+    def verify_registry(node, expected):
+        expected_rows = [expected if row['taskId'] == task else row for row in original_registry['tasks']]
+        require(document(root, node, ACTIVE) == dict(original_registry, tasks=expected_rows),
+                'Completion binding changed the independent roles, lease, policy or peer registrations')
+        moment = datetime.fromtimestamp(int(git(root, 'show', '-s', '--format=%ct', node)), timezone.utc)
+        validate_entry(expected, task, set(expected['exclusivePaths']), moment, historical=True)
+        validate_capacity(root, node, expected, successor=task)
+
+    def same_protected_objects(node):
+        require(git(root, 'ls-tree', base, '--', *protected) == git(root, 'ls-tree', node, '--', *protected),
+                'Completion binding changed protected objects')
+
+    require(parents(registration) == [base] and changed(root, base, registration) == metadata,
+            'Completion binding registration must precede implementation and contain exact metadata')
+    entry = dict(original_entry, status='integration', agentRole='integrator', branch=intent['branch'],
+                 baseSha=base, exclusivePaths=intent['implementationPaths'])
+    verify_registry(registration, entry)
+    same_protected_objects(registration)
+    accepted = {registration}
+    if observation == registration:
+        return accepted, code
+
+    require(len(nodes) >= 2, 'Completion binding implementation is missing')
+    implementation = nodes[1]
+    require(parents(implementation) == [registration] and changed(root, registration, implementation) == code,
+            'Completion binding implementation must follow registration and stay within exact code scope')
+    same_protected_objects(implementation)
+    accepted.add(implementation)
+    if observation == implementation:
+        return accepted, code
+
+    require(len(nodes) >= 3, 'Completion binding integration is missing')
+    integrated = nodes[2]
+    require(parents(integrated) == [base, implementation] and tree(integrated) == tree(implementation),
+            'Completion binding merge must introduce the unchanged audited source')
+    accepted.add(integrated)
+    if observation == integrated:
+        return accepted, code
+
+    canonical = scope_canonical_ref(root)
+    require(canonical is not None and integrated in chain(root, canonical),
+            'Completion binding restoration requires an actual canonical first-parent merge')
+    closing = dict(original_entry, status='integration', agentRole='integrator',
+                   branch=intent['scopeRestorationBranch'], baseSha=integrated)
+    closing_paths = {ACTIVE, 'specs/tasks/OPS-027.md', 'evidence/OPS-027/handoff.md'}
+    closed = set()
+    for node in nodes[3:]:
+        require(git(root, 'ls-tree', node, '--', COMPLETION_BINDING_INTENT) == record,
+                'Completion binding approval was removed, altered or restored')
+        previous, *incoming = parents(node)
+        entry_at_node = entry_at(root, node, task)
+        require(entry_at_node is None or set(entry_at_node['exclusivePaths']) != code,
+                'Completion binding scope cannot be extended or reopened')
+        if previous != integrated:
+            continue
+        require(changed(root, previous, node) == closing_paths
+                and (not incoming or len(incoming) == 1 and incoming[0] in closed and tree(node) == tree(incoming[0])),
+                'Completion binding must close on its exact metadata-only edge')
+        verify_registry(node, closing)
+        same_protected_objects(node)
+        closed.add(node)
+    require(bool(closed), 'Completion binding has not restored the original scope')
+    return accepted, code
+
+
+def registered_merge_parent(root: str, task_id: str, commit: str, *, candidate_base: str | None = None) -> str | None:
+    """Find the main parent of an explicitly approved compound-scope merge."""
+    if task_id != PERFORMANCE.successor:
+        return None
+    try:
+        previous = parent(root, commit)
+        if previous not in {CI_RECOVERY_BASE, COMPLETION_BINDING_BASE}:
+            return None
+        commit = resolve(root, commit)
+        if candidate_base is not None:
+            if previous != resolve(root, candidate_base):
+                return None
+        else:
+            canonical = scope_canonical_ref(root)
+            if canonical is None or commit not in chain(root, canonical):
+                return None
+        if previous == CI_RECOVERY_BASE:
+            certified, _ = audit_ci_recovery(root, commit)
+        else:
+            certified, _ = audit_completion_binding(root, commit)
+        merge_parents = git(root, 'show', '-s', '--format=%P', commit).decode().split()
+        return previous if commit in certified and len(merge_parents) == 2 else None
+    except (AdmissionError, KeyError, TypeError, ValueError, OSError, yaml.YAMLError):
+        return None
+
 
 def audit_ci_recovery(root: str, observation: str) -> tuple[set[str], set[str]]:
     """Authenticate the one approved post-prelude CI registration and its implementation."""
@@ -788,9 +918,10 @@ def audit_performance_governance_phase(root: str, base: str, observation: str) -
 
     nodes=git(root,'rev-list','--topo-order','--reverse',GOVERNANCE_SCOPE_PARENT+'..'+observation).decode().split()
     ci_nodes, _ = audit_ci_recovery(root, observation)
+    binding_nodes, _ = audit_completion_binding(root, observation)
     for node in nodes:
-        if node in ci_nodes:
-            continue  # The bounded new event cannot reopen the old governance prelude.
+        if node in ci_nodes or node in binding_nodes:
+            continue  # Separately audited maintenance cannot reopen the old governance prelude.
         ps=parents(node);previous=ps[0];paths=changed(root,previous,node)
         own=entry_at(root,node,task);old=entry_at(root,previous,task)
         plan=document(root,node,PLAN)
@@ -1121,6 +1252,19 @@ def prove_claims(root: str, task_id: str, entry: dict[str, Any], base_ref: str,
     when = datetime.fromtimestamp(int(git(root,'show','-s','--format=%ct',observed_ref)),timezone.utc) if observed_ref else datetime.now(timezone.utc)
     if task_id == PERFORMANCE.successor and set(entry.get('exclusivePaths') or []) != REPAIR_PATHS:
         observation = resolve(root, observed_ref or 'HEAD')
+        binding_nodes, binding_paths = audit_completion_binding(root, observation)
+        if observation in binding_nodes:
+            validate_entry(entry, task_id, binding_paths, when, historical=observed_ref is not None)
+            require(entry_at(root, observation, task_id) == entry,
+                    'Completion binding claims differ from their observed registration')
+            base = resolve(root, base_ref)
+            require(base == COMPLETION_BINDING_BASE or (base in binding_nodes and subprocess.run(
+                ['git', '-C', str(root), 'merge-base', '--is-ancestor', base, observation],
+                capture_output=True).returncode == 0),
+                'Completion binding requires its approved base or registered ancestor')
+            prove_claims(root, task_id, entry_at(root, COMPLETION_BINDING_BASE, task_id), COMPLETION_BINDING_BASE,
+                         observed_ref=COMPLETION_BINDING_BASE)
+            return binding_paths
         ci_nodes, ci_paths = audit_ci_recovery(root, observation)
         if observation in ci_nodes:
             validate_entry(entry, task_id, ci_paths, when, historical=observed_ref is not None)
@@ -1153,6 +1297,7 @@ def prove_claims(root: str, task_id: str, entry: dict[str, Any], base_ref: str,
         protected = source_protected_ref(root,base,resolve(root,observed_ref),selected=selected)
     gov_nodes = audit_performance_governance_phase(root,base,protected) if task_id == PERFORMANCE.successor else set()
     ci_nodes, ci_paths = audit_ci_recovery(root, protected) if task_id == PERFORMANCE.successor else (set(), set())
+    binding_nodes, binding_paths = audit_completion_binding(root, protected) if task_id == PERFORMANCE.successor else (set(), set())
     if gov_nodes:
         # Historical P declarations retain their meaning only at their real
         # historical observations, never as permission observed in Gov scope.
@@ -1186,7 +1331,14 @@ def prove_claims(root: str, task_id: str, entry: dict[str, Any], base_ref: str,
             historical = entry_at(root,node,task_id)
             require(historical is not None, 'Repair lease disappeared before its working state')
             moment = datetime.fromtimestamp(int(git(root,'show','-s','--format=%ct',node)),timezone.utc)
-            historical_paths = ci_paths if node in ci_nodes else set(GOVERNANCE_PATHS) if node in gov_nodes else REPAIR_PATHS
+            if node in binding_nodes:
+                historical_paths = binding_paths
+            elif node in ci_nodes:
+                historical_paths = ci_paths
+            elif node in gov_nodes:
+                historical_paths = GOVERNANCE_PATHS
+            else:
+                historical_paths = REPAIR_PATHS
             validate_entry(historical,task_id,historical_paths,moment,historical=True)
             require(all(historical.get(k) == reserved.get(k) for k in
                         ('owner','coordinator','implementer','reviewer','integrator','issue','dependsOn')),
