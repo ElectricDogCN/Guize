@@ -17,8 +17,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  governance-check:
-    name: Governance Checks
+  governance-controls:
+    name: Governance Controls
     runs-on: ubuntu-latest
     timeout-minutes: 30
     permissions:
@@ -66,22 +66,22 @@ jobs:
           set -euo pipefail
           python -m compileall -q scripts tests
 
-      - name: Pytest collect-only
-        id: collect-tests
-        run: |
-          set -euo pipefail
-          python -m pytest --collect-only -q tests/governance/
-
       - name: Resolve task context
         id: task-context
+        env:
+          REQUESTED_TASK: ${{ github.event.inputs.task }}
         run: |
           set -euo pipefail
-          TASK_ID="${{ github.event.inputs.task }}"
-          REF_NAME="${{ github.head_ref || github.ref_name }}"
+          TASK_ID="$REQUESTED_TASK"
+          REF_NAME="${GITHUB_HEAD_REF:-$GITHUB_REF_NAME}"
+          if [ -n "$TASK_ID" ] && ! [[ "$TASK_ID" =~ ^[A-Z]+-[0-9]+$ ]]; then
+            echo '::error::The requested task must be a task ID such as GZ-003.'
+            exit 1
+          fi
           if [ -z "$TASK_ID" ] && [[ "$REF_NAME" =~ ^(feat|fix|docs|refactor|chore)/([A-Z]+-[0-9]+)-.+$ ]]; then
             TASK_ID="${BASH_REMATCH[2]}"
           fi
-          if [ -z "$TASK_ID" ] && [ -n "${{ github.head_ref }}" ]; then
+          if [ -z "$TASK_ID" ] && [ -n "${GITHUB_HEAD_REF:-}" ]; then
             echo "::error::Pull-request branch '$REF_NAME' does not follow <type>/<TASK-ID>-<short-name>."
             exit 1
           fi
@@ -119,22 +119,22 @@ jobs:
         run: |
           set -euo pipefail
           ZERO_SHA="0000000000000000000000000000000000000000"
-          if [ -n "${{ github.head_ref }}" ]; then
-            BASE_REF="origin/${{ github.base_ref }}"
+          if [ -n "${GITHUB_HEAD_REF:-}" ]; then
+            BASE_REF="origin/$GITHUB_BASE_REF"
             HEAD_REF="HEAD"
-            BRANCH_NAME="${{ github.head_ref }}"
+            BRANCH_NAME="$GITHUB_HEAD_REF"
           elif [ "$EVENT_NAME" = "push" ] && [ -n "$PUSH_BEFORE" ] && [ "$PUSH_BEFORE" != "$ZERO_SHA" ] && git rev-parse --verify "$PUSH_BEFORE^{commit}" >/dev/null 2>&1; then
             BASE_REF="$PUSH_BEFORE"
             HEAD_REF="HEAD"
-            BRANCH_NAME="${{ github.ref_name }}"
+            BRANCH_NAME="$GITHUB_REF_NAME"
           elif git rev-parse --verify HEAD^ >/dev/null 2>&1; then
             BASE_REF="HEAD^"
             HEAD_REF="HEAD"
-            BRANCH_NAME="${{ github.ref_name }}"
+            BRANCH_NAME="$GITHUB_REF_NAME"
           else
             BASE_REF="HEAD"
             HEAD_REF="HEAD"
-            BRANCH_NAME="${{ github.ref_name }}"
+            BRANCH_NAME="$GITHUB_REF_NAME"
           fi
           echo "Program history range: $BASE_REF...$HEAD_REF"
           python scripts/check-program-plan-integrity.py --base-ref "$BASE_REF"
@@ -184,44 +184,25 @@ jobs:
           ZERO_SHA="0000000000000000000000000000000000000000"
           if [ "${{ steps.task-context.outputs.task_specific }}" != "true" ]; then
             python scripts/run-agent-coordination-gate.py
-          elif [ -n "${{ github.head_ref }}" ]; then
+          elif [ -n "${GITHUB_HEAD_REF:-}" ]; then
             python scripts/run-agent-coordination-gate.py \
               --task "${{ steps.task-context.outputs.task_id }}" \
-              --base-ref "origin/${{ github.base_ref }}" \
+              --base-ref "origin/$GITHUB_BASE_REF" \
               --head-ref "HEAD" \
-              --branch-name "${{ github.head_ref }}"
+              --branch-name "$GITHUB_HEAD_REF"
           elif [ "$EVENT_NAME" = "push" ] && [ -n "$PUSH_BEFORE" ] && [ "$PUSH_BEFORE" != "$ZERO_SHA" ] && git rev-parse --verify "$PUSH_BEFORE^{commit}" >/dev/null 2>&1; then
             python scripts/run-agent-coordination-gate.py \
               --task "${{ steps.task-context.outputs.task_id }}" \
               --base-ref "$PUSH_BEFORE" \
               --head-ref HEAD \
-              --branch-name "${{ github.ref_name }}"
+              --branch-name "$GITHUB_REF_NAME"
           else
             python scripts/run-agent-coordination-gate.py \
               --task "${{ steps.task-context.outputs.task_id }}" \
               --base-ref HEAD^ \
               --head-ref HEAD \
-              --branch-name "${{ github.ref_name }}"
+              --branch-name "$GITHUB_REF_NAME"
           fi
-
-      - name: Governance tests
-        id: governance-tests
-        if: success() || failure()
-        run: |
-          set -euo pipefail
-          mkdir -p /tmp/test-results
-          python -m pytest tests/governance/ -v -ra --junitxml=/tmp/test-results/governance-junit.xml -n 2 --dist loadfile --max-worker-restart=0
-
-      - name: Skip audit
-        id: skip-audit
-        if: success() || failure()
-        run: |
-          set -euo pipefail
-          if [ ! -f /tmp/test-results/governance-junit.xml ]; then
-            echo "::error::JUnit XML not found; governance tests did not produce auditable results."
-            exit 1
-          fi
-          python scripts/check-pytest-skips.py /tmp/test-results/governance-junit.xml tests/governance/allowed-skips.txt
 
       - name: Markdown basic check
         id: markdown-check
@@ -276,7 +257,7 @@ jobs:
         if: (success() || failure()) && steps.task-context.outputs.task_specific == 'true' && github.head_ref != ''
         run: |
           set -euo pipefail
-          python scripts/check-pr-task-link.py --branch "${{ github.head_ref }}"
+          python scripts/check-pr-task-link.py --branch "$GITHUB_HEAD_REF"
 
       - name: Scope check
         id: scope-check
@@ -319,14 +300,11 @@ jobs:
           INSTALL_DEPS: ${{ steps.install-deps.outcome }}
           VERIFY_DEPS: ${{ steps.verify-deps.outcome }}
           COMPILE: ${{ steps.compile.outcome }}
-          COLLECT_TESTS: ${{ steps.collect-tests.outcome }}
           TASK_CONTEXT: ${{ steps.task-context.outcome }}
           TASK_FILE: ${{ steps.task-file-validation.outcome }}
           PROJECT_READINESS: ${{ steps.project-readiness.outcome }}
           PROGRAM_INTEGRITY: ${{ steps.program-integrity.outcome }}
           AGENT_COORDINATION: ${{ steps.agent-coordination.outcome }}
-          GOVERNANCE_TESTS: ${{ steps.governance-tests.outcome }}
-          SKIP_AUDIT: ${{ steps.skip-audit.outcome }}
           MARKDOWN: ${{ steps.markdown-check.outcome }}
           SCHEMA: ${{ steps.schema-check.outcome }}
           SECRET_SCAN: ${{ steps.secret-scan.outcome }}
@@ -349,14 +327,11 @@ jobs:
             echo "| install_deps | $INSTALL_DEPS |"
             echo "| verify_deps | $VERIFY_DEPS |"
             echo "| compile | $COMPILE |"
-            echo "| collect_tests | $COLLECT_TESTS |"
             echo "| task_context | $TASK_CONTEXT |"
             echo "| task_file_validation | $TASK_FILE |"
             echo "| project_readiness | $PROJECT_READINESS |"
             echo "| program_integrity | $PROGRAM_INTEGRITY |"
             echo "| agent_coordination | $AGENT_COORDINATION |"
-            echo "| governance_tests | $GOVERNANCE_TESTS |"
-            echo "| skip_audit | $SKIP_AUDIT |"
             echo "| markdown_check | $MARKDOWN |"
             echo "| schema_check | $SCHEMA |"
             echo "| secret_scan | $SECRET_SCAN |"
@@ -368,6 +343,105 @@ jobs:
             echo "| parent_dir_check | $PARENT_DIR |"
             echo "| ci_validation | $CI_VALIDATION |"
             echo
-            echo "Commit: ${{ github.sha }}"
-            echo "Ref: ${{ github.ref }}"
+            echo "Commit: $GITHUB_SHA"
+            echo "Ref: $GITHUB_REF"
           } >> "$GITHUB_STEP_SUMMARY"
+
+  governance-tests:
+    name: Governance Tests (shard ${{ matrix.shard }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0, 1, 2]
+    defaults:
+      run:
+        shell: bash
+    env:
+      PYTHONDONTWRITEBYTECODE: 1
+      GOVERNANCE_SHARD: ${{ matrix.shard }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          fetch-depth: 0
+          lfs: true
+          persist-credentials: false
+
+      - name: Setup Python 3.11
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.11'
+
+      - name: Install governance dependencies
+        id: install-deps
+        run: |
+          set -euo pipefail
+          pip install -r requirements-governance.txt pytest-xdist==3.8.0
+
+      - name: Governance tests
+        id: governance-tests
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/test-results
+          python -m pytest --collect-only -q --color=no tests/governance/ > /tmp/test-results/collection.txt
+          python scripts/select-governance-cases.py select /tmp/test-results/collection.txt "$GOVERNANCE_SHARD" > /tmp/test-results/cases.txt
+          mapfile -t governance_cases < /tmp/test-results/cases.txt
+          python -m pytest "${governance_cases[@]}" -v -ra -o xfail_strict=true --junitxml=/tmp/test-results/governance-junit.xml -n 2 --dist loadfile --max-worker-restart=0
+
+      - name: Skip and coverage audit
+        if: success() || failure()
+        run: |
+          set -euo pipefail
+          python scripts/check-pytest-skips.py /tmp/test-results/governance-junit.xml tests/governance/allowed-skips.txt
+          python scripts/select-governance-cases.py audit /tmp/test-results/collection.txt "$GOVERNANCE_SHARD" /tmp/test-results/governance-junit.xml /tmp/test-results/result.json "$GITHUB_SHA" "$GITHUB_RUN_ATTEMPT"
+
+      - name: Publish shard coverage
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: governance-shard-${{ github.run_attempt }}-${{ matrix.shard }}
+          path: /tmp/test-results/result.json
+          if-no-files-found: error
+          retention-days: 14
+
+  governance-check:
+    name: Governance Checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+    needs: [governance-controls, governance-tests]
+    if: ${{ always() }}
+    steps:
+      - name: Require controls and all governance shards
+        env:
+          CONTROLS_RESULT: ${{ needs.governance-controls.result }}
+          TESTS_RESULT: ${{ needs.governance-tests.result }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          printf 'Governance controls: %s\nGovernance test shards: %s\n' "$CONTROLS_RESULT" "$TESTS_RESULT" >> "$GITHUB_STEP_SUMMARY"
+          test "$CONTROLS_RESULT" = success
+          test "$TESTS_RESULT" = success
+
+      - name: Checkout coverage checker
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+          sparse-checkout: scripts/select-governance-cases.py
+          sparse-checkout-cone-mode: false
+
+      - name: Retrieve shard coverage
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          pattern: governance-shard-${{ github.run_attempt }}-*
+          path: /tmp/governance-receipts
+
+      - name: Verify complete original coverage
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/select-governance-cases.py combine /tmp/governance-receipts "$GITHUB_SHA" "$GITHUB_RUN_ATTEMPT"
