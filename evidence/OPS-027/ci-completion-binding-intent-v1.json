@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "kind": "ops027-ci-completion-binding-v1",
+  "taskId": "OPS-027",
+  "base": "26525880ab05799ea4bf88c888fe52f0e0e93b46",
+  "branch": "chore/OPS-027-completion-history-binding-v3",
+  "scopeRestorationBranch": "chore/OPS-027-completion-history-binding-close",
+  "approval": "https://github.com/ElectricDogCN/Guize/issues/257#issuecomment-7133397588",
+  "metadataPaths": [
+    "specs/coordination/program-plan.yaml",
+    "specs/coordination/active-work.yaml",
+    "specs/tasks/OPS-027.md",
+    "evidence/OPS-027/handoff.md",
+    "evidence/OPS-027/ci-completion-binding-intent-v1.json"
+  ],
+  "implementationPaths": [
+    "AGENTS.md",
+    "scripts/check-program-plan-history.py",
+    "scripts/poc-contract-repair-admission.py",
+    "tests/governance/test_program_plan_history.py",
+    "tests/governance/test_poc_contract_repair_admission.py"
+  ],
+  "protectedPaths": [
+    "specs/poc/check_program.py",
+    "specs/poc/test_program.py",
+    "specs/poc/program.schema.yaml",
+    "specs/poc/program.yaml",
+    "docs/18-testing-and-acceptance.md",
+    "evidence/OPS-026/performance-repair-admission-intent.json",
+    "evidence/OPS-027/governance-prelude-admission-intent-v1.json",
+    "evidence/OPS-027/ci-recovery-admission-intent-v1.json"
+  ],
+  "originalOfficialCases": 1078,
+  "jobLimitMinutes": 30,
+  "officialCiWaiver": false
+}

@@ -58,3 +58,7 @@ Task OPS-027 retains the same Coordinator, Implementer, independent Reviewer, In
 同一 Review 中的 Program 变更只有 `foundationTasks` 中 OPS-027 的 `in_progress` → `review`。Task 显式列出这个文件和允许修改的状态行。Program 和协调门禁仍独立核验实际基线、历史、生命周期、登记和其他任务的状态。Scope 仍检查完整变更文件清单。独占范围仍为原两个 POC 校验器文件，本次没有改动这两个文件。
 
 [#263 首轮](https://github.com/ElectricDogCN/Guize/actions/runs/45351875083/attempts/1) 的三个分片共通过原 1,078 项。治理作业的 Program 检查用时 12 分 52 秒，Agent 协调用时 13 分 01 秒，随后 Scope 在 30 分钟上限处取消。校正后须对新固定提交重新运行 14 项本地检查、完整官方 CI 和独立审查。
+
+## 正式 Review 之后的历史认证修正
+
+固定 main 26525880 的两种结项候选在本地历史检查分别被拒绝。按本目录的 ci-completion-binding-intent-v1.json 和公开的独立范围决定进入 integration。没有修改或重跑原两 POC 合同文件。本轮仍须完整官方源及实际主线 CI 及独立审查。此前的 Review、技术验证、CI 修复和解冻均保留各自证据。
