@@ -40,3 +40,9 @@ Task OPS-027 retains the same Coordinator, Implementer, independent Reviewer, In
 范围恢复 PR #260 的实际主线 `6484ad8c96615930aee74ec1088a82c93d83dea4` 已通过七项本地检查和[完整主线官方 CI](https://github.com/ElectricDogCN/Guize/actions/runs/45324228635)。本提交按实际主线刷新 OPS-027 的 Task、登记基线和工作分支，以便当前固定提交绑定新的完整验证。原两文件工作范围、角色、租约、冻结事件和历史证据保持原样。
 
 后续在这一固定提交重新执行计划完整性、生命周期、协调、完整治理测试和完整 `make verify`。证明归档只更新 OPS-027 自身证据入口，保留前一版证明及全部原始日志。归档通过源和实际主线验收后，单独提交解冻变更。
+
+## GZ-021 冻结恢复后的解冻
+
+归档 PR #261 保留固定验证提交 `5a0d76e94d6a1ddebb2a34fab5be26f7afe5824c` 为实际主线 `0f8247ef732bdc7dfbecb11f0f5c728570778833` 的祖先。新证明的五项原始命令均已通过。原解冻读取器、实际主线七项检查及 [归档源 CI](https://github.com/ElectricDogCN/Guize/actions/runs/45337203182)、[归档主线 CI](https://github.com/ElectricDogCN/Guize/actions/runs/45339481974) 已通过独立复核。原冻结事件与两版证明完整保留。
+
+此提交是 #255 的后继解冻，只把 Program 状态由 frozen 切换为 active，并更新 OPS-027 自身基线、分支及交接记录。POC-003 和 POC-005 保持各自既有状态，后续按任务规则推进当前版本验证。OPS-027 的正式 Review 和 Completion 仍须分别验收。

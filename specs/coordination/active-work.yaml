@@ -104,9 +104,9 @@ tasks:
   reviewer: /root/gz022_planning_independent_review
   integrator: /root
   agentRole: implementer
-  branch: chore/OPS-027-ci-recovery-proof
+  branch: chore/OPS-027-gz021-thaw-v3
   baseBranch: main
-  baseSha: 6484ad8c96615930aee74ec1088a82c93d83dea4
+  baseSha: 0f8247ef732bdc7dfbecb11f0f5c728570778833
   workPackage: WP-M0-01
   programPlan: specs/coordination/program-plan.yaml
   programTaskId: OPS-027
