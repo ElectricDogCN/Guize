@@ -141,9 +141,9 @@ foundationTasks:
     mergeCommit: c7f557366e67f16e2855b87b9fbf4e7078cbb3e0
   - taskId: OPS-027
     title: 百万文件验收器重复键处理的等价有界复用
-    status: integration
-    completionRef: ISSUE-242
-    mergeCommit: null
+    status: completed
+    completionRef: PR-268
+    mergeCommit: 5d4bfd1e70fbe9e161a64cbaabfe561044161ded
 waves:
   - {id: W1, order: 1, name: "需求与 POC 计划", maxConcurrent: 2, maxHighRisk: 1}
   - {id: W2, order: 2, name: "OpenAPI + 独立 POC", maxConcurrent: 3, maxHighRisk: 1}

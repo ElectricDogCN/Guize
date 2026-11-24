@@ -13,3 +13,12 @@ python scripts/run-task-scope-gate.py --task OPS-027 --base afe89504b0e118790986
 python scripts/check-evidence.py --task OPS-027
 python scripts/check-project-readiness.py
 python scripts/check-markdown.py
+
+
+## OPS-027 正式结项
+
+OPS-027 的结项实现为 PR-268，实际合并 `5d4bfd1e70fbe9e161a64cbaabfe561044161ded`。范围恢复的实际主线 `409789aa12d9d6e76ce8855ef8559215b6d7903d`。
+
+Command: python -B scripts/check-program-plan-integrity.py --base-ref 5d4bfd1e70fbe9e161a64cbaabfe561044161ded
+Exit Code: 0
+Result: PASS

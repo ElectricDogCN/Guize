@@ -71,3 +71,10 @@ Task OPS-027 retains the same Coordinator, Implementer, independent Reviewer, In
 - [实际主线官方 CI](https://github.com/ElectricDogCN/Guize/actions/runs/45413642714)
 
 本候选仅恢复原两路径登记。保持 integration 状态与原租约。此前 #249 与 #259 的实际实现和证据继续保留。
+
+
+## OPS-027 正式结项
+
+Status: COMPLETED
+
+OPS-027 的结项实现为 PR-268，实际合并 `5d4bfd1e70fbe9e161a64cbaabfe561044161ded`。范围恢复的实际主线 `409789aa12d9d6e76ce8855ef8559215b6d7903d`。 真实结项验收后可清理结束分支并安排后续任务。
