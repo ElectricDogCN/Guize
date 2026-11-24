@@ -104,9 +104,9 @@ tasks:
   reviewer: /root/gz022_planning_independent_review
   integrator: /root
   agentRole: implementer
-  branch: chore/OPS-027-ci-recovery-bootstrap-v2
+  branch: chore/OPS-027-ci-recovery-close
   baseBranch: main
-  baseSha: 3388d765e6d7de8f8f54c8744cd872c596e9cbf3
+  baseSha: aa0716c610d5fc2537f2792b2321cc319139de6c
   workPackage: WP-M0-01
   programPlan: specs/coordination/program-plan.yaml
   programTaskId: OPS-027
@@ -124,15 +124,8 @@ tasks:
   dependsOn:
   - OPS-026
   exclusivePaths:
-  - AGENTS.md
-  - scripts/poc-contract-repair-admission.py
-  - tests/governance/test_poc_contract_repair_admission.py
-  - .github/workflows/README.md
-  - .github/workflows/governance-gate.yml
-  - scripts/select-governance-cases.py
-  - tests/governance/test_ci_parallel_execution.py
-  - tests/governance/test_repository_boundary.py
-  - tests/governance/test_workflow_contract.py
+  - specs/poc/check_program.py
+  - specs/poc/test_program.py
   sharedPaths: []
   handoffPath: evidence/OPS-027/handoff.md
   integrationStrategy: merge
