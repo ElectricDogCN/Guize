@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "kind": "ops027-ci-recovery-admission-v1",
+  "taskId": "OPS-027",
+  "base": "3388d765e6d7de8f8f54c8744cd872c596e9cbf3",
+  "frozenSource": "658761ad282296934061778a7a57c5ba66926a25",
+  "branch": "chore/OPS-027-ci-recovery-bootstrap-v2",
+  "proposalSha256": "fcd5519f31d43dc7f41b4f857961aba2c7464ad8f7a0fa2a8630b8ad84259359",
+  "implementationPaths": [
+    "AGENTS.md",
+    "scripts/poc-contract-repair-admission.py",
+    "tests/governance/test_poc_contract_repair_admission.py",
+    ".github/workflows/README.md",
+    ".github/workflows/governance-gate.yml",
+    "scripts/select-governance-cases.py",
+    "tests/governance/test_ci_parallel_execution.py",
+    "tests/governance/test_repository_boundary.py",
+    "tests/governance/test_workflow_contract.py"
+  ],
+  "metadataPaths": [
+    "specs/coordination/active-work.yaml",
+    "specs/tasks/OPS-027.md",
+    "evidence/OPS-027/ci-recovery-admission-intent-v1.json",
+    "evidence/OPS-027/handoff.md"
+  ],
+  "ciFiles": [
+    {
+      "path": ".github/workflows/README.md",
+      "mode": "100644",
+      "gitBlob": "e6e13265e9f38a738af8081fb5d823465a99bff6"
+    },
+    {
+      "path": ".github/workflows/governance-gate.yml",
+      "mode": "100644",
+      "gitBlob": "be2d5bd9b45410b25aa580cf21a584895971177f"
+    },
+    {
+      "path": "scripts/select-governance-cases.py",
+      "mode": "100644",
+      "gitBlob": "51988bcf79c898fbb2705485b731975fc96d2281"
+    },
+    {
+      "path": "tests/governance/test_ci_parallel_execution.py",
+      "mode": "100644",
+      "gitBlob": "4cc8a3d766c14a884173667f14b61d6f7c37a4f5"
+    },
+    {
+      "path": "tests/governance/test_repository_boundary.py",
+      "mode": "100644",
+      "gitBlob": "8ea6852071aeac8a74443cff57bed4ffe5a6bf7e"
+    },
+    {
+      "path": "tests/governance/test_workflow_contract.py",
+      "mode": "100644",
+      "gitBlob": "e8f5b1495c464561330b7808b133992cef1ff3df"
+    }
+  ],
+  "approvalEvidence": {
+    "kind": "direct_user_delegation",
+    "instruction": "不要让我核对，所有审核批准都由你来完成，我只负责最终的体验以及功能需求的添加",
+    "approvedScope": "Issue #257, exact single CI bootstrap proposal v1",
+    "officialCiWaiver": false,
+    "scopeRevision": "README links to the CI issue while performance deployment docs remain a later change"
+  }
+}
