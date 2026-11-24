@@ -387,6 +387,8 @@ OPS-027 另有一次仅向前的纯治理前置阶段，绑定实际范围登记
 
 Program status=frozen 是执行准入阻断状态。恢复任务在 recovery 记录中声明 taskId、具体原因、受影响的 completed Tasks、冻结时主线 sourceCommit、UTC frozenAt 和本任务 verificationPath。冻结转换仅允许自己的 Task/Evidence、Program 恢复元数据与自己的 Lease；不能改变既有任务状态、完成账本、政策或业务实现。
 
+OPS-027 在 `3388d765e6d7de8f8f54c8744cd872c596e9cbf3` 的实际冻结主线上获准一次独立 CI 维护引导，依据 `evidence/OPS-027/ci-recovery-admission-intent-v1.json` 的固定批准原件。保留同一恢复负责人、有效租约、独立角色和 3/1 容量。引导 PR 的第一提交只登记批准的范围，第二提交只实施固定原件中的九条精确文件，并按真实 Git 父关系、原件散列和六条 CI Git 字节核验。之前两个 POC 路径在 CI 维护期间暂停写入。源 PR 和实际合并主线均须完整官方 CI 成功、独立审核，保留原 1,078 项和每作业 30 分钟上限。实际主线接受后单独以仅元数据的范围恢复退出本阶段，再在新冻结主线生成独立解冻证明。
+
 冻结后普通任务不得预留、启动、继续实现、完成或以解冻同一 PR 启动。旧活动快照可保留；普通任务仅可通过严格 metadata-only blocked/cancel 收口。已登记的 MOD-GOV 恢复 Foundation 可在已声明路径内修复。主线无 --task 的检查同样必须执行。
 
 治理恢复同样必须先登记后实现；冻结期间不豁免登记的范围、独立角色、租约或并发上限。无任务参数的代码 diff 必须推导实际登记的修复任务，纯 Program/Registry policy diff 不能绕开稳定身份检查。

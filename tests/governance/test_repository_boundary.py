@@ -119,16 +119,16 @@ class TestCIWorkflowStatic(unittest.TestCase):
         self.assertTrue(concurrency.get("cancel-in-progress"))
 
     def test_job_has_timeout(self):
-        job = self.workflow.get("jobs", {}).get("governance-check", {})
-        self.assertGreater(job.get("timeout-minutes", 0), 0)
-        self.assertLessEqual(job.get("timeout-minutes", 0), 30)
+        for job in self.workflow["jobs"].values():
+            self.assertGreater(job.get("timeout-minutes", 0), 0)
+            self.assertLessEqual(job.get("timeout-minutes", 0), 30)
 
     def test_working_directory_not_set(self):
-        job = self.workflow.get("jobs", {}).get("governance-check", {})
-        self.assertEqual(job.get("defaults", {}).get("run", {}).get("working-directory", ""), "")
+        for job in self.workflow["jobs"].values():
+            self.assertEqual(job.get("defaults", {}).get("run", {}).get("working-directory", ""), "")
 
     def test_test_path_is_internal(self):
-        steps = self.workflow.get("jobs", {}).get("governance-check", {}).get("steps", [])
+        steps = self.workflow["jobs"]["governance-tests"]["steps"]
         test_step = next((step for step in steps if step.get("name", "").lower() == "governance tests"), None)
         self.assertIsNotNone(test_step)
         run = test_step.get("run", "")
@@ -138,7 +138,7 @@ class TestCIWorkflowStatic(unittest.TestCase):
 
     def test_no_continue_on_error_on_critical_steps(self):
         critical_names = {"Install governance dependencies", "Project readiness check", "Agent coordination check", "Governance tests", "YAML/JSON schema check", "Secret scan", "Parent directory reference check", "CI workflow static validation"}
-        steps = self.workflow.get("jobs", {}).get("governance-check", {}).get("steps", [])
+        steps = [step for job in self.workflow["jobs"].values() for step in job["steps"]]
         for step in steps:
             if step.get("name") in critical_names:
                 self.assertFalse(step.get("continue-on-error", False), f"{step.get('name')} must gate")
@@ -167,9 +167,10 @@ class TestCIWorkflowStatic(unittest.TestCase):
             self.assertRegex(version, r"^[0-9a-f]{40}$", f"Action must be pinned to immutable SHA: {use}")
 
     def test_checkout_does_not_persist_credentials(self):
-        steps = self.workflow.get("jobs", {}).get("governance-check", {}).get("steps", [])
-        checkout = next(step for step in steps if step.get("id") == "checkout")
-        self.assertFalse(checkout.get("with", {}).get("persist-credentials", True))
+        for name in ("governance-controls", "governance-tests"):
+            steps = self.workflow["jobs"][name]["steps"]
+            checkout = next(step for step in steps if step.get("name") == "Checkout repository")
+            self.assertFalse(checkout.get("with", {}).get("persist-credentials", True))
 
     def test_pyyaml_dependency_installed(self):
         lower = self.content.lower()

@@ -3,6 +3,7 @@ import importlib.util
 import json
 import os
 from pathlib import Path
+import runpy
 import shlex
 import subprocess
 import sys
@@ -18,18 +19,18 @@ PARALLEL_OPTIONS = ['-n', '2', '--dist', 'loadfile', '--max-worker-restart=0']
 
 def workflow_command():
     workflow = yaml.safe_load((ROOT / '.github/workflows/governance-gate.yml').read_text(encoding='utf-8'))
-    job = workflow['jobs']['governance-check']
+    job = workflow['jobs']['governance-tests']
     step = next(item for item in job['steps'] if item.get('id') == 'governance-tests')
     lines = [line.strip() for line in step['run'].splitlines() if line.strip()]
-    command = [line for line in lines if line.startswith('python -m pytest ')]
+    command = [line for line in lines if line.startswith('python -m pytest ') and '--junitxml=' in line]
     assert len(command) == 1
     return workflow, job, step, shlex.split(command[0])
 
 
-def test_workflow_preserves_full_selection_and_explicit_file_workers():
+def test_workflow_preserves_full_selection_and_explicit_file_workers(tmp_path):
     workflow, job, step, command = workflow_command()
     assert command == [
-        'python', '-m', 'pytest', 'tests/governance/', '-v', '-ra',
+        'python', '-m', 'pytest', '${governance_cases[@]}', '-v', '-ra', '-o', 'xfail_strict=true',
         '--junitxml=/tmp/test-results/governance-junit.xml',
         '-n', '2', '--dist', 'loadfile', '--max-worker-restart=0',
     ]
@@ -40,6 +41,63 @@ def test_workflow_preserves_full_selection_and_explicit_file_workers():
         assert 'PYTEST_ADDOPTS' not in scope.get('env', {})
     assert 'PYTEST_ADDOPTS' not in step['run']
     assert job['runs-on'] == 'ubuntu-latest' and job['timeout-minutes'] == 30
+
+    selector = runpy.run_path(str(ROOT / 'scripts/select-governance-cases.py'))
+    shard_count = selector['SHARD_COUNT']
+    assert job['strategy'] == {'fail-fast': False, 'matrix': {'shard': list(range(shard_count))}}
+    aggregate = workflow['jobs']['governance-check']
+    assert set(aggregate['needs']) == {'governance-controls', 'governance-tests'}
+    assert 'always()' in aggregate['if']
+    required = aggregate['steps'][0]
+    assert required['env'] == {
+        'CONTROLS_RESULT': '${{ needs.governance-controls.result }}',
+        'TESTS_RESULT': '${{ needs.governance-tests.result }}',
+    }
+    assert 'test "$CONTROLS_RESULT" = success' in required['run']
+    assert 'test "$TESTS_RESULT" = success' in required['run']
+
+    files = [*selector['EXPENSIVE_FILES'], 'test_future_case.py']
+    cases = [f'tests/governance/{name}::test_example[{item}]' for name in files for item in ('a', 'b')]
+    inventory = tmp_path / 'collection.txt'
+    inventory.write_text('\n'.join([*cases, '', f'{len(cases)} tests collected']), encoding='utf-8')
+    selections = [selector['select_cases'](inventory, shard) for shard in range(shard_count)]
+    assert sorted(case for selection in selections for case in selection) == sorted(cases)
+    for name in files:
+        assert sum(any('/' + name + '::' in case for case in selection) for selection in selections) == 1
+    xml = tmp_path / 'report.xml'
+    suite = ET.Element('testsuite')
+    for case in selections[0]:
+        classname, name = selector['junit_identity'](case)
+        ET.SubElement(suite, 'testcase', classname=classname, name=name)
+    ET.ElementTree(suite).write(xml)
+    selector['verify_report'](selections[0], xml)
+    suite[0].set('name', 'wrong_case')
+    ET.ElementTree(suite).write(xml)
+    with pytest.raises(ValueError, match='missing.*unexpected'):
+        selector['verify_report'](selections[0], xml)
+
+    commit = 'a' * 40
+    attempt = 1
+    for shard, selected in enumerate(selections):
+        directory = tmp_path / f'governance-shard-{attempt}-{shard}'
+        directory.mkdir()
+        receipt = dict(commit=commit, attempt=attempt, shard=shard, cases=selected,
+                       collectionSha256=selector['collection_digest'](cases))
+        (directory / 'result.json').write_text(json.dumps(receipt), encoding='utf-8')
+    assert selector['verify_receipts'](tmp_path, commit, attempt) == len(cases)
+    with pytest.raises(FileNotFoundError):
+        selector['verify_receipts'](tmp_path, commit, attempt + 1)
+    with pytest.raises(ValueError, match='wrong commit'):
+        selector['verify_receipts'](tmp_path, 'b' * 40, attempt)
+
+    receipt['cases'] = receipt['cases'][:-1]
+    (directory / 'result.json').write_text(json.dumps(receipt), encoding='utf-8')
+    with pytest.raises(ValueError, match='complete'):
+        selector['verify_receipts'](tmp_path, commit, attempt)
+    for broken in (cases + [cases[0]], cases[:-1]):
+        inventory.write_text('\n'.join([*broken, '', f'{len(cases)} tests collected']), encoding='utf-8')
+        with pytest.raises(ValueError, match='collection'):
+            selector['select_cases'](inventory, 0)
 
 
 def execution_mode(request):
@@ -91,6 +149,14 @@ def test_a_second(request):
     child = subprocess.run([sys.executable, '-m', 'pytest', 'nested/test_leaf.py', '-q'], cwd=ROOT, capture_output=True, text=True)
     assert child.returncode == 0, child.stdout + child.stderr
 '''
+    if outcome == 'assertion_failure':
+        first += '''
+import pytest
+
+@pytest.mark.xfail(reason='unexpected pass fixture')
+def test_a_unexpected_pass():
+    pass
+'''
     second = common + '''
 def test_b_first(request):
     record('b_first', request)
@@ -114,6 +180,7 @@ def test_pytest_execution_preserves_auditable_results(tmp_path, outcome, request
     junit = tmp_path / 'governance-junit.xml'
     # Keep the selected execution options; isolate the fixture and its report.
     command[0] = sys.executable
+    command[3] = 'tests/governance/'
     command = [f'--junitxml={junit}' if arg.startswith('--junitxml=') else arg for arg in command]
     result = subprocess.run(command, cwd=tmp_path, env=os.environ.copy(), capture_output=True, text=True, timeout=90)
     output = result.stdout + result.stderr
@@ -125,7 +192,8 @@ def test_pytest_execution_preserves_auditable_results(tmp_path, outcome, request
     records = {path.stem: json.loads(path.read_text(encoding='utf-8')) for path in (tmp_path / 'observed').glob('*.json')}
     assert records and {row['mode'] for row in records.values()} == {mode}, output
     if mode == 'serial' or outcome != 'process_crash':
-        assert len(cases) == 4 and set(records) == {'a_first', 'a_second', 'b_first', 'b_second'}, output
+        case_count = 5 if outcome == 'assertion_failure' else 4
+        assert len(cases) == case_count and set(records) == {'a_first', 'a_second', 'b_first', 'b_second'}, output
         if mode == 'parallel':
             assert {row['worker'] for row in records.values()} == {'gw0', 'gw1'}, output
             assert len({row['pid'] for row in records.values()}) == 2
@@ -139,7 +207,8 @@ def test_pytest_execution_preserves_auditable_results(tmp_path, outcome, request
     else:
         assert result.returncode == 1 and failures, output
     if outcome == 'assertion_failure':
-        assert len(failures) == 1 and 'intentional child assertion failure' in output
+        assert len(failures) == 2 and 'intentional child assertion failure' in output
+        assert any('[XPASS(strict)] unexpected pass fixture' in failure.get('message', '') for failure in failures)
     if outcome == 'process_crash':
         assert 'crashed' in output.lower(), output
         if mode == 'parallel':

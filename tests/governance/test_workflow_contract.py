@@ -16,7 +16,7 @@ class TestGovernanceWorkflowContract(unittest.TestCase):
             cls.content = handle.read()
         with open(WORKFLOW_PATH, "r", encoding="utf-8") as handle:
             cls.workflow = yaml.safe_load(handle)
-        cls.steps = cls.workflow["jobs"]["governance-check"]["steps"]
+        cls.steps = cls.workflow["jobs"]["governance-controls"]["steps"]
 
     def _step(self, step_id):
         for step in self.steps:
@@ -55,17 +55,23 @@ class TestGovernanceWorkflowContract(unittest.TestCase):
         self.assertIn("scripts/run-agent-coordination-gate.py", run)
         self.assertNotIn("python scripts/check-agent-coordination.py", run)
         self.assertIn("--base-ref", run)
-        self.assertIn("origin/${{ github.base_ref }}", run)
+        self.assertIn('"origin/$GITHUB_BASE_REF"', run)
         self.assertIn("--head-ref", run)
         self.assertIn('"HEAD"', run)
         self.assertIn("--branch-name", run)
         self.assertFalse(step.get("continue-on-error", False))
 
     def test_task_context_allows_non_pr_non_task_refs(self):
-        run = self._step("task-context").get("run", "")
+        step = self._step("task-context")
+        run = step.get("run", "")
         self.assertIn("task_specific=false", run)
-        self.assertIn("github.head_ref", run)
+        self.assertIn('"${GITHUB_HEAD_REF:-$GITHUB_REF_NAME}"', run)
+        self.assertEqual(step["env"]["REQUESTED_TASK"], "${{ github.event.inputs.task }}")
         self.assertIn("Pull-request branch", run)
+        for step in self.steps:
+            self.assertNotRegex(
+                step.get("run", ""), r"\$\{\{\s*github\.(?:head_ref|base_ref|ref\b|ref_name|event\.inputs\.)"
+            )
 
     def test_schema_check_uses_shared_schema_script(self):
         self.assertIn("scripts/check-schemas.py", self._step("schema-check").get("run", ""))
@@ -87,8 +93,11 @@ class TestGovernanceWorkflowContract(unittest.TestCase):
         self.assertIn("github.event.pull_request.number", str(concurrency.get("group")))
 
     def test_governance_tests_run_after_earlier_validation_failure(self):
-        condition = str(self._step("governance-tests").get("if", ""))
-        self.assertIn("failure()", condition)
+        # The tests are independent of the controls job and run even if it fails.
+        jobs = self.workflow["jobs"]
+        self.assertNotIn("needs", jobs["governance-tests"])
+        self.assertNotIn("if", jobs["governance-tests"])
+        self.assertIn("always()", jobs["governance-check"]["if"])
 
     def test_summary_reports_new_gates(self):
         step = self._step("summary")
