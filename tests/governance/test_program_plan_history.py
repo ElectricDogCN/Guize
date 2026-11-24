@@ -8,6 +8,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 from datetime import datetime, timedelta, timezone
 
 import yaml
@@ -2167,6 +2168,72 @@ class TestProgramPlanHistory(unittest.TestCase):
 
     def test_foundation_accepts_registered_implementation_merge(self):
         self.accept_foundation_history("valid_implementation_merge")
+
+    def test_ordinary_implementation_keeps_the_working_observation(self):
+        with tempfile.TemporaryDirectory() as root:
+            commits = self.create_foundation_completion(root, 'valid_implementation_merge')
+            spec = importlib.util.spec_from_file_location('ordinary_history_observation', SCRIPT)
+            history = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(history)
+            implemented = commits['implementation']
+            previous = history.resolve_ref(root, implemented + '^1')
+            errors = []
+            with patch.object(history.RECOVERY, 'foundation_claims_valid',
+                              wraps=history.RECOVERY.foundation_claims_valid) as claims:
+                history.foundation_implementation(root, 'GZ-014', implemented, commits['reservation'], errors)
+            self.assertEqual(errors, [])
+            observations = [call.kwargs['observed_ref'] for call in claims.call_args_list
+                            if call.args[4] == previous]
+            self.assertTrue(observations)
+            self.assertEqual(set(observations), {implemented})
+
+    def test_ops026_pinned_checkout_uses_exact_inputs_or_dense_fallback(self):
+        spec = importlib.util.spec_from_file_location("ops026_checkout_history", SCRIPT)
+        history = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(history)
+        python_overrides = {"PYTHONPATH", "PYTHONHOME", "PYTHONSTARTUP", "PYTHONSAFEPATH", "PYTHONIOENCODING"}
+        env = {name: value for name, value in os.environ.items()
+               if not name.startswith("GIT_CONFIG") and name not in python_overrides}
+        with tempfile.TemporaryDirectory() as root, patch.dict(os.environ, env, clear=True):
+            scripts = os.path.dirname(SCRIPT)
+            for entry, expected in ((SCRIPT, True), (os.path.join(scripts, "unrelated.py"), False)):
+                with patch.object(history, "__name__", "guize_poc_admission_history"), patch.dict(
+                    sys.modules, {"__main__": history.SimpleNamespace(__file__=entry)},
+                ), patch.object(sys, "argv", [entry]), patch.object(sys, "path", [scripts, *sys.path]), patch.object(
+                    history, "_pinned_snapshot_validators_match", return_value=True,
+                ):
+                    self.assertIs(history._ops026_snapshot_validators_match(), expected)
+                    self.assertFalse(history._ops023_snapshot_validators_match())
+            self.init_git(root)
+            subprocess.run(["git", "config", "core.autocrlf", "false"], cwd=root, check=True)
+            inputs = history._OPS026_SNAPSHOT_INPUTS
+            for path in inputs:
+                self.write_text(root, path, f"Original bytes for {path}\n")
+            extra_path = "unconsumed-media.bin"
+            self.write_text(root, extra_path, "Present even when unused\n")
+            pinned = self.commit(root, "Pinned OPS-026 fixture")
+            same_tree_other_commit = self.commit(root, "Unpinned commit with the same tree")
+            tree_result = history.git(root, "rev-parse", pinned + "^{tree}")
+            self.assertEqual(tree_result.returncode, 0, tree_result.stderr)
+            tree = tree_result.stdout.strip()
+            with patch.dict(history._OPS026_SNAPSHOT_TREES, {pinned: tree}, clear=True), patch.object(
+                history, "_ops026_snapshot_validators_match", return_value=True,
+            ):
+                for commit, eligible in ((pinned, True), (same_tree_other_commit, False)):
+                    with self.subTest(commit=commit), tempfile.TemporaryDirectory() as temporary:
+                        snapshot, checkout = history._checkout_task_workspace(root, temporary, commit, "OPS-026")
+                        self.assertIsNotNone(checkout)
+                        self.assertEqual(checkout.returncode, 0, checkout.stderr)
+                        self.assertEqual(history.resolve_ref(snapshot, "HEAD"), commit)
+                        self.assertTrue(history.is_ancestor(snapshot, pinned, commit))
+                        for path in inputs:
+                            self.assertEqual(pathlib.Path(snapshot, path).read_bytes(),
+                                             pathlib.Path(root, path).read_bytes())
+                        self.assertEqual(pathlib.Path(snapshot, extra_path).exists(), not eligible)
+                with tempfile.TemporaryDirectory() as temporary, patch.dict(os.environ, {"GIT_CONFIG_COUNT": "0"}):
+                    snapshot, checkout = history._checkout_task_workspace(root, temporary, pinned, "OPS-026")
+                    self.assertEqual(checkout.returncode, 0, checkout.stderr)
+                    self.assertTrue(pathlib.Path(snapshot, extra_path).is_file())
 
     def test_foundation_rejects_original_exclusive_claim_conflict(self):
         self.reject_foundation_history("original_exclusive_conflict", "original reservation claims conflict with active task")

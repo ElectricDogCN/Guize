@@ -1767,6 +1767,95 @@ class TestPerformanceRepairAdmission(unittest.TestCase):
         released=self.commit(self.repo,'Fixture successor entry released')
         with self.assertRaisesRegex(PROOF.AdmissionError,'Released repair identity'):self.claims(base=released)
 
+    def test_completion_binding_distinguishes_source_preview_and_actual_merge(self):
+        root = Path(self.temporary.name, 'completion-binding')
+        root.mkdir()
+        self.git(root, 'init', '--quiet')
+        self.git(root, 'config', 'user.email', 'fixture@example.invalid')
+        self.git(root, 'config', 'user.name', 'Completion binding fixture')
+        self.git(root, 'config', 'core.autocrlf', 'false')
+        task = PROOF.PERFORMANCE.successor
+        owner = dict(self.entry, status='review', agentRole='reviewer')
+        registry = {'policy': {'maxActiveTasks': 3, 'maxHighRiskTasks': 1}, 'tasks': [owner]}
+        self.write(root, PROOF.ACTIVE, registry)
+        protected = root / 'poc-original.txt'
+        protected.write_text('original', encoding='utf8')
+        base = self.commit(root, 'Fixture approved review base')
+        branch = 'chore/OPS-027-completion-binding'
+        close_branch = branch + '-close'
+        code = root / 'history-fix.txt'
+        decision = root / PROOF.COMPLETION_BINDING_INTENT
+        decision.parent.mkdir(parents=True, exist_ok=True)
+        definition = dict(base=base, taskId=task, branch=branch, scopeRestorationBranch=close_branch,
+                          metadataPaths=[PROOF.ACTIVE, PROOF.COMPLETION_BINDING_INTENT],
+                          implementationPaths=[code.name], protectedPaths=[protected.name])
+        raw = json.dumps(definition).encode()
+        decision.write_bytes(raw)
+        working = dict(owner, status='integration', agentRole='integrator', branch=branch, baseSha=base,
+                       exclusivePaths=[code.name])
+        self.write(root, PROOF.ACTIVE, dict(registry, tasks=[working]))
+        registration = self.commit(root, 'Fixture exact completion binding registration')
+        with mock.patch.multiple(PROOF, COMPLETION_BINDING_BASE=base, COMPLETION_BINDING_REGISTRATION=registration,
+                                 COMPLETION_BINDING_DIGEST=hashlib.sha256(raw).hexdigest()):
+            code.write_text('exact new history logic', encoding='utf8')
+            protected.write_text('unapproved edit', encoding='utf8')
+            wrong = self.commit(root, 'Fixture excess protected file change')
+            with self.assertRaisesRegex(PROOF.AdmissionError, 'exact code scope'):
+                PROOF.audit_completion_binding(str(root), wrong)
+            protected.write_text('original', encoding='utf8')
+            reverted = self.commit(root, 'Fixture restored protected bytes after introducing code')
+            with self.assertRaisesRegex(PROOF.AdmissionError, 'exact code scope'):
+                PROOF.audit_completion_binding(str(root), reverted)
+            self.git(root, 'checkout', '--detach', registration)
+            code.write_text('exact new history logic', encoding='utf8')
+            implementation = self.commit(root, 'Fixture exact separately registered code')
+            self.assertEqual(PROOF.audit_completion_binding(str(root), implementation),
+                             ({registration, implementation}, {code.name}))
+            self.git(root, 'checkout', '--detach', base)
+            self.git(root, 'merge', '--no-ff', '--no-edit', implementation)
+            merge = self.git(root, 'rev-parse', 'HEAD')
+            self.git(root, 'update-ref', 'refs/remotes/origin/main', base)
+            self.assertEqual(PROOF.audit_completion_binding(str(root), 'HEAD'),
+                             ({registration, implementation, merge}, {code.name}))
+            self.assertEqual(PROOF.registered_merge_parent(str(root), task, 'HEAD', candidate_base='origin/main'),
+                             base)
+            self.assertEqual(PROOF.registered_merge_parent(str(root), task, merge, candidate_base=base), base)
+            self.assertIsNone(PROOF.registered_merge_parent(str(root), task, merge))
+            self.git(root, 'update-ref', 'refs/remotes/origin/main', merge)
+            self.assertEqual(PROOF.registered_merge_parent(str(root), task, merge), base)
+            self.assertEqual(PROOF.registered_merge_parent(str(root), task, 'HEAD'), base)
+            self.assertIsNone(PROOF.registered_merge_parent(str(root), 'OPS-028', merge))
+            self.assertIsNone(PROOF.registered_merge_parent(str(root), task, implementation))
+            self.git(root, 'checkout', '--detach', base)
+            self.git(root, 'merge', '--no-ff', '-m', 'Another merge with the same tree', implementation)
+            unrelated_merge = self.git(root, 'rev-parse', 'HEAD')
+            self.assertEqual(self.git(root, 'rev-parse', merge + '^{tree}'),
+                             self.git(root, 'rev-parse', unrelated_merge + '^{tree}'))
+            self.assertIsNone(PROOF.registered_merge_parent(str(root), task, unrelated_merge))
+            code.write_text('unreviewed final merge resolution', encoding='utf8')
+            self.git(root, 'add', '--', code.name)
+            self.git(root, 'commit', '--amend', '--no-edit')
+            tampered_merge = self.git(root, 'rev-parse', 'HEAD')
+            self.assertIsNone(PROOF.registered_merge_parent(str(root), task, tampered_merge, candidate_base=base))
+            self.git(root, 'checkout', '--detach', merge)
+            restored = dict(owner, status='integration', agentRole='integrator', branch=close_branch, baseSha=merge)
+            self.write(root, PROOF.ACTIVE, dict(registry, tasks=[restored]))
+            for name in ('specs/tasks/OPS-027.md', 'evidence/OPS-027/handoff.md'):
+                item = root / name
+                item.parent.mkdir(parents=True, exist_ok=True)
+                item.write_text('Fixture scope restoration', encoding='utf8')
+            closed = self.commit(root, 'Fixture metadata scope restoration')
+            self.git(root, 'update-ref', 'refs/remotes/origin/main', base)
+            with self.assertRaisesRegex(PROOF.AdmissionError, 'actual canonical first-parent'):
+                PROOF.audit_completion_binding(str(root), closed)
+            self.git(root, 'update-ref', 'refs/remotes/origin/main', merge)
+            self.assertEqual(PROOF.audit_completion_binding(str(root), closed)[0],
+                             {registration, implementation, merge})
+            self.write(root, PROOF.ACTIVE, dict(registry, tasks=[working]))
+            reopened = self.commit(root, 'Fixture tries to reopen finished maintenance')
+            with self.assertRaisesRegex(PROOF.AdmissionError, 'cannot be extended or reopened'):
+                PROOF.audit_completion_binding(str(root), reopened)
+
     def test_metadata_only_activation_is_not_complete_authority_code(self):
         plan=yaml.safe_load(Path(self.repo,PROOF.PLAN).read_bytes())
         next(x for x in plan['foundationTasks'] if x['taskId']=='OPS-026')['mergeCommit']=self.activation

@@ -28,7 +28,7 @@ from datetime import datetime, timedelta, timezone
 from contextvars import ContextVar
 from collections import OrderedDict
 from functools import lru_cache
-from typing import Any
+from typing import Any, Callable
 from types import SimpleNamespace
 
 import yaml
@@ -1190,8 +1190,12 @@ def _compile_known_task_file(source: bytes, path: str):
 
 def _ordinary_task_file_context(script_dir: str) -> bool:
     """Use the fast path only in the same ordinary interpreter context as the child."""
+    return __name__ == "__main__" and _ordinary_script_context(script_dir, __file__)
+
+
+def _ordinary_script_context(script_dir: str, entry_script: str) -> bool:
     return (
-        __name__ == "__main__" and os.path.abspath(sys.argv[0]) == os.path.abspath(__file__)
+        bool(sys.argv) and os.path.abspath(sys.argv[0]) == os.path.abspath(entry_script)
         and bool(sys.path) and os.path.abspath(sys.path[0]) == script_dir
         and not any(key in os.environ for key in ("PYTHONPATH", "PYTHONHOME", "PYTHONSTARTUP", "PYTHONSAFEPATH", "PYTHONIOENCODING"))
         and not any(name in sys.modules for name in ("sitecustomize", "usercustomize"))
@@ -1276,11 +1280,37 @@ _OPS023_SNAPSHOT_TREES = {
 }
 _OPS023_SNAPSHOT_INPUTS = (ACTIVE, PLAN, f"{TASK_DIR}/OPS-023.md", "evidence/OPS-023/handoff.md")
 
+# Exact sources verified by the independent checkout benchmark in #254/#256.
+_OPS026_SNAPSHOT_TREES = {
+    "13e73a99d4a60c2d573179dd1631fb94b095d056": "5088881965343c6ad7eb648ecc41710cf9f4bd69",
+    "c7f557366e67f16e2855b87b9fbf4e7078cbb3e0": "519563272c31302a9905d9e1549a8851c2ab554a",
+}
+_OPS026_SNAPSHOT_INPUTS = (ACTIVE, PLAN, f"{TASK_DIR}/OPS-026.md", "evidence/OPS-026/handoff.md")
+
 
 def _ops023_snapshot_validators_match() -> bool:
     scripts = os.path.dirname(os.path.abspath(__file__))
-    if not _ordinary_task_file_context(scripts):
-        return False
+    return _ordinary_task_file_context(scripts) and _pinned_snapshot_validators_match(scripts)
+
+
+def _ops026_snapshot_validators_match() -> bool:
+    scripts = os.path.dirname(os.path.abspath(__file__))
+    if _ordinary_task_file_context(scripts):
+        return _pinned_snapshot_validators_match(scripts)
+    # The POC admission audit imports this module while the actual runner
+    # executes one of the two normal governance commands directly.
+    entry = getattr(sys.modules.get("__main__"), "__file__", None)
+    known_entries = {os.path.join(scripts, name) for name in (
+        "check-program-plan-history.py", "check-program-lifecycle-guards.py",
+    )}
+    return (
+        __name__ == "guize_poc_admission_history" and isinstance(entry, str)
+        and os.path.abspath(entry) in known_entries and _ordinary_script_context(scripts, entry)
+        and _pinned_snapshot_validators_match(scripts)
+    )
+
+
+def _pinned_snapshot_validators_match(scripts: str) -> bool:
     pins = {
         "check-task-file.py": _TASK_FILE_CODE_SHA256,
         "program-planning-revision.py": _TASK_FILE_PLANNING_SHA256,
@@ -1308,13 +1338,22 @@ def _ops023_snapshot_validators_match() -> bool:
 
 
 def _try_ops023_snapshot(root: str, temporary: str, commit: str) -> tuple[str, subprocess.CompletedProcess[str]] | None:
-    tree = _OPS023_SNAPSHOT_TREES[commit]
+    return _try_pinned_task_snapshot(
+        root, temporary, commit, _OPS023_SNAPSHOT_TREES[commit], _OPS023_SNAPSHOT_INPUTS,
+        _ops023_snapshot_validators_match,
+    )
+
+
+def _try_pinned_task_snapshot(
+    root: str, temporary: str, commit: str, tree: str,
+    paths: tuple[str, ...], validators_match: Callable[[], bool],
+) -> tuple[str, subprocess.CompletedProcess[str]] | None:
     overrides = {"GIT_DIR", "GIT_WORK_TREE", "GIT_COMMON_DIR", "GIT_INDEX_FILE", "GIT_NAMESPACE",
                  "GIT_REPLACE_REF_BASE", "GIT_GRAFT_FILE", "GIT_OBJECT_DIRECTORY",
                  "GIT_ALTERNATE_OBJECT_DIRECTORIES", "GIT_SHALLOW_FILE", "GIT_TEMPLATE_DIR"}
     if overrides.intersection(os.environ) or any(key.startswith("GIT_CONFIG") for key in os.environ):
         return None
-    if not _ops023_snapshot_validators_match():
+    if not validators_match():
         return None
 
     def read_git(directory, *args, env=None):
@@ -1341,7 +1380,6 @@ def _try_ops023_snapshot(root: str, temporary: str, commit: str) -> tuple[str, s
             or any(os.path.lexists(os.path.join(trial, ".git", "hooks", hook))
                    for hook in ("post-checkout", "post-index-change"))):
         return None
-    paths = _OPS023_SNAPSHOT_INPUTS
     modes = read_git(trial, "ls-tree", commit, "--", *paths).decode().splitlines()
     if {line.split("\t", 1)[1]: line.split()[0] for line in modes} != {path: "100644" for path in paths}:
         return None
@@ -1367,9 +1405,17 @@ def _try_ops023_snapshot(root: str, temporary: str, commit: str) -> tuple[str, s
 
 def _checkout_task_workspace(root: str, temporary: str, commit: str,
                              task_id: str) -> tuple[str, subprocess.CompletedProcess[str] | None]:
-    if task_id == "OPS-023" and commit in _OPS023_SNAPSHOT_TREES:
+    pinned_ops023 = task_id == "OPS-023" and commit in _OPS023_SNAPSHOT_TREES
+    pinned_ops026 = task_id == "OPS-026" and commit in _OPS026_SNAPSHOT_TREES
+    if pinned_ops023 or pinned_ops026:
         try:
-            trial = _try_ops023_snapshot(root, temporary, commit)
+            if pinned_ops023:
+                trial = _try_ops023_snapshot(root, temporary, commit)
+            else:
+                trial = _try_pinned_task_snapshot(
+                    root, temporary, commit, _OPS026_SNAPSHOT_TREES[commit], _OPS026_SNAPSHOT_INPUTS,
+                    _ops026_snapshot_validators_match,
+                )
             if trial is not None:
                 return trial
         except (OSError, ValueError, IndexError, StopIteration, subprocess.CalledProcessError):
@@ -1726,7 +1772,8 @@ def foundation_implementation(root: str, task_id: str, commit: str, reservation:
     ownership = load_ref(root, base, RECOVERY.OWNERSHIP)
     claims = list(entry.get("exclusivePaths") or [])
     legacy = RECOVERY.FOUNDATION_SCOPE_EXCEPTIONS.get(task_id, ())
-    if not RECOVERY.foundation_claims_valid(root, task_id, entry, ownership, base, observed_ref=commit):
+    registered_parent = RECOVERY.repair_module().registered_merge_parent(root, task_id, commit)
+    if not RECOVERY.foundation_claims_valid(root, task_id, entry, ownership, base, observed_ref=registered_parent or commit):
         errors.append(f"Foundation {task_id} claimed implementation has invalid historical governance claims")
         return
     historical_claims = set(claims)
@@ -1789,14 +1836,15 @@ def foundation_implementation(root: str, task_id: str, commit: str, reservation:
             if len(errors) == node_error_start:
                 audited_nodes.add(node)
             continue
-        historical_registration_context(root, previous, node, task_id, before_registry, reservation, policy, f"Foundation {task_id} working node prior registration at {node}", errors)
+        prior_observation = registered_parent if node == commit and registered_parent else node
+        historical_registration_context(root, previous, prior_observation, task_id, before_registry, reservation, policy, f"Foundation {task_id} working node prior registration at {node}", errors)
         if len(before_entries) != 1:
             errors.append(f"Foundation {task_id} working node has no prior registered lease")
         else:
             node_claims = list(before_entries[0].get("exclusivePaths") or [])
             node_ownership = load_ref(root, previous, RECOVERY.OWNERSHIP)
             node_implementation = {path for path in node_paths if path not in {PLAN, ACTIVE, task_path} and not path.startswith(f"evidence/{task_id}/")}
-            if not RECOVERY.foundation_claims_valid(root, task_id, before_entries[0], node_ownership, previous, observed_ref=node):
+            if not RECOVERY.foundation_claims_valid(root, task_id, before_entries[0], node_ownership, previous, observed_ref=prior_observation):
                 errors.append(f"Foundation {task_id} working node has invalid prior governance claims")
             else:
                 unexpected = {path for path in node_implementation if not any(RECOVERY.matches_path(path, str(claim)) for claim in node_claims)}
@@ -2005,6 +2053,13 @@ def foundation_post_implementation(root: str, task_id: str, implementation: str,
         return
     main_nodes = set(main_history.stdout.split())
     validated_nodes: set[str] = set()
+    repair_admission = RECOVERY.repair_module()
+    binding_nodes, binding_paths = (set(), set())
+    if allow_registered_work and task_id == repair_admission.PERFORMANCE.successor:
+        try:
+            binding_nodes, binding_paths = repair_admission.audit_completion_binding(root, base_ref)
+        except (repair_admission.AdmissionError, OSError, TypeError, ValueError, KeyError, yaml.YAMLError) as exc:
+            errors.append(f"Foundation {task_id} completion binding rejected: {exc}")
     for node in nodes.stdout.split():
         parent = resolve_ref(root, f"{node}^1")
         paths = RECOVERY.changed_paths(root, parent, node) if parent else None
@@ -2066,7 +2121,16 @@ def foundation_post_implementation(root: str, task_id: str, implementation: str,
                 # This PR may introduce own work only under both the admitted
                 # claim and the node's prior registration. Foreign work needs
                 # a proven synchronization, not merely another task's claim.
-                unexpected = {path for path in code_paths - imports if not all(any(RECOVERY.matches_path(path, str(claim)) for claim in claims_at_ref) for claims_at_ref in (prior_claims, admitted_claims))}
+                # The certified source registration is the only scope addition
+                # allowed to override the admitted-base claims. The real or
+                # preview integration separately proves its exact merge tree.
+                working_claims = binding_paths if node in binding_nodes else admitted_claims
+                previous_claims = prior_claims
+                if node in binding_nodes and repair_admission.registered_merge_parent(
+                    root, task_id, node, candidate_base=trusted_base
+                ):
+                    previous_claims = binding_paths
+                unexpected = {path for path in code_paths - imports if not all(any(RECOVERY.matches_path(path, str(claim)) for claim in claims_at_ref) for claims_at_ref in (previous_claims, working_claims))}
             else:
                 unexpected = {path for path in code_paths - imports if not any(RECOVERY.matches_path(path, str(claim)) for claim in prior_claims) and (own_delta or not (historical_peer_path(root, parent, task_id, path) or historical_peer_metadata_path(root, node, task_id, path)))}
             if unexpected:
@@ -2077,7 +2141,10 @@ def foundation_post_implementation(root: str, task_id: str, implementation: str,
             elif own_work - imports:
                 if not registered_node or not is_ancestor(root, reservation, parent):
                     errors.append(f"Foundation {task_id} preflight working node must descend from original reservation at {node}")
-                historical_registration_context(root, parent, node, task_id, prior_registry, reservation, policy, f"Foundation {task_id} preflight prior registration at {node}", errors, approved_base=trusted_base)
+                prior_observation = repair_admission.registered_merge_parent(
+                    root, task_id, node, candidate_base=trusted_base
+                ) or node
+                historical_registration_context(root, parent, prior_observation, task_id, prior_registry, reservation, policy, f"Foundation {task_id} preflight prior registration at {node}", errors, approved_base=trusted_base)
                 node_registry = load_ref(root, node, ACTIVE)
                 node_entries = [item for item in (node_registry or {}).get("tasks", []) if isinstance(item, dict) and item.get("taskId") == task_id]
                 if len(node_entries) == 1:
