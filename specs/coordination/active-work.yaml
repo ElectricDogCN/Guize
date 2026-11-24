@@ -96,17 +96,17 @@ tasks:
 - taskId: OPS-027
   issue: 242
   title: 百万文件验收器重复键处理的等价有界复用
-  status: in_progress
+  status: review
   riskLevel: high
   owner: ElectricDogCN
   coordinator: /root
   implementer: /root
   reviewer: /root/gz022_planning_independent_review
   integrator: /root
-  agentRole: implementer
-  branch: chore/OPS-027-gz021-thaw-v3
+  agentRole: reviewer
+  branch: chore/OPS-027-normal-review-evidence-v3
   baseBranch: main
-  baseSha: 0f8247ef732bdc7dfbecb11f0f5c728570778833
+  baseSha: 93eb6e99955404ec1ece78041bd73fa0355b5d80
   workPackage: WP-M0-01
   programPlan: specs/coordination/program-plan.yaml
   programTaskId: OPS-027
