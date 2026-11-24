@@ -1,7 +1,7 @@
 $schema: program-plan.schema.yaml
 schemaVersion: 1
 planId: GUIZE-V1-PROGRAM
-status: frozen
+status: active
 recovery:
   taskId: OPS-027
   reason: 百万文件验收已观测重复字符串键计算CPU热点；仅按026原意图等价优化两P。新事件不复用关闭未合并PR244/47e或失败1050，不改driver/memory必需项、规模、阈值、原结果或完整CI义务；实际修复完整验证后独立解冻。
