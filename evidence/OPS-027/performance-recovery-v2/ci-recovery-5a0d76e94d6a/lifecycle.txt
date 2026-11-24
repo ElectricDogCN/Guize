@@ -1,0 +1,6 @@
+Source Commit: 5a0d76e94d6a1ddebb2a34fab5be26f7afe5824c
+Command: python scripts/run-program-lifecycle-gate.py --base-ref 6484ad8c96615930aee74ec1088a82c93d83dea4 --head-ref 5a0d76e94d6a1ddebb2a34fab5be26f7afe5824c --task OPS-027 --branch-name chore/OPS-027-ci-recovery-proof
+{"status": "PASS", "message": "Program lifecycle scope, Foundation ownership, rename and Evidence guards passed", "details": {"affectedTaskIds": ["OPS-027"], "changedPathCount": 3, "baseRef": "6484ad8c96615930aee74ec1088a82c93d83dea4"}}
+{"status": "PASS", "message": "Exact lifecycle diff and Completion Issue verification passed"}
+
+Exit Code: 0

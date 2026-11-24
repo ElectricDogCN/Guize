@@ -34,3 +34,9 @@ Task OPS-027 retains the same Coordinator, Implementer, independent Reviewer, In
 引导 PR #259 以普通双父合并接入冻结主线 `aa0716c610d5fc2537f2792b2321cc319139de6c`。固定源和实际主线的官方验证分别为 [源 CI](https://github.com/ElectricDogCN/Guize/actions/runs/45317486971) 和 [主线 CI](https://github.com/ElectricDogCN/Guize/actions/runs/45319346188)，两轮均完整执行原 1,078 项且未超出每作业 30 分钟。实际主线另外通过七项本地检查，源复核记录见 [PR 审查](https://github.com/ElectricDogCN/Guize/pull/259#pullrequestreview-6033199865)。
 
 此提交恢复 OPS-027 原有两个 POC 合同文件的登记范围，保留同一身份、角色、租约和顺序。只刷新本任务的 Task、Registry 和本记录。GZ-021 的冻结事件、程序计划和 POC 状态继续按实际主线执行。后续在已经恢复范围的实际冻结主线重新验证恢复证明，单独归档后再办理解冻和结项。
+
+## 冻结恢复证明刷新
+
+范围恢复 PR #260 的实际主线 `6484ad8c96615930aee74ec1088a82c93d83dea4` 已通过七项本地检查和[完整主线官方 CI](https://github.com/ElectricDogCN/Guize/actions/runs/45324228635)。本提交按实际主线刷新 OPS-027 的 Task、登记基线和工作分支，以便当前固定提交绑定新的完整验证。原两文件工作范围、角色、租约、冻结事件和历史证据保持原样。
+
+后续在这一固定提交重新执行计划完整性、生命周期、协调、完整治理测试和完整 `make verify`。证明归档只更新 OPS-027 自身证据入口，保留前一版证明及全部原始日志。归档通过源和实际主线验收后，单独提交解冻变更。
