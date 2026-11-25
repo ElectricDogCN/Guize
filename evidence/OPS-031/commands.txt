@@ -16,3 +16,29 @@ python scripts/check-evidence.py --task OPS-031
 python scripts/check-project-readiness.py
 python scripts/check-markdown.py
 python scripts/check-spec-sync.py --base origin/main
+
+## 实施前置的登记验收
+
+OPS-031 的实际登记主线 b789c955c351f85e1de327d9a5040764c2f53643 已通过六项任务控制和完整官方 CI。本阶段从该主线执行固定规划声明，将 GZ-007 调到 W3、集成顺序设为 4，保留原有依赖及其他定义。
+
+[实际登记官方 CI](https://github.com/ElectricDogCN/Guize/actions/runs/45665934302)
+
+原件路径 evidence/OPS-031/accepted-reservation-b789c955/independent-review.json 与 evidence/OPS-031/accepted-reservation-b789c955/integrity.txt。
+
+当前实施命令。新固定源退出码待验证。
+
+git diff --check b789c955c351f85e1de327d9a5040764c2f53643...HEAD
+python scripts/check-task-file.py --task OPS-031
+python scripts/check-schemas.py
+python scripts/check-program-plan-integrity.py --base-ref b789c955c351f85e1de327d9a5040764c2f53643
+python scripts/check-program-plan-history.py --base-ref b789c955c351f85e1de327d9a5040764c2f53643 --head-ref HEAD --task OPS-031 --branch-name chore/OPS-031-gz007-wave-order
+python scripts/check-program-plan-transitions.py --base-ref b789c955c351f85e1de327d9a5040764c2f53643 --head-ref HEAD --task OPS-031 --branch-name chore/OPS-031-gz007-wave-order
+python scripts/check-program-lifecycle-guards.py --base-ref b789c955c351f85e1de327d9a5040764c2f53643 --head-ref HEAD --task OPS-031 --branch-name chore/OPS-031-gz007-wave-order
+python scripts/run-program-lifecycle-gate.py --base-ref b789c955c351f85e1de327d9a5040764c2f53643 --head-ref HEAD --task OPS-031 --branch-name chore/OPS-031-gz007-wave-order
+python scripts/run-agent-coordination-gate.py --base-ref b789c955c351f85e1de327d9a5040764c2f53643 --head-ref HEAD --task OPS-031 --branch-name chore/OPS-031-gz007-wave-order
+python scripts/check-program-plan-finalization.py --base-ref b789c955c351f85e1de327d9a5040764c2f53643 --head-ref HEAD --task OPS-031
+python scripts/run-task-scope-gate.py --task OPS-031 --base b789c955c351f85e1de327d9a5040764c2f53643
+python scripts/check-evidence.py --task OPS-031
+python scripts/check-project-readiness.py
+python scripts/check-markdown.py
+python scripts/check-spec-sync.py --base origin/main
