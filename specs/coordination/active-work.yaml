@@ -9,17 +9,17 @@ tasks:
 - taskId: OPS-031
   issue: 284
   title: 按实际依赖推进 GZ-007 数据库契约
-  status: in_progress
+  status: review
   riskLevel: high
   owner: ElectricDogCN
   coordinator: /root
   implementer: /root
   reviewer: /root/independent_review
   integrator: /root
-  agentRole: implementer
+  agentRole: reviewer
   branch: chore/OPS-031-gz007-wave-order
   baseBranch: main
-  baseSha: b789c955c351f85e1de327d9a5040764c2f53643
+  baseSha: 8364e9777b7601f413897518f8911c1a986b7308
   workPackage: WP-M0-01
   programPlan: specs/coordination/program-plan.yaml
   programTaskId: OPS-031

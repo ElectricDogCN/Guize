@@ -42,3 +42,37 @@ python scripts/check-evidence.py --task OPS-031
 python scripts/check-project-readiness.py
 python scripts/check-markdown.py
 python scripts/check-spec-sync.py --base origin/main
+
+## OPS-031 正式 Review
+
+本轮提交正式 Review，保留当前租约，实施身份和排程定义保持已验收状态。实施主线为 8364e9777b7601f413897518f8911c1a986b7308，本阶段前置实际基线 8364e9777b7601f413897518f8911c1a986b7308 的六项任务控制和完整官方 CI 已验收。本阶段以新固定源和合并后主线的完整官方 CI 与独立复验为准。
+
+Status: PASS
+
+Source Commit: 8364e9777b7601f413897518f8911c1a986b7308
+Command: /var/tmp/guize-ops027-rebased-proof/python/bin/python -B scripts/check-program-plan-integrity.py --base-ref b789c955c351f85e1de327d9a5040764c2f53643
+Exit Code: 0
+Result: PASS
+Raw SHA-256: 1b765dde9ae215a0bd712cb2ec32da3bc5b855cae43f3e3e43cc4cbcbf8abffa
+
+[前置官方 CI](https://github.com/ElectricDogCN/Guize/actions/runs/45672025032)
+
+原件路径 evidence/OPS-031/accepted-main-8364e977/independent-review.json 与 evidence/OPS-031/accepted-main-8364e977/integrity.txt。
+
+当前固定源命令，退出码在执行后记录。
+
+git diff --check 8364e9777b7601f413897518f8911c1a986b7308...HEAD
+python scripts/check-task-file.py --task OPS-031
+python scripts/check-schemas.py
+python scripts/check-program-plan-integrity.py --base-ref 8364e9777b7601f413897518f8911c1a986b7308
+python scripts/check-program-plan-history.py --base-ref 8364e9777b7601f413897518f8911c1a986b7308 --head-ref HEAD --task OPS-031 --branch-name chore/OPS-031-gz007-wave-order
+python scripts/check-program-plan-transitions.py --base-ref 8364e9777b7601f413897518f8911c1a986b7308 --head-ref HEAD --task OPS-031 --branch-name chore/OPS-031-gz007-wave-order
+python scripts/check-program-lifecycle-guards.py --base-ref 8364e9777b7601f413897518f8911c1a986b7308 --head-ref HEAD --task OPS-031 --branch-name chore/OPS-031-gz007-wave-order
+python scripts/run-program-lifecycle-gate.py --base-ref 8364e9777b7601f413897518f8911c1a986b7308 --head-ref HEAD --task OPS-031 --branch-name chore/OPS-031-gz007-wave-order
+python scripts/run-agent-coordination-gate.py --base-ref 8364e9777b7601f413897518f8911c1a986b7308 --head-ref HEAD --task OPS-031 --branch-name chore/OPS-031-gz007-wave-order
+python scripts/check-program-plan-finalization.py --base-ref 8364e9777b7601f413897518f8911c1a986b7308 --head-ref HEAD --task OPS-031
+python scripts/run-task-scope-gate.py --task OPS-031 --base 8364e9777b7601f413897518f8911c1a986b7308
+python scripts/check-evidence.py --task OPS-031
+python scripts/check-project-readiness.py
+python scripts/check-markdown.py
+python scripts/check-spec-sync.py --base origin/main
