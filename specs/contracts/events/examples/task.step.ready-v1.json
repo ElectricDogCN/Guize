@@ -1,0 +1,20 @@
+{
+  "eventId": "evt_task_step_ready",
+  "eventType": "task.step.ready",
+  "eventVersion": 1,
+  "aggregateType": "TaskStep",
+  "aggregateId": "step_transcode",
+  "occurredAt": "2026-11-25T13:00:01Z",
+  "producer": "guize-control",
+  "traceId": "trace-edge-event-01",
+  "payload": {
+    "revision": 1,
+    "taskId": "task_example",
+    "planId": "plan_example",
+    "planVersion": 4,
+    "stepId": "step_transcode",
+    "stepVersion": 2,
+    "priority": 0,
+    "readyAt": "2026-11-25T13:00:01Z"
+  }
+}

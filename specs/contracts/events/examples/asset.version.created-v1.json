@@ -1,0 +1,21 @@
+{
+  "eventId": "evt_asset_version_created",
+  "eventType": "asset.version.created",
+  "eventVersion": 1,
+  "aggregateType": "Asset",
+  "aggregateId": "ast_1",
+  "occurredAt": "2026-10-14T00:00:00Z",
+  "producer": "guize-control",
+  "traceId": "trace-event-0001",
+  "payload": {
+    "assetVersionId": "ver_1",
+    "assetId": "ast_1",
+    "versionNumber": 1,
+    "originSourceObjectId": "srcobj_1",
+    "contentLength": 0,
+    "hashStatus": "UNKNOWN",
+    "mimeType": "video/mp4",
+    "createdAt": "2026-10-14T00:00:00Z",
+    "revision": 2
+  }
+}

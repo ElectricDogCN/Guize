@@ -1,0 +1,25 @@
+{
+  "eventId": "evt_artifact_published",
+  "eventType": "artifact.published",
+  "eventVersion": 1,
+  "aggregateType": "DerivedArtifact",
+  "aggregateId": "art_1",
+  "occurredAt": "2026-10-14T00:00:00Z",
+  "producer": "guize-control",
+  "traceId": "trace-event-0001",
+  "payload": {
+    "artifactId": "art_1",
+    "assetVersionId": "ver_1",
+    "artifactType": "SUMMARY",
+    "modelVersion": "model-v1",
+    "promptVersion": "prompt-v1",
+    "confidence": 0.7,
+    "uncertainty": true,
+    "generated": true,
+    "revision": 1,
+    "pipelineVersionId": "pipe_1",
+    "parametersHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "publicationStatus": "PUBLISHED",
+    "publishedAt": "2026-10-14T00:00:00Z"
+  }
+}

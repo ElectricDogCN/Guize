@@ -1,0 +1,188 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://guize.local/contracts/events/task/task.attempt.cancelled-v1.schema.json",
+  "title": "task.attempt.cancelled version1",
+  "allOf": [
+    {
+      "$ref": "https://guize.local/contracts/events/event-envelope.schema.json"
+    },
+    {
+      "properties": {
+        "eventId": {
+          "type": "string",
+          "description": "Opaque resource identifier; never a file path.",
+          "x-i18n": {
+            "en-US": {
+              "description": "Opaque resource identifier; never a file path."
+            },
+            "zh-CN": {
+              "description": "不透明资源标识，不是文件路径。"
+            }
+          },
+          "pattern": "^[a-z]{2,12}_[A-Za-z0-9_-]{1,64}$",
+          "maxLength": 80
+        },
+        "eventType": {
+          "const": "task.attempt.cancelled"
+        },
+        "eventVersion": {
+          "const": 1
+        },
+        "aggregateType": {
+          "const": "TaskAttempt"
+        },
+        "aggregateId": {
+          "type": "string",
+          "description": "Opaque resource identifier; never a file path.",
+          "x-i18n": {
+            "en-US": {
+              "description": "Opaque resource identifier; never a file path."
+            },
+            "zh-CN": {
+              "description": "不透明资源标识，不是文件路径。"
+            }
+          },
+          "pattern": "^[a-z]{2,12}_[A-Za-z0-9_-]{1,64}$",
+          "maxLength": 80
+        },
+        "producer": {
+          "const": "guize-control"
+        },
+        "traceId": {
+          "type": "string",
+          "description": "Request correlation identifier, including failures.",
+          "x-i18n": {
+            "en-US": {
+              "description": "Request correlation identifier, including failures."
+            },
+            "zh-CN": {
+              "description": "包括失败请求在内的关联标识。"
+            }
+          },
+          "pattern": "^[A-Za-z0-9-]{8,128}$",
+          "maxLength": 128
+        },
+        "payload": {
+          "type": "object",
+          "properties": {
+            "revision": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            "taskId": {
+              "type": "string",
+              "description": "Opaque resource identifier; never a file path.",
+              "x-i18n": {
+                "en-US": {
+                  "description": "Opaque resource identifier; never a file path."
+                },
+                "zh-CN": {
+                  "description": "不透明资源标识，不是文件路径。"
+                }
+              },
+              "pattern": "^[a-z]{2,12}_[A-Za-z0-9_-]{1,64}$",
+              "maxLength": 80
+            },
+            "planId": {
+              "type": "string",
+              "description": "Opaque resource identifier; never a file path.",
+              "x-i18n": {
+                "en-US": {
+                  "description": "Opaque resource identifier; never a file path."
+                },
+                "zh-CN": {
+                  "description": "不透明资源标识，不是文件路径。"
+                }
+              },
+              "pattern": "^[a-z]{2,12}_[A-Za-z0-9_-]{1,64}$",
+              "maxLength": 80
+            },
+            "planVersion": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            "stepId": {
+              "type": "string",
+              "description": "Opaque resource identifier; never a file path.",
+              "x-i18n": {
+                "en-US": {
+                  "description": "Opaque resource identifier; never a file path."
+                },
+                "zh-CN": {
+                  "description": "不透明资源标识，不是文件路径。"
+                }
+              },
+              "pattern": "^[a-z]{2,12}_[A-Za-z0-9_-]{1,64}$",
+              "maxLength": 80
+            },
+            "stepVersion": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            "attemptId": {
+              "type": "string",
+              "description": "Opaque resource identifier; never a file path.",
+              "x-i18n": {
+                "en-US": {
+                  "description": "Opaque resource identifier; never a file path."
+                },
+                "zh-CN": {
+                  "description": "不透明资源标识，不是文件路径。"
+                }
+              },
+              "pattern": "^[a-z]{2,12}_[A-Za-z0-9_-]{1,64}$",
+              "maxLength": 80
+            },
+            "nodeId": {
+              "type": "string",
+              "description": "Opaque resource identifier; never a file path.",
+              "x-i18n": {
+                "en-US": {
+                  "description": "Opaque resource identifier; never a file path."
+                },
+                "zh-CN": {
+                  "description": "不透明资源标识，不是文件路径。"
+                }
+              },
+              "pattern": "^[a-z]{2,12}_[A-Za-z0-9_-]{1,64}$",
+              "maxLength": 80
+            },
+            "fencing": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            "cancellationOutcome": {
+              "enum": [
+                "CANCELLED_BEFORE_DISPATCH",
+                "WORKER_ACKNOWLEDGED",
+                "LEASE_EXPIRED"
+              ]
+            },
+            "cancelledAt": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          "required": [
+            "revision",
+            "taskId",
+            "planId",
+            "planVersion",
+            "stepId",
+            "stepVersion",
+            "attemptId",
+            "nodeId",
+            "fencing",
+            "cancellationOutcome",
+            "cancelledAt"
+          ],
+          "additionalProperties": false
+        }
+      }
+    }
+  ]
+}

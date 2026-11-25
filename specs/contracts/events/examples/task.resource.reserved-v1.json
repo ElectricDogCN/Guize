@@ -1,0 +1,27 @@
+{
+  "eventId": "evt_task_resource_reserved",
+  "eventType": "task.resource.reserved",
+  "eventVersion": 1,
+  "aggregateType": "TaskResourceReservation",
+  "aggregateId": "res_example",
+  "occurredAt": "2026-11-25T13:00:04Z",
+  "producer": "guize-control",
+  "traceId": "trace-edge-event-01",
+  "payload": {
+    "revision": 1,
+    "taskId": "task_example",
+    "planId": "plan_example",
+    "planVersion": 4,
+    "stepId": "step_transcode",
+    "stepVersion": 2,
+    "attemptId": "attempt_example",
+    "nodeId": "node_example",
+    "fencing": 7,
+    "reservationId": "res_example",
+    "resourceId": "codec_example",
+    "resourceKind": "CODEC_SLOT",
+    "quantity": 1,
+    "expiresAt": "2026-11-25T13:10:00Z",
+    "reservedAt": "2026-11-25T13:00:04Z"
+  }
+}

@@ -1,0 +1,236 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://guize.local/contracts/events/media/rendition.published-v1.schema.json",
+  "title": "rendition.published version1",
+  "allOf": [
+    {
+      "$ref": "https://guize.local/contracts/events/event-envelope.schema.json"
+    },
+    {
+      "properties": {
+        "eventId": {
+          "type": "string",
+          "description": "Opaque resource identifier; never a file path.",
+          "x-i18n": {
+            "en-US": {
+              "description": "Opaque resource identifier; never a file path."
+            },
+            "zh-CN": {
+              "description": "不透明资源标识，不是文件路径。"
+            }
+          },
+          "pattern": "^[a-z]{2,12}_[A-Za-z0-9_-]{1,64}$",
+          "maxLength": 80
+        },
+        "eventType": {
+          "const": "rendition.published"
+        },
+        "eventVersion": {
+          "const": 1
+        },
+        "aggregateType": {
+          "const": "Rendition"
+        },
+        "aggregateId": {
+          "type": "string",
+          "description": "Opaque resource identifier; never a file path.",
+          "x-i18n": {
+            "en-US": {
+              "description": "Opaque resource identifier; never a file path."
+            },
+            "zh-CN": {
+              "description": "不透明资源标识，不是文件路径。"
+            }
+          },
+          "pattern": "^[a-z]{2,12}_[A-Za-z0-9_-]{1,64}$",
+          "maxLength": 80
+        },
+        "producer": {
+          "const": "guize-control"
+        },
+        "traceId": {
+          "type": "string",
+          "description": "Request correlation identifier, including failures.",
+          "x-i18n": {
+            "en-US": {
+              "description": "Request correlation identifier, including failures."
+            },
+            "zh-CN": {
+              "description": "包括失败请求在内的关联标识。"
+            }
+          },
+          "pattern": "^[A-Za-z0-9-]{8,128}$",
+          "maxLength": 128
+        },
+        "payload": {
+          "type": "object",
+          "properties": {
+            "renditionId": {
+              "type": "string",
+              "description": "Opaque resource identifier; never a file path.",
+              "x-i18n": {
+                "en-US": {
+                  "description": "Opaque resource identifier; never a file path."
+                },
+                "zh-CN": {
+                  "description": "不透明资源标识，不是文件路径。"
+                }
+              },
+              "pattern": "^[a-z]{2,12}_[A-Za-z0-9_-]{1,64}$",
+              "maxLength": 80
+            },
+            "assetVersionId": {
+              "type": "string",
+              "description": "Opaque resource identifier; never a file path.",
+              "x-i18n": {
+                "en-US": {
+                  "description": "Opaque resource identifier; never a file path."
+                },
+                "zh-CN": {
+                  "description": "不透明资源标识，不是文件路径。"
+                }
+              },
+              "pattern": "^[a-z]{2,12}_[A-Za-z0-9_-]{1,64}$",
+              "maxLength": 80
+            },
+            "kind": {
+              "type": "string",
+              "description": "Representation kind.",
+              "x-i18n": {
+                "en-US": {
+                  "description": "Representation kind."
+                },
+                "zh-CN": {
+                  "description": "表现形式。"
+                }
+              },
+              "enum": [
+                "ORIGINAL",
+                "AV1_MASTER",
+                "ABR_HLS",
+                "ABR_DASH",
+                "H264_COMPAT",
+                "PREVIEW"
+              ]
+            },
+            "codec": {
+              "type": "string",
+              "description": "Verified codec.",
+              "x-i18n": {
+                "en-US": {
+                  "description": "Verified codec."
+                },
+                "zh-CN": {
+                  "description": "经校验的编解码格式。"
+                }
+              },
+              "minLength": 1,
+              "maxLength": 256
+            },
+            "toolVersion": {
+              "type": "string",
+              "description": "Encoder/tool version.",
+              "x-i18n": {
+                "en-US": {
+                  "description": "Encoder/tool version."
+                },
+                "zh-CN": {
+                  "description": "编码器或工具版本。"
+                }
+              },
+              "minLength": 1,
+              "maxLength": 256
+            },
+            "inputHash": {
+              "type": "string",
+              "description": "SHA-256 input digest.",
+              "x-i18n": {
+                "en-US": {
+                  "description": "SHA-256 input digest."
+                },
+                "zh-CN": {
+                  "description": "输入 SHA-256 摘要。"
+                }
+              },
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "outputHash": {
+              "type": "string",
+              "description": "SHA-256 output digest.",
+              "x-i18n": {
+                "en-US": {
+                  "description": "SHA-256 output digest."
+                },
+                "zh-CN": {
+                  "description": "输出 SHA-256 摘要。"
+                }
+              },
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "profileVersionId": {
+              "type": "string",
+              "description": "Exact immutable approved encoder profile version used by this rendition; resolved parameters remain immutable with the profile version.",
+              "x-i18n": {
+                "en-US": {
+                  "description": "Exact immutable approved encoder profile version used by this rendition; resolved parameters remain immutable with the profile version."
+                },
+                "zh-CN": {
+                  "description": "生成此表现形式所使用的精确、不可变、已批准的编码配置版本；解析后的参数随该配置版本保持不可变。"
+                }
+              },
+              "pattern": "^[a-z]{2,12}_[A-Za-z0-9_-]{1,64}$",
+              "maxLength": 80
+            },
+            "qualityStatus": {
+              "const": "PASS"
+            },
+            "publicationStatus": {
+              "const": "PUBLISHED"
+            },
+            "revision": {
+              "type": "integer",
+              "description": "Optimistic resource revision.",
+              "x-i18n": {
+                "en-US": {
+                  "description": "Optimistic resource revision."
+                },
+                "zh-CN": {
+                  "description": "资源的乐观并发修订号。"
+                }
+              },
+              "minimum": 1
+            },
+            "publishedAt": {
+              "type": "string",
+              "description": "UTC RFC3339 timestamp.",
+              "x-i18n": {
+                "en-US": {
+                  "description": "UTC RFC3339 timestamp."
+                },
+                "zh-CN": {
+                  "description": "UTC RFC3339 时间。"
+                }
+              },
+              "format": "date-time"
+            }
+          },
+          "required": [
+            "renditionId",
+            "assetVersionId",
+            "kind",
+            "codec",
+            "toolVersion",
+            "inputHash",
+            "outputHash",
+            "profileVersionId",
+            "qualityStatus",
+            "publicationStatus",
+            "revision",
+            "publishedAt"
+          ],
+          "additionalProperties": false
+        }
+      }
+    }
+  ]
+}

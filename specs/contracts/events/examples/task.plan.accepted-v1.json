@@ -1,0 +1,18 @@
+{
+  "eventId": "evt_task_plan_accepted",
+  "eventType": "task.plan.accepted",
+  "eventVersion": 1,
+  "aggregateType": "TaskPlan",
+  "aggregateId": "plan_example",
+  "occurredAt": "2026-11-25T13:00:00Z",
+  "producer": "guize-control",
+  "traceId": "trace-edge-event-01",
+  "payload": {
+    "revision": 1,
+    "taskId": "task_example",
+    "planId": "plan_example",
+    "planVersion": 4,
+    "compiledPlanSha256": "2222222222222222222222222222222222222222222222222222222222222222",
+    "acceptedAt": "2026-11-25T13:00:00Z"
+  }
+}

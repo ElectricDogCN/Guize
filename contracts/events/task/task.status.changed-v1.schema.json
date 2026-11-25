@@ -1,0 +1,222 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://guize.local/contracts/events/task/task.status.changed-v1.schema.json",
+  "title": "task.status.changed version1",
+  "allOf": [
+    {
+      "$ref": "https://guize.local/contracts/events/event-envelope.schema.json"
+    },
+    {
+      "properties": {
+        "eventId": {
+          "type": "string",
+          "description": "Opaque resource identifier; never a file path.",
+          "x-i18n": {
+            "en-US": {
+              "description": "Opaque resource identifier; never a file path."
+            },
+            "zh-CN": {
+              "description": "不透明资源标识，不是文件路径。"
+            }
+          },
+          "pattern": "^[a-z]{2,12}_[A-Za-z0-9_-]{1,64}$",
+          "maxLength": 80
+        },
+        "eventType": {
+          "const": "task.status.changed"
+        },
+        "eventVersion": {
+          "const": 1
+        },
+        "aggregateType": {
+          "const": "Task"
+        },
+        "aggregateId": {
+          "type": "string",
+          "description": "Opaque resource identifier; never a file path.",
+          "x-i18n": {
+            "en-US": {
+              "description": "Opaque resource identifier; never a file path."
+            },
+            "zh-CN": {
+              "description": "不透明资源标识，不是文件路径。"
+            }
+          },
+          "pattern": "^[a-z]{2,12}_[A-Za-z0-9_-]{1,64}$",
+          "maxLength": 80
+        },
+        "producer": {
+          "const": "guize-control"
+        },
+        "traceId": {
+          "type": "string",
+          "description": "Request correlation identifier, including failures.",
+          "x-i18n": {
+            "en-US": {
+              "description": "Request correlation identifier, including failures."
+            },
+            "zh-CN": {
+              "description": "包括失败请求在内的关联标识。"
+            }
+          },
+          "pattern": "^[A-Za-z0-9-]{8,128}$",
+          "maxLength": 128
+        },
+        "payload": {
+          "type": "object",
+          "properties": {
+            "taskId": {
+              "type": "string",
+              "description": "Opaque resource identifier; never a file path.",
+              "x-i18n": {
+                "en-US": {
+                  "description": "Opaque resource identifier; never a file path."
+                },
+                "zh-CN": {
+                  "description": "不透明资源标识，不是文件路径。"
+                }
+              },
+              "pattern": "^[a-z]{2,12}_[A-Za-z0-9_-]{1,64}$",
+              "maxLength": 80
+            },
+            "status": {
+              "type": "string",
+              "description": "Workflow state; transitions are constrained.",
+              "x-i18n": {
+                "en-US": {
+                  "description": "Workflow state; transitions are constrained."
+                },
+                "zh-CN": {
+                  "description": "工作流状态，转换受状态机约束。"
+                }
+              },
+              "enum": [
+                "CREATED",
+                "QUEUED",
+                "DISPATCHING",
+                "RUNNING",
+                "PAUSING",
+                "PAUSED",
+                "WAITING_RESOURCE",
+                "WAITING_BUDGET",
+                "WAITING_APPROVAL",
+                "RETRYING",
+                "SUCCEEDED",
+                "PARTIAL_SUCCESS",
+                "FAILED",
+                "CANCELLED"
+              ]
+            },
+            "priority": {
+              "type": "integer",
+              "description": "P0 highest through P8 lowest.",
+              "x-i18n": {
+                "en-US": {
+                  "description": "P0 highest through P8 lowest."
+                },
+                "zh-CN": {
+                  "description": "P0 最高至 P8 最低。"
+                }
+              },
+              "minimum": 0,
+              "maximum": 8
+            },
+            "progress": {
+              "type": "number",
+              "description": "Progress is not success.",
+              "x-i18n": {
+                "en-US": {
+                  "description": "Progress is not success."
+                },
+                "zh-CN": {
+                  "description": "进度不代表成功。"
+                }
+              },
+              "minimum": 0,
+              "maximum": 100
+            },
+            "inputVersionId": {
+              "type": "string",
+              "description": "Opaque resource identifier; never a file path.",
+              "x-i18n": {
+                "en-US": {
+                  "description": "Opaque resource identifier; never a file path."
+                },
+                "zh-CN": {
+                  "description": "不透明资源标识，不是文件路径。"
+                }
+              },
+              "pattern": "^[a-z]{2,12}_[A-Za-z0-9_-]{1,64}$",
+              "maxLength": 80
+            },
+            "revision": {
+              "type": "integer",
+              "description": "Optimistic resource revision.",
+              "x-i18n": {
+                "en-US": {
+                  "description": "Optimistic resource revision."
+                },
+                "zh-CN": {
+                  "description": "资源的乐观并发修订号。"
+                }
+              },
+              "minimum": 1
+            },
+            "previousStatus": {
+              "type": "string",
+              "description": "Workflow state; transitions are constrained.",
+              "x-i18n": {
+                "en-US": {
+                  "description": "Workflow state; transitions are constrained."
+                },
+                "zh-CN": {
+                  "description": "工作流状态，转换受状态机约束。"
+                }
+              },
+              "enum": [
+                "CREATED",
+                "QUEUED",
+                "DISPATCHING",
+                "RUNNING",
+                "PAUSING",
+                "PAUSED",
+                "WAITING_RESOURCE",
+                "WAITING_BUDGET",
+                "WAITING_APPROVAL",
+                "RETRYING",
+                "SUCCEEDED",
+                "PARTIAL_SUCCESS",
+                "FAILED",
+                "CANCELLED"
+              ]
+            },
+            "changedAt": {
+              "type": "string",
+              "description": "UTC RFC3339 timestamp.",
+              "x-i18n": {
+                "en-US": {
+                  "description": "UTC RFC3339 timestamp."
+                },
+                "zh-CN": {
+                  "description": "UTC RFC3339 时间。"
+                }
+              },
+              "format": "date-time"
+            }
+          },
+          "required": [
+            "taskId",
+            "status",
+            "priority",
+            "progress",
+            "inputVersionId",
+            "revision",
+            "previousStatus",
+            "changedAt"
+          ],
+          "additionalProperties": false
+        }
+      }
+    }
+  ]
+}

@@ -5,7 +5,7 @@ Branch: chore/GZ-006-event-catalog-reservation
 Work Branch: chore/GZ-006-event-catalog-v1
 Status: RESERVED; current source results PENDING
 
-Own metadata now; future implementation claims:
+Implementation uses the three registered claims:
 - `contracts/events/**`
 - `specs/contracts/events/**`
 - `evidence/GZ-006/**`
