@@ -1,0 +1,96 @@
+{
+  "stage": "matrix",
+  "stageDirectory": "/var/tmp/guize-poc003-native-20261124-oeaHgfYn",
+  "reviewer": "/root/independent_review",
+  "testedSource": {
+    "commit": "2a6a6a9e62dc0fe7ef3144934d77c010811584ad",
+    "tree": "a379722549aa616426a0318e261840858b66ceb6"
+  },
+  "reviewedBranch": "chore/POC-003-qualified-lfs-evidence-v2",
+  "branchHead": "cce172d36982ae17acf724dd20140fafba4d952e",
+  "sourceRun": 45546263672,
+  "actualMainRun": 45550642379,
+  "image": "sha256:df18428df8a0f9189c84e7424d214b4c50092af1f9dca5842a00c41c39bda316",
+  "budgetSeconds": 840,
+  "maximumAttempts": 1,
+  "approved": true,
+  "mustFix": [],
+  "approvedAt": "2026-11-25T05:29:12Z",
+  "validFrom": "2026-11-25T05:29:12Z",
+  "validUntil": "2026-11-25T05:59:12Z",
+  "beforeControls": {
+    "sample-approval.json": {
+      "bytes": 358,
+      "sha256": "f5009451c853758ecb542d973254be2a081e4fe0fd4c9b84bb89a6c97f92b3d0"
+    },
+    "changed-sample-approval.json": {
+      "bytes": 361,
+      "sha256": "003d89b5317f9dd2509cec1af66503ebc4de24927d3d39660c76c02e5b552ffb"
+    },
+    "profile-configuration.json": {
+      "bytes": 1015,
+      "sha256": "e241e1078f6022c8ba4502b74599b7c7b356ca9d34f72921c13e0353cb837966"
+    },
+    "resource-configuration.json": {
+      "bytes": 5414,
+      "sha256": "5c5299f3f2aa057478281507a9137280f6dfeed46dea65e5c3c46a1dbc00bdd3"
+    },
+    "resource-booking.json": {
+      "bytes": 446,
+      "sha256": "c0f9ae1d9ed4ae4e6665e7123e46238bbfa89051d387a7477ce1b3ba7834c70b"
+    }
+  },
+  "sha256": {
+    "inputManifest": "8690aeadbbd27299e34ea3d4827e630c6f6f4b839e11a8d7606232ffe603f04f",
+    "configuration": "31fe475a2dc025848d9bc7dec36e3d3280f622ef77788395070c99e5215ceee4",
+    "entry": "35642d5d3896bd1c47d64a43a3e70c7a2934382294b0d2669d8c26ed2f2d08cb",
+    "canonicalChecker": "6cbbb4c2b2f79a76af71e33c7d2db8a9842a5f7b0f22c3f5e45bd4eb79ab8851",
+    "sourceQualification": "f33317e1443d1314c464f9f906f6fd08383237a5057aa210f633946ce568a105",
+    "atsVersion": "9b57951541178a59355b4d171202e75892eb59e8bb5df2982b0b65dd2b5f845e",
+    "method": "1d394a892e01db9079dd71931164a34e7c1f39b813d4ee352c92a96359620089",
+    "freshAuthority": "e4cc1d15d0c129aad10dcfbf26e17972a251e3c756b7ca81d4b6804f55c619ae",
+    "officialTransport": "a0fdea671b8b71b0f7cfb4d427d0708607ade7fb3551994b0125ea947af9bfba",
+    "diskGuard": "b2a992db574b68a92a6535c34438c511654f2095d7aab89a8197e35d787e3c35",
+    "clockMethod": "a3441bfbf5f1b700d1061f2816495321776733373ddf9edd4fb140189ce67fa4",
+    "clockHoldMethod": "25ea56129e3f1fff793e74bca9b9b806bc8ef2d3e5aaa57f623170e3394cdf68"
+  },
+  "actualMainAcceptanceReviewSha256": "2dac81ee4ddaf60e98151322890960aaee54256096103a8a4711d862c9d6271a",
+  "actualMainAcceptanceReviewFile": "poc003-resumption-after-ops027-final-actual-main-independent-review.json",
+  "matrixCollectionExecutionApproved": true,
+  "warmExecutionApproved": false,
+  "canonicalAssemblyExecutionApproved": false,
+  "publicationApproved": false,
+  "formalPocAccepted": false,
+  "expectedToolVersions": {
+    "python": "3.12.15 (main, Oct  6 2026, 02:02:22) [GCC 14.2.0]",
+    "atsVersionObservation": "Traffic Server 9.2.3 Nov 12 2026 22:51:47 localhost\ntraffic_server: using root directory '/poc/runtime/pkgroot'\nApache Traffic Server - traffic_server - 9.2.3 - (build # 111222 on Nov 12 2026 at 22:51:47)",
+    "atsVersionObservationScope": "Actual fresh-binary version command in the same fixed runtime image before workload; owned epochs separately prove current executable mappings and ABI"
+  },
+  "previousAttempt": {
+    "approvalSha256": "08b47672f355349d8e4448d54c5b9be99f7c2ff1bcc29e5bfe47bb688a51983a",
+    "outcome": "CLOCK_PREFLIGHT_REJECTED_BEFORE_CONTAINER_OR_MEDIA",
+    "preservedArchive": "/var/tmp/guize-poc003-native-20261124-oeaHgfYn/matrix-rejected-clock-step-1",
+    "supervisionSha256": "0675c41733e280e1f31a858d26186b1fd68b901c2b6e7f342b38fc9b912ee6bc",
+    "clockNegativeResultSha256": "4b51288977714ab88171e9621029f5cddf0472e9c717367268ac3ad612b03073",
+    "oldPermissionReused": false
+  },
+  "clockIsolationPreflight": {
+    "resultSha256": "9c097730a557739b3f4f4de8e9e1f4ab00a68533c4d2f960379ce3051e0a7612",
+    "actualMonotonicDurationNs": 45012284526,
+    "samples": 1789,
+    "offsetRangeNs": 9887,
+    "discontinuitiesOver1ms": 0,
+    "backwards": 0,
+    "serviceSequence": "active to inactive to active",
+    "enablementRemained": "enabled",
+    "futureStabilityGuaranteed": false
+  },
+  "conditions": [
+    "Execute only through the exact pinned clock-hold wrapper: authenticate this ticket before pausing only Ubuntu systemd-timesyncd; hold inactive across the unchanged fresh45-second check, complete workload and owned cleanup; restore original active/enabled state and retain actual service receipts on every exit.",
+    "Outer1100-second supervision and60-second post-interrupt grace preserve inner840-second run and independently bounded cleanup. No disable, configuration/time change, host/WSL/Desktop reset or unrelated service/container action is approved.",
+    "One new actual matrix collection only; previous clock-rejected directory and all v2/v3 files remain history and are not overwritten/reused as this permission.",
+    "Immediately before create/start enforce exact live refs/Issue/source and main success, source15/current role/lease, freshness<=120, full remaining budget, fixed image and all reviewed CPU/memory/PID/caps/NNP/seccomp/no-network/read-only controls.",
+    "Common performance lock/no other running measurement workload and no POC005 overlap are mandatory. Preserve all raw failures and actual owned wait/terminal facts.",
+    "This is matrix collection/sample-use authority only. Warm must receive a separate new prospective window after this matrix actual terminal. Assembly, formal PASS, publication, completion and capacity release remain unapproved."
+  ]
+}

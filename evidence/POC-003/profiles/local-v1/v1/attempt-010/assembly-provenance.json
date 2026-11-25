@@ -1,0 +1,440 @@
+{
+  "native": {
+    "epochCount": 26,
+    "epochs": [
+      {
+        "token": "0",
+        "pid": 9,
+        "startTicks": 4772129,
+        "rawSha256": "3ad1c8016be5e8c766529a2ca0b56ac970c5a9e701fa4987c97f49282a9a55ec",
+        "peakBytes": 32768
+      },
+      {
+        "token": "1",
+        "pid": 30,
+        "startTicks": 4772150,
+        "rawSha256": "d915e857fcb9d593c725b523005168268a4628c3045b0194553f29d01ca6f75a",
+        "peakBytes": 1089536
+      },
+      {
+        "token": "2",
+        "pid": 50,
+        "startTicks": 4772310,
+        "rawSha256": "8c6db4c6ec574703911f716e0be2b3226ecc3a42bd70a43877de53b8b3955cdc",
+        "peakBytes": 1048576
+      },
+      {
+        "token": "3",
+        "pid": 76,
+        "startTicks": 4772330,
+        "rawSha256": "ae011d51f130e72d9e1698117fb4bd281b543c8e3f07fe7d6abe5bbd9cfda903",
+        "peakBytes": 1921024
+      },
+      {
+        "token": "4",
+        "pid": 106,
+        "startTicks": 4772712,
+        "rawSha256": "c799295fc5aeaba3ba6b7fabb1144e04af6fad8a97fe026ee048653aba240843",
+        "peakBytes": 1048576
+      },
+      {
+        "token": "5",
+        "pid": 132,
+        "startTicks": 4772728,
+        "rawSha256": "62c70563b840f9b1f654b664ecfbb40df7b1126ef0a99471816225205d721de0",
+        "peakBytes": 2859008
+      },
+      {
+        "token": "6",
+        "pid": 538,
+        "startTicks": 4774841,
+        "rawSha256": "bc0ba525e377edfbaf358dab13675eb724bf3a368aff08b3379593716e0590ba",
+        "peakBytes": 1048576
+      },
+      {
+        "token": "7",
+        "pid": 564,
+        "startTicks": 4774861,
+        "rawSha256": "20f81e97d6726ec967773d806b8bccc08de186ed2f700aba345d4cb3078cecd0",
+        "peakBytes": 3174400
+      },
+      {
+        "token": "8",
+        "pid": 634,
+        "startTicks": 4776533,
+        "rawSha256": "a67e96c4e2b63061a0553cf406a5f1772c12fcbefcdd64ef08ff5ea15e89175a",
+        "peakBytes": 1048576
+      },
+      {
+        "token": "9",
+        "pid": 660,
+        "startTicks": 4776556,
+        "rawSha256": "dcdb1dba877984053a6a63d9daf516e8bd5526efef63b9f31e4c0dafed4b0dc5",
+        "peakBytes": 1921024
+      },
+      {
+        "token": "10",
+        "pid": 686,
+        "startTicks": 4776840,
+        "rawSha256": "5add99011dc22c51ef6ab013dce2f0a058f9180c52feeb1e7d66bae108be987c",
+        "peakBytes": 1048576
+      },
+      {
+        "token": "11",
+        "pid": 712,
+        "startTicks": 4776857,
+        "rawSha256": "6087ba096ddeb04497734f69c867cfca93a99c860958a88729c91927470813a9",
+        "peakBytes": 1921024
+      },
+      {
+        "token": "12",
+        "pid": 738,
+        "startTicks": 4777140,
+        "rawSha256": "87e10f5eccffc8388559eeb1920bf8082881f449c187c18705f093e3682771c0",
+        "peakBytes": 1048576
+      },
+      {
+        "token": "13",
+        "pid": 764,
+        "startTicks": 4777156,
+        "rawSha256": "ee4dea337e3f221cdff165f30e6898636e68af3ea815cc26af85979f85ab8a39",
+        "peakBytes": 1921024
+      },
+      {
+        "token": "14",
+        "pid": 790,
+        "startTicks": 4777430,
+        "rawSha256": "4700ad6174a349bd0f29e11c02940db70b5e02688ab90ab24d79beb3ad05ea6f",
+        "peakBytes": 1048576
+      },
+      {
+        "token": "15",
+        "pid": 816,
+        "startTicks": 4777451,
+        "rawSha256": "490984f02494248afdbcd8057b88fab027ea7fe190a6be3da38fcd8e9714a229",
+        "peakBytes": 1921024
+      },
+      {
+        "token": "16",
+        "pid": 842,
+        "startTicks": 4777752,
+        "rawSha256": "32cd9dfe608a8e0a67926b38a45a583799f65262cfd1519b66c4f1f7327653ae",
+        "peakBytes": 1048576
+      },
+      {
+        "token": "17",
+        "pid": 868,
+        "startTicks": 4777769,
+        "rawSha256": "086caabaa2c82e59337f438ef9db52575f131448e83293155844fcb10651c624",
+        "peakBytes": 1691648
+      },
+      {
+        "token": "18",
+        "pid": 914,
+        "startTicks": 4778172,
+        "rawSha256": "f04fb03d6a89783732d051f30f5b27741d8de828fc25e8721d1416c09c559869",
+        "peakBytes": 1048576
+      },
+      {
+        "token": "19",
+        "pid": 940,
+        "startTicks": 4778189,
+        "rawSha256": "1d503df141a1314f5bc4ec771adb13c4c54e63e060207ade6b79c6516d5acf4b",
+        "peakBytes": 1691648
+      },
+      {
+        "token": "20",
+        "pid": 986,
+        "startTicks": 4778590,
+        "rawSha256": "9d53b55aeb3753a1922957f8d68b3649d799a8f44dc65ce4c1d820e7c4e2189c",
+        "peakBytes": 1048576
+      },
+      {
+        "token": "21",
+        "pid": 1012,
+        "startTicks": 4778606,
+        "rawSha256": "cd0d21f761fef759d4d53bcd1cf2514bb6ce94d85fd465a1dab1c433400f98a3",
+        "peakBytes": 1691648
+      },
+      {
+        "token": "22",
+        "pid": 1058,
+        "startTicks": 4779007,
+        "rawSha256": "82ea7614609f8b01668cf0a5a16042c5d6e78bf7d779dcc2d38f13845c1a06d6",
+        "peakBytes": 1048576
+      },
+      {
+        "token": "23",
+        "pid": 1084,
+        "startTicks": 4779023,
+        "rawSha256": "987d950b6921aa20977a578d23449f1b6a5f6a1f014d3fa0f2deac8f89c5b419",
+        "peakBytes": 3289088
+      },
+      {
+        "token": "24",
+        "pid": 1181,
+        "startTicks": 4779861,
+        "rawSha256": "c7e72dc9ee051978f8e115239d5faf4a86a19500624671d189adac86df2f758d",
+        "peakBytes": 1048576
+      },
+      {
+        "token": "25",
+        "pid": 1207,
+        "startTicks": 4779905,
+        "rawSha256": "584c4a151f2edaabcb80504226fd6ceb81159be4e905b6561d3151a45d41b401",
+        "peakBytes": 1089536
+      }
+    ],
+    "maximumTrackedCapacityBytes": 3289088,
+    "aggregation": "max of complete actual serialized target epochs, conditional on the pinned singleton owner source"
+  },
+  "runtimeBindings": {
+    "processBirth": 4772048,
+    "observations": {
+      "prepare": {
+        "profileSha256": "0830b95ad06d0a108cb474afb4888526f8c2d785644a219efaa194b3a886324e",
+        "bindingSha256": "8c15cbbf0f04f5c2f28f30db7fc6312dbf1ec607bc793be02d2b2fed8676651f",
+        "pid": 1,
+        "processStartTicks": 4772048,
+        "observedAt": "2026-11-25T05:30:43.226321Z",
+        "mappedNativeComponents": [
+          "_ctypes",
+          "_hashlib",
+          "_socket",
+          "_ssl",
+          "interpreter",
+          "libc.so.6",
+          "libcrypto.so.3",
+          "libffi.so.8",
+          "libpython3.12.so.1.0"
+        ],
+        "identityAndCryptoRouteMatch": true
+      },
+      "controller": {
+        "profileSha256": "0830b95ad06d0a108cb474afb4888526f8c2d785644a219efaa194b3a886324e",
+        "bindingSha256": "19e78b76e7b6807d882a2cec72f5f1c3b44b82261bb70babf38dd70bd38ce1c7",
+        "pid": 1,
+        "processStartTicks": 4772048,
+        "observedAt": "2026-11-25T05:30:43.324563Z",
+        "mappedNativeComponents": [
+          "_ctypes",
+          "_hashlib",
+          "_socket",
+          "_ssl",
+          "interpreter",
+          "libc.so.6",
+          "libcrypto.so.3",
+          "libffi.so.8",
+          "libpython3.12.so.1.0"
+        ],
+        "identityAndCryptoRouteMatch": true
+      },
+      "collector": {
+        "profileSha256": "0830b95ad06d0a108cb474afb4888526f8c2d785644a219efaa194b3a886324e",
+        "bindingSha256": "ef433c8f62e2cb2546a0832cdc1c6747d5aa7bf1cdc65ba34850605821f938e4",
+        "pid": 1,
+        "processStartTicks": 4772048,
+        "observedAt": "2026-11-25T05:30:44.379012Z",
+        "mappedNativeComponents": [
+          "_ctypes",
+          "_hashlib",
+          "_socket",
+          "_ssl",
+          "interpreter",
+          "libc.so.6",
+          "libcrypto.so.3",
+          "libffi.so.8",
+          "libpython3.12.so.1.0"
+        ],
+        "identityAndCryptoRouteMatch": true
+      }
+    },
+    "scope": "Actual fixed interpreter/module/native maps and crypto-route binding; no extra HASH introspection or independent aggregate-capacity claim"
+  },
+  "associations": {
+    "unusedObserverDirectories": [
+      {
+        "pid": 9,
+        "token": "0",
+        "role": "verify_config",
+        "startTicks": 4772129,
+        "journalSha256": "3ad1c8016be5e8c766529a2ca0b56ac970c5a9e701fa4987c97f49282a9a55ec"
+      },
+      {
+        "pid": 30,
+        "token": "1",
+        "role": "start",
+        "startTicks": 4772150,
+        "journalSha256": "d915e857fcb9d593c725b523005168268a4628c3045b0194553f29d01ca6f75a"
+      },
+      {
+        "pid": 1207,
+        "token": "25",
+        "role": "start",
+        "startTicks": 4779905,
+        "journalSha256": "584c4a151f2edaabcb80504226fd6ceb81159be4e905b6561d3151a45d41b401"
+      }
+    ],
+    "usedNativeEpochs": [
+      {
+        "pid": 76,
+        "token": "3",
+        "role": "start",
+        "startTicks": 4772330,
+        "journalSha256": "ae011d51f130e72d9e1698117fb4bd281b543c8e3f07fe7d6abe5bbd9cfda903"
+      },
+      {
+        "pid": 132,
+        "token": "5",
+        "role": "start",
+        "startTicks": 4772728,
+        "journalSha256": "62c70563b840f9b1f654b664ecfbb40df7b1126ef0a99471816225205d721de0"
+      },
+      {
+        "pid": 564,
+        "token": "7",
+        "role": "start",
+        "startTicks": 4774861,
+        "journalSha256": "20f81e97d6726ec967773d806b8bccc08de186ed2f700aba345d4cb3078cecd0"
+      },
+      {
+        "pid": 660,
+        "token": "9",
+        "role": "start",
+        "startTicks": 4776556,
+        "journalSha256": "dcdb1dba877984053a6a63d9daf516e8bd5526efef63b9f31e4c0dafed4b0dc5"
+      },
+      {
+        "pid": 712,
+        "token": "11",
+        "role": "start",
+        "startTicks": 4776857,
+        "journalSha256": "6087ba096ddeb04497734f69c867cfca93a99c860958a88729c91927470813a9"
+      },
+      {
+        "pid": 764,
+        "token": "13",
+        "role": "start",
+        "startTicks": 4777156,
+        "journalSha256": "ee4dea337e3f221cdff165f30e6898636e68af3ea815cc26af85979f85ab8a39"
+      },
+      {
+        "pid": 816,
+        "token": "15",
+        "role": "start",
+        "startTicks": 4777451,
+        "journalSha256": "490984f02494248afdbcd8057b88fab027ea7fe190a6be3da38fcd8e9714a229"
+      },
+      {
+        "pid": 868,
+        "token": "17",
+        "role": "start",
+        "startTicks": 4777769,
+        "journalSha256": "086caabaa2c82e59337f438ef9db52575f131448e83293155844fcb10651c624"
+      },
+      {
+        "pid": 940,
+        "token": "19",
+        "role": "start",
+        "startTicks": 4778189,
+        "journalSha256": "1d503df141a1314f5bc4ec771adb13c4c54e63e060207ade6b79c6516d5acf4b"
+      },
+      {
+        "pid": 1012,
+        "token": "21",
+        "role": "start",
+        "startTicks": 4778606,
+        "journalSha256": "cd0d21f761fef759d4d53bcd1cf2514bb6ce94d85fd465a1dab1c433400f98a3"
+      },
+      {
+        "pid": 1084,
+        "token": "23",
+        "role": "start",
+        "startTicks": 4779023,
+        "journalSha256": "987d950b6921aa20977a578d23449f1b6a5f6a1f014d3fa0f2deac8f89c5b419"
+      },
+      {
+        "pid": 1207,
+        "token": "25",
+        "role": "start",
+        "startTicks": 4779905,
+        "journalSha256": "584c4a151f2edaabcb80504226fd6ceb81159be4e905b6561d3151a45d41b401"
+      }
+    ],
+    "observedNativePids": [
+      76,
+      132,
+      564,
+      660,
+      712,
+      764,
+      816,
+      868,
+      940,
+      1012,
+      1084,
+      1207
+    ],
+    "allUsedPidsBelongToActualClosedEpochs": true,
+    "scope": "Exact actual own26 PID/token/birth; ambiguous reused PID is rejected rather than silently rebound"
+  },
+  "closedRequestPeaks": {
+    "origin": 1,
+    "gateway": 2,
+    "collector": 2
+  },
+  "capacity": {
+    "terms": {
+      "native": 3289088,
+      "origin": 73729,
+      "gateway": 819220,
+      "collector": 1064984,
+      "synchronousPhase": 1048577,
+      "hash": 24576
+    },
+    "maximumBufferedBytes": 6320174,
+    "sourcePayloadOwnerPeaks": {
+      "origin": 1,
+      "gateway": 2,
+      "collector": 2,
+      "externalRevocation": 0
+    },
+    "sourceAndWindowConditionsRequired": true,
+    "independentAggregateAccepted": false,
+    "formalPocAccepted": false
+  },
+  "observations": {
+    "gateDiagnostics": {
+      "etag_semantics": true,
+      "if_range_semantics": true,
+      "ats_slice_behavior": true,
+      "source_update_invalidation": true,
+      "origin_interruption_recovery": true,
+      "partial_cache_integrity": true,
+      "cache_hit_observation": true,
+      "cache_disk_observation": true,
+      "cache_key_isolation": true,
+      "large_file_streaming": true
+    },
+    "rangeByteCorrectnessPercent": 100.0,
+    "rangeCaseValidationPercent": 100.0,
+    "latencyDiagnostics": {
+      "range_hot_cache_latency": 7.887999999999999,
+      "range_cold_cache_latency": 48.349999999999994,
+      "range_slow_origin_latency": 297.173,
+      "range_multi_user_latency": 17.514
+    },
+    "completeCapacityWithinOriginalBound": true,
+    "completeCapacityBytes": 6320174,
+    "originalCapacityLimitBytes": 8388608,
+    "physicalCacheErasureClaimed": false,
+    "diskMeaning": "Actual disk allocation observations and separately typed selected logical-object lifecycle; cleanup is not physical-zero allocation.",
+    "formalMeasurements": null,
+    "actualExecutionAuthenticationStillRequired": true,
+    "formalPocAccepted": false
+  },
+  "labSampleBytes": 67108864,
+  "rawFiles": 709,
+  "rawBytes": 618250056,
+  "formalPocAccepted": false
+}

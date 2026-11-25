@@ -1,0 +1,99 @@
+{
+  "action": "owned-epoch-closed",
+  "label": "clear-cache-10",
+  "pid": 986,
+  "epochRef": "process-epochs/epoch-20",
+  "accepted": true,
+  "trackedEpoch": {
+    "kind": "TRACKED_ALLOCATION_PEAK_PREFIX_NOT_MEDIA_QUALIFICATION",
+    "recordCount": 2,
+    "rawEnd": 722,
+    "trailingBytes": 0,
+    "rawSha256": "9d53b55aeb3753a1922957f8d68b3649d799a8f44dc65ce4c1d820e7c4e2189c",
+    "first": {
+      "kind": "INSTRUMENTED_ATS_DURABLE_PEAK",
+      "schemaVersion": 1,
+      "pid": 986,
+      "startTicks": 4778590,
+      "sequence": 0,
+      "abiVersion": 1,
+      "generation": 0,
+      "accountingWindow": "process-lifetime",
+      "beforeMonotonicNs": 47786014500457,
+      "peakBytes": 0,
+      "currentBytes": 0,
+      "currentByKind": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "acquisitions": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "releases": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "violations": 0,
+      "uncoveredExternalEvents": 0
+    },
+    "last": {
+      "kind": "INSTRUMENTED_ATS_DURABLE_PEAK",
+      "schemaVersion": 1,
+      "pid": 986,
+      "startTicks": 4778590,
+      "sequence": 1,
+      "abiVersion": 1,
+      "generation": 0,
+      "accountingWindow": "process-lifetime",
+      "beforeMonotonicNs": 47786035429549,
+      "peakBytes": 1048576,
+      "currentBytes": 1048576,
+      "currentByKind": [
+        0,
+        1048576,
+        0,
+        0
+      ],
+      "acquisitions": [
+        0,
+        1,
+        0,
+        0
+      ],
+      "releases": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "violations": 0,
+      "uncoveredExternalEvents": 0
+    },
+    "maximumObservedTrackedCapacityBytes": 1048576,
+    "completeTrackedProcessEpoch": true,
+    "fullMediaBufferBoundProven": false,
+    "process": {
+      "pid": 986,
+      "startTicks": 4778590
+    },
+    "exitCode": 0,
+    "waitCompleted": true,
+    "rawBytes": 722,
+    "journalDevice": 2096,
+    "journalInode": 2194935,
+    "rawFile": "durable-peaks.raw"
+  },
+  "error": null,
+  "exitCode": 0,
+  "actualWaitCompleted": true,
+  "allDescendantsCovered": false,
+  "noSubsequentExecProven": false,
+  "fullMediaBufferBoundProven": false
+}

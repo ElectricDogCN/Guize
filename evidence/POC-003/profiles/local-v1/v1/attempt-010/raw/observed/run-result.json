@@ -1,0 +1,2641 @@
+{
+  "stage": "matrix",
+  "testedSource": {
+    "commit": "2a6a6a9e62dc0fe7ef3144934d77c010811584ad",
+    "tree": "a379722549aa616426a0318e261840858b66ceb6"
+  },
+  "startedAt": "2026-11-25T05:29:38.364321+00:00",
+  "approvalSha256": "103854a92ea3eda5ed5e2a3e340a4cef9fbcb0f9bebc85b9cfd4f6a9c9d2a6a5",
+  "containerId": "efe058642e6b3a48fd48be9189aad977f10cfca10002decc162760a5ecfdcf69",
+  "attachedExitCode": 0,
+  "engineExitCode": 0,
+  "rawExecutionCompleted": true,
+  "formalPocAccepted": false,
+  "actualStartRequestedAt": "2026-11-25T05:30:42.742671+00:00",
+  "lastDiskObservation": {
+    "files": 1867,
+    "logicalBytes": 1241745586,
+    "nonCacheLogicalBytes": 973310130,
+    "transientEnoentRescans": 0
+  },
+  "actualOwnerWait": {
+    "ownerBirth": {
+      "pid": 8,
+      "startTicks": 4772101
+    },
+    "ownerExitCode": 0,
+    "actualOwnerWaitCompleted": true,
+    "targetClosureSummary": {
+      "epochCount": 26,
+      "closedEpochCount": 26,
+      "acceptedCount": 26,
+      "allAccepted": true,
+      "closureRoot": "process-epochs"
+    }
+  },
+  "actualTargetClosures": [
+    {
+      "action": "owned-epoch-closed",
+      "label": "ats-stop",
+      "pid": 764,
+      "epochRef": "process-epochs/epoch-13",
+      "accepted": true,
+      "trackedEpoch": {
+        "kind": "TRACKED_ALLOCATION_PEAK_PREFIX_NOT_MEDIA_QUALIFICATION",
+        "recordCount": 33,
+        "rawEnd": 12373,
+        "trailingBytes": 0,
+        "rawSha256": "ee4dea337e3f221cdff165f30e6898636e68af3ea815cc26af85979f85ab8a39",
+        "first": {
+          "kind": "INSTRUMENTED_ATS_DURABLE_PEAK",
+          "schemaVersion": 1,
+          "pid": 764,
+          "startTicks": 4777156,
+          "sequence": 0,
+          "abiVersion": 1,
+          "generation": 0,
+          "accountingWindow": "process-lifetime",
+          "beforeMonotonicNs": 47771694524045,
+          "peakBytes": 0,
+          "currentBytes": 0,
+          "currentByKind": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "acquisitions": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "releases": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "violations": 0,
+          "uncoveredExternalEvents": 0
+        },
+        "last": {
+          "kind": "INSTRUMENTED_ATS_DURABLE_PEAK",
+          "schemaVersion": 1,
+          "pid": 764,
+          "startTicks": 4777156,
+          "sequence": 32,
+          "abiVersion": 1,
+          "generation": 0,
+          "accountingWindow": "process-lifetime",
+          "beforeMonotonicNs": 47773212041697,
+          "peakBytes": 1921024,
+          "currentBytes": 1921024,
+          "currentByKind": [
+            872448,
+            1048576,
+            0,
+            0
+          ],
+          "acquisitions": [
+            67,
+            1,
+            0,
+            0
+          ],
+          "releases": [
+            45,
+            0,
+            0,
+            0
+          ],
+          "violations": 0,
+          "uncoveredExternalEvents": 0
+        },
+        "maximumObservedTrackedCapacityBytes": 1921024,
+        "completeTrackedProcessEpoch": true,
+        "fullMediaBufferBoundProven": false,
+        "process": {
+          "pid": 764,
+          "startTicks": 4777156
+        },
+        "exitCode": 0,
+        "waitCompleted": true,
+        "rawBytes": 12373,
+        "journalDevice": 2096,
+        "journalInode": 2194622,
+        "rawFile": "durable-peaks.raw"
+      },
+      "error": null,
+      "exitCode": 0,
+      "actualWaitCompleted": true,
+      "allDescendantsCovered": false,
+      "noSubsequentExecProven": false,
+      "fullMediaBufferBoundProven": false
+    },
+    {
+      "action": "owned-epoch-closed",
+      "label": "ats-stop",
+      "pid": 712,
+      "epochRef": "process-epochs/epoch-11",
+      "accepted": true,
+      "trackedEpoch": {
+        "kind": "TRACKED_ALLOCATION_PEAK_PREFIX_NOT_MEDIA_QUALIFICATION",
+        "recordCount": 33,
+        "rawEnd": 12373,
+        "trailingBytes": 0,
+        "rawSha256": "6087ba096ddeb04497734f69c867cfca93a99c860958a88729c91927470813a9",
+        "first": {
+          "kind": "INSTRUMENTED_ATS_DURABLE_PEAK",
+          "schemaVersion": 1,
+          "pid": 712,
+          "startTicks": 4776857,
+          "sequence": 0,
+          "abiVersion": 1,
+          "generation": 0,
+          "accountingWindow": "process-lifetime",
+          "beforeMonotonicNs": 47768699247236,
+          "peakBytes": 0,
+          "currentBytes": 0,
+          "currentByKind": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "acquisitions": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "releases": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "violations": 0,
+          "uncoveredExternalEvents": 0
+        },
+        "last": {
+          "kind": "INSTRUMENTED_ATS_DURABLE_PEAK",
+          "schemaVersion": 1,
+          "pid": 712,
+          "startTicks": 4776857,
+          "sequence": 32,
+          "abiVersion": 1,
+          "generation": 0,
+          "accountingWindow": "process-lifetime",
+          "beforeMonotonicNs": 47770228951982,
+          "peakBytes": 1921024,
+          "currentBytes": 1921024,
+          "currentByKind": [
+            872448,
+            1048576,
+            0,
+            0
+          ],
+          "acquisitions": [
+            67,
+            1,
+            0,
+            0
+          ],
+          "releases": [
+            45,
+            0,
+            0,
+            0
+          ],
+          "violations": 0,
+          "uncoveredExternalEvents": 0
+        },
+        "maximumObservedTrackedCapacityBytes": 1921024,
+        "completeTrackedProcessEpoch": true,
+        "fullMediaBufferBoundProven": false,
+        "process": {
+          "pid": 712,
+          "startTicks": 4776857
+        },
+        "exitCode": 0,
+        "waitCompleted": true,
+        "rawBytes": 12373,
+        "journalDevice": 2096,
+        "journalInode": 2194550,
+        "rawFile": "durable-peaks.raw"
+      },
+      "error": null,
+      "exitCode": 0,
+      "actualWaitCompleted": true,
+      "allDescendantsCovered": false,
+      "noSubsequentExecProven": false,
+      "fullMediaBufferBoundProven": false
+    },
+    {
+      "action": "owned-epoch-closed",
+      "label": "ats-stop",
+      "pid": 816,
+      "epochRef": "process-epochs/epoch-15",
+      "accepted": true,
+      "trackedEpoch": {
+        "kind": "TRACKED_ALLOCATION_PEAK_PREFIX_NOT_MEDIA_QUALIFICATION",
+        "recordCount": 33,
+        "rawEnd": 12373,
+        "trailingBytes": 0,
+        "rawSha256": "490984f02494248afdbcd8057b88fab027ea7fe190a6be3da38fcd8e9714a229",
+        "first": {
+          "kind": "INSTRUMENTED_ATS_DURABLE_PEAK",
+          "schemaVersion": 1,
+          "pid": 816,
+          "startTicks": 4777451,
+          "sequence": 0,
+          "abiVersion": 1,
+          "generation": 0,
+          "accountingWindow": "process-lifetime",
+          "beforeMonotonicNs": 47774622919523,
+          "peakBytes": 0,
+          "currentBytes": 0,
+          "currentByKind": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "acquisitions": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "releases": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "violations": 0,
+          "uncoveredExternalEvents": 0
+        },
+        "last": {
+          "kind": "INSTRUMENTED_ATS_DURABLE_PEAK",
+          "schemaVersion": 1,
+          "pid": 816,
+          "startTicks": 4777451,
+          "sequence": 32,
+          "abiVersion": 1,
+          "generation": 0,
+          "accountingWindow": "process-lifetime",
+          "beforeMonotonicNs": 47776401614991,
+          "peakBytes": 1921024,
+          "currentBytes": 1921024,
+          "currentByKind": [
+            872448,
+            1048576,
+            0,
+            0
+          ],
+          "acquisitions": [
+            67,
+            1,
+            0,
+            0
+          ],
+          "releases": [
+            45,
+            0,
+            0,
+            0
+          ],
+          "violations": 0,
+          "uncoveredExternalEvents": 0
+        },
+        "maximumObservedTrackedCapacityBytes": 1921024,
+        "completeTrackedProcessEpoch": true,
+        "fullMediaBufferBoundProven": false,
+        "process": {
+          "pid": 816,
+          "startTicks": 4777451
+        },
+        "exitCode": 0,
+        "waitCompleted": true,
+        "rawBytes": 12373,
+        "journalDevice": 2096,
+        "journalInode": 2194694,
+        "rawFile": "durable-peaks.raw"
+      },
+      "error": null,
+      "exitCode": 0,
+      "actualWaitCompleted": true,
+      "allDescendantsCovered": false,
+      "noSubsequentExecProven": false,
+      "fullMediaBufferBoundProven": false
+    },
+    {
+      "action": "owned-epoch-closed",
+      "label": "ats-stop",
+      "pid": 1207,
+      "epochRef": "process-epochs/epoch-25",
+      "accepted": true,
+      "trackedEpoch": {
+        "kind": "TRACKED_ALLOCATION_PEAK_PREFIX_NOT_MEDIA_QUALIFICATION",
+        "recordCount": 6,
+        "rawEnd": 2208,
+        "trailingBytes": 0,
+        "rawSha256": "584c4a151f2edaabcb80504226fd6ceb81159be4e905b6561d3151a45d41b401",
+        "first": {
+          "kind": "INSTRUMENTED_ATS_DURABLE_PEAK",
+          "schemaVersion": 1,
+          "pid": 1207,
+          "startTicks": 4779905,
+          "sequence": 0,
+          "abiVersion": 1,
+          "generation": 0,
+          "accountingWindow": "process-lifetime",
+          "beforeMonotonicNs": 47799296163217,
+          "peakBytes": 0,
+          "currentBytes": 0,
+          "currentByKind": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "acquisitions": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "releases": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "violations": 0,
+          "uncoveredExternalEvents": 0
+        },
+        "last": {
+          "kind": "INSTRUMENTED_ATS_DURABLE_PEAK",
+          "schemaVersion": 1,
+          "pid": 1207,
+          "startTicks": 4779905,
+          "sequence": 5,
+          "abiVersion": 1,
+          "generation": 0,
+          "accountingWindow": "process-lifetime",
+          "beforeMonotonicNs": 47799618305152,
+          "peakBytes": 1089536,
+          "currentBytes": 1089536,
+          "currentByKind": [
+            40960,
+            1048576,
+            0,
+            0
+          ],
+          "acquisitions": [
+            4,
+            1,
+            0,
+            0
+          ],
+          "releases": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "violations": 0,
+          "uncoveredExternalEvents": 0
+        },
+        "maximumObservedTrackedCapacityBytes": 1089536,
+        "completeTrackedProcessEpoch": true,
+        "fullMediaBufferBoundProven": false,
+        "process": {
+          "pid": 1207,
+          "startTicks": 4779905
+        },
+        "exitCode": 0,
+        "waitCompleted": true,
+        "rawBytes": 2208,
+        "journalDevice": 2096,
+        "journalInode": 2195332,
+        "rawFile": "durable-peaks.raw"
+      },
+      "error": null,
+      "exitCode": 0,
+      "actualWaitCompleted": true,
+      "allDescendantsCovered": false,
+      "noSubsequentExecProven": false,
+      "fullMediaBufferBoundProven": false
+    },
+    {
+      "action": "owned-epoch-closed",
+      "label": "clear-cache-9",
+      "pid": 914,
+      "epochRef": "process-epochs/epoch-18",
+      "accepted": true,
+      "trackedEpoch": {
+        "kind": "TRACKED_ALLOCATION_PEAK_PREFIX_NOT_MEDIA_QUALIFICATION",
+        "recordCount": 2,
+        "rawEnd": 722,
+        "trailingBytes": 0,
+        "rawSha256": "f04fb03d6a89783732d051f30f5b27741d8de828fc25e8721d1416c09c559869",
+        "first": {
+          "kind": "INSTRUMENTED_ATS_DURABLE_PEAK",
+          "schemaVersion": 1,
+          "pid": 914,
+          "startTicks": 4778172,
+          "sequence": 0,
+          "abiVersion": 1,
+          "generation": 0,
+          "accountingWindow": "process-lifetime",
+          "beforeMonotonicNs": 47781843594370,
+          "peakBytes": 0,
+          "currentBytes": 0,
+          "currentByKind": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "acquisitions": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "releases": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "violations": 0,
+          "uncoveredExternalEvents": 0
+        },
+        "last": {
+          "kind": "INSTRUMENTED_ATS_DURABLE_PEAK",
+          "schemaVersion": 1,
+          "pid": 914,
+          "startTicks": 4778172,
+          "sequence": 1,
+          "abiVersion": 1,
+          "generation": 0,
+          "accountingWindow": "process-lifetime",
+          "beforeMonotonicNs": 47781862930289,
+          "peakBytes": 1048576,
+          "currentBytes": 1048576,
+          "currentByKind": [
+            0,
+            1048576,
+            0,
+            0
+          ],
+          "acquisitions": [
+            0,
+            1,
+            0,
+            0
+          ],
+          "releases": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "violations": 0,
+          "uncoveredExternalEvents": 0
+        },
+        "maximumObservedTrackedCapacityBytes": 1048576,
+        "completeTrackedProcessEpoch": true,
+        "fullMediaBufferBoundProven": false,
+        "process": {
+          "pid": 914,
+          "startTicks": 4778172
+        },
+        "exitCode": 0,
+        "waitCompleted": true,
+        "rawBytes": 722,
+        "journalDevice": 2096,
+        "journalInode": 2194843,
+        "rawFile": "durable-peaks.raw"
+      },
+      "error": null,
+      "exitCode": 0,
+      "actualWaitCompleted": true,
+      "allDescendantsCovered": false,
+      "noSubsequentExecProven": false,
+      "fullMediaBufferBoundProven": false
+    },
+    {
+      "action": "owned-epoch-closed",
+      "label": "clear-cache-12",
+      "pid": 1181,
+      "epochRef": "process-epochs/epoch-24",
+      "accepted": true,
+      "trackedEpoch": {
+        "kind": "TRACKED_ALLOCATION_PEAK_PREFIX_NOT_MEDIA_QUALIFICATION",
+        "recordCount": 2,
+        "rawEnd": 724,
+        "trailingBytes": 0,
+        "rawSha256": "c7e72dc9ee051978f8e115239d5faf4a86a19500624671d189adac86df2f758d",
+        "first": {
+          "kind": "INSTRUMENTED_ATS_DURABLE_PEAK",
+          "schemaVersion": 1,
+          "pid": 1181,
+          "startTicks": 4779861,
+          "sequence": 0,
+          "abiVersion": 1,
+          "generation": 0,
+          "accountingWindow": "process-lifetime",
+          "beforeMonotonicNs": 47798857420519,
+          "peakBytes": 0,
+          "currentBytes": 0,
+          "currentByKind": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "acquisitions": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "releases": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "violations": 0,
+          "uncoveredExternalEvents": 0
+        },
+        "last": {
+          "kind": "INSTRUMENTED_ATS_DURABLE_PEAK",
+          "schemaVersion": 1,
+          "pid": 1181,
+          "startTicks": 4779861,
+          "sequence": 1,
+          "abiVersion": 1,
+          "generation": 0,
+          "accountingWindow": "process-lifetime",
+          "beforeMonotonicNs": 47798885752154,
+          "peakBytes": 1048576,
+          "currentBytes": 1048576,
+          "currentByKind": [
+            0,
+            1048576,
+            0,
+            0
+          ],
+          "acquisitions": [
+            0,
+            1,
+            0,
+            0
+          ],
+          "releases": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "violations": 0,
+          "uncoveredExternalEvents": 0
+        },
+        "maximumObservedTrackedCapacityBytes": 1048576,
+        "completeTrackedProcessEpoch": true,
+        "fullMediaBufferBoundProven": false,
+        "process": {
+          "pid": 1181,
+          "startTicks": 4779861
+        },
+        "exitCode": 0,
+        "waitCompleted": true,
+        "rawBytes": 724,
+        "journalDevice": 2096,
+        "journalInode": 2195317,
+        "rawFile": "durable-peaks.raw"
+      },
+      "error": null,
+      "exitCode": 0,
+      "actualWaitCompleted": true,
+      "allDescendantsCovered": false,
+      "noSubsequentExecProven": false,
+      "fullMediaBufferBoundProven": false
+    },
+    {
+      "action": "owned-epoch-closed",
+      "label": "ats-stop",
+      "pid": 940,
+      "epochRef": "process-epochs/epoch-19",
+      "accepted": true,
+      "trackedEpoch": {
+        "kind": "TRACKED_ALLOCATION_PEAK_PREFIX_NOT_MEDIA_QUALIFICATION",
+        "recordCount": 30,
+        "rawEnd": 11239,
+        "trailingBytes": 0,
+        "rawSha256": "1d503df141a1314f5bc4ec771adb13c4c54e63e060207ade6b79c6516d5acf4b",
+        "first": {
+          "kind": "INSTRUMENTED_ATS_DURABLE_PEAK",
+          "schemaVersion": 1,
+          "pid": 940,
+          "startTicks": 4778189,
+          "sequence": 0,
+          "abiVersion": 1,
+          "generation": 0,
+          "accountingWindow": "process-lifetime",
+          "beforeMonotonicNs": 47782010307670,
+          "peakBytes": 0,
+          "currentBytes": 0,
+          "currentByKind": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "acquisitions": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "releases": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "violations": 0,
+          "uncoveredExternalEvents": 0
+        },
+        "last": {
+          "kind": "INSTRUMENTED_ATS_DURABLE_PEAK",
+          "schemaVersion": 1,
+          "pid": 940,
+          "startTicks": 4778189,
+          "sequence": 29,
+          "abiVersion": 1,
+          "generation": 0,
+          "accountingWindow": "process-lifetime",
+          "beforeMonotonicNs": 47784758185558,
+          "peakBytes": 1691648,
+          "currentBytes": 1691648,
+          "currentByKind": [
+            643072,
+            1048576,
+            0,
+            0
+          ],
+          "acquisitions": [
+            66,
+            1,
+            0,
+            0
+          ],
+          "releases": [
+            46,
+            0,
+            0,
+            0
+          ],
+          "violations": 0,
+          "uncoveredExternalEvents": 0
+        },
+        "maximumObservedTrackedCapacityBytes": 1691648,
+        "completeTrackedProcessEpoch": true,
+        "fullMediaBufferBoundProven": false,
+        "process": {
+          "pid": 940,
+          "startTicks": 4778189
+        },
+        "exitCode": 0,
+        "waitCompleted": true,
+        "rawBytes": 11239,
+        "journalDevice": 2096,
+        "journalInode": 2194858,
+        "rawFile": "durable-peaks.raw"
+      },
+      "error": null,
+      "exitCode": 0,
+      "actualWaitCompleted": true,
+      "allDescendantsCovered": false,
+      "noSubsequentExecProven": false,
+      "fullMediaBufferBoundProven": false
+    },
+    {
+      "action": "owned-epoch-closed",
+      "label": "ats-stop",
+      "pid": 76,
+      "epochRef": "process-epochs/epoch-3",
+      "accepted": true,
+      "trackedEpoch": {
+        "kind": "TRACKED_ALLOCATION_PEAK_PREFIX_NOT_MEDIA_QUALIFICATION",
+        "recordCount": 33,
+        "rawEnd": 12340,
+        "trailingBytes": 0,
+        "rawSha256": "ae011d51f130e72d9e1698117fb4bd281b543c8e3f07fe7d6abe5bbd9cfda903",
+        "first": {
+          "kind": "INSTRUMENTED_ATS_DURABLE_PEAK",
+          "schemaVersion": 1,
+          "pid": 76,
+          "startTicks": 4772330,
+          "sequence": 0,
+          "abiVersion": 1,
+          "generation": 0,
+          "accountingWindow": "process-lifetime",
+          "beforeMonotonicNs": 47723432594022,
+          "peakBytes": 0,
+          "currentBytes": 0,
+          "currentByKind": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "acquisitions": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "releases": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "violations": 0,
+          "uncoveredExternalEvents": 0
+        },
+        "last": {
+          "kind": "INSTRUMENTED_ATS_DURABLE_PEAK",
+          "schemaVersion": 1,
+          "pid": 76,
+          "startTicks": 4772330,
+          "sequence": 32,
+          "abiVersion": 1,
+          "generation": 0,
+          "accountingWindow": "process-lifetime",
+          "beforeMonotonicNs": 47725975517858,
+          "peakBytes": 1921024,
+          "currentBytes": 1921024,
+          "currentByKind": [
+            872448,
+            1048576,
+            0,
+            0
+          ],
+          "acquisitions": [
+            67,
+            1,
+            0,
+            0
+          ],
+          "releases": [
+            45,
+            0,
+            0,
+            0
+          ],
+          "violations": 0,
+          "uncoveredExternalEvents": 0
+        },
+        "maximumObservedTrackedCapacityBytes": 1921024,
+        "completeTrackedProcessEpoch": true,
+        "fullMediaBufferBoundProven": false,
+        "process": {
+          "pid": 76,
+          "startTicks": 4772330
+        },
+        "exitCode": 0,
+        "waitCompleted": true,
+        "rawBytes": 12340,
+        "journalDevice": 2096,
+        "journalInode": 2193442,
+        "rawFile": "durable-peaks.raw"
+      },
+      "error": null,
+      "exitCode": 0,
+      "actualWaitCompleted": true,
+      "allDescendantsCovered": false,
+      "noSubsequentExecProven": false,
+      "fullMediaBufferBoundProven": false
+    },
+    {
+      "action": "owned-epoch-closed",
+      "label": "clear-cache-5",
+      "pid": 686,
+      "epochRef": "process-epochs/epoch-10",
+      "accepted": true,
+      "trackedEpoch": {
+        "kind": "TRACKED_ALLOCATION_PEAK_PREFIX_NOT_MEDIA_QUALIFICATION",
+        "recordCount": 2,
+        "rawEnd": 722,
+        "trailingBytes": 0,
+        "rawSha256": "5add99011dc22c51ef6ab013dce2f0a058f9180c52feeb1e7d66bae108be987c",
+        "first": {
+          "kind": "INSTRUMENTED_ATS_DURABLE_PEAK",
+          "schemaVersion": 1,
+          "pid": 686,
+          "startTicks": 4776840,
+          "sequence": 0,
+          "abiVersion": 1,
+          "generation": 0,
+          "accountingWindow": "process-lifetime",
+          "beforeMonotonicNs": 47768524440092,
+          "peakBytes": 0,
+          "currentBytes": 0,
+          "currentByKind": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "acquisitions": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "releases": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "violations": 0,
+          "uncoveredExternalEvents": 0
+        },
+        "last": {
+          "kind": "INSTRUMENTED_ATS_DURABLE_PEAK",
+          "schemaVersion": 1,
+          "pid": 686,
+          "startTicks": 4776840,
+          "sequence": 1,
+          "abiVersion": 1,
+          "generation": 0,
+          "accountingWindow": "process-lifetime",
+          "beforeMonotonicNs": 47768545121875,
+          "peakBytes": 1048576,
+          "currentBytes": 1048576,
+          "currentByKind": [
+            0,
+            1048576,
+            0,
+            0
+          ],
+          "acquisitions": [
+            0,
+            1,
+            0,
+            0
+          ],
+          "releases": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "violations": 0,
+          "uncoveredExternalEvents": 0
+        },
+        "maximumObservedTrackedCapacityBytes": 1048576,
+        "completeTrackedProcessEpoch": true,
+        "fullMediaBufferBoundProven": false,
+        "process": {
+          "pid": 686,
+          "startTicks": 4776840
+        },
+        "exitCode": 0,
+        "waitCompleted": true,
+        "rawBytes": 722,
+        "journalDevice": 2096,
+        "journalInode": 2194535,
+        "rawFile": "durable-peaks.raw"
+      },
+      "error": null,
+      "exitCode": 0,
+      "actualWaitCompleted": true,
+      "allDescendantsCovered": false,
+      "noSubsequentExecProven": false,
+      "fullMediaBufferBoundProven": false
+    },
+    {
+      "action": "owned-epoch-closed",
+      "label": "clear-cache-1",
+      "pid": 50,
+      "epochRef": "process-epochs/epoch-2",
+      "accepted": true,
+      "trackedEpoch": {
+        "kind": "TRACKED_ALLOCATION_PEAK_PREFIX_NOT_MEDIA_QUALIFICATION",
+        "recordCount": 2,
+        "rawEnd": 720,
+        "trailingBytes": 0,
+        "rawSha256": "8c6db4c6ec574703911f716e0be2b3226ecc3a42bd70a43877de53b8b3955cdc",
+        "first": {
+          "kind": "INSTRUMENTED_ATS_DURABLE_PEAK",
+          "schemaVersion": 1,
+          "pid": 50,
+          "startTicks": 4772310,
+          "sequence": 0,
+          "abiVersion": 1,
+          "generation": 0,
+          "accountingWindow": "process-lifetime",
+          "beforeMonotonicNs": 47723224530943,
+          "peakBytes": 0,
+          "currentBytes": 0,
+          "currentByKind": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "acquisitions": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "releases": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "violations": 0,
+          "uncoveredExternalEvents": 0
+        },
+        "last": {
+          "kind": "INSTRUMENTED_ATS_DURABLE_PEAK",
+          "schemaVersion": 1,
+          "pid": 50,
+          "startTicks": 4772310,
+          "sequence": 1,
+          "abiVersion": 1,
+          "generation": 0,
+          "accountingWindow": "process-lifetime",
+          "beforeMonotonicNs": 47723248998695,
+          "peakBytes": 1048576,
+          "currentBytes": 1048576,
+          "currentByKind": [
+            0,
+            1048576,
+            0,
+            0
+          ],
+          "acquisitions": [
+            0,
+            1,
+            0,
+            0
+          ],
+          "releases": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "violations": 0,
+          "uncoveredExternalEvents": 0
+        },
+        "maximumObservedTrackedCapacityBytes": 1048576,
+        "completeTrackedProcessEpoch": true,
+        "fullMediaBufferBoundProven": false,
+        "process": {
+          "pid": 50,
+          "startTicks": 4772310
+        },
+        "exitCode": 0,
+        "waitCompleted": true,
+        "rawBytes": 720,
+        "journalDevice": 2096,
+        "journalInode": 2193427,
+        "rawFile": "durable-peaks.raw"
+      },
+      "error": null,
+      "exitCode": 0,
+      "actualWaitCompleted": true,
+      "allDescendantsCovered": false,
+      "noSubsequentExecProven": false,
+      "fullMediaBufferBoundProven": false
+    },
+    {
+      "action": "owned-epoch-closed",
+      "label": "clear-cache-10",
+      "pid": 986,
+      "epochRef": "process-epochs/epoch-20",
+      "accepted": true,
+      "trackedEpoch": {
+        "kind": "TRACKED_ALLOCATION_PEAK_PREFIX_NOT_MEDIA_QUALIFICATION",
+        "recordCount": 2,
+        "rawEnd": 722,
+        "trailingBytes": 0,
+        "rawSha256": "9d53b55aeb3753a1922957f8d68b3649d799a8f44dc65ce4c1d820e7c4e2189c",
+        "first": {
+          "kind": "INSTRUMENTED_ATS_DURABLE_PEAK",
+          "schemaVersion": 1,
+          "pid": 986,
+          "startTicks": 4778590,
+          "sequence": 0,
+          "abiVersion": 1,
+          "generation": 0,
+          "accountingWindow": "process-lifetime",
+          "beforeMonotonicNs": 47786014500457,
+          "peakBytes": 0,
+          "currentBytes": 0,
+          "currentByKind": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "acquisitions": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "releases": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "violations": 0,
+          "uncoveredExternalEvents": 0
+        },
+        "last": {
+          "kind": "INSTRUMENTED_ATS_DURABLE_PEAK",
+          "schemaVersion": 1,
+          "pid": 986,
+          "startTicks": 4778590,
+          "sequence": 1,
+          "abiVersion": 1,
+          "generation": 0,
+          "accountingWindow": "process-lifetime",
+          "beforeMonotonicNs": 47786035429549,
+          "peakBytes": 1048576,
+          "currentBytes": 1048576,
+          "currentByKind": [
+            0,
+            1048576,
+            0,
+            0
+          ],
+          "acquisitions": [
+            0,
+            1,
+            0,
+            0
+          ],
+          "releases": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "violations": 0,
+          "uncoveredExternalEvents": 0
+        },
+        "maximumObservedTrackedCapacityBytes": 1048576,
+        "completeTrackedProcessEpoch": true,
+        "fullMediaBufferBoundProven": false,
+        "process": {
+          "pid": 986,
+          "startTicks": 4778590
+        },
+        "exitCode": 0,
+        "waitCompleted": true,
+        "rawBytes": 722,
+        "journalDevice": 2096,
+        "journalInode": 2194935,
+        "rawFile": "durable-peaks.raw"
+      },
+      "error": null,
+      "exitCode": 0,
+      "actualWaitCompleted": true,
+      "allDescendantsCovered": false,
+      "noSubsequentExecProven": false,
+      "fullMediaBufferBoundProven": false
+    },
+    {
+      "action": "owned-epoch-closed",
+      "label": "clear-cache-2",
+      "pid": 106,
+      "epochRef": "process-epochs/epoch-4",
+      "accepted": true,
+      "trackedEpoch": {
+        "kind": "TRACKED_ALLOCATION_PEAK_PREFIX_NOT_MEDIA_QUALIFICATION",
+        "recordCount": 2,
+        "rawEnd": 722,
+        "trailingBytes": 0,
+        "rawSha256": "c799295fc5aeaba3ba6b7fabb1144e04af6fad8a97fe026ee048653aba240843",
+        "first": {
+          "kind": "INSTRUMENTED_ATS_DURABLE_PEAK",
+          "schemaVersion": 1,
+          "pid": 106,
+          "startTicks": 4772712,
+          "sequence": 0,
+          "abiVersion": 1,
+          "generation": 0,
+          "accountingWindow": "process-lifetime",
+          "beforeMonotonicNs": 47727240488748,
+          "peakBytes": 0,
+          "currentBytes": 0,
+          "currentByKind": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "acquisitions": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "releases": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "violations": 0,
+          "uncoveredExternalEvents": 0
+        },
+        "last": {
+          "kind": "INSTRUMENTED_ATS_DURABLE_PEAK",
+          "schemaVersion": 1,
+          "pid": 106,
+          "startTicks": 4772712,
+          "sequence": 1,
+          "abiVersion": 1,
+          "generation": 0,
+          "accountingWindow": "process-lifetime",
+          "beforeMonotonicNs": 47727261640549,
+          "peakBytes": 1048576,
+          "currentBytes": 1048576,
+          "currentByKind": [
+            0,
+            1048576,
+            0,
+            0
+          ],
+          "acquisitions": [
+            0,
+            1,
+            0,
+            0
+          ],
+          "releases": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "violations": 0,
+          "uncoveredExternalEvents": 0
+        },
+        "maximumObservedTrackedCapacityBytes": 1048576,
+        "completeTrackedProcessEpoch": true,
+        "fullMediaBufferBoundProven": false,
+        "process": {
+          "pid": 106,
+          "startTicks": 4772712
+        },
+        "exitCode": 0,
+        "waitCompleted": true,
+        "rawBytes": 722,
+        "journalDevice": 2096,
+        "journalInode": 2193517,
+        "rawFile": "durable-peaks.raw"
+      },
+      "error": null,
+      "exitCode": 0,
+      "actualWaitCompleted": true,
+      "allDescendantsCovered": false,
+      "noSubsequentExecProven": false,
+      "fullMediaBufferBoundProven": false
+    },
+    {
+      "action": "owned-epoch-closed",
+      "label": "ats-stop",
+      "pid": 30,
+      "epochRef": "process-epochs/epoch-1",
+      "accepted": true,
+      "trackedEpoch": {
+        "kind": "TRACKED_ALLOCATION_PEAK_PREFIX_NOT_MEDIA_QUALIFICATION",
+        "recordCount": 6,
+        "rawEnd": 2196,
+        "trailingBytes": 0,
+        "rawSha256": "d915e857fcb9d593c725b523005168268a4628c3045b0194553f29d01ca6f75a",
+        "first": {
+          "kind": "INSTRUMENTED_ATS_DURABLE_PEAK",
+          "schemaVersion": 1,
+          "pid": 30,
+          "startTicks": 4772150,
+          "sequence": 0,
+          "abiVersion": 1,
+          "generation": 0,
+          "accountingWindow": "process-lifetime",
+          "beforeMonotonicNs": 47721618672885,
+          "peakBytes": 0,
+          "currentBytes": 0,
+          "currentByKind": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "acquisitions": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "releases": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "violations": 0,
+          "uncoveredExternalEvents": 0
+        },
+        "last": {
+          "kind": "INSTRUMENTED_ATS_DURABLE_PEAK",
+          "schemaVersion": 1,
+          "pid": 30,
+          "startTicks": 4772150,
+          "sequence": 5,
+          "abiVersion": 1,
+          "generation": 0,
+          "accountingWindow": "process-lifetime",
+          "beforeMonotonicNs": 47721928864851,
+          "peakBytes": 1089536,
+          "currentBytes": 1089536,
+          "currentByKind": [
+            40960,
+            1048576,
+            0,
+            0
+          ],
+          "acquisitions": [
+            4,
+            1,
+            0,
+            0
+          ],
+          "releases": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "violations": 0,
+          "uncoveredExternalEvents": 0
+        },
+        "maximumObservedTrackedCapacityBytes": 1089536,
+        "completeTrackedProcessEpoch": true,
+        "fullMediaBufferBoundProven": false,
+        "process": {
+          "pid": 30,
+          "startTicks": 4772150
+        },
+        "exitCode": 0,
+        "waitCompleted": true,
+        "rawBytes": 2196,
+        "journalDevice": 2096,
+        "journalInode": 2193379,
+        "rawFile": "durable-peaks.raw"
+      },
+      "error": null,
+      "exitCode": 0,
+      "actualWaitCompleted": true,
+      "allDescendantsCovered": false,
+      "noSubsequentExecProven": false,
+      "fullMediaBufferBoundProven": false
+    },
+    {
+      "action": "owned-epoch-closed",
+      "label": "verify-config",
+      "pid": 9,
+      "epochRef": "process-epochs/epoch-0",
+      "accepted": true,
+      "trackedEpoch": {
+        "kind": "TRACKED_ALLOCATION_PEAK_PREFIX_NOT_MEDIA_QUALIFICATION",
+        "recordCount": 3,
+        "rawEnd": 1074,
+        "trailingBytes": 0,
+        "rawSha256": "3ad1c8016be5e8c766529a2ca0b56ac970c5a9e701fa4987c97f49282a9a55ec",
+        "first": {
+          "kind": "INSTRUMENTED_ATS_DURABLE_PEAK",
+          "schemaVersion": 1,
+          "pid": 9,
+          "startTicks": 4772129,
+          "sequence": 0,
+          "abiVersion": 1,
+          "generation": 0,
+          "accountingWindow": "process-lifetime",
+          "beforeMonotonicNs": 47721418075614,
+          "peakBytes": 0,
+          "currentBytes": 0,
+          "currentByKind": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "acquisitions": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "releases": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "violations": 0,
+          "uncoveredExternalEvents": 0
+        },
+        "last": {
+          "kind": "INSTRUMENTED_ATS_DURABLE_PEAK",
+          "schemaVersion": 1,
+          "pid": 9,
+          "startTicks": 4772129,
+          "sequence": 2,
+          "abiVersion": 1,
+          "generation": 0,
+          "accountingWindow": "process-lifetime",
+          "beforeMonotonicNs": 47721442712540,
+          "peakBytes": 32768,
+          "currentBytes": 32768,
+          "currentByKind": [
+            32768,
+            0,
+            0,
+            0
+          ],
+          "acquisitions": [
+            2,
+            0,
+            0,
+            0
+          ],
+          "releases": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "violations": 0,
+          "uncoveredExternalEvents": 0
+        },
+        "maximumObservedTrackedCapacityBytes": 32768,
+        "completeTrackedProcessEpoch": true,
+        "fullMediaBufferBoundProven": false,
+        "process": {
+          "pid": 9,
+          "startTicks": 4772129
+        },
+        "exitCode": 0,
+        "waitCompleted": true,
+        "rawBytes": 1074,
+        "journalDevice": 2096,
+        "journalInode": 2193366,
+        "rawFile": "durable-peaks.raw"
+      },
+      "error": null,
+      "exitCode": 0,
+      "actualWaitCompleted": true,
+      "allDescendantsCovered": false,
+      "noSubsequentExecProven": false,
+      "fullMediaBufferBoundProven": false
+    },
+    {
+      "action": "owned-epoch-closed",
+      "label": "clear-cache-6",
+      "pid": 738,
+      "epochRef": "process-epochs/epoch-12",
+      "accepted": true,
+      "trackedEpoch": {
+        "kind": "TRACKED_ALLOCATION_PEAK_PREFIX_NOT_MEDIA_QUALIFICATION",
+        "recordCount": 2,
+        "rawEnd": 722,
+        "trailingBytes": 0,
+        "rawSha256": "87e10f5eccffc8388559eeb1920bf8082881f449c187c18705f093e3682771c0",
+        "first": {
+          "kind": "INSTRUMENTED_ATS_DURABLE_PEAK",
+          "schemaVersion": 1,
+          "pid": 738,
+          "startTicks": 4777140,
+          "sequence": 0,
+          "abiVersion": 1,
+          "generation": 0,
+          "accountingWindow": "process-lifetime",
+          "beforeMonotonicNs": 47771517272659,
+          "peakBytes": 0,
+          "currentBytes": 0,
+          "currentByKind": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "acquisitions": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "releases": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "violations": 0,
+          "uncoveredExternalEvents": 0
+        },
+        "last": {
+          "kind": "INSTRUMENTED_ATS_DURABLE_PEAK",
+          "schemaVersion": 1,
+          "pid": 738,
+          "startTicks": 4777140,
+          "sequence": 1,
+          "abiVersion": 1,
+          "generation": 0,
+          "accountingWindow": "process-lifetime",
+          "beforeMonotonicNs": 47771537644611,
+          "peakBytes": 1048576,
+          "currentBytes": 1048576,
+          "currentByKind": [
+            0,
+            1048576,
+            0,
+            0
+          ],
+          "acquisitions": [
+            0,
+            1,
+            0,
+            0
+          ],
+          "releases": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "violations": 0,
+          "uncoveredExternalEvents": 0
+        },
+        "maximumObservedTrackedCapacityBytes": 1048576,
+        "completeTrackedProcessEpoch": true,
+        "fullMediaBufferBoundProven": false,
+        "process": {
+          "pid": 738,
+          "startTicks": 4777140
+        },
+        "exitCode": 0,
+        "waitCompleted": true,
+        "rawBytes": 722,
+        "journalDevice": 2096,
+        "journalInode": 2194607,
+        "rawFile": "durable-peaks.raw"
+      },
+      "error": null,
+      "exitCode": 0,
+      "actualWaitCompleted": true,
+      "allDescendantsCovered": false,
+      "noSubsequentExecProven": false,
+      "fullMediaBufferBoundProven": false
+    },
+    {
+      "action": "owned-epoch-closed",
+      "label": "ats-stop",
+      "pid": 1084,
+      "epochRef": "process-epochs/epoch-23",
+      "accepted": true,
+      "trackedEpoch": {
+        "kind": "TRACKED_ALLOCATION_PEAK_PREFIX_NOT_MEDIA_QUALIFICATION",
+        "recordCount": 68,
+        "rawEnd": 25799,
+        "trailingBytes": 0,
+        "rawSha256": "987d950b6921aa20977a578d23449f1b6a5f6a1f014d3fa0f2deac8f89c5b419",
+        "first": {
+          "kind": "INSTRUMENTED_ATS_DURABLE_PEAK",
+          "schemaVersion": 1,
+          "pid": 1084,
+          "startTicks": 4779023,
+          "sequence": 0,
+          "abiVersion": 1,
+          "generation": 0,
+          "accountingWindow": "process-lifetime",
+          "beforeMonotonicNs": 47790349879042,
+          "peakBytes": 0,
+          "currentBytes": 0,
+          "currentByKind": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "acquisitions": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "releases": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "violations": 0,
+          "uncoveredExternalEvents": 0
+        },
+        "last": {
+          "kind": "INSTRUMENTED_ATS_DURABLE_PEAK",
+          "schemaVersion": 1,
+          "pid": 1084,
+          "startTicks": 4779023,
+          "sequence": 67,
+          "abiVersion": 1,
+          "generation": 0,
+          "accountingWindow": "process-lifetime",
+          "beforeMonotonicNs": 47794383178981,
+          "peakBytes": 3289088,
+          "currentBytes": 3289088,
+          "currentByKind": [
+            2240512,
+            1048576,
+            0,
+            0
+          ],
+          "acquisitions": [
+            1479,
+            1,
+            0,
+            0
+          ],
+          "releases": [
+            1410,
+            0,
+            0,
+            0
+          ],
+          "violations": 0,
+          "uncoveredExternalEvents": 0
+        },
+        "maximumObservedTrackedCapacityBytes": 3289088,
+        "completeTrackedProcessEpoch": true,
+        "fullMediaBufferBoundProven": false,
+        "process": {
+          "pid": 1084,
+          "startTicks": 4779023
+        },
+        "exitCode": 0,
+        "waitCompleted": true,
+        "rawBytes": 25799,
+        "journalDevice": 2096,
+        "journalInode": 2195042,
+        "rawFile": "durable-peaks.raw"
+      },
+      "error": null,
+      "exitCode": 0,
+      "actualWaitCompleted": true,
+      "allDescendantsCovered": false,
+      "noSubsequentExecProven": false,
+      "fullMediaBufferBoundProven": false
+    },
+    {
+      "action": "owned-epoch-closed",
+      "label": "clear-cache-4",
+      "pid": 634,
+      "epochRef": "process-epochs/epoch-8",
+      "accepted": true,
+      "trackedEpoch": {
+        "kind": "TRACKED_ALLOCATION_PEAK_PREFIX_NOT_MEDIA_QUALIFICATION",
+        "recordCount": 2,
+        "rawEnd": 722,
+        "trailingBytes": 0,
+        "rawSha256": "a67e96c4e2b63061a0553cf406a5f1772c12fcbefcdd64ef08ff5ea15e89175a",
+        "first": {
+          "kind": "INSTRUMENTED_ATS_DURABLE_PEAK",
+          "schemaVersion": 1,
+          "pid": 634,
+          "startTicks": 4776533,
+          "sequence": 0,
+          "abiVersion": 1,
+          "generation": 0,
+          "accountingWindow": "process-lifetime",
+          "beforeMonotonicNs": 47765482545664,
+          "peakBytes": 0,
+          "currentBytes": 0,
+          "currentByKind": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "acquisitions": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "releases": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "violations": 0,
+          "uncoveredExternalEvents": 0
+        },
+        "last": {
+          "kind": "INSTRUMENTED_ATS_DURABLE_PEAK",
+          "schemaVersion": 1,
+          "pid": 634,
+          "startTicks": 4776533,
+          "sequence": 1,
+          "abiVersion": 1,
+          "generation": 0,
+          "accountingWindow": "process-lifetime",
+          "beforeMonotonicNs": 47765508623474,
+          "peakBytes": 1048576,
+          "currentBytes": 1048576,
+          "currentByKind": [
+            0,
+            1048576,
+            0,
+            0
+          ],
+          "acquisitions": [
+            0,
+            1,
+            0,
+            0
+          ],
+          "releases": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "violations": 0,
+          "uncoveredExternalEvents": 0
+        },
+        "maximumObservedTrackedCapacityBytes": 1048576,
+        "completeTrackedProcessEpoch": true,
+        "fullMediaBufferBoundProven": false,
+        "process": {
+          "pid": 634,
+          "startTicks": 4776533
+        },
+        "exitCode": 0,
+        "waitCompleted": true,
+        "rawBytes": 722,
+        "journalDevice": 2096,
+        "journalInode": 2194463,
+        "rawFile": "durable-peaks.raw"
+      },
+      "error": null,
+      "exitCode": 0,
+      "actualWaitCompleted": true,
+      "allDescendantsCovered": false,
+      "noSubsequentExecProven": false,
+      "fullMediaBufferBoundProven": false
+    },
+    {
+      "action": "owned-epoch-closed",
+      "label": "ats-stop",
+      "pid": 868,
+      "epochRef": "process-epochs/epoch-17",
+      "accepted": true,
+      "trackedEpoch": {
+        "kind": "TRACKED_ALLOCATION_PEAK_PREFIX_NOT_MEDIA_QUALIFICATION",
+        "recordCount": 30,
+        "rawEnd": 11239,
+        "trailingBytes": 0,
+        "rawSha256": "086caabaa2c82e59337f438ef9db52575f131448e83293155844fcb10651c624",
+        "first": {
+          "kind": "INSTRUMENTED_ATS_DURABLE_PEAK",
+          "schemaVersion": 1,
+          "pid": 868,
+          "startTicks": 4777769,
+          "sequence": 0,
+          "abiVersion": 1,
+          "generation": 0,
+          "accountingWindow": "process-lifetime",
+          "beforeMonotonicNs": 47777839610180,
+          "peakBytes": 0,
+          "currentBytes": 0,
+          "currentByKind": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "acquisitions": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "releases": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "violations": 0,
+          "uncoveredExternalEvents": 0
+        },
+        "last": {
+          "kind": "INSTRUMENTED_ATS_DURABLE_PEAK",
+          "schemaVersion": 1,
+          "pid": 868,
+          "startTicks": 4777769,
+          "sequence": 29,
+          "abiVersion": 1,
+          "generation": 0,
+          "accountingWindow": "process-lifetime",
+          "beforeMonotonicNs": 47780591088795,
+          "peakBytes": 1691648,
+          "currentBytes": 1691648,
+          "currentByKind": [
+            643072,
+            1048576,
+            0,
+            0
+          ],
+          "acquisitions": [
+            66,
+            1,
+            0,
+            0
+          ],
+          "releases": [
+            46,
+            0,
+            0,
+            0
+          ],
+          "violations": 0,
+          "uncoveredExternalEvents": 0
+        },
+        "maximumObservedTrackedCapacityBytes": 1691648,
+        "completeTrackedProcessEpoch": true,
+        "fullMediaBufferBoundProven": false,
+        "process": {
+          "pid": 868,
+          "startTicks": 4777769
+        },
+        "exitCode": 0,
+        "waitCompleted": true,
+        "rawBytes": 11239,
+        "journalDevice": 2096,
+        "journalInode": 2194766,
+        "rawFile": "durable-peaks.raw"
+      },
+      "error": null,
+      "exitCode": 0,
+      "actualWaitCompleted": true,
+      "allDescendantsCovered": false,
+      "noSubsequentExecProven": false,
+      "fullMediaBufferBoundProven": false
+    },
+    {
+      "action": "owned-epoch-closed",
+      "label": "clear-cache-11",
+      "pid": 1058,
+      "epochRef": "process-epochs/epoch-22",
+      "accepted": true,
+      "trackedEpoch": {
+        "kind": "TRACKED_ALLOCATION_PEAK_PREFIX_NOT_MEDIA_QUALIFICATION",
+        "recordCount": 2,
+        "rawEnd": 724,
+        "trailingBytes": 0,
+        "rawSha256": "82ea7614609f8b01668cf0a5a16042c5d6e78bf7d779dcc2d38f13845c1a06d6",
+        "first": {
+          "kind": "INSTRUMENTED_ATS_DURABLE_PEAK",
+          "schemaVersion": 1,
+          "pid": 1058,
+          "startTicks": 4779007,
+          "sequence": 0,
+          "abiVersion": 1,
+          "generation": 0,
+          "accountingWindow": "process-lifetime",
+          "beforeMonotonicNs": 47790184181750,
+          "peakBytes": 0,
+          "currentBytes": 0,
+          "currentByKind": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "acquisitions": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "releases": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "violations": 0,
+          "uncoveredExternalEvents": 0
+        },
+        "last": {
+          "kind": "INSTRUMENTED_ATS_DURABLE_PEAK",
+          "schemaVersion": 1,
+          "pid": 1058,
+          "startTicks": 4779007,
+          "sequence": 1,
+          "abiVersion": 1,
+          "generation": 0,
+          "accountingWindow": "process-lifetime",
+          "beforeMonotonicNs": 47790202752958,
+          "peakBytes": 1048576,
+          "currentBytes": 1048576,
+          "currentByKind": [
+            0,
+            1048576,
+            0,
+            0
+          ],
+          "acquisitions": [
+            0,
+            1,
+            0,
+            0
+          ],
+          "releases": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "violations": 0,
+          "uncoveredExternalEvents": 0
+        },
+        "maximumObservedTrackedCapacityBytes": 1048576,
+        "completeTrackedProcessEpoch": true,
+        "fullMediaBufferBoundProven": false,
+        "process": {
+          "pid": 1058,
+          "startTicks": 4779007
+        },
+        "exitCode": 0,
+        "waitCompleted": true,
+        "rawBytes": 724,
+        "journalDevice": 2096,
+        "journalInode": 2195027,
+        "rawFile": "durable-peaks.raw"
+      },
+      "error": null,
+      "exitCode": 0,
+      "actualWaitCompleted": true,
+      "allDescendantsCovered": false,
+      "noSubsequentExecProven": false,
+      "fullMediaBufferBoundProven": false
+    },
+    {
+      "action": "owned-epoch-closed",
+      "label": "ats-stop",
+      "pid": 1012,
+      "epochRef": "process-epochs/epoch-21",
+      "accepted": true,
+      "trackedEpoch": {
+        "kind": "TRACKED_ALLOCATION_PEAK_PREFIX_NOT_MEDIA_QUALIFICATION",
+        "recordCount": 30,
+        "rawEnd": 11269,
+        "trailingBytes": 0,
+        "rawSha256": "cd0d21f761fef759d4d53bcd1cf2514bb6ce94d85fd465a1dab1c433400f98a3",
+        "first": {
+          "kind": "INSTRUMENTED_ATS_DURABLE_PEAK",
+          "schemaVersion": 1,
+          "pid": 1012,
+          "startTicks": 4778606,
+          "sequence": 0,
+          "abiVersion": 1,
+          "generation": 0,
+          "accountingWindow": "process-lifetime",
+          "beforeMonotonicNs": 47786184657838,
+          "peakBytes": 0,
+          "currentBytes": 0,
+          "currentByKind": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "acquisitions": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "releases": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "violations": 0,
+          "uncoveredExternalEvents": 0
+        },
+        "last": {
+          "kind": "INSTRUMENTED_ATS_DURABLE_PEAK",
+          "schemaVersion": 1,
+          "pid": 1012,
+          "startTicks": 4778606,
+          "sequence": 29,
+          "abiVersion": 1,
+          "generation": 0,
+          "accountingWindow": "process-lifetime",
+          "beforeMonotonicNs": 47788965203428,
+          "peakBytes": 1691648,
+          "currentBytes": 1691648,
+          "currentByKind": [
+            643072,
+            1048576,
+            0,
+            0
+          ],
+          "acquisitions": [
+            66,
+            1,
+            0,
+            0
+          ],
+          "releases": [
+            46,
+            0,
+            0,
+            0
+          ],
+          "violations": 0,
+          "uncoveredExternalEvents": 0
+        },
+        "maximumObservedTrackedCapacityBytes": 1691648,
+        "completeTrackedProcessEpoch": true,
+        "fullMediaBufferBoundProven": false,
+        "process": {
+          "pid": 1012,
+          "startTicks": 4778606
+        },
+        "exitCode": 0,
+        "waitCompleted": true,
+        "rawBytes": 11269,
+        "journalDevice": 2096,
+        "journalInode": 2194950,
+        "rawFile": "durable-peaks.raw"
+      },
+      "error": null,
+      "exitCode": 0,
+      "actualWaitCompleted": true,
+      "allDescendantsCovered": false,
+      "noSubsequentExecProven": false,
+      "fullMediaBufferBoundProven": false
+    },
+    {
+      "action": "owned-epoch-closed",
+      "label": "clear-cache-3",
+      "pid": 538,
+      "epochRef": "process-epochs/epoch-6",
+      "accepted": true,
+      "trackedEpoch": {
+        "kind": "TRACKED_ALLOCATION_PEAK_PREFIX_NOT_MEDIA_QUALIFICATION",
+        "recordCount": 2,
+        "rawEnd": 722,
+        "trailingBytes": 0,
+        "rawSha256": "bc0ba525e377edfbaf358dab13675eb724bf3a368aff08b3379593716e0590ba",
+        "first": {
+          "kind": "INSTRUMENTED_ATS_DURABLE_PEAK",
+          "schemaVersion": 1,
+          "pid": 538,
+          "startTicks": 4774841,
+          "sequence": 0,
+          "abiVersion": 1,
+          "generation": 0,
+          "accountingWindow": "process-lifetime",
+          "beforeMonotonicNs": 47748533364813,
+          "peakBytes": 0,
+          "currentBytes": 0,
+          "currentByKind": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "acquisitions": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "releases": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "violations": 0,
+          "uncoveredExternalEvents": 0
+        },
+        "last": {
+          "kind": "INSTRUMENTED_ATS_DURABLE_PEAK",
+          "schemaVersion": 1,
+          "pid": 538,
+          "startTicks": 4774841,
+          "sequence": 1,
+          "abiVersion": 1,
+          "generation": 0,
+          "accountingWindow": "process-lifetime",
+          "beforeMonotonicNs": 47748556274451,
+          "peakBytes": 1048576,
+          "currentBytes": 1048576,
+          "currentByKind": [
+            0,
+            1048576,
+            0,
+            0
+          ],
+          "acquisitions": [
+            0,
+            1,
+            0,
+            0
+          ],
+          "releases": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "violations": 0,
+          "uncoveredExternalEvents": 0
+        },
+        "maximumObservedTrackedCapacityBytes": 1048576,
+        "completeTrackedProcessEpoch": true,
+        "fullMediaBufferBoundProven": false,
+        "process": {
+          "pid": 538,
+          "startTicks": 4774841
+        },
+        "exitCode": 0,
+        "waitCompleted": true,
+        "rawBytes": 722,
+        "journalDevice": 2096,
+        "journalInode": 2194199,
+        "rawFile": "durable-peaks.raw"
+      },
+      "error": null,
+      "exitCode": 0,
+      "actualWaitCompleted": true,
+      "allDescendantsCovered": false,
+      "noSubsequentExecProven": false,
+      "fullMediaBufferBoundProven": false
+    },
+    {
+      "action": "owned-epoch-closed",
+      "label": "clear-cache-8",
+      "pid": 842,
+      "epochRef": "process-epochs/epoch-16",
+      "accepted": true,
+      "trackedEpoch": {
+        "kind": "TRACKED_ALLOCATION_PEAK_PREFIX_NOT_MEDIA_QUALIFICATION",
+        "recordCount": 2,
+        "rawEnd": 722,
+        "trailingBytes": 0,
+        "rawSha256": "32cd9dfe608a8e0a67926b38a45a583799f65262cfd1519b66c4f1f7327653ae",
+        "first": {
+          "kind": "INSTRUMENTED_ATS_DURABLE_PEAK",
+          "schemaVersion": 1,
+          "pid": 842,
+          "startTicks": 4777752,
+          "sequence": 0,
+          "abiVersion": 1,
+          "generation": 0,
+          "accountingWindow": "process-lifetime",
+          "beforeMonotonicNs": 47777646178565,
+          "peakBytes": 0,
+          "currentBytes": 0,
+          "currentByKind": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "acquisitions": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "releases": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "violations": 0,
+          "uncoveredExternalEvents": 0
+        },
+        "last": {
+          "kind": "INSTRUMENTED_ATS_DURABLE_PEAK",
+          "schemaVersion": 1,
+          "pid": 842,
+          "startTicks": 4777752,
+          "sequence": 1,
+          "abiVersion": 1,
+          "generation": 0,
+          "accountingWindow": "process-lifetime",
+          "beforeMonotonicNs": 47777665572776,
+          "peakBytes": 1048576,
+          "currentBytes": 1048576,
+          "currentByKind": [
+            0,
+            1048576,
+            0,
+            0
+          ],
+          "acquisitions": [
+            0,
+            1,
+            0,
+            0
+          ],
+          "releases": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "violations": 0,
+          "uncoveredExternalEvents": 0
+        },
+        "maximumObservedTrackedCapacityBytes": 1048576,
+        "completeTrackedProcessEpoch": true,
+        "fullMediaBufferBoundProven": false,
+        "process": {
+          "pid": 842,
+          "startTicks": 4777752
+        },
+        "exitCode": 0,
+        "waitCompleted": true,
+        "rawBytes": 722,
+        "journalDevice": 2096,
+        "journalInode": 2194751,
+        "rawFile": "durable-peaks.raw"
+      },
+      "error": null,
+      "exitCode": 0,
+      "actualWaitCompleted": true,
+      "allDescendantsCovered": false,
+      "noSubsequentExecProven": false,
+      "fullMediaBufferBoundProven": false
+    },
+    {
+      "action": "owned-epoch-closed",
+      "label": "ats-stop",
+      "pid": 660,
+      "epochRef": "process-epochs/epoch-9",
+      "accepted": true,
+      "trackedEpoch": {
+        "kind": "TRACKED_ALLOCATION_PEAK_PREFIX_NOT_MEDIA_QUALIFICATION",
+        "recordCount": 33,
+        "rawEnd": 12373,
+        "trailingBytes": 0,
+        "rawSha256": "dcdb1dba877984053a6a63d9daf516e8bd5526efef63b9f31e4c0dafed4b0dc5",
+        "first": {
+          "kind": "INSTRUMENTED_ATS_DURABLE_PEAK",
+          "schemaVersion": 1,
+          "pid": 660,
+          "startTicks": 4776556,
+          "sequence": 0,
+          "abiVersion": 1,
+          "generation": 0,
+          "accountingWindow": "process-lifetime",
+          "beforeMonotonicNs": 47765692067993,
+          "peakBytes": 0,
+          "currentBytes": 0,
+          "currentByKind": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "acquisitions": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "releases": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "violations": 0,
+          "uncoveredExternalEvents": 0
+        },
+        "last": {
+          "kind": "INSTRUMENTED_ATS_DURABLE_PEAK",
+          "schemaVersion": 1,
+          "pid": 660,
+          "startTicks": 4776556,
+          "sequence": 32,
+          "abiVersion": 1,
+          "generation": 0,
+          "accountingWindow": "process-lifetime",
+          "beforeMonotonicNs": 47767210968718,
+          "peakBytes": 1921024,
+          "currentBytes": 1921024,
+          "currentByKind": [
+            872448,
+            1048576,
+            0,
+            0
+          ],
+          "acquisitions": [
+            67,
+            1,
+            0,
+            0
+          ],
+          "releases": [
+            45,
+            0,
+            0,
+            0
+          ],
+          "violations": 0,
+          "uncoveredExternalEvents": 0
+        },
+        "maximumObservedTrackedCapacityBytes": 1921024,
+        "completeTrackedProcessEpoch": true,
+        "fullMediaBufferBoundProven": false,
+        "process": {
+          "pid": 660,
+          "startTicks": 4776556
+        },
+        "exitCode": 0,
+        "waitCompleted": true,
+        "rawBytes": 12373,
+        "journalDevice": 2096,
+        "journalInode": 2194478,
+        "rawFile": "durable-peaks.raw"
+      },
+      "error": null,
+      "exitCode": 0,
+      "actualWaitCompleted": true,
+      "allDescendantsCovered": false,
+      "noSubsequentExecProven": false,
+      "fullMediaBufferBoundProven": false
+    },
+    {
+      "action": "owned-epoch-closed",
+      "label": "clear-cache-7",
+      "pid": 790,
+      "epochRef": "process-epochs/epoch-14",
+      "accepted": true,
+      "trackedEpoch": {
+        "kind": "TRACKED_ALLOCATION_PEAK_PREFIX_NOT_MEDIA_QUALIFICATION",
+        "recordCount": 2,
+        "rawEnd": 722,
+        "trailingBytes": 0,
+        "rawSha256": "4700ad6174a349bd0f29e11c02940db70b5e02688ab90ab24d79beb3ad05ea6f",
+        "first": {
+          "kind": "INSTRUMENTED_ATS_DURABLE_PEAK",
+          "schemaVersion": 1,
+          "pid": 790,
+          "startTicks": 4777430,
+          "sequence": 0,
+          "abiVersion": 1,
+          "generation": 0,
+          "accountingWindow": "process-lifetime",
+          "beforeMonotonicNs": 47774427695290,
+          "peakBytes": 0,
+          "currentBytes": 0,
+          "currentByKind": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "acquisitions": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "releases": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "violations": 0,
+          "uncoveredExternalEvents": 0
+        },
+        "last": {
+          "kind": "INSTRUMENTED_ATS_DURABLE_PEAK",
+          "schemaVersion": 1,
+          "pid": 790,
+          "startTicks": 4777430,
+          "sequence": 1,
+          "abiVersion": 1,
+          "generation": 0,
+          "accountingWindow": "process-lifetime",
+          "beforeMonotonicNs": 47774451559545,
+          "peakBytes": 1048576,
+          "currentBytes": 1048576,
+          "currentByKind": [
+            0,
+            1048576,
+            0,
+            0
+          ],
+          "acquisitions": [
+            0,
+            1,
+            0,
+            0
+          ],
+          "releases": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "violations": 0,
+          "uncoveredExternalEvents": 0
+        },
+        "maximumObservedTrackedCapacityBytes": 1048576,
+        "completeTrackedProcessEpoch": true,
+        "fullMediaBufferBoundProven": false,
+        "process": {
+          "pid": 790,
+          "startTicks": 4777430
+        },
+        "exitCode": 0,
+        "waitCompleted": true,
+        "rawBytes": 722,
+        "journalDevice": 2096,
+        "journalInode": 2194679,
+        "rawFile": "durable-peaks.raw"
+      },
+      "error": null,
+      "exitCode": 0,
+      "actualWaitCompleted": true,
+      "allDescendantsCovered": false,
+      "noSubsequentExecProven": false,
+      "fullMediaBufferBoundProven": false
+    },
+    {
+      "action": "owned-epoch-closed",
+      "label": "ats-stop",
+      "pid": 564,
+      "epochRef": "process-epochs/epoch-7",
+      "accepted": true,
+      "trackedEpoch": {
+        "kind": "TRACKED_ALLOCATION_PEAK_PREFIX_NOT_MEDIA_QUALIFICATION",
+        "recordCount": 67,
+        "rawEnd": 25277,
+        "trailingBytes": 0,
+        "rawSha256": "20f81e97d6726ec967773d806b8bccc08de186ed2f700aba345d4cb3078cecd0",
+        "first": {
+          "kind": "INSTRUMENTED_ATS_DURABLE_PEAK",
+          "schemaVersion": 1,
+          "pid": 564,
+          "startTicks": 4774861,
+          "sequence": 0,
+          "abiVersion": 1,
+          "generation": 0,
+          "accountingWindow": "process-lifetime",
+          "beforeMonotonicNs": 47748744455818,
+          "peakBytes": 0,
+          "currentBytes": 0,
+          "currentByKind": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "acquisitions": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "releases": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "violations": 0,
+          "uncoveredExternalEvents": 0
+        },
+        "last": {
+          "kind": "INSTRUMENTED_ATS_DURABLE_PEAK",
+          "schemaVersion": 1,
+          "pid": 564,
+          "startTicks": 4774861,
+          "sequence": 66,
+          "abiVersion": 1,
+          "generation": 0,
+          "accountingWindow": "process-lifetime",
+          "beforeMonotonicNs": 47760826036834,
+          "peakBytes": 3174400,
+          "currentBytes": 3174400,
+          "currentByKind": [
+            2125824,
+            1048576,
+            0,
+            0
+          ],
+          "acquisitions": [
+            168,
+            1,
+            0,
+            0
+          ],
+          "releases": [
+            96,
+            0,
+            0,
+            0
+          ],
+          "violations": 0,
+          "uncoveredExternalEvents": 0
+        },
+        "maximumObservedTrackedCapacityBytes": 3174400,
+        "completeTrackedProcessEpoch": true,
+        "fullMediaBufferBoundProven": false,
+        "process": {
+          "pid": 564,
+          "startTicks": 4774861
+        },
+        "exitCode": 0,
+        "waitCompleted": true,
+        "rawBytes": 25277,
+        "journalDevice": 2096,
+        "journalInode": 2194214,
+        "rawFile": "durable-peaks.raw"
+      },
+      "error": null,
+      "exitCode": 0,
+      "actualWaitCompleted": true,
+      "allDescendantsCovered": false,
+      "noSubsequentExecProven": false,
+      "fullMediaBufferBoundProven": false
+    },
+    {
+      "action": "owned-epoch-closed",
+      "label": "ats-stop",
+      "pid": 132,
+      "epochRef": "process-epochs/epoch-5",
+      "accepted": true,
+      "trackedEpoch": {
+        "kind": "TRACKED_ALLOCATION_PEAK_PREFIX_NOT_MEDIA_QUALIFICATION",
+        "recordCount": 55,
+        "rawEnd": 20757,
+        "trailingBytes": 0,
+        "rawSha256": "62c70563b840f9b1f654b664ecfbb40df7b1126ef0a99471816225205d721de0",
+        "first": {
+          "kind": "INSTRUMENTED_ATS_DURABLE_PEAK",
+          "schemaVersion": 1,
+          "pid": 132,
+          "startTicks": 4772728,
+          "sequence": 0,
+          "abiVersion": 1,
+          "generation": 0,
+          "accountingWindow": "process-lifetime",
+          "beforeMonotonicNs": 47727420102837,
+          "peakBytes": 0,
+          "currentBytes": 0,
+          "currentByKind": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "acquisitions": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "releases": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "violations": 0,
+          "uncoveredExternalEvents": 0
+        },
+        "last": {
+          "kind": "INSTRUMENTED_ATS_DURABLE_PEAK",
+          "schemaVersion": 1,
+          "pid": 132,
+          "startTicks": 4772728,
+          "sequence": 54,
+          "abiVersion": 1,
+          "generation": 0,
+          "accountingWindow": "process-lifetime",
+          "beforeMonotonicNs": 47729292329239,
+          "peakBytes": 2859008,
+          "currentBytes": 2859008,
+          "currentByKind": [
+            1810432,
+            1048576,
+            0,
+            0
+          ],
+          "acquisitions": [
+            1019,
+            1,
+            0,
+            0
+          ],
+          "releases": [
+            964,
+            0,
+            0,
+            0
+          ],
+          "violations": 0,
+          "uncoveredExternalEvents": 0
+        },
+        "maximumObservedTrackedCapacityBytes": 2859008,
+        "completeTrackedProcessEpoch": true,
+        "fullMediaBufferBoundProven": false,
+        "process": {
+          "pid": 132,
+          "startTicks": 4772728
+        },
+        "exitCode": 0,
+        "waitCompleted": true,
+        "rawBytes": 20757,
+        "journalDevice": 2096,
+        "journalInode": 2193532,
+        "rawFile": "durable-peaks.raw"
+      },
+      "error": null,
+      "exitCode": 0,
+      "actualWaitCompleted": true,
+      "allDescendantsCovered": false,
+      "noSubsequentExecProven": false,
+      "fullMediaBufferBoundProven": false
+    }
+  ],
+  "collectionSummary": {
+    "status": "RAW_COLLECTION_COMPLETED_UNASSESSED",
+    "collectedCases": [
+      "denied_user",
+      "fill",
+      "hit",
+      "if_match",
+      "if_stale",
+      "interrupted",
+      "latency_cold",
+      "latency_hot",
+      "latency_multi",
+      "latency_slow",
+      "miss",
+      "other_user",
+      "partial_read",
+      "range_end",
+      "range_middle",
+      "range_start",
+      "recovered",
+      "stream",
+      "suffix",
+      "unsatisfiable",
+      "updated"
+    ],
+    "missingCases": [],
+    "totalResponseBodyBytes": 335544556
+  },
+  "finishedAt": "2026-11-25T05:32:05.326765+00:00"
+}

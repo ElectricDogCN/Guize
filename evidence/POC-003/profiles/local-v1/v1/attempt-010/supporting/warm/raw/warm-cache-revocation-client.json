@@ -1,0 +1,442 @@
+{
+  "kind": "PRIVATE_PID1_FRESH_MANDATORY_REAL_WARM_CACHE_REVOCATION_CLI_ONLY",
+  "pid": 1,
+  "uid": 1000,
+  "checkpointObserved": true,
+  "clientCompleted": true,
+  "scenarioCompleted": true,
+  "scenarioOutcomesAssessed": false,
+  "formalActorBindingAccepted": false,
+  "fullMediaAccepted": false,
+  "untracedLatencyAccepted": false,
+  "formalPocAccepted": false,
+  "initialSecurityStatus": {
+    "NoNewPrivs": "1",
+    "Seccomp": "2",
+    "Seccomp_filters": "1",
+    "CapEff": "0000000000000000",
+    "CapBnd": "0000000000000000"
+  },
+  "beforeEnvironmentCaptured": true,
+  "beforeEnvironmentRef": "before-environment.json",
+  "beforeEnvironmentSha256": "54dbeac6f0223e1339223130b710075b6dbb952f91e10936c716f7528b92210d",
+  "beforeEnvironmentCapturedUntil": "2026-11-25T05:37:29.453915Z",
+  "workloadScopeStartedAt": "2026-11-25T05:37:29.456291Z",
+  "checkpointMonotonicNs": 48115879993203,
+  "actualListeners": {
+    "startedAt": "2026-11-25T05:37:30.547630Z",
+    "controllerPid": 1,
+    "atsPid": 30,
+    "bind": "127.0.0.1",
+    "ports": [
+      18231,
+      18232,
+      18233
+    ],
+    "formalPocAccepted": false
+  },
+  "hookKind": "explicit pinned serve readiness callback; no tracing or profiling installed",
+  "profileAbsentBeforeClient": true,
+  "requestHookObservations": {
+    "threadProfile": null,
+    "threadTrace": null,
+    "defaultThreadProfile": null,
+    "defaultThreadTrace": null
+  },
+  "actualTestCommand": [
+    "/usr/local/bin/python3",
+    "-B",
+    "/poc/source/poc/POC-03-ats-range/test_warm_cache_revocation.py",
+    "--run-dir",
+    "/runlab/work",
+    "--output-dir",
+    "/runlab/warm-cache-revocation"
+  ],
+  "testSha256": "987608f169b25327231f0dc64bf41c571f1ab0f1b924bbe66b567cc7fa701457",
+  "collectorOutput": "/runlab/warm-cache-revocation",
+  "actualTestPid": 49,
+  "actualTestWaitCompleted": true,
+  "actualTestExitCode": 0,
+  "actualScenarioReport": {
+    "kind": "REAL_WARM_CACHE_REVOCATION_TEST",
+    "startedAt": "2026-11-25T05:37:30.850377Z",
+    "scriptSha256": "987608f169b25327231f0dc64bf41c571f1ab0f1b924bbe66b567cc7fa701457",
+    "executedScenarios": 1,
+    "skippedAssertions": 0,
+    "status": "PASS",
+    "pocAccepted": false,
+    "finishedAt": "2026-11-25T05:37:31.398231Z",
+    "grantBefore": {
+      "grantId": "poc003-grant-lab-user-a",
+      "principalId": "lab-user-a",
+      "validFrom": "2026-11-25T05:37:24.561216Z",
+      "validUntil": "2026-11-25T05:57:29.561216Z",
+      "revokedAt": null,
+      "authorizedAt": "2026-11-25T05:37:30.859608Z",
+      "reason": "allowed"
+    },
+    "grantRevoked": {
+      "grantId": "poc003-grant-lab-user-a",
+      "principalId": "lab-user-a",
+      "validFrom": "2026-11-25T05:37:24.561216Z",
+      "validUntil": "2026-11-25T05:57:29.561216Z",
+      "revokedAt": "2026-11-25T05:37:31.228536Z",
+      "authorizedAt": "2026-11-25T05:37:31.228536Z",
+      "reason": "revoked"
+    },
+    "warm": {
+      "requestId": "1f03056671444e5daa3b6ffa46330511",
+      "case": "revocation",
+      "userId": "lab-user-a",
+      "url": "http://127.0.0.1:18233/media/object.bin",
+      "sourceVersion": "base",
+      "sourceSha256": "9a30d2bb1a4f1eabcb41baa5b6518628411ba8ac668fc1e7085983261aa5f419",
+      "aclVersion": "guize-fresh-de8ad3f-v1-acl",
+      "authorizationContext": "c958fb55415248c5f2f2247db7e41e0c",
+      "requestRange": "bytes=0-7",
+      "ifRange": "",
+      "bodyRef": "bodies/revocation-1f03056671444e5daa3b6ffa46330511.bin",
+      "configuredOriginFault": null,
+      "collectorRetryCount": 0,
+      "statusCode": 206,
+      "responseHeaders": [
+        [
+          "Server",
+          "BaseHTTP/0.6 Python/3.12.15"
+        ],
+        [
+          "Date",
+          "Wed, 25 Nov 2026 05:37:31 GMT"
+        ],
+        [
+          "Content-Type",
+          "application/octet-stream"
+        ],
+        [
+          "Content-Length",
+          "8"
+        ],
+        [
+          "Content-Range",
+          "bytes 0-7/67108864"
+        ],
+        [
+          "ETag",
+          "\"sha256-9a30d2bb1a4f1eabcb41baa5b6518628411ba8ac668fc1e7085983261aa5f419\""
+        ],
+        [
+          "Accept-Ranges",
+          "bytes"
+        ],
+        [
+          "Via",
+          "http/1.1 traffic_server (ApacheTrafficServer/9.2.3 [uScHs f p eN:t cCHp s ]), http/1.1 traffic_server (ApacheTrafficServer/9.2.3 [uSc s f p eN:t c  p sS])"
+        ],
+        [
+          "X-Lab-ATS-Cache",
+          "none"
+        ],
+        [
+          "Last-Modified",
+          "Mon, 19 Oct 2026 00:00:00 GMT"
+        ],
+        [
+          "X-Lab-Request-ID",
+          "1f03056671444e5daa3b6ffa46330511"
+        ],
+        [
+          "X-Lab-Source-Version",
+          "base"
+        ],
+        [
+          "X-Lab-Cache-Context",
+          "c958fb55415248c5f2f2247db7e41e0c"
+        ],
+        [
+          "Connection",
+          "close"
+        ]
+      ],
+      "firstResponseByteAt": "2026-11-25T05:37:31.070590Z",
+      "firstResponseByteLatencyMs": 13.030182002694346,
+      "responseHeadersAt": "2026-11-25T05:37:31.070764Z",
+      "firstBodyByteAt": "2026-11-25T05:37:31.070889Z",
+      "firstBodyByteLatencyMs": 13.315452000824735,
+      "firstBodyChunkAt": "2026-11-25T05:37:31.070894Z",
+      "finishedAt": "2026-11-25T05:37:31.070983Z",
+      "bodyBytes": 8,
+      "clientChunkPeak": 7,
+      "transportCompleted": true,
+      "originObservation": {
+        "requestId": "1f03056671444e5daa3b6ffa46330511",
+        "observedAt": "2026-11-25T05:37:31.226605Z",
+        "originRequestCount": 0,
+        "objectReadCount": 0,
+        "objectReadBytes": 0,
+        "activeOriginRequests": 0,
+        "originTransactions": [],
+        "gatewayTransactions": [
+          {
+            "requestId": "1f03056671444e5daa3b6ffa46330511",
+            "case": "revocation",
+            "startedAt": "2026-11-25T05:37:31.062094Z",
+            "userId": "lab-user-a",
+            "sourceVersion": "base",
+            "aclVersion": "guize-fresh-de8ad3f-v1-acl",
+            "requestRange": "bytes=0-7",
+            "ifRange": "",
+            "atsRequestSent": true,
+            "responseByteCount": 8,
+            "gatewayChunkPeak": 8,
+            "grantObservation": {
+              "grantId": "poc003-grant-lab-user-a",
+              "principalId": "lab-user-a",
+              "validFrom": "2026-11-25T05:37:24.561216Z",
+              "validUntil": "2026-11-25T05:57:29.561216Z",
+              "revokedAt": null,
+              "authorizedAt": "2026-11-25T05:37:31.062123Z",
+              "reason": "allowed"
+            },
+            "cacheContextPath": "/ctx/c958fb55415248c5f2f2247db7e41e0c/base/object.bin",
+            "statusCode": 206,
+            "atsResponseHeadersAt": "2026-11-25T05:37:31.070398Z",
+            "atsExpectedBodyBytes": 8,
+            "upstreamReadTimeoutSeconds": 10,
+            "transportCompleted": true,
+            "firstBodyChunkAt": "2026-11-25T05:37:31.070625Z",
+            "finishedAt": "2026-11-25T05:37:31.070641Z"
+          }
+        ]
+      },
+      "startedAt": "2026-11-25T05:37:31.057571Z",
+      "responseHeaderLatencyMs": 13.190440004109405,
+      "clientReadMode": "bounded-readinto",
+      "clientBackingCapacityBytes": 65537,
+      "elapsedMs": 13.409356004558504,
+      "bodySha256": "6ac13c44e65dde31f75ef4124d3f4ccb3ee5857031064c451bc6c851b84212d3",
+      "originPollingSettled": true,
+      "originPollingScope": "Only these timestamped snapshots; no assertion about unobserved later I/O.",
+      "comparisonReadMode": "raw-readinto",
+      "comparisonBackingCapacityBytes": 65537,
+      "sourceIntervalComparison": {
+        "expectedStatus": 206,
+        "start": 0,
+        "end": 7,
+        "expectedBytes": 8,
+        "expectedSha256": "6ac13c44e65dde31f75ef4124d3f4ccb3ee5857031064c451bc6c851b84212d3",
+        "actualBytesEqual": true
+      }
+    },
+    "denied": {
+      "requestId": "32ee650b5a0744bf93b98851223f89c4",
+      "case": "revocation",
+      "userId": "lab-user-a",
+      "url": "http://127.0.0.1:18233/media/object.bin",
+      "sourceVersion": "base",
+      "sourceSha256": "9a30d2bb1a4f1eabcb41baa5b6518628411ba8ac668fc1e7085983261aa5f419",
+      "aclVersion": "guize-fresh-de8ad3f-v1-acl",
+      "authorizationContext": "c958fb55415248c5f2f2247db7e41e0c",
+      "requestRange": "bytes=0-7",
+      "ifRange": "",
+      "bodyRef": "bodies/revocation-32ee650b5a0744bf93b98851223f89c4.bin",
+      "configuredOriginFault": null,
+      "collectorRetryCount": 0,
+      "statusCode": 403,
+      "responseHeaders": [
+        [
+          "Server",
+          "BaseHTTP/0.6 Python/3.12.15"
+        ],
+        [
+          "Date",
+          "Wed, 25 Nov 2026 05:37:31 GMT"
+        ],
+        [
+          "Content-Length",
+          "0"
+        ],
+        [
+          "Cache-Control",
+          "no-store"
+        ],
+        [
+          "Connection",
+          "close"
+        ]
+      ],
+      "firstResponseByteAt": "2026-11-25T05:37:31.234495Z",
+      "firstResponseByteLatencyMs": 5.251238995697349,
+      "responseHeadersAt": "2026-11-25T05:37:31.234635Z",
+      "firstBodyByteAt": null,
+      "firstBodyByteLatencyMs": null,
+      "firstBodyChunkAt": null,
+      "finishedAt": "2026-11-25T05:37:31.234825Z",
+      "bodyBytes": 0,
+      "clientChunkPeak": 0,
+      "transportCompleted": true,
+      "originObservation": {
+        "requestId": "32ee650b5a0744bf93b98851223f89c4",
+        "observedAt": "2026-11-25T05:37:31.392707Z",
+        "originRequestCount": 0,
+        "objectReadCount": 0,
+        "objectReadBytes": 0,
+        "activeOriginRequests": 0,
+        "originTransactions": [],
+        "gatewayTransactions": [
+          {
+            "requestId": "32ee650b5a0744bf93b98851223f89c4",
+            "case": "revocation",
+            "startedAt": "2026-11-25T05:37:31.234319Z",
+            "userId": "lab-user-a",
+            "sourceVersion": "base",
+            "aclVersion": "guize-fresh-de8ad3f-v1-acl",
+            "requestRange": "bytes=0-7",
+            "ifRange": "",
+            "atsRequestSent": false,
+            "responseByteCount": 0,
+            "gatewayChunkPeak": 0,
+            "grantObservation": {
+              "grantId": "poc003-grant-lab-user-a",
+              "principalId": "lab-user-a",
+              "validFrom": "2026-11-25T05:37:24.561216Z",
+              "validUntil": "2026-11-25T05:57:29.561216Z",
+              "revokedAt": "2026-11-25T05:37:31.228536Z",
+              "authorizedAt": "2026-11-25T05:37:31.234364Z",
+              "reason": "revoked"
+            },
+            "statusCode": 403,
+            "denialReason": "revoked",
+            "finishedAt": "2026-11-25T05:37:31.234483Z"
+          }
+        ]
+      },
+      "startedAt": "2026-11-25T05:37:31.229247Z",
+      "responseHeaderLatencyMs": 5.384205993323121,
+      "clientReadMode": "bounded-readinto",
+      "clientBackingCapacityBytes": 65537,
+      "elapsedMs": 5.574819995672442,
+      "bodySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originPollingSettled": true,
+      "originPollingScope": "Only these timestamped snapshots; no assertion about unobserved later I/O."
+    },
+    "denialWitness": {
+      "requestId": "32ee650b5a0744bf93b98851223f89c4",
+      "observedAt": "2026-11-25T05:37:31.394165Z",
+      "originRequestCount": 0,
+      "objectReadCount": 0,
+      "objectReadBytes": 0,
+      "activeOriginRequests": 0,
+      "originTransactions": [],
+      "gatewayTransactions": [
+        {
+          "requestId": "32ee650b5a0744bf93b98851223f89c4",
+          "case": "revocation",
+          "startedAt": "2026-11-25T05:37:31.234319Z",
+          "userId": "lab-user-a",
+          "sourceVersion": "base",
+          "aclVersion": "guize-fresh-de8ad3f-v1-acl",
+          "requestRange": "bytes=0-7",
+          "ifRange": "",
+          "atsRequestSent": false,
+          "responseByteCount": 0,
+          "gatewayChunkPeak": 0,
+          "grantObservation": {
+            "grantId": "poc003-grant-lab-user-a",
+            "principalId": "lab-user-a",
+            "validFrom": "2026-11-25T05:37:24.561216Z",
+            "validUntil": "2026-11-25T05:57:29.561216Z",
+            "revokedAt": "2026-11-25T05:37:31.228536Z",
+            "authorizedAt": "2026-11-25T05:37:31.234364Z",
+            "reason": "revoked"
+          },
+          "statusCode": 403,
+          "denialReason": "revoked",
+          "finishedAt": "2026-11-25T05:37:31.234483Z"
+        }
+      ]
+    },
+    "atsIdentity": {
+      "pid": 30,
+      "startTicks": "4811544",
+      "executable": "/poc/runtime/pkgroot/usr/bin/traffic_server"
+    },
+    "postDenialControl": {
+      "requestId": "d1ad318f38ae4e2ba4843f80042f1156",
+      "path": "/ctx/c958fb55415248c5f2f2247db7e41e0c/base/object.bin",
+      "statusCode": 206,
+      "observedAt": "2026-11-25T05:37:31.396607Z",
+      "responseHeaders": [
+        [
+          "Server",
+          "ATS/9.2.3"
+        ],
+        [
+          "Date",
+          "Wed, 25 Nov 2026 05:37:30 GMT"
+        ],
+        [
+          "Content-Type",
+          "application/octet-stream"
+        ],
+        [
+          "Content-Length",
+          "8"
+        ],
+        [
+          "ETag",
+          "\"sha256-9a30d2bb1a4f1eabcb41baa5b6518628411ba8ac668fc1e7085983261aa5f419\""
+        ],
+        [
+          "Accept-Ranges",
+          "bytes"
+        ],
+        [
+          "Cache-Control",
+          "public, max-age=3600"
+        ],
+        [
+          "Last-Modified",
+          "Mon, 19 Oct 2026 00:00:00 GMT"
+        ],
+        [
+          "Content-Range",
+          "bytes 0-7/67108864"
+        ],
+        [
+          "Age",
+          "1"
+        ],
+        [
+          "Via",
+          "http/1.1 traffic_server (ApacheTrafficServer/9.2.3 [uScHs f p eN:t cCHp s ]), http/1.1 traffic_server (ApacheTrafficServer/9.2.3 [uSc s f p eN:t c  p sS])"
+        ],
+        [
+          "X-Lab-ATS-Cache",
+          "none"
+        ],
+        [
+          "Connection",
+          "close"
+        ]
+      ],
+      "byteCount": 8,
+      "sha256": "6ac13c44e65dde31f75ef4124d3f4ccb3ee5857031064c451bc6c851b84212d3",
+      "scope": "SEPARATE_PRIVILEGED_CACHE_CONTROL_AFTER_DENIAL_WINDOW"
+    },
+    "postDenialOriginWitness": {
+      "requestId": "d1ad318f38ae4e2ba4843f80042f1156",
+      "observedAt": "2026-11-25T05:37:31.397396Z",
+      "originRequestCount": 0,
+      "objectReadCount": 0,
+      "objectReadBytes": 0,
+      "activeOriginRequests": 0,
+      "originTransactions": [],
+      "gatewayTransactions": []
+    },
+    "scope": "One actual same-unexpired-grant warm-cache revocation scenario; original15 and independent result review still required"
+  },
+  "cooperativeStopRequested": true,
+  "stopRequestedAtMonotonicNs": 48116748323320,
+  "serveReturnedNormally": true,
+  "clientThreadStopped": true
+}

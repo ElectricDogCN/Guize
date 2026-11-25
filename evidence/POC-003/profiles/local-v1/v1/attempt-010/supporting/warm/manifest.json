@@ -1,0 +1,107 @@
+{
+  "raw": [
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-010/supporting/warm/raw/before-environment.json",
+      "artifactType": "command_output",
+      "byteCount": 16147,
+      "sha256": "sha256:54dbeac6f0223e1339223130b710075b6dbb952f91e10936c716f7528b92210d"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-010/supporting/warm/raw/warm-cache-revocation-client.json",
+      "artifactType": "command_output",
+      "byteCount": 14695,
+      "sha256": "sha256:3bcd529fa1ff925a421da2a93f6cb58cbe9dbd81e512091ccf56501b3bc6f7f9"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-010/supporting/warm/raw/revocation-cli.stdout.raw",
+      "artifactType": "command_output",
+      "byteCount": 89,
+      "sha256": "sha256:d6594988af7a3c4636627b9fdbe002414942bb0ce3a101b5a3bbd1c4a314ece4"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-010/supporting/warm/raw/revocation-cli.stderr.raw",
+      "artifactType": "command_output",
+      "byteCount": 0,
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-010/supporting/warm/raw/work/execution-owner-wait.json",
+      "artifactType": "command_output",
+      "byteCount": 290,
+      "sha256": "sha256:3e6a11eafa25dc7de8c326dccc226e3942e99b6ccb1ef9daffff2621d91906de"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-010/supporting/warm/raw/warm-cache-revocation/revocation-result.json",
+      "artifactType": "command_output",
+      "byteCount": 11899,
+      "sha256": "sha256:055c6eb306bebca400721668b467426c47e89a92f91c924125f4b56996ca46f8"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-010/supporting/warm/raw/warm-cache-revocation/controller-before.native.jsonl",
+      "artifactType": "command_output",
+      "byteCount": 15185,
+      "sha256": "sha256:9e2b2e5aa7e39bea0f3d2a0df23b883072c19b1f02411697e20d3437fee88317"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-010/supporting/warm/raw/warm-cache-revocation/controller-after.native.jsonl",
+      "artifactType": "command_output",
+      "byteCount": 20281,
+      "sha256": "sha256:1bcdcf693f7ef2dadc1ecd1ae2689b8fed4a4dfc3c44f13c6ab3fa0056d3d8c3"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-010/supporting/warm/raw/warm-cache-revocation/lookup-before.native.jsonl",
+      "artifactType": "command_output",
+      "byteCount": 474,
+      "sha256": "sha256:365b39b25fc55ee8cdec76e0bc1601804d02a06a20b3b634f95fec9b6d5e533d"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-010/supporting/warm/raw/warm-cache-revocation/lookup-after.native.jsonl",
+      "artifactType": "command_output",
+      "byteCount": 474,
+      "sha256": "sha256:365b39b25fc55ee8cdec76e0bc1601804d02a06a20b3b634f95fec9b6d5e533d"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-010/supporting/warm/raw/warm-cache-revocation/export-before.native.jsonl",
+      "artifactType": "command_output",
+      "byteCount": 0,
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-010/supporting/warm/raw/warm-cache-revocation/export-after.native.jsonl",
+      "artifactType": "command_output",
+      "byteCount": 0,
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-010/supporting/warm/raw/warm-cache-revocation/post-denial-control.body.bin",
+      "artifactType": "command_output",
+      "byteCount": 8,
+      "sha256": "sha256:6ac13c44e65dde31f75ef4124d3f4ccb3ee5857031064c451bc6c851b84212d3"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-010/supporting/warm/raw/engine-wait.stdout.raw",
+      "artifactType": "command_output",
+      "byteCount": 2,
+      "sha256": "sha256:9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-010/supporting/warm/raw/final-inspect.stdout.raw",
+      "artifactType": "command_output",
+      "byteCount": 11376,
+      "sha256": "sha256:218ad92b2ca1681505e8715138737d36e3f9e199c5310c70f1b18033cbc48489"
+    },
+    {
+      "ref": "evidence/POC-003/profiles/local-v1/v1/attempt-010/supporting/warm/raw/supervision.json",
+      "artifactType": "command_output",
+      "byteCount": 18980,
+      "sha256": "sha256:0aa84c33408cce1c07fe96c27a3be2f033617693f88a5972ea6e6f196757a692"
+    }
+  ],
+  "reportRef": "evidence/POC-003/profiles/local-v1/v1/attempt-010/supporting/warm/raw/warm-cache-revocation/revocation-result.json",
+  "testedSource": {
+    "commit": "2a6a6a9e62dc0fe7ef3144934d77c010811584ad",
+    "tree": "a379722549aa616426a0318e261840858b66ceb6"
+  },
+  "authorizationSha256": "dab40e474242bb4dfe421afffc30a5d504c11832de684046b4c9ee845d909cf0",
+  "containerId": "76a531b219c079a61794dd3411b92817304be2c3261dcb0bda28f270c8f08155"
+}

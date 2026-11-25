@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "kind": "range_request_observation",
+  "configurationRef": "evidence/POC-003/profiles/local-v1/v1/attempt-010/resource-configuration.json",
+  "inputSamples": [
+    {
+      "id": "SAMPLE-RANGE-LARGEFILE",
+      "immutableId": "guize-fresh-de8ad3f-v1-base-64m",
+      "checksum": "sha256:9a30d2bb1a4f1eabcb41baa5b6518628411ba8ac668fc1e7085983261aa5f419"
+    }
+  ],
+  "inputSampleId": "SAMPLE-RANGE-LARGEFILE",
+  "subjectVersion": "{\"atsVersionObservation\":\"Traffic Server 9.2.3 Nov 12 2026 22:51:47 localhost\\ntraffic_server: using root directory '/poc/runtime/pkgroot'\\nApache Traffic Server - traffic_server - 9.2.3 - (build # 111222 on Nov 12 2026 at 22:51:47)\",\"atsVersionObservationScope\":\"Actual fresh-binary version command in the same fixed runtime image before workload; owned epochs separately prove current executable mappings and ABI\",\"python\":\"3.12.15 (main, Oct  6 2026, 02:02:22) [GCC 14.2.0]\"}",
+  "acceptanceProfile": {
+    "id": "local-v1",
+    "version": 1,
+    "bindingRevision": 1,
+    "scope": "LOCAL_FULL_V1"
+  },
+  "assetId": "guize-fresh-de8ad3f-v1-object",
+  "aclVersion": "guize-fresh-de8ad3f-v1-acl",
+  "case": "partial_read",
+  "requests": [
+    {
+      "requestId": "1a4b4c1aaada4d9e9e27e1897c743c5b",
+      "originAccessRef": "evidence/POC-003/profiles/local-v1/v1/attempt-010/raw/typed/origin-1a4b4c1aaada4d9e9e27e1897c743c5b.json",
+      "startedAt": "2026-11-25T05:31:22.785811Z",
+      "firstByteAt": "2026-11-25T05:31:22.802244Z",
+      "finishedAt": "2026-11-25T05:31:22.803107Z",
+      "sourceVersion": "base",
+      "sourceSha256": "sha256:9a30d2bb1a4f1eabcb41baa5b6518628411ba8ac668fc1e7085983261aa5f419",
+      "requestURL": "http://127.0.0.1:18233/media/object.bin",
+      "aclVersion": "guize-fresh-de8ad3f-v1-acl",
+      "userId": "lab-user-a",
+      "cacheKey": "[\"guize-fresh-de8ad3f-v1-object\",\"base\",\"9a30d2bb1a4f1eabcb41baa5b6518628411ba8ac668fc1e7085983261aa5f419\",\"guize-fresh-de8ad3f-v1-acl\",\"lab-user-a\",\"/ctx/c958fb55415248c5f2f2247db7e41e0c/base/object.bin\"]",
+      "requestRange": "bytes=0-7",
+      "ifRange": "",
+      "statusCode": 503,
+      "etag": "",
+      "contentRange": "",
+      "responseBodyRef": "evidence/POC-003/profiles/local-v1/v1/attempt-010/raw/original-matrix/bodies/partial_read-1a4b4c1aaada4d9e9e27e1897c743c5b.bin",
+      "responseSha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "responseByteCount": 0,
+      "cacheComplete": false,
+      "cacheVisible": false,
+      "transferCompleted": false,
+      "maximumBufferedBytes": 6320174,
+      "retryCount": 0,
+      "cacheStatus": "PARTIAL",
+      "cachePurged": false,
+      "originDelayMs": 250,
+      "originBandwidthBytesPerSecond": 1048576,
+      "concurrentUsers": 1
+    }
+  ]
+}
