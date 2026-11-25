@@ -1,3 +1,36 @@
+# OPS-031 阻断交接
+
+任务 OPS-031 对应 [Issue #284](https://github.com/ElectricDogCN/Guize/issues/284)，分支 `chore/OPS-031-gz007-wave-order`、目标 main，真实父提交 `ac0ef6b72014c03a1f55aba2ef0580bf3a0ed927`。已核定的真实失败源为 `007cedd582da4177e6139f27870d5ebcf4be1a28`，本次元数据源由后续 PR 的固定 SHA 和官方 CI 标识。
+
+协调、实施与合入由 /root 负责，独立 Reviewer 为 /root/independent_review，当前角色 coordinator。租约保留至 2026-12-02T16:59:55Z，唯一独占声明仍为 Program Plan，无共享写范围，Foundation 集成顺序 23。Program Plan、Active Work 和规划声明版本 1，Task Spec 版本 2。
+
+实际变更文件如下。
+
+- `evidence/OPS-031/commands.txt`
+- `evidence/OPS-031/completion-attempt-007cedd5/history.txt`
+- `evidence/OPS-031/handoff.md`
+- `evidence/OPS-031/summary.md`
+- `evidence/OPS-031/test-results/README.md`
+- `specs/coordination/active-work.yaml`
+- `specs/coordination/program-plan.yaml`
+- `specs/tasks/OPS-031.md`
+
+独立 Reviewer 先核固定源码、真实失败记录和本轮命令退出码。完整官方源和实际主线 CI 验收后，协调者再按正常流程回到 reserved，办理独立范围登记。未合入候选可撤回；保留既有 Git 历史和实际排程。
+
+
+## OPS-031 结项检查阻断
+
+已验收的 [排程实施](https://github.com/ElectricDogCN/Guize/pull/286) 只执行原始声明的两个字段。Foundation 的结项历史检查按文件路径排除了 Program Plan，将此实现判为仅生命周期元数据。本次提交只登记阻断，保留实施、审查、租约、规划声明和实际 GZ-007 排程。候选结项未发布，跟踪 Issue #284 已重新打开。[结项失败原始日志](completion-attempt-007cedd5/history.txt)。
+
+Source Commit: 007cedd582da4177e6139f27870d5ebcf4be1a28
+Command: /var/tmp/guize-ops027-rebased-proof/python/bin/python -B scripts/check-program-plan-history.py --base-ref ac0ef6b72014c03a1f55aba2ef0580bf3a0ed927 --head-ref 007cedd582da4177e6139f27870d5ebcf4be1a28 --task OPS-031 --branch-name chore/OPS-031-normal-completion
+Exit Code: 1
+Raw SHA-256: 5b370aa129f5db3c5889cd4ec20f4802ad8d664decea7283a22f6c2540c32f45
+
+真正的修复应识别由原始声明和真实 Git 历史授权的计划变更，继续拒绝纯生命周期元数据。须用独立元数据登记获得对应治理路径后，再实施与复验。
+
+## 先前阶段交接
+
 # OPS-031 正式 Review 交接
 
 跟踪 [Issue #284](https://github.com/ElectricDogCN/Guize/issues/284)。工作分支 `chore/OPS-031-gz007-wave-order`，目标 main，当前基线 `8364e9777b7601f413897518f8911c1a986b7308`。实施身份为 [PR #286](https://github.com/ElectricDogCN/Guize/pull/286) 的实际主线 `8364e9777b7601f413897518f8911c1a986b7308`。本阶段源以其 PR 的固定 SHA 和对应官方 CI 为准。
