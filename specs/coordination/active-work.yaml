@@ -6,49 +6,6 @@ policy:
   bootstrapTasks:
   - GZ-003
 tasks:
-- taskId: POC-003
-  issue: 131
-  title: ATS Range/Slice、大文件与权限缓存键
-  status: review
-  riskLevel: medium
-  owner: ElectricDogCN
-  coordinator: program-coordinator-agent
-  implementer: /root
-  reviewer: /root/independent_review
-  integrator: integration-agent
-  agentRole: reviewer
-  branch: chore/POC-003-qualified-lfs-evidence-v2
-  baseBranch: main
-  baseSha: be8a16ad0fcaeb64e5b169e6137fedfb91fe5ae6
-  workPackage: WP-M0-POC-03
-  programPlan: specs/coordination/program-plan.yaml
-  programTaskId: POC-003
-  programWave: W2
-  requirementIds:
-  - REQ-V1-0003
-  - REQ-V1-0008
-  moduleIds:
-  - MOD-EDGE
-  - MOD-IAM
-  producesContracts:
-  - POC-03-EVIDENCE
-  consumesContracts:
-  - POC-PROTOCOL-V1
-  coordinationGroup: poc-results
-  dependsOn:
-  - GZ-010
-  exclusivePaths:
-  - poc/POC-03-ats-range/**
-  - evidence/POC-003/**
-  sharedPaths:
-  - adr/**
-  - specs/poc/results-index.yaml
-  handoffPath: evidence/POC-003/handoff.md
-  integrationStrategy: merge
-  integrationOrder: 2
-  lease:
-    acquiredAt: '2026-11-19T10:00:37Z'
-    expiresAt: '2026-11-26T10:00:37Z'
 - taskId: POC-005
   issue: 132
   title: 700TB 文件数、目录规模、变更率与扫描成本
