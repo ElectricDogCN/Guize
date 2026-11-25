@@ -1,0 +1,233 @@
+{
+  "kind": "FRESH_FULL_ORIGINAL13_TEMPLATE_ONLY",
+  "decision": "approved_full_template_only",
+  "actor": "/root/gz022_planning_independent_review",
+  "reviewer": "/root/gz022_planning_independent_review",
+  "approvedAt": "2026-11-25T07:52:13Z",
+  "validFrom": "2026-11-25T07:52:13Z",
+  "validUntil": "2026-11-25T10:38:15Z",
+  "source": "be8a16ad0fcaeb64e5b169e6137fedfb91fe5ae6",
+  "tree": "bea546f8b331ffaaf09f422294afedf9305f87ff",
+  "candidateBytes": 19974,
+  "candidateSha256": "sha256:b7c6f7445e06f2a494b6befaf2351174bcfbceedd1f77e029c0c6a594b64bb7a",
+  "fullPreparationAccepted": true,
+  "finalExecutionApproved": false,
+  "scannerStarted": false,
+  "mustFix": [],
+  "profileConfiguration": {
+    "acceptanceProfile": {
+      "bindingRevision": 1,
+      "id": "local-v1",
+      "scope": "LOCAL_FULL_V1",
+      "version": 1
+    },
+    "capturedSettings": {
+      "synthetic_hierarchy_manifest": {
+        "generator": {
+          "algorithm": "deterministic-tree-v1",
+          "directoryCount": 500,
+          "fileCount": 1000000,
+          "maximumDepth": 12,
+          "rootPath": "fixture",
+          "seed": 20261015
+        },
+        "schemaVersion": 1,
+        "scope": "LOCAL_FULL_V1"
+      }
+    },
+    "measurementIds": [
+      "average_file_size",
+      "directory_count",
+      "directory_depth_max",
+      "enumeration_rate",
+      "etag_behavior_profiled",
+      "file_count",
+      "filename_characteristics_profiled",
+      "incremental_scan_cost",
+      "memory_peak",
+      "provider_characteristics_profiled",
+      "range_support_profiled",
+      "source_api_quota",
+      "source_change_frequency"
+    ],
+    "numericDomainReviewRefs": {},
+    "pocId": "POC-05",
+    "resourceIds": [
+      "RES-METADATA-SCALE",
+      "RES-OPENLIST-LOCAL"
+    ],
+    "schemaVersion": 2,
+    "taskId": "POC-005",
+    "testedSource": {
+      "commit": "be8a16ad0fcaeb64e5b169e6137fedfb91fe5ae6",
+      "tree": "bea546f8b331ffaaf09f422294afedf9305f87ff"
+    },
+    "decision": "approved",
+    "approvedBy": "/root/gz022_planning_independent_review",
+    "approvedAt": "2026-11-25T07:52:13Z"
+  },
+  "sampleApproval": {
+    "schemaVersion": 1,
+    "pocId": "POC-05",
+    "taskId": "POC-005",
+    "sampleId": "SAMPLE-METADATA-SYNTHETIC",
+    "immutableId": "guize-poc005-canonical-1m-neutral-attempt023",
+    "checksum": "sha256:ad0e9fc6739de60a4b773437a7a1e7be11ca6f7b8c9cc80388ac6613dd30d388",
+    "decision": "approved",
+    "approver": "/root/gz022_planning_independent_review",
+    "approvedAt": "2026-11-25T07:52:13Z"
+  },
+  "assemblyMethod": {
+    "ref": "evidence/POC-005/profiles/local-v1/v1/attempt-023/tools/poc005_full_execution_assembler_023_v1.py",
+    "byteCount": 23416,
+    "sha256": "sha256:4a998b5b63382b92736b4d8184c0e5ef0c6fa81161d4a28769e68af592daeb3f"
+  },
+  "sourceReviewSha256": "3323f3c5aa9832c86daa5f3a67e5e752a56ee2751399612035c48a703d16b534",
+  "resourcePreparationReviewSha256": "b83ecbd4eeeff4f03a35c83add6e71d1c479a93d594fa06a4826abad323079fd",
+  "fixtureReadbackSha256": "3bccf23539c05ec63452738ec6ccafbd71ae09e989d6f9f1b803b86c509c362e",
+  "ownedBackend": {
+    "basePath": "D:\\Guize-Lab\\poc005-neutral-81348fd-v1\\distro",
+    "guid": "{62723b0e-ee7d-4e7a-bf6d-f48f48acbbd4}",
+    "name": "Guize-Poc005-Neutral-81348fd-v1",
+    "version": 2
+  },
+  "sourceRoot": "/work/Guize-attempt023",
+  "methodRoot": "/work/tools-attempt023",
+  "allowTemplateMaterialization": true,
+  "allowWaitingReservation": true,
+  "allowedWaitingReservations": 1,
+  "temporaryClockIsolationMayPrepareWaitingState": true,
+  "waitingReservationValidUntil": "2026-11-25T10:38:15Z",
+  "orchestrationMethod": {
+    "sourceFile": "run_poc005_attempt023_windows_orchestrator_v1_once.py",
+    "byteCount": 10415,
+    "sha256": "sha256:d6a51842478f23cfd9cc8e28d589ca8ac0280b942669042a8fe9c73e13782db9"
+  },
+  "materializationMethod": {
+    "sourceFile": "materialize_poc005_attempt023_full_template.py",
+    "byteCount": 7402,
+    "sha256": "sha256:84875b28d8fd95e453f323403fecfbcb88faa0d8b3da42cc4971563145fa8f29"
+  },
+  "qualificationMethods": {
+    "assembler": {
+      "byteCount": 23416,
+      "ref": "evidence/POC-005/profiles/local-v1/v1/attempt-023/tools/poc005_full_execution_assembler_023_v1.py",
+      "sha256": "sha256:4a998b5b63382b92736b4d8184c0e5ef0c6fa81161d4a28769e68af592daeb3f",
+      "sourceFile": "poc005_full_execution_assembler_023_v1.py"
+    },
+    "capacityBeforeReservation": {
+      "byteCount": 3535,
+      "ref": "evidence/POC-005/profiles/local-v1/v1/attempt-023/tools/poc005_attempt023_capacity_before_reserve_v1.py",
+      "sha256": "sha256:d82ce08fd38276946191cc2ce3733611808fae5d68762d8480776df37590bd15",
+      "sourceFile": "poc005_attempt023_capacity_before_reserve_v1.py"
+    },
+    "nativeSupervisor": {
+      "byteCount": 4797,
+      "ref": "evidence/POC-005/profiles/local-v1/v1/attempt-023/tools/run_poc005_linux_attempt023_native_supervisor_v1.py",
+      "sha256": "sha256:630cdc3675e9a2850e1c352cc4254464ac0a11c28847e24ce0501490dbe01d12",
+      "sourceFile": "run_poc005_linux_attempt023_native_supervisor_v1.py"
+    },
+    "preflight": {
+      "byteCount": 8081,
+      "ref": "evidence/POC-005/profiles/local-v1/v1/attempt-023/tools/capture_poc005_attempt023_full_preflight_v1.py",
+      "sha256": "sha256:d589c46c7a98ab0de331da368bc1c5eaa4052701d7cffdf8248312217bb79c55",
+      "sourceFile": "capture_poc005_attempt023_full_preflight_v1.py"
+    },
+    "validator": {
+      "byteCount": 4315,
+      "ref": "evidence/POC-005/profiles/local-v1/v1/attempt-023/tools/validate_poc005_attempt023_full_execution_v1.py",
+      "sha256": "sha256:cb17b9ebb065522b809f2ead7dca8965355773d00d43edf3e66e40be02473e42",
+      "sourceFile": "validate_poc005_attempt023_full_execution_v1.py"
+    }
+  },
+  "additionalControlledHostMethods": {
+    "beforeReleaseCapture": {
+      "byteCount": 5186,
+      "ref": "evidence/POC-005/profiles/local-v1/v1/attempt-023/tools/capture_poc005_attempt023_before_release_v1_once.py",
+      "sha256": "sha256:2d4bfb85170b0baf7c0c711941c6a080f65c4a833ae4c5a45591ff582db06387",
+      "sourceFile": "capture_poc005_attempt023_before_release_v1_once.py"
+    },
+    "clockIsolation": {
+      "byteCount": 10350,
+      "ref": "evidence/POC-005/profiles/local-v1/v1/attempt-023/tools/poc005_attempt023_clock_isolation_v1.py",
+      "sha256": "sha256:395632fb854000dac408dc47c44f8d1b79dd50d7cc7e54c3f4f7a36588ed2d46",
+      "sourceFile": "poc005_attempt023_clock_isolation_v1.py"
+    },
+    "clockStability": {
+      "byteCount": 4950,
+      "ref": "evidence/POC-005/profiles/local-v1/v1/attempt-023/tools/observe_poc005_attempt023_clock_stability_v1.py",
+      "sha256": "sha256:b1952402bf9cc47c832a390c9e77e5ef80d22bb5ca459ae10d080a26f0a74031",
+      "sourceFile": "observe_poc005_attempt023_clock_stability_v1.py"
+    }
+  },
+  "priorApprovalsInherited": false,
+  "actualReleaseApproved": false,
+  "scannerExperimentApproved": false,
+  "postExecutionMethodExecutionApproved": false,
+  "qualificationAccepted": false,
+  "currentProfileAccepted": false,
+  "taskCompleted": false,
+  "v1Accepted": false,
+  "publicationApproved": false,
+  "evidencePins": [
+    {
+      "path": "poc005-attempt023-full-ready-candidate-v1.json",
+      "bytes": 19974,
+      "sha256": "b7c6f7445e06f2a494b6befaf2351174bcfbceedd1f77e029c0c6a594b64bb7a"
+    },
+    {
+      "path": "poc005-attempt023-resource-preparation-result-independent-review.json",
+      "bytes": 4082,
+      "sha256": "b83ecbd4eeeff4f03a35c83add6e71d1c479a93d594fa06a4826abad323079fd"
+    },
+    {
+      "path": "poc005-resumption-after-poc003-final-actual-main-independent-review.json",
+      "bytes": 11997,
+      "sha256": "3323f3c5aa9832c86daa5f3a67e5e752a56ee2751399612035c48a703d16b534"
+    },
+    {
+      "path": "poc005-attempt023-fresh-fixture-readback-retry.raw",
+      "bytes": 1594,
+      "sha256": "3bccf23539c05ec63452738ec6ccafbd71ae09e989d6f9f1b803b86c509c362e"
+    },
+    {
+      "path": "run_poc005_attempt023_windows_orchestrator_v1_once.py",
+      "bytes": 10415,
+      "sha256": "d6a51842478f23cfd9cc8e28d589ca8ac0280b942669042a8fe9c73e13782db9"
+    }
+  ],
+  "reviewFindings": [
+    "Current local/native candidate bytes, accepted source/tree and seven immutable input digests match",
+    "Original13 IDs, numeric policies, 1m/500 hierarchy, three mutations, five probes and four adapter faults unchanged",
+    "All eight declared method pins match actual native files; profile/sample refer to fresh attempt023",
+    "Assembler preserves raw before-environment bytes and derives only the pinned truthful driver/memory projection before canonical validation",
+    "Exact corrected orchestrator retains the original lock until native terminal and confirmed original timesync/Docker restoration; lock release success requires holder exit0"
+  ],
+  "waitingPreparationConditions": [
+    "One exact waiting controller only under the existing original Ubuntu physical-domain flock; not an experiment or release",
+    "Use only this candidate and exact pinned orchestrator, clock isolation, stability observer and native supervisor; retain all3601 observations and unchanged2000ns/1ms core policies",
+    "Capture initial Docker/Ubuntu timesync states; if Docker is initially stopped preserve it stopped, otherwise require no active containers/builds and restore original running state",
+    "No persistent service configuration changes; restore temporary Ubuntu timesync pause and verified original Docker state before releasing physical-domain lock; retain lock if restoration or native terminal cannot be verified",
+    "No source listing, probe, mutation or scan before separate independent live final approval; no retry or second waiting PID inherited",
+    "Deadline grants no new execution after expiry; necessary owned-process termination and restoration remain mandatory"
+  ],
+  "finalApprovalRequirements": [
+    "runtime.json",
+    "resource.json",
+    "openlist-resource.json",
+    "profile-configuration.json",
+    "sample-approval.json",
+    "before-environment.json",
+    "controller-launch.json",
+    "native-manifest.json",
+    "assemblyMethod exact ref/byteCount/sha256",
+    "Actual reserved PID/start identity, native boot/namespace, exact source/tree/runtime and owned service identity independently read back",
+    "Fresh environment/capacity and held original lock/continuous clock-isolation proof; preserve enough bounded2h future execution window before the exact deadline",
+    "Final approval must bind exact assembler and all control/config bytes; implementer generates no independent approval"
+  ],
+  "limitations": [
+    "Template and one bounded waiting-state preparation only; no actual measurements or final release approved",
+    "Old attempt022 remains unqualified with all raw fields, failure and prior approvals unchanged",
+    "Canonical complete execution validation and normal source/main CI, independent result review and cleanup obligations remain unchanged"
+  ]
+}

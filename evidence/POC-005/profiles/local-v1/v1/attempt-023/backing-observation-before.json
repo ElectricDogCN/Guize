@@ -1,0 +1,14 @@
+{
+  "backingDiskFreeBytes": 259441283072,
+  "backingDrive": "D:",
+  "collector": "Actual exact registered GUID/Version2/D backing plus Windows shutil.disk_usage; guest thin volume free is separate",
+  "distribution": "Guize-Poc005-Neutral-81348fd-v1",
+  "observedAt": "2026-11-25T07:56:58.841612Z",
+  "ownedBackend": {
+    "basePath": "D:\\Guize-Lab\\poc005-neutral-81348fd-v1\\distro",
+    "guid": "{62723b0e-ee7d-4e7a-bf6d-f48f48acbbd4}",
+    "name": "Guize-Poc005-Neutral-81348fd-v1",
+    "version": 2
+  },
+  "version": 2
+}

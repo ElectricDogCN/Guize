@@ -1,0 +1,432 @@
+{
+  "adapterFaults": 4,
+  "additionalControlledHostMethods": {
+    "beforeReleaseCapture": {
+      "byteCount": 5186,
+      "ref": "evidence/POC-005/profiles/local-v1/v1/attempt-023/tools/capture_poc005_attempt023_before_release_v1_once.py",
+      "sha256": "sha256:2d4bfb85170b0baf7c0c711941c6a080f65c4a833ae4c5a45591ff582db06387",
+      "sourceFile": "capture_poc005_attempt023_before_release_v1_once.py"
+    },
+    "clockIsolation": {
+      "byteCount": 10350,
+      "ref": "evidence/POC-005/profiles/local-v1/v1/attempt-023/tools/poc005_attempt023_clock_isolation_v1.py",
+      "sha256": "sha256:395632fb854000dac408dc47c44f8d1b79dd50d7cc7e54c3f4f7a36588ed2d46",
+      "sourceFile": "poc005_attempt023_clock_isolation_v1.py"
+    },
+    "clockStability": {
+      "byteCount": 4950,
+      "ref": "evidence/POC-005/profiles/local-v1/v1/attempt-023/tools/observe_poc005_attempt023_clock_stability_v1.py",
+      "sha256": "sha256:b1952402bf9cc47c832a390c9e77e5ef80d22bb5ca459ae10d080a26f0a74031",
+      "sourceFile": "observe_poc005_attempt023_clock_stability_v1.py"
+    }
+  },
+  "adjacentPublicPreparationRecords": [],
+  "base": "be8a16ad0fcaeb64e5b169e6137fedfb91fe5ae6",
+  "draft": {
+    "approvalRef": "evidence/POC-005/profiles/local-v1/v1/attempt-023/independent-approval.json",
+    "refs": {
+      "approvalRequest": "evidence/POC-005/profiles/local-v1/v1/attempt-023/approval-request.json",
+      "manifest": "evidence/POC-005/profiles/local-v1/v1/attempt-023/native-manifest.json",
+      "resourceConfiguration": "evidence/POC-005/profiles/local-v1/v1/attempt-023/resource.json",
+      "runtimeConfiguration": "evidence/POC-005/profiles/local-v1/v1/attempt-023/runtime.json",
+      "stderr": "evidence/POC-005/profiles/local-v1/v1/attempt-023/scanner.stderr",
+      "stdout": "evidence/POC-005/profiles/local-v1/v1/attempt-023/scanner.stdout"
+    },
+    "reservationDeadline": "2026-11-25T10:38:15Z",
+    "resourceConfiguration": {
+      "configuration": {
+        "metadataProfilingPolicy": {
+          "baselinePayload": {
+            "ref": "evidence/POC-005/profiles/local-v1/v1/inputs-neutral1m-v1/baseline-probe.bin",
+            "sha256": "sha256:c8f5d0341d54d951a71b136e6e2afcb14d11ed8489a7ae126a8fee0df6ecf193"
+          },
+          "baselineVersion": "v1",
+          "extensionCategories": [
+            "mp4",
+            "mkv",
+            "mov",
+            "txt",
+            "jpg"
+          ],
+          "filenameInput": {
+            "count": 1000500,
+            "ref": "evidence/POC-005/profiles/local-v1/v1/inputs-neutral1m-v1/profiled.jsonl.gz",
+            "sha256": "sha256:c3dcb34521809b954b0f7862707658ce6d4f60c2c13769db47e75b832c638cd8"
+          },
+          "minimumListingRuns": 2,
+          "probeObjectId": "f-000000003",
+          "rangeDisposition": "supported",
+          "updatedPayload": {
+            "ref": "evidence/POC-005/profiles/local-v1/v1/inputs-neutral1m-v1/updated-probe.bin",
+            "sha256": "sha256:22250e12fcdfd3b338e9fcad5848a7225a8d39646f3d071ab9dac6dfd4fe0b8d"
+          },
+          "updatedVersion": "v2",
+          "validatorKind": "etag"
+        },
+        "metadataResourcePolicy": {},
+        "metadataScanPolicy": {
+          "baseline": {
+            "count": 1000500,
+            "ref": "evidence/POC-005/profiles/local-v1/v1/inputs-neutral1m-v1/baseline.jsonl.gz",
+            "sha256": "sha256:ad0e9fc6739de60a4b773437a7a1e7be11ca6f7b8c9cc80388ac6613dd30d388"
+          },
+          "baselineInputSampleId": "SAMPLE-METADATA-SYNTHETIC",
+          "expectedChanges": {
+            "count": 3,
+            "ref": "evidence/POC-005/profiles/local-v1/v1/inputs-neutral1m-v1/expected-changes.jsonl",
+            "sha256": "sha256:c1eb4e21860fdbb307b28905dffcd9f8a4329e05ef2638ade09690076def56fd"
+          },
+          "hierarchyGenerator": {
+            "algorithm": "deterministic-tree-v1",
+            "directoryCount": 500,
+            "fileCount": 1000000,
+            "maximumDepth": 12,
+            "rootPath": "fixture",
+            "seed": 20261015
+          }
+        },
+        "syntheticHierarchySandbox": {
+          "controlled": true,
+          "disposable": true,
+          "mountId": "openlist-v426-local-v8-1m-neutral1m-v1-id1",
+          "physicalHostId": "windows-hardware-sha256:bec45caf58d1ec4808ed969814e2dcd139d4cefbf751e451814d33a5446fa18e",
+          "resourceId": "RES-METADATA-SCALE",
+          "rootPath": "fixture",
+          "sandboxId": "poc005-neutral-d-wsl-1m-attempt023",
+          "schemaVersion": 1,
+          "scope": "LOCAL_FULL_V1"
+        }
+      }
+    },
+    "runtimeConfig": {
+      "artifactRoot": "/work/Guize-attempt023",
+      "baseline": {
+        "ref": "evidence/POC-005/profiles/local-v1/v1/inputs-neutral1m-v1/baseline.jsonl.gz",
+        "sha256": "sha256:ad0e9fc6739de60a4b773437a7a1e7be11ca6f7b8c9cc80388ac6613dd30d388"
+      },
+      "changeSetId": "controlled-live-changes-attempt023",
+      "context": {
+        "acceptanceProfile": {
+          "bindingRevision": 1,
+          "id": "local-v1",
+          "scope": "LOCAL_FULL_V1",
+          "version": 1
+        },
+        "configurationRef": "evidence/POC-005/profiles/local-v1/v1/attempt-023/resource.json",
+        "inputSamples": [
+          {
+            "checksum": "sha256:ad0e9fc6739de60a4b773437a7a1e7be11ca6f7b8c9cc80388ac6613dd30d388",
+            "id": "SAMPLE-METADATA-SYNTHETIC",
+            "immutableId": "guize-poc005-canonical-1m-neutral-attempt023"
+          }
+        ],
+        "manifestId": "guize-poc005-canonical-1m-neutral-attempt023",
+        "scannerBuild": "be8a16ad0fcaeb64e5b169e6137fedfb91fe5ae6",
+        "subjectVersion": "be8a16ad0fcaeb64e5b169e6137fedfb91fe5ae6"
+      },
+      "counterCollectorBuild": "sha256:c93d3dc666b905ea3353d3584175bf579d07207bda2d9b8fa9cdf688a17bc82b",
+      "counterFormat": "linux_proc_status",
+      "database": "evidence/POC-005/profiles/local-v1/v1/attempt-023/scanner.sqlite",
+      "executor": "/root",
+      "memory": {
+        "after": {
+          "capture": "evidence/POC-005/profiles/local-v1/v1/attempt-023/after-capture",
+          "counter": "evidence/POC-005/profiles/local-v1/v1/attempt-023/after-counter",
+          "stderr": "evidence/POC-005/profiles/local-v1/v1/attempt-023/after-stderr",
+          "stdout": "evidence/POC-005/profiles/local-v1/v1/attempt-023/after-stdout"
+        },
+        "before": {
+          "capture": "evidence/POC-005/profiles/local-v1/v1/attempt-023/before-capture",
+          "counter": "evidence/POC-005/profiles/local-v1/v1/attempt-023/before-counter",
+          "stderr": "evidence/POC-005/profiles/local-v1/v1/attempt-023/before-stderr",
+          "stdout": "evidence/POC-005/profiles/local-v1/v1/attempt-023/before-stdout"
+        }
+      },
+      "outputs": {
+        "appliedEvents": "evidence/POC-005/profiles/local-v1/v1/attempt-023/appliedEvents.jsonl",
+        "enumeratedVersions": "evidence/POC-005/profiles/local-v1/v1/attempt-023/enumeratedVersions.jsonl.gz",
+        "events": "evidence/POC-005/profiles/local-v1/v1/attempt-023/events.jsonl",
+        "filenameObjects": "evidence/POC-005/profiles/local-v1/v1/attempt-023/filenameObjects.jsonl.gz",
+        "objects": "evidence/POC-005/profiles/local-v1/v1/attempt-023/objects.jsonl.gz",
+        "postScanObjects": "evidence/POC-005/profiles/local-v1/v1/attempt-023/postScanObjects.jsonl",
+        "traversedObjects": "evidence/POC-005/profiles/local-v1/v1/attempt-023/traversedObjects.jsonl"
+      },
+      "pageSize": 200,
+      "phaseCaptures": {
+        "changeStream": "evidence/POC-005/profiles/local-v1/v1/attempt-023/changeStream.json",
+        "enumeration": "evidence/POC-005/profiles/local-v1/v1/attempt-023/enumeration.json",
+        "incremental": "evidence/POC-005/profiles/local-v1/v1/attempt-023/incremental.json"
+      },
+      "phaseFacts": "evidence/POC-005/profiles/local-v1/v1/attempt-023/phase-facts.json",
+      "phaseStderr": {
+        "changeStream": "evidence/POC-005/profiles/local-v1/v1/attempt-023/changeStream.stderr",
+        "enumeration": "evidence/POC-005/profiles/local-v1/v1/attempt-023/enumeration.stderr",
+        "incremental": "evidence/POC-005/profiles/local-v1/v1/attempt-023/incremental.stderr"
+      },
+      "postReceipt": "evidence/POC-005/profiles/local-v1/v1/attempt-023/post.json",
+      "postStderr": "evidence/POC-005/profiles/local-v1/v1/attempt-023/post.stderr",
+      "processId": "poc005-neutral-scanner-attempt023",
+      "profiled": {
+        "ref": "evidence/POC-005/profiles/local-v1/v1/inputs-neutral1m-v1/profiled.jsonl.gz",
+        "sha256": "sha256:c3dcb34521809b954b0f7862707658ce6d4f60c2c13769db47e75b832c638cd8"
+      },
+      "readyReceipt": "evidence/POC-005/profiles/local-v1/v1/attempt-023/ready.json",
+      "scanId": "poc005-neutral-linux-1m-attempt023",
+      "snapshotVersion": "canonical-1m-neutral-v1",
+      "sourceId": "poc005-openlist-linux-controlled-v1",
+      "sourceRun": {
+        "artifactBytes": 943718400,
+        "artifactFiles": 20000,
+        "artifactPrefix": "evidence/POC-005/profiles/local-v1/v1/attempt-023/source-artifacts",
+        "credentialRef": "/work/private-openlist-attempt023/reader-credentials.json",
+        "extensionCategories": [
+          "mp4",
+          "mkv",
+          "mov",
+          "txt",
+          "jpg"
+        ],
+        "gatewayPort": 15651,
+        "identity": {
+          "adapterBuild": "sha256:29bf83347cf6100ef579b4c547c90e1235530fe7c7f3167ed4d7c4b190b1d0c5",
+          "adapterId": "guize-controlled-openlist-linux-v1",
+          "sourceId": "poc005-openlist-linux-controlled-v1",
+          "sourceVersion": "OpenList-v4.2.6-D-WSL-Local-neutral1m-attempt023-unsigned-no-password-meta"
+        },
+        "intents": [
+          {
+            "afterVersion": "v1",
+            "beforeVersion": "absent",
+            "eventId": "controlled-event-001",
+            "modifiedAt": "2026-01-01T00:00:02Z",
+            "objectId": "controlled-created-001",
+            "operation": "create",
+            "path": "created-fixture.mp4",
+            "payloadRef": "evidence/POC-005/profiles/local-v1/v1/inputs-neutral1m-v1/created-probe.bin",
+            "payloadSha256": "sha256:785b0751fc2c53dc14a4ce3d800e69ef9ce1009eb327ccf458afe09c242c26c9"
+          },
+          {
+            "afterVersion": "v2",
+            "beforeSha256": "sha256:c8f5d0341d54d951a71b136e6e2afcb14d11ed8489a7ae126a8fee0df6ecf193",
+            "beforeVersion": "v1",
+            "eventId": "controlled-event-002",
+            "modifiedAt": "2026-01-01T00:00:02Z",
+            "objectId": "f-000000003",
+            "operation": "update",
+            "path": "目录-000000001/目录-000000002/目录-000000003/目录-000000004/目录-000000015/with space 3.mov",
+            "payloadRef": "evidence/POC-005/profiles/local-v1/v1/inputs-neutral1m-v1/updated-probe.bin",
+            "payloadSha256": "sha256:22250e12fcdfd3b338e9fcad5848a7225a8d39646f3d071ab9dac6dfd4fe0b8d"
+          },
+          {
+            "afterVersion": "absent",
+            "beforeSha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "beforeVersion": "v1",
+            "eventId": "controlled-event-003",
+            "objectId": "f-000000000",
+            "operation": "delete",
+            "path": "目录-000000001/目录-000000002/目录-000000003/目录-000000004/目录-000000015/目录-000000198/clip-0.mp4"
+          }
+        ],
+        "listingRuns": 2,
+        "localRoot": "/work/metadata-1m-v1/fixture",
+        "maximumBackoffSeconds": 0.25,
+        "origin": "http://127.0.0.1:15548",
+        "perPage": 1000,
+        "periodSeconds": 60,
+        "probe": {
+          "baselineBytes": 4096,
+          "baselineVersion": "v1",
+          "objectId": "f-000000003",
+          "path": "目录-000000001/目录-000000002/目录-000000003/目录-000000004/目录-000000015/with space 3.mov",
+          "updatedBytes": 4096,
+          "updatedVersion": "v2"
+        },
+        "quotaRef": "evidence/POC-005/profiles/local-v1/v1/attempt-023/neutral-adapter-quota.json",
+        "quotaSha256": "sha256:21a318cffd282612f379d233f54605635492a3a207c10d8bfdb9ad8d6684cc15",
+        "readerUsername": "guize-poc005-linux-read-v8-neutral1m-v1",
+        "requestLimit": 6000,
+        "scope": "fixture",
+        "timeout": 5,
+        "upstreamIdentity": {
+          "bootId": "e50b2817-18d2-40c2-a235-a89b94b4b20b",
+          "cmdlineSha256": "d8ec6e14a5c948cc7708e273db6b47ddfc7fd10e17921be3e1bb68cc5c850d2b",
+          "executable": "/work/openlist",
+          "executableSha256": "64d4f1af1097b8bccf9d6d43f9d05a1b83df50d49e4ccf3d8151a5bea7d53742",
+          "nativeProcessId": 48,
+          "startTicks": 5476326,
+          "uid": 1000
+        }
+      },
+      "timingCollectorBuild": "sha256:32992dca1dcbe7e8b1dd56817159bc536c49bd9607b1531be5ddc82056c8d1ce",
+      "timingCollectorCommandArgs": [
+        "/usr/local/bin/python3.11",
+        "-B",
+        "/work/Guize-attempt023/poc/POC-05-metadata-scale/native_scan_control.py",
+        "phase",
+        "--facts",
+        "evidence/POC-005/profiles/local-v1/v1/attempt-023/phase-facts.json"
+      ]
+    },
+    "unitFixtureOnly": false
+  },
+  "executionApproved": false,
+  "finalApprovalRequiredBindings": [
+    "runtime.json",
+    "resource.json",
+    "openlist-resource.json",
+    "profile-configuration.json",
+    "sample-approval.json",
+    "before-environment.json",
+    "controller-launch.json",
+    "native-manifest.json",
+    "assemblyMethod exact ref/byteCount/sha256"
+  ],
+  "fixedSevenInputs": {
+    "baseline-probe.bin": "c8f5d0341d54d951a71b136e6e2afcb14d11ed8489a7ae126a8fee0df6ecf193",
+    "baseline.jsonl.gz": "ad0e9fc6739de60a4b773437a7a1e7be11ca6f7b8c9cc80388ac6613dd30d388",
+    "change-profiles.jsonl": "3324eef3cb42ae32e9e21433f2f60d0070d51291659bf7d5a27b422e5754be74",
+    "created-probe.bin": "785b0751fc2c53dc14a4ce3d800e69ef9ce1009eb327ccf458afe09c242c26c9",
+    "expected-changes.jsonl": "c1eb4e21860fdbb307b28905dffcd9f8a4329e05ef2638ade09690076def56fd",
+    "profiled.jsonl.gz": "c3dcb34521809b954b0f7862707658ce6d4f60c2c13769db47e75b832c638cd8",
+    "updated-probe.bin": "22250e12fcdfd3b338e9fcad5848a7225a8d39646f3d071ab9dac6dfd4fe0b8d"
+  },
+  "fixturePreparationRef": "/work/neutral-fixture-preparation.json",
+  "fullPreparationAccepted": false,
+  "hypothesesOnly": [
+    "rangeDisposition=supported",
+    "validatorKind=etag"
+  ],
+  "inputRoot": "evidence/POC-005/profiles/local-v1/v1/inputs-neutral1m-v1/",
+  "kind": "UNAPPROVED_FRESH_NEUTRAL_LINUX_1M_FULL_TEMPLATE",
+  "mutations": 3,
+  "original13UnitPoliciesUnchanged": true,
+  "ownedBackend": {
+    "basePath": "D:\\Guize-Lab\\poc005-neutral-81348fd-v1\\distro",
+    "guid": "{62723b0e-ee7d-4e7a-bf6d-f48f48acbbd4}",
+    "name": "Guize-Poc005-Neutral-81348fd-v1",
+    "version": 2
+  },
+  "preparedAt": "2026-11-25T07:38:15.704377Z",
+  "priorApprovalsOrRetryBudgetsInherited": false,
+  "probes": 5,
+  "profileConfigurationRef": "evidence/POC-005/profiles/local-v1/v1/attempt-023/profile-configuration.json",
+  "profileConfigurationTemplate": {
+    "acceptanceProfile": {
+      "bindingRevision": 1,
+      "id": "local-v1",
+      "scope": "LOCAL_FULL_V1",
+      "version": 1
+    },
+    "capturedSettings": {
+      "synthetic_hierarchy_manifest": {
+        "generator": {
+          "algorithm": "deterministic-tree-v1",
+          "directoryCount": 500,
+          "fileCount": 1000000,
+          "maximumDepth": 12,
+          "rootPath": "fixture",
+          "seed": 20261015
+        },
+        "schemaVersion": 1,
+        "scope": "LOCAL_FULL_V1"
+      }
+    },
+    "measurementIds": [
+      "average_file_size",
+      "directory_count",
+      "directory_depth_max",
+      "enumeration_rate",
+      "etag_behavior_profiled",
+      "file_count",
+      "filename_characteristics_profiled",
+      "incremental_scan_cost",
+      "memory_peak",
+      "provider_characteristics_profiled",
+      "range_support_profiled",
+      "source_api_quota",
+      "source_change_frequency"
+    ],
+    "numericDomainReviewRefs": {},
+    "pocId": "POC-05",
+    "resourceIds": [
+      "RES-METADATA-SCALE",
+      "RES-OPENLIST-LOCAL"
+    ],
+    "schemaVersion": 2,
+    "taskId": "POC-005",
+    "testedSource": {
+      "commit": "be8a16ad0fcaeb64e5b169e6137fedfb91fe5ae6",
+      "tree": "bea546f8b331ffaaf09f422294afedf9305f87ff"
+    }
+  },
+  "qualificationAccepted": false,
+  "qualificationMethods": {
+    "assembler": {
+      "byteCount": 23416,
+      "ref": "evidence/POC-005/profiles/local-v1/v1/attempt-023/tools/poc005_full_execution_assembler_023_v1.py",
+      "sha256": "sha256:4a998b5b63382b92736b4d8184c0e5ef0c6fa81161d4a28769e68af592daeb3f",
+      "sourceFile": "poc005_full_execution_assembler_023_v1.py"
+    },
+    "capacityBeforeReservation": {
+      "byteCount": 3535,
+      "ref": "evidence/POC-005/profiles/local-v1/v1/attempt-023/tools/poc005_attempt023_capacity_before_reserve_v1.py",
+      "sha256": "sha256:d82ce08fd38276946191cc2ce3733611808fae5d68762d8480776df37590bd15",
+      "sourceFile": "poc005_attempt023_capacity_before_reserve_v1.py"
+    },
+    "nativeSupervisor": {
+      "byteCount": 4797,
+      "ref": "evidence/POC-005/profiles/local-v1/v1/attempt-023/tools/run_poc005_linux_attempt023_native_supervisor_v1.py",
+      "sha256": "sha256:630cdc3675e9a2850e1c352cc4254464ac0a11c28847e24ce0501490dbe01d12",
+      "sourceFile": "run_poc005_linux_attempt023_native_supervisor_v1.py"
+    },
+    "preflight": {
+      "byteCount": 8081,
+      "ref": "evidence/POC-005/profiles/local-v1/v1/attempt-023/tools/capture_poc005_attempt023_full_preflight_v1.py",
+      "sha256": "sha256:d589c46c7a98ab0de331da368bc1c5eaa4052701d7cffdf8248312217bb79c55",
+      "sourceFile": "capture_poc005_attempt023_full_preflight_v1.py"
+    },
+    "validator": {
+      "byteCount": 4315,
+      "ref": "evidence/POC-005/profiles/local-v1/v1/attempt-023/tools/validate_poc005_attempt023_full_execution_v1.py",
+      "sha256": "sha256:cb17b9ebb065522b809f2ead7dca8965355773d00d43edf3e66e40be02473e42",
+      "sourceFile": "validate_poc005_attempt023_full_execution_v1.py"
+    }
+  },
+  "quota": {
+    "backoffStrategy": "At most one actual retry for explicit adapter429/503/disconnect; honor bounded Retry-After; expired gateway authorization gets no retry.",
+    "documentationRevision": "controlled-linux-adapter-v1-not-production-quota",
+    "kind": "documented_source_quota",
+    "maximumBackoffSeconds": 0.25,
+    "periodSeconds": 60,
+    "requestLimit": 6000,
+    "resetSemantics": "Adapter-only fixed monotonic buckets of60seconds from actual gateway startup; upstream provider quota is unknown.",
+    "schemaVersion": 1,
+    "sourceIdentity": {
+      "adapterBuild": "sha256:29bf83347cf6100ef579b4c547c90e1235530fe7c7f3167ed4d7c4b190b1d0c5",
+      "adapterId": "guize-controlled-openlist-linux-v1",
+      "sourceId": "poc005-openlist-linux-controlled-v1",
+      "sourceVersion": "OpenList-v4.2.6-D-WSL-Local-neutral1m-attempt023-unsigned-no-password-meta"
+    }
+  },
+  "requiredReviewerIdentity": "/root/gz022_planning_independent_review",
+  "resourcePreparationReviewSha256": "b83ecbd4eeeff4f03a35c83add6e71d1c479a93d594fa06a4826abad323079fd",
+  "scannerPidReserved": false,
+  "servicePreparationRef": "/work/tools-attempt023/neutral-openlist-preparation.json",
+  "source": "be8a16ad0fcaeb64e5b169e6137fedfb91fe5ae6",
+  "sourceRequestsSent": false,
+  "sourceReviewSha256": "3323f3c5aa9832c86daa5f3a67e5e752a56ee2751399612035c48a703d16b534",
+  "syntheticHierarchySandbox": {
+    "controlled": true,
+    "disposable": true,
+    "mountId": "openlist-v426-local-v8-1m-neutral1m-v1-id1",
+    "physicalHostId": "windows-hardware-sha256:bec45caf58d1ec4808ed969814e2dcd139d4cefbf751e451814d33a5446fa18e",
+    "resourceId": "RES-METADATA-SCALE",
+    "rootPath": "fixture",
+    "sandboxId": "poc005-neutral-d-wsl-1m-attempt023",
+    "schemaVersion": 1,
+    "scope": "LOCAL_FULL_V1"
+  },
+  "taskCompleted": false,
+  "templateApproved": false,
+  "tree": "bea546f8b331ffaaf09f422294afedf9305f87ff"
+}

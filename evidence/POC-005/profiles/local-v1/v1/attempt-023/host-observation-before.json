@@ -1,0 +1,76 @@
+{
+  "cpu": [
+    {
+      "MaxClockSpeed": 3801,
+      "Name": "AMD Ryzen 7 8845H w/ Radeon 780M Graphics",
+      "NumberOfCores": 8,
+      "NumberOfLogicalProcessors": 16
+    }
+  ],
+  "cpuLoad": [
+    {
+      "DeviceID": "CPU0",
+      "LoadPercentage": 31
+    }
+  ],
+  "gpu": [
+    {
+      "AdapterRAM": null,
+      "DriverDate": "/Date(1668470400000)/",
+      "DriverVersion": "17.1.58.818",
+      "Name": "OrayIddDriver Device",
+      "Status": "OK"
+    },
+    {
+      "AdapterRAM": null,
+      "DriverDate": "/Date(1716508800000)/",
+      "DriverVersion": "12.35.25.181",
+      "Name": "Sharing Monitor",
+      "Status": "OK"
+    },
+    {
+      "AdapterRAM": null,
+      "DriverDate": "/Date(1706140800000)/",
+      "DriverVersion": "0.45.0.0",
+      "Name": "Parsec Virtual Display Adapter",
+      "Status": "OK"
+    },
+    {
+      "AdapterRAM": null,
+      "DriverDate": "/Date(1772236800000)/",
+      "DriverVersion": "15.6.5.199",
+      "Name": "GameViewer Virtual Display Adapter",
+      "Status": "OK"
+    },
+    {
+      "AdapterRAM": 536870912,
+      "DriverDate": "/Date(1700524800000)/",
+      "DriverVersion": "31.0.22032.1",
+      "Name": "AMD Radeon 780M Graphics",
+      "Status": "OK"
+    },
+    {
+      "AdapterRAM": 4293918720,
+      "DriverDate": "/Date(1782950400000)/",
+      "DriverVersion": "32.0.16.1074",
+      "Name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+      "Status": "OK"
+    }
+  ],
+  "observedAt": "2026-11-25T07:56:55.3138722Z",
+  "os": {
+    "BuildNumber": "26300",
+    "Caption": "Microsoft Windows 11 家庭版 中文版",
+    "FreePhysicalMemory": 10101904,
+    "TotalVisibleMemorySize": 32811832,
+    "Version": "10.0.26300"
+  },
+  "ownedBackend": {
+    "basePath": "D:\\Guize-Lab\\poc005-neutral-81348fd-v1\\distro",
+    "guid": "{62723b0e-ee7d-4e7a-bf6d-f48f48acbbd4}",
+    "name": "Guize-Poc005-Neutral-81348fd-v1",
+    "version": 2
+  },
+  "physicalHostId": "windows-hardware-sha256:bec45caf58d1ec4808ed969814e2dcd139d4cefbf751e451814d33a5446fa18e",
+  "physicalHostIdCollector": "Win32_ComputerSystemProduct.UUID.Trim().ToLowerInvariant(); SHA256 UTF8; raw UUID not exported"
+}
