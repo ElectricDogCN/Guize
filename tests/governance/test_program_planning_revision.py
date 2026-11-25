@@ -197,6 +197,40 @@ def test_exact_three_target_transaction(history):
     assert len(PLANNING.frontier(history.plan, history.plan["planningBaselines"][0]["requiredBy"])) == 23
 
 
+def test_foundation_implementation_accepts_admitted_plan_change_but_not_evidence_only(tmp_path):
+    class CanonicalHistory(History):
+        def save(self):
+            evidence = f"evidence/{self.owner}"
+            handoff = f"{evidence}/handoff.md"
+            self.front.update(dependsOn=[], evidencePath=evidence, handoffPath=handoff)
+            self.entry["handoffPath"] = handoff
+            self.write(handoff, f"# {self.owner} fixture handoff\n")
+            super().save()
+            task = (self.root / self.task_path).read_text(encoding="utf-8")
+            expiry = self.front["leaseExpiresAt"]
+            self.write(self.task_path, task.replace(f"leaseExpiresAt: '{expiry}'", f"leaseExpiresAt: {expiry}"))
+
+    history = CanonicalHistory(tmp_path)
+    history.apply()
+    history.finish()
+    history.git("checkout", "main")
+    history.git("merge", "--no-ff", "-m", f"Merge PR #778 ({history.owner}) apply planning revision", history.branch)
+    implementation = history.git("rev-parse", "HEAD")
+
+    spec = importlib.util.spec_from_file_location("planning_implementation_history", ROOT / "scripts/check-program-plan-history.py")
+    checker = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(checker)
+
+    errors = []
+    checker.foundation_implementation(str(history.root), history.owner, implementation, history.registration, errors)
+    assert not errors
+
+    history.write(f"evidence/{history.owner}/summary.md", "Implementation history retained.\n")
+    evidence_only = history.commit(f"Record evidence for {history.owner}")
+    checker.foundation_implementation(str(history.root), history.owner, evidence_only, history.registration, errors)
+    assert errors == [f"Foundation {history.owner} claimed implementation contains only lifecycle metadata or Evidence"]
+
+
 def test_ordinary_requirements_planner_with_business_module(tmp_path):
     history = History(tmp_path, ordinary=True)
     history.apply()

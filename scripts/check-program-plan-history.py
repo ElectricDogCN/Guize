@@ -1727,7 +1727,28 @@ def foundation_implementation(root: str, task_id: str, commit: str, reservation:
     historical_lifecycle_binding(root, commit, task_id, tip_entry, errors)
     task_path = find_task_path(root, task_id, commit)
     tip_paths = RECOVERY.changed_paths(root, parent, commit)
-    if tip_entry.get("integrationStrategy") != "rebase" and tip_paths is not None and not any(path not in {PLAN, ACTIVE, task_path} and not path.startswith(f"evidence/{task_id}/") for path in tip_paths):
+    lifecycle_paths = {PLAN, ACTIVE, task_path}
+    evidence_prefix = f"evidence/{task_id}/"
+    tip_code = any(path not in lifecycle_paths and not path.startswith(evidence_prefix) for path in tip_paths or ())
+    planning_work = False
+    if (
+        not tip_code and tip_paths and PLAN in tip_paths
+        and PLANNING.registered_manifest_path(root, parent, task_id) is not None
+    ):
+        before, after = load_ref(root, parent, PLAN), load_ref(root, commit, PLAN)
+        if isinstance(before, dict) and isinstance(after, dict):
+            # An admitted planning transaction can implement work in Program
+            # Plan itself. Lifecycle changes alone produce no projection.
+            planning = PLANNING.classifier(
+                root, parent, commit, before, after, errors,
+                owner_hint=task_id, observed_at=PLANNING.commit_time(root, commit),
+                admitted_base_ref=parent,
+            )
+            planning_work = planning is not None and planning["owner"] == task_id
+    if (
+        tip_entry.get("integrationStrategy") != "rebase" and tip_paths is not None
+        and not (tip_code or planning_work)
+    ):
         errors.append(f"Foundation {task_id} claimed implementation contains only lifecycle metadata or Evidence")
         return
     # A real multi-parent merge introduces all side history against its main
@@ -1765,7 +1786,9 @@ def foundation_implementation(root: str, task_id: str, commit: str, reservation:
     stable = {key: value for key, value in entry.items() if key not in mutable}
     if LEDGER in paths:
         errors.append(f"Foundation {task_id} claimed implementation must not modify the ordinary ledger")
-    implementation_paths = {path for path in paths if path not in {PLAN, ACTIVE, task_path} and not path.startswith(f"evidence/{task_id}/")}
+    implementation_paths = {path for path in paths if path not in lifecycle_paths and not path.startswith(evidence_prefix)}
+    if planning_work and PLAN in paths:
+        implementation_paths.add(PLAN)
     if not implementation_paths:
         errors.append(f"Foundation {task_id} claimed implementation contains only lifecycle metadata or Evidence")
         return
