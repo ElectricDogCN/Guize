@@ -151,3 +151,23 @@ python scripts/check-markdown.py
 本阶段待其精确源完整官方 CI、独立审核及合并后的实际主线复验。前序实测和记录继续以原提交和各自试验编号为准。
 
 [实际主线官方 CI](https://github.com/ElectricDogCN/Guize/actions/runs/45593119093)
+
+## attempt-023 正常结项
+
+已独立复验实际主线 `6e01cbf5a817372dec09d51587d24ad5c07b5b94`（PR #277）。该提交的全部本地复验退出 0，官方 1,081 项测试全部通过，零跳过。独立复验记录 SHA-256 为 `33a30176a2835beb6c29c555046a1f09dbe902e0baba8e2cfc513dd7731c9846`。
+
+百万文件实测结果见 PR #276 的实际主线 `2cfc034d5bd7e135787d92800706a87ddf68e94d` 和 `profiles/local-v1/v1/attempt-023/local-v1-exit-report.md`。结果适用于本次固定合成样本、隔离 OpenList 和本地适配器。
+
+本阶段待其精确源完整官方 CI、独立审核及合并后的实际主线复验。前序实测和记录继续以原提交和各自试验编号为准。
+
+[实际主线官方 CI](https://github.com/ElectricDogCN/Guize/actions/runs/45605480492)
+
+以下状态与命令对应已验收的 Review 主线。
+
+Status: PASS
+
+Source Commit: 6e01cbf5a817372dec09d51587d24ad5c07b5b94
+Command: /var/tmp/guize-ops027-rebased-proof/python/bin/python -B scripts/check-program-plan-integrity.py --base-ref 2cfc034d5bd7e135787d92800706a87ddf68e94d
+Exit Code: 0
+Result: PASS
+Raw SHA-256: 41023ba9c3c84121b17bd4a1f4e65de20cde8deb534e18272a1ef41d6f59cac8
