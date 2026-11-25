@@ -33,3 +33,19 @@ Result: PASS
 ```
 
 所用解释器和依赖符合 requirements.lock.txt。LEGACY_CATALOG_ROOT 指向保留的十事件准备档案。真实工作副本命令日志和输入文件指纹按收据 `d8524f92330b7875d78cc6120ab23c105e8682dbb64d32fcbbd78ea756eb2022` 追溯。
+
+## GZ-006 正式 Review
+
+Status: PASS
+
+PR #281 的实施主线为 `8b530271c91b587a3b74754dbc1c13406add10ff`，包含 19 个事件版本。本阶段基线 `8b530271c91b587a3b74754dbc1c13406add10ff`（PR #281）已通过六项相关主线检查、完整官方 CI 和独立验收。独立记录 SHA-256 为 `651c41b4f0713a3b4fd310c6699b4f6616ea37a4f0354562b3086a175249d1ce`。
+
+Source Commit: 8b530271c91b587a3b74754dbc1c13406add10ff
+Command: /var/tmp/guize-ops027-rebased-proof/python/bin/python -B scripts/check-program-plan-integrity.py --base-ref f290739965dc90fe6466cb871b2dd51b9bf694fb
+Exit Code: 0
+Result: PASS
+Raw SHA-256: dbe33acba490765e3863c3beb682c191a8b0376eacd9a70cb217fcc44287a1a0
+
+[基线官方 CI](https://github.com/ElectricDogCN/Guize/actions/runs/45636836816)
+
+原件路径 evidence/GZ-006/implementation-main-8b53/independent-review.json 与 evidence/GZ-006/implementation-main-8b53/integrity.txt。
