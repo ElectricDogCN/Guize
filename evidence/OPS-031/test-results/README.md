@@ -48,3 +48,9 @@ Raw SHA-256: 5b370aa129f5db3c5889cd4ec20f4802ad8d664decea7283a22f6c2540c32f45
 保持 reserved/coordinator、原租约和原始规划声明，额外登记两条仓库治理文件。后续修复将复用规划认证，保留对纯生命周期或证据提交的拒绝规则。前置真实主线 93bf27dd71bf3725a7f7f02640069112f00d732d 的六项任务控制均退出 0，完整官方 CI 和独立复验已通过。本轮新固定提交的官方源、实际主线和独立验证待执行。[独立复验原件](../accepted-main-93bf27dd/independent-review.json) 与 [原始完整性日志](../accepted-main-93bf27dd/integrity.txt)。
 
 [前置官方 CI](https://github.com/ElectricDogCN/Guize/actions/runs/45693770766)
+
+## OPS-031 结项检查修复实施
+
+实际范围主线 df0cf24d3b6446fa7e341756822fbadc3eeb1202 已通过六项任务控制、完整 [官方 CI #1130](https://github.com/ElectricDogCN/Guize/actions/runs/45700283679) 及独立复验。[实际范围验收原件](../accepted-scope-df0cf24d/independent-review.json) 与 [原始完整性日志](../accepted-scope-df0cf24d/integrity.txt)。
+
+本轮在精确登记的两条路径修复历史判断，使用现有规划认证识别有效的 Program Plan 实施，保留生命周期与证据提交的拒绝规则。原始失败与排程不变。本轮固定源码的直接回归、完整官方 CI、独立审查和实际主线验证以实际执行记录为准。

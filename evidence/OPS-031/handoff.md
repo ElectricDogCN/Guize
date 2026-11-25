@@ -1,3 +1,35 @@
+# OPS-031 结项检查修复交接
+
+任务 OPS-031 对应 [Issue #284](https://github.com/ElectricDogCN/Guize/issues/284)，工作分支 `chore/OPS-031-gz007-wave-order`，目标 main，真实范围及实施父提交 `df0cf24d3b6446fa7e341756822fbadc3eeb1202`。当前源码 SHA 以实施 PR 的 Git 和官方 CI 记录为准。
+
+协调、实施与合入为 /root，独立审查为 /root/independent_review，当前角色 implementer。租约原值 2026-11-25T16:59:55Z 至 2026-12-02T16:59:55Z，Foundation 顺序 23，无共享写范围。Program Plan、Active Work 和规划声明版本 1，Task Spec 版本 2。
+
+本轮实际文件如下。
+
+- `evidence/OPS-031/accepted-scope-df0cf24d/independent-review.json`
+- `evidence/OPS-031/accepted-scope-df0cf24d/integrity.txt`
+- `evidence/OPS-031/commands.txt`
+- `evidence/OPS-031/handoff.md`
+- `evidence/OPS-031/summary.md`
+- `evidence/OPS-031/test-results/README.md`
+- `scripts/check-program-plan-history.py`
+- `specs/coordination/active-work.yaml`
+- `specs/coordination/program-plan.yaml`
+- `specs/tasks/OPS-031.md`
+- `tests/governance/test_program_planning_revision.py`
+
+
+
+## OPS-031 结项检查修复实施
+
+实际范围主线 df0cf24d3b6446fa7e341756822fbadc3eeb1202 已通过六项任务控制、完整 [官方 CI #1130](https://github.com/ElectricDogCN/Guize/actions/runs/45700283679) 及独立复验。[实际范围验收原件](accepted-scope-df0cf24d/independent-review.json) 与 [原始完整性日志](accepted-scope-df0cf24d/integrity.txt)。
+
+本轮在精确登记的两条路径修复历史判断，使用现有规划认证识别有效的 Program Plan 实施，保留生命周期与证据提交的拒绝规则。原始失败与排程不变。本轮固定源码的直接回归、完整官方 CI、独立审查和实际主线验证以实际执行记录为准。
+
+独立 Reviewer 检查精确实现与回归，再由 Integrator 在完整官方源 CI 后合入。实际主线验收后另入正式 Review。未合入候选可撤回，已合入的检查器变更按受审代码路径前向修复并保留原结果。
+
+## 先前阶段交接
+
 # OPS-031 修复范围登记交接
 
 任务 OPS-031 对应 [Issue #284](https://github.com/ElectricDogCN/Guize/issues/284)。工作分支 `chore/OPS-031-gz007-wave-order`、目标 main，真实基线 `93bf27dd71bf3725a7f7f02640069112f00d732d`。本轮固定 SHA 以 PR Git 提交和相应官方 CI 为准。

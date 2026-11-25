@@ -1,0 +1,320 @@
+{
+  "reviewer": "/root/independent_review",
+  "approvedAt": "2026-11-25T21:19:36Z",
+  "taskId": "OPS-031",
+  "pullRequest": 291,
+  "actualMain": "df0cf24d3b6446fa7e341756822fbadc3eeb1202",
+  "source": "6117acdf6a5fe27baa4e347aa630087e32fa7cc2",
+  "base": "93bf27dd71bf3725a7f7f02640069112f00d732d",
+  "tree": "fd8c2b75ea8cfa40b00432e2d40c9addf5091860",
+  "actualScopeMainAccepted": true,
+  "actualScopeAmendmentMainAccepted": true,
+  "fullMainCiAccepted": true,
+  "actualMainSixAccepted": true,
+  "actualMainTaskControlsAccepted": true,
+  "normalImplementationMayStart": true,
+  "mustFix": [],
+  "acceptanceScope": "ACTUAL_CANONICAL_RESERVED_SCOPE_MAIN_AND_NORMAL_ACTIVATION_WITH_NARROW_REGISTERED_GOVERNANCE_REPAIR",
+  "ci": {
+    "run": 45700283679,
+    "runNumber": 1130,
+    "attempt": 1,
+    "event": "push",
+    "jobs": 5,
+    "allJobsSuccess": true,
+    "aggregateJob": 139517456497,
+    "uniquePassed": 1081,
+    "original1078Plus3Preserved": true,
+    "caseSetExactlyMatchesPreviouslyAccepted1081": true,
+    "caseSetSha256": "02b042b56300a07454c35ab044346f13cfa7441f7d24bf434bbc5b9657c33683",
+    "failures": 0,
+    "errors": 0,
+    "skips": 0,
+    "xResults": 0,
+    "shards": [
+      {
+        "jobId": 139508292519,
+        "name": "Governance Tests (shard 0)",
+        "passed": 265,
+        "pytestSeconds": 971.88,
+        "jobSeconds": 1008.0,
+        "skipAuditAccepted": true
+      },
+      {
+        "jobId": 139508292783,
+        "name": "Governance Tests (shard 1)",
+        "passed": 425,
+        "pytestSeconds": 581.44,
+        "jobSeconds": 616.0,
+        "skipAuditAccepted": true
+      },
+      {
+        "jobId": 139508292984,
+        "name": "Governance Tests (shard 2)",
+        "passed": 391,
+        "pytestSeconds": 364.66,
+        "jobSeconds": 408.0,
+        "skipAuditAccepted": true
+      }
+    ],
+    "allJobsBelowOriginal1800SecondCap": true,
+    "maximumJobSeconds": 1008.0,
+    "actualCheckout": "df0cf24d3b6446fa7e341756822fbadc3eeb1202",
+    "orderedParents": [
+      "93bf27dd71bf3725a7f7f02640069112f00d732d",
+      "6117acdf6a5fe27baa4e347aa630087e32fa7cc2"
+    ],
+    "tree": "fd8c2b75ea8cfa40b00432e2d40c9addf5091860",
+    "realLfsFetchAndHydratedProbeAccepted": true,
+    "pushTaskOnlyConditionalStepSkips": [
+      "Task file validation",
+      "Evidence check",
+      "Evidence integrity check",
+      "Task-branch linkage check",
+      "Scope check"
+    ],
+    "workflowUrl": "https://github.com/ElectricDogCN/Guize/actions/runs/45700283679"
+  },
+  "nativeChecks": {
+    "integrity": 0,
+    "history": 0,
+    "transitions": 0,
+    "finalization": 0,
+    "lifecycle-guards": 0,
+    "coordination": 0
+  },
+  "sourceIndependentReviewSha256": "158b28e6f8109123ce13563cf63cdba81594b8f6ba69bb9e7dfb681981a680d1",
+  "acceptedExclusiveClaims": [
+    "specs/coordination/program-plan.yaml",
+    "scripts/check-program-plan-history.py",
+    "tests/governance/test_program_planning_revision.py"
+  ],
+  "scopeExpansionEffective": true,
+  "findings": {
+    "officialActualMainAndMergedPrExact": true,
+    "actualOrderedParentsAndReviewedSourceTreeAccepted": true,
+    "canonicalFirstParentContainsOriginalReservationAndReservedPrior93bf": true,
+    "actualScopeEdgeOnlyOwnRegistryTaskEvidence": true,
+    "reservedCoordinatorOriginalLeaseRolesIdentityBranchOrderPreserved": true,
+    "exactTwoAdditionalGovClaimsBoundToRealParentAndIntent": true,
+    "programLedgerManifestOriginalFailureGz007AfterAndBothTargetCodeBytesUnchanged": true,
+    "publicResolutionEvidenceOriginalsByteExact": true,
+    "observedIssue284And280And287Open": true
+  },
+  "lease": {
+    "acquiredAt": "2026-11-25T16:59:55Z",
+    "expiresAt": "2026-12-02T16:59:55Z"
+  },
+  "canonicalScopeAuthority": {
+    "originalReservationActualMain": "b789c955c351f85e1de327d9a5040764c2f53643",
+    "priorReservedActualMain": "93bf27dd71bf3725a7f7f02640069112f00d732d",
+    "amendmentActualMain": "df0cf24d3b6446fa7e341756822fbadc3eeb1202",
+    "parentBoundBaseSha": "93bf27dd71bf3725a7f7f02640069112f00d732d",
+    "protectedBlobOids": {
+      "specs/coordination/program-plan.yaml": "491eee9d5a7e7f3a82a99af11b9a4c255525ae52",
+      "evidence/OPS-031/planning-revision.json": "2579dbe415e2f4189f58f299336dfd22091b9ce8",
+      "specs/coordination/task-completions.yaml": "1c629fa2694041a828bd19b1648f0dc7c3491273"
+    },
+    "unchangedAdditionalTargetBlobOids": {
+      "scripts/check-program-plan-history.py": "a41fb72022423dd176296207187c76ba2e257fcc",
+      "tests/governance/test_program_planning_revision.py": "a257f094e7418fd855f9879fcb356159d6ae8b3d"
+    }
+  },
+  "publicEvidenceOriginals": [
+    {
+      "source": "6117acdf6a5fe27baa4e347aa630087e32fa7cc2",
+      "path": "evidence/OPS-031/accepted-main-93bf27dd/independent-review.json",
+      "bytes": 11620,
+      "sha256": "f970cfdc6d97cbf5b8d04b463fbe48d34c303f963ec0beb7de786b72d1e4944d"
+    },
+    {
+      "source": "6117acdf6a5fe27baa4e347aa630087e32fa7cc2",
+      "path": "evidence/OPS-031/accepted-main-93bf27dd/integrity.txt",
+      "bytes": 469,
+      "sha256": "2f7da4179d3f6066295721d723194a53eced2fc5108827f5df7a0e1a243d6cc3"
+    },
+    {
+      "source": "6117acdf6a5fe27baa4e347aa630087e32fa7cc2",
+      "path": "evidence/OPS-031/completion-proof-scope-amendment-v1.json",
+      "bytes": 953,
+      "sha256": "db1329a0592ec397db184d8249d82b0ecbdec6e6d290fdb23855300c3672b11e"
+    }
+  ],
+  "permittedNextAction": "Normal Own activation on the registered branch and a narrow implementation in scripts/check-program-plan-history.py plus tests/governance/test_program_planning_revision.py. Reuse full authenticated planning authority to recognize genuine declared Program implementation while retaining rejection of pure lifecycle/Evidence changes and invalid, borrowed, mutated or noncanonical authority.",
+  "implementationConditions": [
+    "Preserve original lease, stable actors, GZ007 full declared after, Program declaration and ordinary ledger. Do not broaden the accepted claims or alter frozen/POC/workflow/test-budget boundaries.",
+    "Keep all original1081 cases and original30minute job cap; add only necessary focused regression coverage. The actual code candidate remains subject to independent source review, complete official source CI, normal expected-head merge, applicable actual-main controls and full official CI with independent acceptance.",
+    "This receipt accepts scope authority and permission to work. It does not accept an unknown patch, complete the task, release capacity or authorize GZ007 activation."
+  ],
+  "unknownCodePatchAccepted": false,
+  "normalCompletionMayStart": false,
+  "gz007ActivationApproved": false,
+  "taskCompleted": false,
+  "actualCapacityReleased": false,
+  "issueClosureAllowed": false,
+  "branchCleanupAllowed": false,
+  "globalPocProfileGateUniversallyAccepted": false,
+  "releaseIssue280RemainsOpen": true,
+  "evidencePins": [
+    {
+      "path": "ops031-scope-6117-final-source-independent-review.json",
+      "bytes": 14962,
+      "sha256": "158b28e6f8109123ce13563cf63cdba81594b8f6ba69bb9e7dfb681981a680d1"
+    },
+    {
+      "path": "ops031-scope-6117-prepublication-independent-review.json",
+      "bytes": 10712,
+      "sha256": "86ebe7629a353853507d0b9c009833cdd39444fa24f91d425bb37449e72a362e"
+    },
+    {
+      "path": "ops031-rereservation-93bf-final-actual-main-independent-review.json",
+      "bytes": 11620,
+      "sha256": "f970cfdc6d97cbf5b8d04b463fbe48d34c303f963ec0beb7de786b72d1e4944d"
+    },
+    {
+      "path": "ops031-scope-df0c-actual-main-checks/coordination.txt",
+      "bytes": 309,
+      "sha256": "b80d95b010b8e48275aa09239c4f93f88f589f2f692ceb46493fa6ae2a77a644"
+    },
+    {
+      "path": "ops031-scope-df0c-actual-main-checks/finalization.txt",
+      "bytes": 428,
+      "sha256": "6efa09eee6c4c45a86652bf47dc43257311770d8ca7b416c6b864d82216f69b2"
+    },
+    {
+      "path": "ops031-scope-df0c-actual-main-checks/history.txt",
+      "bytes": 537,
+      "sha256": "ee35e6f0d92370bf3a8eac7450ea6b9f43bee4d8917154200957c69e341719d4"
+    },
+    {
+      "path": "ops031-scope-df0c-actual-main-checks/integrity.txt",
+      "bytes": 469,
+      "sha256": "8676cf83939d23bb0930bc2eec176a6af2a956138d208bea67d21bc8c3733c4e"
+    },
+    {
+      "path": "ops031-scope-df0c-actual-main-checks/lifecycle-guards.txt",
+      "bytes": 519,
+      "sha256": "cef4d49d8f508271e4f106f2c2bcee2ad9c54a14416524f8a6c1c4ed06d93a1f"
+    },
+    {
+      "path": "ops031-scope-df0c-actual-main-checks/result.json",
+      "bytes": 394,
+      "sha256": "54991ab1c3f883f4a7c4deed1c23af8d7f752250b1aeb14a270344b3ec0f994e"
+    },
+    {
+      "path": "ops031-scope-df0c-actual-main-checks/transitions.txt",
+      "bytes": 449,
+      "sha256": "00807973dda711593891a6fc5702b0058e82811aac4857e3c6270833d8cd28e3"
+    },
+    {
+      "path": "ops031-scope-df0c-independent-main-ci/independent-ci-analysis.json",
+      "bytes": 2152,
+      "sha256": "92ccace9199eaea54d74ccc6feda2613af60ee17e2301e25a48d8e9e35ce1fba"
+    },
+    {
+      "path": "ops031-scope-df0c-independent-main-ci/job-139508292519-connector.json",
+      "bytes": 128511,
+      "sha256": "9c4f2d77dac53cfd54c8886f11e36c1d5d6bba363a860af0fdf7d8bd44a20909"
+    },
+    {
+      "path": "ops031-scope-df0c-independent-main-ci/job-139508292519.decoded.log",
+      "bytes": 127200,
+      "sha256": "f35d22c733827c4a147982f2b990221520bb7ceca8c059b0b597b5a0810eea5c"
+    },
+    {
+      "path": "ops031-scope-df0c-independent-main-ci/job-139508292664-connector.json",
+      "bytes": 64851,
+      "sha256": "4e3c36d4b60d4c9b9ee573c817921d0a818ba2051db5dcc066a04a28c1eff155"
+    },
+    {
+      "path": "ops031-scope-df0c-independent-main-ci/job-139508292664.decoded.log",
+      "bytes": 61876,
+      "sha256": "407e629429bc1adeb0d8d55b79b752afd328ca98173b7f329281f47ca28f0fca"
+    },
+    {
+      "path": "ops031-scope-df0c-independent-main-ci/job-139508292783-connector.json",
+      "bytes": 176831,
+      "sha256": "feb3a938527732e976e144d8ebd96efc6d49ad880578a9f2648d7b8ea15bad50"
+    },
+    {
+      "path": "ops031-scope-df0c-independent-main-ci/job-139508292783.decoded.log",
+      "bytes": 175180,
+      "sha256": "ca98c1a1d3a4059dd2d6608942303c0ece0d6caf05ab38ba59a75acbb6f7d783"
+    },
+    {
+      "path": "ops031-scope-df0c-independent-main-ci/job-139508292984-connector.json",
+      "bytes": 161740,
+      "sha256": "22d5eb2a1cd129f122896de42d51141f5c072febe84721f28901c4c80b5e021e"
+    },
+    {
+      "path": "ops031-scope-df0c-independent-main-ci/job-139508292984.decoded.log",
+      "bytes": 160150,
+      "sha256": "491c888706adab2ff5dbb14b36d2e669b939c951a4a568d7f968891652dcef34"
+    },
+    {
+      "path": "ops031-scope-df0c-independent-main-ci/job-139517456497-connector.json",
+      "bytes": 16668,
+      "sha256": "a313326f8ab0fb73c854e0ebdeb64ec441993c474a376e6802df331e6374ee76"
+    },
+    {
+      "path": "ops031-scope-df0c-independent-main-ci/job-139517456497.decoded.log",
+      "bytes": 16184,
+      "sha256": "7d74142f830aa61b7c9b8ba8311e3a50bc77e032a30cdc754a42b8572e755550"
+    },
+    {
+      "path": "ops031-scope-df0c-independent-main-ci/official-actual.json",
+      "bytes": 6371,
+      "sha256": "c5097e479edb77761c2d53ef95d7310d4e2eb1eb89dfeebb999bb419f3b51096"
+    },
+    {
+      "path": "ops031-scope-df0c-independent-main-ci/official-gz007Issue.json",
+      "bytes": 12490,
+      "sha256": "1a01db6c9b0155c3d0d2abdfaded35e17ad1c51f28fdb17294dfbe9776d675eb"
+    },
+    {
+      "path": "ops031-scope-df0c-independent-main-ci/official-issue.json",
+      "bytes": 12062,
+      "sha256": "53c8d8db4eed84cb2b0826fef7ba77aea33e3939f64b37be6c77ea2ecf3b3900"
+    },
+    {
+      "path": "ops031-scope-df0c-independent-main-ci/official-jobs.json",
+      "bytes": 33519,
+      "sha256": "b751acc2078cc5c96534d3f2f1647b4b1251955c2797bea803cdedbf0598f2da"
+    },
+    {
+      "path": "ops031-scope-df0c-independent-main-ci/official-main.json",
+      "bytes": 1301,
+      "sha256": "11dec2453eef05bc6ecf27629a7961dbb8e0da76025029ecdc3f6e1a405332ac"
+    },
+    {
+      "path": "ops031-scope-df0c-independent-main-ci/official-pr.json",
+      "bytes": 38943,
+      "sha256": "5a7666eb0fcf2a40eb7476491e29e61071e4fdd00adf834a386f729f9c075ef5"
+    },
+    {
+      "path": "ops031-scope-df0c-independent-main-ci/official-run.json",
+      "bytes": 26832,
+      "sha256": "649f0b5328cc62bab14d8bbb6b434dc19eeda56eb2153050789bd70a8580bc36"
+    },
+    {
+      "path": "ops031-scope-df0c-independent-main-ci/official-tracking.json",
+      "bytes": 13692,
+      "sha256": "49b257d7913d3438cb1248b4c660468b585d9e7826282ec0c36c8f5d1e1631ab"
+    },
+    {
+      "path": "ops031-scope-6117-independent-source-ci/public-review-connector.json",
+      "bytes": 25963,
+      "sha256": "1eac2150fcb157d32e1192546b048c46eb6698e7dbaf9c7b494da47d5665905e"
+    },
+    {
+      "path": "ops031-scope-6117-independent-source-ci/public-integrity-connector.json",
+      "bytes": 1827,
+      "sha256": "00768efa1cb01c0a94321f03db44b3a845599407480f063de249d29305d3ad69"
+    },
+    {
+      "path": "ops031-scope-6117-independent-source-ci/public-intent-connector.json",
+      "bytes": 2998,
+      "sha256": "7b6c47c79bf6581ec2c4eee540f92449da9588ade160382d4dabcc40e0ea1c55"
+    }
+  ]
+}

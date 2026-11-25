@@ -146,7 +146,7 @@ foundationTasks:
     mergeCommit: 5d4bfd1e70fbe9e161a64cbaabfe561044161ded
   - taskId: OPS-031
     title: 按实际依赖推进 GZ-007 数据库契约
-    status: reserved
+    status: in_progress
     completionRef: ISSUE-284
     mergeCommit: null
 waves:
