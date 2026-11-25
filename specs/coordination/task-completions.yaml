@@ -50,3 +50,11 @@ records:
     taskSpec: specs/tasks/POC-003.md
     evidencePath: evidence/POC-003
     handoffPath: evidence/POC-003/handoff.md
+  - taskId: POC-005
+    reservationRef: PR-135
+    reservationCommit: f2e0150265e0c1eeca5f69fe85708b2434e5ee79
+    completionRef: PR-276
+    mergeCommit: 2cfc034d5bd7e135787d92800706a87ddf68e94d
+    taskSpec: specs/tasks/POC-005.md
+    evidencePath: evidence/POC-005
+    handoffPath: evidence/POC-005/handoff.md
