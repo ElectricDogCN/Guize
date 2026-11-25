@@ -1,0 +1,146 @@
+{
+  "schemaVersion": 1,
+  "taskId": "OPS-031",
+  "reservationParent": "150ee755f0583dccd747bc4d13c59f972b77ce87",
+  "targets": [
+    {
+      "kind": "edit-planned-task",
+      "id": "GZ-007",
+      "originalDefinitionSha256": "8fe4ef2532d5520a6c9657e43e7a42826555d3528869a49ba96ebb3f642a906e",
+      "allowedFields": [
+        "wave",
+        "integrationOrder"
+      ],
+      "before": {
+        "taskId": "GZ-007",
+        "title": "冻结 PostgreSQL/Flyway DDL、索引与迁移策略",
+        "kind": "contract",
+        "status": "planned",
+        "workPackage": "WP-M0-03D",
+        "riskLevel": "high",
+        "ownerRole": "task-owner-agent",
+        "reviewerRole": "independent-review-agent",
+        "coordinationGroup": "gz-007",
+        "wave": "W4",
+        "integrationOrder": 1,
+        "dependsOn": [
+          "GZ-004",
+          "GZ-005",
+          "GZ-006"
+        ],
+        "requirementIds": [
+          "REQ-V1-0001",
+          "REQ-V1-0002",
+          "REQ-V1-0003",
+          "REQ-V1-0004",
+          "REQ-V1-0005",
+          "REQ-V1-0006",
+          "REQ-V1-0007",
+          "REQ-V1-0008",
+          "REQ-V1-0009",
+          "REQ-V1-0010"
+        ],
+        "moduleIds": [
+          "MOD-IAM",
+          "MOD-SOURCE",
+          "MOD-ASSET",
+          "MOD-TASK",
+          "MOD-STORAGE",
+          "MOD-MEDIA",
+          "MOD-AI",
+          "MOD-SEARCH",
+          "MOD-POLICY",
+          "MOD-CONFIG",
+          "MOD-AUDIT",
+          "MOD-DATA"
+        ],
+        "outputPaths": [
+          "contracts/data/**",
+          "data/migrations/**",
+          "specs/contracts/data/**",
+          "evidence/GZ-007/**"
+        ],
+        "sharedPaths": [],
+        "producesContracts": [
+          "DATA-SCHEMA-V1",
+          "MIGRATION-PLAN-V1"
+        ],
+        "consumesContracts": [
+          "REQ-V1",
+          "OPENAPI-V1",
+          "EVENT-CATALOG-V1"
+        ],
+        "acceptanceIds": [],
+        "pocIds": [],
+        "issue": null,
+        "branchPattern": "chore/GZ-007-*",
+        "exitGate": "DDL/索引/唯一约束/迁移/恢复方案可执行校验，禁止无 Migration 的数据行为；同时冻结版本化plan/step/attempt/fencing、容量预留/扣记/释放、幂等接受和DerivedArtifact关系的DDL/唯一约束/索引及迁移恢复；执行后保存真实输出hash，不预批准未来hash；节点不能直写核心库。"
+      },
+      "after": {
+        "taskId": "GZ-007",
+        "title": "冻结 PostgreSQL/Flyway DDL、索引与迁移策略",
+        "kind": "contract",
+        "status": "planned",
+        "workPackage": "WP-M0-03D",
+        "riskLevel": "high",
+        "ownerRole": "task-owner-agent",
+        "reviewerRole": "independent-review-agent",
+        "coordinationGroup": "gz-007",
+        "wave": "W3",
+        "integrationOrder": 4,
+        "dependsOn": [
+          "GZ-004",
+          "GZ-005",
+          "GZ-006"
+        ],
+        "requirementIds": [
+          "REQ-V1-0001",
+          "REQ-V1-0002",
+          "REQ-V1-0003",
+          "REQ-V1-0004",
+          "REQ-V1-0005",
+          "REQ-V1-0006",
+          "REQ-V1-0007",
+          "REQ-V1-0008",
+          "REQ-V1-0009",
+          "REQ-V1-0010"
+        ],
+        "moduleIds": [
+          "MOD-IAM",
+          "MOD-SOURCE",
+          "MOD-ASSET",
+          "MOD-TASK",
+          "MOD-STORAGE",
+          "MOD-MEDIA",
+          "MOD-AI",
+          "MOD-SEARCH",
+          "MOD-POLICY",
+          "MOD-CONFIG",
+          "MOD-AUDIT",
+          "MOD-DATA"
+        ],
+        "outputPaths": [
+          "contracts/data/**",
+          "data/migrations/**",
+          "specs/contracts/data/**",
+          "evidence/GZ-007/**"
+        ],
+        "sharedPaths": [],
+        "producesContracts": [
+          "DATA-SCHEMA-V1",
+          "MIGRATION-PLAN-V1"
+        ],
+        "consumesContracts": [
+          "REQ-V1",
+          "OPENAPI-V1",
+          "EVENT-CATALOG-V1"
+        ],
+        "acceptanceIds": [],
+        "pocIds": [],
+        "issue": null,
+        "branchPattern": "chore/GZ-007-*",
+        "exitGate": "DDL/索引/唯一约束/迁移/恢复方案可执行校验，禁止无 Migration 的数据行为；同时冻结版本化plan/step/attempt/fencing、容量预留/扣记/释放、幂等接受和DerivedArtifact关系的DDL/唯一约束/索引及迁移恢复；执行后保存真实输出hash，不预批准未来hash；节点不能直写核心库。"
+      }
+    }
+  ]
+}
