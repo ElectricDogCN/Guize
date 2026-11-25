@@ -9,7 +9,7 @@ tasks:
 - taskId: OPS-031
   issue: 284
   title: 按实际依赖推进 GZ-007 数据库契约
-  status: blocked
+  status: reserved
   riskLevel: high
   owner: ElectricDogCN
   coordinator: /root
@@ -19,7 +19,7 @@ tasks:
   agentRole: coordinator
   branch: chore/OPS-031-gz007-wave-order
   baseBranch: main
-  baseSha: ac0ef6b72014c03a1f55aba2ef0580bf3a0ed927
+  baseSha: 6ad9dc882b758ff83f067b51db0a1eb0a39c1744
   workPackage: WP-M0-01
   programPlan: specs/coordination/program-plan.yaml
   programTaskId: OPS-031

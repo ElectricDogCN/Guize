@@ -1,3 +1,33 @@
+# OPS-031 恢复预留交接
+
+任务 OPS-031 对应 [Issue #284](https://github.com/ElectricDogCN/Guize/issues/284)。工作分支 `chore/OPS-031-gz007-wave-order`、目标 main，真实基线 `6ad9dc882b758ff83f067b51db0a1eb0a39c1744`。本轮固定 SHA 以 PR Git 提交和相应官方 CI 为准。
+
+协调、实施与合入为 /root，独立审查为 /root/independent_review，当前角色 coordinator。租约为 2026-11-25T16:59:55Z 至 2026-12-02T16:59:55Z，Foundation 顺序 23。无共享写范围。Program Plan、Active Work 和原始规划声明版本 1，Task Spec 版本 2。
+
+实际文件如下。
+
+- `evidence/OPS-031/accepted-main-6ad9dc88/independent-review.json`
+- `evidence/OPS-031/accepted-main-6ad9dc88/integrity.txt`
+- `evidence/OPS-031/commands.txt`
+- `evidence/OPS-031/handoff.md`
+- `evidence/OPS-031/summary.md`
+- `evidence/OPS-031/test-results/README.md`
+- `specs/coordination/active-work.yaml`
+- `specs/coordination/program-plan.yaml`
+- `specs/tasks/OPS-031.md`
+
+
+
+## OPS-031 恢复预留
+
+本次由 blocked 恢复 reserved，保留同一协调者、租约与已有 Program Plan 声明。精确范围登记将另从实际主线提交。前置真实主线 6ad9dc882b758ff83f067b51db0a1eb0a39c1744 的六项任务控制均退出 0，完整官方 CI 和独立复验已通过。本轮新固定提交的官方源、实际主线和独立验证待执行。[独立复验原件](accepted-main-6ad9dc88/independent-review.json) 与 [原始完整性日志](accepted-main-6ad9dc88/integrity.txt)。
+
+[前置官方 CI](https://github.com/ElectricDogCN/Guize/actions/runs/45687218521)
+
+独立审查核验真实预留状态和同一租约。合入并完成主线复验后，协调者再单独登记两条治理路径。 未合入候选可撤回。已合入时保留已验收排程和历史，按正常元数据流程处理。
+
+## 先前交接
+
 # OPS-031 阻断交接
 
 任务 OPS-031 对应 [Issue #284](https://github.com/ElectricDogCN/Guize/issues/284)，分支 `chore/OPS-031-gz007-wave-order`、目标 main，真实父提交 `ac0ef6b72014c03a1f55aba2ef0580bf3a0ed927`。已核定的真实失败源为 `007cedd582da4177e6139f27870d5ebcf4be1a28`，本次元数据源由后续 PR 的固定 SHA 和官方 CI 标识。
