@@ -1,0 +1,384 @@
+{
+  "schemaVersion": 1,
+  "contractId": "EVENT-CATALOG-V1",
+  "status": "defined",
+  "transport": "transactional-outbox-at-least-once",
+  "producer": "guize-control",
+  "events": [
+    {
+      "eventType": "source.object.observed",
+      "eventVersion": 1,
+      "aggregateType": "SourceObject",
+      "aggregateKey": "sourceObjectId",
+      "revisionKey": "revision",
+      "producer": "guize-control",
+      "producerModule": "MOD-SOURCE",
+      "consumers": [
+        "MOD-ASSET",
+        "MOD-TASK",
+        "MOD-AUDIT"
+      ],
+      "semantics": "Observation of source identity/revision. Path changes alone never create a content version; etag is not a full hash. Optional assetId exists only after an authoritative association. No title, path, credentials or raw media are broadcast.",
+      "schema": "source/source.object.observed-v1.schema.json",
+      "example": "../../specs/contracts/events/examples/source.object.observed-v1.json",
+      "compatibility": "Any payload shape or semantic change increments eventVersion; old immutable versions remain registered. Explicit tested adapters or consumers handle each supported version. Unknown versions are retained and quarantined without business side effects.",
+      "idempotency": "(consumerId,eventId) unique; business effect and processed marker commit together. External side effects use an idempotent action/outbox. The original eventId survives redelivery. Aggregate revisions suppress stale effects; no global ordering assumption.",
+      "authorization": "Internal authenticated consumers only. Event receipt is not a resource access grant; resolve current authoritative parent ACL/security before exposing derived or source content."
+    },
+    {
+      "eventType": "source.object.deleted",
+      "eventVersion": 1,
+      "aggregateType": "SourceObject",
+      "aggregateKey": "sourceObjectId",
+      "revisionKey": "revision",
+      "producer": "guize-control",
+      "producerModule": "MOD-SOURCE",
+      "consumers": [
+        "MOD-ASSET",
+        "MOD-TASK",
+        "MOD-AUDIT"
+      ],
+      "semantics": "Only confirmed provider deletion or a completed qualified reconciliation may emit this event. Referenced confirmation must be retained and checked by the source application. Missing listings, timeouts and unavailable sources are not deletion. This event changes source availability and never deletes the logical Asset.",
+      "schema": "source/source.object.deleted-v1.schema.json",
+      "example": "../../specs/contracts/events/examples/source.object.deleted-v1.json",
+      "compatibility": "Any payload shape or semantic change increments eventVersion; old immutable versions remain registered. Explicit tested adapters or consumers handle each supported version. Unknown versions are retained and quarantined without business side effects.",
+      "idempotency": "(consumerId,eventId) unique; business effect and processed marker commit together. External side effects use an idempotent action/outbox. The original eventId survives redelivery. Aggregate revisions suppress stale effects; no global ordering assumption.",
+      "authorization": "Internal authenticated consumers only. Event receipt is not a resource access grant; resolve current authoritative parent ACL/security before exposing derived or source content."
+    },
+    {
+      "eventType": "asset.created",
+      "eventVersion": 1,
+      "aggregateType": "Asset",
+      "aggregateKey": "assetId",
+      "revisionKey": "revision",
+      "producer": "guize-control",
+      "producerModule": "MOD-ASSET",
+      "consumers": [
+        "MOD-STORAGE",
+        "MOD-MEDIA",
+        "MOD-AI",
+        "MOD-SEARCH",
+        "MOD-AUDIT"
+      ],
+      "semantics": "A logical Asset exists independently of any source path. Consumers must load authoritative ACL/security state before reading or exposing content; visibility is a snapshot and never an authorization grant.",
+      "schema": "asset/asset.created-v1.schema.json",
+      "example": "../../specs/contracts/events/examples/asset.created-v1.json",
+      "compatibility": "Any payload shape or semantic change increments eventVersion; old immutable versions remain registered. Explicit tested adapters or consumers handle each supported version. Unknown versions are retained and quarantined without business side effects.",
+      "idempotency": "(consumerId,eventId) unique; business effect and processed marker commit together. External side effects use an idempotent action/outbox. The original eventId survives redelivery. Aggregate revisions suppress stale effects; no global ordering assumption.",
+      "authorization": "Internal authenticated consumers only. Event receipt is not a resource access grant; resolve current authoritative parent ACL/security before exposing derived or source content."
+    },
+    {
+      "eventType": "asset.version.created",
+      "eventVersion": 1,
+      "aggregateType": "Asset",
+      "aggregateKey": "assetId",
+      "revisionKey": "revision",
+      "producer": "guize-control",
+      "producerModule": "MOD-ASSET",
+      "consumers": [
+        "MOD-STORAGE",
+        "MOD-MEDIA",
+        "MOD-AI",
+        "MOD-SEARCH",
+        "MOD-AUDIT"
+      ],
+      "semantics": "An immutable content version is registered. versionNumber identifies content version; revision identifies the Asset aggregate revision. A rename or move alone is not content change. UNKNOWN/SAMPLE hashes do not authorize formal retention, merging or source deletion.",
+      "schema": "asset/asset.version.created-v1.schema.json",
+      "example": "../../specs/contracts/events/examples/asset.version.created-v1.json",
+      "compatibility": "Any payload shape or semantic change increments eventVersion; old immutable versions remain registered. Explicit tested adapters or consumers handle each supported version. Unknown versions are retained and quarantined without business side effects.",
+      "idempotency": "(consumerId,eventId) unique; business effect and processed marker commit together. External side effects use an idempotent action/outbox. The original eventId survives redelivery. Aggregate revisions suppress stale effects; no global ordering assumption.",
+      "authorization": "Internal authenticated consumers only. Event receipt is not a resource access grant; resolve current authoritative parent ACL/security before exposing derived or source content."
+    },
+    {
+      "eventType": "cache.complete.verified",
+      "eventVersion": 1,
+      "aggregateType": "CacheEntry",
+      "aggregateKey": "cacheEntryId",
+      "revisionKey": "revision",
+      "producer": "guize-control",
+      "producerModule": "MOD-STORAGE",
+      "consumers": [
+        "MOD-MEDIA",
+        "MOD-AI",
+        "MOD-AUDIT",
+        "MOD-OBS"
+      ],
+      "semantics": "A complete file was read back and checked against its pinned authoritative AssetVersion length and full hash. The producer must retain that measurement under evidenceId. ATS/HLS slice hits are not complete-file verification. Complete/pinned cache is not a formal retained replica or an independent backup.",
+      "schema": "storage/cache.complete.verified-v1.schema.json",
+      "example": "../../specs/contracts/events/examples/cache.complete.verified-v1.json",
+      "compatibility": "Any payload shape or semantic change increments eventVersion; old immutable versions remain registered. Explicit tested adapters or consumers handle each supported version. Unknown versions are retained and quarantined without business side effects.",
+      "idempotency": "(consumerId,eventId) unique; business effect and processed marker commit together. External side effects use an idempotent action/outbox. The original eventId survives redelivery. Aggregate revisions suppress stale effects; no global ordering assumption.",
+      "authorization": "Internal authenticated consumers only. Event receipt is not a resource access grant; resolve current authoritative parent ACL/security before exposing derived or source content."
+    },
+    {
+      "eventType": "replica.verified",
+      "eventVersion": 1,
+      "aggregateType": "Replica",
+      "aggregateKey": "replicaId",
+      "revisionKey": "revision",
+      "producer": "guize-control",
+      "producerModule": "MOD-STORAGE",
+      "consumers": [
+        "MOD-MEDIA",
+        "MOD-AI",
+        "MOD-AUDIT",
+        "MOD-OBS"
+      ],
+      "semantics": "Verification requires full readback against the pinned Rendition hash and length; upload completion alone is insufficient. failureDomainId names the actual physical failure domain, not a URL alias. A single replica event does not prove the recovery-copy safety floor.",
+      "schema": "storage/replica.verified-v1.schema.json",
+      "example": "../../specs/contracts/events/examples/replica.verified-v1.json",
+      "compatibility": "Any payload shape or semantic change increments eventVersion; old immutable versions remain registered. Explicit tested adapters or consumers handle each supported version. Unknown versions are retained and quarantined without business side effects.",
+      "idempotency": "(consumerId,eventId) unique; business effect and processed marker commit together. External side effects use an idempotent action/outbox. The original eventId survives redelivery. Aggregate revisions suppress stale effects; no global ordering assumption.",
+      "authorization": "Internal authenticated consumers only. Event receipt is not a resource access grant; resolve current authoritative parent ACL/security before exposing derived or source content."
+    },
+    {
+      "eventType": "rendition.published",
+      "eventVersion": 1,
+      "aggregateType": "Rendition",
+      "aggregateKey": "renditionId",
+      "revisionKey": "revision",
+      "producer": "guize-control",
+      "producerModule": "MOD-MEDIA",
+      "consumers": [
+        "MOD-AI",
+        "MOD-SEARCH",
+        "MOD-AUDIT"
+      ],
+      "semantics": "Only verified and quality-admitted output is published. Provenance binds the exact input version/hash, output hash, encoder and immutable profile. For ABR_HLS the producer must validate manifest/segments and decoder probes before publication; this event shape does not itself prove those measurements. Parent Asset ACL is authoritative.",
+      "schema": "media/rendition.published-v1.schema.json",
+      "example": "../../specs/contracts/events/examples/rendition.published-v1.json",
+      "compatibility": "Any payload shape or semantic change increments eventVersion; old immutable versions remain registered. Explicit tested adapters or consumers handle each supported version. Unknown versions are retained and quarantined without business side effects.",
+      "idempotency": "(consumerId,eventId) unique; business effect and processed marker commit together. External side effects use an idempotent action/outbox. The original eventId survives redelivery. Aggregate revisions suppress stale effects; no global ordering assumption.",
+      "authorization": "Internal authenticated consumers only. Event receipt is not a resource access grant; resolve current authoritative parent ACL/security before exposing derived or source content."
+    },
+    {
+      "eventType": "artifact.published",
+      "eventVersion": 1,
+      "aggregateType": "DerivedArtifact",
+      "aggregateKey": "artifactId",
+      "revisionKey": "revision",
+      "producer": "guize-control",
+      "producerModule": "MOD-AI",
+      "consumers": [
+        "MOD-SEARCH",
+        "MOD-AUDIT"
+      ],
+      "semantics": "Derived output inherits authoritative parent Asset ACL and records model/prompt/pipeline/parameters provenance and uncertainty. Publication must follow the approved quality/data policy. A new human revision never overwrites the original AI revision. Generated thumbnails cannot masquerade as real frames. Text/media output is not embedded in the event.",
+      "schema": "ai/artifact.published-v1.schema.json",
+      "example": "../../specs/contracts/events/examples/artifact.published-v1.json",
+      "compatibility": "Any payload shape or semantic change increments eventVersion; old immutable versions remain registered. Explicit tested adapters or consumers handle each supported version. Unknown versions are retained and quarantined without business side effects.",
+      "idempotency": "(consumerId,eventId) unique; business effect and processed marker commit together. External side effects use an idempotent action/outbox. The original eventId survives redelivery. Aggregate revisions suppress stale effects; no global ordering assumption.",
+      "authorization": "Internal authenticated consumers only. Event receipt is not a resource access grant; resolve current authoritative parent ACL/security before exposing derived or source content."
+    },
+    {
+      "eventType": "task.status.changed",
+      "eventVersion": 1,
+      "aggregateType": "Task",
+      "aggregateKey": "taskId",
+      "revisionKey": "revision",
+      "producer": "guize-control",
+      "producerModule": "MOD-TASK",
+      "consumers": [
+        "MOD-AUDIT",
+        "MOD-OBS"
+      ],
+      "semantics": "An authoritative task transition occurred. Task workflow guards, output admission and fencing are defined by the runtime contract; percentage or request acceptance never proves success. P0-P8 priority semantics remain. This domain eventId is an opaque deduplication identity, not the numeric SSE stream cursor.",
+      "schema": "task/task.status.changed-v1.schema.json",
+      "example": "../../specs/contracts/events/examples/task.status.changed-v1.json",
+      "compatibility": "Any payload shape or semantic change increments eventVersion; old immutable versions remain registered. Explicit tested adapters or consumers handle each supported version. Unknown versions are retained and quarantined without business side effects.",
+      "idempotency": "(consumerId,eventId) unique; business effect and processed marker commit together. External side effects use an idempotent action/outbox. The original eventId survives redelivery. Aggregate revisions suppress stale effects; no global ordering assumption.",
+      "authorization": "Internal authenticated consumers only. Event receipt is not a resource access grant; resolve current authoritative parent ACL/security before exposing derived or source content."
+    },
+    {
+      "eventType": "policy.published",
+      "eventVersion": 1,
+      "aggregateType": "PolicyDefinition",
+      "aggregateKey": "policyId",
+      "revisionKey": "revision",
+      "producer": "guize-control",
+      "producerModule": "MOD-POLICY",
+      "consumers": [
+        "MOD-TASK",
+        "MOD-STORAGE",
+        "MOD-AUDIT"
+      ],
+      "semantics": "A reviewed immutable policy version was published. Consumers fetch the exact version and validate its recorded hash; this event never embeds executable EL, expands permissions or bypasses approval. MOD-POLICY is the business producer; the aggregate event catalogue is maintained by the platform contract task.",
+      "schema": "policy/policy.published-v1.schema.json",
+      "example": "../../specs/contracts/events/examples/policy.published-v1.json",
+      "compatibility": "Any payload shape or semantic change increments eventVersion; old immutable versions remain registered. Explicit tested adapters or consumers handle each supported version. Unknown versions are retained and quarantined without business side effects.",
+      "idempotency": "(consumerId,eventId) unique; business effect and processed marker commit together. External side effects use an idempotent action/outbox. The original eventId survives redelivery. Aggregate revisions suppress stale effects; no global ordering assumption.",
+      "authorization": "Internal authenticated consumers only. Event receipt is not a resource access grant; resolve current authoritative parent ACL/security before exposing derived or source content."
+    },
+    {
+      "eventType": "task.plan.accepted",
+      "eventVersion": 1,
+      "aggregateType": "TaskPlan",
+      "aggregateKey": "planId",
+      "revisionKey": "revision",
+      "producer": "guize-control",
+      "producerModule": "MOD-TASK",
+      "consumers": [
+        "MOD-AUDIT",
+        "MOD-OBS"
+      ],
+      "semantics": "TASK accepted one immutable plan version. It records the validated plan digest after the control-plane decision; a draft AI proposal cannot emit this fact.",
+      "schema": "task/task.plan.accepted-v1.schema.json",
+      "example": "../../specs/contracts/events/examples/task.plan.accepted-v1.json",
+      "compatibility": "Any payload shape or semantic change increments eventVersion; old immutable versions remain registered. Explicit tested adapters or consumers handle each supported version. Unknown versions are retained and quarantined without business side effects.",
+      "idempotency": "(consumerId,eventId) unique; business effect and processed marker commit together. External side effects use an idempotent action/outbox. The original eventId survives redelivery. Aggregate revisions suppress stale effects; no global ordering assumption.",
+      "authorization": "Internal authenticated consumers only. Event receipt is not a resource access grant; resolve current authoritative parent ACL/security before exposing derived or source content."
+    },
+    {
+      "eventType": "task.step.ready",
+      "eventVersion": 1,
+      "aggregateType": "TaskStep",
+      "aggregateKey": "stepId",
+      "revisionKey": "revision",
+      "producer": "guize-control",
+      "producerModule": "MOD-TASK",
+      "consumers": [
+        "MOD-AUDIT",
+        "MOD-OBS"
+      ],
+      "semantics": "TASK found this versioned step ready after its dependency and policy checks. Readiness does not establish an attempt lease or consume a worker resource.",
+      "schema": "task/task.step.ready-v1.schema.json",
+      "example": "../../specs/contracts/events/examples/task.step.ready-v1.json",
+      "compatibility": "Any payload shape or semantic change increments eventVersion; old immutable versions remain registered. Explicit tested adapters or consumers handle each supported version. Unknown versions are retained and quarantined without business side effects.",
+      "idempotency": "(consumerId,eventId) unique; business effect and processed marker commit together. External side effects use an idempotent action/outbox. The original eventId survives redelivery. Aggregate revisions suppress stale effects; no global ordering assumption.",
+      "authorization": "Internal authenticated consumers only. Event receipt is not a resource access grant; resolve current authoritative parent ACL/security before exposing derived or source content."
+    },
+    {
+      "eventType": "task.attempt.leased",
+      "eventVersion": 1,
+      "aggregateType": "TaskAttempt",
+      "aggregateKey": "attemptId",
+      "revisionKey": "revision",
+      "producer": "guize-control",
+      "producerModule": "MOD-TASK",
+      "consumers": [
+        "MOD-AUDIT",
+        "MOD-OBS"
+      ],
+      "semantics": "TASK established a finite lease for an attempt, node, immutable input, and the current step fencing value. Reassignment advances fencing before the new lease is accepted.",
+      "schema": "task/task.attempt.leased-v1.schema.json",
+      "example": "../../specs/contracts/events/examples/task.attempt.leased-v1.json",
+      "compatibility": "Any payload shape or semantic change increments eventVersion; old immutable versions remain registered. Explicit tested adapters or consumers handle each supported version. Unknown versions are retained and quarantined without business side effects.",
+      "idempotency": "(consumerId,eventId) unique; business effect and processed marker commit together. External side effects use an idempotent action/outbox. The original eventId survives redelivery. Aggregate revisions suppress stale effects; no global ordering assumption.",
+      "authorization": "Internal authenticated consumers only. Event receipt is not a resource access grant; resolve current authoritative parent ACL/security before exposing derived or source content."
+    },
+    {
+      "eventType": "task.attempt.cancellation.requested",
+      "eventVersion": 1,
+      "aggregateType": "TaskAttempt",
+      "aggregateKey": "attemptId",
+      "revisionKey": "revision",
+      "producer": "guize-control",
+      "producerModule": "MOD-TASK",
+      "consumers": [
+        "MOD-AUDIT",
+        "MOD-OBS"
+      ],
+      "semantics": "TASK recorded a cancellation request against the exact attempt and fencing value. This fact does not assert that the worker has stopped or that resources have been released.",
+      "schema": "task/task.attempt.cancellation.requested-v1.schema.json",
+      "example": "../../specs/contracts/events/examples/task.attempt.cancellation.requested-v1.json",
+      "compatibility": "Any payload shape or semantic change increments eventVersion; old immutable versions remain registered. Explicit tested adapters or consumers handle each supported version. Unknown versions are retained and quarantined without business side effects.",
+      "idempotency": "(consumerId,eventId) unique; business effect and processed marker commit together. External side effects use an idempotent action/outbox. The original eventId survives redelivery. Aggregate revisions suppress stale effects; no global ordering assumption.",
+      "authorization": "Internal authenticated consumers only. Event receipt is not a resource access grant; resolve current authoritative parent ACL/security before exposing derived or source content."
+    },
+    {
+      "eventType": "task.attempt.cancelled",
+      "eventVersion": 1,
+      "aggregateType": "TaskAttempt",
+      "aggregateKey": "attemptId",
+      "revisionKey": "revision",
+      "producer": "guize-control",
+      "producerModule": "MOD-TASK",
+      "consumers": [
+        "MOD-AUDIT",
+        "MOD-OBS"
+      ],
+      "semantics": "TASK recorded the accepted cancellation outcome for this attempt. Worker acknowledgement and observed lease expiry remain distinguishable; late results cannot establish acceptance.",
+      "schema": "task/task.attempt.cancelled-v1.schema.json",
+      "example": "../../specs/contracts/events/examples/task.attempt.cancelled-v1.json",
+      "compatibility": "Any payload shape or semantic change increments eventVersion; old immutable versions remain registered. Explicit tested adapters or consumers handle each supported version. Unknown versions are retained and quarantined without business side effects.",
+      "idempotency": "(consumerId,eventId) unique; business effect and processed marker commit together. External side effects use an idempotent action/outbox. The original eventId survives redelivery. Aggregate revisions suppress stale effects; no global ordering assumption.",
+      "authorization": "Internal authenticated consumers only. Event receipt is not a resource access grant; resolve current authoritative parent ACL/security before exposing derived or source content."
+    },
+    {
+      "eventType": "task.attempt.result.accepted",
+      "eventVersion": 1,
+      "aggregateType": "TaskAttempt",
+      "aggregateKey": "attemptId",
+      "revisionKey": "revision",
+      "producer": "guize-control",
+      "producerModule": "MOD-TASK",
+      "consumers": [
+        "MOD-AUDIT",
+        "MOD-OBS"
+      ],
+      "semantics": "TASK atomically accepted this result once for the current plan, step, node, attempt, and fencing. The producer checks active lease, cancellation, immutable input and manifest digests, and capability version before publishing the fact.",
+      "schema": "task/task.attempt.result.accepted-v1.schema.json",
+      "example": "../../specs/contracts/events/examples/task.attempt.result.accepted-v1.json",
+      "compatibility": "Any payload shape or semantic change increments eventVersion; old immutable versions remain registered. Explicit tested adapters or consumers handle each supported version. Unknown versions are retained and quarantined without business side effects.",
+      "idempotency": "(consumerId,eventId) unique; business effect and processed marker commit together. External side effects use an idempotent action/outbox. The original eventId survives redelivery. Aggregate revisions suppress stale effects; no global ordering assumption.",
+      "authorization": "Internal authenticated consumers only. Event receipt is not a resource access grant; resolve current authoritative parent ACL/security before exposing derived or source content."
+    },
+    {
+      "eventType": "task.attempt.capability.bound",
+      "eventVersion": 1,
+      "aggregateType": "TaskAttempt",
+      "aggregateKey": "attemptId",
+      "revisionKey": "revision",
+      "producer": "guize-control",
+      "producerModule": "MOD-TASK",
+      "consumers": [
+        "MOD-AUDIT",
+        "MOD-OBS"
+      ],
+      "semantics": "TASK bound an approved versioned capability to a specific attempt and node. This is an execution selection and does not publish worker identity, raw device observations, or administrative capability state.",
+      "schema": "task/task.attempt.capability.bound-v1.schema.json",
+      "example": "../../specs/contracts/events/examples/task.attempt.capability.bound-v1.json",
+      "compatibility": "Any payload shape or semantic change increments eventVersion; old immutable versions remain registered. Explicit tested adapters or consumers handle each supported version. Unknown versions are retained and quarantined without business side effects.",
+      "idempotency": "(consumerId,eventId) unique; business effect and processed marker commit together. External side effects use an idempotent action/outbox. The original eventId survives redelivery. Aggregate revisions suppress stale effects; no global ordering assumption.",
+      "authorization": "Internal authenticated consumers only. Event receipt is not a resource access grant; resolve current authoritative parent ACL/security before exposing derived or source content."
+    },
+    {
+      "eventType": "task.resource.reserved",
+      "eventVersion": 1,
+      "aggregateType": "TaskResourceReservation",
+      "aggregateKey": "reservationId",
+      "revisionKey": "revision",
+      "producer": "guize-control",
+      "producerModule": "MOD-TASK",
+      "consumers": [
+        "MOD-AUDIT",
+        "MOD-OBS"
+      ],
+      "semantics": "TASK atomically reserved the stated units for a concrete attempt and fencing value. A consumer treats capability and reservation facts independently and never allocates a second resource on redelivery.",
+      "schema": "task/task.resource.reserved-v1.schema.json",
+      "example": "../../specs/contracts/events/examples/task.resource.reserved-v1.json",
+      "compatibility": "Any payload shape or semantic change increments eventVersion; old immutable versions remain registered. Explicit tested adapters or consumers handle each supported version. Unknown versions are retained and quarantined without business side effects.",
+      "idempotency": "(consumerId,eventId) unique; business effect and processed marker commit together. External side effects use an idempotent action/outbox. The original eventId survives redelivery. Aggregate revisions suppress stale effects; no global ordering assumption.",
+      "authorization": "Internal authenticated consumers only. Event receipt is not a resource access grant; resolve current authoritative parent ACL/security before exposing derived or source content."
+    },
+    {
+      "eventType": "task.resource.released",
+      "eventVersion": 1,
+      "aggregateType": "TaskResourceReservation",
+      "aggregateKey": "reservationId",
+      "revisionKey": "revision",
+      "producer": "guize-control",
+      "producerModule": "MOD-TASK",
+      "consumers": [
+        "MOD-AUDIT",
+        "MOD-OBS"
+      ],
+      "semantics": "TASK ended the exact resource reservation that was owned by this attempt and fencing value. A late release cannot free a newer reservation, and duplicate delivery does not increment available capacity twice.",
+      "schema": "task/task.resource.released-v1.schema.json",
+      "example": "../../specs/contracts/events/examples/task.resource.released-v1.json",
+      "compatibility": "Any payload shape or semantic change increments eventVersion; old immutable versions remain registered. Explicit tested adapters or consumers handle each supported version. Unknown versions are retained and quarantined without business side effects.",
+      "idempotency": "(consumerId,eventId) unique; business effect and processed marker commit together. External side effects use an idempotent action/outbox. The original eventId survives redelivery. Aggregate revisions suppress stale effects; no global ordering assumption.",
+      "authorization": "Internal authenticated consumers only. Event receipt is not a resource access grant; resolve current authoritative parent ACL/security before exposing derived or source content."
+    }
+  ]
+}

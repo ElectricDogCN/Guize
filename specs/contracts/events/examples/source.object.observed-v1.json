@@ -1,0 +1,20 @@
+{
+  "eventId": "evt_source_object_observed",
+  "eventType": "source.object.observed",
+  "eventVersion": 1,
+  "aggregateType": "SourceObject",
+  "aggregateId": "srcobj_1",
+  "occurredAt": "2026-10-14T00:00:00Z",
+  "producer": "guize-control",
+  "traceId": "trace-event-0001",
+  "payload": {
+    "sourceObjectId": "srcobj_1",
+    "dataSourceId": "src_1",
+    "providerObjectId": "provider-1",
+    "sizeBytes": 0,
+    "etag": "validator-1",
+    "availability": "AVAILABLE",
+    "revision": 1,
+    "observedAt": "2026-10-14T00:00:00Z"
+  }
+}

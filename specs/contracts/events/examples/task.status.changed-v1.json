@@ -1,0 +1,20 @@
+{
+  "eventId": "evt_task_status_changed",
+  "eventType": "task.status.changed",
+  "eventVersion": 1,
+  "aggregateType": "Task",
+  "aggregateId": "task_1",
+  "occurredAt": "2026-10-14T00:00:00Z",
+  "producer": "guize-control",
+  "traceId": "trace-event-0001",
+  "payload": {
+    "taskId": "task_1",
+    "status": "RUNNING",
+    "priority": 0,
+    "progress": 0,
+    "inputVersionId": "ver_1",
+    "revision": 3,
+    "previousStatus": "DISPATCHING",
+    "changedAt": "2026-10-14T00:00:00Z"
+  }
+}

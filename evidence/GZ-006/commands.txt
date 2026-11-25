@@ -20,3 +20,16 @@ python scripts/run-agent-coordination-gate.py --base-ref 90b017c0627cc0aede19900
 python scripts/run-task-scope-gate.py --task GZ-006 --base 90b017c0627cc0aede19900cad664e918ac5a716
 python scripts/check-evidence.py --task GZ-006
 python scripts/check-markdown.py
+
+## 实施工作副本验证
+
+```text
+Command: python -B specs/contracts/events/check_contract.py --previous-root LEGACY_CATALOG_ROOT
+Exit Code: 0
+Result: PASS
+Command: python -B specs/contracts/events/test_contract.py
+Exit Code: 0
+Result: PASS
+```
+
+所用解释器和依赖符合 requirements.lock.txt。LEGACY_CATALOG_ROOT 指向保留的十事件准备档案。真实工作副本命令日志和输入文件指纹按收据 `d8524f92330b7875d78cc6120ab23c105e8682dbb64d32fcbbd78ea756eb2022` 追溯。

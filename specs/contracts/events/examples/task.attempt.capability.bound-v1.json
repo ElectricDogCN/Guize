@@ -1,0 +1,25 @@
+{
+  "eventId": "evt_task_attempt_capability_bound",
+  "eventType": "task.attempt.capability.bound",
+  "eventVersion": 1,
+  "aggregateType": "TaskAttempt",
+  "aggregateId": "attempt_example",
+  "occurredAt": "2026-11-25T13:00:02Z",
+  "producer": "guize-control",
+  "traceId": "trace-edge-event-01",
+  "payload": {
+    "revision": 1,
+    "taskId": "task_example",
+    "planId": "plan_example",
+    "planVersion": 4,
+    "stepId": "step_transcode",
+    "stepVersion": 2,
+    "attemptId": "attempt_example",
+    "nodeId": "node_example",
+    "fencing": 7,
+    "capabilityId": "cap_av1",
+    "capabilityVersion": "1.2.0",
+    "protocolVersion": "1.0.0",
+    "boundAt": "2026-11-25T13:00:02Z"
+  }
+}

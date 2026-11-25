@@ -1,0 +1,24 @@
+{
+  "eventId": "evt_rendition_published",
+  "eventType": "rendition.published",
+  "eventVersion": 1,
+  "aggregateType": "Rendition",
+  "aggregateId": "rend_1",
+  "occurredAt": "2026-10-14T00:00:00Z",
+  "producer": "guize-control",
+  "traceId": "trace-event-0001",
+  "payload": {
+    "renditionId": "rend_1",
+    "assetVersionId": "ver_1",
+    "kind": "ABR_HLS",
+    "codec": "av1",
+    "toolVersion": "ffmpeg-tested-version",
+    "inputHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "outputHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "profileVersionId": "prof_1",
+    "qualityStatus": "PASS",
+    "publicationStatus": "PUBLISHED",
+    "revision": 1,
+    "publishedAt": "2026-10-14T00:00:00Z"
+  }
+}

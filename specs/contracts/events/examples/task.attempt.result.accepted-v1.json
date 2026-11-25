@@ -1,0 +1,29 @@
+{
+  "eventId": "evt_task_attempt_result_accepted",
+  "eventType": "task.attempt.result.accepted",
+  "eventVersion": 1,
+  "aggregateType": "TaskAttempt",
+  "aggregateId": "attempt_success",
+  "occurredAt": "2026-11-25T13:01:00Z",
+  "producer": "guize-control",
+  "traceId": "trace-edge-event-01",
+  "payload": {
+    "revision": 3,
+    "taskId": "task_example",
+    "planId": "plan_example",
+    "planVersion": 4,
+    "stepId": "step_transcode",
+    "stepVersion": 2,
+    "attemptId": "attempt_success",
+    "nodeId": "node_next",
+    "fencing": 8,
+    "inputVersionId": "ver_example",
+    "inputSha256": "1111111111111111111111111111111111111111111111111111111111111111",
+    "capabilityId": "cap_av1",
+    "capabilityVersion": "1.2.0",
+    "protocolVersion": "1.0.0",
+    "artifactManifestId": "manifest_example",
+    "artifactManifestSha256": "3333333333333333333333333333333333333333333333333333333333333333",
+    "acceptedAt": "2026-11-25T13:01:00Z"
+  }
+}

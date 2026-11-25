@@ -1,0 +1,304 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://guize.local/contracts/events/ai/artifact.published-v1.schema.json",
+  "title": "artifact.published version1",
+  "allOf": [
+    {
+      "$ref": "https://guize.local/contracts/events/event-envelope.schema.json"
+    },
+    {
+      "properties": {
+        "eventId": {
+          "type": "string",
+          "description": "Opaque resource identifier; never a file path.",
+          "x-i18n": {
+            "en-US": {
+              "description": "Opaque resource identifier; never a file path."
+            },
+            "zh-CN": {
+              "description": "不透明资源标识，不是文件路径。"
+            }
+          },
+          "pattern": "^[a-z]{2,12}_[A-Za-z0-9_-]{1,64}$",
+          "maxLength": 80
+        },
+        "eventType": {
+          "const": "artifact.published"
+        },
+        "eventVersion": {
+          "const": 1
+        },
+        "aggregateType": {
+          "const": "DerivedArtifact"
+        },
+        "aggregateId": {
+          "type": "string",
+          "description": "Opaque resource identifier; never a file path.",
+          "x-i18n": {
+            "en-US": {
+              "description": "Opaque resource identifier; never a file path."
+            },
+            "zh-CN": {
+              "description": "不透明资源标识，不是文件路径。"
+            }
+          },
+          "pattern": "^[a-z]{2,12}_[A-Za-z0-9_-]{1,64}$",
+          "maxLength": 80
+        },
+        "producer": {
+          "const": "guize-control"
+        },
+        "traceId": {
+          "type": "string",
+          "description": "Request correlation identifier, including failures.",
+          "x-i18n": {
+            "en-US": {
+              "description": "Request correlation identifier, including failures."
+            },
+            "zh-CN": {
+              "description": "包括失败请求在内的关联标识。"
+            }
+          },
+          "pattern": "^[A-Za-z0-9-]{8,128}$",
+          "maxLength": 128
+        },
+        "payload": {
+          "type": "object",
+          "properties": {
+            "artifactId": {
+              "type": "string",
+              "description": "Opaque resource identifier; never a file path.",
+              "x-i18n": {
+                "en-US": {
+                  "description": "Opaque resource identifier; never a file path."
+                },
+                "zh-CN": {
+                  "description": "不透明资源标识，不是文件路径。"
+                }
+              },
+              "pattern": "^[a-z]{2,12}_[A-Za-z0-9_-]{1,64}$",
+              "maxLength": 80
+            },
+            "assetVersionId": {
+              "type": "string",
+              "description": "Opaque resource identifier; never a file path.",
+              "x-i18n": {
+                "en-US": {
+                  "description": "Opaque resource identifier; never a file path."
+                },
+                "zh-CN": {
+                  "description": "不透明资源标识，不是文件路径。"
+                }
+              },
+              "pattern": "^[a-z]{2,12}_[A-Za-z0-9_-]{1,64}$",
+              "maxLength": 80
+            },
+            "artifactType": {
+              "type": "string",
+              "description": "Derived result kind.",
+              "x-i18n": {
+                "en-US": {
+                  "description": "Derived result kind."
+                },
+                "zh-CN": {
+                  "description": "派生产物类型。"
+                }
+              },
+              "enum": [
+                "ASR",
+                "ALIGNMENT",
+                "DIARIZATION",
+                "OCR",
+                "VLM",
+                "TRANSLATION",
+                "SUMMARY",
+                "TAG",
+                "EMBEDDING",
+                "THUMBNAIL_REAL",
+                "THUMBNAIL_GENERATED"
+              ]
+            },
+            "modelVersion": {
+              "type": "string",
+              "description": "Recorded model/tool version.",
+              "x-i18n": {
+                "en-US": {
+                  "description": "Recorded model/tool version."
+                },
+                "zh-CN": {
+                  "description": "记录的模型或工具版本。"
+                }
+              },
+              "minLength": 1,
+              "maxLength": 256
+            },
+            "promptVersion": {
+              "type": "string",
+              "description": "Recorded prompt version.",
+              "x-i18n": {
+                "en-US": {
+                  "description": "Recorded prompt version."
+                },
+                "zh-CN": {
+                  "description": "记录的提示词版本。"
+                }
+              },
+              "minLength": 1,
+              "maxLength": 256
+            },
+            "confidence": {
+              "type": "number",
+              "description": "Confidence, not factual authority.",
+              "x-i18n": {
+                "en-US": {
+                  "description": "Confidence, not factual authority."
+                },
+                "zh-CN": {
+                  "description": "置信度，不代表事实权威。"
+                }
+              },
+              "minimum": 0,
+              "maximum": 1
+            },
+            "uncertainty": {
+              "type": "boolean",
+              "description": "Explicit boolean setting.",
+              "x-i18n": {
+                "en-US": {
+                  "description": "Explicit boolean setting."
+                },
+                "zh-CN": {
+                  "description": "显式布尔设置。"
+                }
+              }
+            },
+            "generated": {
+              "type": "boolean",
+              "description": "Explicit boolean setting.",
+              "x-i18n": {
+                "en-US": {
+                  "description": "Explicit boolean setting."
+                },
+                "zh-CN": {
+                  "description": "显式布尔设置。"
+                }
+              }
+            },
+            "revision": {
+              "type": "integer",
+              "description": "Optimistic resource revision.",
+              "x-i18n": {
+                "en-US": {
+                  "description": "Optimistic resource revision."
+                },
+                "zh-CN": {
+                  "description": "资源的乐观并发修订号。"
+                }
+              },
+              "minimum": 1
+            },
+            "pipelineVersionId": {
+              "type": "string",
+              "description": "Exact immutable approved pipeline version used by this result.",
+              "x-i18n": {
+                "en-US": {
+                  "description": "Exact immutable approved pipeline version used by this result."
+                },
+                "zh-CN": {
+                  "description": "此结果使用的精确、不可变、已批准的流水线版本。"
+                }
+              },
+              "pattern": "^[a-z]{2,12}_[A-Za-z0-9_-]{1,64}$",
+              "maxLength": 80
+            },
+            "parametersHash": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}(?![\\s\\S])",
+              "description": "Server-computed SHA256 of RFC8785 canonical resolved model parameter snapshot retained with the immutable pipeline version; never a caller claim.",
+              "x-i18n": {
+                "en-US": {
+                  "description": "Server-computed SHA256 of RFC8785 canonical resolved model parameter snapshot retained with the immutable pipeline version; never a caller claim."
+                },
+                "zh-CN": {
+                  "description": "服务端对已解析的模型参数快照做 RFC8785 规范化后计算的 SHA256；快照随不可变流水线版本保留，不接受调用者自报。"
+                }
+              }
+            },
+            "publicationStatus": {
+              "const": "PUBLISHED"
+            },
+            "publishedAt": {
+              "type": "string",
+              "description": "UTC RFC3339 timestamp.",
+              "x-i18n": {
+                "en-US": {
+                  "description": "UTC RFC3339 timestamp."
+                },
+                "zh-CN": {
+                  "description": "UTC RFC3339 时间。"
+                }
+              },
+              "format": "date-time"
+            }
+          },
+          "required": [
+            "artifactId",
+            "assetVersionId",
+            "artifactType",
+            "modelVersion",
+            "promptVersion",
+            "confidence",
+            "uncertainty",
+            "generated",
+            "revision",
+            "pipelineVersionId",
+            "parametersHash",
+            "publicationStatus",
+            "publishedAt"
+          ],
+          "additionalProperties": false,
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "artifactType": {
+                    "const": "THUMBNAIL_REAL"
+                  }
+                },
+                "required": [
+                  "artifactType"
+                ]
+              },
+              "then": {
+                "properties": {
+                  "generated": {
+                    "const": false
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "artifactType": {
+                    "const": "THUMBNAIL_GENERATED"
+                  }
+                },
+                "required": [
+                  "artifactType"
+                ]
+              },
+              "then": {
+                "properties": {
+                  "generated": {
+                    "const": true
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

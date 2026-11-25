@@ -1,0 +1,227 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://guize.local/contracts/events/storage/replica.verified-v1.schema.json",
+  "title": "replica.verified version1",
+  "allOf": [
+    {
+      "$ref": "https://guize.local/contracts/events/event-envelope.schema.json"
+    },
+    {
+      "properties": {
+        "eventId": {
+          "type": "string",
+          "description": "Opaque resource identifier; never a file path.",
+          "x-i18n": {
+            "en-US": {
+              "description": "Opaque resource identifier; never a file path."
+            },
+            "zh-CN": {
+              "description": "不透明资源标识，不是文件路径。"
+            }
+          },
+          "pattern": "^[a-z]{2,12}_[A-Za-z0-9_-]{1,64}$",
+          "maxLength": 80
+        },
+        "eventType": {
+          "const": "replica.verified"
+        },
+        "eventVersion": {
+          "const": 1
+        },
+        "aggregateType": {
+          "const": "Replica"
+        },
+        "aggregateId": {
+          "type": "string",
+          "description": "Opaque resource identifier; never a file path.",
+          "x-i18n": {
+            "en-US": {
+              "description": "Opaque resource identifier; never a file path."
+            },
+            "zh-CN": {
+              "description": "不透明资源标识，不是文件路径。"
+            }
+          },
+          "pattern": "^[a-z]{2,12}_[A-Za-z0-9_-]{1,64}$",
+          "maxLength": 80
+        },
+        "producer": {
+          "const": "guize-control"
+        },
+        "traceId": {
+          "type": "string",
+          "description": "Request correlation identifier, including failures.",
+          "x-i18n": {
+            "en-US": {
+              "description": "Request correlation identifier, including failures."
+            },
+            "zh-CN": {
+              "description": "包括失败请求在内的关联标识。"
+            }
+          },
+          "pattern": "^[A-Za-z0-9-]{8,128}$",
+          "maxLength": 128
+        },
+        "payload": {
+          "type": "object",
+          "properties": {
+            "replicaId": {
+              "type": "string",
+              "description": "Opaque resource identifier; never a file path.",
+              "x-i18n": {
+                "en-US": {
+                  "description": "Opaque resource identifier; never a file path."
+                },
+                "zh-CN": {
+                  "description": "不透明资源标识，不是文件路径。"
+                }
+              },
+              "pattern": "^[a-z]{2,12}_[A-Za-z0-9_-]{1,64}$",
+              "maxLength": 80
+            },
+            "renditionId": {
+              "type": "string",
+              "description": "Opaque resource identifier; never a file path.",
+              "x-i18n": {
+                "en-US": {
+                  "description": "Opaque resource identifier; never a file path."
+                },
+                "zh-CN": {
+                  "description": "不透明资源标识，不是文件路径。"
+                }
+              },
+              "pattern": "^[a-z]{2,12}_[A-Za-z0-9_-]{1,64}$",
+              "maxLength": 80
+            },
+            "storageTargetId": {
+              "type": "string",
+              "description": "Opaque resource identifier; never a file path.",
+              "x-i18n": {
+                "en-US": {
+                  "description": "Opaque resource identifier; never a file path."
+                },
+                "zh-CN": {
+                  "description": "不透明资源标识，不是文件路径。"
+                }
+              },
+              "pattern": "^[a-z]{2,12}_[A-Za-z0-9_-]{1,64}$",
+              "maxLength": 80
+            },
+            "failureDomainId": {
+              "type": "string",
+              "description": "Opaque resource identifier; never a file path.",
+              "x-i18n": {
+                "en-US": {
+                  "description": "Opaque resource identifier; never a file path."
+                },
+                "zh-CN": {
+                  "description": "不透明资源标识，不是文件路径。"
+                }
+              },
+              "pattern": "^[a-z]{2,12}_[A-Za-z0-9_-]{1,64}$",
+              "maxLength": 80
+            },
+            "revision": {
+              "type": "integer",
+              "description": "Optimistic resource revision.",
+              "x-i18n": {
+                "en-US": {
+                  "description": "Optimistic resource revision."
+                },
+                "zh-CN": {
+                  "description": "资源的乐观并发修订号。"
+                }
+              },
+              "minimum": 1
+            },
+            "status": {
+              "const": "VERIFIED"
+            },
+            "sizeBytes": {
+              "type": "integer",
+              "description": "Cache size.",
+              "x-i18n": {
+                "en-US": {
+                  "description": "Cache size."
+                },
+                "zh-CN": {
+                  "description": "缓存字节数。"
+                }
+              },
+              "minimum": 0
+            },
+            "verification": {
+              "type": "object",
+              "properties": {
+                "algorithm": {
+                  "enum": [
+                    "SHA256",
+                    "BLAKE3"
+                  ]
+                },
+                "expectedHash": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$",
+                  "minLength": 64,
+                  "maxLength": 64
+                },
+                "actualHash": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$",
+                  "minLength": 64,
+                  "maxLength": 64
+                },
+                "evidenceId": {
+                  "type": "string",
+                  "description": "Opaque resource identifier; never a file path.",
+                  "x-i18n": {
+                    "en-US": {
+                      "description": "Opaque resource identifier; never a file path."
+                    },
+                    "zh-CN": {
+                      "description": "不透明资源标识，不是文件路径。"
+                    }
+                  },
+                  "pattern": "^[a-z]{2,12}_[A-Za-z0-9_-]{1,64}$",
+                  "maxLength": 80
+                },
+                "verifiedAt": {
+                  "type": "string",
+                  "description": "UTC RFC3339 timestamp.",
+                  "x-i18n": {
+                    "en-US": {
+                      "description": "UTC RFC3339 timestamp."
+                    },
+                    "zh-CN": {
+                      "description": "UTC RFC3339 时间。"
+                    }
+                  },
+                  "format": "date-time"
+                }
+              },
+              "required": [
+                "algorithm",
+                "expectedHash",
+                "actualHash",
+                "evidenceId",
+                "verifiedAt"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "replicaId",
+            "renditionId",
+            "storageTargetId",
+            "failureDomainId",
+            "revision",
+            "status",
+            "sizeBytes",
+            "verification"
+          ],
+          "additionalProperties": false
+        }
+      }
+    }
+  ]
+}

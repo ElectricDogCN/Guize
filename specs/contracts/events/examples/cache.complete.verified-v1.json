@@ -1,0 +1,25 @@
+{
+  "eventId": "evt_cache_complete_verified",
+  "eventType": "cache.complete.verified",
+  "eventVersion": 1,
+  "aggregateType": "CacheEntry",
+  "aggregateId": "cache_1",
+  "occurredAt": "2026-10-14T00:00:00Z",
+  "producer": "guize-control",
+  "traceId": "trace-event-0001",
+  "payload": {
+    "cacheEntryId": "cache_1",
+    "assetVersionId": "ver_1",
+    "cacheClass": "FULL_FILE",
+    "sizeBytes": 0,
+    "revision": 3,
+    "state": "COMPLETE_CACHE",
+    "verification": {
+      "algorithm": "SHA256",
+      "expectedHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "actualHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "evidenceId": "evid_verification1",
+      "verifiedAt": "2026-10-14T00:00:00Z"
+    }
+  }
+}

@@ -1,0 +1,210 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://guize.local/contracts/events/source/source.object.observed-v1.schema.json",
+  "title": "source.object.observed version1",
+  "allOf": [
+    {
+      "$ref": "https://guize.local/contracts/events/event-envelope.schema.json"
+    },
+    {
+      "properties": {
+        "eventId": {
+          "type": "string",
+          "description": "Opaque resource identifier; never a file path.",
+          "x-i18n": {
+            "en-US": {
+              "description": "Opaque resource identifier; never a file path."
+            },
+            "zh-CN": {
+              "description": "不透明资源标识，不是文件路径。"
+            }
+          },
+          "pattern": "^[a-z]{2,12}_[A-Za-z0-9_-]{1,64}$",
+          "maxLength": 80
+        },
+        "eventType": {
+          "const": "source.object.observed"
+        },
+        "eventVersion": {
+          "const": 1
+        },
+        "aggregateType": {
+          "const": "SourceObject"
+        },
+        "aggregateId": {
+          "type": "string",
+          "description": "Opaque resource identifier; never a file path.",
+          "x-i18n": {
+            "en-US": {
+              "description": "Opaque resource identifier; never a file path."
+            },
+            "zh-CN": {
+              "description": "不透明资源标识，不是文件路径。"
+            }
+          },
+          "pattern": "^[a-z]{2,12}_[A-Za-z0-9_-]{1,64}$",
+          "maxLength": 80
+        },
+        "producer": {
+          "const": "guize-control"
+        },
+        "traceId": {
+          "type": "string",
+          "description": "Request correlation identifier, including failures.",
+          "x-i18n": {
+            "en-US": {
+              "description": "Request correlation identifier, including failures."
+            },
+            "zh-CN": {
+              "description": "包括失败请求在内的关联标识。"
+            }
+          },
+          "pattern": "^[A-Za-z0-9-]{8,128}$",
+          "maxLength": 128
+        },
+        "payload": {
+          "type": "object",
+          "properties": {
+            "sourceObjectId": {
+              "type": "string",
+              "description": "Opaque resource identifier; never a file path.",
+              "x-i18n": {
+                "en-US": {
+                  "description": "Opaque resource identifier; never a file path."
+                },
+                "zh-CN": {
+                  "description": "不透明资源标识，不是文件路径。"
+                }
+              },
+              "pattern": "^[a-z]{2,12}_[A-Za-z0-9_-]{1,64}$",
+              "maxLength": 80
+            },
+            "dataSourceId": {
+              "type": "string",
+              "description": "Opaque resource identifier; never a file path.",
+              "x-i18n": {
+                "en-US": {
+                  "description": "Opaque resource identifier; never a file path."
+                },
+                "zh-CN": {
+                  "description": "不透明资源标识，不是文件路径。"
+                }
+              },
+              "pattern": "^[a-z]{2,12}_[A-Za-z0-9_-]{1,64}$",
+              "maxLength": 80
+            },
+            "providerObjectId": {
+              "type": "string",
+              "description": "Stable provider identifier or internal fallback.",
+              "x-i18n": {
+                "en-US": {
+                  "description": "Stable provider identifier or internal fallback."
+                },
+                "zh-CN": {
+                  "description": "稳定的提供方标识或内部替代标识。"
+                }
+              },
+              "minLength": 1,
+              "maxLength": 256
+            },
+            "sizeBytes": {
+              "type": "integer",
+              "description": "Object size.",
+              "x-i18n": {
+                "en-US": {
+                  "description": "Object size."
+                },
+                "zh-CN": {
+                  "description": "对象字节数。"
+                }
+              },
+              "minimum": 0
+            },
+            "etag": {
+              "type": "string",
+              "description": "Source validator, not a full content hash.",
+              "x-i18n": {
+                "en-US": {
+                  "description": "Source validator, not a full content hash."
+                },
+                "zh-CN": {
+                  "description": "来源校验标识，不等于完整内容哈希。"
+                }
+              },
+              "minLength": 1,
+              "maxLength": 256
+            },
+            "availability": {
+              "type": "string",
+              "description": "Source availability; absence never deletes Asset.",
+              "x-i18n": {
+                "en-US": {
+                  "description": "Source availability; absence never deletes Asset."
+                },
+                "zh-CN": {
+                  "description": "来源可用性，缺失不会删除逻辑资产。"
+                }
+              },
+              "enum": [
+                "AVAILABLE",
+                "UNAVAILABLE",
+                "UNKNOWN"
+              ]
+            },
+            "revision": {
+              "type": "integer",
+              "description": "Optimistic resource revision.",
+              "x-i18n": {
+                "en-US": {
+                  "description": "Optimistic resource revision."
+                },
+                "zh-CN": {
+                  "description": "资源的乐观并发修订号。"
+                }
+              },
+              "minimum": 1
+            },
+            "observedAt": {
+              "type": "string",
+              "description": "UTC RFC3339 timestamp.",
+              "x-i18n": {
+                "en-US": {
+                  "description": "UTC RFC3339 timestamp."
+                },
+                "zh-CN": {
+                  "description": "UTC RFC3339 时间。"
+                }
+              },
+              "format": "date-time"
+            },
+            "assetId": {
+              "type": "string",
+              "description": "Opaque resource identifier; never a file path.",
+              "x-i18n": {
+                "en-US": {
+                  "description": "Opaque resource identifier; never a file path."
+                },
+                "zh-CN": {
+                  "description": "不透明资源标识，不是文件路径。"
+                }
+              },
+              "pattern": "^[a-z]{2,12}_[A-Za-z0-9_-]{1,64}$",
+              "maxLength": 80
+            }
+          },
+          "required": [
+            "sourceObjectId",
+            "dataSourceId",
+            "providerObjectId",
+            "sizeBytes",
+            "etag",
+            "availability",
+            "revision",
+            "observedAt"
+          ],
+          "additionalProperties": false
+        }
+      }
+    }
+  ]
+}

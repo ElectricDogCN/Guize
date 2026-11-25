@@ -1,0 +1,181 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://guize.local/contracts/events/asset/asset.created-v1.schema.json",
+  "title": "asset.created version1",
+  "allOf": [
+    {
+      "$ref": "https://guize.local/contracts/events/event-envelope.schema.json"
+    },
+    {
+      "properties": {
+        "eventId": {
+          "type": "string",
+          "description": "Opaque resource identifier; never a file path.",
+          "x-i18n": {
+            "en-US": {
+              "description": "Opaque resource identifier; never a file path."
+            },
+            "zh-CN": {
+              "description": "不透明资源标识，不是文件路径。"
+            }
+          },
+          "pattern": "^[a-z]{2,12}_[A-Za-z0-9_-]{1,64}$",
+          "maxLength": 80
+        },
+        "eventType": {
+          "const": "asset.created"
+        },
+        "eventVersion": {
+          "const": 1
+        },
+        "aggregateType": {
+          "const": "Asset"
+        },
+        "aggregateId": {
+          "type": "string",
+          "description": "Opaque resource identifier; never a file path.",
+          "x-i18n": {
+            "en-US": {
+              "description": "Opaque resource identifier; never a file path."
+            },
+            "zh-CN": {
+              "description": "不透明资源标识，不是文件路径。"
+            }
+          },
+          "pattern": "^[a-z]{2,12}_[A-Za-z0-9_-]{1,64}$",
+          "maxLength": 80
+        },
+        "producer": {
+          "const": "guize-control"
+        },
+        "traceId": {
+          "type": "string",
+          "description": "Request correlation identifier, including failures.",
+          "x-i18n": {
+            "en-US": {
+              "description": "Request correlation identifier, including failures."
+            },
+            "zh-CN": {
+              "description": "包括失败请求在内的关联标识。"
+            }
+          },
+          "pattern": "^[A-Za-z0-9-]{8,128}$",
+          "maxLength": 128
+        },
+        "payload": {
+          "type": "object",
+          "properties": {
+            "assetId": {
+              "type": "string",
+              "description": "Opaque resource identifier; never a file path.",
+              "x-i18n": {
+                "en-US": {
+                  "description": "Opaque resource identifier; never a file path."
+                },
+                "zh-CN": {
+                  "description": "不透明资源标识，不是文件路径。"
+                }
+              },
+              "pattern": "^[a-z]{2,12}_[A-Za-z0-9_-]{1,64}$",
+              "maxLength": 80
+            },
+            "assetType": {
+              "type": "string",
+              "description": "Asset content type.",
+              "x-i18n": {
+                "en-US": {
+                  "description": "Asset content type."
+                },
+                "zh-CN": {
+                  "description": "资产内容类型。"
+                }
+              },
+              "enum": [
+                "VIDEO",
+                "AUDIO",
+                "IMAGE",
+                "DOCUMENT",
+                "ARCHIVE",
+                "OTHER"
+              ]
+            },
+            "visibility": {
+              "type": "string",
+              "description": "Publication state.",
+              "x-i18n": {
+                "en-US": {
+                  "description": "Publication state."
+                },
+                "zh-CN": {
+                  "description": "发布状态。"
+                }
+              },
+              "enum": [
+                "PRIVATE",
+                "SHARED",
+                "PUBLIC"
+              ]
+            },
+            "securityStatus": {
+              "type": "string",
+              "description": "Detected safety state.",
+              "x-i18n": {
+                "en-US": {
+                  "description": "Detected safety state."
+                },
+                "zh-CN": {
+                  "description": "内容安全检测状态。"
+                }
+              },
+              "enum": [
+                "SCAN_PENDING",
+                "SCAN_CLEAN",
+                "MIME_MISMATCH",
+                "MALWARE_SUSPECTED",
+                "MALWARE_CONFIRMED",
+                "ARCHIVE_UNSAFE",
+                "QUARANTINED",
+                "ADMIN_RELEASED"
+              ]
+            },
+            "revision": {
+              "type": "integer",
+              "description": "Optimistic resource revision.",
+              "x-i18n": {
+                "en-US": {
+                  "description": "Optimistic resource revision."
+                },
+                "zh-CN": {
+                  "description": "资源的乐观并发修订号。"
+                }
+              },
+              "minimum": 1
+            },
+            "createdAt": {
+              "type": "string",
+              "description": "UTC RFC3339 timestamp.",
+              "x-i18n": {
+                "en-US": {
+                  "description": "UTC RFC3339 timestamp."
+                },
+                "zh-CN": {
+                  "description": "UTC RFC3339 时间。"
+                }
+              },
+              "format": "date-time"
+            }
+          },
+          "required": [
+            "assetId",
+            "assetType",
+            "visibility",
+            "securityStatus",
+            "revision",
+            "createdAt"
+          ],
+          "additionalProperties": false
+        }
+      }
+    }
+  ]
+}

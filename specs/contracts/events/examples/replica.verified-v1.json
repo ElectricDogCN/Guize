@@ -1,0 +1,26 @@
+{
+  "eventId": "evt_replica_verified",
+  "eventType": "replica.verified",
+  "eventVersion": 1,
+  "aggregateType": "Replica",
+  "aggregateId": "rep_1",
+  "occurredAt": "2026-10-14T00:00:00Z",
+  "producer": "guize-control",
+  "traceId": "trace-event-0001",
+  "payload": {
+    "replicaId": "rep_1",
+    "renditionId": "rend_1",
+    "storageTargetId": "stg_1",
+    "failureDomainId": "fd_1",
+    "revision": 4,
+    "status": "VERIFIED",
+    "sizeBytes": 0,
+    "verification": {
+      "algorithm": "SHA256",
+      "expectedHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "actualHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "evidenceId": "evid_verification1",
+      "verifiedAt": "2026-10-14T00:00:00Z"
+    }
+  }
+}

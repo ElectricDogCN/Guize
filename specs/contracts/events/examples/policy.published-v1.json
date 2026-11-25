@@ -1,0 +1,19 @@
+{
+  "eventId": "evt_policy_published",
+  "eventType": "policy.published",
+  "eventVersion": 1,
+  "aggregateType": "PolicyDefinition",
+  "aggregateId": "pol_1",
+  "occurredAt": "2026-10-14T00:00:00Z",
+  "producer": "guize-control",
+  "traceId": "trace-event-0001",
+  "payload": {
+    "policyId": "pol_1",
+    "policyVersionId": "polver_1",
+    "revision": 2,
+    "schemaVersion": 1,
+    "state": "PUBLISHED",
+    "definitionHash": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "publishedAt": "2026-10-14T00:00:00Z"
+  }
+}
