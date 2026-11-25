@@ -32,3 +32,19 @@ Raw SHA-256: dbe33acba490765e3863c3beb682c191a8b0376eacd9a70cb217fcc44287a1a0
 [基线官方 CI](https://github.com/ElectricDogCN/Guize/actions/runs/45636836816)
 
 [实现主线的独立审查原件](../implementation-main-8b53/independent-review.json) 和 [完整性校验原始日志](../implementation-main-8b53/integrity.txt)。
+
+## GZ-006 正常结项
+
+Status: PASS
+
+PR #281 的实施主线为 `8b530271c91b587a3b74754dbc1c13406add10ff`，包含 19 个事件版本。本阶段基线 `efe918a0849f42027a65e0ef914c9b4afdfc1086`（PR #282）已通过六项相关主线检查、完整官方 CI 和独立验收。独立记录 SHA-256 为 `79e3a4d15473ef8c6e12272a1ba3ed7ad0636e5a9a6a2073f298715cb958ef02`。
+
+Source Commit: efe918a0849f42027a65e0ef914c9b4afdfc1086
+Command: /var/tmp/guize-ops027-rebased-proof/python/bin/python -B scripts/check-program-plan-integrity.py --base-ref 8b530271c91b587a3b74754dbc1c13406add10ff
+Exit Code: 0
+Result: PASS
+Raw SHA-256: 79d79efffa8ac2a11e78c8c8f36875e1b811cd235320b69df2807cdbb2a7a6b6
+
+[基线官方 CI](https://github.com/ElectricDogCN/Guize/actions/runs/45648892635)
+
+[独立审查原件](../accepted-main-efe918a0/independent-review.json) 和 [完整性校验原始日志](../accepted-main-efe918a0/integrity.txt)。

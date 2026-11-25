@@ -1,0 +1,296 @@
+{
+  "reviewer": "/root/independent_review",
+  "approvedAt": "2026-11-25T16:08:01Z",
+  "taskId": "GZ-006",
+  "issue": 128,
+  "pullRequest": 282,
+  "actualMain": "efe918a0849f42027a65e0ef914c9b4afdfc1086",
+  "source": "fad67026983e8eb85c497c0d1343ff989fc2f083",
+  "base": "8b530271c91b587a3b74754dbc1c13406add10ff",
+  "tree": "5cd83430807cb952f5d51b0cc1b77b3edcdc88ee",
+  "actualReviewMainAccepted": true,
+  "fullMainCiAccepted": true,
+  "actualMainSixRelevantControlsAccepted": true,
+  "actualMainSevenAccepted": false,
+  "normalCompletionMayStart": true,
+  "issueClosureAllowed": true,
+  "permittedIssueClosure": {
+    "issue": 128,
+    "state": "closed",
+    "stateReason": "completed",
+    "afterThisActualReviewAcceptanceOnly": true
+  },
+  "mustFix": [],
+  "acceptanceScope": "GZ006_NORMAL_REVIEW_APPLICABLE_PROGRAM_AND_COORDINATION_CONTROLS_AND_COMPLETE_OFFICIAL_CI",
+  "ci": {
+    "run": 45648892635,
+    "runNumber": 1114,
+    "attempt": 1,
+    "event": "push",
+    "jobs": 5,
+    "allJobsSuccess": true,
+    "aggregateJob": 139334345234,
+    "uniquePassed": 1081,
+    "original1078Plus3Preserved": true,
+    "caseSetExactlyMatchesPreviouslyAccepted1081": true,
+    "caseSetSha256": "02b042b56300a07454c35ab044346f13cfa7441f7d24bf434bbc5b9657c33683",
+    "failures": 0,
+    "errors": 0,
+    "skips": 0,
+    "xResults": 0,
+    "shards": [
+      {
+        "jobId": 139327557186,
+        "name": "Governance Tests (shard 0)",
+        "passed": 265,
+        "pytestSeconds": 887.0,
+        "jobSeconds": 927.0,
+        "skipAuditAccepted": true
+      },
+      {
+        "jobId": 139327557273,
+        "name": "Governance Tests (shard 2)",
+        "passed": 391,
+        "pytestSeconds": 383.52,
+        "jobSeconds": 459.0,
+        "skipAuditAccepted": true
+      },
+      {
+        "jobId": 139327557349,
+        "name": "Governance Tests (shard 1)",
+        "passed": 425,
+        "pytestSeconds": 445.91,
+        "jobSeconds": 488.0,
+        "skipAuditAccepted": true
+      }
+    ],
+    "allJobsBelowOriginal1800SecondCap": true,
+    "taskOnlyConditionalControlSkips": [
+      "Task file validation",
+      "Evidence check",
+      "Evidence integrity check",
+      "Task-branch linkage check",
+      "Scope check"
+    ],
+    "actualCheckout": "efe918a0849f42027a65e0ef914c9b4afdfc1086",
+    "orderedParents": [
+      "8b530271c91b587a3b74754dbc1c13406add10ff",
+      "fad67026983e8eb85c497c0d1343ff989fc2f083"
+    ],
+    "tree": "5cd83430807cb952f5d51b0cc1b77b3edcdc88ee",
+    "realLfsFetchAndProbeAccepted": true,
+    "workflowUrl": "https://github.com/ElectricDogCN/Guize/actions/runs/45648892635"
+  },
+  "actualMainControls": {
+    "integrity": 0,
+    "history": 0,
+    "transitions": 0,
+    "finalization": 0,
+    "lifecycle-guards": 0,
+    "coordination": 0
+  },
+  "findings": {
+    "exactNormalMergeOrderedParentsAndReviewedTree": true,
+    "actualRemoteMainAndMergedPrIndependentlyConfirmed": true,
+    "reviewTaskProgramRegistryRoleAndLeaseStable": true,
+    "sourceSnapshotNineOwnPathsUnchanged": true,
+    "eventContractsSchemasPocProfilesAndWorkflowUnchanged": true,
+    "reproducibleAcceptanceOriginalsPublicExactBytesAndResolvedP1Retained": true,
+    "issue128ObservedOpen": true,
+    "issue280ObservedOpen": true
+  },
+  "sourceFinalReviewSha256": "3ea75c5b4e741bd927f9d9da599a97d00438c57b0ca9390a039bff8dbd2bb79c",
+  "acceptedImplementation": {
+    "pullRequest": 281,
+    "actualMain": "8b530271c91b587a3b74754dbc1c13406add10ff",
+    "versions": 19,
+    "unitTests": 54,
+    "catalogExitCode": 0,
+    "unitExitCode": 0,
+    "reviewMetadataDoesNotClaimRepeatedEventExecution": true
+  },
+  "globalPocQualificationAccepted": false,
+  "trackedIndependentGlobalPocQualificationIssue": 280,
+  "scopeBoundary": "The separate whole-repository POC diagnostic remains tracked in Issue280. Applicable GZ006 controls and full official CI passed; this receipt does not assert a universal repository POC PASS or waive its release-milestone requirements.",
+  "leaseExpiresAt": "2026-12-02T13:11:35Z",
+  "normalCompletionConditions": [
+    "Refresh actual main and Issue128, then ordinary closed/completed Issue128 closure may proceed; preserve the official closure record.",
+    "Prepare only normal Own Completion metadata and evidence on this accepted Review main. Preserve accepted implementation identity PR281/8b530271c91b587a3b74754dbc1c13406add10ff, original Task scope/actors/lease and all foreign/runtime/frozen/workflow bytes.",
+    "Independently review the concrete Completion payload, run original task source controls and complete same-head official CI, perform ordinary reviewed merge, and accept actual Completion-main applicable controls/full official CI independently before declaring task completed or capacity released."
+  ],
+  "taskCompleted": false,
+  "actualCapacityReleased": false,
+  "productionReleaseApproved": false,
+  "evidencePins": [
+    {
+      "path": "gz006-review-efe9-independent-main-ci/independent-ci-analysis.json",
+      "bytes": 1672,
+      "sha256": "853bbe65d680527c9ecf73bab5256418b7a7c3c2a4830776a7222d08dd42d86a"
+    },
+    {
+      "path": "gz006-review-efe9-independent-main-ci/job-139327556888-connector.json",
+      "bytes": 64914,
+      "sha256": "7526180c7ac838383faa1824a976ae5202e18d9ff9a6daaf0fa5a1c161872051"
+    },
+    {
+      "path": "gz006-review-efe9-independent-main-ci/job-139327556888.decoded.log",
+      "bytes": 61938,
+      "sha256": "0b144eac0ac3c1f85fb86a49feb66b7dece5d3f373bf32064982e16987784b68"
+    },
+    {
+      "path": "gz006-review-efe9-independent-main-ci/job-139327557186-connector.json",
+      "bytes": 128515,
+      "sha256": "e8ee96629973beb10e3144a5ed4fe52715d4ba409fc30b0df2a60ae57b23e426"
+    },
+    {
+      "path": "gz006-review-efe9-independent-main-ci/job-139327557186.decoded.log",
+      "bytes": 127204,
+      "sha256": "833a16b07efa686779b3effcd8c067de3144c1428ce8586d70bfdffa1df3c5b0"
+    },
+    {
+      "path": "gz006-review-efe9-independent-main-ci/job-139327557273-connector.json",
+      "bytes": 162566,
+      "sha256": "f44b45742c68bfd46aba9b0ef7aa8941c3a08ffd1e2dd58a46e5ed73edfe805c"
+    },
+    {
+      "path": "gz006-review-efe9-independent-main-ci/job-139327557273.decoded.log",
+      "bytes": 160967,
+      "sha256": "a049c8aab83b31609499d97ce72744d7e5e01a77154bbe25f3a1b97aea65fce9"
+    },
+    {
+      "path": "gz006-review-efe9-independent-main-ci/job-139327557349-connector.json",
+      "bytes": 176897,
+      "sha256": "8ceb41dfe23ddb36cfb03db8671614b418e67aa9eec3fb04a503b74cbc7cf5a0"
+    },
+    {
+      "path": "gz006-review-efe9-independent-main-ci/job-139327557349.decoded.log",
+      "bytes": 175245,
+      "sha256": "4328d05de4686c0640ce7f0af22ebcb8060b1db0d3ff03f39c8ffe25b6ab1b7f"
+    },
+    {
+      "path": "gz006-review-efe9-independent-main-ci/job-139334345234-connector.json",
+      "bytes": 16668,
+      "sha256": "d51211d76e6bf28a8f658c54a6c4edef9103649c917215da6f650e8bca9fe7fa"
+    },
+    {
+      "path": "gz006-review-efe9-independent-main-ci/job-139334345234.decoded.log",
+      "bytes": 16184,
+      "sha256": "f5229f6b64782e99d0c22f13b8bf5cc3f9f90c1040e463fae2d6078e2191fb14"
+    },
+    {
+      "path": "gz006-review-efe9-independent-main-ci/official-checks.json",
+      "bytes": 34887,
+      "sha256": "0e11d7aed34c61083f30e119c8a8d6a3be0c2245045736e9d7b9f8cb620fd925"
+    },
+    {
+      "path": "gz006-review-efe9-independent-main-ci/official-comments.json",
+      "bytes": 11185,
+      "sha256": "f70787a70a374b026892748ef08e320e52db483cfca95c60ac29d41a57920460"
+    },
+    {
+      "path": "gz006-review-efe9-independent-main-ci/official-commit.json",
+      "bytes": 6327,
+      "sha256": "969b80a43a518e419c604b38b4cdb657ff76d8f360cfc2981ef28f1170e225da"
+    },
+    {
+      "path": "gz006-review-efe9-independent-main-ci/official-issue.json",
+      "bytes": 19598,
+      "sha256": "6b8184089c7d7084af09bb6527b0e526017360741cfc67fd505fb266accaadd6"
+    },
+    {
+      "path": "gz006-review-efe9-independent-main-ci/official-jobs.json",
+      "bytes": 33519,
+      "sha256": "ba5fa5dd92e85a4877ccbdf54afa69c4317f77181d7451294d6c02567e7ce637"
+    },
+    {
+      "path": "gz006-review-efe9-independent-main-ci/official-main.json",
+      "bytes": 1301,
+      "sha256": "9e9110b43d7c5c3fd723411f673f014e35f3e3c50c10a6273408fc39f27f4029"
+    },
+    {
+      "path": "gz006-review-efe9-independent-main-ci/official-pr.json",
+      "bytes": 37529,
+      "sha256": "3271c89c57cec64df4722ff5fc6e642d55067effca546d1bc6f41f6b0954ea56"
+    },
+    {
+      "path": "gz006-review-efe9-independent-main-ci/official-reviews.json",
+      "bytes": 14057,
+      "sha256": "2984ec3f9a9014593cf9d644b37fe316515cbc6148d492551a54dbd24db53686"
+    },
+    {
+      "path": "gz006-review-efe9-independent-main-ci/official-run.json",
+      "bytes": 26788,
+      "sha256": "1a91310153f207d75036e7efcd65ac82be4e313ccc538e93bf7009e96a9e42f9"
+    },
+    {
+      "path": "gz006-review-efe9-independent-main-ci/official-threads.json",
+      "bytes": 3689,
+      "sha256": "5693a87307cd17de6984e8bc6b5caa7081d9451022540f2b1b1f7908393c9909"
+    },
+    {
+      "path": "gz006-review-efe9-independent-main-ci/official-tracking.json",
+      "bytes": 13692,
+      "sha256": "49b257d7913d3438cb1248b4c660468b585d9e7826282ec0c36c8f5d1e1631ab"
+    },
+    {
+      "path": "gz006-review-efe9-actual-main-checks/coordination.txt",
+      "bytes": 308,
+      "sha256": "b33679e7b7a1faac83bdea3608495c7804d3cdb7bf4af99d76ecadc6d4d6b25d"
+    },
+    {
+      "path": "gz006-review-efe9-actual-main-checks/finalization.txt",
+      "bytes": 428,
+      "sha256": "d2ff4719fef474baefe30e344fce3a7eb69b426180c9330c242509ace10130af"
+    },
+    {
+      "path": "gz006-review-efe9-actual-main-checks/history.txt",
+      "bytes": 537,
+      "sha256": "66fc0c71c39306178e94ef217f0700c8544415822553eb8df88efe4b4fa195b6"
+    },
+    {
+      "path": "gz006-review-efe9-actual-main-checks/integrity.txt",
+      "bytes": 469,
+      "sha256": "79d79efffa8ac2a11e78c8c8f36875e1b811cd235320b69df2807cdbb2a7a6b6"
+    },
+    {
+      "path": "gz006-review-efe9-actual-main-checks/lifecycle-guards.txt",
+      "bytes": 518,
+      "sha256": "0dd790c1a654c710fb2d0ba8f006ea62e8473a239d69c6be2a96059ece70d62f"
+    },
+    {
+      "path": "gz006-review-efe9-actual-main-checks/result.json",
+      "bytes": 394,
+      "sha256": "99870a755d67518ab76450345b7b4735985b83d929ee69248333d561512cea27"
+    },
+    {
+      "path": "gz006-review-efe9-actual-main-checks/transitions.txt",
+      "bytes": 449,
+      "sha256": "473e06859542c78d4b9f7b0a5466c864891eef1fc5f57af0ca4afc77b34a0408"
+    },
+    {
+      "path": "gz006-review-fad6-final-source-independent-review.json",
+      "bytes": 14918,
+      "sha256": "3ea75c5b4e741bd927f9d9da599a97d00438c57b0ca9390a039bff8dbd2bb79c"
+    },
+    {
+      "path": "gz006-review-fad6-prepublication-independent-review.json",
+      "bytes": 8715,
+      "sha256": "af27561eee696f284b1943bda41ae216c1a0c9514f2eaab2b4a7aab427c58ac0"
+    },
+    {
+      "path": "gz006-implementation-8b53-final-actual-main-independent-review.json",
+      "bytes": 10229,
+      "sha256": "651c41b4f0713a3b4fd310c6699b4f6616ea37a4f0354562b3086a175249d1ce"
+    },
+    {
+      "path": "gz006-implementation-8b53-actual-event-checks/result.json",
+      "bytes": 6873,
+      "sha256": "2b94f6c5170ee3ff2be772f5d02c177fc0c3d4a372d981975e57b869b2695bdd"
+    },
+    {
+      "path": "gz006-reservation-f2907-poc-gate-scope-independent-facts.json",
+      "bytes": 4159,
+      "sha256": "f3a70d77c89b58353b6351de4645793eecf35c4d72c8e81c1a8f9e57c94df339"
+    }
+  ]
+}
