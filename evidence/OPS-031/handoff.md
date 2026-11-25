@@ -1,3 +1,43 @@
+# OPS-031 正式 Review 交接
+
+跟踪 [Issue #284](https://github.com/ElectricDogCN/Guize/issues/284)。工作分支 `chore/OPS-031-gz007-wave-order`，目标 main，当前基线 `8364e9777b7601f413897518f8911c1a986b7308`。实施身份为 [PR #286](https://github.com/ElectricDogCN/Guize/pull/286) 的实际主线 `8364e9777b7601f413897518f8911c1a986b7308`。本阶段源以其 PR 的固定 SHA 和对应官方 CI 为准。
+
+协调、实施与合入由 /root 负责，独立审查为 /root/independent_review，当前角色为 reviewer。Foundation 集成顺序 23，Program Plan 版本 1、Task Spec 版本 2、Active Work 版本 1、原始规划声明版本 1。Program Plan 为唯一声明独占路径，无共享写范围。GZ-007 保持 planned、W3 与集成顺序 4，原实际依赖未变。
+
+本轮实际文件如下。
+
+- `evidence/OPS-031/accepted-main-8364e977/independent-review.json`
+- `evidence/OPS-031/accepted-main-8364e977/integrity.txt`
+- `evidence/OPS-031/commands.txt`
+- `evidence/OPS-031/handoff.md`
+- `evidence/OPS-031/summary.md`
+- `evidence/OPS-031/test-results/README.md`
+- `specs/coordination/active-work.yaml`
+- `specs/coordination/program-plan.yaml`
+- `specs/tasks/OPS-031.md`
+
+
+
+## OPS-031 正式 Review
+
+本轮提交正式 Review，保留当前租约，实施身份和排程定义保持已验收状态。实施主线为 8364e9777b7601f413897518f8911c1a986b7308，本阶段前置实际基线 8364e9777b7601f413897518f8911c1a986b7308 的六项任务控制和完整官方 CI 已验收。本阶段以新固定源和合并后主线的完整官方 CI 与独立复验为准。
+
+Status: PASS
+
+Source Commit: 8364e9777b7601f413897518f8911c1a986b7308
+Command: /var/tmp/guize-ops027-rebased-proof/python/bin/python -B scripts/check-program-plan-integrity.py --base-ref b789c955c351f85e1de327d9a5040764c2f53643
+Exit Code: 0
+Result: PASS
+Raw SHA-256: 1b765dde9ae215a0bd712cb2ec32da3bc5b855cae43f3e3e43cc4cbcbf8abffa
+
+[前置官方 CI](https://github.com/ElectricDogCN/Guize/actions/runs/45672025032)
+
+[独立复验原件](accepted-main-8364e977/independent-review.json) 与 [实际完整性日志](accepted-main-8364e977/integrity.txt)。
+
+Reviewer 先完成本轮 Review 的独立终验，合入角色合并并复验实际主线。实际 Review 验收后按正常流程进入 Completion。 未合入候选可撤回。若后来需要更改已合入的排程，使用新的规划修订保留真实历史。
+
+## 先前阶段交接
+
 # OPS-031 实施交接
 
 任务 OPS-031 对应 [Issue #284](https://github.com/ElectricDogCN/Guize/issues/284)。工作分支 chore/OPS-031-gz007-wave-order，目标 main，实际登记及实施父提交 b789c955c351f85e1de327d9a5040764c2f53643。登记由 [PR #285](https://github.com/ElectricDogCN/Guize/pull/285) 合入。当前源 SHA 以该实施 PR 的 Git 提交记录和相应官方运行为准。公开的登记复验记录及原始完整性日志见 [独立复验原件](accepted-reservation-b789c955/independent-review.json) 与 [完整性日志](accepted-reservation-b789c955/integrity.txt)。
