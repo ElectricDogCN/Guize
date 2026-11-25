@@ -1,3 +1,19 @@
+## POC-003 本地验证正式审查
+
+Status: PASS
+
+PR #272 的实施合并提交为 `57eaf09d4ab6f6b335d8a750fdc3ce20653a66f9`。冻结的 `local-v1` 验收覆盖隔离环境中的 21 个 ATS 场景和 101 个请求，Range 字节一致率为 100%。记录的热缓存撤权结果为 HTTP 403，受保护内容读取量为 0 字节。证据适用范围是本地隔离环境与固定合成样本。
+
+源 CI 45557144075 和实际主线 CI 45559439702 均完整通过 1,081 项。主线七项检查与完整 `local-v1` 结果检查均通过，独立验收回执 SHA-256 `c1d6efc29042cb48a7d710431ace0a45f0571c49650c626a7a1be3fdc6917038`。Issue #131 已关闭。Program 登记以本正式审查变更的完整验收为准。
+
+Source Commit: 57eaf09d4ab6f6b335d8a750fdc3ce20653a66f9
+Command: python -B scripts/check-program-plan-integrity.py --base-ref 2a6a6a9e62dc0fe7ef3144934d77c010811584ad
+Exit Code: 0
+Result: PASS
+Raw SHA-256: 04a11b7da9313c898eca52cc52250fe8f401143b90fe62b95cd5aeb2ee729bf0
+
+上述命令是已验收实施主线的 Program 完整性检查。本正式审查变更的测试由对应 CI 和实际主线结果记录。
+
 ## Current version boundary candidate - POC-003
 
 Status: IN_PROGRESS. Historical R/attempt009 PASS remains preserved. Accepted implementation main: 8baa23ce4c622aba308a5a82a1ff55e5316c36bb (PR229; full sourceCI1022 and mainCI1023/1044 plus actual-main seven/independent acceptance). The proposed current locator withdrawal preserves its exact233B original under profile-history/local-v1-attempt009-retired-v1; current-profile qualification is absent in this candidate and must not be reported PASS. All original result/execution/input/raw/approvals and their timestamps remain unchanged. Required-profile validation must actually fail until new source-specific qualification.
