@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "taskId": "OPS-031",
+  "base": "93bf27dd71bf3725a7f7f02640069112f00d732d",
+  "priorClaims": [
+    "specs/coordination/program-plan.yaml"
+  ],
+  "claims": [
+    "specs/coordination/program-plan.yaml",
+    "scripts/check-program-plan-history.py",
+    "tests/governance/test_program_planning_revision.py"
+  ],
+  "protectedBlobs": {
+    "specs/coordination/program-plan.yaml": "491eee9d5a7e7f3a82a99af11b9a4c255525ae52",
+    "evidence/OPS-031/planning-revision.json": "2579dbe415e2f4189f58f299336dfd22091b9ce8",
+    "specs/coordination/task-completions.yaml": "1c629fa2694041a828bd19b1648f0dc7c3491273"
+  },
+  "additionalPathBlobs": {
+    "scripts/check-program-plan-history.py": "a41fb72022423dd176296207187c76ba2e257fcc",
+    "tests/governance/test_program_planning_revision.py": "a257f094e7418fd855f9879fcb356159d6ae8b3d"
+  },
+  "lease": {
+    "acquiredAt": "2026-11-25T16:59:55Z",
+    "expiresAt": "2026-12-02T16:59:55Z"
+  }
+}

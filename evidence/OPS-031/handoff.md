@@ -1,3 +1,33 @@
+# OPS-031 修复范围登记交接
+
+任务 OPS-031 对应 [Issue #284](https://github.com/ElectricDogCN/Guize/issues/284)。工作分支 `chore/OPS-031-gz007-wave-order`、目标 main，真实基线 `93bf27dd71bf3725a7f7f02640069112f00d732d`。本轮固定 SHA 以 PR Git 提交和相应官方 CI 为准。
+
+协调、实施与合入为 /root，独立审查为 /root/independent_review，当前角色 coordinator。租约为 2026-11-25T16:59:55Z 至 2026-12-02T16:59:55Z，Foundation 顺序 23。无共享写范围。Program Plan、Active Work 和原始规划声明版本 1，Task Spec 版本 2。
+
+实际文件如下。
+
+- `evidence/OPS-031/accepted-main-93bf27dd/independent-review.json`
+- `evidence/OPS-031/accepted-main-93bf27dd/integrity.txt`
+- `evidence/OPS-031/commands.txt`
+- `evidence/OPS-031/completion-proof-scope-amendment-v1.json`
+- `evidence/OPS-031/handoff.md`
+- `evidence/OPS-031/summary.md`
+- `evidence/OPS-031/test-results/README.md`
+- `specs/coordination/active-work.yaml`
+- `specs/tasks/OPS-031.md`
+
+
+
+## OPS-031 修复范围登记
+
+保持 reserved/coordinator、原租约和原始规划声明，额外登记两条仓库治理文件。后续修复将复用规划认证，保留对纯生命周期或证据提交的拒绝规则。前置真实主线 93bf27dd71bf3725a7f7f02640069112f00d732d 的六项任务控制均退出 0，完整官方 CI 和独立复验已通过。本轮新固定提交的官方源、实际主线和独立验证待执行。[独立复验原件](accepted-main-93bf27dd/independent-review.json) 与 [原始完整性日志](accepted-main-93bf27dd/integrity.txt)。
+
+[前置官方 CI](https://github.com/ElectricDogCN/Guize/actions/runs/45693770766)
+
+独立审查核对当前真实父提交、固定路径、租约、Program 和原始声明原字节。主线复验通过后才由实施者修改登记的两条文件。 未合入候选可撤回。已合入时保留已验收排程和历史，按正常元数据流程处理。
+
+## 先前交接
+
 # OPS-031 恢复预留交接
 
 任务 OPS-031 对应 [Issue #284](https://github.com/ElectricDogCN/Guize/issues/284)。工作分支 `chore/OPS-031-gz007-wave-order`、目标 main，真实基线 `6ad9dc882b758ff83f067b51db0a1eb0a39c1744`。本轮固定 SHA 以 PR Git 提交和相应官方 CI 为准。

@@ -1,0 +1,306 @@
+{
+  "reviewer": "/root/independent_review",
+  "approvedAt": "2026-11-25T20:37:54Z",
+  "taskId": "OPS-031",
+  "pullRequest": 290,
+  "actualMain": "93bf27dd71bf3725a7f7f02640069112f00d732d",
+  "source": "f7055c661c3e2ac3c073887c49fef20202528e41",
+  "base": "6ad9dc882b758ff83f067b51db0a1eb0a39c1744",
+  "tree": "c399a234cd95298c3fffb73b3fc097725a6906b4",
+  "actualReReservationMainAccepted": true,
+  "fullMainCiAccepted": true,
+  "actualMainTaskControlsAccepted": true,
+  "actualMainSixAccepted": true,
+  "normalScopeAmendmentMayStart": true,
+  "mustFix": [],
+  "acceptanceScope": "ACTUAL_RESERVED_COORDINATOR_MAIN_AND_SEPARATE_OWN_SCOPE_METADATA_PREPARATION_ONLY",
+  "ci": {
+    "run": 45693770766,
+    "runNumber": 1128,
+    "attempt": 1,
+    "event": "push",
+    "jobs": 5,
+    "allJobsSuccess": true,
+    "aggregateJob": 139494934893,
+    "uniquePassed": 1081,
+    "original1078Plus3Preserved": true,
+    "caseSetExactlyMatchesPreviouslyAccepted1081": true,
+    "caseSetSha256": "02b042b56300a07454c35ab044346f13cfa7441f7d24bf434bbc5b9657c33683",
+    "failures": 0,
+    "errors": 0,
+    "skips": 0,
+    "xResults": 0,
+    "shards": [
+      {
+        "jobId": 139485721004,
+        "name": "Governance Tests (shard 0)",
+        "passed": 265,
+        "pytestSeconds": 955.97,
+        "jobSeconds": 997.0,
+        "skipAuditAccepted": true
+      },
+      {
+        "jobId": 139485721300,
+        "name": "Governance Tests (shard 2)",
+        "passed": 391,
+        "pytestSeconds": 299.73,
+        "jobSeconds": 335.0,
+        "skipAuditAccepted": true
+      },
+      {
+        "jobId": 139485721425,
+        "name": "Governance Tests (shard 1)",
+        "passed": 425,
+        "pytestSeconds": 390.5,
+        "jobSeconds": 436.0,
+        "skipAuditAccepted": true
+      }
+    ],
+    "allJobsBelowOriginal1800SecondCap": true,
+    "maximumJobSeconds": 997.0,
+    "actualCheckout": "93bf27dd71bf3725a7f7f02640069112f00d732d",
+    "orderedParents": [
+      "6ad9dc882b758ff83f067b51db0a1eb0a39c1744",
+      "f7055c661c3e2ac3c073887c49fef20202528e41"
+    ],
+    "tree": "c399a234cd95298c3fffb73b3fc097725a6906b4",
+    "realLfsFetchAndHydratedProbeAccepted": true,
+    "pushTaskOnlyConditionalStepSkips": [
+      "Task file validation",
+      "Evidence check",
+      "Evidence integrity check",
+      "Task-branch linkage check",
+      "Scope check"
+    ],
+    "workflowUrl": "https://github.com/ElectricDogCN/Guize/actions/runs/45693770766"
+  },
+  "nativeChecks": {
+    "integrity": 0,
+    "history": 0,
+    "transitions": 0,
+    "finalization": 0,
+    "lifecycle-guards": 0,
+    "coordination": 0
+  },
+  "sourceIndependentReviewSha256": "701553e2220dca076310e0f0e8f75d9a2b4bc01ee492cb39532c3f3388153ddd",
+  "findings": {
+    "officialActualMainAndMergedPrExact": true,
+    "actualOrderedParentsAndReviewedSourceTreeAccepted": true,
+    "taskProgramActiveAllReservedAndCoordinatorAccepted": true,
+    "originalActorsBranchLeaseOrderAndPlanOnlyClaimPreserved": true,
+    "onlyOriginalHighRiskCapacityRemainsOccupied": true,
+    "gz007StillPlannedW3Order4WithOriginalThreeDependencies": true,
+    "immutableManifest3d345AndOriginalFailure5b370Preserved": true,
+    "runtimePocCodeWorkflowTestsForeignRecordsAndLedgerUnchanged": true,
+    "observedIssue284And280And287Open": true
+  },
+  "lease": {
+    "acquiredAt": "2026-11-25T16:59:55Z",
+    "expiresAt": "2026-12-02T16:59:55Z"
+  },
+  "scopeAmendmentPreparation": {
+    "actualParentMustBe": "93bf27dd71bf3725a7f7f02640069112f00d732d",
+    "statusMustRemain": "reserved",
+    "agentRoleMustRemain": "coordinator",
+    "proposedExactAdditionalClaims": [
+      "scripts/check-program-plan-history.py",
+      "tests/governance/test_program_planning_revision.py"
+    ],
+    "suitability": "Both are exact MOD-GOV owned paths. The history checker contains the authenticated-planning Completion recognition defect; the existing planning-revision test module covers canonical scope authority and invalid borrowed or retroactive authority and is suitable for narrow regressions.",
+    "permittedChangedFiles": "Only Own Active Registry, Task and Evidence metadata. Program, ordinary completion ledger and immutable original declaration must remain byte-identical.",
+    "stableIdentityAndLeaseMustRemainUnchanged": true,
+    "candidateRequiresSeparateIndependentReview": true,
+    "completeSourceAndActualMainCiStillRequired": true,
+    "codeMayStartOnlyAfterActualScopeAmendmentMainAcceptance": true
+  },
+  "ruleEvidence": [
+    {
+      "source": "93bf27dd71bf3725a7f7f02640069112f00d732d",
+      "path": "specs/coordination/README.md",
+      "bytes": 19203,
+      "sha256": "7af048f4d9c43693dab89cbf092b9af4769843d8636b260ffc7a00da589964f7",
+      "relevantLines": [
+        104
+      ]
+    },
+    {
+      "source": "93bf27dd71bf3725a7f7f02640069112f00d732d",
+      "path": "scripts/program-planning-revision.py",
+      "bytes": 67161,
+      "sha256": "ed2421fcee9b06c67fa7bff09fd63aa4034d40af21966b3cdbff1c7a6ddbcb2f",
+      "relevantLines": [
+        394,
+        409,
+        504,
+        532
+      ]
+    },
+    {
+      "source": "93bf27dd71bf3725a7f7f02640069112f00d732d",
+      "path": "specs/designs/module-ownership.yaml",
+      "bytes": 20153,
+      "sha256": "66d7541e60cfe05f3dcd57a64d0169fb432cdea3af4b6e6e254fcb221cc5cf84",
+      "relevantLines": [
+        366,
+        376
+      ]
+    }
+  ],
+  "scopeExpansionEffective": false,
+  "checkerModificationApproved": false,
+  "regressionCodeApproved": false,
+  "gz007ActivationApproved": false,
+  "taskCompleted": false,
+  "actualCapacityReleased": false,
+  "issueClosureAllowed": false,
+  "branchCleanupAllowed": false,
+  "globalPocProfileGateUniversallyAccepted": false,
+  "releaseIssue280RemainsOpen": true,
+  "evidencePins": [
+    {
+      "path": "ops031-rereservation-f705-final-source-independent-review.json",
+      "bytes": 14822,
+      "sha256": "701553e2220dca076310e0f0e8f75d9a2b4bc01ee492cb39532c3f3388153ddd"
+    },
+    {
+      "path": "ops031-rereservation-f705-prepublication-independent-review.json",
+      "bytes": 9794,
+      "sha256": "5c01c41d85e6f9ba5b0c87565b480161fd3c540a6532e531a28f817bd86e8820"
+    },
+    {
+      "path": "ops031-blocked-6ad9-final-actual-main-independent-review.json",
+      "bytes": 10430,
+      "sha256": "ae629104608b9776393ed9304859ee877fb9cb3d0370b90b3a0a8928686c98b2"
+    },
+    {
+      "path": "ops031-rereservation-93bf-actual-main-checks/coordination.txt",
+      "bytes": 309,
+      "sha256": "7435792905695d838a05e47b3a8acf46e556cd4b215f627c77a1d380d797cebd"
+    },
+    {
+      "path": "ops031-rereservation-93bf-actual-main-checks/finalization.txt",
+      "bytes": 428,
+      "sha256": "568111fdf687ce780c5db35a02626b49751b36090e4e28dcffa87404d063a95d"
+    },
+    {
+      "path": "ops031-rereservation-93bf-actual-main-checks/history.txt",
+      "bytes": 537,
+      "sha256": "38cb7a7bb694b9afb5f716492b2ae3e344ac8bbe3144bdf340b6619bcc34622f"
+    },
+    {
+      "path": "ops031-rereservation-93bf-actual-main-checks/integrity.txt",
+      "bytes": 469,
+      "sha256": "2f7da4179d3f6066295721d723194a53eced2fc5108827f5df7a0e1a243d6cc3"
+    },
+    {
+      "path": "ops031-rereservation-93bf-actual-main-checks/lifecycle-guards.txt",
+      "bytes": 519,
+      "sha256": "c06ccef6437721be17bf6ded947738fa0a66de01a72729417a50e3bdfac671db"
+    },
+    {
+      "path": "ops031-rereservation-93bf-actual-main-checks/result.json",
+      "bytes": 394,
+      "sha256": "b4f5cc2c9a1228ae4862ff3acaaf30a6fa1bf0a1bc9162a3dd9322ae38cc7425"
+    },
+    {
+      "path": "ops031-rereservation-93bf-actual-main-checks/transitions.txt",
+      "bytes": 449,
+      "sha256": "cb2f851617b6cee47ea34efea7ef0ec9e2b8f890f7510ff6a7c93f08fd4fbe04"
+    },
+    {
+      "path": "ops031-rereservation-93bf-independent-main-ci/independent-ci-analysis.json",
+      "bytes": 2149,
+      "sha256": "490a2d68c45aacd2fa0e2330e3595c917a973e8b0d4b30ef19bd968dd3c2b54f"
+    },
+    {
+      "path": "ops031-rereservation-93bf-independent-main-ci/job-139485721004-connector.json",
+      "bytes": 128579,
+      "sha256": "72fb2220bf7c2058a45babee28442df30b2f0f1df03af4adfb1989492730a9cc"
+    },
+    {
+      "path": "ops031-rereservation-93bf-independent-main-ci/job-139485721004.decoded.log",
+      "bytes": 127267,
+      "sha256": "062b346768041a0ab37cadfa4255535c0e78619c70b0a1c94e69d62cf80d60e8"
+    },
+    {
+      "path": "ops031-rereservation-93bf-independent-main-ci/job-139485721300-connector.json",
+      "bytes": 161674,
+      "sha256": "ada52f886e4a873d8567d9f54d948779c372a9307bdf611f82835193302d9ed7"
+    },
+    {
+      "path": "ops031-rereservation-93bf-independent-main-ci/job-139485721300.decoded.log",
+      "bytes": 160085,
+      "sha256": "0b59e02b33d9307948939bf667b5b737025909046833257bdc00793f34b77410"
+    },
+    {
+      "path": "ops031-rereservation-93bf-independent-main-ci/job-139485721425-connector.json",
+      "bytes": 176834,
+      "sha256": "5df1273e03dfa90f221437f33506aaf92a7ef8be36a6d8d2ff74383394a4ec8e"
+    },
+    {
+      "path": "ops031-rereservation-93bf-independent-main-ci/job-139485721425.decoded.log",
+      "bytes": 175183,
+      "sha256": "e6212939b3e30d6a72c904dffab2936457cb4d58661f88d708145acc1586b4b2"
+    },
+    {
+      "path": "ops031-rereservation-93bf-independent-main-ci/job-139485721738-connector.json",
+      "bytes": 64982,
+      "sha256": "304592870ce787defff478f95787cfd5f306ceca756cb5de395b9fa82536f284"
+    },
+    {
+      "path": "ops031-rereservation-93bf-independent-main-ci/job-139485721738.decoded.log",
+      "bytes": 62005,
+      "sha256": "5d760b1f2996744666c7b1e3927bc46816b864ce5a94fcd649f2fc4d762b8652"
+    },
+    {
+      "path": "ops031-rereservation-93bf-independent-main-ci/job-139494934893-connector.json",
+      "bytes": 16670,
+      "sha256": "98e9c9b6c8be92a3710b33e214a8d537e45e245c52a4f944c2284cdbd2820d93"
+    },
+    {
+      "path": "ops031-rereservation-93bf-independent-main-ci/job-139494934893.decoded.log",
+      "bytes": 16186,
+      "sha256": "6810ddda1efbd4a16ace6bf6b956d31f84ed01d257fe7a9be918c2fdebb88d9a"
+    },
+    {
+      "path": "ops031-rereservation-93bf-independent-main-ci/official-actual.json",
+      "bytes": 6271,
+      "sha256": "9ba9f8124713659386a773c03452eab5e1c87f2f1d4f095ceabe72371f0af749"
+    },
+    {
+      "path": "ops031-rereservation-93bf-independent-main-ci/official-gz007Issue.json",
+      "bytes": 12490,
+      "sha256": "1a01db6c9b0155c3d0d2abdfaded35e17ad1c51f28fdb17294dfbe9776d675eb"
+    },
+    {
+      "path": "ops031-rereservation-93bf-independent-main-ci/official-issue.json",
+      "bytes": 12062,
+      "sha256": "53c8d8db4eed84cb2b0826fef7ba77aea33e3939f64b37be6c77ea2ecf3b3900"
+    },
+    {
+      "path": "ops031-rereservation-93bf-independent-main-ci/official-jobs.json",
+      "bytes": 33519,
+      "sha256": "e7256296b1d4d6ee55f927b221e8d874d124c107d11e18d67ec5fa214f225e1f"
+    },
+    {
+      "path": "ops031-rereservation-93bf-independent-main-ci/official-main.json",
+      "bytes": 1301,
+      "sha256": "a43c16df1407bc47940a74945c705ee08c4c5aa9ae80e75aa22756acbb2d166e"
+    },
+    {
+      "path": "ops031-rereservation-93bf-independent-main-ci/official-pr.json",
+      "bytes": 38453,
+      "sha256": "2eaaf585f05a3bf3b345f7fc626035f446c7cc973cc6422f2fe26a7aea334531"
+    },
+    {
+      "path": "ops031-rereservation-93bf-independent-main-ci/official-run.json",
+      "bytes": 26756,
+      "sha256": "8248336d3236819e10b4a1289484f6462662c92e2b73bc888e3d843efee3c72e"
+    },
+    {
+      "path": "ops031-rereservation-93bf-independent-main-ci/official-tracking.json",
+      "bytes": 13692,
+      "sha256": "49b257d7913d3438cb1248b4c660468b585d9e7826282ec0c36c8f5d1e1631ab"
+    }
+  ]
+}
