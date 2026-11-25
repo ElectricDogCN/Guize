@@ -29,9 +29,8 @@ EDGE_FIRST_USE_SHA256 = "2815479d0d322abc8afdf94e73518f0b9a0fa23fbcc0a5bd39c9e9d
 
 
 class History:
-    def __init__(self, root, *, ordinary=False, merge_registration=True, canonical_task=False):
+    def __init__(self, root, *, ordinary=False, merge_registration=True):
         self.root = root / "repo"
-        self.canonical_task = canonical_task
         subprocess.run(["git", "clone", "--shared", "--no-checkout", "--quiet", str(ROOT), str(self.root)], check=True, capture_output=True)
         self.git("config", "user.name", "Planning fixture")
         self.git("config", "user.email", "fixture@example.com")
@@ -55,11 +54,6 @@ class History:
         self.body = raw_task[2].replace("OPS-009", self.owner)
         self.front.update(id=self.owner, programTaskId=self.owner, issue=777, status="reserved", agentRole="coordinator", workBranch=self.branch, dependsOn="", leaseExpiresAt=self.entry["lease"]["expiresAt"])
         self.task_path = f"specs/tasks/{self.owner}.md"
-        if self.canonical_task:
-            self.front["dependsOn"] = []
-            self.front["evidencePath"] = f"evidence/{self.owner}"
-            self.entry["handoffPath"] = self.front["handoffPath"] = f"evidence/{self.owner}/handoff.md"
-            self.write(self.entry["handoffPath"], f"# {self.owner} fixture handoff\n")
         for path in [PLANNING.PROGRAM_SCHEMA, PLANNING.MANIFEST_SCHEMA, "scripts/program-planning-revision.py", "scripts/check-program-plan-transitions.py", "scripts/check-program-lifecycle-guards.py", "scripts/check-program-plan-history.py"]:
             self.write(path, (ROOT / path).read_text(encoding="utf-8"))
         if ordinary:
@@ -117,10 +111,7 @@ class History:
     def save(self):
         self.dump(PLANNING.PLAN, self.plan)
         self.dump(PLANNING.ACTIVE, self.active)
-        front = yaml.safe_dump(self.front, sort_keys=False, allow_unicode=True)
-        if self.canonical_task:
-            front = front.replace(f"leaseExpiresAt: '{self.front['leaseExpiresAt']}'", f"leaseExpiresAt: {self.front['leaseExpiresAt']}")
-        self.write(self.task_path, "---\n" + front + "---" + self.body)
+        self.write(self.task_path, "---\n"+yaml.safe_dump(self.front, sort_keys=False, allow_unicode=True)+"---"+self.body)
 
     def commit(self, message):
         self.git("add", ".")
@@ -207,7 +198,19 @@ def test_exact_three_target_transaction(history):
 
 
 def test_foundation_implementation_accepts_admitted_plan_change_but_not_evidence_only(tmp_path):
-    history = History(tmp_path, canonical_task=True)
+    class CanonicalHistory(History):
+        def save(self):
+            evidence = f"evidence/{self.owner}"
+            handoff = f"{evidence}/handoff.md"
+            self.front.update(dependsOn=[], evidencePath=evidence, handoffPath=handoff)
+            self.entry["handoffPath"] = handoff
+            self.write(handoff, f"# {self.owner} fixture handoff\n")
+            super().save()
+            task = (self.root / self.task_path).read_text(encoding="utf-8")
+            expiry = self.front["leaseExpiresAt"]
+            self.write(self.task_path, task.replace(f"leaseExpiresAt: '{expiry}'", f"leaseExpiresAt: {expiry}"))
+
+    history = CanonicalHistory(tmp_path)
     history.apply()
     history.finish()
     history.git("checkout", "main")
