@@ -119,3 +119,25 @@ python scripts/run-task-scope-gate.py --task POC-005 --base abe35a8686e752201ca4
 python scripts/check-evidence.py --task POC-005
 python specs/poc/check_program.py --task POC-005 --base-ref abe35a8686e752201ca431f0d5d3915d1b1c2cdd
 python scripts/check-markdown.py
+
+## POC-005 恢复验证
+
+正式验收的 POC-003 ATS 与热缓存撤权验证 主线 `57eaf09d4ab6f6b335d8a750fdc3ce20653a66f9` 为当前集成基线。本次仅恢复 POC-005 自身状态、角色及相应证据，当前 Task 与活动登记绑定此主线，原登记基线 `746e23e582501fa08380c3f3301bdc1774902f7c` 保留在历史记录中。角色身份、范围和租约沿用既有登记。历史实验结果仍归各自版本。当前实验须从新验收版本重新固定和验证。
+
+以下是当前固定源验证命令。Exit Code: UNEXECUTED
+
+git diff --check origin/main...HEAD
+python scripts/check-task-file.py --task POC-005
+python scripts/check-project-readiness.py
+python scripts/check-schemas.py
+python scripts/check-program-plan-integrity.py --base-ref origin/main
+python scripts/check-program-plan-history.py --base-ref origin/main --head-ref HEAD --task POC-005 --branch-name chore/POC-005-metadata-scale
+python scripts/check-program-plan-transitions.py --base-ref origin/main --head-ref HEAD --task POC-005 --branch-name chore/POC-005-metadata-scale
+python scripts/check-program-plan-finalization.py --base-ref origin/main --head-ref HEAD --task POC-005
+python scripts/check-program-lifecycle-guards.py --base-ref origin/main --head-ref HEAD --task POC-005 --branch-name chore/POC-005-metadata-scale
+python scripts/run-program-lifecycle-gate.py --base-ref origin/main --head-ref HEAD --task POC-005 --branch-name chore/POC-005-metadata-scale
+python scripts/run-agent-coordination-gate.py --base-ref origin/main --head-ref HEAD --task POC-005 --branch-name chore/POC-005-metadata-scale
+python scripts/run-task-scope-gate.py --task POC-005 --base origin/main
+python scripts/check-evidence.py --task POC-005
+python specs/poc/check_program.py --task POC-005 --base-ref origin/main
+python scripts/check-markdown.py

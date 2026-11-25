@@ -234,3 +234,7 @@ Only native_scan_runtime.py and test_native_clock.py are proposed runtime/test e
 ## Frozen Program lease maintenance 2026-11-19T10:47:46Z
 
 Program execution remains frozen under OPS-027. The metadata scan and OpenList validation stay on hold until the freeze is resolved. The proposed coordination lease runs from `2026-11-19T10:47:46Z` to `2026-11-26T10:47:46Z`. See [decision and verification commands](freeze-lease-20261119.json). Any gap after the old lease expires remains an actual maintenance gap. The proposal preserves the registered implementation branch, existing evidence and historical experiments. Verification, merge and actual main acceptance are pending.
+
+## POC-005 恢复验证
+
+正式验收的 POC-003 ATS 与热缓存撤权验证 主线 `57eaf09d4ab6f6b335d8a750fdc3ce20653a66f9` 为当前集成基线。本次仅恢复 POC-005 自身状态、角色及相应证据，当前 Task 与活动登记绑定此主线，原登记基线 `746e23e582501fa08380c3f3301bdc1774902f7c` 保留在历史记录中。角色身份、范围和租约沿用既有登记。历史实验结果仍归各自版本。当前实验须从新验收版本重新固定和验证。
