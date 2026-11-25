@@ -46,3 +46,7 @@ After exact snapshot review: commit the real merge, run current15 and required s
 ## Normal resume after accepted OPS024 Completion
 
 Accepted integration base a3a57bade4dd3b25cd417d2cb5e0e3d1e14d792c is imported by an ordinary fast-forward of the existing registered branch. Only Own blocked/coordinator to in_progress/implementer state and current Evidence are prepared. Creation base, all actors, claims, order2 and valid lease remain unchanged. Current-source original15, exact1044 inventory, full official CI and independent acceptance are pending. The rejected old d3 packet stays unpublished; no old result or execution/publication approval transfers. A wholly new synthetic isolated experiment requires its own prospective source/input/resource/window approval.
+
+## POC-003 恢复验证
+
+正式验收的 OPS-027 结项主线 `3393a0cede77ac769eb4191eb6cdb74b35b5d2d0` 为当前集成基线。本次仅恢复 POC-003 自身状态、角色及相应证据，原登记基线、角色身份、范围和租约保持。历史实验结果仍归各自版本。当前实验须从新验收版本重新固定和验证。

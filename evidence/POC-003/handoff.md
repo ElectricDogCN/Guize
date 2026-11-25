@@ -1920,3 +1920,7 @@ Accepted integration base a3a57bade4dd3b25cd417d2cb5e0e3d1e14d792c is imported b
 ## Frozen Program lease maintenance 2026-11-19T10:00:37Z
 
 Program execution remains frozen under OPS-027. Existing ATS validation must stay on hold while the freeze evidence and thaw are resolved. The proposed coordination lease runs from `2026-11-19T10:00:37Z` to `2026-11-26T10:00:37Z`. See [decision and verification commands](freeze-lease-20261119.json). Any gap after the old lease expires remains an actual maintenance gap. The proposal leaves all experiment inputs, raw results and registered implementation references in place. Verification, merge and actual main acceptance are pending.
+
+## POC-003 恢复验证
+
+正式验收的 OPS-027 结项主线 `3393a0cede77ac769eb4191eb6cdb74b35b5d2d0` 为当前集成基线。本次仅恢复 POC-003 自身状态、角色及相应证据，原登记基线、角色身份、范围和租约保持。历史实验结果仍归各自版本。当前实验须从新验收版本重新固定和验证。

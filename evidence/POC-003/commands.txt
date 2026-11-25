@@ -172,3 +172,25 @@ python scripts/run-task-scope-gate.py --task POC-003 --base a3a57bade4dd3b25cd41
 python scripts/check-evidence.py --task POC-003
 python specs/poc/check_program.py --task POC-003 --base-ref a3a57bade4dd3b25cd417d2cb5e0e3d1e14d792c
 python scripts/check-markdown.py
+
+## POC-003 恢复验证
+
+正式验收的 OPS-027 结项主线 `3393a0cede77ac769eb4191eb6cdb74b35b5d2d0` 为当前集成基线。本次仅恢复 POC-003 自身状态、角色及相应证据，原登记基线、角色身份、范围和租约保持。历史实验结果仍归各自版本。当前实验须从新验收版本重新固定和验证。
+
+以下是当前固定源验证命令。Exit Code: UNEXECUTED
+
+git diff --check origin/main...HEAD
+python scripts/check-task-file.py --task POC-003
+python scripts/check-project-readiness.py
+python scripts/check-schemas.py
+python scripts/check-program-plan-integrity.py --base-ref origin/main
+python scripts/check-program-plan-history.py --base-ref origin/main --head-ref HEAD --task POC-003 --branch-name chore/POC-003-qualified-lfs-evidence-v2
+python scripts/check-program-plan-transitions.py --base-ref origin/main --head-ref HEAD --task POC-003 --branch-name chore/POC-003-qualified-lfs-evidence-v2
+python scripts/check-program-plan-finalization.py --base-ref origin/main --head-ref HEAD --task POC-003
+python scripts/check-program-lifecycle-guards.py --base-ref origin/main --head-ref HEAD --task POC-003 --branch-name chore/POC-003-qualified-lfs-evidence-v2
+python scripts/run-program-lifecycle-gate.py --base-ref origin/main --head-ref HEAD --task POC-003 --branch-name chore/POC-003-qualified-lfs-evidence-v2
+python scripts/run-agent-coordination-gate.py --base-ref origin/main --head-ref HEAD --task POC-003 --branch-name chore/POC-003-qualified-lfs-evidence-v2
+python scripts/run-task-scope-gate.py --task POC-003 --base origin/main
+python scripts/check-evidence.py --task POC-003
+python specs/poc/check_program.py --task POC-003 --base-ref origin/main
+python scripts/check-markdown.py
