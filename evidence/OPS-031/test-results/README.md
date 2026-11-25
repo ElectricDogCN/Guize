@@ -54,3 +54,19 @@ Raw SHA-256: 5b370aa129f5db3c5889cd4ec20f4802ad8d664decea7283a22f6c2540c32f45
 实际范围主线 df0cf24d3b6446fa7e341756822fbadc3eeb1202 已通过六项任务控制、完整 [官方 CI #1130](https://github.com/ElectricDogCN/Guize/actions/runs/45700283679) 及独立复验。[实际范围验收原件](../accepted-scope-df0cf24d/independent-review.json) 与 [原始完整性日志](../accepted-scope-df0cf24d/integrity.txt)。
 
 本轮在精确登记的两条路径修复历史判断，使用现有规划认证识别有效的 Program Plan 实施，保留生命周期与证据提交的拒绝规则。原始失败与排程不变。本轮固定源码的直接回归、完整官方 CI、独立审查和实际主线验证以实际执行记录为准。
+
+## OPS-031 正式 Review
+
+本轮提交正式 Review，保留当前租约，实施身份和排程定义保持已验收状态。最后检查器修复实施主线为 068fefceef9e03fa30c12fa88af53f9bfd5ad174，本阶段前置实际基线 068fefceef9e03fa30c12fa88af53f9bfd5ad174 的六项任务控制和完整官方 CI 已验收。本阶段以新固定源和合并后主线的完整官方 CI 与独立复验为准。
+
+Status: PASS
+
+Source Commit: 068fefceef9e03fa30c12fa88af53f9bfd5ad174
+Command: /var/tmp/guize-ops027-rebased-proof/python/bin/python -B scripts/check-program-plan-integrity.py --base-ref df0cf24d3b6446fa7e341756822fbadc3eeb1202
+Exit Code: 0
+Result: PASS
+Raw SHA-256: 51d5a1f22a0ca9c39fed7584d9acfb7711d2e6a05eee9fa099e270a12e7a4f90
+
+[前置官方 CI](https://github.com/ElectricDogCN/Guize/actions/runs/45709588218)
+
+[独立复验原件](../accepted-main-068fefce/independent-review.json) 与 [实际完整性日志](../accepted-main-068fefce/integrity.txt)。
