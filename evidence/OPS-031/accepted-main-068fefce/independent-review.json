@@ -1,0 +1,306 @@
+{
+  "reviewer": "/root/independent_review",
+  "approvedAt": "2026-11-25T22:20:34Z",
+  "taskId": "OPS-031",
+  "issue": 284,
+  "pullRequest": 292,
+  "actualMain": "068fefceef9e03fa30c12fa88af53f9bfd5ad174",
+  "source": "3b9da51a1700d0671d0e7725816f5b80ebaceb8d",
+  "base": "df0cf24d3b6446fa7e341756822fbadc3eeb1202",
+  "tree": "4a59f3f78dbf935e0f5eae2fd7506eb0e88de403",
+  "actualImplementationMainAccepted": true,
+  "fullMainCiAccepted": true,
+  "actualMainSixAccepted": true,
+  "actualMainTaskControlsAccepted": true,
+  "normalReviewMayStart": true,
+  "mustFix": [],
+  "acceptanceScope": "EXACT_ACTUAL_REGISTERED_GOVERNANCE_REPAIR_MAIN_AND_NORMAL_REVIEW_ONLY",
+  "ci": {
+    "run": 45709588218,
+    "runNumber": 1133,
+    "attempt": 1,
+    "event": "push",
+    "jobs": 5,
+    "allJobsSuccess": true,
+    "aggregateJob": 139548688848,
+    "uniquePassed": 1082,
+    "original1130CaseCount": 1081,
+    "originalCaseSetSha256": "02b042b56300a07454c35ab044346f13cfa7441f7d24bf434bbc5b9657c33683",
+    "allOriginal1081PreservedExactlyOnce": true,
+    "onlyAddedCase": "tests/governance/test_program_planning_revision.py::test_foundation_implementation_accepts_admitted_plan_change_but_not_evidence_only",
+    "caseSetSha256": "af4af97922ce67d2b2bb8667dc1d6236c58cabcca4dfeffa449fd3d398b84c77",
+    "caseSetExactlyMatchesAcceptedSource1132": true,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0,
+    "xResults": 0,
+    "shards": [
+      {
+        "jobId": 139540232423,
+        "name": "Governance Tests (shard 0)",
+        "passed": 265,
+        "pytestSeconds": 970.73,
+        "jobSeconds": 1008.0,
+        "skipAuditAccepted": true
+      },
+      {
+        "jobId": 139540232497,
+        "name": "Governance Tests (shard 1)",
+        "passed": 425,
+        "pytestSeconds": 526.7,
+        "jobSeconds": 571.0,
+        "skipAuditAccepted": true
+      },
+      {
+        "jobId": 139540232811,
+        "name": "Governance Tests (shard 2)",
+        "passed": 392,
+        "pytestSeconds": 374.58,
+        "jobSeconds": 442.0,
+        "skipAuditAccepted": true
+      }
+    ],
+    "allJobsBelowOriginal1800SecondCap": true,
+    "maximumJobSeconds": 1008.0,
+    "actualCheckout": "068fefceef9e03fa30c12fa88af53f9bfd5ad174",
+    "orderedParents": [
+      "df0cf24d3b6446fa7e341756822fbadc3eeb1202",
+      "3b9da51a1700d0671d0e7725816f5b80ebaceb8d"
+    ],
+    "tree": "4a59f3f78dbf935e0f5eae2fd7506eb0e88de403",
+    "realLfsFetchAndHydratedProbeAccepted": true,
+    "pushTaskOnlyConditionalStepSkips": [
+      "Task file validation",
+      "Evidence check",
+      "Evidence integrity check",
+      "Task-branch linkage check",
+      "Scope check"
+    ],
+    "allSix1131OriginalFailedCasesPassedInThisActualMainRun": true,
+    "workflowUrl": "https://github.com/ElectricDogCN/Guize/actions/runs/45709588218"
+  },
+  "nativeChecks": {
+    "integrity": 0,
+    "history": 0,
+    "transitions": 0,
+    "finalization": 0,
+    "lifecycle-guards": 0,
+    "coordination": 0
+  },
+  "sourceIndependentReviewSha256": "f4db3b1bea61a8bcbf3c3b3e82e82207d5bebd632667adcda9737b6ec7717d3f",
+  "acceptedImplementationReference": {
+    "pullRequest": 292,
+    "mergeCommit": "068fefceef9e03fa30c12fa88af53f9bfd5ad174",
+    "source": "3b9da51a1700d0671d0e7725816f5b80ebaceb8d"
+  },
+  "originalPlanningImplementationPreserved": {
+    "pullRequest": 286,
+    "mergeCommit": "8364e9777b7601f413897518f8911c1a986b7308",
+    "originalDeclarationSha256": "3d345611a0fb4b0bf866477e721d4589b703fa4c98f6ba5049f3eed096d3c7b1"
+  },
+  "findings": {
+    "officialActualMainMergedPrAndOrderedParentsAccepted": true,
+    "sameReviewedSourceTreeAndExactCheckerTestBytes": true,
+    "inProgressImplementerBaseDf0cOriginalLeaseActorsThreeClaimsAndOrderPreserved": true,
+    "gz007StillPlannedW3Order4WithOriginalThreeDependencies": true,
+    "planningManifestScopeIntentFailureLedgerPocWorkflowAndForeignRecordsUnchanged": true,
+    "sixActualNativeRawExitsZero": true,
+    "allSevenTargetedCasesAlsoPassedFreshActualCi": true,
+    "actualImplementationIdentityRecordSourceAndCheckerByteBindingAccepted": true,
+    "observedIssue284And280And287Open": true
+  },
+  "implementationIdentityRecord": {
+    "path": "ops031-checker-fix-068f-actual-main-implementation-identity.json",
+    "sha256": "a10da503cfc812cf039ea1d3bc60c202161d40553ac797da87311dabb2ffbd0b",
+    "checkerSha256": "31fcaf00115069dc741d5d77c66aa950a48946222e880c2eabb4b52b327c2825",
+    "actualImplementationAccepted": true,
+    "independentlyReadNotReexecuted": true
+  },
+  "sameTreeSupportingProofReuse": {
+    "targetedSevenOriginalJunitSha256": "4c90786e852e748753281bfa8d2a433fe452cb036fa87e16dbdc6fed65766c20",
+    "historicalPairRecordedCheckerCommit": "e5b8cfe55f5a1022116cef83d8831d9ff9479760",
+    "pairProductionCheckerBytesEqualActualMain": true,
+    "pairIncludesPlanning286AcceptedAndReview288Rejected": true,
+    "noNewUnitOrPairExecutionClaimed": true
+  },
+  "historical1131": {
+    "observedSixFailuresAndNegativeReceiptPreserved": true,
+    "negativeReviewSha256": "11982c18feef5429d9cba91f521b8cadce0d257de52498bc188fc7a758587df5",
+    "oldSourceNeverReclassifiedGreen": true
+  },
+  "lease": {
+    "acquiredAt": "2026-11-25T16:59:55Z",
+    "expiresAt": "2026-12-02T16:59:55Z"
+  },
+  "permittedNextAction": "Prepare only normal Own Review metadata based on this accepted actual implementation main; retain the same original lease, actors, scope and registered branch. Use PR292/068f as the latest accepted code implementation identity while preserving the original PR286 planning history.",
+  "normalCompletionMayStart": false,
+  "issueClosureAllowed": false,
+  "gz007ActivationApproved": false,
+  "taskCompleted": false,
+  "actualCapacityReleased": false,
+  "branchCleanupAllowed": false,
+  "globalPocProfileGateUniversallyAccepted": false,
+  "releaseIssue280RemainsOpen": true,
+  "evidencePins": [
+    {
+      "path": "ops031-checker-fix-3b9d-final-source-independent-review.json",
+      "bytes": 16551,
+      "sha256": "f4db3b1bea61a8bcbf3c3b3e82e82207d5bebd632667adcda9737b6ec7717d3f"
+    },
+    {
+      "path": "ops031-checker-fix-3b9d-prepublication-independent-review.json",
+      "bytes": 13746,
+      "sha256": "b560f181a9b184ca992df0303be9f2afb9b953ed1b40057914d273c020777cf2"
+    },
+    {
+      "path": "ops031-checker-fix-e5b8-final-source-independent-review.json",
+      "bytes": 5906,
+      "sha256": "11982c18feef5429d9cba91f521b8cadce0d257de52498bc188fc7a758587df5"
+    },
+    {
+      "path": "ops031-checker-fix-068f-actual-main-implementation-identity.json",
+      "bytes": 284,
+      "sha256": "a10da503cfc812cf039ea1d3bc60c202161d40553ac797da87311dabb2ffbd0b"
+    },
+    {
+      "path": "ops031-checker-fix-3b9d-direct-tests/targeted.xml",
+      "bytes": 1384,
+      "sha256": "4c90786e852e748753281bfa8d2a433fe452cb036fa87e16dbdc6fed65766c20"
+    },
+    {
+      "path": "ops031-checker-fix-e5b8-direct-tests/real-git-pair.jsonl",
+      "bytes": 512,
+      "sha256": "ead6122cb15cd0a28926390a5842998c07095ae0acfcdccfc80c0a98a2936d6d"
+    },
+    {
+      "path": "ops031-checker-fix-068f-actual-main-checks/coordination.txt",
+      "bytes": 309,
+      "sha256": "dcb266de74ee1caf3549e95389b0de3b4493018d83695a928e5b6ffb69778410"
+    },
+    {
+      "path": "ops031-checker-fix-068f-actual-main-checks/finalization.txt",
+      "bytes": 428,
+      "sha256": "8d2bae5adad7221a871934f247ff5ccbff8b034d0f4cc4f648159eb667d913fc"
+    },
+    {
+      "path": "ops031-checker-fix-068f-actual-main-checks/history.txt",
+      "bytes": 537,
+      "sha256": "f7d43340c61c7e0eeab380659f6e3292248af31cf8ecfdfbaa18f0f3df6ccd3a"
+    },
+    {
+      "path": "ops031-checker-fix-068f-actual-main-checks/integrity.txt",
+      "bytes": 469,
+      "sha256": "51d5a1f22a0ca9c39fed7584d9acfb7711d2e6a05eee9fa099e270a12e7a4f90"
+    },
+    {
+      "path": "ops031-checker-fix-068f-actual-main-checks/lifecycle-guards.txt",
+      "bytes": 520,
+      "sha256": "4441c3501620c6071d2fd408a97f7aa90a0b64d5991dacf1f47b0968299317ab"
+    },
+    {
+      "path": "ops031-checker-fix-068f-actual-main-checks/result.json",
+      "bytes": 394,
+      "sha256": "958b4e495f0b0e277046f919445e5405cd3435f24f7f14b41b06f98d3515527b"
+    },
+    {
+      "path": "ops031-checker-fix-068f-actual-main-checks/transitions.txt",
+      "bytes": 449,
+      "sha256": "88041f31eef0ca4d2bf70676efb2a75066d0e121111430c4956148009cef5729"
+    },
+    {
+      "path": "ops031-checker-fix-068f-independent-main-ci/independent-ci-analysis.json",
+      "bytes": 2514,
+      "sha256": "2490dd06806f227b4f9a84132d3234cb73011bd7e8598635801d46ed6ec79edb"
+    },
+    {
+      "path": "ops031-checker-fix-068f-independent-main-ci/job-139540231936-connector.json",
+      "bytes": 64982,
+      "sha256": "0498e7b49083a2592accca4a53c773d77b85a97b8d946d0ccdda24b3af565d8d"
+    },
+    {
+      "path": "ops031-checker-fix-068f-independent-main-ci/job-139540231936.decoded.log",
+      "bytes": 62005,
+      "sha256": "1d6ce4a5222a63eedd85020f7450c5ced82f1154f0c3e1feac81279b946a68ae"
+    },
+    {
+      "path": "ops031-checker-fix-068f-independent-main-ci/job-139540232423-connector.json",
+      "bytes": 128515,
+      "sha256": "f2e777d865fa263521bdbcb284688831171adfcf7f279cb2f5b0f591765e603a"
+    },
+    {
+      "path": "ops031-checker-fix-068f-independent-main-ci/job-139540232423.decoded.log",
+      "bytes": 127204,
+      "sha256": "fece4d48bd225b957c90a6f71c0c8587fefef4ccf99c47c1822be673ed6c6a3e"
+    },
+    {
+      "path": "ops031-checker-fix-068f-independent-main-ci/job-139540232497-connector.json",
+      "bytes": 176832,
+      "sha256": "b3c21635788cfb2a807ef732db5aec482f754e109937b5b2f2e30ba1d8d683d2"
+    },
+    {
+      "path": "ops031-checker-fix-068f-independent-main-ci/job-139540232497.decoded.log",
+      "bytes": 175181,
+      "sha256": "ce0801361712d0aba0552429a1bcabee0e23b19e3b2e76deb31763fd7da28a7d"
+    },
+    {
+      "path": "ops031-checker-fix-068f-independent-main-ci/job-139540232811-connector.json",
+      "bytes": 162088,
+      "sha256": "24c0b9bf90511111c79b525e4b7d81ede49da6cd2acd0d7685154ab5b54f3833"
+    },
+    {
+      "path": "ops031-checker-fix-068f-independent-main-ci/job-139540232811.decoded.log",
+      "bytes": 160496,
+      "sha256": "14879738c304e26a4386fa9aef6e5fd1380e001b81516a382f43bf29d98dc9e5"
+    },
+    {
+      "path": "ops031-checker-fix-068f-independent-main-ci/job-139548688848-connector.json",
+      "bytes": 16666,
+      "sha256": "0e606e8084b052838e99a6520eb0c0b5dd2479f84fb9e1b2f5644bb3289a670e"
+    },
+    {
+      "path": "ops031-checker-fix-068f-independent-main-ci/job-139548688848.decoded.log",
+      "bytes": 16182,
+      "sha256": "bb1f2431af31f2ac650793d974032bb4476b45e9ffb23f5f506f42a3be8a9ce8"
+    },
+    {
+      "path": "ops031-checker-fix-068f-independent-main-ci/official-actual.json",
+      "bytes": 6427,
+      "sha256": "eb2f6a6dfbbb8dbfa9a768180cbc887b2a960f42293c00ac9bdc77cc4827440a"
+    },
+    {
+      "path": "ops031-checker-fix-068f-independent-main-ci/official-gz007Issue.json",
+      "bytes": 12490,
+      "sha256": "1a01db6c9b0155c3d0d2abdfaded35e17ad1c51f28fdb17294dfbe9776d675eb"
+    },
+    {
+      "path": "ops031-checker-fix-068f-independent-main-ci/official-issue.json",
+      "bytes": 12062,
+      "sha256": "53c8d8db4eed84cb2b0826fef7ba77aea33e3939f64b37be6c77ea2ecf3b3900"
+    },
+    {
+      "path": "ops031-checker-fix-068f-independent-main-ci/official-jobs.json",
+      "bytes": 33519,
+      "sha256": "e01aad7cffd436f4b30291a838efe3d0174714e18a58ec1711f3313979bf0f6b"
+    },
+    {
+      "path": "ops031-checker-fix-068f-independent-main-ci/official-main.json",
+      "bytes": 1301,
+      "sha256": "1103b3e12c89f396db78607b476f962aafe90741c370dfa7cb6909122e4e6837"
+    },
+    {
+      "path": "ops031-checker-fix-068f-independent-main-ci/official-pr.json",
+      "bytes": 39949,
+      "sha256": "c3f61b4d2261fd2cba7d572c2eba252b3e9e2669498ac9ef0ebc3b807b837197"
+    },
+    {
+      "path": "ops031-checker-fix-068f-independent-main-ci/official-run.json",
+      "bytes": 26866,
+      "sha256": "ba91737d8724a620c6bfc79b7e4ac306726e08c90166a5037fc810cf92c1976f"
+    },
+    {
+      "path": "ops031-checker-fix-068f-independent-main-ci/official-tracking.json",
+      "bytes": 13692,
+      "sha256": "49b257d7913d3438cb1248b4c660468b585d9e7826282ec0c36c8f5d1e1631ab"
+    }
+  ]
+}
