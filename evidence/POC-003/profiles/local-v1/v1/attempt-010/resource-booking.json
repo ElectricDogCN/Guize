@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 2,
+  "pocId": "POC-03",
+  "taskId": "POC-003",
+  "acceptanceProfile": {
+    "id": "local-v1",
+    "version": 1,
+    "bindingRevision": 1,
+    "scope": "LOCAL_FULL_V1"
+  },
+  "approvedAt": "2026-11-25T05:29:12Z",
+  "approvedBy": "/root/independent_review",
+  "kind": "resource_booking",
+  "resourceId": "RES-ATS-SANDBOX",
+  "status": "approved",
+  "validFrom": "2026-11-25T05:29:12Z",
+  "validUntil": "2026-11-25T05:59:12Z"
+}

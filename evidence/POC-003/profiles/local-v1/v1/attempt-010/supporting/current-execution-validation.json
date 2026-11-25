@@ -1,0 +1,14 @@
+{
+  "context": "b2b1cc79b894b681a9b6f22b61001aba9f1eecb3",
+  "testedSource": {
+    "commit": "2a6a6a9e62dc0fe7ef3144934d77c010811584ad",
+    "tree": "a379722549aa616426a0318e261840858b66ceb6"
+  },
+  "checkerSha256": "6cbbb4c2b2f79a76af71e33c7d2db8a9842a5f7b0f22c3f5e45bd4eb79ab8851",
+  "errors": [],
+  "qualifiedExecution": true,
+  "formalResultAccepted": false,
+  "actualProcessExitCode": 0,
+  "originalReceiptSha256": "96714bc9f03028cbed7e044107a3ed84a93cb6d922b44db5b47fa93b16282907",
+  "independentDecisionSha256": "9925e3c372526955bd169852e424a8b2476a3c0090f87d68240efb980f35a107"
+}

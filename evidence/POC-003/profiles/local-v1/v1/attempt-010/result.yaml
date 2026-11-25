@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "pocId": "POC-03",
+  "taskId": "POC-003",
+  "status": "pass",
+  "evidencePath": "evidence/POC-003",
+  "executionRef": "evidence/POC-003/profiles/local-v1/v1/attempt-010/execution.json",
+  "decision": "pass",
+  "rationale": "LOCAL_FULL_V1 POC-003 only: all original15 measures derive from the independently approved current-source matrix; range correctness100 percent, ten structural gates true, and observed hot/cold/slow/multi-user latencies7.888/48.350/297.173/17.514ms. Complete conservative media bound is6,320,174bytes below8,388,608bytes under the authenticated source/window/serialized-epoch conditions. Independent same-unexpired-grant warm-cache revocation passed. Current complete canonical execution validation returned zero errors in exact tracked context. Overall productV1, publication, new-source CI/main acceptance and task completion are separate.",
+  "reviewer": "/root/independent_review",
+  "approvedAt": "2026-11-25T05:50:26Z",
+  "approval": "approved"
+}
