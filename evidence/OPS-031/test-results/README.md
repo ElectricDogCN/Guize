@@ -36,3 +36,9 @@ Exit Code: 1
 Raw SHA-256: 5b370aa129f5db3c5889cd4ec20f4802ad8d664decea7283a22f6c2540c32f45
 
 真正的修复应识别由原始声明和真实 Git 历史授权的计划变更，继续拒绝纯生命周期元数据。须用独立元数据登记获得对应治理路径后，再实施与复验。
+
+## OPS-031 恢复预留
+
+本次由 blocked 恢复 reserved，保留同一协调者、租约与已有 Program Plan 声明。精确范围登记将另从实际主线提交。前置真实主线 6ad9dc882b758ff83f067b51db0a1eb0a39c1744 的六项任务控制均退出 0，完整官方 CI 和独立复验已通过。本轮新固定提交的官方源、实际主线和独立验证待执行。[独立复验原件](../accepted-main-6ad9dc88/independent-review.json) 与 [原始完整性日志](../accepted-main-6ad9dc88/integrity.txt)。
+
+[前置官方 CI](https://github.com/ElectricDogCN/Guize/actions/runs/45687218521)

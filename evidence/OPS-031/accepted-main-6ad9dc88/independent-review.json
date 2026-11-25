@@ -1,0 +1,267 @@
+{
+  "reviewer": "/root/independent_review",
+  "approvedAt": "2026-11-25T19:54:36Z",
+  "taskId": "OPS-031",
+  "pullRequest": 289,
+  "actualMain": "6ad9dc882b758ff83f067b51db0a1eb0a39c1744",
+  "source": "b1983ec3714496f0acf3c60d265e99e11a362118",
+  "base": "ac0ef6b72014c03a1f55aba2ef0580bf3a0ed927",
+  "tree": "4c74c10730519e7d64070670196cecaf2c5f84a1",
+  "actualBlockedMainAccepted": true,
+  "fullMainCiAccepted": true,
+  "actualMainTaskControlsAccepted": true,
+  "actualMainSixAccepted": true,
+  "normalReReservationMayStart": true,
+  "mustFix": [],
+  "acceptanceScope": "ACTUAL_NORMAL_BLOCKED_COORDINATOR_RECORD_AND_SAME_LEASE_RE_RESERVATION_ONLY",
+  "ci": {
+    "run": 45687218521,
+    "runNumber": 1126,
+    "attempt": 1,
+    "event": "push",
+    "jobs": 5,
+    "allJobsSuccess": true,
+    "aggregateJob": 139470522077,
+    "uniquePassed": 1081,
+    "original1078Plus3Preserved": true,
+    "caseSetExactlyMatchesPreviouslyAccepted1081": true,
+    "caseSetSha256": "02b042b56300a07454c35ab044346f13cfa7441f7d24bf434bbc5b9657c33683",
+    "failures": 0,
+    "errors": 0,
+    "skips": 0,
+    "xResults": 0,
+    "shards": [
+      {
+        "jobId": 139462881417,
+        "name": "Governance Tests (shard 0)",
+        "passed": 265,
+        "pytestSeconds": 761.07,
+        "jobSeconds": 808.0,
+        "skipAuditAccepted": true
+      },
+      {
+        "jobId": 139462881472,
+        "name": "Governance Tests (shard 2)",
+        "passed": 391,
+        "pytestSeconds": 325.68,
+        "jobSeconds": 365.0,
+        "skipAuditAccepted": true
+      },
+      {
+        "jobId": 139462881542,
+        "name": "Governance Tests (shard 1)",
+        "passed": 425,
+        "pytestSeconds": 318.53,
+        "jobSeconds": 360.0,
+        "skipAuditAccepted": true
+      }
+    ],
+    "allJobsBelowOriginal1800SecondCap": true,
+    "maximumJobSeconds": 808.0,
+    "actualCheckout": "6ad9dc882b758ff83f067b51db0a1eb0a39c1744",
+    "orderedParents": [
+      "ac0ef6b72014c03a1f55aba2ef0580bf3a0ed927",
+      "b1983ec3714496f0acf3c60d265e99e11a362118"
+    ],
+    "tree": "4c74c10730519e7d64070670196cecaf2c5f84a1",
+    "realLfsFetchAndHydratedProbeAccepted": true,
+    "pushTaskOnlyConditionalStepSkips": [
+      "Task file validation",
+      "Evidence check",
+      "Evidence integrity check",
+      "Task-branch linkage check",
+      "Scope check"
+    ],
+    "workflowUrl": "https://github.com/ElectricDogCN/Guize/actions/runs/45687218521"
+  },
+  "nativeChecks": {
+    "integrity": 0,
+    "history": 0,
+    "transitions": 0,
+    "finalization": 0,
+    "lifecycle-guards": 0,
+    "coordination": 0
+  },
+  "sourceIndependentReviewSha256": "9fc00ed44dbb772cc1e2e6cb5fd73176a2450ddefb585cb883c0ae1e8553702a",
+  "findings": {
+    "officialActualMainAndMergedPrExact": true,
+    "orderedParentsAndReviewedSourceTreeAccepted": true,
+    "actualTaskProgramAndActiveBlockedCoordinatorAccepted": true,
+    "onlyOriginalPlanClaimAndHighRiskCapacityRemainOccupied": true,
+    "originalActorsBranchLeaseAndOrderPreserved": true,
+    "originalManifestSha256": "3d345611a0fb4b0bf866477e721d4589b703fa4c98f6ba5049f3eed096d3c7b1",
+    "gz007StillPlannedW3Order4AndAllOriginalThreeDependenciesUnchanged": true,
+    "actualFailureRawPreservedBytes": 459,
+    "actualFailureRawSha256": "5b370aa129f5db3c5889cd4ec20f4802ad8d664decea7283a22f6c2540c32f45",
+    "priorCompletionFailureNotReclassified": true,
+    "runtimePocCodeWorkflowTestsForeignRecordsAndLedgerUnchanged": true,
+    "observedIssue284And280And287Open": true
+  },
+  "lease": {
+    "acquiredAt": "2026-11-25T16:59:55Z",
+    "expiresAt": "2026-12-02T16:59:55Z"
+  },
+  "permittedNextAction": "Prepare only normal blocked-to-reserved Own metadata on the registered branch with the same original lease, identities and Program-only claim. Its actual source and main must pass ordinary complete gates and independent acceptance.",
+  "laterScopeAmendmentBoundary": "A separate reserved/coordinator actual-main predecessor is required before any exact Own Task/Active/Evidence scope amendment. Preserve Program, ledger and immutable original manifest bytes and stable identities. No checker or regression-code modification is authorized by this receipt.",
+  "taskCompleted": false,
+  "actualCapacityReleased": false,
+  "scopeExpansionApproved": false,
+  "checkerModificationApproved": false,
+  "gz007ActivationApproved": false,
+  "issueClosureAllowed": false,
+  "branchCleanupAllowed": false,
+  "globalPocProfileGateUniversallyAccepted": false,
+  "releaseIssue280RemainsOpen": true,
+  "evidencePins": [
+    {
+      "path": "ops031-blocked-b198-final-source-independent-review.json",
+      "bytes": 14935,
+      "sha256": "9fc00ed44dbb772cc1e2e6cb5fd73176a2450ddefb585cb883c0ae1e8553702a"
+    },
+    {
+      "path": "ops031-blocked-b198-prepublication-independent-review.json",
+      "bytes": 10557,
+      "sha256": "511512e5ffb1aa6ccc5a7dfcf4c83448395a830376d87125b35e6dec8bdfed47"
+    },
+    {
+      "path": "ops031-completion-007c-prepublication-independent-review.json",
+      "bytes": 5191,
+      "sha256": "5ba01fc72b9ee6a59ea21a201fbe9bc63d73e4308af136019fdf4e2253096bc9"
+    },
+    {
+      "path": "ops031-completion-007c-source-checks/history.txt",
+      "bytes": 459,
+      "sha256": "5b370aa129f5db3c5889cd4ec20f4802ad8d664decea7283a22f6c2540c32f45"
+    },
+    {
+      "path": "ops031-blocked-6ad9-actual-main-checks/coordination.txt",
+      "bytes": 309,
+      "sha256": "cded53e7d2bf065413aea491907f1adc37e9db6137af503f73a873e344f4bcd8"
+    },
+    {
+      "path": "ops031-blocked-6ad9-actual-main-checks/finalization.txt",
+      "bytes": 428,
+      "sha256": "b4313fa0b6ed6ec266ad730af2adc8f944bfebbec28f763aafdcdebd629c9b23"
+    },
+    {
+      "path": "ops031-blocked-6ad9-actual-main-checks/history.txt",
+      "bytes": 537,
+      "sha256": "08b47c6e5913a1c94722bf1e4ef5f7bda542976e4c7a419fad938dee31c57599"
+    },
+    {
+      "path": "ops031-blocked-6ad9-actual-main-checks/integrity.txt",
+      "bytes": 469,
+      "sha256": "f7ea77bfb6779f4fb4c65259725736c15165d93fad4de997b4d573275a7ad59c"
+    },
+    {
+      "path": "ops031-blocked-6ad9-actual-main-checks/lifecycle-guards.txt",
+      "bytes": 519,
+      "sha256": "075f19ec4d2f5b32dec20fe8db420862db632bcfa1c69c2a4f5bba0fcd2ec369"
+    },
+    {
+      "path": "ops031-blocked-6ad9-actual-main-checks/result.json",
+      "bytes": 394,
+      "sha256": "2e737bf4c803c956af4737a1f19bc809e4b61907fd6611b943b078a9e744cdc5"
+    },
+    {
+      "path": "ops031-blocked-6ad9-actual-main-checks/transitions.txt",
+      "bytes": 449,
+      "sha256": "601eaa128f514d5c576525b56faa5433daf2706bbf23a1153e6f3f2df9b84414"
+    },
+    {
+      "path": "ops031-blocked-6ad9-independent-main-ci/independent-ci-analysis.json",
+      "bytes": 2150,
+      "sha256": "7bf03d6ef420d64e290cb47034b2de3b14f51f6a3f5bc336bfb48f31f9fbf440"
+    },
+    {
+      "path": "ops031-blocked-6ad9-independent-main-ci/job-139462880832-connector.json",
+      "bytes": 64917,
+      "sha256": "5b34489722a2d85e264689d0fef0831de10b54b2c7203ae50880f747dbfabde1"
+    },
+    {
+      "path": "ops031-blocked-6ad9-independent-main-ci/job-139462880832.decoded.log",
+      "bytes": 61941,
+      "sha256": "8adc57da14121e084461b5d437afb0683072cb96e1a2e21390fd28706de5bcfd"
+    },
+    {
+      "path": "ops031-blocked-6ad9-independent-main-ci/job-139462881417-connector.json",
+      "bytes": 128321,
+      "sha256": "b31b7ac6b26a8b781faa027b570e671f5cfbc25b90cad773fa2b85c854990fd7"
+    },
+    {
+      "path": "ops031-blocked-6ad9-independent-main-ci/job-139462881417.decoded.log",
+      "bytes": 127013,
+      "sha256": "9db04ca13b41ee20a552eda41732d713c48dd3cf9d58c23e99e60cdc995b0f79"
+    },
+    {
+      "path": "ops031-blocked-6ad9-independent-main-ci/job-139462881472-connector.json",
+      "bytes": 161538,
+      "sha256": "f4c9f9f7a3ae56d238173befb2baed842f06a015bbab08c5d17ced85feeabe5c"
+    },
+    {
+      "path": "ops031-blocked-6ad9-independent-main-ci/job-139462881472.decoded.log",
+      "bytes": 159951,
+      "sha256": "3cd8527d64d95ca55fc696c61da5a11ab066255cda26ec518f3561d214f180ee"
+    },
+    {
+      "path": "ops031-blocked-6ad9-independent-main-ci/job-139462881542-connector.json",
+      "bytes": 176698,
+      "sha256": "f3b747d0a2326cb489e36635e126d67ea35a071845d1c1f6025110b669b5e4ce"
+    },
+    {
+      "path": "ops031-blocked-6ad9-independent-main-ci/job-139462881542.decoded.log",
+      "bytes": 175049,
+      "sha256": "d0d21cfa46a2ab43456515ab58f9f6e0598d86493888394dc8667fda6a468063"
+    },
+    {
+      "path": "ops031-blocked-6ad9-independent-main-ci/job-139470522077-connector.json",
+      "bytes": 16665,
+      "sha256": "9ed4cd672f3ee95229ed26cbb58418d478141e16d37ad678804b72b47d1eb800"
+    },
+    {
+      "path": "ops031-blocked-6ad9-independent-main-ci/job-139470522077.decoded.log",
+      "bytes": 16181,
+      "sha256": "2291cb0d620869ea6f813c3a86a99506cd23b3d0c6eaf1cbbb82acceed9aef5d"
+    },
+    {
+      "path": "ops031-blocked-6ad9-independent-main-ci/official-actual.json",
+      "bytes": 6331,
+      "sha256": "dee2dd14c5216b9b04bcd99ee578cf61c198a3b8da6427f9572e5693e49536ca"
+    },
+    {
+      "path": "ops031-blocked-6ad9-independent-main-ci/official-gz007Issue.json",
+      "bytes": 12490,
+      "sha256": "1a01db6c9b0155c3d0d2abdfaded35e17ad1c51f28fdb17294dfbe9776d675eb"
+    },
+    {
+      "path": "ops031-blocked-6ad9-independent-main-ci/official-issue.json",
+      "bytes": 12062,
+      "sha256": "53c8d8db4eed84cb2b0826fef7ba77aea33e3939f64b37be6c77ea2ecf3b3900"
+    },
+    {
+      "path": "ops031-blocked-6ad9-independent-main-ci/official-jobs.json",
+      "bytes": 33519,
+      "sha256": "fe39db7bfdc0c0f6ae4f7662c1d60ecf3a9afe95283034771ac895daf352ede6"
+    },
+    {
+      "path": "ops031-blocked-6ad9-independent-main-ci/official-main.json",
+      "bytes": 1301,
+      "sha256": "c81dbeb7d1295271e94f352cdf7dd98d9c5189763571a72ccf6ac63d2216d587"
+    },
+    {
+      "path": "ops031-blocked-6ad9-independent-main-ci/official-pr.json",
+      "bytes": 38735,
+      "sha256": "330df4fc0f0beb0cd27b56e302e494d75cdc77c3f89c050d502d6d9aa78111fa"
+    },
+    {
+      "path": "ops031-blocked-6ad9-independent-main-ci/official-run.json",
+      "bytes": 26798,
+      "sha256": "7f0484594e2b810a08760aa5953b8e9cef5f584759ed8cfb2f6bd8845e285532"
+    },
+    {
+      "path": "ops031-blocked-6ad9-independent-main-ci/official-tracking.json",
+      "bytes": 13692,
+      "sha256": "49b257d7913d3438cb1248b4c660468b585d9e7826282ec0c36c8f5d1e1631ab"
+    }
+  ]
+}
