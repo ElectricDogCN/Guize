@@ -1,0 +1,5 @@
+Source Commit: efe918a0849f42027a65e0ef914c9b4afdfc1086
+Command: /var/tmp/guize-ops027-rebased-proof/python/bin/python -B scripts/check-program-plan-integrity.py --base-ref 8b530271c91b587a3b74754dbc1c13406add10ff
+{"status": "PASS", "message": "Program Plan execution and completion integrity passed", "details": {"foundationTasks": 24, "programTasks": 36, "activeTasks": 1, "completionRecords": 7, "baseRef": "8b530271c91b587a3b74754dbc1c13406add10ff"}}
+
+Exit Code: 0

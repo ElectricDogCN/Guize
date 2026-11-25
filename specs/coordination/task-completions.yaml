@@ -58,3 +58,11 @@ records:
     taskSpec: specs/tasks/POC-005.md
     evidencePath: evidence/POC-005
     handoffPath: evidence/POC-005/handoff.md
+  - taskId: GZ-006
+    reservationRef: PR-279
+    reservationCommit: f290739965dc90fe6466cb871b2dd51b9bf694fb
+    completionRef: PR-281
+    mergeCommit: 8b530271c91b587a3b74754dbc1c13406add10ff
+    taskSpec: specs/tasks/GZ-006.md
+    evidencePath: evidence/GZ-006
+    handoffPath: evidence/GZ-006/handoff.md
