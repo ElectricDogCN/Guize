@@ -1,0 +1,5 @@
+Source Commit: 007cedd582da4177e6139f27870d5ebcf4be1a28
+Command: /var/tmp/guize-ops027-rebased-proof/python/bin/python -B scripts/check-program-plan-history.py --base-ref ac0ef6b72014c03a1f55aba2ef0580bf3a0ed927 --head-ref 007cedd582da4177e6139f27870d5ebcf4be1a28 --task OPS-031 --branch-name chore/OPS-031-normal-completion
+{"status": "FAIL", "message": "Foundation OPS-031 claimed implementation contains only lifecycle metadata or Evidence"}
+
+Exit Code: 1

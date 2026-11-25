@@ -25,3 +25,14 @@ Raw SHA-256: 1b765dde9ae215a0bd712cb2ec32da3bc5b855cae43f3e3e43cc4cbcbf8abffa
 [前置官方 CI](https://github.com/ElectricDogCN/Guize/actions/runs/45672025032)
 
 [独立复验原件](accepted-main-8364e977/independent-review.json) 与 [实际完整性日志](accepted-main-8364e977/integrity.txt)。
+
+## OPS-031 结项检查阻断
+
+已验收的 [排程实施](https://github.com/ElectricDogCN/Guize/pull/286) 只执行原始声明的两个字段。Foundation 的结项历史检查按文件路径排除了 Program Plan，将此实现判为仅生命周期元数据。本次提交只登记阻断，保留实施、审查、租约、规划声明和实际 GZ-007 排程。候选结项未发布，跟踪 Issue #284 已重新打开。[结项失败原始日志](completion-attempt-007cedd5/history.txt)。
+
+Source Commit: 007cedd582da4177e6139f27870d5ebcf4be1a28
+Command: /var/tmp/guize-ops027-rebased-proof/python/bin/python -B scripts/check-program-plan-history.py --base-ref ac0ef6b72014c03a1f55aba2ef0580bf3a0ed927 --head-ref 007cedd582da4177e6139f27870d5ebcf4be1a28 --task OPS-031 --branch-name chore/OPS-031-normal-completion
+Exit Code: 1
+Raw SHA-256: 5b370aa129f5db3c5889cd4ec20f4802ad8d664decea7283a22f6c2540c32f45
+
+真正的修复应识别由原始声明和真实 Git 历史授权的计划变更，继续拒绝纯生命周期元数据。须用独立元数据登记获得对应治理路径后，再实施与复验。
