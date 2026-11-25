@@ -19,7 +19,7 @@ tasks:
   agentRole: coordinator
   branch: chore/OPS-031-gz007-wave-order
   baseBranch: main
-  baseSha: 6ad9dc882b758ff83f067b51db0a1eb0a39c1744
+  baseSha: 93bf27dd71bf3725a7f7f02640069112f00d732d
   workPackage: WP-M0-01
   programPlan: specs/coordination/program-plan.yaml
   programTaskId: OPS-031
@@ -38,6 +38,8 @@ tasks:
   - GZ-006
   exclusivePaths:
   - specs/coordination/program-plan.yaml
+  - scripts/check-program-plan-history.py
+  - tests/governance/test_program_planning_revision.py
   sharedPaths: []
   handoffPath: evidence/OPS-031/handoff.md
   integrationStrategy: merge

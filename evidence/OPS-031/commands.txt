@@ -129,3 +129,27 @@ python scripts/check-evidence.py --task OPS-031
 python scripts/check-project-readiness.py
 python scripts/check-markdown.py
 python scripts/check-spec-sync.py --base origin/main
+
+## OPS-031 修复范围登记
+
+保持 reserved/coordinator、原租约和原始规划声明，额外登记两条仓库治理文件。后续修复将复用规划认证，保留对纯生命周期或证据提交的拒绝规则。前置真实主线 93bf27dd71bf3725a7f7f02640069112f00d732d 的六项任务控制均退出 0，完整官方 CI 和独立复验已通过。本轮新固定提交的官方源、实际主线和独立验证待执行。原件路径 evidence/OPS-031/accepted-main-93bf27dd/independent-review.json 和 evidence/OPS-031/accepted-main-93bf27dd/integrity.txt。
+
+[前置官方 CI](https://github.com/ElectricDogCN/Guize/actions/runs/45693770766)
+
+本轮固定源码检查命令，退出码待执行。
+
+git diff --check 93bf27dd71bf3725a7f7f02640069112f00d732d...HEAD
+python scripts/check-task-file.py --task OPS-031
+python scripts/check-schemas.py
+python scripts/check-program-plan-integrity.py --base-ref 93bf27dd71bf3725a7f7f02640069112f00d732d
+python scripts/check-program-plan-history.py --base-ref 93bf27dd71bf3725a7f7f02640069112f00d732d --head-ref HEAD --task OPS-031 --branch-name chore/OPS-031-gz007-wave-order
+python scripts/check-program-plan-transitions.py --base-ref 93bf27dd71bf3725a7f7f02640069112f00d732d --head-ref HEAD --task OPS-031 --branch-name chore/OPS-031-gz007-wave-order
+python scripts/check-program-lifecycle-guards.py --base-ref 93bf27dd71bf3725a7f7f02640069112f00d732d --head-ref HEAD --task OPS-031 --branch-name chore/OPS-031-gz007-wave-order
+python scripts/run-program-lifecycle-gate.py --base-ref 93bf27dd71bf3725a7f7f02640069112f00d732d --head-ref HEAD --task OPS-031 --branch-name chore/OPS-031-gz007-wave-order
+python scripts/run-agent-coordination-gate.py --base-ref 93bf27dd71bf3725a7f7f02640069112f00d732d --head-ref HEAD --task OPS-031 --branch-name chore/OPS-031-gz007-wave-order
+python scripts/check-program-plan-finalization.py --base-ref 93bf27dd71bf3725a7f7f02640069112f00d732d --head-ref HEAD --task OPS-031
+python scripts/run-task-scope-gate.py --task OPS-031 --base 93bf27dd71bf3725a7f7f02640069112f00d732d
+python scripts/check-evidence.py --task OPS-031
+python scripts/check-project-readiness.py
+python scripts/check-markdown.py
+python scripts/check-spec-sync.py --base origin/main

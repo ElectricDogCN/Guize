@@ -42,3 +42,9 @@ Raw SHA-256: 5b370aa129f5db3c5889cd4ec20f4802ad8d664decea7283a22f6c2540c32f45
 本次由 blocked 恢复 reserved，保留同一协调者、租约与已有 Program Plan 声明。精确范围登记将另从实际主线提交。前置真实主线 6ad9dc882b758ff83f067b51db0a1eb0a39c1744 的六项任务控制均退出 0，完整官方 CI 和独立复验已通过。本轮新固定提交的官方源、实际主线和独立验证待执行。[独立复验原件](../accepted-main-6ad9dc88/independent-review.json) 与 [原始完整性日志](../accepted-main-6ad9dc88/integrity.txt)。
 
 [前置官方 CI](https://github.com/ElectricDogCN/Guize/actions/runs/45687218521)
+
+## OPS-031 修复范围登记
+
+保持 reserved/coordinator、原租约和原始规划声明，额外登记两条仓库治理文件。后续修复将复用规划认证，保留对纯生命周期或证据提交的拒绝规则。前置真实主线 93bf27dd71bf3725a7f7f02640069112f00d732d 的六项任务控制均退出 0，完整官方 CI 和独立复验已通过。本轮新固定提交的官方源、实际主线和独立验证待执行。[独立复验原件](../accepted-main-93bf27dd/independent-review.json) 与 [原始完整性日志](../accepted-main-93bf27dd/integrity.txt)。
+
+[前置官方 CI](https://github.com/ElectricDogCN/Guize/actions/runs/45693770766)
