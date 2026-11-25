@@ -36,3 +36,5 @@ Result: PASS
 Raw SHA-256: dbe33acba490765e3863c3beb682c191a8b0376eacd9a70cb217fcc44287a1a0
 
 [基线官方 CI](https://github.com/ElectricDogCN/Guize/actions/runs/45636836816)
+
+[实现主线的独立审查原件](implementation-main-8b53/independent-review.json) 和 [完整性校验原始日志](implementation-main-8b53/integrity.txt)。

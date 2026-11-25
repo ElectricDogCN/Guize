@@ -1,0 +1,279 @@
+{
+  "reviewer": "/root/independent_review",
+  "approvedAt": "2026-11-25T14:58:31Z",
+  "taskId": "GZ-006",
+  "issue": 128,
+  "pullRequest": 281,
+  "actualMain": "8b530271c91b587a3b74754dbc1c13406add10ff",
+  "source": "47b3e11731d463a8a1633c240638e8c0325831f1",
+  "base": "f290739965dc90fe6466cb871b2dd51b9bf694fb",
+  "tree": "15723c91fc927b5e6bf209a547d44a5ad37297b6",
+  "actualImplementationMainAccepted": true,
+  "fullMainCiAccepted": true,
+  "actualMainSixRelevantControlsAccepted": true,
+  "actualMainTaskControlsAccepted": true,
+  "actualMainSevenAccepted": false,
+  "actualEventContractChecksAccepted": true,
+  "normalReviewMayStart": true,
+  "normalReviewPreparationAllowed": true,
+  "mustFix": [],
+  "acceptanceScope": "GZ006_EVENT_CONTRACTS_AND_OFFLINE_VALIDATION_IMPLEMENTATION_ONLY",
+  "ci": {
+    "run": 45636836816,
+    "runNumber": 1111,
+    "attempt": 1,
+    "event": "push",
+    "jobs": 5,
+    "allJobsSuccess": true,
+    "aggregateJob": 139294452964,
+    "uniquePassed": 1081,
+    "caseSetExactlyMatchesAcceptedSource": true,
+    "original1078Plus3Preserved": true,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0,
+    "xResults": 0,
+    "shards": [
+      {
+        "jobId": 139284456588,
+        "name": "Governance Tests (shard 1)",
+        "passed": 425,
+        "pytestSeconds": 311.57,
+        "jobSeconds": 363.0,
+        "skipAuditAccepted": true
+      },
+      {
+        "jobId": 139284456807,
+        "name": "Governance Tests (shard 2)",
+        "passed": 391,
+        "pytestSeconds": 420.19,
+        "jobSeconds": 467.0,
+        "skipAuditAccepted": true
+      },
+      {
+        "jobId": 139284457242,
+        "name": "Governance Tests (shard 0)",
+        "passed": 265,
+        "pytestSeconds": 872.01,
+        "jobSeconds": 920.0,
+        "skipAuditAccepted": true
+      }
+    ],
+    "allJobsBelowOriginal1800SecondCap": true,
+    "pushTaskConditionalStepsSkipped": [
+      "Task file validation",
+      "Evidence check",
+      "Evidence integrity check",
+      "Task-branch linkage check",
+      "Scope check"
+    ],
+    "actualCheckout": "8b530271c91b587a3b74754dbc1c13406add10ff",
+    "orderedParents": [
+      "f290739965dc90fe6466cb871b2dd51b9bf694fb",
+      "47b3e11731d463a8a1633c240638e8c0325831f1"
+    ],
+    "tree": "15723c91fc927b5e6bf209a547d44a5ad37297b6",
+    "realLfsFetchAndProbeAccepted": true
+  },
+  "actualMainRelevantLocalChecks": {
+    "integrity": 0,
+    "history": 0,
+    "transitions": 0,
+    "finalization": 0,
+    "lifecycle-guards": 0,
+    "coordination": 0
+  },
+  "actualMainLockedEventChecks": {
+    "versions": 19,
+    "unitTests": 54,
+    "originalTests": 44,
+    "additionalTests": 10,
+    "catalogExitCode": 0,
+    "unitExitCode": 0,
+    "failedOrSkipped": 0,
+    "exactGitArchiveFiles": 46,
+    "allFileHashesEqualReviewedSource": true,
+    "archiveSha256": "a91cb83b0becb5636df24ac9d915f670428769e3bd19f80fc0e11a55833efae5",
+    "observedPackages": {
+      "attrs": "26.1.0",
+      "jsonschema": "4.26.0",
+      "jsonschema-specifications": "2025.9.1",
+      "referencing": "0.37.0",
+      "rpds-py": "2026.9.1"
+    }
+  },
+  "actualRegistrationState": {
+    "status": "in_progress",
+    "agentRole": "implementer",
+    "activeTasks": 1,
+    "highRiskTasks": 1,
+    "originalLease": {
+      "acquiredAt": "2026-11-25T13:11:35Z",
+      "expiresAt": "2026-12-02T13:11:35Z"
+    },
+    "originalActorsAndThreeClaimsHeld": true,
+    "Issue128Open": true
+  },
+  "normalReviewConditions": [
+    "Advance only own lifecycle metadata and truthful Evidence from this accepted implementation main, preserving claims/roles/lease and exact implementation PR281/actual8b53 identity.",
+    "Normal Review exact source local applicable checks/event suite, complete official source CI, independent source review, ordinary merge and actual-main applicable checks/full official CI/independent acceptance remain required before Completion."
+  ],
+  "trackedSeparateGlobalPocIssue": 280,
+  "globalPocQualificationAccepted": false,
+  "wholeRepositoryPocCommandNotClaimedPassed": true,
+  "runtimeOutboxWorkerTransactionsOrProductionAccepted": false,
+  "taskCompleted": false,
+  "actualCapacityReleased": false,
+  "evidencePins": [
+    {
+      "path": "gz006-implementation-8b53-independent-main-ci/job-139284456167-connector.json",
+      "bytes": 64979,
+      "sha256": "f76d9cf54d8f55eda7f85d3790033c2f25a877b1bf17168185875725049009e6"
+    },
+    {
+      "path": "gz006-implementation-8b53-independent-main-ci/job-139284456167.decoded.log",
+      "bytes": 62001,
+      "sha256": "7db28e4b47291fe3ee142b6edf4c84d056e04d538534c3d2a8bf2667d2e5b93b"
+    },
+    {
+      "path": "gz006-implementation-8b53-independent-main-ci/job-139284456588-connector.json",
+      "bytes": 176700,
+      "sha256": "50c48b188e37ac8ce793b0666f4a32462581c5e7d291a43110618d3b438c9dc7"
+    },
+    {
+      "path": "gz006-implementation-8b53-independent-main-ci/job-139284456588.decoded.log",
+      "bytes": 175050,
+      "sha256": "2f8d04d7a88f3b99be4860bc772579293e113670d1a057b0264417c41c6c944d"
+    },
+    {
+      "path": "gz006-implementation-8b53-independent-main-ci/job-139284456807-connector.json",
+      "bytes": 161808,
+      "sha256": "52dbcd5abf1331cddd2e738191deca9692effd54d450e91f2eb5cd799acb4d01"
+    },
+    {
+      "path": "gz006-implementation-8b53-independent-main-ci/job-139284456807.decoded.log",
+      "bytes": 160216,
+      "sha256": "10ca6a4f1bcd23d126b4adbf4836b70a3ce812d594b58bef6478f8f97bc69126"
+    },
+    {
+      "path": "gz006-implementation-8b53-independent-main-ci/job-139284457242-connector.json",
+      "bytes": 128507,
+      "sha256": "047c09e5461e544767d10c7bf1e6f1e62077a9d180910a7663bae4d2955d1be1"
+    },
+    {
+      "path": "gz006-implementation-8b53-independent-main-ci/job-139284457242.decoded.log",
+      "bytes": 127195,
+      "sha256": "3bf4534e236fb2130d3070e13edccfa416cbbe38eb00d30731a0f02fd854316a"
+    },
+    {
+      "path": "gz006-implementation-8b53-independent-main-ci/job-139294452964-connector.json",
+      "bytes": 16663,
+      "sha256": "ae7affb7672159fd76a5ec55f2fe5f9d872a2bdfa88bbfe597cfa77fbbefb298"
+    },
+    {
+      "path": "gz006-implementation-8b53-independent-main-ci/job-139294452964.decoded.log",
+      "bytes": 16178,
+      "sha256": "170227fabe75f8544e0d5b28258285095712bce133cce452f42b7c21c9c5e906"
+    },
+    {
+      "path": "gz006-implementation-8b53-independent-main-ci/official-commit.json",
+      "bytes": 6315,
+      "sha256": "725418d1fb90641a5ed01ed0017cf0b018c0399c5ff67998cd73733343bb9800"
+    },
+    {
+      "path": "gz006-implementation-8b53-independent-main-ci/official-issue.json",
+      "bytes": 19598,
+      "sha256": "6b8184089c7d7084af09bb6527b0e526017360741cfc67fd505fb266accaadd6"
+    },
+    {
+      "path": "gz006-implementation-8b53-independent-main-ci/official-jobs.json",
+      "bytes": 33519,
+      "sha256": "3a56090ea6c86920625563add4c6d1e4e52e72ef4a3d0c1584e1a7545b551c57"
+    },
+    {
+      "path": "gz006-implementation-8b53-independent-main-ci/official-main.json",
+      "bytes": 1301,
+      "sha256": "611551d2b920b3e7e35f6fe2c95f481dd9b237858bf1cb313410782ede001c40"
+    },
+    {
+      "path": "gz006-implementation-8b53-independent-main-ci/official-pr.json",
+      "bytes": 38677,
+      "sha256": "2385dc0f31216a836133a6e6ada3b359d4949b7800b2a22e7bc54a820654ccab"
+    },
+    {
+      "path": "gz006-implementation-8b53-independent-main-ci/official-run.json",
+      "bytes": 26780,
+      "sha256": "ef73a1839735c7fd9fb8233f12b26b37c460c3f3efecd8e3eda4d1d3d2200a54"
+    },
+    {
+      "path": "gz006-implementation-8b53-independent-main-ci/official-tracking.json",
+      "bytes": 13692,
+      "sha256": "49b257d7913d3438cb1248b4c660468b585d9e7826282ec0c36c8f5d1e1631ab"
+    },
+    {
+      "path": "gz006-implementation-8b53-actual-main-checks/coordination.txt",
+      "bytes": 308,
+      "sha256": "e4299735090a158d1c582bc7ce2ba050371dd38aefdead3726ef0f70ef54c9db"
+    },
+    {
+      "path": "gz006-implementation-8b53-actual-main-checks/finalization.txt",
+      "bytes": 428,
+      "sha256": "b9383abbb4be7d2d38c5ca16b54d383d5b02d5613a4420cf5b32d7859a61395b"
+    },
+    {
+      "path": "gz006-implementation-8b53-actual-main-checks/history.txt",
+      "bytes": 537,
+      "sha256": "5f30fde549aae38f3feabf36bcd35008539a37b30c6e8fc6f75bf3f710a70fea"
+    },
+    {
+      "path": "gz006-implementation-8b53-actual-main-checks/integrity.txt",
+      "bytes": 469,
+      "sha256": "dbe33acba490765e3863c3beb682c191a8b0376eacd9a70cb217fcc44287a1a0"
+    },
+    {
+      "path": "gz006-implementation-8b53-actual-main-checks/lifecycle-guards.txt",
+      "bytes": 519,
+      "sha256": "8e2f9716cc3e9930a528dc0d10c0ba5adde60b24b9a73500f24ad58b8215b112"
+    },
+    {
+      "path": "gz006-implementation-8b53-actual-main-checks/result.json",
+      "bytes": 394,
+      "sha256": "32bd71b90af862455264ac8ee37af2f72439e82a178ae18ae23a06b7cf63932f"
+    },
+    {
+      "path": "gz006-implementation-8b53-actual-main-checks/transitions.txt",
+      "bytes": 449,
+      "sha256": "eea608348f2c4f82373edf2ae33ffc1320db2250e12c9f719ffb8d7ecd2570b8"
+    },
+    {
+      "path": "gz006-implementation-8b53-actual-event-checks/catalog.txt",
+      "bytes": 379,
+      "sha256": "61eb27a6bd2134ed3cedd5c42a4b3e918a81a8c45975d55bb16b43cfa54ae978"
+    },
+    {
+      "path": "gz006-implementation-8b53-actual-event-checks/result.json",
+      "bytes": 6873,
+      "sha256": "2b94f6c5170ee3ff2be772f5d02c177fc0c3d4a372d981975e57b869b2695bdd"
+    },
+    {
+      "path": "gz006-implementation-8b53-actual-event-checks/unit.txt",
+      "bytes": 6601,
+      "sha256": "ff31016b811a40eab8ebc2c18f587dc807a01295f6b8b95349724075fd4441e8"
+    },
+    {
+      "path": "gz006-implementation-47b3-final-source-independent-review.json",
+      "bytes": 12286,
+      "sha256": "4e13c0137dfe4c18e43fb4a9f8e9f4bb5fb2f20156c1ad553d472ce89f233218"
+    },
+    {
+      "path": "gz006-implementation-47b3-prepublication-independent-review.json",
+      "bytes": 19218,
+      "sha256": "147526bb04b796344325ccc8d4d04dcc4b13b362016db3b884763b18e46cbacc"
+    },
+    {
+      "path": "gz006-reservation-f2907-final-actual-main-independent-review.json",
+      "bytes": 11414,
+      "sha256": "82aebe6ff383522f43a0c6f95847e27da195704c6524332bfd436d58adeeae9b"
+    }
+  ]
+}
