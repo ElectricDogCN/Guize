@@ -1,0 +1,3 @@
+{"afterVersion":"v1","beforeVersion":"absent","eventId":"controlled-event-001","objectId":"controlled-created-001","operation":"create","sequence":1}
+{"afterVersion":"v2","beforeVersion":"v1","eventId":"controlled-event-002","objectId":"f-000000003","operation":"update","sequence":2}
+{"afterVersion":"absent","beforeVersion":"v1","eventId":"controlled-event-003","objectId":"f-000000000","operation":"delete","sequence":3}

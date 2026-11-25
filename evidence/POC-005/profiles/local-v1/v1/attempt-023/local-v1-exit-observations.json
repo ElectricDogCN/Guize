@@ -1,0 +1,63 @@
+{
+  "kind": "local-v1-observation-derivation",
+  "source": {
+    "commit": "be8a16ad0fcaeb64e5b169e6137fedfb91fe5ae6",
+    "tree": "bea546f8b331ffaaf09f422294afedf9305f87ff"
+  },
+  "context": "37d6024e787262dddebf084aaccd9661b93c7a0e",
+  "executionRef": "evidence/POC-005/profiles/local-v1/v1/attempt-023/execution-candidate.json",
+  "executionSha256": "693cf2dab313866363ad32beb632fc16f631be899e1a6aff62254960b806d4ba",
+  "executionWindow": {
+    "finishedAt": "2026-11-25T08:32:00.843432Z",
+    "startedAt": "2026-11-25T08:21:18.086597Z"
+  },
+  "measurements": {
+    "file_count": 1000000,
+    "directory_count": 500,
+    "directory_depth_max": 12,
+    "average_file_size": 1792.0,
+    "source_api_quota": 6000.0,
+    "source_change_frequency": 17982.504701292746,
+    "enumeration_rate": 3926.048386087165,
+    "incremental_scan_cost": 0.017023402,
+    "memory_peak": 26.44140625,
+    "filename_characteristics_profiled": true,
+    "provider_characteristics_profiled": true,
+    "range_support_profiled": true,
+    "etag_behavior_profiled": true
+  },
+  "providerTraversals": [
+    {
+      "pages": 1385,
+      "objects": 1000500,
+      "startedAt": "2026-11-25T08:22:26.544818Z",
+      "finishedAt": "2026-11-25T08:25:02.801503Z",
+      "elapsedSeconds": 156.256685
+    },
+    {
+      "pages": 1385,
+      "objects": 1000500,
+      "startedAt": "2026-11-25T08:25:03.334820Z",
+      "finishedAt": "2026-11-25T08:27:20.708218Z",
+      "elapsedSeconds": 137.373398
+    }
+  ],
+  "maximumDirectFanout": 2273,
+  "parentsWithChildren": 442,
+  "enumerationSeconds": 254.836391,
+  "controlledChangeWindowSeconds": 0.600584,
+  "probeStatusCodes": [
+    200,
+    200,
+    206,
+    416,
+    200
+  ],
+  "retainedDatabaseCount": 10,
+  "retainedDatabaseLogicalBytes": 3169824768,
+  "rawArtifactCount": 11224,
+  "rawArtifactBytes": 582042601,
+  "serviceWaitExitCode": 0,
+  "controllerWaitExitCode": 0,
+  "canonicalAcceptanceInferred": false
+}

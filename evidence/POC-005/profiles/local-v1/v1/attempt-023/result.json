@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "pocId": "POC-05",
+  "taskId": "POC-005",
+  "status": "pass",
+  "evidencePath": "evidence/POC-005",
+  "executionRef": "evidence/POC-005/profiles/local-v1/v1/attempt-023/execution-candidate.json",
+  "decision": "pass",
+  "rationale": "本次LOCAL_FULL_V1在已接受be8源码、隔离OpenList v4.2.6和固定100万文件/500目录合成样本上完成原13项及五项退出条件；完整canonical validate_execution(status=pass)退出0且无错误，原件、实际退出和状态恢复已独立核验。结论限于本次本地受控样本，不表示700TB生产规模、真实提供方配额或生产V1验收；三处合成变化保留并已披露。",
+  "reviewer": "/root/gz022_planning_independent_review",
+  "approvedAt": "2026-11-25T09:05:19Z",
+  "approval": "approved"
+}
