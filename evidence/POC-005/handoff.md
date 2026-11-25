@@ -238,3 +238,13 @@ Program execution remains frozen under OPS-027. The metadata scan and OpenList v
 ## POC-005 恢复验证
 
 正式验收的 POC-003 ATS 与热缓存撤权验证 主线 `57eaf09d4ab6f6b335d8a750fdc3ce20653a66f9` 为当前集成基线。本次仅恢复 POC-005 自身状态、角色及相应证据，当前 Task 与活动登记绑定此主线，原登记基线 `746e23e582501fa08380c3f3301bdc1774902f7c` 保留在历史记录中。角色身份、范围和租约沿用既有登记。历史实验结果仍归各自版本。当前实验须从新验收版本重新固定和验证。
+
+## attempt-023 进入正式 Review
+
+已独立复验实际主线 `2cfc034d5bd7e135787d92800706a87ddf68e94d`（PR #276）。该提交的全部本地复验退出 0，官方 1,081 项测试全部通过，零跳过。独立复验记录 SHA-256 为 `52331c03515346efabedbea2d6380a1fd48de0e66c360a37aeb860cd6edea383`。
+
+百万文件实测结果见 PR #276 的实际主线 `2cfc034d5bd7e135787d92800706a87ddf68e94d` 和 `profiles/local-v1/v1/attempt-023/local-v1-exit-report.md`。结果适用于本次固定合成样本、隔离 OpenList 和本地适配器。
+
+本阶段待其精确源完整官方 CI、独立审核及合并后的实际主线复验。前序实测和记录继续以原提交和各自试验编号为准。
+
+[实际主线官方 CI](https://github.com/ElectricDogCN/Guize/actions/runs/45593119093)

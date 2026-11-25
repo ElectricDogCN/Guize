@@ -141,3 +141,13 @@ python scripts/run-task-scope-gate.py --task POC-005 --base origin/main
 python scripts/check-evidence.py --task POC-005
 python specs/poc/check_program.py --task POC-005 --base-ref origin/main
 python scripts/check-markdown.py
+
+## attempt-023 进入正式 Review
+
+已独立复验实际主线 `2cfc034d5bd7e135787d92800706a87ddf68e94d`（PR #276）。该提交的全部本地复验退出 0，官方 1,081 项测试全部通过，零跳过。独立复验记录 SHA-256 为 `52331c03515346efabedbea2d6380a1fd48de0e66c360a37aeb860cd6edea383`。
+
+百万文件实测结果见 PR #276 的实际主线 `2cfc034d5bd7e135787d92800706a87ddf68e94d` 和 `profiles/local-v1/v1/attempt-023/local-v1-exit-report.md`。结果适用于本次固定合成样本、隔离 OpenList 和本地适配器。
+
+本阶段待其精确源完整官方 CI、独立审核及合并后的实际主线复验。前序实测和记录继续以原提交和各自试验编号为准。
+
+[实际主线官方 CI](https://github.com/ElectricDogCN/Guize/actions/runs/45593119093)
