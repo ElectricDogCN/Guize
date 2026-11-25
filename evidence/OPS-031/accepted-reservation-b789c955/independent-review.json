@@ -1,0 +1,322 @@
+{
+  "reviewer": "/root/independent_review",
+  "approvedAt": "2026-11-25T17:50:54Z",
+  "taskId": "OPS-031",
+  "issue": 284,
+  "pullRequest": 285,
+  "actualMain": "b789c955c351f85e1de327d9a5040764c2f53643",
+  "source": "5304d1b3739c8f5b1a5977fec4e52fb873a1b14c",
+  "base": "150ee755f0583dccd747bc4d13c59f972b77ce87",
+  "tree": "02788712887858ad1ba6bd921cd93323377a0f11",
+  "actualReservationMainAccepted": true,
+  "fullMainCiAccepted": true,
+  "actualMainSixRelevantControlsAccepted": true,
+  "actualMainSevenAccepted": false,
+  "normalActivationMayStart": true,
+  "exactPlanningRevisionImplementationMayProceedAfterActivation": true,
+  "mustFix": [],
+  "acceptanceScope": "OPS031_INITIAL_FOUNDATION_RESERVATION_APPLICABLE_TASK_CONTROLS_AND_COMPLETE_OFFICIAL_CI",
+  "ci": {
+    "run": 45665934302,
+    "runNumber": 1120,
+    "attempt": 1,
+    "event": "push",
+    "jobs": 5,
+    "allJobsSuccess": true,
+    "aggregateJob": 139397304254,
+    "uniquePassed": 1081,
+    "original1078Plus3Preserved": true,
+    "caseSetExactlyMatchesPreviouslyAccepted1081": true,
+    "caseSetSha256": "02b042b56300a07454c35ab044346f13cfa7441f7d24bf434bbc5b9657c33683",
+    "failures": 0,
+    "errors": 0,
+    "skips": 0,
+    "xResults": 0,
+    "shards": [
+      {
+        "jobId": 139387960690,
+        "name": "Governance Tests (shard 1)",
+        "passed": 425,
+        "pytestSeconds": 429.22,
+        "jobSeconds": 472.0,
+        "skipAuditAccepted": true
+      },
+      {
+        "jobId": 139387960713,
+        "name": "Governance Tests (shard 0)",
+        "passed": 265,
+        "pytestSeconds": 866.2,
+        "jobSeconds": 908.0,
+        "skipAuditAccepted": true
+      },
+      {
+        "jobId": 139387961093,
+        "name": "Governance Tests (shard 2)",
+        "passed": 391,
+        "pytestSeconds": 472.15,
+        "jobSeconds": 507.0,
+        "skipAuditAccepted": true
+      }
+    ],
+    "allJobsBelowOriginal1800SecondCap": true,
+    "taskOnlyConditionalControlSkips": [
+      "Task file validation",
+      "Evidence check",
+      "Evidence integrity check",
+      "Task-branch linkage check",
+      "Scope check"
+    ],
+    "actualCheckout": "b789c955c351f85e1de327d9a5040764c2f53643",
+    "orderedParents": [
+      "150ee755f0583dccd747bc4d13c59f972b77ce87",
+      "5304d1b3739c8f5b1a5977fec4e52fb873a1b14c"
+    ],
+    "tree": "02788712887858ad1ba6bd921cd93323377a0f11",
+    "realLfsFetchAndProbeAccepted": true,
+    "workflowUrl": "https://github.com/ElectricDogCN/Guize/actions/runs/45665934302"
+  },
+  "actualMainControls": {
+    "integrity": 0,
+    "history": 0,
+    "transitions": 0,
+    "finalization": 0,
+    "lifecycle-guards": 0,
+    "coordination": 0
+  },
+  "sourceFinalReviewSha256": "8f407658098a4488be5dcab9c80881a7cb3d2d012a66b6bcd3712ce36d7e9459",
+  "findings": {
+    "normalActualMergeOrderedParentsAndExactReviewedTree": true,
+    "actualRemoteMainAndMergedPrConfirmed": true,
+    "taskProgramRegistryReservedCoordinator": true,
+    "oneActiveHighRiskGovTaskOnly": true,
+    "originalExclusiveProgramClaimAndLeaseUnchanged": true,
+    "independentReviewerDistinctFromImplementer": true,
+    "immutableDeclarationBoundActualReservationFirstParent": true,
+    "handoffRepairAndOriginalManifestPreserved": true,
+    "gz007FullBeforeDefinitionDependenciesAndScopeUnchanged": true,
+    "completionLedgerUnchanged": true,
+    "issue284ObservedOpen": true,
+    "issue280ObservedOpen": true
+  },
+  "authenticatedOriginalPlanningDeclaration": {
+    "path": "evidence/OPS-031/planning-revision.json",
+    "bytes": 4419,
+    "sha256": "3d345611a0fb4b0bf866477e721d4589b703fa4c98f6ba5049f3eed096d3c7b1",
+    "schemaVersion": 1,
+    "ownerTask": "OPS-031",
+    "reservationParent": "150ee755f0583dccd747bc4d13c59f972b77ce87",
+    "actualReservationMain": "b789c955c351f85e1de327d9a5040764c2f53643",
+    "target": "GZ-007",
+    "originalDefinitionSha256": "8fe4ef2532d5520a6c9657e43e7a42826555d3528869a49ba96ebb3f642a906e",
+    "allowedFields": [
+      "wave",
+      "integrationOrder"
+    ],
+    "exactFutureChanges": {
+      "wave": [
+        "W4",
+        "W3"
+      ],
+      "integrationOrder": [
+        1,
+        4
+      ]
+    }
+  },
+  "lease": {
+    "acquiredAt": "2026-11-25T16:59:55Z",
+    "expiresAt": "2026-12-02T16:59:55Z"
+  },
+  "activationAndImplementationConditions": [
+    "Refresh current accepted main and Issue284open, preserve the valid original lease and exact Program claim, and normally activate Own OPS031 metadata from reserved/coordinator to in_progress/implementer on the registered branch with actual base b789.",
+    "Only after that normal activation may OPS031 apply the complete authenticated GZ007 wave W4-to-W3 and integrationOrder1-to4 revision. Preserve declaration bytes, complete before/after identities, dependencies, scope, acceptance, POCs and every other definition.",
+    "The concrete implementation, normal Review and Completion still require original task checks, full official same-head source and actual-main1081 CI, ordinary reviewed merges and independent acceptance. No unknown future candidate or merge is preaccepted."
+  ],
+  "canonicalGz007RevisionApplied": false,
+  "gz007ActivationApproved": false,
+  "taskCompleted": false,
+  "actualCapacityReleased": false,
+  "branchCleanupAllowed": false,
+  "activeWorkBranchMustBeRetained": "chore/OPS-031-gz007-wave-order",
+  "trackedSeparateGlobalPocIssue": 280,
+  "globalPocQualificationAccepted": false,
+  "scopeBoundary": "Applicable OPS031 task controls and complete official CI passed. Issue280 remains independent global POC provenance tracking; this receipt does not assert global POC qualification or waive its release-milestone checks.",
+  "productionReleaseApproved": false,
+  "evidencePins": [
+    {
+      "path": "ops031-reservation-b789-independent-main-ci/independent-ci-analysis.json",
+      "bytes": 1672,
+      "sha256": "70365c743ad729927f9265473a02b29c8894111e5499861e44113d367a39cab5"
+    },
+    {
+      "path": "ops031-reservation-b789-independent-main-ci/job-139387960315-connector.json",
+      "bytes": 64860,
+      "sha256": "ae9817a43cf71184bfd368d74d7c0023c9c0e6993c8730cb42ede8e84e6b71c1"
+    },
+    {
+      "path": "ops031-reservation-b789-independent-main-ci/job-139387960315.decoded.log",
+      "bytes": 61885,
+      "sha256": "1bdbb7dbac93a6d5c1fa195d2dd582984a0136b43d318f6e887578f4af407b70"
+    },
+    {
+      "path": "ops031-reservation-b789-independent-main-ci/job-139387960690-connector.json",
+      "bytes": 176962,
+      "sha256": "bd05805684a004539503e0bacd1168a3227d39ffa6d8212c05941377d8ff1d00"
+    },
+    {
+      "path": "ops031-reservation-b789-independent-main-ci/job-139387960690.decoded.log",
+      "bytes": 175309,
+      "sha256": "e79fb77c5d63caf07f9b8cd030cf18cc5b598c205da97490ec01628f567ab61f"
+    },
+    {
+      "path": "ops031-reservation-b789-independent-main-ci/job-139387960713-connector.json",
+      "bytes": 128576,
+      "sha256": "d1ecef87a531f2a4e7676fb1610b840c9266bfa34274d38a3b1a606c696edd9d"
+    },
+    {
+      "path": "ops031-reservation-b789-independent-main-ci/job-139387960713.decoded.log",
+      "bytes": 127264,
+      "sha256": "8385e48b62a057b4e8a12c5a0c1375135951a1edb2505819fc5fbbadf1814337"
+    },
+    {
+      "path": "ops031-reservation-b789-independent-main-ci/job-139387961093-connector.json",
+      "bytes": 161671,
+      "sha256": "58d0f11c6075425e50125afd2ce1dfef404e35e7613248d17452c9943de1a9fd"
+    },
+    {
+      "path": "ops031-reservation-b789-independent-main-ci/job-139387961093.decoded.log",
+      "bytes": 160082,
+      "sha256": "0a0ef1455fc5ec675585deb87aa8f9d0057340e648175e97b7db9014cd624bb1"
+    },
+    {
+      "path": "ops031-reservation-b789-independent-main-ci/job-139397304254-connector.json",
+      "bytes": 16670,
+      "sha256": "f33c0dddae8d3c2c12b5e3de519298f0eb3bae628deb5a0b3fe8d6804557941b"
+    },
+    {
+      "path": "ops031-reservation-b789-independent-main-ci/job-139397304254.decoded.log",
+      "bytes": 16186,
+      "sha256": "85c25507a84f94743f83bf12cd26d31159aba83adaa8f7c0f25fd7e4d8e9c8bd"
+    },
+    {
+      "path": "ops031-reservation-b789-independent-main-ci/official-checks.json",
+      "bytes": 34887,
+      "sha256": "9d07eb7bfc7ab9306180ecbca74dc75603127ecc2a0bc72bdd39551c261f75dc"
+    },
+    {
+      "path": "ops031-reservation-b789-independent-main-ci/official-comments.json",
+      "bytes": 11185,
+      "sha256": "3bcd424f0ab8be6046411b3a3b74d15f6dd6e0677eacd357a5483d5a482f371c"
+    },
+    {
+      "path": "ops031-reservation-b789-independent-main-ci/official-commit.json",
+      "bytes": 6279,
+      "sha256": "f0b0fb60f51d0ff09494232c16aa0667bbf970ed1450351edb00adc29bc07d5a"
+    },
+    {
+      "path": "ops031-reservation-b789-independent-main-ci/official-head.json",
+      "bytes": 1617,
+      "sha256": "31fc1053789cbf5852d0929bb4b0592a2c55efc3bd105ba3f072919ac0b6197d"
+    },
+    {
+      "path": "ops031-reservation-b789-independent-main-ci/official-issue.json",
+      "bytes": 12046,
+      "sha256": "104999a618da112f4b15efe5be3fa6c2629aaa177eaf66e19763ee05d661d599"
+    },
+    {
+      "path": "ops031-reservation-b789-independent-main-ci/official-jobs.json",
+      "bytes": 33519,
+      "sha256": "a1ff71663849e3aa2b1e87cb5d63494bdd749d45401a48cd8f2c89248152d51f"
+    },
+    {
+      "path": "ops031-reservation-b789-independent-main-ci/official-main.json",
+      "bytes": 1301,
+      "sha256": "46f7c62b9bf47b4aca298be1093121a457749bc78aa8ebda306e8df7f35de401"
+    },
+    {
+      "path": "ops031-reservation-b789-independent-main-ci/official-pr.json",
+      "bytes": 38955,
+      "sha256": "ac2b5fc796986348d8810593df6b2b06e83aa968d491695f605ef331905dd958"
+    },
+    {
+      "path": "ops031-reservation-b789-independent-main-ci/official-reviews.json",
+      "bytes": 14295,
+      "sha256": "b41e5d772a423ba1ec62d816fe44eaab5416c7b480ed0ca5a9df35418e81ea5b"
+    },
+    {
+      "path": "ops031-reservation-b789-independent-main-ci/official-run.json",
+      "bytes": 26768,
+      "sha256": "3c43c390cfeab5e4cd7cdb597138a032e62042dd5c1507896389d74b20bc64ee"
+    },
+    {
+      "path": "ops031-reservation-b789-independent-main-ci/official-threads.json",
+      "bytes": 3519,
+      "sha256": "500ca8abfd995f0e5172be572db8eb1125db0a115ae72485513b0ce5f205f5a2"
+    },
+    {
+      "path": "ops031-reservation-b789-independent-main-ci/official-tracking.json",
+      "bytes": 13692,
+      "sha256": "49b257d7913d3438cb1248b4c660468b585d9e7826282ec0c36c8f5d1e1631ab"
+    },
+    {
+      "path": "ops031-reservation-b789-actual-main-checks/coordination.txt",
+      "bytes": 309,
+      "sha256": "45a1b45c798d542cb236d0dd8fd0b9bef9082decb49be9d7063a67a4910da574"
+    },
+    {
+      "path": "ops031-reservation-b789-actual-main-checks/finalization.txt",
+      "bytes": 428,
+      "sha256": "c378676041799f47097a6126fb7916b29587811c0087428894609dc64f3a8b8e"
+    },
+    {
+      "path": "ops031-reservation-b789-actual-main-checks/history.txt",
+      "bytes": 537,
+      "sha256": "addb95b899388b4d86e252075389469a9b0e917b247bdb270cd24b6a37bf640d"
+    },
+    {
+      "path": "ops031-reservation-b789-actual-main-checks/integrity.txt",
+      "bytes": 469,
+      "sha256": "6b586b0c7d67d800d4498f33f5551e994c0a8e5539461f1acbae7198f050499d"
+    },
+    {
+      "path": "ops031-reservation-b789-actual-main-checks/lifecycle-guards.txt",
+      "bytes": 520,
+      "sha256": "ce20bc1d84d57c7832c1d3e22b8bad88ede339680b5a7b96864d1853772c5045"
+    },
+    {
+      "path": "ops031-reservation-b789-actual-main-checks/result.json",
+      "bytes": 394,
+      "sha256": "d4183d4dd5c31d403225f6ecf0bc2d63b1547aced24787309acd2134e26611ae"
+    },
+    {
+      "path": "ops031-reservation-b789-actual-main-checks/transitions.txt",
+      "bytes": 449,
+      "sha256": "4bfb4e4d2b16a829ccf7dcd1e30876142ee026b2824631eaa671d8a00e961e52"
+    },
+    {
+      "path": "ops031-reservation-5304-final-source-independent-review.json",
+      "bytes": 16920,
+      "sha256": "8f407658098a4488be5dcab9c80881a7cb3d2d012a66b6bcd3712ce36d7e9459"
+    },
+    {
+      "path": "ops031-reservation-5304-prepublication-independent-review.json",
+      "bytes": 11559,
+      "sha256": "76df52f5d4aee975710bcca826579ad2855d96bad8e7a9ae3ebddb935b81bd53"
+    },
+    {
+      "path": "ops031-reservation-6f6c-final-source-independent-review.json",
+      "bytes": 4527,
+      "sha256": "494c9e4f81f142016aeb436c951011cee29a635fa7f92779375cc23a4de4fe87"
+    },
+    {
+      "path": "gz006-completion-150e-final-actual-main-independent-review.json",
+      "bytes": 14313,
+      "sha256": "25f1456f54aee273d1d228806f9c7f399265b6f466d86975265c36d51ff3887e"
+    },
+    {
+      "path": "gz006-reservation-f2907-poc-gate-scope-independent-facts.json",
+      "bytes": 4159,
+      "sha256": "f3a70d77c89b58353b6351de4645793eecf35c4d72c8e81c1a8f9e57c94df339"
+    }
+  ]
+}

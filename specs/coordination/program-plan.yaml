@@ -146,7 +146,7 @@ foundationTasks:
     mergeCommit: 5d4bfd1e70fbe9e161a64cbaabfe561044161ded
   - taskId: OPS-031
     title: 按实际依赖推进 GZ-007 数据库契约
-    status: reserved
+    status: in_progress
     completionRef: ISSUE-284
     mergeCommit: null
 waves:
@@ -353,8 +353,8 @@ tasks:
     ownerRole: task-owner-agent
     reviewerRole: independent-review-agent
     coordinationGroup: gz-007
-    wave: W4
-    integrationOrder: 1
+    wave: W3
+    integrationOrder: 4
     dependsOn:
     - GZ-004
     - GZ-005
