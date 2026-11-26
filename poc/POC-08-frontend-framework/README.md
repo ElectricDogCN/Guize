@@ -45,3 +45,12 @@ node poc/POC-08-frontend-framework/collect-build.mjs --identity IDENTITY.json --
 ~~~
 
 构建器检查这些输入，生成全新的输出目录并保存实际编译开始和结束时间。编译清单列出全部输出的字节数和 SHA-256。正式体积按整个输出目录统计，前面的首屏 JS 和 CSS 只用于开发对照。
+
+
+使用同一份浏览器命令采集两个候选时，`CONTEXT.json` 保存共同的 `context`，并在 `candidates` 中分别列出每个构建的 `identity`、`buildId` 和 `compilerManifestRef`。先按批准的 `browserOrigin` 启动预览，从仓库根目录采集。
+
+```text
+node poc/POC-08-frontend-framework/capture-scenario.mjs --policy POLICY.json --fixture FIXTURE.json --candidate react --scenario million_row_virtual_list_equivalent --output RUN-OUTPUT
+```
+
+采集命令保留浏览器驱动的原始 JSON 和标准错误，记录实际进程、命令、退出码与摘要。场景观察从 DOM 读回记录派生，供仓库校验器复验。输出目录每次新建。相同命令可把候选改为 `vue`，并使用另一输出目录。

@@ -5,6 +5,7 @@ import { join, posix } from "node:path";
 import { parseArgs } from "node:util";
 import { chromium } from "playwright-core";
 import { observeScenario } from "./browser-observations.mjs";
+import { readBrowserContext } from "./browser-context.mjs";
 
 const hash = (buffer) => "sha256:" + createHash("sha256").update(buffer).digest("hex");
 const timestamp = () => new Date().toISOString();
@@ -51,7 +52,7 @@ const input = await readFile(values.fixture);
 const { scenarios } = JSON.parse(input);
 const scenario = scenarios.find(({ scenarioId }) => scenarioId === values.scenario);
 assert.ok(scenario);
-const { context, identity, buildId, compilerManifestRef } = JSON.parse(await readFile(values.context));
+const { context, identity, buildId, compilerManifestRef } = await readBrowserContext(values.context, values.build);
 const { origin, pathname, protocol, hostname } = new URL(values.url);
 assert.equal(protocol, "http:");
 assert.equal(hostname, "127.0.0.1");
@@ -59,7 +60,7 @@ assert.equal(pathname, "/" + identity.candidateId + "/index.html");
 assert.equal(identity.outputDirectory, values.build);
 
 const manifest = await readFile(compilerManifestRef);
-const sourceFiles = await Promise.all(["browser-driver.mjs", "browser-observations.mjs"].map((name) =>
+const sourceFiles = await Promise.all(["browser-driver.mjs", "browser-observations.mjs", "browser-context.mjs"].map((name) =>
   readFile(new URL(name, import.meta.url)),
 ));
 const startedAt = timestamp();
