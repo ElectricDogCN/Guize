@@ -23,3 +23,11 @@
 实际预留主线 `5d89ae71542be66a7eda3eb02aec89623d086b24` 的两父和树与登记审查一致。主线 [CI #1184](https://github.com/ElectricDogCN/Guize/actions/runs/45904452258) 五作业成功，原 1,090 项逐项一致，最长 1,025 秒。实际主线九项本地验证及独立终验通过，独立终验回执 SHA-256 为 `86d4ad36764867960edbeb66e4a59f68c33279fe27aad1d1a6aca67a3da7eb18`。
 
 工作分支 `chore/OPS-032-poc-actor-repair` 以该实际预留为基线。激活提交仅改变本任务状态、当前职责、工作分支与基线元数据。实施采用原始登记声明的三个治理路径，精确的 POC 角色事务另行提交。
+
+## 实施与验证
+
+- `scripts/reservation-role-amendment.py` 区分原 OPS-015 与本次 OPS-032 的实际主线准入，两组复用同一实际实现、Review、Completion 及事务校验。OPS-032 从固定登记读取每项 POC 的旧 Task 和 Registry 摘要、待批准角色对。
+- `tests/governance/test_reservation_role_amendment.py` 以隔离 Git 历史验证两项目标的正式前瞻事务、尚未结项时的拒绝、其他目标的拒绝和同提交补批准的拒绝。三个新增用例在本地全部通过。
+- `rules/reservation-role-amendment.md` 记录两项准入的关系、固定声明、事前批准和后续执行要求。
+
+发布前完成既有 OPS-015 事务及自动导入复验、任务范围和生命周期检查。独立 Reviewer 随后对固定源核验，完整官方源 CI 和实际主线终验继续按原工作流执行。
