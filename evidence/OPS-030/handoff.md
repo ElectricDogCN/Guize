@@ -1,3 +1,36 @@
+# OPS-030 正式审查交接
+
+工作分支 chore/OPS-030-module-dependency-admission，目标 main，当前基线 1862617a41ac12994e2b7c3d8a5b179ab78cd803。已验收实施源为 fccd2a767d0eb93424d42f534cd7b8bc73e4ff72，实际主线为 0ab07018876d0904250399cfe6683ccbd1d3aa9d。租约、独占路径和独立审查角色按 Task/Registry 保留。
+
+实施源与实际主线均通过官方 1,090 项测试，包含原有 1,082 项。实际主线另外通过六项任务控制。[实施 PR #297](https://github.com/ElectricDogCN/Guize/pull/297) · [实际主线 CI #1144](https://github.com/ElectricDogCN/Guize/actions/runs/45764676844)
+
+真实用户路径已验证。GZ-009 和 POC-008 各自完成准入，GZ-009 已合入 UI 契约，POC-008 继续在独立分支验证。历次已有冻结与历史证据均保留。
+
+本轮实际变更如下。
+
+- evidence/OPS-030/accepted-main-0ab07018/independent-review.json
+- evidence/OPS-030/accepted-main-0ab07018/integrity.txt
+- evidence/OPS-030/changed-files.md
+- evidence/OPS-030/commands.txt
+- evidence/OPS-030/handoff.md
+- evidence/OPS-030/summary.md
+- evidence/OPS-030/test-results/README.md
+- specs/coordination/active-work.yaml
+- specs/coordination/program-plan.yaml
+- specs/tasks/OPS-030.md
+
+Source Commit: 0ab07018876d0904250399cfe6683ccbd1d3aa9d
+Command: /var/tmp/guize-ops027-rebased-proof/python/bin/python -B scripts/check-program-plan-integrity.py --base-ref 2cbd4ae2ec064763a25241f35ca7ffa6ce9bba71
+Exit Code: 0
+Result: PASS
+Raw SHA-256: e22b6912eccd26a3420f87d15fb48d6d644a48193df82b6a485d827cb4f8a9f3
+
+[独立复验原件](accepted-main-0ab07018/independent-review.json) · [完整性日志](accepted-main-0ab07018/integrity.txt)
+
+当前源通过完整官方 CI 和独立审核后合入并复验实际主线。正式审查阶段验收后进入正常结项。
+
+## 先前阶段交接
+
 # OPS-030 登记交接
 
 ## 任务与固定来源
@@ -59,3 +92,28 @@
 - 本地候选 b627f8ce85290c42ef96b2d38ff6c2aeeca21050 的协调检查拒绝 Task 与 Registry 中历史路径清单顺序不一致。原失败日志 SHA-256 773162079f949bc62a802170fc381670f9d9e4265c55dd65fefbed0b26dc9ede。将 Task 两份清单顺序与 Registry 对齐，保留同样八条路径。
 - Program 明确选择依赖顺序。历史快照缺省仍用波次检查。已有依赖、契约生产者、路径与并行容量限制继续核验。
 - 独立审核验证固定源码、历史实现及实际主线。实施 PR 保留初次候选的官方失败记录。
+
+## 正常结项交接
+
+基线 50f9be2130f8d8eebc9ec3c4192908850d44750b，结项分支 chore/OPS-030-module-dependency-completion，当前角色 integrator。已认证实施为 0ab07018876d0904250399cfe6683ccbd1d3aa9d。移除本任务登记，保留其他任务与现行 Program 策略。
+
+- evidence/OPS-030/accepted-review-main-50f9be21/independent-review.json
+- evidence/OPS-030/accepted-review-main-50f9be21/integrity.txt
+- evidence/OPS-030/changed-files.md
+- evidence/OPS-030/commands.txt
+- evidence/OPS-030/handoff.md
+- evidence/OPS-030/summary.md
+- evidence/OPS-030/test-results/README.md
+- specs/coordination/active-work.yaml
+- specs/coordination/program-plan.yaml
+- specs/tasks/OPS-030.md
+
+Source Commit: 50f9be2130f8d8eebc9ec3c4192908850d44750b
+Command: /var/tmp/guize-ops027-rebased-proof/python/bin/python -B scripts/check-program-plan-integrity.py --base-ref 1862617a41ac12994e2b7c3d8a5b179ab78cd803
+Exit Code: 0
+Result: PASS
+Raw SHA-256: 67ac5f4b9b6903aa2633296e5c22f8967d5176ff6eb706c219d8deda096f5f58
+
+[审查 PR #306](https://github.com/ElectricDogCN/Guize/pull/306) · [审查主线 CI #1154](https://github.com/ElectricDogCN/Guize/actions/runs/45790895176) · [独立终验](accepted-review-main-50f9be21/independent-review.json)
+
+在实际审查主线独立验收后，于 2026-11-26T09:38:34Z 按结项门禁将 [Issue #257](https://github.com/ElectricDogCN/Guize/issues/257) 标记为 completed。源和实际结项主线均通过完整官方 CI 与独立验收后，再清理结束分支并确认释放容量。如果结项验证失败且无法修复，重新打开 Issue，保留原审查主线。

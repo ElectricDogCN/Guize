@@ -152,9 +152,9 @@ foundationTasks:
     mergeCommit: 068fefceef9e03fa30c12fa88af53f9bfd5ad174
   - taskId: OPS-030
     title: 按已满足的依赖准入独立模块
-    status: in_progress
-    completionRef: ISSUE-257
-    mergeCommit: null
+    status: completed
+    completionRef: PR-297
+    mergeCommit: 0ab07018876d0904250399cfe6683ccbd1d3aa9d
 waves:
   - {id: W1, order: 1, name: "需求与 POC 计划", maxConcurrent: 2, maxHighRisk: 1}
   - {id: W2, order: 2, name: "OpenAPI + 独立 POC", maxConcurrent: 3, maxHighRisk: 1}
@@ -353,7 +353,7 @@ tasks:
   - taskId: GZ-007
     title: 冻结 PostgreSQL/Flyway DDL、索引与迁移策略
     kind: contract
-    status: planned
+    status: reserved
     workPackage: WP-M0-03D
     riskLevel: high
     ownerRole: task-owner-agent
@@ -468,7 +468,7 @@ tasks:
   - taskId: GZ-009
     title: 冻结前端页面、权限、状态与 API 映射
     kind: design-contract
-    status: reserved
+    status: completed
     workPackage: WP-M0-03F
     riskLevel: medium
     ownerRole: task-owner-agent

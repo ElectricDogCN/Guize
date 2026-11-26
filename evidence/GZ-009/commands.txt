@@ -60,3 +60,72 @@ Output SHA-256: b427cc8c650b40fa0b375430c25e54cb364bb0ed93999487eff82daae28ab69b
 Command: python scripts/check-spec-sync.py --base origin/main
 Exit Code: 0
 Output SHA-256: f1d47d7f6c872eb35af7d3203d3f221d0c282ef6ee2181ed93031742dc939324
+
+# GZ-009 implementation
+
+Command: python specs/ui/check_contract.py
+Exit Code: 0
+Output: PASS: 19 UI pages, 96 API operations and 2 node-only operations.
+Command: python -B specs/ui/test_contract.py -v
+Exit Code: 0
+Output: 7 tests passed.
+The repository includes all four negative cases and the playback, Passkey and event-stream response assertions. The original interactive check on the first candidate was followed by this repeatable suite.
+The fixed commit and independent CI outcomes are linked by PR #305.
+
+## 正式审查
+
+已接受的实施主线完整性日志。
+
+Source Commit: 1862617a41ac12994e2b7c3d8a5b179ab78cd803
+Command: /var/tmp/guize-ops027-rebased-proof/python/bin/python -B scripts/check-program-plan-integrity.py --base-ref b97135ac94360828e9d29562be593551e231ab30
+Exit Code: 0
+Result: PASS
+Raw SHA-256: 24ebab7037a0b0f28ccfe0f89e03dad3332f28b8adc10396b07c9bd45ccbbba3
+
+正式审查固定源命令。
+
+git diff --check dc8f7015bbdbb57a60ca49a860659e5b5ac08477...HEAD
+python scripts/check-task-file.py --task GZ-009
+python scripts/check-evidence.py --task GZ-009
+python scripts/check-schemas.py
+python scripts/check-program-plan-integrity.py --base-ref dc8f7015bbdbb57a60ca49a860659e5b5ac08477
+python scripts/check-program-plan-history.py --base-ref dc8f7015bbdbb57a60ca49a860659e5b5ac08477 --head-ref HEAD --task GZ-009 --branch-name chore/GZ-009-ui-contract
+python scripts/check-program-plan-transitions.py --base-ref dc8f7015bbdbb57a60ca49a860659e5b5ac08477 --head-ref HEAD --task GZ-009 --branch-name chore/GZ-009-ui-contract
+python scripts/check-program-lifecycle-guards.py --base-ref dc8f7015bbdbb57a60ca49a860659e5b5ac08477 --head-ref HEAD --task GZ-009 --branch-name chore/GZ-009-ui-contract
+python scripts/run-program-lifecycle-gate.py --base-ref dc8f7015bbdbb57a60ca49a860659e5b5ac08477 --head-ref HEAD --task GZ-009 --branch-name chore/GZ-009-ui-contract
+python scripts/run-agent-coordination-gate.py --base-ref dc8f7015bbdbb57a60ca49a860659e5b5ac08477 --head-ref HEAD --task GZ-009 --branch-name chore/GZ-009-ui-contract
+python scripts/check-program-plan-finalization.py --base-ref dc8f7015bbdbb57a60ca49a860659e5b5ac08477 --head-ref HEAD --task GZ-009
+python scripts/run-task-scope-gate.py --task GZ-009 --base dc8f7015bbdbb57a60ca49a860659e5b5ac08477
+python scripts/check-project-readiness.py
+python scripts/check-markdown.py
+python scripts/check-spec-sync.py --base origin/main
+python specs/ui/check_contract.py
+python -m pytest -q specs/ui/test_contract.py
+
+## 正常结项
+
+Source Commit: 4337d4a6bb1d4d01d31fa1a5875e2a1056bff9f4
+Command: /var/tmp/guize-ops027-rebased-proof/python/bin/python -B scripts/check-program-plan-integrity.py --base-ref dc8f7015bbdbb57a60ca49a860659e5b5ac08477
+Exit Code: 0
+Result: PASS
+Raw SHA-256: aaf883b593d7eedfa0b1c205a3141a66bfdecb6bfb1400d1bfefdd64ee0616eb
+
+固定结项源命令。
+
+git diff --check 0cde7c3b886617dfbb89bedff0679a351e4cd970...HEAD
+python scripts/check-task-file.py --task GZ-009
+python scripts/check-evidence.py --task GZ-009
+python scripts/check-schemas.py
+python scripts/check-program-plan-integrity.py --base-ref 0cde7c3b886617dfbb89bedff0679a351e4cd970
+python scripts/check-program-plan-history.py --base-ref 0cde7c3b886617dfbb89bedff0679a351e4cd970 --head-ref HEAD --task GZ-009 --branch-name chore/GZ-009-normal-completion
+python scripts/check-program-plan-transitions.py --base-ref 0cde7c3b886617dfbb89bedff0679a351e4cd970 --head-ref HEAD --task GZ-009 --branch-name chore/GZ-009-normal-completion
+python scripts/check-program-lifecycle-guards.py --base-ref 0cde7c3b886617dfbb89bedff0679a351e4cd970 --head-ref HEAD --task GZ-009 --branch-name chore/GZ-009-normal-completion
+python scripts/run-program-lifecycle-gate.py --base-ref 0cde7c3b886617dfbb89bedff0679a351e4cd970 --head-ref HEAD --task GZ-009 --branch-name chore/GZ-009-normal-completion
+python scripts/run-agent-coordination-gate.py --base-ref 0cde7c3b886617dfbb89bedff0679a351e4cd970 --head-ref HEAD --task GZ-009 --branch-name chore/GZ-009-normal-completion
+python scripts/check-program-plan-finalization.py --base-ref 0cde7c3b886617dfbb89bedff0679a351e4cd970 --head-ref HEAD --task GZ-009
+python scripts/run-task-scope-gate.py --task GZ-009 --base 0cde7c3b886617dfbb89bedff0679a351e4cd970
+python scripts/check-project-readiness.py
+python scripts/check-markdown.py
+python scripts/check-spec-sync.py --base origin/main
+python specs/ui/check_contract.py
+python -m pytest -q specs/ui/test_contract.py

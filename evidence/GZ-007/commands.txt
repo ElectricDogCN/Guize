@@ -1,0 +1,19 @@
+# GZ-007 登记固定源
+
+Command recipe. Exit Code: UNEXECUTED.
+
+git diff --check 4337d4a6bb1d4d01d31fa1a5875e2a1056bff9f4...HEAD
+python scripts/check-task-file.py --task GZ-007
+python scripts/check-schemas.py
+python scripts/check-program-plan-integrity.py --base-ref 4337d4a6bb1d4d01d31fa1a5875e2a1056bff9f4
+python scripts/check-program-plan-history.py --base-ref 4337d4a6bb1d4d01d31fa1a5875e2a1056bff9f4 --head-ref HEAD --task GZ-007 --branch-name chore/GZ-007-data-contract-reservation
+python scripts/check-program-plan-transitions.py --base-ref 4337d4a6bb1d4d01d31fa1a5875e2a1056bff9f4 --head-ref HEAD --task GZ-007 --branch-name chore/GZ-007-data-contract-reservation
+python scripts/check-program-lifecycle-guards.py --base-ref 4337d4a6bb1d4d01d31fa1a5875e2a1056bff9f4 --head-ref HEAD --task GZ-007 --branch-name chore/GZ-007-data-contract-reservation
+python scripts/run-program-lifecycle-gate.py --base-ref 4337d4a6bb1d4d01d31fa1a5875e2a1056bff9f4 --head-ref HEAD --task GZ-007 --branch-name chore/GZ-007-data-contract-reservation
+python scripts/run-agent-coordination-gate.py --base-ref 4337d4a6bb1d4d01d31fa1a5875e2a1056bff9f4 --head-ref HEAD --task GZ-007 --branch-name chore/GZ-007-data-contract-reservation
+python scripts/check-program-plan-finalization.py --base-ref 4337d4a6bb1d4d01d31fa1a5875e2a1056bff9f4 --head-ref HEAD --task GZ-007
+python scripts/run-task-scope-gate.py --task GZ-007 --base 4337d4a6bb1d4d01d31fa1a5875e2a1056bff9f4
+python scripts/check-evidence.py --task GZ-007
+python scripts/check-project-readiness.py
+python scripts/check-markdown.py
+python scripts/check-spec-sync.py --base origin/main

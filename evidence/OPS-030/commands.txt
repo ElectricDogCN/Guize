@@ -26,3 +26,59 @@ python scripts/check-program-plan-transitions.py --base-ref 2cbd4ae2ec064763a252
 python scripts/check-program-plan-history.py --base-ref 2cbd4ae2ec064763a25241f35ca7ffa6ce9bba71 --head-ref HEAD --task OPS-030 --branch-name chore/OPS-030-module-dependency-admission
 python scripts/check-evidence.py --task OPS-030
 python scripts/check-schemas.py
+
+## 正式审查
+
+已完成的实施主线检查。
+
+Source Commit: 0ab07018876d0904250399cfe6683ccbd1d3aa9d
+Command: /var/tmp/guize-ops027-rebased-proof/python/bin/python -B scripts/check-program-plan-integrity.py --base-ref 2cbd4ae2ec064763a25241f35ca7ffa6ce9bba71
+Exit Code: 0
+Result: PASS
+Raw SHA-256: e22b6912eccd26a3420f87d15fb48d6d644a48193df82b6a485d827cb4f8a9f3
+
+本轮固定源的检查按以下命令执行。
+
+git diff --check 1862617a41ac12994e2b7c3d8a5b179ab78cd803...HEAD
+python scripts/check-task-file.py --task OPS-030
+python scripts/check-schemas.py
+python scripts/check-program-plan-integrity.py --base-ref 1862617a41ac12994e2b7c3d8a5b179ab78cd803
+python scripts/check-program-plan-history.py --base-ref 1862617a41ac12994e2b7c3d8a5b179ab78cd803 --head-ref HEAD --task OPS-030 --branch-name chore/OPS-030-module-dependency-admission
+python scripts/check-program-plan-transitions.py --base-ref 1862617a41ac12994e2b7c3d8a5b179ab78cd803 --head-ref HEAD --task OPS-030 --branch-name chore/OPS-030-module-dependency-admission
+python scripts/check-program-lifecycle-guards.py --base-ref 1862617a41ac12994e2b7c3d8a5b179ab78cd803 --head-ref HEAD --task OPS-030 --branch-name chore/OPS-030-module-dependency-admission
+python scripts/run-program-lifecycle-gate.py --base-ref 1862617a41ac12994e2b7c3d8a5b179ab78cd803 --head-ref HEAD --task OPS-030 --branch-name chore/OPS-030-module-dependency-admission
+python scripts/run-agent-coordination-gate.py --base-ref 1862617a41ac12994e2b7c3d8a5b179ab78cd803 --head-ref HEAD --task OPS-030 --branch-name chore/OPS-030-module-dependency-admission
+python scripts/check-program-plan-finalization.py --base-ref 1862617a41ac12994e2b7c3d8a5b179ab78cd803 --head-ref HEAD --task OPS-030
+python scripts/run-task-scope-gate.py --task OPS-030 --base 1862617a41ac12994e2b7c3d8a5b179ab78cd803
+python scripts/check-evidence.py --task OPS-030
+python scripts/check-project-readiness.py
+python scripts/check-markdown.py
+python scripts/check-spec-sync.py --base origin/main
+
+## 正常结项
+
+已通过的审查主线检查。
+
+Source Commit: 50f9be2130f8d8eebc9ec3c4192908850d44750b
+Command: /var/tmp/guize-ops027-rebased-proof/python/bin/python -B scripts/check-program-plan-integrity.py --base-ref 1862617a41ac12994e2b7c3d8a5b179ab78cd803
+Exit Code: 0
+Result: PASS
+Raw SHA-256: 67ac5f4b9b6903aa2633296e5c22f8967d5176ff6eb706c219d8deda096f5f58
+
+本轮固定源命令。
+
+git diff --check 50f9be2130f8d8eebc9ec3c4192908850d44750b...HEAD
+python scripts/check-task-file.py --task OPS-030
+python scripts/check-schemas.py
+python scripts/check-program-plan-integrity.py --base-ref 50f9be2130f8d8eebc9ec3c4192908850d44750b
+python scripts/check-program-plan-history.py --base-ref 50f9be2130f8d8eebc9ec3c4192908850d44750b --head-ref HEAD --task OPS-030 --branch-name chore/OPS-030-module-dependency-completion
+python scripts/check-program-plan-transitions.py --base-ref 50f9be2130f8d8eebc9ec3c4192908850d44750b --head-ref HEAD --task OPS-030 --branch-name chore/OPS-030-module-dependency-completion
+python scripts/check-program-lifecycle-guards.py --base-ref 50f9be2130f8d8eebc9ec3c4192908850d44750b --head-ref HEAD --task OPS-030 --branch-name chore/OPS-030-module-dependency-completion
+python scripts/run-program-lifecycle-gate.py --base-ref 50f9be2130f8d8eebc9ec3c4192908850d44750b --head-ref HEAD --task OPS-030 --branch-name chore/OPS-030-module-dependency-completion
+python scripts/run-agent-coordination-gate.py --base-ref 50f9be2130f8d8eebc9ec3c4192908850d44750b --head-ref HEAD --task OPS-030 --branch-name chore/OPS-030-module-dependency-completion
+python scripts/check-program-plan-finalization.py --base-ref 50f9be2130f8d8eebc9ec3c4192908850d44750b --head-ref HEAD --task OPS-030
+python scripts/run-task-scope-gate.py --task OPS-030 --base 50f9be2130f8d8eebc9ec3c4192908850d44750b
+python scripts/check-evidence.py --task OPS-030
+python scripts/check-project-readiness.py
+python scripts/check-markdown.py
+python scripts/check-spec-sync.py --base origin/main
