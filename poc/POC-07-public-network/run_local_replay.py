@@ -11,7 +11,7 @@ import secrets
 import ssl
 import sys
 
-from playback_gateway import PlaybackPolicy, playback_gateway
+from playback_gateway import PlaybackAuthorization, PlaybackPolicy, playback_gateway
 from replay_fixture import replay_fixture
 from stream_fixture import FixtureSource
 from verify_fixture import verify_fixture
@@ -21,6 +21,8 @@ from grants import Grant, utc_instant
 
 PREFLIGHT_BYTES = 2_097_189
 PREFLIGHT_SHA256 = "dd6a5c8b02ef6c8c3bbe7c1132948d3fb949bb6dbd234e9f7d23c7a1b42a6cad"
+CONTEXT_FIELDS = {"configurationRef", "pathConfigurationRef", "resourceId", "acceptanceProfile", "subjectVersion",
+                  "inputSamples", "assetId", "sourceVersion", "aclVersion", "inputSampleId"}
 
 
 def playback_grants(schedule: dict[str, str] | None, now: datetime) -> tuple[Grant, Grant]:
@@ -53,6 +55,16 @@ def verify_preflight_sample(path: Path) -> dict[str, str | int]:
 
 def run(args: argparse.Namespace, *, origin_authorization: str | None = None) -> dict:
     sample = verify_preflight_sample(args.fixture) if args.preflight else verify_fixture(args.fixture)
+    context = None
+    if args.transport_context is not None:
+        if not args.native_transport:
+            raise ValueError("Transport context requires native request capture")
+        context = json.loads(args.transport_context.read_bytes())
+        if (not isinstance(context, dict) or context.keys() != CONTEXT_FIELDS
+                or context["inputSampleId"] != sample["sampleId"] or not isinstance(context["inputSamples"], list)
+                or sum(isinstance(row, dict) and row.get("id") == sample["sampleId"]
+                       and row.get("checksum") == sample["checksum"] for row in context["inputSamples"]) != 1):
+            raise ValueError("Transport context must bind the selected synthetic sample")
     source = FixtureSource(
         args.origin_port, "synthetic.bin", int(sample["byteCount"]), str(sample["checksum"]).removeprefix("sha256:")
     )
@@ -75,18 +87,20 @@ def run(args: argparse.Namespace, *, origin_authorization: str | None = None) ->
     owner, stale, other = ("Bearer " + secrets.token_urlsafe(24) for _ in range(3))
     subjects = ((owner, "sample-owner", active), (stale, "sample-owner", expired), (other, "other-sample-user", active))
 
-    def authorize(presented: str, observed_at: datetime) -> str:
+    def authorize(presented: str, observed_at: datetime) -> PlaybackAuthorization:
         if presented.isascii():
             for credential, principal, grant in subjects:
                 if compare_digest(presented, credential):
-                    return grant.decision(principal, observed_at.isoformat())
-        return "missing_identity"
+                    return PlaybackAuthorization(grant.decision(principal, observed_at.isoformat()),
+                                                 principal, grant.grant_id)
+        return PlaybackAuthorization("missing_identity")
 
     observations = []
     with playback_gateway(source, origin_authorization, authorize, tls, policy, observations.append,
                           port=args.playback_port) as port:
         result = replay_fixture(source, args.fixture, port, args.certificate, policy, args.output, observations,
-                                owner=owner, expired=stale, other_identity=other, native_transport=args.native_transport)
+                                owner=owner, expired=stale, other_identity=other, native_transport=args.native_transport,
+                                transport_context=context)
     result.update(operation="local_fixture_replay", sample=sample, preflight=args.preflight, gatewayStopped=True)
     result["playbackGrantPolicy"] = {
         "authorizedUserId": active.principal, "deniedUserId": subjects[2][1],
@@ -113,6 +127,7 @@ def argument_parser() -> argparse.ArgumentParser:
     parser.add_argument("--window-seconds", type=float, required=True)
     parser.add_argument("--grant-schedule", type=Path, help="Fixed UTC playback grant times for local evidence")
     parser.add_argument("--native-transport", action="store_true", help="Record actual per-request and TLS subprocesses")
+    parser.add_argument("--transport-context", type=Path, help="Bind native rate receipts to a fixed evidence context")
     parser.add_argument("--preflight", action="store_true", help="Select the fixed small synthetic fixture")
     return parser
 

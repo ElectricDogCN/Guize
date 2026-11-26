@@ -11,6 +11,10 @@ import ssl
 CHUNK_BYTES = 64 * 1024
 
 
+def utc_stamp(instant: datetime) -> str:
+    return instant.astimezone(timezone.utc).isoformat().replace("+00:00", "Z")
+
+
 @dataclass(frozen=True)
 class Capture:
     peer_address: str
@@ -31,7 +35,7 @@ class Capture:
     def transport_observation(self) -> dict:
         return {
             "clientProcessId": self.process_id,
-            "clientRequestStartedAt": self.request_started_at.isoformat(),
+            "clientRequestStartedAt": utc_stamp(self.request_started_at),
             "clientPeakReceiveBytes": self.peak_receive_bytes,
             "verifiedServerName": self.verified_server_name,
         }

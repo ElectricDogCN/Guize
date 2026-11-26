@@ -5,6 +5,7 @@ from hashlib import file_digest
 import json
 from pathlib import Path
 
+from capture_playback import utc_stamp
 from run_local_replay import argument_parser, run
 from run_local_resource_replay import read_origin_identities, read_output_fixture, replay
 
@@ -38,7 +39,7 @@ def main() -> None:
                native_transport=args.native_transport)
         finish = datetime.now(timezone.utc)
         result = {
-            "startedAt": start.isoformat(), "finishedAt": finish.isoformat(), "sample": playback["sample"],
+            "startedAt": utc_stamp(start), "finishedAt": utc_stamp(finish), "sample": playback["sample"],
             "originPort": args.origin_port, "playbackPort": args.playback_port, "resourcePort": args.resource_port,
             "playback": receipt(args.output / "replay-result.json", root),
             "resources": receipt(resources / "resource-replay.json", root),

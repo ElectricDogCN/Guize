@@ -30,6 +30,13 @@ class PlaybackPolicy:
 
 
 @dataclass(frozen=True)
+class PlaybackAuthorization:
+    decision: str
+    user_id: str = "anonymous"
+    grant_id: str | None = None
+
+
+@dataclass(frozen=True)
 class PlaybackObservation:
     observed_at: datetime
     status: int
@@ -42,13 +49,16 @@ class PlaybackObservation:
     source_requested_at: datetime | None = None
     transfer: Transfer | None = None
     reads: tuple[ObservedRead, ...] = ()
+    user_id: str = "anonymous"
+    grant_id: str | None = None
+    cache_key: str = ""
 
 
 @contextmanager
 def playback_gateway(
     source: FixtureSource,
     origin_authorization: str,
-    authorize: Callable[[str, datetime], str],
+    authorize: Callable[[str, datetime], PlaybackAuthorization | str],
     tls_context: ssl.SSLContext,
     policy: PlaybackPolicy,
     observe: Callable[[PlaybackObservation], None],
@@ -61,7 +71,10 @@ def playback_gateway(
     if tls_context.minimum_version != ssl.TLSVersion.TLSv1_3:
         raise ValueError("The disposable playback listener requires TLS 1.3")
     recent: deque[float] = deque()
-    cached: tuple[dict[str, str], bytes] | None = None
+    first, stop = policy.cache_interval
+    cache_range = f"bytes={first}-{stop - 1}"
+    cache_key = f"{source.filename}@{source.sha256_hex}/{cache_range}"
+    cached: tuple[str, dict[str, str], bytes] | None = None
 
     class Handler(BaseHTTPRequestHandler):
         def log_message(self, *_):
@@ -81,10 +94,13 @@ def playback_gateway(
             if_range = self.headers.get("If-Range")
             request_id = self.headers.get("X-Guize-Request-Id")
             trace_id = self.headers.get("X-Guize-Trace-Id")
+            authorization = PlaybackAuthorization("unknown_route")
+            protected_key = cache_key if requested == cache_range else ""
 
             def record(status: int, decision: str, **outcome) -> None:
                 observe(PlaybackObservation(observed_at, status, decision, requested, if_range,
-                                            request_id, trace_id, **outcome))
+                                            request_id, trace_id, **outcome, user_id=authorization.user_id,
+                                            grant_id=authorization.grant_id, cache_key=protected_key))
 
             def reject(status: int, reason: str, **headers: str) -> None:
                 record(status, reason)
@@ -93,7 +109,10 @@ def playback_gateway(
             if self.path != "/synthetic.bin":
                 reject(404, "unknown_route")
                 return
-            decision = authorize(self.headers.get("Authorization", ""), observed_at)
+            authorization = authorize(self.headers.get("Authorization", ""), observed_at)
+            if isinstance(authorization, str):
+                authorization = PlaybackAuthorization(authorization)
+            decision = authorization.decision
             if decision != "allowed":
                 reject(403, decision)
                 return
@@ -114,8 +133,10 @@ def playback_gateway(
                 reject(400, "invalid_range")
                 return
             use_cache = interval == policy.cache_interval
-            if use_cache and cached is not None:
-                headers, body = cached
+            if use_cache:
+                protected_key = cache_key
+            if use_cache and cached is not None and cached[0] == protected_key:
+                _, headers, body = cached
                 self.send_fixture_headers(206, headers)
                 if self.wfile.write(body) != len(body):
                     raise OSError("Playback client did not consume the cached response")
@@ -147,7 +168,7 @@ def playback_gateway(
                 request_sent=request_sent,
             )
             if capture is not None:
-                cached = cache_headers, capture.getvalue()
+                cached = cache_key, cache_headers, capture.getvalue()
             record(206 if interval else 200, "allowed", source_requested_at=source_requested_at,
                    transfer=transfer, reads=observer.finish())
 

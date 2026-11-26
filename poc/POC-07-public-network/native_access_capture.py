@@ -12,7 +12,7 @@ import subprocess
 import sys
 from urllib.parse import urlsplit
 
-from capture_playback import Capture, capture_anonymous_origin_response, capture_resource_denial, capture_response
+from capture_playback import Capture, capture_anonymous_origin_response, capture_resource_denial, capture_response, utc_stamp
 
 SCRIPT = Path(__file__).resolve()
 CLOCKS = ("started_at", "connected_at", "request_started_at", "finished_at")
@@ -39,7 +39,7 @@ def write_bytes(path: Path, content: bytes) -> None:
 
 
 def json_bytes(data: dict) -> bytes:
-    return (json.dumps(data, default=lambda value: value.isoformat()) + "\n").encode("utf-8")
+    return (json.dumps(data, default=utc_stamp) + "\n").encode("utf-8")
 
 
 def capture_tls(args: argparse.Namespace, settings: dict) -> None:
@@ -120,7 +120,7 @@ def capture_tls_request(args: argparse.Namespace, settings: dict) -> dict:
     write_bytes(stderr, stderr_bytes)
     return {
         "requestProcessId": getpid(), "requestCommand": sys.orig_argv, "tlsCommand": tls_command,
-        "tlsProcessId": process.pid, "tlsStartedAt": started.isoformat(), "tlsFinishedAt": finished.isoformat(),
+        "tlsProcessId": process.pid, "tlsStartedAt": utc_stamp(started), "tlsFinishedAt": utc_stamp(finished),
         "tlsExitCode": process.returncode,
         "tlsResult": tls_result.name, "tlsResultSha256": "sha256:" + sha256(stdout_bytes).hexdigest(),
         "tlsStderr": stderr.name, "tlsStderrSha256": "sha256:" + sha256(stderr_bytes).hexdigest(),
@@ -150,6 +150,7 @@ def observe_access_request(
     evidence = json.loads(completed.stdout)
     if evidence["requestCommand"] != command:
         raise CaptureError("The observed request command differs from the invoked command")
+    evidence["requestExitCode"] = completed.returncode
     raw = evidence.pop("capture")
     capture = Capture(**(raw | {field: datetime.fromisoformat(raw[field]) for field in CLOCKS}))
     return capture, evidence

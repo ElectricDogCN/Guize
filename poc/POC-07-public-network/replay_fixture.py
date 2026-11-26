@@ -1,7 +1,8 @@
 """Collect the ordinary local playback cases and verify their retained HTTP responses."""
 
 from dataclasses import asdict
-from hashlib import sha256
+from hashlib import file_digest, sha256
+import json
 from pathlib import Path
 from shutil import copyfileobj
 import ssl
@@ -9,7 +10,7 @@ import sys
 import time
 from uuid import uuid4
 
-from capture_playback import capture_anonymous_origin_response, capture_response
+from capture_playback import capture_anonymous_origin_response, capture_response, utc_stamp
 from native_access_capture import observe_access_request
 from playback_gateway import PlaybackObservation, PlaybackPolicy
 from stream_fixture import CHUNK_BYTES, FixtureSource
@@ -37,6 +38,44 @@ def retain_response_body(path: Path, headers: dict[str, str], byte_count: int, d
     return body.name
 
 
+def retain_rate_attempts(directory: Path, context: dict, attempts: list[dict]) -> list[str]:
+    """Translate actual consecutive warm-cache requests into the local rate verifier format."""
+    script = Path(attempts[0]["nativeTransport"]["requestCommand"][2])
+    with script.open("rb") as observer:
+        observer_build = "sha256:" + file_digest(observer, "sha256").hexdigest()
+    retained = []
+    for sequence, attempt in enumerate(attempts, start=1):
+        if attempt["completedSourceTransfers"] or not all((attempt["userId"], attempt["grantId"], attempt["cacheKey"])):
+            raise ValueError("Rate observation requires the authenticated warm cache scope and no source read")
+        native = attempt["nativeTransport"]
+        command = native["requestCommand"]
+        if Path(command[-1]) != directory / attempt["rawResponse"]:
+            raise ValueError("Rate observation command does not bind the retained HTTP response")
+        identifiers = {key: attempt[key] for key in ("requestId", "traceId")}
+        start, finish = attempt["clientRequestStartedAt"], attempt["clientFinishedAt"]
+        request = {key: attempt[key] for key in ("userId", "grantId", "requestRange", "ifRange", "cacheKey")}
+        request["ifRange"] = request["ifRange"] or ""
+        trace = {
+            "schemaVersion": 1, "kind": "local_access_rate_transport_trace", "context": context,
+            "sequence": sequence, **identifiers, "observerBuild": observer_build, "commandArgs": command,
+            "pid": native["requestProcessId"], "startedAt": start, "finishedAt": finish,
+            "exitCode": native["requestExitCode"],
+            "responseRef": command[-1], "responseSha256": attempt["rawResponseSha256"],
+            "responseBodyRef": (directory / attempt["responseBody"]).as_posix(),
+            "events": [
+                {"type": "request", "observedAt": start, **identifiers, **request, "requestURL": command[-3],
+                 "httpMethod": "GET"},
+                {"type": "exit", "observedAt": finish, **identifiers, "exitCode": native["requestExitCode"]},
+            ],
+        }
+        path = directory / f"{attempt['case']}.rate.json"
+        with path.open("x", encoding="utf-8") as output:
+            json.dump(trace, output, indent=2)
+            output.write("\n")
+        retained.append(path.name)
+    return retained
+
+
 def replay_fixture(
     source: FixtureSource,
     fixture: Path,
@@ -50,6 +89,7 @@ def replay_fixture(
     expired: str,
     other_identity: str,
     native_transport: bool = False,
+    transport_context: dict | None = None,
 ) -> dict:
     """Capture a fixed set of cases against a running disposable gateway and OpenList."""
     if source.filename != "synthetic.bin":
@@ -139,23 +179,26 @@ def replay_fixture(
             "rawResponse": path.name,
             "rawResponseSha256": capture.raw_sha256,
             "rawResponseByteCount": capture.raw_byte_count,
-            "clientStartedAt": capture.started_at.isoformat(),
-            "clientConnectedAt": capture.connected_at.isoformat(),
-            "clientFinishedAt": capture.finished_at.isoformat(),
+            "clientStartedAt": utc_stamp(capture.started_at),
+            "clientConnectedAt": utc_stamp(capture.connected_at),
+            "clientFinishedAt": utc_stamp(capture.finished_at),
             "peerAddress": capture.peer_address,
             "peerPort": capture.peer_port,
             "tls": capture.protocol,
             "cipher": capture.cipher,
             "certificateSha256": capture.certificate_sha256,
-            "gatewayObservedAt": outcome.observed_at.isoformat(),
-            "sourceRequestedAt": outcome.source_requested_at.isoformat() if outcome.source_requested_at else None,
+            "gatewayObservedAt": utc_stamp(outcome.observed_at),
+            "sourceRequestedAt": utc_stamp(outcome.source_requested_at) if outcome.source_requested_at else None,
             "gatewayDecision": outcome.decision,
+            "userId": outcome.user_id,
+            "grantId": outcome.grant_id,
+            "cacheKey": outcome.cache_key,
             "requestRange": outcome.range_header,
             "ifRange": outcome.if_range,
             "cacheHit": outcome.cache_hit,
             "completedSourceTransfers": int(outcome.transfer is not None),
             "sourceReadPeakBytes": outcome.transfer.peak_read_bytes if outcome.transfer else 0,
-            "sourceReads": [asdict(read) | {"observed_at": read.observed_at.isoformat()} for read in outcome.reads],
+            "sourceReads": [asdict(read) | {"observed_at": utc_stamp(read.observed_at)} for read in outcome.reads],
         }
         if native is not None:
             result["nativeTransport"] = native
@@ -192,6 +235,9 @@ def replay_fixture(
         raise ValueError("The bounded replay did not stay within one warm cache rate window")
     if throttled["gatewayDecision"] != "rate_limited" or throttled["cacheHit"] or throttled["completedSourceTransfers"]:
         raise ValueError("The throttled request accessed the cache or the source")
+    rate_receipts = {}
+    if transport_context is not None:
+        rate_receipts["rateTransport"] = retain_rate_attempts(directory, transport_context, [*burst, throttled])
 
     origin_file = directory / "origin-anonymous.http"
     origin_request_id, origin_trace_id = uuid4().hex, uuid4().hex
@@ -217,6 +263,7 @@ def replay_fixture(
         "burstElapsedSeconds": elapsed,
         "trustStoreSha256": "sha256:" + sha256(trust_bytes).hexdigest(),
         "tlsLeafSha256": certificate_identity,
+        **rate_receipts,
         "originDenial": {
             **origin.transport_observation(),
             **origin_native,
@@ -229,9 +276,9 @@ def replay_fixture(
             "rawResponse": origin_file.name,
             "rawResponseSha256": origin.raw_sha256,
             "rawResponseByteCount": origin.raw_byte_count,
-            "clientStartedAt": origin.started_at.isoformat(),
-            "clientConnectedAt": origin.connected_at.isoformat(),
-            "clientFinishedAt": origin.finished_at.isoformat(),
+            "clientStartedAt": utc_stamp(origin.started_at),
+            "clientConnectedAt": utc_stamp(origin.connected_at),
+            "clientFinishedAt": utc_stamp(origin.finished_at),
             "peerAddress": origin.peer_address,
             "peerPort": origin.peer_port,
         },
