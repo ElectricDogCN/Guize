@@ -72,3 +72,16 @@
 - specs/coordination/active-work.yaml
 - specs/coordination/program-plan.yaml
 - specs/tasks/GZ-008.md
+
+## 结项变更
+
+- evidence/GZ-008/accepted-review-main-d2456eab/receipt.json
+- evidence/GZ-008/changed-files.md
+- evidence/GZ-008/commands.txt
+- evidence/GZ-008/handoff.md
+- evidence/GZ-008/summary.md
+- evidence/GZ-008/test-results/README.md
+- specs/coordination/active-work.yaml
+- specs/coordination/program-plan.yaml
+- specs/coordination/task-completions.yaml
+- specs/tasks/GZ-008.md

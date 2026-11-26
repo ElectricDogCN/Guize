@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "taskId": "GZ-008",
+  "reviewer": "independent-review-agent",
+  "reviewPullRequest": 322,
+  "implementationMain": "904a2f680fa50ad60b113e99af16181ee8844565",
+  "reviewSource": "625d215174dc8adf1590fe90b772dd65939519f5",
+  "actualReviewMain": "d2456eab9839186afeaf8da5ed0e91ff3e356661",
+  "tree": "1982b614273cb400f0575c71328320ff65998a03",
+  "actualMainRun": 45888027882,
+  "caseCount": 1090,
+  "completeCoverageMatchedSource": true,
+  "localControls": {
+    "integrity": 0,
+    "history": 0,
+    "transitions": 0,
+    "finalization": 0,
+    "lifecycle-guards": 0,
+    "coordination": 0,
+    "task-finalization": 0
+  },
+  "actualReviewMainAccepted": true,
+  "independentReviewSha256": "3e03fa2607359a0fc592e071d9588798973feda0f2856d007bbfb2ae6f749264"
+}
