@@ -67,6 +67,17 @@
 - specs/contracts/data/verify_source_sync_control_role.sql
 - specs/contracts/data/verify_source_sync_state.sql
 
+## 来源连接端点和扫描根
+
+- data/migrations/V12__persist_source_connection_location.sql
+- specs/contracts/data/verify_source_connection_location.sql
+- specs/contracts/data/task_fixture.sql
+- specs/contracts/data/verify_source_asset.sql
+- specs/contracts/data/verify_source_sync_state.sql
+- specs/contracts/data/verify_media_storage_state.sql
+- specs/contracts/data/verify_asset_classification_and_merge_evidence.sql
+- evidence/GZ-007/test-results/v12-source-location/
+
 ## 媒体、完整缓存与正式副本
 
 - contracts/data/README.md

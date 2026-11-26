@@ -111,3 +111,9 @@
 在新迁移库及实际备份恢复库执行 [目录验证](../../../specs/contracts/data/verify_data_contract_coverage.sql)，两者均覆盖 12 个命名空间、61 个逻辑实体及四项关键唯一约束，输出逐字节一致，SHA-256 `2798e7952b12945bbf175ec5f3cc31b97e377e7b95fecd82450b58c3ed5e46d5`。12 组恢复查询保持一致，SHA-256 `8429c26291124151e8be2e44ef683a3fdf923c50a79b78df54315e7ffeb19a6c`。两个实例已关闭，原始清单 SHA-256 `8e3c3423802cc7079a67663016c678bbc286be6b4771203a76c94abe21cd1404`。
 
 可公开核对的 [文本证据清单](v11-native/SHA256SUMS.txt) 固定 13 份文件。其中包含 [迁移历史](v11-native/migration-history.txt)、[严格校验和恢复输出摘录](v11-native/strict-and-restore.txt)、[新库覆盖](v11-native/fresh-coverage.txt)、[恢复库覆盖](v11-native/restored-coverage.txt)、[并发原件](v11-native/races.txt)、[事件原件](v11-native/released-policy-events.jsonl)、[信封复验](v11-native/wire-contract-validation.json)、升级和恢复的两组前后状态，以及 [初次集成源码检查](v11-native/source-controls-93dea4a6.json)。`strict-and-restore.txt` 只记录四行关键实际日志，其余数据库材料保留原始字节。独立窄审回执 SHA-256 为 `fde15fbbc98f10808f886cc6ddcb8565d824c20d586b3e6b2dd6da18c9c13e8f`，完整私有原件保存在本机项目证据目录。
+
+## 来源配置持久化复验
+
+固定 [V12 实测源码与版本](v12-source-location/identity.txt) 在 PostgreSQL 16.15、Flyway 13.12.1 完成空库十二条迁移、重复执行及校验。V1 至 V11 的迁移未改写。使用 [可执行来源配置验证](../../../specs/contracts/data/verify_source_connection_location.sql) 写入 WebDAV、LOCAL、SMB 和 NFS 合成配置，验证元数据改名保留配置，拒绝缺失的配对字段、类型不符的端点及已配置来源的根目录变更。来源、任务、存储和资产归并的受影响夹具全部通过。
+
+实际 V11 样本升级前后，身份、状态、修订、凭据引用和同步策略的查询字节一致，其 SHA-256 为 `0f149e7f1a2b5e25254ea71cc9a7a572fe725bd06041b03535282022ee5ddbb5`。旧来源的空配置保留，更新名称和一次性补录配置成功。提交后用另一个会话重读端点与扫描根，再通过 `pg_dump -Fc` 和 `pg_restore --exit-on-error` 恢复到空白数据库，恢复后配置读回及目录结果分别逐字节一致。Flyway 再次校验十二条迁移。[V12 合成证据清单](v12-source-location/SHA256SUMS.txt) · [实际结果](v12-source-location/result.txt) · [Flyway 摘录](v12-source-location/flyway-excerpts.txt)

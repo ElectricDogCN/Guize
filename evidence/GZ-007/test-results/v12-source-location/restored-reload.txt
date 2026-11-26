@@ -1,0 +1,4 @@
+src_route_local|LOCAL|Source draft local|mount:media_fixture|合成媒体/节目|1|
+src_route_nfs|NFS|Source draft NFS|nfs://source.example/media|archive|1|
+src_route_smb|SMB|Source draft SMB|smb://source.example/media|archive|1|
+src_route_webdav|WEBDAV|Renamed source|https://source.example:8443/remote.php/dav|合成媒体/节目|2|secretref_fixture

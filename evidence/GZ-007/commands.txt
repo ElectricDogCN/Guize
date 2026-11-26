@@ -45,3 +45,18 @@ python scripts/check-evidence.py --task GZ-007
 python scripts/check-project-readiness.py
 python scripts/check-markdown.py
 python scripts/check-spec-sync.py --base origin/main
+
+## V12 来源配置验证
+
+使用 PostgreSQL 16.15 私有 Unix socket、Flyway 13.12.1 和三个隔离数据库，SQL 输入使用 V12 实测源码。对初始空库执行迁移和严格校验，重复执行迁移。对升级库先用 Flyway target=11 迁移，写入旧来源、独立凭据引用和同步策略，按相同字段查询升级前后状态。再按正常校验补录合成端点及根。
+
+flyway -locations=filesystem:data/migrations -ignoreMigrationPatterns=repeatable:pending migrate
+flyway -locations=filesystem:data/migrations -ignoreMigrationPatterns=repeatable:pending validate
+psql -X -v ON_ERROR_STOP=1 -v retain_fixture=1 -f specs/contracts/data/verify_source_connection_location.sql
+psql -X -v ON_ERROR_STOP=1 -c 'SELECT id, kind, endpoint, root_path, revision FROM source.data_source ORDER BY id'
+pg_dump -Fc -f source-location.dump
+# 使用空白恢复数据库的 DSN。
+pg_restore --exit-on-error source-location.dump
+flyway -locations=filesystem:data/migrations -ignoreMigrationPatterns=repeatable:pending validate
+psql -X -v ON_ERROR_STOP=1 -c 'SELECT id, kind, endpoint, root_path, revision FROM source.data_source ORDER BY id'
+psql -X -v ON_ERROR_STOP=1 -f specs/contracts/data/verify_data_contract_coverage.sql
