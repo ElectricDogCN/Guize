@@ -179,7 +179,7 @@
           "0s · 0",
           "10s · 1"
         ],
-        "refresh": "refresh-control-activated",
+        "refresh": true,
         "failure_state": {
           "message": "Refresh failed (unavailable).",
           "retained": [
