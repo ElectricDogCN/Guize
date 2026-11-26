@@ -1,0 +1,3 @@
+Task GZ-009
+Command: python scripts/check-task-file.py --task GZ-009
+Exit Code: PENDING
