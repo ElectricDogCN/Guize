@@ -23,6 +23,6 @@ npm run measure:bundles
 
 运行浏览器测试前，将环境变量 `GUIZE_CHROMIUM` 设为 Chrome 或 Chromium 的可执行文件路径，或通过 `npx playwright-core install chromium` 安装测试浏览器。Vite 预览只绑定回环地址，测试结束后关闭。构建锁定 React 19.3.1、Vue 3.5.46 与 Vite 6.4.2，依赖版本见 [锁文件](package-lock.json)。
 
-两套原型还覆盖流程图、决策表、监控、事件重连、播放器组件、触屏、权限可见性与主题。事件重连使用本地 SSE 流，服务端重发第一条事件以检查去重。播放器组件发送合成的就绪、暂停及故障状态。使用 `npx vite preview --host 127.0.0.1` 时可在浏览器分别打开 `/react/react.html` 与 `/vue/vue.html`。
+两套原型还覆盖流程图、决策表、监控、事件重连、播放器组件、触屏、权限可见性与主题。SSE 和 WebSocket 分别通过本地服务器传入实际事件并复连。服务端重发第一条事件以检查去重。另有独立的合成权限接口，验证读者和编辑者各自的服务端结果。播放器组件发送合成的就绪、暂停及故障状态。使用 `npx vite preview --host 127.0.0.1` 时可在浏览器分别打开 `/react/react.html` 与 `/vue/vue.html`。
 
 `node measure-bundles.mjs` 统计两次独立构建中各自入口实际加载的 JS 和 CSS，按路径去重并保留未压缩和 gzip 字节数。正式比较在同一固定环境采集全部十个场景的覆盖、体积与维护评分。

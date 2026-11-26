@@ -1,19 +1,26 @@
 import { createElement as h, useEffect, useRef, useState } from "react";
 import {
-  attachFixtureStream, defineFixturePlayer, permissions, player, theme, themeTokens,
+  attachFixtureSocket, attachFixtureStream, defineFixturePlayer, fixtureAuthorization, permissions, player, theme, themeTokens,
 } from "./runtime-fixtures.mjs";
 
 defineFixturePlayer();
 
-function Stream() {
+function StreamPanel({ heading, id, connect }) {
   const [state, setState] = useState({ events: [], reconnects: 0 });
-  useEffect(() => attachFixtureStream(setState), []);
-  return h("section", { "aria-labelledby": "stream-heading" },
-    h("h2", { id: "stream-heading" }, "Event stream"),
+  useEffect(() => connect(setState), [connect]);
+  return h("section", { "aria-labelledby": id },
+    h("h2", { id }, heading),
     h("p", { role: "status" }, `Reconnects: ${state.reconnects}`),
     h("ol", {}, state.events.map(({ sequence, status }) =>
       h("li", { key: sequence }, `${sequence} · ${status}`),
     )),
+  );
+}
+
+function Stream() {
+  return h("div", {},
+    h(StreamPanel, { heading: "SSE stream", id: "sse-heading", connect: attachFixtureStream }),
+    h(StreamPanel, { heading: "WebSocket stream", id: "ws-heading", connect: attachFixtureSocket }),
   );
 }
 
@@ -52,6 +59,7 @@ function Responsive() {
 function Permissions() {
   const [id, setId] = useState(permissions.subjects[0].id);
   const [action, setAction] = useState("read");
+  const [serverStatus, setServerStatus] = useState(null);
   const subject = permissions.subjects.find((item) => item.id === id);
   return h("section", { "aria-labelledby": "permission-heading" },
     h("h2", { id: "permission-heading" }, "Subject visibility"),
@@ -60,12 +68,17 @@ function Permissions() {
       h("select", { id: "fixture-subject", value: id, onChange: (event) => {
         setId(event.currentTarget.value);
         setAction("read");
+        setServerStatus(null);
       } }, permissions.subjects.map((item) => h("option", { key: item.id, value: item.id }, item.id))),
     ),
     permissions.actions.filter((item) => subject.actions.includes(item)).map((item) =>
       h("button", { type: "button", key: item, onClick: () => setAction(item) }, item),
     ),
     action === "edit" && h("label", {}, "Sample title", h("input", { defaultValue: "Asset" })),
+    h("button", {
+      type: "button", onClick: async () => setServerStatus(await fixtureAuthorization(id)),
+    }, "Check sample edit capability"),
+    h("p", {}, serverStatus ? "Server edit status " + serverStatus : ""),
     h("p", { role: "status" }, `Current view: ${action}`),
   );
 }

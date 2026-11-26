@@ -140,10 +140,12 @@ for (const framework of ["react", "vue"]) {
   test(`${framework} resumes the stream once and deduplicates replayed events`, async () => {
     const page = await openPage(framework);
     try {
-      const stream = page.getByRole("region", { name: "Event stream" });
-      await stream.getByText("2 · ready", { exact: true }).waitFor();
-      assert.equal(await stream.getByRole("status").textContent(), "Reconnects: 1");
-      assert.deepEqual(await stream.getByRole("listitem").allTextContents(), ["1 · pending", "2 · ready"]);
+      for (const name of ["SSE stream", "WebSocket stream"]) {
+        const stream = page.getByRole("region", { name });
+        await stream.getByText("2 · ready", { exact: true }).waitFor();
+        assert.equal(await stream.getByRole("status").textContent(), "Reconnects: 1");
+        assert.deepEqual(await stream.getByRole("listitem").allTextContents(), ["1 · pending", "2 · ready"]);
+      }
     } finally {
       await page.close();
     }
@@ -207,6 +209,10 @@ for (const framework of ["react", "vue"]) {
           const button = visibility.getByRole("button", { name: action, exact: true });
           assert.equal(await button.count(), Number(subject.actions.includes(action)));
         }
+        const check = visibility.getByRole("button", { name: "Check sample edit capability" });
+        await check.click();
+        const expectedStatus = subject.actions.includes("edit") ? 200 : 403;
+        await visibility.getByText("Server edit status " + expectedStatus, { exact: true }).waitFor();
       }
       await visibility.getByRole("button", { name: "edit", exact: true }).click();
       await visibility.getByLabel("Sample title").waitFor();
