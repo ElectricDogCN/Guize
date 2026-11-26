@@ -1,0 +1,17 @@
+{
+  "mode": "main",
+  "base": "e0ded7aeacd749f60bdcf9838a0f8c96ce8e1416",
+  "head": "506cfcdc271cc0417bb91cc0bb72eeda2bed6f5c",
+  "tree": "3cfc8a002e471c42b423298a37d60e3ee429130c",
+  "checks": {
+    "integrity": 0,
+    "history": 0,
+    "transitions": 0,
+    "finalization": 0,
+    "lifecycle-guards": 0,
+    "coordination": 0,
+    "task-finalization": 0
+  },
+  "passed": true,
+  "scope": "ordinary task main controls"
+}

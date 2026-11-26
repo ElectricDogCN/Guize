@@ -1,0 +1,75 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Guize runtime release and plugin lock
+type: object
+additionalProperties: false
+required: [schemaVersion, platform, workerProtocol, nodeReleases, plugins]
+properties:
+  schemaVersion: {const: 1}
+  platform:
+    type: object
+    additionalProperties: false
+    required: [repository, commit, version]
+    properties:
+      repository: {$ref: '#/$defs/repository'}
+      commit: {$ref: '#/$defs/commit'}
+      version: {$ref: '#/$defs/stableVersion'}
+  workerProtocol:
+    type: object
+    additionalProperties: false
+    required: [version, sdkVersion, schemaSha256, sdkSha256, conformanceSha256]
+    properties:
+      version: {const: worker-v1}
+      sdkVersion: {$ref: '#/$defs/stableVersion'}
+      schemaSha256: {$ref: '#/$defs/sha'}
+      sdkSha256: {$ref: '#/$defs/sha'}
+      conformanceSha256: {$ref: '#/$defs/sha'}
+  nodeReleases:
+    type: array
+    maxItems: 3
+    items:
+      type: object
+      additionalProperties: false
+      required: [target, artifact, supportedProtocols]
+      properties:
+        target: {enum: [android, windows, linux]}
+        artifact: {$ref: '#/$defs/artifact'}
+        supportedProtocols:
+          type: array
+          minItems: 1
+          uniqueItems: true
+          items: {type: string, pattern: '^worker-v[1-9][0-9]*$'}
+  plugins:
+    type: array
+    maxItems: 128
+    items:
+      type: object
+      additionalProperties: false
+      required: [pluginId, version, manifestSha256, manifestApiVersion, platformMin, platformMaxExclusive, artifact]
+      properties:
+        pluginId: {type: string, pattern: '^[a-z][a-z0-9-]{2,63}$'}
+        version: {type: string, maxLength: 128, pattern: '^\d+\.\d+\.\d+(?:[-+][0-9A-Za-z.-]+)?$'}
+        manifestSha256: {$ref: '#/$defs/sha'}
+        manifestApiVersion: {const: guize.plugin/v1}
+        platformMin: {$ref: '#/$defs/stableVersion'}
+        platformMaxExclusive: {$ref: '#/$defs/stableVersion'}
+        artifact: {$ref: '#/$defs/artifact'}
+        packageSha256: {$ref: '#/$defs/sha'}
+$defs:
+  repository: {type: string, pattern: '^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$'}
+  commit: {type: string, pattern: '^[a-f0-9]{40}$'}
+  stableVersion: {type: string, pattern: '^(0|[1-9][0-9]{0,8})\.(0|[1-9][0-9]{0,8})\.(0|[1-9][0-9]{0,8})$'}
+  sha: {type: string, pattern: '^[a-f0-9]{64}$'}
+  artifact:
+    type: object
+    additionalProperties: false
+    required: [repository, commit, taskId, version, artifactSha256, signingEvidenceSha256, evidenceSha256, sbomSha256, license]
+    properties:
+      repository: {$ref: '#/$defs/repository'}
+      commit: {$ref: '#/$defs/commit'}
+      taskId: {type: string, pattern: '^[A-Z]{2,8}-[0-9]{1,8}$'}
+      version: {$ref: '#/$defs/stableVersion'}
+      artifactSha256: {$ref: '#/$defs/sha'}
+      signingEvidenceSha256: {$ref: '#/$defs/sha'}
+      evidenceSha256: {$ref: '#/$defs/sha'}
+      sbomSha256: {$ref: '#/$defs/sha'}
+      license: {type: string, pattern: '^[A-Za-z0-9().+\- ]{1,128}$'}

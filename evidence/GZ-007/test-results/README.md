@@ -117,3 +117,17 @@
 固定 [V12 实测源码与版本](v12-source-location/identity.txt) 在 PostgreSQL 16.15、Flyway 13.12.1 完成空库十二条迁移、重复执行及校验。V1 至 V11 的迁移未改写。使用 [可执行来源配置验证](../../../specs/contracts/data/verify_source_connection_location.sql) 写入 WebDAV、LOCAL、SMB 和 NFS 合成配置，验证元数据改名保留配置，拒绝缺失的配对字段、类型不符的端点及已配置来源的根目录变更。来源、任务、存储和资产归并的受影响夹具全部通过。
 
 实际 V11 样本升级前后，身份、状态、修订、凭据引用和同步策略的查询字节一致，其 SHA-256 为 `0f149e7f1a2b5e25254ea71cc9a7a572fe725bd06041b03535282022ee5ddbb5`。旧来源的空配置保留，更新名称和一次性补录配置成功。提交后用另一个会话重读端点与扫描根，再通过 `pg_dump -Fc` 和 `pg_restore --exit-on-error` 恢复到空白数据库，恢复后配置读回及目录结果分别逐字节一致。Flyway 再次校验十二条迁移。[V12 合成证据清单](v12-source-location/SHA256SUMS.txt) · [实际结果](v12-source-location/result.txt) · [Flyway 摘录](v12-source-location/flyway-excerpts.txt)
+
+## 实施实际主线
+
+实施 PR #313 普通合入 `2733a8181e3e22a4a80b8d1097ab965bfeee8b6a`。实际主线保留受审树，七项本地检查、完整官方 1,090 项和独立终验通过。此轮办理 GZ-007 正式审查，作业证据绑定实际主线。[实施 PR #313](https://github.com/ElectricDogCN/Guize/pull/313) · [实际主线 CI #1166](https://github.com/ElectricDogCN/Guize/actions/runs/45846364097)
+
+受测迁移、合成夹具及数据契约在源与实际主线树中逐字节相同。沿用已完成的 PostgreSQL 实测和恢复记录。[实际主线独立回执](../implementation-main-2733a818/independent-review.json) · [七项主线检查](../implementation-main-2733a818/source-controls.json)
+
+## 实际 Review 主线验收
+
+Status: PASS
+
+已接受实际 Review 主线 506cfcdc271cc0417bb91cc0bb72eeda2bed6f5c 的七项本地检查和完整官方 1,090 项。结项继续引用 2733a8181e3e22a4a80b8d1097ab965bfeee8b6a 的实施身份。[正式 Review PR #318](https://github.com/ElectricDogCN/Guize/pull/318) · [实际 Review 主线 CI #1170](https://github.com/ElectricDogCN/Guize/actions/runs/45855691281) · [实施 PR #313](https://github.com/ElectricDogCN/Guize/pull/313)
+
+[独立验收原件](../accepted-review-main-506cfcdc/independent-review.json)

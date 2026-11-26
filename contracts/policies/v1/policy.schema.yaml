@@ -1,0 +1,73 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Guize versioned LiteFlow decision policy
+type: object
+additionalProperties: false
+required: [schemaVersion, policyId, policyVersionId, nodes, chain]
+properties:
+  schemaVersion: {const: 1}
+  policyId: {$ref: '#/$defs/resourceId'}
+  policyVersionId: {$ref: '#/$defs/resourceId'}
+  nodes:
+    type: object
+    minProperties: 1
+    maxProperties: 64
+    propertyNames: {$ref: '#/$defs/symbol'}
+    additionalProperties:
+      oneOf:
+        - type: object
+          additionalProperties: false
+          required: [kind, version, fact]
+          properties:
+            kind: {const: predicate}
+            version: {$ref: '#/$defs/resourceId'}
+            fact: {$ref: '#/$defs/symbol'}
+        - type: object
+          additionalProperties: false
+          required: [kind, version, recommendation]
+          properties:
+            kind: {const: decision}
+            version: {$ref: '#/$defs/resourceId'}
+            recommendation: {enum: [RECOMMEND, DECLINE]}
+            priority: {type: integer, minimum: 0, maximum: 8}
+  chain:
+    type: object
+    additionalProperties: false
+    required: [id, version, action, budgetKinds, expression, el]
+    properties:
+      id: {$ref: '#/$defs/symbol'}
+      version: {$ref: '#/$defs/resourceId'}
+      action:
+        enum: [CACHE, TRANSCODE, AI_ROUTE, SOURCE_SCAN, TRAFFIC, DELETE, RETENTION_CHANGE,
+               PUBLIC_PRIVATE_CONTENT, COMMERCIAL_API, LARGE_RESTORE, WATERMARK_CHANGE,
+               BATCH_TRANSCODE, REBUILD_INDEX, ANONYMOUS_ACCESS]
+      budgetKinds:
+        type: array
+        minItems: 1
+        maxItems: 32
+        uniqueItems: true
+        items: {$ref: '#/$defs/symbol'}
+      expression: {$ref: '#/$defs/expression'}
+      el: {type: string, minLength: 1, maxLength: 4096}
+$defs:
+  symbol: {type: string, pattern: '^[a-z][a-zA-Z0-9_]{0,47}$'}
+  resourceId: {type: string, pattern: '^[a-z]{2,12}_[A-Za-z0-9_-]{1,64}$'}
+  expression:
+    oneOf:
+      - {$ref: '#/$defs/symbol'}
+      - type: object
+        additionalProperties: false
+        required: [then]
+        properties:
+          then: {type: array, minItems: 2, maxItems: 64, items: {$ref: '#/$defs/expression'}}
+      - type: object
+        additionalProperties: false
+        required: [if]
+        properties:
+          if:
+            type: array
+            minItems: 3
+            maxItems: 3
+            prefixItems:
+              - {$ref: '#/$defs/symbol'}
+              - {$ref: '#/$defs/expression'}
+              - {$ref: '#/$defs/expression'}

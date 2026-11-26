@@ -1,0 +1,686 @@
+{
+  "schemaVersion": 1,
+  "taskId": "GZ-007",
+  "reviewer": "/root/independent_review",
+  "registeredReviewerRole": "independent-review-agent",
+  "approvedAt": "2026-11-26T16:20:28Z",
+  "actualMain": "506cfcdc271cc0417bb91cc0bb72eeda2bed6f5c",
+  "source": "1d84c221011bc2f76d9c8bd2ec2b876fc1acfb4f",
+  "base": "e0ded7aeacd749f60bdcf9838a0f8c96ce8e1416",
+  "parents": [
+    "e0ded7aeacd749f60bdcf9838a0f8c96ce8e1416",
+    "1d84c221011bc2f76d9c8bd2ec2b876fc1acfb4f"
+  ],
+  "tree": "3cfc8a002e471c42b423298a37d60e3ee429130c",
+  "pullRequest": 318,
+  "pullRequestUrl": "https://github.com/ElectricDogCN/Guize/pull/318",
+  "decision": "accepted_exact_actual_normal_Review_main",
+  "actualMainAccepted": true,
+  "actualReviewMainAccepted": true,
+  "fullMainCiAccepted": true,
+  "actualMainSevenAccepted": true,
+  "normalCompletionMayStart": true,
+  "issueClosureAllowed": true,
+  "mustFix": [],
+  "actualGit": {
+    "officialActualMergeObjectAndMergedPRVerified": true,
+    "orderedParentsAndSourceAncestryPreserved": true,
+    "treeExactlyEqualsAcceptedSourceAndPreview": true,
+    "sourcePreview": "214a084c3801e3f84921c0fa7c1c86a961ed43b8",
+    "nativeGitTreeDiffFromSourceEmpty": true,
+    "actualRemoteMainVerified": true,
+    "technicalCommentReview": 6077261806,
+    "technicalCommentState": "COMMENTED",
+    "technicalCommentExactHead": "1d84c221011bc2f76d9c8bd2ec2b876fc1acfb4f",
+    "platformApproveClaimed": false,
+    "sourceFinalReceipt": "gz007-normal-review-1d84c221-final-source-independent-review.json",
+    "sourceFinalReceiptSha256": "17a3dad8787360ff2235db249c300f537acb6d1c411ea9d956d2e87968c24f2d"
+  },
+  "officialActualMainCi": {
+    "url": "https://github.com/ElectricDogCN/Guize/actions/runs/45855691281",
+    "runId": 45855691281,
+    "runNumber": 1170,
+    "attempt": 1,
+    "event": "push",
+    "head": "506cfcdc271cc0417bb91cc0bb72eeda2bed6f5c",
+    "status": "completed",
+    "conclusion": "success",
+    "totalJobs": 5,
+    "allFiveActualJobsSuccess": true,
+    "jobs": [
+      {
+        "id": 140033332030,
+        "name": "Governance Controls",
+        "attempt": 1,
+        "conclusion": "success",
+        "startedAt": "2026-11-26T16:07:02Z",
+        "completedAt": "2026-11-26T16:09:38Z",
+        "durationSeconds": 156,
+        "steps": [
+          {
+            "name": "Set up job",
+            "conclusion": "success"
+          },
+          {
+            "name": "Checkout repository",
+            "conclusion": "success"
+          },
+          {
+            "name": "Setup Python 3.11",
+            "conclusion": "success"
+          },
+          {
+            "name": "Install governance dependencies",
+            "conclusion": "success"
+          },
+          {
+            "name": "Verify core dependencies importable",
+            "conclusion": "success"
+          },
+          {
+            "name": "Compile scripts and tests",
+            "conclusion": "success"
+          },
+          {
+            "name": "Resolve task context",
+            "conclusion": "success"
+          },
+          {
+            "name": "Task file validation",
+            "conclusion": "skipped"
+          },
+          {
+            "name": "Project readiness check",
+            "conclusion": "success"
+          },
+          {
+            "name": "Program Plan integrity, history, transitions, finalization, and lifecycle guard",
+            "conclusion": "success"
+          },
+          {
+            "name": "Agent coordination check",
+            "conclusion": "success"
+          },
+          {
+            "name": "Markdown basic check",
+            "conclusion": "success"
+          },
+          {
+            "name": "YAML/JSON schema check",
+            "conclusion": "success"
+          },
+          {
+            "name": "Secret scan",
+            "conclusion": "success"
+          },
+          {
+            "name": "Evidence check",
+            "conclusion": "skipped"
+          },
+          {
+            "name": "Evidence integrity check",
+            "conclusion": "skipped"
+          },
+          {
+            "name": "Task-branch linkage check",
+            "conclusion": "skipped"
+          },
+          {
+            "name": "Scope check",
+            "conclusion": "skipped"
+          },
+          {
+            "name": "Spec sync check",
+            "conclusion": "success"
+          },
+          {
+            "name": "Parent directory reference check",
+            "conclusion": "success"
+          },
+          {
+            "name": "CI workflow static validation",
+            "conclusion": "success"
+          },
+          {
+            "name": "Generate governance report",
+            "conclusion": "success"
+          },
+          {
+            "name": "Post Setup Python 3.11",
+            "conclusion": "success"
+          },
+          {
+            "name": "Post Checkout repository",
+            "conclusion": "success"
+          },
+          {
+            "name": "Complete job",
+            "conclusion": "success"
+          }
+        ]
+      },
+      {
+        "id": 140033332612,
+        "name": "Governance Tests (shard 1)",
+        "attempt": 1,
+        "conclusion": "success",
+        "startedAt": "2026-11-26T16:07:02Z",
+        "completedAt": "2026-11-26T16:16:06Z",
+        "durationSeconds": 544,
+        "steps": [
+          {
+            "name": "Set up job",
+            "conclusion": "success"
+          },
+          {
+            "name": "Checkout repository",
+            "conclusion": "success"
+          },
+          {
+            "name": "Setup Python 3.11",
+            "conclusion": "success"
+          },
+          {
+            "name": "Install governance dependencies",
+            "conclusion": "success"
+          },
+          {
+            "name": "Governance tests",
+            "conclusion": "success"
+          },
+          {
+            "name": "Skip and coverage audit",
+            "conclusion": "success"
+          },
+          {
+            "name": "Publish shard coverage",
+            "conclusion": "success"
+          },
+          {
+            "name": "Post Setup Python 3.11",
+            "conclusion": "success"
+          },
+          {
+            "name": "Post Checkout repository",
+            "conclusion": "success"
+          },
+          {
+            "name": "Complete job",
+            "conclusion": "success"
+          }
+        ]
+      },
+      {
+        "id": 140033332782,
+        "name": "Governance Tests (shard 2)",
+        "attempt": 1,
+        "conclusion": "success",
+        "startedAt": "2026-11-26T16:07:02Z",
+        "completedAt": "2026-11-26T16:13:12Z",
+        "durationSeconds": 370,
+        "steps": [
+          {
+            "name": "Set up job",
+            "conclusion": "success"
+          },
+          {
+            "name": "Checkout repository",
+            "conclusion": "success"
+          },
+          {
+            "name": "Setup Python 3.11",
+            "conclusion": "success"
+          },
+          {
+            "name": "Install governance dependencies",
+            "conclusion": "success"
+          },
+          {
+            "name": "Governance tests",
+            "conclusion": "success"
+          },
+          {
+            "name": "Skip and coverage audit",
+            "conclusion": "success"
+          },
+          {
+            "name": "Publish shard coverage",
+            "conclusion": "success"
+          },
+          {
+            "name": "Post Setup Python 3.11",
+            "conclusion": "success"
+          },
+          {
+            "name": "Post Checkout repository",
+            "conclusion": "success"
+          },
+          {
+            "name": "Complete job",
+            "conclusion": "success"
+          }
+        ]
+      },
+      {
+        "id": 140033332974,
+        "name": "Governance Tests (shard 0)",
+        "attempt": 1,
+        "conclusion": "success",
+        "startedAt": "2026-11-26T16:07:02Z",
+        "completedAt": "2026-11-26T16:17:26Z",
+        "durationSeconds": 624,
+        "steps": [
+          {
+            "name": "Set up job",
+            "conclusion": "success"
+          },
+          {
+            "name": "Checkout repository",
+            "conclusion": "success"
+          },
+          {
+            "name": "Setup Python 3.11",
+            "conclusion": "success"
+          },
+          {
+            "name": "Install governance dependencies",
+            "conclusion": "success"
+          },
+          {
+            "name": "Governance tests",
+            "conclusion": "success"
+          },
+          {
+            "name": "Skip and coverage audit",
+            "conclusion": "success"
+          },
+          {
+            "name": "Publish shard coverage",
+            "conclusion": "success"
+          },
+          {
+            "name": "Post Setup Python 3.11",
+            "conclusion": "success"
+          },
+          {
+            "name": "Post Checkout repository",
+            "conclusion": "success"
+          },
+          {
+            "name": "Complete job",
+            "conclusion": "success"
+          }
+        ]
+      },
+      {
+        "id": 140039125303,
+        "name": "Governance Checks",
+        "attempt": 1,
+        "conclusion": "success",
+        "startedAt": "2026-11-26T16:17:29Z",
+        "completedAt": "2026-11-26T16:17:34Z",
+        "durationSeconds": 5,
+        "steps": [
+          {
+            "name": "Set up job",
+            "conclusion": "success"
+          },
+          {
+            "name": "Require controls and all governance shards",
+            "conclusion": "success"
+          },
+          {
+            "name": "Checkout coverage checker",
+            "conclusion": "success"
+          },
+          {
+            "name": "Retrieve shard coverage",
+            "conclusion": "success"
+          },
+          {
+            "name": "Verify complete original coverage",
+            "conclusion": "success"
+          },
+          {
+            "name": "Post Checkout coverage checker",
+            "conclusion": "success"
+          },
+          {
+            "name": "Complete job",
+            "conclusion": "success"
+          }
+        ]
+      }
+    ],
+    "coverage": {
+      "passOccurrences": 1090,
+      "uniqueCaseIds": 1090,
+      "exactSameAcceptedReviewSource1090CaseSet": true,
+      "acceptedSourceRun": 45852339435,
+      "acceptedSourceRunNumber": 1169,
+      "caseSetSha256": "13e6ba0db3a41710361fa8b4eace219bd05a4c61adb4521705eca0a534a48e8a",
+      "failures": 0,
+      "errors": 0,
+      "skips": 0,
+      "xfail": 0,
+      "xpass": 0,
+      "shardCounts": [
+        267,
+        425,
+        398
+      ],
+      "pytestSeconds": [
+        582.49,
+        505.25,
+        330.02
+      ],
+      "allFiveActualCheckoutCommandOutputs": "506cfcdc271cc0417bb91cc0bb72eeda2bed6f5c",
+      "originalThirtyMinuteCapUnchanged": true,
+      "allFiveJobDurationsBelow1800Seconds": true,
+      "originalPushConditionalControlSkips": [
+        "Task file validation",
+        "Evidence check",
+        "Evidence integrity check",
+        "Task-branch linkage check",
+        "Scope check"
+      ],
+      "allOtherControlStepsAndAllTestAggregateStepsSuccess": true,
+      "allShardSkipAndCoverageAuditsPassed": true,
+      "conditionalControlSkipsNotPytestSkips": true,
+      "aggregateJob": 140039125303,
+      "actualAggregateMessage": "All 1090 cases covered exactly once",
+      "noSourceOrOtherRunUsedAsActualMainSubstitute": true
+    },
+    "independentlyObservedDecodedLogSummaries": [
+      {
+        "jobId": 140033332030,
+        "name": "Governance Controls",
+        "durationSeconds": 156,
+        "passOccurrences": 0,
+        "unique": 0,
+        "pytest": [],
+        "checkout": [
+          "2026-11-26T16:07:31.9508991Z [command]/usr/bin/git log -1 --format=%H",
+          "2026-11-26T16:07:31.9538504Z 506cfcdc271cc0417bb91cc0bb72eeda2bed6f5c"
+        ]
+      },
+      {
+        "jobId": 140033332612,
+        "name": "Governance Tests (shard 1)",
+        "durationSeconds": 544,
+        "passOccurrences": 425,
+        "unique": 425,
+        "pytest": [
+          {
+            "passed": 425,
+            "seconds": 505.25
+          }
+        ],
+        "checkout": [
+          "2026-11-26T16:07:31.3389065Z [command]/usr/bin/git log -1 --format=%H",
+          "2026-11-26T16:07:31.3421558Z 506cfcdc271cc0417bb91cc0bb72eeda2bed6f5c"
+        ]
+      },
+      {
+        "jobId": 140033332782,
+        "name": "Governance Tests (shard 2)",
+        "durationSeconds": 370,
+        "passOccurrences": 398,
+        "unique": 398,
+        "pytest": [
+          {
+            "passed": 398,
+            "seconds": 330.02
+          }
+        ],
+        "checkout": [
+          "2026-11-26T16:07:30.1091925Z [command]/usr/bin/git log -1 --format=%H",
+          "2026-11-26T16:07:30.1114481Z 506cfcdc271cc0417bb91cc0bb72eeda2bed6f5c"
+        ]
+      },
+      {
+        "jobId": 140033332974,
+        "name": "Governance Tests (shard 0)",
+        "durationSeconds": 624,
+        "passOccurrences": 267,
+        "unique": 267,
+        "pytest": [
+          {
+            "passed": 267,
+            "seconds": 582.49
+          }
+        ],
+        "checkout": [
+          "2026-11-26T16:07:30.0553615Z [command]/usr/bin/git log -1 --format=%H",
+          "2026-11-26T16:07:30.0575363Z 506cfcdc271cc0417bb91cc0bb72eeda2bed6f5c"
+        ]
+      },
+      {
+        "jobId": 140039125303,
+        "name": "Governance Checks",
+        "durationSeconds": 5,
+        "passOccurrences": 0,
+        "unique": 0,
+        "pytest": [],
+        "checkout": [
+          "2026-11-26T16:17:32.0797915Z [command]/usr/bin/git log -1 --format=%H",
+          "2026-11-26T16:17:32.0824968Z 506cfcdc271cc0417bb91cc0bb72eeda2bed6f5c"
+        ]
+      }
+    ]
+  },
+  "nativeActualMain": {
+    "scope": "ordinary task main controls",
+    "actualTerminal": true,
+    "allSevenRealExitCodesZero": true,
+    "result": {
+      "mode": "main",
+      "base": "e0ded7aeacd749f60bdcf9838a0f8c96ce8e1416",
+      "head": "506cfcdc271cc0417bb91cc0bb72eeda2bed6f5c",
+      "tree": "3cfc8a002e471c42b423298a37d60e3ee429130c",
+      "checks": {
+        "integrity": 0,
+        "history": 0,
+        "transitions": 0,
+        "finalization": 0,
+        "lifecycle-guards": 0,
+        "coordination": 0,
+        "task-finalization": 0
+      },
+      "passed": true,
+      "scope": "ordinary task main controls"
+    },
+    "exactActualCommitHeadersAndCommandExitFootersIndependentlyRead": true,
+    "taskQualifiedGZ007FinalizationActuallyRun": true,
+    "originalRawLogsRetainedUnmodified": true,
+    "publicSafeOriginalMachineResult": "gz007-normal-review-main-506cfcdc-native/result.json",
+    "noNewDatabaseRuntimeOrNetworkTestsRunByReviewer": true
+  },
+  "actualLifecycleState": {
+    "ownProgramStatus": "review",
+    "ownTaskStatus": "review",
+    "ownRegistryStatus": "review",
+    "ownAgentRole": "reviewer",
+    "ownRegistryRowStillPresent": true,
+    "currentTaskAndRegistryBase": "e0ded7aeacd749f60bdcf9838a0f8c96ce8e1416",
+    "workBranch": "chore/GZ-007-data-contract",
+    "riskLevel": "high",
+    "leaseAcquiredAt": "2026-11-26T10:08:10Z",
+    "leaseExpiresAt": "2026-12-03T10:08:10Z",
+    "leasePreserved": true,
+    "actorsPreserved": true,
+    "exclusivePaths": [
+      "contracts/data/**",
+      "data/migrations/**",
+      "specs/contracts/data/**",
+      "evidence/GZ-007/**"
+    ],
+    "sharedPaths": [],
+    "claimsAndDependenciesPreserved": true,
+    "activeTaskIds": [
+      "POC-007",
+      "POC-008",
+      "GZ-007"
+    ],
+    "activeTasks": 3,
+    "highOrCriticalActiveTasks": 1,
+    "peerPOC007AndPOC008ReservedCoordinatorRowsMatchParent": true,
+    "otherProgramRegistryRootAndPeerRecordsUnchanged": true,
+    "issue287ObservedState": "open"
+  },
+  "acceptedImplementationIdentity": {
+    "pullRequest": 313,
+    "source": "099435ccbbedeca5e89dfe43877135fbae476390",
+    "actualMerge": "2733a8181e3e22a4a80b8d1097ab965bfeee8b6a",
+    "receipt": "gz007-implementation-main-2733a818-final-actual-main-independent-review.json",
+    "sha256": "866f282b9f4932727ecc49294cec4df8947a5dd5adbfa7e65b4050b0989c8d91",
+    "databaseContractMigrationAndFixtureBytesRemainAccepted": true,
+    "existingDatabaseProofReusedByCodeIdentityWithoutClaimingNewRuns": true,
+    "publicEvidencePreserved": true
+  },
+  "permittedNextAction": {
+    "action": "Close Issue287 as completed under the normal lifecycle gate and prepare the normal GZ-007 Completion candidate.",
+    "conditions": [
+      "Preserve the Issue body and actual prior evidence; record the real closure rather than a prospective or backdated completion claim.",
+      "Prepare only the lawful own Completion metadata/Evidence on fresh actual main, with the accepted implementation identity PR313/2733 and actual Review PR318/506 preserved.",
+      "Keep the same historical lease/actors/claims and all peer entries; a future source may remove only the own registration through the normal Completion transition.",
+      "Obtain independent review of the exact generated Completion payload, applicable original source controls and complete official source CI, then normal merge and actual-main controls/full CI/independent acceptance before claiming task completion or capacity release.",
+      "Retain the active work branch and unrelated refs until a later exact ended-ref cleanup approval."
+    ]
+  },
+  "freshObservation": {
+    "observedAt": "2026-11-26T16:18:32Z",
+    "actualRemoteMain": "506cfcdc271cc0417bb91cc0bb72eeda2bed6f5c",
+    "issue287": "open",
+    "officialPushStatus": "completed",
+    "officialPushConclusion": "success"
+  },
+  "taskCompleted": false,
+  "actualCompletionMainAccepted": false,
+  "actualCapacityReleased": false,
+  "branchCleanupAllowed": false,
+  "otherTasksExperimentsOrProductReleaseAccepted": false,
+  "publicSafeRecordPolicy": "Public SHA/URL identities, repository-relative evidence labels, actual UTC and conclusions only. Private interpreter-path strings from unchanged local raw logs are not reproduced. The original machine result JSON is suitable as the narrowly scoped public summary.",
+  "limitations": [
+    "Formal Review-main acceptance is not Completion and does not release the high-risk slot or authorize deleting an active ref.",
+    "The accepted scope is GZ-007 ordinary task controls and the complete official workflow, not universal product-release or unrelated POC qualification.",
+    "No GitHub, code, Git-ref or runtime mutation was performed by this reviewer."
+  ],
+  "evidencePins": [
+    {
+      "path": "gz007-normal-review-main-506cfcdc-independent-ci/actual-merge.connector.json",
+      "bytes": 6975,
+      "sha256": "35bec87c695df98c0d065b28942db61b0993587ce87bd459f4a68b98095e74bf"
+    },
+    {
+      "path": "gz007-normal-review-main-506cfcdc-independent-ci/anchored-review.connector.json",
+      "bytes": 5397,
+      "sha256": "b57824d63cbfc955c7963d8c8c55f9c771450a143b71edb6ae55f98e479be383"
+    },
+    {
+      "path": "gz007-normal-review-main-506cfcdc-independent-ci/coverage-observed.json",
+      "bytes": 143056,
+      "sha256": "94addab176b4eb06e29099a3d4d60fd54b4d57dafea24ec4017097fb94d3f41d"
+    },
+    {
+      "path": "gz007-normal-review-main-506cfcdc-independent-ci/issue287-final.connector.json",
+      "bytes": 2649,
+      "sha256": "08c1e228cbaaf8f806d3b8312d0e5b11ef5d41d4289cf19672a08528e9f0dd97"
+    },
+    {
+      "path": "gz007-normal-review-main-506cfcdc-independent-ci/job-140033332030.log-content.json",
+      "bytes": 65266,
+      "sha256": "f0b1d5ca9a8398744976a65e356611c0a8ff0360c73909bf2bd9409e96cebd87"
+    },
+    {
+      "path": "gz007-normal-review-main-506cfcdc-independent-ci/job-140033332612.log-content.json",
+      "bytes": 176967,
+      "sha256": "60fe42459246cd86cd3efcc724b4643d448978e77b047f63667797e8d9e84244"
+    },
+    {
+      "path": "gz007-normal-review-main-506cfcdc-independent-ci/job-140033332782.log-content.json",
+      "bytes": 163912,
+      "sha256": "9fc552e804f74a91e143ef65d815e921d8b72c051ae26bed8087465147655965"
+    },
+    {
+      "path": "gz007-normal-review-main-506cfcdc-independent-ci/job-140033332974.log-content.json",
+      "bytes": 129187,
+      "sha256": "cb8988def33a8f22c7c4fd457027173230569f7bd0ce546a674dd852a0440585"
+    },
+    {
+      "path": "gz007-normal-review-main-506cfcdc-independent-ci/job-140039125303.log-content.json",
+      "bytes": 16554,
+      "sha256": "2ed357e9fd1f486f9c913334590a1c0c6d2c3a9cf74ea915adbca47ba7cb88f3"
+    },
+    {
+      "path": "gz007-normal-review-main-506cfcdc-independent-ci/jobs-final.connector.json",
+      "bytes": 33519,
+      "sha256": "d9f8f074369593057c1965110da3da847463bc5daac6d9380d4728ed67a45f07"
+    },
+    {
+      "path": "gz007-normal-review-main-506cfcdc-independent-ci/main-ref-final.connector.json",
+      "bytes": 1301,
+      "sha256": "f47c80401396c5e69d1b838712dd0ce55cafef7eba7949ab95b75a025bb86962"
+    },
+    {
+      "path": "gz007-normal-review-main-506cfcdc-independent-ci/merged-pr.connector.json",
+      "bytes": 2579,
+      "sha256": "6145d301e5133611a93c2bb67c6cf9d56f237ddfb58906a8909d179c578c1e80"
+    },
+    {
+      "path": "gz007-normal-review-main-506cfcdc-independent-ci/run-final.connector.json",
+      "bytes": 27110,
+      "sha256": "4966b8b3f063dd0a2815de7651f866e2fdfea3f6f9b7c1969794fd19939d8838"
+    },
+    {
+      "path": "gz007-normal-review-main-506cfcdc-native/coordination.txt",
+      "bytes": 356,
+      "sha256": "c9c4d4fe1daccef681f150efa827cf8a40279bb3d64be62e043d6984c6bb8158"
+    },
+    {
+      "path": "gz007-normal-review-main-506cfcdc-native/finalization.txt",
+      "bytes": 454,
+      "sha256": "dd911c29a9ef975fcb6d46a17ff661f32774e53082066f750b577920ea8468b5"
+    },
+    {
+      "path": "gz007-normal-review-main-506cfcdc-native/history.txt",
+      "bytes": 563,
+      "sha256": "613d756be50c95d0ce0b9b2a2232b7e5eb598e1364369ed8f4c7085be1e3b974"
+    },
+    {
+      "path": "gz007-normal-review-main-506cfcdc-native/integrity.txt",
+      "bytes": 495,
+      "sha256": "1cab5e5399a0b2d2531c58cacfa640f04b1363ac15ca1a4dda7c61f977017a41"
+    },
+    {
+      "path": "gz007-normal-review-main-506cfcdc-native/lifecycle-guards.txt",
+      "bytes": 545,
+      "sha256": "38b12174f4396f1a00eddd6323c2460dab1150e6e2c2bd95d1961d2cba469cd0"
+    },
+    {
+      "path": "gz007-normal-review-main-506cfcdc-native/task-finalization.txt",
+      "bytes": 472,
+      "sha256": "fa179930ab7f6de5ad6e872d7b0cc939fe60dddd4263b7ad076da3c44c14a03d"
+    },
+    {
+      "path": "gz007-normal-review-main-506cfcdc-native/transitions.txt",
+      "bytes": 475,
+      "sha256": "40f8afaf379ba7b172b821c986bf6399befda9b534e670fedc9a7742439d382e"
+    },
+    {
+      "path": "gz007-normal-review-main-506cfcdc-native/result.json",
+      "bytes": 422,
+      "sha256": "a8bef32b224b6c9c00148350b02b4ae96a2b6a43d85db308cd3a22a69d1516d9"
+    },
+    {
+      "path": "gz007-normal-review-1d84c221-final-source-independent-review.json",
+      "bytes": 21936,
+      "sha256": "17a3dad8787360ff2235db249c300f537acb6d1c411ea9d956d2e87968c24f2d"
+    },
+    {
+      "path": "gz007-implementation-main-2733a818-final-actual-main-independent-review.json",
+      "bytes": 23628,
+      "sha256": "866f282b9f4932727ecc49294cec4df8947a5dd5adbfa7e65b4050b0989c8d91"
+    }
+  ]
+}
