@@ -1,0 +1,80 @@
+body {
+  background: #f4f6f8;
+  color: #182230;
+  font: 1rem/1.4 system-ui, sans-serif;
+  margin: 0;
+}
+
+main {
+  max-width: 54rem;
+  margin: 0 auto;
+  padding: 1.2rem;
+}
+
+section {
+  border: 1px solid #9baabb;
+  background: #fff;
+  padding: 1rem;
+  margin-block: 1rem;
+}
+
+h1, h2 {
+  margin-block: 0 0.6rem;
+}
+
+.asset-list {
+  overflow: auto;
+  overflow-anchor: none;
+  max-height: 45vh;
+  border: 1px solid #c2cdd8;
+}
+
+.asset-spacer {
+  position: relative;
+}
+
+.asset-window {
+  position: absolute;
+  inset-inline: 0;
+}
+
+.asset-window button {
+  display: block;
+  width: 100%;
+  height: 28px;
+  padding-inline: 0.5rem;
+  border: 0;
+  text-align: start;
+  background: #fff;
+  color: #182230;
+  box-sizing: border-box;
+}
+
+.asset-window button:nth-child(2n) {
+  background: #ebeff3;
+}
+
+.asset-window button[aria-pressed="true"] {
+  background: #c3dbff;
+}
+
+.asset-window button:focus-visible {
+  outline: 2px solid #1559a7;
+  outline-offset: -2px;
+}
+
+form {
+  display: flex;
+  align-items: start;
+  flex-wrap: wrap;
+  gap: 0.65rem 1rem;
+}
+
+label, .field {
+  display: grid;
+  gap: 0.25rem;
+}
+
+[role="alert"] {
+  color: #9d1b22;
+}
