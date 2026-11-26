@@ -123,3 +123,11 @@
 实施 PR #313 普通合入 `2733a8181e3e22a4a80b8d1097ab965bfeee8b6a`。实际主线保留受审树，七项本地检查、完整官方 1,090 项和独立终验通过。此轮办理 GZ-007 正式审查，作业证据绑定实际主线。[实施 PR #313](https://github.com/ElectricDogCN/Guize/pull/313) · [实际主线 CI #1166](https://github.com/ElectricDogCN/Guize/actions/runs/45846364097)
 
 受测迁移、合成夹具及数据契约在源与实际主线树中逐字节相同。沿用已完成的 PostgreSQL 实测和恢复记录。[实际主线独立回执](../implementation-main-2733a818/independent-review.json) · [七项主线检查](../implementation-main-2733a818/source-controls.json)
+
+## 实际 Review 主线验收
+
+Status: PASS
+
+已接受实际 Review 主线 506cfcdc271cc0417bb91cc0bb72eeda2bed6f5c 的七项本地检查和完整官方 1,090 项。结项继续引用 2733a8181e3e22a4a80b8d1097ab965bfeee8b6a 的实施身份。[正式 Review PR #318](https://github.com/ElectricDogCN/Guize/pull/318) · [实际 Review 主线 CI #1170](https://github.com/ElectricDogCN/Guize/actions/runs/45855691281) · [实施 PR #313](https://github.com/ElectricDogCN/Guize/pull/313)
+
+[独立验收原件](../accepted-review-main-506cfcdc/independent-review.json)

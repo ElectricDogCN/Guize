@@ -75,3 +75,12 @@ records:
     taskSpec: specs/tasks/GZ-009.md
     evidencePath: evidence/GZ-009
     handoffPath: evidence/GZ-009/handoff.md
+
+  - taskId: GZ-007
+    reservationRef: PR-309
+    reservationCommit: 0cde7c3b886617dfbb89bedff0679a351e4cd970
+    completionRef: PR-313
+    mergeCommit: 2733a8181e3e22a4a80b8d1097ab965bfeee8b6a
+    taskSpec: specs/tasks/GZ-007.md
+    evidencePath: evidence/GZ-007
+    handoffPath: evidence/GZ-007/handoff.md
