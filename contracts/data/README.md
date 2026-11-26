@@ -67,8 +67,8 @@ V6 增加身份和 ACL 表，保留现有资产、任务及会话启用前的数
 
 `media.profile` 保留已批准的不可变配置版本。`media.rendition` 绑定资产输入版本的完整 SHA-256、准确配置版本和输出摘要及长度。媒体表现的同一标识不能改绑，发布状态必须引用通过的 `media.quality_result`。`media.track` 保留轨道索引、编解码器、语言及持续时间。AV1 工作单元调度、HLS 清单组装和逐分片授权由媒体及边缘模块联调。
 
-`storage.backend` 区分缓存位置和正式位置，引用固定的部署目标及故障域。`storage.cache_entry` 只保存完整文件缓存及固定缓存。完整回读必须匹配权威资产版本长度及已验证的完整摘要，确认测量证据之后才进入可用状态，并在同一事务发布 `cache.complete.verified`。ATS Range/Slice 和 HLS 临时分片不属于完整文件缓存或正式副本。缓存淘汰角色只获 `storage.advance_expired_cache` 执行权，于 TTL 到期后把普通缓存按期望修订推进为 `EVICTING`，确认缓存字节处理后推进为 `EVICTED`。固定缓存、未到期缓存和正式对象不能通过此函数淘汰。
+`storage.backend` 区分缓存位置和正式位置，引用固定的部署目标及故障域。`storage.cache_entry` 只保存完整文件缓存及固定缓存。完整回读必须匹配权威资产版本长度及已验证的完整摘要，确认测量证据之后才进入可用状态，并在同一事务将 `cache.complete.verified` 写入 Outbox。ATS Range/Slice 和 HLS 临时分片不属于完整文件缓存或正式副本。缓存淘汰角色只获 `storage.advance_expired_cache` 执行权，于 TTL 到期后把普通缓存按期望修订推进为 `EVICTING`，确认缓存字节处理后推进为 `EVICTED`。固定缓存、未到期缓存和正式对象不能通过此函数淘汰。
 
 `storage.replica` 绑定已知媒体输出及正式目标，上传状态与验证状态分别记录。正式副本的读回长度和 SHA-256 均应与绑定输出相同，验证结果与 `replica.verified` 同事务提交。归档 `storage.retention_policy` 版本与 `storage.retention_hold` 历史。数据库串行化同一资产的保留保护与正式副本状态变更。已回读副本的移除申请和状态确认均检查保留期限、活动保护，以及其他故障域的可用正式验证副本。同一故障域内的目标、上传未验证副本和隔离副本不能满足该检查。缓存淘汰无需拥有这些正式生命周期表的权限。
 
-`storage.migration` 记录同一媒体表现的副本迁移，`storage.watermark_event` 保存目标的实测水位。数据库持久化状态与完整性门槛。实际字节回读、存储水位阈值、外部对象操作和恢复演练分别按所属模块与 POC 验证。V8 保留已应用数据。回滚时从固定备份恢复或以前向修订演进。[数据库验收语句](../../specs/contracts/data/verify_media_storage_state.sql)
+`storage.migration` 记录同一媒体表现的副本迁移，`storage.watermark_event` 保存目标的实测水位。数据库持久化状态与完整性门槛。外部操作模块执行普通缓存淘汰时重新确认可重建性。`DELETING` 表示数据库登记了移除请求，文件操作模块仍需执行真实删除前的保留、权限和替代副本核对，并处理操作中断后的恢复。实际字节回读、存储水位阈值、外部对象操作和恢复演练分别按所属模块与 POC 验证。V8 保留已应用数据。回滚时从固定备份恢复或以前向修订演进。[数据库验收语句](../../specs/contracts/data/verify_media_storage_state.sql)
