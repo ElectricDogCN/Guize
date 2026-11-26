@@ -101,3 +101,31 @@ python scripts/check-markdown.py
 python scripts/check-spec-sync.py --base origin/main
 python specs/ui/check_contract.py
 python -m pytest -q specs/ui/test_contract.py
+
+## 正常结项
+
+Source Commit: 4337d4a6bb1d4d01d31fa1a5875e2a1056bff9f4
+Command: /var/tmp/guize-ops027-rebased-proof/python/bin/python -B scripts/check-program-plan-integrity.py --base-ref dc8f7015bbdbb57a60ca49a860659e5b5ac08477
+Exit Code: 0
+Result: PASS
+Raw SHA-256: aaf883b593d7eedfa0b1c205a3141a66bfdecb6bfb1400d1bfefdd64ee0616eb
+
+固定结项源命令。
+
+git diff --check 0cde7c3b886617dfbb89bedff0679a351e4cd970...HEAD
+python scripts/check-task-file.py --task GZ-009
+python scripts/check-evidence.py --task GZ-009
+python scripts/check-schemas.py
+python scripts/check-program-plan-integrity.py --base-ref 0cde7c3b886617dfbb89bedff0679a351e4cd970
+python scripts/check-program-plan-history.py --base-ref 0cde7c3b886617dfbb89bedff0679a351e4cd970 --head-ref HEAD --task GZ-009 --branch-name chore/GZ-009-normal-completion
+python scripts/check-program-plan-transitions.py --base-ref 0cde7c3b886617dfbb89bedff0679a351e4cd970 --head-ref HEAD --task GZ-009 --branch-name chore/GZ-009-normal-completion
+python scripts/check-program-lifecycle-guards.py --base-ref 0cde7c3b886617dfbb89bedff0679a351e4cd970 --head-ref HEAD --task GZ-009 --branch-name chore/GZ-009-normal-completion
+python scripts/run-program-lifecycle-gate.py --base-ref 0cde7c3b886617dfbb89bedff0679a351e4cd970 --head-ref HEAD --task GZ-009 --branch-name chore/GZ-009-normal-completion
+python scripts/run-agent-coordination-gate.py --base-ref 0cde7c3b886617dfbb89bedff0679a351e4cd970 --head-ref HEAD --task GZ-009 --branch-name chore/GZ-009-normal-completion
+python scripts/check-program-plan-finalization.py --base-ref 0cde7c3b886617dfbb89bedff0679a351e4cd970 --head-ref HEAD --task GZ-009
+python scripts/run-task-scope-gate.py --task GZ-009 --base 0cde7c3b886617dfbb89bedff0679a351e4cd970
+python scripts/check-project-readiness.py
+python scripts/check-markdown.py
+python scripts/check-spec-sync.py --base origin/main
+python specs/ui/check_contract.py
+python -m pytest -q specs/ui/test_contract.py
