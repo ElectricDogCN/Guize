@@ -1,0 +1,23 @@
+{
+  "operation": "openlist_tls_range_preflight",
+  "scope": "nominal loopback preflight with a disposable 16 KiB fixture",
+  "version": "v4.2.6",
+  "binarySha256": "234ee38f142858ba12d57dd57d181c9ed4a77f952b8420c053e7ab98e3db3172",
+  "listener": "127.0.0.1",
+  "httpStatus": 200,
+  "body": "pong",
+  "listenerOwnershipVerified": true,
+  "processStopped": true,
+  "temporaryArtifactsRemoved": true,
+  "fullStatus": 200,
+  "fullBytes": 16384,
+  "fullSha256": "a1f259d4365ed4320c377ce26f5c8c56dcdc9a89e7b641bfd8eabfbbeac86654",
+  "rangeStatus": 206,
+  "rangeBytes": 1024,
+  "rangeSha256": "785b0751fc2c53dc14a4ce3d800e69ef9ce1009eb327ccf458afe09c242c26c9",
+  "contentRange": "bytes 1024-2047/16384",
+  "matchingIfRangeStatus": 206,
+  "tls": "TLSv1.3",
+  "peerName": "localhost",
+  "gatewayStopped": true
+}
