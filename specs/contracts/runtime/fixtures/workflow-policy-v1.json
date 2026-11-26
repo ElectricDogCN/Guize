@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "policyVersion": "synthetic-validation-v1",
+  "activityClasses": {
+    "read": {
+      "startToCloseSeconds": 5,
+      "scheduleToCloseSeconds": 20,
+      "retry": {"maximumAttempts": 3, "initialSeconds": 1, "maximumSeconds": 3, "backoff": 2, "nonRetryableTypes": ["BUSINESS_REJECTED", "INPUT_IDENTITY_MISMATCH", "AUTHORIZATION_INVALID", "CANCELLED"]},
+      "cancellation": "WAIT_CANCELLATION_COMPLETED"
+    },
+    "command": {
+      "startToCloseSeconds": 10,
+      "scheduleToCloseSeconds": 30,
+      "retry": {"maximumAttempts": 3, "initialSeconds": 1, "maximumSeconds": 4, "backoff": 2, "nonRetryableTypes": ["BUSINESS_REJECTED", "INPUT_IDENTITY_MISMATCH", "AUTHORIZATION_INVALID", "CANCELLED"]},
+      "cancellation": "WAIT_CANCELLATION_COMPLETED"
+    },
+    "longRunning": {
+      "startToCloseSeconds": 30,
+      "scheduleToCloseSeconds": 90,
+      "heartbeatSeconds": 5,
+      "retry": {"maximumAttempts": 2, "initialSeconds": 1, "maximumSeconds": 5, "backoff": 2, "nonRetryableTypes": ["BUSINESS_REJECTED", "INPUT_IDENTITY_MISMATCH", "AUTHORIZATION_INVALID", "CANCELLED"]},
+      "cancellation": "WAIT_CANCELLATION_COMPLETED"
+    }
+  }
+}

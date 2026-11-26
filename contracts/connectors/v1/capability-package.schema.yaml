@@ -1,0 +1,39 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Guize capability package descriptor
+type: object
+additionalProperties: false
+required: [schemaVersion, capabilityId, version, executionGroupId, kind, runtimeSha256, configSha256,
+           license, outputContractId, network, checkpointMode]
+properties:
+  schemaVersion: {const: 1}
+  capabilityId: {$ref: '#/$defs/id'}
+  version: {type: string, pattern: '^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$'}
+  executionGroupId: {$ref: '#/$defs/id'}
+  kind: {enum: [AV1_ENCODE, MEDIA_ANALYSIS, OFFLINE_OCR]}
+  runtimeSha256: {$ref: '#/$defs/sha'}
+  configSha256: {$ref: '#/$defs/sha'}
+  license: {type: string, pattern: '^[A-Za-z0-9().+\- ]{1,128}$'}
+  outputContractId: {$ref: '#/$defs/id'}
+  network: {enum: [OFFLINE, AUTHORIZED_DESTINATIONS]}
+  checkpointMode: {enum: [NONE, INDEPENDENT_UNIT]}
+  qualityProfileId: {$ref: '#/$defs/id'}
+  samplingProfileId: {$ref: '#/$defs/id'}
+  model:
+    type: object
+    additionalProperties: false
+    required: [id, sha256, license]
+    properties:
+      id: {$ref: '#/$defs/id'}
+      sha256: {$ref: '#/$defs/sha'}
+      license: {type: string, pattern: '^[A-Za-z0-9().+\- ]{1,128}$'}
+  sourceAuthorization: {const: INHERITED}
+allOf:
+  - if: {properties: {kind: {const: MEDIA_ANALYSIS}}}
+    then: {required: [samplingProfileId, qualityProfileId, sourceAuthorization]}
+  - if: {properties: {kind: {const: OFFLINE_OCR}}}
+    then:
+      required: [model, qualityProfileId, sourceAuthorization]
+      properties: {network: {const: OFFLINE}}
+$defs:
+  id: {type: string, pattern: '^[a-z]{2,12}_[A-Za-z0-9_-]{1,64}$'}
+  sha: {type: string, pattern: '^[a-f0-9]{64}$'}

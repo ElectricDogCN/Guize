@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "workflowType": "StandardizeMediaWorkflow",
+  "taskId": "task_replay",
+  "planId": "plan_replay",
+  "planVersion": 1,
+  "policyVersionId": "polv_01",
+  "steps": [
+    {"stepId": "step_probe", "activity": "probe", "dependsOn": [], "inputRef": "input_clip"},
+    {"stepId": "step_a", "activity": "transcode", "dependsOn": ["step_probe"], "inputRef": "input_window_a"},
+    {"stepId": "step_b", "activity": "transcode", "dependsOn": ["step_probe"], "inputRef": "input_window_b"},
+    {"stepId": "step_publish", "activity": "publish", "dependsOn": ["step_a", "step_b"], "inputRef": "input_outputs"}
+  ],
+  "recorded": [
+    {
+      "stepId": "step_probe",
+      "idempotencyKey": "task_replay:plan_replay:1:step_probe:probe",
+      "policyVersionId": "polv_01",
+      "status": "COMPLETED",
+      "outcomeRef": "out_probe"
+    },
+    {
+      "stepId": "step_a",
+      "idempotencyKey": "task_replay:plan_replay:1:step_a:transcode",
+      "policyVersionId": "polv_01",
+      "status": "SCHEDULED"
+    }
+  ],
+  "cancellationRequested": false
+}

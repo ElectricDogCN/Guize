@@ -1,0 +1,27 @@
+{
+  "policyId": "policy_playback",
+  "policyVersionId": "polv_01",
+  "deployment": "ACTIVE",
+  "authorized": true,
+  "observedAt": "2026-11-26T17:00:00Z",
+  "facts": {
+    "renditionMissing": true
+  },
+  "budgets": {
+    "codecSlots": {
+      "requested": 1,
+      "available": 1
+    },
+    "cpuMillis": {
+      "requested": 200,
+      "available": 400
+    }
+  },
+  "approval": {
+    "id": "approve_01",
+    "policyVersionId": "polv_01",
+    "action": "BATCH_TRANSCODE",
+    "expiresAt": "2026-11-26T17:01:00Z"
+  },
+  "policySha256": "342a1d9ba486e3d9676c88e71dc8145b54af4afa9491afc9092dd319bc02826b"
+}
