@@ -80,3 +80,31 @@ python scripts/check-evidence.py --task GZ-007
 python scripts/check-project-readiness.py
 python scripts/check-markdown.py
 python scripts/check-spec-sync.py --base origin/main
+
+## 正常结项源码验证
+
+GZ-007 的实施合并为 `2733a8181e3e22a4a80b8d1097ab965bfeee8b6a`，结项检查以下列命令复验交付凭证。
+
+以下为实际 Review 主线已执行的完整性检查。公开记录将解释器显示为 `python`，原始记录及摘要保留。
+
+Source Commit: 506cfcdc271cc0417bb91cc0bb72eeda2bed6f5c
+Command: python -B scripts/check-program-plan-integrity.py --base-ref e0ded7aeacd749f60bdcf9838a0f8c96ce8e1416
+Exit Code: 0
+Result: PASS
+Raw SHA-256: 1cab5e5399a0b2d2531c58cacfa640f04b1363ac15ca1a4dda7c61f977017a41
+
+git diff --check 506cfcdc271cc0417bb91cc0bb72eeda2bed6f5c...HEAD
+python scripts/check-task-file.py --task GZ-007
+python scripts/check-schemas.py
+python scripts/check-program-plan-integrity.py --base-ref 506cfcdc271cc0417bb91cc0bb72eeda2bed6f5c
+python scripts/check-program-plan-history.py --base-ref 506cfcdc271cc0417bb91cc0bb72eeda2bed6f5c --head-ref HEAD --task GZ-007 --branch-name chore/GZ-007-normal-completion
+python scripts/check-program-plan-transitions.py --base-ref 506cfcdc271cc0417bb91cc0bb72eeda2bed6f5c --head-ref HEAD --task GZ-007 --branch-name chore/GZ-007-normal-completion
+python scripts/check-program-lifecycle-guards.py --base-ref 506cfcdc271cc0417bb91cc0bb72eeda2bed6f5c --head-ref HEAD --task GZ-007 --branch-name chore/GZ-007-normal-completion
+python scripts/run-program-lifecycle-gate.py --base-ref 506cfcdc271cc0417bb91cc0bb72eeda2bed6f5c --head-ref HEAD --task GZ-007 --branch-name chore/GZ-007-normal-completion
+python scripts/run-agent-coordination-gate.py --base-ref 506cfcdc271cc0417bb91cc0bb72eeda2bed6f5c --head-ref HEAD --task GZ-007 --branch-name chore/GZ-007-normal-completion
+python scripts/check-program-plan-finalization.py --base-ref 506cfcdc271cc0417bb91cc0bb72eeda2bed6f5c --head-ref HEAD --task GZ-007
+python scripts/run-task-scope-gate.py --task GZ-007 --base 506cfcdc271cc0417bb91cc0bb72eeda2bed6f5c
+python scripts/check-evidence.py --task GZ-007
+python scripts/check-project-readiness.py
+python scripts/check-markdown.py
+python scripts/check-spec-sync.py --base origin/main

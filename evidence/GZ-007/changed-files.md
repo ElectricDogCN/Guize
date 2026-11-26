@@ -141,3 +141,17 @@
 - specs/coordination/active-work.yaml
 - specs/coordination/program-plan.yaml
 - specs/tasks/GZ-007.md
+
+## 正常结项
+
+- specs/coordination/active-work.yaml
+- specs/coordination/program-plan.yaml
+- specs/coordination/task-completions.yaml
+- specs/tasks/GZ-007.md
+- evidence/GZ-007/accepted-review-main-506cfcdc/independent-review.json
+- evidence/GZ-007/accepted-review-main-506cfcdc/source-controls.json
+- evidence/GZ-007/changed-files.md
+- evidence/GZ-007/commands.txt
+- evidence/GZ-007/handoff.md
+- evidence/GZ-007/summary.md
+- evidence/GZ-007/test-results/README.md
