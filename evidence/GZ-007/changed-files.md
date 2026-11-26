@@ -58,6 +58,14 @@
 - evidence/GZ-007/test-results/README.md
 - specs/contracts/data/verify_identity_and_asset_acl.sql
 
+## 来源同步与检查点持久化
+
+- contracts/data/README.md
+- data/migrations/V7__create_source_sync_state.sql
+- evidence/GZ-007/changed-files.md
+- evidence/GZ-007/test-results/README.md
+- specs/contracts/data/verify_source_sync_state.sql
+
 ## 模块命名空间迁移
 
 - data/migrations/V1__create_module_namespaces.sql
