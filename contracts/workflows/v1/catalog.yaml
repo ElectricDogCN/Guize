@@ -1,0 +1,34 @@
+schemaVersion: 1
+contractId: WORKFLOW-CONTRACT-V1
+stateAuthority: TASK
+workflowTypes:
+  工作流V1-0001:
+    type: SyncDataSourceWorkflow
+    activities: {probe: read, list: longRunning, normalize: read, upsert: command, checkpoint: command}
+  工作流V1-0002:
+    type: EnsureCompleteCacheWorkflow
+    activities: {reserve: command, download: longRunning, hash: longRunning, scan: longRunning, publish: command}
+  工作流V1-0003:
+    type: StandardizeMediaWorkflow
+    activities: {probe: read, select: read, transcode: longRunning, quality: longRunning, store: longRunning, publish: command}
+  工作流V1-0004:
+    type: TemporaryTranscodeSessionWorkflow
+    activities: {transcodeSegment: longRunning, cleanup: command}
+  工作流V1-0005:
+    type: EnrichAssetWorkflow
+    activities: {asr: longRunning, ocr: longRunning, vlm: longRunning, translate: longRunning, summarize: longRunning, embed: longRunning}
+  工作流V1-0006:
+    type: IndexAssetWorkflow
+    activities: {buildDocument: read, buildVector: longRunning, publishIndex: command}
+  工作流V1-0007:
+    type: PromoteReplicaWorkflow
+    activities: {verify: longRunning, reserve: command, copy: longRunning, readback: longRunning, publish: command}
+  工作流V1-0008:
+    type: BackupReplicaWorkflow
+    activities: {encrypt: longRunning, upload: longRunning, verify: longRunning, readback: longRunning}
+  工作流V1-0009:
+    type: RestoreReplicaWorkflow
+    activities: {plan: read, download: longRunning, verify: longRunning, promote: command}
+  工作流V1-0010:
+    type: ReconcilePlatformWorkflow
+    activities: {source: command, cache: command, replica: command, task: command, index: command}
