@@ -30,6 +30,8 @@ python -B poc/POC-07-public-network/run_local_replay.py --help
 
 正式采集准备使用 [同窗口采集入口](run_local_access_replay.py)。一个已准备的回环 OpenList 同时挂载播放和产物样本。固定播放及受控入口端口，经标准输入传入 `playback`、`management`、`worker` 的临时身份。两个采集器分别保留原件，最后写入记录实际执行窗口和两个回执摘要的 `access-replay.json`。该回执用于组装正式结果及审核材料。
 
+使用 `--grant-schedule` 读取固定的播放授权时间。JSON 包含 `grantValidFrom`、`grantValidUntil` 和 `expiredAt`，均使用 UTC。开始时当前授权须有效，过期授权须已失效。回执保存实际采用的授权与身份引用，供独立审查核对。
+
 ```bash
 python -B poc/POC-07-public-network/run_local_resource_replay.py --help
 ```

@@ -17,10 +17,28 @@ from stream_fixture import FixtureSource
 from verify_fixture import verify_fixture
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "POC-03-ats-range"))
-from grants import Grant
+from grants import Grant, utc_instant
 
 PREFLIGHT_BYTES = 2_097_189
 PREFLIGHT_SHA256 = "dd6a5c8b02ef6c8c3bbe7c1132948d3fb949bb6dbd234e9f7d23c7a1b42a6cad"
+
+
+def playback_grants(schedule: dict[str, str] | None, now: datetime) -> tuple[Grant, Grant]:
+    if schedule is None:
+        schedule = {
+            "grantValidFrom": now.isoformat(),
+            "grantValidUntil": (now + timedelta(minutes=5)).isoformat(),
+            "expiredAt": (now - timedelta(minutes=1)).isoformat(),
+        }
+    if not isinstance(schedule, dict) or schedule.keys() != {"grantValidFrom", "grantValidUntil", "expiredAt"}:
+        raise ValueError("Expected the fixed playback grant schedule")
+    start, end, expired_at = (utc_instant(schedule[key]) for key in ("grantValidFrom", "grantValidUntil", "expiredAt"))
+    if not start <= now < end or expired_at > now:
+        raise ValueError("Playback must start with a live grant and an already expired grant")
+    return (
+        Grant("current", "sample-owner", start.isoformat(), end.isoformat()),
+        Grant("expired", "sample-owner", (expired_at - timedelta(minutes=1)).isoformat(), expired_at.isoformat()),
+    )
 
 
 def verify_preflight_sample(path: Path) -> dict[str, str | int]:
@@ -50,10 +68,10 @@ def run(args: argparse.Namespace, *, origin_authorization: str | None = None) ->
     if not re.fullmatch(r"Basic [A-Za-z0-9+/]{1,1008}={0,2}", origin_authorization):
         raise ValueError("Expected one temporary OpenList reader credential on standard input")
 
-    now = datetime.now(timezone.utc)
-    active = Grant("current", "sample-owner", now.isoformat(), (now + timedelta(minutes=5)).isoformat())
-    expired = Grant("expired", "sample-owner", (now - timedelta(minutes=2)).isoformat(),
-                    (now - timedelta(minutes=1)).isoformat())
+    schedule = None if args.grant_schedule is None else json.loads(args.grant_schedule.read_bytes())
+    if args.grant_schedule is not None and schedule is None:
+        raise ValueError("Expected the fixed playback grant schedule")
+    active, expired = playback_grants(schedule, datetime.now(timezone.utc))
     owner, stale, other = ("Bearer " + secrets.token_urlsafe(24) for _ in range(3))
     subjects = ((owner, "sample-owner", active), (stale, "sample-owner", expired), (other, "other-sample-user", active))
 
@@ -70,6 +88,11 @@ def run(args: argparse.Namespace, *, origin_authorization: str | None = None) ->
         result = replay_fixture(source, args.fixture, port, args.certificate, policy, args.output, observations,
                                 owner=owner, expired=stale, other_identity=other)
     result.update(operation="local_fixture_replay", sample=sample, preflight=args.preflight, gatewayStopped=True)
+    result["playbackGrantPolicy"] = {
+        "authorizedUserId": active.principal, "deniedUserId": subjects[2][1],
+        "authorizedGrantId": active.grant_id, "deniedGrantId": active.grant_id, "expiredGrantId": expired.grant_id,
+        "grantValidFrom": active.valid_from, "grantValidUntil": active.valid_until, "expiredAt": expired.valid_until,
+    }
     with (args.output / "replay-result.json").open("x", encoding="utf-8") as output:
         json.dump(result, output, ensure_ascii=False, indent=2)
         output.write("\n")
@@ -88,6 +111,7 @@ def argument_parser() -> argparse.ArgumentParser:
     parser.add_argument("--cache-last", type=int, required=True)
     parser.add_argument("--request-limit", type=int, required=True)
     parser.add_argument("--window-seconds", type=float, required=True)
+    parser.add_argument("--grant-schedule", type=Path, help="Fixed UTC playback grant times for local evidence")
     parser.add_argument("--preflight", action="store_true", help="Select the fixed small synthetic fixture")
     return parser
 
