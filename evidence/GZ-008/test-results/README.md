@@ -13,9 +13,11 @@ python -B -m unittest discover -s specs/contracts/runtime -p test_workflow_contr
 
 ## 四类契约实施验证
 
-Windows 原生与 Ubuntu WSL 各通过 26 项离线单元及组合检查。规范化重放保留已完成结果，仅返回尚未调度且依赖就绪的步骤。重复读取同一快照结果相同，取消停止新派发，执行完毕后转入 TASK 对账。Policy 用例核对版本与摘要、批准范围、决策上下文、资源预算和 P0 优先级。插件用例覆盖能力包兼容、插件缺席、局部故障及输出权限。组合用例由策略 P0 建议推进到已锁定 AV1 能力包与 Worker 领取，并核对现有 TASK 接受事件。
+Windows 原生与 Ubuntu WSL 各通过 28 项离线单元及组合检查。规范化重放保留已完成结果，仅返回尚未调度且依赖就绪的步骤。重复读取同一快照结果相同，取消停止新派发，执行完毕后转入 TASK 对账。Policy 用例核对版本与摘要、批准范围、决策上下文、资源预算和 P0 优先级。插件用例覆盖能力包兼容、插件缺席、局部故障及输出权限。组合用例由策略 P0 建议推进到已锁定 AV1 能力包与 Worker 领取，并核对现有 TASK 接受事件。
 
-两个环境独立构建并重新解包的 Worker 参考 SDK `1.0.0` 均为 32,456 字节，SHA-256 为 `f91a958b388af672e2e978de4786ba2691274a791df04229949f92fe6e2e11ad`。解包副本各执行同一份 32 个协议用例，结果一致。用例 SHA-256 为 `fcd0fd57d929b711e1179c26c690727b66ac8e933216d4e465c6ea20e7f26362`，协议 Schema SHA-256 为 `0567c0aca3d306233e0ff8205f8afb7a5d19297485bfcee797682088f22c0dce`。SHA-256 取仓库 LF 字节。[Worker 运行边界](../../../contracts/workers/v1/README.md)
+两个环境独立构建并重新解包的 Worker 参考 SDK `1.0.0` 均为 37,001 字节，SHA-256 为 `e71cb140050536d18ab7efd3c8995ce41f9791ae325611b02decea30c3df6e5a`。解包副本各执行同一份 38 个协议用例，结果一致。用例 SHA-256 为 `d51f0cd1107efb43cc27f432e13e21aa011c47ad246841a0b42266c7a90ca6c5`，协议 Schema SHA-256 为 `45cac8900d332fa4aebed0c300d8aba19df7551046ef042d4a00cabd7867ad65`。SHA-256 取仓库 LF 字节。[Worker 运行边界](../../../contracts/workers/v1/README.md)
+
+预审发现 Worker 校验对内部状态旗标使用了通用真值判断。修订后 TASK 内部快照使用明确的布尔、期限、状态、预算和进度类型。两套环境的依赖组合对时区格式的支持不同，参考实现现统一要求明确时区和最多六位小数秒。新增用例覆盖缺失或无效的授权状态、节点会话状态、预留状态、续租期限、时间及产物字节数。
 
 ```bash
 python -B -m unittest discover -s specs/contracts/runtime -p 'test_*.py'

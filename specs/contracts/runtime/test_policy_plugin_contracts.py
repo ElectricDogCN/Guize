@@ -4,11 +4,12 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 import unittest
 
+from jsonschema import Draft202012Validator
+
 from check_plugin_contract import assess, validate_lock
 from check_policy_contract import evaluate, validate_policy
 from check_worker_contract import decide
 from validation import read_json
-from jsonschema import Draft202012Validator
 
 FIXTURES = Path(__file__).resolve().parent / "fixtures"
 
@@ -156,6 +157,25 @@ class PluginContractTests(unittest.TestCase):
         self.assertEqual(len(binding), 13)
         for key, value in binding.items():
             Draft202012Validator(properties[key]).validate(value)
+
+
+class WorkerSnapshotTests(unittest.TestCase):
+    def setUp(self):
+        self.worker = read_json(FIXTURES / "worker-conformance-v1.json")
+
+    def test_missing_or_null_authoritative_fact_fails_closed(self):
+        for value in (None, 0, 1, "false"):
+            with self.subTest(value=value):
+                trusted = self.worker["trusted"] | {"grantActive": value}
+                self.assertEqual(decide(self.worker["offer"], self.worker["message"], trusted),
+                                 "TRUSTED_SNAPSHOT_INVALID")
+        del trusted["grantActive"]
+        self.assertEqual(decide(self.worker["offer"], self.worker["message"], trusted), "TRUSTED_SNAPSHOT_INVALID")
+
+    def test_renewal_requires_the_authoritative_renewal_deadline(self):
+        message = self.worker["message"] | {"operation": "RENEW", "payload": {}}
+        del self.worker["trusted"]["renewUntil"]
+        self.assertEqual(decide(self.worker["offer"], message, self.worker["trusted"]), "TRUSTED_SNAPSHOT_INVALID")
 
 
 if __name__ == "__main__":

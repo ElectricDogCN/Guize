@@ -11,6 +11,7 @@ $defs:
   count: {type: integer, minimum: 0, maximum: 9007199254740991}
   sequence: {type: integer, minimum: 1, maximum: 9007199254740991}
   time: {type: string, format: date-time}
+  priority: {type: integer, minimum: 0, maximum: 8}
   resources:
     type: object
     additionalProperties: false
@@ -86,19 +87,81 @@ $defs:
               frameCount: {$ref: '#/$defs/sequence'}
       reservationId: {$ref: '#/$defs/id'}
       budget: {$ref: '#/$defs/resources'}
-      priority: {type: integer, minimum: 0, maximum: 8}
-      policyBinding:
-        type: object
-        additionalProperties: false
-        required: [policyId, policyVersionId, policySha256, decisionTraceId, action]
-        properties:
-          policyId: {$ref: '#/$defs/id'}
-          policyVersionId: {$ref: '#/$defs/id'}
-          policySha256: {$ref: '#/$defs/sha'}
-          decisionTraceId: {$ref: '#/$defs/id'}
-          action: {type: string, pattern: '^[A-Z][A-Z0-9_]{0,31}$'}
+      priority: {$ref: '#/$defs/priority'}
+      policyBinding: {$ref: '#/$defs/policyBinding'}
       maximumProcessedUnits: {$ref: '#/$defs/sequence'}
       checkpointMode: {enum: [NONE, INDEPENDENT_UNIT]}
+  policyBinding:
+    type: object
+    additionalProperties: false
+    required: [policyId, policyVersionId, policySha256, decisionTraceId, action]
+    properties:
+      policyId: {$ref: '#/$defs/id'}
+      policyVersionId: {$ref: '#/$defs/id'}
+      policySha256: {$ref: '#/$defs/sha'}
+      decisionTraceId: {$ref: '#/$defs/id'}
+      action: {type: string, pattern: '^[A-Z][A-Z0-9_]{0,31}$'}
+  trustedSnapshot:
+    type: object
+    additionalProperties: false
+    required: [now, session, release, state, grantActive, executionDeadline, reservation, admittedPolicy]
+    properties:
+      now: {$ref: '#/$defs/time'}
+      executionDeadline: {$ref: '#/$defs/time'}
+      state: {enum: [OFFERED, RUNNING, CANCELLING, CANCELLED, SUCCEEDED, FAILED, EXPIRED]}
+      grantActive: {type: boolean}
+      session:
+        type: object
+        additionalProperties: false
+        required: [id, nodeId, verified, expiresAt]
+        properties:
+          id: {$ref: '#/$defs/id'}
+          nodeId: {$ref: '#/$defs/id'}
+          verified: {type: boolean}
+          expiresAt: {$ref: '#/$defs/time'}
+      release:
+        type: object
+        additionalProperties: false
+        required: [protocolVersion, capabilityId, capabilityVersion, executionGroupId, packageSha256]
+        properties:
+          protocolVersion: {$ref: '#/$defs/version'}
+          capabilityId: {$ref: '#/$defs/id'}
+          capabilityVersion: {$ref: '#/$defs/version'}
+          executionGroupId: {$ref: '#/$defs/id'}
+          packageSha256: {$ref: '#/$defs/sha'}
+      reservation:
+        type: object
+        additionalProperties: false
+        required: [id, nodeId, active, budget, expiresAt]
+        properties:
+          id: {$ref: '#/$defs/id'}
+          nodeId: {$ref: '#/$defs/id'}
+          active: {type: boolean}
+          budget: {$ref: '#/$defs/resources'}
+          expiresAt: {$ref: '#/$defs/time'}
+      admittedPolicy:
+        type: object
+        additionalProperties: false
+        required: [binding, priority]
+        properties:
+          binding: {$ref: '#/$defs/policyBinding'}
+          priority: {$ref: '#/$defs/priority'}
+      observation: {$ref: '#/$defs/resourceObservation'}
+      renewUntil: {$ref: '#/$defs/time'}
+      lastProgressSequence: {$ref: '#/$defs/count'}
+      lastProcessedUnits: {$ref: '#/$defs/count'}
+      verifiedCheckpointRef: {$ref: '#/$defs/id'}
+      cancellationId: {$ref: '#/$defs/id'}
+      acceptedResult: {$ref: '#/$defs/submission'}
+      verifiedArtifact:
+        type: object
+        additionalProperties: false
+        required: [artifactManifestId, artifactManifestSha256, outputScopeId, byteCount]
+        properties:
+          artifactManifestId: {$ref: '#/$defs/id'}
+          artifactManifestSha256: {$ref: '#/$defs/sha'}
+          outputScopeId: {$ref: '#/$defs/id'}
+          byteCount: {$ref: '#/$defs/sequence'}
   resourceObservation:
     type: object
     additionalProperties: false
@@ -152,25 +215,24 @@ $defs:
                 cancellationId: {$ref: '#/$defs/id'}
                 stopped: {const: true}
       - if: {properties: {operation: {const: SUBMIT}}}
-        then:
-          properties:
-            payload:
-              oneOf:
-                - type: object
-                  additionalProperties: false
-                  required: [outcome, artifactManifestId, artifactManifestSha256, outputScopeId, byteCount, usage]
-                  properties:
-                    outcome: {const: SUCCEEDED}
-                    artifactManifestId: {$ref: '#/$defs/id'}
-                    artifactManifestSha256: {$ref: '#/$defs/sha'}
-                    outputScopeId: {$ref: '#/$defs/id'}
-                    byteCount: {$ref: '#/$defs/sequence'}
-                    usage: {$ref: '#/$defs/resources'}
-                - type: object
-                  additionalProperties: false
-                  required: [outcome, error, usage]
-                  properties:
-                    outcome: {const: FAILED}
-                    error: {enum: [TRANSIENT_FAILURE, CAPABILITY_UNAVAILABLE, INVALID_INPUT, RESOURCE_EXHAUSTED,
-                                   PROCESS_ABORTED, AUTHORIZATION_LOST, UNSUPPORTED_CHECKPOINT]}
-                    usage: {$ref: '#/$defs/resources'}
+        then: {properties: {payload: {$ref: '#/$defs/submission'}}}
+  submission:
+    oneOf:
+      - type: object
+        additionalProperties: false
+        required: [outcome, artifactManifestId, artifactManifestSha256, outputScopeId, byteCount, usage]
+        properties:
+          outcome: {const: SUCCEEDED}
+          artifactManifestId: {$ref: '#/$defs/id'}
+          artifactManifestSha256: {$ref: '#/$defs/sha'}
+          outputScopeId: {$ref: '#/$defs/id'}
+          byteCount: {$ref: '#/$defs/sequence'}
+          usage: {$ref: '#/$defs/resources'}
+      - type: object
+        additionalProperties: false
+        required: [outcome, error, usage]
+        properties:
+          outcome: {const: FAILED}
+          error: {enum: [TRANSIENT_FAILURE, CAPABILITY_UNAVAILABLE, INVALID_INPUT, RESOURCE_EXHAUSTED,
+                         PROCESS_ABORTED, AUTHORIZATION_LOST, UNSUPPORTED_CHECKPOINT]}
+          usage: {$ref: '#/$defs/resources'}

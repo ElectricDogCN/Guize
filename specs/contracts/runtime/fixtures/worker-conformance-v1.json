@@ -282,6 +282,56 @@
       "expected": "NODE_SESSION_REQUIRED"
     },
     {
+      "name": "unverified-node-identity",
+      "trusted": {
+        "session": {
+          "verified": false
+        }
+      },
+      "expected": "NODE_SESSION_REQUIRED"
+    },
+    {
+      "name": "invalid-node-verification-type",
+      "trusted": {
+        "session": {
+          "verified": "false"
+        }
+      },
+      "expected": "TRUSTED_SNAPSHOT_INVALID"
+    },
+    {
+      "name": "invalid-grant-active-type",
+      "trusted": {
+        "grantActive": 1
+      },
+      "expected": "TRUSTED_SNAPSHOT_INVALID"
+    },
+    {
+      "name": "invalid-reservation-active-type",
+      "trusted": {
+        "reservation": {
+          "active": "false"
+        }
+      },
+      "expected": "TRUSTED_SNAPSHOT_INVALID"
+    },
+    {
+      "name": "invalid-observed-time",
+      "trusted": {
+        "now": "2026-11-26T17:00:10"
+      },
+      "expected": "TRUSTED_SNAPSHOT_INVALID"
+    },
+    {
+      "name": "invalid-artifact-byte-count",
+      "trusted": {
+        "verifiedArtifact": {
+          "byteCount": true
+        }
+      },
+      "expected": "TRUSTED_SNAPSHOT_INVALID"
+    },
+    {
       "name": "released-budget",
       "trusted": {
         "reservation": {

@@ -8,4 +8,6 @@ CLAIM 只能领取仍可用的 offer，使用对应节点、执行组、资源�
 
 节点提交成功候选时提供已验证的产物清单身份、摘要和用量。TASK 在同一事务内校验当前版本、租约及 fencing 并去重，随后写入权威结果与 Outbox。相同的已接受结果返回 ALREADY_ACCEPTED，冲突或过期的新结果均拒绝。失败按明确类别上报，重派和结算由 TASK 决定。协议验证器返回现有事实下的判定，持久写入及通知由实际适配器完成。
 
+`trustedSnapshot` 是 TASK 适配器从权威存储组合的内部输入，不是 Worker 消息。节点验证、授权状态、资源预留、截止时间及实际结果先按定义校验。无效输入返回 `TRUSTED_SNAPSHOT_INVALID`，有效布尔值 `false` 则按相应业务拒绝处理。
+
 一致性向量以同一个 offer、消息和可信状态为基础，逐例调整字段并比对预期结果。`message.binding` 按键替换，其余消息字段整体替换。`trusted` 的 session、observation、reservation、admittedPolicy、verifiedArtifact 按键替换，其他字段整体替换。所有向量均是合成输入。[固定向量](../../../specs/contracts/runtime/fixtures/worker-conformance-v1.json) · [本地验证入口](../../../specs/contracts/runtime/check_worker_contract.py) · [SDK 构建](../../../specs/contracts/runtime/build_worker_sdk.py) · [任务及边缘执行要求](../../../specs/requirements/agent-edge-104.md)

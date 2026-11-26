@@ -13,6 +13,11 @@ if not PROTOCOL.is_file():
     PROTOCOL = Path(__file__).resolve().parents[3] / "contracts" / "workers" / "v1" / "protocol.schema.yaml"
 VERSION = "worker-v1"
 RELEASE_FIELDS = ("protocolVersion", "capabilityId", "capabilityVersion", "executionGroupId", "packageSha256")
+REQUIRED_FACTS = {
+    "CLAIM": {"observation"},
+    "RENEW": {"observation", "renewUntil"},
+    "PROGRESS": {"lastProgressSequence", "lastProcessedUnits"},
+}
 
 
 def instant(value):
@@ -36,7 +41,6 @@ def validate_offer(offer):
 
 
 def resource_denial(offer, observation, now):
-    validate_shape(PROTOCOL, observation)
     if observation["kind"] != "resourceObservation" or any(
         observation[key] != offer["binding"][key] for key in ("nodeId", "executionGroupId")
     ):
@@ -57,10 +61,17 @@ def decide(offer, message, trusted):
     validate_shape(PROTOCOL, message)
     if message["kind"] != "message":
         raise ValueError("Expected a Worker message")
+    operation = message["operation"]
+    try:
+        validate_shape(PROTOCOL, trusted, "trustedSnapshot")
+    except ValueError:
+        return "TRUSTED_SNAPSHOT_INVALID"
+    if not REQUIRED_FACTS.get(operation, set()).issubset(trusted):
+        return "TRUSTED_SNAPSHOT_INVALID"
     now = instant(trusted["now"])
     binding = message["binding"]
     session = trusted["session"]
-    if (not session["verified"] or session["id"] != message["nodeSessionId"]
+    if (session["verified"] is not True or session["id"] != message["nodeSessionId"]
             or session["nodeId"] != binding["nodeId"] or session["id"] == offer["lease"]["id"]
             or not now < instant(session["expiresAt"])):
         return "NODE_SESSION_REQUIRED"
@@ -75,7 +86,7 @@ def decide(offer, message, trusted):
     if message["executionLeaseId"] != offer["lease"]["id"]:
         return "EXECUTION_LEASE_MISMATCH"
 
-    operation, payload, state = message["operation"], message["payload"], trusted["state"]
+    payload, state = message["payload"], trusted["state"]
     if state == "SUCCEEDED" and operation == "SUBMIT":
         return "ALREADY_ACCEPTED" if trusted.get("acceptedResult") == payload else "RESULT_CONFLICT"
     if state == "CANCELLED" and operation == "CANCEL_ACK" and payload["cancellationId"] == trusted.get("cancellationId"):
@@ -88,13 +99,13 @@ def decide(offer, message, trusted):
         return "CANCEL_ACK_ACCEPTABLE" if state == "CANCELLING" and payload["cancellationId"] == trusted.get("cancellationId") else "CANCELLATION_MISMATCH"
     if state in {"CANCELLING", "CANCELLED"}:
         return "CANCELLED"
-    if not trusted["grantActive"] or not now < instant(offer["grant"]["expiresAt"]):
+    if trusted["grantActive"] is not True or not now < instant(offer["grant"]["expiresAt"]):
         return "GRANT_INACTIVE"
     admitted = trusted["admittedPolicy"]
     if admitted["binding"] != offer["policyBinding"] or admitted["priority"] != offer["priority"]:
         return "POLICY_BINDING_MISMATCH"
     reservation = trusted["reservation"]
-    if (not reservation["active"] or reservation["id"] != offer["reservationId"]
+    if (reservation["active"] is not True or reservation["id"] != offer["reservationId"]
             or reservation["nodeId"] != binding["nodeId"] or reservation["budget"] != offer["budget"]
             or not now < instant(reservation["expiresAt"])):
         return "RESERVATION_INACTIVE"
