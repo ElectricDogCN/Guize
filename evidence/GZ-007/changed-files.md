@@ -30,6 +30,17 @@
 - evidence/GZ-007/test-results/README.md
 - specs/contracts/data/verify_task_plan_and_attempt.sql
 
+## 节点资源账本与恢复
+
+- contracts/data/README.md
+- data/migrations/V4__create_task_resource_accounting.sql
+- evidence/GZ-007/changed-files.md
+- evidence/GZ-007/test-results/README.md
+- specs/contracts/data/task_fixture.sql
+- specs/contracts/data/task_resource_fixture.sql
+- specs/contracts/data/verify_task_plan_and_attempt.sql
+- specs/contracts/data/verify_task_resource_accounting.sql
+
 ## 模块命名空间迁移
 
 - data/migrations/V1__create_module_namespaces.sql
