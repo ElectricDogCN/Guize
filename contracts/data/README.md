@@ -6,7 +6,7 @@ DDL 由 `data/migrations` 中的 Flyway 迁移维护。每个模块拥有自己�
 
 | 逻辑实体 | PostgreSQL 表 | 约束 |
 | --- | --- | --- |
-| `source_data_source` | `source.data_source` | 来源默认私有，所有者为 IAM 标识 |
+| `source_data_source` | `source.data_source` | 来源默认私有，所有者为 IAM 标识，保存已验证的连接端点和扫描根 |
 | `source_object` | `source.object` | 来源与提供方标识组合唯一；缺少提供方稳定标识时，由来源模块生成稳定标识 |
 | `source_object_history` | `source.object_history` | 每条记录对应来源对象的一次修订 |
 | `asset_asset` | `asset.asset` | 当前内容版本必须属于该资产；新资产可在同一事务内先生成身份再绑定版本 |
@@ -15,6 +15,10 @@ DDL 由 `data/migrations` 中的 Flyway 迁移维护。每个模块拥有自己�
 | `asset_content_hash` | `asset.content_hash` | 完整、抽样及提供方摘要分别记录 |
 
 当前路径支持长 UTF-8 路径和等值查找，采用 Hash 索引避免对长路径使用 B-tree 键。重命名和移动更新来源对象并追加历史，资产版本只在内容变化时创建。来源停用或删除的业务流程保留来源身份与历史，通过状态反映可用性。
+
+V12 将新增来源的 `SourceDraft.endpoint` 和 `SourceDraft.root` 分别保存到 `source.data_source.endpoint` 和 `root_path`。来源控制面完成冻结的 URL、挂载授权、提供方策略与凭据引用校验后，在创建事务中一起保存来源和可选引用。连接资料由来源控制面在启动扫描前读取，凭据正文仍由密钥服务处理，公开来源响应保持原有字段。LOCAL 保存服务器签发的别名和相对目录。配置对应来源身份，普通名称、状态或凭据引用更新保留同一目标。变更连接目标需要由控制面建立新的来源身份。
+
+升级保持旧来源的身份、状态、修订和历史。此前数据库没有连接资料，因此旧行的两字段均为空。来源控制面把缺配置视为未就绪，不调度读取。管理员确认原来源后，可一次性补录通过同一验证的端点及根目录。现有资产路径、游标和凭据引用均不能用来猜测连接目标。[来源配置验证](../../specs/contracts/data/verify_source_connection_location.sql)
 
 [来源与资产数据库验证](../../specs/contracts/data/verify_source_asset.sql) 在已迁移的隔离数据库执行，只使用合成记录并在结束时回滚。
 
@@ -103,4 +107,4 @@ V10 保留旧派生物和 Outbox 原件。尚无注册证明的旧结果可依�
 
 按 [工程基线 6.3 和 6.4](../../docs/00-guize-engineering-design-baseline.md) 验收 12 个命名空间、61 个逻辑实体和四项关键唯一约束。历史别名以来源历史视图实现，策略部署以发布账本视图实现。正式副本的 `(backend_id, object_key)` 在同一物理目标上唯一，同时保证基线的表现、目标和对象键三元组约束。[目录验证 SQL](../../specs/contracts/data/verify_data_contract_coverage.sql)
 
-新库按顺序应用 `data/migrations` 中 V1 至 V11。先备份，再对现有库按相同顺序升级，使用 Flyway `validate -ignoreMigrationPatterns=repeatable:pending` 校对已应用版本及校验和，随后重跑 `migrate` 确认没有待执行迁移。备份用 `pg_dump -Fc`，恢复至空白实例用 `pg_restore --exit-on-error`，恢复结果需再次验证历史、目录约束和数据样本。若需撤回已应用迁移，从已实测的备份恢复，或提交新的前向修订。生产备份介质、运行环境配置和应用回退由各自发布及恢复流程验收。[演练方法和结果](../../evidence/GZ-007/test-results/README.md)
+新库按顺序应用 `data/migrations` 中 V1 至 V12。先备份，再对现有库按相同顺序升级，使用 Flyway `validate -ignoreMigrationPatterns=repeatable:pending` 校对已应用版本及校验和，随后重跑 `migrate` 确认没有待执行迁移。备份用 `pg_dump -Fc`，恢复至空白实例用 `pg_restore --exit-on-error`，恢复结果需再次验证历史、目录约束和数据样本。若需撤回已应用迁移，从已实测的备份恢复，或提交新的前向修订。生产备份介质、运行环境配置和应用回退由各自发布及恢复流程验收。[演练方法和结果](../../evidence/GZ-007/test-results/README.md)

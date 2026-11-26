@@ -1,7 +1,7 @@
 BEGIN;
 
-INSERT INTO source.data_source (id, name, kind, owner_id, status)
-VALUES ('src_storage', 'Synthetic storage input', 'LOCAL', 'usr_storage', 'ACTIVE');
+INSERT INTO source.data_source (id, name, kind, owner_id, status, endpoint, root_path)
+VALUES ('src_storage', 'Synthetic storage input', 'LOCAL', 'usr_storage', 'ACTIVE', 'mount:storage', 'media');
 INSERT INTO asset.asset (id, canonical_title, asset_type, lifecycle_status)
 VALUES ('ast_storage', 'Synthetic media', 'VIDEO', 'ACTIVE');
 INSERT INTO source.object (id, data_source_id, asset_id, provider_object_id, current_path, current_filename,

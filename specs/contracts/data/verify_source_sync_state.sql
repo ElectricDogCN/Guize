@@ -1,8 +1,8 @@
 BEGIN;
 
-INSERT INTO source.data_source (id, name, kind, owner_id, status)
-VALUES ('src_sync', 'Synthetic WebDAV', 'WEBDAV', 'usr_sync', 'ACTIVE'),
-       ('src_isolated', 'Separate synthetic source', 'LOCAL', 'usr_sync', 'ACTIVE');
+INSERT INTO source.data_source (id, name, kind, owner_id, status, endpoint, root_path)
+VALUES ('src_sync', 'Synthetic WebDAV', 'WEBDAV', 'usr_sync', 'ACTIVE', 'https://source.example/dav', 'media'),
+       ('src_isolated', 'Separate synthetic source', 'LOCAL', 'usr_sync', 'ACTIVE', 'mount:isolated', 'media');
 
 INSERT INTO source.capability (data_source_id, capability, connector_version, observed_at)
 VALUES ('src_sync', 'LIST', '1.0.0', CURRENT_TIMESTAMP),

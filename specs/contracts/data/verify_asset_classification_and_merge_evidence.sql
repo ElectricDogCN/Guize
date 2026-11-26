@@ -1,9 +1,10 @@
 BEGIN;
 
 INSERT INTO iam.user_account (id, username, status) VALUES ('usr_merge_fixture', 'Synthetic merge tester', 'ACTIVE');
-INSERT INTO source.data_source (id, name, kind, owner_id, status)
-VALUES ('src_alias_fixture', 'Synthetic source A', 'LOCAL', 'usr_merge_fixture', 'ACTIVE'),
-       ('src_other_fixture', 'Synthetic source B', 'WEBDAV', 'usr_merge_fixture', 'ACTIVE');
+INSERT INTO source.data_source (id, name, kind, owner_id, status, endpoint, root_path)
+VALUES ('src_alias_fixture', 'Synthetic source A', 'LOCAL', 'usr_merge_fixture', 'ACTIVE', 'mount:merge', 'media'),
+       ('src_other_fixture', 'Synthetic source B', 'WEBDAV', 'usr_merge_fixture', 'ACTIVE',
+        'https://source.example/remote.php/dav', 'media');
 
 INSERT INTO asset.duplicate_group (id) VALUES ('dup_fixture');
 INSERT INTO asset.asset (id, canonical_title, asset_type, lifecycle_status, duplicate_group_id)

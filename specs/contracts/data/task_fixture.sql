@@ -1,5 +1,5 @@
-INSERT INTO source.data_source (id, name, kind, owner_id, status)
-VALUES ('src_task', 'Task fixture', 'LOCAL', 'usr_owner', 'ACTIVE');
+INSERT INTO source.data_source (id, name, kind, owner_id, status, endpoint, root_path)
+VALUES ('src_task', 'Task fixture', 'LOCAL', 'usr_owner', 'ACTIVE', 'mount:task', 'media');
 INSERT INTO asset.asset (id, canonical_title, asset_type, lifecycle_status)
 VALUES ('ast_task', 'Task fixture', 'VIDEO', 'ACTIVE');
 INSERT INTO source.object (

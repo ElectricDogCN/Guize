@@ -1,7 +1,8 @@
 BEGIN;
 
-INSERT INTO source.data_source (id, name, kind, owner_id, status)
-VALUES ('src_catalog', 'Synthetic catalog', 'WEBDAV', 'usr_owner', 'ACTIVE');
+INSERT INTO source.data_source (id, name, kind, owner_id, status, endpoint, root_path)
+VALUES ('src_catalog', 'Synthetic catalog', 'WEBDAV', 'usr_owner', 'ACTIVE',
+        'https://source.example/remote.php/dav', 'media');
 
 INSERT INTO asset.asset (id, canonical_title, asset_type, lifecycle_status)
 VALUES ('ast_clip', 'Synthetic clip', 'VIDEO', 'ACTIVE'),
