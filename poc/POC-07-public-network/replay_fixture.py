@@ -10,6 +10,7 @@ import time
 from uuid import uuid4
 
 from capture_playback import capture_anonymous_origin_response, capture_response
+from native_access_capture import observe_tls_request
 from playback_gateway import PlaybackObservation, PlaybackPolicy
 from stream_fixture import CHUNK_BYTES, FixtureSource
 
@@ -48,6 +49,7 @@ def replay_fixture(
     owner: str,
     expired: str,
     other_identity: str,
+    native_transport: bool = False,
 ) -> dict:
     """Capture a fixed set of cases against a running disposable gateway and OpenList."""
     if source.filename != "synthetic.bin":
@@ -79,8 +81,12 @@ def replay_fixture(
         path = directory / f"{label}.http"
         previous = len(observations)
         request_id, trace_id = uuid4().hex, uuid4().hex
-        capture = capture_response(playback_port, trust_store, path, count, request_id=request_id, trace_id=trace_id,
-                                   **request_options)
+        options = {"request_id": request_id, "trace_id": trace_id, **request_options}
+        if native_transport:
+            capture, native = observe_tls_request(playback_port, trust_store, path, count, **options)
+        else:
+            capture = capture_response(playback_port, trust_store, path, count, **options)
+            native = None
         actual_status, headers, bytes_received, observed_digest = retained_access_http_response(path)
         if (actual_status, bytes_received, observed_digest) != (status, count, expected_digest):
             raise ValueError(f"{label} returned unexpected status or fixture bytes")
@@ -118,7 +124,7 @@ def replay_fixture(
                 last_seen = read.observed_at
             if cursor != (source.byte_count if full else stop):
                 raise ValueError(f"{label} source reads do not cover the exact response interval")
-        return {
+        result = {
             **capture.transport_observation(),
             "case": label,
             "requestId": request_id,
@@ -148,6 +154,9 @@ def replay_fixture(
             "sourceReadPeakBytes": outcome.transfer.peak_read_bytes if outcome.transfer else 0,
             "sourceReads": [asdict(read) | {"observed_at": read.observed_at.isoformat()} for read in outcome.reads],
         }
+        if native is not None:
+            result["nativeTransport"] = native
+        return result
 
     allowed = {"authorization": owner}
     protected_range = {"range_header": byte_range}

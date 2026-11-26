@@ -34,6 +34,8 @@ python -B poc/POC-07-public-network/run_local_replay.py --help
 
 逐请求记录保存实际采集进程号、请求开始时间及单次接收峰值。TLS 播放响应还保存严格校验过的主机名。请求开始时间在握手完成后采集，并用于核对网关判定的顺序。输出不含发出的授权头。
 
+使用 `--native-transport` 时，每个 TLS 播放请求由独立的请求进程启动严格验证的 TLS 客户端。回执保留实际命令、TLS 进程和退出状态。TLS 客户端的标准输出与留存 JSON 按字节核对，响应从同一个 TLS 客户端读回。本地单证书模式要求已验证的对端证书精确匹配批准的回环证书。
+
 ```bash
 python -B poc/POC-07-public-network/run_local_resource_replay.py --help
 ```

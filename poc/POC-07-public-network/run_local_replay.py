@@ -86,7 +86,7 @@ def run(args: argparse.Namespace, *, origin_authorization: str | None = None) ->
     with playback_gateway(source, origin_authorization, authorize, tls, policy, observations.append,
                           port=args.playback_port) as port:
         result = replay_fixture(source, args.fixture, port, args.certificate, policy, args.output, observations,
-                                owner=owner, expired=stale, other_identity=other)
+                                owner=owner, expired=stale, other_identity=other, native_transport=args.native_transport)
     result.update(operation="local_fixture_replay", sample=sample, preflight=args.preflight, gatewayStopped=True)
     result["playbackGrantPolicy"] = {
         "authorizedUserId": active.principal, "deniedUserId": subjects[2][1],
@@ -112,6 +112,7 @@ def argument_parser() -> argparse.ArgumentParser:
     parser.add_argument("--request-limit", type=int, required=True)
     parser.add_argument("--window-seconds", type=float, required=True)
     parser.add_argument("--grant-schedule", type=Path, help="Fixed UTC playback grant times for local evidence")
+    parser.add_argument("--native-transport", action="store_true", help="Record actual per-request and TLS subprocesses")
     parser.add_argument("--preflight", action="store_true", help="Select the fixed small synthetic fixture")
     return parser
 
