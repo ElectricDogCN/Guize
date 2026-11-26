@@ -37,3 +37,11 @@ node browser-driver.mjs --context CONTEXT.json --build dist/react --fixture scen
 ```
 
 先启动绑定回环地址的预览服务。`CONTEXT.json` 对应本次执行的 `context`、候选 `identity`、`buildId` 和编译清单 `compilerManifestRef`。正式执行使用独立审查固定的上下文、样本和编译记录。驱动记录浏览器进程退出码、实际载入的资源及其摘要、每个动作的时间和 DOM 读回值。输出文件必须使用新路径，以便保留原件。正式报告从已保留的动作、构建和评估记录汇总。
+
+正式构建记录从仓库根目录采集。预先锁定候选、版本、源码提交、锁文件摘要、完整命令和输出目录：
+
+~~~text
+node poc/POC-08-frontend-framework/collect-build.mjs --identity IDENTITY.json --manifest COMPILER.json --report BUILD.json
+~~~
+
+构建器检查这些输入，生成全新的输出目录并保存实际编译开始和结束时间。编译清单列出全部输出的字节数和 SHA-256。正式体积按整个输出目录统计，前面的首屏 JS 和 CSS 只用于开发对照。
