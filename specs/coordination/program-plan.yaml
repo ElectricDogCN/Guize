@@ -152,7 +152,7 @@ foundationTasks:
     mergeCommit: 068fefceef9e03fa30c12fa88af53f9bfd5ad174
   - taskId: OPS-030
     title: 按已满足的依赖准入独立模块
-    status: in_progress
+    status: review
     completionRef: ISSUE-257
     mergeCommit: null
 waves:

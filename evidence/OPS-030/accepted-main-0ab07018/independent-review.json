@@ -1,0 +1,556 @@
+{
+  "reviewer": "/root/independent_review",
+  "approvedAt": "2026-11-26T06:14:43Z",
+  "taskId": "OPS-030",
+  "issue": 257,
+  "pullRequest": 297,
+  "source": "fccd2a767d0eb93424d42f534cd7b8bc73e4ff72",
+  "base": "2cbd4ae2ec064763a25241f35ca7ffa6ce9bba71",
+  "tree": "8fd6b3616067b044e1006bebb27870dee5e374f3",
+  "actualMain": "0ab07018876d0904250399cfe6683ccbd1d3aa9d",
+  "orderedParents": [
+    "2cbd4ae2ec064763a25241f35ca7ffa6ce9bba71",
+    "fccd2a767d0eb93424d42f534cd7b8bc73e4ff72"
+  ],
+  "actualImplementationMainAccepted": true,
+  "fullMainCiAccepted": true,
+  "actualMainSixAccepted": true,
+  "normalReviewMayStart": true,
+  "independentModuleReservationsMayStart": true,
+  "branchCleanupAllowed": false,
+  "mustFix": [],
+  "ci": {
+    "run": 45764676844,
+    "runNumber": 1144,
+    "attempt": 1,
+    "event": "push",
+    "head": "0ab07018876d0904250399cfe6683ccbd1d3aa9d",
+    "allFiveJobsSuccess": true,
+    "passed": 1090,
+    "unique": 1090,
+    "sortedCaseIdsSha256": "13e6ba0db3a41710361fa8b4eace219bd05a4c61adb4521705eca0a534a48e8a",
+    "source1090Missing": [],
+    "unexpectedCases": [],
+    "sourceCaseCount": 1090,
+    "shards": [
+      {
+        "job": 139722614966,
+        "passed": 425,
+        "unique": 425,
+        "summary": [
+          [
+            "425",
+            "325.27"
+          ]
+        ],
+        "noSkippedTestsAudit": true,
+        "badCases": [],
+        "exactMainCheckout": true,
+        "realLfsFetch": true
+      },
+      {
+        "job": 139722615170,
+        "passed": 267,
+        "unique": 267,
+        "summary": [
+          [
+            "267",
+            "951.62"
+          ]
+        ],
+        "noSkippedTestsAudit": true,
+        "badCases": [],
+        "exactMainCheckout": true,
+        "realLfsFetch": true
+      },
+      {
+        "job": 139722615258,
+        "passed": 398,
+        "unique": 398,
+        "summary": [
+          [
+            "398",
+            "332.87"
+          ]
+        ],
+        "noSkippedTestsAudit": true,
+        "badCases": [],
+        "exactMainCheckout": true,
+        "realLfsFetch": true
+      }
+    ],
+    "jobs": [
+      {
+        "id": 139722614966,
+        "name": "Governance Tests (shard 1)",
+        "conclusion": "success",
+        "durationSeconds": 379
+      },
+      {
+        "id": 139722615170,
+        "name": "Governance Tests (shard 0)",
+        "conclusion": "success",
+        "durationSeconds": 992
+      },
+      {
+        "id": 139722615180,
+        "name": "Governance Controls",
+        "conclusion": "success",
+        "durationSeconds": 146
+      },
+      {
+        "id": 139722615258,
+        "name": "Governance Tests (shard 2)",
+        "conclusion": "success",
+        "durationSeconds": 369
+      },
+      {
+        "id": 139728577816,
+        "name": "Governance Checks",
+        "conclusion": "success",
+        "durationSeconds": 5
+      }
+    ],
+    "controlsConditionalStepSkips": [
+      {
+        "name": "Task file validation",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Evidence check",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Evidence integrity check",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Task-branch linkage check",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Scope check",
+        "conclusion": "skipped"
+      }
+    ],
+    "aggregateJob": 139728577816,
+    "aggregateExactCoverage": true,
+    "realLfsProbePassed": true
+  },
+  "nativeControls": {
+    "mode": "main",
+    "base": "2cbd4ae2ec064763a25241f35ca7ffa6ce9bba71",
+    "head": "0ab07018876d0904250399cfe6683ccbd1d3aa9d",
+    "tree": "8fd6b3616067b044e1006bebb27870dee5e374f3",
+    "checks": {
+      "integrity": 0,
+      "history": 0,
+      "transitions": 0,
+      "finalization": 0,
+      "lifecycle-guards": 0,
+      "coordination": 0
+    },
+    "passed": true,
+    "scope": "ordinary task main controls"
+  },
+  "scope": {
+    "status": "in_progress",
+    "agentRole": "implementer",
+    "baseSha": "2cbd4ae2ec064763a25241f35ca7ffa6ce9bba71",
+    "registeredWorkBranch": "chore/OPS-030-module-dependency-admission",
+    "exclusivePaths": [
+      "AGENTS.md",
+      "specs/coordination/program-plan.yaml",
+      "specs/coordination/program-plan.schema.yaml",
+      "scripts/check-program-plan-transitions.py",
+      "scripts/program-planning-revision.py",
+      "tests/governance/test_program_plan_transitions.py",
+      "tests/governance/test_program_planning_revision.py",
+      "scripts/check-program-plan-history.py"
+    ],
+    "lease": {
+      "acquiredAt": "2026-11-26T03:21:57Z",
+      "expiresAt": "2026-12-03T03:21:57Z"
+    },
+    "registeredActorsUnchanged": true,
+    "programFoundationStatus": "in_progress",
+    "programActivationOrder": "dependencies",
+    "maxActiveTasks": 3,
+    "maxHighRiskTasks": 1,
+    "currentActiveTasks": 1,
+    "currentHighRiskTasks": 1,
+    "reviewAndCompletionRemainNormalSeparateStages": true
+  },
+  "peerReservationReadiness": {
+    "actualPeers": {
+      "GZ-009": {
+        "actualStatus": "planned",
+        "riskLevel": "medium",
+        "dependencies": [
+          "GZ-004",
+          "GZ-005"
+        ],
+        "completedContractProducers": {
+          "REQ-V1": [
+            {
+              "taskId": "GZ-004",
+              "status": "completed"
+            }
+          ],
+          "OPENAPI-V1": [
+            {
+              "taskId": "GZ-005",
+              "status": "completed"
+            }
+          ],
+          "ERROR-CATALOG-V1": [
+            {
+              "taskId": "GZ-005",
+              "status": "completed"
+            }
+          ]
+        },
+        "exclusivePaths": [
+          "specs/ui/**",
+          "docs/ui/**",
+          "evidence/GZ-009/**"
+        ],
+        "sharedPaths": []
+      },
+      "POC-008": {
+        "actualStatus": "planned",
+        "riskLevel": "medium",
+        "dependencies": [
+          "GZ-010"
+        ],
+        "completedContractProducers": {
+          "POC-PROTOCOL-V1": [
+            {
+              "taskId": "GZ-010",
+              "status": "completed"
+            }
+          ]
+        },
+        "exclusivePaths": [
+          "poc/POC-08-frontend-framework/**",
+          "evidence/POC-008/**"
+        ],
+        "sharedPaths": [
+          "adr/**",
+          "specs/poc/results-index.yaml"
+        ]
+      }
+    },
+    "localRehearsal": {
+      "source": "fccd2a767d0eb93424d42f534cd7b8bc73e4ff72",
+      "localOnly": true,
+      "remoteAdmission": false,
+      "checksPerPeer": 9,
+      "allActualExitZero": true,
+      "simulatedCapacityActive": 3,
+      "simulatedHighRisk": 1
+    },
+    "permission": "Begin separate ordinary metadata reservation proposals against the real current main, subject to each actual issue, task, role, lease, exact claims, scope, live capacity, full source/main CI and independent acceptance. The local rehearsal does not admit a remote task or authorize implementation or experiments.",
+    "sharedClaimsRemainSerializedByNormalRegistryRules": true
+  },
+  "sourceIndependentReviewSha256": "ff2412f06a1cd48e38596063b82e31a99e870dee2e3a5999c982fb51aee38727",
+  "anchoredReviewId": 6069197013,
+  "sameTreeSourceEvidenceRetained": true,
+  "bundle": {
+    "label": "ops030-dependency-admission-main-0ab07018.bundle",
+    "bytes": 45425326,
+    "sha256": "0ad4108d217eae53eadeaeef44102006db30eeac644163fad9e142b123a3627f",
+    "gitBundleVerifyExitCode": 0,
+    "requiredCommit": "3388d765e6d7de8f8f54c8744cd872c596e9cbf3",
+    "standaloneCompleteBackupClaimed": false
+  },
+  "liveFacts": {
+    "remoteMain": "0ab07018876d0904250399cfe6683ccbd1d3aa9d",
+    "issue257": "open",
+    "pr297MergedExactSource": true,
+    "pr184": {
+      "state": "open",
+      "head": "3564346d2bdfbd80f2f705ae3dd4f7ba79103cb6"
+    }
+  },
+  "branchRetention": {
+    "branch": "chore/OPS-030-module-dependency-admission",
+    "sourceTip": "fccd2a767d0eb93424d42f534cd7b8bc73e4ff72",
+    "activeRegistryReference": true,
+    "taskStillInProgress": true,
+    "usedForFollowingLifecycleReview": true,
+    "remoteCleanupApproved": false,
+    "allOriginalLocalRefsAndEvidenceRetained": true
+  },
+  "priorNegativeEvidence": {
+    "old1140Source": "4b4ffbd7519aa0de798fac034752f5624b16cac9",
+    "old1140Run": 45754333857,
+    "conclusion": "failure",
+    "remainsNegative": true
+  },
+  "taskCompleted": false,
+  "actualCapacityReleased": false,
+  "peerActualReservationsAccepted": false,
+  "evidencePins": [
+    {
+      "path": "guize-parallel-reservations-fccd2a76-diagnostic-v2/GZ-009-check-evidence.py.log",
+      "bytes": 70,
+      "sha256": "1c1b96c52a3f22700817d44579df5c5869cdadfc0e816dc0343cc1f795da03bc"
+    },
+    {
+      "path": "guize-parallel-reservations-fccd2a76-diagnostic-v2/GZ-009-check-program-lifecycle-guards.py.log",
+      "bytes": 237,
+      "sha256": "ae72bf977c12518cda9567015c2fc1bbceebf425b1a183ca79b8a4e2f87602b3"
+    },
+    {
+      "path": "guize-parallel-reservations-fccd2a76-diagnostic-v2/GZ-009-check-program-plan-history.py.log",
+      "bytes": 259,
+      "sha256": "9651efccd1c28ea4c19823a0d7dd58e59b2a7814d28ed40b9953974579a742f9"
+    },
+    {
+      "path": "guize-parallel-reservations-fccd2a76-diagnostic-v2/GZ-009-check-program-plan-integrity.py.log",
+      "bytes": 241,
+      "sha256": "c59eb0a9b2ddb0670cace0f6668e4cf451047dad98112a1910ccdec5f3e3eec9"
+    },
+    {
+      "path": "guize-parallel-reservations-fccd2a76-diagnostic-v2/GZ-009-check-program-plan-transitions.py.log",
+      "bytes": 171,
+      "sha256": "8451db813cc1d8acf384d3a3903627946386778f1193974f8c6e00fd4e80ee95"
+    },
+    {
+      "path": "guize-parallel-reservations-fccd2a76-diagnostic-v2/GZ-009-check-schemas.py.log",
+      "bytes": 3255,
+      "sha256": "496e5e654bc1daace422b2fcd86380577a6ca1f04e8fba8f0dd904888f6de124"
+    },
+    {
+      "path": "guize-parallel-reservations-fccd2a76-diagnostic-v2/GZ-009-check-task-file.py.log",
+      "bytes": 129,
+      "sha256": "51e25c1f9ff805b4b79f4b9c3713498b8528e5978922fc82a1340daf42ba2809"
+    },
+    {
+      "path": "guize-parallel-reservations-fccd2a76-diagnostic-v2/GZ-009-run-agent-coordination-gate.py.log",
+      "bytes": 300,
+      "sha256": "93b17082f0140e389dc2ae47b97936c482b8aaaba7a2a2bd349b8362b123debb"
+    },
+    {
+      "path": "guize-parallel-reservations-fccd2a76-diagnostic-v2/GZ-009-run-task-scope-gate.py.log",
+      "bytes": 138,
+      "sha256": "db13902bd88686141e92a61b97b8a73bfa51dd42ffdbdeb9e4ab9abd60eed248"
+    },
+    {
+      "path": "guize-parallel-reservations-fccd2a76-diagnostic-v2/POC-008-check-evidence.py.log",
+      "bytes": 71,
+      "sha256": "c01cd5ed50c7426831b968bee3266e0b6179f60c9fabd9f0072fb618f054423d"
+    },
+    {
+      "path": "guize-parallel-reservations-fccd2a76-diagnostic-v2/POC-008-check-program-lifecycle-guards.py.log",
+      "bytes": 238,
+      "sha256": "5bc7f304214b88c6a629467b61ade21fa641b9b0a0348d17e080c3b792968a48"
+    },
+    {
+      "path": "guize-parallel-reservations-fccd2a76-diagnostic-v2/POC-008-check-program-plan-history.py.log",
+      "bytes": 259,
+      "sha256": "a1119e87180255433c440beabc0b90ac334663776516c0a0d101fa4722c02644"
+    },
+    {
+      "path": "guize-parallel-reservations-fccd2a76-diagnostic-v2/POC-008-check-program-plan-integrity.py.log",
+      "bytes": 241,
+      "sha256": "52e8a7986318d6f16d9ff481f7a2363adce9091f012af6bdbeeeeec17ac6b2b1"
+    },
+    {
+      "path": "guize-parallel-reservations-fccd2a76-diagnostic-v2/POC-008-check-program-plan-transitions.py.log",
+      "bytes": 172,
+      "sha256": "33cbc8655ac79d2a526131b8971f21f429004d707227152a388f09eb79f81de1"
+    },
+    {
+      "path": "guize-parallel-reservations-fccd2a76-diagnostic-v2/POC-008-check-schemas.py.log",
+      "bytes": 3323,
+      "sha256": "bca0232ab309fbae9fdcd249fdfe267304b5aabc4297056fcf32ab1937c29e5b"
+    },
+    {
+      "path": "guize-parallel-reservations-fccd2a76-diagnostic-v2/POC-008-check-task-file.py.log",
+      "bytes": 130,
+      "sha256": "7b7455ecb82e392c083ac87ed085b10512fa1bb9b7c25a107572a4708d3a1470"
+    },
+    {
+      "path": "guize-parallel-reservations-fccd2a76-diagnostic-v2/POC-008-run-agent-coordination-gate.py.log",
+      "bytes": 312,
+      "sha256": "1815b7c6980d9ac2e40f3f526f8e489a0ac1a791815ae87239aeb198819e926b"
+    },
+    {
+      "path": "guize-parallel-reservations-fccd2a76-diagnostic-v2/POC-008-run-task-scope-gate.py.log",
+      "bytes": 139,
+      "sha256": "3b5ff87e4060f6de9a7d9012356d154f53985184dda72c9c20eedbe09a22413e"
+    },
+    {
+      "path": "guize-parallel-reservations-fccd2a76-diagnostic-v2/result.json",
+      "bytes": 2945,
+      "sha256": "bff345e0e7798170a3ac4611f825cc473679ac7d4f39baf72027300c5fcfc445"
+    },
+    {
+      "path": "guize_parallel_reservation_local_rehearsal_v2.py",
+      "bytes": 11795,
+      "sha256": "be67b0759a2aa16fcf527666c94c4aea20dd00f104ebb521668bffc49389d412"
+    },
+    {
+      "path": "ops030-dependency-admission-0ab07018-actual-main-checks/coordination.txt",
+      "bytes": 309,
+      "sha256": "4c56bb77b70536a9b4792c9bdc12deab2b0251f48ea8a18e37fa22dc0f448400"
+    },
+    {
+      "path": "ops030-dependency-admission-0ab07018-actual-main-checks/finalization.txt",
+      "bytes": 428,
+      "sha256": "9c347d762b9e532d1fae711b311f74d73b44746ee3a54294dd7c6a8fca7414b4"
+    },
+    {
+      "path": "ops030-dependency-admission-0ab07018-actual-main-checks/history.txt",
+      "bytes": 537,
+      "sha256": "842bc002ac3f1bbeb6187cd03b8ddb71cc48f1e6d5c4a4c532937f861f4683c5"
+    },
+    {
+      "path": "ops030-dependency-admission-0ab07018-actual-main-checks/integrity.txt",
+      "bytes": 469,
+      "sha256": "e22b6912eccd26a3420f87d15fb48d6d644a48193df82b6a485d827cb4f8a9f3"
+    },
+    {
+      "path": "ops030-dependency-admission-0ab07018-actual-main-checks/lifecycle-guards.txt",
+      "bytes": 520,
+      "sha256": "4d8fad5ef58ccdb73b2d808740e2abae0f25b92b1686e306ee2cb0d40885df85"
+    },
+    {
+      "path": "ops030-dependency-admission-0ab07018-actual-main-checks/result.json",
+      "bytes": 394,
+      "sha256": "db0d7812ca7c392c4378be775d8645eee6c577bcfb0a19a662d8c1f6412d435d"
+    },
+    {
+      "path": "ops030-dependency-admission-0ab07018-actual-main-checks/transitions.txt",
+      "bytes": 449,
+      "sha256": "a6c5d097f7444060a075bc2d8c7e1afd25a76a97804b81fe6694c2b26e8c4a58"
+    },
+    {
+      "path": "ops030-dependency-admission-0ab07018-independent-main-ci/actual-git-commit.connector.json",
+      "bytes": 6987,
+      "sha256": "15e1a0a6ecc0da38b8712d64f059b8f3ef93d3d6c426bdee64c68fffd86083c1"
+    },
+    {
+      "path": "ops030-dependency-admission-0ab07018-independent-main-ci/analysis.json",
+      "bytes": 2488,
+      "sha256": "4173630ed659cf90d4a4280f5137a6886f08491bdb952f04567d3352afb0bd46"
+    },
+    {
+      "path": "ops030-dependency-admission-0ab07018-independent-main-ci/final-issue257.connector.json",
+      "bytes": 31586,
+      "sha256": "41b8dc32b596dcd42e89b044681a54d74f1ff9fe5a84ae4add0df348bc51fcf6"
+    },
+    {
+      "path": "ops030-dependency-admission-0ab07018-independent-main-ci/final-main.connector.json",
+      "bytes": 1301,
+      "sha256": "246432a5a7b66623c1bbd4aa24134b8e8ef2ea645fdc6eb4e4873dea44700057"
+    },
+    {
+      "path": "ops030-dependency-admission-0ab07018-independent-main-ci/final-pr184.connector.json",
+      "bytes": 37097,
+      "sha256": "51e8f968b7c6148b1a7540c72083a19e1f3e47b93cdcb18643ca0ad87fc5b44c"
+    },
+    {
+      "path": "ops030-dependency-admission-0ab07018-independent-main-ci/final-pr297.connector.json",
+      "bytes": 38995,
+      "sha256": "a278d5e64fa01de051739c1e404785a393c6880d00b0418655978765d3b8a762"
+    },
+    {
+      "path": "ops030-dependency-admission-0ab07018-independent-main-ci/final-reviews.connector.json",
+      "bytes": 14416,
+      "sha256": "1841c70a8341046843d798086867608e761825b5ae429ab8210c48095cbf828b"
+    },
+    {
+      "path": "ops030-dependency-admission-0ab07018-independent-main-ci/initial-issue257.connector.json",
+      "bytes": 31586,
+      "sha256": "41b8dc32b596dcd42e89b044681a54d74f1ff9fe5a84ae4add0df348bc51fcf6"
+    },
+    {
+      "path": "ops030-dependency-admission-0ab07018-independent-main-ci/initial-main.connector.json",
+      "bytes": 1301,
+      "sha256": "246432a5a7b66623c1bbd4aa24134b8e8ef2ea645fdc6eb4e4873dea44700057"
+    },
+    {
+      "path": "ops030-dependency-admission-0ab07018-independent-main-ci/initial-pr297.connector.json",
+      "bytes": 38995,
+      "sha256": "a278d5e64fa01de051739c1e404785a393c6880d00b0418655978765d3b8a762"
+    },
+    {
+      "path": "ops030-dependency-admission-0ab07018-independent-main-ci/initial-run.connector.json",
+      "bytes": 27173,
+      "sha256": "d76d7b8b0000e12a451727e31be3399db0baf725f02a8e9a00e067db40bd0497"
+    },
+    {
+      "path": "ops030-dependency-admission-0ab07018-independent-main-ci/job-139722614966.connector.json",
+      "bytes": 176724,
+      "sha256": "bd2d42224d7550cda38d30a4a8b5c81818ecc11a60d4c902963f1ad31659e770"
+    },
+    {
+      "path": "ops030-dependency-admission-0ab07018-independent-main-ci/job-139722614966.decoded.log",
+      "bytes": 175074,
+      "sha256": "3f84b730f5482e05fa173d1626526d45490b959e5f3f7dca984bae4c6bb72575"
+    },
+    {
+      "path": "ops030-dependency-admission-0ab07018-independent-main-ci/job-139722615170.connector.json",
+      "bytes": 129279,
+      "sha256": "0a90e0b911defe5948d7161c03da43638b8240d2fd2b5eba8ea9e4ddf316441c"
+    },
+    {
+      "path": "ops030-dependency-admission-0ab07018-independent-main-ci/job-139722615170.decoded.log",
+      "bytes": 127962,
+      "sha256": "137a07b231df293cae0828c8f10e02ef6423a2d5aa53602671f06c03e0361b0b"
+    },
+    {
+      "path": "ops030-dependency-admission-0ab07018-independent-main-ci/job-139722615180.connector.json",
+      "bytes": 64940,
+      "sha256": "2685e601e933c172d1661055fff507d95cb032b217b9b3ba33d176637e19a74d"
+    },
+    {
+      "path": "ops030-dependency-admission-0ab07018-independent-main-ci/job-139722615180.decoded.log",
+      "bytes": 61963,
+      "sha256": "fd035664a1df9fe12b5e81d483a20e32c5566b2b9e34042a0c95730ef5642f9e"
+    },
+    {
+      "path": "ops030-dependency-admission-0ab07018-independent-main-ci/job-139722615258.connector.json",
+      "bytes": 164003,
+      "sha256": "fc83c08f73f9a7146cfc9e389ee0e1816848c4cc0c15e716520558ece5f9d763"
+    },
+    {
+      "path": "ops030-dependency-admission-0ab07018-independent-main-ci/job-139722615258.decoded.log",
+      "bytes": 162398,
+      "sha256": "8a7c8ec83999b0de4725970380768aa7d6d187f55ba5ad2671b357c2bf12f78c"
+    },
+    {
+      "path": "ops030-dependency-admission-0ab07018-independent-main-ci/job-139728577816.connector.json",
+      "bytes": 16666,
+      "sha256": "17681ddc6acee71c5023a3a4b8e214198269ba64d760fc4ee5f24c5dd662da53"
+    },
+    {
+      "path": "ops030-dependency-admission-0ab07018-independent-main-ci/job-139728577816.decoded.log",
+      "bytes": 16181,
+      "sha256": "0237abbdce0a5013083af06d795787cf1a0530a0dec901d2d66a50441dfb166f"
+    },
+    {
+      "path": "ops030-dependency-admission-0ab07018-independent-main-ci/jobs.connector.json",
+      "bytes": 33552,
+      "sha256": "ca56904b3caff93c63c10090fb20f6ca59d7828e4e9209b3001022986658cba0"
+    },
+    {
+      "path": "ops030-dependency-admission-0ab07018-independent-main-ci/run.connector.json",
+      "bytes": 27183,
+      "sha256": "c328594f9ed4339af1bcfe9c20475535ce23274935da5c909f6a6ac4663572e8"
+    },
+    {
+      "path": "ops030-dependency-implementation-4b4f-final-source-independent-review.json",
+      "bytes": 12188,
+      "sha256": "d8b8a896c4fbf399a62a2e20bef5da24f3001ad8cb3ca57692e3c57535494dcd"
+    },
+    {
+      "path": "ops030-history-compatible-fccd2a76-final-source-independent-review.json",
+      "bytes": 23410,
+      "sha256": "ff2412f06a1cd48e38596063b82e31a99e870dee2e3a5999c982fb51aee38727"
+    }
+  ]
+}
