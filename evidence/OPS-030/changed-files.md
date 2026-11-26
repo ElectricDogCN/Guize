@@ -59,3 +59,16 @@
 - specs/coordination/active-work.yaml
 - specs/coordination/program-plan.yaml
 - specs/tasks/OPS-030.md
+
+## 正常结项
+
+- evidence/OPS-030/accepted-review-main-50f9be21/independent-review.json
+- evidence/OPS-030/accepted-review-main-50f9be21/integrity.txt
+- evidence/OPS-030/changed-files.md
+- evidence/OPS-030/commands.txt
+- evidence/OPS-030/handoff.md
+- evidence/OPS-030/summary.md
+- evidence/OPS-030/test-results/README.md
+- specs/coordination/active-work.yaml
+- specs/coordination/program-plan.yaml
+- specs/tasks/OPS-030.md

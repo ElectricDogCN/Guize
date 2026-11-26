@@ -1,0 +1,422 @@
+{
+  "reviewer": "/root/independent_review",
+  "approvedAt": "2026-11-26T09:32:20Z",
+  "taskId": "OPS-030",
+  "issue": 257,
+  "pullRequest": 306,
+  "actualMain": "50f9be2130f8d8eebc9ec3c4192908850d44750b",
+  "source": "ba8fc18718f2331f6a24ff1c53da7c32764d7181",
+  "base": "1862617a41ac12994e2b7c3d8a5b179ab78cd803",
+  "tree": "d6d975c15ebdcce61612ba2b87560a5b090e5077",
+  "orderedParents": [
+    "1862617a41ac12994e2b7c3d8a5b179ab78cd803",
+    "ba8fc18718f2331f6a24ff1c53da7c32764d7181"
+  ],
+  "actualReviewMainAccepted": true,
+  "fullMainCiAccepted": true,
+  "actualMainSixAccepted": true,
+  "normalCompletionMayStart": true,
+  "issueClosureAllowed": true,
+  "mustFix": [],
+  "ci": {
+    "run": 45790895176,
+    "runNumber": 1154,
+    "attempt": 1,
+    "event": "push",
+    "head": "50f9be2130f8d8eebc9ec3c4192908850d44750b",
+    "allFiveJobsSuccess": true,
+    "passed": 1090,
+    "unique": 1090,
+    "sortedCaseIdsSha256": "13e6ba0db3a41710361fa8b4eace219bd05a4c61adb4521705eca0a534a48e8a",
+    "source1153CaseCount": 1090,
+    "missingSourceCases": [],
+    "unexpectedCases": [],
+    "original1090SetRetained": true,
+    "shards": [
+      {
+        "job": 139809352101,
+        "passed": 398,
+        "unique": 398,
+        "summary": [
+          [
+            "398",
+            "339.58"
+          ]
+        ],
+        "noSkippedTestsAudit": true,
+        "badCases": [],
+        "exactMainCheckout": true,
+        "realLfsFetch": true
+      },
+      {
+        "job": 139809352324,
+        "passed": 267,
+        "unique": 267,
+        "summary": [
+          [
+            "267",
+            "582.59"
+          ]
+        ],
+        "noSkippedTestsAudit": true,
+        "badCases": [],
+        "exactMainCheckout": true,
+        "realLfsFetch": true
+      },
+      {
+        "job": 139809352331,
+        "passed": 425,
+        "unique": 425,
+        "summary": [
+          [
+            "425",
+            "317.58"
+          ]
+        ],
+        "noSkippedTestsAudit": true,
+        "badCases": [],
+        "exactMainCheckout": true,
+        "realLfsFetch": true
+      }
+    ],
+    "jobs": [
+      {
+        "id": 139809351692,
+        "name": "Governance Controls",
+        "conclusion": "success",
+        "durationSeconds": 290,
+        "nonSuccessSteps": [
+          {
+            "name": "Task file validation",
+            "conclusion": "skipped"
+          },
+          {
+            "name": "Evidence check",
+            "conclusion": "skipped"
+          },
+          {
+            "name": "Evidence integrity check",
+            "conclusion": "skipped"
+          },
+          {
+            "name": "Task-branch linkage check",
+            "conclusion": "skipped"
+          },
+          {
+            "name": "Scope check",
+            "conclusion": "skipped"
+          }
+        ]
+      },
+      {
+        "id": 139809352101,
+        "name": "Governance Tests (shard 2)",
+        "conclusion": "success",
+        "durationSeconds": 375,
+        "nonSuccessSteps": []
+      },
+      {
+        "id": 139809352324,
+        "name": "Governance Tests (shard 0)",
+        "conclusion": "success",
+        "durationSeconds": 621,
+        "nonSuccessSteps": []
+      },
+      {
+        "id": 139809352331,
+        "name": "Governance Tests (shard 1)",
+        "conclusion": "success",
+        "durationSeconds": 355,
+        "nonSuccessSteps": []
+      },
+      {
+        "id": 139814798089,
+        "name": "Governance Checks",
+        "conclusion": "success",
+        "durationSeconds": 9,
+        "nonSuccessSteps": []
+      }
+    ],
+    "controlsConditionalStepSkips": [
+      {
+        "name": "Task file validation",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Evidence check",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Evidence integrity check",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Task-branch linkage check",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "Scope check",
+        "conclusion": "skipped"
+      }
+    ],
+    "aggregateJob": 139814798089,
+    "aggregateExactCoverage": true,
+    "realLfsProbePassed": true
+  },
+  "nativeControls": {
+    "mode": "main",
+    "base": "1862617a41ac12994e2b7c3d8a5b179ab78cd803",
+    "head": "50f9be2130f8d8eebc9ec3c4192908850d44750b",
+    "tree": "d6d975c15ebdcce61612ba2b87560a5b090e5077",
+    "checks": {
+      "integrity": 0,
+      "history": 0,
+      "transitions": 0,
+      "finalization": 0,
+      "lifecycle-guards": 0,
+      "coordination": 0
+    },
+    "passed": true,
+    "scope": "ordinary task main controls"
+  },
+  "reviewState": {
+    "status": "review",
+    "agentRole": "reviewer",
+    "reviewer": "/root/independent_review",
+    "baseSha": "1862617a41ac12994e2b7c3d8a5b179ab78cd803",
+    "workBranch": "chore/OPS-030-module-dependency-admission",
+    "exclusivePaths": [
+      "AGENTS.md",
+      "specs/coordination/program-plan.yaml",
+      "specs/coordination/program-plan.schema.yaml",
+      "scripts/check-program-plan-transitions.py",
+      "scripts/program-planning-revision.py",
+      "tests/governance/test_program_plan_transitions.py",
+      "tests/governance/test_program_planning_revision.py",
+      "scripts/check-program-plan-history.py"
+    ],
+    "sharedPaths": [],
+    "lease": {
+      "acquiredAt": "2026-11-26T03:21:57Z",
+      "expiresAt": "2026-12-03T03:21:57Z"
+    },
+    "registeredActorsAndLeaseUnchanged": true,
+    "programFoundationStatus": "review",
+    "activationOrder": "dependencies",
+    "otherActiveModulesExact": true,
+    "otherModules": [
+      {
+        "taskId": "GZ-009",
+        "status": "in_progress",
+        "agentRole": "implementer",
+        "branch": "chore/GZ-009-ui-contract",
+        "lease": {
+          "acquiredAt": "2026-11-26T06:15:19Z",
+          "expiresAt": "2026-12-03T06:15:19Z"
+        }
+      },
+      {
+        "taskId": "POC-008",
+        "status": "reserved",
+        "agentRole": "coordinator",
+        "branch": "chore/POC-008-frontend-comparison",
+        "lease": {
+          "acquiredAt": "2026-11-26T07:01:36Z",
+          "expiresAt": "2026-12-03T07:01:36Z"
+        }
+      }
+    ],
+    "ledgerCodeWorkflowAllTestsAndSourceTreePreserved": true
+  },
+  "sourceIndependentReviewSha256": "36903ce33e690e2a5610198551e5ecdedfddc3f451e42d17de5ecf5e12b27f9a",
+  "anchoredReviewId": 6071408801,
+  "bundle": {
+    "label": "ops030-formal-review-main-50f9be21.bundle",
+    "bytes": 45457967,
+    "sha256": "541a36550b2f84b8cdb6cbaff512fb5d9ff081ec809a14b454221125e15e73b1",
+    "gitBundleVerifyExitCode": 0,
+    "requiredCommit": "3388d765e6d7de8f8f54c8744cd872c596e9cbf3",
+    "standaloneCompleteBackupClaimed": false
+  },
+  "completionBoundary": {
+    "acceptedImplementationPullRequest": 297,
+    "acceptedImplementationMain": "0ab07018876d0904250399cfe6683ccbd1d3aa9d",
+    "issue257CurrentlyOpen": true,
+    "issueClosurePerformedByReviewer": false,
+    "normalCompletionPreparationOnly": true,
+    "completionCandidateStillNeedsIndependentScopeReviewAndFullSourceCi": true,
+    "actualCompletionStillNeedsFullMainCiNativeControlsAndIndependentAcceptance": true,
+    "otherModulesMustRemainUnchanged": true
+  },
+  "liveFacts": {
+    "remoteMain": "50f9be2130f8d8eebc9ec3c4192908850d44750b",
+    "issue257": "open",
+    "pr306MergedExactSource": true,
+    "pr184": {
+      "state": "open",
+      "head": "3564346d2bdfbd80f2f705ae3dd4f7ba79103cb6"
+    }
+  },
+  "scope": "Accept only the exact OPS-030 formal Review actual main and permit the owner to begin normal Completion preparation, including normal Issue257 completed closure when preparing that lifecycle transition. This receipt does not accept an unknown Completion payload or authorize branch cleanup, task completion or capacity release. The active work branch and both independent modules remain preserved.",
+  "branchCleanupAllowed": false,
+  "branchCleanupReason": "The registered work branch remains referenced by the active Review task until normal Completion and final actual-main acceptance.",
+  "taskCompleted": false,
+  "actualCapacityReleased": false,
+  "evidencePins": [
+    {
+      "path": "ops030-dependency-admission-0ab07018-final-actual-main-independent-review.json",
+      "bytes": 19713,
+      "sha256": "116ebdcb0cec23227007df7fe226b04871c767aeff4da63ef0fe333d8ae330d0"
+    },
+    {
+      "path": "ops030-formal-review-ba8fc187-final-source-independent-review.json",
+      "bytes": 18661,
+      "sha256": "36903ce33e690e2a5610198551e5ecdedfddc3f451e42d17de5ecf5e12b27f9a"
+    },
+    {
+      "path": "ops030-formal-review-main-50f9be21-independent-main-ci/actual-git-commit.connector.json",
+      "bytes": 6627,
+      "sha256": "1b12465e528fddb417173cdfe4a1d6f8eddf3f7be6fd51ceacf72534dab52d5f"
+    },
+    {
+      "path": "ops030-formal-review-main-50f9be21-independent-main-ci/anchored-reviews.connector.json",
+      "bytes": 6316,
+      "sha256": "ca59c1a0460ec7413ef02da2ff69994591257537d24f219ac240db5ed50097c5"
+    },
+    {
+      "path": "ops030-formal-review-main-50f9be21-independent-main-ci/final-issue257.connector.json",
+      "bytes": 31586,
+      "sha256": "41b8dc32b596dcd42e89b044681a54d74f1ff9fe5a84ae4add0df348bc51fcf6"
+    },
+    {
+      "path": "ops030-formal-review-main-50f9be21-independent-main-ci/final-main.connector.json",
+      "bytes": 1301,
+      "sha256": "538196d60ee3a5803a2d9bbe58d3e32f18ef49b5c31e495b39c04e71fb65aa99"
+    },
+    {
+      "path": "ops030-formal-review-main-50f9be21-independent-main-ci/final-pr184.connector.json",
+      "bytes": 37097,
+      "sha256": "35ef7de746d73dcbffdb54afeb111937de55571220193fc73644b2a3923f4418"
+    },
+    {
+      "path": "ops030-formal-review-main-50f9be21-independent-main-ci/final-pr306.connector.json",
+      "bytes": 38111,
+      "sha256": "479146da6626e57f534287e7806cba061e489d0d493a6553b5a1951e4b6c4682"
+    },
+    {
+      "path": "ops030-formal-review-main-50f9be21-independent-main-ci/initial-issue257.connector.json",
+      "bytes": 31586,
+      "sha256": "41b8dc32b596dcd42e89b044681a54d74f1ff9fe5a84ae4add0df348bc51fcf6"
+    },
+    {
+      "path": "ops030-formal-review-main-50f9be21-independent-main-ci/initial-main.connector.json",
+      "bytes": 1301,
+      "sha256": "538196d60ee3a5803a2d9bbe58d3e32f18ef49b5c31e495b39c04e71fb65aa99"
+    },
+    {
+      "path": "ops030-formal-review-main-50f9be21-independent-main-ci/initial-pr306.connector.json",
+      "bytes": 38111,
+      "sha256": "cfca219f65fe004e2d5583e9c67176ffd33599ac911e26950a08dda826594319"
+    },
+    {
+      "path": "ops030-formal-review-main-50f9be21-independent-main-ci/initial-run.connector.json",
+      "bytes": 26991,
+      "sha256": "2895c2d8e1cbd1603f65b1a3dc1cd746679f27c1b97cd37e58b47330382e98d7"
+    },
+    {
+      "path": "ops030-formal-review-main-50f9be21-independent-main-ci/job-139809351692.connector.json",
+      "bytes": 65463,
+      "sha256": "95ca07cf3ce25d51b829bfd3532d5c7a3b03bed2d8facfb3c6fc4453a1d3fee9"
+    },
+    {
+      "path": "ops030-formal-review-main-50f9be21-independent-main-ci/job-139809351692.decoded.log",
+      "bytes": 62476,
+      "sha256": "850aa4be1173b6d56124d792f45727536143114347c2476ce723f0b4170dd506"
+    },
+    {
+      "path": "ops030-formal-review-main-50f9be21-independent-main-ci/job-139809352101.connector.json",
+      "bytes": 164182,
+      "sha256": "0510818b17dad0818fbbb7a40dcc55144eb48e8e8288143c0dfd654e73a68192"
+    },
+    {
+      "path": "ops030-formal-review-main-50f9be21-independent-main-ci/job-139809352101.decoded.log",
+      "bytes": 162576,
+      "sha256": "5456e8816fcc906c1e275da0b472322e49f5d5c3ee5dab7af45fbeb84002ce88"
+    },
+    {
+      "path": "ops030-formal-review-main-50f9be21-independent-main-ci/job-139809352324.connector.json",
+      "bytes": 129322,
+      "sha256": "d803f43e42f996a2f3c618deba55d86cfdea281130409b79050de64459a82b48"
+    },
+    {
+      "path": "ops030-formal-review-main-50f9be21-independent-main-ci/job-139809352324.decoded.log",
+      "bytes": 128006,
+      "sha256": "f53dd68be8f74c40f30be3e917947c00c75ec09da4333de24cc82a8a982cf8a9"
+    },
+    {
+      "path": "ops030-formal-review-main-50f9be21-independent-main-ci/job-139809352331.connector.json",
+      "bytes": 176967,
+      "sha256": "9aaf0a7fd42dbf5ab888e1d0e9eff82814951969f3264b1de183921722bd76d0"
+    },
+    {
+      "path": "ops030-formal-review-main-50f9be21-independent-main-ci/job-139809352331.decoded.log",
+      "bytes": 175315,
+      "sha256": "307b61f6a28cd83efae771058ce7d1869178ccc87c4b4b82de258cc430135ba4"
+    },
+    {
+      "path": "ops030-formal-review-main-50f9be21-independent-main-ci/job-139814798089.connector.json",
+      "bytes": 16663,
+      "sha256": "2d885d446bcf8e8bad8306865ee0978fa3e123e9f28b42187570dcc60eee29d2"
+    },
+    {
+      "path": "ops030-formal-review-main-50f9be21-independent-main-ci/job-139814798089.decoded.log",
+      "bytes": 16178,
+      "sha256": "f9c461a1ee54be439d212ad588c0dccfc1efc5edbb99f88bfbc7ffa39cfaaf72"
+    },
+    {
+      "path": "ops030-formal-review-main-50f9be21-independent-main-ci/jobs.connector.json",
+      "bytes": 33552,
+      "sha256": "02f1910cf36ddb95100e78628dc0349cf925b927be178084eb77147ce18faec8"
+    },
+    {
+      "path": "ops030-formal-review-main-50f9be21-independent-main-ci/run.connector.json",
+      "bytes": 27001,
+      "sha256": "6a5f208ffdf58db27a02d923f6df35e06dcbabfaafe594ef5838b4ab8d119b99"
+    },
+    {
+      "path": "ops030-formal-review-main-50f9be21-native/coordination.txt",
+      "bytes": 330,
+      "sha256": "a1933e3723258e6915fa9b59e5cc5755aabcd791579f6cd1e0c7b3d8c9419d27"
+    },
+    {
+      "path": "ops030-formal-review-main-50f9be21-native/finalization.txt",
+      "bytes": 428,
+      "sha256": "7f2e426ad692a60f0e3ed46fc69940988d894d67706c36072553831f947da11a"
+    },
+    {
+      "path": "ops030-formal-review-main-50f9be21-native/history.txt",
+      "bytes": 537,
+      "sha256": "a0115a31eb1caed9509f40a2407532c2388b3ef041bbfc1ec283d3cf382cd4aa"
+    },
+    {
+      "path": "ops030-formal-review-main-50f9be21-native/integrity.txt",
+      "bytes": 469,
+      "sha256": "67ac5f4b9b6903aa2633296e5c22f8967d5176ff6eb706c219d8deda096f5f58"
+    },
+    {
+      "path": "ops030-formal-review-main-50f9be21-native/lifecycle-guards.txt",
+      "bytes": 520,
+      "sha256": "5e042ed7e7e3dd266ffb2216a3e7778b99e7b3f6771307b9ef2ca7916e90e98f"
+    },
+    {
+      "path": "ops030-formal-review-main-50f9be21-native/result.json",
+      "bytes": 394,
+      "sha256": "25c8250550e8bcf2fd5dc50e2ed51df8f4188678a5ae5052229929682f7e469d"
+    },
+    {
+      "path": "ops030-formal-review-main-50f9be21-native/transitions.txt",
+      "bytes": 449,
+      "sha256": "91e66af02e12b9b4ea3baa1b2ef5a8d90a426e97c11ab726572f4c78948fe36c"
+    }
+  ]
+}
