@@ -83,6 +83,17 @@
 - evidence/GZ-007/test-results/README.md
 - specs/contracts/data/verify_asset_classification_and_merge_evidence.sql
 
+## AI 版本注册和搜索索引状态
+
+- contracts/data/README.md
+- data/migrations/V10__create_ai_and_search_state.sql
+- evidence/GZ-007/changed-files.md
+- evidence/GZ-007/test-results/README.md
+- specs/contracts/data/ai_artifact_registry_fixture.sql
+- specs/contracts/data/verify_ai_legacy_provenance.sql
+- specs/contracts/data/verify_ai_search_state.sql
+- specs/contracts/data/verify_artifact_lineage_and_outbox.sql
+
 ## 模块命名空间迁移
 
 - data/migrations/V1__create_module_namespaces.sql
