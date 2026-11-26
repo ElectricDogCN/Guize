@@ -9,3 +9,9 @@ python poc/POC-07-public-network/verify_fixture.py /path/to/materialized-synthet
 ```
 
 目录中的样本校验只确认实际输入字节。OpenList 挂载、TLS 代理、Range 读回、授权和性能证据随后一起接受正式实验。公网 IPv6、DDNS、Tunnel 和 CDN 保留用于生产验收。
+
+播放入口的 OpenList 读取组件只连接回环地址的已选端口和单一合成对象。入口先完成授权，再把 Range 与 If-Range 交给组件处理。组件在送出响应头之前核对源状态、长度和区间。完整响应与部分响应共用样本摘要作为强 ETag，过期的 If-Range 回退到完整响应。传输每次最多读取 64 KiB，返回实际字节数、SHA-256 和单次读取峰值。缓存隔离、限流及端到端授权在组合实验中复验。
+
+```bash
+python -B -m unittest discover -s poc/POC-07-public-network -p 'test_stream_fixture.py'
+```

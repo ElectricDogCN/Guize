@@ -1,0 +1,46 @@
+{
+  "operation": "openlist_tls_bounded_streaming_preflight",
+  "scope": "disposable loopback pilot; application read buffer only",
+  "version": "v4.2.6",
+  "binarySha256": "234ee38f142858ba12d57dd57d181c9ed4a77f952b8420c053e7ab98e3db3172",
+  "listener": "127.0.0.1",
+  "httpStatus": 200,
+  "body": "pong",
+  "listenerOwnershipVerified": true,
+  "processStopped": true,
+  "temporaryArtifactsRemoved": true,
+  "recordedTransfers": [
+    {
+      "byte_count": 2097189,
+      "sha256": "sha256:dd6a5c8b02ef6c8c3bbe7c1132948d3fb949bb6dbd234e9f7d23c7a1b42a6cad",
+      "peak_read_bytes": 65536
+    },
+    {
+      "byte_count": 130084,
+      "sha256": "sha256:41db403b8ac6f8e4677a71c72fa487d1dc8b177aa1ed411ef499b4c523572a99",
+      "peak_read_bytes": 65536
+    },
+    {
+      "byte_count": 130084,
+      "sha256": "sha256:41db403b8ac6f8e4677a71c72fa487d1dc8b177aa1ed411ef499b4c523572a99",
+      "peak_read_bytes": 65536
+    },
+    {
+      "byte_count": 2097189,
+      "sha256": "sha256:dd6a5c8b02ef6c8c3bbe7c1132948d3fb949bb6dbd234e9f7d23c7a1b42a6cad",
+      "peak_read_bytes": 65536
+    }
+  ],
+  "staleIfRangeStatus": 200,
+  "fullStatus": 200,
+  "fullBytes": 2097189,
+  "fullSha256": "dd6a5c8b02ef6c8c3bbe7c1132948d3fb949bb6dbd234e9f7d23c7a1b42a6cad",
+  "rangeStatus": 206,
+  "rangeBytes": 130084,
+  "rangeSha256": "41db403b8ac6f8e4677a71c72fa487d1dc8b177aa1ed411ef499b4c523572a99",
+  "contentRange": "bytes 1024-131107/2097189",
+  "matchingIfRangeStatus": 206,
+  "tls": "TLSv1.3",
+  "peerName": "localhost",
+  "gatewayStopped": true
+}

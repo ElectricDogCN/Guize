@@ -13,3 +13,9 @@
 临时 OpenList 挂载了 16 KiB 合成文件，回环 TLS 代理使用本次生成的专用只读身份访问该文件。正常下载返回 HTTP 200 和相同的完整字节。Range `bytes=1024-2047` 返回 HTTP 206、准确的 `Content-Range` 和 1,024 个匹配的字节。携带源返回的当前校验值时，匹配的 If-Range 也返回 HTTP 206 和相同片段。进程、监听及临时文件均已回收。[测量原始结果](openlist-tls-range-preflight.json)
 
 正式实验使用本任务批准的文件和服务配置，记录大文件流式读取、授权边界、缓存隔离、限流及回收结果。
+
+## 分块读取预检
+
+在 Windows 和 WSL 分别执行 [读取组件的五项测试](../../../poc/POC-07-public-network/test_stream_fixture.py)，覆盖分块完整传输、If-Range、开放和后缀区间、源区间错误、源提前结束。两处各五项通过。
+
+在原生 OpenList 上挂载新的 2,097,189 字节合成文件，用读取组件与回环 TLS 代理实际执行四次传输。完整读取和旧 If-Range 各返回 HTTP 200 及原始完整摘要；Range 和匹配的 If-Range 各返回 HTTP 206、相同的 130,084 字节及区间摘要。四次实际单次读取峰值均为 65,536 字节，整个进程的内存水位留待正式实验。临时服务和文件均已回收。[实测输出](openlist-tls-bounded-streaming-preflight.json)
