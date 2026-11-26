@@ -75,6 +75,14 @@
 - evidence/GZ-007/test-results/README.md
 - specs/contracts/data/verify_media_storage_state.sql
 
+## 资产别名、标签与归并证据
+
+- contracts/data/README.md
+- data/migrations/V9__create_asset_classification_and_merge_evidence.sql
+- evidence/GZ-007/changed-files.md
+- evidence/GZ-007/test-results/README.md
+- specs/contracts/data/verify_asset_classification_and_merge_evidence.sql
+
 ## 模块命名空间迁移
 
 - data/migrations/V1__create_module_namespaces.sql
