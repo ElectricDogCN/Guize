@@ -1,0 +1,16 @@
+{
+  "operation": "openlist_native_origin_denial_preflight",
+  "scope": "disposable loopback pilot",
+  "openlistVersion": "v4.2.6",
+  "openlistBinarySha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "directOriginResponse": {
+    "status": 401,
+    "responseBytes": 0,
+    "responseSha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "nativeResponseBytes": 146,
+    "nativeResponseSha256": "sha256:5b925205598cbeec11d67c7698c02e79785f72f1a4a7a07850252a2d4b1f4ebf",
+    "peer": "127.0.0.1"
+  },
+  "processStopped": true,
+  "temporaryArtifactsRemoved": true
+}
