@@ -60,3 +60,14 @@ Output SHA-256: b427cc8c650b40fa0b375430c25e54cb364bb0ed93999487eff82daae28ab69b
 Command: python scripts/check-spec-sync.py --base origin/main
 Exit Code: 0
 Output SHA-256: f1d47d7f6c872eb35af7d3203d3f221d0c282ef6ee2181ed93031742dc939324
+
+# GZ-009 implementation
+
+Command: python specs/ui/check_contract.py
+Exit Code: 0
+Output: PASS: 19 UI pages, 96 API operations and 2 node-only operations.
+Command: python -B specs/ui/test_contract.py -v
+Exit Code: 0
+Output: 7 tests passed.
+The repository includes all four negative cases and the playback, Passkey and event-stream response assertions. The original interactive check on the first candidate was followed by this repeatable suite.
+The fixed commit and independent CI outcomes are linked by PR #305.
