@@ -1,6 +1,8 @@
-import scenarios from "./scenarios.json";
+import fixture from "./scenarios.json";
 
-const input = (id) => scenarios.find((scenario) => scenario.id === id).inputs;
+const { scenarios } = fixture;
+
+const input = (id) => scenarios.find((scenario) => scenario.scenarioId === id).arguments;
 export const player = input("player_integration_equivalent");
 export const permissions = input("permission_model_equivalent");
 export const theme = input("design_token_equivalent");

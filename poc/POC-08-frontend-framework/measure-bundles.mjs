@@ -4,7 +4,7 @@ import { gzipSync } from "node:zlib";
 function entryAssets(framework) {
   const output = new URL("./dist/" + framework + "/", import.meta.url);
   const manifest = JSON.parse(readFileSync(new URL(".vite/manifest.json", output), "utf8"));
-  const entry = framework + ".html";
+  const entry = "index.html";
   const files = new Set();
   const pending = [entry];
   const visited = new Set();

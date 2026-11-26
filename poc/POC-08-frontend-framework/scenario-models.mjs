@@ -1,6 +1,8 @@
-import scenarios from "./scenarios.json";
+import fixture from "./scenarios.json";
 
-const input = (id) => scenarios.find((scenario) => scenario.id === id).inputs;
+const { scenarios } = fixture;
+
+const input = (id) => scenarios.find((scenario) => scenario.scenarioId === id).arguments;
 
 const graph = input("flowchart_equivalent");
 export const graphEdges = graph.edges;

@@ -12,7 +12,7 @@ const AssetList = {
     return () => h("section", { "aria-labelledby": "asset-heading" }, [
       h("h2", { id: "asset-heading" }, "Asset list"),
       h("div", {
-        class: "asset-list", tabindex: 0, "aria-label": "Assets",
+        class: "asset-list", tabindex: 0, "aria-label": "Assets", "data-input-rows": rowCount,
         onScroll: (event) => { first.value = firstVisibleRow(event.currentTarget.scrollTop); },
       }, [
         h("div", { class: "asset-spacer", style: { height: `${rowCount * rowHeight}px` } }, [

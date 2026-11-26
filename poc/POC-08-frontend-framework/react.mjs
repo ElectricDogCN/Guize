@@ -12,7 +12,7 @@ function AssetList() {
   return element("section", { "aria-labelledby": "asset-heading" },
     element("h2", { id: "asset-heading" }, "Asset list"),
     element("div", {
-      className: "asset-list", tabIndex: 0, "aria-label": "Assets",
+      className: "asset-list", tabIndex: 0, "aria-label": "Assets", "data-input-rows": rowCount,
       onScroll: (event) => setFirst(firstVisibleRow(event.currentTarget.scrollTop)),
     },
     element("div", { className: "asset-spacer", style: { height: rowCount * rowHeight } },

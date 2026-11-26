@@ -1,221 +1,387 @@
-[
-  {
-    "id": "million_row_virtual_list_equivalent",
-    "inputs": {
-      "rowCount": 1000000,
-      "visibleRows": 32,
-      "offsets": [
-        0,
-        400000,
-        999968
-      ]
-    },
-    "steps": [
-      "Open the first window",
-      "Scroll to the middle window",
-      "Scroll to the final window",
-      "Select the last row"
-    ]
-  },
-  {
-    "id": "dynamic_form_equivalent",
-    "inputs": {
-      "values": {
-        "source": "local",
-        "retryLimit": 3
+{
+  "schemaVersion": 1,
+  "kind": "frontend_fixed_scenario_fixture",
+  "scenarios": [
+    {
+      "scenarioId": "million_row_virtual_list_equivalent",
+      "fixtureId": "guize-admin-v1/million_row_virtual_list_equivalent",
+      "arguments": {
+        "rowCount": 1000000,
+        "offsets": [
+          0,
+          400000,
+          999968
+        ],
+        "steps": [
+          "Open the first window",
+          "Scroll to the middle window",
+          "Scroll to the final window",
+          "Select the last row"
+        ],
+        "viewportRows": 32,
+        "overscanRows": 0
       },
-      "condition": {
-        "when": "remote",
-        "field": "endpoint"
+      "expectedResults": {
+        "scroll_begin": {
+          "first": "asset-0000001",
+          "visible": 32
+        },
+        "scroll_middle": {
+          "first": "asset-0400001",
+          "visible": 32
+        },
+        "scroll_end": {
+          "first": "asset-0999969",
+          "visible": 32
+        },
+        "select_row": {
+          "asset": "asset-1000000",
+          "pressed": true
+        }
       }
     },
-    "steps": [
-      "Switch source type",
-      "Check the conditional field",
-      "Submit an empty required field",
-      "Correct it and submit"
-    ]
-  },
-  {
-    "id": "flowchart_equivalent",
-    "inputs": {
-      "nodes": [
-        "source",
-        "verify",
-        "publish"
-      ],
-      "edges": [
-        [
+    {
+      "scenarioId": "dynamic_form_equivalent",
+      "fixtureId": "guize-admin-v1/dynamic_form_equivalent",
+      "arguments": {
+        "values": {
+          "source": "local",
+          "retryLimit": 3
+        },
+        "condition": {
+          "when": "remote",
+          "field": "endpoint"
+        },
+        "steps": [
+          "Switch source type",
+          "Check the conditional field",
+          "Submit an empty required field",
+          "Correct it and submit"
+        ]
+      },
+      "expectedResults": {
+        "conditional_fields": {
+          "localEndpoint": false,
+          "remoteEndpoint": true
+        },
+        "validation": "Endpoint is required.",
+        "schema_update": "Saved remote source with retry limit 3."
+      }
+    },
+    {
+      "scenarioId": "flowchart_equivalent",
+      "fixtureId": "guize-admin-v1/flowchart_equivalent",
+      "arguments": {
+        "nodes": [
           "source",
-          "verify"
-        ],
-        [
           "verify",
           "publish"
-        ]
-      ]
-    },
-    "steps": [
-      "Select a node",
-      "Move it",
-      "Change its label",
-      "Reload the saved graph"
-    ]
-  },
-  {
-    "id": "decision_table_equivalent",
-    "inputs": {
-      "rules": [
-        {
-          "status": "ready",
-          "allow": true
-        },
-        {
-          "status": "pending",
-          "allow": false
-        }
-      ]
-    },
-    "steps": [
-      "Edit one row",
-      "Add a duplicate condition",
-      "Check its error",
-      "Correct and save"
-    ]
-  },
-  {
-    "id": "monitoring_view_equivalent",
-    "inputs": {
-      "samples": [
-        {
-          "time": 0,
-          "active": 1,
-          "failed": 0
-        },
-        {
-          "time": 10,
-          "active": 3,
-          "failed": 1
-        }
-      ],
-      "refreshError": "unavailable"
-    },
-    "steps": [
-      "View initial data",
-      "Filter series",
-      "Refresh",
-      "Display refresh failure in the monitoring panel"
-    ]
-  },
-  {
-    "id": "sse_websocket_equivalent",
-    "inputs": {
-      "events": [
-        {
-          "sequence": 1,
-          "status": "pending"
-        },
-        {
-          "sequence": 2,
-          "status": "ready"
-        }
-      ],
-      "disconnectAfter": 1
-    },
-    "steps": [
-      "Apply the first event",
-      "Disconnect",
-      "Reconnect",
-      "Apply the second event once"
-    ]
-  },
-  {
-    "id": "player_integration_equivalent",
-    "inputs": {
-      "component": "guize-fixture-player",
-      "assetId": "sample-video",
-      "events": [
-        "ready",
-        "pause",
-        "unavailable"
-      ]
-    },
-    "steps": [
-      "Mount the same component",
-      "Show ready",
-      "Handle pause",
-      "Show player-local failure"
-    ]
-  },
-  {
-    "id": "mobile_experience_equivalent",
-    "inputs": {
-      "viewports": [
-        {
-          "width": 375,
-          "height": 812
-        },
-        {
-          "width": 1024,
-          "height": 768
-        }
-      ]
-    },
-    "steps": [
-      "Open the comparison UI at both sizes",
-      "Access the primary action with touch",
-      "Navigate back"
-    ]
-  },
-  {
-    "id": "permission_model_equivalent",
-    "inputs": {
-      "subjects": [
-        {
-          "id": "reader",
-          "actions": [
-            "read"
+        ],
+        "edges": [
+          [
+            "source",
+            "verify"
+          ],
+          [
+            "verify",
+            "publish"
           ]
+        ],
+        "steps": [
+          "Select a node",
+          "Move it",
+          "Change its label",
+          "Reload the saved graph"
+        ]
+      },
+      "expectedResults": {
+        "nodes": [
+          "source",
+          "verify",
+          "publish"
+        ],
+        "edges": [
+          "source to verify",
+          "verify to publish"
+        ],
+        "edit": {
+          "label": "Verify input",
+          "position": "Row 2, column 2"
         },
-        {
-          "id": "editor",
-          "actions": [
+        "state_sync": {
+          "label": "Verify input",
+          "position": "Row 2, column 2"
+        }
+      }
+    },
+    {
+      "scenarioId": "decision_table_equivalent",
+      "fixtureId": "guize-admin-v1/decision_table_equivalent",
+      "arguments": {
+        "rules": [
+          {
+            "status": "ready",
+            "allow": true
+          },
+          {
+            "status": "pending",
+            "allow": false
+          }
+        ],
+        "steps": [
+          "Edit one row",
+          "Add a duplicate condition",
+          "Check its error",
+          "Correct and save"
+        ]
+      },
+      "expectedResults": {
+        "edit_rules": {
+          "pendingAllows": true,
+          "ruleCount": 3
+        },
+        "validate_rules": {
+          "duplicate": "Rule conditions must be unique.",
+          "saved": "3 rules saved."
+        }
+      }
+    },
+    {
+      "scenarioId": "monitoring_view_equivalent",
+      "fixtureId": "guize-admin-v1/monitoring_view_equivalent",
+      "arguments": {
+        "samples": [
+          {
+            "time": 0,
+            "active": 1,
+            "failed": 0
+          },
+          {
+            "time": 10,
+            "active": 3,
+            "failed": 1
+          }
+        ],
+        "refreshError": "unavailable",
+        "steps": [
+          "View initial data",
+          "Filter series",
+          "Refresh",
+          "Display refresh failure in the monitoring panel"
+        ]
+      },
+      "expectedResults": {
+        "metrics": [
+          "0s · 1",
+          "10s · 3"
+        ],
+        "filter": [
+          "0s · 0",
+          "10s · 1"
+        ],
+        "refresh": "refresh-control-activated",
+        "failure_state": {
+          "message": "Refresh failed (unavailable).",
+          "retained": [
+            "0s · 0",
+            "10s · 1"
+          ]
+        }
+      }
+    },
+    {
+      "scenarioId": "sse_websocket_equivalent",
+      "fixtureId": "guize-admin-v1/sse_websocket_equivalent",
+      "arguments": {
+        "events": [
+          {
+            "sequence": 1,
+            "status": "pending"
+          },
+          {
+            "sequence": 2,
+            "status": "ready"
+          }
+        ],
+        "disconnectAfter": 1,
+        "steps": [
+          "Apply the first event",
+          "Disconnect",
+          "Reconnect",
+          "Apply the second event once"
+        ]
+      },
+      "expectedResults": {
+        "sse_update": [
+          "1 · pending",
+          "2 · ready"
+        ],
+        "websocket_update": [
+          "1 · pending",
+          "2 · ready"
+        ],
+        "reconnect": {
+          "sse": 1,
+          "websocket": 1
+        },
+        "error_state": {
+          "recovered": true,
+          "duplicateApplied": false
+        }
+      }
+    },
+    {
+      "scenarioId": "player_integration_equivalent",
+      "fixtureId": "guize-admin-v1/player_integration_equivalent",
+      "arguments": {
+        "component": "guize-fixture-player",
+        "assetId": "sample-video",
+        "events": [
+          "ready",
+          "pause",
+          "unavailable"
+        ],
+        "steps": [
+          "Mount the same component",
+          "Show ready",
+          "Handle pause",
+          "Show player-local failure"
+        ]
+      },
+      "expectedResults": {
+        "embed_player": "sample-video",
+        "web_component_contract": "guize-fixture-player",
+        "player_events": [
+          "Playback: ready",
+          "Playback: pause",
+          "Playback: unavailable"
+        ]
+      }
+    },
+    {
+      "scenarioId": "mobile_experience_equivalent",
+      "fixtureId": "guize-admin-v1/mobile_experience_equivalent",
+      "arguments": {
+        "viewports": [
+          {
+            "width": 375,
+            "height": 812
+          },
+          {
+            "width": 1024,
+            "height": 768
+          }
+        ],
+        "steps": [
+          "Open the comparison UI at both sizes",
+          "Access the primary action with touch",
+          "Navigate back"
+        ]
+      },
+      "expectedResults": {
+        "responsive_breakpoints": {
+          "phoneColumns": 1,
+          "tabletColumns": 2
+        },
+        "touch_interaction": {
+          "phone": [
+            "Sample details",
+            "Sample list"
+          ],
+          "tablet": [
+            "Sample details",
+            "Sample list"
+          ]
+        }
+      }
+    },
+    {
+      "scenarioId": "permission_model_equivalent",
+      "fixtureId": "guize-admin-v1/permission_model_equivalent",
+      "arguments": {
+        "subjects": [
+          {
+            "id": "reader",
+            "actions": [
+              "read"
+            ]
+          },
+          {
+            "id": "editor",
+            "actions": [
+              "read",
+              "edit"
+            ]
+          }
+        ],
+        "actions": [
+          "read",
+          "edit",
+          "publish"
+        ],
+        "steps": [
+          "Switch between fixture subjects",
+          "Show the granted actions",
+          "Keep the other actions unavailable"
+        ]
+      },
+      "expectedResults": {
+        "route_visibility": {
+          "editor": "Current view: edit",
+          "reader": "Current view: read"
+        },
+        "field_visibility": {
+          "editor": true,
+          "reader": false
+        },
+        "action_visibility": {
+          "reader": [
+            "read"
+          ],
+          "editor": [
             "read",
             "edit"
           ]
-        }
-      ],
-      "actions": [
-        "read",
-        "edit",
-        "publish"
-      ]
-    },
-    "steps": [
-      "Switch between fixture subjects",
-      "Show the granted actions",
-      "Keep the other actions unavailable"
-    ]
-  },
-  {
-    "id": "design_token_equivalent",
-    "inputs": {
-      "themes": {
-        "light": {
-          "surface": "#ffffff",
-          "text": "#222222"
         },
-        "dark": {
-          "surface": "#1e1e1e",
-          "text": "#f5f5f5"
+        "server_authorization": {
+          "reader": 403,
+          "editor": 200
         }
-      },
-      "spacing": 8
+      }
     },
-    "steps": [
-      "Apply light tokens",
-      "Switch to dark tokens",
-      "Check both surfaces and spacing"
-    ]
-  }
-]
+    {
+      "scenarioId": "design_token_equivalent",
+      "fixtureId": "guize-admin-v1/design_token_equivalent",
+      "arguments": {
+        "themes": {
+          "light": {
+            "surface": "#ffffff",
+            "text": "#222222"
+          },
+          "dark": {
+            "surface": "#1e1e1e",
+            "text": "#f5f5f5"
+          }
+        },
+        "spacing": 8,
+        "steps": [
+          "Apply light tokens",
+          "Switch to dark tokens",
+          "Check both surfaces and spacing"
+        ]
+      },
+      "expectedResults": {
+        "apply_tokens": {
+          "background": "rgb(255, 255, 255)",
+          "text": "rgb(34, 34, 34)",
+          "padding": "8px"
+        },
+        "switch_theme": {
+          "background": "rgb(30, 30, 30)",
+          "text": "rgb(245, 245, 245)",
+          "padding": "8px"
+        }
+      }
+    }
+  ]
+}

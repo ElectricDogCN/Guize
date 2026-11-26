@@ -1,9 +1,9 @@
 import { readFileSync } from "node:fs";
 import { WebSocketServer } from "ws";
 
-const cases = JSON.parse(readFileSync(new URL("./scenarios.json", import.meta.url), "utf8"));
-const fixture = cases.find(({ id }) => id === "sse_websocket_equivalent").inputs;
-const permissionFixture = cases.find(({ id }) => id === "permission_model_equivalent").inputs;
+const { scenarios } = JSON.parse(readFileSync(new URL("./scenarios.json", import.meta.url), "utf8"));
+const fixture = scenarios.find(({ scenarioId }) => scenarioId === "sse_websocket_equivalent").arguments;
+const permissionFixture = scenarios.find(({ scenarioId }) => scenarioId === "permission_model_equivalent").arguments;
 
 function stage(reconnecting) {
   return reconnecting ? fixture.events : fixture.events.slice(0, fixture.disconnectAfter);

@@ -1,12 +1,15 @@
-import scenarios from "./scenarios.json";
+import fixture from "./scenarios.json";
 import { assetWindow } from "./fixtures.mjs";
 import "./comparison.css";
 
-const listFixture = scenarios.find(({ id }) => id === "million_row_virtual_list_equivalent").inputs;
-const formFixture = scenarios.find(({ id }) => id === "dynamic_form_equivalent").inputs;
+const { scenarios } = fixture;
+
+const listFixture = scenarios.find(({ scenarioId }) => scenarioId === "million_row_virtual_list_equivalent").arguments;
+const formFixture = scenarios.find(({ scenarioId }) => scenarioId === "dynamic_form_equivalent").arguments;
 
 export const rowHeight = 28;
-export const { rowCount, visibleRows } = listFixture;
+export const { rowCount } = listFixture;
+export const visibleRows = listFixture.viewportRows + 2 * listFixture.overscanRows;
 export const condition = formFixture.condition;
 export const initialForm = { ...formFixture.values, [condition.field]: "" };
 

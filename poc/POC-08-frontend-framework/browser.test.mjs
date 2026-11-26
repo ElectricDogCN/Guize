@@ -4,8 +4,8 @@ import { readFile } from "node:fs/promises";
 import { chromium } from "playwright-core";
 import { preview } from "vite";
 
-const scenarios = JSON.parse(await readFile(new URL("./scenarios.json", import.meta.url)));
-const listFixture = scenarios.find(({ id }) => id === "million_row_virtual_list_equivalent").inputs;
+const { scenarios } = JSON.parse(await readFile(new URL("./scenarios.json", import.meta.url)));
+const listFixture = scenarios.find(({ scenarioId }) => scenarioId === "million_row_virtual_list_equivalent").arguments;
 let server;
 let browser;
 let origin;
@@ -13,7 +13,7 @@ let origin;
 async function openPage(framework, options) {
   const page = await browser.newPage(options);
   page.setDefaultTimeout(7_000);
-  await page.goto(`${origin}/${framework}/${framework}.html`);
+  await page.goto(`${origin}/${framework}/index.html`);
   return page;
 }
 
@@ -38,13 +38,13 @@ for (const framework of ["react", "vue"]) {
       await page.getByRole("heading", { name: "Asset list" }).waitFor();
       const rows = page.locator("[data-asset]");
       const list = page.getByLabel("Assets", { exact: true });
-      assert.equal(await rows.count(), listFixture.visibleRows);
+      assert.equal(await rows.count(), listFixture.viewportRows);
       for (const offset of listFixture.offsets) {
         const first = `asset-${String(offset + 1).padStart(7, "0")}`;
         await list.evaluate((region, row) => { region.scrollTop = row * 28; }, offset);
         await page.locator(`[data-asset="${first}"]`).waitFor();
         assert.equal(await rows.first().getAttribute("data-asset"), first);
-        assert.equal(await rows.count(), listFixture.visibleRows);
+        assert.equal(await rows.count(), listFixture.viewportRows);
       }
       await list.evaluate((region) => { region.scrollTop = region.scrollHeight; });
       const last = page.locator("[data-asset=asset-1000000]");
@@ -170,7 +170,7 @@ for (const framework of ["react", "vue"]) {
   });
 
   test(`${framework} exposes touch actions on both approved viewports`, async () => {
-    const { viewports } = scenarios.find(({ id }) => id === "mobile_experience_equivalent").inputs;
+    const { viewports } = scenarios.find(({ scenarioId }) => scenarioId === "mobile_experience_equivalent").arguments;
     for (const viewport of viewports) {
       const page = await openPage(framework, { viewport, hasTouch: true, isMobile: true });
       try {
@@ -201,7 +201,7 @@ for (const framework of ["react", "vue"]) {
       const visibility = page.getByRole("region", { name: "Subject visibility" });
       const select = visibility.getByLabel("Sample subject");
       await select.waitFor();
-      const { subjects, actions } = scenarios.find(({ id }) => id === "permission_model_equivalent").inputs;
+      const { subjects, actions } = scenarios.find(({ scenarioId }) => scenarioId === "permission_model_equivalent").arguments;
       for (const subject of subjects) {
         await select.selectOption(subject.id);
         await visibility.getByText("Current view: read", { exact: true }).waitFor();
