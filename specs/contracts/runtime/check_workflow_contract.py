@@ -10,19 +10,12 @@ from sys import float_info
 from jsonschema import Draft202012Validator
 import yaml
 
+from validation import read_json, unique_mapping, validate_shape
+
 ROOT = Path(__file__).resolve().parents[3]
 CONTRACT = ROOT / "contracts" / "workflows" / "v1"
 CLASSES = {"read", "command", "longRunning"}
 TERMINAL_ERRORS = {"BUSINESS_REJECTED", "INPUT_IDENTITY_MISMATCH", "AUTHORIZATION_INVALID", "CANCELLED"}
-
-
-def unique_mapping(pairs):
-    result = {}
-    for key, value in pairs:
-        if key in result:
-            raise ValueError(f"Duplicate configuration field {key}")
-        result[key] = value
-    return result
 
 
 class UniqueCatalogLoader(yaml.SafeLoader):
@@ -71,9 +64,52 @@ def validate_activity_options(policy):
             raise ValueError(f"{name} must classify terminal errors as non-retryable")
 
 
+def replay_progress(catalog, snapshot):
+    """Check TASK's normalized replay inputs without executing any Activity."""
+    validate_catalog(catalog)
+    validate_shape(CONTRACT / "replay.schema.yaml", snapshot)
+    workflows = {entry["type"]: entry["activities"] for entry in catalog["workflowTypes"].values()}
+    activities = workflows.get(snapshot["workflowType"])
+    if activities is None:
+        raise ValueError("Unknown workflow type")
+    steps = {}
+    keys = {}
+    for step in snapshot["steps"]:
+        identifier = step["stepId"]
+        if identifier in steps or step["activity"] not in activities or not set(step["dependsOn"]).issubset(steps):
+            raise ValueError("The accepted plan has a duplicate, unknown, or unordered step")
+        steps[identifier] = step
+        keys[identifier] = ":".join((snapshot["taskId"], snapshot["planId"], str(snapshot["planVersion"]),
+                                    identifier, step["activity"]))
+
+    recorded = set()
+    completed = {}
+    for entry in snapshot["recorded"]:
+        identifier = entry["stepId"]
+        if (identifier not in steps or identifier in recorded or keys[identifier] != entry["idempotencyKey"]
+                or snapshot["policyVersionId"] != entry["policyVersionId"]
+                or not set(steps[identifier]["dependsOn"]).issubset(completed)):
+            raise ValueError("Recorded history does not match the accepted plan or policy")
+        recorded.add(identifier)
+        if entry["status"] == "COMPLETED":
+            completed[identifier] = entry["outcomeRef"]
+
+    ready = []
+    if snapshot["cancellationRequested"]:
+        status = "CANCELLATION_PENDING"
+    elif len(completed) == len(steps):
+        status = "RECONCILE_WITH_TASK"
+    else:
+        status = "EXECUTING"
+        ready = [{"stepId": key, "idempotencyKey": keys[key]} for key, step in steps.items()
+                 if key not in recorded and set(step["dependsOn"]).issubset(completed)]
+    return {"status": status, "recordedOutcomes": completed, "readySteps": ready}
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("policy", type=Path, help="Versioned JSON deployment policy to validate")
+    parser.add_argument("--replay", type=Path, help="Normalized accepted plan and recorded progress to validate")
     args = parser.parse_args()
     try:
         catalog = yaml.load((CONTRACT / "catalog.yaml").read_text(encoding="utf-8"), Loader=UniqueCatalogLoader)
@@ -81,10 +117,13 @@ def main():
         policy = json.loads(raw_policy, object_pairs_hook=unique_mapping)
         validate_catalog(catalog)
         validate_activity_options(policy)
+        result = {"workflowTypes": len(catalog["workflowTypes"]), "policyVersion": policy["policyVersion"],
+                  "policySha256": "sha256:" + sha256(raw_policy).hexdigest()}
+        if args.replay:
+            result["replay"] = replay_progress(catalog, read_json(args.replay))
     except (OSError, ValueError, yaml.YAMLError) as error:
         parser.exit(1, f"{error}\n")
-    print(json.dumps({"workflowTypes": len(catalog["workflowTypes"]), "policyVersion": policy["policyVersion"],
-                      "policySha256": "sha256:" + sha256(raw_policy).hexdigest()}))
+    print(json.dumps(result))
 
 
 if __name__ == "__main__":

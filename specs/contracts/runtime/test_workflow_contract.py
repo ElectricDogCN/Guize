@@ -4,14 +4,17 @@ import unittest
 
 import yaml
 
-from check_workflow_contract import CONTRACT, UniqueCatalogLoader, unique_mapping, validate_activity_options, validate_catalog
+from check_workflow_contract import CONTRACT, UniqueCatalogLoader, replay_progress, validate_activity_options, validate_catalog
+from validation import read_json, unique_mapping
+
+FIXTURES = Path(__file__).parent / "fixtures"
 
 
 class WorkflowContractTests(unittest.TestCase):
     def setUp(self):
         self.catalog = yaml.load((CONTRACT / "catalog.yaml").read_text(encoding="utf-8"), Loader=UniqueCatalogLoader)
-        fixture = Path(__file__).parent / "fixtures" / "workflow-policy-v1.json"
-        self.policy = json.loads(fixture.read_bytes())
+        self.policy = read_json(FIXTURES / "workflow-policy-v1.json")
+        self.replay = read_json(FIXTURES / "workflow-replay-v1.json")
 
     def test_registered_catalog_and_versioned_fixture(self):
         validate_catalog(self.catalog)
@@ -55,6 +58,53 @@ class WorkflowContractTests(unittest.TestCase):
             json.loads('{"maximumAttempts":1,"maximumAttempts":0}', object_pairs_hook=unique_mapping)
         with self.assertRaisesRegex(ValueError, "Duplicate configuration field"):
             yaml.load("workflowTypes: {}\nworkflowTypes: {}\n", Loader=UniqueCatalogLoader)
+
+    def test_replay_reuses_outcomes_and_schedules_only_unrecorded_ready_steps(self):
+        expected = {
+            "status": "EXECUTING",
+            "recordedOutcomes": {"step_probe": "out_probe"},
+            "readySteps": [{"stepId": "step_b", "idempotencyKey": "task_replay:plan_replay:1:step_b:transcode"}],
+        }
+        self.assertEqual(replay_progress(self.catalog, self.replay), expected)
+        self.assertEqual(replay_progress(self.catalog, self.replay), expected)
+
+    def test_cancellation_stops_new_work_and_keeps_recorded_outcomes(self):
+        self.replay["cancellationRequested"] = True
+        self.assertEqual(replay_progress(self.catalog, self.replay), {
+            "status": "CANCELLATION_PENDING", "recordedOutcomes": {"step_probe": "out_probe"}, "readySteps": [],
+        })
+
+    def test_completed_plan_requires_reconciliation_with_task(self):
+        entries = self.replay["recorded"]
+        entries[1].update(status="COMPLETED", outcomeRef="out_a")
+        entries.extend([
+            {"stepId": "step_b", "idempotencyKey": "task_replay:plan_replay:1:step_b:transcode",
+             "policyVersionId": "polv_01", "status": "COMPLETED", "outcomeRef": "out_b"},
+            {"stepId": "step_publish", "idempotencyKey": "task_replay:plan_replay:1:step_publish:publish",
+             "policyVersionId": "polv_01", "status": "COMPLETED", "outcomeRef": "out_publish"},
+        ])
+        self.assertEqual(replay_progress(self.catalog, self.replay), {
+            "status": "RECONCILE_WITH_TASK", "readySteps": [],
+            "recordedOutcomes": {"step_probe": "out_probe", "step_a": "out_a", "step_b": "out_b",
+                                 "step_publish": "out_publish"},
+        })
+
+    def test_replay_rejects_changed_policy_key_and_unready_or_duplicate_records(self):
+        original = self.replay["recorded"]
+        for invalid in (
+            [dict(original[0], policyVersionId="polv_other"), original[1]],
+            [dict(original[0], idempotencyKey="task_replay:plan_replay:2:step_probe:probe"), original[1]],
+            list(reversed(original)),
+            [original[0], original[0], original[1]],
+        ):
+            self.replay["recorded"] = invalid
+            with self.subTest(recorded=invalid), self.assertRaisesRegex(ValueError, "Recorded history"):
+                replay_progress(self.catalog, self.replay)
+
+    def test_replay_rejects_unordered_plan(self):
+        self.replay["steps"].reverse()
+        with self.assertRaisesRegex(ValueError, "unordered step"):
+            replay_progress(self.catalog, self.replay)
 
 
 if __name__ == "__main__":

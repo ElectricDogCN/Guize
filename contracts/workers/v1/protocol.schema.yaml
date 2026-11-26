@@ -1,0 +1,176 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Guize Worker V1 execution exchange
+oneOf:
+  - {$ref: '#/$defs/offer'}
+  - {$ref: '#/$defs/message'}
+  - {$ref: '#/$defs/resourceObservation'}
+$defs:
+  id: {type: string, pattern: '^[a-z]{2,12}_[A-Za-z0-9_-]{1,64}$'}
+  version: {type: string, pattern: '^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$'}
+  sha: {type: string, pattern: '^[a-f0-9]{64}$'}
+  count: {type: integer, minimum: 0, maximum: 9007199254740991}
+  sequence: {type: integer, minimum: 1, maximum: 9007199254740991}
+  time: {type: string, format: date-time}
+  resources:
+    type: object
+    additionalProperties: false
+    required: [codecSlots, memoryBytes, scratchBytes, cpuMillis, networkBytes, costMicrounits, backgroundMillis]
+    properties:
+      codecSlots: {$ref: '#/$defs/count'}
+      memoryBytes: {$ref: '#/$defs/count'}
+      scratchBytes: {$ref: '#/$defs/count'}
+      cpuMillis: {$ref: '#/$defs/count'}
+      networkBytes: {$ref: '#/$defs/count'}
+      costMicrounits: {$ref: '#/$defs/count'}
+      backgroundMillis: {$ref: '#/$defs/count'}
+  binding:
+    type: object
+    additionalProperties: false
+    required: [taskId, planId, planVersion, stepId, stepVersion, attemptId, nodeId, fencing,
+               protocolVersion, capabilityId, capabilityVersion, executionGroupId, packageSha256,
+               inputVersionId, inputSha256]
+    properties:
+      taskId: {$ref: '#/$defs/id'}
+      planId: {$ref: '#/$defs/id'}
+      planVersion: {$ref: '#/$defs/sequence'}
+      stepId: {$ref: '#/$defs/id'}
+      stepVersion: {$ref: '#/$defs/sequence'}
+      attemptId: {$ref: '#/$defs/id'}
+      nodeId: {$ref: '#/$defs/id'}
+      fencing: {$ref: '#/$defs/sequence'}
+      protocolVersion: {$ref: '#/$defs/version'}
+      capabilityId: {$ref: '#/$defs/id'}
+      capabilityVersion: {$ref: '#/$defs/version'}
+      executionGroupId: {$ref: '#/$defs/id'}
+      packageSha256: {$ref: '#/$defs/sha'}
+      inputVersionId: {$ref: '#/$defs/id'}
+      inputSha256: {$ref: '#/$defs/sha'}
+  offer:
+    type: object
+    additionalProperties: false
+    required: [schemaVersion, kind, binding, lease, grant, reservationId, budget, priority, policyBinding, maximumProcessedUnits, checkpointMode]
+    properties:
+      schemaVersion: {const: 1}
+      kind: {const: offer}
+      binding: {$ref: '#/$defs/binding'}
+      lease:
+        type: object
+        additionalProperties: false
+        required: [id, issuedAt, expiresAt]
+        properties:
+          id: {$ref: '#/$defs/id'}
+          issuedAt: {$ref: '#/$defs/time'}
+          expiresAt: {$ref: '#/$defs/time'}
+      grant:
+        type: object
+        additionalProperties: false
+        required: [id, leaseId, expiresAt, inputRef, inputByteCount, outputScopeId, maximumOutputBytes, destinations]
+        properties:
+          id: {$ref: '#/$defs/id'}
+          leaseId: {$ref: '#/$defs/id'}
+          expiresAt: {$ref: '#/$defs/time'}
+          inputRef: {$ref: '#/$defs/id'}
+          inputByteCount: {$ref: '#/$defs/sequence'}
+          outputScopeId: {$ref: '#/$defs/id'}
+          maximumOutputBytes: {$ref: '#/$defs/sequence'}
+          destinations:
+            type: array
+            uniqueItems: true
+            items: {$ref: '#/$defs/id'}
+          inputFrameSpan:
+            type: object
+            additionalProperties: false
+            required: [firstFrame, frameCount]
+            properties:
+              firstFrame: {$ref: '#/$defs/count'}
+              frameCount: {$ref: '#/$defs/sequence'}
+      reservationId: {$ref: '#/$defs/id'}
+      budget: {$ref: '#/$defs/resources'}
+      priority: {type: integer, minimum: 0, maximum: 8}
+      policyBinding:
+        type: object
+        additionalProperties: false
+        required: [policyId, policyVersionId, policySha256, decisionTraceId, action]
+        properties:
+          policyId: {$ref: '#/$defs/id'}
+          policyVersionId: {$ref: '#/$defs/id'}
+          policySha256: {$ref: '#/$defs/sha'}
+          decisionTraceId: {$ref: '#/$defs/id'}
+          action: {type: string, pattern: '^[A-Z][A-Z0-9_]{0,31}$'}
+      maximumProcessedUnits: {$ref: '#/$defs/sequence'}
+      checkpointMode: {enum: [NONE, INDEPENDENT_UNIT]}
+  resourceObservation:
+    type: object
+    additionalProperties: false
+    required: [schemaVersion, kind, nodeId, executionGroupId, sampledAt, receivedAt, expiresAt, status]
+    properties:
+      schemaVersion: {const: 1}
+      kind: {const: resourceObservation}
+      nodeId: {$ref: '#/$defs/id'}
+      executionGroupId: {$ref: '#/$defs/id'}
+      sampledAt: {$ref: '#/$defs/time'}
+      receivedAt: {$ref: '#/$defs/time'}
+      expiresAt: {$ref: '#/$defs/time'}
+      status: {enum: [AVAILABLE, UNAVAILABLE]}
+      available: {$ref: '#/$defs/resources'}
+      reason: {enum: [PROBE_UNAVAILABLE, DISABLED, BACKGROUND_QUOTA, TELEMETRY_MISSING]}
+    if: {properties: {status: {const: AVAILABLE}}}
+    then: {required: [available], not: {required: [reason]}}
+    else: {required: [reason], not: {required: [available]}}
+  message:
+    type: object
+    additionalProperties: false
+    required: [schemaVersion, kind, operation, nodeSessionId, executionLeaseId, binding, payload]
+    properties:
+      schemaVersion: {const: 1}
+      kind: {const: message}
+      operation: {enum: [CLAIM, RENEW, PROGRESS, CANCEL_ACK, SUBMIT]}
+      nodeSessionId: {$ref: '#/$defs/id'}
+      executionLeaseId: {$ref: '#/$defs/id'}
+      binding: {$ref: '#/$defs/binding'}
+      payload: {type: object}
+    allOf:
+      - if: {properties: {operation: {enum: [CLAIM, RENEW]}}}
+        then: {properties: {payload: {maxProperties: 0}}}
+      - if: {properties: {operation: {const: PROGRESS}}}
+        then:
+          properties:
+            payload:
+              additionalProperties: false
+              required: [sequence, processedUnits]
+              properties:
+                sequence: {$ref: '#/$defs/sequence'}
+                processedUnits: {$ref: '#/$defs/count'}
+                checkpointRef: {$ref: '#/$defs/id'}
+      - if: {properties: {operation: {const: CANCEL_ACK}}}
+        then:
+          properties:
+            payload:
+              additionalProperties: false
+              required: [cancellationId, stopped]
+              properties:
+                cancellationId: {$ref: '#/$defs/id'}
+                stopped: {const: true}
+      - if: {properties: {operation: {const: SUBMIT}}}
+        then:
+          properties:
+            payload:
+              oneOf:
+                - type: object
+                  additionalProperties: false
+                  required: [outcome, artifactManifestId, artifactManifestSha256, outputScopeId, byteCount, usage]
+                  properties:
+                    outcome: {const: SUCCEEDED}
+                    artifactManifestId: {$ref: '#/$defs/id'}
+                    artifactManifestSha256: {$ref: '#/$defs/sha'}
+                    outputScopeId: {$ref: '#/$defs/id'}
+                    byteCount: {$ref: '#/$defs/sequence'}
+                    usage: {$ref: '#/$defs/resources'}
+                - type: object
+                  additionalProperties: false
+                  required: [outcome, error, usage]
+                  properties:
+                    outcome: {const: FAILED}
+                    error: {enum: [TRANSIENT_FAILURE, CAPABILITY_UNAVAILABLE, INVALID_INPUT, RESOURCE_EXHAUSTED,
+                                   PROCESS_ABORTED, AUTHORIZATION_LOST, UNSUPPORTED_CHECKPOINT]}
+                    usage: {$ref: '#/$defs/resources'}

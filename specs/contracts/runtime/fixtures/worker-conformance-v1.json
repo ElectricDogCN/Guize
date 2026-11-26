@@ -1,0 +1,560 @@
+{
+  "schemaVersion": 1,
+  "offer": {
+    "schemaVersion": 1,
+    "kind": "offer",
+    "binding": {
+      "taskId": "task_play",
+      "planId": "plan_one",
+      "planVersion": 1,
+      "stepId": "step_span",
+      "stepVersion": 1,
+      "attemptId": "attempt_two",
+      "nodeId": "node_pc",
+      "fencing": 2,
+      "protocolVersion": "worker-v1",
+      "capabilityId": "cap_av1",
+      "capabilityVersion": "1.0.0",
+      "executionGroupId": "group_av1",
+      "packageSha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "inputVersionId": "assetv_01",
+      "inputSha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+    },
+    "lease": {
+      "id": "lease_exec",
+      "issuedAt": "2026-11-26T17:00:00Z",
+      "expiresAt": "2026-11-26T17:00:20Z"
+    },
+    "grant": {
+      "id": "grant_exec",
+      "leaseId": "lease_exec",
+      "expiresAt": "2026-11-26T17:00:45Z",
+      "inputRef": "input_span",
+      "inputByteCount": 90000,
+      "inputFrameSpan": {
+        "firstFrame": 120,
+        "frameCount": 6
+      },
+      "outputScopeId": "scope_segment",
+      "maximumOutputBytes": 16384,
+      "destinations": []
+    },
+    "reservationId": "res_one",
+    "budget": {
+      "codecSlots": 1,
+      "memoryBytes": 268435456,
+      "scratchBytes": 8388608,
+      "cpuMillis": 1000,
+      "networkBytes": 524288,
+      "costMicrounits": 0,
+      "backgroundMillis": 10000
+    },
+    "priority": 0,
+    "maximumProcessedUnits": 6,
+    "checkpointMode": "NONE",
+    "policyBinding": {
+      "policyId": "policy_playback",
+      "policyVersionId": "polv_01",
+      "decisionTraceId": "trace_fixture",
+      "action": "BATCH_TRANSCODE",
+      "policySha256": "342a1d9ba486e3d9676c88e71dc8145b54af4afa9491afc9092dd319bc02826b"
+    }
+  },
+  "message": {
+    "schemaVersion": 1,
+    "kind": "message",
+    "operation": "SUBMIT",
+    "nodeSessionId": "session_worker",
+    "executionLeaseId": "lease_exec",
+    "binding": {
+      "taskId": "task_play",
+      "planId": "plan_one",
+      "planVersion": 1,
+      "stepId": "step_span",
+      "stepVersion": 1,
+      "attemptId": "attempt_two",
+      "nodeId": "node_pc",
+      "fencing": 2,
+      "protocolVersion": "worker-v1",
+      "capabilityId": "cap_av1",
+      "capabilityVersion": "1.0.0",
+      "executionGroupId": "group_av1",
+      "packageSha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "inputVersionId": "assetv_01",
+      "inputSha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+    },
+    "payload": {
+      "outcome": "SUCCEEDED",
+      "artifactManifestId": "manifest_01",
+      "artifactManifestSha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+      "outputScopeId": "scope_segment",
+      "byteCount": 3981,
+      "usage": {
+        "codecSlots": 1,
+        "memoryBytes": 268435456,
+        "scratchBytes": 8388608,
+        "cpuMillis": 321,
+        "networkBytes": 4021,
+        "costMicrounits": 0,
+        "backgroundMillis": 10000
+      }
+    }
+  },
+  "trusted": {
+    "now": "2026-11-26T17:00:10Z",
+    "session": {
+      "id": "session_worker",
+      "nodeId": "node_pc",
+      "verified": true,
+      "expiresAt": "2026-11-26T17:00:59Z"
+    },
+    "release": {
+      "protocolVersion": "worker-v1",
+      "capabilityId": "cap_av1",
+      "capabilityVersion": "1.0.0",
+      "executionGroupId": "group_av1",
+      "packageSha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    },
+    "state": "RUNNING",
+    "grantActive": true,
+    "reservation": {
+      "id": "res_one",
+      "nodeId": "node_pc",
+      "active": true,
+      "budget": {
+        "codecSlots": 1,
+        "memoryBytes": 268435456,
+        "scratchBytes": 8388608,
+        "cpuMillis": 1000,
+        "networkBytes": 524288,
+        "costMicrounits": 0,
+        "backgroundMillis": 10000
+      },
+      "expiresAt": "2026-11-26T17:00:45Z"
+    },
+    "observation": {
+      "schemaVersion": 1,
+      "kind": "resourceObservation",
+      "nodeId": "node_pc",
+      "executionGroupId": "group_av1",
+      "sampledAt": "2026-11-26T17:00:00Z",
+      "receivedAt": "2026-11-26T17:00:01Z",
+      "expiresAt": "2026-11-26T17:00:17Z",
+      "status": "AVAILABLE",
+      "available": {
+        "codecSlots": 1,
+        "memoryBytes": 268435456,
+        "scratchBytes": 8388608,
+        "cpuMillis": 1000,
+        "networkBytes": 524288,
+        "costMicrounits": 0,
+        "backgroundMillis": 10000
+      }
+    },
+    "renewUntil": "2026-11-26T17:00:30Z",
+    "executionDeadline": "2026-11-26T17:00:44Z",
+    "lastProgressSequence": 1,
+    "lastProcessedUnits": 1,
+    "verifiedArtifact": {
+      "artifactManifestId": "manifest_01",
+      "artifactManifestSha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+      "outputScopeId": "scope_segment",
+      "byteCount": 3981
+    },
+    "admittedPolicy": {
+      "binding": {
+        "policyId": "policy_playback",
+        "policyVersionId": "polv_01",
+        "decisionTraceId": "trace_fixture",
+        "action": "BATCH_TRANSCODE",
+        "policySha256": "342a1d9ba486e3d9676c88e71dc8145b54af4afa9491afc9092dd319bc02826b"
+      },
+      "priority": 0
+    }
+  },
+  "cases": [
+    {
+      "name": "priority-outside-policy-decision",
+      "trusted": {
+        "admittedPolicy": {
+          "priority": 3
+        }
+      },
+      "expected": "POLICY_BINDING_MISMATCH"
+    },
+    {
+      "name": "execution-lease-outside-task-deadline",
+      "trusted": {
+        "executionDeadline": "2026-11-26T17:00:19Z"
+      },
+      "expected": "LEASE_OUTSIDE_DEADLINE"
+    },
+    {
+      "name": "execution-lease-cannot-double-as-node-session",
+      "message": {
+        "nodeSessionId": "lease_exec"
+      },
+      "trusted": {
+        "session": {
+          "id": "lease_exec"
+        }
+      },
+      "expected": "NODE_SESSION_REQUIRED"
+    },
+    {
+      "name": "claim",
+      "message": {
+        "operation": "CLAIM",
+        "payload": {}
+      },
+      "trusted": {
+        "state": "OFFERED"
+      },
+      "expected": "CLAIM_ACCEPTABLE"
+    },
+    {
+      "name": "stale-observation",
+      "message": {
+        "operation": "CLAIM",
+        "payload": {}
+      },
+      "trusted": {
+        "state": "OFFERED",
+        "now": "2026-11-26T17:00:18Z"
+      },
+      "expected": "RESOURCE_OBSERVATION_STALE"
+    },
+    {
+      "name": "budget-not-available",
+      "message": {
+        "operation": "CLAIM",
+        "payload": {}
+      },
+      "trusted": {
+        "state": "OFFERED",
+        "observation": {
+          "available": {
+            "codecSlots": 0,
+            "memoryBytes": 268435456,
+            "scratchBytes": 8388608,
+            "cpuMillis": 1000,
+            "networkBytes": 524288,
+            "costMicrounits": 0,
+            "backgroundMillis": 10000
+          }
+        }
+      },
+      "expected": "RESOURCE_LIMIT_EXCEEDED"
+    },
+    {
+      "name": "wrong-observation-node",
+      "message": {
+        "operation": "CLAIM",
+        "payload": {}
+      },
+      "trusted": {
+        "state": "OFFERED",
+        "observation": {
+          "nodeId": "node_other"
+        }
+      },
+      "expected": "RESOURCE_SCOPE_MISMATCH"
+    },
+    {
+      "name": "heartbeat-alone",
+      "message": {
+        "operation": "CLAIM",
+        "executionLeaseId": "lease_identity",
+        "payload": {}
+      },
+      "trusted": {
+        "state": "OFFERED"
+      },
+      "expected": "EXECUTION_LEASE_MISMATCH"
+    },
+    {
+      "name": "expired-node-identity",
+      "trusted": {
+        "session": {
+          "expiresAt": "2026-11-26T17:00:10Z"
+        }
+      },
+      "expected": "NODE_SESSION_REQUIRED"
+    },
+    {
+      "name": "released-budget",
+      "trusted": {
+        "reservation": {
+          "active": false
+        }
+      },
+      "expected": "RESERVATION_INACTIVE"
+    },
+    {
+      "name": "revoked-grant",
+      "trusted": {
+        "grantActive": false
+      },
+      "expected": "GRANT_INACTIVE"
+    },
+    {
+      "name": "wrong-protocol",
+      "message": {
+        "binding": {
+          "protocolVersion": "worker-next"
+        }
+      },
+      "expected": "PROTOCOL_UNSUPPORTED"
+    },
+    {
+      "name": "wrong-capability",
+      "message": {
+        "binding": {
+          "capabilityVersion": "2.0.0"
+        }
+      },
+      "expected": "CAPABILITY_MISMATCH"
+    },
+    {
+      "name": "wrong-package",
+      "message": {
+        "binding": {
+          "packageSha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+        }
+      },
+      "expected": "CAPABILITY_MISMATCH"
+    },
+    {
+      "name": "wrong-input",
+      "message": {
+        "binding": {
+          "inputSha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+        }
+      },
+      "expected": "BINDING_MISMATCH"
+    },
+    {
+      "name": "old-fence",
+      "message": {
+        "binding": {
+          "fencing": 1
+        }
+      },
+      "expected": "FENCING_MISMATCH"
+    },
+    {
+      "name": "expired-execution-lease",
+      "trusted": {
+        "now": "2026-11-26T17:00:20Z"
+      },
+      "expected": "EXECUTION_LEASE_EXPIRED"
+    },
+    {
+      "name": "renew",
+      "message": {
+        "operation": "RENEW",
+        "payload": {}
+      },
+      "expected": "RENEW_ACCEPTABLE"
+    },
+    {
+      "name": "renewal-exceeds-authority",
+      "message": {
+        "operation": "RENEW",
+        "payload": {}
+      },
+      "trusted": {
+        "renewUntil": "2026-11-26T17:00:45Z"
+      },
+      "expected": "RENEWAL_OUT_OF_SCOPE"
+    },
+    {
+      "name": "progress",
+      "message": {
+        "operation": "PROGRESS",
+        "payload": {
+          "sequence": 2,
+          "processedUnits": 3
+        }
+      },
+      "expected": "PROGRESS_ACCEPTABLE"
+    },
+    {
+      "name": "out-of-order",
+      "message": {
+        "operation": "PROGRESS",
+        "payload": {
+          "sequence": 1,
+          "processedUnits": 3
+        }
+      },
+      "expected": "PROGRESS_OUT_OF_ORDER"
+    },
+    {
+      "name": "progress-outside-span",
+      "message": {
+        "operation": "PROGRESS",
+        "payload": {
+          "sequence": 2,
+          "processedUnits": 7
+        }
+      },
+      "expected": "PROGRESS_OUT_OF_SCOPE"
+    },
+    {
+      "name": "unsupported-checkpoint",
+      "message": {
+        "operation": "PROGRESS",
+        "payload": {
+          "sequence": 2,
+          "processedUnits": 3,
+          "checkpointRef": "check_unit"
+        }
+      },
+      "expected": "CHECKPOINT_UNSUPPORTED"
+    },
+    {
+      "name": "cancel-ack",
+      "message": {
+        "operation": "CANCEL_ACK",
+        "payload": {
+          "cancellationId": "cancel_one",
+          "stopped": true
+        }
+      },
+      "trusted": {
+        "state": "CANCELLING",
+        "cancellationId": "cancel_one",
+        "grantActive": false
+      },
+      "expected": "CANCEL_ACK_ACCEPTABLE"
+    },
+    {
+      "name": "cancelled-result",
+      "trusted": {
+        "state": "CANCELLING",
+        "cancellationId": "cancel_one"
+      },
+      "expected": "CANCELLED"
+    },
+    {
+      "name": "successful-result",
+      "expected": "RESULT_ACCEPTABLE"
+    },
+    {
+      "name": "matching-duplicate",
+      "trusted": {
+        "state": "SUCCEEDED",
+        "acceptedResult": {
+          "outcome": "SUCCEEDED",
+          "artifactManifestId": "manifest_01",
+          "artifactManifestSha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "outputScopeId": "scope_segment",
+          "byteCount": 3981,
+          "usage": {
+            "codecSlots": 1,
+            "memoryBytes": 268435456,
+            "scratchBytes": 8388608,
+            "cpuMillis": 321,
+            "networkBytes": 4021,
+            "costMicrounits": 0,
+            "backgroundMillis": 10000
+          }
+        }
+      },
+      "expected": "ALREADY_ACCEPTED"
+    },
+    {
+      "name": "different-duplicate",
+      "trusted": {
+        "state": "SUCCEEDED",
+        "acceptedResult": {
+          "outcome": "SUCCEEDED",
+          "artifactManifestId": "manifest_01",
+          "artifactManifestSha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "outputScopeId": "scope_segment",
+          "byteCount": 4050,
+          "usage": {
+            "codecSlots": 1,
+            "memoryBytes": 268435456,
+            "scratchBytes": 8388608,
+            "cpuMillis": 321,
+            "networkBytes": 4021,
+            "costMicrounits": 0,
+            "backgroundMillis": 10000
+          }
+        }
+      },
+      "expected": "RESULT_CONFLICT"
+    },
+    {
+      "name": "unverified-result",
+      "trusted": {
+        "verifiedArtifact": {
+          "artifactManifestSha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+        }
+      },
+      "expected": "RESULT_SCOPE_MISMATCH"
+    },
+    {
+      "name": "result-over-budget",
+      "message": {
+        "payload": {
+          "outcome": "SUCCEEDED",
+          "artifactManifestId": "manifest_01",
+          "artifactManifestSha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "outputScopeId": "scope_segment",
+          "byteCount": 3981,
+          "usage": {
+            "codecSlots": 1,
+            "memoryBytes": 268435456,
+            "scratchBytes": 8388608,
+            "cpuMillis": 1001,
+            "networkBytes": 4021,
+            "costMicrounits": 0,
+            "backgroundMillis": 10000
+          }
+        }
+      },
+      "expected": "USAGE_EXCEEDED"
+    },
+    {
+      "name": "reported-transient-error",
+      "message": {
+        "payload": {
+          "outcome": "FAILED",
+          "error": "TRANSIENT_FAILURE",
+          "usage": {
+            "codecSlots": 1,
+            "memoryBytes": 268435456,
+            "scratchBytes": 8388608,
+            "cpuMillis": 321,
+            "networkBytes": 4021,
+            "costMicrounits": 0,
+            "backgroundMillis": 10000
+          }
+        }
+      },
+      "expected": "RETRYABLE_FAILURE"
+    },
+    {
+      "name": "reported-permanent-error",
+      "message": {
+        "payload": {
+          "outcome": "FAILED",
+          "error": "INVALID_INPUT",
+          "usage": {
+            "codecSlots": 1,
+            "memoryBytes": 268435456,
+            "scratchBytes": 8388608,
+            "cpuMillis": 321,
+            "networkBytes": 4021,
+            "costMicrounits": 0,
+            "backgroundMillis": 10000
+          }
+        }
+      },
+      "expected": "FAILURE_RECORDED"
+    }
+  ]
+}

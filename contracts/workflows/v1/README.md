@@ -9,3 +9,5 @@ Workflow 从 TASK 提供的同一任务、计划和计划版本执行，接受�
 取消先持久化 TASK 意图并停止派发。通过心跳或适配器通知运行中的活动，等待其取消结果；到期后的节点结果仍由 TASK 拒绝。补偿活动也受版本、授权、预算和幂等约束。Task Queue 由部署配置选择，播放优先级沿用平台 P0 至 P8。只记录可重放引用和必要公开索引，不写入内容、凭据或原始输入。升级需对受影响的历史回放并验证活动幂等。
 
 使用 [本地验证入口](../../../specs/contracts/runtime/check_workflow_contract.py) 校验固定目录和指定的部署策略。[工程基线](../../../docs/00-guize-engineering-design-baseline.md) · [Temporal Activity](https://docs.temporal.io/activity-definition)
+
+`replay.schema.yaml` 定义 TASK 提供的规范化重放输入。计划按拓扑顺序记录稳定的步骤、依赖和不可变输入引用。历史快照逐步骤绑定原策略版本和业务幂等键，已调度步骤由原执行继续，已完成的步骤读取已保留结果。独立就绪步骤可同时派发。取消意图停止生成新的派发候选，执行全部结束后仍须向 TASK 对账。

@@ -1,0 +1,294 @@
+{
+  "scope": "synthetic shape and module-isolation conformance only",
+  "lock": {
+    "schemaVersion": 1,
+    "platform": {
+      "repository": "example-fixture/Guize",
+      "commit": "1111111111111111111111111111111111111111",
+      "version": "1.0.0"
+    },
+    "workerProtocol": {
+      "version": "worker-v1",
+      "sdkVersion": "1.0.0",
+      "schemaSha256": "0567c0aca3d306233e0ff8205f8afb7a5d19297485bfcee797682088f22c0dce",
+      "sdkSha256": "f91a958b388af672e2e978de4786ba2691274a791df04229949f92fe6e2e11ad",
+      "conformanceSha256": "fcd0fd57d929b711e1179c26c690727b66ac8e933216d4e465c6ea20e7f26362"
+    },
+    "nodeReleases": [
+      {
+        "target": "android",
+        "artifact": {
+          "repository": "example-fixture/guize-edge-runtime",
+          "commit": "f60ed56a9c8275894022fe5a7a1625c33bdb55b7",
+          "taskId": "GZ-024",
+          "version": "1.0.0",
+          "artifactSha256": "83c6f3d82daf4d4c3de2d938d7e1cc1184dc1d9ea7ae4912fea80db2b1403fec",
+          "evidenceSha256": "29bc8d751bb477aebb0591ca868cfa9bbe044c94e128aa935e6773f30a3a91d4",
+          "signingEvidenceSha256": "c9938fb9de6c786805a6ebf42228e6598e2620f76b51777b9fcd7c432df8bdaa",
+          "sbomSha256": "75049bf4017e4926369808787d5fa28ff035b4c841efb12557462bc2a4109d97",
+          "license": "CC0-1.0"
+        },
+        "supportedProtocols": [
+          "worker-v1"
+        ]
+      },
+      {
+        "target": "windows",
+        "artifact": {
+          "repository": "example-fixture/guize-edge-runtime",
+          "commit": "340d600392818df2413382dc7d8325c360d83ea4",
+          "taskId": "GZ-024",
+          "version": "1.0.0",
+          "artifactSha256": "a67bfa47f25964fecfae959de714d0d7cdedfb03c050b7951c2d47ee6feb9e4b",
+          "evidenceSha256": "f2fb8c2d20173c687671587c1a1facd9fe6588a0b14aec6b673c39710ab23808",
+          "signingEvidenceSha256": "101fea71d4658d8063391840f50ce6d65731630e7fd9d784e8e6cd2d18904b69",
+          "sbomSha256": "74bdf6fe14f54c0a8e58bfdf4b9cba54a15ec6d55f4ffd1b1493cf913cfe1e9f",
+          "license": "CC0-1.0"
+        },
+        "supportedProtocols": [
+          "worker-v1"
+        ]
+      },
+      {
+        "target": "linux",
+        "artifact": {
+          "repository": "example-fixture/guize-edge-runtime",
+          "commit": "caf90169eefa5f807d577486b9f795ab86ae2983",
+          "taskId": "GZ-024",
+          "version": "1.0.0",
+          "artifactSha256": "67c4e8984dd09fc23ac0301024780564a53dcba42e478d60958345c710adda2f",
+          "evidenceSha256": "7fbedade79b17f925558b28f90f1a4d61164e25572348d7552218062587115eb",
+          "signingEvidenceSha256": "1a11cfc2c73930b8d25f036b4dd7b9a7a09d6bd8f285fa2e161bd4e36e335708",
+          "sbomSha256": "5992ec74cf2219734f10e60718f206ae0ac0fa52961ea778c2c498b7679a88a9",
+          "license": "CC0-1.0"
+        },
+        "supportedProtocols": [
+          "worker-v1"
+        ]
+      }
+    ],
+    "plugins": [
+      {
+        "pluginId": "media-analysis",
+        "version": "1.0.0",
+        "manifestSha256": "1b61feefcfe033813cb0cd3c74fbe53d91b96df3dd7ec1bcdd1f0e7318de859c",
+        "manifestApiVersion": "guize.plugin/v1",
+        "platformMin": "1.0.0",
+        "platformMaxExclusive": "2.0.0",
+        "artifact": {
+          "repository": "example-fixture/guize-edge-runtime",
+          "commit": "0d7b44470ca6a65fb49f2c49a758e8581bd7497e",
+          "taskId": "GZ-024",
+          "version": "1.0.0",
+          "artifactSha256": "39c5c55044e403f87dbf5073c3b2ad16db13dd3cdccba1e7a9397044a15d3e3e",
+          "evidenceSha256": "4e13654093c43ea7c8ae154c5a8d6b6f03d988a506c87ae4010e103655ed558e",
+          "signingEvidenceSha256": "229f358003f3c20d9e3c2e2c7ce440d301fba87c7d7d18853976e402075846dd",
+          "sbomSha256": "ffd5607649671773ff26d31dfeb5072ce7cb8b095c87de9bb818b670ff232a1c",
+          "license": "CC0-1.0"
+        },
+        "packageSha256": "6f64c0531aecb6ceb35060ff6aba0197bba0fc7671317dd68cc3bb943c1dfc6a"
+      },
+      {
+        "pluginId": "offline-ocr",
+        "version": "1.0.0",
+        "manifestSha256": "05e1f056bef54b7389af864f84aef48b849403ace2118466bcf0456132636148",
+        "manifestApiVersion": "guize.plugin/v1",
+        "platformMin": "1.0.0",
+        "platformMaxExclusive": "2.0.0",
+        "artifact": {
+          "repository": "example-fixture/guize-edge-runtime",
+          "commit": "8684273bc3b0db4f80e4328ebefd40eb283beda0",
+          "taskId": "GZ-024",
+          "version": "1.0.0",
+          "artifactSha256": "6b24d7677959737a144f5c6c7f0ae779893ba98543c0abeaab7327d93b537f42",
+          "evidenceSha256": "42be30d33aceef2d647937d4789f9f37124edbddac9c08bc08537bfc3b10bd5a",
+          "signingEvidenceSha256": "53f36b826b2b44d9978a99137c63d342e54acda06f4fe3a11e1729e0ac5b2a96",
+          "sbomSha256": "225f81c8692474a6c13b175a1a4e3143a567fbe76e99bfc71774e8524d685203",
+          "license": "CC0-1.0"
+        },
+        "packageSha256": "36b1cc93a91e229ab888868b9f6385eb6015bf7a5755a197816f7c7dd1324083"
+      },
+      {
+        "pluginId": "av1-worker",
+        "version": "1.0.0",
+        "manifestApiVersion": "guize.plugin/v1",
+        "manifestSha256": "19165083f7a9596b82dd2005f712dd7800d6942df0de7e25482a2c03ed3753bb",
+        "platformMin": "1.0.0",
+        "platformMaxExclusive": "2.0.0",
+        "artifact": {
+          "repository": "example-fixture/guize-edge-runtime",
+          "commit": "3333333333333333333333333333333333333333",
+          "taskId": "GZ-024",
+          "version": "1.0.0",
+          "artifactSha256": "c7937c843dbe305e8da74b8938f77b32b799950da417dd1cf7c3c264bb313f57",
+          "license": "CC0-1.0",
+          "signingEvidenceSha256": "c94545454ede4e3b3797533d7c3a72222ff3e7d3fc1e7753975cacfc758330a1",
+          "evidenceSha256": "7360ba195593408f05a4ffe5f9a9bd66743e1a283e4c370ac3a789c5875859de",
+          "sbomSha256": "b0ec8efe19386a2f6c9fe2c09b476de647bd69b273b7791ad77231ce8bd4faf7"
+        },
+        "packageSha256": "c6e52705e07535a93967868c345986aff9773d6550af1a6a729a0f67668339c9"
+      }
+    ]
+  },
+  "inventory": {
+    "plugins": {
+      "media-analysis": {
+        "manifestFile": "media-analysis-manifest.json",
+        "artifactFile": "media-analysis-artifact.txt",
+        "packageFile": "media-analysis-package.json",
+        "packageComponents": {
+          "runtime": "media-analysis-runtime.txt",
+          "config": "media-analysis-config.json"
+        },
+        "release": {
+          "repository": "example-fixture/guize-edge-runtime",
+          "commit": "0d7b44470ca6a65fb49f2c49a758e8581bd7497e",
+          "taskId": "GZ-024",
+          "version": "1.0.0",
+          "artifactSha256": "39c5c55044e403f87dbf5073c3b2ad16db13dd3cdccba1e7a9397044a15d3e3e",
+          "evidenceSha256": "4e13654093c43ea7c8ae154c5a8d6b6f03d988a506c87ae4010e103655ed558e",
+          "signingEvidenceSha256": "229f358003f3c20d9e3c2e2c7ce440d301fba87c7d7d18853976e402075846dd",
+          "sbomSha256": "ffd5607649671773ff26d31dfeb5072ce7cb8b095c87de9bb818b670ff232a1c",
+          "license": "CC0-1.0"
+        },
+        "signatureVerified": true,
+        "health": "READY",
+        "observedCapabilities": [
+          "MEDIA_PROBE",
+          "THUMBNAIL"
+        ]
+      },
+      "offline-ocr": {
+        "manifestFile": "offline-ocr-manifest.json",
+        "artifactFile": "offline-ocr-artifact.txt",
+        "packageFile": "offline-ocr-package.json",
+        "packageComponents": {
+          "runtime": "offline-ocr-runtime.txt",
+          "config": "offline-ocr-config.json",
+          "model": "offline-ocr-model.txt"
+        },
+        "release": {
+          "repository": "example-fixture/guize-edge-runtime",
+          "commit": "8684273bc3b0db4f80e4328ebefd40eb283beda0",
+          "taskId": "GZ-024",
+          "version": "1.0.0",
+          "artifactSha256": "6b24d7677959737a144f5c6c7f0ae779893ba98543c0abeaab7327d93b537f42",
+          "evidenceSha256": "42be30d33aceef2d647937d4789f9f37124edbddac9c08bc08537bfc3b10bd5a",
+          "signingEvidenceSha256": "53f36b826b2b44d9978a99137c63d342e54acda06f4fe3a11e1729e0ac5b2a96",
+          "sbomSha256": "225f81c8692474a6c13b175a1a4e3143a567fbe76e99bfc71774e8524d685203",
+          "license": "CC0-1.0"
+        },
+        "signatureVerified": true,
+        "health": "READY",
+        "observedCapabilities": [
+          "OCR"
+        ]
+      },
+      "av1-worker": {
+        "manifestFile": "av1-worker-manifest.json",
+        "artifactFile": "av1-worker-artifact.txt",
+        "packageFile": "av1-worker-package.json",
+        "packageComponents": {
+          "runtime": "av1-worker-runtime.txt",
+          "config": "av1-worker-config.json"
+        },
+        "release": {
+          "repository": "example-fixture/guize-edge-runtime",
+          "commit": "3333333333333333333333333333333333333333",
+          "taskId": "GZ-024",
+          "version": "1.0.0",
+          "artifactSha256": "c7937c843dbe305e8da74b8938f77b32b799950da417dd1cf7c3c264bb313f57",
+          "license": "CC0-1.0",
+          "signingEvidenceSha256": "c94545454ede4e3b3797533d7c3a72222ff3e7d3fc1e7753975cacfc758330a1",
+          "evidenceSha256": "7360ba195593408f05a4ffe5f9a9bd66743e1a283e4c370ac3a789c5875859de",
+          "sbomSha256": "b0ec8efe19386a2f6c9fe2c09b476de647bd69b273b7791ad77231ce8bd4faf7"
+        },
+        "signatureVerified": true,
+        "health": "READY",
+        "observedCapabilities": [
+          "TRANSCODE"
+        ]
+      }
+    },
+    "nodes": {
+      "android": {
+        "artifactFile": "android-node.txt",
+        "release": {
+          "repository": "example-fixture/guize-edge-runtime",
+          "commit": "f60ed56a9c8275894022fe5a7a1625c33bdb55b7",
+          "taskId": "GZ-024",
+          "version": "1.0.0",
+          "artifactSha256": "83c6f3d82daf4d4c3de2d938d7e1cc1184dc1d9ea7ae4912fea80db2b1403fec",
+          "evidenceSha256": "29bc8d751bb477aebb0591ca868cfa9bbe044c94e128aa935e6773f30a3a91d4",
+          "signingEvidenceSha256": "c9938fb9de6c786805a6ebf42228e6598e2620f76b51777b9fcd7c432df8bdaa",
+          "sbomSha256": "75049bf4017e4926369808787d5fa28ff035b4c841efb12557462bc2a4109d97",
+          "license": "CC0-1.0"
+        },
+        "signatureVerified": true,
+        "health": "READY",
+        "supportedProtocols": [
+          "worker-v1"
+        ]
+      },
+      "windows": {
+        "artifactFile": "windows-node.txt",
+        "release": {
+          "repository": "example-fixture/guize-edge-runtime",
+          "commit": "340d600392818df2413382dc7d8325c360d83ea4",
+          "taskId": "GZ-024",
+          "version": "1.0.0",
+          "artifactSha256": "a67bfa47f25964fecfae959de714d0d7cdedfb03c050b7951c2d47ee6feb9e4b",
+          "evidenceSha256": "f2fb8c2d20173c687671587c1a1facd9fe6588a0b14aec6b673c39710ab23808",
+          "signingEvidenceSha256": "101fea71d4658d8063391840f50ce6d65731630e7fd9d784e8e6cd2d18904b69",
+          "sbomSha256": "74bdf6fe14f54c0a8e58bfdf4b9cba54a15ec6d55f4ffd1b1493cf913cfe1e9f",
+          "license": "CC0-1.0"
+        },
+        "signatureVerified": true,
+        "health": "READY",
+        "supportedProtocols": [
+          "worker-v1"
+        ]
+      },
+      "linux": {
+        "artifactFile": "linux-node.txt",
+        "release": {
+          "repository": "example-fixture/guize-edge-runtime",
+          "commit": "caf90169eefa5f807d577486b9f795ab86ae2983",
+          "taskId": "GZ-024",
+          "version": "1.0.0",
+          "artifactSha256": "67c4e8984dd09fc23ac0301024780564a53dcba42e478d60958345c710adda2f",
+          "evidenceSha256": "7fbedade79b17f925558b28f90f1a4d61164e25572348d7552218062587115eb",
+          "signingEvidenceSha256": "1a11cfc2c73930b8d25f036b4dd7b9a7a09d6bd8f285fa2e161bd4e36e335708",
+          "sbomSha256": "5992ec74cf2219734f10e60718f206ae0ac0fa52961ea778c2c498b7679a88a9",
+          "license": "CC0-1.0"
+        },
+        "signatureVerified": true,
+        "health": "READY",
+        "supportedProtocols": [
+          "worker-v1"
+        ]
+      }
+    }
+  },
+  "assets": {
+    "media-analysis-runtime.txt": "synthetic media-analysis runtime marker\n",
+    "media-analysis-config.json": "{\"fixture\":\"media-analysis\"}\n",
+    "media-analysis-artifact.txt": "synthetic media-analysis package artifact\n",
+    "media-analysis-manifest.json": "{\"apiVersion\":\"guize.plugin/v1\",\"kind\":\"WorkerCapability\",\"metadata\":{\"id\":\"media-analysis\",\"version\":\"1.0.0\"},\"spec\":{\"capabilities\":[\"MEDIA_PROBE\",\"THUMBNAIL\"],\"permissions\":{\"network\":[\"LOOPBACK\"]},\"runtime\":{\"mode\":\"EXTERNAL_SERVICE\"}}}\n",
+    "media-analysis-package.json": "{\"capabilityId\":\"cap_media_analysis\",\"checkpointMode\":\"NONE\",\"configSha256\":\"f63fadbbe59d32daabed13cc489b71899c7728d3adfb839c88efca1dc982780e\",\"executionGroupId\":\"group_media_analysis\",\"kind\":\"MEDIA_ANALYSIS\",\"license\":\"CC0-1.0\",\"network\":\"OFFLINE\",\"outputContractId\":\"output_media_analysis\",\"qualityProfileId\":\"quality_fixture\",\"runtimeSha256\":\"d69eaa897ebb9bb456a9db1d5311f1e3a29ee934580837a2fb39705964c00ac6\",\"samplingProfileId\":\"sample_fixture\",\"schemaVersion\":1,\"sourceAuthorization\":\"INHERITED\",\"version\":\"1.0.0\"}\n",
+    "offline-ocr-runtime.txt": "synthetic offline-ocr runtime marker\n",
+    "offline-ocr-config.json": "{\"fixture\":\"offline-ocr\"}\n",
+    "offline-ocr-model.txt": "synthetic model marker\n",
+    "offline-ocr-artifact.txt": "synthetic offline-ocr package artifact\n",
+    "offline-ocr-manifest.json": "{\"apiVersion\":\"guize.plugin/v1\",\"kind\":\"WorkerCapability\",\"metadata\":{\"id\":\"offline-ocr\",\"version\":\"1.0.0\"},\"spec\":{\"capabilities\":[\"OCR\"],\"permissions\":{\"network\":[\"LOOPBACK\"]},\"runtime\":{\"mode\":\"EXTERNAL_SERVICE\"}}}\n",
+    "offline-ocr-package.json": "{\"capabilityId\":\"cap_offline_ocr\",\"checkpointMode\":\"NONE\",\"configSha256\":\"557eccb98da8a5af50344570cdbb62449098aed8b41575f61f6e06e4398f3b7e\",\"executionGroupId\":\"group_offline_ocr\",\"kind\":\"OFFLINE_OCR\",\"license\":\"CC0-1.0\",\"model\":{\"id\":\"model_fixture\",\"license\":\"CC0-1.0\",\"sha256\":\"c38b19fec95cf9b9ca7d85dc33c00d44a52eb62269c2a160bbe1d91970158709\"},\"network\":\"OFFLINE\",\"outputContractId\":\"output_offline_ocr\",\"qualityProfileId\":\"quality_fixture\",\"runtimeSha256\":\"45f2c6b1391cc4f7de81d2fd5e106d7f9b9ed814c6468c0ae3b85a6685e3208c\",\"schemaVersion\":1,\"sourceAuthorization\":\"INHERITED\",\"version\":\"1.0.0\"}\n",
+    "android-node.txt": "synthetic android adapter marker\n",
+    "windows-node.txt": "synthetic windows adapter marker\n",
+    "linux-node.txt": "synthetic linux adapter marker\n",
+    "av1-worker-runtime.txt": "synthetic av1 runtime marker\n",
+    "av1-worker-config.json": "{\"fixture\":\"av1-encode\"}\n",
+    "av1-worker-artifact.txt": "synthetic av1 artifact marker\n",
+    "av1-worker-manifest.json": "{\"apiVersion\":\"guize.plugin/v1\",\"kind\":\"WorkerCapability\",\"metadata\":{\"id\":\"av1-worker\",\"version\":\"1.0.0\"},\"spec\":{\"capabilities\":[\"TRANSCODE\"],\"permissions\":{\"network\":[\"LOOPBACK\"]},\"runtime\":{\"mode\":\"EXTERNAL_SERVICE\"}}}\n",
+    "av1-worker-package.json": "{\"capabilityId\":\"cap_av1\",\"checkpointMode\":\"NONE\",\"configSha256\":\"8dfd1609dbc9cdab1f6c19083c878f1814dcf71cbc05a0d8a0eb4d8dc8a2bea2\",\"executionGroupId\":\"group_av1\",\"kind\":\"AV1_ENCODE\",\"license\":\"CC0-1.0\",\"network\":\"OFFLINE\",\"outputContractId\":\"output_av1\",\"runtimeSha256\":\"7e51da473131458c033f9ab52dfcfb3300872173b2d8e2136594a156da8ad705\",\"schemaVersion\":1,\"version\":\"1.0.0\"}\n"
+  }
+}
