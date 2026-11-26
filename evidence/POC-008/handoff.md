@@ -41,4 +41,4 @@ React 和 Vue 各自构建独立输出，从同一份固定样本运行十个场
 
 这些试跑验证原型、动作驱动与原始输出结构。正式比较将采用已锁定的资源、样本、框架与浏览器版本、独立的评估角色和共同实验窗口。在正式归档中保留完整编译输出、两类传输的回连记录、DOM 读回、三项维护准则和结论依据。
 
-实施阶段先合并原型与采集工具，随后对受测源、资源配置、样本、执行窗口、阈值及人员独立复核。同一固定环境执行 React 和 Vue。保存真正通过的结果，若无法区分则沿用现有基线。[浏览器驱动](https://github.com/ElectricDogCN/Guize/commit/ad14847356b3184428171658bd11eca7dd26d059) · [编译记录工具](https://github.com/ElectricDogCN/Guize/commit/e5e681ea15744f46d41d142b6fa3f8ba20fe0753)
+在已登记的工作分支先固定原型和采集工具的受测提交与树，独立复核资源配置、样本、执行窗口、阈值及评估角色后再执行正式实验。React 和 Vue 在同一固定环境构建、运行和评分。受测源码与正式证据可以在同一个 PR 接受正式审查和完整官方 CI，证据提交保留受测提交的祖先关系。若实测无法区分，两套原型继续保留结果并沿用现有基线。[浏览器驱动](https://github.com/ElectricDogCN/Guize/commit/ad14847356b3184428171658bd11eca7dd26d059) · [编译记录工具](https://github.com/ElectricDogCN/Guize/commit/e5e681ea15744f46d41d142b6fa3f8ba20fe0753)
