@@ -226,5 +226,18 @@
     "gatewayStopped": true,
     "processStopped": true,
     "cleaned": true
+  },
+  "ubuntuWslCommandPreflight": {
+    "release": "v4.2.6",
+    "archiveSha256": "2f2a5008efe45895292018479cb05556c83e828c3eed68a8b8cd3d35e82f03cb",
+    "installedExecutableMatchedArchive": true,
+    "executableSha256": "64d4f1af1097b8bccf9d6d43f9d05a1b83df50d49e4ccf3d8151a5bea7d53742",
+    "exitCode": 0,
+    "retainedResponses": 12,
+    "retainedBodies": 12,
+    "equalWindowsStatusByteCountAndBodySha256": true,
+    "equalPlaybackCacheAndCompletedSourceObservations": true,
+    "temporaryCredentialAbsentFromOutput": true,
+    "cleaned": true
   }
 }
