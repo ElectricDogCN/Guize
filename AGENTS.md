@@ -354,6 +354,7 @@ high/critical 风险任务不得由同一 Agent 同时充当唯一 Implementer �
 
 - `dependsOn` 必须存在且不得形成环；
 - 未合并的共同契约不能作为多个实现任务的隐式依赖；
+- Program 的 `parallelPolicy.activationOrder` 为 `dependencies` 时，波次用于排期。开工以实际基线已完成的依赖、契约和写入范围为准。没有该字段的旧 Program 继续按波次准入。
 - Task Spec 和活动登记保存创建分支时的 40 位 `baseSha`；
 - 进入 Review 前必须同步最新 `main` 并重新验证；
 - 同时最多 3 个活动任务；

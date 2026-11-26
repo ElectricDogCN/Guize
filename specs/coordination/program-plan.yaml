@@ -23,6 +23,7 @@ parallelPolicy:
   criticalStandalone: true
   reservationRequired: true
   independentReviewForHighRisk: true
+  activationOrder: dependencies
 foundationTasks:
   - taskId: GZ-001
     title: "仓库治理与 Agent Harness 基线"
@@ -151,7 +152,7 @@ foundationTasks:
     mergeCommit: 068fefceef9e03fa30c12fa88af53f9bfd5ad174
   - taskId: OPS-030
     title: 按已满足的依赖准入独立模块
-    status: reserved
+    status: in_progress
     completionRef: ISSUE-257
     mergeCommit: null
 waves:

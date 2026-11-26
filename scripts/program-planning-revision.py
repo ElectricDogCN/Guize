@@ -29,6 +29,9 @@ EXECUTION = {"in_progress", "integration"}
 METADATA = {PLAN, ACTIVE, LEDGER}
 EDGE_SCOPE = "AGENT-EDGE-104"
 EDGE_PLANNER = "GZ-022"
+# Actual main merge of the independently reviewed OPS-030 claim amendment.
+DEPENDENCY_ACTIVATION_SCOPE = "2cbd4ae2ec064763a25241f35ca7ffa6ce9bba71"
+DEPENDENCY_ACTIVATION_HISTORY = "scripts/check-program-plan-history.py"
 EDGE_V1_EDIT_IDS = frozenset({"GZ-006", "GZ-007", "GZ-008", "GZ-011", "GZ-012", "GZ-013", "GZ-016", "GZ-018"})
 FIRST_USE = "evidence/OPS-011/agent-edge-104-first-use.json"
 EDGE_DEFINITION = "evidence/GZ-022/agent-edge-104-definition.json"
@@ -649,6 +652,113 @@ def validate_new_consumers(root: str, base_ref: str, head_ref: str, before: dict
         unstarted(root, head_ref, after, added)
 
 
+def same_json(left: Any, right: Any) -> bool:
+    """Compare schema data while preserving scalar types."""
+    return json.dumps(left, sort_keys=True) == json.dumps(right, sort_keys=True)
+
+
+def activation_order(plan: dict[str, Any]) -> tuple[bool, Any]:
+    policy = plan.get("parallelPolicy")
+    if not isinstance(policy, dict):
+        return False, None
+    return "activationOrder" in policy, policy.get("activationOrder")
+
+
+def unchanged_completed_audit(
+    root: str, base: str, head: str, before: dict[str, Any], after: dict[str, Any],
+    prior_active: dict[str, Any], current_active: dict[str, Any], task_id: str,
+) -> bool:
+    """Recognize a read-only audit of a previously completed task."""
+    prior, current = tasks(before).get(task_id, {}), tasks(after).get(task_id, {})
+    if prior.get("status") != "completed" or not same_json(prior, current):
+        return False
+    if task_id in records(prior_active.get("tasks", [])) or task_id in records(current_active.get("tasks", [])):
+        return False
+    prior_spec, current_spec = spec(root, base, task_id), spec(root, head, task_id)
+    if prior_spec != current_spec or (prior_spec and blob(root, base, prior_spec[0]) != blob(root, head, prior_spec[0])):
+        return False
+    paths = changed_paths(root, base, head)
+    return (
+        not any(path.startswith(f"evidence/{task_id}/") or path.startswith(f"specs/tasks/{task_id}") for path in paths)
+        and blob(root, base, LEDGER) == blob(root, head, LEDGER)
+    )
+
+
+def dependency_activation_scope(
+    root: str, admitted_base: str, registration: str, original: dict[str, Any],
+) -> dict[str, Any]:
+    """Read the reviewed history claim from the immutable canonical amendment."""
+    amendment = DEPENDENCY_ACTIVATION_SCOPE
+    chain = (git(root, "rev-list", "--first-parent", f"{registration}..{admitted_base}") or "").splitlines()
+    require(amendment in chain and git(root, "rev-parse", f"{amendment}^1") == registration,
+            "Dependency activation requires its canonical history scope amendment")
+    registry = document(root, amendment, ACTIVE)
+    entry = records(registry.get("tasks", [])).get(original["taskId"])
+    expected = dict(original, baseSha=registration,
+                    exclusivePaths=[*original["exclusivePaths"], DEPENDENCY_ACTIVATION_HISTORY])
+    require(same_json(entry, expected), "Dependency activation scope changed more than its registered history claim")
+    return expected
+
+
+def dependency_activation_revision(
+    root: str, base_ref: str, head_ref: str, before: dict[str, Any], after: dict[str, Any],
+    owner_hint: str, observed_at: datetime | None, admitted_base_ref: str | None,
+) -> dict[str, Any]:
+    """Authorize only the forward switch from legacy waves to checked dependencies."""
+    owner = "OPS-030"
+    if owner_hint and owner_hint != owner:
+        require(tasks(before).get(owner_hint, {}).get("status") == "completed",
+                "Dependency activation policy requires its own registered repair")
+    require(before.get("status") == after.get("status") == "active", "Dependency activation policy requires an active Program")
+    require(activation_order(before) in ((False, None), (True, "wave"))
+            and activation_order(after) == (True, "dependencies"), "Dependency activation policy is a one-way switch")
+
+    base = git(root, "rev-parse", f"{base_ref}^{{commit}}") or ""
+    head = git(root, "rev-parse", f"{head_ref}^{{commit}}") or ""
+    admitted_base = git(root, "rev-parse", f"{admitted_base_ref or base_ref}^{{commit}}") or ""
+    require(base != head and ancestor(root, base, head) and ancestor(root, admitted_base, base),
+            "Dependency activation policy must descend from its actual registered base")
+    registration, _, original = original_registration(root, admitted_base, owner)
+    require(original.get("issue") == 257 and {PLAN, PROGRAM_SCHEMA, "AGENTS.md"} <= set(original.get("exclusivePaths", [])),
+            "Original dependency activation reservation did not claim the policy paths")
+    scope = dependency_activation_scope(root, admitted_base, registration, original)
+    prior_active = document(root, base, ACTIVE)
+    current_active = document(root, head, ACTIVE)
+    if owner_hint and owner_hint != owner:
+        require(unchanged_completed_audit(root, base, head, before, after, prior_active, current_active, owner_hint),
+                "Dependency activation policy requires its own registered repair")
+    prior_entry = records(prior_active.get("tasks", [])).get(owner)
+    entry = records(current_active.get("tasks", [])).get(owner)
+    require(prior_entry is not None and entry is not None
+            and entry.get("status") == "in_progress" and entry.get("agentRole") == "implementer"
+            and entry.get("baseSha") == admitted_base and entry.get("lease") == prior_entry.get("lease") == scope.get("lease"),
+            "Dependency activation policy requires the implementation phase on its admitted base")
+    mutable = {"status", "agentRole", "baseSha", "lease"}
+    stable_scope = {k: v for k, v in scope.items() if k not in mutable}
+    for snapshot in (prior_entry, entry):
+        require(same_json({k: v for k, v in snapshot.items() if k not in mutable}, stable_scope),
+                "Dependency activation reservation identity or claims changed")
+    ownership(root, head, entry)
+    capacity(current_active, after)
+    lease(entry, observed_at or datetime.now(timezone.utc))
+    bind_spec(root, head, owner, entry)
+    prior_foreign, current_foreign = copy.deepcopy(prior_active), copy.deepcopy(current_active)
+    for active in (prior_foreign, current_foreign):
+        active["tasks"] = [row for row in active["tasks"] if row["taskId"] != owner]
+    require(same_json(prior_foreign, current_foreign), "Dependency activation policy changed another Registry entry or policy")
+    require(blob(root, base, LEDGER) == blob(root, head, LEDGER), "Dependency activation policy changed the completion ledger")
+
+    projected = copy.deepcopy(before)
+    own = records(projected.get("foundationTasks", [])).get(owner)
+    require(own is not None and own.get("status") in {"reserved", "in_progress"},
+            "Dependency activation policy requires its own prior Foundation phase")
+    own["status"] = entry["status"]
+    expected = copy.deepcopy(projected)
+    expected["parallelPolicy"]["activationOrder"] = "dependencies"
+    require(same_json(expected, after), "Dependency activation policy changed an unrelated Program field")
+    return {"owner": owner, "registration": registration, "targetTaskIds": set(), "projectedPlan": projected}
+
+
 def classifier(root: str, base_ref: str, head_ref: str, before: dict[str, Any], after: dict[str, Any], errors: list[str], *, owner_hint: str = "", observed_at: datetime | None = None, admitted_base_ref: str | None = None) -> dict[str, Any] | None:
     """Return only a fully authenticated exact transaction projection."""
     schema_errors = ()
@@ -670,6 +780,18 @@ def classifier(root: str, base_ref: str, head_ref: str, before: dict[str, Any], 
         def scope_view(plan):
             return "scopeBoundary" in plan, plan.get("scopeBoundary")
         scope_changed = scope_view(real_before) != scope_view(real_after)
+        if activation_order(real_before) != activation_order(real_after):
+            require(same_json(before, real_before) and same_json(after, real_after),
+                    "Dependency activation views must bind the actual Git snapshots")
+            jsonschema, Registry, Resource = schema_machinery()
+            for ref, plan in ((base_ref, real_before), (head_ref, real_after)):
+                schema = document(root, ref, PROGRAM_SCHEMA)
+                registry = Registry().with_resource(schema["$id"], Resource.from_contents(schema))
+                jsonschema.Draft202012Validator(schema, registry=registry).validate(plan)
+            audit_changed_manifests(root, base_ref, head_ref, admitted_base_ref=admitted_base_ref)
+            return dependency_activation_revision(
+                root, base_ref, head_ref, before, after, owner_hint, observed_at, admitted_base_ref,
+            )
         if changed or definitions(real_before) != definitions(real_after) or scope_changed or "planningBaselines" in real_before or "planningBaselines" in real_after:
             require(before == real_before and after == real_after, "Planning/baseline views must bind the actual Git snapshots")
         audit_changed_manifests(root, base_ref, head_ref, admitted_base_ref=admitted_base_ref)
@@ -700,18 +822,8 @@ def classifier(root: str, base_ref: str, head_ref: str, before: dict[str, Any], 
         current_active = document(root, head, ACTIVE)
         eligible = [r for r in prior_active.get("tasks", []) if PLAN in r.get("exclusivePaths", []) and registered_manifest_path(root, base, r.get("taskId", "")) is not None]
         if owner_hint:
-            prior_hint, current_hint = tasks(before).get(owner_hint, {}), tasks(after).get(owner_hint, {})
-            prior_spec, current_spec = spec(root, base, owner_hint), spec(root, head, owner_hint)
-            paths = changed_paths(root, base, head)
-            historical_context = (
-                prior_hint.get("status") == current_hint.get("status") == "completed"
-                and prior_hint == current_hint
-                and owner_hint not in records(prior_active.get("tasks", []))
-                and owner_hint not in records(current_active.get("tasks", []))
-                and prior_spec == current_spec
-                and (prior_spec is None or blob(root, base, prior_spec[0]) == blob(root, head, prior_spec[0]))
-                and not any(p.startswith(f"evidence/{owner_hint}/") or p.startswith(f"specs/tasks/{owner_hint}") for p in paths)
-                and blob(root, base, LEDGER) == blob(root, head, LEDGER)
+            historical_context = unchanged_completed_audit(
+                root, base, head, before, after, prior_active, current_active, owner_hint,
             )
             if not historical_context:
                 eligible = [r for r in eligible if r["taskId"] == owner_hint]

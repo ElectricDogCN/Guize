@@ -76,7 +76,8 @@ AUDITED_OWNER_CAPACITY_FAILURES: dict[str, dict[str, Any]] = {}
 VALIDATED_TASK_SNAPSHOTS: set[tuple[str, str, str, str]] = set()
 PR_REF_RE = re.compile(r"^PR-([0-9]+)$")
 _HISTORY_BLOB_READER: ContextVar[Any] = ContextVar("guize_history_blob_reader", default=None)
-_PROGRAM_SCHEMA_TEXT_SHA256 = "06778d02cf0be4abb4edd2aa382df3056c863e7be31b0589573ddc9792116c6f"
+_PROGRAM_SCHEMA_TEXT_SHA256 = "82255c831c74aa51b98ebc5209c4430d75144d9b5ca97737c9dd7eb9710fe26f"
+_LEGACY_PROGRAM_SCHEMA_TEXT_SHA256 = "06778d02cf0be4abb4edd2aa382df3056c863e7be31b0589573ddc9792116c6f"
 _PROGRAM_STRUCTURE_LIMIT = 64
 _PROGRAM_STRUCTURE_SUCCESSES: OrderedDict[tuple[str, str], None] = OrderedDict()
 _PROGRAM_VALIDATOR = jsonschema.Draft202012Validator
@@ -437,7 +438,8 @@ def program_schema_failures(validator: Any, source_text: str, program: Any) -> l
         and _PROGRAM_VALIDATOR.evolve is _PROGRAM_EVOLVE
         and type(validator.format_checker) is jsonschema.FormatChecker
         and type(source_text) is str
-        and hashlib.sha256(source_text.encode("utf-8", errors="surrogatepass")).hexdigest() == _PROGRAM_SCHEMA_TEXT_SHA256
+        and hashlib.sha256(source_text.encode("utf-8", errors="surrogatepass")).hexdigest()
+        in {_PROGRAM_SCHEMA_TEXT_SHA256, _LEGACY_PROGRAM_SCHEMA_TEXT_SHA256}
         and _program_schema_matches_text(validator.schema, source_text)
         and type(program) is dict and program.get("status") == "active"
     )
@@ -983,15 +985,21 @@ def clean_synchronization_paths(root: str, node: str, paths: set[str], incoming:
 
 def historical_foreign_metadata(root: str, previous: str, node: str, incoming: list[str], task_id: str, errors: list[str], clean_imports: set[str], *, admitted_base: str = "") -> None:
     planning = None
-    if PLANNING.registered_manifest_path(root, node, task_id) is not None:
-        planning = PLANNING.classifier(
-            root, previous, node, load_ref(root, previous, PLAN), load_ref(root, node, PLAN), errors,
-            owner_hint=task_id, observed_at=PLANNING.commit_time(root, node),
-            admitted_base_ref=admitted_base or previous,
-        )
+    before, after = load_ref(root, previous, PLAN), load_ref(root, node, PLAN)
+    if isinstance(before, dict) and isinstance(after, dict):
+        activation_changed = PLANNING.activation_order(before) != PLANNING.activation_order(after)
+        if activation_changed or PLANNING.registered_manifest_path(root, node, task_id) is not None:
+            planning = PLANNING.classifier(
+                root, previous, node, before, after, errors,
+                owner_hint=task_id, observed_at=PLANNING.commit_time(root, node),
+                admitted_base_ref=previous if activation_changed else admitted_base or previous,
+            )
     for path, collections in ((ACTIVE, ("tasks",)), (PLAN, ("tasks", "foundationTasks"))):
         def foreign_document(ref: str) -> dict[str, Any] | None:
-            document = load_ref(root, ref, path)
+            if path == PLAN and ref in (previous, node):
+                document = before if ref == previous else after
+            else:
+                document = load_ref(root, ref, path)
             if not isinstance(document, dict):
                 return None
             document = copy.deepcopy(document)
@@ -1016,8 +1024,6 @@ def historical_foreign_metadata(root: str, previous: str, node: str, incoming: l
             # Preserve the established metadata-only freeze/thaw protocol.
             # Its owner and complete source-bound proof must validate before
             # root recovery fields can be removed from this comparison.
-            before = load_ref(root, previous, PLAN)
-            after = load_ref(root, node, PLAN)
             if isinstance(before, dict) and isinstance(after, dict) and before.get("status") != after.get("status") and task_id in {RECOVERY.recovery_owner(before), RECOVERY.recovery_owner(after)}:
                 recovery_errors: list[str] = []
                 try:
@@ -1180,7 +1186,10 @@ def checkout_task_snapshot(snapshot: str, commit: str, task_id: str) -> subproce
 
 
 _TASK_FILE_CODE_SHA256 = "2515f2d2208e5c33636ef1990f6fc6ebcc63c46e4c618cd395ed2064703f137c"
-_TASK_FILE_PLANNING_SHA256 = "ed2421fcee9b06c67fa7bff09fd63aa4034d40af21966b3cdbff1c7a6ddbcb2f"
+_TASK_FILE_PLANNING_SHA256 = {
+    "ed2421fcee9b06c67fa7bff09fd63aa4034d40af21966b3cdbff1c7a6ddbcb2f",
+    "d20645a0bc37a52620ec6ace66c1913741988b7f469ecb76eb6004836ac89a40",
+}
 
 
 @lru_cache(maxsize=2)
@@ -1211,7 +1220,7 @@ def _known_task_file_output(path: str, snapshot: str, task_id: str) -> str | Non
     with open(planning, "rb") as handle:
         planning_source = handle.read()
     if (hashlib.sha256(source).hexdigest() != _TASK_FILE_CODE_SHA256
-            or hashlib.sha256(planning_source).hexdigest() != _TASK_FILE_PLANNING_SHA256):
+            or hashlib.sha256(planning_source).hexdigest() not in _TASK_FILE_PLANNING_SHA256):
         return None
 
     # The original script imports this dependency via the standard source
@@ -1312,15 +1321,15 @@ def _ops026_snapshot_validators_match() -> bool:
 
 def _pinned_snapshot_validators_match(scripts: str) -> bool:
     pins = {
-        "check-task-file.py": _TASK_FILE_CODE_SHA256,
+        "check-task-file.py": {_TASK_FILE_CODE_SHA256},
         "program-planning-revision.py": _TASK_FILE_PLANNING_SHA256,
-        "check-schemas.py": "a8009c1ddd7f0b4e0a34d62615665ec0df8b3118ff903487910701ca04255d94",
+        "check-schemas.py": {"a8009c1ddd7f0b4e0a34d62615665ec0df8b3118ff903487910701ca04255d94"},
     }
     for name, expected in pins.items():
         path = os.path.join(scripts, name)
         with open(path, "rb") as handle:
             source = handle.read()
-        if hashlib.sha256(source).hexdigest() != expected:
+        if hashlib.sha256(source).hexdigest() not in expected:
             return False
         if name == "check-task-file.py":
             continue  # This script executes directly in the original child.
@@ -2490,12 +2499,14 @@ def main() -> int:
         before_registry, after_registry = load_ref(root, previous, ACTIVE), load_ref(root, node, ACTIVE)
         if not all(isinstance(item, dict) for item in (before_node, after_node, before_registry, after_registry)):
             continue
+        activation_changed = PLANNING.activation_order(before_node) != PLANNING.activation_order(after_node)
         declared = any(PLANNING.registered_manifest_path(root, node, entry.get("taskId")) is not None for entry in after_registry.get("tasks", []))
-        if not declared and "planningBaselines" not in before_node and "planningBaselines" not in after_node:
+        if not activation_changed and not declared and "planningBaselines" not in before_node and "planningBaselines" not in after_node:
             continue
         node_planning = PLANNING.classifier(
             root, previous, node, before_node, after_node, errors,
-            observed_at=PLANNING.commit_time(root, node), admitted_base_ref=args.base_ref,
+            observed_at=PLANNING.commit_time(root, node),
+            admitted_base_ref=previous if activation_changed else args.base_ref,
         )
         node_paths = RECOVERY.changed_paths(root, previous, node) or set()
         node_affected = RECOVERY.task_ids_from_diff(

@@ -51,3 +51,11 @@
 - 已复现 `historical_foreign_metadata` 将策略变更判为外部策略修改。此次先在实际基线 `05fb6c55fb2f6c847ccfda9c153026bffa249a04` 登记一条额外的精确路径 `scripts/check-program-plan-history.py`。
 - 保留 reserved/coordinator、独立角色、原租约和工作分支。真实写入清单见 [变更清单](changed-files.md)，受保护原件的 Git 对象见 [范围声明](history-scope-amendment-v1.json)。
 - 先审核本次登记的固定源码与实际主线，再把工作分支候选基于获准的范围刷新。复验在真实初始登记、实施和后续 Review 历史路径上执行。此次未修改 Program 或代码。
+
+## 实施交接
+
+- 按审查后的范围登记 [PR #300](https://github.com/ElectricDogCN/Guize/pull/300) 的实际主线改动 `2cbd4ae2ec064763a25241f35ca7ffa6ce9bba71` 校验精确新增历史检查路径。保留先前独立审查身份、工作分支和原始租约。
+- 初次实施 `4b4ffbd7519aa0de798fac034752f5624b16cac9` 的 [官方 CI](https://github.com/ElectricDogCN/Guize/actions/runs/45754333857) 发现七项原有回归失败。专项复验覆盖六项历史缓存回归、只读结项检查和带真实 Program 差异的历史投影。
+- 本地候选 b627f8ce85290c42ef96b2d38ff6c2aeeca21050 的协调检查拒绝 Task 与 Registry 中历史路径清单顺序不一致。原失败日志 SHA-256 773162079f949bc62a802170fc381670f9d9e4265c55dd65fefbed0b26dc9ede。将 Task 两份清单顺序与 Registry 对齐，保留同样八条路径。
+- Program 明确选择依赖顺序。历史快照缺省仍用波次检查。已有依赖、契约生产者、路径与并行容量限制继续核验。
+- 独立审核验证固定源码、历史实现及实际主线。实施 PR 保留初次候选的官方失败记录。

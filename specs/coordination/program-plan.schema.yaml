@@ -75,6 +75,7 @@ properties:
       criticalStandalone: {const: true}
       reservationRequired: {const: true}
       independentReviewForHighRisk: {const: true}
+      activationOrder: {enum: [wave, dependencies], default: wave}
   foundationTasks:
     type: array
     minItems: 1

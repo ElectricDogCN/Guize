@@ -9,17 +9,17 @@ tasks:
 - taskId: OPS-030
   issue: 257
   title: 按已满足的依赖准入独立模块
-  status: reserved
+  status: in_progress
   riskLevel: high
   owner: ElectricDogCN
   coordinator: /root
   implementer: /root
   reviewer: /root/independent_review
   integrator: /root
-  agentRole: coordinator
+  agentRole: implementer
   branch: chore/OPS-030-module-dependency-admission
   baseBranch: main
-  baseSha: 05fb6c55fb2f6c847ccfda9c153026bffa249a04
+  baseSha: 2cbd4ae2ec064763a25241f35ca7ffa6ce9bba71
   workPackage: WP-M0-01
   programPlan: specs/coordination/program-plan.yaml
   programTaskId: OPS-030
