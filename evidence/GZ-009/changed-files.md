@@ -25,4 +25,5 @@
 - `specs/coordination/program-plan.yaml`
 - `specs/tasks/GZ-009.md`
 - `specs/ui/check_contract.py`
+- `specs/ui/test_contract.py`
 - `specs/ui/ui-contract-v1.yaml`

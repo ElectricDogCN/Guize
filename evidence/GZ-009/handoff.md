@@ -26,8 +26,10 @@ Issue #299，基线 `0ab07018876d0904250399cfe6683ccbd1d3aa9d`，登记分支 `c
 
 实际交付见 [变更清单](changed-files.md)。本地交互契约验证用到的文件如下。
 
-- `docs/ui/README.md` 的 Git 对象为 `e49bb93890423d28e33a1b2fb88033225cee7305`。
+- `docs/ui/README.md` 的 Git 对象为 `4863720b6e116404c8a66c7cbc2b60d9aedf5a5c`。
 - `specs/ui/check_contract.py` 的 Git 对象为 `2867f008aa6c4c4201bf3132a3526ef856ecd005`。
 - `specs/ui/ui-contract-v1.yaml` 的 Git 对象为 `f30ed124dcbe4535ebe465c57f8a6fb4c4da8f0e`。
 
-[命令与结果](commands.txt) 记录原生检查。界面映射验证只读取权威契约，运行期交付由后续对应阶段验收。独立审核核对 96 项向页面或节点协议的完整分配、模块状态、权限与错误来源和官方全套验证。合格源正常合并，再复验实际主线。未合入时撤回候选，已合入时按契约版本前向修正或审查回退本任务变更。
+- `specs/ui/test_contract.py` 的 Git 对象为 `5a71c46720e05b593f7a458bdee023a7bce1b125`。
+
+[命令与结果](commands.txt) 记录原生检查。独立审查要求复验可以从仓库直接执行，新增七项用例均通过。源提交和实际审查见 [实施 PR #305](https://github.com/ElectricDogCN/Guize/pull/305)。界面映射验证只读取权威契约，运行期交付由后续对应阶段验收。独立审核核对 96 项向页面或节点协议的完整分配、模块状态、权限与错误来源和官方全套验证。合格源正常合并，再复验实际主线。未合入时撤回候选，已合入时按契约版本前向修正或审查回退本任务变更。
