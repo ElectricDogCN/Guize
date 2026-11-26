@@ -1,0 +1,426 @@
+{
+  "reviewer": "/root/independent_review",
+  "approvedAt": "2026-11-26T02:31:16Z",
+  "taskId": "OPS-031",
+  "issue": 284,
+  "pullRequest": 293,
+  "actualMain": "d02e04236a1b346582006aa31adf52ad54fceac6",
+  "source": "98eccd24f572d6ea174a7f8d3826c332d93cbafa",
+  "base": "068fefceef9e03fa30c12fa88af53f9bfd5ad174",
+  "tree": "0d361e5cf6e76c1e225a767d76bf55186ae25dd1",
+  "actualReviewMainAccepted": true,
+  "fullMainCiAccepted": true,
+  "actualMainSixAccepted": true,
+  "actualMainTaskControlsAccepted": true,
+  "normalCompletionMayStart": true,
+  "issueClosureAllowed": true,
+  "mustFix": [],
+  "ci": {
+    "run": 45715661037,
+    "runNumber": 1135,
+    "attempt": 3,
+    "event": "push",
+    "url": "https://github.com/ElectricDogCN/Guize/actions/runs/45715661037/attempts/3",
+    "conclusion": "success",
+    "allFiveJobsAccepted": true,
+    "jobs": [
+      {
+        "job": 139646274455,
+        "name": "Governance Controls",
+        "conclusion": "success",
+        "durationSeconds": 296.0
+      },
+      {
+        "job": 139646274761,
+        "name": "Governance Tests (shard 0)",
+        "conclusion": "success",
+        "durationSeconds": 611.0
+      },
+      {
+        "job": 139646274825,
+        "name": "Governance Tests (shard 2)",
+        "conclusion": "success",
+        "durationSeconds": 437.0
+      },
+      {
+        "job": 139646274889,
+        "name": "Governance Tests (shard 1)",
+        "conclusion": "success",
+        "durationSeconds": 496.0
+      },
+      {
+        "job": 139650081260,
+        "name": "Governance Checks",
+        "conclusion": "success",
+        "durationSeconds": 6.0
+      }
+    ],
+    "shards": [
+      {
+        "job": 139646274761,
+        "passed": 265,
+        "pytestSeconds": 568.09,
+        "jobSeconds": 611.0,
+        "skipAuditAccepted": true
+      },
+      {
+        "job": 139646274825,
+        "passed": 392,
+        "pytestSeconds": 383.42,
+        "jobSeconds": 437.0,
+        "skipAuditAccepted": true
+      },
+      {
+        "job": 139646274889,
+        "passed": 425,
+        "pytestSeconds": 440.26,
+        "jobSeconds": 496.0,
+        "skipAuditAccepted": true
+      }
+    ],
+    "uniquePassedCases": 1082,
+    "failures": 0,
+    "errors": 0,
+    "skippedTests": 0,
+    "xfailOrXpass": 0,
+    "caseInventorySha256": "af4af97922ce67d2b2bb8667dc1d6236c58cabcca4dfeffa449fd3d398b84c77",
+    "exactAccepted1133CaseSetRetained": true,
+    "original1081PlusOneNewRegressionRetained": true,
+    "aggregateJob": 139650081260,
+    "aggregateMessage": "All 1082 cases covered exactly once",
+    "maximumJobSeconds": 1800,
+    "fiveExistingPushTaskOnlyConditionalStepSkips": [
+      "Task file validation",
+      "Evidence check",
+      "Evidence integrity check",
+      "Task-branch linkage check",
+      "Scope check"
+    ],
+    "actualCheckoutAndRealLfsProbeAccepted": true,
+    "crossAttemptResultsCombined": false
+  },
+  "nativeChecks": {
+    "integrity": 0,
+    "history": 0,
+    "transitions": 0,
+    "finalization": 0,
+    "lifecycle-guards": 0,
+    "coordination": 0
+  },
+  "recovery": {
+    "standardCanonicalColdLfsFetchAccepted": true,
+    "pointerPaths": 613,
+    "uniqueObjects": 142,
+    "verifiedBytes": 346600841,
+    "officialIncidentUrl": "https://www.githubstatus.com/incidents/m0wvf9pt3l0l",
+    "resolvedNoticePostedAt": "2026-11-26T00:43:00Z",
+    "incidentRecoveryAloneNotUsedAsCiAcceptance": true,
+    "sameSourceWorkflowTestsRunnerPinsAndTimeoutRetained": true
+  },
+  "historicalAttempts": [
+    {
+      "attempt": 1,
+      "conclusion": "failure",
+      "uniquePassedSubset": 817,
+      "requiredCasesNotExecuted": 265,
+      "negativeEvidencePreserved": true
+    },
+    {
+      "attempt": 2,
+      "conclusion": "failure",
+      "uniquePassedSubset": 690,
+      "requiredCasesNotExecuted": 392,
+      "negativeEvidencePreserved": true
+    }
+  ],
+  "priorNegativeReceiptPreserved": {
+    "path": "ops031-repair-review-d02e-final-actual-main-independent-review.json",
+    "bytes": 15222,
+    "sha256": "df4a19428eda56275a9bf6226e4b19c4d15412e229d109afce9e09eadb1f4223"
+  },
+  "sourceIndependentReviewSha256": "13c2959fb5e18fbbdb6835b2cacfe9695db34e873afd4e71507098b3ba6296cb",
+  "verifiedGovernanceFacts": {
+    "officialRemoteMainAndOrderedParentsAndSameTree": true,
+    "taskProgramActiveReviewReviewer": true,
+    "baseSha": "068fefceef9e03fa30c12fa88af53f9bfd5ad174",
+    "originalLeaseActorsThreeClaimsAndHighRiskSlotRetained": true,
+    "manifestScopeIntentOldFailureAndGz007FullDefinitionRetained": true,
+    "twoPublicCodeAcceptanceOriginalsByteIdenticalAndRetrievable": true,
+    "issues284280287Open": true,
+    "reviewThreadsUnresolved": 0,
+    "gz007Status": "planned",
+    "gz007Wave": "W3",
+    "gz007IntegrationOrder": 4
+  },
+  "lease": {
+    "acquiredAt": "2026-11-25T16:59:55Z",
+    "expiresAt": "2026-12-02T16:59:55Z"
+  },
+  "scope": "Accept actual OPS-031 formal Review only; permit ordinary Issue284 completed closure and a separately reviewed normal Completion candidate using Code PR292/068f. No completed state, capacity release, GZ007 activation, branch cleanup or unknown later source is accepted here.",
+  "taskCompleted": false,
+  "actualCapacityReleased": false,
+  "gz007ActivationApproved": false,
+  "branchCleanupAllowed": false,
+  "evidencePins": [
+    {
+      "path": "ops031-repair-review-d02e-final-actual-main-independent-review.json",
+      "bytes": 15222,
+      "sha256": "df4a19428eda56275a9bf6226e4b19c4d15412e229d109afce9e09eadb1f4223"
+    },
+    {
+      "path": "ops031-repair-review-d02e-main1135-attempt1-negative-independent-review.json",
+      "bytes": 9209,
+      "sha256": "8a3228018d53e8c52d2d059196ba0994d76e8b32ffe1a546848d7c93cf00890b"
+    },
+    {
+      "path": "ops031-repair-review-98ec-final-source-independent-review.json",
+      "bytes": 15254,
+      "sha256": "13c2959fb5e18fbbdb6835b2cacfe9695db34e873afd4e71507098b3ba6296cb"
+    },
+    {
+      "path": "ops031-checker-fix-068f-final-actual-main-independent-review.json",
+      "bytes": 12243,
+      "sha256": "30138506fa1678f86aedd87ed2faf299165af0af7d150153810ad46a70a9fdd6"
+    },
+    {
+      "path": "ops031-repair-review-d02e-lfs-restored-canonical.json",
+      "bytes": 350,
+      "sha256": "144da165bf74a91d6cadade11fb9d032071ac0607d9f3b10e32b08072a869f65"
+    },
+    {
+      "path": "ops031-repair-review-d02e-lfs-restored-canonical.log",
+      "bytes": 52,
+      "sha256": "6b2a7fb95572245688dce767ac18dc5a540a889894add685ee59c3d5ed9786c3"
+    },
+    {
+      "path": "ops031-repair-review-d02e-actual-main-checks/coordination.txt",
+      "bytes": 309,
+      "sha256": "ab6caa29bb396580239cbcfe31334182e460c9565c35878fcd8aa7803f7a48a7"
+    },
+    {
+      "path": "ops031-repair-review-d02e-actual-main-checks/finalization.txt",
+      "bytes": 428,
+      "sha256": "4d5aa79728caf5eea3c566cca6471b58c1668777180a6f02f0f726c32c0f6265"
+    },
+    {
+      "path": "ops031-repair-review-d02e-actual-main-checks/history.txt",
+      "bytes": 537,
+      "sha256": "476c47fb490238a6f30bdca1c2bb7fc75bc0e3abd55a08626edd1edccce567ce"
+    },
+    {
+      "path": "ops031-repair-review-d02e-actual-main-checks/integrity.txt",
+      "bytes": 469,
+      "sha256": "064e1861872df67dc3310394bff7b0212fdf2556bd7656b31797e76d3b795b20"
+    },
+    {
+      "path": "ops031-repair-review-d02e-actual-main-checks/lifecycle-guards.txt",
+      "bytes": 519,
+      "sha256": "081734b6ac5a4f38bcece4ea40b5478543744b654b72b1af108455a0ce54a977"
+    },
+    {
+      "path": "ops031-repair-review-d02e-actual-main-checks/result.json",
+      "bytes": 394,
+      "sha256": "f3e553c89a4654d30c73374b3d2494cb10244346c81d15ca1cac9f094d870625"
+    },
+    {
+      "path": "ops031-repair-review-d02e-actual-main-checks/transitions.txt",
+      "bytes": 449,
+      "sha256": "edc4c48323363c2bb7dbb4b7026099991a1a9bf14b65372e99948d0fbb61e206"
+    },
+    {
+      "path": "ops031-repair-review-d02e-independent-main-ci/attempt-3/actual.json",
+      "bytes": 6328,
+      "sha256": "3ea14dbdabadc554e53519fc632f2c863ad1b7a580c45940df168d6d570f7926"
+    },
+    {
+      "path": "ops031-repair-review-d02e-independent-main-ci/attempt-3/final-gz007Issue.json",
+      "bytes": 12491,
+      "sha256": "ee36360bb6c932c89465856933153070fa9f0206d0ec579b29a6992117fd48ad"
+    },
+    {
+      "path": "ops031-repair-review-d02e-independent-main-ci/attempt-3/final-issue.json",
+      "bytes": 12063,
+      "sha256": "c4a7c082130b1afd53bb5ac163b897d3a5c1e38e7767d5b5e22fb022ff6c8700"
+    },
+    {
+      "path": "ops031-repair-review-d02e-independent-main-ci/attempt-3/final-main.json",
+      "bytes": 1302,
+      "sha256": "9177ff58adb58f425beda3f1d9a2ec3eecd85be0efbc7ef52809f99ca54dbb4e"
+    },
+    {
+      "path": "ops031-repair-review-d02e-independent-main-ci/attempt-3/final-pr.json",
+      "bytes": 38690,
+      "sha256": "9976c02ef63eea07efb973da1cb29723fd60e43de0dc42253e4cae172efe8652"
+    },
+    {
+      "path": "ops031-repair-review-d02e-independent-main-ci/attempt-3/final-threads.json",
+      "bytes": 167,
+      "sha256": "91cd62a298cf9965afb015e52e61ec40c3dc3d936b2d63d25699e47f7e24bf46"
+    },
+    {
+      "path": "ops031-repair-review-d02e-independent-main-ci/attempt-3/final-tracking.json",
+      "bytes": 13693,
+      "sha256": "1a94af4ad5871620451a8f68c29102fc53f47c0fc9532e2bebb331d70be456c0"
+    },
+    {
+      "path": "ops031-repair-review-d02e-independent-main-ci/attempt-3/final-workref.json",
+      "bytes": 1618,
+      "sha256": "4e65b7dd49eab2b806b839f22229b0db7b5d13288faf85ae8b0855435de77fd7"
+    },
+    {
+      "path": "ops031-repair-review-d02e-independent-main-ci/attempt-3/guard-gz007Issue.json",
+      "bytes": 12491,
+      "sha256": "ee36360bb6c932c89465856933153070fa9f0206d0ec579b29a6992117fd48ad"
+    },
+    {
+      "path": "ops031-repair-review-d02e-independent-main-ci/attempt-3/guard-issue.json",
+      "bytes": 12063,
+      "sha256": "c4a7c082130b1afd53bb5ac163b897d3a5c1e38e7767d5b5e22fb022ff6c8700"
+    },
+    {
+      "path": "ops031-repair-review-d02e-independent-main-ci/attempt-3/guard-main.json",
+      "bytes": 1302,
+      "sha256": "9177ff58adb58f425beda3f1d9a2ec3eecd85be0efbc7ef52809f99ca54dbb4e"
+    },
+    {
+      "path": "ops031-repair-review-d02e-independent-main-ci/attempt-3/guard-pr.json",
+      "bytes": 38690,
+      "sha256": "9976c02ef63eea07efb973da1cb29723fd60e43de0dc42253e4cae172efe8652"
+    },
+    {
+      "path": "ops031-repair-review-d02e-independent-main-ci/attempt-3/guard-tracking.json",
+      "bytes": 13693,
+      "sha256": "1a94af4ad5871620451a8f68c29102fc53f47c0fc9532e2bebb331d70be456c0"
+    },
+    {
+      "path": "ops031-repair-review-d02e-independent-main-ci/attempt-3/incident-recovery-observation.json",
+      "bytes": 491,
+      "sha256": "fb721b45d727ab8e3f59460dc732305e1d97c0ab5f9c53916c8771ff7a609ff2"
+    },
+    {
+      "path": "ops031-repair-review-d02e-independent-main-ci/attempt-3/job-139646274455-connector.json",
+      "bytes": 64919,
+      "sha256": "ef9124a2e8266e27382c167bf4958796c4022761dbf0c02926a8ef72241b1b6f"
+    },
+    {
+      "path": "ops031-repair-review-d02e-independent-main-ci/attempt-3/job-139646274455.decoded.log",
+      "bytes": 61942,
+      "sha256": "29fe87313f4cc5cbd27b72b6c9c675d18e2bc7b65414f2754bb98a84dcd52623"
+    },
+    {
+      "path": "ops031-repair-review-d02e-independent-main-ci/attempt-3/job-139646274455.exact.decoded.log",
+      "bytes": 61941,
+      "sha256": "068c7227bba3160037bc18a9ef054ff79c8ed4f2aafba0583b8089f316a08841"
+    },
+    {
+      "path": "ops031-repair-review-d02e-independent-main-ci/attempt-3/job-139646274761-connector.json",
+      "bytes": 128382,
+      "sha256": "4603e953cd34a03c705d3abec668690a3937db45cee8a838793140969f759ea0"
+    },
+    {
+      "path": "ops031-repair-review-d02e-independent-main-ci/attempt-3/job-139646274761.decoded.log",
+      "bytes": 127072,
+      "sha256": "1806605a239b189863d5186e756b1bf467bf7b52e0112d70c5fb44e2eab43478"
+    },
+    {
+      "path": "ops031-repair-review-d02e-independent-main-ci/attempt-3/job-139646274761.exact.decoded.log",
+      "bytes": 127071,
+      "sha256": "9dc972093c99d4c868523dbe22784464c1a26d99694e2422ba22ac5b121933ec"
+    },
+    {
+      "path": "ops031-repair-review-d02e-independent-main-ci/attempt-3/job-139646274825-connector.json",
+      "bytes": 162088,
+      "sha256": "b37d3eef6bd247ae56b48ce3ebfd890caf960dacecde3e185eda770783069e0d"
+    },
+    {
+      "path": "ops031-repair-review-d02e-independent-main-ci/attempt-3/job-139646274825.decoded.log",
+      "bytes": 160495,
+      "sha256": "df51fa29d08320de64ea5e1acb0c85d0063561df62f5de01b3b8366f90d5b4c9"
+    },
+    {
+      "path": "ops031-repair-review-d02e-independent-main-ci/attempt-3/job-139646274825.exact.decoded.log",
+      "bytes": 160494,
+      "sha256": "c9f22b640c23ab33e34f4ec0150c162822ed513c90206e128204500748926272"
+    },
+    {
+      "path": "ops031-repair-review-d02e-independent-main-ci/attempt-3/job-139646274889-connector.json",
+      "bytes": 176899,
+      "sha256": "583a10964c79db2cf7e1bfbb26ac826fbcdc2d353137c5a85ea7344ef4f423a6"
+    },
+    {
+      "path": "ops031-repair-review-d02e-independent-main-ci/attempt-3/job-139646274889.decoded.log",
+      "bytes": 175246,
+      "sha256": "85dd506e6c1b586c35125280a5b98ff8ca85b833a6dae61b2f1a372b06cd6411"
+    },
+    {
+      "path": "ops031-repair-review-d02e-independent-main-ci/attempt-3/job-139646274889.exact.decoded.log",
+      "bytes": 175245,
+      "sha256": "d7d3d7b037c20483770af716f2c054ede6454b54567211b915c8085e2b9b8cf4"
+    },
+    {
+      "path": "ops031-repair-review-d02e-independent-main-ci/attempt-3/job-139650081260-connector.json",
+      "bytes": 16674,
+      "sha256": "9f6956a1d974a33a988b7f06a4f882ca2ef257c956d7e224648f77116cf5232a"
+    },
+    {
+      "path": "ops031-repair-review-d02e-independent-main-ci/attempt-3/job-139650081260.decoded.log",
+      "bytes": 16189,
+      "sha256": "3d4ddebd4e047c597e47a419cef337787cd23e1012bbb788de6b681e4dedb895"
+    },
+    {
+      "path": "ops031-repair-review-d02e-independent-main-ci/attempt-3/job-139650081260.exact.decoded.log",
+      "bytes": 16188,
+      "sha256": "9e05a13179554b5c5acbce96a364d7f1ab15001f75cedc18627f84d03e4e48a2"
+    },
+    {
+      "path": "ops031-repair-review-d02e-independent-main-ci/attempt-3/official-jobs.json",
+      "bytes": 33553,
+      "sha256": "81490f04c1304ad8b0288caac4492ae9a20afe04578a21498d71d911d5a6e75e"
+    },
+    {
+      "path": "ops031-repair-review-d02e-independent-main-ci/attempt-3/official-run.json",
+      "bytes": 27022,
+      "sha256": "9585a8a5e39c6b090dfc37ce499a78c382d9235f3dc8eada5c8fb1661c1d8f96"
+    },
+    {
+      "path": "ops031-repair-review-d02e-independent-main-ci/attempt-3/public-code-main-integrity.exact.txt",
+      "bytes": 469,
+      "sha256": "51d5a1f22a0ca9c39fed7584d9acfb7711d2e6a05eee9fa099e270a12e7a4f90"
+    },
+    {
+      "path": "ops031-repair-review-d02e-independent-main-ci/attempt-3/public-code-main-integrity.txt",
+      "bytes": 470,
+      "sha256": "0b9ba990678c3b885640c7ebd1cf9057935e37fe36b97a01538f7556a2c37809"
+    },
+    {
+      "path": "ops031-repair-review-d02e-independent-main-ci/attempt-3/public-code-main-review.exact.json",
+      "bytes": 12243,
+      "sha256": "30138506fa1678f86aedd87ed2faf299165af0af7d150153810ad46a70a9fdd6"
+    },
+    {
+      "path": "ops031-repair-review-d02e-independent-main-ci/attempt-3/public-code-main-review.json",
+      "bytes": 12244,
+      "sha256": "e67ea205d0c62e89203feb8281e6e6676da71297dd4b129bff24f1c107a24da7"
+    },
+    {
+      "path": "ops031-repair-review-d02e-independent-main-ci/attempt1-official-run.json",
+      "bytes": 26853,
+      "sha256": "be6aa11af123f89898e37bded5de6660befbf5462c508a9dc66720de2ee9b7ec"
+    },
+    {
+      "path": "ops031-repair-review-d02e-independent-main-ci/attempt1-official-jobs.json",
+      "bytes": 32418,
+      "sha256": "bfe1234403c1d8e9513f4bb2d8ba63b7f4d304892a5114f2fbafc52cfddd5700"
+    },
+    {
+      "path": "ops031-repair-review-d02e-independent-main-ci/attempt-2/official-run.json",
+      "bytes": 27021,
+      "sha256": "ba21fb24ea84f135f8a7c802742a5dafe1b5fe3f5c6805eb534469755e801e3a"
+    },
+    {
+      "path": "ops031-repair-review-d02e-independent-main-ci/attempt-2/official-jobs.json",
+      "bytes": 32790,
+      "sha256": "a11bcb79e4d5e0638e13c2315c1d498e310a686a0e4188dbeb0a81aa799f3bdd"
+    }
+  ]
+}
