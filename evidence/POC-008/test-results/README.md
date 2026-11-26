@@ -10,3 +10,9 @@
 - 两份编译报告与编译清单针对固定源码生成。两组各四项文件均核验字节和摘要。
 
 这些试跑验证原型、动作驱动与原始输出结构。正式比较将采用已锁定的资源、样本、框架与浏览器版本、独立的评估角色和共同实验窗口。在正式归档中保留完整编译输出、两类传输的回连记录、DOM 读回、三项维护准则和结论依据。[浏览器驱动](https://github.com/ElectricDogCN/Guize/commit/ad14847356b3184428171658bd11eca7dd26d059) · [编译记录工具](https://github.com/ElectricDogCN/Guize/commit/e5e681ea15744f46d41d142b6fa3f8ba20fe0753)
+
+## 完整矩阵采集预检
+
+固定采集代码 `e4cd8c337139965cd333aede9d828d1d2a217bbc` 使用 Chromium `158.0.8127.38` 在同一回环预览服务上执行。React 和 Vue 各采集十个场景，进程退出码为 0。仓库的 `derive_frontend_browser_scenario` 复验 20 份浏览器记录和 64 次交互，十个合成场景的两套读回结果相同。
+
+本地预检保留每个场景的进程回执、标准输出、标准错误及派生观察。清单 SHA-256 为 `3ede90a7968db4c63228f0706b2e106625177a4019f4e7e781db67c6f57ba248`。正式试验须在预先批准的统一窗口重新构建、采集和评分。[批量采集源码](https://github.com/ElectricDogCN/Guize/commit/e4cd8c337139965cd333aede9d828d1d2a217bbc)

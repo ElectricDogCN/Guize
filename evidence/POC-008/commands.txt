@@ -54,3 +54,12 @@ Exit Code: 0
 Output: 3 tests passed, 0 failed.
 The fixture catalog was also compared to the ten equivalent scenario IDs in the immutable POC-008 plan. All ten were present in order.
 This run only exercised small windows and fixture structure. The dedicated comparison has its own samples, tool versions, approval and raw measurements.
+
+# Complete matrix native preflight
+
+Source Commit: e4cd8c337139965cd333aede9d828d1d2a217bbc
+Browser: Chromium 158.0.8127.38
+Command: node poc/POC-08-frontend-framework/capture-matrix.mjs --policy poc/POC-08-frontend-framework/dist/formal-build-pilot-e5e681ea/matrix-pilot-policy.json --fixture poc/POC-08-frontend-framework/scenarios.json --output poc/POC-08-frontend-framework/dist/formal-build-pilot-e5e681ea/capture-matrix-pilot
+Exit Code: 0
+Output: React 10, Vue 10, 64 browser actions accepted by derive_frontend_browser_scenario.
+Local inventory SHA-256: 3ede90a7968db4c63228f0706b2e106625177a4019f4e7e781db67c6f57ba248
