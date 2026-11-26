@@ -33,3 +33,28 @@ Issue #299，基线 `0ab07018876d0904250399cfe6683ccbd1d3aa9d`，登记分支 `c
 - `specs/ui/test_contract.py` 的 Git 对象为 `5a71c46720e05b593f7a458bdee023a7bce1b125`。
 
 [命令与结果](commands.txt) 记录原生检查。独立审查要求复验可以从仓库直接执行，新增七项用例均通过。源提交和实际审查见 [实施 PR #305](https://github.com/ElectricDogCN/Guize/pull/305)。界面映射验证只读取权威契约，运行期交付由后续对应阶段验收。独立审核核对 96 项向页面或节点协议的完整分配、模块状态、权限与错误来源和官方全套验证。合格源正常合并，再复验实际主线。未合入时撤回候选，已合入时按契约版本前向修正或审查回退本任务变更。
+
+## 正式审查交接
+
+工作分支 chore/GZ-009-ui-contract，审查基线为 dc8f7015bbdbb57a60ca49a860659e5b5ac08477。实施源 af1bb8f8f30fb599149fcd717b163b7f9ff2c526，实施实际主线 1862617a41ac12994e2b7c3d8a5b179ab78cd803。保留原租约、独占路径和独立审核角色。
+
+- evidence/GZ-009/changed-files.md
+- evidence/GZ-009/commands.txt
+- evidence/GZ-009/handoff.md
+- evidence/GZ-009/implementation-main-1862617a/independent-review.json
+- evidence/GZ-009/implementation-main-1862617a/integrity.txt
+- evidence/GZ-009/summary.md
+- evidence/GZ-009/test-results/README.md
+- specs/coordination/active-work.yaml
+- specs/coordination/program-plan.yaml
+- specs/tasks/GZ-009.md
+
+Source Commit: 1862617a41ac12994e2b7c3d8a5b179ab78cd803
+Command: /var/tmp/guize-ops027-rebased-proof/python/bin/python -B scripts/check-program-plan-integrity.py --base-ref b97135ac94360828e9d29562be593551e231ab30
+Exit Code: 0
+Result: PASS
+Raw SHA-256: 24ebab7037a0b0f28ccfe0f89e03dad3332f28b8adc10396b07c9bd45ccbbba3
+
+[实施 PR #305](https://github.com/ElectricDogCN/Guize/pull/305) · [实施主线完整 CI #1152](https://github.com/ElectricDogCN/Guize/actions/runs/45781198725) · [独立复验](implementation-main-1862617a/independent-review.json)
+
+固定源通过全套官方 CI 和独立审查后合入，随后复验实际主线并进入结项。运行界面在对应实现任务验收。
