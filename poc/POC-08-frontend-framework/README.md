@@ -54,3 +54,12 @@ node poc/POC-08-frontend-framework/capture-scenario.mjs --policy POLICY.json --f
 ```
 
 采集命令保留浏览器驱动的原始 JSON 和标准错误，记录实际进程、命令、退出码与摘要。场景观察从 DOM 读回记录派生，供仓库校验器复验。输出目录每次新建。相同命令可把候选改为 `vue`，并使用另一输出目录。
+
+
+可用同一配置依次采集两套候选的全部十个场景。每个输出目录均保留独立的浏览器记录、进程回执和派生观察。
+
+```text
+node poc/POC-08-frontend-framework/capture-matrix.mjs --policy POLICY.json --fixture FIXTURE.json --output MATRIX-OUTPUT
+```
+
+输出按 `MATRIX-OUTPUT/<candidate>/<scenario>` 组织。采集失败时保留已经写入的文件，下一轮使用新的目录。资源确认、维护评分与正式结果由仓库的 POC 验证流程处理。
