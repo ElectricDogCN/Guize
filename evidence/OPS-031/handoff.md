@@ -1,3 +1,43 @@
+# OPS-031 正常 Completion 交接
+
+跟踪 [Issue #284](https://github.com/ElectricDogCN/Guize/issues/284)。工作分支 `chore/OPS-031-repaired-completion`，目标 main，当前基线 `d02e04236a1b346582006aa31adf52ad54fceac6`。实施身份为 [PR #292](https://github.com/ElectricDogCN/Guize/pull/292) 的实际主线 `068fefceef9e03fa30c12fa88af53f9bfd5ad174`。本阶段源以其 PR 的固定 SHA 和对应官方 CI 为准。
+
+协调、实施与合入由 /root 负责，独立审查为 /root/independent_review，当前角色为 integrator。Foundation 集成顺序 23，Program Plan 版本 1、Task Spec 版本 2、Active Work 版本 1、原始规划声明版本 1。独占范围为 specs/coordination/program-plan.yaml, scripts/check-program-plan-history.py, tests/governance/test_program_planning_revision.py，无共享写范围。GZ-007 保持 planned、W3 与集成顺序 4，原实际依赖未变。
+
+本轮实际文件如下。
+
+- `evidence/OPS-031/accepted-main-d02e0423/independent-review.json`
+- `evidence/OPS-031/accepted-main-d02e0423/integrity.txt`
+- `evidence/OPS-031/commands.txt`
+- `evidence/OPS-031/handoff.md`
+- `evidence/OPS-031/summary.md`
+- `evidence/OPS-031/test-results/README.md`
+- `specs/coordination/active-work.yaml`
+- `specs/coordination/program-plan.yaml`
+- `specs/tasks/OPS-031.md`
+
+
+
+## OPS-031 正常 Completion
+
+本轮将 OPS-031 标记为完成，释放本任务租约，并在 Foundation 完成记录绑定已验收的实施 PR 与实际提交。最后检查器修复实施主线为 068fefceef9e03fa30c12fa88af53f9bfd5ad174，本阶段前置实际基线 d02e04236a1b346582006aa31adf52ad54fceac6 的六项任务控制和完整官方 CI 已验收。本阶段以新固定源和合并后主线的完整官方 CI 与独立复验为准。
+
+Status: PASS
+
+Source Commit: d02e04236a1b346582006aa31adf52ad54fceac6
+Command: /var/tmp/guize-ops027-rebased-proof/python/bin/python -B scripts/check-program-plan-integrity.py --base-ref 068fefceef9e03fa30c12fa88af53f9bfd5ad174
+Exit Code: 0
+Result: PASS
+Raw SHA-256: 064e1861872df67dc3310394bff7b0212fdf2556bd7656b31797e76d3b795b20
+
+[前置官方 CI](https://github.com/ElectricDogCN/Guize/actions/runs/45715661037)
+
+[独立复验原件](accepted-main-d02e0423/independent-review.json) 与 [实际完整性日志](accepted-main-d02e0423/integrity.txt)。
+
+Reviewer 核对结项说明、实施身份与完整官方 CI。合入角色按固定源合并并验收实际主线，确认租约释放后清理结束分支，GZ-007 才开始独立登记。 未合入候选可撤回。若后来需要更改已合入的排程，使用新的规划修订保留真实历史。
+
+## 先前阶段交接
+
 # OPS-031 正式 Review 交接
 
 跟踪 [Issue #284](https://github.com/ElectricDogCN/Guize/issues/284)。工作分支 `chore/OPS-031-gz007-wave-order`，目标 main，当前基线 `068fefceef9e03fa30c12fa88af53f9bfd5ad174`。实施身份为 [PR #292](https://github.com/ElectricDogCN/Guize/pull/292) 的实际主线 `068fefceef9e03fa30c12fa88af53f9bfd5ad174`。本阶段源以其 PR 的固定 SHA 和对应官方 CI 为准。
