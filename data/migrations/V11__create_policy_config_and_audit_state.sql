@@ -100,16 +100,19 @@ BEGIN
         RAISE check_violation USING CONSTRAINT = 'policy_test_run_history', MESSAGE = 'Retain test history';
     END IF;
     IF TG_OP = 'INSERT' THEN
-        IF NEW.sealed_at IS NOT NULL THEN
+        IF NEW.sealed_at IS NOT NULL OR NEW.created_at > clock_timestamp() OR NOT EXISTS (
+            SELECT 1 FROM policy.version WHERE id = NEW.version_id AND created_at <= NEW.created_at
+        ) THEN
             RAISE check_violation USING CONSTRAINT = 'policy_test_run_seal', MESSAGE = 'Register the test results before sealing';
         END IF;
         RETURN NEW;
     END IF;
     IF OLD.sealed_at IS NULL AND NEW IS NOT DISTINCT FROM OLD THEN RETURN NEW; END IF;
-    IF OLD.sealed_at IS NOT NULL OR NEW.sealed_at IS NULL
+    IF OLD.sealed_at IS NOT NULL OR NEW.sealed_at IS NULL OR NEW.sealed_at > clock_timestamp()
         OR ROW(OLD.id, OLD.version_id, OLD.expected_case_count, OLD.created_at)
            IS DISTINCT FROM ROW(NEW.id, NEW.version_id, NEW.expected_case_count, NEW.created_at)
         OR NEW.expected_case_count <> (SELECT count(*) FROM policy.test_case WHERE test_run_id = OLD.id)
+        OR EXISTS (SELECT 1 FROM policy.test_case WHERE test_run_id = OLD.id AND executed_at > NEW.sealed_at)
     THEN RAISE check_violation USING CONSTRAINT = 'policy_test_run_seal', MESSAGE = 'Only complete test runs can be sealed'; END IF;
     RETURN NEW;
 END;
@@ -120,7 +123,11 @@ FOR EACH ROW EXECUTE FUNCTION policy.guard_test_run();
 
 CREATE FUNCTION policy.guard_test_case_creation() RETURNS trigger LANGUAGE plpgsql AS $$
 BEGIN
-    UPDATE policy.test_run SET created_at = created_at WHERE id = NEW.test_run_id AND version_id = NEW.version_id AND sealed_at IS NULL;
+    IF NEW.executed_at > clock_timestamp() THEN
+        RAISE check_violation USING CONSTRAINT = 'policy_test_case_time', MESSAGE = 'Test execution cannot be in the future';
+    END IF;
+    UPDATE policy.test_run SET created_at = created_at WHERE id = NEW.test_run_id AND version_id = NEW.version_id
+        AND sealed_at IS NULL AND created_at <= NEW.executed_at;
     IF NOT FOUND THEN RAISE check_violation USING CONSTRAINT = 'policy_test_case_sealed', MESSAGE = 'Test run is missing or sealed'; END IF;
     RETURN NEW;
 END;

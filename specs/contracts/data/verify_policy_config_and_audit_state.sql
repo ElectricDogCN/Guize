@@ -69,6 +69,25 @@ BEGIN
     END;
     BEGIN
         INSERT INTO policy.test_case (id, version_id, test_run_id, case_key, input_sha256, expected_sha256, actual_sha256, executed_at)
+        VALUES ('case_future_fixture', 'polver_fixture_one', 'run_fixture_short', 'case_future_fixture', repeat('a',64),
+            repeat('b',64), repeat('b',64), clock_timestamp() + interval '1 hour');
+        RAISE EXCEPTION 'future test result was registered';
+    EXCEPTION WHEN check_violation THEN
+        GET STACKED DIAGNOSTICS rejected = CONSTRAINT_NAME;
+        IF rejected <> 'policy_test_case_time' THEN RAISE; END IF;
+    END;
+    BEGIN
+        INSERT INTO policy.test_case (id, version_id, test_run_id, case_key, input_sha256, expected_sha256, actual_sha256, executed_at)
+        VALUES ('case_unsealed_fixture', 'polver_fixture_one', 'run_fixture_short', 'case_unsealed_fixture', repeat('a',64),
+            repeat('b',64), repeat('b',64), clock_timestamp());
+        UPDATE policy.test_run SET sealed_at = created_at WHERE id = 'run_fixture_short';
+        RAISE EXCEPTION 'test run sealed before its recorded result';
+    EXCEPTION WHEN check_violation THEN
+        GET STACKED DIAGNOSTICS rejected = CONSTRAINT_NAME;
+        IF rejected <> 'policy_test_run_seal' THEN RAISE; END IF;
+    END;
+    BEGIN
+        INSERT INTO policy.test_case (id, version_id, test_run_id, case_key, input_sha256, expected_sha256, actual_sha256, executed_at)
         VALUES ('case_late_fixture', 'polver_fixture_one', 'run_fixture_one', 'case_late_fixture', repeat('a',64), repeat('a',64), repeat('b',64), clock_timestamp());
         RAISE EXCEPTION 'sealed test run gained a result';
     EXCEPTION WHEN check_violation THEN
@@ -147,9 +166,13 @@ $$;
 ALTER TABLE outbox.event DROP CONSTRAINT fixture_block_policy_publication;
 
 DO $$
+DECLARE
+    published bigint;
+    replayed bigint;
 BEGIN
-    IF pg_temp.apply_fixture('apr_pol_publish_one') <> 3 OR pg_temp.apply_fixture('apr_pol_publish_one') <> 3
-        OR (SELECT count(*) FROM outbox.event) <> 1
+    published := pg_temp.apply_fixture('apr_pol_publish_one');
+    replayed := pg_temp.apply_fixture('apr_pol_publish_one');
+    IF published IS DISTINCT FROM 3 OR replayed IS DISTINCT FROM 3 OR (SELECT count(*) FROM outbox.event) <> 1
     THEN RAISE EXCEPTION 'publish retry duplicated a release'; END IF;
 END;
 $$;
