@@ -13,3 +13,17 @@
 - `specs/coordination/active-work.yaml`
 - `specs/coordination/program-plan.yaml`
 - `specs/tasks/POC-008.md`
+
+## 实验输入准备
+
+- `evidence/POC-008/changed-files.md`
+- `evidence/POC-008/commands.txt`
+- `evidence/POC-008/handoff.md`
+- `evidence/POC-008/summary.md`
+- `poc/POC-08-frontend-framework/README.md`
+- `poc/POC-08-frontend-framework/fixtures.mjs`
+- `poc/POC-08-frontend-framework/fixtures.test.mjs`
+- `poc/POC-08-frontend-framework/scenarios.json`
+- `specs/coordination/active-work.yaml`
+- `specs/coordination/program-plan.yaml`
+- `specs/tasks/POC-008.md`

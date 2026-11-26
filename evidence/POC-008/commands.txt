@@ -45,3 +45,12 @@ Exit Code: PENDING
 
 Command: python specs/poc/check_program.py --task POC-008 --base-ref b9d0a3c4d81f57925e733e4ce800bf15694d8af0
 Exit Code: PENDING
+
+# POC-008 fixture preparation
+
+Interpreter: Node.js v22.14.0
+Command: node --test poc/POC-08-frontend-framework/fixtures.test.mjs
+Exit Code: 0
+Output: 3 tests passed, 0 failed.
+The fixture catalog was also compared to the ten equivalent scenario IDs in the immutable POC-008 plan. All ten were present in order.
+This run only exercised small windows and fixture structure. The dedicated comparison has its own samples, tool versions, approval and raw measurements.

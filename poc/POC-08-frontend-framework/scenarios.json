@@ -1,0 +1,221 @@
+[
+  {
+    "id": "million_row_virtual_list_equivalent",
+    "inputs": {
+      "rowCount": 1000000,
+      "visibleRows": 32,
+      "offsets": [
+        0,
+        400000,
+        999968
+      ]
+    },
+    "steps": [
+      "Open the first window",
+      "Scroll to the middle window",
+      "Scroll to the final window",
+      "Select the last row"
+    ]
+  },
+  {
+    "id": "dynamic_form_equivalent",
+    "inputs": {
+      "values": {
+        "source": "local",
+        "retryLimit": 3
+      },
+      "condition": {
+        "when": "remote",
+        "field": "endpoint"
+      }
+    },
+    "steps": [
+      "Switch source type",
+      "Check the conditional field",
+      "Submit an empty required field",
+      "Correct it and submit"
+    ]
+  },
+  {
+    "id": "flowchart_equivalent",
+    "inputs": {
+      "nodes": [
+        "source",
+        "verify",
+        "publish"
+      ],
+      "edges": [
+        [
+          "source",
+          "verify"
+        ],
+        [
+          "verify",
+          "publish"
+        ]
+      ]
+    },
+    "steps": [
+      "Select a node",
+      "Move it",
+      "Change its label",
+      "Reload the saved graph"
+    ]
+  },
+  {
+    "id": "decision_table_equivalent",
+    "inputs": {
+      "rules": [
+        {
+          "status": "ready",
+          "allow": true
+        },
+        {
+          "status": "pending",
+          "allow": false
+        }
+      ]
+    },
+    "steps": [
+      "Edit one row",
+      "Add a duplicate condition",
+      "Check its error",
+      "Correct and save"
+    ]
+  },
+  {
+    "id": "monitoring_view_equivalent",
+    "inputs": {
+      "samples": [
+        {
+          "time": 0,
+          "active": 1,
+          "failed": 0
+        },
+        {
+          "time": 10,
+          "active": 3,
+          "failed": 1
+        }
+      ],
+      "refreshError": "unavailable"
+    },
+    "steps": [
+      "View initial data",
+      "Filter series",
+      "Refresh",
+      "Display refresh failure in the monitoring panel"
+    ]
+  },
+  {
+    "id": "sse_websocket_equivalent",
+    "inputs": {
+      "events": [
+        {
+          "sequence": 1,
+          "status": "pending"
+        },
+        {
+          "sequence": 2,
+          "status": "ready"
+        }
+      ],
+      "disconnectAfter": 1
+    },
+    "steps": [
+      "Apply the first event",
+      "Disconnect",
+      "Reconnect",
+      "Apply the second event once"
+    ]
+  },
+  {
+    "id": "player_integration_equivalent",
+    "inputs": {
+      "component": "guize-fixture-player",
+      "assetId": "sample-video",
+      "events": [
+        "ready",
+        "pause",
+        "unavailable"
+      ]
+    },
+    "steps": [
+      "Mount the same component",
+      "Show ready",
+      "Handle pause",
+      "Show player-local failure"
+    ]
+  },
+  {
+    "id": "mobile_experience_equivalent",
+    "inputs": {
+      "viewports": [
+        {
+          "width": 375,
+          "height": 812
+        },
+        {
+          "width": 1024,
+          "height": 768
+        }
+      ]
+    },
+    "steps": [
+      "Open the comparison UI at both sizes",
+      "Access the primary action with touch",
+      "Navigate back"
+    ]
+  },
+  {
+    "id": "permission_model_equivalent",
+    "inputs": {
+      "subjects": [
+        {
+          "id": "reader",
+          "actions": [
+            "read"
+          ]
+        },
+        {
+          "id": "editor",
+          "actions": [
+            "read",
+            "edit"
+          ]
+        }
+      ],
+      "actions": [
+        "read",
+        "edit",
+        "publish"
+      ]
+    },
+    "steps": [
+      "Switch between fixture subjects",
+      "Show the granted actions",
+      "Keep the other actions unavailable"
+    ]
+  },
+  {
+    "id": "design_token_equivalent",
+    "inputs": {
+      "themes": {
+        "light": {
+          "surface": "#ffffff",
+          "text": "#222222"
+        },
+        "dark": {
+          "surface": "#1e1e1e",
+          "text": "#f5f5f5"
+        }
+      },
+      "spacing": 8
+    },
+    "steps": [
+      "Apply light tokens",
+      "Switch to dark tokens",
+      "Check both surfaces and spacing"
+    ]
+  }
+]

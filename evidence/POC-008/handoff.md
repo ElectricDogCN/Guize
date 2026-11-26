@@ -21,3 +21,16 @@
 独立审核人核验依赖、写入范围、租约、已完成用例和官方 CI。集成人对合格源执行普通合并并复验实际主线。实际主线验收后，实现人从该主线开启工作分支，准备等价场景和样本，完成审查后执行试验。
 
 登记未合入时撤回候选。登记合入后经正常任务流程取消并释放自身范围，保留原证据与审查记录。
+
+## 实验输入准备
+
+固定登记主线 `b97135ac94360828e9d29562be593551e231ab30` 已独立接受。[登记 PR #304](https://github.com/ElectricDogCN/Guize/pull/304) · [实际主线 CI #1149](https://github.com/ElectricDogCN/Guize/actions/runs/45775450522)
+
+工作分支 `chore/POC-008-frontend-comparison` 进入实施，原角色、租约、范围和集成顺序保持。固定实验输入引用 POC-PROTOCOL-V1 和既有 POC-008 计划。当前源码及证据在 [任务工作分支](https://github.com/ElectricDogCN/Guize/commits/chore/POC-008-frontend-comparison/) 的固定提交记录。共享 ADR 和结果索引没有写入，后续仍按原顺序集成。
+
+- `poc/POC-08-frontend-framework/README.md` 的 Git 对象为 `035f777f8189afab0824660ae70e7943208993b1`。
+- `poc/POC-08-frontend-framework/fixtures.mjs` 的 Git 对象为 `7c5bcfe2e3980596328164960a1ba7eba7b93ce4`。
+- `poc/POC-08-frontend-framework/fixtures.test.mjs` 的 Git 对象为 `6e8af83699bfca1f9065303497f24703771f92ec`。
+- `poc/POC-08-frontend-framework/scenarios.json` 的 Git 对象为 `d39ce8d5cab0f7800f18b4a8af02dc3a2d76e916`。
+
+[命令与退出码](commands.txt) 记录小用例实测。后继分别实现同一套场景的两个原型，固定依赖、环境、样本摘要和阈值并完成独立审核，再执行十三项正式测量。记录原始输出、可复现命令、结论适用范围和回退。数据均为合成输入。未发布时撤回工作候选，正式发布后按冻结样本版本和实验回退流程处理自身范围。
