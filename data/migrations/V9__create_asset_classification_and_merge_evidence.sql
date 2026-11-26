@@ -46,7 +46,7 @@ WHERE h.scope = 'FULL' AND h.verified_at IS NOT NULL
 
 CREATE FUNCTION asset.guard_verified_content_hash() RETURNS trigger LANGUAGE plpgsql AS $$
 BEGIN
-    IF OLD.scope = 'FULL' AND OLD.verified_at IS NOT NULL THEN
+    IF TG_OP <> 'INSERT' AND OLD.scope = 'FULL' AND OLD.verified_at IS NOT NULL THEN
         IF TG_OP = 'DELETE' THEN
             RAISE check_violation USING CONSTRAINT = 'asset_verified_hash_history', MESSAGE = 'Retain verified content proof';
         END IF;
@@ -55,13 +55,16 @@ BEGIN
                                  NEW.verified_at, NEW.verified_by)
         THEN RAISE check_violation USING CONSTRAINT = 'asset_verified_hash_history', MESSAGE = 'Retain verified content proof';
         END IF;
+    ELSIF TG_OP <> 'DELETE' AND NEW.scope = 'FULL' AND NEW.verified_at IS NOT NULL THEN
+        -- Change the row version so stale repeatable-read snapshots also conflict with new proof.
+        UPDATE asset.version SET hash_status = hash_status WHERE id = NEW.asset_version_id;
     END IF;
     IF TG_OP = 'DELETE' THEN RETURN OLD; END IF;
     RETURN NEW;
 END;
 $$;
 
-CREATE TRIGGER asset_verified_hash_history BEFORE UPDATE OR DELETE ON asset.content_hash
+CREATE TRIGGER asset_verified_hash_history BEFORE INSERT OR UPDATE OR DELETE ON asset.content_hash
 FOR EACH ROW EXECUTE FUNCTION asset.guard_verified_content_hash();
 
 CREATE TABLE asset.tag (
@@ -127,9 +130,10 @@ BEGIN
     IF NOT source.lock_asset_observation(NEW.source_object_id, NEW.asset_id, NEW.source_revision)
     THEN RAISE serialization_failure USING MESSAGE = 'The source is no longer in the observed revision or asset'; END IF;
 
+    PERFORM FROM asset.version WHERE id = NEW.asset_version_id FOR SHARE;
     PERFORM v.id FROM asset.version v JOIN asset.authoritative_content_hash h ON h.asset_version_id = v.id
     WHERE v.id = NEW.asset_version_id AND v.hash_status = 'FULL_VERIFIED'
-      AND h.algorithm = NEW.algorithm AND h.hash_value = NEW.accepted_hash FOR SHARE OF v;
+      AND h.algorithm = NEW.algorithm AND h.hash_value = NEW.accepted_hash;
     IF NOT FOUND
     THEN RAISE check_violation USING CONSTRAINT = 'asset_version_source_verified', MESSAGE = 'Source evidence needs a verified version digest';
     END IF;
@@ -185,7 +189,7 @@ BEGIN
     IF TG_OP <> 'INSERT' THEN
         RAISE check_violation USING CONSTRAINT = 'asset_merge_decision_history', MESSAGE = 'Retain the merge decision';
     END IF;
-    PERFORM id FROM asset.asset WHERE id IN (NEW.source_asset_id, NEW.target_asset_id) ORDER BY id FOR UPDATE;
+    PERFORM id FROM asset.asset WHERE id IN (NEW.source_asset_id, NEW.target_asset_id) ORDER BY id FOR NO KEY UPDATE;
     IF NOT EXISTS (SELECT 1 FROM asset.asset WHERE id = NEW.source_asset_id
         AND current_version_id = NEW.source_version_id AND revision = NEW.source_expected_revision)
         OR NOT EXISTS (SELECT 1 FROM asset.asset WHERE id = NEW.target_asset_id
@@ -194,10 +198,10 @@ BEGIN
     END IF;
 
     IF NEW.verified_hash IS NOT NULL THEN
+        PERFORM id FROM asset.version WHERE id IN (NEW.source_version_id, NEW.target_version_id) ORDER BY id FOR SHARE;
         PERFORM v.id FROM asset.version v JOIN asset.authoritative_content_hash h ON h.asset_version_id = v.id
         WHERE v.id IN (NEW.source_version_id, NEW.target_version_id) AND v.hash_status = 'FULL_VERIFIED'
-          AND h.algorithm = NEW.algorithm AND h.hash_value = NEW.verified_hash
-        ORDER BY v.id FOR SHARE OF v;
+          AND h.algorithm = NEW.algorithm AND h.hash_value = NEW.verified_hash;
         GET DIAGNOSTICS matched_versions = ROW_COUNT;
         IF matched_versions <> 2 OR (SELECT content_length FROM asset.version WHERE id = NEW.source_version_id)
             <> (SELECT content_length FROM asset.version WHERE id = NEW.target_version_id)
