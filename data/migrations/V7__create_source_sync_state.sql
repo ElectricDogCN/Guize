@@ -97,19 +97,30 @@ CREATE INDEX sync_checkpoint_job_idx ON source.sync_checkpoint (job_id);
 CREATE FUNCTION source.record_sync_checkpoint(p_job_id task.identifier, p_expected_revision bigint, p_cursor text)
 RETURNS bigint LANGUAGE plpgsql AS $$
 DECLARE
+    source_task_id task.identifier;
     source_id varchar(80);
     job source.sync_job%ROWTYPE;
     previous_revision bigint;
     next_revision bigint;
 BEGIN
-    SELECT s.id INTO source_id
-    FROM source.data_source s JOIN source.sync_job j ON j.data_source_id = s.id
-    WHERE j.id = p_job_id AND s.status = 'ACTIVE' FOR SHARE OF s;
+    SELECT j.task_id, j.data_source_id INTO source_task_id, source_id
+    FROM source.sync_job j WHERE j.id = p_job_id;
+    IF NOT FOUND THEN
+        RAISE serialization_failure USING MESSAGE = 'Sync job cannot accept a checkpoint';
+    END IF;
+
+    PERFORM FROM task.task WHERE id = source_task_id AND status = 'RUNNING' FOR SHARE;
+    IF NOT FOUND THEN
+        RAISE serialization_failure USING MESSAGE = 'Source sync task cannot accept a checkpoint';
+    END IF;
+
+    PERFORM FROM source.data_source WHERE id = source_id AND status = 'ACTIVE' FOR SHARE;
     IF NOT FOUND THEN
         RAISE serialization_failure USING MESSAGE = 'Source cannot accept this sync checkpoint';
     END IF;
 
-    SELECT * INTO job FROM source.sync_job WHERE id = p_job_id AND data_source_id = source_id FOR UPDATE;
+    SELECT * INTO job FROM source.sync_job
+    WHERE id = p_job_id AND task_id = source_task_id AND data_source_id = source_id FOR UPDATE;
     IF NOT FOUND OR job.status <> 'RUNNING' THEN
         RAISE serialization_failure USING MESSAGE = 'Sync job cannot accept a checkpoint';
     END IF;

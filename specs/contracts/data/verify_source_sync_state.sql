@@ -149,6 +149,21 @@ BEGIN
     IF source.record_sync_checkpoint('job_nextpolicy', 0, 'fixture-new-policy') <> 1 THEN
         RAISE EXCEPTION 'updated policy reused former cursor';
     END IF;
+    UPDATE task.task SET status = 'CANCELLED' WHERE id = 'tsk_subfolder';
+    BEGIN
+        INSERT INTO asset.asset (id, canonical_title, asset_type, lifecycle_status)
+        VALUES ('ast_cancelled', 'Cancelled page observation roll back', 'VIDEO', 'ACTIVE');
+        PERFORM source.record_sync_checkpoint('job_subfolder', 1, 'fixture-cancelled-task');
+        RAISE EXCEPTION 'running job accepted page after task cancellation';
+    EXCEPTION WHEN serialization_failure THEN NULL;
+    END;
+    IF EXISTS (SELECT 1 FROM asset.asset WHERE id = 'ast_cancelled')
+        OR NOT EXISTS (
+            SELECT 1 FROM source.sync_checkpoint JOIN source.sync_job ON sync_job.id = sync_checkpoint.job_id
+            WHERE sync_job.id = 'job_subfolder' AND sync_job.status = 'RUNNING'
+              AND sync_checkpoint.revision = 1 AND sync_checkpoint.cursor_value = 'fixture-other-scope'
+        ) THEN RAISE EXCEPTION 'cancellation did not preserve the previously committed page'; END IF;
+
     UPDATE source.data_source SET status = 'REVOKED' WHERE id = 'src_isolated';
     BEGIN
         PERFORM source.record_sync_checkpoint('job_isolated', 1, 'fixture-revoked-source');
