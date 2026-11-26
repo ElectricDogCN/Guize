@@ -1,4 +1,8 @@
-# POC-007 登记交接
+# POC-007 实施交接
+
+## 实施基线
+
+工作分支 `chore/POC-007-local-range` 从已验实际主线 `e0ded7aeacd749f60bdcf9838a0f8c96ce8e1416` 建立。本轮开始准备样本和环境。正式样本与执行窗口按既有 `local-v1` 规格单独批准。[实际主线 CI #1168](https://github.com/ElectricDogCN/Guize/actions/runs/45851386217)
 
 ## 登记身份
 

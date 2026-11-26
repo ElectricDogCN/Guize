@@ -15,14 +15,14 @@ tasks:
   integrationOrder: 3
   riskLevel: medium
   issue: 315
-  status: reserved
+  status: in_progress
   coordinator: program-coordinator-agent
   implementer: task-owner-agent
   reviewer: independent-review-agent
   integrator: integration-agent
-  agentRole: coordinator
+  agentRole: implementer
   baseBranch: main
-  baseSha: 4c83731f60449abd1749cb2be1568c195f42f443
+  baseSha: e0ded7aeacd749f60bdcf9838a0f8c96ce8e1416
   programPlan: specs/coordination/program-plan.yaml
   programTaskId: POC-007
   handoffPath: evidence/POC-007/handoff.md
