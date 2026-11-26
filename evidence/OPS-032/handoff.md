@@ -17,3 +17,9 @@
 ## 登记格式复验
 
 [官方 CI #1182](https://github.com/ElectricDogCN/Guize/actions/runs/45901797244) 从首候选发现任务验收复选框、验证命令和两段协作说明缺失。Task Spec 的带引号租约值与 Active Work 在文本校验中的读值也不相同。按现有任务模板补齐章节，租约时间沿用原值并去掉 Task Spec 中的引号。受影响的 Task File 与 Schema 两项在修订后的工作树均正常退出。精确声明、任务目标和登记时间范围保持原有内容。新提交须重新接受完整官方检查。
+
+## 实施激活
+
+实际预留主线 `5d89ae71542be66a7eda3eb02aec89623d086b24` 的两父和树与登记审查一致。主线 [CI #1184](https://github.com/ElectricDogCN/Guize/actions/runs/45904452258) 五作业成功，原 1,090 项逐项一致，最长 1,025 秒。实际主线九项本地验证及独立终验通过，独立终验回执 SHA-256 为 `86d4ad36764867960edbeb66e4a59f68c33279fe27aad1d1a6aca67a3da7eb18`。
+
+工作分支 `chore/OPS-032-poc-actor-repair` 以该实际预留为基线。激活提交仅改变本任务状态、当前职责、工作分支与基线元数据。实施采用原始登记声明的三个治理路径，精确的 POC 角色事务另行提交。
