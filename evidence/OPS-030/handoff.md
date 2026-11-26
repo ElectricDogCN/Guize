@@ -44,3 +44,10 @@
 
 - Reviewer 核对精确范围、身份、租约、基线、依赖及官方原测试。Integrator 在实际源通过后正常合入。实际主线复验后由 Implementer 正常激活。
 - 未合入时关闭 PR。已合入时正常取消或回滚自身登记，保留原证据与审批历史。
+
+## 历史审计范围修订
+
+- 源 [PR #297](https://github.com/ElectricDogCN/Guize/pull/297) 的固定候选 `4b4ffbd7519aa0de798fac034752f5624b16cac9` 在后续结项历史路径上存在缺口。现行审计只在有规划清单时调用规划分类器。
+- 已复现 `historical_foreign_metadata` 将策略变更判为外部策略修改。此次先在实际基线 `05fb6c55fb2f6c847ccfda9c153026bffa249a04` 登记一条额外的精确路径 `scripts/check-program-plan-history.py`。
+- 保留 reserved/coordinator、独立角色、原租约和工作分支。真实写入清单见 [变更清单](changed-files.md)，受保护原件的 Git 对象见 [范围声明](history-scope-amendment-v1.json)。
+- 先审核本次登记的固定源码与实际主线，再把工作分支候选基于获准的范围刷新。复验在真实初始登记、实施和后续 Review 历史路径上执行。此次未修改 Program 或代码。

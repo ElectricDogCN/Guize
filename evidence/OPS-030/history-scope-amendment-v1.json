@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "taskId": "OPS-030",
+  "base": "05fb6c55fb2f6c847ccfda9c153026bffa249a04",
+  "priorClaims": [
+    "AGENTS.md",
+    "specs/coordination/program-plan.yaml",
+    "specs/coordination/program-plan.schema.yaml",
+    "scripts/check-program-plan-transitions.py",
+    "scripts/program-planning-revision.py",
+    "tests/governance/test_program_plan_transitions.py",
+    "tests/governance/test_program_planning_revision.py"
+  ],
+  "claims": [
+    "AGENTS.md",
+    "specs/coordination/program-plan.yaml",
+    "specs/coordination/program-plan.schema.yaml",
+    "scripts/check-program-plan-transitions.py",
+    "scripts/program-planning-revision.py",
+    "tests/governance/test_program_plan_transitions.py",
+    "tests/governance/test_program_planning_revision.py",
+    "scripts/check-program-plan-history.py"
+  ],
+  "protectedBlobs": {
+    "specs/coordination/program-plan.yaml": "722f34fc43359a120c3658e2ecc919690c0fe794",
+    "specs/coordination/task-completions.yaml": "1c629fa2694041a828bd19b1648f0dc7c3491273",
+    "AGENTS.md": "e4c85175675be04da72906ed92ab0118c235e34e"
+  },
+  "additionalPathBlobs": {
+    "scripts/check-program-plan-history.py": "0565fce8900b24abc20f21ec9e98805b5fb15e8e"
+  },
+  "lease": {
+    "acquiredAt": "2026-11-26T03:21:57Z",
+    "expiresAt": "2026-12-03T03:21:57Z"
+  },
+  "previousImplementation": "4b4ffbd7519aa0de798fac034752f5624b16cac9",
+  "sourceReviewFinding": 4703852820,
+  "priorScopeEvidenceBlob": "58f567bb37541b8d77fb78fcefffc581d6d6f33e"
+}

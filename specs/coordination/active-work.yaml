@@ -19,7 +19,7 @@ tasks:
   agentRole: coordinator
   branch: chore/OPS-030-module-dependency-admission
   baseBranch: main
-  baseSha: 29b64831411b821b1fe5f69bcbf4fa1c2e4839e9
+  baseSha: 05fb6c55fb2f6c847ccfda9c153026bffa249a04
   workPackage: WP-M0-01
   programPlan: specs/coordination/program-plan.yaml
   programTaskId: OPS-030
@@ -44,6 +44,7 @@ tasks:
   - scripts/program-planning-revision.py
   - tests/governance/test_program_plan_transitions.py
   - tests/governance/test_program_planning_revision.py
+  - scripts/check-program-plan-history.py
   sharedPaths: []
   handoffPath: evidence/OPS-030/handoff.md
   integrationStrategy: merge

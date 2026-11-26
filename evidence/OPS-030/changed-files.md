@@ -20,3 +20,12 @@
 - `specs/coordination/active-work.yaml`
 - `specs/coordination/program-plan.yaml`
 - `specs/tasks/OPS-030.md`
+
+## 历史审计范围修订
+
+- `evidence/OPS-030/changed-files.md`
+- `evidence/OPS-030/handoff.md`
+- `evidence/OPS-030/history-scope-amendment-v1.json`
+- `evidence/OPS-030/scope.md`
+- `specs/coordination/active-work.yaml`
+- `specs/tasks/OPS-030.md`
