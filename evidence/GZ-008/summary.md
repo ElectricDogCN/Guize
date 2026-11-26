@@ -9,3 +9,9 @@
 ## 正式审查
 
 实施 PR #321 已普通合入 `904a2f680fa50ad60b113e99af16181ee8844565`。实际主线树与受审预览一致，七项本地检查、完整官方 1,090 项与独立终验通过。本轮办理 GZ-008 正式审查。[实施 PR #321](https://github.com/ElectricDogCN/Guize/pull/321) · [实际主线 CI #1177](https://github.com/ElectricDogCN/Guize/actions/runs/45883231537)
+
+## 正常结项
+
+Status: PASS
+
+正式 Review 实际主线 `d2456eab9839186afeaf8da5ed0e91ff3e356661` 已通过七项本地检查、完整官方 1,090 项及独立终验。结项账本继续引用实施合并 `904a2f680fa50ad60b113e99af16181ee8844565`。[正式 Review PR #322](https://github.com/ElectricDogCN/Guize/pull/322) · [实际 Review 主线 CI #1179](https://github.com/ElectricDogCN/Guize/actions/runs/45888027882) · [实施 PR #321](https://github.com/ElectricDogCN/Guize/pull/321)

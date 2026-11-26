@@ -39,3 +39,31 @@ python -B -m unittest discover -s specs/contracts/runtime -p 'test_*.py'
 python scripts/check-project-readiness.py
 python scripts/check-markdown.py
 python scripts/check-spec-sync.py --base origin/main
+
+## 实际 Review 已执行检查
+
+Source Commit: d2456eab9839186afeaf8da5ed0e91ff3e356661
+Command: python -B scripts/check-program-plan-integrity.py --base-ref 904a2f680fa50ad60b113e99af16181ee8844565
+Exit Code: 0
+Result: PASS
+Raw SHA-256: 7cfa6aeab9a8ca5a4c82202f1fd3fb124f2aed7082265811e79101c2656b61d4
+
+结项候选源码检查
+
+git diff --check d2456eab9839186afeaf8da5ed0e91ff3e356661...HEAD
+python scripts/check-task-file.py --task GZ-008
+python scripts/check-schemas.py
+python scripts/check-program-plan-integrity.py --base-ref d2456eab9839186afeaf8da5ed0e91ff3e356661
+python scripts/check-program-plan-history.py --base-ref d2456eab9839186afeaf8da5ed0e91ff3e356661 --head-ref HEAD --task GZ-008 --branch-name chore/GZ-008-runtime-contracts-completion
+python scripts/check-program-plan-transitions.py --base-ref d2456eab9839186afeaf8da5ed0e91ff3e356661 --head-ref HEAD --task GZ-008 --branch-name chore/GZ-008-runtime-contracts-completion
+python scripts/check-program-lifecycle-guards.py --base-ref d2456eab9839186afeaf8da5ed0e91ff3e356661 --head-ref HEAD --task GZ-008 --branch-name chore/GZ-008-runtime-contracts-completion
+python scripts/run-program-lifecycle-gate.py --base-ref d2456eab9839186afeaf8da5ed0e91ff3e356661 --head-ref HEAD --task GZ-008 --branch-name chore/GZ-008-runtime-contracts-completion
+python scripts/run-agent-coordination-gate.py --base-ref d2456eab9839186afeaf8da5ed0e91ff3e356661 --head-ref HEAD --task GZ-008 --branch-name chore/GZ-008-runtime-contracts-completion
+python scripts/check-program-plan-finalization.py --base-ref d2456eab9839186afeaf8da5ed0e91ff3e356661 --head-ref HEAD --task GZ-008
+python scripts/run-task-scope-gate.py --task GZ-008 --base d2456eab9839186afeaf8da5ed0e91ff3e356661
+python scripts/check-evidence.py --task GZ-008
+python -B specs/contracts/runtime/check_workflow_contract.py specs/contracts/runtime/fixtures/workflow-policy-v1.json --replay specs/contracts/runtime/fixtures/workflow-replay-v1.json
+python -B -m unittest discover -s specs/contracts/runtime -p 'test_*.py'
+python scripts/check-project-readiness.py
+python scripts/check-markdown.py
+python scripts/check-spec-sync.py --base origin/main
