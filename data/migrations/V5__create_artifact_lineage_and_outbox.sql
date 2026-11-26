@@ -37,6 +37,22 @@ SELECT e.event_id, e.published_at, jsonb_build_object(
 ) AS envelope
 FROM outbox.event e;
 
+CREATE VIEW task.accepted_attempt_event_data AS
+SELECT a.id AS attempt_id, r.accepted_at AS occurred_at, t.trace_id, jsonb_build_object(
+        'revision', 3, 'taskId', t.id, 'planId', p.id, 'planVersion', p.version,
+        'stepId', s.id, 'stepVersion', s.version, 'attemptId', a.id, 'nodeId', a.node_id,
+        'fencing', a.fencing, 'inputVersionId', s.input_version_id, 'inputSha256', s.input_sha256,
+        'capabilityId', a.capability_id, 'capabilityVersion', a.capability_version,
+        'protocolVersion', a.protocol_version, 'artifactManifestId', r.artifact_manifest_id,
+        'artifactManifestSha256', r.artifact_manifest_sha256,
+        'acceptedAt', outbox.utc_timestamp(r.accepted_at)
+    ) AS payload
+FROM task.accepted_result r
+JOIN task.attempt a ON a.id = r.attempt_id AND a.step_key = r.step_key
+JOIN task.plan_step s ON s.step_key = r.step_key
+JOIN task.plan p ON p.plan_key = s.plan_key
+JOIN task.task t ON t.id = p.task_id;
+
 CREATE FUNCTION task.enqueue_accepted_attempt() RETURNS trigger LANGUAGE plpgsql AS $$
 BEGIN
     -- The successful version-1 attempt follows capability binding (1) and leasing (2).
@@ -45,20 +61,9 @@ BEGIN
         occurred_at, producer, trace_id, payload
     )
     SELECT 'evt_' || gen_random_uuid(), 'task.attempt.result.accepted', 1,
-        'TaskAttempt', a.id, 3, NEW.accepted_at, 'guize-control', t.trace_id, jsonb_build_object(
-        'revision', 3, 'taskId', t.id, 'planId', p.id, 'planVersion', p.version,
-        'stepId', s.id, 'stepVersion', s.version, 'attemptId', a.id, 'nodeId', a.node_id,
-        'fencing', a.fencing, 'inputVersionId', s.input_version_id, 'inputSha256', s.input_sha256,
-        'capabilityId', a.capability_id, 'capabilityVersion', a.capability_version,
-        'protocolVersion', a.protocol_version, 'artifactManifestId', NEW.artifact_manifest_id,
-        'artifactManifestSha256', NEW.artifact_manifest_sha256,
-        'acceptedAt', outbox.utc_timestamp(NEW.accepted_at)
-    )
-    FROM task.attempt a
-    JOIN task.plan_step s ON s.step_key = a.step_key
-    JOIN task.plan p ON p.plan_key = s.plan_key
-    JOIN task.task t ON t.id = p.task_id
-    WHERE a.id = NEW.attempt_id AND s.step_key = NEW.step_key;
+        'TaskAttempt', d.attempt_id, 3, d.occurred_at, 'guize-control', d.trace_id, d.payload
+    FROM task.accepted_attempt_event_data d
+    WHERE d.attempt_id = NEW.attempt_id;
     IF NOT FOUND THEN
         RAISE EXCEPTION 'Could not bind the outbox event to accepted attempt %', NEW.attempt_id;
     END IF;
@@ -69,6 +74,15 @@ $$;
 CREATE TRIGGER task_accepted_attempt_outbox
 AFTER INSERT ON task.accepted_result
 FOR EACH ROW EXECUTE FUNCTION task.enqueue_accepted_attempt();
+
+-- Backfill results retained by earlier migrations before the outbox table existed.
+INSERT INTO outbox.event (
+    event_id, event_type, event_version, aggregate_type, aggregate_id, aggregate_revision,
+    occurred_at, producer, trace_id, payload
+)
+SELECT 'evt_' || gen_random_uuid(), 'task.attempt.result.accepted', 1,
+    'TaskAttempt', d.attempt_id, 3, d.occurred_at, 'guize-control', d.trace_id, d.payload
+FROM task.accepted_attempt_event_data d;
 
 ALTER TABLE task.plan_step ADD CONSTRAINT task_step_input_identity UNIQUE (step_key, input_version_id);
 ALTER TABLE task.accepted_result ADD CONSTRAINT task_accepted_manifest_identity
