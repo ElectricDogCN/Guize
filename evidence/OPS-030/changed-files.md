@@ -29,3 +29,20 @@
 - `evidence/OPS-030/scope.md`
 - `specs/coordination/active-work.yaml`
 - `specs/tasks/OPS-030.md`
+
+## 实施变更
+
+- `AGENTS.md`
+- `evidence/OPS-030/changed-files.md`
+- `evidence/OPS-030/commands.txt`
+- `evidence/OPS-030/handoff.md`
+- `evidence/OPS-030/summary.md`
+- `scripts/check-program-plan-history.py`
+- `scripts/check-program-plan-transitions.py`
+- `scripts/program-planning-revision.py`
+- `specs/coordination/active-work.yaml`
+- `specs/coordination/program-plan.schema.yaml`
+- `specs/coordination/program-plan.yaml`
+- `specs/tasks/OPS-030.md`
+- `tests/governance/test_program_plan_transitions.py`
+- `tests/governance/test_program_planning_revision.py`

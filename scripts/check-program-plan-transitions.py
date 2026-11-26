@@ -312,6 +312,14 @@ def validate_active_program_scope(
 
 
 def validate_wave_activation(plan: dict[str, Any], errors: list[str]) -> None:
+    order_policy = plan.get("parallelPolicy", {}).get("activationOrder", "wave")
+    if order_policy == "dependencies":
+        # The integrity gate checks completed dependencies at the admitted
+        # base, and readiness checks each consumed contract's producer.
+        return
+    if order_policy != "wave":
+        errors.append("Unknown Program activationOrder policy")
+        return
     wave_order = {
         str(item.get("id")): int(item.get("order"))
         for item in plan.get("waves") or []

@@ -3,6 +3,7 @@ import copy
 import importlib.util
 import hashlib
 import json
+import os
 import re
 import subprocess
 import sys
@@ -1456,3 +1457,96 @@ def test_program_schema_validation_error_remains_a_classified_rejection(history)
     assert any(error.startswith("Planning revision rejected:") and
                "Additional properties are not allowed" in error and
                "unexpectedTopLevelField" in error for error in errors)
+
+
+def test_dependency_activation_cannot_be_applied_by_a_foreign_task():
+    before = {"status": "active", "parallelPolicy": {}}
+    after = {"status": "active", "parallelPolicy": {"activationOrder": "dependencies"}}
+    with pytest.raises(PLANNING.PlanningError, match="own registered repair"):
+        PLANNING.dependency_activation_revision(
+            ".", "base", "head", before, after, "OPS-031", None, None,
+        )
+
+
+def test_dependency_activation_cannot_be_reversed_by_a_policy_edit():
+    before = {"status": "active", "parallelPolicy": {"activationOrder": "dependencies"}}
+    after = {"status": "active", "parallelPolicy": {"activationOrder": "wave"}}
+    with pytest.raises(PLANNING.PlanningError, match="one-way switch"):
+        PLANNING.dependency_activation_revision(
+            ".", "base", "head", before, after, "OPS-030", None, None,
+        )
+
+
+@pytest.mark.parametrize("alter_program", [False, True])
+def test_historical_dependency_activation_uses_canonical_scope(tmp_path, alter_program):
+    repository = tmp_path / "repository"
+    environment = dict(os.environ, GIT_LFS_SKIP_SMUDGE="1",
+                       GIT_AUTHOR_DATE="2026-11-26T05:00:00Z",
+                       GIT_COMMITTER_DATE="2026-11-26T05:00:00Z")
+    subprocess.run(
+        ["git", "clone", "--shared", "--no-checkout", "--quiet", str(ROOT), str(repository)],
+        check=True, capture_output=True, env=environment,
+    )
+    base = PLANNING.DEPENDENCY_ACTIVATION_SCOPE
+
+    def git(*args):
+        return subprocess.run(
+            ["git", "-C", str(repository), *args], check=True, capture_output=True,
+            encoding="utf-8", env=environment,
+        ).stdout.strip()
+
+    git("checkout", "-B", "main", base)
+    git("switch", "-c", "chore/OPS-030-module-dependency-admission")
+    plan_path = repository / PLANNING.PLAN
+    plan = yaml.safe_load(plan_path.read_text(encoding="utf-8"))
+    plan["parallelPolicy"]["activationOrder"] = "dependencies"
+    row = next(row for row in plan["foundationTasks"] if row["taskId"] == "OPS-030")
+    row["status"] = "in_progress"
+    if alter_program:
+        plan["planId"] = "GUIZE-V1-UNRELATED"
+    plan_path.write_text(yaml.safe_dump(plan, allow_unicode=True, sort_keys=False), encoding="utf-8")
+    (repository / PLANNING.PROGRAM_SCHEMA).write_bytes((ROOT / PLANNING.PROGRAM_SCHEMA).read_bytes())
+    for filename in (PLANNING.ACTIVE, "specs/tasks/OPS-030.md"):
+        path = repository / filename
+        text = path.read_text(encoding="utf-8").replace("status: reserved", "status: in_progress")
+        text = text.replace("agentRole: coordinator", "agentRole: implementer")
+        text = re.sub(r"(?m)^([ ]*baseSha: )\w+$", rf"\g<1>{base}", text)
+        path.write_text(text, encoding="utf-8")
+    git("add", "--", PLANNING.PLAN, PLANNING.PROGRAM_SCHEMA, PLANNING.ACTIVE, "specs/tasks/OPS-030.md")
+    git("-c", "user.name=Historical fixture", "-c", "user.email=fixture@example.com", "commit", "-m", "Propose dependency activation")
+
+    spec = importlib.util.spec_from_file_location("dependency_activation_history", ROOT / "scripts/check-program-plan-history.py")
+    history = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(history)
+    errors = []
+    history.historical_foreign_metadata(str(repository), base, git("rev-parse", "HEAD"), [], "OPS-030", errors, set())
+    if alter_program:
+        assert any("unrelated Program field" in error for error in errors), errors
+    else:
+        assert errors == []
+
+
+@pytest.mark.parametrize("stored_swap", [False, True])
+def test_dependency_activation_rejects_boolean_integer_aliases(monkeypatch, stored_swap):
+    schema = yaml.safe_load((ROOT / PLANNING.PROGRAM_SCHEMA).read_text(encoding="utf-8"))
+    before = yaml.safe_load((ROOT / PLANNING.PLAN).read_text(encoding="utf-8"))
+    before["parallelPolicy"].pop("activationOrder", None)
+    after = copy.deepcopy(before)
+    after["parallelPolicy"]["activationOrder"] = "dependencies"
+    supplied = copy.deepcopy(after)
+    supplied["parallelPolicy"]["independentReviewForHighRisk"] = 1
+    snapshots = {"base": before, "head": supplied if stored_swap else after}
+    def read_document(root, ref, path):
+        if path == PLANNING.PROGRAM_SCHEMA:
+            return schema
+        assert path == PLANNING.PLAN
+        return snapshots[ref]
+    monkeypatch.setattr(PLANNING, "document", read_document)
+
+    errors = []
+    assert PLANNING.classifier(".", "base", "head", before, supplied, errors) is None
+    assert len(errors) == 1
+    if stored_swap:
+        assert "True was expected" in errors[0]
+    else:
+        assert "must bind the actual Git snapshots" in errors[0]

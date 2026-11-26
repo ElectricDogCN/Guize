@@ -16,3 +16,13 @@ python scripts/check-evidence.py --task OPS-030
 python scripts/check-project-readiness.py
 python scripts/check-markdown.py
 python scripts/check-spec-sync.py --base origin/main
+
+Implementation verification. Exit Code: UNEXECUTED.
+
+git diff --check 2cbd4ae2ec064763a25241f35ca7ffa6ce9bba71...HEAD
+python -m pytest -q tests/governance/test_program_plan_transitions.py tests/governance/test_program_planning_revision.py -k 'wave or activation_policy or dependency_activation or test_current_repository_passes'
+python -m pytest -q tests/governance/test_program_schema_cache.py
+python scripts/check-program-plan-transitions.py --base-ref 2cbd4ae2ec064763a25241f35ca7ffa6ce9bba71 --head-ref HEAD --task OPS-030 --branch-name chore/OPS-030-module-dependency-admission
+python scripts/check-program-plan-history.py --base-ref 2cbd4ae2ec064763a25241f35ca7ffa6ce9bba71 --head-ref HEAD --task OPS-030 --branch-name chore/OPS-030-module-dependency-admission
+python scripts/check-evidence.py --task OPS-030
+python scripts/check-schemas.py

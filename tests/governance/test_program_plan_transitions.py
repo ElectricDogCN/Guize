@@ -208,6 +208,21 @@ class TestProgramPlanTransitions(unittest.TestCase):
         TRANSITIONS.validate_wave_activation(plan, errors)
         self.assertTrue(any("earlier-wave tasks remain unfinished" in error for error in errors))
 
+    def test_dependency_policy_allows_an_independent_later_wave(self):
+        plan, _, _ = self.documents()
+        plan.setdefault("parallelPolicy", {})["activationOrder"] = "dependencies"
+        plan["tasks"][1].update(status="reserved", dependsOn=[])
+        errors = []
+        TRANSITIONS.validate_wave_activation(plan, errors)
+        self.assertEqual(errors, [])
+
+    def test_unknown_activation_policy_is_rejected(self):
+        plan, _, _ = self.documents()
+        plan.setdefault("parallelPolicy", {})["activationOrder"] = "unknown"
+        errors = []
+        TRANSITIONS.validate_wave_activation(plan, errors)
+        self.assertEqual(errors, ["Unknown Program activationOrder policy"])
+
     def test_same_wave_tasks_may_open_together(self):
         plan, _, _ = self.documents()
         plan["tasks"][1]["wave"] = "W1"
