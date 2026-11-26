@@ -40,3 +40,17 @@
 - specs/coordination/active-work.yaml
 - specs/coordination/program-plan.yaml
 - specs/tasks/GZ-009.md
+
+## 正常结项
+
+- evidence/GZ-009/accepted-review-main-4337d4a6/independent-review.json
+- evidence/GZ-009/accepted-review-main-4337d4a6/integrity.txt
+- evidence/GZ-009/changed-files.md
+- evidence/GZ-009/commands.txt
+- evidence/GZ-009/handoff.md
+- evidence/GZ-009/summary.md
+- evidence/GZ-009/test-results/README.md
+- specs/coordination/active-work.yaml
+- specs/coordination/program-plan.yaml
+- specs/coordination/task-completions.yaml
+- specs/tasks/GZ-009.md

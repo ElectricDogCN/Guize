@@ -58,3 +58,29 @@ Raw SHA-256: 24ebab7037a0b0f28ccfe0f89e03dad3332f28b8adc10396b07c9bd45ccbbba3
 [实施 PR #305](https://github.com/ElectricDogCN/Guize/pull/305) · [实施主线完整 CI #1152](https://github.com/ElectricDogCN/Guize/actions/runs/45781198725) · [独立复验](implementation-main-1862617a/independent-review.json)
 
 固定源通过全套官方 CI 和独立审查后合入，随后复验实际主线并进入结项。运行界面在对应实现任务验收。
+
+## 正常结项交接
+
+基线 0cde7c3b886617dfbb89bedff0679a351e4cd970，结项分支 chore/GZ-009-normal-completion，当前角色 integrator。实现身份为 1862617a41ac12994e2b7c3d8a5b179ab78cd803，Review 已接受于 4337d4a6bb1d4d01d31fa1a5875e2a1056bff9f4。只释放 GZ-009 本身的登记，保留已有界面契约。
+
+- evidence/GZ-009/accepted-review-main-4337d4a6/independent-review.json
+- evidence/GZ-009/accepted-review-main-4337d4a6/integrity.txt
+- evidence/GZ-009/changed-files.md
+- evidence/GZ-009/commands.txt
+- evidence/GZ-009/handoff.md
+- evidence/GZ-009/summary.md
+- evidence/GZ-009/test-results/README.md
+- specs/coordination/active-work.yaml
+- specs/coordination/program-plan.yaml
+- specs/coordination/task-completions.yaml
+- specs/tasks/GZ-009.md
+
+Source Commit: 4337d4a6bb1d4d01d31fa1a5875e2a1056bff9f4
+Command: /var/tmp/guize-ops027-rebased-proof/python/bin/python -B scripts/check-program-plan-integrity.py --base-ref dc8f7015bbdbb57a60ca49a860659e5b5ac08477
+Exit Code: 0
+Result: PASS
+Raw SHA-256: aaf883b593d7eedfa0b1c205a3141a66bfdecb6bfb1400d1bfefdd64ee0616eb
+
+[正式审查 PR #308](https://github.com/ElectricDogCN/Guize/pull/308) · [实际主线 CI #1158](https://github.com/ElectricDogCN/Guize/actions/runs/45803035869) · [独立终验](accepted-review-main-4337d4a6/independent-review.json)
+
+完成 Issue #299 对应结项门禁，使用固定源与实际结项主线的独立审查和完整官方检查。实际运行界面在实施阶段验收。
