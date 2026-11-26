@@ -114,3 +114,45 @@ tasks:
   lease:
     acquiredAt: '2026-11-26T06:15:19Z'
     expiresAt: '2026-12-03T06:15:19Z'
+- taskId: POC-008
+  title: Vue 3 与 React 管理端场景对比
+  owner: ElectricDogCN
+  branch: chore/POC-008-frontend-comparison
+  workPackage: WP-M0-POC-08
+  coordinationGroup: poc-results
+  integrationOrder: 2
+  riskLevel: medium
+  issue: 298
+  status: reserved
+  coordinator: program-coordinator-agent
+  implementer: task-owner-agent
+  reviewer: independent-review-agent
+  integrator: integration-agent
+  agentRole: coordinator
+  baseBranch: main
+  baseSha: b9d0a3c4d81f57925e733e4ce800bf15694d8af0
+  programPlan: specs/coordination/program-plan.yaml
+  programTaskId: POC-008
+  handoffPath: evidence/POC-008/handoff.md
+  integrationStrategy: merge
+  requirementIds:
+  - REQ-V1-0009
+  moduleIds:
+  - MOD-CONFIG
+  - MOD-PLATFORM
+  producesContracts:
+  - POC-08-EVIDENCE
+  consumesContracts:
+  - POC-PROTOCOL-V1
+  dependsOn:
+  - GZ-010
+  programWave: W4
+  exclusivePaths:
+  - poc/POC-08-frontend-framework/**
+  - evidence/POC-008/**
+  sharedPaths:
+  - adr/**
+  - specs/poc/results-index.yaml
+  lease:
+    acquiredAt: '2026-11-26T07:01:36Z'
+    expiresAt: '2026-12-03T07:01:36Z'

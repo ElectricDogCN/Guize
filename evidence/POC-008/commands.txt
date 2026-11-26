@@ -1,0 +1,47 @@
+# POC-008 source verification
+Commands and actual exit codes are bound to the exact source in its PR and official CI.
+
+Command: git diff --check b9d0a3c4d81f57925e733e4ce800bf15694d8af0...HEAD
+Exit Code: PENDING
+
+Command: python scripts/check-program-plan-integrity.py --base-ref b9d0a3c4d81f57925e733e4ce800bf15694d8af0
+Exit Code: PENDING
+
+Command: python scripts/check-program-plan-history.py --base-ref b9d0a3c4d81f57925e733e4ce800bf15694d8af0 --head-ref HEAD --task POC-008 --branch-name chore/POC-008-frontend-comparison-reservation
+Exit Code: PENDING
+
+Command: python scripts/check-program-plan-transitions.py --base-ref b9d0a3c4d81f57925e733e4ce800bf15694d8af0 --head-ref HEAD --task POC-008 --branch-name chore/POC-008-frontend-comparison-reservation
+Exit Code: PENDING
+
+Command: python scripts/check-program-lifecycle-guards.py --base-ref b9d0a3c4d81f57925e733e4ce800bf15694d8af0 --head-ref HEAD --task POC-008 --branch-name chore/POC-008-frontend-comparison-reservation
+Exit Code: PENDING
+
+Command: python scripts/run-program-lifecycle-gate.py --base-ref b9d0a3c4d81f57925e733e4ce800bf15694d8af0 --head-ref HEAD --task POC-008 --branch-name chore/POC-008-frontend-comparison-reservation
+Exit Code: PENDING
+
+Command: python scripts/run-agent-coordination-gate.py --base-ref b9d0a3c4d81f57925e733e4ce800bf15694d8af0 --head-ref HEAD --task POC-008 --branch-name chore/POC-008-frontend-comparison-reservation
+Exit Code: PENDING
+
+Command: python scripts/check-program-plan-finalization.py --base-ref b9d0a3c4d81f57925e733e4ce800bf15694d8af0 --head-ref HEAD --task POC-008
+Exit Code: PENDING
+
+Command: python scripts/run-task-scope-gate.py --task POC-008 --base b9d0a3c4d81f57925e733e4ce800bf15694d8af0
+Exit Code: PENDING
+
+Command: python scripts/check-task-file.py --task POC-008
+Exit Code: PENDING
+
+Command: python scripts/check-evidence.py --task POC-008
+Exit Code: PENDING
+
+Command: python scripts/check-schemas.py
+Exit Code: PENDING
+
+Command: python scripts/check-project-readiness.py
+Exit Code: PENDING
+
+Command: python scripts/check-markdown.py
+Exit Code: PENDING
+
+Command: python specs/poc/check_program.py --task POC-008 --base-ref b9d0a3c4d81f57925e733e4ce800bf15694d8af0
+Exit Code: PENDING
