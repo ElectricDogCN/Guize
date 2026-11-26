@@ -63,6 +63,20 @@ def capture_anonymous_origin_response(
     return _capture(connection, "/dav/synthetic.bin", response_file, 1024, headers)
 
 
+def capture_resource_denial(
+    port: int, path: str, response_file: Path, *, authorization: str, request_id: str, trace_id: str,
+) -> Capture:
+    """Retain a response from one of the two protected loopback fixture routes."""
+    if path not in ("/management/storage", "/worker/output.bin"):
+        raise ValueError("Expected a configured resource fixture route")
+    connection = HTTPConnection("127.0.0.1", port, timeout=10)
+    return _capture(connection, path, response_file, 0, {
+        "Authorization": authorization,
+        "X-Guize-Request-Id": request_id,
+        "X-Guize-Trace-Id": trace_id,
+    })
+
+
 def _capture(
     connection: HTTPConnection,
     path: str,

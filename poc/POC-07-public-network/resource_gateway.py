@@ -15,12 +15,22 @@ class ProtectedResource:
     content_type: str
 
 
+@dataclass(frozen=True)
+class ResourceDecision:
+    route: str
+    request_id: str
+    trace_id: str
+    observed_at: datetime
+    allowed: bool
+
+
 @contextmanager
 def resource_gateway(
     management: ProtectedResource,
     worker_output: ProtectedResource,
     *,
     port: int = 0,
+    observe: Callable[[ResourceDecision], None] | None = None,
 ) -> Iterator[int]:
     """Validate platform authority before reading either configured OpenList resource."""
     routes = {"/management/storage": management, "/worker/output.bin": worker_output}
@@ -45,8 +55,14 @@ def resource_gateway(
             if resource is None:
                 self.send_resource(404)
                 return
-            presented = self.headers.get("Authorization", "")
-            if resource.authorize(presented, datetime.now(timezone.utc)) is not True:
+            observed_at = datetime.now(timezone.utc)
+            allowed = resource.authorize(self.headers.get("Authorization", ""), observed_at) is True
+            if observe is not None:
+                observe(ResourceDecision(
+                    self.path, self.headers.get("X-Guize-Request-Id", ""),
+                    self.headers.get("X-Guize-Trace-Id", ""), observed_at, allowed,
+                ))
+            if not allowed:
                 self.send_resource(403)
                 return
             try:

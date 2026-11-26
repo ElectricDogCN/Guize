@@ -26,6 +26,8 @@ python -B poc/POC-07-public-network/run_local_replay.py --help
 
 管理与产物使用独立的 [本地验证入口](run_local_resource_replay.py)。准备回环 OpenList 的只读管理接口和独立产物挂载，经标准输入传入 JSON 的 `management` 与 `worker` 两项临时身份。传入已批准的小型 `output.bin` 样本。命令以源端口和样本路径启动回环网关，先验证管理身份或有期限的样本 Grant，再读取对应真实 OpenList 路径。验证器记录授权读回、普通身份的明确 HTTP 拒绝及实际源读取次数。验证范围为本地应用边界预检。
 
+使用 `--evidence-dir` 指定新目录，保留两次普通身份请求的实际 HTTP 拒绝、独立响应体及 `resource-replay.json`。回执核对请求和追踪编号、回环连接、网关实测判定时间及响应摘要。在临时目录校验 HTTP 403 与空响应体后才移入留证目录。
+
 ```bash
 python -B poc/POC-07-public-network/run_local_resource_replay.py --help
 ```
