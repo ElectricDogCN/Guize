@@ -10,7 +10,7 @@ import time
 from uuid import uuid4
 
 from capture_playback import capture_anonymous_origin_response, capture_response
-from native_access_capture import observe_tls_request
+from native_access_capture import observe_access_request
 from playback_gateway import PlaybackObservation, PlaybackPolicy
 from stream_fixture import CHUNK_BYTES, FixtureSource
 
@@ -83,7 +83,10 @@ def replay_fixture(
         request_id, trace_id = uuid4().hex, uuid4().hex
         options = {"request_id": request_id, "trace_id": trace_id, **request_options}
         if native_transport:
-            capture, native = observe_tls_request(playback_port, trust_store, path, count, **options)
+            capture, native = observe_access_request(
+                f"https://localhost:{playback_port}/synthetic.bin", path,
+                trust_store=trust_store, maximum_body_bytes=count, **options,
+            )
         else:
             capture = capture_response(playback_port, trust_store, path, count, **options)
             native = None
@@ -192,9 +195,15 @@ def replay_fixture(
 
     origin_file = directory / "origin-anonymous.http"
     origin_request_id, origin_trace_id = uuid4().hex, uuid4().hex
-    origin = capture_anonymous_origin_response(
-        source.port, origin_file, byte_range, request_id=origin_request_id, trace_id=origin_trace_id
-    )
+    origin_ids = {"request_id": origin_request_id, "trace_id": origin_trace_id}
+    origin_native = {}
+    if native_transport:
+        origin, receipt = observe_access_request(
+            f"http://127.0.0.1:{source.port}/dav/synthetic.bin", origin_file, range_header=byte_range, **origin_ids,
+        )
+        origin_native["nativeTransport"] = receipt
+    else:
+        origin = capture_anonymous_origin_response(source.port, origin_file, byte_range, **origin_ids)
     status, headers, count, digest = retained_access_http_response(origin_file)
     if status not in (401, 403) or count or digest != empty_digest:
         raise ValueError("The anonymous OpenList source returned an unexpected response")
@@ -210,6 +219,7 @@ def replay_fixture(
         "tlsLeafSha256": certificate_identity,
         "originDenial": {
             **origin.transport_observation(),
+            **origin_native,
             "requestId": origin_request_id,
             "traceId": origin_trace_id,
             "status": status,

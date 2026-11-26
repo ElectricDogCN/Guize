@@ -1,4 +1,4 @@
-"""Run an observed request and strict TLS client for the loopback playback fixture."""
+"""Run observed requests against the disposable loopback access fixture."""
 
 import argparse
 from dataclasses import asdict
@@ -12,7 +12,7 @@ import subprocess
 import sys
 from urllib.parse import urlsplit
 
-from capture_playback import Capture, capture_response
+from capture_playback import Capture, capture_anonymous_origin_response, capture_resource_denial, capture_response
 
 SCRIPT = Path(__file__).resolve()
 CLOCKS = ("started_at", "connected_at", "request_started_at", "finished_at")
@@ -70,7 +70,22 @@ def capture_tls(args: argparse.Namespace, settings: dict) -> None:
     sys.stdout.buffer.write(content)
 
 
-def capture_request(args: argparse.Namespace, settings: dict) -> None:
+def capture_http_request(args: argparse.Namespace, settings: dict) -> dict:
+    target = urlsplit(args.target)
+    port = target.port
+    if not port or target.netloc != f"127.0.0.1:{port}" or target.query or target.fragment:
+        raise CaptureError("Expected a direct loopback fixture endpoint")
+    identifiers = {"request_id": args.request_id, "trace_id": args.trace_id}
+    request = settings["request"]
+    if target.path == "/dav/synthetic.bin":
+        capture = capture_anonymous_origin_response(port, args.response, request["range_header"], **identifiers)
+    else:
+        capture = capture_resource_denial(port, target.path, args.response,
+                                          authorization=request["authorization"], **identifiers)
+    return {"requestProcessId": getpid(), "requestCommand": sys.orig_argv, "capture": asdict(capture)}
+
+
+def capture_tls_request(args: argparse.Namespace, settings: dict) -> dict:
     port = playback_port(args.target, "/synthetic.bin")
     tls_result = args.response.with_suffix(".tls.json")
     capture_receipt = args.response.with_suffix(".capture.json")
@@ -103,34 +118,35 @@ def capture_request(args: argparse.Namespace, settings: dict) -> None:
     if capture["process_id"] != process.pid:
         raise CaptureError("The response was not collected by the recorded TLS process")
     write_bytes(stderr, stderr_bytes)
-    print(json.dumps({
+    return {
         "requestProcessId": getpid(), "requestCommand": sys.orig_argv, "tlsCommand": tls_command,
         "tlsProcessId": process.pid, "tlsStartedAt": started.isoformat(), "tlsFinishedAt": finished.isoformat(),
         "tlsExitCode": process.returncode,
         "tlsResult": tls_result.name, "tlsResultSha256": "sha256:" + sha256(stdout_bytes).hexdigest(),
         "tlsStderr": stderr.name, "tlsStderrSha256": "sha256:" + sha256(stderr_bytes).hexdigest(),
         "capture": capture,
-    }))
+    }
 
 
-def observe_tls_request(
-    port: int, trust_store: Path, response: Path, maximum_body_bytes: int, **request,
+def observe_access_request(
+    target: str, response: Path, *, trust_store: Path | None = None, maximum_body_bytes: int = 0, **request,
 ) -> tuple[Capture, dict]:
     command = [
         sys.executable, "-B", str(SCRIPT), "--request-id", request.pop("request_id"),
-        "--trace-id", request.pop("trace_id"), "--target", f"https://localhost:{port}/synthetic.bin",
+        "--trace-id", request.pop("trace_id"), "--target", target,
         "--response", str(response),
     ]
     try:
         completed = subprocess.run(
-            command, input=json_bytes({"trust_store": str(trust_store), "maximum_body_bytes": maximum_body_bytes,
+            command, input=json_bytes({"trust_store": str(trust_store) if trust_store is not None else None,
+                                       "maximum_body_bytes": maximum_body_bytes,
                                        "request": request}), capture_output=True, timeout=25,
         )
     except subprocess.TimeoutExpired:
-        raise CaptureError("The native playback request collector timed out") from None
+        raise CaptureError("The native access request collector timed out") from None
     if completed.returncode != 0 or completed.stderr:
         detail = completed.stderr.decode(errors="replace").strip()
-        raise CaptureError(f"The native playback request collector failed: {detail}")
+        raise CaptureError(f"The native access request collector failed: {detail}")
     evidence = json.loads(completed.stdout)
     if evidence["requestCommand"] != command:
         raise CaptureError("The observed request command differs from the invoked command")
@@ -156,7 +172,9 @@ def main() -> None:
     try:
         data = json.loads(sys.stdin.buffer.readline(8193))
         if args.request_id and args.trace_id and args.target and args.response:
-            capture_request(args, data)
+            evidence = (capture_http_request(args, data) if urlsplit(args.target).scheme == "http"
+                        else capture_tls_request(args, data))
+            sys.stdout.buffer.write(json_bytes(evidence))
         elif all((args.target_origin, args.connection_id, args.tls_ca_file, args.tls_verify_peer,
                   args.tls_verify_mode, args.tls_output)):
             capture_tls(args, data)

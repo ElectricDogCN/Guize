@@ -36,6 +36,8 @@ python -B poc/POC-07-public-network/run_local_replay.py --help
 
 使用 `--native-transport` 时，每个 TLS 播放请求由独立的请求进程启动严格验证的 TLS 客户端。回执保留实际命令、TLS 进程和退出状态。TLS 客户端的标准输出与留存 JSON 按字节核对，响应从同一个 TLS 客户端读回。本地单证书模式要求已验证的对端证书精确匹配批准的回环证书。
 
+该选项也为直接来源、管理、Worker 产物三条回环 HTTP 请求记录实际独立命令、PID 和目标。组合入口将这些回执写入同一实验窗口的两份结果文件。单独运行资源入口时，使用该选项需同时传入 `--evidence-dir`。
+
 ```bash
 python -B poc/POC-07-public-network/run_local_resource_replay.py --help
 ```

@@ -1,6 +1,7 @@
 """Validate management and Worker output separately from the playback fixture."""
 
 import argparse
+from contextlib import nullcontext
 from dataclasses import asdict
 from datetime import datetime, timedelta, timezone
 from hashlib import sha256
@@ -14,6 +15,7 @@ from tempfile import TemporaryDirectory
 from uuid import uuid4
 
 from capture_playback import capture_resource_denial
+from native_access_capture import observe_access_request
 from replay_fixture import retain_response_body, retained_access_http_response
 from resource_gateway import ProtectedResource, ResourceDecision, resource_gateway
 
@@ -38,14 +40,22 @@ def get(port: int, path: str, authorization: str) -> tuple[int, bytes]:
 
 def retain_denial(
     port: int, path: str, output: Path, identity: str, decisions: list[ResourceDecision],
+    *, native_transport: bool = False,
 ) -> tuple[int, bytes, dict]:
     request_id, trace_id = uuid4().hex, uuid4().hex
     previous = len(decisions)
-    with TemporaryDirectory(dir=output.parent) as directory:
+    native = {}
+    identifiers = {"request_id": request_id, "trace_id": trace_id}
+    capture_directory = nullcontext(output.parent) if native_transport else TemporaryDirectory(dir=output.parent)
+    with capture_directory as directory:
         candidate = Path(directory) / output.name
-        capture = capture_resource_denial(
-            port, path, candidate, authorization=identity, request_id=request_id, trace_id=trace_id,
-        )
+        if native_transport:
+            capture, receipt = observe_access_request(
+                f"http://127.0.0.1:{port}{path}", candidate, authorization=identity, **identifiers,
+            )
+            native["nativeTransport"] = receipt
+        else:
+            capture = capture_resource_denial(port, path, candidate, authorization=identity, **identifiers)
         status, headers, count, digest = retained_access_http_response(candidate)
         if status != 403 or count != 0:
             raise ValueError("A resource denial did not return the expected empty HTTP 403 response")
@@ -60,13 +70,14 @@ def retain_denial(
         ):
             raise ValueError("The captured denial and actual gateway decision do not match")
         body = retain_response_body(candidate, headers, count, digest)
-        candidate.rename(output)
-        candidate.with_name(body).rename(output.with_name(body))
+        if not native_transport:
+            candidate.rename(output)
+            candidate.with_name(body).rename(output.with_name(body))
     observation = asdict(capture)
     for key in ("started_at", "connected_at", "finished_at", "request_started_at"):
         observation[key] = observation[key].isoformat()
     return status, b"", {
-        **observation, "requestId": request_id, "traceId": trace_id, "route": path,
+        **observation, **native, "requestId": request_id, "traceId": trace_id, "route": path,
         "authorizationObservedAt": decision.observed_at.isoformat(),
         "statusCode": status, "rawResponse": output.name, "responseBody": body,
         "responseByteCount": count, "responseSha256": digest,
@@ -75,7 +86,7 @@ def retain_denial(
 
 def replay(
     origin_port: int, origin_auth: dict[str, str], fixture: bytes, evidence_dir: Path | None = None,
-    *, entry_port: int = 0,
+    *, entry_port: int = 0, native_transport: bool = False,
 ) -> dict:
     credentials = {role: "Bearer " + secrets.token_urlsafe(24) for role in ("admin", "worker", "reader")}
     now = datetime.now(timezone.utc)
@@ -117,6 +128,7 @@ def replay(
             return get(port, path, credentials["reader"])
         status, body, capture = retain_denial(
             port, path, evidence_dir / f"{name}.http", credentials["reader"], decisions,
+            native_transport=native_transport,
         )
         captures[name] = capture
         return status, body
@@ -167,13 +179,17 @@ def main() -> None:
     parser.add_argument("--origin-port", type=int, required=True)
     parser.add_argument("--output-fixture", type=Path, required=True)
     parser.add_argument("--evidence-dir", type=Path, help="New directory for the two denial responses and their receipt")
+    parser.add_argument("--native-transport", action="store_true", help="Record actual per-request subprocesses")
     args = parser.parse_args()
     if not 1 <= args.origin_port <= 65535:
         parser.error("Expected the private OpenList loopback port")
+    if args.native_transport and args.evidence_dir is None:
+        parser.error("Native request capture requires an evidence directory")
     try:
         fixture = read_output_fixture(args.output_fixture)
         origin_auth = read_origin_identities({"management", "worker"})
-        print(json.dumps(replay(args.origin_port, origin_auth, fixture, args.evidence_dir), separators=(",", ":")))
+        result = replay(args.origin_port, origin_auth, fixture, args.evidence_dir, native_transport=args.native_transport)
+        print(json.dumps(result, separators=(",", ":")))
     except (OSError, ValueError) as error:
         parser.exit(1, f"{error}\n")
 

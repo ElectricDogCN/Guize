@@ -34,7 +34,8 @@ def main() -> None:
         start = datetime.now(timezone.utc)
         playback = run(args, origin_authorization=origin_authorization)
         resources = root / "resources"
-        replay(args.origin_port, identities, fixture, resources, entry_port=args.resource_port)
+        replay(args.origin_port, identities, fixture, resources, entry_port=args.resource_port,
+               native_transport=args.native_transport)
         finish = datetime.now(timezone.utc)
         result = {
             "startedAt": start.isoformat(), "finishedAt": finish.isoformat(), "sample": playback["sample"],
