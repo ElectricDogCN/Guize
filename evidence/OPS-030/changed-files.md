@@ -46,3 +46,16 @@
 - `specs/tasks/OPS-030.md`
 - `tests/governance/test_program_plan_transitions.py`
 - `tests/governance/test_program_planning_revision.py`
+
+## 正式审查
+
+- evidence/OPS-030/accepted-main-0ab07018/independent-review.json
+- evidence/OPS-030/accepted-main-0ab07018/integrity.txt
+- evidence/OPS-030/changed-files.md
+- evidence/OPS-030/commands.txt
+- evidence/OPS-030/handoff.md
+- evidence/OPS-030/summary.md
+- evidence/OPS-030/test-results/README.md
+- specs/coordination/active-work.yaml
+- specs/coordination/program-plan.yaml
+- specs/tasks/OPS-030.md
