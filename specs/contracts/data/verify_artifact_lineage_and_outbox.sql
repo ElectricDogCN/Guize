@@ -1,5 +1,10 @@
 BEGIN;
 
+SELECT to_regclass('ai.pipeline') IS NOT NULL AS fixture_registry_present \gset
+\if :fixture_registry_present
+\ir ai_artifact_registry_fixture.sql
+\endif
+
 \ir task_resource_fixture.sql
 
 INSERT INTO asset.version (
@@ -101,7 +106,7 @@ $$;
 INSERT INTO ai.derived_artifact_revision (
     artifact_id, revision, model_version, prompt_version, pipeline_version_id, parameters_hash, confidence,
     uncertainty, generated, quality_status, publication_status, structured_payload, output_sha256, created_by, trace_id
-) VALUES ('art_fixture', 1, 'model-v1', 'prompt-v1', 'pipeline_ocr', repeat('d', 64), 0.9,
+) VALUES ('art_fixture', 1, 'model-v1', 'prompt-v1', 'pipeline_ocr', encode(sha256(convert_to('{}', 'UTF8')), 'hex'), 0.9,
     false, true, 'ACCEPTED', 'DRAFT', '{"text":"original"}', repeat('e', 64), 'usr_owner', 'trace-artifact');
 UPDATE ai.derived_artifact SET current_revision = 1 WHERE id = 'art_fixture';
 
@@ -115,7 +120,7 @@ BEGIN
             artifact_id, revision, model_version, prompt_version, pipeline_version_id, parameters_hash, confidence,
             uncertainty, generated, quality_status, publication_status, structured_payload,
             output_sha256, created_by, trace_id, created_at, published_at
-        ) VALUES ('art_fixture', 2, 'model-v1', 'prompt-v1', 'pipeline_ocr', repeat('d', 64), 0.9,
+        ) VALUES ('art_fixture', 2, 'model-v1', 'prompt-v1', 'pipeline_ocr', encode(sha256(convert_to('{}', 'UTF8')), 'hex'), 0.9,
             false, true, 'ACCEPTED', 'PUBLISHED', '{"text":"original"}',
             repeat('e', 64), 'usr_owner', 'trace-artifact', statement_timestamp(), statement_timestamp());
         UPDATE ai.derived_artifact SET current_revision = 2 WHERE id = 'art_fixture' AND current_revision = 1;
@@ -137,7 +142,7 @@ INSERT INTO ai.derived_artifact_revision (
     artifact_id, revision, model_version, prompt_version, pipeline_version_id, parameters_hash, confidence,
     uncertainty, generated, quality_status, publication_status, structured_payload,
     output_sha256, created_by, trace_id, created_at, published_at
-) VALUES ('art_fixture', 2, 'model-v1', 'prompt-v1', 'pipeline_ocr', repeat('d', 64), 0.9,
+) VALUES ('art_fixture', 2, 'model-v1', 'prompt-v1', 'pipeline_ocr', encode(sha256(convert_to('{}', 'UTF8')), 'hex'), 0.9,
     false, true, 'ACCEPTED', 'PUBLISHED', '{"text":"original"}',
     repeat('e', 64), 'usr_owner', 'trace-artifact', statement_timestamp(), statement_timestamp());
 UPDATE ai.derived_artifact SET current_revision = 2 WHERE id = 'art_fixture' AND current_revision = 1;
@@ -146,7 +151,7 @@ INSERT INTO ai.derived_artifact_revision (
     artifact_id, revision, model_version, prompt_version, pipeline_version_id, parameters_hash, confidence,
     uncertainty, generated, quality_status, publication_status, structured_payload,
     output_sha256, created_by, trace_id, created_at, published_at
-) VALUES ('art_fixture', 3, 'model-v1', 'prompt-v1', 'pipeline_ocr', repeat('d', 64), 0.9,
+) VALUES ('art_fixture', 3, 'model-v1', 'prompt-v1', 'pipeline_ocr', encode(sha256(convert_to('{}', 'UTF8')), 'hex'), 0.9,
     false, false, 'ACCEPTED', 'PUBLISHED', '{"text":"corrected"}',
     repeat('f', 64), 'usr_editor', 'trace-edited', statement_timestamp(), statement_timestamp());
 UPDATE ai.derived_artifact SET current_revision = 3 WHERE id = 'art_fixture' AND current_revision = 2;
@@ -174,7 +179,7 @@ BEGIN
                 artifact_id, revision, model_version, prompt_version, pipeline_version_id, parameters_hash, confidence,
                 uncertainty, generated, quality_status, publication_status, content_reference,
                 output_sha256, created_by, trace_id, created_at, published_at
-            ) VALUES (thumb.id, 1, 'model-v1', 'prompt-v1', 'pipeline_ocr', repeat('d', 64), 1,
+            ) VALUES (thumb.id, 1, 'model-v1', 'prompt-v1', 'pipeline_ocr', encode(sha256(convert_to('{}', 'UTF8')), 'hex'), 1,
                 false, NOT thumb.expected_generated, 'ACCEPTED', 'PUBLISHED', 'fixture-ref',
                 repeat('e', 64), 'usr_owner', 'trace-thumbnail', statement_timestamp(), statement_timestamp());
             UPDATE ai.derived_artifact SET current_revision = 1 WHERE id = thumb.id;
@@ -187,7 +192,7 @@ BEGIN
             artifact_id, revision, model_version, prompt_version, pipeline_version_id, parameters_hash, confidence,
             uncertainty, generated, quality_status, publication_status, content_reference,
             output_sha256, created_by, trace_id, created_at, published_at
-        ) VALUES (thumb.id, 1, 'model-v1', 'prompt-v1', 'pipeline_ocr', repeat('d', 64), 1,
+        ) VALUES (thumb.id, 1, 'model-v1', 'prompt-v1', 'pipeline_ocr', encode(sha256(convert_to('{}', 'UTF8')), 'hex'), 1,
             false, thumb.expected_generated, 'ACCEPTED', 'PUBLISHED', 'fixture-ref',
             repeat('e', 64), 'usr_owner', 'trace-thumbnail', statement_timestamp(), statement_timestamp());
         UPDATE ai.derived_artifact SET current_revision = 1 WHERE id = thumb.id;
