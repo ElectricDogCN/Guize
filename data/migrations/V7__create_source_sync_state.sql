@@ -94,6 +94,16 @@ CREATE TABLE source.sync_checkpoint (
 
 CREATE INDEX sync_checkpoint_job_idx ON source.sync_checkpoint (job_id);
 
+CREATE FUNCTION task.lock_running_source_sync(p_task_id task.identifier)
+RETURNS boolean LANGUAGE plpgsql SECURITY DEFINER SET search_path = pg_catalog, pg_temp AS $$
+BEGIN
+    PERFORM FROM task.task WHERE id = p_task_id AND type = 'source.sync.v1' AND status = 'RUNNING' FOR SHARE;
+    RETURN FOUND;
+END;
+$$;
+
+REVOKE EXECUTE ON FUNCTION task.lock_running_source_sync(task.identifier) FROM PUBLIC;
+
 CREATE FUNCTION source.record_sync_checkpoint(p_job_id task.identifier, p_expected_revision bigint, p_cursor text)
 RETURNS bigint LANGUAGE plpgsql AS $$
 DECLARE
@@ -109,8 +119,7 @@ BEGIN
         RAISE serialization_failure USING MESSAGE = 'Sync job cannot accept a checkpoint';
     END IF;
 
-    PERFORM FROM task.task WHERE id = source_task_id AND status = 'RUNNING' FOR SHARE;
-    IF NOT FOUND THEN
+    IF NOT task.lock_running_source_sync(source_task_id) THEN
         RAISE serialization_failure USING MESSAGE = 'Source sync task cannot accept a checkpoint';
     END IF;
 
