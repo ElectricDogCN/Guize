@@ -1,4 +1,5 @@
 import { createElement as element, useState } from "react";
+import { Stream, Player, Responsive, Permissions, Theme } from "./react-runtime.mjs";
 import { Graph, DecisionTable, Monitoring } from "./react-admin.mjs";
 import { createRoot } from "react-dom/client";
 import {
@@ -68,4 +69,9 @@ createRoot(document.querySelector("#app")).render(element("div", {},
   element(Graph),
   element(DecisionTable),
   element(Monitoring),
+  element(Stream),
+  element(Player),
+  element(Responsive),
+  element(Permissions),
+  element(Theme),
 ));

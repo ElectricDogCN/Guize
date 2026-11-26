@@ -89,3 +89,25 @@ label, .field {
 .graph button[aria-pressed='true'] {
   background: #c3dbff;
 }
+
+.responsive-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+
+.responsive-actions button {
+  min-height: 44px;
+}
+
+@media (max-width: 600px) {
+  .responsive-actions {
+    grid-template-columns: 1fr;
+  }
+}
+
+.sample-surface {
+  background: var(--sample-surface);
+  color: var(--sample-text);
+  padding: var(--sample-space);
+}

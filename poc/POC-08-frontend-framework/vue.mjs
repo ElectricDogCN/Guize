@@ -1,4 +1,5 @@
 import { createApp, h, reactive, ref } from "vue";
+import { Stream, Player, Responsive, Permissions, Theme } from "./vue-runtime.mjs";
 import { Graph, DecisionTable, Monitoring } from "./vue-admin.mjs";
 import {
   condition, firstVisibleRow, formResult, initialForm, listRows, rowCount, rowHeight,
@@ -72,5 +73,6 @@ createApp({
   render: () => h("div", {}, [
     h("h1", {}, "Vue comparison"), h(AssetList), h(SourceForm),
     h(Graph), h(DecisionTable), h(Monitoring),
+    h(Stream), h(Player), h(Responsive), h(Permissions), h(Theme),
   ]),
 }).mount("#app");

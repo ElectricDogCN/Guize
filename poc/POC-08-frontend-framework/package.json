@@ -3,9 +3,12 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "vite build",
+    "build": "npm run build:react && npm run build:vue",
     "test": "node --test fixtures.test.mjs",
-    "test:browser": "node --test browser.test.mjs"
+    "test:browser": "node --test browser.test.mjs",
+    "measure:bundles": "node measure-bundles.mjs",
+    "build:react": "vite build --mode react",
+    "build:vue": "vite build --mode vue"
   },
   "engines": {
     "node": ">=22.14.0"
