@@ -4,8 +4,10 @@ from dataclasses import asdict
 from hashlib import sha256
 from pathlib import Path
 from shutil import copyfileobj
+import ssl
 import sys
 import time
+from uuid import uuid4
 
 from capture_playback import capture_anonymous_origin_response, capture_response
 from playback_gateway import PlaybackObservation, PlaybackPolicy
@@ -50,6 +52,9 @@ def replay_fixture(
     """Capture a fixed set of cases against a running disposable gateway and OpenList."""
     if source.filename != "synthetic.bin":
         raise ValueError("This replay requires the fixed OpenList fixture route")
+    trust_bytes = trust_store.read_bytes()
+    certificate = ssl.PEM_cert_to_DER_cert(trust_bytes.decode("ascii"))
+    certificate_identity = "sha256:" + sha256(certificate).hexdigest()
     directory.mkdir(exist_ok=False)
     first, stop = policy.cache_interval
     byte_range = f"bytes={first}-{stop - 1}"
@@ -73,17 +78,28 @@ def replay_fixture(
         expected_digest = fixture_digest if full else range_digest if status == 206 else empty_digest
         path = directory / f"{label}.http"
         previous = len(observations)
-        capture = capture_response(playback_port, trust_store, path, count, **request_options)
+        request_id, trace_id = uuid4().hex, uuid4().hex
+        capture = capture_response(playback_port, trust_store, path, count, request_id=request_id, trace_id=trace_id,
+                                   **request_options)
         actual_status, headers, bytes_received, observed_digest = retained_access_http_response(path)
         if (actual_status, bytes_received, observed_digest) != (status, count, expected_digest):
             raise ValueError(f"{label} returned unexpected status or fixture bytes")
-        if capture.protocol != "TLSv1.3" or headers.get("content-range") != (content_range if status == 206 else None):
+        if (
+            capture.protocol != "TLSv1.3"
+            or capture.certificate_sha256 != certificate_identity
+            or headers.get("content-range") != (content_range if status == 206 else None)
+        ):
             raise ValueError(f"{label} returned unexpected TLS or Content-Range")
         if status in (200, 206) and headers.get("etag") != source.etag:
             raise ValueError(f"{label} returned an unexpected fixture validator")
         if len(observations) != previous + 1 or observations[-1].status != actual_status:
             raise ValueError(f"{label} has no matching gateway observation")
         outcome = observations[-1]
+        if (
+            (outcome.request_id, outcome.trace_id) != (request_id, trace_id)
+            or not capture.connected_at <= outcome.observed_at <= capture.finished_at
+        ):
+            raise ValueError(f"{label} does not bind the captured request to its gateway observation")
         if outcome.transfer is not None and (
             outcome.transfer.byte_count != count or outcome.transfer.sha256 != observed_digest
             or outcome.transfer.peak_read_bytes > CHUNK_BYTES
@@ -91,14 +107,20 @@ def replay_fixture(
             raise ValueError(f"{label} returned an inconsistent source observation")
         if outcome.transfer is not None:
             cursor = 0 if full else first
+            last_seen = outcome.source_requested_at
+            if last_seen is None or last_seen < outcome.observed_at:
+                raise ValueError(f"{label} has no observed source request")
             for read in outcome.reads:
-                if read.offset != cursor or read.byte_count <= 0:
+                if read.offset != cursor or read.byte_count <= 0 or not last_seen <= read.observed_at <= capture.finished_at:
                     raise ValueError(f"{label} has a discontinuous source read")
                 cursor += read.byte_count
+                last_seen = read.observed_at
             if cursor != (source.byte_count if full else stop):
                 raise ValueError(f"{label} source reads do not cover the exact response interval")
         return {
             "case": label,
+            "requestId": request_id,
+            "traceId": trace_id,
             "status": actual_status,
             "bodyByteCount": bytes_received,
             "bodySha256": observed_digest,
@@ -109,9 +131,13 @@ def replay_fixture(
             "clientStartedAt": capture.started_at.isoformat(),
             "clientConnectedAt": capture.connected_at.isoformat(),
             "clientFinishedAt": capture.finished_at.isoformat(),
+            "peerAddress": capture.peer_address,
+            "peerPort": capture.peer_port,
             "tls": capture.protocol,
             "cipher": capture.cipher,
+            "certificateSha256": capture.certificate_sha256,
             "gatewayObservedAt": outcome.observed_at.isoformat(),
+            "sourceRequestedAt": outcome.source_requested_at.isoformat() if outcome.source_requested_at else None,
             "gatewayDecision": outcome.decision,
             "requestRange": outcome.range_header,
             "ifRange": outcome.if_range,
@@ -154,7 +180,10 @@ def replay_fixture(
         raise ValueError("The throttled request accessed the cache or the source")
 
     origin_file = directory / "origin-anonymous.http"
-    origin = capture_anonymous_origin_response(source.port, origin_file, byte_range)
+    origin_request_id, origin_trace_id = uuid4().hex, uuid4().hex
+    origin = capture_anonymous_origin_response(
+        source.port, origin_file, byte_range, request_id=origin_request_id, trace_id=origin_trace_id
+    )
     status, headers, count, digest = retained_access_http_response(origin_file)
     if status not in (401, 403) or count or digest != empty_digest:
         raise ValueError("The anonymous OpenList source returned an unexpected response")
@@ -166,7 +195,11 @@ def replay_fixture(
         "requestLimit": policy.request_limit,
         "windowSeconds": policy.window_seconds,
         "burstElapsedSeconds": elapsed,
+        "trustStoreSha256": "sha256:" + sha256(trust_bytes).hexdigest(),
+        "tlsLeafSha256": certificate_identity,
         "originDenial": {
+            "requestId": origin_request_id,
+            "traceId": origin_trace_id,
             "status": status,
             "bodyByteCount": count,
             "bodySha256": digest,
@@ -174,5 +207,10 @@ def replay_fixture(
             "rawResponse": origin_file.name,
             "rawResponseSha256": origin.raw_sha256,
             "rawResponseByteCount": origin.raw_byte_count,
+            "clientStartedAt": origin.started_at.isoformat(),
+            "clientConnectedAt": origin.connected_at.isoformat(),
+            "clientFinishedAt": origin.finished_at.isoformat(),
+            "peerAddress": origin.peer_address,
+            "peerPort": origin.peer_port,
         },
     }

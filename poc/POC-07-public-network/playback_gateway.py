@@ -36,7 +36,10 @@ class PlaybackObservation:
     decision: str
     range_header: str | None
     if_range: str | None
+    request_id: str | None
+    trace_id: str | None
     cache_hit: bool = False
+    source_requested_at: datetime | None = None
     transfer: Transfer | None = None
     reads: tuple[ObservedRead, ...] = ()
 
@@ -76,9 +79,12 @@ def playback_gateway(
             observed_at = datetime.now(timezone.utc)
             requested = self.headers.get("Range")
             if_range = self.headers.get("If-Range")
+            request_id = self.headers.get("X-Guize-Request-Id")
+            trace_id = self.headers.get("X-Guize-Trace-Id")
 
             def record(status: int, decision: str, **outcome) -> None:
-                observe(PlaybackObservation(observed_at, status, decision, requested, if_range, **outcome))
+                observe(PlaybackObservation(observed_at, status, decision, requested, if_range,
+                                            request_id, trace_id, **outcome))
 
             def reject(status: int, reason: str, **headers: str) -> None:
                 record(status, reason)
@@ -118,6 +124,11 @@ def playback_gateway(
 
             capture = BytesIO() if use_cache else None
             cache_headers: dict[str, str] = {}
+            source_requested_at = None
+
+            def request_sent(sent_at: datetime) -> None:
+                nonlocal source_requested_at
+                source_requested_at = sent_at
 
             def send_headers(status: int, headers: dict[str, str]) -> None:
                 if capture is not None:
@@ -132,11 +143,13 @@ def playback_gateway(
 
             observer = ObserveFixtureWrites(write, interval[0] if interval else 0)
             transfer = source.stream(
-                origin_authorization, send_headers, observer, range_header=requested, if_range=if_range
+                origin_authorization, send_headers, observer, range_header=requested, if_range=if_range,
+                request_sent=request_sent,
             )
             if capture is not None:
                 cached = cache_headers, capture.getvalue()
-            record(206 if interval else 200, "allowed", transfer=transfer, reads=observer.finish())
+            record(206 if interval else 200, "allowed", source_requested_at=source_requested_at,
+                   transfer=transfer, reads=observer.finish())
 
     class FixtureServer(HTTPServer):
         def get_request(self):

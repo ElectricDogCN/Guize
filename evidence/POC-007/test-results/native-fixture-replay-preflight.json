@@ -186,5 +186,26 @@
     "rawResponseByteCount": 146
   },
   "processStopped": true,
-  "temporaryArtifactsRemoved": true
+  "temporaryArtifactsRemoved": true,
+  "correlatedRerun": {
+    "verifiedResponsePairs": 12,
+    "distinctRequestIds": 12,
+    "distinctTraceIds": 12,
+    "matchingTlsPeerCertificates": 11,
+    "tlsLeafSha256": "sha256:7fdbb41a69dbe85126ccc37ff32e1250ddb099c7e9d03c589ada2f803d804b03",
+    "trustStoreSha256": "sha256:82e73bcc675b7e517ae6573715ef5cf8b5d200beeaf109c287888b96ef6b6e4e",
+    "gatewaySourceRequests": [
+      {
+        "case": "range",
+        "sourceRequestedAt": "2026-11-27T01:34:32.782481+08:00",
+        "rawResponseSha256": "sha256:c3a66b52aa7ef13c18cf4cda509f77c4f8c41bf864fafa09d5980f3e86a0ee2f"
+      },
+      {
+        "case": "full",
+        "sourceRequestedAt": "2026-11-27T01:34:34.097607+08:00",
+        "rawResponseSha256": "sha256:9148b5d0f4d48212eab39acc03fc4004820d064909c169471db2673f26a03930"
+      }
+    ],
+    "cleaned": true
+  }
 }

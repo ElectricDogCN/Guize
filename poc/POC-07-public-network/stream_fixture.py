@@ -2,6 +2,7 @@
 
 from collections.abc import Callable
 from dataclasses import dataclass
+from datetime import datetime, timezone
 from hashlib import sha256
 from http.client import HTTPConnection, HTTPResponse
 import re
@@ -69,6 +70,7 @@ class FixtureSource:
         *,
         range_header: str | None = None,
         if_range: str | None = None,
+        request_sent: Callable[[datetime], None] | None = None,
     ) -> Transfer:
         """Call the response callbacks synchronously; do not retain the temporary write buffer."""
         interval = self.interval(range_header, if_range)
@@ -84,6 +86,8 @@ class FixtureSource:
         connection = HTTPConnection("127.0.0.1", self.port, timeout=10)
         try:
             connection.request("GET", "/dav/" + self.filename, headers=request_headers)
+            if request_sent is not None:
+                request_sent(datetime.now(timezone.utc))
             with connection.getresponse() as response:
                 if (
                     response.status != status
