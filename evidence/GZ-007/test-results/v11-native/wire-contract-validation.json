@@ -1,0 +1,11 @@
+{
+  "source": "7cc455283a19125cb0ac6d2fa1d63d594b4deed6",
+  "passed": true,
+  "events": 3,
+  "published_aggregate_revisions": [
+    3,
+    5,
+    6
+  ],
+  "input_sha256": "e694b9d5416fe1f87601896e7182d8d064d322e0dea24a0505db3ae73983b652"
+}

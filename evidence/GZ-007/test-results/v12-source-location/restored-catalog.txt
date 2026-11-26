@@ -1,0 +1,16 @@
+ai|6
+asset|8
+audit|2
+config|3
+iam|9
+media|4
+outbox|2
+policy|4
+search|3
+source|8
+storage|7
+task|5
+asset|version|{asset_id,version_number}|{"asset_id,version_number"}
+source|object|{data_source_id,provider_object_id}|{"data_source_id,provider_object_id"}
+storage|replica|{rendition_id,backend_id,object_key}|{"backend_id,object_key"}
+task|task|{idempotency_scope,idempotency_key}|{"idempotency_scope,idempotency_key"}

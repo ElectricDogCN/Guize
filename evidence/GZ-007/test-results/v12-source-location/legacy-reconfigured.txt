@@ -1,0 +1,1 @@
+src_old_route|WEBDAV|Existing source renamed|https://source.example/dav|old-media|7|secretref_old_fixture
