@@ -156,6 +156,12 @@ BEGIN
 
     SELECT * INTO STRICT r FROM ai.derived_artifact_revision
     WHERE artifact_id = NEW.id AND revision = NEW.current_revision;
+    IF (NEW.artifact_type = 'THUMBNAIL_REAL' AND r.generated)
+        OR (NEW.artifact_type = 'THUMBNAIL_GENERATED' AND NOT r.generated)
+    THEN
+        RAISE EXCEPTION 'Thumbnail type and generated flag must agree'
+            USING ERRCODE = '23514', CONSTRAINT = 'artifact_thumbnail_generated';
+    END IF;
     IF r.publication_status = 'PUBLISHED' THEN
         INSERT INTO outbox.event (
             event_id, event_type, event_version, aggregate_type, aggregate_id, aggregate_revision,

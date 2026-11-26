@@ -153,6 +153,49 @@ UPDATE ai.derived_artifact SET current_revision = 3 WHERE id = 'art_fixture' AND
 UPDATE ai.derived_artifact SET current_revision = 3 WHERE id = 'art_fixture';
 
 DO $$
+DECLARE
+    thumb record;
+    violated text;
+BEGIN
+    FOR thumb IN
+        SELECT * FROM (VALUES
+            ('art_real', 'THUMBNAIL_REAL', false),
+            ('art_generated', 'THUMBNAIL_GENERATED', true)
+        ) AS cases(id, kind, expected_generated)
+    LOOP
+        INSERT INTO ai.derived_artifact (
+            id, asset_version_id, producer_attempt_id, producer_step_key, manifest_id, manifest_sha256,
+            manifest_entry_key, artifact_type
+        )
+        SELECT thumb.id, 'ver_task', attempt_id, step_key, artifact_manifest_id, artifact_manifest_sha256, thumb.id, thumb.kind
+        FROM task.accepted_result WHERE attempt_id = 'att_first';
+        BEGIN
+            INSERT INTO ai.derived_artifact_revision (
+                artifact_id, revision, model_version, prompt_version, pipeline_version_id, parameters_hash, confidence,
+                uncertainty, generated, quality_status, publication_status, content_reference,
+                output_sha256, created_by, trace_id, created_at, published_at
+            ) VALUES (thumb.id, 1, 'model-v1', 'prompt-v1', 'pipeline_ocr', repeat('d', 64), 1,
+                false, NOT thumb.expected_generated, 'ACCEPTED', 'PUBLISHED', 'fixture-ref',
+                repeat('e', 64), 'usr_owner', 'trace-thumbnail', statement_timestamp(), statement_timestamp());
+            UPDATE ai.derived_artifact SET current_revision = 1 WHERE id = thumb.id;
+            RAISE EXCEPTION 'A mismatched thumbnail must not become current or emit a publication event';
+        EXCEPTION WHEN check_violation THEN
+            GET STACKED DIAGNOSTICS violated = CONSTRAINT_NAME;
+            IF violated <> 'artifact_thumbnail_generated' THEN RAISE; END IF;
+        END;
+        INSERT INTO ai.derived_artifact_revision (
+            artifact_id, revision, model_version, prompt_version, pipeline_version_id, parameters_hash, confidence,
+            uncertainty, generated, quality_status, publication_status, content_reference,
+            output_sha256, created_by, trace_id, created_at, published_at
+        ) VALUES (thumb.id, 1, 'model-v1', 'prompt-v1', 'pipeline_ocr', repeat('d', 64), 1,
+            false, thumb.expected_generated, 'ACCEPTED', 'PUBLISHED', 'fixture-ref',
+            repeat('e', 64), 'usr_owner', 'trace-thumbnail', statement_timestamp(), statement_timestamp());
+        UPDATE ai.derived_artifact SET current_revision = 1 WHERE id = thumb.id;
+    END LOOP;
+END;
+$$;
+
+DO $$
 BEGIN
     BEGIN
         UPDATE ai.derived_artifact_revision SET structured_payload = '{"text":"overwrite"}'
@@ -163,20 +206,21 @@ BEGIN
     IF NOT EXISTS (
         SELECT 1 FROM ai.derived_artifact_revision
         WHERE artifact_id = 'art_fixture' AND revision = 1 AND structured_payload = '{"text":"original"}'
-    ) OR (SELECT count(*) FROM outbox.event) <> 3 THEN
+    ) OR (SELECT count(*) FROM outbox.event) <> 5 THEN
         RAISE EXCEPTION 'Append-only revisions or exactly one event per publication failed';
     END IF;
 
     INSERT INTO outbox.consumer_offset (consumer_id, event_id) SELECT 'fixture-indexer', event_id FROM outbox.event;
     INSERT INTO outbox.consumer_offset (consumer_id, event_id) SELECT 'fixture-indexer', event_id FROM outbox.event
     ON CONFLICT (consumer_id, event_id) DO NOTHING;
-    IF FOUND OR (SELECT count(*) FROM outbox.consumer_offset) <> 3 THEN
+    IF FOUND OR (SELECT count(*) FROM outbox.consumer_offset) <> 5 THEN
         RAISE EXCEPTION 'Exact event acknowledgement retry must be a no-op';
     END IF;
 END;
 $$;
 
-SELECT envelope::text FROM outbox.event_envelope ORDER BY envelope->>'eventType', (envelope->'payload'->>'revision')::int;
+SELECT envelope::text FROM outbox.event_envelope
+ORDER BY envelope->>'eventType', envelope->>'aggregateId', (envelope->'payload'->>'revision')::int;
 
 \if :{?retain_fixture}
 COMMIT;
