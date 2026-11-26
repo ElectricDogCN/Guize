@@ -1,6 +1,6 @@
 # Preserve the exact HTTP framing and body bytes used by the verifier.
-*.http -text
-*.body -text
+*.http binary
+*.body binary
 
 # Keep the fixed source and the two full-stream captures in Git LFS.
 profiles/local-v1/**/inputs/base.bin filter=lfs diff=lfs merge=lfs -text
