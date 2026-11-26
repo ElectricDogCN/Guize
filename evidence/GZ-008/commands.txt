@@ -1,0 +1,19 @@
+# GZ-008 登记固定源
+
+Command recipe. Exit Code: UNEXECUTED.
+
+git diff --check 4b192390c2b0b0697407efa177832dc11ec5437d...HEAD
+python scripts/check-task-file.py --task GZ-008
+python scripts/check-schemas.py
+python scripts/check-program-plan-integrity.py --base-ref 4b192390c2b0b0697407efa177832dc11ec5437d
+python scripts/check-program-plan-history.py --base-ref 4b192390c2b0b0697407efa177832dc11ec5437d --head-ref HEAD --task GZ-008 --branch-name chore/GZ-008-runtime-contracts-reservation
+python scripts/check-program-plan-transitions.py --base-ref 4b192390c2b0b0697407efa177832dc11ec5437d --head-ref HEAD --task GZ-008 --branch-name chore/GZ-008-runtime-contracts-reservation
+python scripts/check-program-lifecycle-guards.py --base-ref 4b192390c2b0b0697407efa177832dc11ec5437d --head-ref HEAD --task GZ-008 --branch-name chore/GZ-008-runtime-contracts-reservation
+python scripts/run-program-lifecycle-gate.py --base-ref 4b192390c2b0b0697407efa177832dc11ec5437d --head-ref HEAD --task GZ-008 --branch-name chore/GZ-008-runtime-contracts-reservation
+python scripts/run-agent-coordination-gate.py --base-ref 4b192390c2b0b0697407efa177832dc11ec5437d --head-ref HEAD --task GZ-008 --branch-name chore/GZ-008-runtime-contracts-reservation
+python scripts/check-program-plan-finalization.py --base-ref 4b192390c2b0b0697407efa177832dc11ec5437d --head-ref HEAD --task GZ-008
+python scripts/run-task-scope-gate.py --task GZ-008 --base 4b192390c2b0b0697407efa177832dc11ec5437d
+python scripts/check-evidence.py --task GZ-008
+python scripts/check-project-readiness.py
+python scripts/check-markdown.py
+python scripts/check-spec-sync.py --base origin/main
