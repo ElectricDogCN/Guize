@@ -353,7 +353,7 @@ tasks:
   - taskId: GZ-007
     title: 冻结 PostgreSQL/Flyway DDL、索引与迁移策略
     kind: contract
-    status: reserved
+    status: in_progress
     workPackage: WP-M0-03D
     riskLevel: high
     ownerRole: task-owner-agent
