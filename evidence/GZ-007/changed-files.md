@@ -13,3 +13,13 @@
 - specs/coordination/active-work.yaml
 - specs/coordination/program-plan.yaml
 - specs/tasks/GZ-007.md
+
+## 模块命名空间迁移
+
+- data/migrations/V1__create_module_namespaces.sql
+- evidence/GZ-007/changed-files.md
+- evidence/GZ-007/handoff.md
+- evidence/GZ-007/test-results/README.md
+- specs/coordination/active-work.yaml
+- specs/coordination/program-plan.yaml
+- specs/tasks/GZ-007.md
