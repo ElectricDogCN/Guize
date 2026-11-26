@@ -67,6 +67,45 @@ $$;
 CREATE TRIGGER asset_verified_hash_history BEFORE INSERT OR UPDATE OR DELETE ON asset.content_hash
 FOR EACH ROW EXECUTE FUNCTION asset.guard_verified_content_hash();
 
+CREATE FUNCTION asset.lock_authoritative_checksum(p_version task.identifier, p_algorithm text, p_hash text)
+RETURNS boolean LANGUAGE plpgsql SECURITY DEFINER SET search_path = pg_catalog, pg_temp AS $$
+BEGIN
+    PERFORM FROM asset.version WHERE id = p_version FOR SHARE;
+    RETURN EXISTS (
+        SELECT 1 FROM asset.version v JOIN asset.authoritative_content_hash h ON h.asset_version_id = v.id
+        WHERE v.id = p_version AND v.hash_status = 'FULL_VERIFIED'
+          AND h.algorithm = p_algorithm AND h.hash_value = p_hash
+    );
+END;
+$$;
+
+REVOKE EXECUTE ON FUNCTION asset.lock_authoritative_checksum(task.identifier, text, text) FROM PUBLIC;
+
+CREATE FUNCTION media.require_authoritative_rendition_checksum() RETURNS trigger LANGUAGE plpgsql AS $$
+BEGIN
+    IF NOT asset.lock_authoritative_checksum(NEW.asset_version_id, 'SHA256', NEW.input_sha256)
+    THEN RAISE check_violation USING CONSTRAINT = 'media_rendition_input_authority', MESSAGE = 'Rendition input needs an unambiguous checksum';
+    END IF;
+    RETURN NEW;
+END;
+$$;
+
+CREATE TRIGGER media_rendition_input_authority BEFORE INSERT ON media.rendition
+FOR EACH ROW EXECUTE FUNCTION media.require_authoritative_rendition_checksum();
+
+CREATE FUNCTION storage.require_authoritative_cache_checksum() RETURNS trigger LANGUAGE plpgsql AS $$
+BEGIN
+    IF NOT asset.lock_authoritative_checksum(NEW.asset_version_id, NEW.verification_algorithm, NEW.verification_sha256_or_blake3)
+    THEN RAISE check_violation USING CONSTRAINT = 'cache_entry_input_authority', MESSAGE = 'Cache verification needs an unambiguous checksum';
+    END IF;
+    RETURN NEW;
+END;
+$$;
+
+CREATE TRIGGER storage_cache_input_authority BEFORE UPDATE ON storage.cache_entry FOR EACH ROW
+WHEN (NEW.state IN ('COMPLETE_CACHE', 'PINNED_CACHE') AND NEW.verification_evidence_id IS DISTINCT FROM OLD.verification_evidence_id)
+EXECUTE FUNCTION storage.require_authoritative_cache_checksum();
+
 CREATE TABLE asset.tag (
     id task.identifier PRIMARY KEY,
     namespace varchar(64) NOT NULL CHECK (namespace ~ '^[A-Z][A-Z0-9_]{0,63}$'),
@@ -130,11 +169,7 @@ BEGIN
     IF NOT source.lock_asset_observation(NEW.source_object_id, NEW.asset_id, NEW.source_revision)
     THEN RAISE serialization_failure USING MESSAGE = 'The source is no longer in the observed revision or asset'; END IF;
 
-    PERFORM FROM asset.version WHERE id = NEW.asset_version_id FOR SHARE;
-    PERFORM v.id FROM asset.version v JOIN asset.authoritative_content_hash h ON h.asset_version_id = v.id
-    WHERE v.id = NEW.asset_version_id AND v.hash_status = 'FULL_VERIFIED'
-      AND h.algorithm = NEW.algorithm AND h.hash_value = NEW.accepted_hash;
-    IF NOT FOUND
+    IF NOT asset.lock_authoritative_checksum(NEW.asset_version_id, NEW.algorithm, NEW.accepted_hash)
     THEN RAISE check_violation USING CONSTRAINT = 'asset_version_source_verified', MESSAGE = 'Source evidence needs a verified version digest';
     END IF;
     RETURN NEW;

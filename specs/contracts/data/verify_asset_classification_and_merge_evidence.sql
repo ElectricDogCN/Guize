@@ -89,14 +89,15 @@ SET LOCAL ROLE gz_fixture_asset_link;
 DO $$
 BEGIN
     IF has_function_privilege('source.lock_asset_observation(task.identifier,task.identifier,bigint)', 'EXECUTE')
-    THEN RAISE EXCEPTION 'source lock is executable without grant'; END IF;
+        OR has_function_privilege('asset.lock_authoritative_checksum(task.identifier,text,text)', 'EXECUTE')
+    THEN RAISE EXCEPTION 'evidence lock is executable without grant'; END IF;
 END;
 $$;
 RESET ROLE;
 GRANT EXECUTE ON FUNCTION source.lock_asset_observation(task.identifier, task.identifier, bigint) TO gz_fixture_asset_link;
+GRANT EXECUTE ON FUNCTION asset.lock_authoritative_checksum(task.identifier, text, text) TO gz_fixture_asset_link;
 GRANT INSERT ON asset.version_source TO gz_fixture_asset_link;
-GRANT SELECT, UPDATE ON asset.asset, asset.version TO gz_fixture_asset_link;
-GRANT SELECT ON asset.authoritative_content_hash TO gz_fixture_asset_link;
+GRANT SELECT, UPDATE ON asset.asset TO gz_fixture_asset_link;
 SET LOCAL ROLE gz_fixture_asset_link;
 DO $$
 BEGIN
@@ -110,9 +111,9 @@ INSERT INTO asset.version_source (asset_id, asset_version_id, source_object_id, 
 VALUES ('ast_alias_left', 'ver_alias_left', 'obj_alias_left', 2, 'SHA256',
         encode(sha256(convert_to('same', 'UTF8')), 'hex'), 'evid_link_left', CURRENT_TIMESTAMP);
 RESET ROLE;
-REVOKE SELECT ON asset.authoritative_content_hash FROM gz_fixture_asset_link;
-REVOKE SELECT, UPDATE ON asset.asset, asset.version FROM gz_fixture_asset_link;
+REVOKE SELECT, UPDATE ON asset.asset FROM gz_fixture_asset_link;
 REVOKE INSERT ON asset.version_source FROM gz_fixture_asset_link;
+REVOKE EXECUTE ON FUNCTION asset.lock_authoritative_checksum(task.identifier, text, text) FROM gz_fixture_asset_link;
 REVOKE EXECUTE ON FUNCTION source.lock_asset_observation(task.identifier, task.identifier, bigint) FROM gz_fixture_asset_link;
 REVOKE USAGE ON SCHEMA task, asset, source FROM gz_fixture_asset_link;
 DROP ROLE gz_fixture_asset_link;
@@ -177,6 +178,45 @@ BEGIN
     END;
 END;
 $$;
+
+SAVEPOINT conflicting_readback;
+INSERT INTO media.profile (id, profile_key, version, parameters, parameters_sha256, approved_at)
+VALUES ('prof_ambiguous_fixture', 'prof_fixture', 1, '{}', encode(sha256(convert_to('{}', 'UTF8')), 'hex'), CURRENT_TIMESTAMP);
+INSERT INTO storage.backend (id, purpose, failure_domain_id, target_ref, connector_kind, storage_class)
+VALUES ('stg_ambiguous_fixture', 'CACHE', 'fd_fixture', 'target_ambiguous_fixture', 'LOCAL', 'HOT');
+INSERT INTO storage.cache_entry (id, asset_version_id, backend_id, object_key, cache_class, state, size_bytes, expires_at)
+VALUES ('cache_ambiguous_fixture', 'ver_alias_ambiguous', 'stg_ambiguous_fixture', 'fixture/a', 'FULL_FILE', 'VALIDATING', 4, CURRENT_TIMESTAMP);
+DO $$
+DECLARE
+    digest text := encode(sha256(convert_to('same', 'UTF8')), 'hex');
+    violated text;
+BEGIN
+    BEGIN
+        INSERT INTO media.rendition (id, asset_version_id, kind, codec, container, tool_version, profile_version_id,
+                                     input_sha256, output_sha256, size_bytes, quality_status, publication_status)
+        VALUES ('rend_ambiguous_fixture', 'ver_alias_ambiguous', 'AV1_MASTER', 'av1', 'mp4', 'fixture-v1',
+                'prof_ambiguous_fixture', digest, digest, 4, 'PENDING', 'DRAFT');
+        RAISE EXCEPTION 'ambiguous media input passed';
+    EXCEPTION WHEN check_violation THEN
+        GET STACKED DIAGNOSTICS violated = CONSTRAINT_NAME;
+        IF violated <> 'media_rendition_input_authority' THEN RAISE; END IF;
+    END;
+    BEGIN
+        UPDATE storage.cache_entry SET state = 'COMPLETE_CACHE', verified_size_bytes = 4, verification_algorithm = 'SHA256',
+            verification_sha256_or_blake3 = digest, verification_evidence_id = 'evid_ambiguous_cache',
+            verified_at = clock_timestamp(), verification_trace_id = 'trace-conflicting-cache', revision = 2
+        WHERE id = 'cache_ambiguous_fixture';
+        RAISE EXCEPTION 'ambiguous cache proof passed';
+    EXCEPTION WHEN check_violation THEN
+        GET STACKED DIAGNOSTICS violated = CONSTRAINT_NAME;
+        IF violated <> 'cache_entry_input_authority' THEN RAISE; END IF;
+    END;
+    IF EXISTS (SELECT 1 FROM outbox.event WHERE aggregate_id = 'cache_ambiguous_fixture')
+    THEN RAISE EXCEPTION 'ambiguous cache proof produced an event'; END IF;
+END;
+$$;
+ROLLBACK TO SAVEPOINT conflicting_readback;
+RELEASE SAVEPOINT conflicting_readback;
 
 -- Exercise provenance after an application reassociation, using a synthetic update.
 UPDATE source.object SET asset_id = 'ast_alias_right', revision = revision + 1 WHERE id = 'obj_alias_left';
