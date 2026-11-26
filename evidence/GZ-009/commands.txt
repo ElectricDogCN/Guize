@@ -60,3 +60,11 @@ Output SHA-256: b427cc8c650b40fa0b375430c25e54cb364bb0ed93999487eff82daae28ab69b
 Command: python scripts/check-spec-sync.py --base origin/main
 Exit Code: 0
 Output SHA-256: f1d47d7f6c872eb35af7d3203d3f221d0c282ef6ee2181ed93031742dc939324
+
+# GZ-009 implementation
+
+Command: python specs/ui/check_contract.py
+Exit Code: 0
+Output: PASS: 19 UI pages, 96 API operations and 2 node-only operations.
+The same contract logic rejected four isolated in-memory negative fixtures. The fixtures removed an action, duplicated an action, moved a protected operation to a public page, and changed the authority digest. Playback pending, Passkey challenge, and event-stream state assertions passed.
+The fixed commit and independent CI outcomes are linked by its implementation PR.

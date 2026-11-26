@@ -468,7 +468,7 @@ tasks:
   - taskId: GZ-009
     title: 冻结前端页面、权限、状态与 API 映射
     kind: design-contract
-    status: reserved
+    status: in_progress
     workPackage: WP-M0-03F
     riskLevel: medium
     ownerRole: task-owner-agent

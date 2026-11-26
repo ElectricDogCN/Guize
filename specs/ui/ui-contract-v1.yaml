@@ -1,0 +1,175 @@
+schemaVersion: 1
+apiVersion: 1.0.0
+errorCatalogVersion: 1.0.0
+authoritySha256: cd82d8a193f3da35df95b5d0b7289d5af9c094bc6a0d002e5bbb0b7a8825c503
+pageStates:
+  - loading
+  - ready
+  - empty
+  - unavailable
+pages:
+  - id: sign-in
+    route: /sign-in
+    title: 登录
+    audience: public
+    actions: [loginPassword, createPasskeyChallenge, verifyPasskey]
+  - id: account
+    route: /account
+    title: 账户
+    audience: session
+    actions:
+      - getSession
+      - logoutSession
+      - createStepUp
+      - createStepUpPasskeyChallenge
+      - createPasskeyRegistrationChallenge
+      - registerPasskey
+  - id: access
+    route: /admin/access
+    title: 用户与角色
+    audience: administration
+    actions: [listRoles, createRole, replaceRole, listUsers, createUser, changeUser]
+  - id: sources
+    route: /admin/sources
+    title: 数据来源
+    audience: administration
+    actions:
+      - listDataSources
+      - createDataSource
+      - getDataSource
+      - patchDataSource
+      - getSourceCredentialReference
+      - changeSourceCredentialReference
+      - probeDataSource
+      - syncDataSource
+      - revokeDataSource
+      - listSourceObjects
+      - setSourceVisibility
+      - getSourcePlatformAcl
+  - id: library
+    route: /library
+    title: 资产库
+    audience: session
+    actions:
+      - listAssets
+      - getAsset
+      - patchAsset
+      - listAssetVersions
+      - listAssetSources
+      - listRenditions
+      - getAssetAcl
+      - replaceAssetAcl
+      - publishAsset
+      - unpublishAsset
+      - mergeAsset
+      - splitAsset
+  - id: asset-safety
+    route: /admin/asset-safety
+    title: 资产审核
+    audience: administration
+    actions: [listAssetSecurityFindings, releaseAssetQuarantine]
+  - id: public-asset
+    route: /catalog/{assetId}
+    title: 公开资产
+    audience: public
+    actions: [getPublicAsset, createPublicPlaybackPlan]
+  - id: playback
+    route: /play/{assetId}
+    title: 播放
+    audience: session
+    actions:
+      - createPlaybackPlan
+      - revokePlaybackGrant
+      - getPlaybackProgress
+      - putPlaybackProgress
+  - id: tasks
+    route: /admin/tasks
+    title: 任务与进度
+    audience: administration
+    actions:
+      - listTasks
+      - getTask
+      - pauseTask
+      - resumeTask
+      - cancelTask
+      - retryTask
+      - changeTaskPriority
+      - streamTaskEvents
+  - id: cache
+    route: /admin/cache
+    title: 缓存
+    audience: administration
+    actions: [listCacheEntries, cacheAsset, evictCacheEntry]
+  - id: media
+    route: /admin/media
+    title: 媒体处理
+    audience: administration
+    actions: [probeMedia, transcodeAsset]
+  - id: artifacts
+    route: /library/{assetId}/artifacts
+    title: 智能处理与产物
+    audience: session
+    actions:
+      - enrichAsset
+      - listDerivedArtifacts
+      - getArtifactContent
+      - createArtifactRevision
+      - publishArtifact
+  - id: discovery
+    route: /search
+    title: 搜索与推荐
+    audience: session
+    actions: [searchAssets, recommendAssets]
+  - id: index
+    route: /admin/search-index
+    title: 搜索索引
+    audience: administration
+    actions: [rebuildSearchIndexes]
+  - id: policies
+    route: /admin/policies
+    title: 策略
+    audience: administration
+    actions:
+      - listPolicies
+      - createPolicy
+      - getPolicy
+      - getPolicyContent
+      - validatePolicy
+      - simulatePolicy
+      - canaryPolicy
+      - publishPolicy
+      - rollbackPolicy
+  - id: configuration
+    route: /admin/configuration
+    title: 配置
+    audience: administration
+    actions:
+      - listConfigurations
+      - createConfiguration
+      - getConfiguration
+      - getConfigurationContent
+      - validateConfiguration
+      - simulateConfiguration
+      - canaryConfiguration
+      - publishConfiguration
+      - rollbackConfiguration
+      - requestConfigurationAssistance
+      - getConfigurationAssistance
+  - id: deployment
+    route: /admin/deployments
+    title: 部署
+    audience: administration
+    actions: [listDeploymentProfiles, createDeployment]
+  - id: workers
+    route: /admin/workers
+    title: 工作节点
+    audience: administration
+    actions: [listWorkers]
+  - id: approvals
+    route: /admin/approvals
+    title: 审批
+    audience: administration
+    actions: [listApprovals, createApproval, decideApproval]
+integrationOnly:
+  registerWorker: 节点用其注册凭据调用。
+  heartbeatWorker: 节点上报心跳。
