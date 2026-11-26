@@ -18,6 +18,12 @@ python poc/POC-07-public-network/verify_fixture.py /path/to/materialized-synthet
 
 `playback_gateway` 和 `replay_fixture` 是同次本地实验的服务端与采集入口。实验启动器向网关注入已配置的只读 OpenList、TLS 上下文、Grant 校验和固定的缓存区间及限流窗口。网关先校验 Grant 和限流，再查缓存或取源。采集器依次验证 Range、匹配的 If-Range、三类身份拒绝、完整读取、固定窗口限流和直接 OpenList 拒绝。每次保留独立的原始响应和响应体，使用请求 ID、追踪 ID 和实际时间核对网关处理、OpenList 请求与连续读取。大文件及区间摘要增量计算。正式实验在批准的隔离环境运行，保持端口、信任材料、样本和阈值绑定一致。
 
+`run_local_replay.py` 将两部分接到仓库内的单一命令。启动器先准备仅在回环监听的 OpenList 与 `synthetic.bin` 只读挂载，通过标准输入管道交付临时只读凭据。命令行参数固定样本、端口、信任材料、缓存区间和限流窗口。`--preflight` 验证已记录的小样本，默认校验固定的 64 MiB 原件。命令需要一个尚不存在的证据目录，成功后保留 `.http`、`.body` 和 `replay-result.json`。
+
+```bash
+python -B poc/POC-07-public-network/run_local_replay.py --help
+```
+
 ```bash
 python -B -m unittest discover -s poc/POC-07-public-network -p 'test_stream_fixture.py'
 ```

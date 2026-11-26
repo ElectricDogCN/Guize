@@ -207,5 +207,24 @@
       }
     ],
     "cleaned": true
+  },
+  "repositoryCommandPreflight": {
+    "exitCode": 0,
+    "retainedResponses": 12,
+    "retainedBodies": 12,
+    "replaySample": {
+      "sampleId": "local-playback-preflight",
+      "byteCount": 2097189,
+      "checksum": "sha256:dd6a5c8b02ef6c8c3bbe7c1132948d3fb949bb6dbd234e9f7d23c7a1b42a6cad"
+    },
+    "console": {
+      "playbackCasesVerified": 11,
+      "originDenialStatus": 401
+    },
+    "originCredentialAbsentFromOutput": true,
+    "wrongSameSizeSampleRejectedBeforeStartup": true,
+    "gatewayStopped": true,
+    "processStopped": true,
+    "cleaned": true
   }
 }
