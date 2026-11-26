@@ -24,6 +24,12 @@ python poc/POC-07-public-network/verify_fixture.py /path/to/materialized-synthet
 python -B poc/POC-07-public-network/run_local_replay.py --help
 ```
 
+管理与产物使用独立的 [本地验证入口](run_local_resource_replay.py)。准备回环 OpenList 的只读管理接口和独立产物挂载，经标准输入传入 JSON 的 `management` 与 `worker` 两项临时身份。传入已批准的小型 `output.bin` 样本。命令以源端口和样本路径启动回环网关，先验证管理身份或有期限的样本 Grant，再读取对应真实 OpenList 路径。验证器记录授权读回、普通身份的明确 HTTP 拒绝及实际源读取次数。验证范围为本地应用边界预检。
+
+```bash
+python -B poc/POC-07-public-network/run_local_resource_replay.py --help
+```
+
 ```bash
 python -B -m unittest discover -s poc/POC-07-public-network -p 'test_stream_fixture.py'
 ```
