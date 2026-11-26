@@ -16,6 +16,8 @@ python poc/POC-07-public-network/verify_fixture.py /path/to/materialized-synthet
 
 本地客户端先使用批准的信任材料严格校验 TLS 证书和 `localhost`，再以 64 KiB 缓冲留存解密后的完整 HTTP 响应。响应头和响应体从实际连接读出，交给现有 POC 验证器核对。采集器仅连接回环地址上的固定播放入口和 OpenList 样本入口。直接样本请求不带身份，验证实际源返回的状态与字节。
 
+`playback_gateway` 和 `replay_fixture` 是同次本地实验的服务端与采集入口。实验启动器向网关注入已配置的只读 OpenList、TLS 上下文、Grant 校验和固定的缓存区间及限流窗口。网关先校验 Grant 和限流，再查缓存或取源。采集器依次验证 Range、匹配的 If-Range、三类身份拒绝、完整读取、固定窗口限流和直接 OpenList 拒绝。每次保留独立的原始响应，校对真实响应和该请求的网关记录。大文件及区间摘要增量计算；完整文件不会加入区间缓存。正式实验在批准的隔离环境运行，保持端口、信任材料、样本和阈值绑定一致。
+
 ```bash
 python -B -m unittest discover -s poc/POC-07-public-network -p 'test_stream_fixture.py'
 ```
