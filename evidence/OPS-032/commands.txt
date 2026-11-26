@@ -32,3 +32,19 @@ Source Commit: 72318f2753bf92991fa5b308e270ea433b581f4e
 Command: python scripts/check-markdown.py
 Result: 858 files checked; no issues
 Exit Code: 0
+
+## 正式审查源码验证
+
+git diff --check b5157a68fa16d83fc2fa44395b95cb15b3d67a35...HEAD
+python scripts/check-task-file.py --task OPS-032
+python scripts/check-schemas.py
+python scripts/check-program-plan-integrity.py --base-ref b5157a68fa16d83fc2fa44395b95cb15b3d67a35
+python scripts/check-program-plan-history.py --base-ref b5157a68fa16d83fc2fa44395b95cb15b3d67a35 --head-ref HEAD --task OPS-032 --branch-name chore/OPS-032-poc-actor-repair
+python scripts/check-program-plan-transitions.py --base-ref b5157a68fa16d83fc2fa44395b95cb15b3d67a35 --head-ref HEAD --task OPS-032 --branch-name chore/OPS-032-poc-actor-repair
+python scripts/check-program-lifecycle-guards.py --base-ref b5157a68fa16d83fc2fa44395b95cb15b3d67a35 --head-ref HEAD --task OPS-032 --branch-name chore/OPS-032-poc-actor-repair
+python scripts/run-program-lifecycle-gate.py --base-ref b5157a68fa16d83fc2fa44395b95cb15b3d67a35 --head-ref HEAD --task OPS-032 --branch-name chore/OPS-032-poc-actor-repair
+python scripts/run-agent-coordination-gate.py --base-ref b5157a68fa16d83fc2fa44395b95cb15b3d67a35 --head-ref HEAD --task OPS-032 --branch-name chore/OPS-032-poc-actor-repair
+python scripts/check-program-plan-finalization.py --base-ref b5157a68fa16d83fc2fa44395b95cb15b3d67a35 --head-ref HEAD --task OPS-032
+python scripts/run-task-scope-gate.py --task OPS-032 --base b5157a68fa16d83fc2fa44395b95cb15b3d67a35
+python scripts/check-evidence.py --task OPS-032
+python scripts/check-markdown.py

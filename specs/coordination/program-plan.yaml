@@ -157,7 +157,7 @@ foundationTasks:
     mergeCommit: 0ab07018876d0904250399cfe6683ccbd1d3aa9d
   - taskId: OPS-032
     title: 修正 POC-007 和 POC-008 的具体执行与审查人登记
-    status: in_progress
+    status: review
     completionRef: ISSUE-324
     mergeCommit: null
 waves:
