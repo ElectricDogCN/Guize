@@ -67,6 +67,14 @@
 - specs/contracts/data/verify_source_sync_control_role.sql
 - specs/contracts/data/verify_source_sync_state.sql
 
+## 媒体、完整缓存与正式副本
+
+- contracts/data/README.md
+- data/migrations/V8__create_media_and_storage_state.sql
+- evidence/GZ-007/changed-files.md
+- evidence/GZ-007/test-results/README.md
+- specs/contracts/data/verify_media_storage_state.sql
+
 ## 模块命名空间迁移
 
 - data/migrations/V1__create_module_namespaces.sql
