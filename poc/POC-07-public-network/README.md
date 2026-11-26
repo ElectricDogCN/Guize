@@ -42,6 +42,15 @@ python -B poc/POC-07-public-network/run_local_replay.py --help
 
 同一选项还生成 `raw-artifacts.json`，记录正式访问结果依赖的原件、类型、字节数和 SHA-256。它包含组合命令回执、被选中的访问与 TLS 证据和公开实验信任证书，可将两个清单字段用于组装执行记录。
 
+使用 `assemble_access_execution.py` 将采集目录与本次实际执行元数据合成执行记录。元数据使用 [执行记录模板](../../specs/poc/templates/execution-record.yaml) 的身份、资源、环境、实际命令、样本和批准引用。组装器从采集原件补齐实际窗口、原件和测量，并以仓库原件及访问验证器重读对应文件。结果批准和正式索引由独立审核后提交。
+
+```bash
+python -B poc/POC-07-public-network/assemble_access_execution.py \
+  evidence/POC-007/profiles/local-v1/v1/capture \
+  /path/to/execution-metadata.json \
+  evidence/POC-007/profiles/local-v1/v1/execution.json
+```
+
 ```bash
 python -B poc/POC-07-public-network/run_local_resource_replay.py --help
 ```
