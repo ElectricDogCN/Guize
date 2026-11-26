@@ -1,6 +1,10 @@
 BEGIN;
 
 SELECT to_regclass('ai.pipeline') IS NOT NULL AS fixture_registry_present \gset
+SELECT to_regclass('iam.user_account') IS NOT NULL AS fixture_iam_present \gset
+\if :fixture_iam_present
+INSERT INTO iam.user_account (id, username, status) VALUES ('usr_editor', 'Synthetic artifact editor', 'ACTIVE');
+\endif
 \if :fixture_registry_present
 \ir ai_artifact_registry_fixture.sql
 \endif
@@ -147,6 +151,15 @@ INSERT INTO ai.derived_artifact_revision (
     repeat('e', 64), 'usr_owner', 'trace-artifact', statement_timestamp(), statement_timestamp());
 UPDATE ai.derived_artifact SET current_revision = 2 WHERE id = 'art_fixture' AND current_revision = 1;
 
+\if :fixture_registry_present
+INSERT INTO ai.derived_artifact_revision (
+    artifact_id, revision, model_version, prompt_version, pipeline_version_id, parameters_hash, confidence,
+    uncertainty, generated, quality_status, publication_status, structured_payload,
+    output_sha256, created_by, manual_editor_id, trace_id, created_at, published_at
+) VALUES ('art_fixture', 3, 'model-v1', 'prompt-v1', 'pipeline_ocr', encode(sha256(convert_to('{}', 'UTF8')), 'hex'), 0.9,
+    false, false, 'ACCEPTED', 'PUBLISHED', '{"text":"corrected"}',
+    repeat('f', 64), 'usr_editor', 'usr_editor', 'trace-edited', statement_timestamp(), statement_timestamp());
+\else
 INSERT INTO ai.derived_artifact_revision (
     artifact_id, revision, model_version, prompt_version, pipeline_version_id, parameters_hash, confidence,
     uncertainty, generated, quality_status, publication_status, structured_payload,
@@ -154,6 +167,7 @@ INSERT INTO ai.derived_artifact_revision (
 ) VALUES ('art_fixture', 3, 'model-v1', 'prompt-v1', 'pipeline_ocr', encode(sha256(convert_to('{}', 'UTF8')), 'hex'), 0.9,
     false, false, 'ACCEPTED', 'PUBLISHED', '{"text":"corrected"}',
     repeat('f', 64), 'usr_editor', 'trace-edited', statement_timestamp(), statement_timestamp());
+\endif
 UPDATE ai.derived_artifact SET current_revision = 3 WHERE id = 'art_fixture' AND current_revision = 2;
 UPDATE ai.derived_artifact SET current_revision = 3 WHERE id = 'art_fixture';
 

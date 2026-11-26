@@ -26,10 +26,10 @@ $$;
 
 INSERT INTO ai.derived_artifact_revision (artifact_id, revision, legacy_parent_revision, model_id, model_version, prompt_version,
     pipeline_version_id, parameters_hash, confidence, uncertainty, generated, quality_status, publication_status,
-    structured_payload, output_sha256, created_by, trace_id)
+    structured_payload, output_sha256, created_by, manual_editor_id, trace_id)
 SELECT artifact_id, 4, revision, model_id, model_version, prompt_version, pipeline_version_id, parameters_hash,
        confidence, uncertainty, false, quality_status, 'DRAFT', '{"text":"review-required"}', repeat('0',64),
-       created_by, 'trace-legacy-review'
+       'usr_editor', 'usr_editor', 'trace-legacy-review'
 FROM ai.derived_artifact_revision WHERE artifact_id = 'art_fixture' AND revision = 3;
 UPDATE ai.derived_artifact SET current_revision = 4 WHERE id = 'art_fixture';
 
@@ -54,10 +54,10 @@ $$;
 \ir ai_artifact_registry_fixture.sql
 INSERT INTO ai.derived_artifact_revision (artifact_id, revision, model_id, model_version, prompt_version, pipeline_version_id,
     parameters_hash, confidence, uncertainty, generated, quality_status, publication_status, structured_payload,
-    output_sha256, created_by, trace_id, created_at, published_at)
+    output_sha256, created_by, manual_editor_id, trace_id, created_at, published_at)
 SELECT artifact_id, 5, model_id, model_version, prompt_version, pipeline_version_id, parameters_hash,
        confidence, uncertainty, false, quality_status, 'PUBLISHED', structured_payload, output_sha256,
-       created_by, 'trace-legacy-restored', statement_timestamp(), statement_timestamp()
+       created_by, manual_editor_id, 'trace-legacy-restored', statement_timestamp(), statement_timestamp()
 FROM ai.derived_artifact_revision WHERE artifact_id = 'art_fixture' AND revision = 4;
 UPDATE ai.derived_artifact SET current_revision = 5 WHERE id = 'art_fixture';
 DO $$

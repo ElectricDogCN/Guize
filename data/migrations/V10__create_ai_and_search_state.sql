@@ -112,6 +112,7 @@ FOR EACH ROW EXECUTE FUNCTION ai.guard_pipeline_stage_creation();
 
 ALTER TABLE ai.derived_artifact_revision ADD COLUMN pipeline_stage_number integer;
 ALTER TABLE ai.derived_artifact_revision ADD COLUMN legacy_parent_revision bigint;
+ALTER TABLE ai.derived_artifact_revision ADD COLUMN manual_editor_id task.identifier REFERENCES iam.user_account (id);
 ALTER TABLE ai.derived_artifact_revision ADD CONSTRAINT ai_artifact_stage_fk FOREIGN KEY (pipeline_version_id, pipeline_stage_number)
     REFERENCES ai.pipeline_stage (pipeline_version_id, stage_number);
 ALTER TABLE ai.derived_artifact_revision ADD CONSTRAINT ai_artifact_legacy_parent_fk FOREIGN KEY (artifact_id, legacy_parent_revision)
@@ -124,19 +125,34 @@ DECLARE
     bound_stage integer;
     bound_model task.identifier;
 BEGIN
+    IF NEW.revision > 1 THEN
+        PERFORM FROM ai.derived_artifact WHERE id = NEW.artifact_id AND current_revision = NEW.revision - 1 FOR NO KEY UPDATE;
+        IF NOT FOUND THEN RAISE serialization_failure USING MESSAGE = 'Artifact revision changed'; END IF;
+        SELECT * INTO STRICT parent FROM ai.derived_artifact_revision WHERE artifact_id = NEW.artifact_id AND revision = NEW.revision - 1;
+        IF ROW(NEW.output_sha256, NEW.content_reference, NEW.structured_payload, NEW.generated)
+            IS DISTINCT FROM ROW(parent.output_sha256, parent.content_reference, parent.structured_payload, parent.generated)
+        THEN
+            IF NEW.publication_status = 'REVOKED' OR (NOT NEW.generated AND NEW.manual_editor_id IS DISTINCT FROM NEW.created_by)
+                OR (NEW.generated AND (NEW.manual_editor_id IS NOT NULL OR NOT EXISTS (
+                    SELECT 1 FROM ai.derived_artifact_revision original WHERE original.artifact_id = NEW.artifact_id AND original.revision = 1
+                      AND ROW(original.output_sha256, original.content_reference, original.structured_payload, original.generated)
+                          IS NOT DISTINCT FROM ROW(NEW.output_sha256, NEW.content_reference, NEW.structured_payload, NEW.generated)
+                )))
+            THEN RAISE check_violation USING CONSTRAINT = 'ai_artifact_revision_origin', MESSAGE = 'New generated output requires a new accepted execution; manual changes require an editor'; END IF;
+        ELSIF NEW.manual_editor_id IS DISTINCT FROM parent.manual_editor_id THEN
+            RAISE check_violation USING CONSTRAINT = 'ai_artifact_revision_origin', MESSAGE = 'Retain the editor of unchanged content';
+        END IF;
+    ELSIF NEW.manual_editor_id IS NOT NULL THEN
+        RAISE check_violation USING CONSTRAINT = 'ai_artifact_revision_origin', MESSAGE = 'The first revision retains accepted execution provenance';
+    END IF;
+
     IF NEW.legacy_parent_revision IS NOT NULL THEN
-        PERFORM FROM ai.derived_artifact WHERE id = NEW.artifact_id AND current_revision = NEW.legacy_parent_revision FOR NO KEY UPDATE;
-        IF NOT FOUND THEN RAISE serialization_failure USING MESSAGE = 'Legacy artifact revision changed'; END IF;
-        SELECT * INTO STRICT parent FROM ai.derived_artifact_revision WHERE artifact_id = NEW.artifact_id AND revision = NEW.legacy_parent_revision;
-        IF NEW.pipeline_stage_number IS NOT NULL OR parent.pipeline_stage_number IS NOT NULL
-            OR NEW.revision <> parent.revision + 1
+        IF NEW.legacy_parent_revision IS DISTINCT FROM parent.revision
+            OR NEW.pipeline_stage_number IS NOT NULL OR parent.pipeline_stage_number IS NOT NULL
             OR ROW(NEW.model_id, NEW.model_version, NEW.prompt_version, NEW.pipeline_version_id, NEW.parameters_hash)
                IS DISTINCT FROM ROW(parent.model_id, parent.model_version, parent.prompt_version, parent.pipeline_version_id, parent.parameters_hash)
             OR NEW.publication_status = 'PUBLISHED'
             OR (NEW.generated AND NEW.publication_status <> 'REVOKED')
-            OR (NEW.publication_status = 'REVOKED'
-                AND ROW(NEW.output_sha256, NEW.content_reference, NEW.structured_payload, NEW.generated)
-                    IS DISTINCT FROM ROW(parent.output_sha256, parent.content_reference, parent.structured_payload, parent.generated))
         THEN RAISE check_violation USING CONSTRAINT = 'ai_artifact_legacy_provenance', MESSAGE = 'Legacy edits must preserve registry provenance'; END IF;
         RETURN NEW;
     END IF;
@@ -219,6 +235,7 @@ CREATE TABLE search.rebuild_job (
     backend text NOT NULL,
     index_key task.identifier NOT NULL,
     previous_generation_id task.identifier,
+    previous_head_revision bigint CHECK (previous_head_revision BETWEEN 1 AND 9007199254740991),
     status text NOT NULL CHECK (status IN ('PLANNED', 'RUNNING', 'VALIDATING', 'SUCCEEDED', 'FAILED', 'CANCELLED')),
     requested_at timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP,
     finished_at timestamptz CHECK (finished_at >= requested_at),
@@ -228,6 +245,7 @@ CREATE TABLE search.rebuild_job (
     FOREIGN KEY (generation_id, backend, index_key) REFERENCES search.index_generation (id, backend, index_key),
     FOREIGN KEY (previous_generation_id, backend, index_key) REFERENCES search.index_generation (id, backend, index_key),
     CHECK (previous_generation_id IS DISTINCT FROM generation_id),
+    CHECK ((previous_generation_id IS NULL) = (previous_head_revision IS NULL)),
     CHECK ((status IN ('SUCCEEDED', 'FAILED', 'CANCELLED')) = (finished_at IS NOT NULL)),
     CHECK (status <> 'SUCCEEDED' OR num_nonnulls(integrity_evidence_id, permission_evidence_id) = 2)
 );
@@ -245,8 +263,8 @@ BEGIN
         RETURN NEW;
     END IF;
     IF OLD.status IN ('SUCCEEDED', 'FAILED', 'CANCELLED')
-        OR ROW(OLD.id, OLD.generation_id, OLD.backend, OLD.index_key, OLD.previous_generation_id, OLD.requested_at)
-           IS DISTINCT FROM ROW(NEW.id, NEW.generation_id, NEW.backend, NEW.index_key, NEW.previous_generation_id, NEW.requested_at)
+        OR ROW(OLD.id, OLD.generation_id, OLD.backend, OLD.index_key, OLD.previous_generation_id, OLD.previous_head_revision, OLD.requested_at)
+           IS DISTINCT FROM ROW(NEW.id, NEW.generation_id, NEW.backend, NEW.index_key, NEW.previous_generation_id, NEW.previous_head_revision, NEW.requested_at)
         OR (NEW.status = 'SUCCEEDED' AND OLD.status <> 'VALIDATING')
     THEN RAISE check_violation USING CONSTRAINT = 'search_rebuild_transition', MESSAGE = 'Invalid rebuild transition'; END IF;
     RETURN NEW;
@@ -271,6 +289,7 @@ CREATE TABLE search.generation_head (
 CREATE FUNCTION search.guard_generation_head() RETURNS trigger LANGUAGE plpgsql AS $$
 DECLARE
     predecessor task.identifier;
+    predecessor_revision bigint;
 BEGIN
     IF TG_OP = 'DELETE' THEN
         RAISE check_violation USING CONSTRAINT = 'search_generation_history', MESSAGE = 'Retain the active generation binding';
@@ -279,11 +298,13 @@ BEGIN
         IF NEW.revision <> OLD.revision + 1 OR (NEW.backend, NEW.index_key) IS DISTINCT FROM (OLD.backend, OLD.index_key)
         THEN RAISE serialization_failure USING MESSAGE = 'Search generation revision changed'; END IF;
         predecessor := OLD.generation_id;
+        predecessor_revision := OLD.revision;
     ELSIF NEW.revision <> 1 THEN
         RAISE check_violation USING CONSTRAINT = 'search_generation_initial_revision', MESSAGE = 'First generation activation starts at revision one';
     END IF;
     IF NOT EXISTS (SELECT 1 FROM search.rebuild_job WHERE id = NEW.rebuild_job_id AND generation_id = NEW.generation_id
-        AND status = 'SUCCEEDED' AND previous_generation_id IS NOT DISTINCT FROM predecessor)
+        AND status = 'SUCCEEDED' AND previous_generation_id IS NOT DISTINCT FROM predecessor
+        AND previous_head_revision IS NOT DISTINCT FROM predecessor_revision)
     THEN RAISE check_violation USING CONSTRAINT = 'search_generation_verified_rebuild', MESSAGE = 'Generation requires a verified rebuild for the current predecessor'; END IF;
     RETURN NEW;
 END;

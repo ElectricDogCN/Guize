@@ -51,10 +51,11 @@ BEGIN
     THEN RAISE EXCEPTION 'model upgrade changed prior artifact provenance'; END IF;
     BEGIN
         INSERT INTO ai.derived_artifact_revision (artifact_id, revision, model_version, prompt_version, pipeline_version_id,
-            parameters_hash, confidence, uncertainty, generated, quality_status, publication_status, content_reference,
-            output_sha256, created_by, trace_id)
-        VALUES ('art_fixture', 4, 'model-v1', 'prompt-v1', 'pipeline_ocr', repeat('0',64), 1, false, false, 'ACCEPTED',
-                'DRAFT', 'fixture-reference', repeat('e',64), 'usr_owner', 'trace-ai-mismatch');
+            parameters_hash, confidence, uncertainty, generated, quality_status, publication_status, structured_payload,
+            output_sha256, created_by, manual_editor_id, trace_id)
+        SELECT artifact_id, 4, model_version, prompt_version, pipeline_version_id, repeat('0',64), confidence, uncertainty,
+               generated, quality_status, 'DRAFT', structured_payload, output_sha256, created_by, manual_editor_id, 'trace-ai-mismatch'
+        FROM ai.derived_artifact_revision WHERE artifact_id = 'art_fixture' AND revision = 3;
         RAISE EXCEPTION 'artifact accepted an unregistered digest';
     EXCEPTION WHEN check_violation THEN
         GET STACKED DIAGNOSTICS violated = CONSTRAINT_NAME;
@@ -62,15 +63,29 @@ BEGIN
     END;
     BEGIN
         INSERT INTO ai.derived_artifact_revision (artifact_id, revision, model_version, prompt_version, pipeline_version_id,
-            parameters_hash, confidence, uncertainty, generated, quality_status, publication_status, content_reference,
-            output_sha256, created_by, trace_id)
-        SELECT 'art_fixture', 4, 'model-v2', 'prompt-v2', 'pipeline_ai_v2', parameters_hash, 1, false, false, 'ACCEPTED',
-               'DRAFT', 'fixture-reference', repeat('e',64), 'usr_owner', 'trace-ai-reattribute'
-        FROM ai.pipeline_stage WHERE pipeline_version_id = 'pipeline_ai_v2';
+            parameters_hash, confidence, uncertainty, generated, quality_status, publication_status, structured_payload,
+            output_sha256, created_by, manual_editor_id, trace_id)
+        SELECT r.artifact_id, 4, 'model-v2', 'prompt-v2', s.pipeline_version_id, s.parameters_hash, r.confidence, r.uncertainty,
+               r.generated, r.quality_status, 'DRAFT', r.structured_payload, r.output_sha256, r.created_by, r.manual_editor_id, 'trace-ai-reattribute'
+        FROM ai.pipeline_stage s CROSS JOIN ai.derived_artifact_revision r
+        WHERE s.pipeline_version_id = 'pipeline_ai_v2' AND r.artifact_id = 'art_fixture' AND r.revision = 3;
         RAISE EXCEPTION 'new model was attributed to an old execution';
     EXCEPTION WHEN check_violation THEN
         GET STACKED DIAGNOSTICS violated = CONSTRAINT_NAME;
         IF violated <> 'ai_artifact_original_provenance' THEN RAISE; END IF;
+    END;
+    BEGIN
+        INSERT INTO ai.derived_artifact_revision (artifact_id, revision, model_version, prompt_version, pipeline_version_id,
+            parameters_hash, confidence, uncertainty, generated, quality_status, publication_status, structured_payload,
+            output_sha256, created_by, trace_id, created_at, published_at)
+        SELECT artifact_id, 4, model_version, prompt_version, pipeline_version_id, parameters_hash, confidence, uncertainty,
+               true, quality_status, 'PUBLISHED', '{"text":"another generated result"}', repeat('0',64), created_by,
+               'trace-ai-generated-again', statement_timestamp(), statement_timestamp()
+        FROM ai.derived_artifact_revision WHERE artifact_id = 'art_fixture' AND revision = 3;
+        RAISE EXCEPTION 'same pipeline assigned another generated output to old execution';
+    EXCEPTION WHEN check_violation THEN
+        GET STACKED DIAGNOSTICS violated = CONSTRAINT_NAME;
+        IF violated <> 'ai_artifact_revision_origin' THEN RAISE; END IF;
     END;
 END;
 $$;
@@ -82,10 +97,10 @@ INSERT INTO search.index_generation (id, backend, index_key, generation, externa
 VALUES ('gen_text_fixture', 'OPENSEARCH', 'idx_text_fixture', 1, 'ext_text_fixture', NULL, NULL, NULL),
        ('gen_vector_one', 'MILVUS', 'idx_vec_fixture', 1, 'ext_vector_one', 'mdl_ai_fixture_v1', 8, 'UNIT_L2'),
        ('gen_vector_two', 'MILVUS', 'idx_vec_fixture', 2, 'ext_vector_two', 'mdl_ai_fixture_v2', 16, 'UNIT_L2');
-INSERT INTO search.rebuild_job (id, generation_id, backend, index_key, previous_generation_id, status)
-VALUES ('job_text_fixture', 'gen_text_fixture', 'OPENSEARCH', 'idx_text_fixture', NULL, 'PLANNED'),
-       ('job_vector_one', 'gen_vector_one', 'MILVUS', 'idx_vec_fixture', NULL, 'PLANNED'),
-       ('job_vector_two', 'gen_vector_two', 'MILVUS', 'idx_vec_fixture', 'gen_vector_one', 'PLANNED');
+INSERT INTO search.rebuild_job (id, generation_id, backend, index_key, previous_generation_id, previous_head_revision, status)
+VALUES ('job_text_fixture', 'gen_text_fixture', 'OPENSEARCH', 'idx_text_fixture', NULL, NULL, 'PLANNED'),
+       ('job_vector_one', 'gen_vector_one', 'MILVUS', 'idx_vec_fixture', NULL, NULL, 'PLANNED'),
+       ('job_vector_two', 'gen_vector_two', 'MILVUS', 'idx_vec_fixture', 'gen_vector_one', 1, 'PLANNED');
 
 DO $$
 DECLARE
@@ -169,11 +184,38 @@ BEGIN
 END;
 $$;
 
+SAVEPOINT rollback_generation;
+INSERT INTO search.rebuild_job (id, generation_id, backend, index_key, previous_generation_id, previous_head_revision, status)
+VALUES ('job_vector_return', 'gen_vector_one', 'MILVUS', 'idx_vec_fixture', 'gen_vector_two', 2, 'PLANNED');
+UPDATE search.rebuild_job SET status = 'VALIDATING' WHERE id = 'job_vector_return';
+UPDATE search.rebuild_job SET status = 'SUCCEEDED', finished_at = clock_timestamp(),
+    integrity_evidence_id = 'evid_return_integrity', permission_evidence_id = 'evid_return_permissions' WHERE id = 'job_vector_return';
+UPDATE search.generation_head SET generation_id = 'gen_vector_one', rebuild_job_id = 'job_vector_return', revision = 3
+WHERE backend = 'MILVUS';
+DO $$
+DECLARE
+    violated text;
+BEGIN
+    IF (SELECT array_agg(id::text) FROM search.current_embedding) IS DISTINCT FROM ARRAY['vec_fixture_one']
+    THEN RAISE EXCEPTION 'validated rollback failed to restore its prior collection'; END IF;
+    BEGIN
+        UPDATE search.generation_head SET generation_id = 'gen_vector_two', rebuild_job_id = 'job_vector_two', revision = 4
+        WHERE backend = 'MILVUS';
+        RAISE EXCEPTION 'old activation proof replayed after generation rollback';
+    EXCEPTION WHEN check_violation THEN
+        GET STACKED DIAGNOSTICS violated = CONSTRAINT_NAME;
+        IF violated <> 'search_generation_verified_rebuild' THEN RAISE; END IF;
+    END;
+END;
+$$;
+ROLLBACK TO SAVEPOINT rollback_generation;
+RELEASE SAVEPOINT rollback_generation;
+
 SAVEPOINT revoke_artifact;
 INSERT INTO ai.derived_artifact_revision (artifact_id, revision, model_id, model_version, prompt_version, pipeline_version_id,
-    parameters_hash, confidence, uncertainty, generated, quality_status, publication_status, structured_payload, output_sha256, created_by, trace_id)
+    parameters_hash, confidence, uncertainty, generated, quality_status, publication_status, structured_payload, output_sha256, created_by, manual_editor_id, trace_id)
 SELECT artifact_id, 4, model_id, model_version, prompt_version, pipeline_version_id, parameters_hash,
-       confidence, uncertainty, generated, quality_status, 'REVOKED', structured_payload, output_sha256, created_by, 'trace-ai-revoked'
+       confidence, uncertainty, generated, quality_status, 'REVOKED', structured_payload, output_sha256, created_by, manual_editor_id, 'trace-ai-revoked'
 FROM ai.derived_artifact_revision WHERE artifact_id = 'art_fixture' AND revision = 3;
 UPDATE ai.derived_artifact SET current_revision = 4 WHERE id = 'art_fixture';
 DO $$
