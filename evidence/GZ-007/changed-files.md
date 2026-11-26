@@ -94,6 +94,17 @@
 - specs/contracts/data/verify_ai_search_state.sql
 - specs/contracts/data/verify_artifact_lineage_and_outbox.sql
 
+## 策略、配置、审计及目录覆盖
+
+- contracts/data/README.md
+- data/migrations/V11__create_policy_config_and_audit_state.sql
+- evidence/GZ-007/changed-files.md
+- evidence/GZ-007/commands.txt
+- evidence/GZ-007/handoff.md
+- evidence/GZ-007/test-results/README.md
+- specs/contracts/data/verify_data_contract_coverage.sql
+- specs/contracts/data/verify_policy_config_and_audit_state.sql
+
 ## 模块命名空间迁移
 
 - data/migrations/V1__create_module_namespaces.sql

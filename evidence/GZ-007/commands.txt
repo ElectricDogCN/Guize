@@ -17,3 +17,19 @@ python scripts/check-evidence.py --task GZ-007
 python scripts/check-project-readiness.py
 python scripts/check-markdown.py
 python scripts/check-spec-sync.py --base origin/main
+
+# GZ-007 实施数据库复现
+# 下列命令在空白合成实验库执行。用独立环境 DSN 配置 PostgreSQL 与 Flyway。
+# 工具 PostgreSQL 16.15、Flyway 13.12.1。实际退出码和输出摘要见 test-results/README.md。
+flyway -locations=filesystem:data/migrations migrate
+flyway -locations=filesystem:data/migrations -ignoreMigrationPatterns=repeatable:pending validate
+flyway -locations=filesystem:data/migrations migrate
+psql -X -v ON_ERROR_STOP=1 -f specs/contracts/data/verify_data_contract_coverage.sql
+psql -X -v ON_ERROR_STOP=1 -f specs/contracts/data/verify_policy_config_and_audit_state.sql
+# 提交和恢复另使用新的合成库，或先确认上一步回滚使数据为空。
+psql -X -v ON_ERROR_STOP=1 -v retain_fixture=1 -f specs/contracts/data/verify_policy_config_and_audit_state.sql
+pg_dump -Fc -f release-fixture.dump
+# 以下命令切换到全新恢复实例的 DSN。
+pg_restore --exit-on-error -d postgres release-fixture.dump
+psql -X -v ON_ERROR_STOP=1 -f specs/contracts/data/verify_data_contract_coverage.sql
+flyway -locations=filesystem:data/migrations -ignoreMigrationPatterns=repeatable:pending validate

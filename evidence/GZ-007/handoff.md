@@ -35,3 +35,10 @@
 登记已在 `0cde7c3b886617dfbb89bedff0679a351e4cd970` 通过实际主线验收。以 `implementer` 身份从登记主线开启工作分支，沿用原范围、角色和租约。[主线 CI #1160](https://github.com/ElectricDogCN/Guize/actions/runs/45808277010)
 
 第一条 Flyway 迁移建立领域模型约定的 12 个命名空间。后续各模块在其命名空间内建立表和索引。跨域关系按真实数据不变量约束，节点通过任务接口报告结果，平台负责数据库写入。数据库行为与完整恢复将按后续具体迁移留证。
+
+## 实施交付记录
+
+- V1 至 V11 冻结 DATA-SCHEMA-V1 和 MIGRATION-PLAN-V1。逐项覆盖、运行说明及恢复边界见 [数据契约](../../contracts/data/README.md)。
+- PostgreSQL 16.15 和 Flyway 13.12.1 已实测新库、分阶段升级、错误迁移拒绝、事务和并发、备份恢复。V11 实测固定源为 `7cc455283a19125cb0ac6d2fa1d63d594b4deed6`。各阶段独立证据及输出摘要见 [实际结果](test-results/README.md)。
+- 审查固定实现与最新已验主线之差，核对迁移、回归及完整官方 GitHub Actions。实施合入后的正式 Review 和 Completion 分别记录实际下游提交，通过正常流程释放登记。
+- 外部对象和搜索集群、真实供应商、权限执行和生产备份不在 PostgreSQL 合成数据库验收内，各自的消费模块引用固定数据契约单独联调。

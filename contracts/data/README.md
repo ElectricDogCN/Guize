@@ -98,3 +98,9 @@ V10 保留旧派生物和 Outbox 原件。尚无注册证明的旧结果可依�
 `config.release_check` 绑定资源、候选版本、摘要、动作和当前修订，并分别记录校验、仿真及适用的健康证据。`config.approval` 绑定该检查与规范请求摘要，记录不同的请求人与审批人、有效期及撤销状态。受限平台发布控制面在完成权限、二次认证及批准请求绑定后调用 `config.apply_release`。函数锁定审批及实际资源，比较精确请求与当前修订。灰度保留原发布，正式启用要求该版本当前的灰度与健康证明，回滚要求明确的已发布历史版本及当次复评。相同有效审批的精确重放返回既有修订，不重复写入。
 
 发布和回滚在同一事务更新对应资源，写入 `config.release_operation`、审计记录，以及策略 `policy.published` Outbox。`policy.deployment` 是共享发布账本的策略视图。失败操作回滚全部业务状态；平台可在独立事务记录拒绝或失败。`audit.event` 使用事件类别、动作、原因码、身份、资源、Trace ID、审批及按需的任务和前后摘要，`audit.security_event` 扩展安全分类与证据引用。部署授予常规业务角色有限的审计追加能力，维护角色执行受控备份及恢复。实际仿真、运行环境健康、二次认证和发布后观察由所属模块执行。[数据库验证](../../specs/contracts/data/verify_policy_config_and_audit_state.sql)
+
+## 整体模型与迁移验收
+
+按 [工程基线 6.3 和 6.4](../../docs/00-guize-engineering-design-baseline.md) 验收 12 个命名空间、61 个逻辑实体和四项关键唯一约束。历史别名以来源历史视图实现，策略部署以发布账本视图实现。正式副本的 `(backend_id, object_key)` 在同一物理目标上唯一，同时保证基线的表现、目标和对象键三元组约束。[目录验证 SQL](../../specs/contracts/data/verify_data_contract_coverage.sql)
+
+新库按顺序应用 `data/migrations` 中 V1 至 V11。先备份，再对现有库按相同顺序升级，使用 Flyway `validate -ignoreMigrationPatterns=repeatable:pending` 校对已应用版本及校验和，随后重跑 `migrate` 确认没有待执行迁移。备份用 `pg_dump -Fc`，恢复至空白实例用 `pg_restore --exit-on-error`，恢复结果需再次验证历史、目录约束和数据样本。若需撤回已应用迁移，从已实测的备份恢复，或提交新的前向修订。生产备份介质、运行环境配置和应用回退由各自发布及恢复流程验收。[演练方法和结果](../../evidence/GZ-007/test-results/README.md)
