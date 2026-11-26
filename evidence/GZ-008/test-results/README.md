@@ -27,3 +27,9 @@ python -B specs/contracts/runtime/check_workflow_contract.py specs/contracts/run
 ```
 
 复现 SDK 时使用 [构建入口](../../../specs/contracts/runtime/build_worker_sdk.py) 写入空临时目录，将 ZIP 解包后直接执行包内的 `check_worker_contract.py`，并传入原始 [协议用例](../../../specs/contracts/runtime/fixtures/worker-conformance-v1.json)。结果限于合成输入和参考实现。Temporal 真实历史回放、LiteFlow 部署、Android Worker、实体设备以及远端发布证明由对应集成任务验证。
+
+## 实施实际主线
+
+实施 PR #321 已普通合入 `904a2f680fa50ad60b113e99af16181ee8844565`。实际主线树与受审预览一致，七项本地检查、完整官方 1,090 项与独立终验通过。本轮办理 GZ-008 正式审查。[实施 PR #321](https://github.com/ElectricDogCN/Guize/pull/321) · [实际主线 CI #1177](https://github.com/ElectricDogCN/Guize/actions/runs/45883231537)
+
+[实际主线核验](../implementation-main-904a2f68/receipt.json)。合并树与已验证源码相同，沿用 Windows、WSL 与 SDK 的固定合成结果。

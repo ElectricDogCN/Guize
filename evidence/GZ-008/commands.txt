@@ -17,3 +17,25 @@ python scripts/check-evidence.py --task GZ-008
 python scripts/check-project-readiness.py
 python scripts/check-markdown.py
 python scripts/check-spec-sync.py --base origin/main
+
+## 正式审查源码验证
+
+下面命令绑定本次审查基线。实际退出结果随按提交固定的本地与官方 CI 记录保存。
+
+git diff --check 904a2f680fa50ad60b113e99af16181ee8844565...HEAD
+python scripts/check-task-file.py --task GZ-008
+python scripts/check-schemas.py
+python scripts/check-program-plan-integrity.py --base-ref 904a2f680fa50ad60b113e99af16181ee8844565
+python scripts/check-program-plan-history.py --base-ref 904a2f680fa50ad60b113e99af16181ee8844565 --head-ref HEAD --task GZ-008 --branch-name chore/GZ-008-runtime-contracts
+python scripts/check-program-plan-transitions.py --base-ref 904a2f680fa50ad60b113e99af16181ee8844565 --head-ref HEAD --task GZ-008 --branch-name chore/GZ-008-runtime-contracts
+python scripts/check-program-lifecycle-guards.py --base-ref 904a2f680fa50ad60b113e99af16181ee8844565 --head-ref HEAD --task GZ-008 --branch-name chore/GZ-008-runtime-contracts
+python scripts/run-program-lifecycle-gate.py --base-ref 904a2f680fa50ad60b113e99af16181ee8844565 --head-ref HEAD --task GZ-008 --branch-name chore/GZ-008-runtime-contracts
+python scripts/run-agent-coordination-gate.py --base-ref 904a2f680fa50ad60b113e99af16181ee8844565 --head-ref HEAD --task GZ-008 --branch-name chore/GZ-008-runtime-contracts
+python scripts/check-program-plan-finalization.py --base-ref 904a2f680fa50ad60b113e99af16181ee8844565 --head-ref HEAD --task GZ-008
+python scripts/run-task-scope-gate.py --task GZ-008 --base 904a2f680fa50ad60b113e99af16181ee8844565
+python scripts/check-evidence.py --task GZ-008
+python -B specs/contracts/runtime/check_workflow_contract.py specs/contracts/runtime/fixtures/workflow-policy-v1.json --replay specs/contracts/runtime/fixtures/workflow-replay-v1.json
+python -B -m unittest discover -s specs/contracts/runtime -p 'test_*.py'
+python scripts/check-project-readiness.py
+python scripts/check-markdown.py
+python scripts/check-spec-sync.py --base origin/main
