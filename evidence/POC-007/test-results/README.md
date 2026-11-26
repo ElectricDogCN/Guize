@@ -19,3 +19,5 @@
 在 Windows 和 WSL 分别执行 [读取组件的五项测试](../../../poc/POC-07-public-network/test_stream_fixture.py)，覆盖分块完整传输、If-Range、开放和后缀区间、源区间错误、源提前结束。两处各五项通过。
 
 在原生 OpenList 上挂载新的 2,097,189 字节合成文件，用读取组件与回环 TLS 代理实际执行四次传输。完整读取和旧 If-Range 各返回 HTTP 200 及原始完整摘要；Range 和匹配的 If-Range 各返回 HTTP 206、相同的 130,084 字节及区间摘要。四次实际单次读取峰值均为 65,536 字节，整个进程的内存水位留待正式实验。临时服务和文件均已回收。[实测输出](openlist-tls-bounded-streaming-preflight.json)
+
+读取观察器的两项新增测试验证连续 64 MiB 产生 64 条读取记录，以及非对齐输入的末段摘要与输出字节一致。Windows 和 WSL 各七项通过。在原生 OpenList 的同一合成传输流程中，全量及区间分别实测 3 段和 1 段。四次传输的每段都与源文件逐段校对，读取峰值仍为 65,536 字节。[读取观察结果](openlist-tls-bounded-read-observation-preflight.json)

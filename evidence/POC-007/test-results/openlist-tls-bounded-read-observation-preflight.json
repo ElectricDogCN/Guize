@@ -1,0 +1,102 @@
+{
+  "operation": "openlist_tls_bounded_read_observation_preflight",
+  "scope": "disposable loopback pilot; application read buffer only",
+  "version": "v4.2.6",
+  "binarySha256": "234ee38f142858ba12d57dd57d181c9ed4a77f952b8420c053e7ab98e3db3172",
+  "listener": "127.0.0.1",
+  "httpStatus": 200,
+  "body": "pong",
+  "listenerOwnershipVerified": true,
+  "processStopped": true,
+  "temporaryArtifactsRemoved": true,
+  "recordedTransfers": [
+    {
+      "byte_count": 2097189,
+      "sha256": "sha256:dd6a5c8b02ef6c8c3bbe7c1132948d3fb949bb6dbd234e9f7d23c7a1b42a6cad",
+      "peak_read_bytes": 65536,
+      "readSpans": [
+        {
+          "offset": 0,
+          "byte_count": 1048576,
+          "sha256": "sha256:8ee28ca011513db7aed4817658007fc394403dfcc22340a7a64793fd3e0672c5",
+          "observed_at": "2026-11-26T16:40:20.233731+00:00"
+        },
+        {
+          "offset": 1048576,
+          "byte_count": 1048576,
+          "sha256": "sha256:976aab97b636ed540d2e4ea4ec37d2a4b628b849122e4c2e363882e558d5ef64",
+          "observed_at": "2026-11-26T16:40:20.238109+00:00"
+        },
+        {
+          "offset": 2097152,
+          "byte_count": 37,
+          "sha256": "sha256:b1753d46be5b002e3f40a81f068168af16cf9bb572d8f29365544271371b0a54",
+          "observed_at": "2026-11-26T16:40:20.238109+00:00"
+        }
+      ]
+    },
+    {
+      "byte_count": 130084,
+      "sha256": "sha256:41db403b8ac6f8e4677a71c72fa487d1dc8b177aa1ed411ef499b4c523572a99",
+      "peak_read_bytes": 65536,
+      "readSpans": [
+        {
+          "offset": 1024,
+          "byte_count": 130084,
+          "sha256": "sha256:41db403b8ac6f8e4677a71c72fa487d1dc8b177aa1ed411ef499b4c523572a99",
+          "observed_at": "2026-11-26T16:40:20.246967+00:00"
+        }
+      ]
+    },
+    {
+      "byte_count": 130084,
+      "sha256": "sha256:41db403b8ac6f8e4677a71c72fa487d1dc8b177aa1ed411ef499b4c523572a99",
+      "peak_read_bytes": 65536,
+      "readSpans": [
+        {
+          "offset": 1024,
+          "byte_count": 130084,
+          "sha256": "sha256:41db403b8ac6f8e4677a71c72fa487d1dc8b177aa1ed411ef499b4c523572a99",
+          "observed_at": "2026-11-26T16:40:20.253199+00:00"
+        }
+      ]
+    },
+    {
+      "byte_count": 2097189,
+      "sha256": "sha256:dd6a5c8b02ef6c8c3bbe7c1132948d3fb949bb6dbd234e9f7d23c7a1b42a6cad",
+      "peak_read_bytes": 65536,
+      "readSpans": [
+        {
+          "offset": 0,
+          "byte_count": 1048576,
+          "sha256": "sha256:8ee28ca011513db7aed4817658007fc394403dfcc22340a7a64793fd3e0672c5",
+          "observed_at": "2026-11-26T16:40:20.262361+00:00"
+        },
+        {
+          "offset": 1048576,
+          "byte_count": 1048576,
+          "sha256": "sha256:976aab97b636ed540d2e4ea4ec37d2a4b628b849122e4c2e363882e558d5ef64",
+          "observed_at": "2026-11-26T16:40:20.267792+00:00"
+        },
+        {
+          "offset": 2097152,
+          "byte_count": 37,
+          "sha256": "sha256:b1753d46be5b002e3f40a81f068168af16cf9bb572d8f29365544271371b0a54",
+          "observed_at": "2026-11-26T16:40:20.268516+00:00"
+        }
+      ]
+    }
+  ],
+  "staleIfRangeStatus": 200,
+  "fullStatus": 200,
+  "fullBytes": 2097189,
+  "fullSha256": "dd6a5c8b02ef6c8c3bbe7c1132948d3fb949bb6dbd234e9f7d23c7a1b42a6cad",
+  "rangeStatus": 206,
+  "rangeBytes": 130084,
+  "rangeSha256": "41db403b8ac6f8e4677a71c72fa487d1dc8b177aa1ed411ef499b4c523572a99",
+  "contentRange": "bytes 1024-131107/2097189",
+  "matchingIfRangeStatus": 206,
+  "tls": "TLSv1.3",
+  "peerName": "localhost",
+  "gatewayStopped": true
+}

@@ -1,9 +1,11 @@
 import hashlib
+from datetime import timezone
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from io import BytesIO
 import threading
 import unittest
 
+from observe_fixture import ObserveFixtureWrites, READ_SPAN_BYTES
 from stream_fixture import CHUNK_BYTES, FixtureSource, RangeNotSatisfiable, UnexpectedOriginResponse
 
 
@@ -88,6 +90,37 @@ class FixtureStreamTests(unittest.TestCase):
         self.truncate = True
         with self.assertRaises(UnexpectedOriginResponse):
             self.stream()
+
+
+class FixtureReadObservationTests(unittest.TestCase):
+    def test_64_mib_has_64_ordered_spans_with_exact_digests(self):
+        offset = 1025
+        observer = ObserveFixtureWrites(len, offset)
+        expected = []
+        for index in range(64):
+            chunk = bytes([index]) * CHUNK_BYTES
+            for _ in range(READ_SPAN_BYTES // CHUNK_BYTES):
+                self.assertEqual(observer(memoryview(chunk)), CHUNK_BYTES)
+            digest = hashlib.sha256(chunk * (READ_SPAN_BYTES // CHUNK_BYTES)).hexdigest()
+            expected.append((offset + index * READ_SPAN_BYTES, READ_SPAN_BYTES, "sha256:" + digest))
+        observed = observer.finish()
+        self.assertEqual([(row.offset, row.byte_count, row.sha256) for row in observed], expected)
+        self.assertTrue(all(row.observed_at.tzinfo == timezone.utc for row in observed))
+
+    def test_boundary_split_and_final_partial_span_bind_sink_bytes(self):
+        sink = BytesIO()
+        observer = ObserveFixtureWrites(sink.write, 17)
+        chunk = memoryview(bytes(range(256)) * 211)
+        for _ in range(20):
+            observer(chunk)
+        raw = sink.getvalue()
+        observed = observer.finish()
+        self.assertEqual(len(observed), 2)
+        for index, expected_bytes in enumerate((raw[:READ_SPAN_BYTES], raw[READ_SPAN_BYTES:])):
+            row = observed[index]
+            self.assertEqual(row.offset, 17 + index * READ_SPAN_BYTES)
+            self.assertEqual(row.byte_count, len(expected_bytes))
+            self.assertEqual(row.sha256, "sha256:" + hashlib.sha256(expected_bytes).hexdigest())
 
 
 if __name__ == "__main__":
