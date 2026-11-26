@@ -11,8 +11,8 @@
       "version": "worker-v1",
       "sdkVersion": "1.0.0",
       "schemaSha256": "45cac8900d332fa4aebed0c300d8aba19df7551046ef042d4a00cabd7867ad65",
-      "sdkSha256": "e71cb140050536d18ab7efd3c8995ce41f9791ae325611b02decea30c3df6e5a",
-      "conformanceSha256": "d51f0cd1107efb43cc27f432e13e21aa011c47ad246841a0b42266c7a90ca6c5"
+      "sdkSha256": "debb66b4a493abd8ba21fdaa5725372aba04e108fe2028d843fa8ffff66f8f04",
+      "conformanceSha256": "2bfe772731446f04719ad2b490443741ee0266a28970755a8c404d41cf06ac8b"
     },
     "nodeReleases": [
       {

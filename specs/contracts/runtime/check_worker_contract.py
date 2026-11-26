@@ -91,9 +91,10 @@ def decide(offer, message, trusted):
         return "ALREADY_ACCEPTED" if trusted.get("acceptedResult") == payload else "RESULT_CONFLICT"
     if state == "CANCELLED" and operation == "CANCEL_ACK" and payload["cancellationId"] == trusted.get("cancellationId"):
         return "ALREADY_CANCELLED"
-    if not instant(offer["lease"]["issuedAt"]) <= now < instant(offer["lease"]["expiresAt"]):
+    lease_expires = instant(offer["lease"]["expiresAt"])
+    if not instant(offer["lease"]["issuedAt"]) <= now < lease_expires:
         return "EXECUTION_LEASE_EXPIRED"
-    if instant(offer["lease"]["expiresAt"]) > instant(trusted["executionDeadline"]):
+    if lease_expires > instant(trusted["executionDeadline"]):
         return "LEASE_OUTSIDE_DEADLINE"
     if operation == "CANCEL_ACK":
         return "CANCEL_ACK_ACCEPTABLE" if state == "CANCELLING" and payload["cancellationId"] == trusted.get("cancellationId") else "CANCELLATION_MISMATCH"
@@ -105,10 +106,13 @@ def decide(offer, message, trusted):
     if admitted["binding"] != offer["policyBinding"] or admitted["priority"] != offer["priority"]:
         return "POLICY_BINDING_MISMATCH"
     reservation = trusted["reservation"]
+    reservation_expires = instant(reservation["expiresAt"])
     if (reservation["active"] is not True or reservation["id"] != offer["reservationId"]
             or reservation["nodeId"] != binding["nodeId"] or reservation["budget"] != offer["budget"]
-            or not now < instant(reservation["expiresAt"])):
+            or not now < reservation_expires):
         return "RESERVATION_INACTIVE"
+    if lease_expires > reservation_expires:
+        return "LEASE_OUTSIDE_RESERVATION"
 
     if operation == "CLAIM":
         if state != "OFFERED":
@@ -122,8 +126,8 @@ def decide(offer, message, trusted):
             return denial
         proposed = instant(trusted["renewUntil"])
         bound = min(instant(offer["grant"]["expiresAt"]), instant(trusted["executionDeadline"]),
-                    instant(reservation["expiresAt"]))
-        return "RENEW_ACCEPTABLE" if instant(offer["lease"]["expiresAt"]) < proposed <= bound else "RENEWAL_OUT_OF_SCOPE"
+                    reservation_expires)
+        return "RENEW_ACCEPTABLE" if lease_expires < proposed <= bound else "RENEWAL_OUT_OF_SCOPE"
     if operation == "PROGRESS":
         if payload["processedUnits"] > offer["maximumProcessedUnits"]:
             return "PROGRESS_OUT_OF_SCOPE"

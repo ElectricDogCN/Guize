@@ -213,6 +213,34 @@
       "expected": "CLAIM_ACCEPTABLE"
     },
     {
+      "name": "claim-at-reservation-boundary",
+      "message": {
+        "operation": "CLAIM",
+        "payload": {}
+      },
+      "trusted": {
+        "state": "OFFERED",
+        "reservation": {
+          "expiresAt": "2026-11-26T17:00:20Z"
+        }
+      },
+      "expected": "CLAIM_ACCEPTABLE"
+    },
+    {
+      "name": "claim-outlasts-reservation",
+      "message": {
+        "operation": "CLAIM",
+        "payload": {}
+      },
+      "trusted": {
+        "state": "OFFERED",
+        "reservation": {
+          "expiresAt": "2026-11-26T17:00:19Z"
+        }
+      },
+      "expected": "LEASE_OUTSIDE_RESERVATION"
+    },
+    {
       "name": "stale-observation",
       "message": {
         "operation": "CLAIM",
