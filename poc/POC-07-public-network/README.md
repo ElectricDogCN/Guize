@@ -28,6 +28,8 @@ python -B poc/POC-07-public-network/run_local_replay.py --help
 
 使用 `--evidence-dir` 指定新目录，保留两次普通身份请求的实际 HTTP 拒绝、独立响应体及 `resource-replay.json`。回执核对请求和追踪编号、回环连接、网关实测判定时间及响应摘要。在临时目录校验 HTTP 403 与空响应体后才移入留证目录。
 
+正式采集准备使用 [同窗口采集入口](run_local_access_replay.py)。一个已准备的回环 OpenList 同时挂载播放和产物样本。固定播放及受控入口端口，经标准输入传入 `playback`、`management`、`worker` 的临时身份。两个采集器分别保留原件，最后写入记录实际执行窗口和两个回执摘要的 `access-replay.json`。该回执用于组装正式结果及审核材料。
+
 ```bash
 python -B poc/POC-07-public-network/run_local_resource_replay.py --help
 ```

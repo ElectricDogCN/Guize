@@ -73,7 +73,10 @@ def retain_denial(
     }
 
 
-def replay(origin_port: int, origin_auth: dict[str, str], fixture: bytes, evidence_dir: Path | None = None) -> dict:
+def replay(
+    origin_port: int, origin_auth: dict[str, str], fixture: bytes, evidence_dir: Path | None = None,
+    *, entry_port: int = 0,
+) -> dict:
     credentials = {role: "Bearer " + secrets.token_urlsafe(24) for role in ("admin", "worker", "reader")}
     now = datetime.now(timezone.utc)
     grant = Grant("local-output-fixture", "worker-fixture", now.isoformat(),
@@ -118,7 +121,7 @@ def replay(origin_port: int, origin_auth: dict[str, str], fixture: bytes, eviden
         captures[name] = capture
         return status, body
 
-    with resource_gateway(management, output, observe=decisions.append) as port:
+    with resource_gateway(management, output, port=entry_port, observe=decisions.append) as port:
         management_status, _ = get(port, "/management/storage", credentials["admin"])
         output_status, output_body = get(port, "/worker/output.bin", credentials["worker"])
         reader_management = observe_reader(port, "/management/storage", "direct_admin")
@@ -141,6 +144,24 @@ def replay(origin_port: int, origin_auth: dict[str, str], fixture: bytes, eviden
     return result
 
 
+def read_output_fixture(path: Path) -> bytes:
+    with path.open("rb") as sample:
+        fixture = sample.read(MAXIMUM_BODY_BYTES + 1)
+    if not 0 < len(fixture) <= MAXIMUM_BODY_BYTES:
+        raise ValueError("Expected a bounded Worker output fixture")
+    return fixture
+
+
+def read_origin_identities(roles: set[str]) -> dict[str, str]:
+    identities = json.loads(sys.stdin.readline(8192))
+    if not isinstance(identities, dict) or identities.keys() != roles or any(
+        not isinstance(value, str) or not value or not value.isascii() or "\r" in value or "\n" in value
+        for value in identities.values()
+    ):
+        raise ValueError("Expected the configured temporary OpenList identities on standard input")
+    return identities
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--origin-port", type=int, required=True)
@@ -150,16 +171,8 @@ def main() -> None:
     if not 1 <= args.origin_port <= 65535:
         parser.error("Expected the private OpenList loopback port")
     try:
-        with args.output_fixture.open("rb") as sample:
-            fixture = sample.read(MAXIMUM_BODY_BYTES + 1)
-        if not 0 < len(fixture) <= MAXIMUM_BODY_BYTES:
-            raise ValueError("Expected a bounded Worker output fixture")
-        origin_auth = json.loads(sys.stdin.readline(8192))
-        if not isinstance(origin_auth, dict) or origin_auth.keys() != {"management", "worker"} or any(
-            not isinstance(value, str) or not value or not value.isascii() or "\r" in value or "\n" in value
-            for value in origin_auth.values()
-        ):
-            raise ValueError("Expected two temporary OpenList identities on standard input")
+        fixture = read_output_fixture(args.output_fixture)
+        origin_auth = read_origin_identities({"management", "worker"})
         print(json.dumps(replay(args.origin_port, origin_auth, fixture, args.evidence_dir), separators=(",", ":")))
     except (OSError, ValueError) as error:
         parser.exit(1, f"{error}\n")

@@ -33,7 +33,7 @@ def verify_preflight_sample(path: Path) -> dict[str, str | int]:
     return {"sampleId": "local-playback-preflight", "byteCount": PREFLIGHT_BYTES, "checksum": "sha256:" + digest}
 
 
-def run(args: argparse.Namespace) -> dict:
+def run(args: argparse.Namespace, *, origin_authorization: str | None = None) -> dict:
     sample = verify_preflight_sample(args.fixture) if args.preflight else verify_fixture(args.fixture)
     source = FixtureSource(
         args.origin_port, "synthetic.bin", int(sample["byteCount"]), str(sample["checksum"]).removeprefix("sha256:")
@@ -45,7 +45,8 @@ def run(args: argparse.Namespace) -> dict:
 
     if args.output.exists():
         raise ValueError("The capture destination already exists")
-    origin_authorization = sys.stdin.readline(1025).rstrip("\r\n")
+    if origin_authorization is None:
+        origin_authorization = sys.stdin.readline(1025).rstrip("\r\n")
     if not re.fullmatch(r"Basic [A-Za-z0-9+/]{1,1008}={0,2}", origin_authorization):
         raise ValueError("Expected one temporary OpenList reader credential on standard input")
 
@@ -75,7 +76,7 @@ def run(args: argparse.Namespace) -> dict:
     return result
 
 
-def main() -> None:
+def argument_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--fixture", type=Path, required=True)
     parser.add_argument("--origin-port", type=int, required=True)
@@ -88,6 +89,11 @@ def main() -> None:
     parser.add_argument("--request-limit", type=int, required=True)
     parser.add_argument("--window-seconds", type=float, required=True)
     parser.add_argument("--preflight", action="store_true", help="Select the fixed small synthetic fixture")
+    return parser
+
+
+def main() -> None:
+    parser = argument_parser()
     args = parser.parse_args()
     if not 0 <= args.playback_port <= 65535 or (args.playback_port == 0 and not args.preflight):
         parser.error("Supply a fixed loopback playback port, or use port 0 for preflight")
