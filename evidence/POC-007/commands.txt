@@ -1,0 +1,47 @@
+# POC-007 reservation verification
+Commands are executed against the committed candidate. Record the source commit and exit codes with the PR.
+
+Command: git diff --check 4c83731f60449abd1749cb2be1568c195f42f443...HEAD
+Exit Code: PENDING
+
+Command: python scripts/check-program-plan-integrity.py --base-ref 4c83731f60449abd1749cb2be1568c195f42f443
+Exit Code: PENDING
+
+Command: python scripts/check-program-plan-history.py --base-ref 4c83731f60449abd1749cb2be1568c195f42f443 --head-ref HEAD --task POC-007 --branch-name chore/POC-007-local-range-reservation
+Exit Code: PENDING
+
+Command: python scripts/check-program-plan-transitions.py --base-ref 4c83731f60449abd1749cb2be1568c195f42f443 --head-ref HEAD --task POC-007 --branch-name chore/POC-007-local-range-reservation
+Exit Code: PENDING
+
+Command: python scripts/check-program-lifecycle-guards.py --base-ref 4c83731f60449abd1749cb2be1568c195f42f443 --head-ref HEAD --task POC-007 --branch-name chore/POC-007-local-range-reservation
+Exit Code: PENDING
+
+Command: python scripts/run-program-lifecycle-gate.py --base-ref 4c83731f60449abd1749cb2be1568c195f42f443 --head-ref HEAD --task POC-007 --branch-name chore/POC-007-local-range-reservation
+Exit Code: PENDING
+
+Command: python scripts/run-agent-coordination-gate.py --base-ref 4c83731f60449abd1749cb2be1568c195f42f443 --head-ref HEAD --task POC-007 --branch-name chore/POC-007-local-range-reservation
+Exit Code: PENDING
+
+Command: python scripts/check-program-plan-finalization.py --base-ref 4c83731f60449abd1749cb2be1568c195f42f443 --head-ref HEAD --task POC-007
+Exit Code: PENDING
+
+Command: python scripts/run-task-scope-gate.py --task POC-007 --base 4c83731f60449abd1749cb2be1568c195f42f443
+Exit Code: PENDING
+
+Command: python scripts/check-task-file.py --task POC-007
+Exit Code: PENDING
+
+Command: python scripts/check-evidence.py --task POC-007
+Exit Code: PENDING
+
+Command: python scripts/check-schemas.py
+Exit Code: PENDING
+
+Command: python scripts/check-project-readiness.py
+Exit Code: PENDING
+
+Command: python scripts/check-markdown.py
+Exit Code: PENDING
+
+Command: python specs/poc/check_program.py --task POC-007 --base-ref 4c83731f60449abd1749cb2be1568c195f42f443 --profile local-v1 --poc POC-07
+Exit Code: PENDING

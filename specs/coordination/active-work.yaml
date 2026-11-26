@@ -6,6 +6,49 @@ policy:
   bootstrapTasks:
   - GZ-003
 tasks:
+- taskId: POC-007
+  title: IPv6/TLS/Tunnel/CDN/Range 公网访问
+  owner: ElectricDogCN
+  branch: chore/POC-007-local-range
+  workPackage: WP-M0-POC-07
+  coordinationGroup: poc-results
+  integrationOrder: 3
+  riskLevel: medium
+  issue: 315
+  status: reserved
+  coordinator: program-coordinator-agent
+  implementer: task-owner-agent
+  reviewer: independent-review-agent
+  integrator: integration-agent
+  agentRole: coordinator
+  baseBranch: main
+  baseSha: 4c83731f60449abd1749cb2be1568c195f42f443
+  programPlan: specs/coordination/program-plan.yaml
+  programTaskId: POC-007
+  handoffPath: evidence/POC-007/handoff.md
+  integrationStrategy: merge
+  requirementIds:
+  - REQ-V1-0003
+  - REQ-V1-0008
+  moduleIds:
+  - MOD-EDGE
+  - MOD-DEPLOY
+  producesContracts:
+  - POC-07-EVIDENCE
+  consumesContracts:
+  - POC-PROTOCOL-V1
+  dependsOn:
+  - GZ-010
+  programWave: W3
+  exclusivePaths:
+  - poc/POC-07-public-network/**
+  - evidence/POC-007/**
+  sharedPaths:
+  - adr/**
+  - specs/poc/results-index.yaml
+  lease:
+    acquiredAt: '2026-11-26T14:30:06Z'
+    expiresAt: '2026-12-03T14:30:06Z'
 - taskId: POC-008
   title: Vue 3 与 React 管理端场景对比
   owner: ElectricDogCN
