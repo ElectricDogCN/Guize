@@ -46,8 +46,23 @@ BEGIN
         IF violated_constraint <> 'task_input_version_required' THEN RAISE; END IF;
     END;
     BEGIN
+        UPDATE task.task SET active_plan_key = 1 WHERE id = 'tsk_observe';
+        RAISE EXCEPTION 'asset-less source sync acquired a media plan';
+    EXCEPTION WHEN check_violation THEN
+        GET STACKED DIAGNOSTICS violated_constraint = CONSTRAINT_NAME;
+        IF violated_constraint <> 'task_input_version_required' THEN RAISE; END IF;
+    END;
+    BEGIN
+        INSERT INTO source.credential_reference (data_source_id, credential_reference, revision, updated_at)
+        VALUES ('src_isolated', 'fixture-without-reference-prefix', 1, CURRENT_TIMESTAMP);
+        RAISE EXCEPTION 'value outside reference format passed';
+    EXCEPTION WHEN check_violation THEN
+        GET STACKED DIAGNOSTICS violated_constraint = CONSTRAINT_NAME;
+        IF violated_constraint <> 'credential_reference_credential_reference_check' THEN RAISE; END IF;
+    END;
+    BEGIN
         INSERT INTO source.sync_job (id, task_id, data_source_id, policy_revision, scope_key, mode, attempt_number, status, started_at)
-        VALUES ('job_wrongsrc', 'tsk_observe', 'src_isolated', 1, 'root', 'INCREMENTAL', 2, 'RUNNING', CURRENT_TIMESTAMP);
+        VALUES ('job_wrongsrc', 'tsk_observe', 'src_isolated', 1, 'unused-scope', 'INCREMENTAL', 2, 'RUNNING', CURRENT_TIMESTAMP);
         RAISE EXCEPTION 'retry changed its source';
     EXCEPTION WHEN foreign_key_violation THEN
         GET STACKED DIAGNOSTICS violated_constraint = CONSTRAINT_NAME;
