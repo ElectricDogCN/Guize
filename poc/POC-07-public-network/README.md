@@ -32,6 +32,8 @@ python -B poc/POC-07-public-network/run_local_replay.py --help
 
 使用 `--grant-schedule` 读取固定的播放授权时间。JSON 包含 `grantValidFrom`、`grantValidUntil` 和 `expiredAt`，均使用 UTC。开始时当前授权须有效，过期授权须已失效。回执保存实际采用的授权与身份引用，供独立审查核对。
 
+逐请求记录保存实际采集进程号、请求开始时间及单次接收峰值。TLS 播放响应还保存严格校验过的主机名。请求开始时间在握手完成后采集，并用于核对网关判定的顺序。输出不含发出的授权头。
+
 ```bash
 python -B poc/POC-07-public-network/run_local_resource_replay.py --help
 ```

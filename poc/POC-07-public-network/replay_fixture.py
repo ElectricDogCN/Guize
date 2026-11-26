@@ -86,6 +86,7 @@ def replay_fixture(
             raise ValueError(f"{label} returned unexpected status or fixture bytes")
         if (
             capture.protocol != "TLSv1.3"
+            or capture.verified_server_name != "localhost"
             or capture.certificate_sha256 != certificate_identity
             or headers.get("content-range") != (content_range if status == 206 else None)
         ):
@@ -97,7 +98,7 @@ def replay_fixture(
         outcome = observations[-1]
         if (
             (outcome.request_id, outcome.trace_id) != (request_id, trace_id)
-            or not capture.connected_at <= outcome.observed_at <= capture.finished_at
+            or not capture.connected_at <= capture.request_started_at <= outcome.observed_at <= capture.finished_at
         ):
             raise ValueError(f"{label} does not bind the captured request to its gateway observation")
         if outcome.transfer is not None and (
@@ -118,6 +119,7 @@ def replay_fixture(
             if cursor != (source.byte_count if full else stop):
                 raise ValueError(f"{label} source reads do not cover the exact response interval")
         return {
+            **capture.transport_observation(),
             "case": label,
             "requestId": request_id,
             "traceId": trace_id,
@@ -198,6 +200,7 @@ def replay_fixture(
         "trustStoreSha256": "sha256:" + sha256(trust_bytes).hexdigest(),
         "tlsLeafSha256": certificate_identity,
         "originDenial": {
+            **origin.transport_observation(),
             "requestId": origin_request_id,
             "traceId": origin_trace_id,
             "status": status,

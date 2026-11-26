@@ -4,6 +4,7 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from hashlib import sha256
 from http.client import HTTPConnection, HTTPSConnection
+from os import getpid
 from pathlib import Path
 import ssl
 
@@ -19,9 +20,21 @@ class Capture:
     started_at: datetime
     connected_at: datetime
     finished_at: datetime
+    request_started_at: datetime
+    process_id: int
+    peak_receive_bytes: int
     raw_byte_count: int
     raw_sha256: str
     certificate_sha256: str | None = None
+    verified_server_name: str | None = None
+
+    def transport_observation(self) -> dict:
+        return {
+            "clientProcessId": self.process_id,
+            "clientRequestStartedAt": self.request_started_at.isoformat(),
+            "clientPeakReceiveBytes": self.peak_receive_bytes,
+            "verifiedServerName": self.verified_server_name,
+        }
 
 
 def capture_response(
@@ -97,6 +110,7 @@ def _capture(
         if address != "127.0.0.1" or observed_port != connection.port:
             raise ValueError("The peer did not match the disposable listener")
         protocol = cipher_name = certificate_sha256 = None
+        verified_server_name = None
         if isinstance(connection, HTTPSConnection):
             if not isinstance(peer_socket, ssl.SSLSocket):
                 raise OSError("The playback connection did not establish TLS")
@@ -108,14 +122,21 @@ def _capture(
             certificate = peer_socket.getpeercert(binary_form=True)
             if certificate is None:
                 raise OSError("The verified playback connection did not return a certificate")
+            if not peer_socket.context.check_hostname or peer_socket.context.verify_mode != ssl.CERT_REQUIRED:
+                raise ValueError("The playback connection requires strict certificate and hostname verification")
+            verified_server_name = peer_socket.server_hostname
+            if not verified_server_name:
+                raise ValueError("The strictly verified playback connection has no server name")
             certificate_sha256 = "sha256:" + sha256(certificate).hexdigest()
+        request_started = datetime.now(timezone.utc)
         connection.request("GET", path, headers={"Connection": "close", "Accept-Encoding": "identity", **headers})
         buffer = memoryview(bytearray(CHUNK_BYTES))
         digest = sha256()
-        received = 0
+        received = peak = 0
         with response_file.open("xb") as stream:
             while count := peer_socket.recv_into(buffer):
                 received += count
+                peak = max(peak, count)
                 if received > maximum_body_bytes + CHUNK_BYTES:
                     raise ValueError("Native response exceeded its capture limit")
                 block = buffer[:count]
@@ -124,7 +145,12 @@ def _capture(
         if not received:
             raise OSError("The playback listener returned no HTTP response")
         finished = datetime.now(timezone.utc)
-        return Capture(address, observed_port, protocol, cipher_name, started, connected, finished,
-                       received, "sha256:" + digest.hexdigest(), certificate_sha256)
+        return Capture(
+            peer_address=address, peer_port=observed_port, protocol=protocol, cipher=cipher_name,
+            started_at=started, connected_at=connected, finished_at=finished, request_started_at=request_started,
+            process_id=getpid(), peak_receive_bytes=peak, raw_byte_count=received,
+            raw_sha256="sha256:" + digest.hexdigest(), certificate_sha256=certificate_sha256,
+            verified_server_name=verified_server_name,
+        )
     finally:
         connection.close()

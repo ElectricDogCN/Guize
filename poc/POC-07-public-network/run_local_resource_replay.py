@@ -56,14 +56,14 @@ def retain_denial(
         if (
             (decision.route, decision.request_id, decision.trace_id, decision.allowed)
             != (path, request_id, trace_id, False)
-            or not capture.connected_at <= decision.observed_at <= capture.finished_at
+            or not capture.connected_at <= capture.request_started_at <= decision.observed_at <= capture.finished_at
         ):
             raise ValueError("The captured denial and actual gateway decision do not match")
         body = retain_response_body(candidate, headers, count, digest)
         candidate.rename(output)
         candidate.with_name(body).rename(output.with_name(body))
     observation = asdict(capture)
-    for key in ("started_at", "connected_at", "finished_at"):
+    for key in ("started_at", "connected_at", "finished_at", "request_started_at"):
         observation[key] = observation[key].isoformat()
     return status, b"", {
         **observation, "requestId": request_id, "traceId": trace_id, "route": path,
