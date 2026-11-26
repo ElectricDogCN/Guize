@@ -48,6 +48,7 @@
 - evidence/GZ-007/changed-files.md
 - evidence/GZ-007/test-results/README.md
 - specs/contracts/data/verify_artifact_lineage_and_outbox.sql
+- specs/contracts/data/verify_attempt_outbox_control_role.sql
 
 ## 模块命名空间迁移
 
