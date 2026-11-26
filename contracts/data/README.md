@@ -26,3 +26,11 @@ DDL 由 `data/migrations` 中的 Flyway 迁移维护。每个模块拥有自己�
 - 控制面验证调用主体后使用 `task.accept_attempt_result`。过期、换代、已请求取消或绑定不符的尝试返回 `REJECTED`。首次存储返回 `ACCEPTED`，精确重放返回 `REPLAYED` 且无写入。记录结果与关闭租约在同一事务执行。节点通过平台协议提交，数据库函数仅供有权限的控制面调用。
 
 [任务计划与尝试验证](../../specs/contracts/data/verify_task_plan_and_attempt.sql) 使用合成任务检查上述约束并回滚。
+
+## 节点资源账本
+
+`task.resource_pool` 以节点和资源标识记录容量、占用及已扣记预算。`task.resource_reservation` 绑定实际尝试、数量和有效期。控制面在同一派发事务取得任务租约与必需的容量预留，任一预留失败时回滚整个派发。多资源预留按资源标识排序，预留有效期受执行租约约束。
+
+`task.reserve_resource` 在同一资源池行锁中核算余额并建立单条预留。相同预留请求返回 `REPLAYED`，复用既有记录。控制面通过 `task.settle_resource` 一次记录实际扣记量及释放理由，同时更新资源池。临时槽位和空间按预留量归还。执行时长预算保留实耗，未使用部分归还本预算池。已过期的记录仍须由控制面结算或回收。两个函数只授予控制面所需权限。
+
+[资源账本验证](../../specs/contracts/data/verify_task_resource_accounting.sql) 覆盖节点归属、共享编解码槽、预算上限、释放及重复调用。
