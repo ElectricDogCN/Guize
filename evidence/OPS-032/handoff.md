@@ -31,3 +31,36 @@
 - `rules/reservation-role-amendment.md` 记录两项准入的关系、固定声明、事前批准和后续执行要求。
 
 发布前完成既有 OPS-015 事务及自动导入复验、任务范围和生命周期检查。独立 Reviewer 随后对固定源核验，完整官方源 CI 和实际主线终验继续按原工作流执行。
+
+### 实施路径和检查记录
+
+代码检查绑定提交 `1bd088d628c6b78c31f9b8261b00a3da97f3d1bc`，基线 `5d89ae71542be66a7eda3eb02aec89623d086b24`。
+
+- `evidence/OPS-032/handoff.md`
+- `rules/reservation-role-amendment.md`
+- `scripts/reservation-role-amendment.py`
+- `specs/coordination/active-work.yaml`
+- `specs/coordination/program-plan.yaml`
+- `specs/tasks/OPS-032.md`
+- `tests/governance/test_reservation_role_amendment.py`
+
+本地输出记录新增用例 3 通过（38.27 秒）。旧身份事务及自动导入代表性复验 3 通过（286.16 秒）。同版 Python 的收集清单保留原 1,090 项并新增 3 项，集合 SHA-256 为 `e7d41043d192ee6e12fe6b7a1b52c0cf63118c5a4786a632da8673a14a07c157`。Task、Schema、Transitions、History、Lifecycle、Finalization、Coordination、Scope、Evidence 和 Markdown 检查均成功。
+
+```bash
+B=5d89ae71542be66a7eda3eb02aec89623d086b24
+BRANCH=chore/OPS-032-poc-actor-repair
+python scripts/check-task-file.py --task OPS-032
+python scripts/check-schemas.py
+python -B -m pytest -q -p no:cacheprovider tests/governance/test_reservation_role_amendment.py -k remaining
+python -B -m pytest -q -p no:cacheprovider tests/governance/test_reservation_role_amendment.py -k 'original_metadata_transaction_and_real_callers or two_accepted_poc_actor_updates_import_into_real_feature_and_callers'
+python -B -m pytest --collect-only -q --color=no -p no:cacheprovider tests/governance/
+python scripts/check-program-plan-transitions.py --base-ref "$B" --head-ref HEAD --task OPS-032 --branch-name "$BRANCH"
+python scripts/check-program-plan-history.py --base-ref "$B" --head-ref HEAD --task OPS-032 --branch-name "$BRANCH"
+python scripts/check-program-lifecycle-guards.py --base-ref "$B" --head-ref HEAD --task OPS-032 --branch-name "$BRANCH"
+python scripts/check-program-plan-finalization.py --base-ref "$B" --head-ref HEAD --task OPS-032
+python scripts/run-agent-coordination-gate.py --task OPS-032 --base-ref "$B" --head-ref HEAD --branch-name "$BRANCH"
+python scripts/run-task-scope-gate.py --task OPS-032 --base "$B"
+python scripts/check-evidence.py --task OPS-032
+python scripts/check-markdown.py
+git diff --check
+```
