@@ -60,3 +60,15 @@
 - evidence/GZ-008/handoff.md
 - evidence/GZ-008/summary.md
 - evidence/GZ-008/test-results/README.md
+
+## 正式审查变更
+
+- evidence/GZ-008/changed-files.md
+- evidence/GZ-008/commands.txt
+- evidence/GZ-008/handoff.md
+- evidence/GZ-008/implementation-main-904a2f68/receipt.json
+- evidence/GZ-008/summary.md
+- evidence/GZ-008/test-results/README.md
+- specs/coordination/active-work.yaml
+- specs/coordination/program-plan.yaml
+- specs/tasks/GZ-008.md
