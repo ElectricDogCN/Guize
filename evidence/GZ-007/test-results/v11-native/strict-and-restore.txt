@@ -1,0 +1,4 @@
+[ERROR] Detected applied migration not resolved locally: 11.
+[ERROR] Migration checksum mismatch for migration version 11
+[INFO] Schema "public" is up to date. No migration necessary.
+[INFO] Successfully validated 11 migrations (execution time 00:00.095s)

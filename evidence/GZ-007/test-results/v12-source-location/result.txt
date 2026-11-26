@@ -1,0 +1,1 @@
+PASS: V1-V12 migration, data-fixture regressions, separate-session source reload, V11 upgrade and explicit reconfiguration, and backup/restore.
