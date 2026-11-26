@@ -1,0 +1,174 @@
+{
+  "operation": "openlist_tls_raw_response_preflight",
+  "scope": "disposable loopback pilot; application read buffer only",
+  "version": "v4.2.6",
+  "binarySha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "listener": "127.0.0.1",
+  "httpStatus": 200,
+  "body": "pong",
+  "listenerOwnershipVerified": true,
+  "processStopped": true,
+  "temporaryArtifactsRemoved": true,
+  "recordedTransfers": [
+    {
+      "byte_count": 2097189,
+      "sha256": "sha256:dd6a5c8b02ef6c8c3bbe7c1132948d3fb949bb6dbd234e9f7d23c7a1b42a6cad",
+      "peak_read_bytes": 65536,
+      "readSpans": [
+        {
+          "offset": 0,
+          "byte_count": 1048576,
+          "sha256": "sha256:8ee28ca011513db7aed4817658007fc394403dfcc22340a7a64793fd3e0672c5",
+          "observed_at": "2026-11-26T16:54:27.963130+00:00"
+        },
+        {
+          "offset": 1048576,
+          "byte_count": 1048576,
+          "sha256": "sha256:976aab97b636ed540d2e4ea4ec37d2a4b628b849122e4c2e363882e558d5ef64",
+          "observed_at": "2026-11-26T16:54:27.968792+00:00"
+        },
+        {
+          "offset": 2097152,
+          "byte_count": 37,
+          "sha256": "sha256:b1753d46be5b002e3f40a81f068168af16cf9bb572d8f29365544271371b0a54",
+          "observed_at": "2026-11-26T16:54:27.969661+00:00"
+        }
+      ]
+    },
+    {
+      "byte_count": 130084,
+      "sha256": "sha256:41db403b8ac6f8e4677a71c72fa487d1dc8b177aa1ed411ef499b4c523572a99",
+      "peak_read_bytes": 65536,
+      "readSpans": [
+        {
+          "offset": 1024,
+          "byte_count": 130084,
+          "sha256": "sha256:41db403b8ac6f8e4677a71c72fa487d1dc8b177aa1ed411ef499b4c523572a99",
+          "observed_at": "2026-11-26T16:54:27.976936+00:00"
+        }
+      ]
+    },
+    {
+      "byte_count": 2097189,
+      "sha256": "sha256:dd6a5c8b02ef6c8c3bbe7c1132948d3fb949bb6dbd234e9f7d23c7a1b42a6cad",
+      "peak_read_bytes": 65536,
+      "readSpans": [
+        {
+          "offset": 0,
+          "byte_count": 1048576,
+          "sha256": "sha256:8ee28ca011513db7aed4817658007fc394403dfcc22340a7a64793fd3e0672c5",
+          "observed_at": "2026-11-26T16:54:27.991664+00:00"
+        },
+        {
+          "offset": 1048576,
+          "byte_count": 1048576,
+          "sha256": "sha256:976aab97b636ed540d2e4ea4ec37d2a4b628b849122e4c2e363882e558d5ef64",
+          "observed_at": "2026-11-26T16:54:27.996162+00:00"
+        },
+        {
+          "offset": 2097152,
+          "byte_count": 37,
+          "sha256": "sha256:b1753d46be5b002e3f40a81f068168af16cf9bb572d8f29365544271371b0a54",
+          "observed_at": "2026-11-26T16:54:27.996773+00:00"
+        }
+      ]
+    },
+    {
+      "byte_count": 2097189,
+      "sha256": "sha256:dd6a5c8b02ef6c8c3bbe7c1132948d3fb949bb6dbd234e9f7d23c7a1b42a6cad",
+      "peak_read_bytes": 65536,
+      "readSpans": [
+        {
+          "offset": 0,
+          "byte_count": 1048576,
+          "sha256": "sha256:8ee28ca011513db7aed4817658007fc394403dfcc22340a7a64793fd3e0672c5",
+          "observed_at": "2026-11-26T16:54:28.046845+00:00"
+        },
+        {
+          "offset": 1048576,
+          "byte_count": 1048576,
+          "sha256": "sha256:976aab97b636ed540d2e4ea4ec37d2a4b628b849122e4c2e363882e558d5ef64",
+          "observed_at": "2026-11-26T16:54:28.051893+00:00"
+        },
+        {
+          "offset": 2097152,
+          "byte_count": 37,
+          "sha256": "sha256:b1753d46be5b002e3f40a81f068168af16cf9bb572d8f29365544271371b0a54",
+          "observed_at": "2026-11-26T16:54:28.051893+00:00"
+        }
+      ]
+    }
+  ],
+  "staleIfRangeStatus": 200,
+  "fullStatus": 200,
+  "fullBytes": 2097189,
+  "fullSha256": "dd6a5c8b02ef6c8c3bbe7c1132948d3fb949bb6dbd234e9f7d23c7a1b42a6cad",
+  "rangeStatus": 206,
+  "rangeBytes": 130084,
+  "rangeSha256": "41db403b8ac6f8e4677a71c72fa487d1dc8b177aa1ed411ef499b4c523572a99",
+  "contentRange": "bytes 1024-131107/2097189",
+  "matchingIfRangeStatus": 206,
+  "rejectedRequests": [
+    {
+      "identityCase": "missing_identity",
+      "responseStatus": 403,
+      "bytesReturned": 0,
+      "newOriginTransfers": 0,
+      "cacheReads": 0
+    },
+    {
+      "identityCase": "expired",
+      "responseStatus": 403,
+      "bytesReturned": 0,
+      "newOriginTransfers": 0,
+      "cacheReads": 0
+    },
+    {
+      "identityCase": "principal_mismatch",
+      "responseStatus": 403,
+      "bytesReturned": 0,
+      "newOriginTransfers": 0,
+      "cacheReads": 0
+    }
+  ],
+  "rawResponseChecks": [
+    {
+      "case": "full",
+      "status": 200,
+      "responseBytes": 2097189,
+      "responseSha256": "sha256:dd6a5c8b02ef6c8c3bbe7c1132948d3fb949bb6dbd234e9f7d23c7a1b42a6cad",
+      "rawResponseBytes": 2097402,
+      "rawResponseSha256": "sha256:21a53a474f6eca94dc9807d392158915fd48392f09a46c6adf250a9c0daecd09",
+      "peer": "127.0.0.1",
+      "tls": "TLSv1.3",
+      "cipher": "TLS_AES_256_GCM_SHA384"
+    },
+    {
+      "case": "cached_range",
+      "status": 206,
+      "responseBytes": 130084,
+      "responseSha256": "sha256:41db403b8ac6f8e4677a71c72fa487d1dc8b177aa1ed411ef499b4c523572a99",
+      "rawResponseBytes": 130351,
+      "rawResponseSha256": "sha256:8a34da75fcc5cd4173824b58c1a4dd39785e7b58208c64707b23e34455263f09",
+      "peer": "127.0.0.1",
+      "tls": "TLSv1.3",
+      "cipher": "TLS_AES_256_GCM_SHA384"
+    },
+    {
+      "case": "anonymous",
+      "status": 403,
+      "responseBytes": 0,
+      "responseSha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "rawResponseBytes": 118,
+      "rawResponseSha256": "sha256:693af7db2f39b231301ce3ec44672c29a38eadbaa02f4d5cbb7ab878a8805d34",
+      "peer": "127.0.0.1",
+      "tls": "TLSv1.3",
+      "cipher": "TLS_AES_256_GCM_SHA384"
+    }
+  ],
+  "confirmedCacheHits": 2,
+  "cacheEntryBytes": 130084,
+  "tls": "TLSv1.3",
+  "peerName": "localhost",
+  "gatewayStopped": true
+}
