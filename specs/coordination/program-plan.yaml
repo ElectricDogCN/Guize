@@ -149,6 +149,11 @@ foundationTasks:
     status: completed
     completionRef: PR-292
     mergeCommit: 068fefceef9e03fa30c12fa88af53f9bfd5ad174
+  - taskId: OPS-030
+    title: 按已满足的依赖准入独立模块
+    status: reserved
+    completionRef: ISSUE-257
+    mergeCommit: null
 waves:
   - {id: W1, order: 1, name: "需求与 POC 计划", maxConcurrent: 2, maxHighRisk: 1}
   - {id: W2, order: 2, name: "OpenAPI + 独立 POC", maxConcurrent: 3, maxHighRisk: 1}
