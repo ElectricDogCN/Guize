@@ -1,0 +1,34 @@
+OPS-032 metadata-only reservation checks
+python scripts/check-evidence.py --task OPS-032
+python scripts/check-program-plan-transitions.py --base-ref origin/main --head-ref HEAD --task OPS-032
+python scripts/check-program-plan-history.py --base-ref origin/main --head-ref HEAD
+python scripts/run-task-scope-gate.py --task OPS-032 --base origin/main
+
+Observed before commit
+Command: python scripts/check-evidence.py --task OPS-032
+Exit Code: 0
+
+Source Commit: 72318f2753bf92991fa5b308e270ea433b581f4e
+Command: python scripts/check-program-plan-transitions.py --base-ref origin/main --head-ref HEAD --task OPS-032
+Result: Program reservation scope, wave and lifecycle transitions passed; activeTasks=3; completionRecords=11
+Exit Code: 0
+
+Source Commit: 72318f2753bf92991fa5b308e270ea433b581f4e
+Command: python scripts/check-program-plan-history.py --base-ref origin/main --head-ref HEAD
+Result: Program Plan history transitions are valid; completionRecords=11; auditedOwnerCapacityFailures=[]
+Exit Code: 0
+
+Source Commit: 72318f2753bf92991fa5b308e270ea433b581f4e
+Command: python scripts/run-task-scope-gate.py --task OPS-032 --base origin/main
+Result: Reservation uses Program History and Program Transitions to check exact changed-file scope
+Exit Code: 0
+
+Source Commit: 72318f2753bf92991fa5b308e270ea433b581f4e
+Command: python scripts/check-evidence.py --task OPS-032
+Result: Evidence contract passed for OPS-032
+Exit Code: 0
+
+Source Commit: 72318f2753bf92991fa5b308e270ea433b581f4e
+Command: python scripts/check-markdown.py
+Result: 858 files checked; no issues
+Exit Code: 0
