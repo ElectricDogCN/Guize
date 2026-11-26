@@ -102,6 +102,7 @@
 - evidence/GZ-007/commands.txt
 - evidence/GZ-007/handoff.md
 - evidence/GZ-007/test-results/README.md
+- evidence/GZ-007/test-results/v11-native/**
 - specs/contracts/data/verify_data_contract_coverage.sql
 - specs/contracts/data/verify_policy_config_and_audit_state.sql
 

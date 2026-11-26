@@ -109,3 +109,5 @@
 真实两个会话提交同一资源修订的不同审批，第二个实际等锁并收到 `40001`，且只有一个结果成为新修订 7。测试用例追加与封存竞争时，同样观测到等待，封存后新增被拒绝。竞态回执 SHA-256 为 `05a7854af1284e1babd29f057a60adbb656c196ada72353ac948e9aee13028ed`。回滚样本的五类业务、审计及事件读数均为零。
 
 在新迁移库及实际备份恢复库执行 [目录验证](../../../specs/contracts/data/verify_data_contract_coverage.sql)，两者均覆盖 12 个命名空间、61 个逻辑实体及四项关键唯一约束，输出逐字节一致，SHA-256 `2798e7952b12945bbf175ec5f3cc31b97e377e7b95fecd82450b58c3ed5e46d5`。12 组恢复查询保持一致，SHA-256 `8429c26291124151e8be2e44ef683a3fdf923c50a79b78df54315e7ffeb19a6c`。两个实例已关闭，原始清单 SHA-256 `8e3c3423802cc7079a67663016c678bbc286be6b4771203a76c94abe21cd1404`。
+
+可公开核对的 [文本证据清单](v11-native/SHA256SUMS.txt) 固定 13 份文件。其中包含 [迁移历史](v11-native/migration-history.txt)、[严格校验和恢复输出摘录](v11-native/strict-and-restore.txt)、[新库覆盖](v11-native/fresh-coverage.txt)、[恢复库覆盖](v11-native/restored-coverage.txt)、[并发原件](v11-native/races.txt)、[事件原件](v11-native/released-policy-events.jsonl)、[信封复验](v11-native/wire-contract-validation.json)、升级和恢复的两组前后状态，以及 [初次集成源码检查](v11-native/source-controls-93dea4a6.json)。`strict-and-restore.txt` 只记录四行关键实际日志，其余数据库材料保留原始字节。独立窄审回执 SHA-256 为 `fde15fbbc98f10808f886cc6ddcb8565d824c20d586b3e6b2dd6da18c9c13e8f`，完整私有原件保存在本机项目证据目录。

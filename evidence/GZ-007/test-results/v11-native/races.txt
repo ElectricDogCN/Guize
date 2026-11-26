@@ -1,0 +1,6 @@
+contending_release_waited=t
+contending_release_exit=3
+head_active_canary_applied=7|cfgver_fixture_one|cfgver_fixture_two|1
+late_case_waited=t
+late_case_exit=3
+sealed_cases=t|1
