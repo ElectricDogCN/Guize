@@ -41,6 +41,14 @@
 - specs/contracts/data/verify_task_plan_and_attempt.sql
 - specs/contracts/data/verify_task_resource_accounting.sql
 
+## 派生物血缘与事务 Outbox
+
+- contracts/data/README.md
+- data/migrations/V5__create_artifact_lineage_and_outbox.sql
+- evidence/GZ-007/changed-files.md
+- evidence/GZ-007/test-results/README.md
+- specs/contracts/data/verify_artifact_lineage_and_outbox.sql
+
 ## 模块命名空间迁移
 
 - data/migrations/V1__create_module_namespaces.sql

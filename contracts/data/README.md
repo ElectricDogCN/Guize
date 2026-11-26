@@ -42,3 +42,5 @@ DDL 由 `data/migrations` 中的 Flyway 迁移维护。每个模块拥有自己�
 `outbox.event` 保存事件信封所需字段，`outbox.event_envelope` 提供发布所需 JSON。尝试首次接受和派生物发布分别在同一业务事务写入对应契约事件。发布服务通过待发布记录重试，接受服务对同一结果的精确重放不新增事件。事件传输允许重复，消费者在自己的事务中按 `event_id` 去重。`outbox.consumer_offset` 记录逐事件完成，消费者不能只用分配时的顺序号作为提交进度。
 
 V5 只扩展契约。备份恢复真实数据时先复验迁移历史与数据约束。前向修订保留已接受结果、历史内容和事件记录。
+
+验收环境的 Flyway 校验使用 `ignoreMigrationPatterns=repeatable:pending`。已应用的版本化迁移在校验时必须仍然存在，并匹配原校验和。旧版本的数据备份先用对应版本恢复，再按原顺序迁移。
