@@ -1,3 +1,62 @@
-Task GZ-009
+# GZ-009 reservation checks
+Source Commit: ca110e2a93415085c248a1abf7f69a560d896d93
+Base Commit: 0ab07018876d0904250399cfe6683ccbd1d3aa9d
+Interpreter: CPython 3.11.17 in native Linux
+CI: https://github.com/ElectricDogCN/Guize/actions/runs/45767115311
+The current documentation repair receives its own checks on PR #302.
+
+Command: python scripts/check-program-plan-integrity.py --base-ref 0ab07018876d0904250399cfe6683ccbd1d3aa9d
+Exit Code: 0
+Output SHA-256: 16dcb242055f42d020ce0e987999ecb43f3ab0f4300ef7fb6679ab983ff81882
+
+Command: python scripts/check-program-plan-history.py --base-ref 0ab07018876d0904250399cfe6683ccbd1d3aa9d --head-ref ca110e2a93415085c248a1abf7f69a560d896d93 --task GZ-009 --branch-name chore/GZ-009-ui-contract-reservation
+Exit Code: 0
+Output SHA-256: 00e94ae3a29bcebdeddb42bf503373bb2afb8390356b80a0e574b235e3ce39d9
+
+Command: python scripts/check-program-plan-transitions.py --base-ref 0ab07018876d0904250399cfe6683ccbd1d3aa9d --head-ref ca110e2a93415085c248a1abf7f69a560d896d93 --task GZ-009 --branch-name chore/GZ-009-ui-contract-reservation
+Exit Code: 0
+Output SHA-256: 8451db813cc1d8acf384d3a3903627946386778f1193974f8c6e00fd4e80ee95
+
+Command: python scripts/check-program-plan-finalization.py --base-ref 0ab07018876d0904250399cfe6683ccbd1d3aa9d --head-ref ca110e2a93415085c248a1abf7f69a560d896d93 --task GZ-009
+Exit Code: 0
+Output SHA-256: 23e71097a902d14a7829c578cc9a9bac7b4245494af2b7cb788ecb7717c6c0eb
+
+Command: python scripts/check-program-lifecycle-guards.py --base-ref 0ab07018876d0904250399cfe6683ccbd1d3aa9d --head-ref ca110e2a93415085c248a1abf7f69a560d896d93 --task GZ-009 --branch-name chore/GZ-009-ui-contract-reservation
+Exit Code: 0
+Output SHA-256: adc3f96b6bd9ec96fff0303c77e662d1c506aafd86ee0773585812a1a29aef42
+
+Command: python scripts/run-program-lifecycle-gate.py --base-ref 0ab07018876d0904250399cfe6683ccbd1d3aa9d --head-ref ca110e2a93415085c248a1abf7f69a560d896d93 --task GZ-009 --branch-name chore/GZ-009-ui-contract-reservation
+Exit Code: 0
+Output SHA-256: 80a0c8bc01df5794068df60a37e9d7b0dd1afc94912c6ff0a180ff42c5bd3d13
+
+Command: python scripts/run-agent-coordination-gate.py --base-ref 0ab07018876d0904250399cfe6683ccbd1d3aa9d --head-ref ca110e2a93415085c248a1abf7f69a560d896d93 --task GZ-009 --branch-name chore/GZ-009-ui-contract-reservation
+Exit Code: 0
+Output SHA-256: 93b17082f0140e389dc2ae47b97936c482b8aaaba7a2a2bd349b8362b123debb
+
+Command: python scripts/run-task-scope-gate.py --task GZ-009 --base 0ab07018876d0904250399cfe6683ccbd1d3aa9d
+Exit Code: 0
+Output SHA-256: db13902bd88686141e92a61b97b8a73bfa51dd42ffdbdeb9e4ab9abd60eed248
+
 Command: python scripts/check-task-file.py --task GZ-009
-Exit Code: PENDING
+Exit Code: 0
+Output SHA-256: cec2a0521a255744b40b16e99f5f924eda2516ca9719a8ed23c5873c8d031150
+
+Command: python scripts/check-evidence.py --task GZ-009
+Exit Code: 0
+Output SHA-256: 1c1b96c52a3f22700817d44579df5c5869cdadfc0e816dc0343cc1f795da03bc
+
+Command: python scripts/check-schemas.py
+Exit Code: 0
+Output SHA-256: 496e5e654bc1daace422b2fcd86380577a6ca1f04e8fba8f0dd904888f6de124
+
+Command: python scripts/check-project-readiness.py
+Exit Code: 0
+Output SHA-256: 5c2011ad5a4df1db3e4e3ec4d73e46d810fae619f27a1166d2b4027f264b8cbb
+
+Command: python scripts/check-markdown.py
+Exit Code: 0
+Output SHA-256: b427cc8c650b40fa0b375430c25e54cb364bb0ed93999487eff82daae28ab69b
+
+Command: python scripts/check-spec-sync.py --base origin/main
+Exit Code: 0
+Output SHA-256: f1d47d7f6c872eb35af7d3203d3f221d0c282ef6ee2181ed93031742dc939324
