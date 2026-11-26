@@ -50,6 +50,14 @@
 - specs/contracts/data/verify_artifact_lineage_and_outbox.sql
 - specs/contracts/data/verify_attempt_outbox_control_role.sql
 
+## 身份与资产授权持久化
+
+- contracts/data/README.md
+- data/migrations/V6__create_identity_and_asset_acl.sql
+- evidence/GZ-007/changed-files.md
+- evidence/GZ-007/test-results/README.md
+- specs/contracts/data/verify_identity_and_asset_acl.sql
+
 ## 模块命名空间迁移
 
 - data/migrations/V1__create_module_namespaces.sql
