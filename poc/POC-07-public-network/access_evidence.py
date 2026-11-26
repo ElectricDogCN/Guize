@@ -2,6 +2,7 @@
 
 from hashlib import file_digest
 import json
+from os import fstat
 from pathlib import Path
 
 from replay_fixture import retained_access_http_response
@@ -166,3 +167,44 @@ def retain_access_report(root: Path, playback: dict, resources: dict) -> str:
         cases.append({"case": case, "witnessRef": ref})
     cases.append({"case": "rate_limit", "witnessRef": retain_rate(playback_dir, context, playback)})
     return retain(root / "access-outcome.json", {"schemaVersion": 1, "kind": "access_outcome_report", **context, "cases": cases})
+
+
+def retain_access_artifacts(path: Path, report_ref: str, command_output: Path, trust_store: Path) -> None:
+    """Inventory the exact files referenced by the access and command records."""
+    artifacts: dict[str, str] = {}
+
+    def select(ref: str, kind: str) -> None:
+        if artifacts.setdefault(ref, kind) != kind:
+            raise ValueError("An access evidence reference has conflicting artifact types")
+
+    def select_record(ref: str, kind: str) -> dict:
+        select(ref, kind)
+        return json.loads(Path(ref).read_bytes())
+
+    report = select_record(report_ref, "measurement_output")
+    select(command_output.as_posix(), "command_output")
+    select(trust_store.as_posix(), "command_output")
+    for case in report["cases"]:
+        witness = select_record(case["witnessRef"], "measurement_output")
+        select(witness["responseBodyRef"], "produced_media")
+        for attempt in witness["rateAttempts"]:
+            trace = select_record(attempt["transportRef"], "command_output")
+            select(trace["responseRef"], "produced_media")
+            select(trace["responseBodyRef"], "produced_media")
+        if "transportRef" in witness:
+            trace = select_record(witness["transportRef"], "command_output")
+            select(trace["responseRef"], "produced_media")
+            if "tlsExecutionRef" in trace:
+                tls = select_record(trace["tlsExecutionRef"], "command_output")
+                select(tls["stdoutRef"], "command_output")
+                select(tls["stderrRef"], "command_output")
+
+    inventory = []
+    for ref, kind in sorted(artifacts.items()):
+        with Path(ref).open("rb") as stream:
+            digest = file_digest(stream, "sha256").hexdigest()
+            count = fstat(stream.fileno()).st_size
+        inventory.append({
+            "ref": ref, "artifactType": kind, "byteCount": count, "sha256": "sha256:" + digest,
+        })
+    retain(path, {"rawOutputRefs": [record["ref"] for record in inventory], "rawExecutionArtifacts": inventory})

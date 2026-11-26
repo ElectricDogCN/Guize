@@ -40,6 +40,8 @@ python -B poc/POC-07-public-network/run_local_replay.py --help
 
 组合入口可同时传入 `--transport-context`，将预先固定的资源、路径、受测版本、样本和 ACL 信息写入逐次限流回执和 `access-outcome.json`。报告引用九次实际请求及五次限流回执，绑定命令、响应和授权事件，并为播放用例绑定独立 TLS 握手。管理和产物入口的拒绝时间取自网关。OpenList 的直接拒绝用客户端实测到达时间记录。正式运行时从仓库根目录传入相对 `--output` 和 `--certificate`，使原始命令、响应和公开实验信任证书直接对应证据引用。采集器要求该段限流使用已预热的缓存。
 
+同一选项还生成 `raw-artifacts.json`，记录正式访问结果依赖的原件、类型、字节数和 SHA-256。它包含组合命令回执、被选中的访问与 TLS 证据和公开实验信任证书，可将两个清单字段用于组装执行记录。
+
 ```bash
 python -B poc/POC-07-public-network/run_local_resource_replay.py --help
 ```
