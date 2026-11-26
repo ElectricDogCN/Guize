@@ -1,7 +1,7 @@
-# GZ-007 实施执行记录
+# GZ-007 执行记录
 
 Migration Test Source: 7cc455283a19125cb0ac6d2fa1d63d594b4deed6
-Latest Integration Base: 4c83731f60449abd1749cb2be1568c195f42f443
+Implementation Integration Base: 4c83731f60449abd1749cb2be1568c195f42f443
 Registered Implementation Base: 0cde7c3b886617dfbb89bedff0679a351e4cd970
 Implementation Branch: chore/GZ-007-data-contract
 Integrated Input Before Evidence Archive: 93dea4a63f079e04f9d8c76e14af1603deec8c47
@@ -60,3 +60,23 @@ pg_restore --exit-on-error source-location.dump
 flyway -locations=filesystem:data/migrations -ignoreMigrationPatterns=repeatable:pending validate
 psql -X -v ON_ERROR_STOP=1 -c 'SELECT id, kind, endpoint, root_path, revision FROM source.data_source ORDER BY id'
 psql -X -v ON_ERROR_STOP=1 -f specs/contracts/data/verify_data_contract_coverage.sql
+
+## 正式审查源码验证
+
+本轮只改变 GZ-007 自身审查状态和证据。以本轮精确提交与实际主线 `e0ded7ae` 核对，命令退出码和官方检查绑定该 PR。
+
+git diff --check e0ded7aeacd749f60bdcf9838a0f8c96ce8e1416...HEAD
+python scripts/check-task-file.py --task GZ-007
+python scripts/check-schemas.py
+python scripts/check-program-plan-integrity.py --base-ref e0ded7aeacd749f60bdcf9838a0f8c96ce8e1416
+python scripts/check-program-plan-history.py --base-ref e0ded7aeacd749f60bdcf9838a0f8c96ce8e1416 --head-ref HEAD --task GZ-007 --branch-name chore/GZ-007-data-contract
+python scripts/check-program-plan-transitions.py --base-ref e0ded7aeacd749f60bdcf9838a0f8c96ce8e1416 --head-ref HEAD --task GZ-007 --branch-name chore/GZ-007-data-contract
+python scripts/check-program-lifecycle-guards.py --base-ref e0ded7aeacd749f60bdcf9838a0f8c96ce8e1416 --head-ref HEAD --task GZ-007 --branch-name chore/GZ-007-data-contract
+python scripts/run-program-lifecycle-gate.py --base-ref e0ded7aeacd749f60bdcf9838a0f8c96ce8e1416 --head-ref HEAD --task GZ-007 --branch-name chore/GZ-007-data-contract
+python scripts/run-agent-coordination-gate.py --base-ref e0ded7aeacd749f60bdcf9838a0f8c96ce8e1416 --head-ref HEAD --task GZ-007 --branch-name chore/GZ-007-data-contract
+python scripts/check-program-plan-finalization.py --base-ref e0ded7aeacd749f60bdcf9838a0f8c96ce8e1416 --head-ref HEAD --task GZ-007
+python scripts/run-task-scope-gate.py --task GZ-007 --base e0ded7aeacd749f60bdcf9838a0f8c96ce8e1416
+python scripts/check-evidence.py --task GZ-007
+python scripts/check-project-readiness.py
+python scripts/check-markdown.py
+python scripts/check-spec-sync.py --base origin/main

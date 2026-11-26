@@ -1,5 +1,20 @@
 # 变更清单
 
+## 正式审查
+
++- `evidence/GZ-007/changed-files.md`
+- `evidence/GZ-007/commands.txt`
+- `evidence/GZ-007/handoff.md`
+- `evidence/GZ-007/implementation-main-2733a818/independent-review.json`
+- `evidence/GZ-007/implementation-main-2733a818/source-controls.json`
+- `evidence/GZ-007/summary.md`
+- `evidence/GZ-007/test-results/README.md`
+- `specs/coordination/active-work.yaml`
+- `specs/coordination/program-plan.yaml`
+- `specs/tasks/GZ-007.md`
+
+## 登记与实施
+
 - evidence/GZ-007/EVIDENCE-STRUCTURE.md
 - evidence/GZ-007/assumptions.md
 - evidence/GZ-007/changed-files.md
