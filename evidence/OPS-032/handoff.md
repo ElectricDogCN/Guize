@@ -17,3 +17,50 @@
 ## 登记格式复验
 
 [官方 CI #1182](https://github.com/ElectricDogCN/Guize/actions/runs/45901797244) 从首候选发现任务验收复选框、验证命令和两段协作说明缺失。Task Spec 的带引号租约值与 Active Work 在文本校验中的读值也不相同。按现有任务模板补齐章节，租约时间沿用原值并去掉 Task Spec 中的引号。受影响的 Task File 与 Schema 两项在修订后的工作树均正常退出。精确声明、任务目标和登记时间范围保持原有内容。新提交须重新接受完整官方检查。
+
+## 实施激活
+
+实际预留主线 `5d89ae71542be66a7eda3eb02aec89623d086b24` 的两父和树与登记审查一致。主线 [CI #1184](https://github.com/ElectricDogCN/Guize/actions/runs/45904452258) 五作业成功，原 1,090 项逐项一致，最长 1,025 秒。实际主线九项本地验证及独立终验通过，独立终验回执 SHA-256 为 `86d4ad36764867960edbeb66e4a59f68c33279fe27aad1d1a6aca67a3da7eb18`。
+
+工作分支 `chore/OPS-032-poc-actor-repair` 以该实际预留为基线。激活提交仅改变本任务状态、当前职责、工作分支与基线元数据。实施采用原始登记声明的三个治理路径，精确的 POC 角色事务另行提交。
+
+## 实施与验证
+
+- `scripts/reservation-role-amendment.py` 区分原 OPS-015 与本次 OPS-032 的实际主线准入，两组复用同一实际实现、Review、Completion 及事务校验。OPS-032 从固定登记读取每项 POC 的旧 Task 和 Registry 摘要、待批准角色对。
+- `tests/governance/test_reservation_role_amendment.py` 以隔离 Git 历史验证两项目标的正式前瞻事务、尚未结项时的拒绝、其他目标的拒绝和同提交补批准的拒绝。三个新增用例在本地全部通过。
+- `rules/reservation-role-amendment.md` 记录两项准入的关系、固定声明、事前批准和后续执行要求。
+
+发布前完成既有 OPS-015 事务及自动导入复验、任务范围和生命周期检查。独立 Reviewer 随后对固定源核验，完整官方源 CI 和实际主线终验继续按原工作流执行。
+
+### 实施路径和检查记录
+
+代码检查绑定提交 `1bd088d628c6b78c31f9b8261b00a3da97f3d1bc`，基线 `5d89ae71542be66a7eda3eb02aec89623d086b24`。
+
+- `evidence/OPS-032/handoff.md`
+- `rules/reservation-role-amendment.md`
+- `scripts/reservation-role-amendment.py`
+- `specs/coordination/active-work.yaml`
+- `specs/coordination/program-plan.yaml`
+- `specs/tasks/OPS-032.md`
+- `tests/governance/test_reservation_role_amendment.py`
+
+本地输出记录新增用例 3 通过（38.27 秒）。旧身份事务及自动导入代表性复验 3 通过（286.16 秒）。同版 Python 的收集清单保留原 1,090 项并新增 3 项，集合 SHA-256 为 `e7d41043d192ee6e12fe6b7a1b52c0cf63118c5a4786a632da8673a14a07c157`。Task、Schema、Transitions、History、Lifecycle、Finalization、Coordination、Scope、Evidence 和 Markdown 检查均成功。
+
+```bash
+B=5d89ae71542be66a7eda3eb02aec89623d086b24
+BRANCH=chore/OPS-032-poc-actor-repair
+python scripts/check-task-file.py --task OPS-032
+python scripts/check-schemas.py
+python -B -m pytest -q -p no:cacheprovider tests/governance/test_reservation_role_amendment.py -k remaining
+python -B -m pytest -q -p no:cacheprovider tests/governance/test_reservation_role_amendment.py -k 'original_metadata_transaction_and_real_callers or two_accepted_poc_actor_updates_import_into_real_feature_and_callers'
+python -B -m pytest --collect-only -q --color=no -p no:cacheprovider tests/governance/
+python scripts/check-program-plan-transitions.py --base-ref "$B" --head-ref HEAD --task OPS-032 --branch-name "$BRANCH"
+python scripts/check-program-plan-history.py --base-ref "$B" --head-ref HEAD --task OPS-032 --branch-name "$BRANCH"
+python scripts/check-program-lifecycle-guards.py --base-ref "$B" --head-ref HEAD --task OPS-032 --branch-name "$BRANCH"
+python scripts/check-program-plan-finalization.py --base-ref "$B" --head-ref HEAD --task OPS-032
+python scripts/run-agent-coordination-gate.py --task OPS-032 --base-ref "$B" --head-ref HEAD --branch-name "$BRANCH"
+python scripts/run-task-scope-gate.py --task OPS-032 --base "$B"
+python scripts/check-evidence.py --task OPS-032
+python scripts/check-markdown.py
+git diff --check
+```
