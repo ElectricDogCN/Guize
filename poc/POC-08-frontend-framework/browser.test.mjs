@@ -77,4 +77,62 @@ for (const framework of ["react", "vue"]) {
       await page.close();
     }
   });
+
+
+  test(`${framework} preserves graph edits through a reload`, async () => {
+    const page = await openPage(framework);
+    try {
+      const graph = page.getByRole("region", { name: "Workflow graph" });
+      await graph.getByRole("button", { name: "verify", exact: true }).click();
+      await graph.getByRole("button", { name: "Move selected node" }).click();
+      await graph.getByText("Row 2, column 2", { exact: true }).waitFor();
+      await graph.getByLabel("Node label").fill("Verify input");
+      await graph.getByRole("button", { name: "Verify input" }).waitFor();
+      await page.reload();
+      await graph.getByRole("button", { name: "Verify input" }).click();
+      await graph.getByText("Row 2, column 2", { exact: true }).waitFor();
+      assert.deepEqual(await graph.getByRole("listitem").allTextContents(),
+        ["source to verify", "verify to publish"]);
+    } finally {
+      await page.close();
+    }
+  });
+
+  test(`${framework} rejects duplicate rule conditions and saves the correction`, async () => {
+    const page = await openPage(framework);
+    try {
+      const rules = page.getByRole("region", { name: "Decision table" });
+      await rules.getByLabel("Rule 2 allow").check();
+      await rules.getByRole("button", { name: "Add rule" }).click();
+      const condition = rules.getByLabel("Rule 3 condition");
+      const save = rules.getByRole("button", { name: "Save rules" });
+      await condition.fill("ready");
+      await save.click();
+      await rules.getByText("Rule conditions must be unique.", { exact: true }).waitFor();
+      await condition.fill("failed");
+      await save.click();
+      await rules.getByText("3 rules saved.", { exact: true }).waitFor();
+      assert.equal(await rules.getByLabel("Rule 2 allow").isChecked(), true);
+    } finally {
+      await page.close();
+    }
+  });
+
+  test(`${framework} filters fixture metrics and renders refresh failure in place`, async () => {
+    const page = await openPage(framework);
+    try {
+      const monitor = page.getByRole("region", { name: "Monitoring" });
+      const samples = monitor.getByRole("listitem");
+      await samples.first().waitFor();
+      assert.deepEqual(await samples.allTextContents(), ["0s · 1", "10s · 3"]);
+      await monitor.getByLabel("Series").selectOption("failed");
+      await monitor.getByText("10s · 1", { exact: true }).waitFor();
+      assert.deepEqual(await samples.allTextContents(), ["0s · 0", "10s · 1"]);
+      await monitor.getByRole("button", { name: "Refresh metrics" }).click();
+      await monitor.getByRole("alert").getByText("Refresh failed (unavailable).", { exact: true }).waitFor();
+      assert.deepEqual(await samples.allTextContents(), ["0s · 0", "10s · 1"]);
+    } finally {
+      await page.close();
+    }
+  });
 }

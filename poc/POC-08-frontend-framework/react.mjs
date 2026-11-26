@@ -1,4 +1,5 @@
 import { createElement as element, useState } from "react";
+import { Graph, DecisionTable, Monitoring } from "./react-admin.mjs";
 import { createRoot } from "react-dom/client";
 import {
   condition, firstVisibleRow, formResult, initialForm, listRows, rowCount, rowHeight,
@@ -64,4 +65,7 @@ createRoot(document.querySelector("#app")).render(element("div", {},
   element("h1", {}, "React comparison"),
   element(AssetList),
   element(SourceForm),
+  element(Graph),
+  element(DecisionTable),
+  element(Monitoring),
 ));
