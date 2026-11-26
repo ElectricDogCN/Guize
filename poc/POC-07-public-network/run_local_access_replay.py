@@ -5,6 +5,7 @@ from hashlib import file_digest
 import json
 from pathlib import Path
 
+from access_evidence import retain_access_report
 from capture_playback import utc_stamp
 from run_local_replay import argument_parser, run
 from run_local_resource_replay import read_origin_identities, read_output_fixture, replay
@@ -35,8 +36,11 @@ def main() -> None:
         start = datetime.now(timezone.utc)
         playback = run(args, origin_authorization=origin_authorization)
         resources = root / "resources"
-        replay(args.origin_port, identities, fixture, resources, entry_port=args.resource_port,
-               native_transport=args.native_transport)
+        resource_results = replay(
+            args.origin_port, identities, fixture, resources, entry_port=args.resource_port,
+            native_transport=args.native_transport,
+            protected_range=playback["cacheRange"] if args.transport_context else None,
+        )
         finish = datetime.now(timezone.utc)
         result = {
             "startedAt": utc_stamp(start), "finishedAt": utc_stamp(finish), "sample": playback["sample"],
@@ -44,6 +48,9 @@ def main() -> None:
             "playback": receipt(args.output / "replay-result.json", root),
             "resources": receipt(resources / "resource-replay.json", root),
         }
+        if args.transport_context is not None:
+            report = retain_access_report(root, playback, resource_results)
+            result["accessOutcome"] = receipt(Path(report), root)
         with (root / "access-replay.json").open("x", encoding="utf-8") as output:
             json.dump(result, output, indent=2)
             output.write("\n")

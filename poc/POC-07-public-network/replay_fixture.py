@@ -182,6 +182,7 @@ def replay_fixture(
             "clientStartedAt": utc_stamp(capture.started_at),
             "clientConnectedAt": utc_stamp(capture.connected_at),
             "clientFinishedAt": utc_stamp(capture.finished_at),
+            "firstResponseAt": utc_stamp(capture.first_response_at),
             "peerAddress": capture.peer_address,
             "peerPort": capture.peer_port,
             "tls": capture.protocol,
@@ -238,6 +239,7 @@ def replay_fixture(
     rate_receipts = {}
     if transport_context is not None:
         rate_receipts["rateTransport"] = retain_rate_attempts(directory, transport_context, [*burst, throttled])
+        rate_receipts["transportContext"] = transport_context
 
     origin_file = directory / "origin-anonymous.http"
     origin_request_id, origin_trace_id = uuid4().hex, uuid4().hex
@@ -279,6 +281,8 @@ def replay_fixture(
             "clientStartedAt": utc_stamp(origin.started_at),
             "clientConnectedAt": utc_stamp(origin.connected_at),
             "clientFinishedAt": utc_stamp(origin.finished_at),
+            "firstResponseAt": utc_stamp(origin.first_response_at),
+            "requestRange": byte_range,
             "peerAddress": origin.peer_address,
             "peerPort": origin.peer_port,
         },

@@ -11,6 +11,7 @@ import secrets
 import ssl
 import sys
 
+from capture_playback import utc_stamp
 from playback_gateway import PlaybackAuthorization, PlaybackPolicy, playback_gateway
 from replay_fixture import replay_fixture
 from stream_fixture import FixtureSource
@@ -105,7 +106,9 @@ def run(args: argparse.Namespace, *, origin_authorization: str | None = None) ->
     result["playbackGrantPolicy"] = {
         "authorizedUserId": active.principal, "deniedUserId": subjects[2][1],
         "authorizedGrantId": active.grant_id, "deniedGrantId": active.grant_id, "expiredGrantId": expired.grant_id,
-        "grantValidFrom": active.valid_from, "grantValidUntil": active.valid_until, "expiredAt": expired.valid_until,
+        "grantValidFrom": utc_stamp(utc_instant(active.valid_from)),
+        "grantValidUntil": utc_stamp(utc_instant(active.valid_until)),
+        "expiredAt": utc_stamp(utc_instant(expired.valid_until)),
     }
     with (args.output / "replay-result.json").open("x", encoding="utf-8") as output:
         json.dump(result, output, ensure_ascii=False, indent=2)
@@ -127,7 +130,7 @@ def argument_parser() -> argparse.ArgumentParser:
     parser.add_argument("--window-seconds", type=float, required=True)
     parser.add_argument("--grant-schedule", type=Path, help="Fixed UTC playback grant times for local evidence")
     parser.add_argument("--native-transport", action="store_true", help="Record actual per-request and TLS subprocesses")
-    parser.add_argument("--transport-context", type=Path, help="Bind native rate receipts to a fixed evidence context")
+    parser.add_argument("--transport-context", type=Path, help="Bind native access evidence to a fixed context")
     parser.add_argument("--preflight", action="store_true", help="Select the fixed small synthetic fixture")
     return parser
 

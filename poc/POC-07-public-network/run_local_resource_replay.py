@@ -14,7 +14,7 @@ import sys
 from tempfile import TemporaryDirectory
 from uuid import uuid4
 
-from capture_playback import capture_resource_denial
+from capture_playback import capture_resource_denial, utc_stamp
 from native_access_capture import observe_access_request
 from replay_fixture import retain_response_body, retained_access_http_response
 from resource_gateway import ProtectedResource, ResourceDecision, resource_gateway
@@ -40,22 +40,22 @@ def get(port: int, path: str, authorization: str) -> tuple[int, bytes]:
 
 def retain_denial(
     port: int, path: str, output: Path, identity: str, decisions: list[ResourceDecision],
-    *, native_transport: bool = False,
+    *, native_transport: bool = False, protected_range: str | None = None,
 ) -> tuple[int, bytes, dict]:
     request_id, trace_id = uuid4().hex, uuid4().hex
     previous = len(decisions)
     native = {}
-    identifiers = {"request_id": request_id, "trace_id": trace_id}
+    request = {"request_id": request_id, "trace_id": trace_id, "range_header": protected_range}
     capture_directory = nullcontext(output.parent) if native_transport else TemporaryDirectory(dir=output.parent)
     with capture_directory as directory:
         candidate = Path(directory) / output.name
         if native_transport:
             capture, receipt = observe_access_request(
-                f"http://127.0.0.1:{port}{path}", candidate, authorization=identity, **identifiers,
+                f"http://127.0.0.1:{port}{path}", candidate, authorization=identity, **request,
             )
             native["nativeTransport"] = receipt
         else:
-            capture = capture_resource_denial(port, path, candidate, authorization=identity, **identifiers)
+            capture = capture_resource_denial(port, path, candidate, authorization=identity, **request)
         status, headers, count, digest = retained_access_http_response(candidate)
         if status != 403 or count != 0:
             raise ValueError("A resource denial did not return the expected empty HTTP 403 response")
@@ -66,7 +66,8 @@ def retain_denial(
         if (
             (decision.route, decision.request_id, decision.trace_id, decision.allowed)
             != (path, request_id, trace_id, False)
-            or not capture.connected_at <= capture.request_started_at <= decision.observed_at <= capture.finished_at
+            or decision.range_header != protected_range
+            or not capture.connected_at <= capture.request_started_at <= decision.observed_at <= capture.first_response_at
         ):
             raise ValueError("The captured denial and actual gateway decision do not match")
         body = retain_response_body(candidate, headers, count, digest)
@@ -74,11 +75,11 @@ def retain_denial(
             candidate.rename(output)
             candidate.with_name(body).rename(output.with_name(body))
     observation = asdict(capture)
-    for key in ("started_at", "connected_at", "finished_at", "request_started_at"):
-        observation[key] = observation[key].isoformat()
+    for key in ("started_at", "connected_at", "finished_at", "request_started_at", "first_response_at"):
+        observation[key] = utc_stamp(observation[key])
     return status, b"", {
         **observation, **native, "requestId": request_id, "traceId": trace_id, "route": path,
-        "authorizationObservedAt": decision.observed_at.isoformat(),
+        "authorizationObservedAt": utc_stamp(decision.observed_at), "requestRange": decision.range_header,
         "statusCode": status, "rawResponse": output.name, "responseBody": body,
         "responseByteCount": count, "responseSha256": digest,
     }
@@ -86,7 +87,7 @@ def retain_denial(
 
 def replay(
     origin_port: int, origin_auth: dict[str, str], fixture: bytes, evidence_dir: Path | None = None,
-    *, entry_port: int = 0, native_transport: bool = False,
+    *, entry_port: int = 0, native_transport: bool = False, protected_range: str | None = None,
 ) -> dict:
     credentials = {role: "Bearer " + secrets.token_urlsafe(24) for role in ("admin", "worker", "reader")}
     now = datetime.now(timezone.utc)
@@ -128,7 +129,7 @@ def replay(
             return get(port, path, credentials["reader"])
         status, body, capture = retain_denial(
             port, path, evidence_dir / f"{name}.http", credentials["reader"], decisions,
-            native_transport=native_transport,
+            native_transport=native_transport, protected_range=protected_range,
         )
         captures[name] = capture
         return status, body

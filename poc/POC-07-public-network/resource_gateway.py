@@ -22,6 +22,7 @@ class ResourceDecision:
     trace_id: str
     observed_at: datetime
     allowed: bool
+    range_header: str | None
 
 
 @contextmanager
@@ -60,7 +61,7 @@ def resource_gateway(
             if observe is not None:
                 observe(ResourceDecision(
                     self.path, self.headers.get("X-Guize-Request-Id", ""),
-                    self.headers.get("X-Guize-Trace-Id", ""), observed_at, allowed,
+                    self.headers.get("X-Guize-Trace-Id", ""), observed_at, allowed, self.headers.get("Range"),
                 ))
             if not allowed:
                 self.send_resource(403)

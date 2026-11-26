@@ -25,6 +25,7 @@ class Capture:
     connected_at: datetime
     finished_at: datetime
     request_started_at: datetime
+    first_response_at: datetime
     process_id: int
     peak_receive_bytes: int
     raw_byte_count: int
@@ -82,16 +83,20 @@ def capture_anonymous_origin_response(
 
 def capture_resource_denial(
     port: int, path: str, response_file: Path, *, authorization: str, request_id: str, trace_id: str,
+    range_header: str | None = None,
 ) -> Capture:
     """Retain a response from one of the two protected loopback fixture routes."""
     if path not in ("/management/storage", "/worker/output.bin"):
         raise ValueError("Expected a configured resource fixture route")
     connection = HTTPConnection("127.0.0.1", port, timeout=10)
-    return _capture(connection, path, response_file, 0, {
+    headers = {
         "Authorization": authorization,
         "X-Guize-Request-Id": request_id,
         "X-Guize-Trace-Id": trace_id,
-    })
+    }
+    if range_header is not None:
+        headers["Range"] = range_header
+    return _capture(connection, path, response_file, 0, headers)
 
 
 def _capture(
@@ -137,8 +142,11 @@ def _capture(
         buffer = memoryview(bytearray(CHUNK_BYTES))
         digest = sha256()
         received = peak = 0
+        first_response = None
         with response_file.open("xb") as stream:
             while count := peer_socket.recv_into(buffer):
+                if first_response is None:
+                    first_response = datetime.now(timezone.utc)
                 received += count
                 peak = max(peak, count)
                 if received > maximum_body_bytes + CHUNK_BYTES:
@@ -146,12 +154,13 @@ def _capture(
                 block = buffer[:count]
                 stream.write(block)
                 digest.update(block)
-        if not received:
+        if first_response is None:
             raise OSError("The playback listener returned no HTTP response")
         finished = datetime.now(timezone.utc)
         return Capture(
             peer_address=address, peer_port=observed_port, protocol=protocol, cipher=cipher_name,
             started_at=started, connected_at=connected, finished_at=finished, request_started_at=request_started,
+            first_response_at=first_response,
             process_id=getpid(), peak_receive_bytes=peak, raw_byte_count=received,
             raw_sha256="sha256:" + digest.hexdigest(), certificate_sha256=certificate_sha256,
             verified_server_name=verified_server_name,

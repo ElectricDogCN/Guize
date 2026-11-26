@@ -38,7 +38,7 @@ python -B poc/POC-07-public-network/run_local_replay.py --help
 
 该选项也为直接来源、管理、Worker 产物三条回环 HTTP 请求记录实际独立命令、PID 和目标。组合入口将这些回执写入同一实验窗口的两份结果文件。单独运行资源入口时，使用该选项需同时传入 `--evidence-dir`。
 
-组合入口可同时传入 `--transport-context`，将预先固定的资源、路径、受测版本、样本和 ACL 信息写入逐次限流回执。回执记录实际命令与脚本摘要、网关匹配的用户和 Grant、缓存键、请求时钟、退出状态以及响应摘要。正式运行时从证据根目录以相对 `--output` 执行，使原始命令及文件引用直接对应结果索引。采集器要求该段限流使用已预热的缓存。
+组合入口可同时传入 `--transport-context`，将预先固定的资源、路径、受测版本、样本和 ACL 信息写入逐次限流回执和 `access-outcome.json`。报告引用九次实际请求及五次限流回执，绑定命令、响应和授权事件，并为播放用例绑定独立 TLS 握手。管理和产物入口的拒绝时间取自网关。OpenList 的直接拒绝用客户端实测到达时间记录。正式运行时从仓库根目录传入相对 `--output` 和 `--certificate`，使原始命令、响应和公开实验信任证书直接对应证据引用。采集器要求该段限流使用已预热的缓存。
 
 ```bash
 python -B poc/POC-07-public-network/run_local_resource_replay.py --help

@@ -15,7 +15,7 @@ from urllib.parse import urlsplit
 from capture_playback import Capture, capture_anonymous_origin_response, capture_resource_denial, capture_response, utc_stamp
 
 SCRIPT = Path(__file__).resolve()
-CLOCKS = ("started_at", "connected_at", "request_started_at", "finished_at")
+CLOCKS = ("started_at", "connected_at", "request_started_at", "first_response_at", "finished_at")
 
 
 class CaptureError(ValueError):
@@ -81,7 +81,8 @@ def capture_http_request(args: argparse.Namespace, settings: dict) -> dict:
         capture = capture_anonymous_origin_response(port, args.response, request["range_header"], **identifiers)
     else:
         capture = capture_resource_denial(port, target.path, args.response,
-                                          authorization=request["authorization"], **identifiers)
+                                          authorization=request["authorization"], range_header=request.get("range_header"),
+                                          **identifiers)
     return {"requestProcessId": getpid(), "requestCommand": sys.orig_argv, "capture": asdict(capture)}
 
 
