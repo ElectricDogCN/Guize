@@ -1,0 +1,300 @@
+{
+  "schemaVersion": 1,
+  "reviewer": "/root/independent_review",
+  "reviewedAt": "2026-11-27T07:16:01Z",
+  "taskId": "OPS-033",
+  "decision": "accepted_exact_actual_normal_review_main",
+  "actualMain": "18309104113cbc879fb1789c91206d47b8c33f29",
+  "source": "c1afc542f5018acb72821d0da130d4c0438a3288",
+  "base": "cd659e3d08b335be9c0866f6699bd6b0ef0534e9",
+  "tree": "e812f0e395c4be6642cbb2cec244f9379da3b1f6",
+  "pullRequest": "https://github.com/ElectricDogCN/Guize/pull/336",
+  "actualReviewMainAccepted": true,
+  "fullMainCiAccepted": true,
+  "actualMainControlsAccepted": true,
+  "normalCompletionMayStart": true,
+  "issueClosureAllowed": true,
+  "branchCleanupAllowed": false,
+  "mustFix": [],
+  "actualIdentity": {
+    "remoteMainExact": true,
+    "officialGitObjectExact": true,
+    "orderedParents": [
+      "cd659e3d08b335be9c0866f6699bd6b0ef0534e9",
+      "c1afc542f5018acb72821d0da130d4c0438a3288"
+    ],
+    "sameTreeAsAcceptedSourceAndPreview": true,
+    "sourcePreview": "7d4e8fb3ac8782f6e7393b206130fae2383179d9",
+    "normalExpectedHeadMerge": true,
+    "mergeTitleContainsTaskAndPr": true,
+    "prApiMerged": true,
+    "prMergeShaExact": true,
+    "publicTechnicalReview": {
+      "id": 6084551795,
+      "commit": "c1afc542f5018acb72821d0da130d4c0438a3288",
+      "state": "COMMENTED"
+    }
+  },
+  "official": {
+    "runId": 45954923866,
+    "runNumber": 1203,
+    "attempt": 1,
+    "event": "push",
+    "head": "18309104113cbc879fb1789c91206d47b8c33f29",
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/ElectricDogCN/Guize/actions/runs/45954923866",
+    "jobs": [
+      {
+        "id": 140359072336,
+        "name": "Governance Controls",
+        "conclusion": "success",
+        "seconds": 234,
+        "skippedSteps": [
+          "Task file validation",
+          "Evidence check",
+          "Evidence integrity check",
+          "Task-branch linkage check",
+          "Scope check"
+        ]
+      },
+      {
+        "id": 140359072547,
+        "name": "Governance Tests (shard 2)",
+        "conclusion": "success",
+        "seconds": 462,
+        "skippedSteps": []
+      },
+      {
+        "id": 140359072691,
+        "name": "Governance Tests (shard 1)",
+        "conclusion": "success",
+        "seconds": 596,
+        "skippedSteps": []
+      },
+      {
+        "id": 140359072919,
+        "name": "Governance Tests (shard 0)",
+        "conclusion": "success",
+        "seconds": 1099,
+        "skippedSteps": []
+      },
+      {
+        "id": 140365513810,
+        "name": "Governance Checks",
+        "conclusion": "success",
+        "seconds": 14,
+        "skippedSteps": []
+      }
+    ],
+    "allFiveSuccess": true,
+    "allJobsUnder1800Seconds": true,
+    "maxJobSeconds": 1099,
+    "uniqueCases": 1101,
+    "passed": 1101,
+    "failed": 0,
+    "errors": 0,
+    "skippedTests": 0,
+    "xfail": 0,
+    "xpass": 0,
+    "collectionSha256": "06e39b30f10307af758c62ce2ec69d14440dee77b5e8ff0f2250a49ded9ee293",
+    "exactAccepted1202CaseSets": true,
+    "original1093AndExactEightRetained": true,
+    "shards": [
+      {
+        "shard": 0,
+        "jobId": 140359072919,
+        "passed": 271,
+        "pytestSeconds": 1049.09
+      },
+      {
+        "shard": 1,
+        "jobId": 140359072691,
+        "passed": 425,
+        "pytestSeconds": 545.25
+      },
+      {
+        "shard": 2,
+        "jobId": 140359072547,
+        "passed": 405,
+        "pytestSeconds": 424.8
+      }
+    ],
+    "allThreeCheckoutsExactActualMain": true,
+    "allThreeNoSkippedChecksPassed": true,
+    "conditionalStepSkips": {
+      "count": 5,
+      "jobId": 140359072336,
+      "originalPushConditions": true,
+      "names": [
+        "Task file validation",
+        "Evidence check",
+        "Evidence integrity check",
+        "Task-branch linkage check",
+        "Scope check"
+      ],
+      "pytestSkipCount": 0
+    },
+    "aggregate": {
+      "jobId": 140365513810,
+      "conclusion": "success",
+      "message": "All 1101 cases covered exactly once"
+    },
+    "coverageMethod": "Independently parsed each actual-main official shard PASSED ID, checked disjoint uniqueness, and compared each shard with accepted #1202 raw coverage. All 1101 IDs and the canonical digest are identical; official aggregation reported exactly-once coverage."
+  },
+  "localActualChecks": {
+    "commands": 14,
+    "allExitCodesZero": true,
+    "exactActualMainSourceBaseAndTreeBound": true,
+    "actualPushHistoryAndLifecycleContextWithoutTaskPassed": true,
+    "exactTreeAndProtectedInputsChecksPassed": true,
+    "receiptSha256": "b102f8e8e8fef655f9caac3ac65109ce41d06b6ac8acab47d51123b884e29c27"
+  },
+  "reviewState": {
+    "allThreeMirrors": "review",
+    "agentRole": "reviewer",
+    "reviewerActor": "/root/independent_review",
+    "registeredBase": "cd659e3d08b335be9c0866f6699bd6b0ef0534e9",
+    "registeredWorkBranch": "chore/OPS-033-v1-split-admission-v2",
+    "exclusiveClaims": 8,
+    "originalActorsAndLeasePreserved": true,
+    "lease": {
+      "acquiredAt": "2026-11-27T03:09:05Z",
+      "expiresAt": "2026-12-04T03:09:05Z"
+    },
+    "activeTasks": 3,
+    "highRiskTasks": 1,
+    "peerPocEntriesUnchanged": true,
+    "onlyOwnElevenMetadataEvidencePaths": true,
+    "implementationCodeSchemasPocOfficialCiAndOrdinaryLedgerUnchanged": true,
+    "originalImplementationAcceptanceAnd14ControlFilesUnchanged": true,
+    "originalPublicSourceRecordsAndActualReviewTreeMatch": true
+  },
+  "issueState": {
+    "number": 331,
+    "observedState": "open",
+    "observedStateReason": null,
+    "closureAllowedAfterThisAcceptance": true,
+    "requiredClosureState": "closed",
+    "requiredClosureReason": "completed",
+    "issueBodyAndHistoryMustBePreserved": true
+  },
+  "completionAdmission": {
+    "normalMetadataPreparationMayStart": true,
+    "requiredBase": "18309104113cbc879fb1789c91206d47b8c33f29",
+    "latestAcceptedImplementation": {
+      "pullRequest": 335,
+      "completionRef": "PR-335",
+      "mergeCommit": "cd659e3d08b335be9c0866f6699bd6b0ef0534e9"
+    },
+    "preserveOriginalReservationAndFailedHistory": true,
+    "removeOnlyOwnActiveRowAtNormalCompletion": true,
+    "preservePeerRowsLeaseHistoryAndOrdinaryLedger": true,
+    "requireFreshIssueClosedCompletedBeforeApplicableCompletionGate": true,
+    "unknownCompletionPayloadNotApproved": true,
+    "fullSourceAndActualCompletionCiAndIndependentReviewsStillRequired": true
+  },
+  "permissions": {
+    "issue331MayBeNormallyClosedCompleted": true,
+    "normalCompletionMetadataMayBePrepared": true,
+    "actualCompletionMainAccepted": false,
+    "capacityReleased": false,
+    "activeBranchRetirementApproved": false,
+    "newV1ChildDefinitionOrReservationApproved": false,
+    "experimentsApproved": false
+  },
+  "nextGate": "Prepare and independently review the exact normal Completion metadata, then complete its full official source/main CI and actual-main acceptance. Only that later acceptance may release OPS-033 capacity or retire its active v2 branch.",
+  "knownScope": "This accepts only OPS-033's actual formal Review stage and its normal transition to Completion preparation. It does not accept a product release or a real V1 child-task definition.",
+  "evidencePins": [
+    {
+      "path": ".takeover-tools/ops033-normal-review-main-18309104-independent-main-ci/actual-commit-connector.json",
+      "bytes": 6792,
+      "sha256": "27437cddd7d3631475df7477ecafb5f28b1cae36e2c97cb1f34c56dd0dc1e85d"
+    },
+    {
+      "path": ".takeover-tools/ops033-normal-review-main-18309104-independent-main-ci/actual-local-controls.original.json",
+      "bytes": 5528,
+      "sha256": "b102f8e8e8fef655f9caac3ac65109ce41d06b6ac8acab47d51123b884e29c27"
+    },
+    {
+      "path": ".takeover-tools/ops033-normal-review-main-18309104-independent-main-ci/actual-main-ref-connector.json",
+      "bytes": 1302,
+      "sha256": "94fe759d7f45ed2df4f9cf863e75584d4ed01d616b5b412df7539c896372ba63"
+    },
+    {
+      "path": ".takeover-tools/ops033-normal-review-main-18309104-independent-main-ci/coverage-terminal.json",
+      "bytes": 145081,
+      "sha256": "3eb08d783000d7c6069701e1585f80958c76501856020b066917aec002e31de3"
+    },
+    {
+      "path": ".takeover-tools/ops033-normal-review-main-18309104-independent-main-ci/issue-terminal-connector.json",
+      "bytes": 12261,
+      "sha256": "1dc4444cf27096e99bb222f1159f8bd9d1f68d0023652c8b5f765f9a92d10809"
+    },
+    {
+      "path": ".takeover-tools/ops033-normal-review-main-18309104-independent-main-ci/job-140359072336.log",
+      "bytes": 63078,
+      "sha256": "fd32047c71fa27ca5eff60a5e09ef777e253e34bdbc4ba1c5690869f4e55195a"
+    },
+    {
+      "path": ".takeover-tools/ops033-normal-review-main-18309104-independent-main-ci/job-140359072547.log",
+      "bytes": 165047,
+      "sha256": "7cb08dbdb7366b5d3fe8a8c6948dfd3bb5445245f462fb7c23441c19237800f0"
+    },
+    {
+      "path": ".takeover-tools/ops033-normal-review-main-18309104-independent-main-ci/job-140359072691.log",
+      "bytes": 175372,
+      "sha256": "976f3b84f6fb755ae2ff4eb5277fa598fca4e8e071f167526b3abc8030443727"
+    },
+    {
+      "path": ".takeover-tools/ops033-normal-review-main-18309104-independent-main-ci/job-140359072919.log",
+      "bytes": 129426,
+      "sha256": "0a47635eef95f4e6494aa201d9a99ed1982b162f4bd583004f361a223916c68f"
+    },
+    {
+      "path": ".takeover-tools/ops033-normal-review-main-18309104-independent-main-ci/job-140365513810.log",
+      "bytes": 16176,
+      "sha256": "91c22a1b697006b467ec1d0c5ad155dfc5122fb7face2adf2e0cf20f53d5eeb3"
+    },
+    {
+      "path": ".takeover-tools/ops033-normal-review-main-18309104-independent-main-ci/jobs-terminal-connector.json",
+      "bytes": 33520,
+      "sha256": "349e1304acde01b9ec0826c9143cd6e62795bb9ab3f52d03b5b3a0a57cceaa85"
+    },
+    {
+      "path": ".takeover-tools/ops033-normal-review-main-18309104-independent-main-ci/main-terminal-connector.json",
+      "bytes": 1302,
+      "sha256": "94fe759d7f45ed2df4f9cf863e75584d4ed01d616b5b412df7539c896372ba63"
+    },
+    {
+      "path": ".takeover-tools/ops033-normal-review-main-18309104-independent-main-ci/pr-terminal-connector.json",
+      "bytes": 38072,
+      "sha256": "8b7f1f2a55f50dec96c16108c4591a8d316d2a1bf7fc2a02c1dc1251dfad1b35"
+    },
+    {
+      "path": ".takeover-tools/ops033-normal-review-main-18309104-independent-main-ci/reviews-terminal-connector.json",
+      "bytes": 5227,
+      "sha256": "beff5b20046c448bb99abee545461be9837d657a52421be6b5a5adcc9a506948"
+    },
+    {
+      "path": ".takeover-tools/ops033-normal-review-main-18309104-independent-main-ci/run-initial-connector.json",
+      "bytes": 27013,
+      "sha256": "aea6e8aed42a340fff8e7973bf2622a326954de38fb9d5bb8a7ccf81599a80e6"
+    },
+    {
+      "path": ".takeover-tools/ops033-normal-review-main-18309104-independent-main-ci/run-terminal-connector.json",
+      "bytes": 27023,
+      "sha256": "fd377dda532817ebe3f38efbd4a3680564563e2dd71626e50c70513ce5543201"
+    },
+    {
+      "path": ".takeover-tools/ops033-normal-review-c1afc542-final-source-independent-review.json",
+      "bytes": 14663,
+      "sha256": "52b451f572a6204e587141bbb6b35eae429b9531394bde31e8028744a5e622fe"
+    },
+    {
+      "path": ".takeover-tools/ops033-implementation-main-cd659e3d-final-actual-main-independent-review.json",
+      "bytes": 14084,
+      "sha256": "781fe086474da8c08b2dfefad65aa158b37e3932e7a465852116232c3664b40d"
+    }
+  ]
+}
