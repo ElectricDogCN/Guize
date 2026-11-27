@@ -17,23 +17,31 @@ SPEC.loader.exec_module(PROOF)
 
 
 class Graph:
-    def __init__(self, temporary, *, implementation_variant='single'):
+    def __init__(self, temporary, *, implementation_variant='single', remaining=False):
         assert implementation_variant in {'single', 'incremental', 'metadata', 'restored'}
+        self.owner = PROOF.NEW_OWNER if remaining else PROOF.OWNER
+        self.reservation = PROOF.NEW_REGISTRATION if remaining else PROOF.REGISTRATION
+        self.intent_path = PROOF.NEW_INTENT if remaining else PROOF.INTENT
+        claims = PROOF.NEW_CLAIMS if remaining else PROOF.CLAIMS
         self.repo = temporary/'repo'
         subprocess.run(['git', '-c', 'core.longpaths=true', 'clone', '--shared', '--no-checkout', '--quiet', str(ROOT), str(self.repo)], check=True, capture_output=True)
         self.git('config', 'user.name', 'Actor fixture')
         self.git('config', 'user.email', 'fixture@example.invalid')
         self.git('config', 'core.autocrlf', 'false')
-        self.git('checkout', '-b', 'actor-fixture-main', PROOF.REGISTRATION)
-        self.clock = PROOF.commit_time(str(self.repo), PROOF.REGISTRATION)+timedelta(minutes=1)
+        if remaining:
+            self.git('sparse-checkout', 'set', '--no-cone', '/specs/coordination/', '/specs/tasks/',
+                     '/evidence/OPS-032/', '/evidence/POC-007/', '/evidence/POC-008/',
+                     *('/'+path for path in sorted(claims)))
+        self.git('checkout', '-b', 'actor-fixture-main', self.reservation)
+        self.clock = PROOF.commit_time(str(self.repo), self.reservation)+timedelta(minutes=1)
         self.git('checkout', '-b', 'implementation')
-        self.lifecycle('in_progress', 'implementer', PROOF.REGISTRATION)
-        self.commit('OPS-015 fixture activation')
-        for path in PROOF.CLAIMS:
+        self.lifecycle('in_progress', 'implementer', self.reservation)
+        self.commit(self.owner+' fixture activation')
+        for path in claims:
             self.write(path, (ROOT/path).read_bytes())
-        self.commit('OPS-015 fixture nonempty implementation (#9001)')
+        self.commit(self.owner+' fixture nonempty implementation (#9001)')
         self.git('checkout', 'actor-fixture-main')
-        implementation = self.merge('implementation', 'OPS-015 implementation (#9001)')
+        implementation = self.merge('implementation', self.owner+' implementation (#9001)')
         reference = 'PR-9001'
         if implementation_variant != 'single':
             self.git('checkout', '-b', 'incremental-rework')
@@ -50,24 +58,24 @@ class Graph:
         self.latest_code = implementation
         self.git('checkout', '-b', 'review')
         self.lifecycle('review', 'reviewer', implementation)
-        self.commit('OPS-015 independent fixture Review (#9002)')
+        self.commit(self.owner+' independent fixture Review (#9002)')
         self.git('checkout', 'actor-fixture-main')
-        review = self.merge('review', 'OPS-015 normal Review (#9002)')
+        review = self.merge('review', self.owner+' normal Review (#9002)')
         if implementation_variant == 'metadata':
             implementation, reference = review, 'PR-9002'
         self.implementation = implementation
         self.git('checkout', '-b', 'completion')
         self.lifecycle('completed', 'integrator', self.git('rev-parse', 'HEAD'))
         plan = self.read(PROOF.PLAN)
-        own = next(row for row in plan['foundationTasks'] if row['taskId'] == 'OPS-015')
+        own = next(row for row in plan['foundationTasks'] if row['taskId'] == self.owner)
         own.update(completionRef=reference, mergeCommit=implementation)
         self.dump(PROOF.PLAN, plan)
         active = self.read(PROOF.ACTIVE)
-        active['tasks'] = [row for row in active['tasks'] if row['taskId'] != 'OPS-015']
+        active['tasks'] = [row for row in active['tasks'] if row['taskId'] != self.owner]
         self.dump(PROOF.ACTIVE, active)
-        self.commit('OPS-015 normal Completion (#9003)')
+        self.commit(self.owner+' normal Completion (#9003)')
         self.git('checkout', 'actor-fixture-main')
-        self.base = self.merge('completion', 'OPS-015 normal Completion (#9003)')
+        self.base = self.merge('completion', self.owner+' normal Completion (#9003)')
 
     def git(self, *args, env=None):
         result = subprocess.run(['git', '-c', 'core.longpaths=true', '-C', str(self.repo), *args], capture_output=True, env=env)
@@ -102,23 +110,30 @@ class Graph:
 
     def lifecycle(self, status, role, base):
         plan, active = self.read(PROOF.PLAN), self.read(PROOF.ACTIVE)
-        next(row for row in plan['foundationTasks'] if row['taskId'] == 'OPS-015')['status'] = status
-        next(row for row in active['tasks'] if row['taskId'] == 'OPS-015').update(status=status, agentRole=role, baseSha=base, branch='chore/OPS-015-fixture')
+        branch = 'chore/'+self.owner+'-fixture'
+        next(row for row in plan['foundationTasks'] if row['taskId'] == self.owner)['status'] = status
+        next(row for row in active['tasks'] if row['taskId'] == self.owner).update(status=status, agentRole=role, baseSha=base, branch=branch)
         self.dump(PROOF.PLAN, plan)
         self.dump(PROOF.ACTIVE, active)
-        path = 'specs/tasks/OPS-015.md'
+        path = 'specs/tasks/'+self.owner+'.md'
         raw = (self.repo/path).read_text(encoding='utf-8')
         import re
-        for key, value in dict(status=status, agentRole=role, baseSha=base, workBranch='chore/OPS-015-fixture').items():
+        for key, value in dict(status=status, agentRole=role, baseSha=base, workBranch=branch).items():
             raw = re.sub(r'^'+key+r':.*$', key+': '+value, raw, count=1, flags=re.M)
         self.write(path, raw)
 
-    def approval(self, target, mutate=None, *, commit=True):
-        intent = json.loads((self.repo/PROOF.INTENT).read_bytes())
+    def registered_actors(self, target):
+        intent = json.loads((self.repo/self.intent_path).read_bytes())
+        if self.owner == PROOF.NEW_OWNER:
+            assignment = intent['originalReservations'][target]
+            return assignment['oldActors'], assignment['newActors']
         old = dict(zip(('implementer', 'reviewer'), intent['oldProgramRoleValues']))
+        return old, intent['futureActualActors'][target]
+
+    def approval(self, target, mutate=None, *, commit=True):
+        old, new = self.registered_actors(target)
         record = dict(schemaVersion=1, kind='prospective_poc_actor_amendment', taskId=target,
-                      admittedMain=self.base, oldActors=old, newActors=intent['futureActualActors'][target],
-                      reviewer=intent['futureActualActors'][target]['reviewer'],
+                      admittedMain=self.base, oldActors=old, newActors=new, reviewer=new['reviewer'],
                       approvedAt=(self.clock+timedelta(seconds=1)).isoformat(), decision='approved')
         if mutate:
             mutate(record)
@@ -127,9 +142,7 @@ class Graph:
             self.commit(target+' prospective independent approval')
 
     def roles(self, target, *, reverse=False):
-        intent = json.loads((self.repo/PROOF.INTENT).read_bytes())
-        old = dict(zip(('implementer', 'reviewer'), intent['oldProgramRoleValues']))
-        new = intent['futureActualActors'][target]
+        old, new = self.registered_actors(target)
         if reverse:
             old, new = new, old
         path = 'specs/tasks/'+target+'.md'
@@ -161,6 +174,25 @@ def assert_metadata_transaction_and_real_callers(graph, target):
 @pytest.mark.parametrize('target', ['POC-003', 'POC-005'])
 def test_original_metadata_transaction_and_real_callers(graph, target):
     assert_metadata_transaction_and_real_callers(graph, target)
+
+
+@pytest.mark.parametrize('target', PROOF.NEW_TARGETS)
+def test_remaining_targets_require_prospective_approval_after_actual_completion(tmp_path, target):
+    graph = Graph(tmp_path, remaining=True)
+    root = str(graph.repo)
+    with pytest.raises(PROOF.AmendmentError, match='normally complete and release capacity'):
+        PROOF.remaining_authority(root, graph.reservation)
+    with pytest.raises(PROOF.AmendmentError, match='No actor amendment authority'):
+        PROOF.assignment(root, graph.base, 'POC-009')
+    head = graph.amend(target)
+    assert PROOF.validate_range(root, graph.base, head) == {target: PROOF.FIELDS}
+
+
+def test_remaining_authority_rejects_same_commit_approval(tmp_path):
+    graph = Graph(tmp_path, remaining=True)
+    head = graph.amend('POC-008', approval_commit=False)
+    with pytest.raises(PROOF.AmendmentError, match='preceding Git commit'):
+        PROOF.validate_range(str(graph.repo), graph.base, head)
 
 
 @pytest.mark.parametrize('target', ['POC-003', 'POC-005'])

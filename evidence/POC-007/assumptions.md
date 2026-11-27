@@ -1,0 +1,3 @@
+# POC-007 实验前提
+
+使用 `RES-LOCAL-ACCESS-PATH`、`RES-OPENLIST-LOCAL` 及 `SAMPLE-RANGE-LARGEFILE`。实际资源身份、容量和工具版本在正式执行前记录。

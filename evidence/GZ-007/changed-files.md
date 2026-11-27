@@ -1,5 +1,20 @@
 # 变更清单
 
+## 正式审查
+
++- `evidence/GZ-007/changed-files.md`
+- `evidence/GZ-007/commands.txt`
+- `evidence/GZ-007/handoff.md`
+- `evidence/GZ-007/implementation-main-2733a818/independent-review.json`
+- `evidence/GZ-007/implementation-main-2733a818/source-controls.json`
+- `evidence/GZ-007/summary.md`
+- `evidence/GZ-007/test-results/README.md`
+- `specs/coordination/active-work.yaml`
+- `specs/coordination/program-plan.yaml`
+- `specs/tasks/GZ-007.md`
+
+## 登记与实施
+
 - evidence/GZ-007/EVIDENCE-STRUCTURE.md
 - evidence/GZ-007/assumptions.md
 - evidence/GZ-007/changed-files.md
@@ -13,3 +28,130 @@
 - specs/coordination/active-work.yaml
 - specs/coordination/program-plan.yaml
 - specs/tasks/GZ-007.md
+
+## 来源与资产身份
+
+- contracts/data/README.md
+- data/migrations/V2__create_source_and_asset_identity.sql
+- evidence/GZ-007/changed-files.md
+- evidence/GZ-007/test-results/README.md
+- specs/contracts/data/verify_source_asset.sql
+
+## 任务计划与执行尝试
+
+- contracts/data/README.md
+- data/migrations/V3__create_task_plan_and_attempt.sql
+- evidence/GZ-007/changed-files.md
+- evidence/GZ-007/test-results/README.md
+- specs/contracts/data/verify_task_plan_and_attempt.sql
+
+## 节点资源账本与恢复
+
+- contracts/data/README.md
+- data/migrations/V4__create_task_resource_accounting.sql
+- evidence/GZ-007/changed-files.md
+- evidence/GZ-007/test-results/README.md
+- specs/contracts/data/task_fixture.sql
+- specs/contracts/data/task_resource_fixture.sql
+- specs/contracts/data/verify_task_plan_and_attempt.sql
+- specs/contracts/data/verify_task_resource_accounting.sql
+
+## 派生物血缘与事务 Outbox
+
+- contracts/data/README.md
+- data/migrations/V5__create_artifact_lineage_and_outbox.sql
+- evidence/GZ-007/changed-files.md
+- evidence/GZ-007/test-results/README.md
+- specs/contracts/data/verify_artifact_lineage_and_outbox.sql
+- specs/contracts/data/verify_attempt_outbox_control_role.sql
+
+## 身份与资产授权持久化
+
+- contracts/data/README.md
+- data/migrations/V6__create_identity_and_asset_acl.sql
+- evidence/GZ-007/changed-files.md
+- evidence/GZ-007/test-results/README.md
+- specs/contracts/data/verify_identity_and_asset_acl.sql
+
+## 来源同步与检查点持久化
+
+- contracts/data/README.md
+- data/migrations/V7__create_source_sync_state.sql
+- evidence/GZ-007/changed-files.md
+- evidence/GZ-007/test-results/README.md
+- specs/contracts/data/verify_source_sync_control_role.sql
+- specs/contracts/data/verify_source_sync_state.sql
+
+## 来源连接端点和扫描根
+
+- data/migrations/V12__persist_source_connection_location.sql
+- specs/contracts/data/verify_source_connection_location.sql
+- specs/contracts/data/task_fixture.sql
+- specs/contracts/data/verify_source_asset.sql
+- specs/contracts/data/verify_source_sync_state.sql
+- specs/contracts/data/verify_media_storage_state.sql
+- specs/contracts/data/verify_asset_classification_and_merge_evidence.sql
+- evidence/GZ-007/test-results/v12-source-location/
+
+## 媒体、完整缓存与正式副本
+
+- contracts/data/README.md
+- data/migrations/V8__create_media_and_storage_state.sql
+- evidence/GZ-007/changed-files.md
+- evidence/GZ-007/test-results/README.md
+- specs/contracts/data/verify_media_storage_state.sql
+
+## 资产别名、标签与归并证据
+
+- contracts/data/README.md
+- data/migrations/V9__create_asset_classification_and_merge_evidence.sql
+- evidence/GZ-007/changed-files.md
+- evidence/GZ-007/test-results/README.md
+- specs/contracts/data/verify_asset_classification_and_merge_evidence.sql
+
+## AI 版本注册和搜索索引状态
+
+- contracts/data/README.md
+- data/migrations/V10__create_ai_and_search_state.sql
+- evidence/GZ-007/changed-files.md
+- evidence/GZ-007/test-results/README.md
+- specs/contracts/data/ai_artifact_registry_fixture.sql
+- specs/contracts/data/verify_ai_legacy_provenance.sql
+- specs/contracts/data/verify_ai_search_state.sql
+- specs/contracts/data/verify_artifact_lineage_and_outbox.sql
+
+## 策略、配置、审计及目录覆盖
+
+- contracts/data/README.md
+- data/migrations/V11__create_policy_config_and_audit_state.sql
+- evidence/GZ-007/changed-files.md
+- evidence/GZ-007/commands.txt
+- evidence/GZ-007/handoff.md
+- evidence/GZ-007/test-results/README.md
+- evidence/GZ-007/test-results/v11-native/**
+- specs/contracts/data/verify_data_contract_coverage.sql
+- specs/contracts/data/verify_policy_config_and_audit_state.sql
+
+## 模块命名空间迁移
+
+- data/migrations/V1__create_module_namespaces.sql
+- evidence/GZ-007/changed-files.md
+- evidence/GZ-007/handoff.md
+- evidence/GZ-007/test-results/README.md
+- specs/coordination/active-work.yaml
+- specs/coordination/program-plan.yaml
+- specs/tasks/GZ-007.md
+
+## 正常结项
+
+- specs/coordination/active-work.yaml
+- specs/coordination/program-plan.yaml
+- specs/coordination/task-completions.yaml
+- specs/tasks/GZ-007.md
+- evidence/GZ-007/accepted-review-main-506cfcdc/independent-review.json
+- evidence/GZ-007/accepted-review-main-506cfcdc/source-controls.json
+- evidence/GZ-007/changed-files.md
+- evidence/GZ-007/commands.txt
+- evidence/GZ-007/handoff.md
+- evidence/GZ-007/summary.md
+- evidence/GZ-007/test-results/README.md

@@ -1,0 +1,13 @@
+fresh-flyway.log
+[INFO] Successfully validated 12 migrations (execution time 00:00.022s)
+[INFO] Successfully applied 12 migrations to schema "public", now at version v12 (execution time 00:00.751s)
+[INFO] Successfully validated 12 migrations (execution time 00:00.006s)
+legacy-v12-flyway.log
+[INFO] Successfully validated 12 migrations (execution time 00:00.043s)
+[INFO] Successfully applied 1 migration to schema "public", now at version v12 (execution time 00:00.013s)
+[INFO] Successfully validated 12 migrations (execution time 00:00.010s)
+restored-flyway.log
+[INFO] Successfully validated 12 migrations (execution time 00:00.043s)
+no-pending-migration.log
+[INFO] Successfully validated 12 migrations (execution time 00:00.045s)
+[INFO] Schema "public" is up to date. No migration necessary.

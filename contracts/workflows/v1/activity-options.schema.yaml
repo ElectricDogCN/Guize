@@ -1,0 +1,43 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Guize versioned Temporal activity options
+type: object
+additionalProperties: false
+required: [schemaVersion, policyVersion, activityClasses]
+properties:
+  schemaVersion: {const: 1}
+  policyVersion: {type: string, pattern: '^[a-z][a-z0-9-]{0,63}$'}
+  activityClasses:
+    type: object
+    additionalProperties: false
+    required: [read, command, longRunning]
+    properties:
+      read: {$ref: '#/$defs/activityClass'}
+      command: {$ref: '#/$defs/activityClass'}
+      longRunning:
+        allOf:
+          - {$ref: '#/$defs/activityClass'}
+          - {required: [heartbeatSeconds]}
+$defs:
+  positiveSeconds: {type: integer, minimum: 1, maximum: 2147483647}
+  activityClass:
+    type: object
+    additionalProperties: false
+    required: [startToCloseSeconds, scheduleToCloseSeconds, retry, cancellation]
+    properties:
+      startToCloseSeconds: {$ref: '#/$defs/positiveSeconds'}
+      scheduleToCloseSeconds: {$ref: '#/$defs/positiveSeconds'}
+      heartbeatSeconds: {$ref: '#/$defs/positiveSeconds'}
+      cancellation: {const: WAIT_CANCELLATION_COMPLETED}
+      retry:
+        type: object
+        additionalProperties: false
+        required: [maximumAttempts, initialSeconds, maximumSeconds, backoff, nonRetryableTypes]
+        properties:
+          maximumAttempts: {type: integer, minimum: 1, maximum: 2147483647}
+          initialSeconds: {$ref: '#/$defs/positiveSeconds'}
+          maximumSeconds: {$ref: '#/$defs/positiveSeconds'}
+          backoff: {type: number, minimum: 1}
+          nonRetryableTypes:
+            type: array
+            uniqueItems: true
+            items: {type: string, pattern: '^[A-Z][A-Z0-9_]{0,63}$'}

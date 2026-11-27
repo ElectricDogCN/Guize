@@ -1,18 +1,109 @@
-# GZ-007 登记固定源
+# GZ-007 执行记录
 
-Command recipe. Exit Code: UNEXECUTED.
+Migration Test Source: 7cc455283a19125cb0ac6d2fa1d63d594b4deed6
+Implementation Integration Base: 4c83731f60449abd1749cb2be1568c195f42f443
+Registered Implementation Base: 0cde7c3b886617dfbb89bedff0679a351e4cd970
+Implementation Branch: chore/GZ-007-data-contract
+Integrated Input Before Evidence Archive: 93dea4a63f079e04f9d8c76e14af1603deec8c47
 
-git diff --check 4337d4a6bb1d4d01d31fa1a5875e2a1056bff9f4...HEAD
+## 已执行的 PostgreSQL 和 Flyway 验收
+
+在隔离的 PostgreSQL 16.15 上以私有 Unix socket 执行。Flyway 版本为 13.12.1。驱动固定文件名为 gz007-validate-policy-config-coverage.sh，SHA-256 为 909b9191b02c47b2595e2b88895b2fdc795e9caaa1189cf2d40217e788097b91。实际调用为 bash <driver> <fixed-worktree> <empty-output-directory>。完整私有驱动与执行工具日志由本机项目证据保管，公开选取的实际文件由 test-results/v11-native/SHA256SUMS.txt 固定。
+
+该次驱动先应用 Flyway Maven Plugin 13.12.1 的 -Dflyway.target=10，写入旧版 AI 和搜索样本。解除目标版本后调用 migrate、validate 和再次 migrate，并比较旧库前后查询。对独立的缺失和改动副本调用 -Dflyway.ignoreMigrationPatterns=repeatable:pending validate，获得两个预期拒绝。随后调用 psql -X -v ON_ERROR_STOP=1 执行版本夹具和目录验证，在两个会话执行发布竞争与测试封存竞争。用 pg_dump -Fc 和 pg_restore --exit-on-error 恢复全新私有实例并再次校验数据与物理目录。实际驱动 Exit Code: 0。
+
+用于独立重现核心 SQL 和备份的命令。PostgreSQL 和 Flyway 的连接变量须先指向空白合成数据库。
+
+flyway -locations=filesystem:data/migrations migrate
+flyway -locations=filesystem:data/migrations -ignoreMigrationPatterns=repeatable:pending validate
+flyway -locations=filesystem:data/migrations migrate
+psql -X -v ON_ERROR_STOP=1 -f specs/contracts/data/verify_data_contract_coverage.sql
+psql -X -v ON_ERROR_STOP=1 -f specs/contracts/data/verify_policy_config_and_audit_state.sql
+psql -X -v ON_ERROR_STOP=1 -v retain_fixture=1 -f specs/contracts/data/verify_policy_config_and_audit_state.sql
+pg_dump -Fc -f release-fixture.dump
+# 使用全新恢复实例的 DSN。
+pg_restore --exit-on-error -d postgres release-fixture.dump
+psql -X -v ON_ERROR_STOP=1 -f specs/contracts/data/verify_data_contract_coverage.sql
+flyway -locations=filesystem:data/migrations -ignoreMigrationPatterns=repeatable:pending validate
+
+## 实施候选源码验证
+
+初次集成候选 93dea4a63f079e04f9d8c76e14af1603deec8c47 对 4c83731f60449abd1749cb2be1568c195f42f443 执行 14 项源码控制，全部退出 0。机器结果位于 test-results/v11-native/source-controls-93dea4a6.json。可取回材料补入后的实施候选以实施 PR 的当前 Head 为准，重新执行以下检查及完整官方 CI。
+
+git diff --check 4c83731f60449abd1749cb2be1568c195f42f443...HEAD
 python scripts/check-task-file.py --task GZ-007
 python scripts/check-schemas.py
-python scripts/check-program-plan-integrity.py --base-ref 4337d4a6bb1d4d01d31fa1a5875e2a1056bff9f4
-python scripts/check-program-plan-history.py --base-ref 4337d4a6bb1d4d01d31fa1a5875e2a1056bff9f4 --head-ref HEAD --task GZ-007 --branch-name chore/GZ-007-data-contract-reservation
-python scripts/check-program-plan-transitions.py --base-ref 4337d4a6bb1d4d01d31fa1a5875e2a1056bff9f4 --head-ref HEAD --task GZ-007 --branch-name chore/GZ-007-data-contract-reservation
-python scripts/check-program-lifecycle-guards.py --base-ref 4337d4a6bb1d4d01d31fa1a5875e2a1056bff9f4 --head-ref HEAD --task GZ-007 --branch-name chore/GZ-007-data-contract-reservation
-python scripts/run-program-lifecycle-gate.py --base-ref 4337d4a6bb1d4d01d31fa1a5875e2a1056bff9f4 --head-ref HEAD --task GZ-007 --branch-name chore/GZ-007-data-contract-reservation
-python scripts/run-agent-coordination-gate.py --base-ref 4337d4a6bb1d4d01d31fa1a5875e2a1056bff9f4 --head-ref HEAD --task GZ-007 --branch-name chore/GZ-007-data-contract-reservation
-python scripts/check-program-plan-finalization.py --base-ref 4337d4a6bb1d4d01d31fa1a5875e2a1056bff9f4 --head-ref HEAD --task GZ-007
-python scripts/run-task-scope-gate.py --task GZ-007 --base 4337d4a6bb1d4d01d31fa1a5875e2a1056bff9f4
+python scripts/check-program-plan-integrity.py --base-ref 4c83731f60449abd1749cb2be1568c195f42f443
+python scripts/check-program-plan-history.py --base-ref 4c83731f60449abd1749cb2be1568c195f42f443 --head-ref HEAD --task GZ-007 --branch-name chore/GZ-007-data-contract
+python scripts/check-program-plan-transitions.py --base-ref 4c83731f60449abd1749cb2be1568c195f42f443 --head-ref HEAD --task GZ-007 --branch-name chore/GZ-007-data-contract
+python scripts/check-program-lifecycle-guards.py --base-ref 4c83731f60449abd1749cb2be1568c195f42f443 --head-ref HEAD --task GZ-007 --branch-name chore/GZ-007-data-contract
+python scripts/run-program-lifecycle-gate.py --base-ref 4c83731f60449abd1749cb2be1568c195f42f443 --head-ref HEAD --task GZ-007 --branch-name chore/GZ-007-data-contract
+python scripts/run-agent-coordination-gate.py --base-ref 4c83731f60449abd1749cb2be1568c195f42f443 --head-ref HEAD --task GZ-007 --branch-name chore/GZ-007-data-contract
+python scripts/check-program-plan-finalization.py --base-ref 4c83731f60449abd1749cb2be1568c195f42f443 --head-ref HEAD --task GZ-007
+python scripts/run-task-scope-gate.py --task GZ-007 --base 4c83731f60449abd1749cb2be1568c195f42f443
+python scripts/check-evidence.py --task GZ-007
+python scripts/check-project-readiness.py
+python scripts/check-markdown.py
+python scripts/check-spec-sync.py --base origin/main
+
+## V12 来源配置验证
+
+使用 PostgreSQL 16.15 私有 Unix socket、Flyway 13.12.1 和三个隔离数据库，SQL 输入使用 V12 实测源码。对初始空库执行迁移和严格校验，重复执行迁移。对升级库先用 Flyway target=11 迁移，写入旧来源、独立凭据引用和同步策略，按相同字段查询升级前后状态。再按正常校验补录合成端点及根。
+
+flyway -locations=filesystem:data/migrations -ignoreMigrationPatterns=repeatable:pending migrate
+flyway -locations=filesystem:data/migrations -ignoreMigrationPatterns=repeatable:pending validate
+psql -X -v ON_ERROR_STOP=1 -v retain_fixture=1 -f specs/contracts/data/verify_source_connection_location.sql
+psql -X -v ON_ERROR_STOP=1 -c 'SELECT id, kind, endpoint, root_path, revision FROM source.data_source ORDER BY id'
+pg_dump -Fc -f source-location.dump
+# 使用空白恢复数据库的 DSN。
+pg_restore --exit-on-error source-location.dump
+flyway -locations=filesystem:data/migrations -ignoreMigrationPatterns=repeatable:pending validate
+psql -X -v ON_ERROR_STOP=1 -c 'SELECT id, kind, endpoint, root_path, revision FROM source.data_source ORDER BY id'
+psql -X -v ON_ERROR_STOP=1 -f specs/contracts/data/verify_data_contract_coverage.sql
+
+## 正式审查源码验证
+
+本轮只改变 GZ-007 自身审查状态和证据。以本轮精确提交与实际主线 `e0ded7ae` 核对，命令退出码和官方检查绑定该 PR。
+
+git diff --check e0ded7aeacd749f60bdcf9838a0f8c96ce8e1416...HEAD
+python scripts/check-task-file.py --task GZ-007
+python scripts/check-schemas.py
+python scripts/check-program-plan-integrity.py --base-ref e0ded7aeacd749f60bdcf9838a0f8c96ce8e1416
+python scripts/check-program-plan-history.py --base-ref e0ded7aeacd749f60bdcf9838a0f8c96ce8e1416 --head-ref HEAD --task GZ-007 --branch-name chore/GZ-007-data-contract
+python scripts/check-program-plan-transitions.py --base-ref e0ded7aeacd749f60bdcf9838a0f8c96ce8e1416 --head-ref HEAD --task GZ-007 --branch-name chore/GZ-007-data-contract
+python scripts/check-program-lifecycle-guards.py --base-ref e0ded7aeacd749f60bdcf9838a0f8c96ce8e1416 --head-ref HEAD --task GZ-007 --branch-name chore/GZ-007-data-contract
+python scripts/run-program-lifecycle-gate.py --base-ref e0ded7aeacd749f60bdcf9838a0f8c96ce8e1416 --head-ref HEAD --task GZ-007 --branch-name chore/GZ-007-data-contract
+python scripts/run-agent-coordination-gate.py --base-ref e0ded7aeacd749f60bdcf9838a0f8c96ce8e1416 --head-ref HEAD --task GZ-007 --branch-name chore/GZ-007-data-contract
+python scripts/check-program-plan-finalization.py --base-ref e0ded7aeacd749f60bdcf9838a0f8c96ce8e1416 --head-ref HEAD --task GZ-007
+python scripts/run-task-scope-gate.py --task GZ-007 --base e0ded7aeacd749f60bdcf9838a0f8c96ce8e1416
+python scripts/check-evidence.py --task GZ-007
+python scripts/check-project-readiness.py
+python scripts/check-markdown.py
+python scripts/check-spec-sync.py --base origin/main
+
+## 正常结项源码验证
+
+GZ-007 的实施合并为 `2733a8181e3e22a4a80b8d1097ab965bfeee8b6a`，结项检查以下列命令复验交付凭证。
+
+以下为实际 Review 主线已执行的完整性检查。公开记录将解释器显示为 `python`，原始记录及摘要保留。
+
+Source Commit: 506cfcdc271cc0417bb91cc0bb72eeda2bed6f5c
+Command: python -B scripts/check-program-plan-integrity.py --base-ref e0ded7aeacd749f60bdcf9838a0f8c96ce8e1416
+Exit Code: 0
+Result: PASS
+Raw SHA-256: 1cab5e5399a0b2d2531c58cacfa640f04b1363ac15ca1a4dda7c61f977017a41
+
+git diff --check 506cfcdc271cc0417bb91cc0bb72eeda2bed6f5c...HEAD
+python scripts/check-task-file.py --task GZ-007
+python scripts/check-schemas.py
+python scripts/check-program-plan-integrity.py --base-ref 506cfcdc271cc0417bb91cc0bb72eeda2bed6f5c
+python scripts/check-program-plan-history.py --base-ref 506cfcdc271cc0417bb91cc0bb72eeda2bed6f5c --head-ref HEAD --task GZ-007 --branch-name chore/GZ-007-normal-completion
+python scripts/check-program-plan-transitions.py --base-ref 506cfcdc271cc0417bb91cc0bb72eeda2bed6f5c --head-ref HEAD --task GZ-007 --branch-name chore/GZ-007-normal-completion
+python scripts/check-program-lifecycle-guards.py --base-ref 506cfcdc271cc0417bb91cc0bb72eeda2bed6f5c --head-ref HEAD --task GZ-007 --branch-name chore/GZ-007-normal-completion
+python scripts/run-program-lifecycle-gate.py --base-ref 506cfcdc271cc0417bb91cc0bb72eeda2bed6f5c --head-ref HEAD --task GZ-007 --branch-name chore/GZ-007-normal-completion
+python scripts/run-agent-coordination-gate.py --base-ref 506cfcdc271cc0417bb91cc0bb72eeda2bed6f5c --head-ref HEAD --task GZ-007 --branch-name chore/GZ-007-normal-completion
+python scripts/check-program-plan-finalization.py --base-ref 506cfcdc271cc0417bb91cc0bb72eeda2bed6f5c --head-ref HEAD --task GZ-007
+python scripts/run-task-scope-gate.py --task GZ-007 --base 506cfcdc271cc0417bb91cc0bb72eeda2bed6f5c
 python scripts/check-evidence.py --task GZ-007
 python scripts/check-project-readiness.py
 python scripts/check-markdown.py

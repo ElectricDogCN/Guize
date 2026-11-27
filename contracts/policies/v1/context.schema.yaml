@@ -1,0 +1,41 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Guize trusted policy evaluation input
+type: object
+additionalProperties: false
+required: [policyId, policyVersionId, policySha256, deployment, authorized, observedAt, facts, budgets]
+properties:
+  policyId: {$ref: '#/$defs/id'}
+  policyVersionId: {$ref: '#/$defs/id'}
+  policySha256: {type: string, pattern: '^[a-f0-9]{64}$'}
+  deployment: {enum: [SIMULATION, ACTIVE, CANARY_SELECTED, UNAVAILABLE]}
+  authorized: {type: boolean}
+  observedAt: {type: string, format: date-time}
+  facts:
+    type: object
+    maxProperties: 64
+    propertyNames: {pattern: '^[a-z][a-zA-Z0-9_]{0,47}$'}
+    additionalProperties: {type: boolean}
+  budgets:
+    type: object
+    minProperties: 1
+    maxProperties: 32
+    propertyNames: {pattern: '^[a-z][a-zA-Z0-9_]{0,47}$'}
+    additionalProperties:
+      type: object
+      additionalProperties: false
+      required: [requested, available]
+      properties:
+        requested: {$ref: '#/$defs/units'}
+        available: {$ref: '#/$defs/units'}
+  approval:
+    type: object
+    additionalProperties: false
+    required: [id, policyVersionId, action, expiresAt]
+    properties:
+      id: {$ref: '#/$defs/id'}
+      policyVersionId: {$ref: '#/$defs/id'}
+      action: {type: string, minLength: 1, maxLength: 32}
+      expiresAt: {type: string, format: date-time}
+$defs:
+  id: {type: string, pattern: '^[a-z]{2,12}_[A-Za-z0-9_-]{1,64}$'}
+  units: {type: integer, minimum: 0, maximum: 9007199254740991}

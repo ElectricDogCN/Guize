@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "policyId": "policy_playback",
+  "policyVersionId": "polv_01",
+  "nodes": {
+    "needsWork": {"kind": "predicate", "version": "node_01", "fact": "renditionMissing"},
+    "eligible": {"kind": "decision", "version": "node_02", "recommendation": "RECOMMEND"},
+    "eager": {"kind": "decision", "version": "node_03", "recommendation": "RECOMMEND", "priority": 0},
+    "skipWork": {"kind": "decision", "version": "node_04", "recommendation": "DECLINE"}
+  },
+  "chain": {
+    "id": "playback",
+    "version": "chain_01",
+    "action": "BATCH_TRANSCODE",
+    "budgetKinds": ["codecSlots", "cpuMillis"],
+    "expression": {"then": ["eligible", {"if": ["needsWork", "eager", "skipWork"]}]},
+    "el": "THEN(eligible,IF(needsWork,eager,skipWork));"
+  }
+}

@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
-"""Prove the two prospective POC actor transactions without creating aliases."""
+"""Prove the registered prospective POC actor transactions."""
 from __future__ import annotations
 
 import json
 from datetime import datetime, timedelta, timezone
 from functools import lru_cache
+from hashlib import sha256
 from pathlib import Path
 import re
 import subprocess
@@ -28,6 +29,15 @@ CLAIMS = frozenset({
     'tests/governance/test_reservation_role_amendment.py',
     'rules/reservation-role-amendment.md',
 })
+NEW_OWNER = 'OPS-032'
+NEW_REGISTRATION = '5d89ae71542be66a7eda3eb02aec89623d086b24'
+NEW_RESERVATION_SOURCE = 'a05354263cb54c551fee9cb70b7470c2eb005108'
+NEW_BASE = '29a59614a63e646060a9d2df9dba284037ffc132'
+NEW_INTENT = 'evidence/OPS-032/reservation-intent.json'
+NEW_INTENT_SHA256 = '139f0942ba83f27223b4514ae580df277f8c8113a1a9ca7be98b38cc43e79077'
+NEW_CLAIMS = CLAIMS - {'scripts/check-program-plan-history.py', 'scripts/check-program-plan-transitions.py'}
+OLD_TARGETS = ('POC-003', 'POC-005')
+NEW_TARGETS = ('POC-007', 'POC-008')
 
 
 class AmendmentError(ValueError):
@@ -129,32 +139,37 @@ def authority(root, admitted):
             and registered['sharedPaths'] == [] and registered['implementer'] == '/root'
             and registered['reviewer'] == '/root/gz022_planning_independent_review',
             'Actor mechanism lacks its original independent registration')
+    verify_completion(root, admitted, canonical, OWNER, REGISTRATION, INTENT, original, CLAIMS, registered)
+    return intent
+
+
+def verify_completion(root, admitted, canonical, owner, registration, intent_path, original, claims, registered):
     current = document(root, admitted, PLAN)
     require(current['status'] == 'active', 'Frozen Program cannot amend actors')
-    completed = rows(current, 'foundationTasks').get(OWNER, {})
-    require(completed.get('status') == 'completed' and OWNER not in rows(document(root, admitted, ACTIVE)),
+    completed = rows(current, 'foundationTasks').get(owner, {})
+    require(completed.get('status') == 'completed' and owner not in rows(document(root, admitted, ACTIVE)),
             'Actor mechanism must normally complete and release capacity first')
     implementation = completed.get('mergeCommit')
-    require(implementation in canonical and canonical.index(implementation) > canonical.index(REGISTRATION),
+    require(implementation in canonical and canonical.index(implementation) > canonical.index(registration),
             'Actor implementation must be integrated after the real reservation')
     implementation_paths = changed(root, parents(root, implementation)[0], implementation)
-    require(CLAIMS & implementation_paths, 'Actor mechanism has no nonempty registered implementation')
+    require(claims & implementation_paths, 'Actor mechanism has no nonempty registered implementation')
     # A real incremental rework need not rewrite every original path. Net
     # coverage still excludes paths touched and then restored to registration.
-    cumulative_paths = changed(root, REGISTRATION, implementation)
-    require(CLAIMS <= cumulative_paths, 'Actor mechanism has no complete registered implementation')
+    cumulative_paths = changed(root, registration, implementation)
+    require(claims <= cumulative_paths, 'Actor mechanism has no complete registered implementation')
     reference = completed.get('completionRef', '')
     require(re.fullmatch(r'PR-[1-9][0-9]*', reference) is not None
-            and OWNER in git(root, 'show', '-s', '--format=%B', implementation).decode()
+            and owner in git(root, 'show', '-s', '--format=%B', implementation).decode()
             and '#'+reference[3:] in git(root, 'show', '-s', '--format=%B', implementation).decode(),
             'Actor implementation identity does not bind its real PR')
     reviewed = False
     finished = False
-    for node in canonical[canonical.index(REGISTRATION):]:
-        require(blob(root, node, INTENT) == original, 'Original actor intent changed in main history')
+    for node in canonical[canonical.index(registration):]:
+        require(blob(root, node, intent_path) == original, 'Original actor intent changed in main history')
         plan = document(root, node, PLAN)
-        state = rows(plan, 'foundationTasks').get(OWNER, {})
-        live = rows(document(root, node, ACTIVE)).get(OWNER)
+        state = rows(plan, 'foundationTasks').get(owner, {})
+        live = rows(document(root, node, ACTIVE)).get(owner)
         if state.get('status') in {'review', 'integration'}:
             require(live is not None and live['implementer'] == registered['implementer']
                     and live['reviewer'] == registered['reviewer']
@@ -165,14 +180,52 @@ def authority(root, admitted):
             require(reviewed and state == completed and live is None,
                     'Actor mechanism did not normally complete after Review')
             prior = parents(root, node)[0]
-            require(rows(document(root, prior, PLAN), 'foundationTasks')[OWNER]['status'] in {'review', 'integration'},
+            require(rows(document(root, prior, PLAN), 'foundationTasks')[owner]['status'] in {'review', 'integration'},
                     'Actor completion requires a real preceding Review')
-            allowed = {PLAN, ACTIVE, 'specs/tasks/'+OWNER+'.md'}
-            require(all(path in allowed or path.startswith('evidence/'+OWNER+'/')
+            allowed = {PLAN, ACTIVE, 'specs/tasks/'+owner+'.md'}
+            require(all(path in allowed or path.startswith('evidence/'+owner+'/')
                         for path in changed(root, prior, node)), 'Actor completion contains implementation')
             finished = True
     require(finished, 'Actor mechanism has no actual main completion')
-    return intent
+
+
+@lru_cache(maxsize=128)
+def remaining_authority(root, admitted):
+    canonical = chain(root, admitted)
+    require(NEW_REGISTRATION in canonical, 'OPS-032 reservation is not admitted main history')
+    require(parents(root, NEW_REGISTRATION) == [NEW_BASE, NEW_RESERVATION_SOURCE],
+            'OPS-032 original reservation graph differs')
+    original = blob(root, NEW_REGISTRATION, NEW_INTENT)
+    require(sha256(original).hexdigest() == NEW_INTENT_SHA256, 'OPS-032 original intent bytes differ')
+    intent = json.loads(original)
+    registered = rows(document(root, NEW_REGISTRATION, ACTIVE))[NEW_OWNER]
+    require(registered['status'] == 'reserved' and registered['riskLevel'] == 'high'
+            and registered['moduleIds'] == ['MOD-GOV'] and set(registered['exclusivePaths']) == NEW_CLAIMS
+            and not registered['sharedPaths'] and registered['implementer'] == '/root'
+            and registered['reviewer'] == '/root/independent_review',
+            'OPS-032 lacks its independently reviewed registration')
+    originals = intent['originalReservations']
+    require(set(originals) == set(NEW_TARGETS), 'OPS-032 original target set differs')
+    base_active = rows(document(root, NEW_BASE, ACTIVE))
+    for target, record in originals.items():
+        task = blob(root, NEW_BASE, 'specs/tasks/'+target+'.md')
+        require(record['registryEntry'] == base_active[target] and base_active[target]['status'] == 'reserved'
+                and record['taskSpecSha256'] == 'sha256:'+sha256(task).hexdigest()
+                and record['oldActors'] == task_actors(task) == actors(base_active[target]),
+                'OPS-032 original target Task or Registry differs')
+    verify_completion(root, admitted, canonical, NEW_OWNER, NEW_REGISTRATION, NEW_INTENT, original,
+                      NEW_CLAIMS, registered)
+    return originals
+
+
+def assignment(root, admitted, target):
+    if target in NEW_TARGETS:
+        record = remaining_authority(root, admitted)[target]
+        return record['oldActors'], record['newActors'], NEW_REGISTRATION
+    require(target in OLD_TARGETS, 'No actor amendment authority for this task')
+    intent = authority(root, admitted)
+    old = dict(zip(('implementer', 'reviewer'), intent['oldProgramRoleValues']))
+    return old, intent['futureActualActors'][target], REGISTRATION
 
 
 def replace_lines(raw, old, new, indent=b''):
@@ -219,10 +272,7 @@ def mode_blob(root, ref, path):
 
 
 def strict_transaction(root, before, after, target, admitted):
-    intent = authority(root, admitted)
-    require(target in intent['targetTasks'], 'No actor amendment authority for this task')
-    old = dict(zip(('implementer', 'reviewer'), intent['oldProgramRoleValues']))
-    new = intent['futureActualActors'][target]
+    old, new, registration = assignment(root, admitted, target)
     prior, current = document(root, before, ACTIVE), document(root, after, ACTIVE)
     left, right = rows(prior).get(target), rows(current).get(target)
     require(left is not None and right is not None and actors(left) == old and actors(right) == new
@@ -259,7 +309,7 @@ def strict_transaction(root, before, after, target, admitted):
             and record['reviewer'] == new['reviewer'] and record['decision'] == 'approved',
             'Actor approval does not bind the exact independent prospective transaction')
     baseline = record['admittedMain']
-    require(baseline in chain(root, admitted) and authority(root, baseline)
+    require(baseline in chain(root, admitted) and assignment(root, baseline, target) == (old, new, registration)
             and rows(document(root, baseline, ACTIVE)).get(target) == left
             and blob(root, baseline, task_path) == blob(root, before, task_path),
             'Actor approval baseline is not the admitted unchanged reservation')
@@ -310,8 +360,7 @@ def automatic_task(root, node, incoming, path):
 
 
 def imported_transaction(root, before, after, target, admitted):
-    intent = authority(root, admitted)
-    require(target in intent['targetTasks'], 'Unknown imported actor target')
+    old, new, registration = assignment(root, admitted, target)
     graph = parents(root, after)
     require(len(graph) == 2 and graph[0] == before and ancestor(root, graph[1], admitted),
             'Actor import requires an already admitted incoming main parent')
@@ -321,8 +370,6 @@ def imported_transaction(root, before, after, target, admitted):
     left = rows(document(root, before, ACTIVE))[target]
     right = rows(document(root, after, ACTIVE))[target]
     imported = rows(document(root, incoming, ACTIVE))[target]
-    old = dict(zip(('implementer', 'reviewer'), intent['oldProgramRoleValues']))
-    new = intent['futureActualActors'][target]
     require(actors(left) == old and actors(right) == actors(imported) == new
             and without_actors(left) == without_actors(right), 'Actor import changed local stable fields')
     require(all(mode_blob(root, ref, ACTIVE)[0] == '100644' for ref in (before, after, incoming)),
@@ -334,8 +381,8 @@ def imported_transaction(root, before, after, target, admitted):
     previous = None
     original = None
     canonical = chain(root, incoming)
-    require(REGISTRATION in canonical, 'Actor import predates the mechanism reservation')
-    for ref in canonical[canonical.index(REGISTRATION):]:
+    require(registration in canonical, 'Actor import predates the mechanism reservation')
+    for ref in canonical[canonical.index(registration):]:
         if previous is not None:
             a = rows(document(root, previous, ACTIVE)).get(target)
             b = rows(document(root, ref, ACTIVE)).get(target)
@@ -388,10 +435,11 @@ def validate_range(root, before, after, admitted=None):
         if not prior:
             continue
         paths = changed(root, prior[0], node)
-        if INTENT in paths and ancestor(root, REGISTRATION, node):
-            require(blob(root, node, INTENT) == blob(root, REGISTRATION, INTENT),
-                    'Original actor intent changed in introduced history')
-        for target in ('POC-003', 'POC-005'):
+        for path, registration in ((INTENT, REGISTRATION), (NEW_INTENT, NEW_REGISTRATION)):
+            if path in paths and ancestor(root, registration, node):
+                require(blob(root, node, path) == blob(root, registration, path),
+                        'Original actor intent changed in introduced history')
+        for target in OLD_TARGETS + NEW_TARGETS:
             path = 'evidence/'+target+'/actor-amendment-v1/approval.json'
             if path in paths:
                 previous = blob(root, prior[0], path, missing=True)
@@ -401,10 +449,10 @@ def validate_range(root, before, after, admitted=None):
                     require(blob(root, node, path, missing=True) == previous
                             and mode_blob(root, prior[0], path)[0] == '100644',
                             'Committed actor approval cannot be rewritten or deleted')
-        if ACTIVE not in paths and not any('specs/tasks/'+target+'.md' in paths for target in ('POC-003', 'POC-005')):
+        if ACTIVE not in paths and not any('specs/tasks/'+target+'.md' in paths for target in OLD_TARGETS + NEW_TARGETS):
             continue
         a, b = rows(document(root, prior[0], ACTIVE)), rows(document(root, node, ACTIVE))
-        for target in ('POC-003', 'POC-005'):
+        for target in OLD_TARGETS + NEW_TARGETS:
             if target in a and target in b:
                 path = 'specs/tasks/'+target+'.md'
                 require(task_actors(blob(root, prior[0], path)) == actors(a[target])

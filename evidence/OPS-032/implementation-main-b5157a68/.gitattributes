@@ -1,0 +1,2 @@
+# Preserve the exact mixed line endings of the captured local result.
+actual-main-controls.original.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
