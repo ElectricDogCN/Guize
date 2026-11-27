@@ -94,17 +94,17 @@ tasks:
 - taskId: OPS-033
   issue: 331
   title: 为一期已规划任务新增受控实施拆分准入
-  status: reserved
+  status: in_progress
   riskLevel: high
   owner: ElectricDogCN
   coordinator: /root
   implementer: /root
   reviewer: /root/independent_review
   integrator: /root
-  agentRole: coordinator
-  branch: chore/OPS-033-v1-split-reservation
+  agentRole: implementer
+  branch: chore/OPS-033-v1-split-admission
   baseBranch: main
-  baseSha: 4aa7402d5a45555fa1c063ec6366c4efd8f5c33f
+  baseSha: fd90de5d1244efc016eb5871a7011704c889299f
   workPackage: WP-M0-01
   programPlan: specs/coordination/program-plan.yaml
   programTaskId: OPS-033
