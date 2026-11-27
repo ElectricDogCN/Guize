@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "taskId": "OPS-032",
+  "phase": "normal-review-actual-main",
+  "actualMain": "6625b8e84e011298f2ba2365c75d921dd9e99cbf",
+  "source": "7b2887157007d7d514b5981e903bf8ec3106321f",
+  "base": "b5157a68fa16d83fc2fa44395b95cb15b3d67a35",
+  "tree": "d922284d6edabaffd44c47c4a8640cae46639a20",
+  "pr": 327,
+  "officialMainRun": 45914688074,
+  "environment": {
+    "os": "Windows",
+    "pythonUtf8": true
+  },
+  "controls": [
+    {
+      "command": "python -B scripts/check-task-file.py --task OPS-032",
+      "exitCode": 0,
+      "outputChunk": "9dc77f"
+    },
+    {
+      "command": "python -B scripts/check-evidence.py --task OPS-032",
+      "exitCode": 0,
+      "outputChunk": "5ec46b"
+    },
+    {
+      "command": "git diff --check b5157a68fa16d83fc2fa44395b95cb15b3d67a35 6625b8e84e011298f2ba2365c75d921dd9e99cbf",
+      "exitCode": 0,
+      "outputChunk": "e3a455"
+    },
+    {
+      "command": "python -B scripts/check-program-plan-integrity.py --base-ref b5157a68fa16d83fc2fa44395b95cb15b3d67a35",
+      "exitCode": 0,
+      "outputChunk": "70f50d"
+    },
+    {
+      "command": "python -B scripts/check-program-plan-history.py --base-ref b5157a68fa16d83fc2fa44395b95cb15b3d67a35 --head-ref 6625b8e84e011298f2ba2365c75d921dd9e99cbf",
+      "exitCode": 0,
+      "outputChunk": "3fe11d"
+    },
+    {
+      "command": "python -B scripts/check-program-plan-transitions.py --base-ref b5157a68fa16d83fc2fa44395b95cb15b3d67a35 --head-ref 6625b8e84e011298f2ba2365c75d921dd9e99cbf",
+      "exitCode": 0,
+      "outputChunk": "ace2bc"
+    },
+    {
+      "command": "python -B scripts/check-program-plan-finalization.py --base-ref b5157a68fa16d83fc2fa44395b95cb15b3d67a35 --head-ref 6625b8e84e011298f2ba2365c75d921dd9e99cbf",
+      "exitCode": 0,
+      "outputChunk": "ed6edd"
+    },
+    {
+      "command": "python -B scripts/check-program-lifecycle-guards.py --base-ref b5157a68fa16d83fc2fa44395b95cb15b3d67a35 --head-ref 6625b8e84e011298f2ba2365c75d921dd9e99cbf",
+      "exitCode": 0,
+      "outputChunk": "b82bfb"
+    },
+    {
+      "command": "python -B scripts/run-agent-coordination-gate.py",
+      "exitCode": 0,
+      "outputChunk": "fdf0f9"
+    }
+  ]
+}
