@@ -94,17 +94,17 @@ tasks:
 - taskId: OPS-034
   issue: 337
   title: 登记一期核心骨架的独立规划拆分
-  status: in_progress
+  status: review
   riskLevel: high
   owner: ElectricDogCN
   coordinator: /root
   implementer: /root
   reviewer: /root/independent_review
   integrator: /root
-  agentRole: implementer
+  agentRole: reviewer
   branch: chore/OPS-034-v1-core-planning
   baseBranch: main
-  baseSha: 2fc6778ec0389cede37855a456202ce4ce019856
+  baseSha: 74d653e0d1bf723382b8879f746973371216443e
   workPackage: WP-M0-01
   programPlan: specs/coordination/program-plan.yaml
   programTaskId: OPS-034

@@ -103,3 +103,9 @@ exit 0
 
 原始结构化回执 test-results/initial-reservation-controls.json
 SHA-256 41fdd415e5237a7978ca355e2560047f1b9a71ddc540f901adc602e0b0b19e9f
+
+# 正常 Review 本地检查入口
+git diff --check 74d653e0d1bf723382b8879f746973371216443e...HEAD
+python scripts/check-task-file.py --task OPS-034
+python scripts/run-program-lifecycle-gate.py --base-ref 74d653e0d1bf723382b8879f746973371216443e --head-ref HEAD --task OPS-034
+python scripts/check-evidence.py --task OPS-034

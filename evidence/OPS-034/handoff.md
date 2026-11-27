@@ -39,3 +39,9 @@ OPS-033 正常结项实际主线 `1fc3a8f52d58220a5047460441b16eab7e03fae7` 已�
 候选尚未合入时，关闭候选 PR 并核对旧头后清理其远端分支，保留固定来源和证据。登记合入后，按正常取消流程释放本任务自己的 Registry 记录和写入权限。共享计划其他记录及原始声明须保留。若实施尚未开始，回滚不涉及 GZ-012、GZ-031 的控制面行为或部署环境。
 
 Reviewer 验证最新固定源与初始受检源码之间仅有此任务 Evidence 附记。Integrator 在完整官方 CI 和独立终审成功后正常合并并验证实际主线。Implementer 在受验登记主线后按 Task Spec 激活 OPS-034，再实施声明范围内的规划拆分。
+
+## 正常 Review 移交
+
+实施 [PR #342](https://github.com/ElectricDogCN/Guize/pull/342) 已普通合入 `74d653e0d1bf723382b8879f746973371216443e`。实际双父与文件树匹配固定受审预览。官方 #1208/#1209 的 1,101 个用例逐项一致，实际最长作业 1018 秒。Windows 原生实际主线 14 项本地检查通过，取得独立终验。[实际主线 CI](https://github.com/ElectricDogCN/Guize/actions/runs/45974551103) · [独立终验原件](implementation-main-74d653e0/independent-review.original.json) · [本地检查公开摘要](implementation-main-74d653e0/actual-main-controls.summary.json)
+
+Reviewer 验证固定 Review 源及实际合入。Integrator 在双侧完整官方 CI 和实际终验后推进结项 #337，再释放本任务分支和租约。
