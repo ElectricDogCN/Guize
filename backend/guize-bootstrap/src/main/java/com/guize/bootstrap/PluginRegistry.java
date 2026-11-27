@@ -21,7 +21,7 @@ import java.util.concurrent.TimeUnit;
 @Component
 final class PluginRegistry implements HealthIndicator {
     private static final Logger LOG = LoggerFactory.getLogger(PluginRegistry.class);
-    private static final long ASSESSMENT_TIMEOUT_SECONDS = 20;
+    private static final long ASSESSMENT_OVERHEAD_MILLIS = TimeUnit.SECONDS.toMillis(20);
 
     private final ObjectMapper mapper;
     private final String directory;
@@ -59,15 +59,20 @@ final class PluginRegistry implements HealthIndicator {
         Process process = null;
         boolean interrupted = false;
         try {
+            int probeTimeoutMillis = Integer.parseInt(timeoutMillis);
+            if (probeTimeoutMillis <= 0) {
+                throw new IllegalArgumentException("The plugin deadline must be positive");
+            }
             Path root = Path.of(repository).toAbsolutePath();
             Path assessor = root.resolve("backend/guize-bootstrap/plugin_probe.py");
             output = Files.createTempFile("guize-plugin-assessment-", ".json");
             process = new ProcessBuilder(python, "-B", assessor.toString(), root.toString(),
-                    Path.of(directory).toAbsolutePath().toString(), timeoutMillis)
+                    Path.of(directory).toAbsolutePath().toString(), Integer.toString(probeTimeoutMillis))
                     .redirectOutput(output.toFile())
                     .redirectError(ProcessBuilder.Redirect.DISCARD)
                     .start();
-            if (!process.waitFor(ASSESSMENT_TIMEOUT_SECONDS, TimeUnit.SECONDS) || process.exitValue() != 0) {
+            long assessmentTimeoutMillis = probeTimeoutMillis + ASSESSMENT_OVERHEAD_MILLIS;
+            if (!process.waitFor(assessmentTimeoutMillis, TimeUnit.MILLISECONDS) || process.exitValue() != 0) {
                 LOG.warn("Optional plugin assessment did not complete successfully");
                 return;
             }

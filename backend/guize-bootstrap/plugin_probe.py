@@ -7,12 +7,13 @@ from pathlib import Path
 from queue import Empty, Queue
 import sys
 from threading import Thread
-from time import monotonic
+from time import monotonic, sleep
 from urllib.parse import urlsplit
 
 
 def observe(port, endpoint, timeout):
-    if type(port) is not int or not 1 <= port <= 65535:
+    """Read one health response. None indicates a temporary failure."""
+    if type(port) is not int or not 1 <= port <= 65535 or not isinstance(endpoint, str):
         return []
     connection = HTTPConnection("127.0.0.1", port, timeout=timeout)
     try:
@@ -21,6 +22,8 @@ def observe(port, endpoint, timeout):
             return []
         connection.request("GET", endpoint)
         response = connection.getresponse()
+        if response.status == 503:
+            return None
         if response.status != 200:
             return []
         content = response.read(4097)
@@ -31,7 +34,9 @@ def observe(port, endpoint, timeout):
             capabilities = observation.get("capabilities")
             if isinstance(capabilities, list) and capabilities:
                 return capabilities
-    except (OSError, HTTPException, ValueError, OverflowError):
+    except OSError:
+        return None
+    except (HTTPException, ValueError, OverflowError):
         return []
     finally:
         connection.close()
@@ -71,17 +76,23 @@ def assess_plugins(repository, directory, timeout):
     deadline = monotonic() + timeout
 
     def probe(plugin, params):
-        capabilities = observe(*params, timeout)
-        results.put((monotonic(), plugin, capabilities))
+        remaining = deadline - monotonic()
+        while remaining > 0:
+            capabilities = observe(*params, remaining)
+            observed_at = monotonic()
+            if capabilities is not None:
+                results.put((observed_at, plugin, capabilities))
+                return
+            sleep(min(0.05, max(0, deadline - observed_at)))
+            remaining = deadline - monotonic()
+        results.put((monotonic(), plugin, []))
 
     for plugin, params in pending.items():
         Thread(target=probe, args=(plugin, params), daemon=True).start()
     for _ in pending:
         remaining = deadline - monotonic()
-        if remaining <= 0:
-            break
         try:
-            observed_at, plugin, capabilities = results.get(timeout=remaining)
+            observed_at, plugin, capabilities = results.get(timeout=max(0, remaining))
         except Empty:
             break
         if observed_at <= deadline and capabilities:

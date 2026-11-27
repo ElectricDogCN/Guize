@@ -42,15 +42,22 @@ def running(command, output=subprocess.DEVNULL):
                 process.wait(timeout=5)
 
 
-def fixture(mode, directory):
+def fixture(mode, directory, late_delay):
+    transient_responses = 0
+
     class Handler(BaseHTTPRequestHandler):
         def do_GET(self):
+            nonlocal transient_responses
             if self.path != "/health":
                 self.send_error(404)
                 return
+            if mode == "recover" and transient_responses < 2:
+                transient_responses += 1
+                self.send_error(503)
+                return
             if mode == "late":
                 (directory / "requested").touch()
-                sleep(2)
+                sleep(late_delay)
             capabilities = ["TRANSCODE"] if mode == "late" else ["MEDIA_PROBE", "THUMBNAIL"]
             body = json.dumps({"status": "READY", "capabilities": capabilities}).encode()
             try:
@@ -64,6 +71,8 @@ def fixture(mode, directory):
             finally:
                 if mode == "late":
                     (directory / "completed").touch()
+                if mode == "recover":
+                    (directory / "transient-responses").write_text(str(transient_responses), encoding="ascii")
 
         def log_message(self, message, *arguments):
             pass
@@ -103,17 +112,20 @@ def prepare_inventory(directory, ports):
         (directory / name).write_text(json.dumps(value), encoding="utf-8")
 
 
-def test(java, jar):
+def test(java, jar, timeout_millis):
+    timeout = timeout_millis / 1000
     expected = {"media-analysis": {"state": "READY", "capabilities": ["MEDIA_PROBE", "THUMBNAIL"]},
                 "offline-ocr": {"state": "UNAVAILABLE", "capabilities": []},
                 "av1-worker": {"state": "UNAVAILABLE", "capabilities": []}}
     with TemporaryDirectory(prefix="guize-bootstrap-process-test-") as temporary, ExitStack() as resources:
         root = Path(temporary)
         provider_ports = {}
-        for plugin, mode in (("media-analysis", "ready"), ("av1-worker", "late"), ("offline-ocr", "exit")):
+        for plugin, mode in (("media-analysis", "recover"), ("av1-worker", "late"), ("offline-ocr", "exit")):
             directory = root / mode
             directory.mkdir()
-            process = resources.enter_context(running([sys.executable, "-B", __file__, "fixture", mode, str(directory)]))
+            process = resources.enter_context(running([
+                sys.executable, "-B", __file__, "fixture", mode, str(directory), str(timeout + 1.2),
+            ]))
             marker = directory / "port"
             port = wait_for(lambda: int(marker.read_text(encoding="ascii")) if marker.exists() else None,
                             10, f"{plugin} did not publish its local test port")
@@ -131,7 +143,7 @@ def test(java, jar):
                        f"--guize.bootstrap.repository-root={REPOSITORY}",
                        f"--guize.bootstrap.plugin-directory={invent}",
                        f"--guize.bootstrap.python={sys.executable}",
-                       "--guize.bootstrap.probe-timeout-millis=800"]
+                       f"--guize.bootstrap.probe-timeout-millis={timeout_millis}"]
             service = resources.enter_context(running(command, output))
 
         def find_port():
@@ -152,13 +164,16 @@ def test(java, jar):
             assert health["status"] == "UP"
             return health["components"]["pluginRegistry"]["details"]["plugins"]
 
-        observed = wait_for(states, 15, "The validated plugin inventory never appeared")
+        observed = wait_for(states, timeout + 15, "The validated plugin inventory never appeared")
         assert observed == expected, observed
+        response_count = root / "recover" / "transient-responses"
+        assert response_count.read_text(encoding="ascii") == "2"
         wait_for(lambda: (root / "late" / "requested").exists(), 4, "The late plugin was never probed")
         wait_for(lambda: (root / "late" / "completed").exists(), 5, "The late plugin never attempted its response")
         assert states() == expected
         assert request_health(port, "/actuator/health/readiness")["status"] == "UP"
     print(json.dumps({"controlPlane": ready["status"], "pluginStates": observed, "exitedProviderCode": exited_code,
+                      "probeTimeoutMillis": timeout_millis, "transient503ResponsesBeforeReady": 2,
                       "lateProbeResponseDidNotRestoreCapability": True}))
 
 
@@ -168,13 +183,15 @@ def main():
     run = commands.add_parser("test")
     run.add_argument("--java", required=True, type=Path)
     run.add_argument("--jar", required=True, type=Path)
+    run.add_argument("--probe-timeout-millis", type=int, default=800)
     worker = commands.add_parser("fixture")
-    worker.add_argument("mode", choices=["ready", "exit", "late"])
+    worker.add_argument("mode", choices=["recover", "exit", "late"])
     worker.add_argument("directory", type=Path)
+    worker.add_argument("late_delay", type=float)
     args = parser.parse_args()
     if args.command == "fixture":
-        return fixture(args.mode, args.directory)
-    test(args.java.resolve(strict=True), args.jar.resolve(strict=True))
+        return fixture(args.mode, args.directory, args.late_delay)
+    test(args.java.resolve(strict=True), args.jar.resolve(strict=True), args.probe_timeout_millis)
     return 0
 
 
