@@ -1,0 +1,335 @@
+{
+  "schemaVersion": 1,
+  "taskId": "GZ-031",
+  "base": "a02fedcc3359e6dfff68aee6de06075d4f1818c0",
+  "head": "80d6d4ca8ad25c4b8abf3f4334c11387933c26cf",
+  "tree": "75881f641fd202dfa3b8b501865580772968ea93",
+  "verifiedSnapshot": "https://github.com/ElectricDogCN/Guize/commit/80d6d4ca8ad25c4b8abf3f4334c11387933c26cf",
+  "commandEnvironment": {
+    "PYTHONUTF8": "1",
+    "GITHUB_HEAD_REF": "chore/GZ-031-bootstrap-reservation"
+  },
+  "originalExecutionRecordSha256": "87a102f7d29c27a4cb8eb4d42bd7ce498256b1a288f6fc45566ad7845d5526d5",
+  "transcriptNormalization": "The absolute interpreter and workspace paths use portable names. Console output is represented as lines. Original log digests are retained.",
+  "checks": {
+    "diff": {
+      "command": [
+        "git",
+        "diff",
+        "--check",
+        "a02fedcc3359e6dfff68aee6de06075d4f1818c0",
+        "80d6d4ca8ad25c4b8abf3f4334c11387933c26cf"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 0.06,
+      "originalLogSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "combinedConsoleOutput": []
+    },
+    "integrity": {
+      "command": [
+        "python",
+        "-B",
+        "scripts/check-program-plan-integrity.py",
+        "--base-ref",
+        "a02fedcc3359e6dfff68aee6de06075d4f1818c0"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 33.91,
+      "originalLogSha256": "8db4833c1cc545fc46475fcb7fc4c6c3cad7b0b6dab1cbb6ca122312449c4a92",
+      "combinedConsoleOutput": [
+        "{\"status\": \"PASS\", \"message\": \"Program Plan execution and completion integrity passed\", \"details\": {\"foundationTasks\": 29, \"programTasks\": 37, \"activeTasks\": 3, \"completionRecords\": 11, \"baseRef\": \"a02fedcc3359e6dfff68aee6de06075d4f1818c0\"}}"
+      ]
+    },
+    "history": {
+      "command": [
+        "python",
+        "-B",
+        "scripts/check-program-plan-history.py",
+        "--base-ref",
+        "a02fedcc3359e6dfff68aee6de06075d4f1818c0",
+        "--head-ref",
+        "80d6d4ca8ad25c4b8abf3f4334c11387933c26cf",
+        "--task",
+        "GZ-031",
+        "--branch-name",
+        "chore/GZ-031-bootstrap-reservation"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 20.03,
+      "originalLogSha256": "366c3ef95e55919663748b5c92ac8768544e0a966156f18718b2418906c3bae3",
+      "combinedConsoleOutput": [
+        "{\"status\": \"PASS\", \"message\": \"Program Plan history transitions are valid\", \"details\": {\"baseRef\": \"a02fedcc3359e6dfff68aee6de06075d4f1818c0\", \"headRef\": \"80d6d4ca8ad25c4b8abf3f4334c11387933c26cf\", \"completionRecords\": 11, \"auditedOwnerCapacityFailures\": []}}"
+      ]
+    },
+    "transitions": {
+      "command": [
+        "python",
+        "-B",
+        "scripts/check-program-plan-transitions.py",
+        "--base-ref",
+        "a02fedcc3359e6dfff68aee6de06075d4f1818c0",
+        "--head-ref",
+        "80d6d4ca8ad25c4b8abf3f4334c11387933c26cf",
+        "--task",
+        "GZ-031",
+        "--branch-name",
+        "chore/GZ-031-bootstrap-reservation"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 21.59,
+      "originalLogSha256": "43cdbabff621fda11ee5f5c5b9f9d5ebb151fac0a8ba93d962291544ef646e03",
+      "combinedConsoleOutput": [
+        "{\"status\": \"PASS\", \"message\": \"Program reservation scope, wave and lifecycle transitions passed\", \"details\": {\"task\": \"GZ-031\", \"activeTasks\": 3, \"completionRecords\": 11}}"
+      ]
+    },
+    "finalization": {
+      "command": [
+        "python",
+        "-B",
+        "scripts/check-program-plan-finalization.py",
+        "--base-ref",
+        "a02fedcc3359e6dfff68aee6de06075d4f1818c0",
+        "--head-ref",
+        "80d6d4ca8ad25c4b8abf3f4334c11387933c26cf",
+        "--task",
+        "GZ-031"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 0.62,
+      "originalLogSha256": "be7acb9483269b8f9e5957db2fb4ec0a1ff80df03a37e4f4dba71ea13a7837a5",
+      "combinedConsoleOutput": [
+        "{\"status\": \"PASS\", \"message\": \"Program finalization invariants passed\", \"details\": {\"activeTasks\": 3, \"completedFoundations\": 29, \"task\": \"GZ-031\"}}"
+      ]
+    },
+    "lifecycle-guards": {
+      "command": [
+        "python",
+        "-B",
+        "scripts/check-program-lifecycle-guards.py",
+        "--base-ref",
+        "a02fedcc3359e6dfff68aee6de06075d4f1818c0",
+        "--head-ref",
+        "80d6d4ca8ad25c4b8abf3f4334c11387933c26cf",
+        "--task",
+        "GZ-031",
+        "--branch-name",
+        "chore/GZ-031-bootstrap-reservation"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 33.23,
+      "originalLogSha256": "38c4863a92d2556c6bb1cfd853105a792018a2af31ff2955cd212352ceb5c8ce",
+      "combinedConsoleOutput": [
+        "{\"status\": \"PASS\", \"message\": \"Program lifecycle scope, Foundation ownership, rename and Evidence guards passed\", \"details\": {\"affectedTaskIds\": [\"GZ-031\"], \"changedPathCount\": 14, \"baseRef\": \"a02fedcc3359e6dfff68aee6de06075d4f1818c0\"}}"
+      ]
+    },
+    "lifecycle": {
+      "command": [
+        "python",
+        "-B",
+        "scripts/run-program-lifecycle-gate.py",
+        "--base-ref",
+        "a02fedcc3359e6dfff68aee6de06075d4f1818c0",
+        "--head-ref",
+        "80d6d4ca8ad25c4b8abf3f4334c11387933c26cf",
+        "--task",
+        "GZ-031",
+        "--branch-name",
+        "chore/GZ-031-bootstrap-reservation"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 32.11,
+      "originalLogSha256": "60cefa71ec2092bcfc09ef07876bcd486faa85377b7d172d8e8e5cda5c270ad2",
+      "combinedConsoleOutput": [
+        "{\"status\": \"PASS\", \"message\": \"Program lifecycle scope, Foundation ownership, rename and Evidence guards passed\", \"details\": {\"affectedTaskIds\": [\"GZ-031\"], \"changedPathCount\": 14, \"baseRef\": \"a02fedcc3359e6dfff68aee6de06075d4f1818c0\"}}",
+        "{\"status\": \"PASS\", \"message\": \"Exact lifecycle diff and Completion Issue verification passed\"}"
+      ]
+    },
+    "coordination": {
+      "command": [
+        "python",
+        "-B",
+        "scripts/run-agent-coordination-gate.py",
+        "--base-ref",
+        "a02fedcc3359e6dfff68aee6de06075d4f1818c0",
+        "--head-ref",
+        "80d6d4ca8ad25c4b8abf3f4334c11387933c26cf",
+        "--task",
+        "GZ-031",
+        "--branch-name",
+        "chore/GZ-031-bootstrap-reservation"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 0.67,
+      "originalLogSha256": "fd7dcb38f00066cec78850fb67a0b4b8114ae4b8c34426f1402ec391a6f97971",
+      "combinedConsoleOutput": [
+        "{\"status\": \"PASS\", \"message\": \"Agent coordination valid: 3 active tasks, 1 high/critical\", \"details\": {\"activeTaskIds\": [\"GZ-031\", \"POC-007\", \"POC-008\"]}}",
+        "INFO: GZ-031 is a Reservation PR; exact target-base lifecycle and file scope are validated by the mandatory Program History/Transitions/Finalization gates."
+      ]
+    },
+    "scope": {
+      "command": [
+        "python",
+        "-B",
+        "scripts/run-task-scope-gate.py",
+        "--task",
+        "GZ-031",
+        "--base",
+        "a02fedcc3359e6dfff68aee6de06075d4f1818c0"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 0.11,
+      "originalLogSha256": "fddb3088d696d5ae862a698c81137ec90983e8977b95c20b3a3ab8f12340f233",
+      "combinedConsoleOutput": [
+        "INFO: GZ-031 is a Reservation PR; exact changed-file scope is owned by Program History and Program Transitions against the target branch."
+      ]
+    },
+    "evidence": {
+      "command": [
+        "python",
+        "-B",
+        "scripts/check-evidence.py",
+        "--task",
+        "GZ-031"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 0.09,
+      "originalLogSha256": "1b402d5736e57aab517e3aedc126f3db2f31463fa91ba81a349761c97c92edcf",
+      "combinedConsoleOutput": [
+        "{\"status\": \"PASS\", \"message\": \"Evidence contract passed for GZ-031.\"}"
+      ]
+    },
+    "readiness": {
+      "command": [
+        "python",
+        "-B",
+        "scripts/check-project-readiness.py"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 113.61,
+      "originalLogSha256": "632121dca7108a89e032a1c8203500807b9a69a0d4d2ac0b73a1b4df2ae5d7ef",
+      "combinedConsoleOutput": [
+        "{\"status\": \"WARN\", \"message\": \"GitHub main branch protection/Ruleset remains an external blocker\"}",
+        "{\"status\": \"WARN\", \"message\": \"Machine contracts not frozen for 10 requirements\"}",
+        "{\"status\": \"WARN\", \"message\": \"Implementation not verified for 10 requirements\"}",
+        "{\"status\": \"PASS\", \"message\": \"Project readiness indexes and Program Plan are structurally consistent\", \"details\": {\"requirements\": 10, \"modules\": 21, \"contractNamespaces\": 40, \"plannedTasks\": 37, \"pocs\": 10, \"waves\": 17, \"contractGapCount\": 10, \"implementationGapCount\": 10}}"
+      ]
+    },
+    "markdown": {
+      "command": [
+        "python",
+        "-B",
+        "scripts/check-markdown.py"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 0.64,
+      "originalLogSha256": "da25634fb293c899f5411f11606fa052fb9add737b7bb29fe3013900fe712aaf",
+      "combinedConsoleOutput": [
+        "Checking 888 Markdown files...",
+        "",
+        "OK: No issues found"
+      ]
+    },
+    "task": {
+      "command": [
+        "python",
+        "-B",
+        "scripts/check-task-file.py",
+        "--task",
+        "GZ-031"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 0.19,
+      "originalLogSha256": "e3ec94489f5557f5614c37931f6451baddda5a618a5b35239f0c0c0917289d7e",
+      "combinedConsoleOutput": [
+        "{\"status\": \"PASS\", \"message\": \"Task file valid: .\\\\specs/tasks\\\\GZ-031.md\"}"
+      ]
+    },
+    "schemas": {
+      "command": [
+        "python",
+        "-B",
+        "scripts/check-schemas.py"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 5.8,
+      "originalLogSha256": "d2ff65b8a6c708a834a465057f185db34c3248203a99a5af57edc022efb98969",
+      "combinedConsoleOutput": [
+        "OK YAML: .github\\workflows\\governance-gate.yml",
+        "OK JSON-SCHEMA: contracts\\connectors\\v1\\capability-package.schema.yaml",
+        "OK JSON-SCHEMA: contracts\\connectors\\v1\\release-lock.schema.yaml",
+        "OK JSON-SCHEMA: contracts\\events\\ai\\artifact.published-v1.schema.json",
+        "OK JSON-SCHEMA: contracts\\events\\asset\\asset.created-v1.schema.json",
+        "OK JSON-SCHEMA: contracts\\events\\asset\\asset.version.created-v1.schema.json",
+        "OK CONTRACT DOCUMENT: contracts\\events\\catalog.json",
+        "OK JSON-SCHEMA: contracts\\events\\event-envelope.schema.json",
+        "OK JSON-SCHEMA: contracts\\events\\media\\rendition.published-v1.schema.json",
+        "OK JSON-SCHEMA: contracts\\events\\policy\\policy.published-v1.schema.json",
+        "OK JSON-SCHEMA: contracts\\events\\source\\source.object.deleted-v1.schema.json",
+        "OK JSON-SCHEMA: contracts\\events\\source\\source.object.observed-v1.schema.json",
+        "OK JSON-SCHEMA: contracts\\events\\storage\\cache.complete.verified-v1.schema.json",
+        "OK JSON-SCHEMA: contracts\\events\\storage\\replica.verified-v1.schema.json",
+        "OK JSON-SCHEMA: contracts\\events\\task\\task.attempt.cancellation.requested-v1.schema.json",
+        "OK JSON-SCHEMA: contracts\\events\\task\\task.attempt.cancelled-v1.schema.json",
+        "OK JSON-SCHEMA: contracts\\events\\task\\task.attempt.capability.bound-v1.schema.json",
+        "OK JSON-SCHEMA: contracts\\events\\task\\task.attempt.leased-v1.schema.json",
+        "OK JSON-SCHEMA: contracts\\events\\task\\task.attempt.result.accepted-v1.schema.json",
+        "OK JSON-SCHEMA: contracts\\events\\task\\task.plan.accepted-v1.schema.json",
+        "OK JSON-SCHEMA: contracts\\events\\task\\task.resource.released-v1.schema.json",
+        "OK JSON-SCHEMA: contracts\\events\\task\\task.resource.reserved-v1.schema.json",
+        "OK JSON-SCHEMA: contracts\\events\\task\\task.status.changed-v1.schema.json",
+        "OK JSON-SCHEMA: contracts\\events\\task\\task.step.ready-v1.schema.json",
+        "OK CONTRACT DOCUMENT: contracts\\openapi\\ai\\paths.yaml",
+        "OK CONTRACT DOCUMENT: contracts\\openapi\\asset\\paths.yaml",
+        "OK CONTRACT DOCUMENT: contracts\\openapi\\common\\errors.yaml",
+        "OK CONTRACT DOCUMENT: contracts\\openapi\\common\\http-samples.json",
+        "OK CONTRACT DOCUMENT: contracts\\openapi\\common\\openapi.yaml",
+        "OK CONTRACT DOCUMENT: contracts\\openapi\\common\\schemas.yaml",
+        "OK CONTRACT DOCUMENT: contracts\\openapi\\config\\paths.yaml",
+        "OK CONTRACT DOCUMENT: contracts\\openapi\\iam\\paths.yaml",
+        "OK CONTRACT DOCUMENT: contracts\\openapi\\media\\paths.yaml",
+        "OK CONTRACT DOCUMENT: contracts\\openapi\\playback\\paths.yaml",
+        "OK CONTRACT DOCUMENT: contracts\\openapi\\policy\\paths.yaml",
+        "OK CONTRACT DOCUMENT: contracts\\openapi\\search\\paths.yaml",
+        "OK CONTRACT DOCUMENT: contracts\\openapi\\source\\paths.yaml",
+        "OK CONTRACT DOCUMENT: contracts\\openapi\\storage\\paths.yaml",
+        "OK CONTRACT DOCUMENT: contracts\\openapi\\task\\paths.yaml",
+        "OK JSON-SCHEMA: contracts\\policies\\v1\\context.schema.yaml",
+        "OK JSON-SCHEMA: contracts\\policies\\v1\\policy.schema.yaml",
+        "OK JSON-SCHEMA: contracts\\schemas\\deployment-profile.schema.yaml",
+        "OK JSON-SCHEMA: contracts\\schemas\\plugin-manifest.schema.yaml",
+        "OK JSON-SCHEMA: contracts\\workers\\v1\\protocol.schema.yaml",
+        "OK JSON-SCHEMA: contracts\\workflows\\v1\\activity-options.schema.yaml",
+        "OK CONTRACT DOCUMENT: contracts\\workflows\\v1\\catalog.yaml",
+        "OK JSON-SCHEMA: contracts\\workflows\\v1\\replay.schema.yaml",
+        "OK JSON-SCHEMA: specs\\coordination\\active-work.schema.yaml",
+        "OK JSON-SCHEMA: specs\\coordination\\planning-revision.schema.yaml",
+        "OK JSON-SCHEMA: specs\\coordination\\program-plan.schema.yaml",
+        "OK JSON-SCHEMA: specs\\coordination\\task-completions.schema.yaml",
+        "OK SCHEMA INSTANCE: specs\\coordination\\active-work.yaml <- specs\\coordination\\active-work.schema.yaml",
+        "OK SCHEMA INSTANCE: specs\\coordination\\program-plan.yaml <- specs\\coordination\\program-plan.schema.yaml",
+        "OK TASK REGISTRY LINK: POC-007",
+        "OK PROGRAM ACTIVATION: POC-007 <- W3",
+        "OK TASK REGISTRY LINK: POC-008",
+        "OK PROGRAM ACTIVATION: POC-008 <- W4",
+        "OK TASK REGISTRY LINK: GZ-031",
+        "OK PROGRAM ACTIVATION: GZ-031 <- W5",
+        "OK: Schema, Task Spec, Active Work and Program Plan validation completed"
+      ]
+    },
+    "spec-sync": {
+      "command": [
+        "python",
+        "-B",
+        "scripts/check-spec-sync.py",
+        "--base",
+        "a02fedcc3359e6dfff68aee6de06075d4f1818c0"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 0.2,
+      "originalLogSha256": "2d2f3bf336db04513273e8b5613253ba81955647f91a4996c60e342c7b341b08",
+      "combinedConsoleOutput": [
+        "{\"status\": \"PASS\", \"message\": \"Spec sync check passed. No synchronization issues detected.\"}"
+      ]
+    }
+  }
+}

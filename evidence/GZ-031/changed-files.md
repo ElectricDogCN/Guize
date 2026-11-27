@@ -11,6 +11,7 @@
 - `evidence/GZ-031/scope.md`
 - `evidence/GZ-031/summary.md`
 - `evidence/GZ-031/test-results/README.md`
+- `evidence/GZ-031/test-results/reservation-controls-80d6d4ca.json`
 - `specs/coordination/active-work.yaml`
 - `specs/coordination/program-plan.yaml`
 - `specs/tasks/GZ-031.md`

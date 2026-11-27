@@ -8,7 +8,7 @@
 
 GZ-008 的实施合并为 `904a2f680fa50ad60b113e99af16181ee8844565`。消费 `PLUGIN-CONTRACT-V1`（Manifest `guize.plugin/v1`）和 `WORKER-CONTRACT-V1`（协议 v1 与 Worker SDK 1.0.0）。控制面按 [ADR-0002](../../adr/0002-modular-monolith-control-plane.md) 使用 Java 17 和 Spring Boot 3。
 
-本任务位于 W5，集成序号 3，共享写入范围为空。登记阶段只修改以下 14 条路径。
+本任务位于 W5，集成序号 3，共享写入范围为空。登记阶段的变更路径如下。
 
 - `evidence/GZ-031/EVIDENCE-STRUCTURE.md`
 - `evidence/GZ-031/assumptions.md`
@@ -21,33 +21,14 @@ GZ-008 的实施合并为 `904a2f680fa50ad60b113e99af16181ee8844565`。消费 `P
 - `evidence/GZ-031/scope.md`
 - `evidence/GZ-031/summary.md`
 - `evidence/GZ-031/test-results/README.md`
+- `evidence/GZ-031/test-results/reservation-controls-80d6d4ca.json`
 - `specs/coordination/active-work.yaml`
 - `specs/coordination/program-plan.yaml`
 - `specs/tasks/GZ-031.md`
 
-## 本地验证原件
+## 本地验证记录
 
-下列命令对应上一固定登记候选 `386075ff4916ffcdc780e265f254c46768cb69e9`。原始执行记录 SHA-256 为 `9a7e91bae7b2b4dceed9cf5c07630b40098c38c333ee6b990f00d80d02bebede`，更正回执 SHA-256 为 `c135eeed278f8257b4490c1186a4413ce9e6388d96d5b5f88b7c5cdd188e1d36`。记录中的本地 Python 路径在此记作 `python`。
-
-| 检查 | 实际命令 | 退出码 |
-| --- | --- | --- |
-| diff | `git diff --check a02fedcc3359e6dfff68aee6de06075d4f1818c0 386075ff4916ffcdc780e265f254c46768cb69e9` | 0 |
-| integrity | `python -B scripts/check-program-plan-integrity.py --base-ref a02fedcc3359e6dfff68aee6de06075d4f1818c0` | 0 |
-| history | `python -B scripts/check-program-plan-history.py --base-ref a02fedcc3359e6dfff68aee6de06075d4f1818c0 --head-ref 386075ff4916ffcdc780e265f254c46768cb69e9 --task GZ-031 --branch-name chore/GZ-031-bootstrap-reservation` | 0 |
-| transitions | `python -B scripts/check-program-plan-transitions.py --base-ref a02fedcc3359e6dfff68aee6de06075d4f1818c0 --head-ref 386075ff4916ffcdc780e265f254c46768cb69e9 --task GZ-031 --branch-name chore/GZ-031-bootstrap-reservation` | 0 |
-| finalization | `python -B scripts/check-program-plan-finalization.py --base-ref a02fedcc3359e6dfff68aee6de06075d4f1818c0 --head-ref 386075ff4916ffcdc780e265f254c46768cb69e9 --task GZ-031` | 0 |
-| lifecycle-guards | `python -B scripts/check-program-lifecycle-guards.py --base-ref a02fedcc3359e6dfff68aee6de06075d4f1818c0 --head-ref 386075ff4916ffcdc780e265f254c46768cb69e9 --task GZ-031 --branch-name chore/GZ-031-bootstrap-reservation` | 0 |
-| lifecycle | `python -B scripts/run-program-lifecycle-gate.py --base-ref a02fedcc3359e6dfff68aee6de06075d4f1818c0 --head-ref 386075ff4916ffcdc780e265f254c46768cb69e9 --task GZ-031 --branch-name chore/GZ-031-bootstrap-reservation` | 0 |
-| coordination | `python -B scripts/run-agent-coordination-gate.py --base-ref a02fedcc3359e6dfff68aee6de06075d4f1818c0 --head-ref 386075ff4916ffcdc780e265f254c46768cb69e9 --task GZ-031 --branch-name chore/GZ-031-bootstrap-reservation` | 0 |
-| scope | `python -B scripts/run-task-scope-gate.py --task GZ-031 --base a02fedcc3359e6dfff68aee6de06075d4f1818c0` | 0 |
-| evidence | `python -B scripts/check-evidence.py --task GZ-031` | 0 |
-| readiness | `python -B scripts/check-project-readiness.py` | 0 |
-| markdown | `python -B scripts/check-markdown.py` | 0 |
-| task | `python -B scripts/check-task-file.py --task GZ-031` | 0 |
-| schemas | `python -B scripts/check-schemas.py` | 0 |
-| spec-sync | `python -B scripts/check-spec-sync.py --base a02fedcc3359e6dfff68aee6de06075d4f1818c0` | 0 |
-
-首次 Finalization 命令带有不支持的 `--branch-name` 参数，退出 2，未执行检查。使用官方适用参数在同一候选重跑后退出 0。其余检查首轮退出 0。当前阶段尚未执行产品启动或正式官方 CI。
+15 项本地检查在 [公开固定源码](https://github.com/ElectricDogCN/Guize/commit/80d6d4ca8ad25c4b8abf3f4334c11387933c26cf) `80d6d4ca8ad25c4b8abf3f4334c11387933c26cf` 实际执行，全部退出 0。[逐项命令、退出码和控制台记录](test-results/reservation-controls-80d6d4ca.json)保留可重复执行的命令、输出及原件摘要。公开记录使用可移植路径。初版曾将不支持的选项传给 Finalization，本轮用官方参数直接通过。当前交付为登记，产品启动和插件隔离由登记实际通过后的产品交付验证。
 
 ## 审查、实施和撤回
 
