@@ -21,3 +21,14 @@
 - specs/coordination/active-work.yaml
 - specs/coordination/program-plan.yaml
 - specs/tasks/OPS-035.md
+
+## 实施阶段
+
+- AGENTS.md 在原冻结条款前说明 OPS-035 与后继 OPS-036 的准确边界。
+- scripts/poc-contract-repair-admission.py 复用已存在的正式生命周期证明并绑定五个原始对象与两路径后继。
+- scripts/check-program-lifecycle-guards.py 接入新原件历史与独立后继，沿用普通冻结写入校验。
+- tests/governance/test_poc_contract_repair_admission.py 新增四个可重复的契约回归。
+- specs/coordination/program-plan.yaml 与 specs/coordination/active-work.yaml 仅激活本条记录。
+- specs/tasks/OPS-035.md 记录实际执行入口。
+- evidence/OPS-035/implementation-start.json 绑定已验收的实际登记与授权工作范围。
+- evidence/OPS-035/changed-files.md、commands.txt、handoff.md 与 test-results/README.md 记录实施及其原生回执。

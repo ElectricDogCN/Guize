@@ -94,17 +94,17 @@ tasks:
 - taskId: OPS-035
   issue: 352
   title: 为按实际输入判定 POC 证据资格建立正式准入
-  status: reserved
+  status: in_progress
   riskLevel: high
   owner: ElectricDogCN
   coordinator: /root
   implementer: /root
   reviewer: /root/independent_review
   integrator: /root
-  agentRole: coordinator
+  agentRole: implementer
   branch: chore/OPS-035-poc-dependency-admission
   baseBranch: main
-  baseSha: cb51148e41e8b420a5c58fb928d5bc84bdacb89c
+  baseSha: 1d4daa8b33f12b771946c9cafa6e13777314f696
   workPackage: WP-M0-01
   programPlan: specs/coordination/program-plan.yaml
   programTaskId: OPS-035

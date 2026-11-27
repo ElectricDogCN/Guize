@@ -1463,6 +1463,65 @@ class TestSourceCompatibilityRepairAdmission(unittest.TestCase):
         self.assertIn('Authorization intent changed after registration',result.stdout+result.stderr)
 
 
+class TestSourceDependencyRepairAdmission(unittest.TestCase):
+    registration = '1d4daa8b33f12b771946c9cafa6e13777314f696'
+
+    def setUp(self):
+        self.root = str(ROOT)
+        self.original = PROOF.SOURCE_DEPENDENCY
+        self.base = PROOF.parent(self.root,self.registration)
+        raw = PROOF.blob(self.root,self.registration,self.original.intent)
+        self.assertEqual(hashlib.sha256(raw).hexdigest(),self.original.digest)
+        self.intent = json.loads(raw)
+
+    def test_exact_original_pins_are_distinct_from_the_two_write_claims(self):
+        selected = PROOF.contract('OPS-036')
+        records = PROOF.approved_paths(self.root,self.base,self.intent,selected)
+        self.assertEqual(selected.paths,{'specs/poc/check_program.py','specs/poc/test_program.py'})
+        self.assertEqual({item['path'] for item in records},PROOF.SOURCE_DEPENDENCY_PINS)
+        self.assertEqual(len(records),5)
+        self.assertEqual(PROOF.contract('OPS-018'),PROOF.SOURCE_COMPATIBILITY)
+        self.assertEqual(PROOF.contract('OPS-027'),PROOF.PERFORMANCE)
+
+    def test_exact_scope_and_release_obligations_are_required(self):
+        for field, invalid, expected in (
+            ('kind','one_equivalent_poc_validator_performance_repair_authorization_intent','parent-bound'),
+            ('issue',351,'parent-bound'),
+            ('repairPaths',sorted(PROOF.SOURCE_DEPENDENCY_PINS),'different exact paths'),
+            ('historicalExecutionRebindingAllowed',True,'different release obligations'),
+            ('repairRequiresIndependentReservation',1,'different release obligations'),
+        ):
+            with self.subTest(field=field):
+                changed = dict(self.intent,**{field:invalid})
+                with self.assertRaisesRegex(PROOF.AdmissionError,expected):
+                    PROOF.approved_paths(self.root,self.base,changed,self.original)
+
+    def test_pins_require_unchanged_and_unique_real_git_objects(self):
+        for field, invalid, expected in (
+            ('path','specs/poc/check_program.py','unique original target'),
+            ('gitBlob','0' * 40,'actual regular Git blob'),
+            ('sha256','0' * 64,'original target digest differs'),
+        ):
+            with self.subTest(field=field):
+                changed = copy.deepcopy(self.intent)
+                changed['targetParentBindings'][-1][field] = invalid
+                with self.assertRaisesRegex(PROOF.AdmissionError,expected):
+                    PROOF.approved_paths(self.root,self.base,changed,self.original)
+
+    def test_real_registration_protects_intent_without_authorizing_the_successor(self):
+        PROOF.audit_source_authority_intent(self.root,self.base,self.registration,selected=self.original)
+        reservation_source = PROOF.resolve(self.root,f'{self.registration}^2')
+        PROOF.audit_source_authority_intent(self.root,self.base,reservation_source,selected=self.original)
+        with self.assertRaisesRegex(PROOF.AdmissionError,'requires its original actual main registration'):
+            PROOF.authority(self.root,reservation_source,successor='OPS-036')
+        with self.assertRaisesRegex(PROOF.AdmissionError,'not normally completed and released capacity'):
+            PROOF.authority(self.root,self.registration,successor='OPS-036')
+        errors = []
+        PROOF.validate_repair_changes(self.root,self.base,self.registration,'OPS-036',self.original.paths,errors)
+        self.assertEqual(len(errors),1)
+        self.assertIn('no original canonical reservation',errors[0])
+
+
 class TestPerformanceRepairAdmission(unittest.TestCase):
     """Real Git attack histories for the separate 026→027 grant, never POC evidence."""
     write = staticmethod(TestBoundPocContractRepair.write)

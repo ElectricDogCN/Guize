@@ -172,7 +172,7 @@ foundationTasks:
     mergeCommit: 74d653e0d1bf723382b8879f746973371216443e
   - taskId: OPS-035
     title: 为按实际输入判定 POC 证据资格建立正式准入
-    status: reserved
+    status: in_progress
     completionRef: ISSUE-352
     mergeCommit: null
 waves:
