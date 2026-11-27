@@ -1,0 +1,201 @@
+{
+  "schemaVersion": 1,
+  "taskId": "OPS-033",
+  "phase": "actual main formal Review",
+  "actualMainCommit": "18309104113cbc879fb1789c91206d47b8c33f29",
+  "baseCommit": "cd659e3d08b335be9c0866f6699bd6b0ef0534e9",
+  "sourceCommit": "c1afc542f5018acb72821d0da130d4c0438a3288",
+  "sourceTree": "e812f0e395c4be6642cbb2cec244f9379da3b1f6",
+  "branch": "main",
+  "officialRunId": 45954923866,
+  "localControls": [
+    {
+      "check": "diff",
+      "command": [
+        "git",
+        "diff",
+        "--check",
+        "cd659e3d08b335be9c0866f6699bd6b0ef0534e9...18309104113cbc879fb1789c91206d47b8c33f29"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 0.01,
+      "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "check": "protected-bytes",
+      "command": [
+        "git",
+        "diff",
+        "--exit-code",
+        "cd659e3d08b335be9c0866f6699bd6b0ef0534e9",
+        "18309104113cbc879fb1789c91206d47b8c33f29",
+        "--",
+        "scripts",
+        "tests",
+        ".github",
+        "AGENTS.md",
+        "specs/coordination/task-completions.yaml"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 0.01,
+      "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "check": "exact-source-tree",
+      "command": [
+        "git",
+        "diff",
+        "--exit-code",
+        "c1afc542f5018acb72821d0da130d4c0438a3288",
+        "18309104113cbc879fb1789c91206d47b8c33f29"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 0.01,
+      "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "check": "integrity",
+      "command": [
+        "python",
+        "-B",
+        "scripts/check-program-plan-integrity.py",
+        "--base-ref",
+        "cd659e3d08b335be9c0866f6699bd6b0ef0534e9"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 2.04,
+      "logSha256": "2f01906503e8ff4e931b35afb1413469ae6fe19d9faf4d54c70560ca59fbe02e"
+    },
+    {
+      "check": "history",
+      "command": [
+        "python",
+        "-B",
+        "scripts/check-program-plan-history.py",
+        "--base-ref",
+        "cd659e3d08b335be9c0866f6699bd6b0ef0534e9",
+        "--head-ref",
+        "18309104113cbc879fb1789c91206d47b8c33f29"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 65.62,
+      "logSha256": "f7d3cc8bcf4f6523dc8f7fed8f0d83878f9cc35186f8968fd5f5f407a6b19f0b"
+    },
+    {
+      "check": "transitions",
+      "command": [
+        "python",
+        "-B",
+        "scripts/check-program-plan-transitions.py",
+        "--base-ref",
+        "cd659e3d08b335be9c0866f6699bd6b0ef0534e9",
+        "--head-ref",
+        "18309104113cbc879fb1789c91206d47b8c33f29"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 3.0,
+      "logSha256": "425cbccfcd5b25d77cfb977caa804050cba5569576efe7081fa7612f91e713a3"
+    },
+    {
+      "check": "finalization",
+      "command": [
+        "python",
+        "-B",
+        "scripts/check-program-plan-finalization.py",
+        "--base-ref",
+        "cd659e3d08b335be9c0866f6699bd6b0ef0534e9",
+        "--head-ref",
+        "18309104113cbc879fb1789c91206d47b8c33f29"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 0.3,
+      "logSha256": "a57543a392018649c8acec0cf161ecf85c99d81c9d13c41519e419f434e726ae"
+    },
+    {
+      "check": "lifecycle",
+      "command": [
+        "python",
+        "-B",
+        "scripts/check-program-lifecycle-guards.py",
+        "--base-ref",
+        "cd659e3d08b335be9c0866f6699bd6b0ef0534e9",
+        "--head-ref",
+        "18309104113cbc879fb1789c91206d47b8c33f29"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 16.37,
+      "logSha256": "24882756ea794968e68d4b67c303d191fce32fcbee80951ee67512e44fec55ed"
+    },
+    {
+      "check": "coordination",
+      "command": [
+        "python",
+        "-B",
+        "scripts/run-agent-coordination-gate.py"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 0.87,
+      "logSha256": "4163ca669e32477a156b528264bcb2486bbdd063da76ac69aa72e9704929fcd9"
+    },
+    {
+      "check": "task",
+      "command": [
+        "python",
+        "-B",
+        "scripts/check-task-file.py",
+        "--task",
+        "OPS-033"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 0.13,
+      "logSha256": "c76e620d595a5b2ab14730669595ae5e7a67d5862ca03c86faa5d7a24596d102"
+    },
+    {
+      "check": "evidence",
+      "command": [
+        "python",
+        "-B",
+        "scripts/check-evidence.py",
+        "--task",
+        "OPS-033"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 0.03,
+      "logSha256": "69ab07013db2b6a809330536c8e7219f3257727982c56c436e5215b407b11d40"
+    },
+    {
+      "check": "markdown",
+      "command": [
+        "python",
+        "-B",
+        "scripts/check-markdown.py"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 0.15,
+      "logSha256": "cdd7d62baf527fa33f4307dd5d11304aaebf823abaaabf434e179df030b1aaf4"
+    },
+    {
+      "check": "schemas",
+      "command": [
+        "python",
+        "-B",
+        "scripts/check-schemas.py"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 6.84,
+      "logSha256": "15528fcb5baa68a9bd1f9138bdb70979c8498433906e12349c59fd402e641e59"
+    },
+    {
+      "check": "project-readiness",
+      "command": [
+        "python",
+        "-B",
+        "scripts/check-project-readiness.py"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 17.74,
+      "logSha256": "5c2011ad5a4df1db3e4e3ec4d73e46d810fae619f27a1166d2b4027f264b8cbb"
+    }
+  ],
+  "officialCiAccepted": false
+}
