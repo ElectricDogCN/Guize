@@ -6,9 +6,11 @@
 
 Status: PASS
 
-当前候选从 `7dac5e54b6da164fa1b3ed895a1bca2a281b75dd` 起步，工作分支为 `chore/OPS-035-normal-completion`，Integrator 负责结项。原租约由实施分支 `chore/OPS-035-poc-dependency-admission` 持有，结项主线受验后释放。
+当前候选从 `7dac5e54b6da164fa1b3ed895a1bca2a281b75dd` 起步，工作分支为 `chore/OPS-035-normal-completion`，Integrator 负责结项。用 `git rev-parse HEAD` 读取当前结项候选的完整 SHA。当前范围见 [结项的 11 条路径](changed-files.md)。
 
-Issue [#352](https://github.com/ElectricDogCN/Guize/issues/352) 已按 completed 关闭。结项候选通过同头独立审查、完整官方源 CI 和实际主线完整复验后，清理两条已结束远端分支。后继 OPS-036 使用独立登记与冻结流程。
+实施分支 `chore/OPS-035-poc-dependency-admission` 的原租约为 2026-11-27T17:20:00Z 至 2026-12-04T17:20:00Z。集成组为 `poc-source-dependency-admission`，顺序 27。使用 Program Plan v1、Task Spec v2、Active Work v1。
+
+Issue [#352](https://github.com/ElectricDogCN/Guize/issues/352) 已按 completed 关闭。结项候选先通过同头完整官方 1,105 项和独立终审，再按固定头普通合并。实际主线再执行完整官方 1,105 项和本地门禁，经独立终验确认容量释放后，按当时远端精确头清理两条已结束分支。后继 OPS-036 使用独立登记与冻结流程。
 
 [实际 Review 独立终验](./accepted-review-main-7dac5e54/independent-review.original.json) · [九项实际本地检查](./accepted-review-main-7dac5e54/actual-main-controls.summary.json)
 
