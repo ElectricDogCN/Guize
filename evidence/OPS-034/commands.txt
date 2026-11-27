@@ -165,3 +165,11 @@ Elapsed Seconds: 6.38
 Command: python -B scripts/check-project-readiness.py
 Exit Code: 0
 Elapsed Seconds: 145.66
+
+OPS-034 已验收实际 Review 032143c287fd1e107c7316fa9e1e9ded77d120f5
+Implementation Merge: 74d653e0d1bf723382b8879f746973371216443e
+Command: python -B scripts/check-program-plan-integrity.py --base-ref 74d653e0d1bf723382b8879f746973371216443e
+Exit Code: 0
+Result: PASS
+Official run: https://github.com/ElectricDogCN/Guize/actions/runs/45981969539
+Issue #337: closed/completed at 2026-11-27T10:43:37Z
