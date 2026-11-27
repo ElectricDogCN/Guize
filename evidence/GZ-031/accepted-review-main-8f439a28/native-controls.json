@@ -1,0 +1,125 @@
+{
+  "taskId": "GZ-031",
+  "actualReviewMain": "8f439a287ac192bca1049f6b826e18f676e202a6",
+  "implementationMerge": "79879e47cda6361bdfcfe6edf40ce9a37c5defbb",
+  "originalNativeRecordSha256": "f69eafe06ae4161ddd354c2fbfd309a3684cc2af28c3dd60834ef7c00049ddfa",
+  "independentOriginalSha256": "5a1c899f0d3a4546a46c8f5b3f2f00e27b1c7855748141372ede6d7e2c4609c9",
+  "independentOriginalRef": "independent-review.original.json",
+  "issueClosedAt": "2026-11-27T16:30:15Z",
+  "environment": {
+    "PYTHONUTF8": "1",
+    "GITHUB_EVENT_NAME": "push",
+    "GITHUB_REF_NAME": "main",
+    "PUSH_BEFORE": "79879e47cda6361bdfcfe6edf40ce9a37c5defbb",
+    "GITHUB_REPOSITORY": "ElectricDogCN/Guize"
+  },
+  "commandNormalization": "The absolute Python executable was replaced with python only.",
+  "checks": {
+    "diff": {
+      "exitCode": 0,
+      "elapsedSeconds": 0.08,
+      "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "argv": [
+        "git",
+        "diff",
+        "--check",
+        "79879e47cda6361bdfcfe6edf40ce9a37c5defbb",
+        "8f439a287ac192bca1049f6b826e18f676e202a6"
+      ]
+    },
+    "integrity": {
+      "exitCode": 0,
+      "elapsedSeconds": 36.36,
+      "logSha256": "4e1c7cec5ca933f696cba1ad5962cdc57bd969d75ab36bd4cbb386f118377921",
+      "argv": [
+        "python",
+        "-B",
+        "scripts/check-program-plan-integrity.py",
+        "--base-ref",
+        "79879e47cda6361bdfcfe6edf40ce9a37c5defbb"
+      ]
+    },
+    "history": {
+      "exitCode": 0,
+      "elapsedSeconds": 30.34,
+      "logSha256": "4c1aa27e1a74ecb34fe1e269df01f0f775e81ca7c394e82699f2949dc0963f04",
+      "argv": [
+        "python",
+        "-B",
+        "scripts/check-program-plan-history.py",
+        "--base-ref",
+        "79879e47cda6361bdfcfe6edf40ce9a37c5defbb",
+        "--head-ref",
+        "8f439a287ac192bca1049f6b826e18f676e202a6"
+      ]
+    },
+    "transitions": {
+      "exitCode": 0,
+      "elapsedSeconds": 24.8,
+      "logSha256": "fe4811d8fd81e1814b4a15b4b9829d80106d2f796848747fb012941738e35b5b",
+      "argv": [
+        "python",
+        "-B",
+        "scripts/check-program-plan-transitions.py",
+        "--base-ref",
+        "79879e47cda6361bdfcfe6edf40ce9a37c5defbb",
+        "--head-ref",
+        "8f439a287ac192bca1049f6b826e18f676e202a6"
+      ]
+    },
+    "finalization": {
+      "exitCode": 0,
+      "elapsedSeconds": 0.64,
+      "logSha256": "00f02248951a2de72cae1fbf320b78849b9e5374aba79702185a3f82f5482319",
+      "argv": [
+        "python",
+        "-B",
+        "scripts/check-program-plan-finalization.py",
+        "--base-ref",
+        "79879e47cda6361bdfcfe6edf40ce9a37c5defbb",
+        "--head-ref",
+        "8f439a287ac192bca1049f6b826e18f676e202a6"
+      ]
+    },
+    "lifecycle-guards": {
+      "exitCode": 0,
+      "elapsedSeconds": 132.06,
+      "logSha256": "59287c01b9bcd9fbfc98309e9ab76acc4cb925f765bc1c25914f19a86ecb9a39",
+      "argv": [
+        "python",
+        "-B",
+        "scripts/check-program-lifecycle-guards.py",
+        "--base-ref",
+        "79879e47cda6361bdfcfe6edf40ce9a37c5defbb",
+        "--head-ref",
+        "8f439a287ac192bca1049f6b826e18f676e202a6"
+      ]
+    },
+    "coordination": {
+      "exitCode": 0,
+      "elapsedSeconds": 0.78,
+      "logSha256": "80d3d5620bd228f5aa504a6190c44f895e189cab2d61f4d478e36e6b1bb5cb55",
+      "argv": [
+        "python",
+        "-B",
+        "scripts/run-agent-coordination-gate.py"
+      ]
+    },
+    "task-finalization": {
+      "exitCode": 0,
+      "elapsedSeconds": 0.72,
+      "logSha256": "be7acb9483269b8f9e5957db2fb4ec0a1ff80df03a37e4f4dba71ea13a7837a5",
+      "argv": [
+        "python",
+        "-B",
+        "scripts/check-program-plan-finalization.py",
+        "--base-ref",
+        "79879e47cda6361bdfcfe6edf40ce9a37c5defbb",
+        "--head-ref",
+        "8f439a287ac192bca1049f6b826e18f676e202a6",
+        "--task",
+        "GZ-031"
+      ]
+    }
+  }
+}

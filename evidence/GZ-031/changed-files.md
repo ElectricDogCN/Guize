@@ -36,3 +36,17 @@
 - `specs/coordination/active-work.yaml`
 - `specs/coordination/program-plan.yaml`
 - `specs/tasks/GZ-031.md`
+
+## 正常 Completion 路径
+
+- `evidence/GZ-031/accepted-review-main-8f439a28/independent-review.original.json`
+- `evidence/GZ-031/accepted-review-main-8f439a28/native-controls.json`
+- `evidence/GZ-031/changed-files.md`
+- `evidence/GZ-031/commands.txt`
+- `evidence/GZ-031/handoff.md`
+- `evidence/GZ-031/summary.md`
+- `evidence/GZ-031/test-results/README.md`
+- `specs/coordination/active-work.yaml`
+- `specs/coordination/program-plan.yaml`
+- `specs/coordination/task-completions.yaml`
+- `specs/tasks/GZ-031.md`
