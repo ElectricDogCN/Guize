@@ -60,8 +60,8 @@ tasks:
   issue: 298
   status: reserved
   coordinator: program-coordinator-agent
-  implementer: task-owner-agent
-  reviewer: independent-review-agent
+  implementer: /root
+  reviewer: /root/gz022_planning_independent_review
   integrator: integration-agent
   agentRole: coordinator
   baseBranch: main
