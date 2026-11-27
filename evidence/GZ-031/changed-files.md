@@ -23,3 +23,16 @@
 - `specs/coordination/active-work.yaml`
 - `specs/coordination/program-plan.yaml`
 - `specs/tasks/GZ-031.md`
+
+## 正常 Review 路径
+
+- `evidence/GZ-031/changed-files.md`
+- `evidence/GZ-031/handoff.md`
+- `evidence/GZ-031/implementation-main-79879e47/acceptance.json`
+- `evidence/GZ-031/implementation-main-79879e47/independent-review.original.json`
+- `evidence/GZ-031/implementation-main-79879e47/native-controls.json`
+- `evidence/GZ-031/summary.md`
+- `evidence/GZ-031/test-results/README.md`
+- `specs/coordination/active-work.yaml`
+- `specs/coordination/program-plan.yaml`
+- `specs/tasks/GZ-031.md`
