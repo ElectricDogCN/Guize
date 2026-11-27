@@ -15,6 +15,7 @@
 - `evidence/GZ-031/summary.md`
 - `evidence/GZ-031/test-results/README.md`
 - `evidence/GZ-031/test-results/implementation-cc26ec1e.json`
+- `evidence/GZ-031/test-results/plugin-probe-39cbcc07.json`
 - `services/guize-worker-agent/bootstrap/README.md`
 - `services/guize-worker-agent/bootstrap/bootstrap.py`
 - `services/guize-worker-agent/bootstrap/requirements.txt`

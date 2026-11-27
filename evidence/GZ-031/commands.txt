@@ -13,3 +13,16 @@ Command: python -B services/guize-worker-agent/bootstrap/test_bootstrap.py -v
 Exit code: 0
 
 The settings, Maven cache and SDK placeholders stand for the local isolated toolchain and fixed GZ-008 artifact.
+
+GZ-031 fixed startup retry and timeout implementation 39cbcc07bcee541b151f689c16bd3625b2b40d28
+
+Command: mvn -o -B -ntp -s "$MAVEN_SETTINGS" -f backend/guize-bootstrap/pom.xml "-Dmaven.repo.local=$MAVEN_REPO" clean package
+Exit code: 0
+
+Command: python -B backend/guize-bootstrap/test_plugin_startup.py test --java "$JAVA_HOME/bin/java" --jar backend/guize-bootstrap/target/guize-bootstrap-0.1.0-SNAPSHOT.jar
+Exit code: 0
+
+Command: python -B backend/guize-bootstrap/test_plugin_startup.py test --java "$JAVA_HOME/bin/java" --jar "$TESTED_JAR" --probe-timeout-millis 22000
+Exit code: 0
+
+The 22-second case ran once inside the dedicated Linux test container with only loopback networking, using the same tested JAR from Windows. With the old JAR and assessor, both timeouts failed their expected regression assertions with exit code 1.
