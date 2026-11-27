@@ -1,0 +1,17 @@
+{
+  "taskId": "OPS-035",
+  "issue": 352,
+  "branch": "chore/OPS-035-poc-dependency-admission",
+  "actualReservationMain": "1d4daa8b33f12b771946c9cafa6e13777314f696",
+  "acceptedActualWorkflow": 46044662944,
+  "actualMainIndependentReviewSha256": "9d573d425c3c7cb41beeb0799aa09d38761125e7ce578209fb63fe5e16c7a624",
+  "authorityIntentSha256": "e8148aabbce63a94e3b6d135b390a1ee9d0d39e952aa891506b19b61af64c1f4",
+  "scope": [
+    "AGENTS.md",
+    "scripts/poc-contract-repair-admission.py",
+    "scripts/check-program-lifecycle-guards.py",
+    "tests/governance/test_poc_contract_repair_admission.py"
+  ],
+  "existingPeerReservationsPreserved": true,
+  "protectedTargetWritesAuthorized": false
+}
