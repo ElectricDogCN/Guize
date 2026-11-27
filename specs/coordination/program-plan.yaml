@@ -167,7 +167,7 @@ foundationTasks:
     mergeCommit: cd659e3d08b335be9c0866f6699bd6b0ef0534e9
   - taskId: OPS-034
     title: 登记一期核心骨架的独立规划拆分
-    status: reserved
+    status: in_progress
     completionRef: ISSUE-337
     mergeCommit: null
 waves:
@@ -1011,6 +1011,7 @@ tasks:
     - GZ-008
     - GZ-009
     - POC-008
+    - GZ-031
     requirementIds:
     - REQ-V1-0001
     - REQ-V1-0002
@@ -2044,6 +2045,42 @@ tasks:
     branchPattern: chore/GZ-030-*
     exitGate: 启动前须固定scope准入验证GZ-022真实普通Completion（completed_producer），defined/BASELINE名或依赖状态不能替代。固定system.lock精确绑定平台commit/release、Schema/SDK摘要、各制品/签名/模型/配置、远端Task完成和证据，实际验证Android六帧/取消/断网、PC
       AV1、权限/输出/迟到重复/资源/OCR/受约束Agent，覆盖本范围八项AC。按服务端兼容关闭开关→协议→节点灰度→明确能力启用发布；故障先停派/排空或取消/禁用，再恢复旧已接受组合，代码回退不冒称数据恢复。验签/SBOM/许可证完整，critical独占；严格闭合GZ-022与全部七项前序，不改V1/GZ-020或生产门禁。
+  - taskId: GZ-031
+    title: 建立可独立启动的核心骨架与插件装载边界
+    kind: scaffold
+    status: planned
+    workPackage: WP-M0-06
+    riskLevel: high
+    ownerRole: task-owner-agent
+    reviewerRole: independent-review-agent
+    coordinationGroup: gz-031
+    wave: W5
+    integrationOrder: 3
+    dependsOn:
+    - GZ-008
+    requirementIds:
+    - REQ-V1-0007
+    - REQ-V1-0010
+    moduleIds:
+    - MOD-PLATFORM
+    - MOD-WORKER
+    outputPaths:
+    - backend/guize-bootstrap/**
+    - services/guize-worker-agent/bootstrap/**
+    - evidence/GZ-031/**
+    sharedPaths: []
+    producesContracts: []
+    consumesContracts:
+    - PLUGIN-CONTRACT-V1
+    - WORKER-CONTRACT-V1
+    acceptanceIds: []
+    pocIds: []
+    issue: null
+    branchPattern: chore/GZ-031-*
+    exitGate: 核心服务使用空插件注册表可独立构建、启动和响应健康检查。按 GZ-008 固定清单注册测试插件，隔离插件启动失败并保持其他已注册能力可用。Worker 启动骨架验证固定 SDK 摘要和协议 conformance
+      输入。分别保存构建、启动、注册、故障隔离与契约消费证据。
+v1ImplementationSplits:
+  GZ-031: GZ-012
 planningBaselines:
   - id: BASELINE-GZ-021
     taskId: GZ-021
