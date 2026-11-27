@@ -26,5 +26,6 @@
     "originalPresent": 1078,
     "maxSeconds": 621,
     "aggregate": true
-  }
+  },
+  "independentOriginalRef": "independent-review.original.json"
 }

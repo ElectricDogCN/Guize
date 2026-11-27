@@ -29,6 +29,7 @@
 - `evidence/GZ-031/changed-files.md`
 - `evidence/GZ-031/handoff.md`
 - `evidence/GZ-031/implementation-main-79879e47/acceptance.json`
+- `evidence/GZ-031/implementation-main-79879e47/independent-review.original.json`
 - `evidence/GZ-031/implementation-main-79879e47/native-controls.json`
 - `evidence/GZ-031/summary.md`
 - `evidence/GZ-031/test-results/README.md`

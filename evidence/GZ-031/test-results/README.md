@@ -3,4 +3,4 @@
 - [实施构建及启动](implementation-cc26ec1e.json)记录固定源码、真实控制面健康检查、子进程失败隔离、SDK 兼容性和摘要失配。
 - [瞬时失败和探测预算](plugin-probe-39cbcc07.json)记录固定产品源码、旧实现失败对照、800 毫秒 Windows 回归及 22 秒专用 Linux 容器验证。
 - [登记阶段本地验证](reservation-controls-80d6d4ca.json)保留当时的原命令与结果。
-- [实施实际主线](../implementation-main-79879e47/acceptance.json)记录官方覆盖和独立结论。[八项控制摘要](../implementation-main-79879e47/native-controls.json)保留原始结果摘要。
+- [实施实际主线](../implementation-main-79879e47/acceptance.json)记录官方覆盖和独立结论。[独立验收原件](../implementation-main-79879e47/independent-review.original.json)可逐字节核对。[八项控制命令及摘要](../implementation-main-79879e47/native-controls.json)可复跑。
