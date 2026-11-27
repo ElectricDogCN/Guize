@@ -1,0 +1,316 @@
+{
+  "schemaVersion": 1,
+  "reviewer": "/root/independent_review",
+  "approvedAt": "2026-11-27T16:29:49Z",
+  "taskId": "GZ-031",
+  "phase": "normal Review actual main",
+  "decision": "accepted_exact_actual_normal_review_main",
+  "pullRequest": 350,
+  "actualMain": "8f439a287ac192bca1049f6b826e18f676e202a6",
+  "source": "0263d5663eee6a1b41d7c7938e3de874238b960a",
+  "base": "79879e47cda6361bdfcfe6edf40ce9a37c5defbb",
+  "tree": "eac2b47fb985b93819ff3c6de21443310e06f92d",
+  "orderedParents": [
+    "79879e47cda6361bdfcfe6edf40ce9a37c5defbb",
+    "0263d5663eee6a1b41d7c7938e3de874238b960a"
+  ],
+  "actualReviewMainAccepted": true,
+  "issueClosureAllowed": true,
+  "fullMainCiAccepted": true,
+  "actualMainControlsAccepted": true,
+  "normalCompletionMayStart": true,
+  "actualCapacityReleased": false,
+  "branchCleanupAllowed": false,
+  "mustFix": [],
+  "actualMerge": {
+    "publicGitAndNativeGitOrderedParentsAndTreeAgree": true,
+    "actualRemoteMainEqualsAcceptedCommit": true,
+    "sourcePreviewTreeExactlyPreserved": true,
+    "prClosedMerged": true,
+    "independentSourceCommentReview": 6090818366,
+    "normalExpectedHeadMergeConfirmed": true
+  },
+  "officialCi": {
+    "runId": 46031536751,
+    "runNumber": 1221,
+    "attempt": 1,
+    "event": "push",
+    "branch": "main",
+    "url": "https://github.com/ElectricDogCN/Guize/actions/runs/46031536751/attempts/1",
+    "actualCheckout": "8f439a287ac192bca1049f6b826e18f676e202a6",
+    "allFiveJobsSucceeded": true,
+    "jobs": [
+      {
+        "id": 140616306782,
+        "name": "Governance Controls",
+        "seconds": 155,
+        "conclusion": "success"
+      },
+      {
+        "id": 140616307108,
+        "name": "Governance Tests (shard 0)",
+        "seconds": 1029,
+        "conclusion": "success"
+      },
+      {
+        "id": 140616307142,
+        "name": "Governance Tests (shard 1)",
+        "seconds": 576,
+        "conclusion": "success"
+      },
+      {
+        "id": 140616307491,
+        "name": "Governance Tests (shard 2)",
+        "seconds": 474,
+        "conclusion": "success"
+      },
+      {
+        "id": 140624695974,
+        "name": "Governance Checks",
+        "seconds": 8,
+        "conclusion": "success"
+      }
+    ],
+    "maximumJobSeconds": 1029,
+    "uniquePassedCases": 1101,
+    "shardCounts": [
+      271,
+      425,
+      405
+    ],
+    "caseCollectionSha256": "06e39b30f10307af758c62ce2ec69d14440dee77b5e8ff0f2250a49ded9ee293",
+    "sameExactIdsAsAcceptedSource1220": true,
+    "original1078RetainedThroughExactAcceptedBaseline": true,
+    "failures": 0,
+    "errors": 0,
+    "skippedTests": 0,
+    "xfail": 0,
+    "xpass": 0,
+    "normalPushOnlyConditionalSkippedSteps": [
+      "Task file validation",
+      "Evidence check",
+      "Evidence integrity check",
+      "Task-branch linkage check",
+      "Scope check"
+    ],
+    "aggregateExactlyOnce": true,
+    "artifacts": [
+      {
+        "id": 15215073181,
+        "name": "governance-shard-1-0",
+        "githubDigest": "sha256:5568023377d37af7b8ac8a9640f0e82be411cce76dcfeccb2f45d7d0394665ca",
+        "actualHead": "8f439a287ac192bca1049f6b826e18f676e202a6"
+      },
+      {
+        "id": 15215016808,
+        "name": "governance-shard-1-2",
+        "githubDigest": "sha256:d04f6d1065d173560dd8266e3dc78112f5355651bcd7e99a2773bfbde2b691b9",
+        "actualHead": "8f439a287ac192bca1049f6b826e18f676e202a6"
+      },
+      {
+        "id": 15214424321,
+        "name": "governance-shard-1-1",
+        "githubDigest": "sha256:a2a8501b7bc96f24e00214c2f82df8670096bd123d6de16ede68ba1534a16298",
+        "actualHead": "8f439a287ac192bca1049f6b826e18f676e202a6"
+      }
+    ],
+    "verificationBoundary": "Decoded official logs independently recounted and compared; GitHub artifact metadata/digests matched actual same-attempt aggregate downloads. Reviewer did not separately download ZIP bytes."
+  },
+  "actualNativeControls": {
+    "count": 8,
+    "allExitZero": true,
+    "allEightOriginalRawHashesIndependentlyVerified": true,
+    "recordBytes": 4470,
+    "recordSha256": "f69eafe06ae4161ddd354c2fbfd309a3684cc2af28c3dd60834ef7c00049ddfa",
+    "taskQualifiedFinalizationIncluded": true,
+    "originalPrivateRecordNotRepublishedInReceipt": true
+  },
+  "actualLifecycle": {
+    "taskProgramRegistryReview": true,
+    "agentRole": "reviewer",
+    "baseSha": "79879e47cda6361bdfcfe6edf40ce9a37c5defbb",
+    "registeredWorkBranch": "chore/GZ-031-bootstrap-v1",
+    "actualActiveTasks": 3,
+    "actualHighRiskTasks": 1,
+    "lease": {
+      "acquiredAt": "2026-11-27T11:46:01Z",
+      "expiresAt": "2026-12-04T11:46:01Z"
+    },
+    "threeExclusiveClaims": [
+      "backend/guize-bootstrap/**",
+      "services/guize-worker-agent/bootstrap/**",
+      "evidence/GZ-031/**"
+    ],
+    "sharedPaths": [],
+    "actorsAndClaimsUnchanged": true,
+    "twoPocPeersByteEquivalentRegistryEntries": true,
+    "foreignProgramDefinitionsAndLedgerUnchanged": true,
+    "onlyReviewedTenPathsChanged": true,
+    "allActualTreeBytesEqualSourcePreview": true,
+    "issue345State": "open"
+  },
+  "technicalEvidenceBoundary": {
+    "sourceTechnicalAndPublicEvidenceAcceptanceReusedAtIdenticalActualTree": true,
+    "transientRetryBudgetAndShutdownFindingsResolved": true,
+    "sameSourceBotCompletedNoFindings": true,
+    "currentNormalReviewThreadsEmpty": true,
+    "priorDf02NegativeAndRealRedRecordsPreserved": true,
+    "productRuntimeTestsNotRerunByReviewerOrReattributedToActualMerge": true,
+    "noPocEvidenceSourceRebindingOrExperimentApproval": true
+  },
+  "permissionBoundary": {
+    "allowed": "Normal Completion preparation, including ordinary closed/completed transition of Issue 345 required by the Completion gate; new exact source and actual Completion full CI and independent acceptance remain mandatory.",
+    "issue345ClosureAllowedForNormalCompletionGate": true,
+    "completionCapacityReleaseAndBranchDeletionAuthorized": false,
+    "protectedActiveWorkRef": "refs/heads/chore/GZ-031-bootstrap-v1",
+    "unrelatedRefsAndHistorical184Preserved": true,
+    "noRemoteMutationsByReviewer": true
+  },
+  "evidencePins": [
+    {
+      "path": ".takeover-tools/gz031-normal-review-0263d566-final-source-independent-review.json",
+      "bytes": 10232,
+      "sha256": "431a517fb5f517f9416bdf88ee140fcd98dafa694c213924b9c978dbbc8b7e93"
+    },
+    {
+      "path": ".takeover-tools/gz031-implementation-39cbcc07-technical-independent-review.json",
+      "bytes": 3478,
+      "sha256": "3b48b21431e4ff0ff98f7b10f6b544588f85abcbb8a636e129d2dd64b6e103e4"
+    },
+    {
+      "path": ".takeover-tools/gz031-implementation-df02f339-final-source-independent-review.json",
+      "bytes": 7948,
+      "sha256": "d97752ad4935c84cb58a502276fc01e7a6710a4a89cc0a581f394de6154c4a73"
+    },
+    {
+      "path": ".takeover-tools/gz031-normal-review-main-8f439a28-independent-actual-ci/artifacts.terminal.json",
+      "bytes": 2588,
+      "sha256": "c01f69675f390a2f8ee1867091deb8b1a5b9db67578a31b0a055f7631f96b998"
+    },
+    {
+      "path": ".takeover-tools/gz031-normal-review-main-8f439a28-independent-actual-ci/comments.terminal.json",
+      "bytes": 5723,
+      "sha256": "d8ff34eee542e2322681febe2005e2696cbed610e8315636d599dae94119025e"
+    },
+    {
+      "path": ".takeover-tools/gz031-normal-review-main-8f439a28-independent-actual-ci/commit.terminal.json",
+      "bytes": 3039,
+      "sha256": "3e5c145d78faa50a80f61256060c45b124cb1e694f79798b39646ab4d4d7af10"
+    },
+    {
+      "path": ".takeover-tools/gz031-normal-review-main-8f439a28-independent-actual-ci/coverage-terminal.json",
+      "bytes": 145267,
+      "sha256": "ef03db54a6bb65aed08e4800bdca9a8d5b56741c9f9d3327f18852b9ed32091e"
+    },
+    {
+      "path": ".takeover-tools/gz031-normal-review-main-8f439a28-independent-actual-ci/issue345.terminal.json",
+      "bytes": 6296,
+      "sha256": "314d11e73328443d346b85b0bf4f431a60050597bd480c0191a6329a8d5a4b94"
+    },
+    {
+      "path": ".takeover-tools/gz031-normal-review-main-8f439a28-independent-actual-ci/job-140616306782.log",
+      "bytes": 63041,
+      "sha256": "cb94647c0b3f3ee25f58a8d6e3f03f6e4aa4d8ebfc54004933e532336c315547"
+    },
+    {
+      "path": ".takeover-tools/gz031-normal-review-main-8f439a28-independent-actual-ci/job-140616307108.log",
+      "bytes": 129467,
+      "sha256": "afb07bea4b45104deee354032808a3cba7d296fa98e9d0fd238cbc34db43681d"
+    },
+    {
+      "path": ".takeover-tools/gz031-normal-review-main-8f439a28-independent-actual-ci/job-140616307142.log",
+      "bytes": 175350,
+      "sha256": "bdefb01e50c34f177c913a013b7d640a78837cdd6011b52b2441e5ae22925733"
+    },
+    {
+      "path": ".takeover-tools/gz031-normal-review-main-8f439a28-independent-actual-ci/job-140616307491.log",
+      "bytes": 165091,
+      "sha256": "a0fa939acbd4177281d935e531cd4352858a326389f47dab926abf1c998ada50"
+    },
+    {
+      "path": ".takeover-tools/gz031-normal-review-main-8f439a28-independent-actual-ci/job-140624695974.log",
+      "bytes": 16175,
+      "sha256": "47e4d21e278d893984d07fd0ea3e83510e46d5e4d41e0cd9126c799f797c97f4"
+    },
+    {
+      "path": ".takeover-tools/gz031-normal-review-main-8f439a28-independent-actual-ci/jobs.terminal.json",
+      "bytes": 21345,
+      "sha256": "6c005d3003cd73f74ced05b02b690932fb2b96ee310a2faaaff921b130114f59"
+    },
+    {
+      "path": ".takeover-tools/gz031-normal-review-main-8f439a28-independent-actual-ci/main.terminal.json",
+      "bytes": 375,
+      "sha256": "6fe8ecb51ae63671fc145e6666334740498c948266a08c6638aab01a18902926"
+    },
+    {
+      "path": ".takeover-tools/gz031-normal-review-main-8f439a28-independent-actual-ci/native-coordination.log",
+      "bytes": 156,
+      "sha256": "80d3d5620bd228f5aa504a6190c44f895e189cab2d61f4d478e36e6b1bb5cb55"
+    },
+    {
+      "path": ".takeover-tools/gz031-normal-review-main-8f439a28-independent-actual-ci/native-diff.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".takeover-tools/gz031-normal-review-main-8f439a28-independent-actual-ci/native-finalization.log",
+      "bytes": 146,
+      "sha256": "00f02248951a2de72cae1fbf320b78849b9e5374aba79702185a3f82f5482319"
+    },
+    {
+      "path": ".takeover-tools/gz031-normal-review-main-8f439a28-independent-actual-ci/native-history.log",
+      "bytes": 261,
+      "sha256": "4c1aa27e1a74ecb34fe1e269df01f0f775e81ca7c394e82699f2949dc0963f04"
+    },
+    {
+      "path": ".takeover-tools/gz031-normal-review-main-8f439a28-independent-actual-ci/native-integrity.log",
+      "bytes": 243,
+      "sha256": "4e1c7cec5ca933f696cba1ad5962cdc57bd969d75ab36bd4cbb386f118377921"
+    },
+    {
+      "path": ".takeover-tools/gz031-normal-review-main-8f439a28-independent-actual-ci/native-lifecycle-guards.log",
+      "bytes": 238,
+      "sha256": "59287c01b9bcd9fbfc98309e9ab76acc4cb925f765bc1c25914f19a86ecb9a39"
+    },
+    {
+      "path": ".takeover-tools/gz031-normal-review-main-8f439a28-independent-actual-ci/native-result.json",
+      "bytes": 4470,
+      "sha256": "f69eafe06ae4161ddd354c2fbfd309a3684cc2af28c3dd60834ef7c00049ddfa"
+    },
+    {
+      "path": ".takeover-tools/gz031-normal-review-main-8f439a28-independent-actual-ci/native-task-finalization.log",
+      "bytes": 150,
+      "sha256": "be7acb9483269b8f9e5957db2fb4ec0a1ff80df03a37e4f4dba71ea13a7837a5"
+    },
+    {
+      "path": ".takeover-tools/gz031-normal-review-main-8f439a28-independent-actual-ci/native-transitions.log",
+      "bytes": 169,
+      "sha256": "fe4811d8fd81e1814b4a15b4b9829d80106d2f796848747fb012941738e35b5b"
+    },
+    {
+      "path": ".takeover-tools/gz031-normal-review-main-8f439a28-independent-actual-ci/pr.terminal.json",
+      "bytes": 20355,
+      "sha256": "135e74391edba60f30583a695c8b5a925a64e68e066c40c9bd9b68340bb081cb"
+    },
+    {
+      "path": ".takeover-tools/gz031-normal-review-main-8f439a28-independent-actual-ci/reviews.terminal.json",
+      "bytes": 2550,
+      "sha256": "7e21c0fa3422397bb3a63d3f69a4256c8cefdf91932305583e22cd629348aba0"
+    },
+    {
+      "path": ".takeover-tools/gz031-normal-review-main-8f439a28-independent-actual-ci/run.terminal.json",
+      "bytes": 13722,
+      "sha256": "53cd8f63d000a31cfcd3b326dfa5aac5e37fc04908b7e3a6eafd3cbde711b610"
+    },
+    {
+      "path": ".takeover-tools/gz031-normal-review-main-8f439a28-independent-actual-ci/threads.terminal.json",
+      "bytes": 27,
+      "sha256": "3e8a08aebce453c022e75a478b159f99c0a339d175c62baff78fe85551e8213d"
+    },
+    {
+      "path": ".takeover-tools/gz031-normal-review-main-8f439a28-independent-actual-ci/work-ref.terminal.json",
+      "bytes": 448,
+      "sha256": "9f292557ede0bba0cd8ae47e22becaabaa53ca29d70b134869785d1265f68596"
+    }
+  ]
+}
