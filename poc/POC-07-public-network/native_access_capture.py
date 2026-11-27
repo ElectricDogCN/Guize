@@ -12,7 +12,9 @@ import subprocess
 import sys
 from urllib.parse import urlsplit
 
-from capture_playback import Capture, capture_anonymous_origin_response, capture_resource_denial, capture_response, utc_stamp
+from capture_playback import (
+    Capture, CaptureLimitExceeded, capture_anonymous_origin_response, capture_resource_denial, capture_response, utc_stamp,
+)
 
 SCRIPT = Path(__file__).resolve()
 CLOCKS = ("started_at", "connected_at", "request_started_at", "first_response_at", "finished_at")
@@ -182,7 +184,7 @@ def main() -> None:
             capture_tls(args, data)
         else:
             raise CaptureError("Incomplete native fixture command")
-    except CaptureError as error:
+    except (CaptureError, CaptureLimitExceeded) as error:
         parser.exit(1, f"{error}\n")
     except (OSError, ValueError, TypeError, KeyError) as error:
         parser.exit(1, f"Native loopback capture failed: {type(error).__name__}\n")

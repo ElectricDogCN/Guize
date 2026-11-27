@@ -1,21 +1,43 @@
 import hashlib
 from argparse import Namespace
-from datetime import timezone
+from datetime import datetime, timedelta, timezone
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from io import BytesIO
 import json
-from pathlib import PureWindowsPath
+from pathlib import Path, PureWindowsPath
 import subprocess
 import threading
 import unittest
-from unittest.mock import patch
+from tempfile import TemporaryDirectory
+from unittest.mock import Mock, patch
 
+from capture_playback import CaptureLimitExceeded, _capture, utc_stamp
 from native_access_capture import CaptureError, capture_tls_request, observe_access_request
 from observe_fixture import ObserveFixtureWrites, READ_SPAN_BYTES
 from stream_fixture import CHUNK_BYTES, FixtureSource, RangeNotSatisfiable, UnexpectedOriginResponse
 
 
 class NativeEvidencePathTests(unittest.TestCase):
+    def test_capture_limit_retains_timings_without_retaining_excess_bytes(self):
+        connection = Mock(port=48743)
+        connection.sock.getpeername.return_value = ("127.0.0.1", 48743)
+        connection.sock.recv_into.side_effect = [CHUNK_BYTES, 1]
+        started = datetime(2026, 11, 27, tzinfo=timezone.utc)
+        observed = [started + timedelta(milliseconds=step) for step in range(4)]
+
+        with TemporaryDirectory() as directory, patch("capture_playback.datetime") as clock:
+            clock.now.side_effect = observed
+            response = Path(directory) / "response.http"
+            with self.assertRaises(CaptureLimitExceeded) as failure:
+                _capture(connection, "/synthetic.bin", response, 0, {"Authorization": "synthetic-fixture-identity"})
+
+            self.assertEqual(response.stat().st_size, CHUNK_BYTES)
+
+        self.assertIn(f"request_started_at={utc_stamp(observed[2])}", str(failure.exception))
+        self.assertIn(f"first_response_at={utc_stamp(observed[3])}", str(failure.exception))
+        self.assertNotIn("synthetic-fixture-identity", str(failure.exception))
+        connection.close.assert_called_once()
+
     def test_windows_request_uses_portable_evidence_paths(self):
         response = PureWindowsPath("evidence/POC-007/capture/playback/response.http")
         trust_store = PureWindowsPath("evidence/POC-007/capture/localhost-trust.pem")

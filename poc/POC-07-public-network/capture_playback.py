@@ -15,6 +15,10 @@ def utc_stamp(instant: datetime) -> str:
     return instant.astimezone(timezone.utc).isoformat().replace("+00:00", "Z")
 
 
+class CaptureLimitExceeded(ValueError):
+    """A bounded capture failure with diagnostic fields safe to log."""
+
+
 @dataclass(frozen=True)
 class Capture:
     peer_address: str
@@ -143,14 +147,20 @@ def _capture(
         digest = sha256()
         received = peak = 0
         first_response = None
+        capture_limit = maximum_body_bytes + CHUNK_BYTES
         with response_file.open("xb") as stream:
             while count := peer_socket.recv_into(buffer):
                 if first_response is None:
                     first_response = datetime.now(timezone.utc)
                 received += count
                 peak = max(peak, count)
-                if received > maximum_body_bytes + CHUNK_BYTES:
-                    raise ValueError("Native response exceeded its capture limit")
+                if received > capture_limit:
+                    raise CaptureLimitExceeded(
+                        "Native response exceeded its capture limit "
+                        f"(request_started_at={utc_stamp(request_started)}, "
+                        f"first_response_at={utc_stamp(first_response)}, "
+                        f"received_bytes={received}, maximum_capture_bytes={capture_limit})"
+                    )
                 block = buffer[:count]
                 stream.write(block)
                 digest.update(block)
