@@ -1,3 +1,61 @@
+当前规划实施源 2add3ca389c3aecfeb8366f804ad5b5f61469712 的原生 Linux 实测
+登记主线 2fc6778ec0389cede37855a456202ce4ce019856
+激活提交 132b4c4e502608992740e603e0d2c98478d7fc22
+
+python -B scripts/check-task-file.py --task OPS-034
+exit 0
+log SHA-256 edbbff74876c322b7892821a2741ed41faf2c3969fb23b8c3e742aa8f0f001b1
+
+python -B scripts/check-evidence.py --task OPS-034
+exit 0
+log SHA-256 05758550adc8e65bd88e49d65e42e495d73aafc62b4d1de703c2b59c83686b18
+
+python -B scripts/check-markdown.py
+exit 0
+log SHA-256 e2b6b73f4b3263f35046053269f9ccca1da21c66fd7d8d6d0b9c2518198966a8
+
+python -B scripts/check-schemas.py
+exit 0
+log SHA-256 a42545723f2789c867723f0e010d50dfcd3cfada704b00e92543d6b55754d90d
+
+python -B scripts/check-program-plan-integrity.py --base-ref 2fc6778ec0389cede37855a456202ce4ce019856
+exit 0
+log SHA-256 07376d0916e0142b9fad08eb254e5911f342f1494a434374951ccd34cd6f01e0
+
+python -B scripts/check-program-plan-transitions.py --base-ref 2fc6778ec0389cede37855a456202ce4ce019856 --head-ref 2add3ca389c3aecfeb8366f804ad5b5f61469712 --task OPS-034 --branch-name chore/OPS-034-v1-core-planning
+exit 0
+log SHA-256 93f6fbb40a144fcd838a76dfad38bee3e1c0e6f519a147fa92c274b01346a3f4
+
+python -B scripts/check-program-plan-finalization.py --base-ref 2fc6778ec0389cede37855a456202ce4ce019856 --head-ref 2add3ca389c3aecfeb8366f804ad5b5f61469712 --task OPS-034
+exit 0
+log SHA-256 603b5a87f33dbbdb9ea282ac639f1dbc7559bdc2c8e2a5febed4f637301032a6
+
+python -B scripts/check-program-plan-history.py --base-ref 2fc6778ec0389cede37855a456202ce4ce019856 --head-ref 2add3ca389c3aecfeb8366f804ad5b5f61469712 --task OPS-034 --branch-name chore/OPS-034-v1-core-planning
+exit 0
+log SHA-256 058846cdab63cc60d5a0646635ff50730e4cb57d70c498033ceb44b479a23d89
+
+python -B scripts/run-program-lifecycle-gate.py --base-ref 2fc6778ec0389cede37855a456202ce4ce019856 --head-ref 2add3ca389c3aecfeb8366f804ad5b5f61469712 --task OPS-034 --branch-name chore/OPS-034-v1-core-planning
+exit 0
+log SHA-256 71061a3142f8f09cb269158cc551546ddd4b768ceaded4fbc57e2bd29e663187
+
+python -B scripts/run-agent-coordination-gate.py --base-ref 2fc6778ec0389cede37855a456202ce4ce019856 --head-ref 2add3ca389c3aecfeb8366f804ad5b5f61469712 --task OPS-034 --branch-name chore/OPS-034-v1-core-planning
+exit 0
+log SHA-256 1788c5172c49c0d5b8adc2110dfc5709eeadda26d28accc9ecda47b222b40ecf
+
+python -B scripts/run-task-scope-gate.py --task OPS-034 --base 2fc6778ec0389cede37855a456202ce4ce019856
+exit 0
+log SHA-256 943aab90ffff2929affcb6a683d2b9a9442c84d8bbf0fddfbd9d54cb5043adf7
+
+python -B scripts/check-project-readiness.py
+exit 0
+log SHA-256 bcf287319979cd10d1382911d406115ab8c11eee120c677b1b95432676a1632c
+
+原始结果 test-results/implementation-2add3ca3-controls.json
+SHA-256 db0d1f794d880f31935887bdd4ab0e3c1cb3a2b11a7abaadac79210015c0d226
+
+历史登记源与记录
+
+
 OPS-034 登记命令与实际退出码
 
 初始固定登记源码 9221962924a92c2a6b12ce066d9e794b4b2ef47e 在原生 Linux 的实际检查
