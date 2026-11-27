@@ -1,37 +1,23 @@
-# GZ-031 登记交接
+# GZ-031 实施交接
 
-[Issue #345](https://github.com/ElectricDogCN/Guize/issues/345) 的当前阶段为 reserved／coordinator。已接受实际基线 `a02fedcc3359e6dfff68aee6de06075d4f1818c0`，登记分支 `chore/GZ-031-bootstrap-reservation`，实施分支 `chore/GZ-031-bootstrap-v1`。独立 Reviewer 为 `/root/independent_review`，租约从 2026-11-27T11:46:01Z 至 2026-12-04T11:46:01Z。登记源与实际主线通过完整官方 CI 后，由实施人从受验基线启动。
+当前阶段为 `in_progress`，实施人和集成人为 `/root`，独立审查人为 `/root/independent_review`。实施分支 `chore/GZ-031-bootstrap-v1` 从受验实际主线 `421db3f3c6ce34c4f2bea87413cfd5b0e6360999` 创建。激活提交 `366f87c03d0d2f59e6405c5156cec0785d02027a` 与固定受测提交 `cc26ec1e687352f84dcaf2a5854c924008b45dff` 连续。租约结束于 2026-12-04T11:46:01Z。[任务 #345](https://github.com/ElectricDogCN/Guize/issues/345)
 
-[基线验收](base-acceptance.json)
+## 输入和交付
 
-## 固定输入和写入边界
+- 依赖 GZ-008 固定的 `guize.plugin/v1`、`worker-v1` 和 Worker SDK 1.0.0。控制面按 [ADR-0002](../../adr/0002-modular-monolith-control-plane.md) 使用 Java 17 与 Spring Boot 3。
+- 产品文件位于 `backend/guize-bootstrap/`、`services/guize-worker-agent/bootstrap/` 和自身 Evidence。[实际变更路径](changed-files.md)
+- W5 集成顺序为 3，共享写入范围为空。[实际登记验收](https://github.com/ElectricDogCN/Guize/actions/runs/45999354149)
 
-GZ-008 的实施合并为 `904a2f680fa50ad60b113e99af16181ee8844565`。消费 `PLUGIN-CONTRACT-V1`（Manifest `guize.plugin/v1`）和 `WORKER-CONTRACT-V1`（协议 v1 与 Worker SDK 1.0.0）。控制面按 [ADR-0002](../../adr/0002-modular-monolith-control-plane.md) 使用 Java 17 和 Spring Boot 3。
+## 实际运行
 
-本任务位于 W5，集成序号 3，共享写入范围为空。登记阶段的变更路径如下。
+[实施验证记录](test-results/implementation-cc26ec1e.json)保存每项执行命令、结果、制品及日志摘要。Maven clean package、JAR 与三个实际合成进程的回环验证、Worker 固定 SDK 启动和篡改回归均退出 0。首轮工具缓存缺少实际测试所需的 Surefire 提供者。补入 Maven 官方依赖后对固定源码的离线构建已经通过。
 
-- `evidence/GZ-031/EVIDENCE-STRUCTURE.md`
-- `evidence/GZ-031/assumptions.md`
-- `evidence/GZ-031/base-acceptance.json`
-- `evidence/GZ-031/changed-files.md`
-- `evidence/GZ-031/commands.txt`
-- `evidence/GZ-031/follow-ups.md`
-- `evidence/GZ-031/handoff.md`
-- `evidence/GZ-031/risks.md`
-- `evidence/GZ-031/scope.md`
-- `evidence/GZ-031/summary.md`
-- `evidence/GZ-031/test-results/README.md`
-- `evidence/GZ-031/test-results/reservation-controls-80d6d4ca.json`
-- `specs/coordination/active-work.yaml`
-- `specs/coordination/program-plan.yaml`
-- `specs/tasks/GZ-031.md`
+目前插件探测使用本机回环和可信发布清单。插件进程与制品均为合成夹具。独立审查定位的关闭竞态已修复，关闭后迟到的就绪事件不能启动探测线程，受控并发回归已通过。Worker 源码和消费契约与已实际验证的前一提交逐字节一致，沿用原回执。生产依赖维护决策单独跟踪于 [#340](https://github.com/ElectricDogCN/Guize/issues/340)。
 
-## 本地验证记录
+固定产品源码的独立技术复评已关闭关停竞态，回执 SHA-256 `bd5273fbc72c39ed8a9cd79a231ac7f157d10e5877afb85f5cb56c6b62125756`。
 
-15 项本地检查在 [公开固定源码](https://github.com/ElectricDogCN/Guize/commit/80d6d4ca8ad25c4b8abf3f4334c11387933c26cf) `80d6d4ca8ad25c4b8abf3f4334c11387933c26cf` 实际执行，全部退出 0。[逐项命令、退出码和控制台记录](test-results/reservation-controls-80d6d4ca.json)保留可重复执行的命令、输出及原件摘要。公开记录使用可移植路径。初版曾将不支持的选项传给 Finalization，本轮用官方参数直接通过。当前交付为登记，产品启动和插件隔离由登记实际通过后的产品交付验证。
+实施 PR 的两项后续发现分别涉及启动重试及进程总预算。修复固定在 `39cbcc07bcee541b151f689c16bd3625b2b40d28`。两个旧实现对照均按预期失败。新实现的 Maven 两项检查通过，同一 JAR 通过 Windows 800 毫秒回归和专用 Linux 容器 22 秒对照。后者一次执行并归档结果，覆盖合法探测期限超过旧预算的情况。已验证的 Worker 字节与两条冻结消费契约未变更。[对照记录](test-results/plugin-probe-39cbcc07.json)
 
-## 审查、实施和撤回
+## 交接与回退
 
-协调角色先让修订后的固定头完成适用本地检查并取得独立预审。随后把固定头推到登记分支并创建 Ready PR，走完整官方 CI 和同头审查。普通合入后复验实际主线。实际登记通过后，由 `/root` 从受验主线建立 `chore/GZ-031-bootstrap-v1`，实施空注册表启动和插件失败隔离，并验证 Worker 固定契约。
-
-合入前可撤回登记候选。合入后按正式取消或结项流程释放自身范围并保留已验记录。POC-007 和 POC-008 的活动登记按各自计划处理。
+审查者核对固定受测树、当前候选只追加本任务证据、启动命令及真实输出，再进入完整官方 CI 和同头审查。集成人在完整 CI 且同头审查通过后普通合入，复验实际主线。未合入的候选可按任务流程撤回。测试仅使用回环临时进程和目录，能够回收后使用同一固定版本复跑。

@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "taskId": "GZ-031",
+  "base": "421db3f3c6ce34c4f2bea87413cfd5b0e6360999",
+  "activation": "366f87c03d0d2f59e6405c5156cec0785d02027a",
+  "testedSource": "cc26ec1e687352f84dcaf2a5854c924008b45dff",
+  "testedTree": "c165387265576942c5030d61fae91c5e75534ce3",
+  "inputs": {
+    "java": "17.0.20.1+1",
+    "maven": "3.10.0",
+    "springBoot": "3.5.16",
+    "python": "3.12.4",
+    "pluginContract": "guize.plugin/v1",
+    "workerContract": "worker-v1"
+  },
+  "environment": "Windows native with an isolated Maven cache and disposable localhost processes",
+  "commandNormalization": "Executable and local settings, repository cache and SDK paths use portable names. Original log digests are retained.",
+  "checks": [
+    {
+      "command": "mvn -o -B -ntp -s \"$MAVEN_SETTINGS\" -f backend/guize-bootstrap/pom.xml \"-Dmaven.repo.local=$MAVEN_REPO\" clean package",
+      "exitCode": 0,
+      "logSha256": "8820998226ac5ea67eb13e0eb5cd5a80c5a55936cb3c01db39b2a7fb007211eb",
+      "observed": {
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "cases": [
+          "readyEventAfterClosingCannotStartAnAssessment(Path)",
+          "startsWithoutConfiguredPlugins"
+        ],
+        "jarSha256": "605ce25812d84ba8ee1e0981a688edcf50171ca1760fbde89054f1a7a19b3640"
+      }
+    },
+    {
+      "command": "python -B backend/guize-bootstrap/test_plugin_startup.py test --java \"$JAVA_HOME/bin/java\" --jar backend/guize-bootstrap/target/guize-bootstrap-0.1.0-SNAPSHOT.jar",
+      "exitCode": 0,
+      "logSha256": "9fb658871377e914901f6c9e1df5b1c9afbcf85024f00eb46b31e0dafd5d8653",
+      "observed": {
+        "controlPlane": "UP",
+        "pluginStates": {
+          "media-analysis": {
+            "state": "READY",
+            "capabilities": [
+              "MEDIA_PROBE",
+              "THUMBNAIL"
+            ]
+          },
+          "offline-ocr": {
+            "state": "UNAVAILABLE",
+            "capabilities": []
+          },
+          "av1-worker": {
+            "state": "UNAVAILABLE",
+            "capabilities": []
+          }
+        },
+        "exitedProviderCode": 42,
+        "lateProbeResponseDidNotRestoreCapability": true
+      }
+    },
+    {
+      "command": "python -B services/guize-worker-agent/bootstrap/bootstrap.py --sdk \"$WORKER_SDK\"",
+      "exitCode": 0,
+      "logSha256": "f92899683ef03709bb60ebc2480759f17ed791054268492cb52c3bdf67e15ffe",
+      "observed": {
+        "status": "ready",
+        "protocolVersion": "worker-v1",
+        "sdkVersion": "1.0.0",
+        "sdkSha256": "debb66b4a493abd8ba21fdaa5725372aba04e108fe2028d843fa8ffff66f8f04",
+        "verifiedCases": 40
+      }
+    },
+    {
+      "command": "python -B services/guize-worker-agent/bootstrap/test_bootstrap.py -v",
+      "exitCode": 0,
+      "logSha256": "9c4df2f1e2a84f2e239df4f2ec1bfe5d831508171da36e1522669b5882fc0c1e",
+      "observed": {
+        "realFrozenPackageAccepted": true,
+        "corruptedSdkRejected": true
+      }
+    }
+  ],
+  "retainedWorkerEvidence": {
+    "testedSource": "3a06c5330adec2145c65a73a1338bded1abbcd6d",
+    "workerAndConsumedContractPathsByteIdenticalAtTestedSource": true,
+    "originalRecords": [
+      "f92899683ef03709bb60ebc2480759f17ed791054268492cb52c3bdf67e15ffe",
+      "9c4df2f1e2a84f2e239df4f2ec1bfe5d831508171da36e1522669b5882fc0c1e"
+    ]
+  }
+}

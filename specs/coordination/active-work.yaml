@@ -94,17 +94,17 @@ tasks:
 - taskId: GZ-031
   issue: 345
   title: 建立可独立启动的核心骨架与插件装载边界
-  status: reserved
+  status: in_progress
   riskLevel: high
   owner: ElectricDogCN
   coordinator: /root
   implementer: /root
   reviewer: /root/independent_review
   integrator: /root
-  agentRole: coordinator
+  agentRole: implementer
   branch: chore/GZ-031-bootstrap-v1
   baseBranch: main
-  baseSha: a02fedcc3359e6dfff68aee6de06075d4f1818c0
+  baseSha: 421db3f3c6ce34c4f2bea87413cfd5b0e6360999
   workPackage: WP-M0-06
   programPlan: specs/coordination/program-plan.yaml
   programTaskId: GZ-031

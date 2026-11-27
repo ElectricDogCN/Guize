@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: guize-bootstrap
+server:
+  address: 127.0.0.1
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      probes:
+        enabled: true

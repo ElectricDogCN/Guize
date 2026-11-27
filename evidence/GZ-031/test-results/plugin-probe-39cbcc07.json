@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 1,
+  "taskId": "GZ-031",
+  "testedSource": "39cbcc07bcee541b151f689c16bd3625b2b40d28",
+  "testedTree": "b4260fb20ab04d118b0367b769a2cd53ca3dff08",
+  "reviewFindings": [4720801697, 4720801709],
+  "previousSource": "df02f339587456971a7a103371473ad23d667bc8",
+  "previousJarSha256": "605ce25812d84ba8ee1e0981a688edcf50171ca1760fbde89054f1a7a19b3640",
+  "jarSha256": "ed5b4b5da980fc948ac31cc1c3da9a309be26e2df190caa9b154b34579baacb8",
+  "checks": [
+    {
+      "environment": "Windows, previous control plane and assessor",
+      "probeTimeoutMillis": 800,
+      "exitCode": 1,
+      "observation": "The fixture responding with temporary HTTP 503 remained unavailable.",
+      "logSha256": "7bf725da78407771f492e557da4653525d78df1c2ccc572ce68f2c5636b33f45"
+    },
+    {
+      "environment": "Windows, previous control plane and assessor",
+      "probeTimeoutMillis": 22000,
+      "exitCode": 1,
+      "observation": "The control plane was healthy, and the assessed plugin inventory never appeared.",
+      "logSha256": "fb7a66be488ef6b365219595db0a489e71c35bf408f8285790a33856f893cdfb"
+    },
+    {
+      "environment": "Windows, Java 17.0.20.1+1 and Maven 3.10.0",
+      "check": "Offline Maven clean package",
+      "exitCode": 0,
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "logSha256": "56d4964d8385ec04aa9286946fdc8000bf5239e9897aada40a560419facb0976"
+    },
+    {
+      "environment": "Windows, synthetic loopback plugin processes",
+      "probeTimeoutMillis": 800,
+      "exitCode": 0,
+      "logSha256": "a66bca3a156e003a9bef4bbf39b792996ff70c08e893d699b4ca98917efb730f"
+    },
+    {
+      "environment": "Dedicated Linux container, synthetic loopback plugin processes",
+      "probeTimeoutMillis": 22000,
+      "exitCode": 0,
+      "sameJarAsWindows": true,
+      "scopedSourceArchiveSha256": "5afe61dfb06986894f2024be493e25f1b769491265fcdc9954e9093c1c9e5ac7",
+      "logSha256": "86f2002a14664c4f0eda766c6614d0764e7fc6a6eeafba64e372268bc7ea3c76",
+      "disposableRuntimeRemoved": true
+    }
+  ],
+  "successfulProcessObservations": {
+    "controlPlane": "UP",
+    "transient503ResponsesBeforeReady": 2,
+    "pluginStates": {
+      "media-analysis": {"state": "READY", "capabilities": ["MEDIA_PROBE", "THUMBNAIL"]},
+      "offline-ocr": {"state": "UNAVAILABLE", "capabilities": []},
+      "av1-worker": {"state": "UNAVAILABLE", "capabilities": []}
+    },
+    "exitedProviderCode": 42,
+    "lateProbeResponseDidNotRestoreCapability": true
+  },
+  "workerEvidence": "implementation-cc26ec1e.json"
+}

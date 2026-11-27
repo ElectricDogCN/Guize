@@ -1,3 +1,5 @@
-# GZ-031 登记验证
+# GZ-031 验证记录
 
-[固定源码的 15 项实际本地检查](reservation-controls-80d6d4ca.json)全部退出 0。源 PR 的完整官方 CI 和实际主线验收按各自的固定 Git 身份留证。
+- [实施构建及启动](implementation-cc26ec1e.json)记录固定源码、真实控制面健康检查、子进程失败隔离、SDK 兼容性和摘要失配。
+- [瞬时失败和探测预算](plugin-probe-39cbcc07.json)记录固定产品源码、旧实现失败对照、800 毫秒 Windows 回归及 22 秒专用 Linux 容器验证。
+- [登记阶段本地验证](reservation-controls-80d6d4ca.json)保留当时的原命令与结果。
