@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "archiveMain": "a2034ef16893ac46b497a62192e6998dc334f5d6",
+  "sharedRoots": [
+    "specs/poc",
+    "specs/requirements/v1",
+    "docs/18-testing-and-acceptance.md",
+    "docs/19-risk-assumptions-and-poc.md"
+  ],
+  "profiles": {
+    "POC-03": {
+      "testedSource": {
+        "commit": "2a6a6a9e62dc0fe7ef3144934d77c010811584ad",
+        "tree": "a379722549aa616426a0318e261840858b66ceb6"
+      },
+      "profile": {
+        "id": "local-v1",
+        "version": 1,
+        "bindingRevision": 1,
+        "scope": "LOCAL_FULL_V1"
+      },
+      "module": "poc/POC-03-ats-range",
+      "moduleTree": "c65e93217b4fd0633491569554f9b06f964c67b7",
+      "plan": "specs/poc/plans/POC-003.yaml",
+      "sharedInputsSha256": "04226ee980a14247054c86149d40e9e8774df659550b209b824e642921fc6950",
+      "historicalCheckerBlob": "b7e0e15dd0af68289b8b49ad80dad5178e219d1c",
+      "records": [
+        "evidence/POC-003/profiles/local-v1/v1/index.yaml",
+        "evidence/POC-003/profiles/local-v1/v1/attempt-010/result.yaml",
+        "evidence/POC-003/profiles/local-v1/v1/attempt-010/execution.json",
+        "evidence/POC-003/profiles/local-v1/v1/attempt-010/profile-configuration.json"
+      ],
+      "archivedApproval": "evidence/POC-003/profiles/local-v1/v1/attempt-010/independent-execution-approval.json",
+      "slot": "evidence/POC-003/profiles/local-v1/v1",
+      "slotTree": "030b258f2ba1f1d38ec8d67a203336c8fef5ef0b"
+    },
+    "POC-05": {
+      "testedSource": {
+        "commit": "be8a16ad0fcaeb64e5b169e6137fedfb91fe5ae6",
+        "tree": "bea546f8b331ffaaf09f422294afedf9305f87ff"
+      },
+      "profile": {
+        "id": "local-v1",
+        "version": 1,
+        "bindingRevision": 1,
+        "scope": "LOCAL_FULL_V1"
+      },
+      "module": "poc/POC-05-metadata-scale",
+      "moduleTree": "a4d391e6f3a2ca66361efef476c4c8ed3e01f5a6",
+      "plan": "specs/poc/plans/POC-005.yaml",
+      "sharedInputsSha256": "6672d1f2cf74d10fa89cdde64cc2eb53d4053b61fdb1c54748a2fc5f3225b170",
+      "historicalCheckerBlob": "b7e0e15dd0af68289b8b49ad80dad5178e219d1c",
+      "records": [
+        "evidence/POC-005/profiles/local-v1/v1/index.yaml",
+        "evidence/POC-005/profiles/local-v1/v1/attempt-023/result.json",
+        "evidence/POC-005/profiles/local-v1/v1/attempt-023/execution-candidate.json",
+        "evidence/POC-005/profiles/local-v1/v1/attempt-023/profile-configuration.json"
+      ],
+      "archivedApproval": "evidence/POC-005/profiles/local-v1/v1/attempt-023/independent-approval.json",
+      "slot": "evidence/POC-005/profiles/local-v1/v1",
+      "slotTree": "364a1a172f9549bcd6e7037d2befa0c521d6d6af"
+    }
+  }
+}

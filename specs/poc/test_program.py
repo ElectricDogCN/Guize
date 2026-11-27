@@ -10820,5 +10820,73 @@ class TestEvidenceReadScope(unittest.TestCase):
                 self.assertTrue(any("existing file" in message for message in errors))
 
 
+class TestRecordedSourceScope(unittest.TestCase):
+    def test_source_on_merge_side_uses_real_parent_edges(self):
+        def git(*args):
+            self.assertEqual(args, ("rev-list", "--parents", "--ancestry-path=tested", "tested..current"))
+            return "current merged\nmerged other tested\n"
+
+        self.assertEqual(CHECK.qualified_commit_edges("tested", "current", git),
+                         [("tested", "merged"), ("merged", "current")])
+
+    def test_shared_input_digest_binds_modes_and_own_plan(self):
+        own = "specs/poc/plans/POC-003.yaml"
+        roots = ("specs/poc",)
+        rows = [f"100644 blob own\t{own}",
+                "100644 blob adjacent\tspecs/poc/plans/POC-005.yaml",
+                "100644 blob policy\tspecs/poc/policy.yaml",
+                "100644 blob qualification\tspecs/poc/check_program.py"]
+
+        def digest(*records):
+            return CHECK.qualified_shared_input_digest(lambda *_: "\0".join(records), "source", roots, own)
+
+        self.assertEqual(digest(*rows), digest(rows[0], rows[2]))
+        self.assertNotEqual(digest(*rows), digest(rows[0].replace("100644", "100755"), *rows[1:]))
+        self.assertNotEqual(digest(*rows), digest(*rows, "100644 blob new\tspecs/poc/additional.yaml"))
+
+    def test_scope_binds_archive_records_and_runtime_without_rebinding_source(self):
+        task = "POC-003"
+        plan = {"taskId": task, "pocId": "POC-03"}
+        scope_path = HERE.parents[1] / CHECK.RECORDED_SCOPE_REF
+        raw = scope_path.read_bytes()
+        manifest = json.loads(raw)
+        row = manifest["profiles"][plan["pocId"]]
+        source = row["testedSource"]
+        _, result, execution, configuration = row["records"]
+        environment = {"acceptanceProfile": row["profile"], "acceptanceProfileConfigurationRef": configuration}
+        anchor = manifest["archiveMain"]
+        git_objects = {f"{source['commit']}:{row['module']}": row["moduleTree"],
+                       f"current:{row['module']}": row["moduleTree"],
+                       f"{anchor}:{row['slot']}": row["slotTree"], f"current:{row['slot']}": row["slotTree"],
+                       f"{source['commit']}:specs/poc/check_program.py": row["historicalCheckerBlob"]}
+
+        def git(command, *args):
+            if command == "show":
+                self.assertEqual(args, ("current:" + CHECK.RECORDED_SCOPE_REF,))
+                return raw.decode("utf-8")
+            if command == "rev-parse":
+                return git_objects[args[0]]
+            self.assertIn(command, ("merge-base", "cat-file"))
+            return ""
+
+        def validate(refs=(result, execution), dirty=(), untracked=(), ignored=()):
+            return CHECK.validate_recorded_source_scope(HERE.parents[1], plan, source, environment, "current", git,
+                                                        refs, dirty, untracked, ignored)
+
+        with mock.patch.object(CHECK, "qualified_shared_input_digest", return_value=row["sharedInputsSha256"]), \
+                mock.patch.object(CHECK, "validate_recorded_scope_history") as history:
+            self.assertTrue(validate())
+            history.assert_called_once_with(HERE.parents[1], anchor, "current", git)
+            with self.assertRaisesRegex(ValueError, "selected archive records"):
+                validate(refs=(result, configuration))
+            with self.assertRaisesRegex(ValueError, "clean tracked checkout"):
+                validate(dirty=(configuration,))
+            with self.assertRaisesRegex(ValueError, "ignored input"):
+                validate(ignored=(row["module"] + "/untracked.py",))
+            git_objects[f"current:{row['module']}"] = "different tree"
+            with self.assertRaisesRegex(ValueError, "scope input changed"):
+                validate()
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

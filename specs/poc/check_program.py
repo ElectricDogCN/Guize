@@ -21,6 +21,7 @@ import sys
 import tempfile
 import urllib.parse
 import zlib
+from contextvars import ContextVar
 from datetime import datetime, timezone
 from functools import lru_cache
 from pathlib import Path
@@ -1204,12 +1205,7 @@ def qualified_lifecycle_delta_paths(root,before_ref,after_ref,git):
     if not re.fullmatch('[A-Z]+-[0-9]{3}',owner):return set()
     task_path=f'specs/tasks/{owner}.md'
     if any(path not in shared|{task_path} and not path.startswith(f'evidence/{owner}/') for path in changed):return set()
-    # The existing history library reads immutable reservation/task snapshots.
-    helper_path=Path(__file__).resolve().parents[2]/'scripts/check-program-plan-history.py'
-    spec=importlib.util.spec_from_file_location('qualified_poc_lifecycle_history',helper_path)
-    history=importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(history)
-    history.git=lambda repository,*args:subprocess.run(['git',*args],cwd=repository,capture_output=True,text=True,encoding='utf8')
+    history = qualified_history_library()
     transitions=history.TRANSITIONS
     if not transitions.only_lifecycle_target_changed(before,after,'tasks',owner,{'status'}):return set()
     old_state,new_state=old_rows[owner].get('status'),new_rows[owner].get('status')
@@ -1285,6 +1281,143 @@ def qualified_lifecycle_delta_paths(root,before_ref,after_ref,git):
     return changed
 
 
+@lru_cache(maxsize=1)
+def qualified_history_library():
+    path = Path(__file__).resolve().parents[2] / "scripts/check-program-plan-history.py"
+    spec = importlib.util.spec_from_file_location("qualified_poc_lifecycle_history", path)
+    history = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(history)
+    history.git = lambda repository, *args: subprocess.run(
+        ["git", *args], cwd=repository, capture_output=True, text=True, encoding="utf-8"
+    )
+    return history
+
+
+def qualified_commit_edges(start, head, git):
+    """Choose actual parent edges back to the tested source, even across a merge."""
+    if start == head:
+        return []
+    graph = {}
+    for line in git("rev-list", "--parents", f"--ancestry-path={start}", f"{start}..{head}").splitlines():
+        commit, *parents = line.split()
+        graph[commit] = parents
+    edges = []
+    node = head
+    while node != start:
+        parent = next((parent for parent in graph.get(node, ()) if parent == start or parent in graph), None)
+        if parent is None:
+            raise ValueError("tested source ancestry must contain real parent edges")
+        edges.append((parent, node))
+        node = parent
+    return edges[::-1]
+
+
+RECORDED_SCOPE_REF = "evidence/OPS-036/source-qualification-recovery-v1/recorded-input-scopes.json"
+RECORDED_SCOPE_SHA256 = "0ac95aa53644a51fa330b7a97e7af1a269142c5b486a3de619303bb1b5508df4"
+RECORDED_SCOPE_HISTORY = ContextVar("recorded_source_scope_history", default=None)
+RECORDED_SCOPE_TESTED_COMMITS = {
+    "POC-03": "2a6a6a9e62dc0fe7ef3144934d77c010811584ad",
+    "POC-05": "be8a16ad0fcaeb64e5b169e6137fedfb91fe5ae6",
+}
+
+
+def source_shared_input(path, own_plan):
+    # Other plan slots and result rows are assessed by their own readers. The
+    # old checker is recorded as execution provenance, not a runtime input.
+    if path in {"specs/poc/check_program.py", "specs/poc/test_program.py", "specs/poc/results-index.yaml"}:
+        return False
+    sibling_plan = re.fullmatch(r"specs/poc/plans/POC-(?:00[1-9]|010)[.]yaml", path)
+    return not sibling_plan or path == own_plan
+
+
+def qualified_shared_input_digest(git, ref, roots, own_plan):
+    records = git("ls-tree", "-rz", ref, "--", *roots).split("\0")
+    selected = [record for record in records if record and source_shared_input(record.split("\t", 1)[1], own_plan)]
+    return hashlib.sha256("\0".join(selected).encode("utf-8")).hexdigest()
+
+
+def validate_recorded_scope_history(root, base, context, git):
+    """Apply the existing historical governance validator to the subsequent actual edges."""
+    accepted = RECORDED_SCOPE_HISTORY.get()
+    key = (root.resolve(), base, context)
+    if accepted is not None and key in accepted:
+        return
+    history = qualified_history_library()
+    governance_paths = (history.PLAN, history.ACTIVE, history.LEDGER)
+    lifecycle_fields = {"tasks", "pocs", "foundationTasks", "status", "recovery"}
+    checked = {base}
+    for before, after in qualified_commit_edges(base, context, git):
+        paths = set(git("diff", "--name-only", "--no-renames", before, after, "--", *governance_paths).splitlines())
+        if paths:
+            errors = []
+            if history.PLAN in paths:
+                prior, current = (history.load_ref(str(root), ref, history.PLAN) for ref in (before, after))
+                if not isinstance(prior, dict) or not isinstance(current, dict):
+                    raise ValueError("recorded source scope cannot read the Programme history")
+                prior_policy = {field: value for field, value in prior.items() if field not in lifecycle_fields}
+                current_policy = {field: value for field, value in current.items() if field not in lifecycle_fields}
+                if prior_policy != current_policy:
+                    planning = history.PLANNING.classifier(str(root), before, after, prior, current, errors,
+                                                           observed_at=history.PLANNING.commit_time(str(root), after))
+                    if not planning:
+                        errors.append("unproved Programme policy change")
+            history.historical_post_metadata(str(root), before, after, "OPS-036", paths, errors, base, checked)
+            if errors:
+                raise ValueError("recorded source scope governance history rejected: " + errors[0])
+        checked.add(after)
+    if accepted is not None:
+        accepted.add(key)
+
+
+def validate_recorded_source_scope(root, plan, source, environment, context, git, record_refs,
+                                   dirty, untracked, ignored):
+    """Recognize the versioned dependency evidence for the two original local archives."""
+    identity = environment.get("acceptanceProfile")
+    if (not isinstance(identity, dict) or identity.get("id") != "local-v1"
+            or source.get("commit") != RECORDED_SCOPE_TESTED_COMMITS.get(plan["pocId"])
+            or not (root / RECORDED_SCOPE_REF).is_file()):
+        return False
+    raw = git("show", f"{context}:{RECORDED_SCOPE_REF}")
+    if hashlib.sha256(raw.encode("utf-8")).hexdigest() != RECORDED_SCOPE_SHA256:
+        raise ValueError("recorded source scope must be the version bound by the verifier")
+    manifest = json.loads(raw)
+    if manifest.get("schemaVersion") != 1:
+        raise ValueError("unsupported recorded source scope version")
+    row = manifest["profiles"][plan["pocId"]]
+    anchor = manifest["archiveMain"]
+    if identity != row["profile"] or source != row["testedSource"]:
+        raise ValueError("recorded source scope differs from the approved execution identity")
+    index, result, execution, configuration = row["records"]
+    if (set(record_refs or ()) != {result, execution}
+            or environment.get("acceptanceProfileConfigurationRef") != configuration
+            or profile_index_ref(plan["taskId"], "local-v1") != index):
+        raise ValueError("recorded source scope does not match the selected archive records")
+    # Exact tree identities bind all members, modes and LFS pointers, including
+    # the original execution approval and native observations.
+    git("merge-base", "--is-ancestor", source["commit"], anchor)
+    git("merge-base", "--is-ancestor", anchor, context)
+    for revision, member, expected in (
+        (source["commit"], row["module"], row["moduleTree"]),
+        (context, row["module"], row["moduleTree"]),
+        (anchor, row["slot"], row["slotTree"]),
+        (context, row["slot"], row["slotTree"]),
+        (source["commit"], "specs/poc/check_program.py", row["historicalCheckerBlob"]),
+    ):
+        if git("rev-parse", f"{revision}:{member}") != expected:
+            raise ValueError(f"recorded source scope input changed: {member}")
+    git("cat-file", "-e", f"{anchor}:{row['archivedApproval']}")
+    for revision in (source["commit"], context):
+        if qualified_shared_input_digest(git, revision, manifest["sharedRoots"], row["plan"]) != row["sharedInputsSha256"]:
+            raise ValueError("recorded source scope shared contract or plan changed")
+    if dirty or untracked:
+        raise ValueError("recorded source scope requires a clean tracked checkout")
+    roots = (row["module"], row["slot"], *manifest["sharedRoots"])
+    if any(path == root_path or path.startswith(root_path + "/") for path in ignored for root_path in roots):
+        raise ValueError("recorded source scope has an ignored input under a verified root")
+    validate_recorded_scope_history(root, anchor, context, git)
+    return True
+
+
 def validate_qualified_source(root, plan, execution, configuration, defs, prefix, errors, record_refs=None):
     label = f"qualified tested source {plan['taskId']}"
     source = (execution.get('environmentCaptured') or {}).get('testedSource')
@@ -1339,6 +1472,9 @@ def validate_qualified_source(root, plan, execution, configuration, defs, prefix
             raise ValueError('referenced qualified evidence must not be ignored and untracked: '+', '.join(sorted(referenced & ignored)))
         if referenced & set(untracked):
             raise ValueError('referenced qualified evidence must be tracked: '+', '.join(sorted(referenced & set(untracked))))
+        if validate_recorded_source_scope(root, plan, source, execution.get("environmentCaptured") or {}, context,
+                                          git, record_refs, dirty, untracked, ignored):
+            return
         poc_task = f"POC-{int(plan['pocId'].split('-')[-1]):03d}"
         own_prefixes = tuple(str(Path(profile_index_ref(task,profile)).parent).replace('\\','/')+'/'
                              for task in sorted(TASKS) for profile in PROFILE_SCOPES)
@@ -1350,13 +1486,8 @@ def validate_qualified_source(root, plan, execution, configuration, defs, prefix
             header = before.split('---',2)[1] if before.startswith('---') else ''
             return (match is not None and len(re.findall(r'^status:',header,re.MULTILINE)) == 1
                     and after == match[1]+'completed'+match[2])
-        cursor=commit
-        deliveries=[]
-        for node in git('rev-list','--first-parent','--reverse',f'{commit}..{context}').splitlines():
-            paths=git('diff','--name-only',cursor,node).splitlines()
-            deliveries.append((paths,cursor,node))
-            cursor=node
-        if cursor!=context:deliveries.append((changed,commit,context))
+        deliveries = [(git("diff", "--name-only", before, after).splitlines(), before, after)
+                      for before, after in qualified_commit_edges(commit, context, git)]
         deliveries.append((dirty,context,None))
         for paths, before_ref, after_ref in deliveries:
             authenticated=qualified_lifecycle_delta_paths(root,before_ref,after_ref,git) if after_ref else set()
@@ -7847,9 +7978,13 @@ def validate_repository(root: Path, selected_profile=None, require_results=False
     ):
         secret_scan(value, name, errors)
     all_tasks = {t['taskId']:t for t in program_plan.get('tasks',[])}
-    validate_profile_evidence(root,by_task,all_tasks,program_schema,result_record_schema,
-        execution_schema,approval_schema,resource_map,selected_profile,require_results,
-        selected_pocs,errors)
+    scope_history = RECORDED_SCOPE_HISTORY.set(set())
+    try:
+        validate_profile_evidence(root, by_task, all_tasks, program_schema, result_record_schema,
+                                  execution_schema, approval_schema, resource_map, selected_profile, require_results,
+                                  selected_pocs, errors)
+    finally:
+        RECORDED_SCOPE_HISTORY.reset(scope_history)
     return errors
 
 
