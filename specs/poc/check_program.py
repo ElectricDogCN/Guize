@@ -1336,6 +1336,31 @@ def qualified_shared_input_digest(git, ref, roots, own_plan):
     return hashlib.sha256("\0".join(selected).encode("utf-8")).hexdigest()
 
 
+def validate_recorded_task_admission(history, root, after, task, definition, entry, registry,
+                                     plan, prior_plan, prior_ledger, errors):
+    label = f"recorded lifecycle admission for {task}"
+    if entry:
+        policy = registry.get("policy", {})
+        history.historical_lease(root, after, entry, policy, label, errors)
+        history.historical_capacity(root, task, registry, policy, after, after, label, errors)
+        history.historical_conflicts(task, entry, registry, label, errors)
+    admitted = {**history.mapping(prior_plan.get("foundationTasks")), **history.mapping(prior_plan.get("tasks"))}
+    current = {**history.mapping(plan.get("foundationTasks")), **history.mapping(plan.get("tasks"))}
+    registered_dependencies = set(entry.get("dependsOn") or [])
+    for dependency in sorted(registered_dependencies | set(definition.get("dependsOn") or [])):
+        if admitted.get(dependency, {}).get("status") != "completed" or current.get(dependency, {}).get("status") != "completed":
+            errors.append(f"{label} requires dependency {dependency} completed at the parent and current edge")
+            continue
+        if dependency in registered_dependencies:
+            merge = history.RECOVERY.completion_merge_sha(dependency, prior_plan, prior_ledger)
+            base_sha = str(entry.get("baseSha") or "")
+            if not merge or not re.fullmatch(r"[0-9a-f]{40}", base_sha) or not history.is_ancestor(root, merge, base_sha):
+                errors.append(f"{label} has no completed dependency {dependency} on its registered base")
+    for blocker in plan.get("externalBlockers") or []:
+        if task in (blocker.get("requiredFor") or ()) and blocker.get("status") != "resolved":
+            errors.append(f"{label} is subject to unresolved blocker {blocker.get('id')}")
+
+
 def validate_recorded_lifecycle_edge(history, root, before, after, paths, errors):
     transitions = history.TRANSITIONS
     prior, current, prior_active, current_active, prior_ledger, current_ledger = (
@@ -1362,6 +1387,7 @@ def validate_recorded_lifecycle_edge(history, root, before, after, paths, errors
         name: value for name, value in current_active.items() if name != "tasks"
     }:
         errors.append("recorded lifecycle edge changed Registry policy")
+    history.historical_registry_schema(root, after, current_active, "recorded lifecycle", errors)
     transitions.validate_active_program_scope(current, current_active, errors)
     transitions.validate_wave_activation(current, errors)
     if errors:
@@ -1385,6 +1411,9 @@ def validate_recorded_lifecycle_edge(history, root, before, after, paths, errors
             errors.append(f"recorded lifecycle changes a completed Task Spec for {task}")
         if task in mirrors and mirrors[task].get("status") != state:
             errors.append(f"recorded lifecycle POC mirror differs for {task}")
+        if state in history.ACTIVE_STATES or (state == "completed" and origin.get("status") != state):
+            validate_recorded_task_admission(history, root, after, task, destination, entries.get(task, {}),
+                                             current_active, current, prior, prior_ledger, errors)
         if state == "cancelled":
             transitions.validate_cancel_transition(root, before, after, "", task, *documents, errors)
         elif task in tasks and state == "completed" and origin.get("status") != state:

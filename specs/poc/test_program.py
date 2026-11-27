@@ -10821,6 +10821,13 @@ class TestEvidenceReadScope(unittest.TestCase):
 
 
 class TestRecordedSourceScope(unittest.TestCase):
+    def archive_documents(self, history):
+        root = HERE.parents[1]
+        anchor = load_yaml(root / CHECK.RECORDED_SCOPE_REF)["archiveMain"]
+        documents = [yaml.safe_load(subprocess.check_output(["git", "show", f"{anchor}:{path}"], cwd=root))
+                     for path in (history.PLAN, history.ACTIVE, history.LEDGER)]
+        return root, anchor, documents
+
     def test_source_on_merge_side_uses_real_parent_edges(self):
         def git(*args):
             self.assertEqual(args, ("rev-list", "--parents", "--ancestry-path=tested", "tested..current"))
@@ -10846,20 +10853,32 @@ class TestRecordedSourceScope(unittest.TestCase):
 
     def test_unregistered_lifecycle_status_edit_is_rejected(self):
         history = CHECK.qualified_history_library()
-        root = HERE.parents[1]
-        plan, active, ledger = (load_yaml(root / path) for path in (history.PLAN, history.ACTIVE, history.LEDGER))
+        root, anchor, (plan, active, ledger) = self.archive_documents(history)
         changed = copy.deepcopy(plan)
         task = next(row for row in changed["tasks"] if row["taskId"] == "GZ-012")
         self.assertEqual(task["status"], "planned")
         task["status"] = "in_progress"
-        snapshots = {("base", history.PLAN): plan, ("head", history.PLAN): changed}
-        for ref in ("base", "head"):
+        snapshots = {("base", history.PLAN): plan, (anchor, history.PLAN): changed}
+        for ref in ("base", anchor):
             snapshots[ref, history.ACTIVE] = active
             snapshots[ref, history.LEDGER] = ledger
         errors = []
         with mock.patch.object(history, "load_ref", side_effect=lambda _root, ref, path: snapshots[ref, path]):
-            CHECK.validate_recorded_lifecycle_edge(history, str(root), "base", "head", {history.PLAN}, errors)
+            CHECK.validate_recorded_lifecycle_edge(history, str(root), "base", anchor, {history.PLAN}, errors)
         self.assertTrue(any("GZ-012" in message and "Registry" in message for message in errors), errors)
+
+    def test_expired_lease_and_incomplete_dependency_are_rejected_at_registration(self):
+        history = CHECK.qualified_history_library()
+        root, anchor, (plan, registry, ledger) = self.archive_documents(history)
+        definition = next(row for row in plan["tasks"] if row["taskId"] == "POC-007")
+        entry = copy.deepcopy(next(row for row in registry["tasks"] if row["taskId"] == "POC-007"))
+        entry["lease"]["expiresAt"] = entry["lease"]["acquiredAt"]
+        definition = dict(definition, dependsOn=["GZ-012"])
+        errors = []
+        CHECK.validate_recorded_task_admission(history, str(root), anchor, "POC-007", definition, entry, registry,
+                                                plan, plan, ledger, errors)
+        self.assertTrue(any("lease is invalid" in message for message in errors), errors)
+        self.assertTrue(any("GZ-012" in message and "completed" in message for message in errors), errors)
 
     def test_scope_binds_archive_records_and_runtime_without_rebinding_source(self):
         task = "POC-003"
