@@ -162,7 +162,7 @@ foundationTasks:
     mergeCommit: b5157a68fa16d83fc2fa44395b95cb15b3d67a35
   - taskId: OPS-033
     title: 为一期已规划任务新增受控实施拆分准入
-    status: in_progress
+    status: review
     completionRef: ISSUE-331
     mergeCommit: null
 waves:

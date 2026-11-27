@@ -45,3 +45,7 @@ Observed local candidate b8bff46b
 Command: python -B scripts/check-program-plan-finalization.py --base-ref c21dcba7844b448d523bdd40a13084471a082544 --head-ref b8bff46b9efdbaec4c039ba72d4ea13d1e7b6060 --task OPS-033
 Result: Catalog, Task and registry disagreed on activation status. Rebuilt activation fafe2ad0 updates all three together before implementation.
 Exit Code: 1
+
+Actual implementation main cd659e3d
+14 exact local checks exited 0. Original commands and exit codes: implementation-main-cd659e3d/actual-main-controls.original.json
+Official run: https://github.com/ElectricDogCN/Guize/actions/runs/45948334755

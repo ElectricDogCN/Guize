@@ -1,5 +1,21 @@
 # 变更路径
 
+## 正式 Review 的 11 条路径
+
+- `evidence/OPS-033/changed-files.md`
+- `evidence/OPS-033/commands.txt`
+- `evidence/OPS-033/handoff.md`
+- `evidence/OPS-033/implementation-main-cd659e3d/.gitattributes`
+- `evidence/OPS-033/implementation-main-cd659e3d/actual-main-controls.original.json`
+- `evidence/OPS-033/implementation-main-cd659e3d/independent-review.original.json`
+- `evidence/OPS-033/summary.md`
+- `evidence/OPS-033/test-results/README.md`
+- `specs/coordination/active-work.yaml`
+- `specs/coordination/program-plan.yaml`
+- `specs/tasks/OPS-033.md`
+
+## 原实施历史
+
 ## 当前实施的 16 条路径
 
 - `evidence/OPS-033/changed-files.md`

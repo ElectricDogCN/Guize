@@ -1,0 +1,95 @@
+{
+  "schemaVersion": 1,
+  "taskId": "OPS-033",
+  "phase": "actual main implementation",
+  "actualMainCommit": "cd659e3d08b335be9c0866f6699bd6b0ef0534e9",
+  "sourceCommit": "ac0a0cc3f8fb82d0023c31dd4fd192497f05d7e8",
+  "baseCommit": "c21dcba7844b448d523bdd40a13084471a082544",
+  "sourceTree": "1de233e67037ee2fc45f4f364ea3020eaa91a7f0",
+  "mergePreview": "0a0af1267343fd193e30c6e805b0d9222902c72a",
+  "affectedTaskIds": [
+    "OPS-033"
+  ],
+  "changedPathCount": 16,
+  "activeTasks": 3,
+  "highRiskTasks": 1,
+  "officialRunId": 45948334755,
+  "officialCiAccepted": false,
+  "localControls": [
+    {
+      "command": "git diff --check c21dcba7844b448d523bdd40a13084471a082544...cd659e3d08b335be9c0866f6699bd6b0ef0534e9",
+      "exitCode": 0,
+      "toolChunk": "0e730c"
+    },
+    {
+      "command": "git diff --exit-code c21dcba7844b448d523bdd40a13084471a082544 cd659e3d08b335be9c0866f6699bd6b0ef0534e9 -- .github AGENTS.md specs/coordination/task-completions.yaml",
+      "exitCode": 0,
+      "toolChunk": "0e730c"
+    },
+    {
+      "command": "git diff --exit-code ac0a0cc3 cd659e3d08b335be9c0866f6699bd6b0ef0534e9",
+      "exitCode": 0,
+      "toolChunk": "0e730c"
+    },
+    {
+      "command": "python -B scripts/check-program-plan-integrity.py --base-ref c21dcba7844b448d523bdd40a13084471a082544",
+      "exitCode": 0,
+      "toolChunk": "d7b58c"
+    },
+    {
+      "command": "python -B scripts/check-program-plan-history.py --base-ref c21dcba7844b448d523bdd40a13084471a082544 --head-ref cd659e3d08b335be9c0866f6699bd6b0ef0534e9",
+      "exitCode": 0,
+      "toolChunk": "d7b58c"
+    },
+    {
+      "command": "python -B scripts/check-program-plan-transitions.py --base-ref c21dcba7844b448d523bdd40a13084471a082544 --head-ref cd659e3d08b335be9c0866f6699bd6b0ef0534e9",
+      "exitCode": 0,
+      "toolChunk": "85bd3a"
+    },
+    {
+      "command": "python -B scripts/check-program-plan-finalization.py --base-ref c21dcba7844b448d523bdd40a13084471a082544 --head-ref cd659e3d08b335be9c0866f6699bd6b0ef0534e9",
+      "exitCode": 0,
+      "toolChunk": "85bd3a"
+    },
+    {
+      "command": "python -B scripts/check-program-lifecycle-guards.py --base-ref c21dcba7844b448d523bdd40a13084471a082544 --head-ref cd659e3d08b335be9c0866f6699bd6b0ef0534e9",
+      "exitCode": 0,
+      "toolChunk": "4cab9e"
+    },
+    {
+      "command": "python -B scripts/run-agent-coordination-gate.py",
+      "exitCode": 0,
+      "toolChunk": "002045"
+    },
+    {
+      "command": "python -B scripts/check-task-file.py --task OPS-033",
+      "exitCode": 0,
+      "toolChunk": "002045"
+    },
+    {
+      "command": "python -B scripts/check-evidence.py --task OPS-033",
+      "exitCode": 0,
+      "toolChunk": "002045"
+    },
+    {
+      "command": "python -B scripts/check-markdown.py",
+      "exitCode": 0,
+      "toolChunk": "002045"
+    },
+    {
+      "command": "python -B scripts/check-schemas.py",
+      "exitCode": 0,
+      "toolChunk": "002045"
+    },
+    {
+      "command": "python -B scripts/check-project-readiness.py",
+      "exitCode": 0,
+      "toolChunk": "6ac2e3"
+    }
+  ],
+  "readinessProjectWarnings": [
+    "GitHub main branch protection/Ruleset remains an external blocker",
+    "Machine contracts not frozen for 10 requirements",
+    "Implementation not verified for 10 requirements"
+  ]
+}
