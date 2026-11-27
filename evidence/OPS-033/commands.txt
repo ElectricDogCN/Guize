@@ -51,3 +51,12 @@ Command: python -B -m pytest --collect-only -q --color=no -p no:cacheprovider te
 Result: 1101 collected, original 1093 retained by exact case ID and 8 added
 Sorted candidate collection SHA256: 06e39b30f10307af758c62ce2ec69d14440dee77b5e8ff0f2250a49ded9ee293
 Exit Code: 0
+
+Observed at implementation source 865ff4a70daec58b2c340c81ac9a11acfd634de5
+Command: python -B -m pytest -q -p no:cacheprovider tests/governance/test_program_planning_revision.py -k 'test_exact_three_target_transaction or test_fixed_first_use_authenticates_real_canonical_reservation or test_actual_completed_producer_provenance_retained or test_immutable_data_cache_does_not_cache_aliases'
+Result: 4 passed, 151 deselected in 87.02s
+Exit Code: 0
+
+Command: python -B scripts/run-task-scope-gate.py --task OPS-033 --base fd90de5d1244efc016eb5871a7011704c889299f
+Result: Own Evidence paths were absent from the explicit Task allowed listing
+Exit Code: 1
