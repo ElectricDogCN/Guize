@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "taskId": "OPS-033",
+  "base": "fd90de5d1244efc016eb5871a7011704c889299f",
+  "priorClaims": [
+    "scripts/program-planning-revision.py",
+    "scripts/check-program-plan-integrity.py",
+    "specs/coordination/program-plan.schema.yaml",
+    "specs/coordination/planning-revision.schema.yaml",
+    "specs/coordination/README.md",
+    "tests/governance/test_program_planning_revision.py",
+    "tests/governance/test_program_plan_execution_integrity.py"
+  ],
+  "claims": [
+    "scripts/program-planning-revision.py",
+    "scripts/check-program-plan-integrity.py",
+    "specs/coordination/program-plan.schema.yaml",
+    "specs/coordination/planning-revision.schema.yaml",
+    "specs/coordination/README.md",
+    "tests/governance/test_program_planning_revision.py",
+    "tests/governance/test_program_plan_execution_integrity.py",
+    "scripts/check-program-plan-history.py"
+  ],
+  "protectedBlobs": {
+    "specs/coordination/program-plan.yaml": "8566ad0b0c238ef44bedd93201a8552763da87ad",
+    "specs/coordination/task-completions.yaml": "34f993166e91fcc9bd5d85ba5894800fe1e6bf44",
+    "AGENTS.md": "f3d6d33133a67eb7689ca3fa5f04424ceb3a89ee"
+  },
+  "additionalPathBlobs": {
+    "scripts/check-program-plan-history.py": "c306750d90f02191c367f51e7852204ea14399f5"
+  },
+  "lease": {
+    "acquiredAt": "2026-11-27T03:09:05Z",
+    "expiresAt": "2026-12-04T03:09:05Z"
+  },
+  "previousImplementation": "1a6165051d1ccfffae657b82afc48f835880487f",
+  "failedOfficialJob": "https://github.com/ElectricDogCN/Guize/actions/runs/45939824377/job/140311321246",
+  "candidateInputSha256": {
+    "specs/coordination/program-plan.schema.yaml": "dab4ab80bfed3caf5ab87629880ba54831d90271fad1c274a45b0e649b7d0c72",
+    "scripts/program-planning-revision.py": "eb75eb95e29f07a30a8e8ebdcec91b2e7609ffbc688d2b34de80f9676c9009b8"
+  }
+}

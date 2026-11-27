@@ -107,6 +107,13 @@ Foundation 后续范围修订须先在实际集成基线的第一父历史中完
 
 普通定义和 baseline 的实际 Git 两端均未变时，分类回调不生成任何投影或规划权限；相关生命周期继续由原门禁处理。消费者按真实 Registry、Task Spec 身份和代码 diff 识别，实际消费者准入仍校验完整图和 producer 完成历史。仅已 completed、Registry 中不存在、Program/完整 Task/Own Evidence/账本均未变的历史 CLI 上下文不会替代唯一真正执行者；其他错误上下文继续拒绝。Git 数据缓存只绑定规范仓库路径、完整不可变 commit SHA 和路径，解析结果返回深拷贝；引用别名每次重新解析，租约、时间、权限和准入结论均不缓存。
 
+## 一期实施任务拆分
+
+`v1ImplementationSplits` 记录已准入的新实施任务与原一期任务的归属。固定的原 27 项成员、最终任务、POC 清单和 Agent Edge 定义沿用原约定。实施任务继承原任务的类型、工作包和允许范围，使用自身 Evidence。现有需求、模块、依赖和契约形成范围上限。原任务依赖实施任务，GZ-020 最终闭合必须包含实施任务。
+
+`evidence/<TASK-ID>/v1-implementation-split.json` 由独立规划任务在实际主线完成原始登记，经 Planning Schema 的 `v1ImplementationSplit` 片段校验。声明绑定 Issue、登记父提交、原父任务定义摘要和一个未启动实施任务。实施事务新增一条归属、新任务定义及原父任务的新依赖边。所有既有父任务字段和依赖由精确比较保护。历史检查验证原始声明和中间提交。旧规划声明保持其原有权限。
+
+
 ## 固定 AGENT-EDGE-104 范围与独立声明
 
 `scopeBoundary` 仅承载一个固定扩展：`v1TaskIds` 精确保留原27项成员，`v1FinalTask` 固定为 `GZ-020`；`agentEdge104` 的 ID、Issue104、planner GZ-022 与需求/索引路径均固定。旧计划没有此字段仍可读取；新增范围不能迁出 V1 成员、缩减原十项需求/十二验收或生产门禁，也不能改变旧 POC、历史账本、公共政策或原始声明。

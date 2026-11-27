@@ -1,0 +1,63 @@
+OPS-033 reservation candidate b54476514db1531c16d50ec22274044b82605292
+Working directory: repository root
+Environment: PYTHONUTF8=1
+
+Command: python -B scripts/check-task-file.py --task OPS-033
+Exit Code: 0
+
+Command: python -B scripts/check-evidence.py --task OPS-033
+Exit Code: 0
+
+Command: python -B scripts/check-schemas.py
+Exit Code: 0
+
+Command: python -B scripts/check-markdown.py
+Exit Code: 0
+
+Command: python -B scripts/check-program-plan-integrity.py --base-ref 4aa7402d5a45555fa1c063ec6366c4efd8f5c33f
+Exit Code: 0
+
+Command: python -B scripts/check-program-plan-history.py --base-ref 4aa7402d5a45555fa1c063ec6366c4efd8f5c33f --head-ref b54476514db1531c16d50ec22274044b82605292
+Exit Code: 0
+
+Command: python -B scripts/check-program-plan-transitions.py --base-ref 4aa7402d5a45555fa1c063ec6366c4efd8f5c33f --head-ref b54476514db1531c16d50ec22274044b82605292 --task OPS-033
+Exit Code: 0
+
+Command: python -B scripts/run-program-lifecycle-gate.py --base-ref 4aa7402d5a45555fa1c063ec6366c4efd8f5c33f --head-ref b54476514db1531c16d50ec22274044b82605292 --task OPS-033 --branch-name chore/OPS-033-v1-split-reservation
+Exit Code: 0
+
+Command: python -B scripts/run-task-scope-gate.py --task OPS-033 --base 4aa7402d5a45555fa1c063ec6366c4efd8f5c33f
+Exit Code: 0
+
+Command: python -B scripts/run-agent-coordination-gate.py --task OPS-033 --base-ref 4aa7402d5a45555fa1c063ec6366c4efd8f5c33f --head-ref b54476514db1531c16d50ec22274044b82605292 --branch-name chore/OPS-033-v1-split-reservation
+Exit Code: 0
+
+Command: git diff --check 4aa7402d5a45555fa1c063ec6366c4efd8f5c33f b54476514db1531c16d50ec22274044b82605292
+Exit Code: 0
+
+Observed isolated Linux reproduction of the history cache correction
+Source: 1a6165051d1ccfffae657b82afc48f835880487f and one-file patch SHA256 7a3885bdf0847abc35081a168dd49dba7b69e390183fc4817bb8c4ec05fa2d77
+Command: python -B -m pytest -q -p no:cacheprovider tests/governance/test_program_schema_cache.py
+Result: 47 passed, no failed, skipped or error cases
+Exit Code: 0
+
+Observed local candidate b8bff46b
+Command: python -B scripts/check-program-plan-finalization.py --base-ref c21dcba7844b448d523bdd40a13084471a082544 --head-ref b8bff46b9efdbaec4c039ba72d4ea13d1e7b6060 --task OPS-033
+Result: Catalog, Task and registry disagreed on activation status. Rebuilt activation fafe2ad0 updates all three together before implementation.
+Exit Code: 1
+
+Actual implementation main cd659e3d
+14 exact local checks exited 0. Original commands and exit codes: implementation-main-cd659e3d/actual-main-controls.original.json
+Official run: https://github.com/ElectricDogCN/Guize/actions/runs/45948334755
+
+Actual Review main 18309104
+14 exact local checks exited 0. Commands and results: accepted-review-18309104/actual-main-controls.original.json
+Official run: https://github.com/ElectricDogCN/Guize/actions/runs/45954923866
+Issue #331 state observed through GitHub update on 2026-11-27T07:16:28Z: closed/completed.
+
+实际 Review 的已验证记录 OPS-033
+Implementation Merge: cd659e3d08b335be9c0866f6699bd6b0ef0534e9
+Source Commit: 18309104113cbc879fb1789c91206d47b8c33f29
+Command: python -B scripts/check-program-plan-integrity.py --base-ref cd659e3d08b335be9c0866f6699bd6b0ef0534e9
+Exit Code: 0
+Result: PASS

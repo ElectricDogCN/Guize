@@ -485,6 +485,27 @@ class TestIntegrity(unittest.TestCase):
             self.assertIn("GZ-019", result.stdout)
             self.assertIn("does not transitively depend", result.stdout)
 
+    def test_v1_release_closure_includes_admitted_implementation_split(self):
+        with tempfile.TemporaryDirectory() as root:
+            plan, active, modules, ledger = self.fixed_planning_documents()
+            parent = next(task for task in plan["tasks"] if task["taskId"] == "GZ-012")
+            parent["kind"] = "scaffold"
+            child = dict(parent, taskId="GZ-031", title="Core startup",
+                         dependsOn=["GZ-004"], outputPaths=["docs/governance/GZ-012/core/**"])
+            parent["dependsOn"].append(child["taskId"])
+            plan["tasks"].append(child)
+            plan["v1ImplementationSplits"] = {child["taskId"]: parent["taskId"]}
+            self.prepare(root, plan, active, modules, ledger)
+            result = self.run_script(root)
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+            final = next(task for task in plan["tasks"] if task["taskId"] == "GZ-020")
+            final["dependsOn"].remove(parent["taskId"])
+            self.write_yaml(root, "specs/coordination/program-plan.yaml", plan)
+            result = self.run_script(root)
+            self.assertNotEqual(result.returncode, 0)
+            self.assertIn("V1 final task omits implementation splits", result.stdout)
+
     def test_follow_up_scope_does_not_waive_real_cross_scope_dependency(self):
         with tempfile.TemporaryDirectory() as root:
             plan, active, modules, ledger = self.fixed_planning_documents()

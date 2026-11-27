@@ -97,6 +97,11 @@ properties:
         - {$ref: '#/$defs/task'}
         - {$ref: '#/$defs/edgeTask'}
   scopeBoundary: {$ref: '#/$defs/fixedScopeBoundary'}
+  v1ImplementationSplits:
+    type: object
+    minProperties: 1
+    propertyNames: {pattern: '^GZ-[0-9]{3}$'}
+    additionalProperties: {$ref: '#/$defs/taskId'}
   planningBaselines:
     type: array
     minItems: 1
