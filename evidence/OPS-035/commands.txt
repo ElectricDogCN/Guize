@@ -1,0 +1,21 @@
+# OPS-035 命令与退出码
+
+Windows 本地使用 PYTHONUTF8=1。
+
+git diff --check cb51148e41e8b420a5c58fb928d5bc84bdacb89c...HEAD
+python scripts/check-task-file.py --task OPS-035
+python scripts/check-schemas.py
+python scripts/check-program-plan-integrity.py --base-ref cb51148e41e8b420a5c58fb928d5bc84bdacb89c
+python scripts/check-program-plan-history.py --base-ref cb51148e41e8b420a5c58fb928d5bc84bdacb89c --head-ref HEAD --task OPS-035 --branch-name chore/OPS-035-poc-dependency-admission
+python scripts/check-program-plan-transitions.py --base-ref cb51148e41e8b420a5c58fb928d5bc84bdacb89c --head-ref HEAD --task OPS-035 --branch-name chore/OPS-035-poc-dependency-admission
+python scripts/check-program-lifecycle-guards.py --base-ref cb51148e41e8b420a5c58fb928d5bc84bdacb89c --head-ref HEAD --task OPS-035 --branch-name chore/OPS-035-poc-dependency-admission
+python scripts/run-program-lifecycle-gate.py --base-ref cb51148e41e8b420a5c58fb928d5bc84bdacb89c --head-ref HEAD --task OPS-035 --branch-name chore/OPS-035-poc-dependency-admission
+python scripts/run-agent-coordination-gate.py --base-ref cb51148e41e8b420a5c58fb928d5bc84bdacb89c --head-ref HEAD --task OPS-035 --branch-name chore/OPS-035-poc-dependency-admission
+python scripts/check-program-plan-finalization.py --base-ref cb51148e41e8b420a5c58fb928d5bc84bdacb89c --head-ref HEAD --task OPS-035
+python scripts/run-task-scope-gate.py --task OPS-035 --base cb51148e41e8b420a5c58fb928d5bc84bdacb89c
+python scripts/check-evidence.py --task OPS-035
+python scripts/check-project-readiness.py
+python scripts/check-markdown.py
+python -m pytest tests/governance
+
+待按实际运行填写退出码。
