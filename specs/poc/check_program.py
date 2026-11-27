@@ -1336,32 +1336,106 @@ def qualified_shared_input_digest(git, ref, roots, own_plan):
     return hashlib.sha256("\0".join(selected).encode("utf-8")).hexdigest()
 
 
+def validate_recorded_lifecycle_edge(history, root, before, after, paths, errors):
+    transitions = history.TRANSITIONS
+    prior, current, prior_active, current_active, prior_ledger, current_ledger = (
+        history.load_ref(root, ref, path)
+        for path in (history.PLAN, history.ACTIVE, history.LEDGER) for ref in (before, after)
+    )
+    documents = prior, current, prior_active, current_active, prior_ledger, current_ledger
+    if not all(isinstance(item, dict) for item in documents):
+        errors.append("cannot read the recorded Programme lifecycle documents")
+        return
+    lifecycle_fields = {"tasks", "pocs", "foundationTasks", "status", "recovery"}
+    prior_policy = {name: value for name, value in prior.items() if name not in lifecycle_fields}
+    current_policy = {name: value for name, value in current.items() if name not in lifecycle_fields}
+    old_tasks, tasks = (history.mapping(plan.get("tasks")) for plan in (prior, current))
+    old_foundations, foundations = (history.mapping(plan.get("foundationTasks")) for plan in (prior, current))
+    planning = None
+    if prior_policy != current_policy or set(old_tasks) != set(tasks):
+        planning = history.PLANNING.classifier(root, before, after, prior, current, errors,
+                                               observed_at=history.PLANNING.commit_time(root, after))
+        if not planning:
+            errors.append("unproved Programme policy or task-definition change")
+            return
+    if {name: value for name, value in prior_active.items() if name != "tasks"} != {
+        name: value for name, value in current_active.items() if name != "tasks"
+    }:
+        errors.append("recorded lifecycle edge changed Registry policy")
+    transitions.validate_active_program_scope(current, current_active, errors)
+    transitions.validate_wave_activation(current, errors)
+    if errors:
+        return
+    affected = history.RECOVERY.task_ids_from_diff(*documents, paths)
+    old_mirrors, mirrors = (history.mapping(plan.get("pocs")) for plan in (prior, current))
+    affected.update(task for task in old_mirrors.keys() | mirrors.keys() if old_mirrors.get(task) != mirrors.get(task))
+    if planning:
+        affected.difference_update(planning["targetTaskIds"])
+        affected.add(planning["owner"])
+    history.PLANNING.enforce_consumers(root, before, after, prior, current, affected, paths, errors)
+    actors = transitions.check_actor_range(root, before, after, errors)
+    branches = transitions.check_work_branch_range(root, before, after, errors)
+    entries = history.mapping(current_active.get("tasks"))
+    for task in sorted(affected):
+        origin = old_tasks.get(task) or old_foundations.get(task) or {}
+        destination = tasks.get(task) or foundations.get(task) or {}
+        state = destination.get("status")
+        task_file = history.find_task_path(root, task, after)
+        if state == origin.get("status") == "completed" and task_file in paths:
+            errors.append(f"recorded lifecycle changes a completed Task Spec for {task}")
+        if task in mirrors and mirrors[task].get("status") != state:
+            errors.append(f"recorded lifecycle POC mirror differs for {task}")
+        if state == "cancelled":
+            transitions.validate_cancel_transition(root, before, after, "", task, *documents, errors)
+        elif task in tasks and state == "completed" and origin.get("status") != state:
+            history.validate_regular_completion(root, task, *documents, before, after, "", errors)
+            record = history.RECOVERY.completion_record(current_ledger, task)
+            if record is None:
+                errors.append(f"recorded lifecycle Completion has no record for {task}")
+            else:
+                history.validate_reservation_snapshot(root, record, errors)
+        elif state in history.ACTIVE_STATES:
+            entry = entries.get(task, {})
+            if task in foundations and task not in old_foundations:
+                if state != "reserved" or not history.foundation_reservation(root, task, after, entry, errors):
+                    errors.append(f"recorded lifecycle has no original Foundation registration for {task}")
+                continue
+            effective = planning["projectedPlan"] if planning and task == planning["owner"] else current
+            fields = actors.get(task, frozenset()) | branches.get(task, frozenset())
+            transitions.validate_active_transition(root, before, after, task, prior, effective,
+                                                   prior_active, current_active, errors, fields)
+            if len(affected) == 1 and task_file:
+                exact, prefixes = history.RECOVERY.allowed_metadata_paths(task, task_file, False)
+                claims = (entry.get("exclusivePaths") or []) + (entry.get("sharedPaths") or [])
+                if any(not history.RECOVERY.path_allowed(path, exact, prefixes, claims) for path in paths):
+                    errors.append(f"recorded lifecycle edge changes paths outside the registered scope for {task}")
+            front, body = history.parse_front_matter(history.read_ref(root, after, task_file or ""))
+            if front.get("status") != state or front.get("agentRole") != entry.get("agentRole"):
+                errors.append(f"recorded lifecycle Task/Registry status or role differs for {task}")
+            history.stable_spec_matches(task, entry, front, body, errors, reservation=True)
+        elif state not in {"completed", origin.get("status")} or not destination:
+            errors.append(f"unproved recorded lifecycle transition for {task}")
+    if affected & (old_foundations.keys() | foundations.keys()):
+        history.validate_foundations(root, *documents, before, after, "", errors)
+
+
 def validate_recorded_scope_history(root, base, context, git):
-    """Apply the existing historical governance validator to the subsequent actual edges."""
+    """Apply the historical and ordinary governance checks at each subsequent actual edge."""
     accepted = RECORDED_SCOPE_HISTORY.get()
     key = (root.resolve(), base, context)
     if accepted is not None and key in accepted:
         return
     history = qualified_history_library()
-    governance_paths = (history.PLAN, history.ACTIVE, history.LEDGER)
-    lifecycle_fields = {"tasks", "pocs", "foundationTasks", "status", "recovery"}
+    governance_paths = (history.PLAN, history.ACTIVE, history.LEDGER, "specs/tasks")
     checked = {base}
     for before, after in qualified_commit_edges(base, context, git):
-        paths = set(git("diff", "--name-only", "--no-renames", before, after, "--", *governance_paths).splitlines())
-        if paths:
+        metadata = set(git("diff", "--name-only", "--no-renames", before, after, "--", *governance_paths).splitlines())
+        if metadata:
+            paths = set(git("diff", "--name-only", "--no-renames", before, after).splitlines())
             errors = []
-            if history.PLAN in paths:
-                prior, current = (history.load_ref(str(root), ref, history.PLAN) for ref in (before, after))
-                if not isinstance(prior, dict) or not isinstance(current, dict):
-                    raise ValueError("recorded source scope cannot read the Programme history")
-                prior_policy = {field: value for field, value in prior.items() if field not in lifecycle_fields}
-                current_policy = {field: value for field, value in current.items() if field not in lifecycle_fields}
-                if prior_policy != current_policy:
-                    planning = history.PLANNING.classifier(str(root), before, after, prior, current, errors,
-                                                           observed_at=history.PLANNING.commit_time(str(root), after))
-                    if not planning:
-                        errors.append("unproved Programme policy change")
-            history.historical_post_metadata(str(root), before, after, "OPS-036", paths, errors, base, checked)
+            validate_recorded_lifecycle_edge(history, str(root), before, after, paths, errors)
+            if not errors:
+                history.historical_post_metadata(str(root), before, after, "OPS-036", metadata, errors, base, checked)
             if errors:
                 raise ValueError("recorded source scope governance history rejected: " + errors[0])
         checked.add(after)

@@ -10844,6 +10844,23 @@ class TestRecordedSourceScope(unittest.TestCase):
         self.assertNotEqual(digest(*rows), digest(rows[0].replace("100644", "100755"), *rows[1:]))
         self.assertNotEqual(digest(*rows), digest(*rows, "100644 blob new\tspecs/poc/additional.yaml"))
 
+    def test_unregistered_lifecycle_status_edit_is_rejected(self):
+        history = CHECK.qualified_history_library()
+        root = HERE.parents[1]
+        plan, active, ledger = (load_yaml(root / path) for path in (history.PLAN, history.ACTIVE, history.LEDGER))
+        changed = copy.deepcopy(plan)
+        task = next(row for row in changed["tasks"] if row["taskId"] == "GZ-012")
+        self.assertEqual(task["status"], "planned")
+        task["status"] = "in_progress"
+        snapshots = {("base", history.PLAN): plan, ("head", history.PLAN): changed}
+        for ref in ("base", "head"):
+            snapshots[ref, history.ACTIVE] = active
+            snapshots[ref, history.LEDGER] = ledger
+        errors = []
+        with mock.patch.object(history, "load_ref", side_effect=lambda _root, ref, path: snapshots[ref, path]):
+            CHECK.validate_recorded_lifecycle_edge(history, str(root), "base", "head", {history.PLAN}, errors)
+        self.assertTrue(any("GZ-012" in message and "Registry" in message for message in errors), errors)
+
     def test_scope_binds_archive_records_and_runtime_without_rebinding_source(self):
         task = "POC-003"
         plan = {"taskId": task, "pocId": "POC-03"}
