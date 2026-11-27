@@ -1,4 +1,14 @@
-# OPS-034 规划实施交接
+# OPS-034 正式 Review 交接
+
+- [Issue #337](https://github.com/ElectricDogCN/Guize/issues/337)，当前阶段为 review，角色为 reviewer，工作分支 `chore/OPS-034-v1-core-planning`，本次基线为已验收实际主线 `74d653e0d1bf723382b8879f746973371216443e`。
+- 独立 Reviewer 为 `/root/independent_review`，Integrator 为 `/root`。沿用登记集成序号 26 和 2026-12-04T07:21:42Z 到期的租约。
+- [Review 路径](changed-files.md) · [命令与实测结果](commands.txt) · [主线独立终验原件](implementation-main-74d653e0/independent-review.original.json) · [实际主线本地公开摘要](implementation-main-74d653e0/actual-main-controls.summary.json)。
+- 本次 Review 的首个固定受检候选为 `48f9112759f177be8f54995573bd3a4e8f84fb28`，11 个路径只属于 OPS-034。补证调整当前交接和实测命令记录。补证头与全量 CI 通过 PR 固定。
+- 下一步由独立 Reviewer 核对补证源、完整官方 CI 和真实预览。Integrator 在合入后复核实际主线及完整 CI，再执行正常结项。撤回未合入的 Review 候选时保留已受验实施和本任务有效登记。
+
+## 历史规划实施交接
+
+以下内容对应当时的实施基线和角色，供追溯原始范围与结果。
 
 - [Issue #337](https://github.com/ElectricDogCN/Guize/issues/337)，当前为 in_progress／implementer，工作分支 `chore/OPS-034-v1-core-planning`，实际登记父 `2fc6778ec0389cede37855a456202ce4ce019856`。
 - 激活提交 `132b4c4e502608992740e603e0d2c98478d7fc22`，固定受检实施源 `2add3ca389c3aecfeb8366f804ad5b5f61469712`。本交接的补证只写自身 Evidence，最新源和完整官方结果由同头 PR 记录绑定。

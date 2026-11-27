@@ -103,3 +103,65 @@ exit 0
 
 原始结构化回执 test-results/initial-reservation-controls.json
 SHA-256 41fdd415e5237a7978ca355e2560047f1b9a71ddc540f901adc602e0b0b19e9f
+
+正常 Review 首个固定候选的 Windows 原生结果
+Source: 48f9112759f177be8f54995573bd3a4e8f84fb28
+Base: 74d653e0d1bf723382b8879f746973371216443e
+Private original receipt SHA-256: d60530a3a43c3e0804cc2c8255109374d2f5e08f31b7c74afff1ce6909b83483
+python 表示该次原生 Python 3.12.4。以下命令省略本机解释器路径。
+
+Command: git diff --check 74d653e0d1bf723382b8879f746973371216443e 48f9112759f177be8f54995573bd3a4e8f84fb28
+Exit Code: 0
+Elapsed Seconds: 0.09
+
+Command: git diff --exit-code 74d653e0d1bf723382b8879f746973371216443e 48f9112759f177be8f54995573bd3a4e8f84fb28 -- scripts tests .github AGENTS.md evidence/OPS-034/v1-implementation-split.json specs/coordination/task-completions.yaml
+Exit Code: 0
+Elapsed Seconds: 0.08
+
+Command: python -B scripts/check-program-plan-integrity.py --base-ref 74d653e0d1bf723382b8879f746973371216443e
+Exit Code: 0
+Elapsed Seconds: 37.66
+
+Command: python -B scripts/check-program-plan-history.py --base-ref 74d653e0d1bf723382b8879f746973371216443e --head-ref 48f9112759f177be8f54995573bd3a4e8f84fb28 --task OPS-034 --branch-name chore/OPS-034-v1-core-planning
+Exit Code: 0
+Elapsed Seconds: 466.44
+
+Command: python -B scripts/check-program-plan-transitions.py --base-ref 74d653e0d1bf723382b8879f746973371216443e --head-ref 48f9112759f177be8f54995573bd3a4e8f84fb28 --task OPS-034 --branch-name chore/OPS-034-v1-core-planning
+Exit Code: 0
+Elapsed Seconds: 19.0
+
+Command: python -B scripts/check-program-plan-finalization.py --base-ref 74d653e0d1bf723382b8879f746973371216443e --head-ref 48f9112759f177be8f54995573bd3a4e8f84fb28 --task OPS-034
+Exit Code: 0
+Elapsed Seconds: 0.7
+
+Command: python -B scripts/run-program-lifecycle-gate.py --base-ref 74d653e0d1bf723382b8879f746973371216443e --head-ref 48f9112759f177be8f54995573bd3a4e8f84fb28 --task OPS-034 --branch-name chore/OPS-034-v1-core-planning
+Exit Code: 0
+Elapsed Seconds: 33.09
+
+Command: python -B scripts/run-agent-coordination-gate.py --base-ref 74d653e0d1bf723382b8879f746973371216443e --head-ref 48f9112759f177be8f54995573bd3a4e8f84fb28 --task OPS-034 --branch-name chore/OPS-034-v1-core-planning
+Exit Code: 0
+Elapsed Seconds: 1.36
+
+Command: python -B scripts/run-task-scope-gate.py --task OPS-034 --base 74d653e0d1bf723382b8879f746973371216443e
+Exit Code: 0
+Elapsed Seconds: 516.55
+
+Command: python -B scripts/check-task-file.py --task OPS-034
+Exit Code: 0
+Elapsed Seconds: 0.17
+
+Command: python -B scripts/check-evidence.py --task OPS-034
+Exit Code: 0
+Elapsed Seconds: 0.11
+
+Command: python -B scripts/check-markdown.py
+Exit Code: 0
+Elapsed Seconds: 0.67
+
+Command: python -B scripts/check-schemas.py
+Exit Code: 0
+Elapsed Seconds: 6.38
+
+Command: python -B scripts/check-project-readiness.py
+Exit Code: 0
+Elapsed Seconds: 145.66
