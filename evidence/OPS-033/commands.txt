@@ -34,3 +34,14 @@ Exit Code: 0
 
 Command: git diff --check 4aa7402d5a45555fa1c063ec6366c4efd8f5c33f b54476514db1531c16d50ec22274044b82605292
 Exit Code: 0
+
+Observed isolated Linux reproduction of the history cache correction
+Source: 1a6165051d1ccfffae657b82afc48f835880487f and one-file patch SHA256 7a3885bdf0847abc35081a168dd49dba7b69e390183fc4817bb8c4ec05fa2d77
+Command: python -B -m pytest -q -p no:cacheprovider tests/governance/test_program_schema_cache.py
+Result: 47 passed, no failed, skipped or error cases
+Exit Code: 0
+
+Observed local candidate b8bff46b
+Command: python -B scripts/check-program-plan-finalization.py --base-ref c21dcba7844b448d523bdd40a13084471a082544 --head-ref b8bff46b9efdbaec4c039ba72d4ea13d1e7b6060 --task OPS-033
+Result: Catalog, Task and registry disagreed on activation status. Rebuilt activation fafe2ad0 updates all three together before implementation.
+Exit Code: 1

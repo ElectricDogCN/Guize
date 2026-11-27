@@ -25,6 +25,8 @@ ACTIVE = "specs/coordination/active-work.yaml"
 LEDGER = "specs/coordination/task-completions.yaml"
 PROGRAM_SCHEMA = "specs/coordination/program-plan.schema.yaml"
 MANIFEST_SCHEMA = "specs/coordination/planning-revision.schema.yaml"
+V1_SPLITS = "v1ImplementationSplits"
+SPLIT_MANIFEST = "v1-implementation-split.json"
 EXECUTION = {"in_progress", "integration"}
 METADATA = {PLAN, ACTIVE, LEDGER}
 EDGE_SCOPE = "AGENT-EDGE-104"
@@ -113,6 +115,11 @@ def tasks(plan: dict[str, Any]) -> dict[str, dict[str, Any]]:
     return {**ordinary, **foundations}
 
 
+def v1_scope_members(plan: dict[str, Any]) -> set[str]:
+    """Return the original members and their admitted implementation tasks."""
+    return set(plan["scopeBoundary"]["v1TaskIds"]) | set(plan.get(V1_SPLITS, {}))
+
+
 def task_scope(plan: dict[str, Any], task_id: str) -> str:
     """Classify an existing member; this never grants a new Task or scope."""
     by_id = tasks(plan)
@@ -123,7 +130,7 @@ def task_scope(plan: dict[str, Any], task_id: str) -> str:
         return "V1"
     boundary = plan["scopeBoundary"]
     require(isinstance(boundary, dict) and isinstance(boundary.get("agentEdge104"), dict), "Invalid fixed scope boundary")
-    if task_id in boundary.get("v1TaskIds", []):
+    if task_id in v1_scope_members(plan):
         return "V1"
     require(task_id in boundary["agentEdge104"].get("taskIds", []), f"Unclassified Program member {task_id}")
     return EDGE_SCOPE
@@ -146,9 +153,10 @@ def _dependency_closure(plan: dict[str, Any], task_id: str) -> set[str]:
 
 
 def validate_scope_boundary(plan: dict[str, Any]) -> None:
-    """Preserve the frozen V1 boundary and the one registered follow-up."""
+    """Preserve the frozen members, admitted implementation splits and follow-up scope."""
     ordinary = records(plan.get("tasks", []))
     if "scopeBoundary" not in plan:
+        require(V1_SPLITS not in plan, "Implementation splits require the fixed V1 scope boundary")
         require(all(isinstance(rid, str) and re.fullmatch(r"REQ-V1-\d{4}", rid)
                     for row in ordinary.values() for rid in row.get("requirementIds", [])),
                 "EDGE requirements require the fixed registered scope boundary")
@@ -165,8 +173,21 @@ def validate_scope_boundary(plan: dict[str, Any]) -> None:
     members = edge["taskIds"]
     require(isinstance(members, list) and all(isinstance(tid, str) for tid in members) and
             len(members) == len(set(members)) and EDGE_PLANNER in members, "Invalid Agent Edge 104 membership")
-    require(not (set(members) & set(V1_TASK_IDS)) and set(ordinary) == set(V1_TASK_IDS) | set(members),
+    splits = plan.get(V1_SPLITS, {})
+    require(isinstance(splits, dict), "Malformed V1 implementation split membership")
+    v1 = v1_scope_members(plan)
+    require(not (set(splits) & set(V1_TASK_IDS)) and not (set(members) & v1) and set(ordinary) == v1 | set(members),
             "Program tasks must belong to exactly their fixed scope")
+    for child, parent in splits.items():
+        require(isinstance(child, str) and re.fullmatch(r"GZ-\d{3}", child) and
+                isinstance(parent, str) and parent in V1_TASK_IDS and parent != boundary["v1FinalTask"],
+                "Implementation split must belong to an original V1 task other than the final")
+        require(child in ordinary[parent].get("dependsOn", []),
+                "Original V1 task must depend on its implementation split")
+        _validate_implementation_split(ordinary[parent], ordinary[child])
+    if splits:
+        require(set(splits) <= _dependency_closure(plan, boundary["v1FinalTask"]),
+                "V1 final task omits implementation splits from its dependency closure")
     require({row.get("taskId") for row in plan.get("pocs", [])} == {f"POC-{n:03d}" for n in range(1, 11)}, "Original ten POC members changed")
     planner = ordinary[EDGE_PLANNER]
     require(planner.get("kind") == "requirements" and planner.get("requirementIds") == ["REQ-V1-0010"], "GZ-022 retains its V1 governance requirement")
@@ -193,6 +214,31 @@ def validate_scope_boundary(plan: dict[str, Any]) -> None:
 
 def _safe_path(value: Any) -> bool:
     return isinstance(value, str) and bool(value) and not value.startswith("/") and not re.match(r"^[A-Za-z]:", value) and "\\" not in value and not any(part in {"", ".", ".."} for part in value.split("/"))
+
+
+def _claim_is_subset(path: str, claims: list[str]) -> bool:
+    if not _safe_path(path) or path in {"*", "**"}:
+        return False
+    return any(path == claim or (
+        claim.endswith("/**") and not re.search(r"[*?\[]", claim[:-3]) and path.startswith(claim[:-2])
+    ) for claim in claims)
+
+
+def _validate_implementation_split(parent: dict[str, Any], child: dict[str, Any]) -> None:
+    child_id = child["taskId"]
+    require(parent.get("kind") in {"scaffold", "vertical-slice"} and child.get("kind") == parent["kind"],
+            "An implementation split must retain its original implementation kind")
+    require(child.get("workPackage") == parent.get("workPackage"), "Implementation split changed its work package")
+    for key in ("requirementIds", "moduleIds", "consumesContracts"):
+        require(set(child.get(key, [])) <= set(parent.get(key, [])), f"Implementation split broadened {key}")
+    require(not any(child.get(key) for key in ("producesContracts", "acceptanceIds", "pocIds")),
+            "An implementation split cannot introduce separate contract, acceptance or POC authority")
+    dependencies = set(parent.get("dependsOn", [])) - {child_id}
+    require(set(child.get("dependsOn", [])) <= dependencies, "Implementation split added a dependency outside its parent")
+    require(all(path == f"evidence/{child_id}/**" or _claim_is_subset(path, parent.get("outputPaths", []))
+                for path in child.get("outputPaths", [])), "Implementation split broadened exclusive output paths")
+    require(all(_claim_is_subset(path, parent.get("sharedPaths", [])) for path in child.get("sharedPaths", [])),
+            "Implementation split broadened shared paths")
 
 
 def validate_edge_indexes(root: str, plan: dict[str, Any], *, ref: str | None = None) -> dict[str, dict[str, Any]]:
@@ -267,14 +313,25 @@ def validate_edge_indexes(root: str, plan: dict[str, Any], *, ref: str | None = 
     return {"requirements": requirements, "acceptances": acceptances}
 
 
-def registered_manifest_path(root: str, ref: str, owner: str) -> str | None:
-    """Discover actual typed paths without aliasing them to the legacy file."""
-    candidates = [f"evidence/{owner}/planning-revision.json"]
+def planning_manifest_paths(owner: str) -> list[str]:
+    candidates = [f"evidence/{owner}/planning-revision.json", f"evidence/{owner}/{SPLIT_MANIFEST}"]
     if owner == "OPS-011":
         candidates.append(FIRST_USE)
     if owner == EDGE_PLANNER:
         candidates.append(EDGE_DEFINITION)
-    found = [path for path in candidates if blob(root, ref, path) is not None]
+    return candidates
+
+
+@lru_cache(maxsize=1024)
+def committed_manifest_paths(root: str, source: str, owner: str) -> tuple[str, ...]:
+    candidates = planning_manifest_paths(owner)
+    found = git(root, "ls-tree", "-r", "--full-tree", "--name-only", source, "--", *candidates) or ""
+    return tuple(path for path in found.splitlines() if path in candidates)
+
+
+def registered_manifest_path(root: str, ref: str, owner: str) -> str | None:
+    """Discover admitted paths in one immutable Git lookup."""
+    found = committed_manifest_paths(*snapshot(root, ref), owner)
     require(len(found) <= 1, f"Ambiguous registered planning declaration {owner}")
     return found[0] if found else None
 
@@ -286,12 +343,8 @@ def immutable_manifest(root: str, registration: str, head: str, owner: str) -> t
     raw = blob(root, registration, path)
     require(raw is not None and registered_manifest_path(root, head, owner) == path and blob(root, head, path) == raw,
             "Original registered planning manifest changed in history")
-    candidates = [f"evidence/{owner}/planning-revision.json"]
-    if owner == "OPS-011":
-        candidates.append(FIRST_USE)
-    if owner == EDGE_PLANNER:
-        candidates.append(EDGE_DEFINITION)
-    if path in {FIRST_USE, EDGE_DEFINITION}:
+    candidates = planning_manifest_paths(owner)
+    if path != f"evidence/{owner}/planning-revision.json":
         for node in (git(root, "log", "--format=%H", head, "--", *candidates) or "").splitlines():
             if ancestor(root, registration, node):
                 require(registered_manifest_path(root, node, owner) == path and blob(root, node, path) == raw,
@@ -610,11 +663,11 @@ def preserve_consumer_closures(root: str, base_ref: str, after: dict[str, Any], 
 def audit_changed_manifests(root: str, base_ref: str, head_ref: str, *, admitted_base_ref: str | None = None) -> None:
     """Audit original manifest bytes even when no Program definition changes."""
     for path in changed_paths(root, base_ref, head_ref):
-        match = re.fullmatch(r"evidence/([A-Z]+-\d{3})/(planning-revision|agent-edge-104-first-use|agent-edge-104-definition)\.json", path)
+        match = re.fullmatch(r"evidence/([A-Z]+-\d{3})/(planning-revision|agent-edge-104-first-use|agent-edge-104-definition|v1-implementation-split)\.json", path)
         if not match:
             continue
         owner = match.group(1)
-        require(match.group(2) == "planning-revision" or (owner, path) in {("OPS-011", FIRST_USE), (EDGE_PLANNER, EDGE_DEFINITION)}, "Typed planning manifest has wrong owner/path")
+        require(path in planning_manifest_paths(owner), "Typed planning manifest has wrong owner/path")
         before_active = records(document(root, base_ref, ACTIVE).get("tasks", []))
         authority = admitted_base_ref or before_active.get(owner, {}).get("baseSha") or base_ref
         authority = snapshot(root, authority)[1]
@@ -759,6 +812,28 @@ def dependency_activation_revision(
     return {"owner": owner, "registration": registration, "targetTaskIds": set(), "projectedPlan": projected}
 
 
+def project_v1_implementation_split(
+    root: str, base: str, head: str, before: dict[str, Any], after: dict[str, Any],
+    expected: dict[str, Any], manifest: dict[str, Any], owner: str,
+) -> set[str]:
+    child = manifest["child"]
+    child_id, parent_id = child["taskId"], manifest["parentTaskId"]
+    require(parent_id in V1_TASK_IDS and parent_id != "GZ-020" and child_id != owner and parent_id != owner,
+            "Implementation split must target an original V1 task other than the final or planner")
+    require(child_id not in tasks(before), "Implementation split Task already exists")
+    unstarted(root, base, before, {parent_id})
+    unstarted(root, base, before, {child_id}, allow_missing=True)
+    unstarted(root, head, after, {parent_id, child_id})
+    parent = records(expected["tasks"])[parent_id]
+    digest = hashlib.sha256(json.dumps(parent, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()).hexdigest()
+    require(digest == manifest["originalParentSha256"], "Implementation split original parent definition changed")
+    _validate_implementation_split(parent, child)
+    parent["dependsOn"].append(child_id)
+    expected["tasks"].append(child)
+    expected.setdefault(V1_SPLITS, {})[child_id] = parent_id
+    return {parent_id, child_id}
+
+
 def classifier(root: str, base_ref: str, head_ref: str, before: dict[str, Any], after: dict[str, Any], errors: list[str], *, owner_hint: str = "", observed_at: datetime | None = None, admitted_base_ref: str | None = None) -> dict[str, Any] | None:
     """Return only a fully authenticated exact transaction projection."""
     schema_errors = ()
@@ -780,7 +855,9 @@ def classifier(root: str, base_ref: str, head_ref: str, before: dict[str, Any], 
         def scope_view(plan):
             return "scopeBoundary" in plan, plan.get("scopeBoundary")
         scope_changed = scope_view(real_before) != scope_view(real_after)
+        split_changed = (V1_SPLITS in real_before, real_before.get(V1_SPLITS)) != (V1_SPLITS in real_after, real_after.get(V1_SPLITS))
         if activation_order(real_before) != activation_order(real_after):
+            require(not split_changed, "Dependency activation cannot also amend V1 implementation split membership")
             require(same_json(before, real_before) and same_json(after, real_after),
                     "Dependency activation views must bind the actual Git snapshots")
             jsonschema, Registry, Resource = schema_machinery()
@@ -792,7 +869,10 @@ def classifier(root: str, base_ref: str, head_ref: str, before: dict[str, Any], 
             return dependency_activation_revision(
                 root, base_ref, head_ref, before, after, owner_hint, observed_at, admitted_base_ref,
             )
-        if changed or definitions(real_before) != definitions(real_after) or scope_changed or "planningBaselines" in real_before or "planningBaselines" in real_after:
+        if split_changed:
+            require(same_json(before, real_before) and same_json(after, real_after),
+                    "V1 implementation split views must bind the actual typed Git snapshots")
+        elif changed or definitions(real_before) != definitions(real_after) or scope_changed or "planningBaselines" in real_before or "planningBaselines" in real_after:
             require(before == real_before and after == real_after, "Planning/baseline views must bind the actual Git snapshots")
         audit_changed_manifests(root, base_ref, head_ref, admitted_base_ref=admitted_base_ref)
         if after.get("scopeBoundary", {}).get("agentEdge104", {}).get("state") == "defined" and (
@@ -800,7 +880,7 @@ def classifier(root: str, base_ref: str, head_ref: str, before: dict[str, Any], 
         ):
             jsonschema, Registry, Resource = schema_machinery()
             validate_frozen_edge_catalogs(root, admitted_base_ref or base_ref, head_ref, after)
-        if definitions(real_before) == definitions(real_after) and baseline_view(real_before) == baseline_view(real_after) and not scope_changed:
+        if definitions(real_before) == definitions(real_after) and baseline_view(real_before) == baseline_view(real_after) and not scope_changed and not split_changed:
             # No projection or planning permission is supplied. Ordinary
             # lifecycle/history and relevant consumer gates still run.
             return None
@@ -810,7 +890,7 @@ def classifier(root: str, base_ref: str, head_ref: str, before: dict[str, Any], 
         validate_new_consumers(root, base_ref, head_ref, before, after, old_baselines)
         require(all(new_baselines.get(bid) == row for bid, row in old_baselines.items()), "Existing planning baseline removed, narrowed or substituted")
         added_baselines = new_baselines.keys() - old_baselines.keys()
-        if not changed and not added_baselines and not scope_changed:
+        if not changed and not added_baselines and not scope_changed and not split_changed:
             return None
         require(before.get("status") == after.get("status") == "active", "Future planning cannot bypass frozen/recovery admission")
         base = git(root, "rev-parse", f"{base_ref}^{{commit}}") or ""
@@ -843,6 +923,8 @@ def classifier(root: str, base_ref: str, head_ref: str, before: dict[str, Any], 
         jsonschema, Registry, Resource = schema_machinery()
         registry = Registry().with_resources([(program_schema["$id"], Resource.from_contents(program_schema)), (manifest_schema["$id"], Resource.from_contents(manifest_schema))])
         schema_ref = manifest_schema["$id"]
+        split_manifest = path == f"evidence/{owner}/{SPLIT_MANIFEST}"
+        require(split_manifest == split_changed, "V1 implementation membership requires its original typed split declaration")
         if path == FIRST_USE:
             require(owner == "OPS-011" and hashlib.sha256(raw).hexdigest() == FIRST_USE_SHA256, "First-use declaration differs from fixed original intent")
             require(manifest.get("issue") == original.get("issue") and manifest.get("originalV1TaskIds") == [row["taskId"] for row in before["tasks"]], "First-use V1 inventory/Issue differs from original registration")
@@ -851,10 +933,18 @@ def classifier(root: str, base_ref: str, head_ref: str, before: dict[str, Any], 
         elif path == EDGE_DEFINITION:
             require(owner == EDGE_PLANNER and manifest.get("issue") == original.get("issue"), "Scope definition Issue differs from its own reservation")
             schema_ref += "#/$defs/agentEdge104Definition"
+        elif split_manifest:
+            require(not scope_changed and manifest.get("issue") == original.get("issue"),
+                    "V1 implementation split must retain the fixed scope and match its reservation Issue")
+            schema_ref += "#/$defs/v1ImplementationSplit"
         else:
             require(not scope_changed, "Legacy manifest cannot define or amend a fixed scope")
         jsonschema.Draft202012Validator({"$ref": schema_ref}, registry=registry).validate(manifest)
-        jsonschema.Draft202012Validator(program_schema, registry=registry).validate(after)
+        if split_manifest:
+            base_schema = document(root, base, PROGRAM_SCHEMA)
+            base_registry = Registry().with_resource(base_schema["$id"], Resource.from_contents(base_schema))
+            jsonschema.Draft202012Validator(base_schema, registry=base_registry).validate(real_before)
+        jsonschema.Draft202012Validator(program_schema, registry=registry).validate(real_after if split_manifest else after)
         authorized = registered_scope(root, admitted_base, owner, registration, original)
         mutable = {"status", "agentRole", "baseSha", "lease"}
         require({k: v for k, v in authorized.items() if k not in mutable} == {k: v for k, v in entry.items() if k not in mutable}, "Planner stable identity or prior registered claims changed")
@@ -867,7 +957,9 @@ def classifier(root: str, base_ref: str, head_ref: str, before: dict[str, Any], 
         bind_spec(root, head, owner, entry)
         expected = copy.deepcopy(before)
         target_ids, baseline_ids, scope_targets = set(), set(), set()
-        for target in manifest["targets"]:
+        if split_manifest:
+            target_ids = project_v1_implementation_split(root, base, head, before, after, expected, manifest, owner)
+        for target in manifest.get("targets", []):
             kind = target["kind"]
             if kind == "add-fixed-scope-boundary":
                 require(path == FIRST_USE and not scope_targets and "scopeBoundary" not in before and target["before"] is None, "Fixed scope first use is not original")
@@ -913,7 +1005,9 @@ def classifier(root: str, base_ref: str, head_ref: str, before: dict[str, Any], 
         for row in expected[section]:
             if row["taskId"] == owner:
                 row["status"] = entry["status"]
-        require(target_ids == changed and baseline_ids == added_baselines and expected == after, "Planning transaction is incomplete or contains undeclared Program changes")
+        matches_expected = same_json(expected, real_after) if split_manifest else expected == after
+        require(target_ids == changed and baseline_ids == added_baselines and matches_expected,
+                "Planning transaction is incomplete or contains undeclared Program changes")
         require(bool(scope_targets) == scope_changed, "Fixed scope change must be declared exactly once")
         if path == EDGE_DEFINITION:
             added_edge = {target["id"] for target in manifest["targets"] if target["kind"] == "add-edge-planned-task"}

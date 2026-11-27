@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "taskId": "OPS-033",
+  "base": "c21dcba7844b448d523bdd40a13084471a082544",
+  "activation": "fafe2ad0b31a3fcf1764816c95084cb7c3cffcd2",
+  "priorImplementation": "1a6165051d1ccfffae657b82afc48f835880487f",
+  "failedOfficialJob": "https://github.com/ElectricDogCN/Guize/actions/runs/45939824377/job/140311321246",
+  "admittedScopeMainCi": "https://github.com/ElectricDogCN/Guize/actions/runs/45943874154",
+  "pins": {
+    "specs/coordination/program-plan.schema.yaml": "dab4ab80bfed3caf5ab87629880ba54831d90271fad1c274a45b0e649b7d0c72",
+    "scripts/program-planning-revision.py": "eb75eb95e29f07a30a8e8ebdcec91b2e7609ffbc688d2b34de80f9676c9009b8"
+  },
+  "scopeActualMainIndependentReviewSha256": "b04d353cb9f2e6696dd7bfca1fb1fb909bd9921f70649975d9056673d1891c95",
+  "isolatedLinuxRegression": {
+    "command": "python -B -m pytest -q -p no:cacheprovider tests/governance/test_program_schema_cache.py",
+    "cases": 47,
+    "passed": 47,
+    "failed": 0,
+    "skipped": 0,
+    "errors": 0,
+    "exitCode": 0,
+    "patchSha256": "7a3885bdf0847abc35081a168dd49dba7b69e390183fc4817bb8c4ec05fa2d77",
+    "receiptSha256": "cc8bcaa42f69969dbe1aa0b4cf36d0bb1352e3fba78e0605b3426d966854553f",
+    "junitSha256": "1fa248519b662bd318b7b72a35ce808921d4cf17722c2c828edf1bc0dfdfe9d5",
+    "logSha256": "fa21be35d2ca318ebb7ac95d1f70d86d2053d889a8a7711f19b511d80b3ef8f5",
+    "scope": "Fixed prior implementation plus the exact one-file patch on an isolated native Linux filesystem."
+  }
+}

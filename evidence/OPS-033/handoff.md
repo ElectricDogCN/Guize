@@ -1,4 +1,12 @@
-# OPS-033 历史缓存校验补充登记
+# OPS-033 一期实施拆分与历史缓存兼容
+
+- [Issue #331](https://github.com/ElectricDogCN/Guize/issues/331)，当前分支 `chore/OPS-033-v1-split-admission-v2`，固定实际基线 `c21dcba7844b448d523bdd40a13084471a082544`。纯元数据启用 `fafe2ad0b31a3fcf1764816c95084cb7c3cffcd2` 一次同步 Program、Task 和 Registry 状态，先于本分支的源码提交。当前状态为 `in_progress`，当前角色为 `implementer`。
+- Owner 为 ElectricDogCN，Coordinator、Implementer、Integrator 为 `/root`，Reviewer 为 `/root/independent_review`。原租约截至 `2026-12-04T03:09:05Z`，集成序号 25，无共享路径。Program Plan 和 Active Work schemaVersion 1，Task Spec schemaVersion 2。[16 条实际路径](changed-files.md)
+- 旧源 #1197 的六项缓存用例失败已复现定位。修订保持原七条源码文件字节，增加历史校验器的两个精确指纹，其余旧指纹与回退保留。固定旧源码加该单文件补丁的 Linux 隔离回归全部 47 项通过。[证据摘要](history-cache-pin-implementation-v1.json) · [执行记录](commands.txt)
+- 同源码预检 `b8bff46b` 的本地收集命令 `python -B -m pytest --collect-only -q --color=no -p no:cacheprovider tests/governance/` 退出 0，实际主线 #1199 的 1,093 个 ID 逐项保留，新增 8 项，共 1,101 项。官方 CI、完整本地门禁和独立审查针对本次最终固定 PR 头重新确认。[既有官方基线](https://github.com/ElectricDogCN/Guize/actions/runs/45943874154)
+- Reviewer 先核对固定 Git 顺序与八路径源码，再以同头官方成功和全测试覆盖出审查。Integrator 核对精确合并树并复验实际主线，再依次走正常 Review 与 Completion。发生代码问题时保留真实失败证据，经正式受审前向修复，再重新执行完整官方测试。
+
+## 补充范围登记历史
 
 - Task `OPS-033`，Issue [#331](https://github.com/ElectricDogCN/Guize/issues/331)，本次提交分支 `chore/OPS-033-history-pin-scope`，唯一父为实际主线 `fd90de5d1244efc016eb5871a7011704c889299f`。本次候选提交从 Git PR 固定头解析。Registry 的原预留分支 `chore/OPS-033-v1-split-reservation` 仍处于 reserved/coordinator。
 - Owner 为 ElectricDogCN，Coordinator、Implementer、Integrator 为 `/root`，独立 Reviewer 为 `/root/independent_review`。集成序号 25，租约截至 `2026-12-04T03:09:05Z`。无共享路径。沿用 Program Plan 与 Active Work schemaVersion 1、Task Spec schemaVersion 2。
@@ -24,3 +32,7 @@
 实际范围主线 `c21dcba7844b448d523bdd40a13084471a082544` 已完成完整官方 #1199 和独立终验，1,093 项测试与 #1198 逐项相同。工作分支 `chore/OPS-033-v1-split-admission-v2` 从该主线独立启用，保留原协作身份、租约、八条独占写路径及共享边界。先提交这次纯元数据启用，再提交实现和回归。
 
 [实际主线 CI #1199](https://github.com/ElectricDogCN/Guize/actions/runs/45943874154)
+
+## 实施修订
+
+保留上一实施的七个源码文件原字节。在补充准入的历史校验器单独增加两个已验证的精确输入指纹，同时保留全部旧指纹与回退。核对新旧 schema 的唯一 format 约束都是 `recovery.frozenAt`。47 个原历史缓存测试已在隔离 Linux 实验中通过。此实施固定源仍须完整官方检查、独立终审及实际合并主线复验。[实施证据](history-cache-pin-implementation-v1.json)
