@@ -76,8 +76,11 @@ AUDITED_OWNER_CAPACITY_FAILURES: dict[str, dict[str, Any]] = {}
 VALIDATED_TASK_SNAPSHOTS: set[tuple[str, str, str, str]] = set()
 PR_REF_RE = re.compile(r"^PR-([0-9]+)$")
 _HISTORY_BLOB_READER: ContextVar[Any] = ContextVar("guize_history_blob_reader", default=None)
-_PROGRAM_SCHEMA_TEXT_SHA256 = "82255c831c74aa51b98ebc5209c4430d75144d9b5ca97737c9dd7eb9710fe26f"
-_LEGACY_PROGRAM_SCHEMA_TEXT_SHA256 = "06778d02cf0be4abb4edd2aa382df3056c863e7be31b0589573ddc9792116c6f"
+_PROGRAM_SCHEMA_TEXT_SHA256 = "dab4ab80bfed3caf5ab87629880ba54831d90271fad1c274a45b0e649b7d0c72"
+_LEGACY_PROGRAM_SCHEMA_TEXT_SHA256 = {
+    "82255c831c74aa51b98ebc5209c4430d75144d9b5ca97737c9dd7eb9710fe26f",
+    "06778d02cf0be4abb4edd2aa382df3056c863e7be31b0589573ddc9792116c6f",
+}
 _PROGRAM_STRUCTURE_LIMIT = 64
 _PROGRAM_STRUCTURE_SUCCESSES: OrderedDict[tuple[str, str], None] = OrderedDict()
 _PROGRAM_VALIDATOR = jsonschema.Draft202012Validator
@@ -439,7 +442,7 @@ def program_schema_failures(validator: Any, source_text: str, program: Any) -> l
         and type(validator.format_checker) is jsonschema.FormatChecker
         and type(source_text) is str
         and hashlib.sha256(source_text.encode("utf-8", errors="surrogatepass")).hexdigest()
-        in {_PROGRAM_SCHEMA_TEXT_SHA256, _LEGACY_PROGRAM_SCHEMA_TEXT_SHA256}
+        in {_PROGRAM_SCHEMA_TEXT_SHA256, *_LEGACY_PROGRAM_SCHEMA_TEXT_SHA256}
         and _program_schema_matches_text(validator.schema, source_text)
         and type(program) is dict and program.get("status") == "active"
     )
@@ -1187,6 +1190,7 @@ def checkout_task_snapshot(snapshot: str, commit: str, task_id: str) -> subproce
 
 _TASK_FILE_CODE_SHA256 = "2515f2d2208e5c33636ef1990f6fc6ebcc63c46e4c618cd395ed2064703f137c"
 _TASK_FILE_PLANNING_SHA256 = {
+    "eb75eb95e29f07a30a8e8ebdcec91b2e7609ffbc688d2b34de80f9676c9009b8",
     "ed2421fcee9b06c67fa7bff09fd63aa4034d40af21966b3cdbff1c7a6ddbcb2f",
     "d20645a0bc37a52620ec6ace66c1913741988b7f469ecb76eb6004836ac89a40",
 }

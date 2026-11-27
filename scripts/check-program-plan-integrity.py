@@ -532,7 +532,7 @@ def main() -> int:
     try:
         PLANNING.validate_scope_boundary(plan)
         if "scopeBoundary" in plan:
-            final_scope_members = set(plan["scopeBoundary"]["v1TaskIds"])
+            final_scope_members = PLANNING.v1_scope_members(plan)
         PLANNING.validate_edge_indexes(root, plan)
         if plan.get("scopeBoundary", {}).get("agentEdge104", {}).get("state") == "defined":
             PLANNING.validate_frozen_edge_catalogs(root, "HEAD", "HEAD", plan)

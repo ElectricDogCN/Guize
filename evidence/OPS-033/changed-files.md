@@ -1,5 +1,26 @@
 # 变更路径
 
+## 当前实施的 16 条路径
+
+- `evidence/OPS-033/changed-files.md`
+- `evidence/OPS-033/commands.txt`
+- `evidence/OPS-033/handoff.md`
+- `evidence/OPS-033/history-cache-pin-implementation-v1.json`
+- `evidence/OPS-033/scope.md`
+- `scripts/check-program-plan-history.py`
+- `scripts/check-program-plan-integrity.py`
+- `scripts/program-planning-revision.py`
+- `specs/coordination/README.md`
+- `specs/coordination/active-work.yaml`
+- `specs/coordination/planning-revision.schema.yaml`
+- `specs/coordination/program-plan.schema.yaml`
+- `specs/coordination/program-plan.yaml`
+- `specs/tasks/OPS-033.md`
+- `tests/governance/test_program_plan_execution_integrity.py`
+- `tests/governance/test_program_planning_revision.py`
+
+## 原范围登记历史
+
 - `specs/coordination/program-plan.yaml`
 - `specs/coordination/active-work.yaml`
 - `specs/tasks/OPS-033.md`
