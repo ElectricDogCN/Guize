@@ -177,7 +177,7 @@ foundationTasks:
     mergeCommit: 6d4a9a42180057b46dbe4cb827050cd3f2e29e4f
   - taskId: OPS-036
     title: 按实际依赖验收 POC 证据并限定任务检查范围
-    status: reserved
+    status: in_progress
     completionRef: ISSUE-357
     mergeCommit: null
 waves:
