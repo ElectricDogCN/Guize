@@ -1,12 +1,36 @@
-git diff --check 4aa7402d5a45555fa1c063ec6366c4efd8f5c33f...HEAD
-python scripts/check-task-file.py --task OPS-033
-python scripts/check-schemas.py
-python scripts/check-program-plan-transitions.py --base-ref origin/main --head-ref HEAD --task OPS-033
-python scripts/check-program-plan-history.py --base-ref origin/main --head-ref HEAD
-python scripts/run-task-scope-gate.py --task OPS-033 --base origin/main
-python scripts/check-evidence.py --task OPS-033
-python scripts/check-markdown.py
+OPS-033 reservation candidate b54476514db1531c16d50ec22274044b82605292
+Working directory: repository root
+Environment: PYTHONUTF8=1
 
-Observed on reservation working tree
 Command: python -B scripts/check-task-file.py --task OPS-033
+Exit Code: 0
+
+Command: python -B scripts/check-evidence.py --task OPS-033
+Exit Code: 0
+
+Command: python -B scripts/check-schemas.py
+Exit Code: 0
+
+Command: python -B scripts/check-markdown.py
+Exit Code: 0
+
+Command: python -B scripts/check-program-plan-integrity.py --base-ref 4aa7402d5a45555fa1c063ec6366c4efd8f5c33f
+Exit Code: 0
+
+Command: python -B scripts/check-program-plan-history.py --base-ref 4aa7402d5a45555fa1c063ec6366c4efd8f5c33f --head-ref b54476514db1531c16d50ec22274044b82605292
+Exit Code: 0
+
+Command: python -B scripts/check-program-plan-transitions.py --base-ref 4aa7402d5a45555fa1c063ec6366c4efd8f5c33f --head-ref b54476514db1531c16d50ec22274044b82605292 --task OPS-033
+Exit Code: 0
+
+Command: python -B scripts/run-program-lifecycle-gate.py --base-ref 4aa7402d5a45555fa1c063ec6366c4efd8f5c33f --head-ref b54476514db1531c16d50ec22274044b82605292 --task OPS-033 --branch-name chore/OPS-033-v1-split-reservation
+Exit Code: 0
+
+Command: python -B scripts/run-task-scope-gate.py --task OPS-033 --base 4aa7402d5a45555fa1c063ec6366c4efd8f5c33f
+Exit Code: 0
+
+Command: python -B scripts/run-agent-coordination-gate.py --task OPS-033 --base-ref 4aa7402d5a45555fa1c063ec6366c4efd8f5c33f --head-ref b54476514db1531c16d50ec22274044b82605292 --branch-name chore/OPS-033-v1-split-reservation
+Exit Code: 0
+
+Command: git diff --check 4aa7402d5a45555fa1c063ec6366c4efd8f5c33f b54476514db1531c16d50ec22274044b82605292
 Exit Code: 0
