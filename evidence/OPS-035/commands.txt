@@ -56,6 +56,40 @@ python -m pytest -p no:cacheprovider -q tests/governance/test_poc_contract_repai
 
 完整官方源和实际主线检查各在其固定提交执行。
 
+# 实施实际主线九项原生命令
+
+实际实施主线 6d4a9a42180057b46dbe4cb827050cd3f2e29e4f。
+以下九项按便携命令记录。Python 实际以 -B 启动并启用 PYTHONUTF8=1。
+调用使用 main 的 push 上下文，PUSH_BEFORE 为登记主线 1d4daa8b33f12b771946c9cafa6e13777314f696。
+实际本地总回执 SHA-256 为 70734d8ef9864a4cfeef88837d75ef695f5ce39743597e544112d693e69463ce。
+
+diff  退出码 0  原日志 SHA-256 e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+git diff --check 1d4daa8b33f12b771946c9cafa6e13777314f696 6d4a9a42180057b46dbe4cb827050cd3f2e29e4f
+
+integrity  退出码 0  原日志 SHA-256 9c1f1072a600c261b03c3e0e7d35dc8f8fa028b9dfd653dbd511cad54856c998
+python scripts/check-program-plan-integrity.py --base-ref 1d4daa8b33f12b771946c9cafa6e13777314f696
+
+history  退出码 0  原日志 SHA-256 445f69f1cb21dfa9a2cb810959243a3ffa4eaf452c7bd02ea83b723fc347072a
+python scripts/check-program-plan-history.py --base-ref 1d4daa8b33f12b771946c9cafa6e13777314f696 --head-ref 6d4a9a42180057b46dbe4cb827050cd3f2e29e4f
+
+transitions  退出码 0  原日志 SHA-256 608a3efdbf0314204e26438d2fc5087ff8e8781c1fe4df7bd2a357c7423553d2
+python scripts/check-program-plan-transitions.py --base-ref 1d4daa8b33f12b771946c9cafa6e13777314f696 --head-ref 6d4a9a42180057b46dbe4cb827050cd3f2e29e4f
+
+finalization  退出码 0  原日志 SHA-256 00f02248951a2de72cae1fbf320b78849b9e5374aba79702185a3f82f5482319
+python scripts/check-program-plan-finalization.py --base-ref 1d4daa8b33f12b771946c9cafa6e13777314f696 --head-ref 6d4a9a42180057b46dbe4cb827050cd3f2e29e4f
+
+lifecycle-guards  退出码 0  原日志 SHA-256 51a35e47678e737dd67caa7f6d1d23cb58d27961b29117977fce3872a9225149
+python scripts/check-program-lifecycle-guards.py --base-ref 1d4daa8b33f12b771946c9cafa6e13777314f696 --head-ref 6d4a9a42180057b46dbe4cb827050cd3f2e29e4f
+
+coordination  退出码 0  原日志 SHA-256 642363ebef5e5daecdaa1062ffdb129e1a18cbd8d37e2f62bc20922c008c72c1
+python scripts/run-agent-coordination-gate.py
+
+task-finalization  退出码 0  原日志 SHA-256 07fbfdac3e338a6bbf960e2763c0990dd80b7bfc114dc244325cb9a6640ec65d
+python scripts/check-program-plan-finalization.py --base-ref 1d4daa8b33f12b771946c9cafa6e13777314f696 --head-ref 6d4a9a42180057b46dbe4cb827050cd3f2e29e4f --task OPS-035
+
+source-dependency-regressions  退出码 0  原日志 SHA-256 248c89ab0a0eb4bc4cf07a909b5b695e47faeae527e40a0a877c6ef7030ab196
+python -m pytest -p no:cacheprovider -q tests/governance/test_poc_contract_repair_admission.py::TestSourceDependencyRepairAdmission
+
 # 正常 Review 本地检查入口
 
 git diff --check 6d4a9a42180057b46dbe4cb827050cd3f2e29e4f...HEAD
