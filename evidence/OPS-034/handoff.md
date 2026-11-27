@@ -1,4 +1,16 @@
-# OPS-034 正式 Review 交接
+# OPS-034 正常结项交接
+
+## OPS-034 已验收的实际 Review
+
+OPS-034 的实施合并为 `74d653e0d1bf723382b8879f746973371216443e`，已接受的正式 Review 主线为 `032143c287fd1e107c7316fa9e1e9ded77d120f5`。完整官方 #1211 的 1,101 项与固定源逐项一致，最长作业 826 秒。14 项 Windows 原生检查通过，独立终验接受。[实际官方 CI](https://github.com/ElectricDogCN/Guize/actions/runs/45981969539)
+
+Status: PASS
+
+Issue [#337](https://github.com/ElectricDogCN/Guize/issues/337) 已按 completed 关闭。 结项候选使用 `chore/OPS-034-normal-completion`。Integrator 负责核对本阶段固定源、完整官方 CI 和实际合入。 正式主线通过后释放本任务容量并清理已结束的任务分支。
+
+[实际 Review 独立终验原件](accepted-review-032143c2/independent-review.original.json) · [实际本地复验公开摘要](accepted-review-032143c2/actual-main-controls.summary.json)
+
+## 历史 Review 交接
 
 - [Issue #337](https://github.com/ElectricDogCN/Guize/issues/337)，当前阶段为 review，角色为 reviewer，工作分支 `chore/OPS-034-v1-core-planning`，本次基线为已验收实际主线 `74d653e0d1bf723382b8879f746973371216443e`。
 - 独立 Reviewer 为 `/root/independent_review`，Integrator 为 `/root`。沿用登记集成序号 26 和 2026-12-04T07:21:42Z 到期的租约。

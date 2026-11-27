@@ -1,0 +1,95 @@
+{
+  "taskId": "OPS-034",
+  "kind": "public-summary-of-native-actual-Review-controls",
+  "actualMain": "032143c287fd1e107c7316fa9e1e9ded77d120f5",
+  "source": "d23ef220abfbe7dcbc6121b595cb50666e24d8ae",
+  "tree": "9335466f2f15396e4f3db95088a3e5074953676c",
+  "originalRecordSha256": "32eb2a0f02f584202e69557e4ae7d07847360fc6e2f181355736ce529e66f7f9",
+  "originalRecordPublished": false,
+  "checks": [
+    {
+      "name": "diff",
+      "exitCode": 0,
+      "elapsedSeconds": 0.08,
+      "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "protected-bytes",
+      "exitCode": 0,
+      "elapsedSeconds": 0.08,
+      "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "exact-source-tree",
+      "exitCode": 0,
+      "elapsedSeconds": 0.08,
+      "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "integrity",
+      "exitCode": 0,
+      "elapsedSeconds": 34.78,
+      "logSha256": "6020f940ed0c9c0d3ec8dfb0ac001324d1aac456ae8ae922f077ed45d6be2adc"
+    },
+    {
+      "name": "history",
+      "exitCode": 0,
+      "elapsedSeconds": 595.89,
+      "logSha256": "03b2c1ee5f5bb4eea1294607f8939b87d85110100ec1fff59ce12b072e1a434a"
+    },
+    {
+      "name": "transitions",
+      "exitCode": 0,
+      "elapsedSeconds": 18.59,
+      "logSha256": "fe4811d8fd81e1814b4a15b4b9829d80106d2f796848747fb012941738e35b5b"
+    },
+    {
+      "name": "finalization",
+      "exitCode": 0,
+      "elapsedSeconds": 0.66,
+      "logSha256": "73e6cf019a6427438604106235d7b2f63243ad85c5830cd3e34cee1aeed26051"
+    },
+    {
+      "name": "lifecycle",
+      "exitCode": 0,
+      "elapsedSeconds": 138.52,
+      "logSha256": "ea979a263b611537b269c7efb58571cc6689210eb75b6c44a4b6017dd686717d"
+    },
+    {
+      "name": "coordination",
+      "exitCode": 0,
+      "elapsedSeconds": 0.69,
+      "logSha256": "dd6d48b1e5664fd8ac15750499fba0f0906ba6bee884f27b9fb5ba3d38e8ba60"
+    },
+    {
+      "name": "task",
+      "exitCode": 0,
+      "elapsedSeconds": 0.17,
+      "logSha256": "418b382025a212f8e8b54a768cbc23c0bd0ae634c5e9a6ae62cec2b199b92e45"
+    },
+    {
+      "name": "evidence",
+      "exitCode": 0,
+      "elapsedSeconds": 0.09,
+      "logSha256": "8bf6c37a7953cc87031f9a0ad9755de0cf2918418eb29bec09f4daa005f08538"
+    },
+    {
+      "name": "markdown",
+      "exitCode": 0,
+      "elapsedSeconds": 0.98,
+      "logSha256": "ad736ee594f318389ade53d37bb4005bf326ec97d79ef96f9fe23cbb0c625ee0"
+    },
+    {
+      "name": "schemas",
+      "exitCode": 0,
+      "elapsedSeconds": 6.45,
+      "logSha256": "43129436ac1aaccc98bdf1680e9900064083c6c5465897930c71f776b9ee433a"
+    },
+    {
+      "name": "project-readiness",
+      "exitCode": 0,
+      "elapsedSeconds": 132.78,
+      "logSha256": "632121dca7108a89e032a1c8203500807b9a69a0d4d2ac0b73a1b4df2ae5d7ef"
+    }
+  ]
+}
