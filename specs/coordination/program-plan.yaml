@@ -172,9 +172,9 @@ foundationTasks:
     mergeCommit: 74d653e0d1bf723382b8879f746973371216443e
   - taskId: OPS-035
     title: 为按实际输入判定 POC 证据资格建立正式准入
-    status: review
-    completionRef: ISSUE-352
-    mergeCommit: null
+    status: completed
+    completionRef: PR-354
+    mergeCommit: 6d4a9a42180057b46dbe4cb827050cd3f2e29e4f
 waves:
   - {id: W1, order: 1, name: "需求与 POC 计划", maxConcurrent: 2, maxHighRisk: 1}
   - {id: W2, order: 2, name: "OpenAPI + 独立 POC", maxConcurrent: 3, maxHighRisk: 1}

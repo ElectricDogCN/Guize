@@ -1,4 +1,18 @@
-# OPS-035
+# OPS-035 正常结项交接
+
+## 已验收的实际 Review
+
+正式 Review [PR #355](https://github.com/ElectricDogCN/Guize/pull/355) 已合入实际主线 `7dac5e54b6da164fa1b3ed895a1bca2a281b75dd`。官方 #1229 的 1,105 个用例与已接受的源 #1228 逐项匹配，保留原 1,078 项。最长作业 647 秒。九项本地主线检查与独立实际终验通过。[实际官方 CI](https://github.com/ElectricDogCN/Guize/actions/runs/46058039360)
+
+Status: PASS
+
+当前候选从 `7dac5e54b6da164fa1b3ed895a1bca2a281b75dd` 起步，工作分支为 `chore/OPS-035-normal-completion`，Integrator 负责结项。原租约由实施分支 `chore/OPS-035-poc-dependency-admission` 持有，结项主线受验后释放。
+
+Issue [#352](https://github.com/ElectricDogCN/Guize/issues/352) 已按 completed 关闭。结项候选通过同头独立审查、完整官方源 CI 和实际主线完整复验后，清理两条已结束远端分支。后继 OPS-036 使用独立登记与冻结流程。
+
+[实际 Review 独立终验](./accepted-review-main-7dac5e54/independent-review.original.json) · [九项实际本地检查](./accepted-review-main-7dac5e54/actual-main-controls.summary.json)
+
+## 历史 Review 交接
 
 ## 当前正式 Review
 
