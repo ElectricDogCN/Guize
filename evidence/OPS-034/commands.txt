@@ -1,0 +1,11 @@
+OPS-034 登记命令
+
+python scripts/check-task-file.py --task OPS-034
+python scripts/check-schemas.py
+python scripts/check-program-plan-transitions.py --base-ref origin/main --head-ref HEAD --task OPS-034
+python scripts/check-program-plan-history.py --base-ref origin/main --head-ref HEAD --task OPS-034
+python scripts/run-task-scope-gate.py --task OPS-034 --base origin/main
+python scripts/check-evidence.py --task OPS-034
+python scripts/check-markdown.py
+
+固定登记源实际退出码随验证记录附上。

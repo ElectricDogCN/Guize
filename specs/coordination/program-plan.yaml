@@ -165,6 +165,11 @@ foundationTasks:
     status: completed
     completionRef: PR-335
     mergeCommit: cd659e3d08b335be9c0866f6699bd6b0ef0534e9
+  - taskId: OPS-034
+    title: 登记一期核心骨架的独立规划拆分
+    status: reserved
+    completionRef: ISSUE-337
+    mergeCommit: null
 waves:
   - {id: W1, order: 1, name: "需求与 POC 计划", maxConcurrent: 2, maxHighRisk: 1}
   - {id: W2, order: 2, name: "OpenAPI + 独立 POC", maxConcurrent: 3, maxHighRisk: 1}
