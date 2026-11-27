@@ -15,3 +15,11 @@
 - `specs/coordination/active-work.yaml`
 - `specs/coordination/program-plan.yaml`
 - `specs/tasks/OPS-034.md`
+
+## 规划实施相对登记主线的范围
+
+- `evidence/OPS-034/changed-files.md`
+- `evidence/OPS-034/handoff.md`
+- `specs/coordination/active-work.yaml`
+- `specs/coordination/program-plan.yaml`
+- `specs/tasks/OPS-034.md`

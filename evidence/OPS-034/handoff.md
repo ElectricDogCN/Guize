@@ -20,3 +20,13 @@ OPS-033 正常结项实际主线 `1fc3a8f52d58220a5047460441b16eab7e03fae7` 已�
 候选尚未合入时，关闭候选 PR 并核对旧头后清理其远端分支，保留固定来源和证据。登记合入后，按正常取消流程释放本任务自己的 Registry 记录和写入权限。共享计划其他记录及原始声明须保留。若实施尚未开始，回滚不涉及 GZ-012、GZ-031 的控制面行为或部署环境。
 
 Reviewer 验证最新固定源与初始受检源码之间仅有此任务 Evidence 附记。Integrator 在完整官方 CI 和独立终审成功后正常合并并验证实际主线。Implementer 在受验登记主线后按 Task Spec 激活 OPS-034，再实施声明范围内的规划拆分。
+
+## 实际登记主线与规划实施
+
+实际登记主线 `2fc6778ec0389cede37855a456202ce4ce019856` 已通过 [#1207](https://github.com/ElectricDogCN/Guize/actions/runs/45968460367) 和独立终验。独立回执 SHA-256 `da4d12c0762ff801caa08bbdcc939fba4172fe462969213f81843ea1186d1e8b`。工作分支的精确激活提交为 `132b4c4e502608992740e603e0d2c98478d7fc22`。
+
+按 [原始声明](v1-implementation-split.json) 加入 GZ-031 与父任务 GZ-012 的一条依赖。原 GZ-012 的业务前置仍适用。GZ-031 只消费已完成的 GZ-008。实际核心启动与插件隔离由其自身登记和产品验收交付，当前规划实施精确 Git 头由 PR 与执行回执绑定。
+
+隔离演练使用 #341 固定 GitHub 预览，实际执行 History、Lifecycle、Coordination、Scope、Readiness 五项且均退出 0。演练回执 SHA-256 `309b2acc0c1611b445f237f6b236864eb9e8fb5c4d527d7181cc3abe9e303e92`。正式实施使用精确源、完整官方 CI、独立审核以及实际主线门禁。
+
+未合入时可以撤回实施候选，保留原登记和原始证据。实施受验后可通过正常规划修订撤回后继变更，保留原始声明及历史。Reviewer 核对提交、依赖和实际结果。Integrator 在完整官方 CI 与独立审核后集成并复核实际主线，再处理本任务的常规 Review 与 Completion。
