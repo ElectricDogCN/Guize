@@ -29,7 +29,8 @@ final class PluginRegistry implements HealthIndicator {
     private final String python;
     private final String timeoutMillis;
     private volatile JsonNode plugins = JsonNodeFactory.instance.objectNode();
-    private volatile Thread loader;
+    private Thread loader;
+    private boolean closed;
 
     PluginRegistry(ObjectMapper mapper,
                    @Value("${guize.bootstrap.plugin-directory:}") String directory,
@@ -44,8 +45,8 @@ final class PluginRegistry implements HealthIndicator {
     }
 
     @EventListener(ApplicationReadyEvent.class)
-    void loadConfiguredPlugins() {
-        if (directory.isBlank()) {
+    synchronized void loadConfiguredPlugins() {
+        if (closed || loader != null || directory.isBlank()) {
             return;
         }
         loader = new Thread(this::assessPlugins, "guize-plugin-startup");
@@ -105,7 +106,11 @@ final class PluginRegistry implements HealthIndicator {
 
     @PreDestroy
     void stopLoading() {
-        Thread current = loader;
+        Thread current;
+        synchronized (this) {
+            closed = true;
+            current = loader;
+        }
         if (current != null) {
             current.interrupt();
             try {
