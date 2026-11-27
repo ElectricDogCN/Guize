@@ -1,4 +1,11 @@
-# OPS-033 一期实施拆分与历史缓存兼容
+# OPS-033 正式 Review
+
+- 正式 Review 沿用登记的 `chore/OPS-033-v1-split-admission-v2` 分支，从实际主线 `cd659e3d08b335be9c0866f6699bd6b0ef0534e9` 快进。[Issue #331](https://github.com/ElectricDogCN/Guize/issues/331)
+- Owner 为 ElectricDogCN，Coordinator、Implementer、Integrator 为 `/root`，独立 Reviewer 为 `/root/independent_review`。状态为 `review`，本次角色为 `reviewer`，沿用 2026-12-04T03:09:05Z 租约、顺序 25 和八条独占写范围，无共享路径。Program/Registry schemaVersion 1，Task Spec schemaVersion 2。[11 条实际路径](changed-files.md)
+- 完整官方实际主线 #1201 的 1,101 项和 14 条本地检查通过，由独立 Reviewer 接受。合并后的双父和实际树绑定官方源 #1200。历史失败源 #1197 留档，旧 PR #333 已作为 superseded 关闭。[原始独立终验](implementation-main-cd659e3d/independent-review.original.json) · [实际命令与退出码](implementation-main-cd659e3d/actual-main-controls.original.json)
+- Reviewer 核对本次固定源的实际头、三份状态镜像、原件与完整官方 CI。Integrator 普通合入并复验实际 Review 主线；取得该节点的独立终验后才办理 Issue #331 完成、正常 Completion 与容量释放。本次提交可按标准 Review 流程撤回，原实施与证据历史保留。
+
+## 原实施历史
 
 - [Issue #331](https://github.com/ElectricDogCN/Guize/issues/331)，当前分支 `chore/OPS-033-v1-split-admission-v2`，固定实际基线 `c21dcba7844b448d523bdd40a13084471a082544`。纯元数据启用 `fafe2ad0b31a3fcf1764816c95084cb7c3cffcd2` 一次同步 Program、Task 和 Registry 状态，先于本分支的源码提交。当前状态为 `in_progress`，当前角色为 `implementer`。
 - Owner 为 ElectricDogCN，Coordinator、Implementer、Integrator 为 `/root`，Reviewer 为 `/root/independent_review`。原租约截至 `2026-12-04T03:09:05Z`，集成序号 25，无共享路径。Program Plan 和 Active Work schemaVersion 1，Task Spec schemaVersion 2。[16 条实际路径](changed-files.md)
