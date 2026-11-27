@@ -49,3 +49,7 @@
 | source-dependency-regressions | 0 | 7.42 | cb37da4abf05ef0989ffdbf033ea3454275bc6e7a8b1c86ec5a96458a4e79e88 |
 
 最终实施限定从 OPS-035 的真实登记主线取得授权，新增定向保障复用既有第四个用例。最终来源以实际分支 HEAD、独立审查与完整官方 CI 回执验收。
+
+## 实际实施验证
+
+实施 [PR #354](https://github.com/ElectricDogCN/Guize/pull/354) 已普通合入 `6d4a9a42180057b46dbe4cb827050cd3f2e29e4f`。实际双父及树与固定受审预览一致。官方源 #1226 和实际主线 #1227 的 1,105 个用例逐项一致，保留原有 1,101 项，实际最长作业 919 秒。九项原生验证及独立终验通过。[实际主线 CI](https://github.com/ElectricDogCN/Guize/actions/runs/46051821372) · [独立验收摘要](../implementation-main-6d4a9a42/independent-review.summary.json) · [本地检查摘要](../implementation-main-6d4a9a42/actual-main-controls.summary.json)

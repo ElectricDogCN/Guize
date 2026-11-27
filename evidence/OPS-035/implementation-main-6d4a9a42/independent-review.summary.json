@@ -1,0 +1,13 @@
+{
+  "taskId": "OPS-035",
+  "reviewer": "/root/independent_review",
+  "actualMain": "6d4a9a42180057b46dbe4cb827050cd3f2e29e4f",
+  "source": "5b8c2ec7365a01632c9f051fc78b44e5dc9b7000",
+  "tree": "92bdf47af3d9bb2666f5d36354456c6cce5738e9",
+  "officialWorkflow": "https://github.com/ElectricDogCN/Guize/actions/runs/46051821372",
+  "originalReviewSha256": "d9f98e190d2e14bc77c9b3fcc5ca8feb22643839080a7d02fa9f9cd7eee674ee",
+  "originalReviewPublished": true,
+  "actualImplementationMainAccepted": true,
+  "fullMainCiAccepted": true,
+  "normalReviewMayStart": true
+}

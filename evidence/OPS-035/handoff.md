@@ -1,6 +1,16 @@
 # OPS-035
 
-## 当前实施交接
+## 当前正式 Review
+
+实施 [PR #354](https://github.com/ElectricDogCN/Guize/pull/354) 已普通合入 `6d4a9a42180057b46dbe4cb827050cd3f2e29e4f`。实际双父及树与固定受审预览一致。官方源 #1226 和实际主线 #1227 的 1,105 个用例逐项一致，保留原有 1,101 项，实际最长作业 919 秒。九项原生验证及独立终验通过。[实际主线 CI](https://github.com/ElectricDogCN/Guize/actions/runs/46051821372) · [独立验收摘要](implementation-main-6d4a9a42/independent-review.summary.json) · [本地检查摘要](implementation-main-6d4a9a42/actual-main-controls.summary.json)
+
+议题 #352，Review 基线 `6d4a9a42180057b46dbe4cb827050cd3f2e29e4f`，同一活动分支 `chore/OPS-035-poc-dependency-admission`。当前角色为 reviewer，由 /root/independent_review 负责独立审查，/root 负责协调与后续集成。
+
+本次范围为 [12 条自身路径](changed-files.md)。原租约 2026-11-27T17:20:00Z 至 2026-12-04T17:20:00Z，集成组 poc-source-dependency-admission，顺序 27。当前继续消费 Program Plan v1、Task Spec v2 和 Active Work v1。
+
+使用 `git rev-parse HEAD` 读取当前 Review 来源，独立票须绑定该完整 SHA。Reviewer 核对源官方全部 1,105 项及证据，Integrator 按同头普通合入。实际 Review 主线经完整 1,105 项、原生检查和独立终验后，以 completed 关闭 #352 并单独提交正常 Completion。
+
+## 实施历史交接
 
 - 实际登记基线 1d4daa8b33f12b771946c9cafa6e13777314f696，独立接受的官方主线运行 #1225。激活提交 6f87fe9de81294c3aef1af4a09f40d2d0429dc4f 只改自身三镜像和实施记录。
 - 初次固定代码源 2737a57b6c50b334ff3790ef8db793a6e090e771，树 0ba04b926dbe5d1b74140ff9fb179c4ebd596eb9。本地 15 项检查通过。精确命令、退出与日志摘要见本目录。
