@@ -10905,6 +10905,15 @@ class TestRecordedSourceScope(unittest.TestCase):
         conflicting = projection("blocked", "reserved")
         self.assertFalse(CHECK.matches_recorded_import(base, prior, conflicting, conflicting))
 
+    def test_clean_import_preserves_types_in_nested_registry_policy(self):
+        def projection(value):
+            return CHECK.recorded_import_projection({"policy": {"limits": [{"maxHighRiskTasks": value}]}}, set())
+
+        original = projection(1)
+        self.assertTrue(CHECK.matches_recorded_import(original, original, original, projection(1)))
+        self.assertFalse(CHECK.matches_recorded_import(original, original, original, projection(True)))
+        self.assertFalse(CHECK.matches_recorded_import(original, original, original, projection(1.0)))
+
     def test_scope_binds_archive_records_and_runtime_without_rebinding_source(self):
         task = "POC-003"
         plan = {"taskId": task, "pocId": "POC-03"}

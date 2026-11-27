@@ -1464,6 +1464,8 @@ def recorded_import_projection(document, collections):
             raise ValueError("recorded import requires keyed lifecycle rows")
         fields[(key,)] = True
         for row in value:
+            if not isinstance(row, dict) or type(row.get("taskId")) is not str:
+                raise ValueError("recorded import requires text lifecycle identities")
             identity = (key, row["taskId"])
             if identity in fields:
                 raise ValueError("recorded import has duplicate lifecycle rows")
@@ -1471,17 +1473,29 @@ def recorded_import_projection(document, collections):
     return fields
 
 
+def same_recorded_value(left, right):
+    if type(left) is not type(right):
+        return False
+    if isinstance(left, dict):
+        return (all(type(key) is str for key in left.keys() | right.keys())
+                and left.keys() == right.keys()
+                and all(same_recorded_value(left[key], right[key]) for key in left))
+    if isinstance(left, list):
+        return len(left) == len(right) and all(same_recorded_value(a, b) for a, b in zip(left, right))
+    return left == right
+
+
 def matches_recorded_import(common, prior, incoming, actual):
     missing = object()
     for key in common.keys() | prior.keys() | incoming.keys() | actual.keys():
         original, left, right, merged = (item.get(key, missing) for item in (common, prior, incoming, actual))
-        if left == right or right == original:
+        if same_recorded_value(left, right) or same_recorded_value(right, original):
             expected = left
-        elif left == original:
+        elif same_recorded_value(left, original):
             expected = right
         else:
             return False
-        if merged != expected:
+        if not same_recorded_value(merged, expected):
             return False
     return True
 
@@ -1506,6 +1520,11 @@ def authenticated_recorded_import(history, root, anchor, before, after, metadata
         prior, imported, actual = (projection(ref) for ref in (before, incoming, after))
         if not all(matches_recorded_import(projection(common), prior, imported, actual) for common in common_refs):
             return False
+    errors = []
+    registry = history.load_ref(str(root), after, history.ACTIVE)
+    history.historical_registry_schema(str(root), after, registry, "recorded clean import", errors)
+    if errors:
+        return False
     if incoming in history.approved_synchronization_parents(str(root), after, anchor):
         return True
     if not history.is_ancestor(str(root), anchor, incoming):
