@@ -11,6 +11,7 @@ import json
 import os
 import shutil
 import subprocess
+import sys
 import tempfile
 import unittest
 import zlib
@@ -10767,6 +10768,56 @@ class TestMappedOriginCanonicalCompatibility(unittest.TestCase):
             self.assertTrue(CHECK.valid_local_origin('https://[fd12:3456::1]', {'https'}))
             self.assertFalse(CHECK.valid_local_origin('https://[0:0:0:0:0:0:0:1]', {'https'}))
             self.assertFalse(CHECK.valid_local_origin('https://[fe80::1]', {'https'}))
+
+
+class TestEvidenceReadScope(unittest.TestCase):
+    def run_cli(self, *args):
+        with mock.patch.object(sys, "argv", ["check_program.py", *args]), mock.patch("builtins.print"):
+            return CHECK.main()
+
+    def test_ordinary_task_reads_its_own_profiles(self):
+        with mock.patch.object(CHECK, "validate_repository", return_value=[]) as validate:
+            with mock.patch.object(CHECK, "load", return_value={}), mock.patch.object(CHECK, "load_index_from_git", return_value=None):
+                self.assertEqual(self.run_cli("--task", "POC-006", "--base-ref", "HEAD"), 0)
+                self.assertEqual(validate.call_args.args[-1], {"POC-06"})
+                self.assertEqual(self.run_cli("--task", "POC-010", "--base-ref", "HEAD", "--poc", "POC-10"), 0)
+                self.assertEqual(validate.call_args.args[-1], {"POC-10"})
+
+    def test_inconsistent_task_selection_stops_before_profile_reads(self):
+        with mock.patch.object(CHECK, "validate_repository") as validate:
+            self.assertEqual(self.run_cli("--task", "POC-006", "--base-ref", "HEAD", "--poc", "POC-04"), 1)
+            self.assertEqual(self.run_cli("--task", "POC-006"), 1)
+            validate.assert_not_called()
+
+    def test_milestones_keep_the_full_profile_requirement(self):
+        for milestone, profile in (("GZ-018", "local-v1"), ("GZ-020", "production")):
+            with self.subTest(milestone=milestone):
+                with mock.patch.object(CHECK, "validate_repository", return_value=[]) as validate:
+                    self.assertEqual(self.run_cli("--milestone", milestone, "--profile", profile), 0)
+                    self.assertEqual(validate.call_args.args[-2:], (milestone, set()))
+                with mock.patch.object(CHECK, "load") as load:
+                    errors = CHECK.validate_repository(HERE.parent, profile, milestone=milestone, selected_pocs={"POC-03"})
+                    self.assertEqual(errors, ["full milestone cannot select a POC subset"])
+                    load.assert_not_called()
+
+    def test_other_legacy_terminal_rows_keep_metadata_validation(self):
+        plan = {"pocId": "POC-05", "taskId": "POC-005", "evidencePath": "evidence/POC-005"}
+        entry = {"status": "pass", "decision": "pass", "reviewer": "reviewer",
+                 "approvedAt": "2026-11-25T09:05:19Z", "resultRef": "evidence/POC-005/result.yaml"}
+        with mock.patch.object(CHECK, "concrete_roles", return_value=("implementer", "reviewer")):
+            with mock.patch.object(CHECK, "existing_ref", return_value=None) as resolve:
+                errors = []
+                CHECK.validate_terminal(HERE.parent, plan, {}, entry, {}, {}, {}, {}, errors, read_evidence=False)
+                self.assertEqual(errors, [])
+                malformed = dict(entry, reviewer="implementer", resultRef="evidence/POC-004/result.yaml")
+                CHECK.validate_terminal(HERE.parent, plan, {}, malformed, {}, {}, {}, {}, errors, read_evidence=False)
+                self.assertTrue(any("reviewer" in message for message in errors))
+                self.assertTrue(any("resultRef" in message for message in errors))
+                resolve.assert_not_called()
+                errors.clear()
+                CHECK.validate_terminal(HERE.parent, plan, {}, entry, {}, {}, {}, {}, errors)
+                resolve.assert_called_once()
+                self.assertTrue(any("existing file" in message for message in errors))
 
 
 if __name__ == "__main__":

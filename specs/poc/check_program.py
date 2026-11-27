@@ -7239,6 +7239,8 @@ def validate_terminal(
     compliance_schema: dict[str, Any] | None = None,
     reference_prefix: str | None = None,
     record_definitions: dict[str, Any] | None = None,
+    *,
+    read_evidence: bool = True,
 ) -> None:
     task_id = plan["taskId"]
     evidence = plan["evidencePath"]
@@ -7249,6 +7251,19 @@ def validate_terminal(
     if roles is None:
         return
     implementer, reviewer = roles
+
+    if entry.get("decision") != status:
+        errors.append(f"{label}: decision must equal terminal status")
+    if entry.get("reviewer") != reviewer:
+        errors.append(f"{label}: reviewer must equal concrete Task Spec reviewer")
+    if entry.get("reviewer") == implementer:
+        errors.append(f"{label}: reviewer must differ from concrete Task Spec implementer")
+    if not valid_utc_timestamp(entry.get("approvedAt")):
+        errors.append(f"{label}: approvedAt must be a valid UTC instant")
+    if not read_evidence:
+        if not lexical_ref(entry.get("resultRef"), reference_boundary):
+            errors.append(f"{label}: terminal resultRef must stay under {reference_boundary}")
+        return
 
     result_path = existing_ref(root, entry.get("resultRef"), reference_boundary)
     if result_path is None:
@@ -7278,14 +7293,6 @@ def validate_terminal(
     ):
         if result.get(key) != expected:
             errors.append(f"result record {task_id}: {key} must equal {expected!r}")
-    if entry.get("decision") != status:
-        errors.append(f"{label}: decision must equal terminal status")
-    if entry.get("reviewer") != reviewer:
-        errors.append(f"{label}: reviewer must equal concrete Task Spec reviewer")
-    if entry.get("reviewer") == implementer:
-        errors.append(f"{label}: reviewer must differ from concrete Task Spec implementer")
-    if not valid_utc_timestamp(entry.get("approvedAt")):
-        errors.append(f"{label}: approvedAt must be a valid UTC instant")
     if result.get("approval") != "approved":
         errors.append(f"result record {task_id}: approval must be approved")
     if not isinstance(result.get("rationale"), str) or not result["rationale"].strip():
@@ -7544,8 +7551,11 @@ def validate_repository(root: Path, selected_profile=None, require_results=False
         require_results = True
     if require_results and selected_profile not in PROFILE_SCOPES:
         errors.append('qualified results require an explicit known profile')
-    if selected_pocs and not set(selected_pocs).issubset(POCS):
+    selected_pocs = set(selected_pocs or ())
+    if not selected_pocs.issubset(POCS):
         errors.append('unknown selected POC')
+    if errors:
+        return errors
     base = root / "specs" / "poc"
     try:
         program = load(base / "program.yaml")
@@ -7824,6 +7834,7 @@ def validate_repository(root: Path, selected_profile=None, require_results=False
                 root, plan, canonical_task, entry, resource_map,
                 result_record_schema, execution_schema,
                 approval_schema, errors,
+                read_evidence=not selected_pocs or plan["pocId"] in selected_pocs,
             )
         else:
             errors.append(f"results-index {task_id}: unsupported status {status!r}")
@@ -7838,7 +7849,7 @@ def validate_repository(root: Path, selected_profile=None, require_results=False
     all_tasks = {t['taskId']:t for t in program_plan.get('tasks',[])}
     validate_profile_evidence(root,by_task,all_tasks,program_schema,result_record_schema,
         execution_schema,approval_schema,resource_map,selected_profile,require_results,
-        set(selected_pocs or []),errors)
+        selected_pocs,errors)
     return errors
 
 
@@ -7857,15 +7868,25 @@ def main() -> int:
         if args.repo_root
         else Path(__file__).resolve().parents[2]
     )
-    errors = validate_repository(root,args.profile,args.require_results,args.milestone,args.poc)
-
+    errors = []
+    selected_pocs = set(args.poc or ())
     if bool(args.task) != bool(args.base_ref):
         errors.append("--task and --base-ref must be supplied together")
-    elif args.task and args.base_ref:
-        current = load(root / "specs" / "poc" / "results-index.yaml")
-        base = load_index_from_git(root, args.base_ref, errors)
-        if base is not None:
-            validate_result_index_row_ownership(base, current, args.task, errors)
+    elif args.task:
+        if args.task not in TASKS:
+            errors.append(f"row-ownership task must be one of POC-001..POC-010, got {args.task}")
+        elif not args.milestone:
+            task_poc = f"POC-{args.task[-2:]}"
+            if selected_pocs and selected_pocs != {task_poc}:
+                errors.append("--poc must select the POC identified by --task")
+            selected_pocs = {task_poc}
+    if not errors:
+        errors = validate_repository(root, args.profile, args.require_results, args.milestone, selected_pocs)
+        if args.task:
+            current = load(root / "specs" / "poc" / "results-index.yaml")
+            base = load_index_from_git(root, args.base_ref, errors)
+            if base is not None:
+                validate_result_index_row_ownership(base, current, args.task, errors)
 
     if errors:
         for error in errors:
