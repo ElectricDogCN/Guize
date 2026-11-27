@@ -155,6 +155,11 @@ foundationTasks:
     status: completed
     completionRef: PR-297
     mergeCommit: 0ab07018876d0904250399cfe6683ccbd1d3aa9d
+  - taskId: OPS-032
+    title: 修正 POC-007 和 POC-008 的具体执行与审查人登记
+    status: completed
+    completionRef: PR-326
+    mergeCommit: b5157a68fa16d83fc2fa44395b95cb15b3d67a35
 waves:
   - {id: W1, order: 1, name: "需求与 POC 计划", maxConcurrent: 2, maxHighRisk: 1}
   - {id: W2, order: 2, name: "OpenAPI + 独立 POC", maxConcurrent: 3, maxHighRisk: 1}

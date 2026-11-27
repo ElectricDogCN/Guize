@@ -1,0 +1,413 @@
+{
+  "schemaVersion": 1,
+  "taskId": "OPS-032",
+  "reviewer": "/root/independent_review",
+  "registeredReviewerRole": "/root/independent_review",
+  "approvedAt": "2026-11-26T23:36:43Z",
+  "actualMain": "b5157a68fa16d83fc2fa44395b95cb15b3d67a35",
+  "source": "d982a4741604ae763ca2ab4495a0c3450aff3c4b",
+  "base": "5d89ae71542be66a7eda3eb02aec89623d086b24",
+  "parents": [
+    "5d89ae71542be66a7eda3eb02aec89623d086b24",
+    "d982a4741604ae763ca2ab4495a0c3450aff3c4b"
+  ],
+  "tree": "d5cfe9a6bd2b44aeda020da5cf99bdc936c7a975",
+  "pullRequest": 326,
+  "pullRequestUrl": "https://github.com/ElectricDogCN/Guize/pull/326",
+  "decision": "accepted_exact_actual_normal_implementation_main",
+  "actualImplementationMainAccepted": true,
+  "fullMainCiAccepted": true,
+  "actualMainControlsAccepted": true,
+  "localActualMainNineAccepted": true,
+  "normalReviewMayStart": true,
+  "mustFix": [],
+  "actualGit": {
+    "officialAndLocalOrderedParentsVerified": true,
+    "actualRemoteMainFresh": "b5157a68fa16d83fc2fa44395b95cb15b3d67a35",
+    "normalMergeMessageBindsTaskAndPr": true,
+    "sameReviewedTree": true,
+    "sourceToActualDiffEmpty": true,
+    "actualSourceReceiptSha256": "8aa42165e2810c9296804301e62c0e0f685a4620092fb483a787f0bd60ec9e64"
+  },
+  "officialActualMainCi": {
+    "url": "https://github.com/ElectricDogCN/Guize/actions/runs/45910015098",
+    "runId": 45910015098,
+    "runNumber": 1186,
+    "attempt": 1,
+    "event": "push",
+    "head": "b5157a68fa16d83fc2fa44395b95cb15b3d67a35",
+    "status": "completed",
+    "conclusion": "success",
+    "allFiveJobsSuccess": true,
+    "jobs": [
+      {
+        "jobId": 140215841640,
+        "name": "Governance Controls",
+        "status": "completed",
+        "conclusion": "success",
+        "durationSeconds": 149,
+        "actualCheckout": "2026-11-26T23:17:35.0196963Z b5157a68fa16d83fc2fa44395b95cb15b3d67a35",
+        "caseCount": 0,
+        "pytestSummary": [],
+        "conditionalStepSkips": [
+          "Task file validation",
+          "Evidence check",
+          "Evidence integrity check",
+          "Task-branch linkage check",
+          "Scope check"
+        ]
+      },
+      {
+        "jobId": 140215841887,
+        "name": "Governance Tests (shard 2)",
+        "status": "completed",
+        "conclusion": "success",
+        "durationSeconds": 450,
+        "actualCheckout": "2026-11-26T23:17:46.7061316Z b5157a68fa16d83fc2fa44395b95cb15b3d67a35",
+        "caseCount": 398,
+        "pytestSummary": [
+          "2026-11-26T23:24:35.9435808Z ======================= 398 passed in 399.20s (0:06:39) ========================"
+        ],
+        "conditionalStepSkips": []
+      },
+      {
+        "jobId": 140215841900,
+        "name": "Governance Tests (shard 1)",
+        "status": "completed",
+        "conclusion": "success",
+        "durationSeconds": 415,
+        "actualCheckout": "2026-11-26T23:17:39.9296870Z b5157a68fa16d83fc2fa44395b95cb15b3d67a35",
+        "caseCount": 425,
+        "pytestSummary": [
+          "2026-11-26T23:24:00.7131086Z ======================= 425 passed in 374.14s (0:06:14) ========================"
+        ],
+        "conditionalStepSkips": []
+      },
+      {
+        "jobId": 140215841952,
+        "name": "Governance Tests (shard 0)",
+        "status": "completed",
+        "conclusion": "success",
+        "durationSeconds": 999,
+        "actualCheckout": "2026-11-26T23:17:34.6092272Z b5157a68fa16d83fc2fa44395b95cb15b3d67a35",
+        "caseCount": 270,
+        "pytestSummary": [
+          "2026-11-26T23:33:45.6963574Z ======================= 270 passed in 962.61s (0:16:02) ========================"
+        ],
+        "conditionalStepSkips": []
+      },
+      {
+        "jobId": 140221252747,
+        "name": "Governance Checks",
+        "status": "completed",
+        "conclusion": "success",
+        "durationSeconds": 6,
+        "actualCheckout": "2026-11-26T23:33:53.7058830Z b5157a68fa16d83fc2fa44395b95cb15b3d67a35",
+        "caseCount": 0,
+        "pytestSummary": [],
+        "conditionalStepSkips": []
+      }
+    ],
+    "coverage": {
+      "passed": 1093,
+      "unique": 1093,
+      "failures": 0,
+      "errors": 0,
+      "testSkips": 0,
+      "xfail": 0,
+      "xpass": 0,
+      "exactSameIdsAsAcceptedSource1185": true,
+      "original1090AndExactlyThreeAddedCasesRetained": true,
+      "allThreeArtifactReceiptsIndependentlyRead": true,
+      "artifactReceipts": [
+        {
+          "shard": 0,
+          "actualCommit": "b5157a68fa16d83fc2fa44395b95cb15b3d67a35",
+          "attempt": 1,
+          "count": 270,
+          "exactSameIdsAsSource1185": true
+        },
+        {
+          "shard": 1,
+          "actualCommit": "b5157a68fa16d83fc2fa44395b95cb15b3d67a35",
+          "attempt": 1,
+          "count": 425,
+          "exactSameIdsAsSource1185": true
+        },
+        {
+          "shard": 2,
+          "actualCommit": "b5157a68fa16d83fc2fa44395b95cb15b3d67a35",
+          "attempt": 1,
+          "count": 398,
+          "exactSameIdsAsSource1185": true
+        }
+      ],
+      "aggregateOriginalText": "All 1093 cases covered exactly once",
+      "collectionDigest": "e7d41043d192ee6e12fe6b7a1b52c0cf63118c5a4786a632da8673a14a07c157",
+      "collectionDigestAlgorithm": "SHA-256 of sorted pytest node IDs joined by LF without final LF",
+      "allFiveActualCheckouts": "b5157a68fa16d83fc2fa44395b95cb15b3d67a35",
+      "perJobLimitSeconds": 1800,
+      "allJobsWithinOriginalLimit": true,
+      "pushOnlyConditionalStepSkips": [
+        "Task file validation",
+        "Evidence check",
+        "Evidence integrity check",
+        "Task-branch linkage check",
+        "Scope check"
+      ],
+      "conditionalStepsAreNotTestSkips": true
+    }
+  },
+  "actualLocalControls": {
+    "path": ".takeover-tools/ops032-implementation-main-b5157a68-independent-ci/local-main-controls.original.json",
+    "sha256": "de6ca757f9166ebb9e290a6ed8008fa59f5ed06e7ed2b34e998fc16567a990b1",
+    "actualMain": "b5157a68fa16d83fc2fa44395b95cb15b3d67a35",
+    "actualTree": "d5cfe9a6bd2b44aeda020da5cf99bdc936c7a975",
+    "allNineActualCommandsExitZero": true,
+    "controls": [
+      {
+        "command": "python scripts/check-task-file.py --task OPS-032",
+        "outputChunk": "0cacb9",
+        "exitCode": 0
+      },
+      {
+        "command": "python scripts/check-evidence.py --task OPS-032",
+        "outputChunk": "0cacb9",
+        "exitCode": 0
+      },
+      {
+        "command": "git diff --check 5d89ae71542be66a7eda3eb02aec89623d086b24 HEAD",
+        "outputChunk": "0cacb9",
+        "exitCode": 0
+      },
+      {
+        "command": "python scripts/check-program-plan-integrity.py --base-ref 5d89ae71542be66a7eda3eb02aec89623d086b24",
+        "outputChunk": "bd3b4c",
+        "exitCode": 0
+      },
+      {
+        "command": "python scripts/check-program-plan-history.py --base-ref 5d89ae71542be66a7eda3eb02aec89623d086b24 --head-ref HEAD",
+        "outputChunk": "bd3b4c",
+        "exitCode": 0
+      },
+      {
+        "command": "python scripts/check-program-plan-transitions.py --base-ref 5d89ae71542be66a7eda3eb02aec89623d086b24 --head-ref HEAD",
+        "outputChunk": "598527",
+        "exitCode": 0
+      },
+      {
+        "command": "python scripts/check-program-plan-finalization.py --base-ref 5d89ae71542be66a7eda3eb02aec89623d086b24 --head-ref HEAD",
+        "outputChunk": "598527",
+        "exitCode": 0
+      },
+      {
+        "command": "python scripts/check-program-lifecycle-guards.py --base-ref 5d89ae71542be66a7eda3eb02aec89623d086b24 --head-ref HEAD",
+        "outputChunk": "6f8465",
+        "exitCode": 0
+      },
+      {
+        "command": "python scripts/run-agent-coordination-gate.py",
+        "outputChunk": "6f8465",
+        "exitCode": 0
+      }
+    ],
+    "executionAttribution": "Executed by the task owner and independently read as exact terminal tool receipts. Reviewer did not rerun them.",
+    "assignmentBeforeNormalCompletion": {
+      "targets": [
+        "POC-007",
+        "POC-008"
+      ],
+      "result": "rejected",
+      "outputChunk": "4dd4e0"
+    },
+    "assignmentDenialMatchesCurrentIncompleteFoundationAndUnreleasedCapacity": true
+  },
+  "actualLifecycleState": {
+    "programFoundationStatus": "in_progress",
+    "activeStatus": "in_progress",
+    "taskStatus": "in_progress",
+    "agentRole": "implementer",
+    "baseSha": "5d89ae71542be66a7eda3eb02aec89623d086b24",
+    "branch": "chore/OPS-032-poc-actor-repair",
+    "moduleIds": [
+      "MOD-GOV"
+    ],
+    "riskLevel": "high",
+    "actors": {
+      "coordinator": "/root",
+      "implementer": "/root",
+      "reviewer": "/root/independent_review",
+      "integrator": "/root"
+    },
+    "exclusivePaths": [
+      "scripts/reservation-role-amendment.py",
+      "tests/governance/test_reservation_role_amendment.py",
+      "rules/reservation-role-amendment.md"
+    ],
+    "sharedPaths": [],
+    "lease": {
+      "acquiredAt": "2026-11-26T21:55:43Z",
+      "expiresAt": "2026-12-03T21:55:43Z"
+    },
+    "capacity": {
+      "active": 3,
+      "highOrCritical": 1
+    },
+    "issue324": "open",
+    "peerPoc007And008RemainReservedWithOriginalActorsScopesAndTaskBlobs": true,
+    "newIntentSha256": "139f0942ba83f27223b4514ae580df277f8c8113a1a9ca7be98b38cc43e79077",
+    "oldOps015AuthorityFrozenPocGateAndLedgerUnchanged": true
+  },
+  "codeReview": {
+    "oldOps015ConstantsIntentAnchorsAndTargetAssignmentsPreserved": true,
+    "extractedCompletionVerifierEquivalentForOldInputs": true,
+    "newAuthorityBoundToActualRegistration5d89SourceA053Base29aAndIntent139f": true,
+    "newAuthorityRequiresCompleteNonemptyImplementationIndependentReviewNormalCompletionAndCapacityRelease": true,
+    "onlyNewTargets": [
+      "POC-007",
+      "POC-008"
+    ],
+    "newOriginalTaskHashesAndFullRegistrySnapshotsCheckedAgainstFixedBase": true,
+    "unrecognizedTargetsDenied": true,
+    "approvalMustBeExactIndependentProspectiveAndCommittedBeforeActorChange": true,
+    "strictTaskRegistryByteReplacementAndStableFieldsPreserved": true,
+    "originalAndNewApprovalHistoryCannotBeLaunderedByRestore": true,
+    "importsRequireAnAlreadyAdmittedMainParentOriginalTransactionAndExactAutomaticTaskStageZeroResult": true,
+    "oldHistoryDispatchSemanticsRetained": true,
+    "boundedAddedTargetWorkAndExistingSuccessfulImmutableShaCachesRetained": true,
+    "noExternalNetworkOrSecurityTestsByReviewer": true
+  },
+  "permittedNextAction": "Prepare and validate the ordinary Own Review lifecycle candidate based on this accepted actual implementation main. Keep the same independent actors, original lease, three claims and immutable intent; retain full source and actual-main CI and independent review for that later phase.",
+  "actualReviewMainAccepted": false,
+  "normalCompletionMayStart": false,
+  "issueClosureAllowed": false,
+  "pocActorTransactionApproved": false,
+  "experimentApproved": false,
+  "taskCompleted": false,
+  "actualCapacityReleased": false,
+  "branchCleanupAllowed": false,
+  "evidencePins": [
+    {
+      "path": ".takeover-tools/ops032-implementation-main-b5157a68-independent-ci/actual-merge.connector.json",
+      "bytes": 6659,
+      "sha256": "4b47c8d662156a6e2f1f5ee37271c6cc4b830fa222e32ebd435f28898051069d"
+    },
+    {
+      "path": ".takeover-tools/ops032-implementation-main-b5157a68-independent-ci/artifacts-final.connector.json",
+      "bytes": 5183,
+      "sha256": "ae9938cb06c8a21c663b66a30d5f1e9925366d58e37db020dd702aa41281a4a9"
+    },
+    {
+      "path": ".takeover-tools/ops032-implementation-main-b5157a68-independent-ci/coverage-observed.json",
+      "bytes": 143670,
+      "sha256": "44e63e523d094f1cedbd5a1f77432f2c3298841724784b19d5d450f077d850b9"
+    },
+    {
+      "path": ".takeover-tools/ops032-implementation-main-b5157a68-independent-ci/initial-issue324.connector.json",
+      "bytes": 13038,
+      "sha256": "4a05cd8df1f42234dfaf59495ec69dadcaacde5d40b3d4b4728a36e7f5551793"
+    },
+    {
+      "path": ".takeover-tools/ops032-implementation-main-b5157a68-independent-ci/initial-main-ref.connector.json",
+      "bytes": 1301,
+      "sha256": "74f129c97c7874195c49ecd67ecbdea919854879b42f21ab9678593d7f6f52dc"
+    },
+    {
+      "path": ".takeover-tools/ops032-implementation-main-b5157a68-independent-ci/initial-run.connector.json",
+      "bytes": 26964,
+      "sha256": "0f72a67cf10bc8c32b06b4244977d8470205bbf210eb893857f900d2783a24ab"
+    },
+    {
+      "path": ".takeover-tools/ops032-implementation-main-b5157a68-independent-ci/issue324-final.connector.json",
+      "bytes": 13038,
+      "sha256": "4a05cd8df1f42234dfaf59495ec69dadcaacde5d40b3d4b4728a36e7f5551793"
+    },
+    {
+      "path": ".takeover-tools/ops032-implementation-main-b5157a68-independent-ci/job-140215841640.log-content.json",
+      "bytes": 66137,
+      "sha256": "a0bb18a67fc6540e3b41fc4273b7ad8f585ee513d1774d3e1e1bd1f0a22c9653"
+    },
+    {
+      "path": ".takeover-tools/ops032-implementation-main-b5157a68-independent-ci/job-140215841887.log-content.json",
+      "bytes": 164315,
+      "sha256": "385997e1ddb0d30b23f2c267b14b0d71f4f15c7114448fedc6e55d76deb0dec5"
+    },
+    {
+      "path": ".takeover-tools/ops032-implementation-main-b5157a68-independent-ci/job-140215841900.log-content.json",
+      "bytes": 177170,
+      "sha256": "3ffacd02dbfe267a2c7e0988db2d56714af5ceb707773a1561d7f525d6554b89"
+    },
+    {
+      "path": ".takeover-tools/ops032-implementation-main-b5157a68-independent-ci/job-140215841952.log-content.json",
+      "bytes": 130408,
+      "sha256": "688eda7baacaf9ad515d97c4d05d2b4414ce8f8fbea09dc9866afda4d5f39ceb"
+    },
+    {
+      "path": ".takeover-tools/ops032-implementation-main-b5157a68-independent-ci/job-140221252747.log-content.json",
+      "bytes": 16554,
+      "sha256": "d6fba28cb018b89e002da298b14640a06c6690f3c531cd82a102767343a03022"
+    },
+    {
+      "path": ".takeover-tools/ops032-implementation-main-b5157a68-independent-ci/jobs-final.connector.json",
+      "bytes": 33519,
+      "sha256": "4ecb033c07740a0db970f75b9fd0d0e92a17b726a493becb6fb877097abf5c9a"
+    },
+    {
+      "path": ".takeover-tools/ops032-implementation-main-b5157a68-independent-ci/local-main-controls.original.json",
+      "bytes": 2051,
+      "sha256": "de6ca757f9166ebb9e290a6ed8008fa59f5ed06e7ed2b34e998fc16567a990b1"
+    },
+    {
+      "path": ".takeover-tools/ops032-implementation-main-b5157a68-independent-ci/main-ref-final.connector.json",
+      "bytes": 1301,
+      "sha256": "74f129c97c7874195c49ecd67ecbdea919854879b42f21ab9678593d7f6f52dc"
+    },
+    {
+      "path": ".takeover-tools/ops032-implementation-main-b5157a68-independent-ci/merged-pr-final.connector.json",
+      "bytes": 38381,
+      "sha256": "9f4a812ae9c62751c80e86e95d0a10e91422b03cf4e81cafa1331543c8274825"
+    },
+    {
+      "path": ".takeover-tools/ops032-implementation-main-b5157a68-independent-ci/merged-pr.connector.json",
+      "bytes": 38381,
+      "sha256": "9f4a812ae9c62751c80e86e95d0a10e91422b03cf4e81cafa1331543c8274825"
+    },
+    {
+      "path": ".takeover-tools/ops032-implementation-main-b5157a68-independent-ci/run-final.connector.json",
+      "bytes": 26974,
+      "sha256": "802e4a0ae5bc42ca88f4ba217e1b71cb112d981263ef43e631f87bea6baf8c46"
+    },
+    {
+      "path": ".takeover-tools/ops032-implementation-main-b5157a68-independent-ci/shard-0-result.original.json",
+      "bytes": 36014,
+      "sha256": "0718c116726038b28c61379286c5a5c17b11388ad9ee461b9338042ce73d2d52"
+    },
+    {
+      "path": ".takeover-tools/ops032-implementation-main-b5157a68-independent-ci/shard-1-result.original.json",
+      "bytes": 53440,
+      "sha256": "1bd2900594df4b6d77e748e1cfe905286d8c6e08893cfb3e21b9f7d17fbe38b0"
+    },
+    {
+      "path": ".takeover-tools/ops032-implementation-main-b5157a68-independent-ci/shard-2-result.original.json",
+      "bytes": 48007,
+      "sha256": "0a332c127a2196141aaf17be44dad62a8e5f992417daef6c54530acc6ddb7831"
+    },
+    {
+      "path": ".takeover-tools/ops032-implementation-main-b5157a68-independent-ci/static-observed.json",
+      "bytes": 2088,
+      "sha256": "496aeed30badaf25ca5aaa0b87211d4b3b6de02a6433118fd506a491a5a3c501"
+    },
+    {
+      "path": ".takeover-tools/ops032-implementation-d982a474-final-source-independent-review.json",
+      "bytes": 19608,
+      "sha256": "8aa42165e2810c9296804301e62c0e0f685a4620092fb483a787f0bd60ec9e64"
+    },
+    {
+      "path": ".takeover-tools/ops032-reservation-main-5d89ae71-final-actual-main-independent-review.json",
+      "bytes": 15783,
+      "sha256": "86d4ad36764867960edbeb66e4a59f68c33279fe27aad1d1a6aca67a3da7eb18"
+    }
+  ],
+  "knownBoundary": "This is implementation actual-main acceptance only. OPS-032 remains in progress and occupies its high-risk slot. New POC actor transactions require subsequent actual independent Review, normal Completion/capacity release and per-target prospective metadata authority; no previous POC run or approval is transferred.",
+  "publicSafeRecordPolicy": "UTF-8 LF with public SHA/URLs and repository-relative evidence labels only; no private machine paths or signed retrieval parameters embedded."
+}

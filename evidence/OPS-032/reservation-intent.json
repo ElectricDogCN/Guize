@@ -1,0 +1,150 @@
+{
+  "schemaVersion": 1,
+  "kind": "prospective_poc_actor_amendment_intent",
+  "taskId": "OPS-032",
+  "sourceMain": "29a59614a63e646060a9d2df9dba284037ffc132",
+  "sourceIssue": "ISSUE-324",
+  "targetTasks": [
+    "POC-007",
+    "POC-008"
+  ],
+  "mutableActorFields": [
+    "implementer",
+    "reviewer"
+  ],
+  "implementationPaths": [
+    "scripts/reservation-role-amendment.py",
+    "tests/governance/test_reservation_role_amendment.py",
+    "rules/reservation-role-amendment.md"
+  ],
+  "originalReservations": {
+    "POC-007": {
+      "taskSpecSha256": "sha256:6250722a1a126507ffbc5e7f9fbf1969c93e9cd3e6ca26bba62ada202b351b1a",
+      "registryEntry": {
+        "taskId": "POC-007",
+        "title": "IPv6/TLS/Tunnel/CDN/Range 公网访问",
+        "owner": "ElectricDogCN",
+        "branch": "chore/POC-007-local-range",
+        "workPackage": "WP-M0-POC-07",
+        "coordinationGroup": "poc-results",
+        "integrationOrder": 3,
+        "riskLevel": "medium",
+        "issue": 315,
+        "status": "reserved",
+        "coordinator": "program-coordinator-agent",
+        "implementer": "task-owner-agent",
+        "reviewer": "independent-review-agent",
+        "integrator": "integration-agent",
+        "agentRole": "coordinator",
+        "baseBranch": "main",
+        "baseSha": "4c83731f60449abd1749cb2be1568c195f42f443",
+        "programPlan": "specs/coordination/program-plan.yaml",
+        "programTaskId": "POC-007",
+        "handoffPath": "evidence/POC-007/handoff.md",
+        "integrationStrategy": "merge",
+        "requirementIds": [
+          "REQ-V1-0003",
+          "REQ-V1-0008"
+        ],
+        "moduleIds": [
+          "MOD-EDGE",
+          "MOD-DEPLOY"
+        ],
+        "producesContracts": [
+          "POC-07-EVIDENCE"
+        ],
+        "consumesContracts": [
+          "POC-PROTOCOL-V1"
+        ],
+        "dependsOn": [
+          "GZ-010"
+        ],
+        "programWave": "W3",
+        "exclusivePaths": [
+          "poc/POC-07-public-network/**",
+          "evidence/POC-007/**"
+        ],
+        "sharedPaths": [
+          "adr/**",
+          "specs/poc/results-index.yaml"
+        ],
+        "lease": {
+          "acquiredAt": "2026-11-26T14:30:06Z",
+          "expiresAt": "2026-12-03T14:30:06Z"
+        }
+      },
+      "oldActors": {
+        "implementer": "task-owner-agent",
+        "reviewer": "independent-review-agent"
+      },
+      "newActors": {
+        "implementer": "/root",
+        "reviewer": "/root/independent_review"
+      }
+    },
+    "POC-008": {
+      "taskSpecSha256": "sha256:826a2e0c6c812a7526da2d805a4650614579cbe017d1516e7215a930541d0b83",
+      "registryEntry": {
+        "taskId": "POC-008",
+        "title": "Vue 3 与 React 管理端场景对比",
+        "owner": "ElectricDogCN",
+        "branch": "chore/POC-008-frontend-comparison",
+        "workPackage": "WP-M0-POC-08",
+        "coordinationGroup": "poc-results",
+        "integrationOrder": 2,
+        "riskLevel": "medium",
+        "issue": 298,
+        "status": "reserved",
+        "coordinator": "program-coordinator-agent",
+        "implementer": "task-owner-agent",
+        "reviewer": "independent-review-agent",
+        "integrator": "integration-agent",
+        "agentRole": "coordinator",
+        "baseBranch": "main",
+        "baseSha": "b9d0a3c4d81f57925e733e4ce800bf15694d8af0",
+        "programPlan": "specs/coordination/program-plan.yaml",
+        "programTaskId": "POC-008",
+        "handoffPath": "evidence/POC-008/handoff.md",
+        "integrationStrategy": "merge",
+        "requirementIds": [
+          "REQ-V1-0009"
+        ],
+        "moduleIds": [
+          "MOD-CONFIG",
+          "MOD-PLATFORM"
+        ],
+        "producesContracts": [
+          "POC-08-EVIDENCE"
+        ],
+        "consumesContracts": [
+          "POC-PROTOCOL-V1"
+        ],
+        "dependsOn": [
+          "GZ-010"
+        ],
+        "programWave": "W4",
+        "exclusivePaths": [
+          "poc/POC-08-frontend-framework/**",
+          "evidence/POC-008/**"
+        ],
+        "sharedPaths": [
+          "adr/**",
+          "specs/poc/results-index.yaml"
+        ],
+        "lease": {
+          "acquiredAt": "2026-11-26T07:01:36Z",
+          "expiresAt": "2026-12-03T07:01:36Z"
+        }
+      },
+      "oldActors": {
+        "implementer": "task-owner-agent",
+        "reviewer": "independent-review-agent"
+      },
+      "newActors": {
+        "implementer": "/root",
+        "reviewer": "/root/gz022_planning_independent_review"
+      }
+    }
+  },
+  "oldExecutionAliasOrQualificationTransferAllowed": false
+}

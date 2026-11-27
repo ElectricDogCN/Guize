@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "taskId": "OPS-032",
+  "actualMain": "b5157a68fa16d83fc2fa44395b95cb15b3d67a35",
+  "source": "d982a4741604ae763ca2ab4495a0c3450aff3c4b",
+  "base": "5d89ae71542be66a7eda3eb02aec89623d086b24",
+  "tree": "d5cfe9a6bd2b44aeda020da5cf99bdc936c7a975",
+  "officialMainRun": 45910015098,
+  "controls": [
+    {
+      "command": "python scripts/check-task-file.py --task OPS-032",
+      "outputChunk": "0cacb9",
+      "exitCode": 0
+    },
+    {
+      "command": "python scripts/check-evidence.py --task OPS-032",
+      "outputChunk": "0cacb9",
+      "exitCode": 0
+    },
+    {
+      "command": "git diff --check 5d89ae71542be66a7eda3eb02aec89623d086b24 HEAD",
+      "outputChunk": "0cacb9",
+      "exitCode": 0
+    },
+    {
+      "command": "python scripts/check-program-plan-integrity.py --base-ref 5d89ae71542be66a7eda3eb02aec89623d086b24",
+      "outputChunk": "bd3b4c",
+      "exitCode": 0
+    },
+    {
+      "command": "python scripts/check-program-plan-history.py --base-ref 5d89ae71542be66a7eda3eb02aec89623d086b24 --head-ref HEAD",
+      "outputChunk": "bd3b4c",
+      "exitCode": 0
+    },
+    {
+      "command": "python scripts/check-program-plan-transitions.py --base-ref 5d89ae71542be66a7eda3eb02aec89623d086b24 --head-ref HEAD",
+      "outputChunk": "598527",
+      "exitCode": 0
+    },
+    {
+      "command": "python scripts/check-program-plan-finalization.py --base-ref 5d89ae71542be66a7eda3eb02aec89623d086b24 --head-ref HEAD",
+      "outputChunk": "598527",
+      "exitCode": 0
+    },
+    {
+      "command": "python scripts/check-program-lifecycle-guards.py --base-ref 5d89ae71542be66a7eda3eb02aec89623d086b24 --head-ref HEAD",
+      "outputChunk": "6f8465",
+      "exitCode": 0
+    },
+    {
+      "command": "python scripts/run-agent-coordination-gate.py",
+      "outputChunk": "6f8465",
+      "exitCode": 0
+    }
+  ],
+  "assignmentBeforeNormalCompletion": {
+    "targets": [
+      "POC-007",
+      "POC-008"
+    ],
+    "result": "rejected",
+    "outputChunk": "4dd4e0"
+  },
+  "activeTasks": 3,
+  "highRiskCount": 1
+}
