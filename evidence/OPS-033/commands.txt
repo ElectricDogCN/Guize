@@ -34,3 +34,20 @@ Exit Code: 0
 
 Command: git diff --check 4aa7402d5a45555fa1c063ec6366c4efd8f5c33f b54476514db1531c16d50ec22274044b82605292
 Exit Code: 0
+
+Observed implementation candidate worktree on Windows
+Environment: PYTHONUTF8=1, GIT_LFS_SKIP_SMUDGE=1
+Command: python -B -m pytest -q -p no:cacheprovider tests/governance/test_program_planning_revision.py tests/governance/test_program_plan_execution_integrity.py -k 'v1_implementation_split or v1_release_closure or fixed_scope_membership or legacy_manifest_refs'
+Result: 15 passed, 164 deselected in 128.18s
+Exit Code: 0
+
+Command: python -B scripts/check-schemas.py
+Exit Code: 0
+
+Command: python -B scripts/check-markdown.py
+Exit Code: 0
+
+Command: python -B -m pytest --collect-only -q --color=no -p no:cacheprovider tests/governance/
+Result: 1101 collected, original 1093 retained by exact case ID and 8 added
+Sorted candidate collection SHA256: 06e39b30f10307af758c62ce2ec69d14440dee77b5e8ff0f2250a49ded9ee293
+Exit Code: 0

@@ -1550,3 +1550,136 @@ def test_dependency_activation_rejects_boolean_integer_aliases(monkeypatch, stor
         assert "True was expected" in errors[0]
     else:
         assert "must bind the actual Git snapshots" in errors[0]
+
+
+V1_SPLIT_PREDECESSOR = "4aa7402d5a45555fa1c063ec6366c4efd8f5c33f"
+
+
+def implementation_split_child(parent):
+    child = copy.deepcopy(parent)
+    child.update(
+        taskId="GZ-031", title="Independently verifiable bootstrap", wave="W5",
+        coordinationGroup="gz-031", integrationOrder=3, dependsOn=["GZ-008"],
+        requirementIds=["REQ-V1-0007", "REQ-V1-0010"], moduleIds=["MOD-PLATFORM", "MOD-WORKER"],
+        outputPaths=["backend/guize-bootstrap/**", "services/guize-worker-agent/bootstrap/**", "evidence/GZ-031/**"],
+        sharedPaths=[], producesContracts=[], consumesContracts=["PLUGIN-CONTRACT-V1", "WORKER-CONTRACT-V1"],
+        acceptanceIds=[], pocIds=[], branchPattern="chore/GZ-031-*",
+    )
+    return child
+
+
+def place_implementation_split(plan, parent, child):
+    parent["dependsOn"].append(child["taskId"])
+    plan["tasks"].append(child)
+    plan.setdefault("v1ImplementationSplits", {})[child["taskId"]] = parent["taskId"]
+
+
+class ImplementationSplitHistory(History):
+    """Exercise original typed authority on a real fixed-scope predecessor."""
+
+    def __init__(self, directory):
+        self.root = directory / "repo"
+        subprocess.run(["git", "clone", "--shared", "--no-checkout", "--quiet", str(ROOT), str(self.root)],
+                       check=True, capture_output=True)
+        for key, value in (("user.name", "Split fixture"), ("user.email", "fixture@example.com"),
+                           ("core.autocrlf", "false"), ("core.longpaths", "true")):
+            self.git("config", key, value)
+        self.git("sparse-checkout", "set", "--no-cone", "/*", "!/evidence/POC-003/", "!/evidence/POC-005/")
+        self.git("checkout", "-B", "main", V1_SPLIT_PREDECESSOR)
+        for path in (PLANNING.PROGRAM_SCHEMA, PLANNING.MANIFEST_SCHEMA):
+            self.write(path, (ROOT / path).read_text(encoding="utf-8"))
+        self.base = self.commit("Adopt reviewed split schemas in fixture")
+        self.owner, self.branch = OWNER, f"chore/{OWNER}-v1-split"
+        self.task_path = f"specs/tasks/{self.owner}.md"
+        self.plan, self.active = self.read(PLANNING.PLAN), self.read(PLANNING.ACTIVE)
+        parent = next(row for row in self.plan["tasks"] if row["taskId"] == "GZ-012")
+        digest = hashlib.sha256(json.dumps(parent, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()).hexdigest()
+        self.manifest = {
+            "schemaVersion": 2, "kind": "v1-implementation-split", "taskId": self.owner,
+            "issue": 777, "reservationParent": self.base, "parentTaskId": parent["taskId"],
+            "originalParentSha256": digest, "child": implementation_split_child(parent),
+        }
+        self.manifest_path = f"evidence/{self.owner}/v1-implementation-split.json"
+        self.entry = copy.deepcopy(PLANNING.document(str(ROOT), ORIGINAL_RESERVATION, PLANNING.ACTIVE)["tasks"][0])
+        now = datetime.now(timezone.utc)
+        lease = {"acquiredAt": (now-timedelta(minutes=2)).strftime("%Y-%m-%dT%H:%M:%SZ"),
+                 "expiresAt": (now+timedelta(hours=2)).strftime("%Y-%m-%dT%H:%M:%SZ")}
+        self.entry.update(taskId=self.owner, programTaskId=self.owner, issue=777, status="reserved", agentRole="coordinator",
+                          branch=self.branch, baseSha=self.base, dependsOn=[], lease=lease,
+                          exclusivePaths=[PLANNING.PLAN], sharedPaths=[])
+        original = PLANNING.blob(str(ROOT), ORIGINAL_RESERVATION, "specs/tasks/OPS-009.md").decode("utf-8").split("---", 2)
+        self.front, self.body = yaml.safe_load(original[1]), original[2].replace("OPS-009", self.owner)
+        self.front.update(id=self.owner, programTaskId=self.owner, issue=777, status="reserved", agentRole="coordinator",
+                          workBranch=self.branch, baseSha=self.base, dependsOn="", leaseExpiresAt=lease["expiresAt"])
+        self.git("checkout", "-b", "split-reservation")
+        self.plan["foundationTasks"].append({"taskId":self.owner, "title":self.entry["title"], "status":"reserved",
+                                            "completionRef":"ISSUE-777", "mergeCommit":None})
+        self.active["tasks"].append(self.entry)
+        self.save()
+        self.dump(self.manifest_path, self.manifest)
+        self.commit(f"Reserve original split planner {self.owner} #777")
+        self.git("checkout", "main")
+        self.git("merge", "--no-ff", "--no-edit", "split-reservation")
+        self.registration = self.git("rev-parse", "HEAD")
+        self.git("checkout", "-b", self.branch)
+
+    def apply(self):
+        next(row for row in self.plan["foundationTasks"] if row["taskId"] == self.owner)["status"] = "in_progress"
+        self.entry.update(status="in_progress", agentRole="implementer", baseSha=self.registration)
+        self.front.update(status="in_progress", agentRole="implementer", baseSha=self.registration)
+        parent = next(row for row in self.plan["tasks"] if row["taskId"] == self.manifest["parentTaskId"])
+        place_implementation_split(self.plan, parent, copy.deepcopy(self.manifest["child"]))
+
+
+def test_v1_implementation_split_uses_original_canonical_authority(tmp_path):
+    history = ImplementationSplitHistory(tmp_path)
+    before = copy.deepcopy(history.plan)
+    history.apply()
+    history.finish()
+    approved, errors = history.decision()
+    assert not errors
+    assert approved["targetTaskIds"] == {"GZ-012", "GZ-031"}
+    assert "v1ImplementationSplits" not in approved["projectedPlan"]
+    assert PLANNING.task_scope(history.plan, "GZ-031") == "V1"
+    assert history.plan["scopeBoundary"] == before["scopeBoundary"]
+    parent = next(row for row in history.plan["tasks"] if row["taskId"] == "GZ-012")
+    assert "POC-008" in parent["dependsOn"]
+    assert history.manifest["child"]["dependsOn"] == ["GZ-008"]
+
+    # A restored document still has a mutation in its actual ancestry.
+    altered = copy.deepcopy(history.manifest)
+    altered["child"]["title"] += " rewritten"
+    history.dump(history.manifest_path, altered)
+    history.commit("Rewrite typed split authority")
+    history.dump(history.manifest_path, history.manifest)
+    history.commit("Restore typed split authority")
+    rejected, errors = history.decision()
+    assert rejected is None
+    assert any("changed in intermediate history" in error for error in errors)
+
+
+def test_v1_implementation_split_refuses_extra_program_edit(tmp_path):
+    history = ImplementationSplitHistory(tmp_path)
+    history.apply()
+    parent = next(row for row in history.plan["tasks"] if row["taskId"] == "GZ-012")
+    parent["dependsOn"].remove("POC-008")
+    history.finish()
+    rejected, errors = history.decision()
+    assert rejected is None and any("undeclared Program changes" in error for error in errors)
+
+
+@pytest.mark.parametrize(("field", "value", "message"), [
+    ("outputPaths", ["backend-other/**"], "exclusive output paths"),
+    ("sharedPaths", ["backend/guize-bootstrap/**"], "shared paths"),
+    ("requirementIds", ["REQ-EDGE-104-0001"], "broadened requirementIds"),
+    ("dependsOn", ["GZ-030"], "dependency outside its parent"),
+    ("producesContracts", ["PLUGIN-CONTRACT-V1"], "separate contract"),
+])
+def test_v1_implementation_split_keeps_parent_boundaries(field, value, message):
+    plan = PLANNING.document(str(ROOT), V1_SPLIT_PREDECESSOR, PLANNING.PLAN)
+    parent = next(row for row in plan["tasks"] if row["taskId"] == "GZ-012")
+    child = implementation_split_child(parent)
+    child[field] = value
+    place_implementation_split(plan, parent, child)
+    with pytest.raises(PLANNING.PlanningError, match=message):
+        PLANNING.validate_scope_boundary(plan)

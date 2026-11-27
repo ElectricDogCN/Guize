@@ -58,6 +58,20 @@ $defs:
       before: {type: 'null'}
       after: {$ref: 'program-plan.schema.yaml#/$defs/planningBaseline'}
 
+  v1ImplementationSplit:
+    type: object
+    additionalProperties: false
+    required: [schemaVersion, kind, taskId, issue, reservationParent, parentTaskId, originalParentSha256, child]
+    properties:
+      schemaVersion: {const: 2}
+      kind: {const: v1-implementation-split}
+      taskId: {$ref: 'program-plan.schema.yaml#/$defs/taskId'}
+      issue: {type: integer, minimum: 1}
+      reservationParent: {type: string, pattern: '^[0-9a-f]{40}$'}
+      parentTaskId: {$ref: 'program-plan.schema.yaml#/$defs/taskId'}
+      originalParentSha256: {type: string, pattern: '^[0-9a-f]{64}$'}
+      child: {$ref: '#/$defs/plannedTask'}
+
   plannedEdgeTask:
     allOf:
     - $ref: program-plan.schema.yaml#/$defs/edgeTask
