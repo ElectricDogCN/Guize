@@ -1,4 +1,13 @@
-# OPS-033 登记交接
+# OPS-033 历史缓存校验补充登记
+
+- Task `OPS-033`，Issue [#331](https://github.com/ElectricDogCN/Guize/issues/331)，本次提交分支 `chore/OPS-033-history-pin-scope`，唯一父为实际主线 `fd90de5d1244efc016eb5871a7011704c889299f`。本次候选提交从 Git PR 固定头解析。Registry 的原预留分支 `chore/OPS-033-v1-split-reservation` 仍处于 reserved/coordinator。
+- Owner 为 ElectricDogCN，Coordinator、Implementer、Integrator 为 `/root`，独立 Reviewer 为 `/root/independent_review`。集成序号 25，租约截至 `2026-12-04T03:09:05Z`。无共享路径。沿用 Program Plan 与 Active Work schemaVersion 1、Task Spec schemaVersion 2。
+- 本次变更六个自身 Registry、Task 与 Evidence 文件，逐文件路径见[变更清单](changed-files.md)。八项后续独占范围和本次保护的实际 Git 对象见[范围记录](history-cache-scope-amendment-v1.json)。第八项为 `scripts/check-program-plan-history.py`，顺序与 Task 独占路径一致。
+- 前一实施候选 `1a6165051d1ccfffae657b82afc48f835880487f` 的官方 #1197 已失败，分片 1 有六项既有缓存测试因输入版本未列入精确指纹而落回常规校验。补齐精确指纹后的隔离实验中，六项定向测试退出 0。该实验属于后续实现的诊断；本次登记没有写入代码。[失败分片](https://github.com/ElectricDogCN/Guize/actions/runs/45939824377/job/140311321246)
+- `git diff --check`、`python -B scripts/check-task-file.py --task OPS-033`、`python -B scripts/check-evidence.py --task OPS-033`、`python -B scripts/check-schemas.py` 在本次候选工作树退出 0。固定提交提交后重验 Program 历史与生命周期、协作和作用域。原始登记命令仍可从[历史记录](commands.txt)查阅。
+- Reviewer 核对注册顺序、元数据范围、角色、租约和固定源完整官方 CI。Integrator 只合入确切受审源，再复验实际第一父主线。实际登记接受后，Implementer 从新主线单独提交激活与兼容性代码修复，保留原测试和每作业 30 分钟。撤回本次候选可关闭 PR；已合入按正式范围撤回保留证据历史。
+
+## 原登记的历史记录
 
 - Task 为 OPS-033，基础主线为 `4aa7402d5a45555fa1c063ec6366c4efd8f5c33f`，工作分支为 `chore/OPS-033-v1-split-reservation`。[问题记录 #331](https://github.com/ElectricDogCN/Guize/issues/331)
 - 任务所有者为 ElectricDogCN，Coordinator、Implementer 和 Integrator 为 `/root`，独立 Reviewer 为 `/root/independent_review`。

@@ -104,7 +104,7 @@ tasks:
   agentRole: coordinator
   branch: chore/OPS-033-v1-split-reservation
   baseBranch: main
-  baseSha: 4aa7402d5a45555fa1c063ec6366c4efd8f5c33f
+  baseSha: fd90de5d1244efc016eb5871a7011704c889299f
   workPackage: WP-M0-01
   programPlan: specs/coordination/program-plan.yaml
   programTaskId: OPS-033
@@ -129,6 +129,7 @@ tasks:
   - specs/coordination/README.md
   - tests/governance/test_program_planning_revision.py
   - tests/governance/test_program_plan_execution_integrity.py
+  - scripts/check-program-plan-history.py
   sharedPaths: []
   handoffPath: evidence/OPS-033/handoff.md
   integrationStrategy: merge
