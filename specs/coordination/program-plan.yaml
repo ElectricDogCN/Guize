@@ -2048,7 +2048,7 @@ tasks:
   - taskId: GZ-031
     title: 建立可独立启动的核心骨架与插件装载边界
     kind: scaffold
-    status: reserved
+    status: in_progress
     workPackage: WP-M0-06
     riskLevel: high
     ownerRole: task-owner-agent
