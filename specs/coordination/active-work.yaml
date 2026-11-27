@@ -91,3 +91,43 @@ tasks:
   lease:
     acquiredAt: '2026-11-26T07:01:36Z'
     expiresAt: '2026-12-03T07:01:36Z'
+- taskId: OPS-036
+  issue: 357
+  title: 按实际依赖验收 POC 证据并限定任务检查范围
+  status: reserved
+  riskLevel: high
+  owner: ElectricDogCN
+  coordinator: /root
+  implementer: /root
+  reviewer: /root/independent_review
+  integrator: /root
+  agentRole: coordinator
+  branch: chore/OPS-036-poc-source-qualification
+  baseBranch: main
+  baseSha: f132bb93ac03ba39af9b991e9f147e9075031e05
+  workPackage: WP-M0-01
+  programPlan: specs/coordination/program-plan.yaml
+  programTaskId: OPS-036
+  programWave: FOUNDATION
+  requirementIds:
+  - REQ-V1-0010
+  moduleIds:
+  - MOD-GOV
+  producesContracts: []
+  consumesContracts:
+  - CONTRACT-PROGRAM-PLAN
+  - CONTRACT-TASK-SPEC
+  - CONTRACT-ACTIVE-WORK
+  coordinationGroup: poc-source-dependency-admission
+  dependsOn:
+  - OPS-035
+  exclusivePaths:
+  - specs/poc/check_program.py
+  - specs/poc/test_program.py
+  sharedPaths: []
+  handoffPath: evidence/OPS-036/handoff.md
+  integrationStrategy: merge
+  integrationOrder: 28
+  lease:
+    acquiredAt: '2026-11-27T20:46:43Z'
+    expiresAt: '2026-12-04T20:46:43Z'

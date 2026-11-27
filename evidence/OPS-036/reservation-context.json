@@ -1,0 +1,45 @@
+{
+  "taskId": "OPS-036",
+  "base": "f132bb93ac03ba39af9b991e9f147e9075031e05",
+  "issue": 357,
+  "branch": "chore/OPS-036-poc-source-qualification",
+  "originalAuthorityReservation": "1d4daa8b33f12b771946c9cafa6e13777314f696",
+  "authorityIntent": "evidence/OPS-035/source-dependency-admission-intent.json",
+  "authorityIntentSha256": "e8148aabbce63a94e3b6d135b390a1ee9d0d39e952aa891506b19b61af64c1f4",
+  "parentAcceptanceSha256": "45bd20fc52a5c05fc80eff31acc6f7b76419de35bf618176c665565ab849797c",
+  "endedRefsCleanupSha256": "db0c4b1e2f4a31870b7080cc50412a551b69d80ed5f2c671919f7a0a382aa82b",
+  "targetParentBindings": [
+    {
+      "path": "specs/poc/check_program.py",
+      "gitBlob": "b7e0e15dd0af68289b8b49ad80dad5178e219d1c",
+      "sha256": "6cbbb4c2b2f79a76af71e33c7d2db8a9842a5f7b0f22c3f5e45bd4eb79ab8851"
+    },
+    {
+      "path": "specs/poc/test_program.py",
+      "gitBlob": "20691285939698fcf769d2a96362c95dc8e8a28c",
+      "sha256": "814cd9c7bc529fccfc5f9091e5580168455d533c726fa56e8edec471ec9e7268"
+    },
+    {
+      "path": "specs/poc/program.schema.yaml",
+      "gitBlob": "81071def6615928ef484cd94949341696c4922aa",
+      "sha256": "74b5218c3e8b126727ddb15b9830240e9ee0b5a1eb73558c2f6ae138e70934d7"
+    },
+    {
+      "path": "specs/poc/program.yaml",
+      "gitBlob": "039a6b06a800726bebc1c1822a8988243c11bdcb",
+      "sha256": "4b155984d793fd0b990003826af2ef94ffc2f14e3dc31fb07a6fe437863e02e2"
+    },
+    {
+      "path": "docs/18-testing-and-acceptance.md",
+      "gitBlob": "e4a9a2f446c67bfecc092951348891b4ebf80cd3",
+      "sha256": "5e74b1955ded3377a8f4947382a3987dab15de6c8390bd2b514ba43b6c5804ad"
+    }
+  ],
+  "scopedClaims": [
+    "specs/poc/check_program.py",
+    "specs/poc/test_program.py"
+  ],
+  "metadataOnly": true,
+  "formalFreezeRequired": true,
+  "frozenSourceWritesApproved": false
+}
