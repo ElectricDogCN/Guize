@@ -1,0 +1,10 @@
+{
+  "taskId": "OPS-033",
+  "base": "4aa7402d5a45555fa1c063ec6366c4efd8f5c33f",
+  "status": "observed-before-reservation",
+  "originalV1Members": 27,
+  "existingGuard": {
+    "ordinary_task_only": "Program tasks must belong to exactly their fixed scope",
+    "appended_to_frozen_original_members": "Original twenty-seven V1 members/final task changed"
+  }
+}
