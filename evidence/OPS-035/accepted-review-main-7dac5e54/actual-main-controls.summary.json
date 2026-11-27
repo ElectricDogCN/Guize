@@ -1,0 +1,120 @@
+{
+  "taskId": "OPS-035",
+  "actualMain": "7dac5e54b6da164fa1b3ed895a1bca2a281b75dd",
+  "source": "aa39a471b0f75963f11d4fd3d70947a1c5d5cf2a",
+  "base": "6d4a9a42180057b46dbe4cb827050cd3f2e29e4f",
+  "tree": "69129ab1d2812960ab837f25571ecaeb4ea7dc81",
+  "originalRecordSha256": "83faf9cf25c8e50b881dcc21cc0077f60f8ee3a2021dce00bbb79d293836b722",
+  "checks": {
+    "diff": {
+      "argv": [
+        "git",
+        "diff",
+        "--check",
+        "6d4a9a42180057b46dbe4cb827050cd3f2e29e4f",
+        "7dac5e54b6da164fa1b3ed895a1bca2a281b75dd"
+      ],
+      "exitCode": 0,
+      "seconds": 0.08,
+      "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "integrity": {
+      "argv": [
+        "python",
+        "scripts/check-program-plan-integrity.py",
+        "--base-ref",
+        "6d4a9a42180057b46dbe4cb827050cd3f2e29e4f"
+      ],
+      "exitCode": 0,
+      "seconds": 37.39,
+      "logSha256": "02255e86aeff64ee8c8bfd063c8fd771b9530a44b092ae24301da6c3129bbbed"
+    },
+    "history": {
+      "argv": [
+        "python",
+        "scripts/check-program-plan-history.py",
+        "--base-ref",
+        "6d4a9a42180057b46dbe4cb827050cd3f2e29e4f",
+        "--head-ref",
+        "7dac5e54b6da164fa1b3ed895a1bca2a281b75dd"
+      ],
+      "exitCode": 0,
+      "seconds": 588.5,
+      "logSha256": "83051d11927d6d58a96d7eb0f28be7117aab3ed4471bffbf457a46a74a47918e"
+    },
+    "transitions": {
+      "argv": [
+        "python",
+        "scripts/check-program-plan-transitions.py",
+        "--base-ref",
+        "6d4a9a42180057b46dbe4cb827050cd3f2e29e4f",
+        "--head-ref",
+        "7dac5e54b6da164fa1b3ed895a1bca2a281b75dd"
+      ],
+      "exitCode": 0,
+      "seconds": 20.75,
+      "logSha256": "608a3efdbf0314204e26438d2fc5087ff8e8781c1fe4df7bd2a357c7423553d2"
+    },
+    "finalization": {
+      "argv": [
+        "python",
+        "scripts/check-program-plan-finalization.py",
+        "--base-ref",
+        "6d4a9a42180057b46dbe4cb827050cd3f2e29e4f",
+        "--head-ref",
+        "7dac5e54b6da164fa1b3ed895a1bca2a281b75dd"
+      ],
+      "exitCode": 0,
+      "seconds": 0.67,
+      "logSha256": "00f02248951a2de72cae1fbf320b78849b9e5374aba79702185a3f82f5482319"
+    },
+    "lifecycle-guards": {
+      "argv": [
+        "python",
+        "scripts/check-program-lifecycle-guards.py",
+        "--base-ref",
+        "6d4a9a42180057b46dbe4cb827050cd3f2e29e4f",
+        "--head-ref",
+        "7dac5e54b6da164fa1b3ed895a1bca2a281b75dd"
+      ],
+      "exitCode": 0,
+      "seconds": 142.62,
+      "logSha256": "a63a7673ef707dec0ac483d72603871e908d1d967406a6cccc1fc61893a06334"
+    },
+    "coordination": {
+      "argv": [
+        "python",
+        "scripts/run-agent-coordination-gate.py"
+      ],
+      "exitCode": 0,
+      "seconds": 0.73,
+      "logSha256": "642363ebef5e5daecdaa1062ffdb129e1a18cbd8d37e2f62bc20922c008c72c1"
+    },
+    "task-finalization": {
+      "argv": [
+        "python",
+        "scripts/check-program-plan-finalization.py",
+        "--base-ref",
+        "6d4a9a42180057b46dbe4cb827050cd3f2e29e4f",
+        "--head-ref",
+        "7dac5e54b6da164fa1b3ed895a1bca2a281b75dd",
+        "--task",
+        "OPS-035"
+      ],
+      "exitCode": 0,
+      "seconds": 0.66,
+      "logSha256": "07fbfdac3e338a6bbf960e2763c0990dd80b7bfc114dc244325cb9a6640ec65d"
+    },
+    "evidence": {
+      "argv": [
+        "python",
+        "scripts/check-evidence.py",
+        "--task",
+        "OPS-035"
+      ],
+      "exitCode": 0,
+      "seconds": 0.11,
+      "logSha256": "d65fc4d535e2f7fbdcbe6a08c36ee1053be37930a0c5cad6a2a7bd6eb695713e"
+    }
+  }
+}

@@ -47,3 +47,17 @@
 - `specs/coordination/active-work.yaml`
 - `specs/coordination/program-plan.yaml`
 - `specs/tasks/OPS-035.md`
+
+## 正常 Completion 路径
+
+- `evidence/OPS-035/accepted-review-main-7dac5e54/.gitattributes`
+- `evidence/OPS-035/accepted-review-main-7dac5e54/actual-main-controls.summary.json`
+- `evidence/OPS-035/accepted-review-main-7dac5e54/independent-review.original.json`
+- `evidence/OPS-035/changed-files.md`
+- `evidence/OPS-035/commands.txt`
+- `evidence/OPS-035/handoff.md`
+- `evidence/OPS-035/summary.md`
+- `evidence/OPS-035/test-results/README.md`
+- `specs/coordination/active-work.yaml`
+- `specs/coordination/program-plan.yaml`
+- `specs/tasks/OPS-035.md`

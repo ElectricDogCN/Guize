@@ -96,3 +96,61 @@ git diff --check 6d4a9a42180057b46dbe4cb827050cd3f2e29e4f...HEAD
 python scripts/check-task-file.py --task OPS-035
 python scripts/run-program-lifecycle-gate.py --base-ref 6d4a9a42180057b46dbe4cb827050cd3f2e29e4f --head-ref HEAD --task OPS-035 --branch-name chore/OPS-035-poc-dependency-admission
 python scripts/check-evidence.py --task OPS-035
+
+OPS-035 已验收实际 Review 7dac5e54b6da164fa1b3ed895a1bca2a281b75dd
+Official Run: https://github.com/ElectricDogCN/Guize/actions/runs/46058039360
+Issue #352: closed/completed at 2026-11-27T19:50:08Z
+
+Check: diff
+Command: git diff --check 6d4a9a42180057b46dbe4cb827050cd3f2e29e4f 7dac5e54b6da164fa1b3ed895a1bca2a281b75dd
+Exit Code: 0
+Log SHA-256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+Result: PASS
+
+Check: integrity
+Command: python scripts/check-program-plan-integrity.py --base-ref 6d4a9a42180057b46dbe4cb827050cd3f2e29e4f
+Exit Code: 0
+Log SHA-256: 02255e86aeff64ee8c8bfd063c8fd771b9530a44b092ae24301da6c3129bbbed
+Result: PASS
+
+Check: history
+Command: python scripts/check-program-plan-history.py --base-ref 6d4a9a42180057b46dbe4cb827050cd3f2e29e4f --head-ref 7dac5e54b6da164fa1b3ed895a1bca2a281b75dd
+Exit Code: 0
+Log SHA-256: 83051d11927d6d58a96d7eb0f28be7117aab3ed4471bffbf457a46a74a47918e
+Result: PASS
+
+Check: transitions
+Command: python scripts/check-program-plan-transitions.py --base-ref 6d4a9a42180057b46dbe4cb827050cd3f2e29e4f --head-ref 7dac5e54b6da164fa1b3ed895a1bca2a281b75dd
+Exit Code: 0
+Log SHA-256: 608a3efdbf0314204e26438d2fc5087ff8e8781c1fe4df7bd2a357c7423553d2
+Result: PASS
+
+Check: finalization
+Command: python scripts/check-program-plan-finalization.py --base-ref 6d4a9a42180057b46dbe4cb827050cd3f2e29e4f --head-ref 7dac5e54b6da164fa1b3ed895a1bca2a281b75dd
+Exit Code: 0
+Log SHA-256: 00f02248951a2de72cae1fbf320b78849b9e5374aba79702185a3f82f5482319
+Result: PASS
+
+Check: lifecycle-guards
+Command: python scripts/check-program-lifecycle-guards.py --base-ref 6d4a9a42180057b46dbe4cb827050cd3f2e29e4f --head-ref 7dac5e54b6da164fa1b3ed895a1bca2a281b75dd
+Exit Code: 0
+Log SHA-256: a63a7673ef707dec0ac483d72603871e908d1d967406a6cccc1fc61893a06334
+Result: PASS
+
+Check: coordination
+Command: python scripts/run-agent-coordination-gate.py
+Exit Code: 0
+Log SHA-256: 642363ebef5e5daecdaa1062ffdb129e1a18cbd8d37e2f62bc20922c008c72c1
+Result: PASS
+
+Check: task-finalization
+Command: python scripts/check-program-plan-finalization.py --base-ref 6d4a9a42180057b46dbe4cb827050cd3f2e29e4f --head-ref 7dac5e54b6da164fa1b3ed895a1bca2a281b75dd --task OPS-035
+Exit Code: 0
+Log SHA-256: 07fbfdac3e338a6bbf960e2763c0990dd80b7bfc114dc244325cb9a6640ec65d
+Result: PASS
+
+Check: evidence
+Command: python scripts/check-evidence.py --task OPS-035
+Exit Code: 0
+Log SHA-256: d65fc4d535e2f7fbdcbe6a08c36ee1053be37930a0c5cad6a2a7bd6eb695713e
+Result: PASS
