@@ -104,7 +104,7 @@ tasks:
   agentRole: coordinator
   branch: chore/OPS-036-poc-source-qualification
   baseBranch: main
-  baseSha: f132bb93ac03ba39af9b991e9f147e9075031e05
+  baseSha: 384416035cfe2b244321f82a7893c1f03684bff1
   workPackage: WP-M0-01
   programPlan: specs/coordination/program-plan.yaml
   programTaskId: OPS-036

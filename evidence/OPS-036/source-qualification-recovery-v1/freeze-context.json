@@ -1,0 +1,25 @@
+{
+  "taskId": "OPS-036",
+  "issue": 357,
+  "branch": "chore/OPS-036-poc-source-qualification",
+  "base": "384416035cfe2b244321f82a7893c1f03684bff1",
+  "event": {
+    "taskId": "OPS-036",
+    "reason": "固定的 POC-003 和 POC-005 实验证据在无关治理变更后被拒绝，普通任务入口也会读取无关 POC。按 OPS-035 原授权修订两条校验器路径，保留原受测条件和全量里程碑。",
+    "affectedTasks": [
+      "GZ-021"
+    ],
+    "sourceCommit": "384416035cfe2b244321f82a7893c1f03684bff1",
+    "frozenAt": "2026-11-27T21:31:07Z",
+    "verificationPath": "evidence/OPS-036/source-qualification-recovery-v1/proof.json"
+  },
+  "authorityClaims": [
+    "specs/poc/check_program.py",
+    "specs/poc/test_program.py"
+  ],
+  "reservationActualAcceptanceSha256": "b1a2c940995c2f0228b2bfb51e53fae57099fb9e2d9ca398f458b1854d78b4f1",
+  "protectedPathsChanged": false,
+  "freezesOnlyMetadata": true,
+  "currentFreezeAccepted": false,
+  "recoveryProofPresent": false
+}

@@ -1,15 +1,15 @@
 $schema: program-plan.schema.yaml
 schemaVersion: 1
 planId: GUIZE-V1-PROGRAM
-status: active
+status: frozen
 recovery:
-  taskId: OPS-027
-  reason: 百万文件验收已观测重复字符串键计算CPU热点；仅按026原意图等价优化两P。新事件不复用关闭未合并PR244/47e或失败1050，不改driver/memory必需项、规模、阈值、原结果或完整CI义务；实际修复完整验证后独立解冻。
+  taskId: OPS-036
+  reason: 固定的 POC-003 和 POC-005 实验证据在无关治理变更后被拒绝，普通任务入口也会读取无关 POC。按 OPS-035 原授权修订两条校验器路径，保留原受测条件和全量里程碑。
   affectedTasks:
   - GZ-021
-  sourceCommit: 658761ad282296934061778a7a57c5ba66926a25
-  frozenAt: '2026-11-18T18:10:05Z'
-  verificationPath: evidence/OPS-027/performance-recovery-v2/proof.json
+  sourceCommit: 384416035cfe2b244321f82a7893c1f03684bff1
+  frozenAt: '2026-11-27T21:31:07Z'
+  verificationPath: evidence/OPS-036/source-qualification-recovery-v1/proof.json
 baseline: GZ-014
 sourceOfTruth: specs/coordination/program-plan.yaml
 authority:
