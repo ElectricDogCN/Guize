@@ -1,0 +1,30 @@
+{
+  "taskId": "GZ-031",
+  "actualMain": "79879e47cda6361bdfcfe6edf40ce9a37c5defbb",
+  "parents": [
+    "421db3f3c6ce34c4f2bea87413cfd5b0e6360999",
+    "88e0a92c2b7b3990cf1ede58ef89584c52590696"
+  ],
+  "tree": "ee17e924e80e69d2c37dadf5a52112ad6e5e106b",
+  "reviewer": "/root/independent_review",
+  "approvedAt": "2026-11-27T15:41:09Z",
+  "independentOriginalSha256": "551968165da05a62d18672539f6587ffe15042517c56dc60b7df7ad975d37a13",
+  "officialCI": "https://github.com/ElectricDogCN/Guize/actions/runs/46025398065",
+  "coverage": {
+    "head": "79879e47cda6361bdfcfe6edf40ce9a37c5defbb",
+    "run": 46025398065,
+    "event": "push",
+    "attempt": 1,
+    "allFiveSucceeded": true,
+    "sameAsSourceByCaseId": true,
+    "counts": [
+      271,
+      425,
+      405
+    ],
+    "unique": 1101,
+    "originalPresent": 1078,
+    "maxSeconds": 621,
+    "aggregate": true
+  }
+}

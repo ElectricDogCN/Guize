@@ -1,6 +1,6 @@
 # GZ-031 实施交接
 
-当前阶段为 `in_progress`，实施人和集成人为 `/root`，独立审查人为 `/root/independent_review`。实施分支 `chore/GZ-031-bootstrap-v1` 从受验实际主线 `421db3f3c6ce34c4f2bea87413cfd5b0e6360999` 创建。激活提交 `366f87c03d0d2f59e6405c5156cec0785d02027a` 与固定受测提交 `cc26ec1e687352f84dcaf2a5854c924008b45dff` 连续。租约结束于 2026-12-04T11:46:01Z。[任务 #345](https://github.com/ElectricDogCN/Guize/issues/345)
+当前阶段为 `review`，实施人和集成人为 `/root`，独立审查人为 `/root/independent_review`。实施分支 `chore/GZ-031-bootstrap-v1` 从受验实际主线 `421db3f3c6ce34c4f2bea87413cfd5b0e6360999` 创建。激活提交 `366f87c03d0d2f59e6405c5156cec0785d02027a` 与固定受测提交 `cc26ec1e687352f84dcaf2a5854c924008b45dff` 连续。租约结束于 2026-12-04T11:46:01Z。[任务 #345](https://github.com/ElectricDogCN/Guize/issues/345)
 
 ## 输入和交付
 
@@ -21,3 +21,7 @@
 ## 交接与回退
 
 审查者核对固定受测树、当前候选只追加本任务证据、启动命令及真实输出，再进入完整官方 CI 和同头审查。集成人在完整 CI 且同头审查通过后普通合入，复验实际主线。未合入的候选可按任务流程撤回。测试仅使用回环临时进程和目录，能够回收后使用同一固定版本复跑。
+
+## 正常 Review
+
+实施 [PR #348](https://github.com/ElectricDogCN/Guize/pull/348) 普通合入实际主线 `79879e47cda6361bdfcfe6edf40ce9a37c5defbb`。实际有序双父和文件树与固定预览一致。官方实际主线完整通过 1,101 项，原 1,078 项均保留。八项 Windows 原生控制和同头独立终验通过。[官方 CI #1219](https://github.com/ElectricDogCN/Guize/actions/runs/46025398065) [实际主线记录](implementation-main-79879e47/acceptance.json)
