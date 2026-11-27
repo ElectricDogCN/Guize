@@ -1336,10 +1336,13 @@ def qualified_shared_input_digest(git, ref, roots, own_plan):
     return hashlib.sha256("\0".join(selected).encode("utf-8")).hexdigest()
 
 
-def validate_recorded_task_admission(history, root, after, task, definition, entry, registry,
+def validate_recorded_task_admission(history, root, before, after, task, definition, entry, registry,
                                      plan, prior_plan, prior_ledger, errors):
     label = f"recorded lifecycle admission for {task}"
+    base_sha = str(entry.get("baseSha") or "")
     if entry:
+        if not re.fullmatch(r"[0-9a-f]{40}", base_sha) or not history.is_ancestor(root, base_sha, before):
+            errors.append(f"{label} requires its registered base to be an ancestor of the actual parent")
         policy = registry.get("policy", {})
         history.historical_lease(root, after, entry, policy, label, errors)
         history.historical_capacity(root, task, registry, policy, after, after, label, errors)
@@ -1347,17 +1350,18 @@ def validate_recorded_task_admission(history, root, after, task, definition, ent
     admitted = {**history.mapping(prior_plan.get("foundationTasks")), **history.mapping(prior_plan.get("tasks"))}
     current = {**history.mapping(plan.get("foundationTasks")), **history.mapping(plan.get("tasks"))}
     registered_dependencies = set(entry.get("dependsOn") or [])
-    for dependency in sorted(registered_dependencies | set(definition.get("dependsOn") or [])):
+    executing = definition.get("status") in {"reserved", "in_progress", "review", "integration", "completed"}
+    plan_dependencies = set(definition.get("dependsOn") or []) if executing else set()
+    for dependency in sorted(registered_dependencies | plan_dependencies):
         if admitted.get(dependency, {}).get("status") != "completed" or current.get(dependency, {}).get("status") != "completed":
             errors.append(f"{label} requires dependency {dependency} completed at the parent and current edge")
             continue
         if dependency in registered_dependencies:
             merge = history.RECOVERY.completion_merge_sha(dependency, prior_plan, prior_ledger)
-            base_sha = str(entry.get("baseSha") or "")
             if not merge or not re.fullmatch(r"[0-9a-f]{40}", base_sha) or not history.is_ancestor(root, merge, base_sha):
                 errors.append(f"{label} has no completed dependency {dependency} on its registered base")
     for blocker in plan.get("externalBlockers") or []:
-        if task in (blocker.get("requiredFor") or ()) and blocker.get("status") != "resolved":
+        if executing and task in (blocker.get("requiredFor") or ()) and blocker.get("status") != "resolved":
             errors.append(f"{label} is subject to unresolved blocker {blocker.get('id')}")
 
 
@@ -1412,7 +1416,7 @@ def validate_recorded_lifecycle_edge(history, root, before, after, paths, errors
         if task in mirrors and mirrors[task].get("status") != state:
             errors.append(f"recorded lifecycle POC mirror differs for {task}")
         if state in history.ACTIVE_STATES or (state == "completed" and origin.get("status") != state):
-            validate_recorded_task_admission(history, root, after, task, destination, entries.get(task, {}),
+            validate_recorded_task_admission(history, root, before, after, task, destination, entries.get(task, {}),
                                              current_active, current, prior, prior_ledger, errors)
         if state == "cancelled":
             transitions.validate_cancel_transition(root, before, after, "", task, *documents, errors)

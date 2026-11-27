@@ -10875,10 +10875,22 @@ class TestRecordedSourceScope(unittest.TestCase):
         entry["lease"]["expiresAt"] = entry["lease"]["acquiredAt"]
         definition = dict(definition, dependsOn=["GZ-012"])
         errors = []
-        CHECK.validate_recorded_task_admission(history, str(root), anchor, "POC-007", definition, entry, registry,
+        CHECK.validate_recorded_task_admission(history, str(root), anchor, anchor, "POC-007", definition, entry, registry,
                                                 plan, plan, ledger, errors)
         self.assertTrue(any("lease is invalid" in message for message in errors), errors)
         self.assertTrue(any("GZ-012" in message and "completed" in message for message in errors), errors)
+
+    def test_registered_base_must_precede_the_observed_lifecycle_edge(self):
+        history = CHECK.qualified_history_library()
+        root, anchor, (plan, registry, ledger) = self.archive_documents(history)
+        definition = next(row for row in plan["tasks"] if row["taskId"] == "POC-007")
+        entry = copy.deepcopy(next(row for row in registry["tasks"] if row["taskId"] == "POC-007"))
+        entry["baseSha"] = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=root, text=True).strip()
+        self.assertNotEqual(entry["baseSha"], anchor)
+        errors = []
+        CHECK.validate_recorded_task_admission(history, str(root), anchor, anchor, "POC-007", definition, entry, registry,
+                                                plan, plan, ledger, errors)
+        self.assertTrue(any("registered base to be an ancestor of the actual parent" in message for message in errors), errors)
 
     def test_scope_binds_archive_records_and_runtime_without_rebinding_source(self):
         task = "POC-003"
