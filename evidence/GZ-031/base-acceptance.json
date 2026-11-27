@@ -1,0 +1,8 @@
+{
+  "taskId": "GZ-031",
+  "base": "a02fedcc3359e6dfff68aee6de06075d4f1818c0",
+  "actualCompletionReceiptSha256": "9b15081d8aa27dbb7a884d0a5bbc6466fdf8e6fd50f55eeeee8156e004778f00",
+  "completionCi": "https://github.com/ElectricDogCN/Guize/actions/runs/45990254419",
+  "dependency": "GZ-008",
+  "actualCompletionAccepted": true
+}
