@@ -32,3 +32,18 @@
 - specs/tasks/OPS-035.md 记录实际执行入口。
 - evidence/OPS-035/implementation-start.json 绑定已验收的实际登记与授权工作范围。
 - evidence/OPS-035/changed-files.md、commands.txt、handoff.md 与 test-results/README.md 记录实施及其原生回执。
+
+## 正常 Review 路径
+
+- `evidence/OPS-035/changed-files.md`
+- `evidence/OPS-035/commands.txt`
+- `evidence/OPS-035/handoff.md`
+- `evidence/OPS-035/implementation-main-6d4a9a42/.gitattributes`
+- `evidence/OPS-035/implementation-main-6d4a9a42/actual-main-controls.summary.json`
+- `evidence/OPS-035/implementation-main-6d4a9a42/independent-review.original.json`
+- `evidence/OPS-035/implementation-main-6d4a9a42/independent-review.summary.json`
+- `evidence/OPS-035/summary.md`
+- `evidence/OPS-035/test-results/README.md`
+- `specs/coordination/active-work.yaml`
+- `specs/coordination/program-plan.yaml`
+- `specs/tasks/OPS-035.md`

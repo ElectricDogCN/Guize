@@ -55,3 +55,10 @@ python scripts/check-markdown.py
 python -m pytest -p no:cacheprovider -q tests/governance/test_poc_contract_repair_admission.py::TestSourceDependencyRepairAdmission
 
 完整官方源和实际主线检查各在其固定提交执行。
+
+# 正常 Review 本地检查入口
+
+git diff --check 6d4a9a42180057b46dbe4cb827050cd3f2e29e4f...HEAD
+python scripts/check-task-file.py --task OPS-035
+python scripts/run-program-lifecycle-gate.py --base-ref 6d4a9a42180057b46dbe4cb827050cd3f2e29e4f --head-ref HEAD --task OPS-035 --branch-name chore/OPS-035-poc-dependency-admission
+python scripts/check-evidence.py --task OPS-035
