@@ -1,0 +1,97 @@
+{
+  "taskId": "OPS-034",
+  "kind": "public-summary-of-local-controls",
+  "actualMainCommit": "74d653e0d1bf723382b8879f746973371216443e",
+  "sourceCommit": "f06e88b385e59e33b9cc5398ca75d9f9685c892a",
+  "sourceTree": "0336d50e605f09c4a77ac3e3b275092f4cce8b78",
+  "environment": "native Windows recovery checkout",
+  "pythonVersion": "3.12.4",
+  "originalRecordSha256": "c1a30ac569accb8bcffee253655bc98c6c1f91599b1634c2e34d2352dde8991b",
+  "originalRecordPublished": false,
+  "localControls": [
+    {
+      "check": "diff",
+      "exitCode": 0,
+      "elapsedSeconds": 0.08,
+      "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "check": "protected-bytes",
+      "exitCode": 0,
+      "elapsedSeconds": 0.08,
+      "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "check": "exact-source-tree",
+      "exitCode": 0,
+      "elapsedSeconds": 0.08,
+      "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "check": "integrity",
+      "exitCode": 0,
+      "elapsedSeconds": 34.75,
+      "logSha256": "80db8cfc9bec357cd024b98e47bce053ba74cffdd4ec471ddecfb1a6d6832dc8"
+    },
+    {
+      "check": "history",
+      "exitCode": 0,
+      "elapsedSeconds": 55.28,
+      "logSha256": "7ce18b4866a806f79fb0eedcc6d833ee61a79b5e6ecdeb5cdcbf644be96e88f0"
+    },
+    {
+      "check": "transitions",
+      "exitCode": 0,
+      "elapsedSeconds": 42.27,
+      "logSha256": "fe4811d8fd81e1814b4a15b4b9829d80106d2f796848747fb012941738e35b5b"
+    },
+    {
+      "check": "finalization",
+      "exitCode": 0,
+      "elapsedSeconds": 0.67,
+      "logSha256": "73e6cf019a6427438604106235d7b2f63243ad85c5830cd3e34cee1aeed26051"
+    },
+    {
+      "check": "lifecycle",
+      "exitCode": 0,
+      "elapsedSeconds": 195.55,
+      "logSha256": "c157906f0d4884098ab822776847df681e9a9d4c4986bb4558b08430cd3b9bdb"
+    },
+    {
+      "check": "coordination",
+      "exitCode": 0,
+      "elapsedSeconds": 0.73,
+      "logSha256": "dd6d48b1e5664fd8ac15750499fba0f0906ba6bee884f27b9fb5ba3d38e8ba60"
+    },
+    {
+      "check": "task",
+      "exitCode": 0,
+      "elapsedSeconds": 0.16,
+      "logSha256": "418b382025a212f8e8b54a768cbc23c0bd0ae634c5e9a6ae62cec2b199b92e45"
+    },
+    {
+      "check": "evidence",
+      "exitCode": 0,
+      "elapsedSeconds": 0.09,
+      "logSha256": "8bf6c37a7953cc87031f9a0ad9755de0cf2918418eb29bec09f4daa005f08538"
+    },
+    {
+      "check": "markdown",
+      "exitCode": 0,
+      "elapsedSeconds": 0.55,
+      "logSha256": "ad736ee594f318389ade53d37bb4005bf326ec97d79ef96f9fe23cbb0c625ee0"
+    },
+    {
+      "check": "schemas",
+      "exitCode": 0,
+      "elapsedSeconds": 6.11,
+      "logSha256": "43129436ac1aaccc98bdf1680e9900064083c6c5465897930c71f776b9ee433a"
+    },
+    {
+      "check": "project-readiness",
+      "exitCode": 0,
+      "elapsedSeconds": 128.12,
+      "logSha256": "632121dca7108a89e032a1c8203500807b9a69a0d4d2ac0b73a1b4df2ae5d7ef"
+    }
+  ]
+}

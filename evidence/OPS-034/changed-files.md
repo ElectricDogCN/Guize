@@ -33,3 +33,17 @@
 - `specs/coordination/active-work.yaml`
 - `specs/coordination/program-plan.yaml`
 - `specs/tasks/OPS-034.md`
+
+## 正常 Review 路径
+
+- `evidence/OPS-034/changed-files.md`
+- `evidence/OPS-034/commands.txt`
+- `evidence/OPS-034/handoff.md`
+- `evidence/OPS-034/implementation-main-74d653e0/.gitattributes`
+- `evidence/OPS-034/implementation-main-74d653e0/actual-main-controls.summary.json`
+- `evidence/OPS-034/implementation-main-74d653e0/independent-review.original.json`
+- `evidence/OPS-034/summary.md`
+- `evidence/OPS-034/test-results/README.md`
+- `specs/coordination/active-work.yaml`
+- `specs/coordination/program-plan.yaml`
+- `specs/tasks/OPS-034.md`
