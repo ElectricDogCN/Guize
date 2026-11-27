@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 2,
+  "kind": "v1-implementation-split",
+  "taskId": "OPS-034",
+  "issue": 337,
+  "reservationParent": "1fc3a8f52d58220a5047460441b16eab7e03fae7",
+  "parentTaskId": "GZ-012",
+  "originalParentSha256": "3baba1c970f86b7de4b4679625759724b0a654d031bbb406e9d90819f21c068b",
+  "child": {
+    "taskId": "GZ-031",
+    "title": "建立可独立启动的核心骨架与插件装载边界",
+    "kind": "scaffold",
+    "status": "planned",
+    "workPackage": "WP-M0-06",
+    "riskLevel": "high",
+    "ownerRole": "task-owner-agent",
+    "reviewerRole": "independent-review-agent",
+    "coordinationGroup": "gz-031",
+    "wave": "W5",
+    "integrationOrder": 3,
+    "dependsOn": [
+      "GZ-008"
+    ],
+    "requirementIds": [
+      "REQ-V1-0007",
+      "REQ-V1-0010"
+    ],
+    "moduleIds": [
+      "MOD-PLATFORM",
+      "MOD-WORKER"
+    ],
+    "outputPaths": [
+      "backend/guize-bootstrap/**",
+      "services/guize-worker-agent/bootstrap/**",
+      "evidence/GZ-031/**"
+    ],
+    "sharedPaths": [],
+    "producesContracts": [],
+    "consumesContracts": [
+      "PLUGIN-CONTRACT-V1",
+      "WORKER-CONTRACT-V1"
+    ],
+    "acceptanceIds": [],
+    "pocIds": [],
+    "issue": null,
+    "branchPattern": "chore/GZ-031-*",
+    "exitGate": "核心服务使用空插件注册表可独立构建、启动和响应健康检查。按 GZ-008 固定清单注册测试插件，隔离插件启动失败并保持其他已注册能力可用。Worker 启动骨架验证固定 SDK 摘要和协议 conformance 输入。分别保存构建、启动、注册、故障隔离与契约消费证据。"
+  }
+}

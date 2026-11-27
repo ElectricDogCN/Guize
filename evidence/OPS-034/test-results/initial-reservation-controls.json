@@ -1,0 +1,212 @@
+{
+  "phase": "fixed source OPS-034 reservation on actual main",
+  "base": "1fc3a8f52d58220a5047460441b16eab7e03fae7",
+  "candidate": "9221962924a92c2a6b12ce066d9e794b4b2ef47e",
+  "remoteWrites": false,
+  "fileCount": 14,
+  "files": [
+    "evidence/OPS-034/EVIDENCE-STRUCTURE.md",
+    "evidence/OPS-034/assumptions.md",
+    "evidence/OPS-034/changed-files.md",
+    "evidence/OPS-034/commands.txt",
+    "evidence/OPS-034/follow-ups.md",
+    "evidence/OPS-034/handoff.md",
+    "evidence/OPS-034/risks.md",
+    "evidence/OPS-034/scope.md",
+    "evidence/OPS-034/summary.md",
+    "evidence/OPS-034/test-results/README.md",
+    "evidence/OPS-034/v1-implementation-split.json",
+    "specs/coordination/active-work.yaml",
+    "specs/coordination/program-plan.yaml",
+    "specs/tasks/OPS-034.md"
+  ],
+  "receiptCoversOfficialCi": false,
+  "checks": [
+    {
+      "check": "task",
+      "exitCode": 0,
+      "command": [
+        "python",
+        "-B",
+        "scripts/check-task-file.py",
+        "--task",
+        "OPS-034"
+      ],
+      "logSha256": "00fa59a1f5f565828fff5fb0797ecce1538564f7af432c2aff694d6552b2643b"
+    },
+    {
+      "check": "program-integrity",
+      "exitCode": 0,
+      "command": [
+        "python",
+        "-B",
+        "scripts/check-program-plan-integrity.py",
+        "--base-ref",
+        "1fc3a8f52d58220a5047460441b16eab7e03fae7"
+      ],
+      "logSha256": "ee38b12d0e0c67fac70836b312c75b9ca8d396d5117ef7bc4eee1b797e36e672"
+    },
+    {
+      "check": "project-readiness",
+      "exitCode": 0,
+      "command": [
+        "python",
+        "-B",
+        "scripts/check-project-readiness.py"
+      ],
+      "logSha256": "5c2011ad5a4df1db3e4e3ec4d73e46d810fae619f27a1166d2b4027f264b8cbb"
+    },
+    {
+      "check": "full-lifecycle-wrapper",
+      "exitCode": 0,
+      "command": [
+        "python",
+        "-B",
+        "scripts/run-program-lifecycle-gate.py",
+        "--base-ref",
+        "1fc3a8f52d58220a5047460441b16eab7e03fae7",
+        "--head-ref",
+        "9221962924a92c2a6b12ce066d9e794b4b2ef47e",
+        "--task",
+        "OPS-034",
+        "--branch-name",
+        "chore/OPS-034-v1-core-planning"
+      ],
+      "logSha256": "9d38ec40b9c84f39fcebefe1191f0cfb7d5df6d735d0c41f4f5bc7768152464a"
+    },
+    {
+      "check": "evidence",
+      "exitCode": 0,
+      "command": [
+        "python",
+        "-B",
+        "scripts/check-evidence.py",
+        "--task",
+        "OPS-034"
+      ],
+      "logSha256": "05758550adc8e65bd88e49d65e42e495d73aafc62b4d1de703c2b59c83686b18"
+    },
+    {
+      "check": "markdown",
+      "exitCode": 0,
+      "command": [
+        "python",
+        "-B",
+        "scripts/check-markdown.py"
+      ],
+      "logSha256": "e2b6b73f4b3263f35046053269f9ccca1da21c66fd7d8d6d0b9c2518198966a8"
+    },
+    {
+      "check": "schemas",
+      "exitCode": 0,
+      "command": [
+        "python",
+        "-B",
+        "scripts/check-schemas.py"
+      ],
+      "logSha256": "a42545723f2789c867723f0e010d50dfcd3cfada704b00e92543d6b55754d90d"
+    },
+    {
+      "check": "program-history",
+      "exitCode": 0,
+      "command": [
+        "python",
+        "-B",
+        "scripts/check-program-plan-history.py",
+        "--base-ref",
+        "1fc3a8f52d58220a5047460441b16eab7e03fae7",
+        "--head-ref",
+        "9221962924a92c2a6b12ce066d9e794b4b2ef47e",
+        "--task",
+        "OPS-034",
+        "--branch-name",
+        "chore/OPS-034-v1-core-planning"
+      ],
+      "logSha256": "a5ea9ea3e297f58cc9067653af6495825100b951f33d52f1c7086f5cd6c40048"
+    },
+    {
+      "check": "program-transitions",
+      "exitCode": 0,
+      "command": [
+        "python",
+        "-B",
+        "scripts/check-program-plan-transitions.py",
+        "--base-ref",
+        "1fc3a8f52d58220a5047460441b16eab7e03fae7",
+        "--head-ref",
+        "9221962924a92c2a6b12ce066d9e794b4b2ef47e",
+        "--task",
+        "OPS-034",
+        "--branch-name",
+        "chore/OPS-034-v1-core-planning"
+      ],
+      "logSha256": "93f6fbb40a144fcd838a76dfad38bee3e1c0e6f519a147fa92c274b01346a3f4"
+    },
+    {
+      "check": "program-lifecycle",
+      "exitCode": 0,
+      "command": [
+        "python",
+        "-B",
+        "scripts/check-program-lifecycle-guards.py",
+        "--base-ref",
+        "1fc3a8f52d58220a5047460441b16eab7e03fae7",
+        "--head-ref",
+        "9221962924a92c2a6b12ce066d9e794b4b2ef47e",
+        "--task",
+        "OPS-034",
+        "--branch-name",
+        "chore/OPS-034-v1-core-planning"
+      ],
+      "logSha256": "ed8593557f835f4f22e0239e490cc28dc517349e2d5d664a937b2d8b94eeaf4b"
+    },
+    {
+      "check": "program-finalization",
+      "exitCode": 0,
+      "command": [
+        "python",
+        "-B",
+        "scripts/check-program-plan-finalization.py",
+        "--base-ref",
+        "1fc3a8f52d58220a5047460441b16eab7e03fae7",
+        "--head-ref",
+        "9221962924a92c2a6b12ce066d9e794b4b2ef47e",
+        "--task",
+        "OPS-034"
+      ],
+      "logSha256": "603b5a87f33dbbdb9ea282ac639f1dbc7559bdc2c8e2a5febed4f637301032a6"
+    },
+    {
+      "check": "coordination",
+      "exitCode": 0,
+      "command": [
+        "python",
+        "-B",
+        "scripts/run-agent-coordination-gate.py",
+        "--base-ref",
+        "1fc3a8f52d58220a5047460441b16eab7e03fae7",
+        "--head-ref",
+        "9221962924a92c2a6b12ce066d9e794b4b2ef47e",
+        "--task",
+        "OPS-034",
+        "--branch-name",
+        "chore/OPS-034-v1-core-planning"
+      ],
+      "logSha256": "9fec1c86b2aa85802650c1bcd03393fe8cc3deedf6cd48ddbafa9232ec815d23"
+    },
+    {
+      "check": "scope",
+      "exitCode": 0,
+      "command": [
+        "python",
+        "-B",
+        "scripts/run-task-scope-gate.py",
+        "--task",
+        "OPS-034",
+        "--base",
+        "1fc3a8f52d58220a5047460441b16eab7e03fae7"
+      ],
+      "logSha256": "873b147bcf261509e70c205d3c4a7d91111321a16c12f5de7e7b907d08a7a650"
+    }
+  ]
+}
