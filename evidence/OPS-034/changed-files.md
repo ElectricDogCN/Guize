@@ -10,6 +10,7 @@
 - `evidence/OPS-034/scope.md`
 - `evidence/OPS-034/summary.md`
 - `evidence/OPS-034/test-results/README.md`
+- `evidence/OPS-034/test-results/initial-reservation-controls.json`
 - `evidence/OPS-034/v1-implementation-split.json`
 - `specs/coordination/active-work.yaml`
 - `specs/coordination/program-plan.yaml`

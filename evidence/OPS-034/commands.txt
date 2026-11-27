@@ -1,11 +1,47 @@
-OPS-034 登记命令
+OPS-034 登记命令与实际退出码
 
-python scripts/check-task-file.py --task OPS-034
-python scripts/check-schemas.py
-python scripts/check-program-plan-transitions.py --base-ref origin/main --head-ref HEAD --task OPS-034
-python scripts/check-program-plan-history.py --base-ref origin/main --head-ref HEAD --task OPS-034
-python scripts/run-task-scope-gate.py --task OPS-034 --base origin/main
-python scripts/check-evidence.py --task OPS-034
-python scripts/check-markdown.py
+初始固定登记源码 9221962924a92c2a6b12ce066d9e794b4b2ef47e 在原生 Linux 的实际检查
 
-固定登记源实际退出码随验证记录附上。
+
+python -B scripts/check-task-file.py --task OPS-034
+exit 0
+
+python -B scripts/check-program-plan-integrity.py --base-ref 1fc3a8f52d58220a5047460441b16eab7e03fae7
+exit 0
+
+python -B scripts/check-project-readiness.py
+exit 0
+
+python -B scripts/run-program-lifecycle-gate.py --base-ref 1fc3a8f52d58220a5047460441b16eab7e03fae7 --head-ref 9221962924a92c2a6b12ce066d9e794b4b2ef47e --task OPS-034 --branch-name chore/OPS-034-v1-core-planning
+exit 0
+
+python -B scripts/check-evidence.py --task OPS-034
+exit 0
+
+python -B scripts/check-markdown.py
+exit 0
+
+python -B scripts/check-schemas.py
+exit 0
+
+python -B scripts/check-program-plan-history.py --base-ref 1fc3a8f52d58220a5047460441b16eab7e03fae7 --head-ref 9221962924a92c2a6b12ce066d9e794b4b2ef47e --task OPS-034 --branch-name chore/OPS-034-v1-core-planning
+exit 0
+
+python -B scripts/check-program-plan-transitions.py --base-ref 1fc3a8f52d58220a5047460441b16eab7e03fae7 --head-ref 9221962924a92c2a6b12ce066d9e794b4b2ef47e --task OPS-034 --branch-name chore/OPS-034-v1-core-planning
+exit 0
+
+python -B scripts/check-program-lifecycle-guards.py --base-ref 1fc3a8f52d58220a5047460441b16eab7e03fae7 --head-ref 9221962924a92c2a6b12ce066d9e794b4b2ef47e --task OPS-034 --branch-name chore/OPS-034-v1-core-planning
+exit 0
+
+python -B scripts/check-program-plan-finalization.py --base-ref 1fc3a8f52d58220a5047460441b16eab7e03fae7 --head-ref 9221962924a92c2a6b12ce066d9e794b4b2ef47e --task OPS-034
+exit 0
+
+python -B scripts/run-agent-coordination-gate.py --base-ref 1fc3a8f52d58220a5047460441b16eab7e03fae7 --head-ref 9221962924a92c2a6b12ce066d9e794b4b2ef47e --task OPS-034 --branch-name chore/OPS-034-v1-core-planning
+exit 0
+
+python -B scripts/run-task-scope-gate.py --task OPS-034 --base 1fc3a8f52d58220a5047460441b16eab7e03fae7
+exit 0
+
+
+原始结构化回执 test-results/initial-reservation-controls.json
+SHA-256 41fdd415e5237a7978ca355e2560047f1b9a71ddc540f901adc602e0b0b19e9f
