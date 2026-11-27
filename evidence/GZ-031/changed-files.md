@@ -1,17 +1,24 @@
-# 登记变更路径
+# GZ-031 实施变更路径
 
+- `backend/guize-bootstrap/README.md`
+- `backend/guize-bootstrap/plugin_probe.py`
+- `backend/guize-bootstrap/pom.xml`
+- `backend/guize-bootstrap/src/main/java/com/guize/bootstrap/GuizeBootstrapApplication.java`
+- `backend/guize-bootstrap/src/main/java/com/guize/bootstrap/PluginRegistry.java`
+- `backend/guize-bootstrap/src/main/resources/application.yml`
+- `backend/guize-bootstrap/src/test/java/com/guize/bootstrap/BootstrapSmokeTest.java`
+- `backend/guize-bootstrap/test_plugin_startup.py`
 - `evidence/GZ-031/EVIDENCE-STRUCTURE.md`
-- `evidence/GZ-031/assumptions.md`
-- `evidence/GZ-031/base-acceptance.json`
 - `evidence/GZ-031/changed-files.md`
 - `evidence/GZ-031/commands.txt`
-- `evidence/GZ-031/follow-ups.md`
 - `evidence/GZ-031/handoff.md`
-- `evidence/GZ-031/risks.md`
-- `evidence/GZ-031/scope.md`
 - `evidence/GZ-031/summary.md`
 - `evidence/GZ-031/test-results/README.md`
-- `evidence/GZ-031/test-results/reservation-controls-80d6d4ca.json`
+- `evidence/GZ-031/test-results/implementation-cc26ec1e.json`
+- `services/guize-worker-agent/bootstrap/README.md`
+- `services/guize-worker-agent/bootstrap/bootstrap.py`
+- `services/guize-worker-agent/bootstrap/requirements.txt`
+- `services/guize-worker-agent/bootstrap/test_bootstrap.py`
 - `specs/coordination/active-work.yaml`
 - `specs/coordination/program-plan.yaml`
 - `specs/tasks/GZ-031.md`
