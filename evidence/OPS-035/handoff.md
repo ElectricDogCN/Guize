@@ -5,7 +5,7 @@
 - OPS-035 对应 Issue #352，工作分支 chore/OPS-035-poc-dependency-admission，基线 cb51148e41e8b420a5c58fb928d5bc84bdacb89c。
 - ElectricDogCN 负责。协调、实现、集成为 /root，独立审查为 /root/independent_review。
 - 租约从 2026-11-27T17:20:00Z 到 2026-12-04T17:20:00Z，集成组 poc-source-dependency-admission，顺序 27，使用普通合并。前置为 OPS-027。
-- 固定源 SHA 从引入不可变意图的单一提交读取，使用 `git log -1 --format=%H -- evidence/OPS-035/source-dependency-admission-intent.json`。审查和集成使用实际远端 HEAD 与该 SHA 的一致性。
+- 固定源 SHA 从引入不可变意图的单一提交读取，使用 `git log -1 --format=%H -- evidence/OPS-035/source-dependency-admission-intent.json`。固定本地受测 SHA 是后继证据提交的可取回祖先。审查和集成另核实际 PR HEAD 与完整官方源 CI，核对后继提交仅记录同一组登记检查。
 
 ## 实际范围与验证
 
