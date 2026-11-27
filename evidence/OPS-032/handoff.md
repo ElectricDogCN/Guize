@@ -1,4 +1,24 @@
-# OPS-032 登记交接
+# OPS-032 交接
+
+## 当前正常结项候选
+
+结项分支是 `chore/OPS-032-normal-completion`，目标基线是正式审查的实际主线 `6625b8e84e011298f2ba2365c75d921dd9e99cbf`。实施身份为 [PR #326](https://github.com/ElectricDogCN/Guize/pull/326) 和合并 `b5157a68fa16d83fc2fa44395b95cb15b3d67a35`。[Issue #324](https://github.com/ElectricDogCN/Guize/issues/324) 已以 completed 关闭。责任人为 ElectricDogCN，实施及合入由 `/root` 承担，独立审查人为 `/root/independent_review`。候选仅移除自身登记及其租约，原两项 POC 的租约与共享顺序不变。
+
+本次实际变更九个文件。
+
+- `evidence/OPS-032/commands.txt`
+- `evidence/OPS-032/handoff.md`
+- `evidence/OPS-032/summary.md`
+- `evidence/OPS-032/test-results/README.md`
+- `evidence/OPS-032/accepted-review-6625b8e8/actual-main-controls.original.json`
+- `evidence/OPS-032/accepted-review-6625b8e8/independent-review.original.json`
+- `specs/coordination/active-work.yaml`
+- `specs/coordination/program-plan.yaml`
+- `specs/tasks/OPS-032.md`
+
+实际审查主线的完整官方 #1188、九项已执行本地命令和独立终验均通过。固定结项提交由 PR 头和 [命令记录](commands.txt) 确定。登记 Reviewer 核对该提交的完整官方 CI，Integrator 在同头终审接受后按精确头普通合入。完成实际结项主线复验后，Integrator 按登记释放结果清理已结束远端分支，再分别处理两个 POC 的事前身份批准。结项候选如需修正，仅更新自身元数据和证据，保留已接受的实施和审查原件。
+
+## 原始登记交接
 
 实际基线 `29a59614a63e646060a9d2df9dba284037ffc132`，分支 `chore/OPS-032-poc-actor-reservation`，关联 [Issue #324](https://github.com/ElectricDogCN/Guize/issues/324)。任务预留一个 high 名额。实现者与集成人为 `/root`，独立审核人为 `/root/independent_review`。无共享写入范围。
 
@@ -70,3 +90,17 @@ git diff --check
 实施 PR #326 已普通合入 `b5157a68fa16d83fc2fa44395b95cb15b3d67a35`。实际主线的两个父及 Git 树与受审预览一致。完整官方 CI 五个作业成功，1,093 个用例逐项匹配实施源，原 1,090 项和新增 3 项均通过。九项实际主线本地检查和独立终验通过。[实施 PR #326](https://github.com/ElectricDogCN/Guize/pull/326) · [实施源 CI #1185](https://github.com/ElectricDogCN/Guize/actions/runs/45907875309) · [实际主线 CI #1186](https://github.com/ElectricDogCN/Guize/actions/runs/45910015098)
 
 [独立终验原件](implementation-main-b5157a68/independent-review.original.json) · [九项本地检查原件](implementation-main-b5157a68/actual-main-controls.original.json)。源与实际审查主线完成同头验收后，提交结项并释放登记。两项 POC 的事前批准与身份事务随后分别办理。
+
+## OPS-032 正常结项
+
+OPS-032 结项绑定实施 PR #326 的实际合并 `b5157a68fa16d83fc2fa44395b95cb15b3d67a35`。正式审查 PR #327 的实际主线 `6625b8e84e011298f2ba2365c75d921dd9e99cbf` 已通过实际检查、官方 #1188 的 1,093 项及独立终验。Issue #324 按正常流程关闭为 completed。本提交释放自身活动登记，按新固定源及实际结项主线完成完整官方 CI 后验收。两项 POC 的事前批准与身份修订分别实施。[实际 Review CI #1188](https://github.com/ElectricDogCN/Guize/actions/runs/45914688074)
+
+Status: PASS
+
+Source Commit: 6625b8e84e011298f2ba2365c75d921dd9e99cbf
+Command: python -B scripts/check-program-plan-integrity.py --base-ref b5157a68fa16d83fc2fa44395b95cb15b3d67a35
+Exit Code: 0
+Result: PASS
+Raw SHA-256: 783a7ac8c3dcc239ff4d8a8b80c4836dbf3e0bd2c4cf0d845a12ef6076ee6ce3
+
+[独立终验原件](accepted-review-6625b8e8/independent-review.original.json) · [实际本地检查原件](accepted-review-6625b8e8/actual-main-controls.original.json)
