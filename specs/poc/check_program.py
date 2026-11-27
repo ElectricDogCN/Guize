@@ -1452,6 +1452,68 @@ def validate_recorded_lifecycle_edge(history, root, before, after, paths, errors
         history.validate_foundations(root, *documents, before, after, "", errors)
 
 
+def recorded_import_projection(document, collections):
+    if not isinstance(document, dict):
+        raise ValueError("recorded import requires a structured lifecycle document")
+    fields = {}
+    for key, value in document.items():
+        if key not in collections:
+            fields[(key,)] = value
+            continue
+        if not isinstance(value, list):
+            raise ValueError("recorded import requires keyed lifecycle rows")
+        fields[(key,)] = True
+        for row in value:
+            identity = (key, row["taskId"])
+            if identity in fields:
+                raise ValueError("recorded import has duplicate lifecycle rows")
+            fields[identity] = row
+    return fields
+
+
+def matches_recorded_import(common, prior, incoming, actual):
+    missing = object()
+    for key in common.keys() | prior.keys() | incoming.keys() | actual.keys():
+        original, left, right, merged = (item.get(key, missing) for item in (common, prior, incoming, actual))
+        if left == right or right == original:
+            expected = left
+        elif left == original:
+            expected = right
+        else:
+            return False
+        if merged != expected:
+            return False
+    return True
+
+
+def authenticated_recorded_import(history, root, anchor, before, after, metadata, git):
+    """Prove exact, conflict-free metadata imports from separately audited history."""
+    parents = git("show", "-s", "--format=%P", after).split()
+    if len(parents) != 2 or parents[0] != before:
+        return False
+    incoming = parents[1]
+    common_refs = git("merge-base", "--all", before, incoming).splitlines()
+    if not common_refs:
+        return False
+    collections = {history.PLAN: {"tasks", "foundationTasks", "pocs"}, history.ACTIVE: {"tasks"},
+                   history.LEDGER: {"records"}}
+    for path in metadata:
+        def projection(ref):
+            if path in collections:
+                return recorded_import_projection(history.load_ref(str(root), ref, path), collections[path])
+            # Task documents must have the exact mode and blob from the import.
+            return {("tree",): git("ls-tree", "-z", ref, "--", path)}
+        prior, imported, actual = (projection(ref) for ref in (before, incoming, after))
+        if not all(matches_recorded_import(projection(common), prior, imported, actual) for common in common_refs):
+            return False
+    if incoming in history.approved_synchronization_parents(str(root), after, anchor):
+        return True
+    if not history.is_ancestor(str(root), anchor, incoming):
+        return False
+    validate_recorded_scope_history(root, anchor, incoming, git)
+    return True
+
+
 def validate_recorded_scope_history(root, base, context, git):
     """Apply the historical and ordinary governance checks at each subsequent actual edge."""
     accepted = RECORDED_SCOPE_HISTORY.get()
@@ -1469,7 +1531,7 @@ def validate_recorded_scope_history(root, base, context, git):
             validate_recorded_lifecycle_edge(history, str(root), before, after, paths, errors)
             if not errors:
                 history.historical_post_metadata(str(root), before, after, "OPS-036", metadata, errors, base, checked)
-            if errors:
+            if errors and not authenticated_recorded_import(history, root, base, before, after, metadata, git):
                 raise ValueError("recorded source scope governance history rejected: " + errors[0])
         checked.add(after)
     if accepted is not None:

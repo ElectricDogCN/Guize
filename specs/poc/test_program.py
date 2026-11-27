@@ -10892,6 +10892,19 @@ class TestRecordedSourceScope(unittest.TestCase):
                                                 plan, plan, ledger, errors)
         self.assertTrue(any("registered base to be an ancestor of the actual parent" in message for message in errors), errors)
 
+    def test_clean_import_proves_each_lifecycle_row_without_ignoring_conflicts(self):
+        def projection(first, second):
+            return CHECK.recorded_import_projection({"tasks": [{"taskId": "self", "status": first},
+                                                                {"taskId": "peer", "status": second}]}, {"tasks"})
+
+        base = projection("reserved", "planned")
+        prior = projection("in_progress", "planned")
+        incoming = projection("reserved", "reserved")
+        self.assertTrue(CHECK.matches_recorded_import(base, prior, incoming, projection("in_progress", "reserved")))
+        self.assertFalse(CHECK.matches_recorded_import(base, prior, incoming, projection("review", "reserved")))
+        conflicting = projection("blocked", "reserved")
+        self.assertFalse(CHECK.matches_recorded_import(base, prior, conflicting, conflicting))
+
     def test_scope_binds_archive_records_and_runtime_without_rebinding_source(self):
         task = "POC-003"
         plan = {"taskId": task, "pocId": "POC-03"}
