@@ -34,6 +34,12 @@ Actual Review Main: 8f439a287ac192bca1049f6b826e18f676e202a6
 Official run: https://github.com/ElectricDogCN/Guize/actions/runs/46031536751
 Issue #345: closed/completed at 2026-11-27T16:30:15Z
 
+以下命令实际在 Review 主线 8f439a287ac192bca1049f6b826e18f676e202a6 执行。
+Command: python -B scripts/check-program-plan-integrity.py --base-ref 79879e47cda6361bdfcfe6edf40ce9a37c5defbb
+Exit Code: 0
+Result: PASS
+
+以下为结项候选的待执行门禁。
 git diff --check 8f439a287ac192bca1049f6b826e18f676e202a6...HEAD
 python -B scripts/run-program-lifecycle-gate.py --base-ref 8f439a287ac192bca1049f6b826e18f676e202a6 --head-ref HEAD --task GZ-031 --branch-name chore/GZ-031-normal-completion
 python -B scripts/check-evidence.py --task GZ-031

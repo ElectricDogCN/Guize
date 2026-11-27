@@ -1,5 +1,9 @@
 # GZ-031 正常 Completion 交接
 
+Status: PASS
+
+该状态对应已独立验收的实际 Review 主线 `8f439a28`。结项候选仍按自己的门禁验收。
+
 结项分支 `chore/GZ-031-normal-completion` 从已接受的真实 Review 基线 `8f439a287ac192bca1049f6b826e18f676e202a6` 建立。协调人、实施人和集成人为 `/root`，独立审查人为 `/root/independent_review`。登记租约在实际结项合入及复验后释放，共享写入路径为空，W5 集成顺序为 3。[Issue #345](https://github.com/ElectricDogCN/Guize/issues/345) 已标为 completed。[实际路径](changed-files.md)
 
 正式 Review [PR #350](https://github.com/ElectricDogCN/Guize/pull/350) 已合入实际主线 `8f439a287ac192bca1049f6b826e18f676e202a6`。正式结项保留 [实施 PR #348](https://github.com/ElectricDogCN/Guize/pull/348) 及实际实施合并 `79879e47cda6361bdfcfe6edf40ce9a37c5defbb`。独立实际终验、完整官方 1,101 项及八项本地主线门禁通过。原 1,078 项完整保留。[实际 Review CI](https://github.com/ElectricDogCN/Guize/actions/runs/46031536751) [独立验收原件](accepted-review-main-8f439a28/independent-review.original.json) · [八项原生测试命令、退出码及摘要](accepted-review-main-8f439a28/native-controls.json)
