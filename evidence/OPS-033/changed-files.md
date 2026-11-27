@@ -14,3 +14,12 @@
 - `evidence/OPS-033/summary.md`
 - `evidence/OPS-033/test-results/README.md`
 - `evidence/OPS-033/test-results/current-scope-guard.json`
+
+## 历史缓存校验补充登记变更路径
+
+- `specs/coordination/active-work.yaml`
+- `specs/tasks/OPS-033.md`
+- `evidence/OPS-033/changed-files.md`
+- `evidence/OPS-033/handoff.md`
+- `evidence/OPS-033/history-cache-scope-amendment-v1.json`
+- `evidence/OPS-033/scope.md`
