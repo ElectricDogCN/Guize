@@ -1646,6 +1646,17 @@ def test_v1_implementation_split_uses_original_canonical_authority(tmp_path):
     assert "POC-008" in parent["dependsOn"]
     assert history.manifest["child"]["dependsOn"] == ["GZ-008"]
 
+    head = history.git("rev-parse", "HEAD")
+    for altered_side in ("before", "after"):
+        views = {"before": copy.deepcopy(before), "after": copy.deepcopy(history.plan)}
+        # Python compares True equal to 1. An exact Git snapshot binds the type too.
+        views[altered_side]["parallelPolicy"]["maxHighRiskTasks"] = True
+        errors = []
+        rejected = PLANNING.classifier(str(history.root), history.registration, head,
+                                      views["before"], views["after"], errors, owner_hint=history.owner)
+        assert rejected is None
+        assert any("actual typed Git snapshots" in error for error in errors)
+
     # A restored document still has a mutation in its actual ancestry.
     altered = copy.deepcopy(history.manifest)
     altered["child"]["title"] += " rewritten"

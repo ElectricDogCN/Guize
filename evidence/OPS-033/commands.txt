@@ -60,3 +60,8 @@ Exit Code: 0
 Command: python -B scripts/run-task-scope-gate.py --task OPS-033 --base fd90de5d1244efc016eb5871a7011704c889299f
 Result: Own Evidence paths were absent from the explicit Task allowed listing
 Exit Code: 1
+
+Observed after typed Program-view correction on the implementation candidate
+Command: python -B -m pytest -q -p no:cacheprovider tests/governance/test_program_planning_revision.py tests/governance/test_program_plan_execution_integrity.py -k 'v1_implementation_split or v1_release_closure or fixed_scope_membership or legacy_manifest_refs'
+Result: 15 passed, 164 deselected in 137.50s, including both caller-side type-alias assertions
+Exit Code: 0

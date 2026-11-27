@@ -869,7 +869,10 @@ def classifier(root: str, base_ref: str, head_ref: str, before: dict[str, Any], 
             return dependency_activation_revision(
                 root, base_ref, head_ref, before, after, owner_hint, observed_at, admitted_base_ref,
             )
-        if changed or definitions(real_before) != definitions(real_after) or scope_changed or split_changed or "planningBaselines" in real_before or "planningBaselines" in real_after:
+        if split_changed:
+            require(same_json(before, real_before) and same_json(after, real_after),
+                    "V1 implementation split views must bind the actual typed Git snapshots")
+        elif changed or definitions(real_before) != definitions(real_after) or scope_changed or "planningBaselines" in real_before or "planningBaselines" in real_after:
             require(before == real_before and after == real_after, "Planning/baseline views must bind the actual Git snapshots")
         audit_changed_manifests(root, base_ref, head_ref, admitted_base_ref=admitted_base_ref)
         if after.get("scopeBoundary", {}).get("agentEdge104", {}).get("state") == "defined" and (
@@ -937,7 +940,11 @@ def classifier(root: str, base_ref: str, head_ref: str, before: dict[str, Any], 
         else:
             require(not scope_changed, "Legacy manifest cannot define or amend a fixed scope")
         jsonschema.Draft202012Validator({"$ref": schema_ref}, registry=registry).validate(manifest)
-        jsonschema.Draft202012Validator(program_schema, registry=registry).validate(after)
+        if split_manifest:
+            base_schema = document(root, base, PROGRAM_SCHEMA)
+            base_registry = Registry().with_resource(base_schema["$id"], Resource.from_contents(base_schema))
+            jsonschema.Draft202012Validator(base_schema, registry=base_registry).validate(real_before)
+        jsonschema.Draft202012Validator(program_schema, registry=registry).validate(real_after if split_manifest else after)
         authorized = registered_scope(root, admitted_base, owner, registration, original)
         mutable = {"status", "agentRole", "baseSha", "lease"}
         require({k: v for k, v in authorized.items() if k not in mutable} == {k: v for k, v in entry.items() if k not in mutable}, "Planner stable identity or prior registered claims changed")
@@ -998,7 +1005,9 @@ def classifier(root: str, base_ref: str, head_ref: str, before: dict[str, Any], 
         for row in expected[section]:
             if row["taskId"] == owner:
                 row["status"] = entry["status"]
-        require(target_ids == changed and baseline_ids == added_baselines and expected == after, "Planning transaction is incomplete or contains undeclared Program changes")
+        matches_expected = same_json(expected, real_after) if split_manifest else expected == after
+        require(target_ids == changed and baseline_ids == added_baselines and matches_expected,
+                "Planning transaction is incomplete or contains undeclared Program changes")
         require(bool(scope_targets) == scope_changed, "Fixed scope change must be declared exactly once")
         if path == EDGE_DEFINITION:
             added_edge = {target["id"] for target in manifest["targets"] if target["kind"] == "add-edge-planned-task"}
