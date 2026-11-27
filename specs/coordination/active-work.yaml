@@ -91,3 +91,45 @@ tasks:
   lease:
     acquiredAt: '2026-11-26T07:01:36Z'
     expiresAt: '2026-12-03T07:01:36Z'
+- taskId: OPS-035
+  issue: 352
+  title: 为按实际输入判定 POC 证据资格建立正式准入
+  status: reserved
+  riskLevel: high
+  owner: ElectricDogCN
+  coordinator: /root
+  implementer: /root
+  reviewer: /root/independent_review
+  integrator: /root
+  agentRole: coordinator
+  branch: chore/OPS-035-poc-dependency-admission
+  baseBranch: main
+  baseSha: cb51148e41e8b420a5c58fb928d5bc84bdacb89c
+  workPackage: WP-M0-01
+  programPlan: specs/coordination/program-plan.yaml
+  programTaskId: OPS-035
+  programWave: FOUNDATION
+  requirementIds:
+  - REQ-V1-0010
+  moduleIds:
+  - MOD-GOV
+  producesContracts: []
+  consumesContracts:
+  - CONTRACT-PROGRAM-PLAN
+  - CONTRACT-TASK-SPEC
+  - CONTRACT-ACTIVE-WORK
+  coordinationGroup: poc-source-dependency-admission
+  dependsOn:
+  - OPS-027
+  exclusivePaths:
+  - AGENTS.md
+  - scripts/poc-contract-repair-admission.py
+  - scripts/check-program-lifecycle-guards.py
+  - tests/governance/test_poc_contract_repair_admission.py
+  sharedPaths: []
+  handoffPath: evidence/OPS-035/handoff.md
+  integrationStrategy: merge
+  integrationOrder: 27
+  lease:
+    acquiredAt: '2026-11-27T17:20:00Z'
+    expiresAt: '2026-12-04T17:20:00Z'

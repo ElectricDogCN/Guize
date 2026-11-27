@@ -1,0 +1,36 @@
+# OPS-035 命令与退出码
+
+Windows 本地使用 PYTHONUTF8=1。
+
+git diff --check cb51148e41e8b420a5c58fb928d5bc84bdacb89c...HEAD
+python scripts/check-task-file.py --task OPS-035
+python scripts/check-schemas.py
+python scripts/check-program-plan-integrity.py --base-ref cb51148e41e8b420a5c58fb928d5bc84bdacb89c
+python scripts/check-program-plan-history.py --base-ref cb51148e41e8b420a5c58fb928d5bc84bdacb89c --head-ref HEAD --task OPS-035 --branch-name chore/OPS-035-poc-dependency-admission
+python scripts/check-program-plan-transitions.py --base-ref cb51148e41e8b420a5c58fb928d5bc84bdacb89c --head-ref HEAD --task OPS-035 --branch-name chore/OPS-035-poc-dependency-admission
+python scripts/check-program-lifecycle-guards.py --base-ref cb51148e41e8b420a5c58fb928d5bc84bdacb89c --head-ref HEAD --task OPS-035 --branch-name chore/OPS-035-poc-dependency-admission
+python scripts/run-program-lifecycle-gate.py --base-ref cb51148e41e8b420a5c58fb928d5bc84bdacb89c --head-ref HEAD --task OPS-035 --branch-name chore/OPS-035-poc-dependency-admission
+python scripts/run-agent-coordination-gate.py --base-ref cb51148e41e8b420a5c58fb928d5bc84bdacb89c --head-ref HEAD --task OPS-035 --branch-name chore/OPS-035-poc-dependency-admission
+python scripts/check-program-plan-finalization.py --base-ref cb51148e41e8b420a5c58fb928d5bc84bdacb89c --head-ref HEAD --task OPS-035
+python scripts/run-task-scope-gate.py --task OPS-035 --base cb51148e41e8b420a5c58fb928d5bc84bdacb89c
+python scripts/check-evidence.py --task OPS-035
+python scripts/check-project-readiness.py
+python scripts/check-markdown.py
+python -m pytest tests/governance
+
+固定本地受测提交 ed5be64905dbfa4f699789a481f3fdccb2ba90f0，树 a9e1b0df4a186368cdabcb19786ef0b5c74e580a。Windows 使用 PYTHONUTF8=1。下列 14 条记录的退出码均为 0。完整官方测试由同头源 CI 执行。
+
+- diff 退出码 0
+- task 退出码 0
+- schemas 退出码 0
+- integrity 退出码 0
+- history 退出码 0
+- transitions 退出码 0
+- lifecycle-guards 退出码 0
+- program-gate 退出码 0
+- coordination-gate 退出码 0
+- finalization 退出码 0
+- scope 退出码 0
+- evidence 退出码 0
+- readiness 退出码 0
+- markdown 退出码 0

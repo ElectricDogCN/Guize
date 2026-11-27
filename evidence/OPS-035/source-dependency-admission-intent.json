@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "kind": "one_poc_source_dependency_qualification_repair_authorization_intent",
+  "authorityTaskId": "OPS-035",
+  "successorTaskId": "OPS-036",
+  "reservationParent": "cb51148e41e8b420a5c58fb928d5bc84bdacb89c",
+  "issue": 352,
+  "defect": 280,
+  "authorityClaims": [
+    "AGENTS.md",
+    "scripts/poc-contract-repair-admission.py",
+    "scripts/check-program-lifecycle-guards.py",
+    "tests/governance/test_poc_contract_repair_admission.py"
+  ],
+  "repairPaths": [
+    "specs/poc/check_program.py",
+    "specs/poc/test_program.py"
+  ],
+  "targetParentBindings": [
+    {
+      "path": "specs/poc/check_program.py",
+      "gitBlob": "b7e0e15dd0af68289b8b49ad80dad5178e219d1c",
+      "sha256": "6cbbb4c2b2f79a76af71e33c7d2db8a9842a5f7b0f22c3f5e45bd4eb79ab8851"
+    },
+    {
+      "path": "specs/poc/test_program.py",
+      "gitBlob": "20691285939698fcf769d2a96362c95dc8e8a28c",
+      "sha256": "814cd9c7bc529fccfc5f9091e5580168455d533c726fa56e8edec471ec9e7268"
+    },
+    {
+      "path": "specs/poc/program.schema.yaml",
+      "gitBlob": "81071def6615928ef484cd94949341696c4922aa",
+      "sha256": "74b5218c3e8b126727ddb15b9830240e9ee0b5a1eb73558c2f6ae138e70934d7"
+    },
+    {
+      "path": "specs/poc/program.yaml",
+      "gitBlob": "039a6b06a800726bebc1c1822a8988243c11bdcb",
+      "sha256": "4b155984d793fd0b990003826af2ef94ffc2f14e3dc31fb07a6fe437863e02e2"
+    },
+    {
+      "path": "docs/18-testing-and-acceptance.md",
+      "gitBlob": "e4a9a2f446c67bfecc092951348891b4ebf80cd3",
+      "sha256": "5e74b1955ded3377a8f4947382a3987dab15de6c8390bd2b514ba43b6c5804ad"
+    }
+  ],
+  "repairRequiresIndependentReservation": true,
+  "repairRequiresActualFreezeVerificationAndIndependentThaw": true,
+  "historicalExecutionRebindingAllowed": false,
+  "thresholdsProductionPlatformAndFullCiUnchanged": true
+}
