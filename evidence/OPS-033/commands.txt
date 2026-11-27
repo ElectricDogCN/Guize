@@ -1,0 +1,12 @@
+git diff --check 4aa7402d5a45555fa1c063ec6366c4efd8f5c33f...HEAD
+python scripts/check-task-file.py --task OPS-033
+python scripts/check-schemas.py
+python scripts/check-program-plan-transitions.py --base-ref origin/main --head-ref HEAD --task OPS-033
+python scripts/check-program-plan-history.py --base-ref origin/main --head-ref HEAD
+python scripts/run-task-scope-gate.py --task OPS-033 --base origin/main
+python scripts/check-evidence.py --task OPS-033
+python scripts/check-markdown.py
+
+Observed on reservation working tree
+Command: python -B scripts/check-task-file.py --task OPS-033
+Exit Code: 0
