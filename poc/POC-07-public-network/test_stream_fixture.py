@@ -1,12 +1,55 @@
 import hashlib
+from argparse import Namespace
 from datetime import timezone
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from io import BytesIO
+import json
+from pathlib import PureWindowsPath
+import subprocess
 import threading
 import unittest
+from unittest.mock import patch
 
+from native_access_capture import CaptureError, capture_tls_request, observe_access_request
 from observe_fixture import ObserveFixtureWrites, READ_SPAN_BYTES
 from stream_fixture import CHUNK_BYTES, FixtureSource, RangeNotSatisfiable, UnexpectedOriginResponse
+
+
+class NativeEvidencePathTests(unittest.TestCase):
+    def test_windows_request_uses_portable_evidence_paths(self):
+        response = PureWindowsPath("evidence/POC-007/capture/playback/response.http")
+        trust_store = PureWindowsPath("evidence/POC-007/capture/localhost-trust.pem")
+
+        with patch(
+            "native_access_capture.subprocess.run",
+            side_effect=subprocess.TimeoutExpired("local request", 25),
+        ) as run:
+            with self.assertRaises(CaptureError):
+                observe_access_request(
+                    "https://localhost:48743/synthetic.bin",
+                    response,
+                    trust_store=trust_store,
+                    request_id="fixture-request",
+                    trace_id="fixture-trace",
+                )
+
+        self.assertEqual(run.call_args.args[0][-1], response.as_posix())
+        settings = json.loads(run.call_args.kwargs["input"])
+        self.assertEqual(settings["trust_store"], trust_store.as_posix())
+
+    def test_windows_tls_command_records_portable_output(self):
+        response = PureWindowsPath("evidence/POC-007/capture/playback/response.http")
+        trust_store = "evidence/POC-007/capture/localhost-trust.pem"
+        args = Namespace(target="https://localhost:48743/synthetic.bin", response=response,
+                         trace_id="fixture-trace", request_id="fixture-request")
+
+        with patch("native_access_capture.subprocess.Popen", side_effect=OSError("local process stub")) as launch:
+            with self.assertRaises(OSError):
+                capture_tls_request(args, {"trust_store": trust_store, "maximum_body_bytes": 64, "request": {}})
+
+        command = launch.call_args.args[0]
+        self.assertEqual(command[command.index("--tls-ca-file") + 1], trust_store)
+        self.assertEqual(command[-1], response.with_suffix(".tls.json").as_posix())
 
 
 class FixtureStreamTests(unittest.TestCase):

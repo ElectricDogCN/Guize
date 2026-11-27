@@ -94,7 +94,7 @@ def capture_tls_request(args: argparse.Namespace, settings: dict) -> dict:
     tls_command = [
         sys.executable, "-B", str(SCRIPT), "--target-origin", f"https://localhost:{port}",
         "--connection-id", args.trace_id, "--tls-ca-file", settings["trust_store"],
-        "--tls-verify-peer", "localhost", "--tls-verify-mode", "strict", "--tls-output", str(tls_result),
+        "--tls-verify-peer", "localhost", "--tls-verify-mode", "strict", "--tls-output", tls_result.as_posix(),
     ]
     child_input = {
         "response": str(args.response), "maximum_body_bytes": settings["maximum_body_bytes"],
@@ -135,11 +135,11 @@ def observe_access_request(
     command = [
         sys.executable, "-B", str(SCRIPT), "--request-id", request.pop("request_id"),
         "--trace-id", request.pop("trace_id"), "--target", target,
-        "--response", str(response),
+        "--response", response.as_posix(),
     ]
     try:
         completed = subprocess.run(
-            command, input=json_bytes({"trust_store": str(trust_store) if trust_store is not None else None,
+            command, input=json_bytes({"trust_store": trust_store.as_posix() if trust_store is not None else None,
                                        "maximum_body_bytes": maximum_body_bytes,
                                        "request": request}), capture_output=True, timeout=25,
         )
