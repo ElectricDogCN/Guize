@@ -167,7 +167,7 @@ foundationTasks:
     mergeCommit: cd659e3d08b335be9c0866f6699bd6b0ef0534e9
   - taskId: OPS-034
     title: 登记一期核心骨架的独立规划拆分
-    status: reserved
+    status: in_progress
     completionRef: ISSUE-337
     mergeCommit: null
 waves:
