@@ -94,17 +94,17 @@ tasks:
 - taskId: OPS-032
   issue: 324
   title: 修正 POC-007 和 POC-008 的具体执行与审查人登记
-  status: in_progress
+  status: review
   riskLevel: high
   owner: ElectricDogCN
   coordinator: /root
   implementer: /root
   reviewer: /root/independent_review
   integrator: /root
-  agentRole: implementer
+  agentRole: reviewer
   branch: chore/OPS-032-poc-actor-repair
   baseBranch: main
-  baseSha: 5d89ae71542be66a7eda3eb02aec89623d086b24
+  baseSha: b5157a68fa16d83fc2fa44395b95cb15b3d67a35
   workPackage: WP-M0-01
   programPlan: specs/coordination/program-plan.yaml
   programTaskId: OPS-032
