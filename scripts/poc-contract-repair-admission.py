@@ -74,6 +74,7 @@ SOURCE_DEPENDENCY = RepairContract(
                'tests/governance/test_poc_contract_repair_admission.py'}),
     frozenset({'specs/poc/check_program.py', 'specs/poc/test_program.py'}))
 
+SOURCE_DEPENDENCY_REGISTRATION = '1d4daa8b33f12b771946c9cafa6e13777314f696'
 SOURCE_DEPENDENCY_PINS = SOURCE_DEPENDENCY.paths | frozenset({
     'specs/poc/program.schema.yaml', 'specs/poc/program.yaml', 'docs/18-testing-and-acceptance.md'})
 BOUND_SOURCE_REPAIRS = frozenset({SOURCE_COMPATIBILITY.successor, PERFORMANCE.successor,
@@ -1156,6 +1157,9 @@ def _authority(root: str, base: str, *, protected_through: str | None = None,
     original = introduction(root, canonical, AUTHORITY)
     require(original is not None, 'No original canonical authority registration')
     registration, reserved = original
+    if SUCCESSOR == SOURCE_DEPENDENCY.successor:
+        require(registration == SOURCE_DEPENDENCY_REGISTRATION,
+                'Source dependency repair requires its original actual main registration')
     preceding = parent(root, registration)
     raw = blob(root, registration, INTENT)
     require(hashlib.sha256(raw).hexdigest() == INTENT_SHA256, 'Original authorization intent differs')

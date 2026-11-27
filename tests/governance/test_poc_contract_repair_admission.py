@@ -1510,6 +1510,10 @@ class TestSourceDependencyRepairAdmission(unittest.TestCase):
 
     def test_real_registration_protects_intent_without_authorizing_the_successor(self):
         PROOF.audit_source_authority_intent(self.root,self.base,self.registration,selected=self.original)
+        reservation_source = PROOF.resolve(self.root,f'{self.registration}^2')
+        PROOF.audit_source_authority_intent(self.root,self.base,reservation_source,selected=self.original)
+        with self.assertRaisesRegex(PROOF.AdmissionError,'requires its original actual main registration'):
+            PROOF.authority(self.root,reservation_source,successor='OPS-036')
         with self.assertRaisesRegex(PROOF.AdmissionError,'not normally completed and released capacity'):
             PROOF.authority(self.root,self.registration,successor='OPS-036')
         errors = []
