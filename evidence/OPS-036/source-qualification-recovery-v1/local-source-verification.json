@@ -1,0 +1,265 @@
+{
+  "schemaVersion": 1,
+  "taskId": "OPS-036",
+  "stage": "localSourceVerification",
+  "base": "a2034ef16893ac46b497a62192e6998dc334f5d6",
+  "testedSource": "9b07bc385e455bd5203d430f65b33e8a4104e062",
+  "tree": "b83f61ac037d0b532e4a1adb69c3e9efd7c4d061",
+  "technicalReviewSha256": "79b834813a9adfb38c8b0ac03a4f905b0ea51be0ff031a9b654fea296ae2cac7",
+  "archiveVerificationSha256": "bed1c6ee3945ec5d177732624481ac904a9dd58792f9a455f9947ce423e957ae",
+  "profileLauncherSha256": "917ed3733aab8946ec8a7cefcdb346084bccff3c0ee3030fe3ff6168b0381d8a",
+  "pathsDigestVerified": 304,
+  "profileResults": [
+    {
+      "poc": "POC-03",
+      "argv": [
+        "/usr/local/bin/python",
+        "-B",
+        "specs/poc/check_program.py",
+        "--profile",
+        "local-v1",
+        "--require-results",
+        "--poc",
+        "POC-03"
+      ],
+      "exitCode": 0,
+      "log": "POC-03.log",
+      "logSha256": "403278bb0d54adc94753a7dcd5129fe3aed1cd2c4c445c83b7cef48a1962c0aa",
+      "seconds": 79.986
+    },
+    {
+      "poc": "POC-05",
+      "argv": [
+        "/usr/local/bin/python",
+        "-B",
+        "specs/poc/check_program.py",
+        "--profile",
+        "local-v1",
+        "--require-results",
+        "--poc",
+        "POC-05"
+      ],
+      "exitCode": 0,
+      "log": "POC-05.log",
+      "logSha256": "d7ab0116600d1c7b06de10c8665445caad9fe71713e43cb95526da8c3a6948db",
+      "seconds": 783.429
+    }
+  ],
+  "directPocTests": {
+    "passed": 236,
+    "retainedPriorNodes": 224,
+    "addedNodes": 12,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "command": "python -B -m pytest -p xdist.plugin -p no:cacheprovider -n 3 --dist load --max-worker-restart=0 -q --junitxml=/results/poc-program.junit.xml specs/poc/test_program.py",
+    "launcherSha256": "1a84b101eccb17787764a06199c1ba844c3429e1986270dba90ea3a671a3afcf",
+    "logSha256": "8b593dad9503f788ddbe2f59af88d06ce3c02b7e38dbadcde8ec9e80b7607ea5",
+    "junitSha256": "1f55d17b6fa58d8679c1bc2b79e8214e116ffc693e005bf40581d457ced92ec8",
+    "longestCases": [
+      {
+        "node": "TestPocProgram::test_01_positive_baseline",
+        "seconds": 837.182
+      },
+      {
+        "node": "TestPocProgram::test_178_worker_safety_requires_per_node_limits_restart_and_network_outcomes",
+        "seconds": 679.457
+      },
+      {
+        "node": "TestPocProgram::test_172_ai_results_bind_quality_retrieval_usage_and_policy_dispatch",
+        "seconds": 586.67
+      },
+      {
+        "node": "TestPocProgram::test_185_media_negative_matrix_binds_actual_failures_cleanup_fencing_and_acl",
+        "seconds": 586.25
+      },
+      {
+        "node": "TestPocProgram::test_86_every_frozen_measurement_id_is_required",
+        "seconds": 537.472
+      }
+    ],
+    "sameContainerCompletion": {
+      "launcherExitCode": 137,
+      "launcherOutputSha256": "d77a971fa712f36ab5d8c3ffdeae456d55c5eca5f0c5aa751670b3aa19fd5dbc",
+      "containerExitCode": 0,
+      "containerExitReceiptSha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "containerIdentitySha256": "67f890c50ab14c93235e500ce9d1f4dec2bb21e85cbb3ace6a1ffa3deaab7bde"
+    }
+  },
+  "nativeSourceControls": {
+    "diff": {
+      "testedSource": "9b07bc385e455bd5203d430f65b33e8a4104e062",
+      "exitCode": 0,
+      "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence": {
+      "testedSource": "9b07bc385e455bd5203d430f65b33e8a4104e062",
+      "exitCode": 0,
+      "logSha256": "89e8820d379e06baaf2f6a8b5386da38ed774641ce7fec966eb970f64ce9f9c7"
+    },
+    "history": {
+      "testedSource": "9b07bc385e455bd5203d430f65b33e8a4104e062",
+      "exitCode": 0,
+      "logSha256": "339268c95673350e6d1c2a4790ddb8ed955d3c7dc4ecdb753b626972c978e833"
+    },
+    "integrity": {
+      "testedSource": "9b07bc385e455bd5203d430f65b33e8a4104e062",
+      "exitCode": 0,
+      "logSha256": "78d41d1ea10fd10f64859d5d3cd7e48afdc7b4fdb6a698e7f629239fa57b854c"
+    },
+    "lifecycle": {
+      "testedSource": "9b07bc385e455bd5203d430f65b33e8a4104e062",
+      "exitCode": 0,
+      "logSha256": "261a308200fb7baefccb0b4e4705126051a77a27d757604fc9e21141906050aa"
+    },
+    "task-file": {
+      "testedSource": "9b07bc385e455bd5203d430f65b33e8a4104e062",
+      "exitCode": 0,
+      "logSha256": "a4657caf8d05dfa40ae704a3b1296fd31f8d6f40dd5a6d42f4d7b7f164a71f6d"
+    },
+    "transitions": {
+      "testedSource": "9b07bc385e455bd5203d430f65b33e8a4104e062",
+      "exitCode": 0,
+      "logSha256": "5a2b85401d8aec5bbc18bf3e4f69795c8165a9d5c14923d2ce3a1a2b53e1da91"
+    },
+    "coordination": {
+      "testedSource": "9b07bc385e455bd5203d430f65b33e8a4104e062",
+      "exitCode": 0,
+      "logSha256": "109e27db8d4dd353964b352c392cea6f88a5a84cbb867d09e10c45340a09ea89"
+    },
+    "finalization": {
+      "testedSource": "9b07bc385e455bd5203d430f65b33e8a4104e062",
+      "exitCode": 0,
+      "logSha256": "9d6bacaae49cb69e51b2b659c0bd4d2e7487e6915944127875109ba21997c67e"
+    },
+    "markdown": {
+      "testedSource": "9b07bc385e455bd5203d430f65b33e8a4104e062",
+      "exitCode": 0,
+      "logSha256": "1635454ce7f2b579fb86c22ec7de9a9e3ae34d4e087c84fdd8686b04aaf9037b"
+    },
+    "program-gate": {
+      "testedSource": "9b07bc385e455bd5203d430f65b33e8a4104e062",
+      "exitCode": 0,
+      "logSha256": "b197c8bc54a8ba6a284d13b2b85dff1d2c7685fd2d046c20ef0066e991f7daa0"
+    },
+    "readiness": {
+      "testedSource": "9b07bc385e455bd5203d430f65b33e8a4104e062",
+      "exitCode": 0,
+      "logSha256": "bcf287319979cd10d1382911d406115ab8c11eee120c677b1b95432676a1632c"
+    },
+    "schemas": {
+      "testedSource": "9b07bc385e455bd5203d430f65b33e8a4104e062",
+      "exitCode": 0,
+      "logSha256": "d307f6b24c330da66cdd7173092dde0ec53347cd3efdf3b14a8e13010a0fc5e0"
+    }
+  },
+  "originalScopeCheck": {
+    "testedSource": "9b07bc385e455bd5203d430f65b33e8a4104e062",
+    "exitCode": 1,
+    "logSha256": "421cd3bb7f3ecffef497b4e2ff6834c64042fd531ea6ff033ac77b1e5189cfc1"
+  },
+  "metadataCorrection": {
+    "commit": "c7415161cedee15a9d0aae821c79da9f16f5f2a4",
+    "tree": "c33aa9ac479bd91b89f21c03ea0314bbfe30a7d1",
+    "controls": {
+      "lifecycle": {
+        "testedSource": "c7415161cedee15a9d0aae821c79da9f16f5f2a4",
+        "exitCode": 0,
+        "logSha256": "261a308200fb7baefccb0b4e4705126051a77a27d757604fc9e21141906050aa"
+      },
+      "scope": {
+        "testedSource": "c7415161cedee15a9d0aae821c79da9f16f5f2a4",
+        "exitCode": 0,
+        "logSha256": "5697a01c9923d3489b4f2e0c9bb60396534c8d77b91ca5c713296ce884755a36"
+      },
+      "task": {
+        "testedSource": "c7415161cedee15a9d0aae821c79da9f16f5f2a4",
+        "exitCode": 0,
+        "logSha256": "a4657caf8d05dfa40ae704a3b1296fd31f8d6f40dd5a6d42f4d7b7f164a71f6d"
+      }
+    }
+  },
+  "taskSpecCheckBaseCorrection": {
+    "commit": "e27382a4d9f1be4b6c1b76c768fd1af7628b60eb",
+    "tree": "d12d764c692b011c2cc655b204f39382d67f7953",
+    "frozenCommandBase": "a2034ef16893ac46b497a62192e6998dc334f5d6",
+    "controls": {
+      "coordination": {
+        "testedSource": "e27382a4d9f1be4b6c1b76c768fd1af7628b60eb",
+        "exitCode": 0,
+        "logSha256": "109e27db8d4dd353964b352c392cea6f88a5a84cbb867d09e10c45340a09ea89"
+      },
+      "diff": {
+        "testedSource": "e27382a4d9f1be4b6c1b76c768fd1af7628b60eb",
+        "exitCode": 0,
+        "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "evidence": {
+        "testedSource": "e27382a4d9f1be4b6c1b76c768fd1af7628b60eb",
+        "exitCode": 0,
+        "logSha256": "89e8820d379e06baaf2f6a8b5386da38ed774641ce7fec966eb970f64ce9f9c7"
+      },
+      "finalization": {
+        "testedSource": "e27382a4d9f1be4b6c1b76c768fd1af7628b60eb",
+        "exitCode": 0,
+        "logSha256": "9d6bacaae49cb69e51b2b659c0bd4d2e7487e6915944127875109ba21997c67e"
+      },
+      "history": {
+        "testedSource": "e27382a4d9f1be4b6c1b76c768fd1af7628b60eb",
+        "exitCode": 0,
+        "logSha256": "d42bc41b7dd0437bf5913dd2a124085a0d09b961dc1623544c2a78861407d81e"
+      },
+      "integrity": {
+        "testedSource": "e27382a4d9f1be4b6c1b76c768fd1af7628b60eb",
+        "exitCode": 0,
+        "logSha256": "78d41d1ea10fd10f64859d5d3cd7e48afdc7b4fdb6a698e7f629239fa57b854c"
+      },
+      "lifecycle": {
+        "testedSource": "e27382a4d9f1be4b6c1b76c768fd1af7628b60eb",
+        "exitCode": 0,
+        "logSha256": "261a308200fb7baefccb0b4e4705126051a77a27d757604fc9e21141906050aa"
+      },
+      "markdown": {
+        "testedSource": "e27382a4d9f1be4b6c1b76c768fd1af7628b60eb",
+        "exitCode": 0,
+        "logSha256": "1635454ce7f2b579fb86c22ec7de9a9e3ae34d4e087c84fdd8686b04aaf9037b"
+      },
+      "program-gate": {
+        "testedSource": "e27382a4d9f1be4b6c1b76c768fd1af7628b60eb",
+        "exitCode": 0,
+        "logSha256": "b197c8bc54a8ba6a284d13b2b85dff1d2c7685fd2d046c20ef0066e991f7daa0"
+      },
+      "readiness": {
+        "testedSource": "e27382a4d9f1be4b6c1b76c768fd1af7628b60eb",
+        "exitCode": 0,
+        "logSha256": "bcf287319979cd10d1382911d406115ab8c11eee120c677b1b95432676a1632c"
+      },
+      "schemas": {
+        "testedSource": "e27382a4d9f1be4b6c1b76c768fd1af7628b60eb",
+        "exitCode": 0,
+        "logSha256": "d307f6b24c330da66cdd7173092dde0ec53347cd3efdf3b14a8e13010a0fc5e0"
+      },
+      "scope": {
+        "testedSource": "e27382a4d9f1be4b6c1b76c768fd1af7628b60eb",
+        "exitCode": 0,
+        "logSha256": "5697a01c9923d3489b4f2e0c9bb60396534c8d77b91ca5c713296ce884755a36"
+      },
+      "task-file": {
+        "testedSource": "e27382a4d9f1be4b6c1b76c768fd1af7628b60eb",
+        "exitCode": 0,
+        "logSha256": "a4657caf8d05dfa40ae704a3b1296fd31f8d6f40dd5a6d42f4d7b7f164a71f6d"
+      },
+      "transitions": {
+        "testedSource": "e27382a4d9f1be4b6c1b76c768fd1af7628b60eb",
+        "exitCode": 0,
+        "logSha256": "5a2b85401d8aec5bbc18bf3e4f69795c8165a9d5c14923d2ce3a1a2b53e1da91"
+      }
+    },
+    "registrationBaseTransitionControl": {
+      "testedSource": "e27382a4d9f1be4b6c1b76c768fd1af7628b60eb",
+      "exitCode": 1,
+      "logSha256": "2df6a89f8f6a050aae5b5c414754d1cc243d6b9a7ff5047cc0cb20202583b4f0"
+    }
+  },
+  "officialCi": "pendingPublication"
+}

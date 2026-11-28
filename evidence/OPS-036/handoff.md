@@ -1,3 +1,15 @@
+# OPS-036 实施交接
+
+跟踪 Issue #357，分支 `chore/OPS-036-poc-source-qualification`，实际冻结基线 `a2034ef16893ac46b497a62192e6998dc334f5d6`。已验证的代码源为 `9b07bc385e455bd5203d430f65b33e8a4104e062`，树为 `b83f61ac037d0b532e4a1adb69c3e9efd7c4d061`。当前候选提交以 `git rev-parse HEAD` 为准。
+
+/root 负责协调、实现和集成，/root/independent_review 独立审查。租约有效至 `2026-12-04T20:46:43Z`。集成组 `poc-source-dependency-admission`，顺序 28。使用 Program Plan v1、Task Spec v2 和 Active Work v1。测试命令及退出状态见 [命令](commands.txt) 和 [结果](test-results/README.md)。共享写入范围为空。
+
+实际 [变更范围](changed-files.md) 包含自身激活、验收证据和已登记的两条代码路径。完整 POC 测试 236 项、原生控制及两个固定历史 profile 通过。早期仅含 LFS 指针的副本出现基线失败，完整验证使用原件装载后的检出。Task 说明已更正两条路径的写法和实施检查基线，两个更正单独留证。实际冻结的恢复和解冻按正式独立阶段办理。
+
+独立审查人核对最新固定候选和本地证据，再由集成人提交完整官方 CI。合入后复验实际主线。尚在分支中的实施可撤回，已合入阶段使用独立受审的前向修订。
+
+## 历史冻结和登记交接
+
 # OPS-036 GZ-021 冻结交接
 
 Issue #357，当前分支 `chore/OPS-036-poc-source-qualification`，冻结基线 `384416035cfe2b244321f82a7893c1f03684bff1`。用 `git rev-parse HEAD` 读取本候选的完整 SHA。/root 协调、实现及集成，/root/independent_review 独立审查。
