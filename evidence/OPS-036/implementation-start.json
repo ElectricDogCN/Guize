@@ -1,0 +1,10 @@
+{
+  "taskId": "OPS-036",
+  "issue": 357,
+  "sourceFreezePullRequest": 360,
+  "actualFreezeMain": "a2034ef16893ac46b497a62192e6998dc334f5d6",
+  "frozenAtSource": "384416035cfe2b244321f82a7893c1f03684bff1",
+  "actualFreezeAcceptanceSha256": "3b4627717f50a4833a5457b2a979e741e5fe65dadc1961c6cc1873c05effda1b",
+  "activationOnly": true,
+  "protectedPathsChanged": false
+}

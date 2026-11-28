@@ -7,6 +7,7 @@ import argparse
 import base64
 import copy
 import codecs
+import fnmatch
 import hashlib
 import importlib.util
 import ipaddress
@@ -21,6 +22,7 @@ import sys
 import tempfile
 import urllib.parse
 import zlib
+from contextvars import ContextVar
 from datetime import datetime, timezone
 from functools import lru_cache
 from pathlib import Path
@@ -1204,12 +1206,7 @@ def qualified_lifecycle_delta_paths(root,before_ref,after_ref,git):
     if not re.fullmatch('[A-Z]+-[0-9]{3}',owner):return set()
     task_path=f'specs/tasks/{owner}.md'
     if any(path not in shared|{task_path} and not path.startswith(f'evidence/{owner}/') for path in changed):return set()
-    # The existing history library reads immutable reservation/task snapshots.
-    helper_path=Path(__file__).resolve().parents[2]/'scripts/check-program-plan-history.py'
-    spec=importlib.util.spec_from_file_location('qualified_poc_lifecycle_history',helper_path)
-    history=importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(history)
-    history.git=lambda repository,*args:subprocess.run(['git',*args],cwd=repository,capture_output=True,text=True,encoding='utf8')
+    history = qualified_history_library()
     transitions=history.TRANSITIONS
     if not transitions.only_lifecycle_target_changed(before,after,'tasks',owner,{'status'}):return set()
     old_state,new_state=old_rows[owner].get('status'),new_rows[owner].get('status')
@@ -1285,6 +1282,403 @@ def qualified_lifecycle_delta_paths(root,before_ref,after_ref,git):
     return changed
 
 
+@lru_cache(maxsize=1)
+def qualified_history_library():
+    path = Path(__file__).resolve().parents[2] / "scripts/check-program-plan-history.py"
+    spec = importlib.util.spec_from_file_location("qualified_poc_lifecycle_history", path)
+    history = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(history)
+    history.git = lambda repository, *args: subprocess.run(
+        ["git", *args], cwd=repository, capture_output=True, text=True, encoding="utf-8"
+    )
+    return history
+
+
+def qualified_commit_edges(start, head, git):
+    """Audit every newly reachable commit against a real parent."""
+    if start == head:
+        return []
+    edges = []
+    descendants = {start}
+    # A side branch may have forked before the tested source. Its introduced
+    # commits still need auditing, even if their changes vanish at the merge.
+    for line in git("rev-list", "--parents", "--topo-order", "--reverse", f"{start}..{head}").splitlines():
+        commit, *parents = line.split()
+        if not parents:
+            raise ValueError("tested source ancestry must contain real parent edges")
+        parent = next((parent for parent in parents if parent in descendants), None)
+        if parent is not None:
+            descendants.add(commit)
+        edges.append((parent or parents[0], commit))
+    if head not in descendants:
+        raise ValueError("tested source ancestry must contain real parent edges")
+    return edges
+
+
+RECORDED_SCOPE_REF = "evidence/OPS-036/source-qualification-recovery-v1/recorded-input-scopes.json"
+RECORDED_SCOPE_SHA256 = "0ac95aa53644a51fa330b7a97e7af1a269142c5b486a3de619303bb1b5508df4"
+RECORDED_SCOPE_HISTORY = ContextVar("recorded_source_scope_history", default=None)
+RECORDED_SCOPE_TESTED_COMMITS = {
+    "POC-03": "2a6a6a9e62dc0fe7ef3144934d77c010811584ad",
+    "POC-05": "be8a16ad0fcaeb64e5b169e6137fedfb91fe5ae6",
+}
+
+
+def source_shared_input(path, own_plan):
+    # Other plan slots and result rows are assessed by their own readers. The
+    # old checker is recorded as execution provenance, not a runtime input.
+    if path in {"specs/poc/check_program.py", "specs/poc/test_program.py", "specs/poc/results-index.yaml"}:
+        return False
+    sibling_plan = re.fullmatch(r"specs/poc/plans/POC-(?:00[1-9]|010)[.]yaml", path)
+    return not sibling_plan or path == own_plan
+
+
+def qualified_shared_input_digest(git, ref, roots, own_plan):
+    records = git("ls-tree", "-rz", ref, "--", *roots).split("\0")
+    selected = [record for record in records if record and source_shared_input(record.split("\t", 1)[1], own_plan)]
+    return hashlib.sha256("\0".join(selected).encode("utf-8")).hexdigest()
+
+
+def validate_recorded_task_admission(history, root, before, after, task, definition, entry, registry,
+                                     plan, prior_plan, prior_ledger, errors):
+    label = f"recorded lifecycle admission for {task}"
+    base_sha = str(entry.get("baseSha") or "")
+    if entry:
+        if not re.fullmatch(r"[0-9a-f]{40}", base_sha) or not history.is_ancestor(root, base_sha, before):
+            errors.append(f"{label} requires its registered base to be an ancestor of the actual parent")
+        policy = registry.get("policy", {})
+        history.historical_lease(root, after, entry, policy, label, errors)
+        history.historical_capacity(root, task, registry, policy, after, after, label, errors)
+        history.historical_conflicts(task, entry, registry, label, errors)
+    admitted = {**history.mapping(prior_plan.get("foundationTasks")), **history.mapping(prior_plan.get("tasks"))}
+    current = {**history.mapping(plan.get("foundationTasks")), **history.mapping(plan.get("tasks"))}
+    registered_dependencies = set(entry.get("dependsOn") or [])
+    executing = definition.get("status") in {"reserved", "in_progress", "review", "integration", "completed"}
+    plan_dependencies = set(definition.get("dependsOn") or []) if executing else set()
+    for dependency in sorted(registered_dependencies | plan_dependencies):
+        if admitted.get(dependency, {}).get("status") != "completed" or current.get(dependency, {}).get("status") != "completed":
+            errors.append(f"{label} requires dependency {dependency} completed at the parent and current edge")
+            continue
+        if dependency in registered_dependencies:
+            merge = history.RECOVERY.completion_merge_sha(dependency, prior_plan, prior_ledger)
+            if not merge or not re.fullmatch(r"[0-9a-f]{40}", base_sha) or not history.is_ancestor(root, merge, base_sha):
+                errors.append(f"{label} has no completed dependency {dependency} on its registered base")
+    for blocker in plan.get("externalBlockers") or []:
+        if executing and task in (blocker.get("requiredFor") or ()) and blocker.get("status") != "resolved":
+            errors.append(f"{label} is subject to unresolved blocker {blocker.get('id')}")
+
+
+def validate_recorded_lifecycle_edge(history, root, before, after, paths, errors):
+    transitions = history.TRANSITIONS
+    prior, current, prior_active, current_active, prior_ledger, current_ledger = (
+        history.load_ref(root, ref, path)
+        for path in (history.PLAN, history.ACTIVE, history.LEDGER) for ref in (before, after)
+    )
+    documents = prior, current, prior_active, current_active, prior_ledger, current_ledger
+    if not all(isinstance(item, dict) for item in documents):
+        errors.append("cannot read the recorded Programme lifecycle documents")
+        return
+    lifecycle_fields = {"tasks", "pocs", "foundationTasks", "status", "recovery"}
+    prior_policy = {name: value for name, value in prior.items() if name not in lifecycle_fields}
+    current_policy = {name: value for name, value in current.items() if name not in lifecycle_fields}
+    old_tasks, tasks = (history.mapping(plan.get("tasks")) for plan in (prior, current))
+    old_foundations, foundations = (history.mapping(plan.get("foundationTasks")) for plan in (prior, current))
+    planning = None
+    if prior_policy != current_policy or set(old_tasks) != set(tasks):
+        planning = history.PLANNING.classifier(root, before, after, prior, current, errors,
+                                               observed_at=history.PLANNING.commit_time(root, after))
+        if not planning:
+            errors.append("unproved Programme policy or task-definition change")
+            return
+    if {name: value for name, value in prior_active.items() if name != "tasks"} != {
+        name: value for name, value in current_active.items() if name != "tasks"
+    }:
+        errors.append("recorded lifecycle edge changed Registry policy")
+    history.historical_registry_schema(root, after, current_active, "recorded lifecycle", errors)
+    transitions.validate_active_program_scope(current, current_active, errors)
+    transitions.validate_wave_activation(current, errors)
+    if errors:
+        return
+    affected = history.RECOVERY.task_ids_from_diff(*documents, paths)
+    old_mirrors, mirrors = (history.mapping(plan.get("pocs")) for plan in (prior, current))
+    affected.update(task for task in old_mirrors.keys() | mirrors.keys() if old_mirrors.get(task) != mirrors.get(task))
+    if planning:
+        affected.difference_update(planning["targetTaskIds"])
+        affected.add(planning["owner"])
+    history.PLANNING.enforce_consumers(root, before, after, prior, current, affected, paths, errors)
+    actors = transitions.check_actor_range(root, before, after, errors)
+    branches = transitions.check_work_branch_range(root, before, after, errors)
+    entries = history.mapping(current_active.get("tasks"))
+    for task in sorted(affected):
+        origin = old_tasks.get(task) or old_foundations.get(task) or {}
+        destination = tasks.get(task) or foundations.get(task) or {}
+        state = destination.get("status")
+        task_file = history.find_task_path(root, task, after)
+        if state == origin.get("status") == "completed" and task_file in paths:
+            errors.append(f"recorded lifecycle changes a completed Task Spec for {task}")
+        if task in mirrors and mirrors[task].get("status") != state:
+            errors.append(f"recorded lifecycle POC mirror differs for {task}")
+        if state in history.ACTIVE_STATES or (state == "completed" and origin.get("status") != state):
+            validate_recorded_task_admission(history, root, before, after, task, destination, entries.get(task, {}),
+                                             current_active, current, prior, prior_ledger, errors)
+        if state == "cancelled":
+            transitions.validate_cancel_transition(root, before, after, "", task, *documents, errors)
+        elif task in tasks and state == "completed" and origin.get("status") != state:
+            history.validate_regular_completion(root, task, *documents, before, after, "", errors)
+            record = history.RECOVERY.completion_record(current_ledger, task)
+            if record is None:
+                errors.append(f"recorded lifecycle Completion has no record for {task}")
+            else:
+                history.validate_reservation_snapshot(root, record, errors)
+        elif state in history.ACTIVE_STATES:
+            entry = entries.get(task, {})
+            if task in foundations and task not in old_foundations:
+                if state != "reserved" or not history.foundation_reservation(root, task, after, entry, errors):
+                    errors.append(f"recorded lifecycle has no original Foundation registration for {task}")
+                continue
+            effective = planning["projectedPlan"] if planning and task == planning["owner"] else current
+            fields = actors.get(task, frozenset()) | branches.get(task, frozenset())
+            transitions.validate_active_transition(root, before, after, task, prior, effective,
+                                                   prior_active, current_active, errors, fields)
+            if len(affected) == 1 and task_file:
+                exact, prefixes = history.RECOVERY.allowed_metadata_paths(task, task_file, False)
+                claims = (entry.get("exclusivePaths") or []) + (entry.get("sharedPaths") or [])
+                if any(not history.RECOVERY.path_allowed(path, exact, prefixes, claims) for path in paths):
+                    errors.append(f"recorded lifecycle edge changes paths outside the registered scope for {task}")
+            front, body = history.parse_front_matter(history.read_ref(root, after, task_file or ""))
+            if front.get("status") != state or front.get("agentRole") != entry.get("agentRole"):
+                errors.append(f"recorded lifecycle Task/Registry status or role differs for {task}")
+            history.stable_spec_matches(task, entry, front, body, errors, reservation=True)
+        elif state not in {"completed", origin.get("status")} or not destination:
+            errors.append(f"unproved recorded lifecycle transition for {task}")
+    if affected & (old_foundations.keys() | foundations.keys()):
+        history.validate_foundations(root, *documents, before, after, "", errors)
+
+
+def recorded_import_projection(document, collections):
+    if not isinstance(document, dict):
+        raise ValueError("recorded import requires a structured lifecycle document")
+    fields = {}
+    for key, value in document.items():
+        if key not in collections:
+            fields[(key,)] = value
+            continue
+        if not isinstance(value, list):
+            raise ValueError("recorded import requires keyed lifecycle rows")
+        fields[(key,)] = True
+        for row in value:
+            if not isinstance(row, dict) or type(row.get("taskId")) is not str:
+                raise ValueError("recorded import requires text lifecycle identities")
+            identity = (key, row["taskId"])
+            if identity in fields:
+                raise ValueError("recorded import has duplicate lifecycle rows")
+            fields[identity] = row
+    return fields
+
+
+def same_recorded_value(left, right):
+    if type(left) is not type(right):
+        return False
+    if isinstance(left, dict):
+        return (all(type(key) is str for key in left.keys() | right.keys())
+                and left.keys() == right.keys()
+                and all(same_recorded_value(left[key], right[key]) for key in left))
+    if isinstance(left, list):
+        return len(left) == len(right) and all(same_recorded_value(a, b) for a, b in zip(left, right))
+    return left == right
+
+
+def matches_recorded_import(common, prior, incoming, actual):
+    missing = object()
+    for key in common.keys() | prior.keys() | incoming.keys() | actual.keys():
+        original, left, right, merged = (item.get(key, missing) for item in (common, prior, incoming, actual))
+        if same_recorded_value(left, right) or same_recorded_value(right, original):
+            expected = left
+        elif same_recorded_value(left, original):
+            expected = right
+        else:
+            return False
+        if not same_recorded_value(merged, expected):
+            return False
+    return True
+
+
+def authenticated_recorded_import(history, root, anchor, before, after, metadata, git):
+    """Prove exact, conflict-free metadata imports from separately audited history."""
+    parents = git("show", "-s", "--format=%P", after).split()
+    if len(parents) != 2 or parents[0] != before:
+        return False
+    incoming = parents[1]
+    common_refs = git("merge-base", "--all", before, incoming).splitlines()
+    if not common_refs:
+        return False
+    collections = {history.PLAN: {"tasks", "foundationTasks", "pocs"}, history.ACTIVE: {"tasks"},
+                   history.LEDGER: {"records"}}
+    for path in metadata:
+        def projection(ref):
+            if path in collections:
+                return recorded_import_projection(history.load_ref(str(root), ref, path), collections[path])
+            # Task documents must have the exact mode and blob from the import.
+            return {("tree",): git("ls-tree", "-z", ref, "--", path)}
+        prior, imported, actual = (projection(ref) for ref in (before, incoming, after))
+        if not all(matches_recorded_import(projection(common), prior, imported, actual) for common in common_refs):
+            return False
+    errors = []
+    registry = history.load_ref(str(root), after, history.ACTIVE)
+    history.historical_registry_schema(str(root), after, registry, "recorded clean import", errors)
+    if errors:
+        return False
+    if incoming in history.approved_synchronization_parents(str(root), after, anchor):
+        return True
+    if not history.is_ancestor(str(root), anchor, incoming):
+        return False
+    validate_recorded_scope_history(root, anchor, incoming, git)
+    return True
+
+
+def validate_recorded_frozen_writes(history, root, before, after, prior, current, paths, errors):
+    """Apply the frozen write boundary to the paths at the historical commit."""
+    states = prior.get("status"), current.get("status")
+    if "frozen" not in states:
+        return
+    guard = history.RECOVERY
+    owner = guard.recovery_owner(current)
+    remaining = paths - {history.PLAN, history.ACTIVE}
+
+    def remove_metadata(task):
+        task_path = history.find_task_path(root, task, after)
+        if task_path:
+            remaining.difference_update({task_path})
+            remaining.difference_update(path for path in tuple(remaining) if guard.safe_evidence_path(path, task))
+
+    if states[0] != states[1]:
+        # The existing lifecycle audit verifies the recovery event and its proof.
+        if owner:
+            remove_metadata(owner)
+    else:
+        registry = history.load_ref(root, after, history.ACTIVE)
+        if not isinstance(registry, dict):
+            errors.append("cannot read the frozen Registry at the recorded commit")
+            return
+        foundations = history.mapping(current.get("foundationTasks"))
+        ordinary = history.mapping(current.get("tasks"))
+        entries = history.mapping(registry.get("tasks"))
+        for task, definition in ordinary.items():
+            if definition.get("status") == "cancelled" or (definition.get("status") == "blocked" and task in entries):
+                remove_metadata(task)
+        for task, entry in entries.items():
+            if task not in foundations or entry.get("moduleIds") != ["MOD-GOV"] or entry.get("sharedPaths"):
+                continue
+            remove_metadata(task)
+            claims = entry.get("exclusivePaths") or []
+            matched = {path for path in remaining if any(fnmatch.fnmatchcase(path, claim) for claim in claims)}
+            if not matched or entry.get("status") not in guard.IMPLEMENTATION_STATES:
+                continue
+            if not history.historical_lease(root, after, entry, registry.get("policy", {}), task, errors):
+                continue
+            ownership = history.load_ref(root, before, guard.OWNERSHIP)
+            if not isinstance(ownership, dict):
+                errors.append("cannot read the frozen module ownership at the recorded parent")
+                return
+            special = {claim for claim in claims if not guard.governance_claim_subset(claim, ownership)}
+            if special:
+                authorized = guard.authenticated_repair_claims(root, task, entry, before, observed_ref=after)
+                if not special.issubset(authorized):
+                    continue
+                if special.intersection(matched):
+                    guard.validate_bound_repair_changes(root, before, after, task, matched, errors)
+            remaining.difference_update(matched)
+    if remaining:
+        errors.append("Frozen Program rejects writes outside historical recovery scope: " + ", ".join(sorted(remaining)))
+
+
+def validate_recorded_scope_history(root, base, context, git):
+    """Apply the historical and ordinary governance checks at each subsequent actual edge."""
+    accepted = RECORDED_SCOPE_HISTORY.get()
+    key = (root.resolve(), base, context)
+    if accepted is not None and key in accepted:
+        return
+    history = qualified_history_library()
+    governance_paths = {history.PLAN, history.ACTIVE, history.LEDGER}
+    plans = {}
+    checked = {base}
+    for before, after in qualified_commit_edges(base, context, git):
+        paths = set(filter(None, git("diff", "--name-only", "--no-renames", "-z", before, after).split("\0")))
+        if before not in plans:
+            plans[before] = history.load_ref(str(root), before, history.PLAN)
+        prior = plans[before]
+        current = history.load_ref(str(root), after, history.PLAN) if history.PLAN in paths else prior
+        if not isinstance(prior, dict) or not isinstance(current, dict):
+            raise ValueError("recorded source scope cannot read the Programme Plan at a historical edge")
+        plans[after] = current
+        errors = []
+        validate_recorded_frozen_writes(history, str(root), before, after, prior, current, paths, errors)
+        if errors:
+            raise ValueError("recorded source scope governance history rejected: " + errors[0])
+        metadata = {path for path in paths if path in governance_paths or path.startswith("specs/tasks/")}
+        if metadata:
+            validate_recorded_lifecycle_edge(history, str(root), before, after, paths, errors)
+            if not errors:
+                history.historical_post_metadata(str(root), before, after, "OPS-036", metadata, errors, base, checked)
+            if errors and not authenticated_recorded_import(history, root, base, before, after, metadata, git):
+                raise ValueError("recorded source scope governance history rejected: " + errors[0])
+        checked.add(after)
+    if accepted is not None:
+        accepted.add(key)
+
+
+def validate_recorded_source_scope(root, plan, source, environment, context, git, record_refs,
+                                   dirty, untracked, ignored):
+    """Recognize the versioned dependency evidence for the two original local archives."""
+    identity = environment.get("acceptanceProfile")
+    if (not isinstance(identity, dict) or identity.get("id") != "local-v1"
+            or source.get("commit") != RECORDED_SCOPE_TESTED_COMMITS.get(plan["pocId"])
+            or not (root / RECORDED_SCOPE_REF).is_file()):
+        return False
+    raw = git("show", f"{context}:{RECORDED_SCOPE_REF}")
+    if hashlib.sha256(raw.encode("utf-8")).hexdigest() != RECORDED_SCOPE_SHA256:
+        raise ValueError("recorded source scope must be the version bound by the verifier")
+    manifest = json.loads(raw)
+    if manifest.get("schemaVersion") != 1:
+        raise ValueError("unsupported recorded source scope version")
+    row = manifest["profiles"][plan["pocId"]]
+    anchor = manifest["archiveMain"]
+    if identity != row["profile"] or source != row["testedSource"]:
+        raise ValueError("recorded source scope differs from the approved execution identity")
+    index, result, execution, configuration = row["records"]
+    if (set(record_refs or ()) != {result, execution}
+            or environment.get("acceptanceProfileConfigurationRef") != configuration
+            or profile_index_ref(plan["taskId"], "local-v1") != index):
+        raise ValueError("recorded source scope does not match the selected archive records")
+    # Exact tree identities bind all members, modes and LFS pointers, including
+    # the original execution approval and native observations.
+    git("merge-base", "--is-ancestor", source["commit"], anchor)
+    git("merge-base", "--is-ancestor", anchor, context)
+    for revision, member, expected in (
+        (source["commit"], row["module"], row["moduleTree"]),
+        (context, row["module"], row["moduleTree"]),
+        (anchor, row["slot"], row["slotTree"]),
+        (context, row["slot"], row["slotTree"]),
+        (source["commit"], "specs/poc/check_program.py", row["historicalCheckerBlob"]),
+    ):
+        if git("rev-parse", f"{revision}:{member}") != expected:
+            raise ValueError(f"recorded source scope input changed: {member}")
+    git("cat-file", "-e", f"{anchor}:{row['archivedApproval']}")
+    for revision in (source["commit"], context):
+        if qualified_shared_input_digest(git, revision, manifest["sharedRoots"], row["plan"]) != row["sharedInputsSha256"]:
+            raise ValueError("recorded source scope shared contract or plan changed")
+    if dirty or untracked:
+        raise ValueError("recorded source scope requires a clean tracked checkout")
+    roots = (row["module"], row["slot"], *manifest["sharedRoots"])
+    if any(path == root_path or path.startswith(root_path + "/") for path in ignored for root_path in roots):
+        raise ValueError("recorded source scope has an ignored input under a verified root")
+    # Reuse the existing immutable authority audit within this profile check.
+    # Each historical edge still checks its own paths, registration and lease.
+    with qualified_history_library().RECOVERY.repair_module().audit_session():
+        validate_recorded_scope_history(root, anchor, context, git)
+    return True
+
+
 def validate_qualified_source(root, plan, execution, configuration, defs, prefix, errors, record_refs=None):
     label = f"qualified tested source {plan['taskId']}"
     source = (execution.get('environmentCaptured') or {}).get('testedSource')
@@ -1339,6 +1733,9 @@ def validate_qualified_source(root, plan, execution, configuration, defs, prefix
             raise ValueError('referenced qualified evidence must not be ignored and untracked: '+', '.join(sorted(referenced & ignored)))
         if referenced & set(untracked):
             raise ValueError('referenced qualified evidence must be tracked: '+', '.join(sorted(referenced & set(untracked))))
+        if validate_recorded_source_scope(root, plan, source, execution.get("environmentCaptured") or {}, context,
+                                          git, record_refs, dirty, untracked, ignored):
+            return
         poc_task = f"POC-{int(plan['pocId'].split('-')[-1]):03d}"
         own_prefixes = tuple(str(Path(profile_index_ref(task,profile)).parent).replace('\\','/')+'/'
                              for task in sorted(TASKS) for profile in PROFILE_SCOPES)
@@ -1350,13 +1747,8 @@ def validate_qualified_source(root, plan, execution, configuration, defs, prefix
             header = before.split('---',2)[1] if before.startswith('---') else ''
             return (match is not None and len(re.findall(r'^status:',header,re.MULTILINE)) == 1
                     and after == match[1]+'completed'+match[2])
-        cursor=commit
-        deliveries=[]
-        for node in git('rev-list','--first-parent','--reverse',f'{commit}..{context}').splitlines():
-            paths=git('diff','--name-only',cursor,node).splitlines()
-            deliveries.append((paths,cursor,node))
-            cursor=node
-        if cursor!=context:deliveries.append((changed,commit,context))
+        deliveries = [(git("diff", "--name-only", before, after).splitlines(), before, after)
+                      for before, after in qualified_commit_edges(commit, context, git)]
         deliveries.append((dirty,context,None))
         for paths, before_ref, after_ref in deliveries:
             authenticated=qualified_lifecycle_delta_paths(root,before_ref,after_ref,git) if after_ref else set()
@@ -7239,6 +7631,8 @@ def validate_terminal(
     compliance_schema: dict[str, Any] | None = None,
     reference_prefix: str | None = None,
     record_definitions: dict[str, Any] | None = None,
+    *,
+    read_evidence: bool = True,
 ) -> None:
     task_id = plan["taskId"]
     evidence = plan["evidencePath"]
@@ -7249,6 +7643,19 @@ def validate_terminal(
     if roles is None:
         return
     implementer, reviewer = roles
+
+    if entry.get("decision") != status:
+        errors.append(f"{label}: decision must equal terminal status")
+    if entry.get("reviewer") != reviewer:
+        errors.append(f"{label}: reviewer must equal concrete Task Spec reviewer")
+    if entry.get("reviewer") == implementer:
+        errors.append(f"{label}: reviewer must differ from concrete Task Spec implementer")
+    if not valid_utc_timestamp(entry.get("approvedAt")):
+        errors.append(f"{label}: approvedAt must be a valid UTC instant")
+    if not read_evidence:
+        if not lexical_ref(entry.get("resultRef"), reference_boundary):
+            errors.append(f"{label}: terminal resultRef must stay under {reference_boundary}")
+        return
 
     result_path = existing_ref(root, entry.get("resultRef"), reference_boundary)
     if result_path is None:
@@ -7278,14 +7685,6 @@ def validate_terminal(
     ):
         if result.get(key) != expected:
             errors.append(f"result record {task_id}: {key} must equal {expected!r}")
-    if entry.get("decision") != status:
-        errors.append(f"{label}: decision must equal terminal status")
-    if entry.get("reviewer") != reviewer:
-        errors.append(f"{label}: reviewer must equal concrete Task Spec reviewer")
-    if entry.get("reviewer") == implementer:
-        errors.append(f"{label}: reviewer must differ from concrete Task Spec implementer")
-    if not valid_utc_timestamp(entry.get("approvedAt")):
-        errors.append(f"{label}: approvedAt must be a valid UTC instant")
     if result.get("approval") != "approved":
         errors.append(f"result record {task_id}: approval must be approved")
     if not isinstance(result.get("rationale"), str) or not result["rationale"].strip():
@@ -7544,8 +7943,11 @@ def validate_repository(root: Path, selected_profile=None, require_results=False
         require_results = True
     if require_results and selected_profile not in PROFILE_SCOPES:
         errors.append('qualified results require an explicit known profile')
-    if selected_pocs and not set(selected_pocs).issubset(POCS):
+    selected_pocs = set(selected_pocs or ())
+    if not selected_pocs.issubset(POCS):
         errors.append('unknown selected POC')
+    if errors:
+        return errors
     base = root / "specs" / "poc"
     try:
         program = load(base / "program.yaml")
@@ -7824,6 +8226,7 @@ def validate_repository(root: Path, selected_profile=None, require_results=False
                 root, plan, canonical_task, entry, resource_map,
                 result_record_schema, execution_schema,
                 approval_schema, errors,
+                read_evidence=not selected_pocs or plan["pocId"] in selected_pocs,
             )
         else:
             errors.append(f"results-index {task_id}: unsupported status {status!r}")
@@ -7836,9 +8239,13 @@ def validate_repository(root: Path, selected_profile=None, require_results=False
     ):
         secret_scan(value, name, errors)
     all_tasks = {t['taskId']:t for t in program_plan.get('tasks',[])}
-    validate_profile_evidence(root,by_task,all_tasks,program_schema,result_record_schema,
-        execution_schema,approval_schema,resource_map,selected_profile,require_results,
-        set(selected_pocs or []),errors)
+    scope_history = RECORDED_SCOPE_HISTORY.set(set())
+    try:
+        validate_profile_evidence(root, by_task, all_tasks, program_schema, result_record_schema,
+                                  execution_schema, approval_schema, resource_map, selected_profile, require_results,
+                                  selected_pocs, errors)
+    finally:
+        RECORDED_SCOPE_HISTORY.reset(scope_history)
     return errors
 
 
@@ -7857,15 +8264,25 @@ def main() -> int:
         if args.repo_root
         else Path(__file__).resolve().parents[2]
     )
-    errors = validate_repository(root,args.profile,args.require_results,args.milestone,args.poc)
-
+    errors = []
+    selected_pocs = set(args.poc or ())
     if bool(args.task) != bool(args.base_ref):
         errors.append("--task and --base-ref must be supplied together")
-    elif args.task and args.base_ref:
-        current = load(root / "specs" / "poc" / "results-index.yaml")
-        base = load_index_from_git(root, args.base_ref, errors)
-        if base is not None:
-            validate_result_index_row_ownership(base, current, args.task, errors)
+    elif args.task:
+        if args.task not in TASKS:
+            errors.append(f"row-ownership task must be one of POC-001..POC-010, got {args.task}")
+        elif not args.milestone:
+            task_poc = f"POC-{args.task[-2:]}"
+            if selected_pocs and selected_pocs != {task_poc}:
+                errors.append("--poc must select the POC identified by --task")
+            selected_pocs = {task_poc}
+    if not errors:
+        errors = validate_repository(root, args.profile, args.require_results, args.milestone, selected_pocs)
+        if args.task:
+            current = load(root / "specs" / "poc" / "results-index.yaml")
+            base = load_index_from_git(root, args.base_ref, errors)
+            if base is not None:
+                validate_result_index_row_ownership(base, current, args.task, errors)
 
     if errors:
         for error in errors:

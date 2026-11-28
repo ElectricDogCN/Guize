@@ -1,0 +1,143 @@
+{
+  "schemaVersion": 1,
+  "taskId": "OPS-036",
+  "base": "a2034ef16893ac46b497a62192e6998dc334f5d6",
+  "testedSource": "aaf569f4923ec117cab8110ae65585ae2eddcf19",
+  "tree": "5e411a13eb5bde0593285d1a353bcb1e13a2a747",
+  "technicalReviewSha256": "295588fc473fc3d9db25d304377c7ce5fadafb6a8bd09843cec5e9a49c26a156",
+  "priorOfficialCi": {
+    "source": "a8042b1811d331cdb7e42a953233acf70958812c",
+    "runId": 46087217718,
+    "runNumber": 1236,
+    "passed": 1105,
+    "ordinaryMergeApproved": false,
+    "independentReviewSha256": "015bf44ff0b873549176aafd51abc201362aff67dc67df5e5b2a5f0aa25c773d"
+  },
+  "archive": {
+    "pathsDigestVerified": 304,
+    "resultSha256": "921efcf392d112a868d04af7b853b666fa1a76797191a62ac9aca16f67c7d674",
+    "inputReceiptSha256": "41ae4143a50db5e7b64b73ec995fa8716f4710d2afe7d10370233e4d87fc446c",
+    "profileResults": [
+      {
+        "poc": "POC-03",
+        "argv": [
+          "/usr/local/bin/python",
+          "-B",
+          "specs/poc/check_program.py",
+          "--profile",
+          "local-v1",
+          "--require-results",
+          "--poc",
+          "POC-03"
+        ],
+        "exitCode": 0,
+        "log": "POC-03.log",
+        "logSha256": "f737a70c3efcf8e73fb0fdd7a7f7d95e9f983aafd837440065aebd7ee9fcc5e4",
+        "seconds": 63.809
+      },
+      {
+        "poc": "POC-05",
+        "argv": [
+          "/usr/local/bin/python",
+          "-B",
+          "specs/poc/check_program.py",
+          "--profile",
+          "local-v1",
+          "--require-results",
+          "--poc",
+          "POC-05"
+        ],
+        "exitCode": 0,
+        "log": "POC-05.log",
+        "logSha256": "bee5ee6fa829a9316e7c6fc4e163b36c70d8a036fa688b245559ff331f084383",
+        "seconds": 903.815
+      }
+    ]
+  },
+  "directPocTests": {
+    "passed": 237,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "retainedPriorNodes": 236,
+    "retainedOriginalNodes": 224,
+    "addedNode": "TestRecordedSourceScope::test_recorded_scope_audits_side_history_when_merge_has_no_metadata_delta",
+    "launcherSha256": "16dd247085c68305f91e61ed54eaa508968a397168afe3c52b58e42a49f6c064",
+    "logSha256": "a8c1ea5aefb3d0d92783a1976fa3bdcef65d334fac42f29a0bd6fc01bf3de654",
+    "junitSha256": "45758b89f69b345ecbd9ea72a595caf2404a6fe414144d83df9ed8f3e97345a2",
+    "command": "python -B -m pytest -p xdist.plugin -p no:cacheprovider -n 6 --dist load --max-worker-restart=0 -v -ra --junitxml=/results/poc-program.junit.xml specs/poc/test_program.py"
+  },
+  "nativeSourceControls": {
+    "diff": {
+      "command": "git diff --check a2034ef16893ac46b497a62192e6998dc334f5d6...HEAD",
+      "exitCode": 0,
+      "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "task-file": {
+      "command": "python3 -B scripts/check-task-file.py --task OPS-036",
+      "exitCode": 0,
+      "logSha256": "53f70e356a9fa2d06d9853008f1b09e0f60d13e588e20df78a334dd66aad848d"
+    },
+    "schemas": {
+      "command": "python3 -B scripts/check-schemas.py",
+      "exitCode": 0,
+      "logSha256": "d307f6b24c330da66cdd7173092dde0ec53347cd3efdf3b14a8e13010a0fc5e0"
+    },
+    "integrity": {
+      "command": "python3 -B scripts/check-program-plan-integrity.py --base-ref a2034ef16893ac46b497a62192e6998dc334f5d6",
+      "exitCode": 0,
+      "logSha256": "78d41d1ea10fd10f64859d5d3cd7e48afdc7b4fdb6a698e7f629239fa57b854c"
+    },
+    "history": {
+      "command": "python3 -B scripts/check-program-plan-history.py --base-ref a2034ef16893ac46b497a62192e6998dc334f5d6 --head-ref aaf569f4923ec117cab8110ae65585ae2eddcf19 --task OPS-036 --branch-name chore/OPS-036-poc-source-qualification",
+      "exitCode": 0,
+      "logSha256": "d87746b74a12dce62efdbadc73b47d1849de519e2ef9615d18db9f9a0a9ae2f2"
+    },
+    "transitions": {
+      "command": "python3 -B scripts/check-program-plan-transitions.py --base-ref a2034ef16893ac46b497a62192e6998dc334f5d6 --head-ref aaf569f4923ec117cab8110ae65585ae2eddcf19 --task OPS-036 --branch-name chore/OPS-036-poc-source-qualification",
+      "exitCode": 0,
+      "logSha256": "5a2b85401d8aec5bbc18bf3e4f69795c8165a9d5c14923d2ce3a1a2b53e1da91"
+    },
+    "lifecycle": {
+      "command": "python3 -B scripts/check-program-lifecycle-guards.py --base-ref a2034ef16893ac46b497a62192e6998dc334f5d6 --head-ref aaf569f4923ec117cab8110ae65585ae2eddcf19 --task OPS-036 --branch-name chore/OPS-036-poc-source-qualification",
+      "exitCode": 0,
+      "logSha256": "7e10b22a5e1306057d2f5700c6717d8fb563fb07024634d6ceed1704487b51f7"
+    },
+    "program-gate": {
+      "command": "python3 -B scripts/run-program-lifecycle-gate.py --base-ref a2034ef16893ac46b497a62192e6998dc334f5d6 --head-ref aaf569f4923ec117cab8110ae65585ae2eddcf19 --task OPS-036 --branch-name chore/OPS-036-poc-source-qualification",
+      "exitCode": 0,
+      "logSha256": "18bdaa265ac9b68bfa4d2a391a009539b1debd2fcdf923225ada2eeac825cc02"
+    },
+    "coordination": {
+      "command": "python3 -B scripts/run-agent-coordination-gate.py --base-ref a2034ef16893ac46b497a62192e6998dc334f5d6 --head-ref aaf569f4923ec117cab8110ae65585ae2eddcf19 --task OPS-036 --branch-name chore/OPS-036-poc-source-qualification",
+      "exitCode": 0,
+      "logSha256": "109e27db8d4dd353964b352c392cea6f88a5a84cbb867d09e10c45340a09ea89"
+    },
+    "finalization": {
+      "command": "python3 -B scripts/check-program-plan-finalization.py --base-ref a2034ef16893ac46b497a62192e6998dc334f5d6 --head-ref aaf569f4923ec117cab8110ae65585ae2eddcf19 --task OPS-036",
+      "exitCode": 0,
+      "logSha256": "9d6bacaae49cb69e51b2b659c0bd4d2e7487e6915944127875109ba21997c67e"
+    },
+    "scope": {
+      "command": "GITHUB_HEAD_REF=chore/OPS-036-poc-source-qualification python3 -B scripts/run-task-scope-gate.py --task OPS-036 --base a2034ef16893ac46b497a62192e6998dc334f5d6",
+      "exitCode": 0,
+      "logSha256": "e9c001fd3f2d41e107989528fc4b1202bf0e269db6acf198ee154f6db1195655"
+    },
+    "evidence": {
+      "command": "python3 -B scripts/check-evidence.py --task OPS-036",
+      "exitCode": 0,
+      "logSha256": "89e8820d379e06baaf2f6a8b5386da38ed774641ce7fec966eb970f64ce9f9c7"
+    },
+    "readiness": {
+      "command": "python3 -B scripts/check-project-readiness.py",
+      "exitCode": 0,
+      "logSha256": "bcf287319979cd10d1382911d406115ab8c11eee120c677b1b95432676a1632c"
+    },
+    "markdown": {
+      "command": "python3 -B scripts/check-markdown.py",
+      "exitCode": 0,
+      "logSha256": "1635454ce7f2b579fb86c22ec7de9a9e3ae34d4e087c84fdd8686b04aaf9037b"
+    }
+  },
+  "officialCi": "pendingPublication"
+}

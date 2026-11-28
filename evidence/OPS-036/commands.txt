@@ -40,3 +40,54 @@ python scripts/check-project-readiness.py
 python scripts/check-markdown.py
 
 本次执行结果待记录。
+
+## 固定源码 9b07bc385e455bd5203d430f65b33e8a4104e062
+
+以下 profile 使用可移植的解释器名称。实际启动参数、日志和退出状态由回执固定。
+
+```sh
+python -B specs/poc/check_program.py --profile local-v1 --require-results --poc POC-03
+python -B specs/poc/check_program.py --profile local-v1 --require-results --poc POC-05
+python -B -m pytest -p xdist.plugin -p no:cacheprovider -n 3 --dist load --max-worker-restart=0 -q --junitxml=/results/poc-program.junit.xml specs/poc/test_program.py
+git diff --check a2034ef16893ac46b497a62192e6998dc334f5d6 9b07bc385e455bd5203d430f65b33e8a4104e062
+python3 -B scripts/check-task-file.py --task OPS-036
+python3 -B scripts/check-evidence.py --task OPS-036
+python3 -B scripts/check-program-plan-integrity.py --base-ref a2034ef16893ac46b497a62192e6998dc334f5d6
+python3 -B scripts/check-program-plan-history.py --base-ref a2034ef16893ac46b497a62192e6998dc334f5d6 --head-ref 9b07bc385e455bd5203d430f65b33e8a4104e062 --task OPS-036 --branch-name chore/OPS-036-poc-source-qualification
+python3 -B scripts/check-program-plan-transitions.py --base-ref a2034ef16893ac46b497a62192e6998dc334f5d6 --head-ref 9b07bc385e455bd5203d430f65b33e8a4104e062 --task OPS-036 --branch-name chore/OPS-036-poc-source-qualification
+python3 -B scripts/check-program-lifecycle-guards.py --base-ref a2034ef16893ac46b497a62192e6998dc334f5d6 --head-ref 9b07bc385e455bd5203d430f65b33e8a4104e062 --task OPS-036 --branch-name chore/OPS-036-poc-source-qualification
+python3 -B scripts/check-schemas.py
+python3 -B scripts/check-markdown.py
+python3 -B scripts/check-project-readiness.py
+python3 -B scripts/run-program-lifecycle-gate.py --base-ref a2034ef16893ac46b497a62192e6998dc334f5d6 --head-ref 9b07bc385e455bd5203d430f65b33e8a4104e062 --task OPS-036 --branch-name chore/OPS-036-poc-source-qualification
+python3 -B scripts/check-program-plan-finalization.py --base-ref a2034ef16893ac46b497a62192e6998dc334f5d6 --head-ref 9b07bc385e455bd5203d430f65b33e8a4104e062 --task OPS-036
+python3 -B scripts/run-agent-coordination-gate.py --base-ref a2034ef16893ac46b497a62192e6998dc334f5d6 --head-ref 9b07bc385e455bd5203d430f65b33e8a4104e062 --task OPS-036 --branch-name chore/OPS-036-poc-source-qualification
+GITHUB_HEAD_REF=chore/OPS-036-poc-source-qualification python3 -B scripts/run-task-scope-gate.py --task OPS-036 --base a2034ef16893ac46b497a62192e6998dc334f5d6
+```
+
+范围检查在该源码退出 1。Task 说明改为逐条列出已授权的路径后，在 `c7415161cedee15a9d0aae821c79da9f16f5f2a4` 复跑范围检查、Task 和生命周期，均退出 0。其余入口在固定代码源退出 0。Task 说明在 `e27382a4d9f1be4b6c1b76c768fd1af7628b60eb` 对齐实际冻结主线。该版本的 14 项 Task 说明命令均退出 0，使用登记主线作为转换基线的对照退出 1。启动客户端超时退出 137。原容器继续执行，重新连接该容器后记录正式退出 0 和完整 JUnit。日志与测试摘要见 [本地验证](source-qualification-recovery-v1/local-source-verification.json)。
+
+## 侧分支历史修订 aaf569f4923ec117cab8110ae65585ae2eddcf19
+
+```sh
+python -B specs/poc/check_program.py --profile local-v1 --require-results --poc POC-03
+python -B specs/poc/check_program.py --profile local-v1 --require-results --poc POC-05
+python -B -m pytest -p xdist.plugin -p no:cacheprovider -n 6 --dist load --max-worker-restart=0 -v -ra --junitxml=/results/poc-program.junit.xml specs/poc/test_program.py
+```
+
+- `diff` 退出 0。
+- `task-file` 退出 0。
+- `schemas` 退出 0。
+- `integrity` 退出 0。
+- `history` 退出 0。
+- `transitions` 退出 0。
+- `lifecycle` 退出 0。
+- `program-gate` 退出 0。
+- `coordination` 退出 0。
+- `finalization` 退出 0。
+- `scope` 退出 0。
+- `evidence` 退出 0。
+- `readiness` 退出 0。
+- `markdown` 退出 0。
+
+实际命令及日志摘要见 [修订版验证](source-qualification-recovery-v1/side-history-source-verification.json)。

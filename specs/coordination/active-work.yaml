@@ -94,17 +94,17 @@ tasks:
 - taskId: OPS-036
   issue: 357
   title: 按实际依赖验收 POC 证据并限定任务检查范围
-  status: reserved
+  status: in_progress
   riskLevel: high
   owner: ElectricDogCN
   coordinator: /root
   implementer: /root
   reviewer: /root/independent_review
   integrator: /root
-  agentRole: coordinator
+  agentRole: implementer
   branch: chore/OPS-036-poc-source-qualification
   baseBranch: main
-  baseSha: 384416035cfe2b244321f82a7893c1f03684bff1
+  baseSha: a2034ef16893ac46b497a62192e6998dc334f5d6
   workPackage: WP-M0-01
   programPlan: specs/coordination/program-plan.yaml
   programTaskId: OPS-036

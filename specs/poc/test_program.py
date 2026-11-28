@@ -11,6 +11,7 @@ import json
 import os
 import shutil
 import subprocess
+import sys
 import tempfile
 import unittest
 import zlib
@@ -10767,6 +10768,277 @@ class TestMappedOriginCanonicalCompatibility(unittest.TestCase):
             self.assertTrue(CHECK.valid_local_origin('https://[fd12:3456::1]', {'https'}))
             self.assertFalse(CHECK.valid_local_origin('https://[0:0:0:0:0:0:0:1]', {'https'}))
             self.assertFalse(CHECK.valid_local_origin('https://[fe80::1]', {'https'}))
+
+
+class TestEvidenceReadScope(unittest.TestCase):
+    def run_cli(self, *args):
+        with mock.patch.object(sys, "argv", ["check_program.py", *args]), mock.patch("builtins.print"):
+            return CHECK.main()
+
+    def test_ordinary_task_reads_its_own_profiles(self):
+        with mock.patch.object(CHECK, "validate_repository", return_value=[]) as validate:
+            with mock.patch.object(CHECK, "load", return_value={}), mock.patch.object(CHECK, "load_index_from_git", return_value=None):
+                self.assertEqual(self.run_cli("--task", "POC-006", "--base-ref", "HEAD"), 0)
+                self.assertEqual(validate.call_args.args[-1], {"POC-06"})
+                self.assertEqual(self.run_cli("--task", "POC-010", "--base-ref", "HEAD", "--poc", "POC-10"), 0)
+                self.assertEqual(validate.call_args.args[-1], {"POC-10"})
+
+    def test_inconsistent_task_selection_stops_before_profile_reads(self):
+        with mock.patch.object(CHECK, "validate_repository") as validate:
+            self.assertEqual(self.run_cli("--task", "POC-006", "--base-ref", "HEAD", "--poc", "POC-04"), 1)
+            self.assertEqual(self.run_cli("--task", "POC-006"), 1)
+            validate.assert_not_called()
+
+    def test_milestones_keep_the_full_profile_requirement(self):
+        for milestone, profile in (("GZ-018", "local-v1"), ("GZ-020", "production")):
+            with self.subTest(milestone=milestone):
+                with mock.patch.object(CHECK, "validate_repository", return_value=[]) as validate:
+                    self.assertEqual(self.run_cli("--milestone", milestone, "--profile", profile), 0)
+                    self.assertEqual(validate.call_args.args[-2:], (milestone, set()))
+                with mock.patch.object(CHECK, "load") as load:
+                    errors = CHECK.validate_repository(HERE.parent, profile, milestone=milestone, selected_pocs={"POC-03"})
+                    self.assertEqual(errors, ["full milestone cannot select a POC subset"])
+                    load.assert_not_called()
+
+    def test_other_legacy_terminal_rows_keep_metadata_validation(self):
+        plan = {"pocId": "POC-05", "taskId": "POC-005", "evidencePath": "evidence/POC-005"}
+        entry = {"status": "pass", "decision": "pass", "reviewer": "reviewer",
+                 "approvedAt": "2026-11-25T09:05:19Z", "resultRef": "evidence/POC-005/result.yaml"}
+        with mock.patch.object(CHECK, "concrete_roles", return_value=("implementer", "reviewer")):
+            with mock.patch.object(CHECK, "existing_ref", return_value=None) as resolve:
+                errors = []
+                CHECK.validate_terminal(HERE.parent, plan, {}, entry, {}, {}, {}, {}, errors, read_evidence=False)
+                self.assertEqual(errors, [])
+                malformed = dict(entry, reviewer="implementer", resultRef="evidence/POC-004/result.yaml")
+                CHECK.validate_terminal(HERE.parent, plan, {}, malformed, {}, {}, {}, {}, errors, read_evidence=False)
+                self.assertTrue(any("reviewer" in message for message in errors))
+                self.assertTrue(any("resultRef" in message for message in errors))
+                resolve.assert_not_called()
+                errors.clear()
+                CHECK.validate_terminal(HERE.parent, plan, {}, entry, {}, {}, {}, {}, errors)
+                resolve.assert_called_once()
+                self.assertTrue(any("existing file" in message for message in errors))
+
+
+class TestRecordedSourceScope(unittest.TestCase):
+    def archive_documents(self, history):
+        root = HERE.parents[1]
+        anchor = load_yaml(root / CHECK.RECORDED_SCOPE_REF)["archiveMain"]
+        documents = [yaml.safe_load(subprocess.check_output(["git", "show", f"{anchor}:{path}"], cwd=root))
+                     for path in (history.PLAN, history.ACTIVE, history.LEDGER)]
+        return root, anchor, documents
+
+    def test_source_on_merge_side_uses_real_parent_edges(self):
+        def git(*args):
+            self.assertEqual(args, ("rev-list", "--parents", "--topo-order", "--reverse", "tested..current"))
+            return "other older\nmerged other tested\ncurrent merged\n"
+
+        self.assertEqual(CHECK.qualified_commit_edges("tested", "current", git),
+                         [("older", "other"), ("tested", "merged"), ("merged", "current")])
+
+    def test_recorded_scope_audits_side_history_when_merge_has_no_metadata_delta(self):
+        history = CHECK.qualified_history_library()
+        graph = "edited archive\nrestored edited\nmerged archive restored\n"
+
+        def git(command, *args):
+            if command == "rev-list":
+                return graph
+            if command == "diff":
+                self.assertEqual(args[:3], ("--name-only", "--no-renames", "-z"))
+                return history.ACTIVE + "\0" if args[-2:] in {("archive", "edited"), ("edited", "restored")} else ""
+            raise AssertionError((command, args))
+
+        def reject_unproved_edit(_history, _root, before, after, _paths, errors):
+            if (before, after) == ("archive", "edited"):
+                errors.append("unproved registry edit")
+
+        with (mock.patch.object(history, "load_ref", return_value={"status": "active"}),
+              mock.patch.object(CHECK, "validate_recorded_lifecycle_edge", side_effect=reject_unproved_edit),
+              mock.patch.object(CHECK, "authenticated_recorded_import", return_value=False)):
+            with self.assertRaisesRegex(ValueError, "unproved registry edit"):
+                CHECK.validate_recorded_scope_history(HERE.parents[1], "archive", "merged", git)
+
+    def test_recorded_frozen_history_checks_code_without_metadata(self):
+        history = CHECK.qualified_history_library()
+        graphs = {"archive..candidate": "candidate archive\n",
+                  "archive..merge": "candidate archive\nrestored candidate\nmerge archive restored\n"}
+        unrelated = "plugins/fixture/worker.py"
+
+        def git(command, *args):
+            if command == "rev-list":
+                return graphs[args[-1]]
+            if command == "diff":
+                self.assertEqual(args[:3], ("--name-only", "--no-renames", "-z"))
+                return unrelated + "\0" if args[-1] != "merge" else ""
+            raise AssertionError((command, args))
+
+        frozen = {"status": "frozen", "recovery": {"taskId": "OPS-036"}}
+        with (mock.patch.object(history, "load_ref", side_effect=lambda _root, _ref, path: frozen if path == history.PLAN else {"tasks": []}),
+              mock.patch.object(CHECK, "authenticated_recorded_import", return_value=True) as imported):
+            for head in ("candidate", "merge"):
+                with self.subTest(head=head), self.assertRaisesRegex(ValueError, "outside historical recovery scope"):
+                    CHECK.validate_recorded_scope_history(HERE.parents[1], "archive", head, git)
+            imported.assert_not_called()
+
+        with mock.patch.object(history, "load_ref", return_value={"status": "active"}):
+            CHECK.validate_recorded_scope_history(HERE.parents[1], "archive", "candidate", git)
+
+    def test_recorded_frozen_writes_require_current_working_claims_and_exact_repair(self):
+        history = CHECK.qualified_history_library()
+        guard = history.RECOVERY
+        task = "OPS-036"
+        path = "specs/poc/check_program.py"
+        evidence = "evidence/OPS-036/test-results/README.md"
+        frozen = {"status": "frozen", "recovery": {"taskId": task}, "foundationTasks": [{"taskId": task}]}
+        entry = {"taskId": task, "moduleIds": ["MOD-GOV"], "status": "in_progress", "exclusivePaths": [path]}
+        registry = {"tasks": [entry]}
+
+        def errors_for(prior, current, paths):
+            errors = []
+            CHECK.validate_recorded_frozen_writes(history, str(HERE.parents[1]), "parent", "candidate",
+                                                  prior, current, paths, errors)
+            return errors
+
+        with (mock.patch.object(history, "load_ref", side_effect=lambda _root, _ref, name: registry if name == history.ACTIVE else {}),
+              mock.patch.object(history, "historical_lease", return_value=True),
+              mock.patch.object(history, "find_task_path", return_value="specs/tasks/OPS-036.md"),
+              mock.patch.object(guard, "authenticated_repair_claims", return_value={path}) as claim,
+              mock.patch.object(guard, "validate_bound_repair_changes") as protection):
+            self.assertEqual(errors_for(frozen, frozen, {path, evidence}), [])
+            self.assertEqual(claim.call_args.kwargs, {"observed_ref": "candidate"})
+            self.assertEqual(protection.call_args.args[1:5], ("parent", "candidate", task, {path}))
+            claim.return_value = set()
+            self.assertIn(path, errors_for(frozen, frozen, {path})[0])
+            claim.return_value = {path}
+            entry["status"] = "reserved"
+            self.assertIn(path, errors_for(frozen, frozen, {path})[0])
+            active = {"status": "active", "recovery": frozen["recovery"]}
+            self.assertEqual(errors_for(frozen, active, {history.PLAN, evidence}), [])
+            self.assertIn(path, errors_for(frozen, active, {history.PLAN, path})[0])
+
+    def test_shared_input_digest_binds_modes_and_own_plan(self):
+        own = "specs/poc/plans/POC-003.yaml"
+        roots = ("specs/poc",)
+        rows = [f"100644 blob own\t{own}",
+                "100644 blob adjacent\tspecs/poc/plans/POC-005.yaml",
+                "100644 blob policy\tspecs/poc/policy.yaml",
+                "100644 blob qualification\tspecs/poc/check_program.py"]
+
+        def digest(*records):
+            return CHECK.qualified_shared_input_digest(lambda *_: "\0".join(records), "source", roots, own)
+
+        self.assertEqual(digest(*rows), digest(rows[0], rows[2]))
+        self.assertNotEqual(digest(*rows), digest(rows[0].replace("100644", "100755"), *rows[1:]))
+        self.assertNotEqual(digest(*rows), digest(*rows, "100644 blob new\tspecs/poc/additional.yaml"))
+
+    def test_unregistered_lifecycle_status_edit_is_rejected(self):
+        history = CHECK.qualified_history_library()
+        root, anchor, (plan, active, ledger) = self.archive_documents(history)
+        changed = copy.deepcopy(plan)
+        task = next(row for row in changed["tasks"] if row["taskId"] == "GZ-012")
+        self.assertEqual(task["status"], "planned")
+        task["status"] = "in_progress"
+        snapshots = {("base", history.PLAN): plan, (anchor, history.PLAN): changed}
+        for ref in ("base", anchor):
+            snapshots[ref, history.ACTIVE] = active
+            snapshots[ref, history.LEDGER] = ledger
+        errors = []
+        with mock.patch.object(history, "load_ref", side_effect=lambda _root, ref, path: snapshots[ref, path]):
+            CHECK.validate_recorded_lifecycle_edge(history, str(root), "base", anchor, {history.PLAN}, errors)
+        self.assertTrue(any("GZ-012" in message and "Registry" in message for message in errors), errors)
+
+    def test_expired_lease_and_incomplete_dependency_are_rejected_at_registration(self):
+        history = CHECK.qualified_history_library()
+        root, anchor, (plan, registry, ledger) = self.archive_documents(history)
+        definition = next(row for row in plan["tasks"] if row["taskId"] == "POC-007")
+        entry = copy.deepcopy(next(row for row in registry["tasks"] if row["taskId"] == "POC-007"))
+        entry["lease"]["expiresAt"] = entry["lease"]["acquiredAt"]
+        definition = dict(definition, dependsOn=["GZ-012"])
+        errors = []
+        CHECK.validate_recorded_task_admission(history, str(root), anchor, anchor, "POC-007", definition, entry, registry,
+                                                plan, plan, ledger, errors)
+        self.assertTrue(any("lease is invalid" in message for message in errors), errors)
+        self.assertTrue(any("GZ-012" in message and "completed" in message for message in errors), errors)
+
+    def test_registered_base_must_precede_the_observed_lifecycle_edge(self):
+        history = CHECK.qualified_history_library()
+        root, anchor, (plan, registry, ledger) = self.archive_documents(history)
+        definition = next(row for row in plan["tasks"] if row["taskId"] == "POC-007")
+        entry = copy.deepcopy(next(row for row in registry["tasks"] if row["taskId"] == "POC-007"))
+        entry["baseSha"] = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=root, text=True).strip()
+        self.assertNotEqual(entry["baseSha"], anchor)
+        errors = []
+        CHECK.validate_recorded_task_admission(history, str(root), anchor, anchor, "POC-007", definition, entry, registry,
+                                                plan, plan, ledger, errors)
+        self.assertTrue(any("registered base to be an ancestor of the actual parent" in message for message in errors), errors)
+
+    def test_clean_import_proves_each_lifecycle_row_without_ignoring_conflicts(self):
+        def projection(first, second):
+            return CHECK.recorded_import_projection({"tasks": [{"taskId": "self", "status": first},
+                                                                {"taskId": "peer", "status": second}]}, {"tasks"})
+
+        base = projection("reserved", "planned")
+        prior = projection("in_progress", "planned")
+        incoming = projection("reserved", "reserved")
+        self.assertTrue(CHECK.matches_recorded_import(base, prior, incoming, projection("in_progress", "reserved")))
+        self.assertFalse(CHECK.matches_recorded_import(base, prior, incoming, projection("review", "reserved")))
+        conflicting = projection("blocked", "reserved")
+        self.assertFalse(CHECK.matches_recorded_import(base, prior, conflicting, conflicting))
+
+    def test_clean_import_preserves_types_in_nested_registry_policy(self):
+        def projection(value):
+            return CHECK.recorded_import_projection({"policy": {"limits": [{"maxHighRiskTasks": value}]}}, set())
+
+        original = projection(1)
+        self.assertTrue(CHECK.matches_recorded_import(original, original, original, projection(1)))
+        self.assertFalse(CHECK.matches_recorded_import(original, original, original, projection(True)))
+        self.assertFalse(CHECK.matches_recorded_import(original, original, original, projection(1.0)))
+
+    def test_scope_binds_archive_records_and_runtime_without_rebinding_source(self):
+        task = "POC-003"
+        plan = {"taskId": task, "pocId": "POC-03"}
+        scope_path = HERE.parents[1] / CHECK.RECORDED_SCOPE_REF
+        raw = scope_path.read_bytes()
+        manifest = json.loads(raw)
+        row = manifest["profiles"][plan["pocId"]]
+        source = row["testedSource"]
+        _, result, execution, configuration = row["records"]
+        environment = {"acceptanceProfile": row["profile"], "acceptanceProfileConfigurationRef": configuration}
+        anchor = manifest["archiveMain"]
+        git_objects = {f"{source['commit']}:{row['module']}": row["moduleTree"],
+                       f"current:{row['module']}": row["moduleTree"],
+                       f"{anchor}:{row['slot']}": row["slotTree"], f"current:{row['slot']}": row["slotTree"],
+                       f"{source['commit']}:specs/poc/check_program.py": row["historicalCheckerBlob"]}
+
+        def git(command, *args):
+            if command == "show":
+                self.assertEqual(args, ("current:" + CHECK.RECORDED_SCOPE_REF,))
+                return raw.decode("utf-8")
+            if command == "rev-parse":
+                return git_objects[args[0]]
+            self.assertIn(command, ("merge-base", "cat-file"))
+            return ""
+
+        def validate(refs=(result, execution), dirty=(), untracked=(), ignored=()):
+            return CHECK.validate_recorded_source_scope(HERE.parents[1], plan, source, environment, "current", git,
+                                                        refs, dirty, untracked, ignored)
+
+        repair = CHECK.qualified_history_library().RECOVERY.repair_module()
+        with (mock.patch.object(CHECK, "qualified_shared_input_digest", return_value=row["sharedInputsSha256"]),
+              mock.patch.object(CHECK, "validate_recorded_scope_history") as history,
+              mock.patch.object(repair, "audit_session", wraps=repair.audit_session) as session):
+            self.assertTrue(validate())
+            history.assert_called_once_with(HERE.parents[1], anchor, "current", git)
+            session.assert_called_once_with()
+            with self.assertRaisesRegex(ValueError, "selected archive records"):
+                validate(refs=(result, configuration))
+            with self.assertRaisesRegex(ValueError, "clean tracked checkout"):
+                validate(dirty=(configuration,))
+            with self.assertRaisesRegex(ValueError, "ignored input"):
+                validate(ignored=(row["module"] + "/untracked.py",))
+            git_objects[f"current:{row['module']}"] = "different tree"
+            with self.assertRaisesRegex(ValueError, "scope input changed"):
+                validate()
 
 
 if __name__ == "__main__":
