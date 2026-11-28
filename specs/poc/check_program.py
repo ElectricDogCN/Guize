@@ -1672,7 +1672,10 @@ def validate_recorded_source_scope(root, plan, source, environment, context, git
     roots = (row["module"], row["slot"], *manifest["sharedRoots"])
     if any(path == root_path or path.startswith(root_path + "/") for path in ignored for root_path in roots):
         raise ValueError("recorded source scope has an ignored input under a verified root")
-    validate_recorded_scope_history(root, anchor, context, git)
+    # Reuse the existing immutable authority audit within this profile check.
+    # Each historical edge still checks its own paths, registration and lease.
+    with qualified_history_library().RECOVERY.repair_module().audit_session():
+        validate_recorded_scope_history(root, anchor, context, git)
     return True
 
 

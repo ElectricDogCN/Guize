@@ -11023,10 +11023,13 @@ class TestRecordedSourceScope(unittest.TestCase):
             return CHECK.validate_recorded_source_scope(HERE.parents[1], plan, source, environment, "current", git,
                                                         refs, dirty, untracked, ignored)
 
-        with mock.patch.object(CHECK, "qualified_shared_input_digest", return_value=row["sharedInputsSha256"]), \
-                mock.patch.object(CHECK, "validate_recorded_scope_history") as history:
+        repair = CHECK.qualified_history_library().RECOVERY.repair_module()
+        with (mock.patch.object(CHECK, "qualified_shared_input_digest", return_value=row["sharedInputsSha256"]),
+              mock.patch.object(CHECK, "validate_recorded_scope_history") as history,
+              mock.patch.object(repair, "audit_session", wraps=repair.audit_session) as session):
             self.assertTrue(validate())
             history.assert_called_once_with(HERE.parents[1], anchor, "current", git)
+            session.assert_called_once_with()
             with self.assertRaisesRegex(ValueError, "selected archive records"):
                 validate(refs=(result, configuration))
             with self.assertRaisesRegex(ValueError, "clean tracked checkout"):
