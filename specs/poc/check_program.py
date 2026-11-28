@@ -1294,22 +1294,24 @@ def qualified_history_library():
 
 
 def qualified_commit_edges(start, head, git):
-    """Choose actual parent edges back to the tested source, even across a merge."""
+    """Audit every newly reachable commit against a real parent."""
     if start == head:
         return []
-    graph = {}
-    for line in git("rev-list", "--parents", f"--ancestry-path={start}", f"{start}..{head}").splitlines():
-        commit, *parents = line.split()
-        graph[commit] = parents
     edges = []
-    node = head
-    while node != start:
-        parent = next((parent for parent in graph.get(node, ()) if parent == start or parent in graph), None)
-        if parent is None:
+    descendants = {start}
+    # A side branch may have forked before the tested source. Its introduced
+    # commits still need auditing, even if their changes vanish at the merge.
+    for line in git("rev-list", "--parents", "--topo-order", "--reverse", f"{start}..{head}").splitlines():
+        commit, *parents = line.split()
+        if not parents:
             raise ValueError("tested source ancestry must contain real parent edges")
-        edges.append((parent, node))
-        node = parent
-    return edges[::-1]
+        parent = next((parent for parent in parents if parent in descendants), None)
+        if parent is not None:
+            descendants.add(commit)
+        edges.append((parent or parents[0], commit))
+    if head not in descendants:
+        raise ValueError("tested source ancestry must contain real parent edges")
+    return edges
 
 
 RECORDED_SCOPE_REF = "evidence/OPS-036/source-qualification-recovery-v1/recorded-input-scopes.json"

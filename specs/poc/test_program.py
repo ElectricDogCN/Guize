@@ -10830,11 +10830,32 @@ class TestRecordedSourceScope(unittest.TestCase):
 
     def test_source_on_merge_side_uses_real_parent_edges(self):
         def git(*args):
-            self.assertEqual(args, ("rev-list", "--parents", "--ancestry-path=tested", "tested..current"))
-            return "current merged\nmerged other tested\n"
+            self.assertEqual(args, ("rev-list", "--parents", "--topo-order", "--reverse", "tested..current"))
+            return "other older\nmerged other tested\ncurrent merged\n"
 
         self.assertEqual(CHECK.qualified_commit_edges("tested", "current", git),
-                         [("tested", "merged"), ("merged", "current")])
+                         [("older", "other"), ("tested", "merged"), ("merged", "current")])
+
+    def test_recorded_scope_audits_side_history_when_merge_has_no_metadata_delta(self):
+        history = CHECK.qualified_history_library()
+        graph = "edited archive\nrestored edited\nmerged archive restored\n"
+
+        def git(command, *args):
+            if command == "rev-list":
+                return graph if "--reverse" in args else "\n".join(graph.splitlines()[::-1])
+            if command == "diff":
+                self.assertEqual(args[:2], ("--name-only", "--no-renames"))
+                return history.ACTIVE if args[2:4] in {("archive", "edited"), ("edited", "restored")} else ""
+            raise AssertionError((command, args))
+
+        def reject_unproved_edit(_history, _root, before, after, _paths, errors):
+            if (before, after) == ("archive", "edited"):
+                errors.append("unproved registry edit")
+
+        with (mock.patch.object(CHECK, "validate_recorded_lifecycle_edge", side_effect=reject_unproved_edit),
+              mock.patch.object(CHECK, "authenticated_recorded_import", return_value=False)):
+            with self.assertRaisesRegex(ValueError, "unproved registry edit"):
+                CHECK.validate_recorded_scope_history(HERE.parents[1], "archive", "merged", git)
 
     def test_shared_input_digest_binds_modes_and_own_plan(self):
         own = "specs/poc/plans/POC-003.yaml"
