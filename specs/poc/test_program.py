@@ -10842,20 +10842,79 @@ class TestRecordedSourceScope(unittest.TestCase):
 
         def git(command, *args):
             if command == "rev-list":
-                return graph if "--reverse" in args else "\n".join(graph.splitlines()[::-1])
+                return graph
             if command == "diff":
-                self.assertEqual(args[:2], ("--name-only", "--no-renames"))
-                return history.ACTIVE if args[2:4] in {("archive", "edited"), ("edited", "restored")} else ""
+                self.assertEqual(args[:3], ("--name-only", "--no-renames", "-z"))
+                return history.ACTIVE + "\0" if args[-2:] in {("archive", "edited"), ("edited", "restored")} else ""
             raise AssertionError((command, args))
 
         def reject_unproved_edit(_history, _root, before, after, _paths, errors):
             if (before, after) == ("archive", "edited"):
                 errors.append("unproved registry edit")
 
-        with (mock.patch.object(CHECK, "validate_recorded_lifecycle_edge", side_effect=reject_unproved_edit),
+        with (mock.patch.object(history, "load_ref", return_value={"status": "active"}),
+              mock.patch.object(CHECK, "validate_recorded_lifecycle_edge", side_effect=reject_unproved_edit),
               mock.patch.object(CHECK, "authenticated_recorded_import", return_value=False)):
             with self.assertRaisesRegex(ValueError, "unproved registry edit"):
                 CHECK.validate_recorded_scope_history(HERE.parents[1], "archive", "merged", git)
+
+    def test_recorded_frozen_history_checks_code_without_metadata(self):
+        history = CHECK.qualified_history_library()
+        graphs = {"archive..candidate": "candidate archive\n",
+                  "archive..merge": "candidate archive\nrestored candidate\nmerge archive restored\n"}
+        unrelated = "plugins/fixture/worker.py"
+
+        def git(command, *args):
+            if command == "rev-list":
+                return graphs[args[-1]]
+            if command == "diff":
+                self.assertEqual(args[:3], ("--name-only", "--no-renames", "-z"))
+                return unrelated + "\0" if args[-1] != "merge" else ""
+            raise AssertionError((command, args))
+
+        frozen = {"status": "frozen", "recovery": {"taskId": "OPS-036"}}
+        with (mock.patch.object(history, "load_ref", side_effect=lambda _root, _ref, path: frozen if path == history.PLAN else {"tasks": []}),
+              mock.patch.object(CHECK, "authenticated_recorded_import", return_value=True) as imported):
+            for head in ("candidate", "merge"):
+                with self.subTest(head=head), self.assertRaisesRegex(ValueError, "outside historical recovery scope"):
+                    CHECK.validate_recorded_scope_history(HERE.parents[1], "archive", head, git)
+            imported.assert_not_called()
+
+        with mock.patch.object(history, "load_ref", return_value={"status": "active"}):
+            CHECK.validate_recorded_scope_history(HERE.parents[1], "archive", "candidate", git)
+
+    def test_recorded_frozen_writes_require_current_working_claims_and_exact_repair(self):
+        history = CHECK.qualified_history_library()
+        guard = history.RECOVERY
+        task = "OPS-036"
+        path = "specs/poc/check_program.py"
+        evidence = "evidence/OPS-036/test-results/README.md"
+        frozen = {"status": "frozen", "recovery": {"taskId": task}, "foundationTasks": [{"taskId": task}]}
+        entry = {"taskId": task, "moduleIds": ["MOD-GOV"], "status": "in_progress", "exclusivePaths": [path]}
+        registry = {"tasks": [entry]}
+
+        def errors_for(prior, current, paths):
+            errors = []
+            CHECK.validate_recorded_frozen_writes(history, str(HERE.parents[1]), "parent", "candidate",
+                                                  prior, current, paths, errors)
+            return errors
+
+        with (mock.patch.object(history, "load_ref", side_effect=lambda _root, _ref, name: registry if name == history.ACTIVE else {}),
+              mock.patch.object(history, "historical_lease", return_value=True),
+              mock.patch.object(history, "find_task_path", return_value="specs/tasks/OPS-036.md"),
+              mock.patch.object(guard, "authenticated_repair_claims", return_value={path}) as claim,
+              mock.patch.object(guard, "validate_bound_repair_changes") as protection):
+            self.assertEqual(errors_for(frozen, frozen, {path, evidence}), [])
+            self.assertEqual(claim.call_args.kwargs, {"observed_ref": "candidate"})
+            self.assertEqual(protection.call_args.args[1:5], ("parent", "candidate", task, {path}))
+            claim.return_value = set()
+            self.assertIn(path, errors_for(frozen, frozen, {path})[0])
+            claim.return_value = {path}
+            entry["status"] = "reserved"
+            self.assertIn(path, errors_for(frozen, frozen, {path})[0])
+            active = {"status": "active", "recovery": frozen["recovery"]}
+            self.assertEqual(errors_for(frozen, active, {history.PLAN, evidence}), [])
+            self.assertIn(path, errors_for(frozen, active, {history.PLAN, path})[0])
 
     def test_shared_input_digest_binds_modes_and_own_plan(self):
         own = "specs/poc/plans/POC-003.yaml"

@@ -7,6 +7,7 @@ import argparse
 import base64
 import copy
 import codecs
+import fnmatch
 import hashlib
 import importlib.util
 import ipaddress
@@ -1535,6 +1536,62 @@ def authenticated_recorded_import(history, root, anchor, before, after, metadata
     return True
 
 
+def validate_recorded_frozen_writes(history, root, before, after, prior, current, paths, errors):
+    """Apply the frozen write boundary to the paths at the historical commit."""
+    states = prior.get("status"), current.get("status")
+    if "frozen" not in states:
+        return
+    guard = history.RECOVERY
+    owner = guard.recovery_owner(current)
+    remaining = paths - {history.PLAN, history.ACTIVE}
+
+    def remove_metadata(task):
+        task_path = history.find_task_path(root, task, after)
+        if task_path:
+            remaining.difference_update({task_path})
+            remaining.difference_update(path for path in tuple(remaining) if guard.safe_evidence_path(path, task))
+
+    if states[0] != states[1]:
+        # The existing lifecycle audit verifies the recovery event and its proof.
+        if owner:
+            remove_metadata(owner)
+    else:
+        registry = history.load_ref(root, after, history.ACTIVE)
+        if not isinstance(registry, dict):
+            errors.append("cannot read the frozen Registry at the recorded commit")
+            return
+        foundations = history.mapping(current.get("foundationTasks"))
+        ordinary = history.mapping(current.get("tasks"))
+        entries = history.mapping(registry.get("tasks"))
+        for task, definition in ordinary.items():
+            if definition.get("status") == "cancelled" or (definition.get("status") == "blocked" and task in entries):
+                remove_metadata(task)
+        for task, entry in entries.items():
+            if task not in foundations or entry.get("moduleIds") != ["MOD-GOV"] or entry.get("sharedPaths"):
+                continue
+            remove_metadata(task)
+            claims = entry.get("exclusivePaths") or []
+            matched = {path for path in remaining if any(fnmatch.fnmatchcase(path, claim) for claim in claims)}
+            if not matched or entry.get("status") not in guard.IMPLEMENTATION_STATES:
+                continue
+            if not history.historical_lease(root, after, entry, registry.get("policy", {}), task, errors):
+                continue
+            ownership = history.load_ref(root, before, guard.OWNERSHIP)
+            if not isinstance(ownership, dict):
+                errors.append("cannot read the frozen module ownership at the recorded parent")
+                return
+            special = {claim for claim in claims if not guard.governance_claim_subset(claim, ownership)}
+            if special:
+                authorized = guard.authenticated_repair_claims(root, task, entry, before, observed_ref=after)
+                if not special.issubset(authorized):
+                    continue
+                if special.intersection(matched):
+                    guard.validate_bound_repair_changes(root, before, after, task, matched, errors)
+            remaining.difference_update(matched)
+    if remaining:
+        errors.append("Frozen Program rejects writes outside historical recovery scope: " + ", ".join(sorted(remaining)))
+
+
 def validate_recorded_scope_history(root, base, context, git):
     """Apply the historical and ordinary governance checks at each subsequent actual edge."""
     accepted = RECORDED_SCOPE_HISTORY.get()
@@ -1542,13 +1599,24 @@ def validate_recorded_scope_history(root, base, context, git):
     if accepted is not None and key in accepted:
         return
     history = qualified_history_library()
-    governance_paths = (history.PLAN, history.ACTIVE, history.LEDGER, "specs/tasks")
+    governance_paths = {history.PLAN, history.ACTIVE, history.LEDGER}
+    plans = {}
     checked = {base}
     for before, after in qualified_commit_edges(base, context, git):
-        metadata = set(git("diff", "--name-only", "--no-renames", before, after, "--", *governance_paths).splitlines())
+        paths = set(filter(None, git("diff", "--name-only", "--no-renames", "-z", before, after).split("\0")))
+        if before not in plans:
+            plans[before] = history.load_ref(str(root), before, history.PLAN)
+        prior = plans[before]
+        current = history.load_ref(str(root), after, history.PLAN) if history.PLAN in paths else prior
+        if not isinstance(prior, dict) or not isinstance(current, dict):
+            raise ValueError("recorded source scope cannot read the Programme Plan at a historical edge")
+        plans[after] = current
+        errors = []
+        validate_recorded_frozen_writes(history, str(root), before, after, prior, current, paths, errors)
+        if errors:
+            raise ValueError("recorded source scope governance history rejected: " + errors[0])
+        metadata = {path for path in paths if path in governance_paths or path.startswith("specs/tasks/")}
         if metadata:
-            paths = set(git("diff", "--name-only", "--no-renames", before, after).splitlines())
-            errors = []
             validate_recorded_lifecycle_edge(history, str(root), before, after, paths, errors)
             if not errors:
                 history.historical_post_metadata(str(root), before, after, "OPS-036", metadata, errors, base, checked)
